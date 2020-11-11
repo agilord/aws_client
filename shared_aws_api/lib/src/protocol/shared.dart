@@ -7,7 +7,7 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:xml/xml.dart';
 
 final _rfc822Parser = DateFormat('EEE, dd MMM yyyy HH:mm:ss Z', 'en_US');
-final _rfc822Formatter = DateFormat("EEE, dd MMM yyyy HH:mm:ss 'Z'", 'en_US');
+final _rfc822Formatter = DateFormat("EEE, dd MMM yyyy HH:mm:ss 'GMT'", 'en_US');
 final _iso8601Formatter = DateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", 'en_US');
 
 DateTime rfc822FromJson(String date) =>

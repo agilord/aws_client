@@ -46,7 +46,7 @@ import 'dart:typed_data';
 
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
-  show Uint8ListConverter, Uint8ListListConverter ${api.generateJson ? ', rfc822FromJson, rfc822ToJson, iso8601FromJson, iso8601ToJson, unixTimestampFromJson, unixTimestampToJson' : ''};
+  show Uint8ListConverter ${api.generateJson ? ', rfc822FromJson, rfc822ToJson, iso8601FromJson, iso8601ToJson, unixTimestampFromJson, unixTimestampToJson' : ''};
 """);
   buf.writeln(builder.imports());
   buf.writeln(
@@ -231,10 +231,11 @@ ${builder.constructor()}
         if (shape.requiresJson) {
           var dateTimeConversion = '';
 
-          if (member.dartType == 'Uint8List') {
+          if (member.dartType == 'Uint8List' ||
+              member.dartType == 'List<Uint8List>' ||
+              (member.shapeClass.type == 'map' &&
+                  member.shapeClass.value.shapeClass.type == 'blob')) {
             writeln('@Uint8ListConverter()');
-          } else if (member.dartType == 'List<Uint8List>') {
-            writeln('@Uint8ListListConverter()');
           } else if (member.dartType == 'DateTime') {
             var timeStampFormat = 'unixTimestamp';
 
@@ -263,8 +264,11 @@ ${builder.constructor()}
             dateTimeConversion =
                 ', fromJson: ${timeStampFormat}FromJson, toJson: ${timeStampFormat}ToJson';
           }
+
+          final ignoreArg =
+              !member.isBody && !shape.isUsedInOutput ? ', ignore: true' : '';
           writeln(
-              "  @_s.JsonKey(name: '${member.locationName ?? member.name}'$dateTimeConversion)");
+              "  @_s.JsonKey(name: '${member.locationName ?? member.name}'$dateTimeConversion$ignoreArg)");
         }
 
         writeln('  final ${member.dartType} ${member.fieldName};');

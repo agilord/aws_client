@@ -45,24 +45,18 @@ class RestJsonServiceBuilder extends ServiceBuilder {
     if (!operation.http.bodyForbidden && inputShape != null) {
       final payload = operation.input.payloadMember;
       if (payload == null) {
-        buf.writeln('final \$payload = <String, dynamic>{');
-        inputShape.members.where((m) => m.isBody).forEach((member) {
-          var serializationSuffix = '';
-          if (member.shapeClass.enumeration != null) {
-            member.shapeClass.isTopLevelInputEnum = true;
-            serializationSuffix = '?.toValue()';
-          } else if (member.shapeClass.type == 'blob') {
-            serializationSuffix =
-                '${member.isRequired ? '?' : ''}.let(base64Encode)';
+        final members = inputShape.members;
+        buf.write('final \$payload = ');
+        if (members.isNotEmpty) {
+          inputShape.markUsed(true);
+          buf.write('${inputShape.className}(');
+          for (var member in members) {
+            buf.write('${member.fieldName}: ${member.fieldName},');
           }
-
-          if (!member.isRequired) {
-            buf.writeln('if (${member.fieldName} != null)');
-          }
-          buf.writeln(
-              "'${member.name}': ${member.fieldName}$serializationSuffix,");
-        });
-        buf.writeln('};');
+          buf.writeln(');');
+        } else {
+          buf.write('<String, dynamic>{};');
+        }
         buf.writeln(
             '${outputClass != null ? 'final response = ' : ''}await _protocol.send(payload: \$payload,');
       } else {

@@ -22,25 +22,17 @@ class JsonServiceBuilder extends ServiceBuilder {
 
   @override
   String operationContent(Operation operation) {
-    final payloadMembers = operation.input?.shapeClass?.members?.map((m) {
-      var serializationSuffix = '';
-      if (m.shapeClass.enumeration != null) {
-        m.shapeClass.isTopLevelInputEnum = true;
-        serializationSuffix = '?.toValue()';
-      } else if (m.shapeClass.type == 'blob') {
-        serializationSuffix = '${m.isRequired ? '?' : ''}.let(base64Encode)';
-      }
-
-      final buffer = StringBuffer();
-      if (!m.isRequired) {
-        buffer.writeln('if (${m.fieldName} != null)');
-      }
-      buffer.writeln("'${m.name}': ${m.fieldName}$serializationSuffix,");
-      return '$buffer';
-    })?.join();
     var payload = '';
-    if (payloadMembers?.isNotEmpty == true) {
-      payload = 'payload: {$payloadMembers},';
+    if (operation.input != null) {
+      final inputShape = operation.input.shapeClass;
+      if (inputShape.members.isNotEmpty) {
+        inputShape.markUsed(true);
+        final payloadCode = StringBuffer();
+        for (var member in inputShape.members) {
+          payloadCode.writeln('${member.fieldName}: ${member.fieldName},');
+        }
+        payload = 'payload: ${inputShape.className}($payloadCode),';
+      }
     }
 
     final outputClass = operation.output?.shapeClass?.className;
