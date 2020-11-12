@@ -8215,11 +8215,16 @@ class S3 {
           '/${Uri.encodeComponent(bucket.toString())}/${Uri.encodeComponent(key.toString())}?select&select-type=2',
       headers: headers,
       payload: SelectObjectContentRequest(
+              bucket: bucket,
               expression: expression,
               expressionType: expressionType,
               inputSerialization: inputSerialization,
+              key: key,
               outputSerialization: outputSerialization,
               requestProgress: requestProgress,
+              sSECustomerAlgorithm: sSECustomerAlgorithm,
+              sSECustomerKey: sSECustomerKey,
+              sSECustomerKeyMD5: sSECustomerKeyMD5,
               scanRange: scanRange)
           .toXml(
         'SelectObjectContentRequest',

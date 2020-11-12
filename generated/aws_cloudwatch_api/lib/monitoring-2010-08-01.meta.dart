@@ -1,3 +1,4 @@
+// ignore_for_file: prefer_single_quotes
 const Map<String, Map<String, dynamic>> shapesJson = {
   "ActionPrefix": {"type": "string", "flattened": false},
   "ActionsEnabled": {"type": "boolean", "flattened": false},

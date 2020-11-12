@@ -49,7 +49,8 @@ class Enum {
       method: 'POST',
       requestUri: '/path',
       headers: headers,
-      payload: OutputShape(fooEnum: fooEnum, listEnums: listEnums)
+      payload: OutputShape(
+              fooEnum: fooEnum, headerEnum: headerEnum, listEnums: listEnums)
           .toXml('OutputShape'),
       exceptionFnMap: _exceptionFns,
     );

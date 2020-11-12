@@ -96,8 +96,9 @@ class Route53 {
       method: 'POST',
       requestUri:
           '/2013-04-01/hostedzone/${Uri.encodeComponent(hostedZoneId.toString())}/associatevpc',
-      payload:
-          AssociateVPCWithHostedZoneRequest(vpc: vpc, comment: comment).toXml(
+      payload: AssociateVPCWithHostedZoneRequest(
+              hostedZoneId: hostedZoneId, vpc: vpc, comment: comment)
+          .toXml(
         'AssociateVPCWithHostedZoneRequest',
         attributes: [
           _s.XmlAttribute(_s.XmlName('xmlns'),
@@ -235,7 +236,9 @@ class Route53 {
       method: 'POST',
       requestUri:
           '/2013-04-01/hostedzone/${Uri.encodeComponent(hostedZoneId.toString())}/rrset/',
-      payload: ChangeResourceRecordSetsRequest(changeBatch: changeBatch).toXml(
+      payload: ChangeResourceRecordSetsRequest(
+              changeBatch: changeBatch, hostedZoneId: hostedZoneId)
+          .toXml(
         'ChangeResourceRecordSetsRequest',
         attributes: [
           _s.XmlAttribute(_s.XmlName('xmlns'),
@@ -306,7 +309,10 @@ class Route53 {
       requestUri:
           '/2013-04-01/tags/${Uri.encodeComponent(resourceType.toString())}/${Uri.encodeComponent(resourceId.toString())}',
       payload: ChangeTagsForResourceRequest(
-              addTags: addTags, removeTagKeys: removeTagKeys)
+              resourceId: resourceId,
+              resourceType: resourceType,
+              addTags: addTags,
+              removeTagKeys: removeTagKeys)
           .toXml(
         'ChangeTagsForResourceRequest',
         attributes: [
@@ -1110,7 +1116,7 @@ class Route53 {
       requestUri:
           '/2013-04-01/trafficpolicy/${Uri.encodeComponent(id.toString())}',
       payload: CreateTrafficPolicyVersionRequest(
-              document: document, comment: comment)
+              document: document, id: id, comment: comment)
           .toXml(
         'CreateTrafficPolicyVersionRequest',
         attributes: [
@@ -1168,7 +1174,9 @@ class Route53 {
       method: 'POST',
       requestUri:
           '/2013-04-01/hostedzone/${Uri.encodeComponent(hostedZoneId.toString())}/authorizevpcassociation',
-      payload: CreateVPCAssociationAuthorizationRequest(vpc: vpc).toXml(
+      payload: CreateVPCAssociationAuthorizationRequest(
+              hostedZoneId: hostedZoneId, vpc: vpc)
+          .toXml(
         'CreateVPCAssociationAuthorizationRequest',
         attributes: [
           _s.XmlAttribute(_s.XmlName('xmlns'),
@@ -1500,7 +1508,9 @@ class Route53 {
       method: 'POST',
       requestUri:
           '/2013-04-01/hostedzone/${Uri.encodeComponent(hostedZoneId.toString())}/deauthorizevpcassociation',
-      payload: DeleteVPCAssociationAuthorizationRequest(vpc: vpc).toXml(
+      payload: DeleteVPCAssociationAuthorizationRequest(
+              hostedZoneId: hostedZoneId, vpc: vpc)
+          .toXml(
         'DeleteVPCAssociationAuthorizationRequest',
         attributes: [
           _s.XmlAttribute(_s.XmlName('xmlns'),
@@ -1562,7 +1572,8 @@ class Route53 {
       method: 'POST',
       requestUri:
           '/2013-04-01/hostedzone/${Uri.encodeComponent(hostedZoneId.toString())}/disassociatevpc',
-      payload: DisassociateVPCFromHostedZoneRequest(vpc: vpc, comment: comment)
+      payload: DisassociateVPCFromHostedZoneRequest(
+              hostedZoneId: hostedZoneId, vpc: vpc, comment: comment)
           .toXml(
         'DisassociateVPCFromHostedZoneRequest',
         attributes: [
@@ -2913,7 +2924,9 @@ class Route53 {
       method: 'POST',
       requestUri:
           '/2013-04-01/tags/${Uri.encodeComponent(resourceType.toString())}',
-      payload: ListTagsForResourcesRequest(resourceIds: resourceIds).toXml(
+      payload: ListTagsForResourcesRequest(
+              resourceIds: resourceIds, resourceType: resourceType)
+          .toXml(
         'ListTagsForResourcesRequest',
         attributes: [
           _s.XmlAttribute(_s.XmlName('xmlns'),
@@ -4001,6 +4014,7 @@ class Route53 {
       requestUri:
           '/2013-04-01/healthcheck/${Uri.encodeComponent(healthCheckId.toString())}',
       payload: UpdateHealthCheckRequest(
+              healthCheckId: healthCheckId,
               alarmIdentifier: alarmIdentifier,
               childHealthChecks: childHealthChecks,
               disabled: disabled,
@@ -4063,7 +4077,7 @@ class Route53 {
       method: 'POST',
       requestUri:
           '/2013-04-01/hostedzone/${Uri.encodeComponent(id.toString())}',
-      payload: UpdateHostedZoneCommentRequest(comment: comment).toXml(
+      payload: UpdateHostedZoneCommentRequest(id: id, comment: comment).toXml(
         'UpdateHostedZoneCommentRequest',
         attributes: [
           _s.XmlAttribute(_s.XmlName('xmlns'),
@@ -4124,7 +4138,9 @@ class Route53 {
       method: 'POST',
       requestUri:
           '/2013-04-01/trafficpolicy/${Uri.encodeComponent(id.toString())}/${Uri.encodeComponent(version.toString())}',
-      payload: UpdateTrafficPolicyCommentRequest(comment: comment).toXml(
+      payload: UpdateTrafficPolicyCommentRequest(
+              comment: comment, id: id, version: version)
+          .toXml(
         'UpdateTrafficPolicyCommentRequest',
         attributes: [
           _s.XmlAttribute(_s.XmlName('xmlns'),
@@ -4223,6 +4239,7 @@ class Route53 {
       requestUri:
           '/2013-04-01/trafficpolicyinstance/${Uri.encodeComponent(id.toString())}',
       payload: UpdateTrafficPolicyInstanceRequest(
+              id: id,
               ttl: ttl,
               trafficPolicyId: trafficPolicyId,
               trafficPolicyVersion: trafficPolicyVersion)

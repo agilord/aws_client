@@ -1,3 +1,4 @@
+// ignore_for_file: prefer_single_quotes
 const Map<String, Map<String, dynamic>> shapesJson = {
   "AccessPoliciesStatus": {
     "type": "structure",
