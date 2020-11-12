@@ -59,7 +59,7 @@ class RestXmlServiceBuilder extends ServiceBuilder {
               ", attributes: [${xmlNamespaceToCode(xmlNamespace, importPrefix: '_s.')},],";
         }
         payloadArg =
-            "payload: ${shapeClass.className}(${bodyMembers.map((m) => '${m.fieldName}: ${m.fieldName}').join(',')}).toXml('$tagName'$extraParameters),";
+            "payload: ${shapeClass.className}(${shapeClass.members.map((m) => '${m.fieldName}: ${m.fieldName}').join(',')}).toXml('$tagName'$extraParameters),";
       }
     }
 
