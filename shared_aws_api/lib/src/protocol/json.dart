@@ -69,7 +69,9 @@ class JsonProtocol {
       throwException(rs, body, exceptionFnMap);
     }
 
-    final parsedBody = jsonDecode(body) as Map<String, dynamic>;
+    final parsedBody = body.isEmpty
+        ? <String, dynamic>{}
+        : jsonDecode(body) as Map<String, dynamic>;
 
     // TODO: replace return type with Map<String, dynamic> and discard the
     // JsonResponse class. The generated code will have to adjust as well.
