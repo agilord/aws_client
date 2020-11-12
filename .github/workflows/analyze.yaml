@@ -1,0 +1,23 @@
+name: Analyze all apis
+on:
+  pull_request:
+  push:
+    branches:
+      - master
+
+jobs:
+  analyze:
+    name: Analyze all apis
+    runs-on: ubuntu-latest
+    container:
+      image:  google/dart:2.10.4
+    steps:
+      - uses: actions/checkout@v2
+      - name: Generate all apis
+        run: dart pub get && dart bin/generate.dart generate --no-pub
+        working-directory: generator
+      - name: Analyze all_apis package
+        run: dart pub get && dart analyze --fatal-warnings --fatal-infos
+        working-directory: all_apis
+      - name: "check for uncommitted changes"
+        run: git diff --exit-code --stat -- .
