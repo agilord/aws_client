@@ -66,7 +66,9 @@ class RestJsonProtocol {
       throwException(rs, body, exceptionFnMap);
     }
 
-    final parsedBody = jsonDecode(body) as Map<String, dynamic>;
+    final parsedBody = body.isEmpty
+        ? <String, dynamic>{}
+        : jsonDecode(body) as Map<String, dynamic>;
 
     return {
       ...rs.headers,
