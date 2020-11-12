@@ -60,7 +60,15 @@ class TimestampShapes {
       queryParams: queryParams,
       headers: headers,
       payload: InputShape(
-              timeArg: timeArg, timeCustom: timeCustom, timeFormat: timeFormat)
+              timeArg: timeArg,
+              timeArgInHeader: timeArgInHeader,
+              timeArgInQuery: timeArgInQuery,
+              timeCustom: timeCustom,
+              timeCustomInHeader: timeCustomInHeader,
+              timeCustomInQuery: timeCustomInQuery,
+              timeFormat: timeFormat,
+              timeFormatInHeader: timeFormatInHeader,
+              timeFormatInQuery: timeFormatInQuery)
           .toXml(
         'TimestampStructure',
         attributes: [

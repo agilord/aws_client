@@ -206,8 +206,9 @@ in the config file, from the downloaded models.''';
         serviceFile.parent.createSync(recursive: true);
         exampleFile.createSync(recursive: true);
 
-        var metaContents =
-            '''const Map<String, Map<String, dynamic>> shapesJson = ${jsonEncode(thinApi.toJson()['shapes'])};''';
+        var metaContents = '''
+// ignore_for_file: prefer_single_quotes
+const Map<String, Map<String, dynamic>> shapesJson = ${jsonEncode(thinApi.toJson()['shapes'])};''';
 
         var serviceText = buildService(api);
         if (argResults['format'] == true) {

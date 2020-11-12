@@ -45,7 +45,12 @@ class Enum {
       requestUri: '/Enum/${Uri.encodeComponent(uRIFooEnum.toString())}',
       queryParams: queryParams,
       headers: headers,
-      payload: InputShape(fooEnum: fooEnum, listEnums: listEnums)
+      payload: InputShape(
+              fooEnum: fooEnum,
+              headerEnum: headerEnum,
+              listEnums: listEnums,
+              uRIFooEnum: uRIFooEnum,
+              uRIListEnums: uRIListEnums)
           .toXml('InputShape'),
       exceptionFnMap: _exceptionFns,
     );
@@ -67,7 +72,12 @@ class Enum {
       requestUri: '/path',
       queryParams: queryParams,
       headers: headers,
-      payload: InputShape(fooEnum: fooEnum, listEnums: listEnums)
+      payload: InputShape(
+              fooEnum: fooEnum,
+              headerEnum: headerEnum,
+              listEnums: listEnums,
+              uRIFooEnum: uRIFooEnum,
+              uRIListEnums: uRIListEnums)
           .toXml('InputShape'),
       exceptionFnMap: _exceptionFns,
     );

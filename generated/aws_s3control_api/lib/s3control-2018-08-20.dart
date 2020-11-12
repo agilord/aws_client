@@ -83,7 +83,9 @@ class S3Control {
           '/v20180820/accesspoint/${Uri.encodeComponent(name.toString())}',
       headers: headers,
       payload: CreateAccessPointRequest(
+              accountId: accountId,
               bucket: bucket,
+              name: name,
               publicAccessBlockConfiguration: publicAccessBlockConfiguration,
               vpcConfiguration: vpcConfiguration)
           .toXml(
@@ -205,6 +207,7 @@ class S3Control {
       requestUri: '/v20180820/jobs',
       headers: headers,
       payload: CreateJobRequest(
+              accountId: accountId,
               clientRequestToken: clientRequestToken,
               manifest: manifest,
               operation: operation,
@@ -802,7 +805,9 @@ class S3Control {
       requestUri:
           '/v20180820/accesspoint/${Uri.encodeComponent(name.toString())}/policy',
       headers: headers,
-      payload: PutAccessPointPolicyRequest(policy: policy).toXml(
+      payload: PutAccessPointPolicyRequest(
+              accountId: accountId, name: name, policy: policy)
+          .toXml(
         'PutAccessPointPolicyRequest',
         attributes: [
           _s.XmlAttribute(_s.XmlName('xmlns'),
@@ -858,7 +863,9 @@ class S3Control {
       requestUri:
           '/v20180820/jobs/${Uri.encodeComponent(jobId.toString())}/tagging',
       headers: headers,
-      payload: PutJobTaggingRequest(tags: tags).toXml(
+      payload:
+          PutJobTaggingRequest(accountId: accountId, jobId: jobId, tags: tags)
+              .toXml(
         'PutJobTaggingRequest',
         attributes: [
           _s.XmlAttribute(_s.XmlName('xmlns'),
