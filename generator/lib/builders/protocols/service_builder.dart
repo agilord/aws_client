@@ -1,3 +1,4 @@
+import 'package:aws_client.generator/model/api.dart';
 import 'package:aws_client.generator/model/operation.dart';
 import 'package:aws_client.generator/model/shape.dart';
 
@@ -55,5 +56,14 @@ abstract class ServiceBuilder {
             '${m.fieldName}?.let((v) => $varName[\'${m.locationName ?? m.name}\'] = $converter);');
       }
     });
+  }
+
+  String buildServiceMetadata(Api api) {
+    final args = StringBuffer();
+    args.writeln("endpointPrefix: '${api.metadata.endpointPrefix}',");
+    if (api.metadata.signingName != null) {
+      args.writeln("signingName: '${api.metadata.signingName}',");
+    }
+    return '_s.ServiceMetadata($args)';
   }
 }

@@ -8,6 +8,7 @@ export 'package:xml/xml.dart'
 export 'src/credentials.dart';
 export 'src/model/shape.dart';
 export 'src/protocol/ec2.dart';
+export 'src/protocol/endpoint.dart' show ServiceMetadata;
 export 'src/protocol/json.dart';
 export 'src/protocol/query.dart';
 export 'src/protocol/rest-json.dart';

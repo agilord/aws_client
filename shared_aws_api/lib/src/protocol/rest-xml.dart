@@ -23,7 +23,7 @@ class RestXmlProtocol {
 
   factory RestXmlProtocol({
     Client client,
-    String service,
+    ServiceMetadata service,
     String region,
     String endpointUrl,
     AwsClientCredentials credentials,

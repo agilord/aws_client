@@ -22,7 +22,7 @@ class JsonProtocol {
 
   factory JsonProtocol({
     Client client,
-    String service,
+    ServiceMetadata service,
     String region,
     String endpointUrl,
     AwsClientCredentials credentials,

@@ -5,10 +5,11 @@ import 'package:http/http.dart';
 import 'package:meta/meta.dart';
 
 import '../credentials.dart';
+import 'endpoint.dart' show ServiceMetadata;
 
 void signAws4HmacSha256({
   @required Request rq,
-  @required String service,
+  @required ServiceMetadata service,
   @required String region,
   @required AwsClientCredentials credentials,
 }) {
@@ -42,7 +43,7 @@ void signAws4HmacSha256({
   final credentialList = [
     date.substring(0, 8),
     region,
-    service,
+    service.signingName ?? service.endpointPrefix,
     'aws4_request',
   ];
   const _aws4HmacSha256 = 'AWS4-HMAC-SHA256';

@@ -24,7 +24,7 @@ class QueryProtocol {
 
   factory QueryProtocol({
     Client client,
-    String service,
+    ServiceMetadata service,
     String region,
     String endpointUrl,
     AwsClientCredentials credentials,

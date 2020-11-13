@@ -21,7 +21,7 @@ class RestJsonProtocol {
 
   factory RestJsonProtocol({
     Client client,
-    String service,
+    ServiceMetadata service,
     String region,
     String endpointUrl,
     AwsClientCredentials credentials,
