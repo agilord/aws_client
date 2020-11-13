@@ -42,7 +42,9 @@ class Snowball {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'snowball',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'snowball',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

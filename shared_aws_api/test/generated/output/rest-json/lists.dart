@@ -33,7 +33,9 @@ class Lists {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'Lists',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'Lists',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

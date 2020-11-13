@@ -40,7 +40,10 @@ class ConnectParticipant {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'participant.connect',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'participant.connect',
+            signingName: 'execute-api',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

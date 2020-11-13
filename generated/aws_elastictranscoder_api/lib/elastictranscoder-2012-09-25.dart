@@ -33,7 +33,9 @@ class ElasticTranscoder {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'elastictranscoder',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'elastictranscoder',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

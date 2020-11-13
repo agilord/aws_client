@@ -33,7 +33,10 @@ class PersonalizeRuntime {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'personalize-runtime',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'personalize-runtime',
+            signingName: 'personalize',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

@@ -33,7 +33,9 @@ class NormalMap {
     _s.Client client,
   })  : _protocol = _s.QueryProtocol(
           client: client,
-          service: 'NormalMap',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'NormalMap',
+          ),
           region: region,
           credentials: credentials,
         ),

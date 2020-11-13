@@ -39,7 +39,10 @@ class Greengrass {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'greengrass',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'greengrass',
+            signingName: 'greengrass',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

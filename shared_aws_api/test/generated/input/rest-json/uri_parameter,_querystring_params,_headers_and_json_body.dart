@@ -33,7 +33,9 @@ class URIParameterQuerystringParamsHeadersAndJSONBody {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'URIParameter,QuerystringParams,HeadersAndJSONBody',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'URIParameter,QuerystringParams,HeadersAndJSONBody',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

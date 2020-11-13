@@ -48,7 +48,10 @@ class SageMaker {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'api.sagemaker',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'api.sagemaker',
+            signingName: 'sagemaker',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

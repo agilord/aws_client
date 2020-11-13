@@ -33,7 +33,9 @@ class ListWithCustomMemberName {
     _s.Client client,
   })  : _protocol = _s.QueryProtocol(
           client: client,
-          service: 'ListWithCustomMemberName',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'ListWithCustomMemberName',
+          ),
           region: region,
           credentials: credentials,
         ),

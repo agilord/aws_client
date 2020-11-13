@@ -33,7 +33,10 @@ class LakeFormation {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'lakeformation',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'lakeformation',
+            signingName: 'lakeformation',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

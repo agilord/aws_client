@@ -33,7 +33,9 @@ class EndpointHostTrait {
     _s.Client client,
   })  : _protocol = _s.QueryProtocol(
           client: client,
-          service: 'EndpointHostTrait',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'EndpointHostTrait',
+          ),
           region: region,
           credentials: credentials,
         ),

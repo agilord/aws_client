@@ -23,7 +23,9 @@ class SerializeOtherScalarTypes {
     String endpointUrl,
   }) : _protocol = _s.RestXmlProtocol(
           client: client,
-          service: 'SerializeOtherScalarTypes',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'SerializeOtherScalarTypes',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

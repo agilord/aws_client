@@ -104,7 +104,10 @@ class CodeStarNotifications {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'codestar-notifications',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'codestar-notifications',
+            signingName: 'codestar-notifications',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

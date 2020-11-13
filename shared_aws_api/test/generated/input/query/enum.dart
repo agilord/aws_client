@@ -33,7 +33,9 @@ class Enum {
     _s.Client client,
   })  : _protocol = _s.QueryProtocol(
           client: client,
-          service: 'Enum',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'Enum',
+          ),
           region: region,
           credentials: credentials,
         ),

@@ -31,7 +31,9 @@ class Base64EncodedBlobs {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'Base64EncodedBlobs',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'Base64EncodedBlobs',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

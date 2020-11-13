@@ -39,7 +39,9 @@ class Polly {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'polly',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'polly',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

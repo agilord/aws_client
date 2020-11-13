@@ -31,7 +31,9 @@ class NoParameters {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'NoParameters',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'NoParameters',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

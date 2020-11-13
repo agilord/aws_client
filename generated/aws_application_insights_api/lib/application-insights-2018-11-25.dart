@@ -38,7 +38,10 @@ class ApplicationInsights {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'applicationinsights',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'applicationinsights',
+            signingName: 'applicationinsights',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

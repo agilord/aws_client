@@ -23,7 +23,9 @@ class StringToStringMapsInQuerystring {
     String endpointUrl,
   }) : _protocol = _s.RestXmlProtocol(
           client: client,
-          service: 'StringToStringMapsInQuerystring',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'StringToStringMapsInQuerystring',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

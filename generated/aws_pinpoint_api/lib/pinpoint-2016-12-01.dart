@@ -33,7 +33,10 @@ class Pinpoint {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'pinpoint',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'pinpoint',
+            signingName: 'mobiletargeting',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

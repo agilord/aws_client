@@ -45,7 +45,10 @@ class CloudSearchDomain {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'cloudsearchdomain',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'cloudsearchdomain',
+            signingName: 'cloudsearch',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

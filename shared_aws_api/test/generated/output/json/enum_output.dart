@@ -33,7 +33,9 @@ class EnumOutput {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'EnumOutput',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'EnumOutput',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

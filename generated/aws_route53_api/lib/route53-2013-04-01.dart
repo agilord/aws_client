@@ -24,7 +24,9 @@ class Route53 {
     String endpointUrl,
   }) : _protocol = _s.RestXmlProtocol(
           client: client,
-          service: 'route53',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'route53',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

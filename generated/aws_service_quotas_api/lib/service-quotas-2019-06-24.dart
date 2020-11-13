@@ -49,7 +49,9 @@ class ServiceQuotas {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'servicequotas',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'servicequotas',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

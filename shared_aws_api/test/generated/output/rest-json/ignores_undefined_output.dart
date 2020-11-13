@@ -31,7 +31,9 @@ class IgnoresUndefinedOutput {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'IgnoresUndefinedOutput',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'IgnoresUndefinedOutput',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

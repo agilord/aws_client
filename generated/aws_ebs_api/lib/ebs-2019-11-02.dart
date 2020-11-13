@@ -52,7 +52,9 @@ class EBS {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'ebs',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'ebs',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

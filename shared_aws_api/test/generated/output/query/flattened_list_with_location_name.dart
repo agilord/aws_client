@@ -33,7 +33,9 @@ class FlattenedListWithLocationName {
     _s.Client client,
   })  : _protocol = _s.QueryProtocol(
           client: client,
-          service: 'FlattenedListWithLocationName',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'FlattenedListWithLocationName',
+          ),
           region: region,
           credentials: credentials,
         ),

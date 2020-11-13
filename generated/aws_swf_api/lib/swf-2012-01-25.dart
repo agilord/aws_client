@@ -38,7 +38,9 @@ class SWF {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'swf',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'swf',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

@@ -36,7 +36,10 @@ class OpsWorksCM {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'opsworks-cm',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'opsworks-cm',
+            signingName: 'opsworks-cm',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

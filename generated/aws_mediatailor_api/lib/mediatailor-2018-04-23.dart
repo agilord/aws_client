@@ -42,7 +42,10 @@ class MediaTailor {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'api.mediatailor',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'api.mediatailor',
+            signingName: 'mediatailor',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

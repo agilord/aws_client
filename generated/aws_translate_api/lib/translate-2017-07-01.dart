@@ -34,7 +34,10 @@ class Translate {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'translate',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'translate',
+            signingName: 'translate',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

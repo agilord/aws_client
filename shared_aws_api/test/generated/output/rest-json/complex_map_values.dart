@@ -33,7 +33,9 @@ class ComplexMapValues {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'ComplexMapValues',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'ComplexMapValues',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

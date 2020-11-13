@@ -51,7 +51,9 @@ class Athena {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'athena',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'athena',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

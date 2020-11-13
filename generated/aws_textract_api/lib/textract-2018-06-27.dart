@@ -35,7 +35,9 @@ class Textract {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'textract',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'textract',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

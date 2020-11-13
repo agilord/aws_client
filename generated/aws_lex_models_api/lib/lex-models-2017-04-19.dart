@@ -35,7 +35,10 @@ class LexModelBuildingService {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'models.lex',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'models.lex',
+            signingName: 'lex',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

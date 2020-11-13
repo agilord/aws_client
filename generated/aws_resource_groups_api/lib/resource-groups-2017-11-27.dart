@@ -44,7 +44,10 @@ class ResourceGroups {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'resource-groups',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'resource-groups',
+            signingName: 'resource-groups',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

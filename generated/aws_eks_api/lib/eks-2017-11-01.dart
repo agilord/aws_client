@@ -45,7 +45,10 @@ class EKS {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'eks',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'eks',
+            signingName: 'eks',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

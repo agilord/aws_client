@@ -34,7 +34,10 @@ class Amplify {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'amplify',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'amplify',
+            signingName: 'amplify',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

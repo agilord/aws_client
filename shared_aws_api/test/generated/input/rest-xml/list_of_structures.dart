@@ -23,7 +23,9 @@ class ListOfStructures {
     String endpointUrl,
   }) : _protocol = _s.RestXmlProtocol(
           client: client,
-          service: 'ListOfStructures',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'ListOfStructures',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

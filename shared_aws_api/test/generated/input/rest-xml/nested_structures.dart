@@ -23,7 +23,9 @@ class NestedStructures {
     String endpointUrl,
   }) : _protocol = _s.RestXmlProtocol(
           client: client,
-          service: 'NestedStructures',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'NestedStructures',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

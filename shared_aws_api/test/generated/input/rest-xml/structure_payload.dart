@@ -23,7 +23,9 @@ class StructurePayload {
     String endpointUrl,
   }) : _protocol = _s.RestXmlProtocol(
           client: client,
-          service: 'StructurePayload',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'StructurePayload',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

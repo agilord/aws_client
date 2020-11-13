@@ -36,7 +36,10 @@ class CloudHSMV2 {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'cloudhsmv2',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'cloudhsmv2',
+            signingName: 'cloudhsm',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

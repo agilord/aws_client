@@ -33,7 +33,9 @@ class IdempotencyTokenAutoFill {
     _s.Client client,
   })  : _protocol = _s.QueryProtocol(
           client: client,
-          service: 'IdempotencyTokenAutoFill',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'IdempotencyTokenAutoFill',
+          ),
           region: region,
           credentials: credentials,
         ),

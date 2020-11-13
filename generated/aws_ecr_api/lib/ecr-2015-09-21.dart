@@ -39,7 +39,10 @@ class ECR {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'api.ecr',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'api.ecr',
+            signingName: 'ecr',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

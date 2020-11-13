@@ -23,7 +23,9 @@ class NonFlattenedListsWithLocationName {
     String endpointUrl,
   }) : _protocol = _s.RestXmlProtocol(
           client: client,
-          service: 'NonFlattenedListsWithLocationName',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'NonFlattenedListsWithLocationName',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

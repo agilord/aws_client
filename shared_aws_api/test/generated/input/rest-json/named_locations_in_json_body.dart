@@ -31,7 +31,9 @@ class NamedLocationsInJSONBody {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'NamedLocationsInJSONBody',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'NamedLocationsInJSONBody',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

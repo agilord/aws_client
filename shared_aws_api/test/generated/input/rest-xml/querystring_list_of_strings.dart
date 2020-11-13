@@ -23,7 +23,9 @@ class QuerystringListOfStrings {
     String endpointUrl,
   }) : _protocol = _s.RestXmlProtocol(
           client: client,
-          service: 'QuerystringListOfStrings',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'QuerystringListOfStrings',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

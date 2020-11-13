@@ -34,7 +34,9 @@ class XRay {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'xray',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'xray',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

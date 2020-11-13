@@ -36,7 +36,10 @@ class Comprehend {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'comprehend',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'comprehend',
+            signingName: 'comprehend',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

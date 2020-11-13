@@ -44,7 +44,9 @@ class ElasticLoadBalancingv2 {
     _s.Client client,
   })  : _protocol = _s.QueryProtocol(
           client: client,
-          service: 'elasticloadbalancing',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'elasticloadbalancing',
+          ),
           region: region,
           credentials: credentials,
         ),

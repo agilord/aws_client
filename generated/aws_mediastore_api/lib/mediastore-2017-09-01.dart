@@ -34,7 +34,10 @@ class MediaStore {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'mediastore',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'mediastore',
+            signingName: 'mediastore',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

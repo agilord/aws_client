@@ -36,7 +36,10 @@ class MQ {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'mq',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'mq',
+            signingName: 'mq',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

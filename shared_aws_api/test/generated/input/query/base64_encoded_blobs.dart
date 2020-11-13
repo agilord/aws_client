@@ -33,7 +33,9 @@ class Base64EncodedBlobs {
     _s.Client client,
   })  : _protocol = _s.QueryProtocol(
           client: client,
-          service: 'Base64EncodedBlobs',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'Base64EncodedBlobs',
+          ),
           region: region,
           credentials: credentials,
         ),

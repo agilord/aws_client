@@ -45,7 +45,9 @@ class Redshift {
     _s.Client client,
   })  : _protocol = _s.QueryProtocol(
           client: client,
-          service: 'redshift',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'redshift',
+          ),
           region: region,
           credentials: credentials,
         ),

@@ -35,7 +35,9 @@ class RecursiveShapes {
     _s.Client client,
   })  : _protocol = _s.QueryProtocol(
           client: client,
-          service: 'RecursiveShapes',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'RecursiveShapes',
+          ),
           region: region,
           credentials: credentials,
         ),

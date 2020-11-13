@@ -40,7 +40,9 @@ class MigrationHub {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'mgh',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'mgh',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

@@ -50,7 +50,9 @@ class CloudWatch {
     _s.Client client,
   })  : _protocol = _s.QueryProtocol(
           client: client,
-          service: 'monitoring',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'monitoring',
+          ),
           region: region,
           credentials: credentials,
         ),

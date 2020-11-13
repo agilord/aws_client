@@ -43,7 +43,9 @@ class CodeBuild {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'codebuild',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'codebuild',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

@@ -39,7 +39,10 @@ class IoT {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'iot',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'iot',
+            signingName: 'execute-api',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

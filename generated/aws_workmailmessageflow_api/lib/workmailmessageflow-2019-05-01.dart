@@ -34,7 +34,9 @@ class WorkMailMessageFlow {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'workmailmessageflow',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'workmailmessageflow',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

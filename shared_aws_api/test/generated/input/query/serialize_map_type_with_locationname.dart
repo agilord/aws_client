@@ -33,7 +33,9 @@ class SerializeMapTypeWithLocationName {
     _s.Client client,
   })  : _protocol = _s.QueryProtocol(
           client: client,
-          service: 'SerializeMapTypeWithLocationName',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'SerializeMapTypeWithLocationName',
+          ),
           region: region,
           credentials: credentials,
         ),

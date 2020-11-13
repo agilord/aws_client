@@ -33,7 +33,10 @@ class MarketplaceCommerceAnalytics {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'marketplacecommerceanalytics',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'marketplacecommerceanalytics',
+            signingName: 'marketplacecommerceanalytics',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

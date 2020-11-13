@@ -41,7 +41,9 @@ class DirectConnect {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'directconnect',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'directconnect',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

@@ -34,7 +34,9 @@ class GameLift {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'gamelift',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'gamelift',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

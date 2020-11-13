@@ -31,7 +31,9 @@ class EndpointHostTrait {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'EndpointHostTrait',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'EndpointHostTrait',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

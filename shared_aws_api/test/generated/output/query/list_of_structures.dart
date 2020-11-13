@@ -33,7 +33,9 @@ class ListOfStructures {
     _s.Client client,
   })  : _protocol = _s.QueryProtocol(
           client: client,
-          service: 'ListOfStructures',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'ListOfStructures',
+          ),
           region: region,
           credentials: credentials,
         ),

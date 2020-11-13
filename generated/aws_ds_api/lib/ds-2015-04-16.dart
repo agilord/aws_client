@@ -49,7 +49,9 @@ class DirectoryService {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'ds',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'ds',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

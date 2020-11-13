@@ -33,7 +33,10 @@ class MediaPackageVod {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'mediapackage-vod',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'mediapackage-vod',
+            signingName: 'mediapackage-vod',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

@@ -33,7 +33,9 @@ class FlattenedSingleElementList {
     _s.Client client,
   })  : _protocol = _s.QueryProtocol(
           client: client,
-          service: 'FlattenedSingleElementList',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'FlattenedSingleElementList',
+          ),
           region: region,
           credentials: credentials,
         ),

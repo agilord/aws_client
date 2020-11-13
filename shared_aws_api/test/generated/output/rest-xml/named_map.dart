@@ -23,7 +23,9 @@ class NamedMap {
     String endpointUrl,
   }) : _protocol = _s.RestXmlProtocol(
           client: client,
-          service: 'NamedMap',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'NamedMap',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

@@ -23,7 +23,9 @@ class FlattenedLists {
     String endpointUrl,
   }) : _protocol = _s.RestXmlProtocol(
           client: client,
-          service: 'FlattenedLists',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'FlattenedLists',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

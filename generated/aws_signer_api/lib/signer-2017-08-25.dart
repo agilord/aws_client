@@ -46,7 +46,10 @@ class Signer {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'signer',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'signer',
+            signingName: 'signer',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

@@ -37,7 +37,9 @@ class DynamoDB {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'dynamodb',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'dynamodb',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

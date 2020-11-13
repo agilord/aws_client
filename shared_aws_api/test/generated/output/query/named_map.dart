@@ -33,7 +33,9 @@ class NamedMap {
     _s.Client client,
   })  : _protocol = _s.QueryProtocol(
           client: client,
-          service: 'NamedMap',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'NamedMap',
+          ),
           region: region,
           credentials: credentials,
         ),

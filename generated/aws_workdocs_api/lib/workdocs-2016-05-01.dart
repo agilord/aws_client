@@ -67,7 +67,9 @@ class WorkDocs {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'workdocs',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'workdocs',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

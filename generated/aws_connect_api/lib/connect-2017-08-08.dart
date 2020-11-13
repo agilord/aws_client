@@ -45,7 +45,10 @@ class Connect {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'connect',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'connect',
+            signingName: 'connect',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

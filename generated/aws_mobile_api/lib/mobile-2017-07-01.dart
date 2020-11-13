@@ -36,7 +36,10 @@ class Mobile {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'mobile',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'mobile',
+            signingName: 'AWSMobileHubService',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

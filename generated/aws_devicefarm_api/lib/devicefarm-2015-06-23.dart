@@ -53,7 +53,9 @@ class DeviceFarm {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'devicefarm',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'devicefarm',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

@@ -33,7 +33,9 @@ class EmptyString {
     _s.Client client,
   })  : _protocol = _s.QueryProtocol(
           client: client,
-          service: 'EmptyString',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'EmptyString',
+          ),
           region: region,
           credentials: credentials,
         ),

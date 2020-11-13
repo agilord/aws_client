@@ -90,7 +90,9 @@ class Budgets {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'budgets',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'budgets',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

@@ -33,7 +33,9 @@ class ResourceGroupsTaggingAPI {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'tagging',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'tagging',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

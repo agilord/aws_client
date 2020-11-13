@@ -53,7 +53,10 @@ class DataExchange {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'dataexchange',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'dataexchange',
+            signingName: 'dataexchange',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

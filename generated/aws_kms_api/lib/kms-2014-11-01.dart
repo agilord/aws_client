@@ -49,7 +49,9 @@ class KMS {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'kms',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'kms',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

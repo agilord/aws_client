@@ -36,7 +36,9 @@ class Firehose {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'firehose',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'firehose',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

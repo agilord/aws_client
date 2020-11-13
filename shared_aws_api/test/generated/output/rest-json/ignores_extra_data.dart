@@ -33,7 +33,9 @@ class IgnoresExtraData {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'IgnoresExtraData',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'IgnoresExtraData',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

@@ -23,7 +23,9 @@ class OmitsNullQueryParamsButSerializesEmptyStrings {
     String endpointUrl,
   }) : _protocol = _s.RestXmlProtocol(
           client: client,
-          service: 'OmitsNullQueryParams,ButSerializesEmptyStrings',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'OmitsNullQueryParams,ButSerializesEmptyStrings',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

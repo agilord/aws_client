@@ -42,7 +42,9 @@ class AlexaForBusiness {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'a4b',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'a4b',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

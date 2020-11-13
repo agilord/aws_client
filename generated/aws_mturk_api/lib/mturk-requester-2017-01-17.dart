@@ -32,7 +32,9 @@ class MTurk {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'mturk-requester',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'mturk-requester',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

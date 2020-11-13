@@ -23,7 +23,9 @@ class XMLAttributes {
     String endpointUrl,
   }) : _protocol = _s.RestXmlProtocol(
           client: client,
-          service: 'XMLAttributes',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'XMLAttributes',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

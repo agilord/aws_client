@@ -34,7 +34,10 @@ class FSx {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'fsx',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'fsx',
+            signingName: 'fsx',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

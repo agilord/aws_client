@@ -33,7 +33,9 @@ class JSONPayload {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'JSONPayload',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'JSONPayload',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

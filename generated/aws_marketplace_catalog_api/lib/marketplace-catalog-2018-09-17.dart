@@ -40,7 +40,10 @@ class MarketplaceCatalog {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'catalog.marketplace',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'catalog.marketplace',
+            signingName: 'aws-marketplace',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

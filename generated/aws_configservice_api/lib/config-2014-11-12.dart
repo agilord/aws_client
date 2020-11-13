@@ -42,7 +42,9 @@ class ConfigService {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'config',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'config',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

@@ -33,7 +33,10 @@ class ForecastQueryService {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'forecastquery',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'forecastquery',
+            signingName: 'forecast',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

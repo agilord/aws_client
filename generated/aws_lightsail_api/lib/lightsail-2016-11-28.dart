@@ -47,7 +47,9 @@ class Lightsail {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'lightsail',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'lightsail',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

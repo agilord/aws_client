@@ -38,7 +38,10 @@ class Outposts {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'outposts',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'outposts',
+            signingName: 'outposts',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

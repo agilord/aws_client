@@ -41,7 +41,9 @@ class WAF {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'waf',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'waf',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

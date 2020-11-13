@@ -33,7 +33,9 @@ class ListTypes {
     _s.Client client,
   })  : _protocol = _s.QueryProtocol(
           client: client,
-          service: 'ListTypes',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'ListTypes',
+          ),
           region: region,
           credentials: credentials,
         ),

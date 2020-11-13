@@ -81,7 +81,10 @@ class ServerlessApplicationRepository {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'serverlessrepo',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'serverlessrepo',
+            signingName: 'serverlessrepo',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

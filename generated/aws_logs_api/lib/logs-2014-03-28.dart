@@ -68,7 +68,9 @@ class CloudWatchLogs {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'logs',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'logs',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

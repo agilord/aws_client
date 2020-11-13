@@ -34,7 +34,10 @@ class ComprehendMedical {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'comprehendmedical',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'comprehendmedical',
+            signingName: 'comprehendmedical',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

@@ -33,7 +33,10 @@ class QLDBSession {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'session.qldb',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'session.qldb',
+            signingName: 'qldb',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

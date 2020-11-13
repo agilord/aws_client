@@ -23,7 +23,9 @@ class NormalMap {
     String endpointUrl,
   }) : _protocol = _s.RestXmlProtocol(
           client: client,
-          service: 'NormalMap',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'NormalMap',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

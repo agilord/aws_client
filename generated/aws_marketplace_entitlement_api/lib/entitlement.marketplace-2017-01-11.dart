@@ -34,7 +34,10 @@ class MarketplaceEntitlementService {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'entitlement.marketplace',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'entitlement.marketplace',
+            signingName: 'aws-marketplace',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

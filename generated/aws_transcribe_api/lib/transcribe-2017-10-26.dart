@@ -33,7 +33,10 @@ class TranscribeService {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'transcribe',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'transcribe',
+            signingName: 'transcribe',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

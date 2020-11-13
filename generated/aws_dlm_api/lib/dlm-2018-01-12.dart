@@ -35,7 +35,10 @@ class DLM {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'dlm',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'dlm',
+            signingName: 'dlm',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

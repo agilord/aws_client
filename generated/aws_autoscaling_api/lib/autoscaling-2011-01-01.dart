@@ -38,7 +38,9 @@ class AutoScaling {
     _s.Client client,
   })  : _protocol = _s.QueryProtocol(
           client: client,
-          service: 'autoscaling',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'autoscaling',
+          ),
           region: region,
           credentials: credentials,
         ),

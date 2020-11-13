@@ -33,7 +33,10 @@ class MediaConvert {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'mediaconvert',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'mediaconvert',
+            signingName: 'mediaconvert',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

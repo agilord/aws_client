@@ -41,7 +41,10 @@ class CloudDirectory {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'clouddirectory',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'clouddirectory',
+            signingName: 'clouddirectory',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

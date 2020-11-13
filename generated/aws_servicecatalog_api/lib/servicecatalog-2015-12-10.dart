@@ -38,7 +38,9 @@ class ServiceCatalog {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'servicecatalog',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'servicecatalog',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

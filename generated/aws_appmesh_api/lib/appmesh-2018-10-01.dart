@@ -64,7 +64,10 @@ class AppMesh {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'appmesh',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'appmesh',
+            signingName: 'appmesh',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

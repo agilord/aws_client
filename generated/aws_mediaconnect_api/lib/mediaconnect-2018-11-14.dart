@@ -33,7 +33,10 @@ class MediaConnect {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'mediaconnect',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'mediaconnect',
+            signingName: 'mediaconnect',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

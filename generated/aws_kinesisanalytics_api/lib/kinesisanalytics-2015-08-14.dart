@@ -41,7 +41,9 @@ class KinesisAnalytics {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'kinesisanalytics',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'kinesisanalytics',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

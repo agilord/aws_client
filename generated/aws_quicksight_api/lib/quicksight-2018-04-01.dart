@@ -36,7 +36,9 @@ class QuickSight {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'quicksight',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'quicksight',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,
