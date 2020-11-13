@@ -490,9 +490,14 @@ String estimatedTimeLeft(int percentage, Duration elapsed) {
 }
 
 void printPercentageInPlace(int percentage, String message) {
-  stdout.write('\r${' ' * stdout.terminalColumns}');
-  stdout.write(
-      '\r${loadingBar(percentage)} ${percentage.toString().padLeft(3)}% $message');
+  final progress =
+      '${loadingBar(percentage)} ${percentage.toString().padLeft(3)}% $message';
+  if (stdout.hasTerminal) {
+    stdout.write('\r${' ' * stdout.terminalColumns}');
+    stdout.write('\r$progress');
+  } else {
+    print(progress);
+  }
 }
 
 String loadingBar(int percentage) {
