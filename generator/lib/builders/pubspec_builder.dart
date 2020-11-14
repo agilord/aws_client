@@ -32,9 +32,6 @@ environment:
 dependencies:
   shared_aws_api: ${protocolConfig.shared}
 
-dev_dependencies:
-  test: ^1.14.2
-
 $dependenciesOverride
 ''';
 }
