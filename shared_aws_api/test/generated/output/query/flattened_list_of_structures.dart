@@ -33,7 +33,9 @@ class FlattenedListOfStructures {
     _s.Client client,
   })  : _protocol = _s.QueryProtocol(
           client: client,
-          service: 'FlattenedListOfStructures',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'FlattenedListOfStructures',
+          ),
           region: region,
           credentials: credentials,
         ),

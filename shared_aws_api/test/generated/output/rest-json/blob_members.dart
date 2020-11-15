@@ -33,7 +33,9 @@ class BlobMembers {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'BlobMembers',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'BlobMembers',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

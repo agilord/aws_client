@@ -38,7 +38,10 @@ class AppConfig {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'appconfig',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'appconfig',
+            signingName: 'appconfig',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

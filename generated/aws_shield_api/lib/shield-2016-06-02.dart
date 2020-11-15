@@ -39,7 +39,9 @@ class Shield {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'shield',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'shield',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

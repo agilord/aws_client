@@ -37,7 +37,10 @@ class GroundStation {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'groundstation',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'groundstation',
+            signingName: 'groundstation',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

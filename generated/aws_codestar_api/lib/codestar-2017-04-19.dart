@@ -35,7 +35,9 @@ class CodeStar {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'codestar',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'codestar',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

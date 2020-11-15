@@ -31,7 +31,9 @@ class TimestampValues {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'TimestampValues',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'TimestampValues',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

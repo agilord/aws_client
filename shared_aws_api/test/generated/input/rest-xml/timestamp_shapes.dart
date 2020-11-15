@@ -23,7 +23,9 @@ class TimestampShapes {
     String endpointUrl,
   }) : _protocol = _s.RestXmlProtocol(
           client: client,
-          service: 'TimestampShapes',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'TimestampShapes',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

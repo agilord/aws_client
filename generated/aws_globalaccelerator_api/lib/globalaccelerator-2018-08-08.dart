@@ -38,7 +38,10 @@ class GlobalAccelerator {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'globalaccelerator',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'globalaccelerator',
+            signingName: 'globalaccelerator',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

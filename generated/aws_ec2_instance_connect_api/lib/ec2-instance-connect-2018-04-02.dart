@@ -36,7 +36,9 @@ class EC2InstanceConnect {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'ec2-instance-connect',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'ec2-instance-connect',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

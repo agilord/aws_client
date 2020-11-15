@@ -23,7 +23,9 @@ class GreedyKeys {
     String endpointUrl,
   }) : _protocol = _s.RestXmlProtocol(
           client: client,
-          service: 'GreedyKeys',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'GreedyKeys',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

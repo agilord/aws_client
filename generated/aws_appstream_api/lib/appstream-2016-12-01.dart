@@ -47,7 +47,10 @@ class AppStream {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'appstream2',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'appstream2',
+            signingName: 'appstream',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

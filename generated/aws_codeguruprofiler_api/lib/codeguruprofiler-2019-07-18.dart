@@ -34,7 +34,10 @@ class CodeGuruProfiler {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'codeguru-profiler',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'codeguru-profiler',
+            signingName: 'codeguru-profiler',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

@@ -34,7 +34,10 @@ class IoTSecureTunneling {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'api.tunneling.iot',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'api.tunneling.iot',
+            signingName: 'IoTSecuredTunneling',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

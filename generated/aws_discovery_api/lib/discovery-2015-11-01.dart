@@ -39,7 +39,9 @@ class ApplicationDiscoveryService {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'discovery',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'discovery',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

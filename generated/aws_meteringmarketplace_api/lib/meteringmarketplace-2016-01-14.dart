@@ -34,7 +34,10 @@ class MarketplaceMetering {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'metering.marketplace',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'metering.marketplace',
+            signingName: 'aws-marketplace',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

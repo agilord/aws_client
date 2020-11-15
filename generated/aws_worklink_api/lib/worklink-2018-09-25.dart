@@ -40,7 +40,10 @@ class WorkLink {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'worklink',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'worklink',
+            signingName: 'worklink',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

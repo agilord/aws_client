@@ -34,7 +34,9 @@ class WorkSpaces {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'workspaces',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'workspaces',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

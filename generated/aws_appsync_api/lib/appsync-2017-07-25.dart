@@ -34,7 +34,10 @@ class AppSync {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'appsync',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'appsync',
+            signingName: 'appsync',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

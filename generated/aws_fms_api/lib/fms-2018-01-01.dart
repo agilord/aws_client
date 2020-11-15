@@ -38,7 +38,9 @@ class FMS {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'fms',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'fms',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

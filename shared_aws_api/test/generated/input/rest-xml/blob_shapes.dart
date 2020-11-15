@@ -23,7 +23,9 @@ class BlobShapes {
     String endpointUrl,
   }) : _protocol = _s.RestXmlProtocol(
           client: client,
-          service: 'BlobShapes',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'BlobShapes',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

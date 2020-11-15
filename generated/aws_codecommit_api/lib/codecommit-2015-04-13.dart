@@ -35,7 +35,9 @@ class CodeCommit {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'codecommit',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'codecommit',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

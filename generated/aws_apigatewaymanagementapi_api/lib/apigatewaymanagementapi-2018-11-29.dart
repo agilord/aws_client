@@ -38,7 +38,10 @@ class ApiGatewayManagementApi {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'execute-api',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'execute-api',
+            signingName: 'execute-api',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

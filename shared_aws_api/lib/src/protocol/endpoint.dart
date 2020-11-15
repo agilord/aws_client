@@ -2,13 +2,32 @@ import 'package:meta/meta.dart';
 import 'endpoint_config_data.dart' as config;
 import 'shared.dart';
 
+class ServiceMetadata {
+  final String endpointPrefix;
+  final String signingName;
+
+  const ServiceMetadata({@required this.endpointPrefix, this.signingName});
+
+  @override
+  bool operator ==(Object other) {
+    return other is ServiceMetadata &&
+        other.endpointPrefix == endpointPrefix &&
+        other.signingName == signingName;
+  }
+
+  @override
+  int get hashCode => endpointPrefix.hashCode ^ signingName.hashCode;
+
+  @override
+  String toString() =>
+      'ServiceMetadata(endpointPrefix: $endpointPrefix, signingName: $signingName)';
+}
+
 /// A data class that holds the URL and signing information to communicate
 /// with an AWS service.
 /// This is an internal class used by the different protocols.
 class Endpoint {
-  /// The `endpointPrefix` of the service. This is necessary to correctly infer
-  /// the URL and sign the request
-  final String service;
+  final ServiceMetadata service;
 
   /// The URL to use to communicate with AWS.
   final String url;
@@ -31,7 +50,7 @@ class Endpoint {
 
   /// Creates a `Endpoint` using only the service prefix and an optional region
   /// The other information will be inferred from the global configuration rules.
-  static Endpoint fromConfig(String service, {String region}) {
+  static Endpoint fromConfig(ServiceMetadata service, {String region}) {
     assert(service != null);
 
     final regionConfig = _findRegionConfig(service, region);
@@ -48,7 +67,7 @@ class Endpoint {
       signingRegion = regionConfig.signingRegion ?? 'us-east-1';
     }
 
-    var url = urlPattern.replaceAll('{service}', service);
+    var url = urlPattern.replaceAll('{service}', service.endpointPrefix);
     if (region != null) {
       url = url.replaceAll('{region}', region);
     }
@@ -70,14 +89,14 @@ class Endpoint {
   /// Creates a `Endpoint` from either a user-provided custom endpointUrl or
   /// by inferring the configuration from the service prefix.
   static Endpoint forProtocol(
-      {String service, String region, String endpointUrl}) {
+      {ServiceMetadata service, String region, String endpointUrl}) {
     if (service == null) {
       ArgumentError.checkNotNull(endpointUrl, 'endpointUrl');
     }
 
     if (endpointUrl != null) {
       final endpointUri = Uri.parse(endpointUrl);
-      service ??= extractService(endpointUri);
+      service ??= ServiceMetadata(endpointPrefix: extractService(endpointUri));
       region ??= extractRegion(endpointUri);
       return Endpoint(
           service: service, url: endpointUrl, signingRegion: region);
@@ -125,8 +144,8 @@ class RegionConfig {
       : globalEndpoint = globalEndpoint ?? false;
 }
 
-RegionConfig _findRegionConfig(String service, String region) {
-  final keys = _derivedKeys(service, region);
+RegionConfig _findRegionConfig(ServiceMetadata service, String region) {
+  final keys = _derivedKeys(service.endpointPrefix, region);
   for (var key in keys) {
     final regionConfig = config.rules[key];
     if (regionConfig != null) {

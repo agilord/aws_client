@@ -33,7 +33,10 @@ class RoboMaker {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'robomaker',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'robomaker',
+            signingName: 'robomaker',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

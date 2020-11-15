@@ -23,7 +23,9 @@ class StreamingPayload {
     String endpointUrl,
   }) : _protocol = _s.RestXmlProtocol(
           client: client,
-          service: 'StreamingPayload',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'StreamingPayload',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

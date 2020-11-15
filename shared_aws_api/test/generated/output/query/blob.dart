@@ -33,7 +33,9 @@ class Blob {
     _s.Client client,
   })  : _protocol = _s.QueryProtocol(
           client: client,
-          service: 'Blob',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'Blob',
+          ),
           region: region,
           credentials: credentials,
         ),

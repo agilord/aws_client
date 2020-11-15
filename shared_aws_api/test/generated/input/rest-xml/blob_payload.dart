@@ -23,7 +23,9 @@ class BlobPayload {
     String endpointUrl,
   }) : _protocol = _s.RestXmlProtocol(
           client: client,
-          service: 'BlobPayload',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'BlobPayload',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

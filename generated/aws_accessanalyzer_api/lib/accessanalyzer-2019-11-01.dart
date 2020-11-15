@@ -44,7 +44,10 @@ class AccessAnalyzer {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'access-analyzer',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'access-analyzer',
+            signingName: 'access-analyzer',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

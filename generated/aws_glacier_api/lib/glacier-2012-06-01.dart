@@ -71,7 +71,9 @@ class Glacier {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'glacier',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'glacier',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

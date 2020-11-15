@@ -31,7 +31,9 @@ class URIParameterOnlyWithNoLocationName {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'URIParameterOnlyWithNoLocationName',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'URIParameterOnlyWithNoLocationName',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

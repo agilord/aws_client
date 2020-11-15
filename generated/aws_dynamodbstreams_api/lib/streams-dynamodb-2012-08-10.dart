@@ -38,7 +38,10 @@ class DynamoDBStreams {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'streams.dynamodb',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'streams.dynamodb',
+            signingName: 'dynamodb',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

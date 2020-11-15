@@ -23,7 +23,9 @@ class EmptyString {
     String endpointUrl,
   }) : _protocol = _s.RestXmlProtocol(
           client: client,
-          service: 'EmptyString',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'EmptyString',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

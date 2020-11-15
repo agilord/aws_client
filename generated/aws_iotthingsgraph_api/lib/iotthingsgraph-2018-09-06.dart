@@ -38,7 +38,10 @@ class IoTThingsGraph {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'iotthingsgraph',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'iotthingsgraph',
+            signingName: 'iotthingsgraph',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

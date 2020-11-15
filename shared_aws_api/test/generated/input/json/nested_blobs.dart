@@ -31,7 +31,9 @@ class NestedBlobs {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'NestedBlobs',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'NestedBlobs',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

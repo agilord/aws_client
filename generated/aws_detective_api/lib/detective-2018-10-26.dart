@@ -83,7 +83,10 @@ class Detective {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'api.detective',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'api.detective',
+            signingName: 'detective',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

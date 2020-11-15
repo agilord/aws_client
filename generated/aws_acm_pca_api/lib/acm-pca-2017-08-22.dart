@@ -49,7 +49,9 @@ class ACMPCA {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'acm-pca',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'acm-pca',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

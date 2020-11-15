@@ -33,7 +33,9 @@ class ListsWithStructureMember {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'ListsWithStructureMember',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'ListsWithStructureMember',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

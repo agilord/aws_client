@@ -50,7 +50,10 @@ class CostExplorer {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'ce',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'ce',
+            signingName: 'ce',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

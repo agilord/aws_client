@@ -23,7 +23,9 @@ class EndpointHostTrait {
     String endpointUrl,
   }) : _protocol = _s.RestXmlProtocol(
           client: client,
-          service: 'EndpointHostTrait',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'EndpointHostTrait',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

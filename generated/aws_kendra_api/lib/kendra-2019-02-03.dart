@@ -33,7 +33,10 @@ class Kendra {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'kendra',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'kendra',
+            signingName: 'kendra',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

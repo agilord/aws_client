@@ -38,7 +38,9 @@ class Lambda {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'lambda',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'lambda',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

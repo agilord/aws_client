@@ -23,7 +23,9 @@ class RecursiveShapes {
     String endpointUrl,
   }) : _protocol = _s.RestXmlProtocol(
           client: client,
-          service: 'RecursiveShapes',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'RecursiveShapes',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

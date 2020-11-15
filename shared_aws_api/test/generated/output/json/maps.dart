@@ -33,7 +33,9 @@ class Maps {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'Maps',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'Maps',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

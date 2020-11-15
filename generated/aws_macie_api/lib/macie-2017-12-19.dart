@@ -40,7 +40,9 @@ class Macie {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'macie',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'macie',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

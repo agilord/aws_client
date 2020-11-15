@@ -41,7 +41,9 @@ class CognitoSync {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'cognito-sync',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'cognito-sync',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

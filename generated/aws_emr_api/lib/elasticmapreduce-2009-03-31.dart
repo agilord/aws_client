@@ -36,7 +36,9 @@ class EMR {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'elasticmapreduce',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'elasticmapreduce',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

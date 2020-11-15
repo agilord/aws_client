@@ -34,7 +34,9 @@ class LicenseManager {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'license-manager',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'license-manager',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

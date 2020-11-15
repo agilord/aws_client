@@ -31,7 +31,9 @@ class SerializeBlobsInBody {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'SerializeBlobsInBody',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'SerializeBlobsInBody',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

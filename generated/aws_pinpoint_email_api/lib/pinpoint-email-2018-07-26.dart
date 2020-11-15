@@ -35,7 +35,10 @@ class PinpointEmail {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'email',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'email',
+            signingName: 'ses',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

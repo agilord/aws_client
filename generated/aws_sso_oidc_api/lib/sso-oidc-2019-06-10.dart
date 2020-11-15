@@ -55,7 +55,10 @@ class SSOOIDC {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'oidc',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'oidc',
+            signingName: 'awsssooidc',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

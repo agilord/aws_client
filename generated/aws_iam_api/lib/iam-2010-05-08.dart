@@ -59,7 +59,9 @@ class IAM {
     _s.Client client,
   })  : _protocol = _s.QueryProtocol(
           client: client,
-          service: 'iam',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'iam',
+          ),
           region: region,
           credentials: credentials,
         ),

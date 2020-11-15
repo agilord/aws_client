@@ -37,7 +37,9 @@ class SMS {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'sms',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'sms',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

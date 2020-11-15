@@ -78,7 +78,9 @@ class Route53Resolver {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'route53resolver',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'route53resolver',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

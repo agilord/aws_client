@@ -45,7 +45,10 @@ class ComputeOptimizer {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'compute-optimizer',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'compute-optimizer',
+            signingName: 'compute-optimizer',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

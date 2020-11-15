@@ -36,7 +36,10 @@ class Imagebuilder {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'imagebuilder',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'imagebuilder',
+            signingName: 'imagebuilder',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

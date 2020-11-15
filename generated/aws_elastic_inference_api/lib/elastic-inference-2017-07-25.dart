@@ -33,7 +33,10 @@ class ElasticInference {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'elastic-inference',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'elastic-inference',
+            signingName: 'elastic-inference',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

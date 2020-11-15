@@ -33,7 +33,10 @@ class IoT1ClickProjects {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'projects.iot1click',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'projects.iot1click',
+            signingName: 'iot1click',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

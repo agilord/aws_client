@@ -56,7 +56,9 @@ class EventBridge {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'events',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'events',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

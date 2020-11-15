@@ -42,7 +42,9 @@ class RAM {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'ram',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'ram',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

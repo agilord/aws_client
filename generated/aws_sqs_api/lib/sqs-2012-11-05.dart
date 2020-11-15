@@ -98,7 +98,9 @@ class SQS {
     _s.Client client,
   })  : _protocol = _s.QueryProtocol(
           client: client,
-          service: 'sqs',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'sqs',
+          ),
           region: region,
           credentials: credentials,
         ),

@@ -50,7 +50,10 @@ class PI {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'pi',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'pi',
+            signingName: 'pi',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

@@ -33,7 +33,9 @@ class TimestampMembers {
     _s.Client client,
   })  : _protocol = _s.QueryProtocol(
           client: client,
-          service: 'TimestampMembers',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'TimestampMembers',
+          ),
           region: region,
           credentials: credentials,
         ),

@@ -35,7 +35,10 @@ class DataSync {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'datasync',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'datasync',
+            signingName: 'datasync',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

@@ -33,7 +33,9 @@ class ScalarMembers {
     _s.Client client,
   })  : _protocol = _s.QueryProtocol(
           client: client,
-          service: 'ScalarMembers',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'ScalarMembers',
+          ),
           region: region,
           credentials: credentials,
         ),

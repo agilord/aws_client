@@ -36,7 +36,9 @@ class Backup {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'backup',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'backup',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

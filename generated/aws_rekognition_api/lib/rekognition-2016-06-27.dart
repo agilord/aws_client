@@ -33,7 +33,9 @@ class Rekognition {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'rekognition',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'rekognition',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

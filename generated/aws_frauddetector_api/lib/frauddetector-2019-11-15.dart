@@ -38,7 +38,9 @@ class FraudDetector {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'frauddetector',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'frauddetector',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

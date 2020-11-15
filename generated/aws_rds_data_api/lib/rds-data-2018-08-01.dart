@@ -35,7 +35,10 @@ class RDSDataService {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'rds-data',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'rds-data',
+            signingName: 'rds-data',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

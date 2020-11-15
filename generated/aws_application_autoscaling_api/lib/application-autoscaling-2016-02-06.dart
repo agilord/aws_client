@@ -98,7 +98,10 @@ class ApplicationAutoScaling {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'application-autoscaling',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'application-autoscaling',
+            signingName: 'application-autoscaling',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

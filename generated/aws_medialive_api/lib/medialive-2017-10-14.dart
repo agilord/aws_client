@@ -33,7 +33,10 @@ class MediaLive {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'medialive',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'medialive',
+            signingName: 'medialive',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

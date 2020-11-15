@@ -52,7 +52,10 @@ class SSO {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'portal.sso',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'portal.sso',
+            signingName: 'awsssoportal',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

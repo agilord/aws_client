@@ -33,7 +33,10 @@ class Schemas {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'schemas',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'schemas',
+            signingName: 'schemas',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

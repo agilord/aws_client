@@ -77,7 +77,10 @@ class AugmentedAIRuntime {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'a2i-runtime.sagemaker',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'a2i-runtime.sagemaker',
+            signingName: 'sagemaker',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

@@ -33,7 +33,10 @@ class PinpointSMSVoice {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'sms-voice.pinpoint',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'sms-voice.pinpoint',
+            signingName: 'sms-voice',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

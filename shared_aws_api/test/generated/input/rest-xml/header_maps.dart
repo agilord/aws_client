@@ -23,7 +23,9 @@ class HeaderMaps {
     String endpointUrl,
   }) : _protocol = _s.RestXmlProtocol(
           client: client,
-          service: 'HeaderMaps',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'HeaderMaps',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

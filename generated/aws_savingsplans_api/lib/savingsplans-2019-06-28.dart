@@ -38,7 +38,9 @@ class SavingsPlans {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'savingsplans',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'savingsplans',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

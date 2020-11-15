@@ -33,7 +33,10 @@ class QLDB {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'qldb',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'qldb',
+            signingName: 'qldb',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

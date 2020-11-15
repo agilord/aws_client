@@ -35,7 +35,9 @@ class NestedStructureMembers {
     _s.Client client,
   })  : _protocol = _s.QueryProtocol(
           client: client,
-          service: 'NestedStructureMembers',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'NestedStructureMembers',
+          ),
           region: region,
           credentials: credentials,
         ),

@@ -71,7 +71,10 @@ class SecurityHub {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'securityhub',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'securityhub',
+            signingName: 'securityhub',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

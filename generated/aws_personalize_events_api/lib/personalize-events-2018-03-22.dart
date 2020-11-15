@@ -33,7 +33,10 @@ class PersonalizeEvents {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'personalize-events',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'personalize-events',
+            signingName: 'personalize',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

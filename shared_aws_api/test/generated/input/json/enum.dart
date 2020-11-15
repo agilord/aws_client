@@ -31,7 +31,9 @@ class Enum {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'Enum',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'Enum',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

@@ -40,7 +40,9 @@ class CognitoIdentityProvider {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'cognito-idp',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'cognito-idp',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

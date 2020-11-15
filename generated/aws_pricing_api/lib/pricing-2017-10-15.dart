@@ -64,7 +64,10 @@ class Pricing {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'api.pricing',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'api.pricing',
+            signingName: 'pricing',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

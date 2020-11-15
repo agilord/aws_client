@@ -54,7 +54,9 @@ class DataPipeline {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'datapipeline',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'datapipeline',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

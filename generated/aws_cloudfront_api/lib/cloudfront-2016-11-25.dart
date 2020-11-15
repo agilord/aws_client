@@ -27,7 +27,9 @@ class CloudFront {
     String endpointUrl,
   }) : _protocol = _s.RestXmlProtocol(
           client: client,
-          service: 'cloudfront',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'cloudfront',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

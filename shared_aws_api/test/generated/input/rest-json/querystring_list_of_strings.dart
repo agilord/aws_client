@@ -31,7 +31,9 @@ class QuerystringListOfStrings {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'QuerystringListOfStrings',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'QuerystringListOfStrings',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

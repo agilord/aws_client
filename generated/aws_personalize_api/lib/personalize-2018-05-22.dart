@@ -34,7 +34,10 @@ class Personalize {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'personalize',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'personalize',
+            signingName: 'personalize',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

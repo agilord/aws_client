@@ -33,7 +33,9 @@ class Glue {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'glue',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'glue',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

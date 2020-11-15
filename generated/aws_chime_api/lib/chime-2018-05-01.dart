@@ -75,7 +75,9 @@ class Chime {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'chime',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'chime',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

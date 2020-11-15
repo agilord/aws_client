@@ -41,7 +41,9 @@ class CloudFormation {
     _s.Client client,
   })  : _protocol = _s.QueryProtocol(
           client: client,
-          service: 'cloudformation',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'cloudformation',
+          ),
           region: region,
           credentials: credentials,
         ),

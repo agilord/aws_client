@@ -49,7 +49,10 @@ class GuardDuty {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'guardduty',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'guardduty',
+            signingName: 'guardduty',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

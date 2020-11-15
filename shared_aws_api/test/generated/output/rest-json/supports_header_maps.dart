@@ -33,7 +33,9 @@ class SupportsHeaderMaps {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'SupportsHeaderMaps',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'SupportsHeaderMaps',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

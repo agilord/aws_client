@@ -23,7 +23,9 @@ class BasicXMLSerialization {
     String endpointUrl,
   }) : _protocol = _s.RestXmlProtocol(
           client: client,
-          service: 'BasicXMLSerialization',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'BasicXMLSerialization',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

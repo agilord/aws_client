@@ -23,7 +23,9 @@ class IdempotencyTokenAutoFill {
     String endpointUrl,
   }) : _protocol = _s.RestXmlProtocol(
           client: client,
-          service: 'IdempotencyTokenAutoFill',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'IdempotencyTokenAutoFill',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

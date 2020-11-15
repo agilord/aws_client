@@ -50,7 +50,9 @@ class Batch {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'batch',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'batch',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

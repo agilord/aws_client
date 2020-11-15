@@ -23,7 +23,9 @@ class ScalarMembers {
     String endpointUrl,
   }) : _protocol = _s.RestXmlProtocol(
           client: client,
-          service: 'ScalarMembers',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'ScalarMembers',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

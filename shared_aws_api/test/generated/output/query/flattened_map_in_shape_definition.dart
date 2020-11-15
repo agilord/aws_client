@@ -33,7 +33,9 @@ class FlattenedMapInShapeDefinition {
     _s.Client client,
   })  : _protocol = _s.QueryProtocol(
           client: client,
-          service: 'FlattenedMapInShapeDefinition',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'FlattenedMapInShapeDefinition',
+          ),
           region: region,
           credentials: credentials,
         ),

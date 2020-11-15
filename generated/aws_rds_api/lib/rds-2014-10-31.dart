@@ -40,7 +40,9 @@ class RDS {
     _s.Client client,
   })  : _protocol = _s.QueryProtocol(
           client: client,
-          service: 'rds',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'rds',
+          ),
           region: region,
           credentials: credentials,
         ),

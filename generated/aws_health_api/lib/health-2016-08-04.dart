@@ -37,7 +37,9 @@ class Health {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'health',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'health',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

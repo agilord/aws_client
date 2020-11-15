@@ -35,7 +35,10 @@ class NetworkManager {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'networkmanager',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'networkmanager',
+            signingName: 'networkmanager',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

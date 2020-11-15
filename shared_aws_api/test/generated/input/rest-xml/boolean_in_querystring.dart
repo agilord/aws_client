@@ -23,7 +23,9 @@ class BooleanInQuerystring {
     String endpointUrl,
   }) : _protocol = _s.RestXmlProtocol(
           client: client,
-          service: 'BooleanInQuerystring',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'BooleanInQuerystring',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

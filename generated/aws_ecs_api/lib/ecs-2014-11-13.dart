@@ -42,7 +42,9 @@ class ECS {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'ecs',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'ecs',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

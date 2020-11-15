@@ -33,7 +33,10 @@ class SageMakerRuntime {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'runtime.sagemaker',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'runtime.sagemaker',
+            signingName: 'sagemaker',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

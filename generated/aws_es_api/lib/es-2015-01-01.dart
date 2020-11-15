@@ -34,7 +34,9 @@ class ElasticsearchService {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'es',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'es',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

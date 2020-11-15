@@ -39,7 +39,9 @@ class CloudHSM {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'cloudhsm',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'cloudhsm',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

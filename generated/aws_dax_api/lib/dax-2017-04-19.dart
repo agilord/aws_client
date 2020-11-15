@@ -39,7 +39,9 @@ class DAX {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'dax',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'dax',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

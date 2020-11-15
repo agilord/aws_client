@@ -33,7 +33,9 @@ class ACM {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'acm',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'acm',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

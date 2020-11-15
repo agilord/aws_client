@@ -34,7 +34,10 @@ class SecretsManager {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'secretsmanager',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'secretsmanager',
+            signingName: 'secretsmanager',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

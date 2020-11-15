@@ -33,7 +33,9 @@ class MachineLearning {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'machinelearning',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'machinelearning',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

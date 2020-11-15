@@ -73,7 +73,10 @@ class CodeStarconnections {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'codestar-connections',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'codestar-connections',
+            signingName: 'codestar-connections',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

@@ -40,7 +40,9 @@ class SSM {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'ssm',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'ssm',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

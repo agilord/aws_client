@@ -43,7 +43,10 @@ class LexRuntimeService {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'runtime.lex',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'runtime.lex',
+            signingName: 'lex',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

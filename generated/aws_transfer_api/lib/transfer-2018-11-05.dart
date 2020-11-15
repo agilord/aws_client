@@ -42,7 +42,10 @@ class Transfer {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'transfer',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'transfer',
+            signingName: 'transfer',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

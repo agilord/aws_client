@@ -39,7 +39,9 @@ class DatabaseMigrationService {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'dms',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'dms',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

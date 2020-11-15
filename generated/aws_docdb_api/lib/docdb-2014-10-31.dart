@@ -35,7 +35,10 @@ class DocDB {
     _s.Client client,
   })  : _protocol = _s.QueryProtocol(
           client: client,
-          service: 'rds',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'rds',
+            signingName: 'rds',
+          ),
           region: region,
           credentials: credentials,
         ),

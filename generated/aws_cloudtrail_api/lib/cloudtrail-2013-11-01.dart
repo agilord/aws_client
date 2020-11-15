@@ -34,7 +34,9 @@ class CloudTrail {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'cloudtrail',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'cloudtrail',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

@@ -33,7 +33,9 @@ class RecursiveShapes {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'RecursiveShapes',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'RecursiveShapes',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

@@ -50,7 +50,10 @@ class CostandUsageReportService {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'cur',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'cur',
+            signingName: 'cur',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

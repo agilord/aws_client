@@ -23,7 +23,9 @@ class XMLPayload {
     String endpointUrl,
   }) : _protocol = _s.RestXmlProtocol(
           client: client,
-          service: 'XMLPayload',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'XMLPayload',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

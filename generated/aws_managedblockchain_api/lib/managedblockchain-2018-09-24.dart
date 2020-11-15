@@ -39,7 +39,10 @@ class ManagedBlockchain {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'managedblockchain',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'managedblockchain',
+            signingName: 'managedblockchain',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

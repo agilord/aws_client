@@ -38,7 +38,10 @@ class IoTDataPlane {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'data.iot',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'data.iot',
+            signingName: 'iotdata',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

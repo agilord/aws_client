@@ -23,7 +23,10 @@ class S3Control {
     String endpointUrl,
   }) : _protocol = _s.RestXmlProtocol(
           client: client,
-          service: 's3-control',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 's3-control',
+            signingName: 's3',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

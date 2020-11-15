@@ -34,7 +34,9 @@ class Cloud9 {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'cloud9',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'cloud9',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

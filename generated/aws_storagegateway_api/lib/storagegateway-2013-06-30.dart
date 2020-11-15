@@ -37,7 +37,9 @@ class StorageGateway {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'storagegateway',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'storagegateway',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

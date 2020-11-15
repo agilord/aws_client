@@ -35,7 +35,10 @@ class MediaStoreData {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'data.mediastore',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'data.mediastore',
+            signingName: 'mediastore',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

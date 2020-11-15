@@ -33,7 +33,9 @@ class FlattenedMap {
     _s.Client client,
   })  : _protocol = _s.QueryProtocol(
           client: client,
-          service: 'FlattenedMap',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'FlattenedMap',
+          ),
           region: region,
           credentials: credentials,
         ),

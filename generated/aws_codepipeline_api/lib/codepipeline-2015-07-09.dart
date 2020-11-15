@@ -38,7 +38,9 @@ class CodePipeline {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'codepipeline',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'codepipeline',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

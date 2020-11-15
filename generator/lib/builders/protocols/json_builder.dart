@@ -13,7 +13,7 @@ class JsonServiceBuilder extends ServiceBuilder {
     return '''
   final _s.JsonProtocol _protocol;
   ${api.metadata.className}({$regionRequired String region, _s.AwsClientCredentials credentials, _s.Client client, String endpointUrl,})
-  : _protocol = _s.JsonProtocol(client: client, service: \'${api.metadata.endpointPrefix}\', region: region, credentials: credentials, endpointUrl: endpointUrl,);
+  : _protocol = _s.JsonProtocol(client: client, service: ${buildServiceMetadata(api)}, region: region, credentials: credentials, endpointUrl: endpointUrl,);
   ''';
   }
 

@@ -36,7 +36,9 @@ class ElastiCache {
     _s.Client client,
   })  : _protocol = _s.QueryProtocol(
           client: client,
-          service: 'elasticache',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'elasticache',
+          ),
           region: region,
           credentials: credentials,
         ),

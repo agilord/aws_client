@@ -34,7 +34,9 @@ class Route53Domains {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'route53domains',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'route53domains',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

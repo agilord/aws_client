@@ -107,7 +107,9 @@ class WAFV2 {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'wafv2',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'wafv2',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

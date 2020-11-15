@@ -71,7 +71,9 @@ class WorkMail {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'workmail',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'workmail',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

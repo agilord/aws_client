@@ -38,7 +38,9 @@ class CloudSearch {
     _s.Client client,
   })  : _protocol = _s.QueryProtocol(
           client: client,
-          service: 'cloudsearch',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'cloudsearch',
+          ),
           region: region,
           credentials: credentials,
         ),

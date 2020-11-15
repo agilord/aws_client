@@ -33,7 +33,9 @@ class SerializeFlattenedMapType {
     _s.Client client,
   })  : _protocol = _s.QueryProtocol(
           client: client,
-          service: 'SerializeFlattenedMapType',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'SerializeFlattenedMapType',
+          ),
           region: region,
           credentials: credentials,
         ),

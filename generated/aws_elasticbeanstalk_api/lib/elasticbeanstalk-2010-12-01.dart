@@ -37,7 +37,9 @@ class ElasticBeanstalk {
     _s.Client client,
   })  : _protocol = _s.QueryProtocol(
           client: client,
-          service: 'elasticbeanstalk',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'elasticbeanstalk',
+          ),
           region: region,
           credentials: credentials,
         ),

@@ -51,7 +51,9 @@ class SimpleDB {
     _s.Client client,
   })  : _protocol = _s.QueryProtocol(
           client: client,
-          service: 'sdb',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'sdb',
+          ),
           region: region,
           credentials: credentials,
         ),

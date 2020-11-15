@@ -33,7 +33,9 @@ class KinesisVideoArchivedMedia {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'kinesisvideo',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'kinesisvideo',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

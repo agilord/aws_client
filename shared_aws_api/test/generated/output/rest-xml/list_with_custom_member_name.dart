@@ -23,7 +23,9 @@ class ListWithCustomMemberName {
     String endpointUrl,
   }) : _protocol = _s.RestXmlProtocol(
           client: client,
-          service: 'ListWithCustomMemberName',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'ListWithCustomMemberName',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

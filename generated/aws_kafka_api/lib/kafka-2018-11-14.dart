@@ -35,7 +35,10 @@ class Kafka {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'kafka',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'kafka',
+            signingName: 'kafka',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

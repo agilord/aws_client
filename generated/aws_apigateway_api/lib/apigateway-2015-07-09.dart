@@ -37,7 +37,9 @@ class APIGateway {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'apigateway',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'apigateway',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

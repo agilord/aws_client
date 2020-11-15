@@ -31,7 +31,9 @@ class EndpointHostTraitStaticPrefix {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'EndpointHostTraitStaticPrefix',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'EndpointHostTraitStaticPrefix',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

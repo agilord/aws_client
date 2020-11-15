@@ -31,7 +31,9 @@ class EmptyMaps {
     String endpointUrl,
   }) : _protocol = _s.JsonProtocol(
           client: client,
-          service: 'EmptyMaps',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'EmptyMaps',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

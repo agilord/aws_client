@@ -39,7 +39,9 @@ class EFS {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'elasticfilesystem',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'elasticfilesystem',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,

@@ -56,7 +56,10 @@ class IoTAnalytics {
     String endpointUrl,
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
-          service: 'iotanalytics',
+          service: _s.ServiceMetadata(
+            endpointPrefix: 'iotanalytics',
+            signingName: 'iotanalytics',
+          ),
           region: region,
           credentials: credentials,
           endpointUrl: endpointUrl,
