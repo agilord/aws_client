@@ -12,7 +12,4 @@ environment:
 dependencies:
   shared_aws_api: ^0.2.1
 
-dev_dependencies:
-  test: ^1.14.2
-
 

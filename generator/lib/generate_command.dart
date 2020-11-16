@@ -19,7 +19,6 @@ import 'package:yaml/yaml.dart';
 import 'builders/library_builder.dart';
 import 'builders/pubspec_builder.dart';
 import 'builders/readme_builder.dart';
-import 'builders/test_builder.dart';
 import 'builders/test_suite_builder.dart';
 import 'download_command.dart';
 import 'model/config.dart';
@@ -271,12 +270,6 @@ const Map<String, Map<String, dynamic>> shapesJson = ${jsonEncode(thinApi.toJson
           latestBuiltApi[api.metadata.serviceId] = api.metadata.apiVersion;
           readmeFile.writeAsStringSync(buildReadmeMd(api));
           exampleFile.writeAsStringSync(buildExampleReadme(api));
-          final pathParts = baseDir.split('/')..removeAt(0);
-          final ensureBuildTestContent =
-              _formatter.format(buildTest(pathParts.join('/'), api));
-          File('$baseDir/test/ensure_build_test.dart')
-            ..createSync(recursive: true)
-            ..writeAsStringSync(ensureBuildTestContent);
         }
 
         touchedDirs.add(baseDir);
@@ -494,7 +487,7 @@ void printPercentageInPlace(int percentage, String message) {
       '${loadingBar(percentage)} ${percentage.toString().padLeft(3)}% $message';
   if (stdout.hasTerminal) {
     stdout.write('\r${' ' * stdout.terminalColumns}');
-    stdout.write('\r$progress');
+    stdout.write('\r$progress'.truncateTo(stdout.terminalColumns));
   } else {
     print(progress);
   }
@@ -503,4 +496,9 @@ void printPercentageInPlace(int percentage, String message) {
 String loadingBar(int percentage) {
   final chars = '#' * ((percentage ~/ 10) + 1);
   return '[${chars.padRight(10)}]';
+}
+
+extension StringExtension on String {
+  String truncateTo(int maxLength) =>
+      (length <= maxLength) ? this : '${substring(0, maxLength - 3)}...';
 }
