@@ -654,7 +654,7 @@ class KMS {
   Future<CreateGrantResponse> createGrant({
     @_s.required String granteePrincipal,
     @_s.required String keyId,
-    @_s.required List<String> operations,
+    @_s.required List<GrantOperation> operations,
     GrantConstraints constraints,
     List<String> grantTokens,
     String name,
@@ -6472,7 +6472,7 @@ class GetPublicKeyResponse {
   /// This field appears in the response only when the <code>KeyUsage</code> of
   /// the public key is <code>ENCRYPT_DECRYPT</code>.
   @_s.JsonKey(name: 'EncryptionAlgorithms')
-  final List<String> encryptionAlgorithms;
+  final List<EncryptionAlgorithmSpec> encryptionAlgorithms;
 
   /// The identifier of the asymmetric CMK from which the public key was
   /// downloaded.
@@ -6505,7 +6505,7 @@ class GetPublicKeyResponse {
   /// This field appears in the response only when the <code>KeyUsage</code> of
   /// the public key is <code>SIGN_VERIFY</code>.
   @_s.JsonKey(name: 'SigningAlgorithms')
-  final List<String> signingAlgorithms;
+  final List<SigningAlgorithmSpec> signingAlgorithms;
 
   GetPublicKeyResponse({
     this.customerMasterKeySpec,
@@ -6639,7 +6639,7 @@ class GrantListEntry {
 
   /// The list of operations permitted by the grant.
   @_s.JsonKey(name: 'Operations')
-  final List<String> operations;
+  final List<GrantOperation> operations;
 
   /// The principal that can retire the grant.
   @_s.JsonKey(name: 'RetiringPrincipal')
@@ -6807,7 +6807,7 @@ class KeyMetadata {
   /// This field appears only when the <code>KeyUsage</code> of the CMK is
   /// <code>ENCRYPT_DECRYPT</code>.
   @_s.JsonKey(name: 'EncryptionAlgorithms')
-  final List<String> encryptionAlgorithms;
+  final List<EncryptionAlgorithmSpec> encryptionAlgorithms;
 
   /// Specifies whether the CMK's key material expires. This value is present only
   /// when <code>Origin</code> is <code>EXTERNAL</code>, otherwise this value is
@@ -6850,7 +6850,7 @@ class KeyMetadata {
   /// This field appears only when the <code>KeyUsage</code> of the CMK is
   /// <code>SIGN_VERIFY</code>.
   @_s.JsonKey(name: 'SigningAlgorithms')
-  final List<String> signingAlgorithms;
+  final List<SigningAlgorithmSpec> signingAlgorithms;
 
   /// The time at which the imported key material expires. When the key material
   /// expires, AWS KMS deletes the key material and the CMK becomes unusable. This

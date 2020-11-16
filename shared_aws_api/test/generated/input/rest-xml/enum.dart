@@ -34,9 +34,9 @@ class Enum {
   Future<void> operationName0({
     EnumType fooEnum,
     EnumType headerEnum,
-    List<String> listEnums,
+    List<EnumType> listEnums,
     EnumType uRIFooEnum,
-    List<String> uRIListEnums,
+    List<EnumType> uRIListEnums,
   }) async {
     final headers = <String, String>{};
     headerEnum?.let((v) => headers['x-amz-enum'] = v.toValue());
@@ -61,9 +61,9 @@ class Enum {
   Future<void> operationName1({
     EnumType fooEnum,
     EnumType headerEnum,
-    List<String> listEnums,
+    List<EnumType> listEnums,
     EnumType uRIFooEnum,
-    List<String> uRIListEnums,
+    List<EnumType> uRIListEnums,
   }) async {
     final headers = <String, String>{};
     headerEnum?.let((v) => headers['x-amz-enum'] = v.toValue());
@@ -89,9 +89,9 @@ class Enum {
 class InputShape {
   final EnumType fooEnum;
   final EnumType headerEnum;
-  final List<String> listEnums;
+  final List<EnumType> listEnums;
   final EnumType uRIFooEnum;
-  final List<String> uRIListEnums;
+  final List<EnumType> uRIListEnums;
 
   InputShape({
     this.fooEnum,
@@ -109,7 +109,8 @@ class InputShape {
       if (1 == 1) throw UnimplementedError(),
       if (listEnums != null)
         _s.XmlElement(_s.XmlName('ListEnums'), [], <_s.XmlNode>[
-          ...listEnums.map((v) => _s.encodeXmlStringValue('ListEnums', v))
+          ...listEnums
+              .map((v) => _s.encodeXmlStringValue('ListEnums', v.toValue()))
         ]),
 // TODO: implement querystring member: ListEnums
       if (1 == 1) throw UnimplementedError(),

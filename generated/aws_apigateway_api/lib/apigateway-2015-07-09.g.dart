@@ -415,7 +415,9 @@ DomainNames _$DomainNamesFromJson(Map<String, dynamic> json) {
 EndpointConfiguration _$EndpointConfigurationFromJson(
     Map<String, dynamic> json) {
   return EndpointConfiguration(
-    types: (json['types'] as List)?.map((e) => e as String)?.toList(),
+    types: (json['types'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$EndpointTypeEnumMap, e))
+        ?.toList(),
     vpcEndpointIds:
         (json['vpcEndpointIds'] as List)?.map((e) => e as String)?.toList(),
   );
@@ -431,10 +433,17 @@ Map<String, dynamic> _$EndpointConfigurationToJson(
     }
   }
 
-  writeNotNull('types', instance.types);
+  writeNotNull(
+      'types', instance.types?.map((e) => _$EndpointTypeEnumMap[e])?.toList());
   writeNotNull('vpcEndpointIds', instance.vpcEndpointIds);
   return val;
 }
+
+const _$EndpointTypeEnumMap = {
+  EndpointType.regional: 'REGIONAL',
+  EndpointType.edge: 'EDGE',
+  EndpointType.private: 'PRIVATE',
+};
 
 ExportResponse _$ExportResponseFromJson(Map<String, dynamic> json) {
   return ExportResponse(

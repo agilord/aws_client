@@ -208,7 +208,8 @@ Map<String, dynamic> _$FiltersToJson(Filters instance) {
     }
   }
 
-  writeNotNull('Channels', instance.channels);
+  writeNotNull(
+      'Channels', instance.channels?.map((e) => _$ChannelEnumMap[e])?.toList());
   writeNotNull('Queues', instance.queues);
   return val;
 }

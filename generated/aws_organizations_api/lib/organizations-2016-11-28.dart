@@ -2648,7 +2648,7 @@ class Organizations {
   Future<ListCreateAccountStatusResponse> listCreateAccountStatus({
     int maxResults,
     String nextToken,
-    List<String> states,
+    List<CreateAccountState> states,
   }) async {
     _s.validateNumRange(
       'maxResults',

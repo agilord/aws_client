@@ -235,7 +235,8 @@ Map<String, dynamic> _$EntityFilterToJson(EntityFilter instance) {
   writeNotNull('entityValues', instance.entityValues);
   writeNotNull('lastUpdatedTimes',
       instance.lastUpdatedTimes?.map((e) => e?.toJson())?.toList());
-  writeNotNull('statusCodes', instance.statusCodes);
+  writeNotNull('statusCodes',
+      instance.statusCodes?.map((e) => _$EntityStatusCodeEnumMap[e])?.toList());
   writeNotNull('tags', instance.tags);
   return val;
 }
@@ -336,8 +337,16 @@ Map<String, dynamic> _$EventFilterToJson(EventFilter instance) {
   writeNotNull('entityArns', instance.entityArns);
   writeNotNull('entityValues', instance.entityValues);
   writeNotNull('eventArns', instance.eventArns);
-  writeNotNull('eventStatusCodes', instance.eventStatusCodes);
-  writeNotNull('eventTypeCategories', instance.eventTypeCategories);
+  writeNotNull(
+      'eventStatusCodes',
+      instance.eventStatusCodes
+          ?.map((e) => _$EventStatusCodeEnumMap[e])
+          ?.toList());
+  writeNotNull(
+      'eventTypeCategories',
+      instance.eventTypeCategories
+          ?.map((e) => _$EventTypeCategoryEnumMap[e])
+          ?.toList());
   writeNotNull('eventTypeCodes', instance.eventTypeCodes);
   writeNotNull('lastUpdatedTimes',
       instance.lastUpdatedTimes?.map((e) => e?.toJson())?.toList());
@@ -367,7 +376,11 @@ Map<String, dynamic> _$EventTypeFilterToJson(EventTypeFilter instance) {
     }
   }
 
-  writeNotNull('eventTypeCategories', instance.eventTypeCategories);
+  writeNotNull(
+      'eventTypeCategories',
+      instance.eventTypeCategories
+          ?.map((e) => _$EventTypeCategoryEnumMap[e])
+          ?.toList());
   writeNotNull('eventTypeCodes', instance.eventTypeCodes);
   writeNotNull('services', instance.services);
   return val;
@@ -440,8 +453,16 @@ Map<String, dynamic> _$OrganizationEventFilterToJson(
   writeNotNull('endTime', instance.endTime?.toJson());
   writeNotNull('entityArns', instance.entityArns);
   writeNotNull('entityValues', instance.entityValues);
-  writeNotNull('eventStatusCodes', instance.eventStatusCodes);
-  writeNotNull('eventTypeCategories', instance.eventTypeCategories);
+  writeNotNull(
+      'eventStatusCodes',
+      instance.eventStatusCodes
+          ?.map((e) => _$EventStatusCodeEnumMap[e])
+          ?.toList());
+  writeNotNull(
+      'eventTypeCategories',
+      instance.eventTypeCategories
+          ?.map((e) => _$EventTypeCategoryEnumMap[e])
+          ?.toList());
   writeNotNull('eventTypeCodes', instance.eventTypeCodes);
   writeNotNull('lastUpdatedTime', instance.lastUpdatedTime?.toJson());
   writeNotNull('regions', instance.regions);

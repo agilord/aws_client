@@ -38,7 +38,7 @@ PutReportDefinitionResponse _$PutReportDefinitionResponseFromJson(
 ReportDefinition _$ReportDefinitionFromJson(Map<String, dynamic> json) {
   return ReportDefinition(
     additionalSchemaElements: (json['AdditionalSchemaElements'] as List)
-        ?.map((e) => e as String)
+        ?.map((e) => _$enumDecodeNullable(_$SchemaElementEnumMap, e))
         ?.toList(),
     compression:
         _$enumDecodeNullable(_$CompressionFormatEnumMap, json['Compression']),
@@ -49,7 +49,7 @@ ReportDefinition _$ReportDefinitionFromJson(Map<String, dynamic> json) {
     s3Region: _$enumDecodeNullable(_$AWSRegionEnumMap, json['S3Region']),
     timeUnit: _$enumDecodeNullable(_$TimeUnitEnumMap, json['TimeUnit']),
     additionalArtifacts: (json['AdditionalArtifacts'] as List)
-        ?.map((e) => e as String)
+        ?.map((e) => _$enumDecodeNullable(_$AdditionalArtifactEnumMap, e))
         ?.toList(),
     refreshClosedReports: json['RefreshClosedReports'] as bool,
     reportVersioning: _$enumDecodeNullable(
@@ -66,7 +66,11 @@ Map<String, dynamic> _$ReportDefinitionToJson(ReportDefinition instance) {
     }
   }
 
-  writeNotNull('AdditionalSchemaElements', instance.additionalSchemaElements);
+  writeNotNull(
+      'AdditionalSchemaElements',
+      instance.additionalSchemaElements
+          ?.map((e) => _$SchemaElementEnumMap[e])
+          ?.toList());
   writeNotNull('Compression', _$CompressionFormatEnumMap[instance.compression]);
   writeNotNull('Format', _$ReportFormatEnumMap[instance.format]);
   writeNotNull('ReportName', instance.reportName);
@@ -74,7 +78,11 @@ Map<String, dynamic> _$ReportDefinitionToJson(ReportDefinition instance) {
   writeNotNull('S3Prefix', instance.s3Prefix);
   writeNotNull('S3Region', _$AWSRegionEnumMap[instance.s3Region]);
   writeNotNull('TimeUnit', _$TimeUnitEnumMap[instance.timeUnit]);
-  writeNotNull('AdditionalArtifacts', instance.additionalArtifacts);
+  writeNotNull(
+      'AdditionalArtifacts',
+      instance.additionalArtifacts
+          ?.map((e) => _$AdditionalArtifactEnumMap[e])
+          ?.toList());
   writeNotNull('RefreshClosedReports', instance.refreshClosedReports);
   writeNotNull(
       'ReportVersioning', _$ReportVersioningEnumMap[instance.reportVersioning]);
@@ -113,6 +121,10 @@ T _$enumDecodeNullable<T>(
   return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
 }
 
+const _$SchemaElementEnumMap = {
+  SchemaElement.resources: 'RESOURCES',
+};
+
 const _$CompressionFormatEnumMap = {
   CompressionFormat.zip: 'ZIP',
   CompressionFormat.gzip: 'GZIP',
@@ -141,6 +153,12 @@ const _$AWSRegionEnumMap = {
 const _$TimeUnitEnumMap = {
   TimeUnit.hourly: 'HOURLY',
   TimeUnit.daily: 'DAILY',
+};
+
+const _$AdditionalArtifactEnumMap = {
+  AdditionalArtifact.redshift: 'REDSHIFT',
+  AdditionalArtifact.quicksight: 'QUICKSIGHT',
+  AdditionalArtifact.athena: 'ATHENA',
 };
 
 const _$ReportVersioningEnumMap = {

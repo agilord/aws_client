@@ -3182,14 +3182,21 @@ Product _$ProductFromJson(Map<String, dynamic> json) {
     categories: (json['Categories'] as List)?.map((e) => e as String)?.toList(),
     companyName: json['CompanyName'] as String,
     description: json['Description'] as String,
-    integrationTypes:
-        (json['IntegrationTypes'] as List)?.map((e) => e as String)?.toList(),
+    integrationTypes: (json['IntegrationTypes'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$IntegrationTypeEnumMap, e))
+        ?.toList(),
     marketplaceUrl: json['MarketplaceUrl'] as String,
     productName: json['ProductName'] as String,
     productSubscriptionResourcePolicy:
         json['ProductSubscriptionResourcePolicy'] as String,
   );
 }
+
+const _$IntegrationTypeEnumMap = {
+  IntegrationType.sendFindingsToSecurityHub: 'SEND_FINDINGS_TO_SECURITY_HUB',
+  IntegrationType.receiveFindingsFromSecurityHub:
+      'RECEIVE_FINDINGS_FROM_SECURITY_HUB',
+};
 
 Recommendation _$RecommendationFromJson(Map<String, dynamic> json) {
   return Recommendation(

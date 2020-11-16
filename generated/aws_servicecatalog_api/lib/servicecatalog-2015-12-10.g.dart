@@ -1335,7 +1335,9 @@ ResourceChange _$ResourceChangeFromJson(Map<String, dynamic> json) {
     replacement:
         _$enumDecodeNullable(_$ReplacementEnumMap, json['Replacement']),
     resourceType: json['ResourceType'] as String,
-    scope: (json['Scope'] as List)?.map((e) => e as String)?.toList(),
+    scope: (json['Scope'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$ResourceAttributeEnumMap, e))
+        ?.toList(),
   );
 }
 
@@ -1349,6 +1351,15 @@ const _$ReplacementEnumMap = {
   Replacement.$true: 'TRUE',
   Replacement.$false: 'FALSE',
   Replacement.conditional: 'CONDITIONAL',
+};
+
+const _$ResourceAttributeEnumMap = {
+  ResourceAttribute.properties: 'PROPERTIES',
+  ResourceAttribute.metadata: 'METADATA',
+  ResourceAttribute.creationpolicy: 'CREATIONPOLICY',
+  ResourceAttribute.updatepolicy: 'UPDATEPOLICY',
+  ResourceAttribute.deletionpolicy: 'DELETIONPOLICY',
+  ResourceAttribute.tags: 'TAGS',
 };
 
 ResourceChangeDetail _$ResourceChangeDetailFromJson(Map<String, dynamic> json) {
@@ -1388,15 +1399,6 @@ ResourceTargetDefinition _$ResourceTargetDefinitionFromJson(
         _$RequiresRecreationEnumMap, json['RequiresRecreation']),
   );
 }
-
-const _$ResourceAttributeEnumMap = {
-  ResourceAttribute.properties: 'PROPERTIES',
-  ResourceAttribute.metadata: 'METADATA',
-  ResourceAttribute.creationpolicy: 'CREATIONPOLICY',
-  ResourceAttribute.updatepolicy: 'UPDATEPOLICY',
-  ResourceAttribute.deletionpolicy: 'DELETIONPOLICY',
-  ResourceAttribute.tags: 'TAGS',
-};
 
 const _$RequiresRecreationEnumMap = {
   RequiresRecreation.never: 'NEVER',
@@ -1482,7 +1484,9 @@ Map<String, dynamic> _$ServiceActionAssociationToJson(
 ServiceActionDetail _$ServiceActionDetailFromJson(Map<String, dynamic> json) {
   return ServiceActionDetail(
     definition: (json['Definition'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(k, e as String),
+      (k, e) => MapEntry(
+          _$enumDecodeNullable(_$ServiceActionDefinitionKeyEnumMap, k),
+          e as String),
     ),
     serviceActionSummary: json['ServiceActionSummary'] == null
         ? null
@@ -1490,6 +1494,13 @@ ServiceActionDetail _$ServiceActionDetailFromJson(Map<String, dynamic> json) {
             json['ServiceActionSummary'] as Map<String, dynamic>),
   );
 }
+
+const _$ServiceActionDefinitionKeyEnumMap = {
+  ServiceActionDefinitionKey.name: 'Name',
+  ServiceActionDefinitionKey.version: 'Version',
+  ServiceActionDefinitionKey.assumeRole: 'AssumeRole',
+  ServiceActionDefinitionKey.parameters: 'Parameters',
+};
 
 ServiceActionSummary _$ServiceActionSummaryFromJson(Map<String, dynamic> json) {
   return ServiceActionSummary(
@@ -1638,12 +1649,17 @@ UpdateProvisionedProductPropertiesOutput
     provisionedProductId: json['ProvisionedProductId'] as String,
     provisionedProductProperties:
         (json['ProvisionedProductProperties'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(k, e as String),
+      (k, e) =>
+          MapEntry(_$enumDecodeNullable(_$PropertyKeyEnumMap, k), e as String),
     ),
     recordId: json['RecordId'] as String,
     status: _$enumDecodeNullable(_$RecordStatusEnumMap, json['Status']),
   );
 }
+
+const _$PropertyKeyEnumMap = {
+  PropertyKey.owner: 'OWNER',
+};
 
 UpdateProvisioningArtifactOutput _$UpdateProvisioningArtifactOutputFromJson(
     Map<String, dynamic> json) {

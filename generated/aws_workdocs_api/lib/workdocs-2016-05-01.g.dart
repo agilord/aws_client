@@ -366,18 +366,31 @@ DocumentVersionMetadata _$DocumentVersionMetadataFromJson(
     signature: json['Signature'] as String,
     size: json['Size'] as int,
     source: (json['Source'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(k, e as String),
+      (k, e) => MapEntry(
+          _$enumDecodeNullable(_$DocumentSourceTypeEnumMap, k), e as String),
     ),
     status: _$enumDecodeNullable(_$DocumentStatusTypeEnumMap, json['Status']),
     thumbnail: (json['Thumbnail'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(k, e as String),
+      (k, e) => MapEntry(
+          _$enumDecodeNullable(_$DocumentThumbnailTypeEnumMap, k), e as String),
     ),
   );
 }
 
+const _$DocumentSourceTypeEnumMap = {
+  DocumentSourceType.original: 'ORIGINAL',
+  DocumentSourceType.withComments: 'WITH_COMMENTS',
+};
+
 const _$DocumentStatusTypeEnumMap = {
   DocumentStatusType.initialized: 'INITIALIZED',
   DocumentStatusType.active: 'ACTIVE',
+};
+
+const _$DocumentThumbnailTypeEnumMap = {
+  DocumentThumbnailType.small: 'SMALL',
+  DocumentThumbnailType.smallHq: 'SMALL_HQ',
+  DocumentThumbnailType.large: 'LARGE',
 };
 
 FolderMetadata _$FolderMetadataFromJson(Map<String, dynamic> json) {

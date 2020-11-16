@@ -82,7 +82,7 @@ class ConnectParticipant {
   /// Type of connection information required.
   Future<CreateParticipantConnectionResponse> createParticipantConnection({
     @_s.required String participantToken,
-    @_s.required List<String> type,
+    @_s.required List<ConnectionType> type,
   }) async {
     ArgumentError.checkNotNull(participantToken, 'participantToken');
     _s.validateStringLength(

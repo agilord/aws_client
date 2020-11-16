@@ -189,7 +189,7 @@ class DLM {
   /// Tags are strings in the format <code>key=value</code>.
   Future<GetLifecyclePoliciesResponse> getLifecyclePolicies({
     List<String> policyIds,
-    List<String> resourceTypes,
+    List<ResourceTypeValues> resourceTypes,
     GettablePolicyStateValues state,
     List<String> tagsToAdd,
     List<String> targetTags,
@@ -823,7 +823,7 @@ class PolicyDetails {
 
   /// The resource type.
   @_s.JsonKey(name: 'ResourceTypes')
-  final List<String> resourceTypes;
+  final List<ResourceTypeValues> resourceTypes;
 
   /// The schedule of policy-defined actions.
   @_s.JsonKey(name: 'Schedules')

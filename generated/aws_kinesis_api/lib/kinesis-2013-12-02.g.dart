@@ -105,19 +105,33 @@ DescribeStreamSummaryOutput _$DescribeStreamSummaryOutputFromJson(
 
 EnhancedMetrics _$EnhancedMetricsFromJson(Map<String, dynamic> json) {
   return EnhancedMetrics(
-    shardLevelMetrics:
-        (json['ShardLevelMetrics'] as List)?.map((e) => e as String)?.toList(),
+    shardLevelMetrics: (json['ShardLevelMetrics'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$MetricsNameEnumMap, e))
+        ?.toList(),
   );
 }
+
+const _$MetricsNameEnumMap = {
+  MetricsName.incomingBytes: 'IncomingBytes',
+  MetricsName.incomingRecords: 'IncomingRecords',
+  MetricsName.outgoingBytes: 'OutgoingBytes',
+  MetricsName.outgoingRecords: 'OutgoingRecords',
+  MetricsName.writeProvisionedThroughputExceeded:
+      'WriteProvisionedThroughputExceeded',
+  MetricsName.readProvisionedThroughputExceeded:
+      'ReadProvisionedThroughputExceeded',
+  MetricsName.iteratorAgeMilliseconds: 'IteratorAgeMilliseconds',
+  MetricsName.all: 'ALL',
+};
 
 EnhancedMonitoringOutput _$EnhancedMonitoringOutputFromJson(
     Map<String, dynamic> json) {
   return EnhancedMonitoringOutput(
     currentShardLevelMetrics: (json['CurrentShardLevelMetrics'] as List)
-        ?.map((e) => e as String)
+        ?.map((e) => _$enumDecodeNullable(_$MetricsNameEnumMap, e))
         ?.toList(),
     desiredShardLevelMetrics: (json['DesiredShardLevelMetrics'] as List)
-        ?.map((e) => e as String)
+        ?.map((e) => _$enumDecodeNullable(_$MetricsNameEnumMap, e))
         ?.toList(),
     streamName: json['StreamName'] as String,
   );

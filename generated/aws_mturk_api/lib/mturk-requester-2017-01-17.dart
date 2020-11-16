@@ -1572,7 +1572,7 @@ class MTurk {
   /// Pagination token
   Future<ListAssignmentsForHITResponse> listAssignmentsForHIT({
     @_s.required String hITId,
-    List<String> assignmentStatuses,
+    List<AssignmentStatus> assignmentStatuses,
     int maxResults,
     String nextToken,
   }) async {
@@ -1981,7 +1981,7 @@ class MTurk {
     @_s.required String hITId,
     int maxResults,
     String nextToken,
-    List<String> policyLevels,
+    List<ReviewPolicyLevel> policyLevels,
     bool retrieveActions,
     bool retrieveResults,
   }) async {
@@ -3979,7 +3979,7 @@ class NotificationSpecification {
   /// HITExtended | HITDisposed | HITReviewable | HITExpired | Ping. The Ping
   /// event is only valid for the SendTestEventNotification operation.
   @_s.JsonKey(name: 'EventTypes')
-  final List<String> eventTypes;
+  final List<EventType> eventTypes;
 
   /// The method Amazon Mechanical Turk uses to send the notification. Valid
   /// Values: Email | SQS | SNS.

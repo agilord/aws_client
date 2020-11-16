@@ -1661,7 +1661,7 @@ class IoT {
     AwsJobExecutionsRolloutConfig awsJobExecutionsRolloutConfig,
     AwsJobPresignedUrlConfig awsJobPresignedUrlConfig,
     String description,
-    List<String> protocols,
+    List<Protocol> protocols,
     List<Tag> tags,
     TargetSelection targetSelection,
   }) async {
@@ -2226,7 +2226,7 @@ class IoT {
     @_s.required String securityProfileName,
     List<String> additionalMetricsToRetain,
     List<MetricToRetain> additionalMetricsToRetainV2,
-    Map<String, AlertTarget> alertTargets,
+    Map<AlertTargetType, AlertTarget> alertTargets,
     List<Behavior> behaviors,
     String securityProfileDescription,
     List<Tag> tags,
@@ -9588,7 +9588,8 @@ class IoT {
   /// required when performing an audit.
   Future<void> updateAccountAuditConfiguration({
     Map<String, AuditCheckConfiguration> auditCheckConfigurations,
-    Map<String, AuditNotificationTarget> auditNotificationTargetConfigurations,
+    Map<AuditNotificationType, AuditNotificationTarget>
+        auditNotificationTargetConfigurations,
     String roleArn,
   }) async {
     _s.validateStringLength(
@@ -10085,7 +10086,7 @@ class IoT {
   /// Parameter [eventConfigurations] :
   /// The new event configuration values.
   Future<void> updateEventConfigurations({
-    Map<String, Configuration> eventConfigurations,
+    Map<EventType, Configuration> eventConfigurations,
   }) async {
     final $payload = <String, dynamic>{
       if (eventConfigurations != null)
@@ -10540,7 +10541,7 @@ class IoT {
     @_s.required String securityProfileName,
     List<String> additionalMetricsToRetain,
     List<MetricToRetain> additionalMetricsToRetainV2,
-    Map<String, AlertTarget> alertTargets,
+    Map<AlertTargetType, AlertTarget> alertTargets,
     List<Behavior> behaviors,
     bool deleteAdditionalMetricsToRetain,
     bool deleteAlertTargets,
@@ -13935,7 +13936,7 @@ class DescribeAccountAuditConfigurationResponse {
   /// Information about the targets to which audit notifications are sent for this
   /// account.
   @_s.JsonKey(name: 'auditNotificationTargetConfigurations')
-  final Map<String, AuditNotificationTarget>
+  final Map<AuditNotificationType, AuditNotificationTarget>
       auditNotificationTargetConfigurations;
 
   /// The ARN of the role that grants permission to AWS IoT to access information
@@ -14333,7 +14334,7 @@ class DescribeEventConfigurationsResponse {
 
   /// The event configurations.
   @_s.JsonKey(name: 'eventConfigurations')
-  final Map<String, Configuration> eventConfigurations;
+  final Map<EventType, Configuration> eventConfigurations;
 
   /// The date the event configurations were last modified.
   @_s.JsonKey(
@@ -14690,7 +14691,7 @@ class DescribeSecurityProfileResponse {
 
   /// Where the alerts are sent. (Alerts are always sent to the console.)
   @_s.JsonKey(name: 'alertTargets')
-  final Map<String, AlertTarget> alertTargets;
+  final Map<AlertTargetType, AlertTarget> alertTargets;
 
   /// Specifies the behaviors that, when violated by a device (thing), cause an
   /// alert.
@@ -18442,7 +18443,7 @@ class OTAUpdateInfo {
   /// [MQTT], [HTTP, MQTT]. When both HTTP and MQTT are specified, the target
   /// device can choose the protocol.
   @_s.JsonKey(name: 'protocols')
-  final List<String> protocols;
+  final List<Protocol> protocols;
 
   /// Specifies whether the OTA update will continue to run (CONTINUOUS), or will
   /// be complete after all those things specified as targets have completed the
@@ -21433,7 +21434,7 @@ class UpdateSecurityProfileResponse {
 
   /// Where the alerts are sent. (Alerts are always sent to the console.)
   @_s.JsonKey(name: 'alertTargets')
-  final Map<String, AlertTarget> alertTargets;
+  final Map<AlertTargetType, AlertTarget> alertTargets;
 
   /// Specifies the behaviors that, when violated by a device (thing), cause an
   /// alert.

@@ -4506,7 +4506,7 @@ class ProjectCache {
   /// </ul> </li>
   /// </ul>
   @_s.JsonKey(name: 'modes')
-  final List<String> modes;
+  final List<CacheMode> modes;
 
   ProjectCache({
     @_s.required this.type,

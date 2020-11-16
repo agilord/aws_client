@@ -19,22 +19,14 @@ AccountSettings _$AccountSettingsFromJson(Map<String, dynamic> json) {
         ? null
         : TrialMinutes.fromJson(json['trialMinutes'] as Map<String, dynamic>),
     unmeteredDevices: (json['unmeteredDevices'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(k, e as int),
+      (k, e) =>
+          MapEntry(_$enumDecodeNullable(_$DevicePlatformEnumMap, k), e as int),
     ),
     unmeteredRemoteAccessDevices:
         (json['unmeteredRemoteAccessDevices'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(k, e as int),
+      (k, e) =>
+          MapEntry(_$enumDecodeNullable(_$DevicePlatformEnumMap, k), e as int),
     ),
-  );
-}
-
-Artifact _$ArtifactFromJson(Map<String, dynamic> json) {
-  return Artifact(
-    arn: json['arn'] as String,
-    extension: json['extension'] as String,
-    name: json['name'] as String,
-    type: _$enumDecodeNullable(_$ArtifactTypeEnumMap, json['type']),
-    url: json['url'] as String,
   );
 }
 
@@ -68,6 +60,21 @@ T _$enumDecodeNullable<T>(
     return null;
   }
   return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+}
+
+const _$DevicePlatformEnumMap = {
+  DevicePlatform.android: 'ANDROID',
+  DevicePlatform.ios: 'IOS',
+};
+
+Artifact _$ArtifactFromJson(Map<String, dynamic> json) {
+  return Artifact(
+    arn: json['arn'] as String,
+    extension: json['extension'] as String,
+    name: json['name'] as String,
+    type: _$enumDecodeNullable(_$ArtifactTypeEnumMap, json['type']),
+    url: json['url'] as String,
+  );
 }
 
 const _$ArtifactTypeEnumMap = {
@@ -339,11 +346,6 @@ const _$DeviceAvailabilityEnumMap = {
 const _$DeviceFormFactorEnumMap = {
   DeviceFormFactor.phone: 'PHONE',
   DeviceFormFactor.tablet: 'TABLET',
-};
-
-const _$DevicePlatformEnumMap = {
-  DevicePlatform.android: 'ANDROID',
-  DevicePlatform.ios: 'IOS',
 };
 
 DeviceFilter _$DeviceFilterFromJson(Map<String, dynamic> json) {
@@ -1038,7 +1040,7 @@ ListUniqueProblemsResult _$ListUniqueProblemsResultFromJson(
     nextToken: json['nextToken'] as String,
     uniqueProblems: (json['uniqueProblems'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(
-          k,
+          _$enumDecodeNullable(_$ExecutionResultEnumMap, k),
           (e as List)
               ?.map((e) => e == null
                   ? null

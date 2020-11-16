@@ -28,10 +28,30 @@ Map<String, dynamic> _$AgentFilterToJson(AgentFilter instance) {
     }
   }
 
-  writeNotNull('agentHealthCodes', instance.agentHealthCodes);
-  writeNotNull('agentHealths', instance.agentHealths);
+  writeNotNull(
+      'agentHealthCodes',
+      instance.agentHealthCodes
+          ?.map((e) => _$AgentHealthCodeEnumMap[e])
+          ?.toList());
+  writeNotNull('agentHealths',
+      instance.agentHealths?.map((e) => _$AgentHealthEnumMap[e])?.toList());
   return val;
 }
+
+const _$AgentHealthCodeEnumMap = {
+  AgentHealthCode.idle: 'IDLE',
+  AgentHealthCode.running: 'RUNNING',
+  AgentHealthCode.shutdown: 'SHUTDOWN',
+  AgentHealthCode.unhealthy: 'UNHEALTHY',
+  AgentHealthCode.throttled: 'THROTTLED',
+  AgentHealthCode.unknown: 'UNKNOWN',
+};
+
+const _$AgentHealthEnumMap = {
+  AgentHealth.healthy: 'HEALTHY',
+  AgentHealth.unhealthy: 'UNHEALTHY',
+  AgentHealth.unknown: 'UNKNOWN',
+};
 
 AgentPreview _$AgentPreviewFromJson(Map<String, dynamic> json) {
   return AgentPreview(
@@ -79,12 +99,6 @@ T _$enumDecodeNullable<T>(
   return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
 }
 
-const _$AgentHealthEnumMap = {
-  AgentHealth.healthy: 'HEALTHY',
-  AgentHealth.unhealthy: 'UNHEALTHY',
-  AgentHealth.unknown: 'UNKNOWN',
-};
-
 AssessmentRun _$AssessmentRunFromJson(Map<String, dynamic> json) {
   return AssessmentRun(
     arn: json['arn'] as String,
@@ -93,7 +107,7 @@ AssessmentRun _$AssessmentRunFromJson(Map<String, dynamic> json) {
     dataCollected: json['dataCollected'] as bool,
     durationInSeconds: json['durationInSeconds'] as int,
     findingCounts: (json['findingCounts'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(k, e as int),
+      (k, e) => MapEntry(_$enumDecodeNullable(_$SeverityEnumMap, k), e as int),
     ),
     name: json['name'] as String,
     notifications: (json['notifications'] as List)
@@ -118,6 +132,14 @@ AssessmentRun _$AssessmentRunFromJson(Map<String, dynamic> json) {
     startedAt: unixTimestampFromJson(json['startedAt']),
   );
 }
+
+const _$SeverityEnumMap = {
+  Severity.low: 'Low',
+  Severity.medium: 'Medium',
+  Severity.high: 'High',
+  Severity.informational: 'Informational',
+  Severity.undefined: 'Undefined',
+};
 
 const _$AssessmentRunStateEnumMap = {
   AssessmentRunState.created: 'CREATED',
@@ -156,15 +178,6 @@ AssessmentRunAgent _$AssessmentRunAgentFromJson(Map<String, dynamic> json) {
   );
 }
 
-const _$AgentHealthCodeEnumMap = {
-  AgentHealthCode.idle: 'IDLE',
-  AgentHealthCode.running: 'RUNNING',
-  AgentHealthCode.shutdown: 'SHUTDOWN',
-  AgentHealthCode.unhealthy: 'UNHEALTHY',
-  AgentHealthCode.throttled: 'THROTTLED',
-  AgentHealthCode.unknown: 'UNKNOWN',
-};
-
 Map<String, dynamic> _$AssessmentRunFilterToJson(AssessmentRunFilter instance) {
   final val = <String, dynamic>{};
 
@@ -180,7 +193,8 @@ Map<String, dynamic> _$AssessmentRunFilterToJson(AssessmentRunFilter instance) {
   writeNotNull('rulesPackageArns', instance.rulesPackageArns);
   writeNotNull('startTimeRange', instance.startTimeRange?.toJson());
   writeNotNull('stateChangeTimeRange', instance.stateChangeTimeRange?.toJson());
-  writeNotNull('states', instance.states);
+  writeNotNull('states',
+      instance.states?.map((e) => _$AssessmentRunStateEnumMap[e])?.toList());
   return val;
 }
 
@@ -593,14 +607,6 @@ const _$AssetTypeEnumMap = {
   AssetType.ec2Instance: 'ec2-instance',
 };
 
-const _$SeverityEnumMap = {
-  Severity.low: 'Low',
-  Severity.medium: 'Medium',
-  Severity.high: 'High',
-  Severity.informational: 'Informational',
-  Severity.undefined: 'Undefined',
-};
-
 Map<String, dynamic> _$FindingFilterToJson(FindingFilter instance) {
   final val = <String, dynamic>{};
 
@@ -617,7 +623,8 @@ Map<String, dynamic> _$FindingFilterToJson(FindingFilter instance) {
   writeNotNull('creationTimeRange', instance.creationTimeRange?.toJson());
   writeNotNull('ruleNames', instance.ruleNames);
   writeNotNull('rulesPackageArns', instance.rulesPackageArns);
-  writeNotNull('severities', instance.severities);
+  writeNotNull('severities',
+      instance.severities?.map((e) => _$SeverityEnumMap[e])?.toList());
   writeNotNull('userAttributes',
       instance.userAttributes?.map((e) => e?.toJson())?.toList());
   return val;

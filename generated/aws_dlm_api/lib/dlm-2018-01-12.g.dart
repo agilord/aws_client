@@ -263,8 +263,9 @@ PolicyDetails _$PolicyDetailsFromJson(Map<String, dynamic> json) {
         : Parameters.fromJson(json['Parameters'] as Map<String, dynamic>),
     policyType:
         _$enumDecodeNullable(_$PolicyTypeValuesEnumMap, json['PolicyType']),
-    resourceTypes:
-        (json['ResourceTypes'] as List)?.map((e) => e as String)?.toList(),
+    resourceTypes: (json['ResourceTypes'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$ResourceTypeValuesEnumMap, e))
+        ?.toList(),
     schedules: (json['Schedules'] as List)
         ?.map((e) =>
             e == null ? null : Schedule.fromJson(e as Map<String, dynamic>))
@@ -286,7 +287,11 @@ Map<String, dynamic> _$PolicyDetailsToJson(PolicyDetails instance) {
 
   writeNotNull('Parameters', instance.parameters?.toJson());
   writeNotNull('PolicyType', _$PolicyTypeValuesEnumMap[instance.policyType]);
-  writeNotNull('ResourceTypes', instance.resourceTypes);
+  writeNotNull(
+      'ResourceTypes',
+      instance.resourceTypes
+          ?.map((e) => _$ResourceTypeValuesEnumMap[e])
+          ?.toList());
   writeNotNull(
       'Schedules', instance.schedules?.map((e) => e?.toJson())?.toList());
   writeNotNull(
@@ -296,6 +301,11 @@ Map<String, dynamic> _$PolicyDetailsToJson(PolicyDetails instance) {
 
 const _$PolicyTypeValuesEnumMap = {
   PolicyTypeValues.ebsSnapshotManagement: 'EBS_SNAPSHOT_MANAGEMENT',
+};
+
+const _$ResourceTypeValuesEnumMap = {
+  ResourceTypeValues.volume: 'VOLUME',
+  ResourceTypeValues.instance: 'INSTANCE',
 };
 
 RetainRule _$RetainRuleFromJson(Map<String, dynamic> json) {

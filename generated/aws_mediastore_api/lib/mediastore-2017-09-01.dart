@@ -1278,7 +1278,7 @@ class CorsRule {
   /// Each CORS rule must contain at least one <code>AllowedMethods</code> and one
   /// <code>AllowedOrigins</code> element.
   @_s.JsonKey(name: 'AllowedMethods')
-  final List<String> allowedMethods;
+  final List<MethodName> allowedMethods;
 
   /// One or more headers in the response that you want users to be able to access
   /// from their applications (for example, from a JavaScript

@@ -1363,7 +1363,7 @@ class ElasticBeanstalk {
   ///
   /// You must specify either this or an EnvironmentName, or both.
   Future<DescribeEnvironmentHealthResult> describeEnvironmentHealth({
-    List<String> attributeNames,
+    List<EnvironmentHealthAttribute> attributeNames,
     String environmentId,
     String environmentName,
   }) async {
@@ -1761,7 +1761,7 @@ class ElasticBeanstalk {
   /// Parameter [nextToken] :
   /// Specify the pagination token returned by a previous call.
   Future<DescribeInstancesHealthResult> describeInstancesHealth({
-    List<String> attributeNames,
+    List<InstancesHealthAttribute> attributeNames,
     String environmentId,
     String environmentName,
     String nextToken,

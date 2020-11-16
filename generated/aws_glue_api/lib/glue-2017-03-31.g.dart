@@ -510,7 +510,8 @@ Connection _$ConnectionFromJson(Map<String, dynamic> json) {
   return Connection(
     connectionProperties:
         (json['ConnectionProperties'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(k, e as String),
+      (k, e) => MapEntry(
+          _$enumDecodeNullable(_$ConnectionPropertyKeyEnumMap, k), e as String),
     ),
     connectionType:
         _$enumDecodeNullable(_$ConnectionTypeEnumMap, json['ConnectionType']),
@@ -529,6 +530,28 @@ Connection _$ConnectionFromJson(Map<String, dynamic> json) {
   );
 }
 
+const _$ConnectionPropertyKeyEnumMap = {
+  ConnectionPropertyKey.host: 'HOST',
+  ConnectionPropertyKey.port: 'PORT',
+  ConnectionPropertyKey.username: 'USERNAME',
+  ConnectionPropertyKey.password: 'PASSWORD',
+  ConnectionPropertyKey.encryptedPassword: 'ENCRYPTED_PASSWORD',
+  ConnectionPropertyKey.jdbcDriverJarUri: 'JDBC_DRIVER_JAR_URI',
+  ConnectionPropertyKey.jdbcDriverClassName: 'JDBC_DRIVER_CLASS_NAME',
+  ConnectionPropertyKey.jdbcEngine: 'JDBC_ENGINE',
+  ConnectionPropertyKey.jdbcEngineVersion: 'JDBC_ENGINE_VERSION',
+  ConnectionPropertyKey.configFiles: 'CONFIG_FILES',
+  ConnectionPropertyKey.instanceId: 'INSTANCE_ID',
+  ConnectionPropertyKey.jdbcConnectionUrl: 'JDBC_CONNECTION_URL',
+  ConnectionPropertyKey.jdbcEnforceSsl: 'JDBC_ENFORCE_SSL',
+  ConnectionPropertyKey.customJdbcCert: 'CUSTOM_JDBC_CERT',
+  ConnectionPropertyKey.skipCustomJdbcCertValidation:
+      'SKIP_CUSTOM_JDBC_CERT_VALIDATION',
+  ConnectionPropertyKey.customJdbcCertString: 'CUSTOM_JDBC_CERT_STRING',
+  ConnectionPropertyKey.connectionUrl: 'CONNECTION_URL',
+  ConnectionPropertyKey.kafkaBootstrapServers: 'KAFKA_BOOTSTRAP_SERVERS',
+};
+
 const _$ConnectionTypeEnumMap = {
   ConnectionType.jdbc: 'JDBC',
   ConnectionType.sftp: 'SFTP',
@@ -545,7 +568,10 @@ Map<String, dynamic> _$ConnectionInputToJson(ConnectionInput instance) {
     }
   }
 
-  writeNotNull('ConnectionProperties', instance.connectionProperties);
+  writeNotNull(
+      'ConnectionProperties',
+      instance.connectionProperties
+          ?.map((k, e) => MapEntry(_$ConnectionPropertyKeyEnumMap[k], e)));
   writeNotNull(
       'ConnectionType', _$ConnectionTypeEnumMap[instance.connectionType]);
   writeNotNull('Name', instance.name);
@@ -2415,8 +2441,9 @@ const _$LogicalEnumMap = {
 
 PrincipalPermissions _$PrincipalPermissionsFromJson(Map<String, dynamic> json) {
   return PrincipalPermissions(
-    permissions:
-        (json['Permissions'] as List)?.map((e) => e as String)?.toList(),
+    permissions: (json['Permissions'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$PermissionEnumMap, e))
+        ?.toList(),
     principal: json['Principal'] == null
         ? null
         : DataLakePrincipal.fromJson(json['Principal'] as Map<String, dynamic>),
@@ -2433,10 +2460,23 @@ Map<String, dynamic> _$PrincipalPermissionsToJson(
     }
   }
 
-  writeNotNull('Permissions', instance.permissions);
+  writeNotNull('Permissions',
+      instance.permissions?.map((e) => _$PermissionEnumMap[e])?.toList());
   writeNotNull('Principal', instance.principal?.toJson());
   return val;
 }
+
+const _$PermissionEnumMap = {
+  Permission.all: 'ALL',
+  Permission.select: 'SELECT',
+  Permission.alter: 'ALTER',
+  Permission.drop: 'DROP',
+  Permission.delete: 'DELETE',
+  Permission.insert: 'INSERT',
+  Permission.createDatabase: 'CREATE_DATABASE',
+  Permission.createTable: 'CREATE_TABLE',
+  Permission.dataLocationAccess: 'DATA_LOCATION_ACCESS',
+};
 
 Map<String, dynamic> _$PropertyPredicateToJson(PropertyPredicate instance) {
   final val = <String, dynamic>{};

@@ -117,7 +117,7 @@ class Textract {
   /// documents.
   Future<AnalyzeDocumentResponse> analyzeDocument({
     @_s.required Document document,
-    @_s.required List<String> featureTypes,
+    @_s.required List<FeatureType> featureTypes,
     HumanLoopConfig humanLoopConfig,
   }) async {
     ArgumentError.checkNotNull(document, 'document');
@@ -518,7 +518,7 @@ class Textract {
   /// completion status of the operation to.
   Future<StartDocumentAnalysisResponse> startDocumentAnalysis({
     @_s.required DocumentLocation documentLocation,
-    @_s.required List<String> featureTypes,
+    @_s.required List<FeatureType> featureTypes,
     String clientRequestToken,
     String jobTag,
     NotificationChannel notificationChannel,
@@ -825,7 +825,7 @@ class Block {
   /// <code>EntityTypes</code> isn't returned by <code>DetectDocumentText</code>
   /// and <code>GetDocumentTextDetection</code>.
   @_s.JsonKey(name: 'EntityTypes')
-  final List<String> entityTypes;
+  final List<EntityType> entityTypes;
 
   /// The location of the recognized text on the image. It includes an
   /// axis-aligned, coarse bounding box that surrounds the text, and a finer-grain
@@ -1315,7 +1315,7 @@ class HumanLoopDataAttributes {
   /// Sets whether the input image is free of personally identifiable information
   /// or adult content.
   @_s.JsonKey(name: 'ContentClassifiers')
-  final List<String> contentClassifiers;
+  final List<ContentClassifier> contentClassifiers;
 
   HumanLoopDataAttributes({
     this.contentClassifiers,

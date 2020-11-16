@@ -59,7 +59,7 @@ class EnumOutput {
 
 class OutputShape {
   final EC2EnumType fooEnum;
-  final List<String> listEnums;
+  final List<EC2EnumType> listEnums;
 
   OutputShape({
     this.fooEnum,
@@ -68,9 +68,10 @@ class OutputShape {
   factory OutputShape.fromXml(_s.XmlElement elem) {
     return OutputShape(
       fooEnum: _s.extractXmlStringValue(elem, 'FooEnum')?.toEC2EnumType(),
-      listEnums: _s
-          .extractXmlChild(elem, 'ListEnums')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      listEnums: _s.extractXmlChild(elem, 'ListEnums')?.let((elem) => _s
+          .extractXmlStringListValues(elem, 'member')
+          .map((s) => s.toEC2EnumType())
+          .toList()),
     );
   }
 }

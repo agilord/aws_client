@@ -1415,7 +1415,7 @@ class ECS {
   /// </note>
   Future<DescribeCapacityProvidersResponse> describeCapacityProviders({
     List<String> capacityProviders,
-    List<String> include,
+    List<CapacityProviderField> include,
     int maxResults,
     String nextToken,
   }) async {
@@ -1496,7 +1496,7 @@ class ECS {
   /// cluster are included.
   Future<DescribeClustersResponse> describeClusters({
     List<String> clusters,
-    List<String> include,
+    List<ClusterField> include,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1544,7 +1544,7 @@ class ECS {
   Future<DescribeContainerInstancesResponse> describeContainerInstances({
     @_s.required List<String> containerInstances,
     String cluster,
-    List<String> include,
+    List<ContainerInstanceField> include,
   }) async {
     ArgumentError.checkNotNull(containerInstances, 'containerInstances');
     final headers = <String, String>{
@@ -1593,7 +1593,7 @@ class ECS {
   Future<DescribeServicesResponse> describeServices({
     @_s.required List<String> services,
     String cluster,
-    List<String> include,
+    List<ServiceField> include,
   }) async {
     ArgumentError.checkNotNull(services, 'services');
     final headers = <String, String>{
@@ -1641,7 +1641,7 @@ class ECS {
   /// this field is omitted, tags are not included in the response.
   Future<DescribeTaskDefinitionResponse> describeTaskDefinition({
     @_s.required String taskDefinition,
-    List<String> include,
+    List<TaskDefinitionField> include,
   }) async {
     ArgumentError.checkNotNull(taskDefinition, 'taskDefinition');
     final headers = <String, String>{
@@ -1698,7 +1698,7 @@ class ECS {
   Future<DescribeTaskSetsResponse> describeTaskSets({
     @_s.required String cluster,
     @_s.required String service,
-    List<String> include,
+    List<TaskSetField> include,
     List<String> taskSets,
   }) async {
     ArgumentError.checkNotNull(cluster, 'cluster');
@@ -1748,7 +1748,7 @@ class ECS {
   Future<DescribeTasksResponse> describeTasks({
     @_s.required List<String> tasks,
     String cluster,
-    List<String> include,
+    List<TaskField> include,
   }) async {
     ArgumentError.checkNotNull(tasks, 'tasks');
     final headers = <String, String>{
@@ -3211,7 +3211,7 @@ class ECS {
     PidMode pidMode,
     List<TaskDefinitionPlacementConstraint> placementConstraints,
     ProxyConfiguration proxyConfiguration,
-    List<String> requiresCompatibilities,
+    List<Compatibility> requiresCompatibilities,
     List<Tag> tags,
     String taskRoleArn,
     List<Volume> volumes,
@@ -7273,7 +7273,7 @@ class Device {
   /// default, the container has permissions for <code>read</code>,
   /// <code>write</code>, and <code>mknod</code> for the device.
   @_s.JsonKey(name: 'permissions')
-  final List<String> permissions;
+  final List<DeviceCgroupPermission> permissions;
 
   Device({
     @_s.required this.hostPath,
@@ -10494,7 +10494,7 @@ class TaskDefinition {
   /// ECS Launch Types</a> in the <i>Amazon Elastic Container Service Developer
   /// Guide</i>.
   @_s.JsonKey(name: 'compatibilities')
-  final List<String> compatibilities;
+  final List<Compatibility> compatibilities;
 
   /// A list of container definitions in JSON format that describe the different
   /// containers that make up your task. For more information about container
@@ -10729,7 +10729,7 @@ class TaskDefinition {
   /// to <code>EC2</code>. Valid values include <code>EC2</code> and
   /// <code>FARGATE</code>.
   @_s.JsonKey(name: 'requiresCompatibilities')
-  final List<String> requiresCompatibilities;
+  final List<Compatibility> requiresCompatibilities;
 
   /// The revision of the task in a particular family. The revision is a version
   /// number of a task definition in a family. When you register a task definition

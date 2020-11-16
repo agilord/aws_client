@@ -76,8 +76,9 @@ EventDestination _$EventDestinationFromJson(Map<String, dynamic> json) {
         ? null
         : KinesisFirehoseDestination.fromJson(
             json['KinesisFirehoseDestination'] as Map<String, dynamic>),
-    matchingEventTypes:
-        (json['MatchingEventTypes'] as List)?.map((e) => e as String)?.toList(),
+    matchingEventTypes: (json['MatchingEventTypes'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$EventTypeEnumMap, e))
+        ?.toList(),
     name: json['Name'] as String,
     snsDestination: json['SnsDestination'] == null
         ? null
@@ -85,6 +86,48 @@ EventDestination _$EventDestinationFromJson(Map<String, dynamic> json) {
             json['SnsDestination'] as Map<String, dynamic>),
   );
 }
+
+T _$enumDecode<T>(
+  Map<T, dynamic> enumValues,
+  dynamic source, {
+  T unknownValue,
+}) {
+  if (source == null) {
+    throw ArgumentError('A value must be provided. Supported values: '
+        '${enumValues.values.join(', ')}');
+  }
+
+  final value = enumValues.entries
+      .singleWhere((e) => e.value == source, orElse: () => null)
+      ?.key;
+
+  if (value == null && unknownValue == null) {
+    throw ArgumentError('`$source` is not one of the supported values: '
+        '${enumValues.values.join(', ')}');
+  }
+  return value ?? unknownValue;
+}
+
+T _$enumDecodeNullable<T>(
+  Map<T, dynamic> enumValues,
+  dynamic source, {
+  T unknownValue,
+}) {
+  if (source == null) {
+    return null;
+  }
+  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+}
+
+const _$EventTypeEnumMap = {
+  EventType.initiatedCall: 'INITIATED_CALL',
+  EventType.ringing: 'RINGING',
+  EventType.answered: 'ANSWERED',
+  EventType.completedCall: 'COMPLETED_CALL',
+  EventType.busy: 'BUSY',
+  EventType.failed: 'FAILED',
+  EventType.noAnswer: 'NO_ANSWER',
+};
 
 Map<String, dynamic> _$EventDestinationDefinitionToJson(
     EventDestinationDefinition instance) {
@@ -101,7 +144,8 @@ Map<String, dynamic> _$EventDestinationDefinitionToJson(
   writeNotNull('Enabled', instance.enabled);
   writeNotNull('KinesisFirehoseDestination',
       instance.kinesisFirehoseDestination?.toJson());
-  writeNotNull('MatchingEventTypes', instance.matchingEventTypes);
+  writeNotNull('MatchingEventTypes',
+      instance.matchingEventTypes?.map((e) => _$EventTypeEnumMap[e])?.toList());
   writeNotNull('SnsDestination', instance.snsDestination?.toJson());
   return val;
 }

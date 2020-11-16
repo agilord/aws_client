@@ -13410,7 +13410,7 @@ class DocumentDescription {
 
   /// The list of OS platforms compatible with this Systems Manager document.
   @_s.JsonKey(name: 'PlatformTypes')
-  final List<String> platformTypes;
+  final List<PlatformType> platformTypes;
 
   /// A list of SSM documents required by a document. For example, an
   /// <code>ApplicationConfiguration</code> document requires an
@@ -13585,7 +13585,7 @@ class DocumentIdentifier {
 
   /// The operating system platform.
   @_s.JsonKey(name: 'PlatformTypes')
-  final List<String> platformTypes;
+  final List<PlatformType> platformTypes;
 
   /// A list of SSM documents required by a document. For example, an
   /// <code>ApplicationConfiguration</code> document requires an
@@ -17464,7 +17464,7 @@ class NotificationConfig {
   /// Amazon SNS Notifications for AWS Systems Manager</a> in the <i>AWS Systems
   /// Manager User Guide</i>.
   @_s.JsonKey(name: 'NotificationEvents')
-  final List<String> notificationEvents;
+  final List<NotificationEvent> notificationEvents;
 
   /// Command: Receive notification when the status of a command changes.
   /// Invocation: For commands sent to multiple instances, receive notification on

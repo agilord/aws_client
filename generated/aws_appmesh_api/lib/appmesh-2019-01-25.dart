@@ -2222,7 +2222,7 @@ class GrpcRetryPolicy {
 
   /// Specify at least one of the valid values.
   @_s.JsonKey(name: 'grpcRetryEvents')
-  final List<String> grpcRetryEvents;
+  final List<GrpcRetryPolicyEvent> grpcRetryEvents;
 
   /// Specify at least one of the following values.
   ///
@@ -2266,7 +2266,7 @@ class GrpcRetryPolicy {
 
   /// Specify a valid value.
   @_s.JsonKey(name: 'tcpRetryEvents')
-  final List<String> tcpRetryEvents;
+  final List<TcpRetryPolicyEvent> tcpRetryEvents;
 
   GrpcRetryPolicy({
     @_s.required this.maxRetries,
@@ -4717,7 +4717,7 @@ class HttpRetryPolicy {
 
   /// Specify a valid value.
   @_s.JsonKey(name: 'tcpRetryEvents')
-  final List<String> tcpRetryEvents;
+  final List<TcpRetryPolicyEvent> tcpRetryEvents;
 
   HttpRetryPolicy({
     @_s.required this.maxRetries,

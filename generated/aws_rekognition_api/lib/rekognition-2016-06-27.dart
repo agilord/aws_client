@@ -1189,7 +1189,7 @@ class Rekognition {
   /// case, all attributes).
   Future<DetectFacesResponse> detectFaces({
     @_s.required Image image,
-    List<String> attributes,
+    List<Attribute> attributes,
   }) async {
     ArgumentError.checkNotNull(image, 'image');
     final headers = <String, String>{
@@ -2584,7 +2584,7 @@ class Rekognition {
   Future<IndexFacesResponse> indexFaces({
     @_s.required String collectionId,
     @_s.required Image image,
-    List<String> detectionAttributes,
+    List<Attribute> detectionAttributes,
     String externalImageId,
     int maxFaces,
     QualityFilter qualityFilter,
@@ -6130,7 +6130,7 @@ class HumanLoopConfig {
 class HumanLoopDataAttributes {
   /// Sets whether the input image is free of personally identifiable information.
   @_s.JsonKey(name: 'ContentClassifiers')
-  final List<String> contentClassifiers;
+  final List<ContentClassifier> contentClassifiers;
 
   HumanLoopDataAttributes({
     this.contentClassifiers,
@@ -7917,7 +7917,7 @@ class UnindexedFace {
   /// </li>
   /// </ul>
   @_s.JsonKey(name: 'Reasons')
-  final List<String> reasons;
+  final List<Reason> reasons;
 
   UnindexedFace({
     this.faceDetail,

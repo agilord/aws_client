@@ -1427,7 +1427,7 @@ class Connector {
 
   /// The capabilities of the connector.
   @_s.JsonKey(name: 'capabilityList')
-  final List<String> capabilityList;
+  final List<ConnectorCapability> capabilityList;
 
   /// The identifier of the connector.
   @_s.JsonKey(name: 'connectorId')

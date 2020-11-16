@@ -2908,7 +2908,7 @@ class ImageScanFinding {
 class ImageScanFindings {
   /// The image vulnerability counts, sorted by severity.
   @_s.JsonKey(name: 'findingSeverityCounts')
-  final Map<String, int> findingSeverityCounts;
+  final Map<FindingSeverity, int> findingSeverityCounts;
 
   /// The findings from the image scan.
   @_s.JsonKey(name: 'findings')
@@ -2947,7 +2947,7 @@ class ImageScanFindings {
 class ImageScanFindingsSummary {
   /// The image vulnerability counts, sorted by severity.
   @_s.JsonKey(name: 'findingSeverityCounts')
-  final Map<String, int> findingSeverityCounts;
+  final Map<FindingSeverity, int> findingSeverityCounts;
 
   /// The time of the last completed image scan.
   @_s.JsonKey(

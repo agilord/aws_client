@@ -755,11 +755,18 @@ GetMergeOptionsOutput _$GetMergeOptionsOutputFromJson(
   return GetMergeOptionsOutput(
     baseCommitId: json['baseCommitId'] as String,
     destinationCommitId: json['destinationCommitId'] as String,
-    mergeOptions:
-        (json['mergeOptions'] as List)?.map((e) => e as String)?.toList(),
+    mergeOptions: (json['mergeOptions'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$MergeOptionTypeEnumEnumMap, e))
+        ?.toList(),
     sourceCommitId: json['sourceCommitId'] as String,
   );
 }
+
+const _$MergeOptionTypeEnumEnumMap = {
+  MergeOptionTypeEnum.fastForwardMerge: 'FAST_FORWARD_MERGE',
+  MergeOptionTypeEnum.squashMerge: 'SQUASH_MERGE',
+  MergeOptionTypeEnum.threeWayMerge: 'THREE_WAY_MERGE',
+};
 
 GetPullRequestApprovalStatesOutput _$GetPullRequestApprovalStatesOutputFromJson(
     Map<String, dynamic> json) {
@@ -971,12 +978,6 @@ MergeMetadata _$MergeMetadataFromJson(Map<String, dynamic> json) {
     mergedBy: json['mergedBy'] as String,
   );
 }
-
-const _$MergeOptionTypeEnumEnumMap = {
-  MergeOptionTypeEnum.fastForwardMerge: 'FAST_FORWARD_MERGE',
-  MergeOptionTypeEnum.squashMerge: 'SQUASH_MERGE',
-  MergeOptionTypeEnum.threeWayMerge: 'THREE_WAY_MERGE',
-};
 
 MergeOperations _$MergeOperationsFromJson(Map<String, dynamic> json) {
   return MergeOperations(
@@ -1314,7 +1315,10 @@ RepositoryNameIdPair _$RepositoryNameIdPairFromJson(Map<String, dynamic> json) {
 RepositoryTrigger _$RepositoryTriggerFromJson(Map<String, dynamic> json) {
   return RepositoryTrigger(
     destinationArn: json['destinationArn'] as String,
-    events: (json['events'] as List)?.map((e) => e as String)?.toList(),
+    events: (json['events'] as List)
+        ?.map(
+            (e) => _$enumDecodeNullable(_$RepositoryTriggerEventEnumEnumMap, e))
+        ?.toList(),
     name: json['name'] as String,
     branches: (json['branches'] as List)?.map((e) => e as String)?.toList(),
     customData: json['customData'] as String,
@@ -1331,12 +1335,23 @@ Map<String, dynamic> _$RepositoryTriggerToJson(RepositoryTrigger instance) {
   }
 
   writeNotNull('destinationArn', instance.destinationArn);
-  writeNotNull('events', instance.events);
+  writeNotNull(
+      'events',
+      instance.events
+          ?.map((e) => _$RepositoryTriggerEventEnumEnumMap[e])
+          ?.toList());
   writeNotNull('name', instance.name);
   writeNotNull('branches', instance.branches);
   writeNotNull('customData', instance.customData);
   return val;
 }
+
+const _$RepositoryTriggerEventEnumEnumMap = {
+  RepositoryTriggerEventEnum.all: 'all',
+  RepositoryTriggerEventEnum.updateReference: 'updateReference',
+  RepositoryTriggerEventEnum.createReference: 'createReference',
+  RepositoryTriggerEventEnum.deleteReference: 'deleteReference',
+};
 
 RepositoryTriggerExecutionFailure _$RepositoryTriggerExecutionFailureFromJson(
     Map<String, dynamic> json) {

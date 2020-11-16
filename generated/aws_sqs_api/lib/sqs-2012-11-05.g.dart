@@ -92,7 +92,11 @@ Map<String, dynamic> _$SendMessageBatchRequestEntryToJson(
   writeNotNull('MessageGroupId', instance.messageGroupId);
   writeNotNull(
       'MessageSystemAttribute',
-      instance.messageSystemAttributes
-          ?.map((k, e) => MapEntry(k, e?.toJson())));
+      instance.messageSystemAttributes?.map((k, e) => MapEntry(
+          _$MessageSystemAttributeNameForSendsEnumMap[k], e?.toJson())));
   return val;
 }
+
+const _$MessageSystemAttributeNameForSendsEnumMap = {
+  MessageSystemAttributeNameForSends.awsTraceHeader: 'AWSTraceHeader',
+};

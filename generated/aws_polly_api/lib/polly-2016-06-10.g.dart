@@ -184,8 +184,9 @@ SynthesisTask _$SynthesisTaskFromJson(Map<String, dynamic> json) {
     requestCharacters: json['RequestCharacters'] as int,
     sampleRate: json['SampleRate'] as String,
     snsTopicArn: json['SnsTopicArn'] as String,
-    speechMarkTypes:
-        (json['SpeechMarkTypes'] as List)?.map((e) => e as String)?.toList(),
+    speechMarkTypes: (json['SpeechMarkTypes'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$SpeechMarkTypeEnumMap, e))
+        ?.toList(),
     taskId: json['TaskId'] as String,
     taskStatus: _$enumDecodeNullable(_$TaskStatusEnumMap, json['TaskStatus']),
     taskStatusReason: json['TaskStatusReason'] as String,
@@ -204,6 +205,13 @@ const _$OutputFormatEnumMap = {
   OutputFormat.mp3: 'mp3',
   OutputFormat.oggVorbis: 'ogg_vorbis',
   OutputFormat.pcm: 'pcm',
+};
+
+const _$SpeechMarkTypeEnumMap = {
+  SpeechMarkType.sentence: 'sentence',
+  SpeechMarkType.ssml: 'ssml',
+  SpeechMarkType.viseme: 'viseme',
+  SpeechMarkType.word: 'word',
 };
 
 const _$TaskStatusEnumMap = {
@@ -294,7 +302,7 @@ SynthesizeSpeechOutput _$SynthesizeSpeechOutputFromJson(
 Voice _$VoiceFromJson(Map<String, dynamic> json) {
   return Voice(
     additionalLanguageCodes: (json['AdditionalLanguageCodes'] as List)
-        ?.map((e) => e as String)
+        ?.map((e) => _$enumDecodeNullable(_$LanguageCodeEnumMap, e))
         ?.toList(),
     gender: _$enumDecodeNullable(_$GenderEnumMap, json['Gender']),
     id: _$enumDecodeNullable(_$VoiceIdEnumMap, json['Id']),
@@ -302,8 +310,9 @@ Voice _$VoiceFromJson(Map<String, dynamic> json) {
         _$enumDecodeNullable(_$LanguageCodeEnumMap, json['LanguageCode']),
     languageName: json['LanguageName'] as String,
     name: json['Name'] as String,
-    supportedEngines:
-        (json['SupportedEngines'] as List)?.map((e) => e as String)?.toList(),
+    supportedEngines: (json['SupportedEngines'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$EngineEnumMap, e))
+        ?.toList(),
   );
 }
 

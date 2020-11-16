@@ -1032,7 +1032,7 @@ class ApplicationDiscoveryService {
   /// exported starting from the first data collected by the agent.
   Future<StartExportTaskResponse> startExportTask({
     DateTime endTime,
-    List<String> exportDataFormat,
+    List<ExportDataFormat> exportDataFormat,
     List<ExportFilter> filters,
     DateTime startTime,
   }) async {

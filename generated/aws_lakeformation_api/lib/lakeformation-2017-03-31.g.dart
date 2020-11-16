@@ -34,10 +34,11 @@ BatchPermissionsRequestEntry _$BatchPermissionsRequestEntryFromJson(
     Map<String, dynamic> json) {
   return BatchPermissionsRequestEntry(
     id: json['Id'] as String,
-    permissions:
-        (json['Permissions'] as List)?.map((e) => e as String)?.toList(),
+    permissions: (json['Permissions'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$PermissionEnumMap, e))
+        ?.toList(),
     permissionsWithGrantOption: (json['PermissionsWithGrantOption'] as List)
-        ?.map((e) => e as String)
+        ?.map((e) => _$enumDecodeNullable(_$PermissionEnumMap, e))
         ?.toList(),
     principal: json['Principal'] == null
         ? null
@@ -59,13 +60,61 @@ Map<String, dynamic> _$BatchPermissionsRequestEntryToJson(
   }
 
   writeNotNull('Id', instance.id);
-  writeNotNull('Permissions', instance.permissions);
+  writeNotNull('Permissions',
+      instance.permissions?.map((e) => _$PermissionEnumMap[e])?.toList());
   writeNotNull(
-      'PermissionsWithGrantOption', instance.permissionsWithGrantOption);
+      'PermissionsWithGrantOption',
+      instance.permissionsWithGrantOption
+          ?.map((e) => _$PermissionEnumMap[e])
+          ?.toList());
   writeNotNull('Principal', instance.principal?.toJson());
   writeNotNull('Resource', instance.resource?.toJson());
   return val;
 }
+
+T _$enumDecode<T>(
+  Map<T, dynamic> enumValues,
+  dynamic source, {
+  T unknownValue,
+}) {
+  if (source == null) {
+    throw ArgumentError('A value must be provided. Supported values: '
+        '${enumValues.values.join(', ')}');
+  }
+
+  final value = enumValues.entries
+      .singleWhere((e) => e.value == source, orElse: () => null)
+      ?.key;
+
+  if (value == null && unknownValue == null) {
+    throw ArgumentError('`$source` is not one of the supported values: '
+        '${enumValues.values.join(', ')}');
+  }
+  return value ?? unknownValue;
+}
+
+T _$enumDecodeNullable<T>(
+  Map<T, dynamic> enumValues,
+  dynamic source, {
+  T unknownValue,
+}) {
+  if (source == null) {
+    return null;
+  }
+  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+}
+
+const _$PermissionEnumMap = {
+  Permission.all: 'ALL',
+  Permission.select: 'SELECT',
+  Permission.alter: 'ALTER',
+  Permission.drop: 'DROP',
+  Permission.delete: 'DELETE',
+  Permission.insert: 'INSERT',
+  Permission.createDatabase: 'CREATE_DATABASE',
+  Permission.createTable: 'CREATE_TABLE',
+  Permission.dataLocationAccess: 'DATA_LOCATION_ACCESS',
+};
 
 BatchRevokePermissionsResponse _$BatchRevokePermissionsResponseFromJson(
     Map<String, dynamic> json) {
@@ -321,8 +370,9 @@ ListResourcesResponse _$ListResourcesResponseFromJson(
 
 PrincipalPermissions _$PrincipalPermissionsFromJson(Map<String, dynamic> json) {
   return PrincipalPermissions(
-    permissions:
-        (json['Permissions'] as List)?.map((e) => e as String)?.toList(),
+    permissions: (json['Permissions'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$PermissionEnumMap, e))
+        ?.toList(),
     principal: json['Principal'] == null
         ? null
         : DataLakePrincipal.fromJson(json['Principal'] as Map<String, dynamic>),
@@ -339,7 +389,8 @@ Map<String, dynamic> _$PrincipalPermissionsToJson(
     }
   }
 
-  writeNotNull('Permissions', instance.permissions);
+  writeNotNull('Permissions',
+      instance.permissions?.map((e) => _$PermissionEnumMap[e])?.toList());
   writeNotNull('Principal', instance.principal?.toJson());
   return val;
 }
@@ -347,10 +398,11 @@ Map<String, dynamic> _$PrincipalPermissionsToJson(
 PrincipalResourcePermissions _$PrincipalResourcePermissionsFromJson(
     Map<String, dynamic> json) {
   return PrincipalResourcePermissions(
-    permissions:
-        (json['Permissions'] as List)?.map((e) => e as String)?.toList(),
+    permissions: (json['Permissions'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$PermissionEnumMap, e))
+        ?.toList(),
     permissionsWithGrantOption: (json['PermissionsWithGrantOption'] as List)
-        ?.map((e) => e as String)
+        ?.map((e) => _$enumDecodeNullable(_$PermissionEnumMap, e))
         ?.toList(),
     principal: json['Principal'] == null
         ? null

@@ -1752,7 +1752,8 @@ OrganizationCustomRuleMetadata _$OrganizationCustomRuleMetadataFromJson(
     lambdaFunctionArn: json['LambdaFunctionArn'] as String,
     organizationConfigRuleTriggerTypes:
         (json['OrganizationConfigRuleTriggerTypes'] as List)
-            ?.map((e) => e as String)
+            ?.map((e) => _$enumDecodeNullable(
+                _$OrganizationConfigRuleTriggerTypeEnumMap, e))
             ?.toList(),
     description: json['Description'] as String,
     inputParameters: json['InputParameters'] as String,
@@ -1777,8 +1778,11 @@ Map<String, dynamic> _$OrganizationCustomRuleMetadataToJson(
   }
 
   writeNotNull('LambdaFunctionArn', instance.lambdaFunctionArn);
-  writeNotNull('OrganizationConfigRuleTriggerTypes',
-      instance.organizationConfigRuleTriggerTypes);
+  writeNotNull(
+      'OrganizationConfigRuleTriggerTypes',
+      instance.organizationConfigRuleTriggerTypes
+          ?.map((e) => _$OrganizationConfigRuleTriggerTypeEnumMap[e])
+          ?.toList());
   writeNotNull('Description', instance.description);
   writeNotNull('InputParameters', instance.inputParameters);
   writeNotNull('MaximumExecutionFrequency',
@@ -1789,6 +1793,16 @@ Map<String, dynamic> _$OrganizationCustomRuleMetadataToJson(
   writeNotNull('TagValueScope', instance.tagValueScope);
   return val;
 }
+
+const _$OrganizationConfigRuleTriggerTypeEnumMap = {
+  OrganizationConfigRuleTriggerType.configurationItemChangeNotification:
+      'ConfigurationItemChangeNotification',
+  OrganizationConfigRuleTriggerType
+          .oversizedConfigurationItemChangeNotification:
+      'OversizedConfigurationItemChangeNotification',
+  OrganizationConfigRuleTriggerType.scheduledNotification:
+      'ScheduledNotification',
+};
 
 OrganizationManagedRuleMetadata _$OrganizationManagedRuleMetadataFromJson(
     Map<String, dynamic> json) {
@@ -1951,8 +1965,9 @@ RecordingGroup _$RecordingGroupFromJson(Map<String, dynamic> json) {
   return RecordingGroup(
     allSupported: json['allSupported'] as bool,
     includeGlobalResourceTypes: json['includeGlobalResourceTypes'] as bool,
-    resourceTypes:
-        (json['resourceTypes'] as List)?.map((e) => e as String)?.toList(),
+    resourceTypes: (json['resourceTypes'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$ResourceTypeEnumMap, e))
+        ?.toList(),
   );
 }
 
@@ -1968,7 +1983,8 @@ Map<String, dynamic> _$RecordingGroupToJson(RecordingGroup instance) {
   writeNotNull('allSupported', instance.allSupported);
   writeNotNull(
       'includeGlobalResourceTypes', instance.includeGlobalResourceTypes);
-  writeNotNull('resourceTypes', instance.resourceTypes);
+  writeNotNull('resourceTypes',
+      instance.resourceTypes?.map((e) => _$ResourceTypeEnumMap[e])?.toList());
   return val;
 }
 

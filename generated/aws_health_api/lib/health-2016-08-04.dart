@@ -1290,7 +1290,7 @@ class EntityFilter {
   /// A list of entity status codes (<code>IMPAIRED</code>,
   /// <code>UNIMPAIRED</code>, or <code>UNKNOWN</code>).
   @_s.JsonKey(name: 'statusCodes')
-  final List<String> statusCodes;
+  final List<EntityStatusCode> statusCodes;
 
   /// A map of entity tags attached to the affected entity.
   @_s.JsonKey(name: 'tags')
@@ -1551,12 +1551,12 @@ class EventFilter {
 
   /// A list of event status codes.
   @_s.JsonKey(name: 'eventStatusCodes')
-  final List<String> eventStatusCodes;
+  final List<EventStatusCode> eventStatusCodes;
 
   /// A list of event type category codes (<code>issue</code>,
   /// <code>scheduledChange</code>, or <code>accountNotification</code>).
   @_s.JsonKey(name: 'eventTypeCategories')
-  final List<String> eventTypeCategories;
+  final List<EventTypeCategory> eventTypeCategories;
 
   /// A list of unique identifiers for event types. For example,
   /// <code>"AWS_EC2_SYSTEM_MAINTENANCE_EVENT","AWS_RDS_MAINTENANCE_SCHEDULED".</code>
@@ -1648,7 +1648,7 @@ class EventTypeFilter {
   /// A list of event type category codes (<code>issue</code>,
   /// <code>scheduledChange</code>, or <code>accountNotification</code>).
   @_s.JsonKey(name: 'eventTypeCategories')
-  final List<String> eventTypeCategories;
+  final List<EventTypeCategory> eventTypeCategories;
 
   /// A list of event type codes.
   @_s.JsonKey(name: 'eventTypeCodes')
@@ -1877,11 +1877,11 @@ class OrganizationEventFilter {
 
   /// A list of event status codes.
   @_s.JsonKey(name: 'eventStatusCodes')
-  final List<String> eventStatusCodes;
+  final List<EventStatusCode> eventStatusCodes;
 
   /// REPLACEME
   @_s.JsonKey(name: 'eventTypeCategories')
-  final List<String> eventTypeCategories;
+  final List<EventTypeCategory> eventTypeCategories;
 
   /// A list of unique identifiers for event types. For example,
   /// <code>"AWS_EC2_SYSTEM_MAINTENANCE_EVENT","AWS_RDS_MAINTENANCE_SCHEDULED".</code>

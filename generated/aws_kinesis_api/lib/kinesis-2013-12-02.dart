@@ -726,7 +726,7 @@ class Kinesis {
   /// The name of the Kinesis data stream for which to disable enhanced
   /// monitoring.
   Future<EnhancedMonitoringOutput> disableEnhancedMonitoring({
-    @_s.required List<String> shardLevelMetrics,
+    @_s.required List<MetricsName> shardLevelMetrics,
     @_s.required String streamName,
   }) async {
     ArgumentError.checkNotNull(shardLevelMetrics, 'shardLevelMetrics');
@@ -810,7 +810,7 @@ class Kinesis {
   /// Parameter [streamName] :
   /// The name of the stream for which to enable enhanced monitoring.
   Future<EnhancedMonitoringOutput> enableEnhancedMonitoring({
-    @_s.required List<String> shardLevelMetrics,
+    @_s.required List<MetricsName> shardLevelMetrics,
     @_s.required String streamName,
   }) async {
     ArgumentError.checkNotNull(shardLevelMetrics, 'shardLevelMetrics');
@@ -2840,7 +2840,7 @@ class EnhancedMetrics {
   /// the Amazon Kinesis Data Streams Service with Amazon CloudWatch</a> in the
   /// <i>Amazon Kinesis Data Streams Developer Guide</i>.
   @_s.JsonKey(name: 'ShardLevelMetrics')
-  final List<String> shardLevelMetrics;
+  final List<MetricsName> shardLevelMetrics;
 
   EnhancedMetrics({
     this.shardLevelMetrics,
@@ -2860,12 +2860,12 @@ class EnhancedMonitoringOutput {
   /// Represents the current state of the metrics that are in the enhanced state
   /// before the operation.
   @_s.JsonKey(name: 'CurrentShardLevelMetrics')
-  final List<String> currentShardLevelMetrics;
+  final List<MetricsName> currentShardLevelMetrics;
 
   /// Represents the list of all the metrics that would be in the enhanced state
   /// after the operation.
   @_s.JsonKey(name: 'DesiredShardLevelMetrics')
-  final List<String> desiredShardLevelMetrics;
+  final List<MetricsName> desiredShardLevelMetrics;
 
   /// The name of the Kinesis data stream.
   @_s.JsonKey(name: 'StreamName')

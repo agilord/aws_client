@@ -39,8 +39,9 @@ Alarm _$AlarmFromJson(Map<String, dynamic> json) {
     arn: json['arn'] as String,
     comparisonOperator: _$enumDecodeNullable(
         _$ComparisonOperatorEnumMap, json['comparisonOperator']),
-    contactProtocols:
-        (json['contactProtocols'] as List)?.map((e) => e as String)?.toList(),
+    contactProtocols: (json['contactProtocols'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$ContactProtocolEnumMap, e))
+        ?.toList(),
     createdAt: unixTimestampFromJson(json['createdAt']),
     datapointsToAlarm: json['datapointsToAlarm'] as int,
     evaluationPeriods: json['evaluationPeriods'] as int,
@@ -55,7 +56,7 @@ Alarm _$AlarmFromJson(Map<String, dynamic> json) {
     name: json['name'] as String,
     notificationEnabled: json['notificationEnabled'] as bool,
     notificationTriggers: (json['notificationTriggers'] as List)
-        ?.map((e) => e as String)
+        ?.map((e) => _$enumDecodeNullable(_$AlarmStateEnumMap, e))
         ?.toList(),
     period: json['period'] as int,
     resourceType:
@@ -111,6 +112,11 @@ const _$ComparisonOperatorEnumMap = {
   ComparisonOperator.lessThanOrEqualToThreshold: 'LessThanOrEqualToThreshold',
 };
 
+const _$ContactProtocolEnumMap = {
+  ContactProtocol.email: 'Email',
+  ContactProtocol.sms: 'SMS',
+};
+
 const _$MetricNameEnumMap = {
   MetricName.cPUUtilization: 'CPUUtilization',
   MetricName.networkIn: 'NetworkIn',
@@ -137,6 +143,12 @@ const _$MetricNameEnumMap = {
   MetricName.networkTransmitThroughput: 'NetworkTransmitThroughput',
 };
 
+const _$AlarmStateEnumMap = {
+  AlarmState.ok: 'OK',
+  AlarmState.alarm: 'ALARM',
+  AlarmState.insufficientData: 'INSUFFICIENT_DATA',
+};
+
 const _$ResourceTypeEnumMap = {
   ResourceType.instance: 'Instance',
   ResourceType.staticIp: 'StaticIp',
@@ -154,12 +166,6 @@ const _$ResourceTypeEnumMap = {
   ResourceType.cloudFormationStackRecord: 'CloudFormationStackRecord',
   ResourceType.alarm: 'Alarm',
   ResourceType.contactMethod: 'ContactMethod',
-};
-
-const _$AlarmStateEnumMap = {
-  AlarmState.ok: 'OK',
-  AlarmState.alarm: 'ALARM',
-  AlarmState.insufficientData: 'INSUFFICIENT_DATA',
 };
 
 const _$MetricStatisticEnumMap = {
@@ -341,8 +347,9 @@ Bundle _$BundleFromJson(Map<String, dynamic> json) {
     power: json['power'] as int,
     price: (json['price'] as num)?.toDouble(),
     ramSizeInGb: (json['ramSizeInGb'] as num)?.toDouble(),
-    supportedPlatforms:
-        (json['supportedPlatforms'] as List)?.map((e) => e as String)?.toList(),
+    supportedPlatforms: (json['supportedPlatforms'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$InstancePlatformEnumMap, e))
+        ?.toList(),
     transferPerMonthInGb: json['transferPerMonthInGb'] as int,
   );
 }
@@ -418,11 +425,6 @@ ContactMethod _$ContactMethodFromJson(Map<String, dynamic> json) {
     supportCode: json['supportCode'] as String,
   );
 }
-
-const _$ContactProtocolEnumMap = {
-  ContactProtocol.email: 'Email',
-  ContactProtocol.sms: 'SMS',
-};
 
 const _$ContactMethodStatusEnumMap = {
   ContactMethodStatus.pendingVerification: 'PendingVerification',
@@ -1833,7 +1835,9 @@ LoadBalancer _$LoadBalancerFromJson(Map<String, dynamic> json) {
     arn: json['arn'] as String,
     configurationOptions:
         (json['configurationOptions'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(k, e as String),
+      (k, e) => MapEntry(
+          _$enumDecodeNullable(_$LoadBalancerAttributeNameEnumMap, k),
+          e as String),
     ),
     createdAt: unixTimestampFromJson(json['createdAt']),
     dnsName: json['dnsName'] as String,
@@ -1866,6 +1870,14 @@ LoadBalancer _$LoadBalancerFromJson(Map<String, dynamic> json) {
         ?.toList(),
   );
 }
+
+const _$LoadBalancerAttributeNameEnumMap = {
+  LoadBalancerAttributeName.healthCheckPath: 'HealthCheckPath',
+  LoadBalancerAttributeName.sessionStickinessEnabled:
+      'SessionStickinessEnabled',
+  LoadBalancerAttributeName.sessionStickinessLbCookieDurationSeconds:
+      'SessionStickiness_LB_CookieDurationSeconds',
+};
 
 const _$LoadBalancerProtocolEnumMap = {
   LoadBalancerProtocol.httpHttps: 'HTTP_HTTPS',

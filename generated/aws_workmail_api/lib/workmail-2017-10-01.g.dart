@@ -405,10 +405,17 @@ Permission _$PermissionFromJson(Map<String, dynamic> json) {
   return Permission(
     granteeId: json['GranteeId'] as String,
     granteeType: _$enumDecodeNullable(_$MemberTypeEnumMap, json['GranteeType']),
-    permissionValues:
-        (json['PermissionValues'] as List)?.map((e) => e as String)?.toList(),
+    permissionValues: (json['PermissionValues'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$PermissionTypeEnumMap, e))
+        ?.toList(),
   );
 }
+
+const _$PermissionTypeEnumMap = {
+  PermissionType.fullAccess: 'FULL_ACCESS',
+  PermissionType.sendAs: 'SEND_AS',
+  PermissionType.sendOnBehalf: 'SEND_ON_BEHALF',
+};
 
 PutAccessControlRuleResponse _$PutAccessControlRuleResponseFromJson(
     Map<String, dynamic> json) {

@@ -452,7 +452,7 @@ class HumanLoopDataAttributes {
   /// Amazon SageMaker can restrict the Amazon Mechanical Turk workers who can
   /// view your task based on this information.
   @_s.JsonKey(name: 'ContentClassifiers')
-  final List<String> contentClassifiers;
+  final List<ContentClassifier> contentClassifiers;
 
   HumanLoopDataAttributes({
     @_s.required this.contentClassifiers,

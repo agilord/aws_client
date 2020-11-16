@@ -659,7 +659,7 @@ class SQS {
   /// </note>
   Future<CreateQueueResult> createQueue({
     @_s.required String queueName,
-    Map<String, String> attributes,
+    Map<QueueAttributeName, String> attributes,
     Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(queueName, 'queueName');
@@ -993,7 +993,7 @@ class SQS {
   /// </ul>
   Future<GetQueueAttributesResult> getQueueAttributes({
     @_s.required String queueUrl,
-    List<String> attributeNames,
+    List<QueueAttributeName> attributeNames,
   }) async {
     ArgumentError.checkNotNull(queueUrl, 'queueUrl');
     final $request = <String, dynamic>{};
@@ -1448,7 +1448,7 @@ class SQS {
   /// messages.
   Future<ReceiveMessageResult> receiveMessage({
     @_s.required String queueUrl,
-    List<String> attributeNames,
+    List<QueueAttributeName> attributeNames,
     int maxNumberOfMessages,
     List<String> messageAttributeNames,
     String receiveRequestAttemptId,
@@ -1716,7 +1716,8 @@ class SQS {
     Map<String, MessageAttributeValue> messageAttributes,
     String messageDeduplicationId,
     String messageGroupId,
-    Map<String, MessageSystemAttributeValue> messageSystemAttributes,
+    Map<MessageSystemAttributeNameForSends, MessageSystemAttributeValue>
+        messageSystemAttributes,
   }) async {
     ArgumentError.checkNotNull(messageBody, 'messageBody');
     ArgumentError.checkNotNull(queueUrl, 'queueUrl');
@@ -1999,7 +2000,7 @@ class SQS {
   ///
   /// Queue URLs and names are case-sensitive.
   Future<void> setQueueAttributes({
-    @_s.required Map<String, String> attributes,
+    @_s.required Map<QueueAttributeName, String> attributes,
     @_s.required String queueUrl,
   }) async {
     ArgumentError.checkNotNull(attributes, 'attributes');
@@ -2331,7 +2332,7 @@ class DeleteMessageBatchResultEntry {
 /// A list of returned queue attributes.
 class GetQueueAttributesResult {
   /// A map of attributes to their respective values.
-  final Map<String, String> attributes;
+  final Map<QueueAttributeName, String> attributes;
 
   GetQueueAttributesResult({
     this.attributes,
@@ -2341,7 +2342,7 @@ class GetQueueAttributesResult {
       attributes: Map.fromEntries(
         elem.findElements('Attribute').map(
               (c) => MapEntry(
-                _s.extractXmlStringValue(c, 'Name'),
+                _s.extractXmlStringValue(c, 'Name')?.toQueueAttributeName(),
                 _s.extractXmlStringValue(c, 'Value'),
               ),
             ),
@@ -2451,7 +2452,7 @@ class Message {
   /// are each returned as an integer representing the <a
   /// href="http://en.wikipedia.org/wiki/Unix_time">epoch time</a> in
   /// milliseconds.
-  final Map<String, String> attributes;
+  final Map<MessageSystemAttributeName, String> attributes;
 
   /// The message's contents (not URL-encoded).
   final String body;
@@ -2496,7 +2497,9 @@ class Message {
       attributes: Map.fromEntries(
         elem.findElements('Attribute').map(
               (c) => MapEntry(
-                _s.extractXmlStringValue(c, 'Name'),
+                _s
+                    .extractXmlStringValue(c, 'Name')
+                    ?.toMessageSystemAttributeName(),
                 _s.extractXmlStringValue(c, 'Value'),
               ),
             ),
@@ -2961,7 +2964,8 @@ class SendMessageBatchRequestEntry {
   /// </li>
   /// </ul> </important>
   @_s.JsonKey(name: 'MessageSystemAttribute')
-  final Map<String, MessageSystemAttributeValue> messageSystemAttributes;
+  final Map<MessageSystemAttributeNameForSends, MessageSystemAttributeValue>
+      messageSystemAttributes;
 
   SendMessageBatchRequestEntry({
     @_s.required this.id,

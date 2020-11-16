@@ -513,7 +513,7 @@ class ACM {
   /// request after you receive a response with truncated results. Set it to the
   /// value of <code>NextToken</code> from the response you just received.
   Future<ListCertificatesResponse> listCertificates({
-    List<String> certificateStatuses,
+    List<CertificateStatus> certificateStatuses,
     Filters includes,
     int maxItems,
     String nextToken,
@@ -1698,7 +1698,7 @@ enum FailureReason {
 class Filters {
   /// Specify one or more <a>ExtendedKeyUsage</a> extension values.
   @_s.JsonKey(name: 'extendedKeyUsage')
-  final List<String> extendedKeyUsage;
+  final List<ExtendedKeyUsageName> extendedKeyUsage;
 
   /// Specify one or more algorithms that can be used to generate key pairs.
   ///
@@ -1708,11 +1708,11 @@ class Filters {
   /// ["RSA_2048,RSA_4096"]</code> returns both <code>RSA_2048</code> and
   /// <code>RSA_4096</code> certificates.
   @_s.JsonKey(name: 'keyTypes')
-  final List<String> keyTypes;
+  final List<KeyAlgorithm> keyTypes;
 
   /// Specify one or more <a>KeyUsage</a> extension values.
   @_s.JsonKey(name: 'keyUsage')
-  final List<String> keyUsage;
+  final List<KeyUsageName> keyUsage;
 
   Filters({
     this.extendedKeyUsage,

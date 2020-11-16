@@ -2598,7 +2598,7 @@ class TagrisSweepListItem {
     createToJson: false)
 class TagrisVerifyResourcesExistOutput {
   @_s.JsonKey(name: 'TagrisSweepListResult')
-  final Map<String, String> tagrisSweepListResult;
+  final Map<String, TagrisStatus> tagrisSweepListResult;
 
   TagrisVerifyResourcesExistOutput({
     @_s.required this.tagrisSweepListResult,

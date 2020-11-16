@@ -1281,7 +1281,7 @@ class Aliases {
 class AllowedMethods {
   /// A complex type that contains the HTTP methods that you want CloudFront to
   /// process and forward to your origin.
-  final List<String> items;
+  final List<Method> items;
 
   /// The number of HTTP methods that you want CloudFront to forward to your
   /// origin. Valid values are 2 (for <code>GET</code> and <code>HEAD</code>
@@ -1298,9 +1298,10 @@ class AllowedMethods {
   });
   factory AllowedMethods.fromXml(_s.XmlElement elem) {
     return AllowedMethods(
-      items: _s
-          .extractXmlChild(elem, 'Items')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'Method')),
+      items: _s.extractXmlChild(elem, 'Items')?.let((elem) => _s
+          .extractXmlStringListValues(elem, 'Method')
+          .map((s) => s.toMethod())
+          .toList()),
       quantity: _s.extractXmlIntValue(elem, 'Quantity'),
       cachedMethods: _s
           .extractXmlChild(elem, 'CachedMethods')
@@ -1313,7 +1314,7 @@ class AllowedMethods {
       _s.encodeXmlIntValue('Quantity', quantity),
       if (items != null)
         _s.XmlElement(_s.XmlName('Items'), [], <_s.XmlNode>[
-          ...items.map((v) => _s.encodeXmlStringValue('Method', v))
+          ...items.map((v) => _s.encodeXmlStringValue('Method', v.toValue()))
         ]),
       cachedMethods?.toXml('CachedMethods'),
     ];
@@ -1661,7 +1662,7 @@ class CacheBehaviors {
 class CachedMethods {
   /// A complex type that contains the HTTP methods that you want CloudFront to
   /// cache responses to.
-  final List<String> items;
+  final List<Method> items;
 
   /// The number of HTTP methods for which you want CloudFront to cache responses.
   /// Valid values are <code>2</code> (for caching responses to <code>GET</code>
@@ -1675,9 +1676,10 @@ class CachedMethods {
   });
   factory CachedMethods.fromXml(_s.XmlElement elem) {
     return CachedMethods(
-      items: _s
-          .extractXmlChild(elem, 'Items')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'Method')),
+      items: _s.extractXmlChild(elem, 'Items')?.let((elem) => _s
+          .extractXmlStringListValues(elem, 'Method')
+          .map((s) => s.toMethod())
+          .toList()),
       quantity: _s.extractXmlIntValue(elem, 'Quantity'),
     );
   }
@@ -1687,7 +1689,7 @@ class CachedMethods {
       _s.encodeXmlIntValue('Quantity', quantity),
       if (items != null)
         _s.XmlElement(_s.XmlName('Items'), [], <_s.XmlNode>[
-          ...items.map((v) => _s.encodeXmlStringValue('Method', v))
+          ...items.map((v) => _s.encodeXmlStringValue('Method', v.toValue()))
         ]),
     ];
     final $attributes = <_s.XmlAttribute>[
@@ -5117,7 +5119,7 @@ extension on String {
 /// CloudFront can use when establishing an HTTPS connection with your origin.
 class OriginSslProtocols {
   /// A list that contains allowed SSL/TLS protocols for this distribution.
-  final List<String> items;
+  final List<SslProtocol> items;
 
   /// The number of SSL/TLS protocols that you want to allow CloudFront to use
   /// when establishing an HTTPS connection with this origin.
@@ -5129,9 +5131,10 @@ class OriginSslProtocols {
   });
   factory OriginSslProtocols.fromXml(_s.XmlElement elem) {
     return OriginSslProtocols(
-      items: _s
-          .extractXmlChild(elem, 'Items')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'SslProtocol')),
+      items: _s.extractXmlChild(elem, 'Items')?.let((elem) => _s
+          .extractXmlStringListValues(elem, 'SslProtocol')
+          .map((s) => s.toSslProtocol())
+          .toList()),
       quantity: _s.extractXmlIntValue(elem, 'Quantity'),
     );
   }
@@ -5141,7 +5144,8 @@ class OriginSslProtocols {
       _s.encodeXmlIntValue('Quantity', quantity),
       if (items != null)
         _s.XmlElement(_s.XmlName('Items'), [], <_s.XmlNode>[
-          ...items.map((v) => _s.encodeXmlStringValue('SslProtocol', v))
+          ...items
+              .map((v) => _s.encodeXmlStringValue('SslProtocol', v.toValue()))
         ]),
     ];
     final $attributes = <_s.XmlAttribute>[

@@ -21,8 +21,9 @@ BadRequestException _$BadRequestExceptionFromJson(Map<String, dynamic> json) {
 
 BundleDetails _$BundleDetailsFromJson(Map<String, dynamic> json) {
   return BundleDetails(
-    availablePlatforms:
-        (json['availablePlatforms'] as List)?.map((e) => e as String)?.toList(),
+    availablePlatforms: (json['availablePlatforms'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$PlatformEnumMap, e))
+        ?.toList(),
     bundleId: json['bundleId'] as String,
     description: json['description'] as String,
     iconUrl: json['iconUrl'] as String,
@@ -30,6 +31,48 @@ BundleDetails _$BundleDetailsFromJson(Map<String, dynamic> json) {
     version: json['version'] as String,
   );
 }
+
+T _$enumDecode<T>(
+  Map<T, dynamic> enumValues,
+  dynamic source, {
+  T unknownValue,
+}) {
+  if (source == null) {
+    throw ArgumentError('A value must be provided. Supported values: '
+        '${enumValues.values.join(', ')}');
+  }
+
+  final value = enumValues.entries
+      .singleWhere((e) => e.value == source, orElse: () => null)
+      ?.key;
+
+  if (value == null && unknownValue == null) {
+    throw ArgumentError('`$source` is not one of the supported values: '
+        '${enumValues.values.join(', ')}');
+  }
+  return value ?? unknownValue;
+}
+
+T _$enumDecodeNullable<T>(
+  Map<T, dynamic> enumValues,
+  dynamic source, {
+  T unknownValue,
+}) {
+  if (source == null) {
+    return null;
+  }
+  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+}
+
+const _$PlatformEnumMap = {
+  Platform.osx: 'OSX',
+  Platform.windows: 'WINDOWS',
+  Platform.linux: 'LINUX',
+  Platform.objc: 'OBJC',
+  Platform.swift: 'SWIFT',
+  Platform.android: 'ANDROID',
+  Platform.javascript: 'JAVASCRIPT',
+};
 
 CreateProjectResult _$CreateProjectResultFromJson(Map<String, dynamic> json) {
   return CreateProjectResult(
@@ -140,38 +183,6 @@ ProjectDetails _$ProjectDetailsFromJson(Map<String, dynamic> json) {
         ?.toList(),
     state: _$enumDecodeNullable(_$ProjectStateEnumMap, json['state']),
   );
-}
-
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
-}) {
-  if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
-}
-
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
-}) {
-  if (source == null) {
-    return null;
-  }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$ProjectStateEnumMap = {

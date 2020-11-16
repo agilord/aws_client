@@ -5168,7 +5168,7 @@ class PredictOutput {
     createToJson: false)
 class Prediction {
   @_s.JsonKey(name: 'details')
-  final Map<String, String> details;
+  final Map<DetailsAttributes, String> details;
 
   /// The prediction label for either a <code>BINARY</code> or
   /// <code>MULTICLASS</code> <code>MLModel</code>.

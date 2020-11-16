@@ -2158,7 +2158,7 @@ class SageMaker {
     @_s.required InstanceType instanceType,
     @_s.required String notebookInstanceName,
     @_s.required String roleArn,
-    List<String> acceleratorTypes,
+    List<NotebookInstanceAcceleratorType> acceleratorTypes,
     List<String> additionalCodeRepositories,
     String defaultCodeRepository,
     DirectInternetAccess directInternetAccess,
@@ -9786,7 +9786,7 @@ class SageMaker {
   /// notebook instance with the desired size.
   Future<void> updateNotebookInstance({
     @_s.required String notebookInstanceName,
-    List<String> acceleratorTypes,
+    List<NotebookInstanceAcceleratorType> acceleratorTypes,
     List<String> additionalCodeRepositories,
     String defaultCodeRepository,
     bool disassociateAcceleratorTypes,
@@ -12083,7 +12083,7 @@ class ChannelSpecification {
   /// In PIPE mode, Amazon SageMaker streams input data from the source directly
   /// to your algorithm without using the EBS volume.
   @_s.JsonKey(name: 'SupportedInputModes')
-  final List<String> supportedInputModes;
+  final List<TrainingInputMode> supportedInputModes;
 
   /// A brief description of the channel.
   @_s.JsonKey(name: 'Description')
@@ -12095,7 +12095,7 @@ class ChannelSpecification {
 
   /// The allowed compression types, if data compression is used.
   @_s.JsonKey(name: 'SupportedCompressionTypes')
-  final List<String> supportedCompressionTypes;
+  final List<CompressionType> supportedCompressionTypes;
 
   ChannelSpecification({
     @_s.required this.name,
@@ -14866,7 +14866,7 @@ class DescribeNotebookInstanceOutput {
   /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/ei.html">Using Elastic
   /// Inference in Amazon SageMaker</a>.
   @_s.JsonKey(name: 'AcceleratorTypes')
-  final List<String> acceleratorTypes;
+  final List<NotebookInstanceAcceleratorType> acceleratorTypes;
 
   /// An array of up to three Git repositories associated with the notebook
   /// instance. These can be either the names of Git repositories stored as
@@ -18319,7 +18319,8 @@ class InferenceSpecification {
   /// A list of the instance types that are used to generate inferences in
   /// real-time.
   @_s.JsonKey(name: 'SupportedRealtimeInferenceInstanceTypes')
-  final List<String> supportedRealtimeInferenceInstanceTypes;
+  final List<ProductionVariantInstanceType>
+      supportedRealtimeInferenceInstanceTypes;
 
   /// The supported MIME types for the output data.
   @_s.JsonKey(name: 'SupportedResponseMIMETypes')
@@ -18328,7 +18329,7 @@ class InferenceSpecification {
   /// A list of the instance types on which a transformation job can be run or on
   /// which an endpoint can be deployed.
   @_s.JsonKey(name: 'SupportedTransformInstanceTypes')
-  final List<String> supportedTransformInstanceTypes;
+  final List<TransformInstanceType> supportedTransformInstanceTypes;
 
   InferenceSpecification({
     @_s.required this.containers,
@@ -18949,7 +18950,7 @@ class LabelingJobDataAttributes {
   /// adult content. Amazon SageMaker may restrict the Amazon Mechanical Turk
   /// workers that can view your task based on this information.
   @_s.JsonKey(name: 'ContentClassifiers')
-  final List<String> contentClassifiers;
+  final List<ContentClassifier> contentClassifiers;
 
   LabelingJobDataAttributes({
     this.contentClassifiers,
@@ -25062,7 +25063,7 @@ class TrainingJobSummary {
 class TrainingSpecification {
   /// A list of the instance types that this algorithm can use for training.
   @_s.JsonKey(name: 'SupportedTrainingInstanceTypes')
-  final List<String> supportedTrainingInstanceTypes;
+  final List<TrainingInstanceType> supportedTrainingInstanceTypes;
 
   /// A list of <code>ChannelSpecification</code> objects, which specify the input
   /// sources to be used by the algorithm.

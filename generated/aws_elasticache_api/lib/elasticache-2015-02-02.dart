@@ -3215,7 +3215,7 @@ class ElastiCache {
     String marker,
     int maxRecords,
     String serviceUpdateName,
-    List<String> serviceUpdateStatus,
+    List<ServiceUpdateStatus> serviceUpdateStatus,
   }) async {
     final $request = <String, dynamic>{};
     marker?.also((arg) => $request['Marker'] = arg);
@@ -3363,10 +3363,10 @@ class ElastiCache {
     int maxRecords,
     List<String> replicationGroupIds,
     String serviceUpdateName,
-    List<String> serviceUpdateStatus,
+    List<ServiceUpdateStatus> serviceUpdateStatus,
     TimeRangeFilter serviceUpdateTimeRange,
     bool showNodeLevelUpdateStatus,
-    List<String> updateActionStatus,
+    List<UpdateActionStatus> updateActionStatus,
   }) async {
     final $request = <String, dynamic>{};
     cacheClusterIds?.also((arg) => $request['CacheClusterIds'] = arg);

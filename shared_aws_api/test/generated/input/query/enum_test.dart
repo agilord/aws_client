@@ -26,7 +26,7 @@ void main() {
 
     await service.operationName0(
       fooEnum: EnumType.foo,
-      listEnums: ["foo", "", "bar"],
+      listEnums: [EnumType.foo, null, EnumType.bar],
     );
 /*
 {

@@ -35,12 +35,14 @@ GrpcRetryPolicy _$GrpcRetryPolicyFromJson(Map<String, dynamic> json) {
     perRetryTimeout: json['perRetryTimeout'] == null
         ? null
         : Duration.fromJson(json['perRetryTimeout'] as Map<String, dynamic>),
-    grpcRetryEvents:
-        (json['grpcRetryEvents'] as List)?.map((e) => e as String)?.toList(),
+    grpcRetryEvents: (json['grpcRetryEvents'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$GrpcRetryPolicyEventEnumMap, e))
+        ?.toList(),
     httpRetryEvents:
         (json['httpRetryEvents'] as List)?.map((e) => e as String)?.toList(),
-    tcpRetryEvents:
-        (json['tcpRetryEvents'] as List)?.map((e) => e as String)?.toList(),
+    tcpRetryEvents: (json['tcpRetryEvents'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$TcpRetryPolicyEventEnumMap, e))
+        ?.toList(),
   );
 }
 
@@ -55,11 +57,63 @@ Map<String, dynamic> _$GrpcRetryPolicyToJson(GrpcRetryPolicy instance) {
 
   writeNotNull('maxRetries', instance.maxRetries);
   writeNotNull('perRetryTimeout', instance.perRetryTimeout?.toJson());
-  writeNotNull('grpcRetryEvents', instance.grpcRetryEvents);
+  writeNotNull(
+      'grpcRetryEvents',
+      instance.grpcRetryEvents
+          ?.map((e) => _$GrpcRetryPolicyEventEnumMap[e])
+          ?.toList());
   writeNotNull('httpRetryEvents', instance.httpRetryEvents);
-  writeNotNull('tcpRetryEvents', instance.tcpRetryEvents);
+  writeNotNull(
+      'tcpRetryEvents',
+      instance.tcpRetryEvents
+          ?.map((e) => _$TcpRetryPolicyEventEnumMap[e])
+          ?.toList());
   return val;
 }
+
+T _$enumDecode<T>(
+  Map<T, dynamic> enumValues,
+  dynamic source, {
+  T unknownValue,
+}) {
+  if (source == null) {
+    throw ArgumentError('A value must be provided. Supported values: '
+        '${enumValues.values.join(', ')}');
+  }
+
+  final value = enumValues.entries
+      .singleWhere((e) => e.value == source, orElse: () => null)
+      ?.key;
+
+  if (value == null && unknownValue == null) {
+    throw ArgumentError('`$source` is not one of the supported values: '
+        '${enumValues.values.join(', ')}');
+  }
+  return value ?? unknownValue;
+}
+
+T _$enumDecodeNullable<T>(
+  Map<T, dynamic> enumValues,
+  dynamic source, {
+  T unknownValue,
+}) {
+  if (source == null) {
+    return null;
+  }
+  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+}
+
+const _$GrpcRetryPolicyEventEnumMap = {
+  GrpcRetryPolicyEvent.cancelled: 'cancelled',
+  GrpcRetryPolicyEvent.deadlineExceeded: 'deadline-exceeded',
+  GrpcRetryPolicyEvent.internal: 'internal',
+  GrpcRetryPolicyEvent.resourceExhausted: 'resource-exhausted',
+  GrpcRetryPolicyEvent.unavailable: 'unavailable',
+};
+
+const _$TcpRetryPolicyEventEnumMap = {
+  TcpRetryPolicyEvent.connectionError: 'connection-error',
+};
 
 CreateVirtualNodeOutput _$CreateVirtualNodeOutputFromJson(
     Map<String, dynamic> json) {
@@ -198,38 +252,6 @@ Map<String, dynamic> _$HealthCheckPolicyToJson(HealthCheckPolicy instance) {
   writeNotNull('path', instance.path);
   writeNotNull('port', instance.port);
   return val;
-}
-
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
-}) {
-  if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
-}
-
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
-}) {
-  if (source == null) {
-    return null;
-  }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$PortProtocolEnumMap = {
@@ -1617,8 +1639,9 @@ HttpRetryPolicy _$HttpRetryPolicyFromJson(Map<String, dynamic> json) {
         : Duration.fromJson(json['perRetryTimeout'] as Map<String, dynamic>),
     httpRetryEvents:
         (json['httpRetryEvents'] as List)?.map((e) => e as String)?.toList(),
-    tcpRetryEvents:
-        (json['tcpRetryEvents'] as List)?.map((e) => e as String)?.toList(),
+    tcpRetryEvents: (json['tcpRetryEvents'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$TcpRetryPolicyEventEnumMap, e))
+        ?.toList(),
   );
 }
 
@@ -1634,7 +1657,11 @@ Map<String, dynamic> _$HttpRetryPolicyToJson(HttpRetryPolicy instance) {
   writeNotNull('maxRetries', instance.maxRetries);
   writeNotNull('perRetryTimeout', instance.perRetryTimeout?.toJson());
   writeNotNull('httpRetryEvents', instance.httpRetryEvents);
-  writeNotNull('tcpRetryEvents', instance.tcpRetryEvents);
+  writeNotNull(
+      'tcpRetryEvents',
+      instance.tcpRetryEvents
+          ?.map((e) => _$TcpRetryPolicyEventEnumMap[e])
+          ?.toList());
   return val;
 }
 

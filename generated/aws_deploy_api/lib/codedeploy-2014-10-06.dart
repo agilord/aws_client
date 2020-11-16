@@ -1768,8 +1768,8 @@ class CodeDeploy {
   @Deprecated('Deprecated')
   Future<ListDeploymentInstancesOutput> listDeploymentInstances({
     @_s.required String deploymentId,
-    List<String> instanceStatusFilter,
-    List<String> instanceTypeFilter,
+    List<InstanceStatus> instanceStatusFilter,
+    List<InstanceType> instanceTypeFilter,
     String nextToken,
   }) async {
     ArgumentError.checkNotNull(deploymentId, 'deploymentId');
@@ -1833,7 +1833,7 @@ class CodeDeploy {
   Future<ListDeploymentTargetsOutput> listDeploymentTargets({
     String deploymentId,
     String nextToken,
-    Map<String, List<String>> targetFilters,
+    Map<TargetFilterName, List<String>> targetFilters,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1920,7 +1920,7 @@ class CodeDeploy {
     String applicationName,
     TimeRange createTimeRange,
     String deploymentGroupName,
-    List<String> includeOnlyStatuses,
+    List<DeploymentStatus> includeOnlyStatuses,
     String nextToken,
   }) async {
     _s.validateStringLength(
@@ -2895,7 +2895,7 @@ class AutoRollbackConfiguration {
 
   /// The event type or types that trigger a rollback.
   @_s.JsonKey(name: 'events')
-  final List<String> events;
+  final List<AutoRollbackEvent> events;
 
   AutoRollbackConfiguration({
     this.enabled,
@@ -6317,7 +6317,7 @@ enum TrafficRoutingType {
 class TriggerConfig {
   /// The event type or types for which notifications are triggered.
   @_s.JsonKey(name: 'triggerEvents')
-  final List<String> triggerEvents;
+  final List<TriggerEventType> triggerEvents;
 
   /// The name of the notification trigger.
   @_s.JsonKey(name: 'triggerName')

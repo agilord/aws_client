@@ -1044,7 +1044,7 @@ class SESV2 {
     DateTime endDate,
     String nextToken,
     int pageSize,
-    List<String> reasons,
+    List<SuppressionListReason> reasons,
     DateTime startDate,
   }) async {
     var _query = '';
@@ -1172,7 +1172,7 @@ class SESV2 {
   /// </li>
   /// </ul>
   Future<void> putAccountSuppressionAttributes({
-    List<String> suppressedReasons,
+    List<SuppressionListReason> suppressedReasons,
   }) async {
     final $payload = <String, dynamic>{
       if (suppressedReasons != null) 'SuppressedReasons': suppressedReasons,
@@ -1324,7 +1324,7 @@ class SESV2 {
   /// </ul>
   Future<void> putConfigurationSetSuppressionOptions({
     @_s.required String configurationSetName,
-    List<String> suppressedReasons,
+    List<SuppressionListReason> suppressedReasons,
   }) async {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
     final $payload = <String, dynamic>{
@@ -3025,7 +3025,7 @@ class EventDestination {
   /// The types of events that Amazon SES sends to the specified event
   /// destinations.
   @_s.JsonKey(name: 'MatchingEventTypes')
-  final List<String> matchingEventTypes;
+  final List<EventType> matchingEventTypes;
 
   /// A name that identifies the event destination.
   @_s.JsonKey(name: 'Name')
@@ -3113,7 +3113,7 @@ class EventDestinationDefinition {
   /// An array that specifies which events the Amazon SES API v2 should send to
   /// the destinations in this <code>EventDestinationDefinition</code>.
   @_s.JsonKey(name: 'MatchingEventTypes')
-  final List<String> matchingEventTypes;
+  final List<EventType> matchingEventTypes;
 
   /// An object that defines an Amazon Pinpoint project destination for email
   /// events. You can send email event data to a Amazon Pinpoint project to view
@@ -4797,7 +4797,7 @@ class SuppressionAttributes {
   /// </li>
   /// </ul>
   @_s.JsonKey(name: 'SuppressedReasons')
-  final List<String> suppressedReasons;
+  final List<SuppressionListReason> suppressedReasons;
 
   SuppressionAttributes({
     this.suppressedReasons,
@@ -4865,7 +4865,7 @@ class SuppressionOptions {
   /// </li>
   /// </ul>
   @_s.JsonKey(name: 'SuppressedReasons')
-  final List<String> suppressedReasons;
+  final List<SuppressionListReason> suppressedReasons;
 
   SuppressionOptions({
     this.suppressedReasons,

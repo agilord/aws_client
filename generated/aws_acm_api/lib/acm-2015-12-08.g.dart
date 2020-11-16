@@ -285,11 +285,31 @@ Map<String, dynamic> _$FiltersToJson(Filters instance) {
     }
   }
 
-  writeNotNull('extendedKeyUsage', instance.extendedKeyUsage);
-  writeNotNull('keyTypes', instance.keyTypes);
-  writeNotNull('keyUsage', instance.keyUsage);
+  writeNotNull(
+      'extendedKeyUsage',
+      instance.extendedKeyUsage
+          ?.map((e) => _$ExtendedKeyUsageNameEnumMap[e])
+          ?.toList());
+  writeNotNull('keyTypes',
+      instance.keyTypes?.map((e) => _$KeyAlgorithmEnumMap[e])?.toList());
+  writeNotNull('keyUsage',
+      instance.keyUsage?.map((e) => _$KeyUsageNameEnumMap[e])?.toList());
   return val;
 }
+
+const _$KeyUsageNameEnumMap = {
+  KeyUsageName.digitalSignature: 'DIGITAL_SIGNATURE',
+  KeyUsageName.nonRepudiation: 'NON_REPUDIATION',
+  KeyUsageName.keyEncipherment: 'KEY_ENCIPHERMENT',
+  KeyUsageName.dataEncipherment: 'DATA_ENCIPHERMENT',
+  KeyUsageName.keyAgreement: 'KEY_AGREEMENT',
+  KeyUsageName.certificateSigning: 'CERTIFICATE_SIGNING',
+  KeyUsageName.crlSigning: 'CRL_SIGNING',
+  KeyUsageName.encipherOnly: 'ENCIPHER_ONLY',
+  KeyUsageName.decipherOnly: 'DECIPHER_ONLY',
+  KeyUsageName.any: 'ANY',
+  KeyUsageName.custom: 'CUSTOM',
+};
 
 GetCertificateResponse _$GetCertificateResponseFromJson(
     Map<String, dynamic> json) {
@@ -311,20 +331,6 @@ KeyUsage _$KeyUsageFromJson(Map<String, dynamic> json) {
     name: _$enumDecodeNullable(_$KeyUsageNameEnumMap, json['Name']),
   );
 }
-
-const _$KeyUsageNameEnumMap = {
-  KeyUsageName.digitalSignature: 'DIGITAL_SIGNATURE',
-  KeyUsageName.nonRepudiation: 'NON_REPUDIATION',
-  KeyUsageName.keyEncipherment: 'KEY_ENCIPHERMENT',
-  KeyUsageName.dataEncipherment: 'DATA_ENCIPHERMENT',
-  KeyUsageName.keyAgreement: 'KEY_AGREEMENT',
-  KeyUsageName.certificateSigning: 'CERTIFICATE_SIGNING',
-  KeyUsageName.crlSigning: 'CRL_SIGNING',
-  KeyUsageName.encipherOnly: 'ENCIPHER_ONLY',
-  KeyUsageName.decipherOnly: 'DECIPHER_ONLY',
-  KeyUsageName.any: 'ANY',
-  KeyUsageName.custom: 'CUSTOM',
-};
 
 ListCertificatesResponse _$ListCertificatesResponseFromJson(
     Map<String, dynamic> json) {

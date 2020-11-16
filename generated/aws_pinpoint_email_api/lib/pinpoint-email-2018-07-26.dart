@@ -2628,7 +2628,7 @@ class EventDestination {
   /// The types of events that Amazon Pinpoint sends to the specified event
   /// destinations.
   @_s.JsonKey(name: 'MatchingEventTypes')
-  final List<String> matchingEventTypes;
+  final List<EventType> matchingEventTypes;
 
   /// A name that identifies the event destination.
   @_s.JsonKey(name: 'Name')
@@ -2714,7 +2714,7 @@ class EventDestinationDefinition {
   /// An array that specifies which events Amazon Pinpoint should send to the
   /// destinations in this <code>EventDestinationDefinition</code>.
   @_s.JsonKey(name: 'MatchingEventTypes')
-  final List<String> matchingEventTypes;
+  final List<EventType> matchingEventTypes;
 
   /// An object that defines a Amazon Pinpoint destination for email events. You
   /// can use Amazon Pinpoint events to create attributes in Amazon Pinpoint

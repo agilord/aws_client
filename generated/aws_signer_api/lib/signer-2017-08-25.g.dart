@@ -91,8 +91,9 @@ Map<String, dynamic> _$DestinationToJson(Destination instance) {
 EncryptionAlgorithmOptions _$EncryptionAlgorithmOptionsFromJson(
     Map<String, dynamic> json) {
   return EncryptionAlgorithmOptions(
-    allowedValues:
-        (json['allowedValues'] as List)?.map((e) => e as String)?.toList(),
+    allowedValues: (json['allowedValues'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$EncryptionAlgorithmEnumMap, e))
+        ?.toList(),
     defaultValue: _$enumDecodeNullable(
         _$EncryptionAlgorithmEnumMap, json['defaultValue']),
   );
@@ -158,8 +159,9 @@ const _$SigningProfileStatusEnumMap = {
 
 HashAlgorithmOptions _$HashAlgorithmOptionsFromJson(Map<String, dynamic> json) {
   return HashAlgorithmOptions(
-    allowedValues:
-        (json['allowedValues'] as List)?.map((e) => e as String)?.toList(),
+    allowedValues: (json['allowedValues'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$HashAlgorithmEnumMap, e))
+        ?.toList(),
     defaultValue:
         _$enumDecodeNullable(_$HashAlgorithmEnumMap, json['defaultValue']),
   );
@@ -316,8 +318,9 @@ SigningImageFormat _$SigningImageFormatFromJson(Map<String, dynamic> json) {
   return SigningImageFormat(
     defaultFormat:
         _$enumDecodeNullable(_$ImageFormatEnumMap, json['defaultFormat']),
-    supportedFormats:
-        (json['supportedFormats'] as List)?.map((e) => e as String)?.toList(),
+    supportedFormats: (json['supportedFormats'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$ImageFormatEnumMap, e))
+        ?.toList(),
   );
 }
 

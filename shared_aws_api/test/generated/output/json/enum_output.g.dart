@@ -9,7 +9,9 @@ part of 'enum_output.dart';
 OutputShape _$OutputShapeFromJson(Map<String, dynamic> json) {
   return OutputShape(
     fooEnum: _$enumDecodeNullable(_$JSONEnumTypeEnumMap, json['FooEnum']),
-    listEnums: (json['ListEnums'] as List)?.map((e) => e as String)?.toList(),
+    listEnums: (json['ListEnums'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$JSONEnumTypeEnumMap, e))
+        ?.toList(),
   );
 }
 

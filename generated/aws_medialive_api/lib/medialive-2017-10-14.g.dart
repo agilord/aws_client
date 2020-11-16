@@ -3118,7 +3118,9 @@ HlsGroupSettings _$HlsGroupSettingsFromJson(Map<String, dynamic> json) {
         ? null
         : OutputLocationRef.fromJson(
             json['destination'] as Map<String, dynamic>),
-    adMarkers: (json['adMarkers'] as List)?.map((e) => e as String)?.toList(),
+    adMarkers: (json['adMarkers'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$HlsAdMarkersEnumMap, e))
+        ?.toList(),
     baseUrlContent: json['baseUrlContent'] as String,
     baseUrlContent1: json['baseUrlContent1'] as String,
     baseUrlManifest: json['baseUrlManifest'] as String,
@@ -3198,7 +3200,8 @@ Map<String, dynamic> _$HlsGroupSettingsToJson(HlsGroupSettings instance) {
   }
 
   writeNotNull('destination', instance.destination?.toJson());
-  writeNotNull('adMarkers', instance.adMarkers);
+  writeNotNull('adMarkers',
+      instance.adMarkers?.map((e) => _$HlsAdMarkersEnumMap[e])?.toList());
   writeNotNull('baseUrlContent', instance.baseUrlContent);
   writeNotNull('baseUrlContent1', instance.baseUrlContent1);
   writeNotNull('baseUrlManifest', instance.baseUrlManifest);
@@ -3256,6 +3259,12 @@ Map<String, dynamic> _$HlsGroupSettingsToJson(HlsGroupSettings instance) {
   writeNotNull('tsFileMode', _$HlsTsFileModeEnumMap[instance.tsFileMode]);
   return val;
 }
+
+const _$HlsAdMarkersEnumMap = {
+  HlsAdMarkers.adobe: 'ADOBE',
+  HlsAdMarkers.elemental: 'ELEMENTAL',
+  HlsAdMarkers.elementalScte35: 'ELEMENTAL_SCTE35',
+};
 
 const _$HlsCaptionLanguageSettingEnumMap = {
   HlsCaptionLanguageSetting.insert: 'INSERT',

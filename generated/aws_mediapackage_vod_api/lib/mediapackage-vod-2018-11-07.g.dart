@@ -221,8 +221,9 @@ DashPackage _$DashPackageFromJson(Map<String, dynamic> json) {
     encryption: json['encryption'] == null
         ? null
         : DashEncryption.fromJson(json['encryption'] as Map<String, dynamic>),
-    periodTriggers:
-        (json['periodTriggers'] as List)?.map((e) => e as String)?.toList(),
+    periodTriggers: (json['periodTriggers'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$__PeriodTriggersElementEnumMap, e))
+        ?.toList(),
     segmentDurationSeconds: json['segmentDurationSeconds'] as int,
     segmentTemplateFormat: _$enumDecodeNullable(
         _$SegmentTemplateFormatEnumMap, json['segmentTemplateFormat']),
@@ -241,12 +242,20 @@ Map<String, dynamic> _$DashPackageToJson(DashPackage instance) {
   writeNotNull('dashManifests',
       instance.dashManifests?.map((e) => e?.toJson())?.toList());
   writeNotNull('encryption', instance.encryption?.toJson());
-  writeNotNull('periodTriggers', instance.periodTriggers);
+  writeNotNull(
+      'periodTriggers',
+      instance.periodTriggers
+          ?.map((e) => _$__PeriodTriggersElementEnumMap[e])
+          ?.toList());
   writeNotNull('segmentDurationSeconds', instance.segmentDurationSeconds);
   writeNotNull('segmentTemplateFormat',
       _$SegmentTemplateFormatEnumMap[instance.segmentTemplateFormat]);
   return val;
 }
+
+const _$__PeriodTriggersElementEnumMap = {
+  __PeriodTriggersElement.ads: 'ADS',
+};
 
 const _$SegmentTemplateFormatEnumMap = {
   SegmentTemplateFormat.numberWithTimeline: 'NUMBER_WITH_TIMELINE',

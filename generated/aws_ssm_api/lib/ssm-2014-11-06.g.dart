@@ -1483,8 +1483,9 @@ DocumentDescription _$DocumentDescriptionFromJson(Map<String, dynamic> json) {
             ? null
             : DocumentParameter.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    platformTypes:
-        (json['PlatformTypes'] as List)?.map((e) => e as String)?.toList(),
+    platformTypes: (json['PlatformTypes'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$PlatformTypeEnumMap, e))
+        ?.toList(),
     requires: (json['Requires'] as List)
         ?.map((e) => e == null
             ? null
@@ -1525,6 +1526,11 @@ const _$DocumentHashTypeEnumMap = {
   DocumentHashType.sha1: 'Sha1',
 };
 
+const _$PlatformTypeEnumMap = {
+  PlatformType.windows: 'Windows',
+  PlatformType.linux: 'Linux',
+};
+
 const _$DocumentStatusEnumMap = {
   DocumentStatus.creating: 'Creating',
   DocumentStatus.active: 'Active',
@@ -1563,8 +1569,9 @@ DocumentIdentifier _$DocumentIdentifierFromJson(Map<String, dynamic> json) {
     documentVersion: json['DocumentVersion'] as String,
     name: json['Name'] as String,
     owner: json['Owner'] as String,
-    platformTypes:
-        (json['PlatformTypes'] as List)?.map((e) => e as String)?.toList(),
+    platformTypes: (json['PlatformTypes'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$PlatformTypeEnumMap, e))
+        ?.toList(),
     requires: (json['Requires'] as List)
         ?.map((e) => e == null
             ? null
@@ -2204,11 +2211,6 @@ const _$PingStatusEnumMap = {
   PingStatus.online: 'Online',
   PingStatus.connectionLost: 'ConnectionLost',
   PingStatus.inactive: 'Inactive',
-};
-
-const _$PlatformTypeEnumMap = {
-  PlatformType.windows: 'Windows',
-  PlatformType.linux: 'Linux',
 };
 
 const _$ResourceTypeEnumMap = {
@@ -3014,8 +3016,9 @@ NonCompliantSummary _$NonCompliantSummaryFromJson(Map<String, dynamic> json) {
 NotificationConfig _$NotificationConfigFromJson(Map<String, dynamic> json) {
   return NotificationConfig(
     notificationArn: json['NotificationArn'] as String,
-    notificationEvents:
-        (json['NotificationEvents'] as List)?.map((e) => e as String)?.toList(),
+    notificationEvents: (json['NotificationEvents'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$NotificationEventEnumMap, e))
+        ?.toList(),
     notificationType: _$enumDecodeNullable(
         _$NotificationTypeEnumMap, json['NotificationType']),
   );
@@ -3031,11 +3034,24 @@ Map<String, dynamic> _$NotificationConfigToJson(NotificationConfig instance) {
   }
 
   writeNotNull('NotificationArn', instance.notificationArn);
-  writeNotNull('NotificationEvents', instance.notificationEvents);
+  writeNotNull(
+      'NotificationEvents',
+      instance.notificationEvents
+          ?.map((e) => _$NotificationEventEnumMap[e])
+          ?.toList());
   writeNotNull(
       'NotificationType', _$NotificationTypeEnumMap[instance.notificationType]);
   return val;
 }
+
+const _$NotificationEventEnumMap = {
+  NotificationEvent.all: 'All',
+  NotificationEvent.inProgress: 'InProgress',
+  NotificationEvent.success: 'Success',
+  NotificationEvent.timedOut: 'TimedOut',
+  NotificationEvent.cancelled: 'Cancelled',
+  NotificationEvent.failed: 'Failed',
+};
 
 const _$NotificationTypeEnumMap = {
   NotificationType.command: 'Command',

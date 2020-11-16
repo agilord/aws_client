@@ -3240,7 +3240,7 @@ class BuiltinIntentMetadata {
 
   /// A list of identifiers for the locales that the intent supports.
   @_s.JsonKey(name: 'supportedLocales')
-  final List<String> supportedLocales;
+  final List<Locale> supportedLocales;
 
   BuiltinIntentMetadata({
     this.signature,
@@ -3284,7 +3284,7 @@ class BuiltinSlotTypeMetadata {
 
   /// A list of target locales for the slot.
   @_s.JsonKey(name: 'supportedLocales')
-  final List<String> supportedLocales;
+  final List<Locale> supportedLocales;
 
   BuiltinSlotTypeMetadata({
     this.signature,
@@ -4259,7 +4259,7 @@ class GetBuiltinIntentResponse {
 
   /// A list of locales that the intent supports.
   @_s.JsonKey(name: 'supportedLocales')
-  final List<String> supportedLocales;
+  final List<Locale> supportedLocales;
 
   GetBuiltinIntentResponse({
     this.signature,

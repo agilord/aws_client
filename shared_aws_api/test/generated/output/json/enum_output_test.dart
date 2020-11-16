@@ -23,8 +23,8 @@ void main() {
 
     final output = await service.operationName0();
     expect(output.fooEnum, JSONEnumType.foo);
-    expect(output.listEnums[0], "foo");
-    expect(output.listEnums[1], "bar");
+    expect(output.listEnums[0], JSONEnumType.foo);
+    expect(output.listEnums[1], JSONEnumType.bar);
 /*
 {
   "FooEnum": "foo",

@@ -111,8 +111,9 @@ const _$AppStatusEnumMap = {
 Connector _$ConnectorFromJson(Map<String, dynamic> json) {
   return Connector(
     associatedOn: unixTimestampFromJson(json['associatedOn']),
-    capabilityList:
-        (json['capabilityList'] as List)?.map((e) => e as String)?.toList(),
+    capabilityList: (json['capabilityList'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$ConnectorCapabilityEnumMap, e))
+        ?.toList(),
     connectorId: json['connectorId'] as String,
     ipAddress: json['ipAddress'] as String,
     macAddress: json['macAddress'] as String,
@@ -124,6 +125,13 @@ Connector _$ConnectorFromJson(Map<String, dynamic> json) {
         _$enumDecodeNullable(_$VmManagerTypeEnumMap, json['vmManagerType']),
   );
 }
+
+const _$ConnectorCapabilityEnumMap = {
+  ConnectorCapability.vsphere: 'VSPHERE',
+  ConnectorCapability.scvmm: 'SCVMM',
+  ConnectorCapability.hypervManager: 'HYPERV-MANAGER',
+  ConnectorCapability.snapshotBatching: 'SNAPSHOT_BATCHING',
+};
 
 const _$ConnectorStatusEnumMap = {
   ConnectorStatus.healthy: 'HEALTHY',

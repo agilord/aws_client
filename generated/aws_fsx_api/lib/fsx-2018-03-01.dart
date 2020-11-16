@@ -3116,7 +3116,7 @@ class WindowsFileSystemConfiguration {
 
   /// The list of maintenance operations in progress for this file system.
   @_s.JsonKey(name: 'MaintenanceOperationsInProgress')
-  final List<String> maintenanceOperationsInProgress;
+  final List<FileSystemMaintenanceOperation> maintenanceOperationsInProgress;
 
   /// For <code>MULTI_AZ_1</code> deployment types, the IP address of the primary,
   /// or preferred, file server.

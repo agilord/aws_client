@@ -1105,7 +1105,7 @@ class DashEncryption {
     createToJson: true)
 class DashPackage {
   @_s.JsonKey(name: 'adTriggers')
-  final List<String> adTriggers;
+  final List<__AdTriggersElement> adTriggers;
   @_s.JsonKey(name: 'adsOnDeliveryRestrictions')
   final AdsOnDeliveryRestrictions adsOnDeliveryRestrictions;
   @_s.JsonKey(name: 'encryption')
@@ -1140,7 +1140,7 @@ class DashPackage {
   /// periods will be created where
   /// the Channel source contains SCTE-35 ad markers.
   @_s.JsonKey(name: 'periodTriggers')
-  final List<String> periodTriggers;
+  final List<__PeriodTriggersElement> periodTriggers;
 
   /// The Dynamic Adaptive Streaming over HTTP (DASH) profile type.  When set to
   /// "HBBTV_1_5", HbbTV 1.5 compliant output is enabled.
@@ -1618,7 +1618,7 @@ class HlsManifestCreateOrUpdateParameters {
   @_s.JsonKey(name: 'adMarkers')
   final AdMarkers adMarkers;
   @_s.JsonKey(name: 'adTriggers')
-  final List<String> adTriggers;
+  final List<__AdTriggersElement> adTriggers;
   @_s.JsonKey(name: 'adsOnDeliveryRestrictions')
   final AdsOnDeliveryRestrictions adsOnDeliveryRestrictions;
 
@@ -1688,7 +1688,7 @@ class HlsPackage {
   @_s.JsonKey(name: 'adMarkers')
   final AdMarkers adMarkers;
   @_s.JsonKey(name: 'adTriggers')
-  final List<String> adTriggers;
+  final List<__AdTriggersElement> adTriggers;
   @_s.JsonKey(name: 'adsOnDeliveryRestrictions')
   final AdsOnDeliveryRestrictions adsOnDeliveryRestrictions;
   @_s.JsonKey(name: 'encryption')

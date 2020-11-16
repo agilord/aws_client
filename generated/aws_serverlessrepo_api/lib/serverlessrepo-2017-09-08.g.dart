@@ -87,35 +87,12 @@ CreateApplicationVersionResponse _$CreateApplicationVersionResponseFromJson(
             : ParameterDefinition.fromJson(e as Map<String, dynamic>))
         ?.toList(),
     requiredCapabilities: (json['requiredCapabilities'] as List)
-        ?.map((e) => e as String)
+        ?.map((e) => _$enumDecodeNullable(_$CapabilityEnumMap, e))
         ?.toList(),
     resourcesSupported: json['resourcesSupported'] as bool,
     semanticVersion: json['semanticVersion'] as String,
     sourceCodeArchiveUrl: json['sourceCodeArchiveUrl'] as String,
     sourceCodeUrl: json['sourceCodeUrl'] as String,
-    templateUrl: json['templateUrl'] as String,
-  );
-}
-
-CreateCloudFormationChangeSetResponse
-    _$CreateCloudFormationChangeSetResponseFromJson(Map<String, dynamic> json) {
-  return CreateCloudFormationChangeSetResponse(
-    applicationId: json['applicationId'] as String,
-    changeSetId: json['changeSetId'] as String,
-    semanticVersion: json['semanticVersion'] as String,
-    stackId: json['stackId'] as String,
-  );
-}
-
-CreateCloudFormationTemplateResponse
-    _$CreateCloudFormationTemplateResponseFromJson(Map<String, dynamic> json) {
-  return CreateCloudFormationTemplateResponse(
-    applicationId: json['applicationId'] as String,
-    creationTime: json['creationTime'] as String,
-    expirationTime: json['expirationTime'] as String,
-    semanticVersion: json['semanticVersion'] as String,
-    status: _$enumDecodeNullable(_$StatusEnumMap, json['status']),
-    templateId: json['templateId'] as String,
     templateUrl: json['templateUrl'] as String,
   );
 }
@@ -150,6 +127,36 @@ T _$enumDecodeNullable<T>(
     return null;
   }
   return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+}
+
+const _$CapabilityEnumMap = {
+  Capability.capabilityIam: 'CAPABILITY_IAM',
+  Capability.capabilityNamedIam: 'CAPABILITY_NAMED_IAM',
+  Capability.capabilityAutoExpand: 'CAPABILITY_AUTO_EXPAND',
+  Capability.capabilityResourcePolicy: 'CAPABILITY_RESOURCE_POLICY',
+};
+
+CreateCloudFormationChangeSetResponse
+    _$CreateCloudFormationChangeSetResponseFromJson(Map<String, dynamic> json) {
+  return CreateCloudFormationChangeSetResponse(
+    applicationId: json['applicationId'] as String,
+    changeSetId: json['changeSetId'] as String,
+    semanticVersion: json['semanticVersion'] as String,
+    stackId: json['stackId'] as String,
+  );
+}
+
+CreateCloudFormationTemplateResponse
+    _$CreateCloudFormationTemplateResponseFromJson(Map<String, dynamic> json) {
+  return CreateCloudFormationTemplateResponse(
+    applicationId: json['applicationId'] as String,
+    creationTime: json['creationTime'] as String,
+    expirationTime: json['expirationTime'] as String,
+    semanticVersion: json['semanticVersion'] as String,
+    status: _$enumDecodeNullable(_$StatusEnumMap, json['status']),
+    templateId: json['templateId'] as String,
+    templateUrl: json['templateUrl'] as String,
+  );
 }
 
 const _$StatusEnumMap = {
@@ -360,7 +367,7 @@ Version _$VersionFromJson(Map<String, dynamic> json) {
             : ParameterDefinition.fromJson(e as Map<String, dynamic>))
         ?.toList(),
     requiredCapabilities: (json['requiredCapabilities'] as List)
-        ?.map((e) => e as String)
+        ?.map((e) => _$enumDecodeNullable(_$CapabilityEnumMap, e))
         ?.toList(),
     resourcesSupported: json['resourcesSupported'] as bool,
     semanticVersion: json['semanticVersion'] as String,

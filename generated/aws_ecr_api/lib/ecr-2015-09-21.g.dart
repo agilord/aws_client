@@ -367,7 +367,8 @@ ImageScanFindings _$ImageScanFindingsFromJson(Map<String, dynamic> json) {
   return ImageScanFindings(
     findingSeverityCounts:
         (json['findingSeverityCounts'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(k, e as int),
+      (k, e) =>
+          MapEntry(_$enumDecodeNullable(_$FindingSeverityEnumMap, k), e as int),
     ),
     findings: (json['findings'] as List)
         ?.map((e) => e == null
@@ -385,7 +386,8 @@ ImageScanFindingsSummary _$ImageScanFindingsSummaryFromJson(
   return ImageScanFindingsSummary(
     findingSeverityCounts:
         (json['findingSeverityCounts'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(k, e as int),
+      (k, e) =>
+          MapEntry(_$enumDecodeNullable(_$FindingSeverityEnumMap, k), e as int),
     ),
     imageScanCompletedAt: unixTimestampFromJson(json['imageScanCompletedAt']),
     vulnerabilitySourceUpdatedAt:

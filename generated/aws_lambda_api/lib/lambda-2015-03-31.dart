@@ -2979,7 +2979,7 @@ class Lambda {
   Future<PublishLayerVersionResponse> publishLayerVersion({
     @_s.required LayerVersionContentInput content,
     @_s.required String layerName,
-    List<String> compatibleRuntimes,
+    List<Runtime> compatibleRuntimes,
     String description,
     String licenseInfo,
   }) async {
@@ -5260,7 +5260,7 @@ class GetLayerVersionPolicyResponse {
 class GetLayerVersionResponse {
   /// The layer's compatible runtimes.
   @_s.JsonKey(name: 'CompatibleRuntimes')
-  final List<String> compatibleRuntimes;
+  final List<Runtime> compatibleRuntimes;
 
   /// Details about the layer version.
   @_s.JsonKey(name: 'Content')
@@ -5588,7 +5588,7 @@ class LayerVersionContentOutput {
 class LayerVersionsListItem {
   /// The layer's compatible runtimes.
   @_s.JsonKey(name: 'CompatibleRuntimes')
-  final List<String> compatibleRuntimes;
+  final List<Runtime> compatibleRuntimes;
 
   /// The date that the version was created, in ISO 8601 format. For example,
   /// <code>2018-11-27T15:10:45.123+0000</code>.
@@ -5980,7 +5980,7 @@ enum ProvisionedConcurrencyStatusEnum {
 class PublishLayerVersionResponse {
   /// The layer's compatible runtimes.
   @_s.JsonKey(name: 'CompatibleRuntimes')
-  final List<String> compatibleRuntimes;
+  final List<Runtime> compatibleRuntimes;
 
   /// Details about the layer version.
   @_s.JsonKey(name: 'Content')

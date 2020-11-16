@@ -107,10 +107,17 @@ BuiltinIntentMetadata _$BuiltinIntentMetadataFromJson(
     Map<String, dynamic> json) {
   return BuiltinIntentMetadata(
     signature: json['signature'] as String,
-    supportedLocales:
-        (json['supportedLocales'] as List)?.map((e) => e as String)?.toList(),
+    supportedLocales: (json['supportedLocales'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$LocaleEnumMap, e))
+        ?.toList(),
   );
 }
+
+const _$LocaleEnumMap = {
+  Locale.enUs: 'en-US',
+  Locale.enGb: 'en-GB',
+  Locale.deDe: 'de-DE',
+};
 
 BuiltinIntentSlot _$BuiltinIntentSlotFromJson(Map<String, dynamic> json) {
   return BuiltinIntentSlot(
@@ -122,8 +129,9 @@ BuiltinSlotTypeMetadata _$BuiltinSlotTypeMetadataFromJson(
     Map<String, dynamic> json) {
   return BuiltinSlotTypeMetadata(
     signature: json['signature'] as String,
-    supportedLocales:
-        (json['supportedLocales'] as List)?.map((e) => e as String)?.toList(),
+    supportedLocales: (json['supportedLocales'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$LocaleEnumMap, e))
+        ?.toList(),
   );
 }
 
@@ -204,12 +212,6 @@ CreateBotVersionResponse _$CreateBotVersionResponseFromJson(
     voiceId: json['voiceId'] as String,
   );
 }
-
-const _$LocaleEnumMap = {
-  Locale.enUs: 'en-US',
-  Locale.enGb: 'en-GB',
-  Locale.deDe: 'de-DE',
-};
 
 CreateIntentVersionResponse _$CreateIntentVersionResponseFromJson(
     Map<String, dynamic> json) {
@@ -472,8 +474,9 @@ GetBuiltinIntentResponse _$GetBuiltinIntentResponseFromJson(
             ? null
             : BuiltinIntentSlot.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    supportedLocales:
-        (json['supportedLocales'] as List)?.map((e) => e as String)?.toList(),
+    supportedLocales: (json['supportedLocales'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$LocaleEnumMap, e))
+        ?.toList(),
   );
 }
 

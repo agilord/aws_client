@@ -1215,7 +1215,7 @@ class CreateApplicationVersionResponse {
   /// this parameter for an application that requires capabilities, the call will
   /// fail.
   @_s.JsonKey(name: 'requiredCapabilities')
-  final List<String> requiredCapabilities;
+  final List<Capability> requiredCapabilities;
 
   /// Whether all of the AWS resources contained in this application are supported
   /// in the region
@@ -2067,7 +2067,7 @@ class Version {
   /// this parameter for an application that requires capabilities, the call will
   /// fail.
   @_s.JsonKey(name: 'requiredCapabilities')
-  final List<String> requiredCapabilities;
+  final List<Capability> requiredCapabilities;
 
   /// Whether all of the AWS resources contained in this application are supported
   /// in the region

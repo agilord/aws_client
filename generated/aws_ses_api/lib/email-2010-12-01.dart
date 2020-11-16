@@ -881,7 +881,7 @@ class SES {
   /// A list of configuration set attributes to return.
   Future<DescribeConfigurationSetResponse> describeConfigurationSet({
     @_s.required String configurationSetName,
-    List<String> configurationSetAttributeNames,
+    List<ConfigurationSetAttribute> configurationSetAttributeNames,
   }) async {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
     final $request = <String, dynamic>{};
@@ -4789,7 +4789,7 @@ extension on String {
 class EventDestination {
   /// The type of email sending events to publish to the event destination.
   @_s.JsonKey(name: 'MatchingEventTypes')
-  final List<String> matchingEventTypes;
+  final List<EventType> matchingEventTypes;
 
   /// The name of the event destination. The name must:
   ///
@@ -4837,9 +4837,11 @@ class EventDestination {
   });
   factory EventDestination.fromXml(_s.XmlElement elem) {
     return EventDestination(
-      matchingEventTypes: _s
-          .extractXmlChild(elem, 'MatchingEventTypes')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      matchingEventTypes: _s.extractXmlChild(elem, 'MatchingEventTypes')?.let(
+          (elem) => _s
+              .extractXmlStringListValues(elem, 'member')
+              .map((s) => s.toEventType())
+              .toList()),
       name: _s.extractXmlStringValue(elem, 'Name'),
       cloudWatchDestination: _s
           .extractXmlChild(elem, 'CloudWatchDestination')

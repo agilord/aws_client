@@ -206,7 +206,8 @@ Map<String, dynamic> _$SingleMasterChannelEndpointConfigurationToJson(
     }
   }
 
-  writeNotNull('Protocols', instance.protocols);
+  writeNotNull('Protocols',
+      instance.protocols?.map((e) => _$ChannelProtocolEnumMap[e])?.toList());
   writeNotNull('Role', _$ChannelRoleEnumMap[instance.role]);
   return val;
 }

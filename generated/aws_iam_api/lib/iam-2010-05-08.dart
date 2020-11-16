@@ -4178,7 +4178,7 @@ class IAM {
   /// from.
   Future<GetAccountAuthorizationDetailsResponse>
       getAccountAuthorizationDetails({
-    List<String> filter,
+    List<EntityType> filter,
     String marker,
     int maxItems,
   }) async {
@@ -12958,7 +12958,7 @@ class EvaluationResult {
   /// If an AWS Organizations SCP included in the evaluation denies access, the
   /// simulation ends. In this case, policy evaluation does not proceed any
   /// further and this parameter is not returned.
-  final Map<String, String> evalDecisionDetails;
+  final Map<String, PolicyEvaluationDecisionType> evalDecisionDetails;
 
   /// The ARN of the resource that the indicated API operation was tested on.
   final String evalResourceName;
@@ -13014,7 +13014,9 @@ class EvaluationResult {
         elem.getElement('EvalDecisionDetails').findElements('entry').map(
               (c) => MapEntry(
                 _s.extractXmlStringValue(c, 'key'),
-                _s.extractXmlStringValue(c, 'value'),
+                _s
+                    .extractXmlStringValue(c, 'value')
+                    ?.toPolicyEvaluationDecisionType(),
               ),
             ),
       ),
@@ -13212,7 +13214,7 @@ class GetAccountPasswordPolicyResponse {
 class GetAccountSummaryResponse {
   /// A set of key–value pairs containing information about IAM entity usage and
   /// IAM quotas.
-  final Map<String, int> summaryMap;
+  final Map<SummaryKeyType, int> summaryMap;
 
   GetAccountSummaryResponse({
     this.summaryMap,
@@ -13222,7 +13224,7 @@ class GetAccountSummaryResponse {
       summaryMap: Map.fromEntries(
         elem.getElement('SummaryMap').findElements('entry').map(
               (c) => MapEntry(
-                _s.extractXmlStringValue(c, 'key'),
+                _s.extractXmlStringValue(c, 'key')?.toSummaryKeyType(),
                 _s.extractXmlIntValue(c, 'value'),
               ),
             ),
@@ -15898,7 +15900,7 @@ class ResourceSpecificResult {
   /// resource. This parameter is returned only for cross-account simulations.
   /// This parameter explains how each policy type contributes to the
   /// resource-specific evaluation decision.
-  final Map<String, String> evalDecisionDetails;
+  final Map<String, PolicyEvaluationDecisionType> evalDecisionDetails;
 
   /// A list of the statements in the input policies that determine the result for
   /// this part of the simulation. Remember that even if multiple statements allow
@@ -15941,7 +15943,9 @@ class ResourceSpecificResult {
         elem.getElement('EvalDecisionDetails').findElements('entry').map(
               (c) => MapEntry(
                 _s.extractXmlStringValue(c, 'key'),
-                _s.extractXmlStringValue(c, 'value'),
+                _s
+                    .extractXmlStringValue(c, 'value')
+                    ?.toPolicyEvaluationDecisionType(),
               ),
             ),
       ),

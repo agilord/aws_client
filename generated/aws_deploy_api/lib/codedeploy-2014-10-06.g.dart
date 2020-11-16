@@ -126,7 +126,9 @@ AutoRollbackConfiguration _$AutoRollbackConfigurationFromJson(
     Map<String, dynamic> json) {
   return AutoRollbackConfiguration(
     enabled: json['enabled'] as bool,
-    events: (json['events'] as List)?.map((e) => e as String)?.toList(),
+    events: (json['events'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$AutoRollbackEventEnumMap, e))
+        ?.toList(),
   );
 }
 
@@ -141,9 +143,16 @@ Map<String, dynamic> _$AutoRollbackConfigurationToJson(
   }
 
   writeNotNull('enabled', instance.enabled);
-  writeNotNull('events', instance.events);
+  writeNotNull('events',
+      instance.events?.map((e) => _$AutoRollbackEventEnumMap[e])?.toList());
   return val;
 }
+
+const _$AutoRollbackEventEnumMap = {
+  AutoRollbackEvent.deploymentFailure: 'DEPLOYMENT_FAILURE',
+  AutoRollbackEvent.deploymentStopOnAlarm: 'DEPLOYMENT_STOP_ON_ALARM',
+  AutoRollbackEvent.deploymentStopOnRequest: 'DEPLOYMENT_STOP_ON_REQUEST',
+};
 
 AutoScalingGroup _$AutoScalingGroupFromJson(Map<String, dynamic> json) {
   return AutoScalingGroup(
@@ -1684,8 +1693,9 @@ const _$TrafficRoutingTypeEnumMap = {
 
 TriggerConfig _$TriggerConfigFromJson(Map<String, dynamic> json) {
   return TriggerConfig(
-    triggerEvents:
-        (json['triggerEvents'] as List)?.map((e) => e as String)?.toList(),
+    triggerEvents: (json['triggerEvents'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$TriggerEventTypeEnumMap, e))
+        ?.toList(),
     triggerName: json['triggerName'] as String,
     triggerTargetArn: json['triggerTargetArn'] as String,
   );
@@ -1700,11 +1710,28 @@ Map<String, dynamic> _$TriggerConfigToJson(TriggerConfig instance) {
     }
   }
 
-  writeNotNull('triggerEvents', instance.triggerEvents);
+  writeNotNull(
+      'triggerEvents',
+      instance.triggerEvents
+          ?.map((e) => _$TriggerEventTypeEnumMap[e])
+          ?.toList());
   writeNotNull('triggerName', instance.triggerName);
   writeNotNull('triggerTargetArn', instance.triggerTargetArn);
   return val;
 }
+
+const _$TriggerEventTypeEnumMap = {
+  TriggerEventType.deploymentStart: 'DeploymentStart',
+  TriggerEventType.deploymentSuccess: 'DeploymentSuccess',
+  TriggerEventType.deploymentFailure: 'DeploymentFailure',
+  TriggerEventType.deploymentStop: 'DeploymentStop',
+  TriggerEventType.deploymentRollback: 'DeploymentRollback',
+  TriggerEventType.deploymentReady: 'DeploymentReady',
+  TriggerEventType.instanceStart: 'InstanceStart',
+  TriggerEventType.instanceSuccess: 'InstanceSuccess',
+  TriggerEventType.instanceFailure: 'InstanceFailure',
+  TriggerEventType.instanceReady: 'InstanceReady',
+};
 
 UntagResourceOutput _$UntagResourceOutputFromJson(Map<String, dynamic> json) {
   return UntagResourceOutput();

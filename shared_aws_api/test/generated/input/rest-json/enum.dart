@@ -42,9 +42,9 @@ class Enum {
   Future<void> operationName0({
     EnumType fooEnum,
     EnumType headerEnum,
-    List<String> listEnums,
+    List<EnumType> listEnums,
     EnumType queryFooEnum,
-    List<String> queryListEnums,
+    List<EnumType> queryListEnums,
   }) async {
     final headers = <String, String>{};
     headerEnum?.let((v) => headers['x-amz-enum'] = v.toValue());
@@ -69,9 +69,9 @@ class Enum {
   Future<void> operationName1({
     EnumType fooEnum,
     EnumType headerEnum,
-    List<String> listEnums,
+    List<EnumType> listEnums,
     EnumType queryFooEnum,
-    List<String> queryListEnums,
+    List<EnumType> queryListEnums,
   }) async {
     final headers = <String, String>{};
     headerEnum?.let((v) => headers['x-amz-enum'] = v.toValue());

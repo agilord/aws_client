@@ -1906,7 +1906,7 @@ class ConfigurationProfileSummary {
 
   /// The types of validators in the configuration profile.
   @_s.JsonKey(name: 'ValidatorTypes')
-  final List<String> validatorTypes;
+  final List<ValidatorType> validatorTypes;
 
   ConfigurationProfileSummary({
     this.applicationId,

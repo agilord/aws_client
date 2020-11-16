@@ -371,7 +371,9 @@ ListUpdatesResponse _$ListUpdatesResponseFromJson(Map<String, dynamic> json) {
 LogSetup _$LogSetupFromJson(Map<String, dynamic> json) {
   return LogSetup(
     enabled: json['enabled'] as bool,
-    types: (json['types'] as List)?.map((e) => e as String)?.toList(),
+    types: (json['types'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$LogTypeEnumMap, e))
+        ?.toList(),
   );
 }
 
@@ -385,9 +387,18 @@ Map<String, dynamic> _$LogSetupToJson(LogSetup instance) {
   }
 
   writeNotNull('enabled', instance.enabled);
-  writeNotNull('types', instance.types);
+  writeNotNull(
+      'types', instance.types?.map((e) => _$LogTypeEnumMap[e])?.toList());
   return val;
 }
+
+const _$LogTypeEnumMap = {
+  LogType.api: 'api',
+  LogType.audit: 'audit',
+  LogType.authenticator: 'authenticator',
+  LogType.controllerManager: 'controllerManager',
+  LogType.scheduler: 'scheduler',
+};
 
 Logging _$LoggingFromJson(Map<String, dynamic> json) {
   return Logging(

@@ -265,13 +265,14 @@ GetPublicKeyResponse _$GetPublicKeyResponseFromJson(Map<String, dynamic> json) {
     customerMasterKeySpec: _$enumDecodeNullable(
         _$CustomerMasterKeySpecEnumMap, json['CustomerMasterKeySpec']),
     encryptionAlgorithms: (json['EncryptionAlgorithms'] as List)
-        ?.map((e) => e as String)
+        ?.map((e) => _$enumDecodeNullable(_$EncryptionAlgorithmSpecEnumMap, e))
         ?.toList(),
     keyId: json['KeyId'] as String,
     keyUsage: _$enumDecodeNullable(_$KeyUsageTypeEnumMap, json['KeyUsage']),
     publicKey: const Uint8ListConverter().fromJson(json['PublicKey'] as String),
-    signingAlgorithms:
-        (json['SigningAlgorithms'] as List)?.map((e) => e as String)?.toList(),
+    signingAlgorithms: (json['SigningAlgorithms'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$SigningAlgorithmSpecEnumMap, e))
+        ?.toList(),
   );
 }
 
@@ -289,6 +290,18 @@ const _$CustomerMasterKeySpecEnumMap = {
 const _$KeyUsageTypeEnumMap = {
   KeyUsageType.signVerify: 'SIGN_VERIFY',
   KeyUsageType.encryptDecrypt: 'ENCRYPT_DECRYPT',
+};
+
+const _$SigningAlgorithmSpecEnumMap = {
+  SigningAlgorithmSpec.rsassaPssSha_256: 'RSASSA_PSS_SHA_256',
+  SigningAlgorithmSpec.rsassaPssSha_384: 'RSASSA_PSS_SHA_384',
+  SigningAlgorithmSpec.rsassaPssSha_512: 'RSASSA_PSS_SHA_512',
+  SigningAlgorithmSpec.rsassaPkcs1V1_5Sha_256: 'RSASSA_PKCS1_V1_5_SHA_256',
+  SigningAlgorithmSpec.rsassaPkcs1V1_5Sha_384: 'RSASSA_PKCS1_V1_5_SHA_384',
+  SigningAlgorithmSpec.rsassaPkcs1V1_5Sha_512: 'RSASSA_PKCS1_V1_5_SHA_512',
+  SigningAlgorithmSpec.ecdsaSha_256: 'ECDSA_SHA_256',
+  SigningAlgorithmSpec.ecdsaSha_384: 'ECDSA_SHA_384',
+  SigningAlgorithmSpec.ecdsaSha_512: 'ECDSA_SHA_512',
 };
 
 GrantConstraints _$GrantConstraintsFromJson(Map<String, dynamic> json) {
@@ -330,10 +343,31 @@ GrantListEntry _$GrantListEntryFromJson(Map<String, dynamic> json) {
     issuingAccount: json['IssuingAccount'] as String,
     keyId: json['KeyId'] as String,
     name: json['Name'] as String,
-    operations: (json['Operations'] as List)?.map((e) => e as String)?.toList(),
+    operations: (json['Operations'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$GrantOperationEnumMap, e))
+        ?.toList(),
     retiringPrincipal: json['RetiringPrincipal'] as String,
   );
 }
+
+const _$GrantOperationEnumMap = {
+  GrantOperation.decrypt: 'Decrypt',
+  GrantOperation.encrypt: 'Encrypt',
+  GrantOperation.generateDataKey: 'GenerateDataKey',
+  GrantOperation.generateDataKeyWithoutPlaintext:
+      'GenerateDataKeyWithoutPlaintext',
+  GrantOperation.reEncryptFrom: 'ReEncryptFrom',
+  GrantOperation.reEncryptTo: 'ReEncryptTo',
+  GrantOperation.sign: 'Sign',
+  GrantOperation.verify: 'Verify',
+  GrantOperation.getPublicKey: 'GetPublicKey',
+  GrantOperation.createGrant: 'CreateGrant',
+  GrantOperation.retireGrant: 'RetireGrant',
+  GrantOperation.describeKey: 'DescribeKey',
+  GrantOperation.generateDataKeyPair: 'GenerateDataKeyPair',
+  GrantOperation.generateDataKeyPairWithoutPlaintext:
+      'GenerateDataKeyPairWithoutPlaintext',
+};
 
 ImportKeyMaterialResponse _$ImportKeyMaterialResponseFromJson(
     Map<String, dynamic> json) {
@@ -361,7 +395,7 @@ KeyMetadata _$KeyMetadataFromJson(Map<String, dynamic> json) {
     description: json['Description'] as String,
     enabled: json['Enabled'] as bool,
     encryptionAlgorithms: (json['EncryptionAlgorithms'] as List)
-        ?.map((e) => e as String)
+        ?.map((e) => _$enumDecodeNullable(_$EncryptionAlgorithmSpecEnumMap, e))
         ?.toList(),
     expirationModel: _$enumDecodeNullable(
         _$ExpirationModelTypeEnumMap, json['ExpirationModel']),
@@ -370,8 +404,9 @@ KeyMetadata _$KeyMetadataFromJson(Map<String, dynamic> json) {
     keyState: _$enumDecodeNullable(_$KeyStateEnumMap, json['KeyState']),
     keyUsage: _$enumDecodeNullable(_$KeyUsageTypeEnumMap, json['KeyUsage']),
     origin: _$enumDecodeNullable(_$OriginTypeEnumMap, json['Origin']),
-    signingAlgorithms:
-        (json['SigningAlgorithms'] as List)?.map((e) => e as String)?.toList(),
+    signingAlgorithms: (json['SigningAlgorithms'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$SigningAlgorithmSpecEnumMap, e))
+        ?.toList(),
     validTo: unixTimestampFromJson(json['ValidTo']),
   );
 }
@@ -486,18 +521,6 @@ SignResponse _$SignResponseFromJson(Map<String, dynamic> json) {
         _$SigningAlgorithmSpecEnumMap, json['SigningAlgorithm']),
   );
 }
-
-const _$SigningAlgorithmSpecEnumMap = {
-  SigningAlgorithmSpec.rsassaPssSha_256: 'RSASSA_PSS_SHA_256',
-  SigningAlgorithmSpec.rsassaPssSha_384: 'RSASSA_PSS_SHA_384',
-  SigningAlgorithmSpec.rsassaPssSha_512: 'RSASSA_PSS_SHA_512',
-  SigningAlgorithmSpec.rsassaPkcs1V1_5Sha_256: 'RSASSA_PKCS1_V1_5_SHA_256',
-  SigningAlgorithmSpec.rsassaPkcs1V1_5Sha_384: 'RSASSA_PKCS1_V1_5_SHA_384',
-  SigningAlgorithmSpec.rsassaPkcs1V1_5Sha_512: 'RSASSA_PKCS1_V1_5_SHA_512',
-  SigningAlgorithmSpec.ecdsaSha_256: 'ECDSA_SHA_256',
-  SigningAlgorithmSpec.ecdsaSha_384: 'ECDSA_SHA_384',
-  SigningAlgorithmSpec.ecdsaSha_512: 'ECDSA_SHA_512',
-};
 
 Tag _$TagFromJson(Map<String, dynamic> json) {
   return Tag(

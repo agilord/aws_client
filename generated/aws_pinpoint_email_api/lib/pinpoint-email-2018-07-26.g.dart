@@ -382,8 +382,9 @@ Map<String, dynamic> _$EmailContentToJson(EmailContent instance) {
 
 EventDestination _$EventDestinationFromJson(Map<String, dynamic> json) {
   return EventDestination(
-    matchingEventTypes:
-        (json['MatchingEventTypes'] as List)?.map((e) => e as String)?.toList(),
+    matchingEventTypes: (json['MatchingEventTypes'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$EventTypeEnumMap, e))
+        ?.toList(),
     name: json['Name'] as String,
     cloudWatchDestination: json['CloudWatchDestination'] == null
         ? null
@@ -405,6 +406,17 @@ EventDestination _$EventDestinationFromJson(Map<String, dynamic> json) {
   );
 }
 
+const _$EventTypeEnumMap = {
+  EventType.send: 'SEND',
+  EventType.reject: 'REJECT',
+  EventType.bounce: 'BOUNCE',
+  EventType.complaint: 'COMPLAINT',
+  EventType.delivery: 'DELIVERY',
+  EventType.open: 'OPEN',
+  EventType.click: 'CLICK',
+  EventType.renderingFailure: 'RENDERING_FAILURE',
+};
+
 Map<String, dynamic> _$EventDestinationDefinitionToJson(
     EventDestinationDefinition instance) {
   final val = <String, dynamic>{};
@@ -420,7 +432,8 @@ Map<String, dynamic> _$EventDestinationDefinitionToJson(
   writeNotNull('Enabled', instance.enabled);
   writeNotNull('KinesisFirehoseDestination',
       instance.kinesisFirehoseDestination?.toJson());
-  writeNotNull('MatchingEventTypes', instance.matchingEventTypes);
+  writeNotNull('MatchingEventTypes',
+      instance.matchingEventTypes?.map((e) => _$EventTypeEnumMap[e])?.toList());
   writeNotNull('PinpointDestination', instance.pinpointDestination?.toJson());
   writeNotNull('SnsDestination', instance.snsDestination?.toJson());
   return val;

@@ -29,9 +29,9 @@ void main() {
     await service.operationName0(
       fooEnum: EnumType.foo,
       headerEnum: EnumType.baz,
-      listEnums: ["foo", "", "bar"],
+      listEnums: [EnumType.foo, null, EnumType.bar],
       uRIFooEnum: EnumType.bar,
-      uRIListEnums: ["0", "", "1"],
+      uRIListEnums: [EnumType.$0, null, EnumType.$1],
     );
 /*
 {

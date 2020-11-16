@@ -361,11 +361,11 @@ class LakeFormation {
   /// other users. These permissions may only be a subset of the permissions
   /// granted in the <code>Privileges</code>.
   Future<void> grantPermissions({
-    @_s.required List<String> permissions,
+    @_s.required List<Permission> permissions,
     @_s.required DataLakePrincipal principal,
     @_s.required Resource resource,
     String catalogId,
-    List<String> permissionsWithGrantOption,
+    List<Permission> permissionsWithGrantOption,
   }) async {
     ArgumentError.checkNotNull(permissions, 'permissions');
     ArgumentError.checkNotNull(principal, 'principal');
@@ -673,11 +673,11 @@ class LakeFormation {
   /// Indicates a list of permissions for which to revoke the grant option
   /// allowing the principal to pass permissions to other principals.
   Future<void> revokePermissions({
-    @_s.required List<String> permissions,
+    @_s.required List<Permission> permissions,
     @_s.required DataLakePrincipal principal,
     @_s.required Resource resource,
     String catalogId,
-    List<String> permissionsWithGrantOption,
+    List<Permission> permissionsWithGrantOption,
   }) async {
     ArgumentError.checkNotNull(permissions, 'permissions');
     ArgumentError.checkNotNull(principal, 'principal');
@@ -815,11 +815,11 @@ class BatchPermissionsRequestEntry {
 
   /// The permissions to be granted.
   @_s.JsonKey(name: 'Permissions')
-  final List<String> permissions;
+  final List<Permission> permissions;
 
   /// Indicates if the option to pass permissions is granted.
   @_s.JsonKey(name: 'PermissionsWithGrantOption')
-  final List<String> permissionsWithGrantOption;
+  final List<Permission> permissionsWithGrantOption;
 
   /// The principal to be granted a permission.
   @_s.JsonKey(name: 'Principal')
@@ -1256,7 +1256,7 @@ enum Permission {
 class PrincipalPermissions {
   /// The permissions that are granted to the principal.
   @_s.JsonKey(name: 'Permissions')
-  final List<String> permissions;
+  final List<Permission> permissions;
 
   /// The principal who is granted permissions.
   @_s.JsonKey(name: 'Principal')
@@ -1281,12 +1281,12 @@ class PrincipalPermissions {
 class PrincipalResourcePermissions {
   /// The permissions to be granted or revoked on the resource.
   @_s.JsonKey(name: 'Permissions')
-  final List<String> permissions;
+  final List<Permission> permissions;
 
   /// Indicates whether to grant the ability to grant permissions (as a subset of
   /// permissions granted).
   @_s.JsonKey(name: 'PermissionsWithGrantOption')
-  final List<String> permissionsWithGrantOption;
+  final List<Permission> permissionsWithGrantOption;
 
   /// The Data Lake principal to be granted or revoked permissions.
   @_s.JsonKey(name: 'Principal')

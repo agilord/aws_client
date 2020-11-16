@@ -393,7 +393,7 @@ class Cloud9 {
     String environmentId,
     int maxResults,
     String nextToken,
-    List<String> permissions,
+    List<Permissions> permissions,
     String userArn,
   }) async {
     _s.validateStringPattern(

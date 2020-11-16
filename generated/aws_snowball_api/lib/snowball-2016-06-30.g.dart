@@ -538,8 +538,9 @@ ListJobsResult _$ListJobsResultFromJson(Map<String, dynamic> json) {
 
 Notification _$NotificationFromJson(Map<String, dynamic> json) {
   return Notification(
-    jobStatesToNotify:
-        (json['JobStatesToNotify'] as List)?.map((e) => e as String)?.toList(),
+    jobStatesToNotify: (json['JobStatesToNotify'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$JobStateEnumMap, e))
+        ?.toList(),
     notifyAll: json['NotifyAll'] as bool,
     snsTopicARN: json['SnsTopicARN'] as String,
   );
@@ -554,7 +555,8 @@ Map<String, dynamic> _$NotificationToJson(Notification instance) {
     }
   }
 
-  writeNotNull('JobStatesToNotify', instance.jobStatesToNotify);
+  writeNotNull('JobStatesToNotify',
+      instance.jobStatesToNotify?.map((e) => _$JobStateEnumMap[e])?.toList());
   writeNotNull('NotifyAll', instance.notifyAll);
   writeNotNull('SnsTopicARN', instance.snsTopicARN);
   return val;

@@ -7635,7 +7635,7 @@ class GameLift {
   /// The action to resume for this game server group.
   Future<ResumeGameServerGroupOutput> resumeGameServerGroup({
     @_s.required String gameServerGroupName,
-    @_s.required List<String> resumeActions,
+    @_s.required List<GameServerGroupAction> resumeActions,
   }) async {
     ArgumentError.checkNotNull(gameServerGroupName, 'gameServerGroupName');
     _s.validateStringLength(
@@ -7997,7 +7997,7 @@ class GameLift {
   /// A unique identifier for a fleet to start actions on. You can use either
   /// the fleet ID or ARN value.
   Future<void> startFleetActions({
-    @_s.required List<String> actions,
+    @_s.required List<FleetAction> actions,
     @_s.required String fleetId,
   }) async {
     ArgumentError.checkNotNull(actions, 'actions');
@@ -8646,7 +8646,7 @@ class GameLift {
   /// A unique identifier for a fleet to stop actions on. You can use either the
   /// fleet ID or ARN value.
   Future<void> stopFleetActions({
-    @_s.required List<String> actions,
+    @_s.required List<FleetAction> actions,
     @_s.required String fleetId,
   }) async {
     ArgumentError.checkNotNull(actions, 'actions');
@@ -8906,7 +8906,7 @@ class GameLift {
   /// The action to suspend for this game server group.
   Future<SuspendGameServerGroupOutput> suspendGameServerGroup({
     @_s.required String gameServerGroupName,
-    @_s.required List<String> suspendActions,
+    @_s.required List<GameServerGroupAction> suspendActions,
   }) async {
     ArgumentError.checkNotNull(gameServerGroupName, 'gameServerGroupName');
     _s.validateStringLength(
@@ -12999,7 +12999,7 @@ class FleetAttributes {
   /// List of fleet actions that have been suspended using
   /// <a>StopFleetActions</a>. This includes auto-scaling.
   @_s.JsonKey(name: 'StoppedActions')
-  final List<String> stoppedActions;
+  final List<FleetAction> stoppedActions;
 
   /// Time stamp indicating when this data object was terminated. Format is a
   /// number expressed in Unix time as milliseconds (for example
@@ -13498,7 +13498,7 @@ class GameServerGroup {
   /// A list of activities that are currently suspended for this game server
   /// group. If this property is empty, all activities are occurring.
   @_s.JsonKey(name: 'SuspendedActions')
-  final List<String> suspendedActions;
+  final List<GameServerGroupAction> suspendedActions;
 
   GameServerGroup({
     this.autoScalingGroupArn,

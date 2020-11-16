@@ -352,7 +352,8 @@ Problem _$ProblemFromJson(Map<String, dynamic> json) {
     affectedResource: json['AffectedResource'] as String,
     endTime: unixTimestampFromJson(json['EndTime']),
     feedback: (json['Feedback'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(k, e as String),
+      (k, e) => MapEntry(_$enumDecodeNullable(_$FeedbackKeyEnumMap, k),
+          _$enumDecodeNullable(_$FeedbackValueEnumMap, e)),
     ),
     id: json['Id'] as String,
     insights: json['Insights'] as String,
@@ -364,6 +365,16 @@ Problem _$ProblemFromJson(Map<String, dynamic> json) {
     title: json['Title'] as String,
   );
 }
+
+const _$FeedbackValueEnumMap = {
+  FeedbackValue.notSpecified: 'NOT_SPECIFIED',
+  FeedbackValue.useful: 'USEFUL',
+  FeedbackValue.notUseful: 'NOT_USEFUL',
+};
+
+const _$FeedbackKeyEnumMap = {
+  FeedbackKey.insightsFeedback: 'INSIGHTS_FEEDBACK',
+};
 
 const _$SeverityLevelEnumMap = {
   SeverityLevel.low: 'Low',

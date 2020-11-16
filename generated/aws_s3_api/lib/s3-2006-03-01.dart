@@ -9668,7 +9668,7 @@ class CloudFunctionConfiguration {
   final Event event;
 
   /// Bucket events for which to send notifications.
-  final List<String> events;
+  final List<Event> events;
   final String id;
 
   /// The role supporting the invocation of the Lambda function
@@ -9685,7 +9685,10 @@ class CloudFunctionConfiguration {
     return CloudFunctionConfiguration(
       cloudFunction: _s.extractXmlStringValue(elem, 'CloudFunction'),
       event: _s.extractXmlStringValue(elem, 'Event')?.toEvent(),
-      events: _s.extractXmlStringListValues(elem, 'Event'),
+      events: _s
+          .extractXmlStringListValues(elem, 'Event')
+          .map((s) => s.toEvent())
+          .toList(),
       id: _s.extractXmlStringValue(elem, 'Id'),
       invocationRole: _s.extractXmlStringValue(elem, 'InvocationRole'),
     );
@@ -9696,7 +9699,7 @@ class CloudFunctionConfiguration {
       _s.encodeXmlStringValue('Id', id),
       _s.encodeXmlStringValue('Event', event?.toValue()),
       if (events != null)
-        ...events.map((v) => _s.encodeXmlStringValue('Event', v)),
+        ...events.map((v) => _s.encodeXmlStringValue('Event', v.toValue())),
       _s.encodeXmlStringValue('CloudFunction', cloudFunction),
       _s.encodeXmlStringValue('InvocationRole', invocationRole),
     ];
@@ -13678,7 +13681,7 @@ class InventoryConfiguration {
   final InventoryFilter filter;
 
   /// Contains the optional fields that are included in the inventory results.
-  final List<String> optionalFields;
+  final List<InventoryOptionalField> optionalFields;
 
   InventoryConfiguration({
     @_s.required this.destination,
@@ -13705,9 +13708,11 @@ class InventoryConfiguration {
       filter: _s
           .extractXmlChild(elem, 'Filter')
           ?.let((e) => InventoryFilter.fromXml(e)),
-      optionalFields: _s
-          .extractXmlChild(elem, 'OptionalFields')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'Field')),
+      optionalFields: _s.extractXmlChild(elem, 'OptionalFields')?.let((elem) =>
+          _s
+              .extractXmlStringListValues(elem, 'Field')
+              .map((s) => s.toInventoryOptionalField())
+              .toList()),
     );
   }
 
@@ -13721,7 +13726,8 @@ class InventoryConfiguration {
           'IncludedObjectVersions', includedObjectVersions?.toValue()),
       if (optionalFields != null)
         _s.XmlElement(_s.XmlName('OptionalFields'), [], <_s.XmlNode>[
-          ...optionalFields.map((v) => _s.encodeXmlStringValue('Field', v))
+          ...optionalFields
+              .map((v) => _s.encodeXmlStringValue('Field', v.toValue()))
         ]),
       schedule?.toXml('Schedule'),
     ];
@@ -14170,7 +14176,7 @@ class LambdaFunctionConfiguration {
   /// more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/NotificationHowTo.html">Supported
   /// Event Types</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.
-  final List<String> events;
+  final List<Event> events;
 
   /// The Amazon Resource Name (ARN) of the AWS Lambda function that Amazon S3
   /// invokes when the specified event type occurs.
@@ -14186,7 +14192,10 @@ class LambdaFunctionConfiguration {
   });
   factory LambdaFunctionConfiguration.fromXml(_s.XmlElement elem) {
     return LambdaFunctionConfiguration(
-      events: _s.extractXmlStringListValues(elem, 'Event'),
+      events: _s
+          .extractXmlStringListValues(elem, 'Event')
+          .map((s) => s.toEvent())
+          .toList(),
       lambdaFunctionArn: _s.extractXmlStringValue(elem, 'CloudFunction'),
       filter: _s
           .extractXmlChild(elem, 'Filter')
@@ -14200,7 +14209,7 @@ class LambdaFunctionConfiguration {
       _s.encodeXmlStringValue('Id', id),
       _s.encodeXmlStringValue('CloudFunction', lambdaFunctionArn),
       if (events != null)
-        ...events.map((v) => _s.encodeXmlStringValue('Event', v)),
+        ...events.map((v) => _s.encodeXmlStringValue('Event', v.toValue())),
       filter?.toXml('Filter'),
     ];
     final $attributes = <_s.XmlAttribute>[
@@ -16863,7 +16872,7 @@ class PutObjectTaggingOutput {
 /// Queue Service (Amazon SQS) queue when Amazon S3 detects specified events.
 class QueueConfiguration {
   /// A collection of bucket events for which to send notifications
-  final List<String> events;
+  final List<Event> events;
 
   /// The Amazon Resource Name (ARN) of the Amazon SQS queue to which Amazon S3
   /// publishes a message when it detects events of the specified type.
@@ -16879,7 +16888,10 @@ class QueueConfiguration {
   });
   factory QueueConfiguration.fromXml(_s.XmlElement elem) {
     return QueueConfiguration(
-      events: _s.extractXmlStringListValues(elem, 'Event'),
+      events: _s
+          .extractXmlStringListValues(elem, 'Event')
+          .map((s) => s.toEvent())
+          .toList(),
       queueArn: _s.extractXmlStringValue(elem, 'Queue'),
       filter: _s
           .extractXmlChild(elem, 'Filter')
@@ -16893,7 +16905,7 @@ class QueueConfiguration {
       _s.encodeXmlStringValue('Id', id),
       _s.encodeXmlStringValue('Queue', queueArn),
       if (events != null)
-        ...events.map((v) => _s.encodeXmlStringValue('Event', v)),
+        ...events.map((v) => _s.encodeXmlStringValue('Event', v.toValue())),
       filter?.toXml('Filter'),
     ];
     final $attributes = <_s.XmlAttribute>[
@@ -16915,7 +16927,7 @@ class QueueConfigurationDeprecated {
   final Event event;
 
   /// A collection of bucket events for which to send notifications
-  final List<String> events;
+  final List<Event> events;
   final String id;
 
   /// The Amazon Resource Name (ARN) of the Amazon SQS queue to which Amazon S3
@@ -16931,7 +16943,10 @@ class QueueConfigurationDeprecated {
   factory QueueConfigurationDeprecated.fromXml(_s.XmlElement elem) {
     return QueueConfigurationDeprecated(
       event: _s.extractXmlStringValue(elem, 'Event')?.toEvent(),
-      events: _s.extractXmlStringListValues(elem, 'Event'),
+      events: _s
+          .extractXmlStringListValues(elem, 'Event')
+          .map((s) => s.toEvent())
+          .toList(),
       id: _s.extractXmlStringValue(elem, 'Id'),
       queue: _s.extractXmlStringValue(elem, 'Queue'),
     );
@@ -16942,7 +16957,7 @@ class QueueConfigurationDeprecated {
       _s.encodeXmlStringValue('Id', id),
       _s.encodeXmlStringValue('Event', event?.toValue()),
       if (events != null)
-        ...events.map((v) => _s.encodeXmlStringValue('Event', v)),
+        ...events.map((v) => _s.encodeXmlStringValue('Event', v.toValue())),
       _s.encodeXmlStringValue('Queue', queue),
     ];
     final $attributes = <_s.XmlAttribute>[
@@ -18873,7 +18888,7 @@ class TopicConfiguration {
   /// information, see <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/NotificationHowTo.html">Supported
   /// Event Types</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.
-  final List<String> events;
+  final List<Event> events;
 
   /// The Amazon Resource Name (ARN) of the Amazon SNS topic to which Amazon S3
   /// publishes a message when it detects events of the specified type.
@@ -18889,7 +18904,10 @@ class TopicConfiguration {
   });
   factory TopicConfiguration.fromXml(_s.XmlElement elem) {
     return TopicConfiguration(
-      events: _s.extractXmlStringListValues(elem, 'Event'),
+      events: _s
+          .extractXmlStringListValues(elem, 'Event')
+          .map((s) => s.toEvent())
+          .toList(),
       topicArn: _s.extractXmlStringValue(elem, 'Topic'),
       filter: _s
           .extractXmlChild(elem, 'Filter')
@@ -18903,7 +18921,7 @@ class TopicConfiguration {
       _s.encodeXmlStringValue('Id', id),
       _s.encodeXmlStringValue('Topic', topicArn),
       if (events != null)
-        ...events.map((v) => _s.encodeXmlStringValue('Event', v)),
+        ...events.map((v) => _s.encodeXmlStringValue('Event', v.toValue())),
       filter?.toXml('Filter'),
     ];
     final $attributes = <_s.XmlAttribute>[
@@ -18926,7 +18944,7 @@ class TopicConfigurationDeprecated {
   final Event event;
 
   /// A collection of events related to objects
-  final List<String> events;
+  final List<Event> events;
   final String id;
 
   /// Amazon SNS topic to which Amazon S3 will publish a message to report the
@@ -18942,7 +18960,10 @@ class TopicConfigurationDeprecated {
   factory TopicConfigurationDeprecated.fromXml(_s.XmlElement elem) {
     return TopicConfigurationDeprecated(
       event: _s.extractXmlStringValue(elem, 'Event')?.toEvent(),
-      events: _s.extractXmlStringListValues(elem, 'Event'),
+      events: _s
+          .extractXmlStringListValues(elem, 'Event')
+          .map((s) => s.toEvent())
+          .toList(),
       id: _s.extractXmlStringValue(elem, 'Id'),
       topic: _s.extractXmlStringValue(elem, 'Topic'),
     );
@@ -18952,7 +18973,7 @@ class TopicConfigurationDeprecated {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Id', id),
       if (events != null)
-        ...events.map((v) => _s.encodeXmlStringValue('Event', v)),
+        ...events.map((v) => _s.encodeXmlStringValue('Event', v.toValue())),
       _s.encodeXmlStringValue('Event', event?.toValue()),
       _s.encodeXmlStringValue('Topic', topic),
     ];
