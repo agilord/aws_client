@@ -46,7 +46,9 @@ class Descriptor {
     final shapeRef = api.shapes[shape];
     final shapeRefType = shapeRef.type;
 
-    if (shapeRefType.isBasicType()) {
+    if (shapeRef.enumeration != null) {
+      return shapeRef.className;
+    } else if (shapeRefType.isBasicType()) {
       return shapeRefType.getDartType(api);
     } else if (shapeRefType.isMapOrList()) {
       return getListOrMapDartType(shapeRef);

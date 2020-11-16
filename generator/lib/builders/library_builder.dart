@@ -465,6 +465,9 @@ String _xmlExtractorFn(
     if (memberShape.type.isBasicType()) {
       fn =
           '_s.extractXml${_uppercaseName(memberShape.type.getDartType(api))}ListValues($elemVar, \'$memberElemName\')';
+      if (memberShape.enumeration != null) {
+        fn += '.map((s) => s.to${_uppercaseName(memberShape.name)}()).toList()';
+      }
     } else {
       fn = '$elemVar.findElements(\'$memberElemName\')'
           '.map((c) => ${shapeRef.member.dartType}.fromXml(c)).toList()';
@@ -480,7 +483,7 @@ String _xmlExtractorFn(
       elemVar: 'c',
       shape: shapeRef.key.shape,
       elemName: shapeRef.key.locationName ?? 'key',
-      parent: shapeRef,
+      parent: shapeRef.key.shapeClass,
       container: container,
     );
     final valueExtractor = _xmlExtractorFn(
@@ -488,7 +491,7 @@ String _xmlExtractorFn(
       elemVar: 'c',
       shape: shapeRef.value.shape,
       elemName: shapeRef.value.locationName ?? 'value',
-      parent: shapeRef,
+      parent: shapeRef.value.shapeClass,
     );
     var getElementCode = '';
     var subElementName = elemName;
@@ -529,9 +532,10 @@ String _toXmlFn(
     final en = shapeRef.member.locationName ?? elemName;
     String fn;
     if (memberShape.type.isBasicType()) {
+      final enumeration = memberShape.enumeration?.isNotEmpty ?? false;
       final mdt = memberShape.type.getDartType(api);
       fn =
-          '...$fieldName.map((v) => _s.encodeXml${_uppercaseName(mdt)}Value(\'$en\', v))';
+          '...$fieldName.map((v) => _s.encodeXml${_uppercaseName(mdt)}Value(\'$en\', v${enumeration ? '.toValue()' : ''}))';
     } else {
       fn = '...$fieldName.map((v) => v.toXml(\'$elemName\'))';
     }
