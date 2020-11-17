@@ -8,6 +8,12 @@ import 'xml_namespace.dart';
 
 part 'descriptor.g.dart';
 
+abstract class MemberOrDescriptor {
+  Shape get shapeClass;
+  String get locationName;
+  String get timestampFormat;
+}
+
 @JsonSerializable(createToJson: false, disallowUnrecognizedKeys: true)
 class Descriptor {
   @JsonKey(ignore: true)
