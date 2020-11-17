@@ -25,7 +25,7 @@ void main() {
         credentials: AwsClientCredentials(accessKey: '', secretKey: ''));
 
     await service.operationName0(
-      blobArgs: ["foo"],
+      blobArgs: [Uint8List.fromList('foo'.codeUnits)],
     );
 /*
 {

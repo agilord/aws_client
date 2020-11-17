@@ -3716,14 +3716,14 @@ class GetMetricStatisticsOutput {
 
 class GetMetricWidgetImageOutput {
   /// The image of the graph, in the output format specified.
-  final String metricWidgetImage;
+  final Uint8List metricWidgetImage;
 
   GetMetricWidgetImageOutput({
     this.metricWidgetImage,
   });
   factory GetMetricWidgetImageOutput.fromXml(_s.XmlElement elem) {
     return GetMetricWidgetImageOutput(
-      metricWidgetImage: _s.extractXmlStringValue(elem, 'MetricWidgetImage'),
+      metricWidgetImage: _s.extractXmlUint8ListValue(elem, 'MetricWidgetImage'),
     );
   }
 }

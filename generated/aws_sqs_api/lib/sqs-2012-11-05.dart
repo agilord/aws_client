@@ -2550,13 +2550,15 @@ class MessageAttributeValue {
   final String dataType;
 
   /// Not implemented. Reserved for future use.
+  @Uint8ListListConverter()
   @_s.JsonKey(name: 'BinaryListValue')
-  final List<String> binaryListValues;
+  final List<Uint8List> binaryListValues;
 
   /// Binary type attributes can store any binary data, such as compressed data,
   /// encrypted data, or images.
+  @Uint8ListConverter()
   @_s.JsonKey(name: 'BinaryValue')
-  final String binaryValue;
+  final Uint8List binaryValue;
 
   /// Not implemented. Reserved for future use.
   @_s.JsonKey(name: 'StringListValue')
@@ -2579,8 +2581,9 @@ class MessageAttributeValue {
   factory MessageAttributeValue.fromXml(_s.XmlElement elem) {
     return MessageAttributeValue(
       dataType: _s.extractXmlStringValue(elem, 'DataType'),
-      binaryListValues: _s.extractXmlStringListValues(elem, 'BinaryListValue'),
-      binaryValue: _s.extractXmlStringValue(elem, 'BinaryValue'),
+      binaryListValues:
+          _s.extractXmlUint8ListListValues(elem, 'BinaryListValue'),
+      binaryValue: _s.extractXmlUint8ListValue(elem, 'BinaryValue'),
       stringListValues: _s.extractXmlStringListValues(elem, 'StringListValue'),
       stringValue: _s.extractXmlStringValue(elem, 'StringValue'),
     );
@@ -2672,13 +2675,15 @@ class MessageSystemAttributeValue {
   final String dataType;
 
   /// Not implemented. Reserved for future use.
+  @Uint8ListListConverter()
   @_s.JsonKey(name: 'BinaryListValue')
-  final List<String> binaryListValues;
+  final List<Uint8List> binaryListValues;
 
   /// Binary type attributes can store any binary data, such as compressed data,
   /// encrypted data, or images.
+  @Uint8ListConverter()
   @_s.JsonKey(name: 'BinaryValue')
-  final String binaryValue;
+  final Uint8List binaryValue;
 
   /// Not implemented. Reserved for future use.
   @_s.JsonKey(name: 'StringListValue')

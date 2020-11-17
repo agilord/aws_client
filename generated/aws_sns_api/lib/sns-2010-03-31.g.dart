@@ -17,7 +17,8 @@ Map<String, dynamic> _$MessageAttributeValueToJson(
   }
 
   writeNotNull('DataType', instance.dataType);
-  writeNotNull('BinaryValue', instance.binaryValue);
+  writeNotNull(
+      'BinaryValue', const Uint8ListConverter().toJson(instance.binaryValue));
   writeNotNull('StringValue', instance.stringValue);
   return val;
 }

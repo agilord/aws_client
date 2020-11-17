@@ -13255,7 +13255,7 @@ class GetContextKeysForPolicyResponse {
 /// Contains the response to a successful <a>GetCredentialReport</a> request.
 class GetCredentialReportResponse {
   /// Contains the credential report. The report is Base64-encoded.
-  final String content;
+  final Uint8List content;
 
   /// The date and time when the credential report was created, in <a
   /// href="http://www.iso.org/iso/iso8601">ISO 8601 date-time format</a>.
@@ -13271,7 +13271,7 @@ class GetCredentialReportResponse {
   });
   factory GetCredentialReportResponse.fromXml(_s.XmlElement elem) {
     return GetCredentialReportResponse(
-      content: _s.extractXmlStringValue(elem, 'Content'),
+      content: _s.extractXmlUint8ListValue(elem, 'Content'),
       generatedTime: _s.extractXmlDateTimeValue(elem, 'GeneratedTime'),
       reportFormat:
           _s.extractXmlStringValue(elem, 'ReportFormat')?.toReportFormatType(),
@@ -17057,7 +17057,7 @@ class VirtualMFADevice {
   /// The base32 seed defined as specified in <a
   /// href="https://tools.ietf.org/html/rfc3548.txt">RFC3548</a>. The
   /// <code>Base32StringSeed</code> is base64-encoded.
-  final String base32StringSeed;
+  final Uint8List base32StringSeed;
 
   /// The date and time on which the virtual MFA device was enabled.
   final DateTime enableDate;
@@ -17068,7 +17068,7 @@ class VirtualMFADevice {
   /// arguments. <code>AccountName</code> is the user name if set (otherwise, the
   /// account ID otherwise), and <code>Base32String</code> is the seed in base32
   /// format. The <code>Base32String</code> value is base64-encoded.
-  final String qRCodePNG;
+  final Uint8List qRCodePNG;
 
   /// The IAM user associated with this virtual MFA device.
   final User user;
@@ -17083,9 +17083,9 @@ class VirtualMFADevice {
   factory VirtualMFADevice.fromXml(_s.XmlElement elem) {
     return VirtualMFADevice(
       serialNumber: _s.extractXmlStringValue(elem, 'SerialNumber'),
-      base32StringSeed: _s.extractXmlStringValue(elem, 'Base32StringSeed'),
+      base32StringSeed: _s.extractXmlUint8ListValue(elem, 'Base32StringSeed'),
       enableDate: _s.extractXmlDateTimeValue(elem, 'EnableDate'),
-      qRCodePNG: _s.extractXmlStringValue(elem, 'QRCodePNG'),
+      qRCodePNG: _s.extractXmlUint8ListValue(elem, 'QRCodePNG'),
       user: _s.extractXmlChild(elem, 'User')?.let((e) => User.fromXml(e)),
     );
   }

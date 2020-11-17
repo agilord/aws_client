@@ -2490,8 +2490,9 @@ class MessageAttributeValue {
 
   /// Binary type attributes can store any binary data, for example, compressed
   /// data, encrypted data, or images.
+  @Uint8ListConverter()
   @_s.JsonKey(name: 'BinaryValue')
-  final String binaryValue;
+  final Uint8List binaryValue;
 
   /// Strings are Unicode with UTF8 binary encoding. For a list of code values,
   /// see <a

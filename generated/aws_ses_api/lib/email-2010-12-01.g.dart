@@ -327,7 +327,7 @@ Map<String, dynamic> _$RawMessageToJson(RawMessage instance) {
     }
   }
 
-  writeNotNull('Data', instance.data);
+  writeNotNull('Data', const Uint8ListConverter().toJson(instance.data));
   return val;
 }
 
