@@ -187,7 +187,7 @@ class SageMakerRuntime {
         (v) => headers['X-Amzn-SageMaker-Custom-Attributes'] = v.toString());
     targetModel
         ?.let((v) => headers['X-Amzn-SageMaker-Target-Model'] = v.toString());
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: body,
       headers: headers,
       method: 'POST',
@@ -195,7 +195,15 @@ class SageMakerRuntime {
           '/endpoints/${Uri.encodeComponent(endpointName.toString())}/invocations',
       exceptionFnMap: _exceptionFns,
     );
-    return InvokeEndpointOutput.fromJson({...response, 'Body': response});
+    return InvokeEndpointOutput(
+      body: await response.stream.toBytes(),
+      contentType:
+          _s.extractHeaderStringValue(response.headers, 'Content-Type'),
+      customAttributes: _s.extractHeaderStringValue(
+          response.headers, 'X-Amzn-SageMaker-Custom-Attributes'),
+      invokedProductionVariant: _s.extractHeaderStringValue(
+          response.headers, 'x-Amzn-Invoked-Production-Variant'),
+    );
   }
 }
 

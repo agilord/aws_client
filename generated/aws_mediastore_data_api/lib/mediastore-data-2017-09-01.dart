@@ -108,13 +108,24 @@ class MediaStoreData {
       r'''(?:[A-Za-z0-9_\.\-\~]+/){0,10}[A-Za-z0-9_\.\-\~]+''',
       isRequired: true,
     );
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       method: 'HEAD',
       requestUri: '/${Uri.encodeComponent(path.toString())}',
       exceptionFnMap: _exceptionFns,
     );
-    return DescribeObjectResponse.fromJson(response);
+    final $json = await _s.jsonFromResponse(response);
+    return DescribeObjectResponse(
+      cacheControl:
+          _s.extractHeaderStringValue(response.headers, 'Cache-Control'),
+      contentLength:
+          _s.extractHeaderIntValue(response.headers, 'Content-Length'),
+      contentType:
+          _s.extractHeaderStringValue(response.headers, 'Content-Type'),
+      eTag: _s.extractHeaderStringValue(response.headers, 'ETag'),
+      lastModified:
+          _s.extractHeaderDateTimeValue(response.headers, 'Last-Modified'),
+    );
   }
 
   /// Downloads the object at the specified path. If the object’s upload
@@ -187,14 +198,28 @@ class MediaStoreData {
     );
     final headers = <String, String>{};
     range?.let((v) => headers['Range'] = v.toString());
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       headers: headers,
       method: 'GET',
       requestUri: '/${Uri.encodeComponent(path.toString())}',
       exceptionFnMap: _exceptionFns,
     );
-    return GetObjectResponse.fromJson({...response, 'Body': response});
+    return GetObjectResponse(
+      body: await response.stream.toBytes(),
+      cacheControl:
+          _s.extractHeaderStringValue(response.headers, 'Cache-Control'),
+      contentLength:
+          _s.extractHeaderIntValue(response.headers, 'Content-Length'),
+      contentRange:
+          _s.extractHeaderStringValue(response.headers, 'Content-Range'),
+      contentType:
+          _s.extractHeaderStringValue(response.headers, 'Content-Type'),
+      eTag: _s.extractHeaderStringValue(response.headers, 'ETag'),
+      lastModified:
+          _s.extractHeaderDateTimeValue(response.headers, 'Last-Modified'),
+      statusCode: response.statusCode,
+    );
   }
 
   /// Provides a list of metadata entries about folders and objects in the

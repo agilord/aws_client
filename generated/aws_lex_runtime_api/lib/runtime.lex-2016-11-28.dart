@@ -457,7 +457,7 @@ class LexRuntimeService {
         ?.let((v) => headers['x-amz-lex-request-attributes'] = v.toString());
     sessionAttributes
         ?.let((v) => headers['x-amz-lex-session-attributes'] = v.toString());
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: inputStream,
       headers: headers,
       method: 'POST',
@@ -465,7 +465,33 @@ class LexRuntimeService {
           '/bot/${Uri.encodeComponent(botName.toString())}/alias/${Uri.encodeComponent(botAlias.toString())}/user/${Uri.encodeComponent(userId.toString())}/content',
       exceptionFnMap: _exceptionFns,
     );
-    return PostContentResponse.fromJson({...response, 'audioStream': response});
+    return PostContentResponse(
+      audioStream: await response.stream.toBytes(),
+      contentType:
+          _s.extractHeaderStringValue(response.headers, 'Content-Type'),
+      dialogState: _s
+          .extractHeaderStringValue(response.headers, 'x-amz-lex-dialog-state')
+          ?.toDialogState(),
+      inputTranscript: _s.extractHeaderStringValue(
+          response.headers, 'x-amz-lex-input-transcript'),
+      intentName: _s.extractHeaderStringValue(
+          response.headers, 'x-amz-lex-intent-name'),
+      message:
+          _s.extractHeaderStringValue(response.headers, 'x-amz-lex-message'),
+      messageFormat: _s
+          .extractHeaderStringValue(
+              response.headers, 'x-amz-lex-message-format')
+          ?.toMessageFormatType(),
+      sentimentResponse:
+          _s.extractHeaderStringValue(response.headers, 'x-amz-lex-sentiment'),
+      sessionAttributes: _s.extractHeaderStringValue(
+          response.headers, 'x-amz-lex-session-attributes'),
+      sessionId:
+          _s.extractHeaderStringValue(response.headers, 'x-amz-lex-session-id'),
+      slotToElicit: _s.extractHeaderStringValue(
+          response.headers, 'x-amz-lex-slot-to-elicit'),
+      slots: _s.extractHeaderStringValue(response.headers, 'x-amz-lex-slots'),
+    );
   }
 
   /// Sends user input to Amazon Lex. Client applications can use this API to
@@ -792,7 +818,7 @@ class LexRuntimeService {
         'recentIntentSummaryView': recentIntentSummaryView,
       if (sessionAttributes != null) 'sessionAttributes': sessionAttributes,
     };
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: $payload,
       headers: headers,
       method: 'POST',
@@ -800,7 +826,29 @@ class LexRuntimeService {
           '/bot/${Uri.encodeComponent(botName.toString())}/alias/${Uri.encodeComponent(botAlias.toString())}/user/${Uri.encodeComponent(userId.toString())}/session',
       exceptionFnMap: _exceptionFns,
     );
-    return PutSessionResponse.fromJson({...response, 'audioStream': response});
+    return PutSessionResponse(
+      audioStream: await response.stream.toBytes(),
+      contentType:
+          _s.extractHeaderStringValue(response.headers, 'Content-Type'),
+      dialogState: _s
+          .extractHeaderStringValue(response.headers, 'x-amz-lex-dialog-state')
+          ?.toDialogState(),
+      intentName: _s.extractHeaderStringValue(
+          response.headers, 'x-amz-lex-intent-name'),
+      message:
+          _s.extractHeaderStringValue(response.headers, 'x-amz-lex-message'),
+      messageFormat: _s
+          .extractHeaderStringValue(
+              response.headers, 'x-amz-lex-message-format')
+          ?.toMessageFormatType(),
+      sessionAttributes: _s.extractHeaderStringValue(
+          response.headers, 'x-amz-lex-session-attributes'),
+      sessionId:
+          _s.extractHeaderStringValue(response.headers, 'x-amz-lex-session-id'),
+      slotToElicit: _s.extractHeaderStringValue(
+          response.headers, 'x-amz-lex-slot-to-elicit'),
+      slots: _s.extractHeaderStringValue(response.headers, 'x-amz-lex-slots'),
+    );
   }
 }
 
@@ -1015,6 +1063,26 @@ enum DialogState {
   failed,
 }
 
+extension on String {
+  DialogState toDialogState() {
+    switch (this) {
+      case 'ElicitIntent':
+        return DialogState.elicitIntent;
+      case 'ConfirmIntent':
+        return DialogState.confirmIntent;
+      case 'ElicitSlot':
+        return DialogState.elicitSlot;
+      case 'Fulfilled':
+        return DialogState.fulfilled;
+      case 'ReadyForFulfillment':
+        return DialogState.readyForFulfillment;
+      case 'Failed':
+        return DialogState.failed;
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 enum FulfillmentState {
   @_s.JsonValue('Fulfilled')
   fulfilled,
@@ -1227,6 +1295,22 @@ enum MessageFormatType {
   ssml,
   @_s.JsonValue('Composite')
   composite,
+}
+
+extension on String {
+  MessageFormatType toMessageFormatType() {
+    switch (this) {
+      case 'PlainText':
+        return MessageFormatType.plainText;
+      case 'CustomPayload':
+        return MessageFormatType.customPayload;
+      case 'SSML':
+        return MessageFormatType.ssml;
+      case 'Composite':
+        return MessageFormatType.composite;
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 @_s.JsonSerializable(

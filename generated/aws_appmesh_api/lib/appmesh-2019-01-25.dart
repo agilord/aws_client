@@ -129,13 +129,16 @@ class AppMesh {
       if (spec != null) 'spec': spec,
       if (tags != null) 'tags': tags,
     };
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: $payload,
       method: 'PUT',
       requestUri: '/v20190125/meshes',
       exceptionFnMap: _exceptionFns,
     );
-    return CreateMeshOutput.fromJson({...response, 'mesh': response});
+    final $json = await _s.jsonFromResponse(response);
+    return CreateMeshOutput(
+      mesh: MeshData.fromJson($json),
+    );
   }
 
   /// Creates a route that is associated with a virtual router.
@@ -253,14 +256,17 @@ class AppMesh {
       if (clientToken != null) 'clientToken': clientToken,
       if (tags != null) 'tags': tags,
     };
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: $payload,
       method: 'PUT',
       requestUri:
           '/v20190125/meshes/${Uri.encodeComponent(meshName.toString())}/virtualRouter/${Uri.encodeComponent(virtualRouterName.toString())}/routes$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return CreateRouteOutput.fromJson({...response, 'route': response});
+    final $json = await _s.jsonFromResponse(response);
+    return CreateRouteOutput(
+      route: RouteData.fromJson($json),
+    );
   }
 
   /// Creates a virtual node within a service mesh.
@@ -388,15 +394,17 @@ class AppMesh {
       if (clientToken != null) 'clientToken': clientToken,
       if (tags != null) 'tags': tags,
     };
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: $payload,
       method: 'PUT',
       requestUri:
           '/v20190125/meshes/${Uri.encodeComponent(meshName.toString())}/virtualNodes$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return CreateVirtualNodeOutput.fromJson(
-        {...response, 'virtualNode': response});
+    final $json = await _s.jsonFromResponse(response);
+    return CreateVirtualNodeOutput(
+      virtualNode: VirtualNodeData.fromJson($json),
+    );
   }
 
   /// Creates a virtual router within a service mesh.
@@ -500,15 +508,17 @@ class AppMesh {
       if (clientToken != null) 'clientToken': clientToken,
       if (tags != null) 'tags': tags,
     };
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: $payload,
       method: 'PUT',
       requestUri:
           '/v20190125/meshes/${Uri.encodeComponent(meshName.toString())}/virtualRouters$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return CreateVirtualRouterOutput.fromJson(
-        {...response, 'virtualRouter': response});
+    final $json = await _s.jsonFromResponse(response);
+    return CreateVirtualRouterOutput(
+      virtualRouter: VirtualRouterData.fromJson($json),
+    );
   }
 
   /// Creates a virtual service within a service mesh.
@@ -603,15 +613,17 @@ class AppMesh {
       if (clientToken != null) 'clientToken': clientToken,
       if (tags != null) 'tags': tags,
     };
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: $payload,
       method: 'PUT',
       requestUri:
           '/v20190125/meshes/${Uri.encodeComponent(meshName.toString())}/virtualServices$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return CreateVirtualServiceOutput.fromJson(
-        {...response, 'virtualService': response});
+    final $json = await _s.jsonFromResponse(response);
+    return CreateVirtualServiceOutput(
+      virtualService: VirtualServiceData.fromJson($json),
+    );
   }
 
   /// Deletes an existing service mesh.
@@ -643,14 +655,17 @@ class AppMesh {
       isRequired: true,
     );
     final $payload = <String, dynamic>{};
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: $payload,
       method: 'DELETE',
       requestUri:
           '/v20190125/meshes/${Uri.encodeComponent(meshName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteMeshOutput.fromJson({...response, 'mesh': response});
+    final $json = await _s.jsonFromResponse(response);
+    return DeleteMeshOutput(
+      mesh: MeshData.fromJson($json),
+    );
   }
 
   /// Deletes an existing route.
@@ -720,14 +735,17 @@ class AppMesh {
       if (meshOwner != null) _s.toQueryParam('meshOwner', meshOwner),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{};
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: $payload,
       method: 'DELETE',
       requestUri:
           '/v20190125/meshes/${Uri.encodeComponent(meshName.toString())}/virtualRouter/${Uri.encodeComponent(virtualRouterName.toString())}/routes/${Uri.encodeComponent(routeName.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteRouteOutput.fromJson({...response, 'route': response});
+    final $json = await _s.jsonFromResponse(response);
+    return DeleteRouteOutput(
+      route: RouteData.fromJson($json),
+    );
   }
 
   /// Deletes an existing virtual node.
@@ -790,15 +808,17 @@ class AppMesh {
       if (meshOwner != null) _s.toQueryParam('meshOwner', meshOwner),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{};
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: $payload,
       method: 'DELETE',
       requestUri:
           '/v20190125/meshes/${Uri.encodeComponent(meshName.toString())}/virtualNodes/${Uri.encodeComponent(virtualNodeName.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteVirtualNodeOutput.fromJson(
-        {...response, 'virtualNode': response});
+    final $json = await _s.jsonFromResponse(response);
+    return DeleteVirtualNodeOutput(
+      virtualNode: VirtualNodeData.fromJson($json),
+    );
   }
 
   /// Deletes an existing virtual router.
@@ -861,15 +881,17 @@ class AppMesh {
       if (meshOwner != null) _s.toQueryParam('meshOwner', meshOwner),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{};
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: $payload,
       method: 'DELETE',
       requestUri:
           '/v20190125/meshes/${Uri.encodeComponent(meshName.toString())}/virtualRouters/${Uri.encodeComponent(virtualRouterName.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteVirtualRouterOutput.fromJson(
-        {...response, 'virtualRouter': response});
+    final $json = await _s.jsonFromResponse(response);
+    return DeleteVirtualRouterOutput(
+      virtualRouter: VirtualRouterData.fromJson($json),
+    );
   }
 
   /// Deletes an existing virtual service.
@@ -919,15 +941,17 @@ class AppMesh {
       if (meshOwner != null) _s.toQueryParam('meshOwner', meshOwner),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{};
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: $payload,
       method: 'DELETE',
       requestUri:
           '/v20190125/meshes/${Uri.encodeComponent(meshName.toString())}/virtualServices/${Uri.encodeComponent(virtualServiceName.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteVirtualServiceOutput.fromJson(
-        {...response, 'virtualService': response});
+    final $json = await _s.jsonFromResponse(response);
+    return DeleteVirtualServiceOutput(
+      virtualService: VirtualServiceData.fromJson($json),
+    );
   }
 
   /// Describes an existing service mesh.
@@ -971,14 +995,17 @@ class AppMesh {
     _query = '?${[
       if (meshOwner != null) _s.toQueryParam('meshOwner', meshOwner),
     ].where((e) => e != null).join('&')}';
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri:
           '/v20190125/meshes/${Uri.encodeComponent(meshName.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return DescribeMeshOutput.fromJson({...response, 'mesh': response});
+    final $json = await _s.jsonFromResponse(response);
+    return DescribeMeshOutput(
+      mesh: MeshData.fromJson($json),
+    );
   }
 
   /// Describes an existing route.
@@ -1046,14 +1073,17 @@ class AppMesh {
     _query = '?${[
       if (meshOwner != null) _s.toQueryParam('meshOwner', meshOwner),
     ].where((e) => e != null).join('&')}';
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri:
           '/v20190125/meshes/${Uri.encodeComponent(meshName.toString())}/virtualRouter/${Uri.encodeComponent(virtualRouterName.toString())}/routes/${Uri.encodeComponent(routeName.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return DescribeRouteOutput.fromJson({...response, 'route': response});
+    final $json = await _s.jsonFromResponse(response);
+    return DescribeRouteOutput(
+      route: RouteData.fromJson($json),
+    );
   }
 
   /// Describes an existing virtual node.
@@ -1109,15 +1139,17 @@ class AppMesh {
     _query = '?${[
       if (meshOwner != null) _s.toQueryParam('meshOwner', meshOwner),
     ].where((e) => e != null).join('&')}';
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri:
           '/v20190125/meshes/${Uri.encodeComponent(meshName.toString())}/virtualNodes/${Uri.encodeComponent(virtualNodeName.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return DescribeVirtualNodeOutput.fromJson(
-        {...response, 'virtualNode': response});
+    final $json = await _s.jsonFromResponse(response);
+    return DescribeVirtualNodeOutput(
+      virtualNode: VirtualNodeData.fromJson($json),
+    );
   }
 
   /// Describes an existing virtual router.
@@ -1173,15 +1205,17 @@ class AppMesh {
     _query = '?${[
       if (meshOwner != null) _s.toQueryParam('meshOwner', meshOwner),
     ].where((e) => e != null).join('&')}';
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri:
           '/v20190125/meshes/${Uri.encodeComponent(meshName.toString())}/virtualRouters/${Uri.encodeComponent(virtualRouterName.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return DescribeVirtualRouterOutput.fromJson(
-        {...response, 'virtualRouter': response});
+    final $json = await _s.jsonFromResponse(response);
+    return DescribeVirtualRouterOutput(
+      virtualRouter: VirtualRouterData.fromJson($json),
+    );
   }
 
   /// Describes an existing virtual service.
@@ -1230,15 +1264,17 @@ class AppMesh {
     _query = '?${[
       if (meshOwner != null) _s.toQueryParam('meshOwner', meshOwner),
     ].where((e) => e != null).join('&')}';
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri:
           '/v20190125/meshes/${Uri.encodeComponent(meshName.toString())}/virtualServices/${Uri.encodeComponent(virtualServiceName.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return DescribeVirtualServiceOutput.fromJson(
-        {...response, 'virtualService': response});
+    final $json = await _s.jsonFromResponse(response);
+    return DescribeVirtualServiceOutput(
+      virtualService: VirtualServiceData.fromJson($json),
+    );
   }
 
   /// Returns a list of existing service meshes.
@@ -1832,14 +1868,17 @@ class AppMesh {
       if (clientToken != null) 'clientToken': clientToken,
       if (spec != null) 'spec': spec,
     };
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: $payload,
       method: 'PUT',
       requestUri:
           '/v20190125/meshes/${Uri.encodeComponent(meshName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateMeshOutput.fromJson({...response, 'mesh': response});
+    final $json = await _s.jsonFromResponse(response);
+    return UpdateMeshOutput(
+      mesh: MeshData.fromJson($json),
+    );
   }
 
   /// Updates an existing route for a specified service mesh and virtual router.
@@ -1924,14 +1963,17 @@ class AppMesh {
       'spec': spec,
       if (clientToken != null) 'clientToken': clientToken,
     };
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: $payload,
       method: 'PUT',
       requestUri:
           '/v20190125/meshes/${Uri.encodeComponent(meshName.toString())}/virtualRouter/${Uri.encodeComponent(virtualRouterName.toString())}/routes/${Uri.encodeComponent(routeName.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateRouteOutput.fromJson({...response, 'route': response});
+    final $json = await _s.jsonFromResponse(response);
+    return UpdateRouteOutput(
+      route: RouteData.fromJson($json),
+    );
   }
 
   /// Updates an existing virtual node in a specified service mesh.
@@ -2005,15 +2047,17 @@ class AppMesh {
       'spec': spec,
       if (clientToken != null) 'clientToken': clientToken,
     };
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: $payload,
       method: 'PUT',
       requestUri:
           '/v20190125/meshes/${Uri.encodeComponent(meshName.toString())}/virtualNodes/${Uri.encodeComponent(virtualNodeName.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateVirtualNodeOutput.fromJson(
-        {...response, 'virtualNode': response});
+    final $json = await _s.jsonFromResponse(response);
+    return UpdateVirtualNodeOutput(
+      virtualNode: VirtualNodeData.fromJson($json),
+    );
   }
 
   /// Updates an existing virtual router in a specified service mesh.
@@ -2087,15 +2131,17 @@ class AppMesh {
       'spec': spec,
       if (clientToken != null) 'clientToken': clientToken,
     };
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: $payload,
       method: 'PUT',
       requestUri:
           '/v20190125/meshes/${Uri.encodeComponent(meshName.toString())}/virtualRouters/${Uri.encodeComponent(virtualRouterName.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateVirtualRouterOutput.fromJson(
-        {...response, 'virtualRouter': response});
+    final $json = await _s.jsonFromResponse(response);
+    return UpdateVirtualRouterOutput(
+      virtualRouter: VirtualRouterData.fromJson($json),
+    );
   }
 
   /// Updates an existing virtual service in a specified service mesh.
@@ -2163,15 +2209,17 @@ class AppMesh {
       'spec': spec,
       if (clientToken != null) 'clientToken': clientToken,
     };
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: $payload,
       method: 'PUT',
       requestUri:
           '/v20190125/meshes/${Uri.encodeComponent(meshName.toString())}/virtualServices/${Uri.encodeComponent(virtualServiceName.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateVirtualServiceOutput.fromJson(
-        {...response, 'virtualService': response});
+    final $json = await _s.jsonFromResponse(response);
+    return UpdateVirtualServiceOutput(
+      virtualService: VirtualServiceData.fromJson($json),
+    );
   }
 }
 

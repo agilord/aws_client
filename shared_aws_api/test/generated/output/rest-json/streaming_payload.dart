@@ -42,13 +42,15 @@ class StreamingPayload {
         );
 
   Future<OutputShape> operationName0() async {
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
     );
-    return OutputShape.fromJson({...response, 'Stream': response});
+    return OutputShape(
+      stream: await response.stream.toBytes(),
+    );
   }
 }
 

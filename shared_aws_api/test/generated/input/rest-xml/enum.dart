@@ -102,18 +102,12 @@ class InputShape {
   });
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-// TODO: implement header member: x-amz-enum
-      if (1 == 1) throw UnimplementedError(),
       _s.encodeXmlStringValue('FooEnum', fooEnum?.toValue()),
-// TODO: implement uri member: URIEnum
-      if (1 == 1) throw UnimplementedError(),
       if (listEnums != null)
         _s.XmlElement(_s.XmlName('ListEnums'), [], <_s.XmlNode>[
           ...listEnums
               .map((v) => _s.encodeXmlStringValue('ListEnums', v.toValue()))
         ]),
-// TODO: implement querystring member: ListEnums
-      if (1 == 1) throw UnimplementedError(),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,

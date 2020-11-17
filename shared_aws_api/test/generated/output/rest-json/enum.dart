@@ -42,13 +42,22 @@ class Enum {
         );
 
   Future<OutputShape> operationName0() async {
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       method: 'POST',
       requestUri: '/path',
       exceptionFnMap: _exceptionFns,
     );
-    return OutputShape.fromJson(response);
+    final $json = await _s.jsonFromResponse(response);
+    return OutputShape(
+      fooEnum: ($json['FooEnum'] as String)?.toRESTJSONEnumType(),
+      listEnums: ($json['ListEnums'] as List)
+          ?.map((e) => (e as String)?.toRESTJSONEnumType())
+          ?.toList(),
+      headerEnum: _s
+          .extractHeaderStringValue(response.headers, 'x-amz-enum')
+          ?.toRESTJSONEnumType(),
+    );
   }
 
   Future<void> operationName1({
@@ -120,6 +129,24 @@ extension on RESTJSONEnumType {
         return '0';
       case RESTJSONEnumType.$1:
         return '1';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  RESTJSONEnumType toRESTJSONEnumType() {
+    switch (this) {
+      case 'foo':
+        return RESTJSONEnumType.foo;
+      case 'bar':
+        return RESTJSONEnumType.bar;
+      case 'baz':
+        return RESTJSONEnumType.baz;
+      case '0':
+        return RESTJSONEnumType.$0;
+      case '1':
+        return RESTJSONEnumType.$1;
     }
     throw Exception('Unknown enum value: $this');
   }

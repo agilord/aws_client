@@ -1446,14 +1446,16 @@ class ApiGatewayV2 {
         _s.toQueryParam('includeExtensions', includeExtensions),
       if (stageName != null) _s.toQueryParam('stageName', stageName),
     ].where((e) => e != null).join('&')}';
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri:
           '/v2/apis/${Uri.encodeComponent(apiId.toString())}/exports/${Uri.encodeComponent(specification.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return ExportApiResponse.fromJson({...response, 'body': response});
+    return ExportApiResponse(
+      body: await response.stream.toBytes(),
+    );
   }
 
   /// Gets an Api resource.

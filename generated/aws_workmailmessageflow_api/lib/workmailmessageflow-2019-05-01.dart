@@ -65,14 +65,15 @@ class WorkMailMessageFlow {
       r'''[a-z0-9\-]*''',
       isRequired: true,
     );
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri: '/messages/${Uri.encodeComponent(messageId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
-    return GetRawMessageContentResponse.fromJson(
-        {...response, 'messageContent': response});
+    return GetRawMessageContentResponse(
+      messageContent: await response.stream.toBytes(),
+    );
   }
 }
 

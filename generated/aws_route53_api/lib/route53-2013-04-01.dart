@@ -4828,8 +4828,6 @@ class AssociateVPCWithHostedZoneRequest {
   });
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-// TODO: implement uri member: Id
-      if (1 == 1) throw UnimplementedError(),
       vpc?.toXml('VPC'),
       _s.encodeXmlStringValue('Comment', comment),
     ];
@@ -5036,8 +5034,6 @@ class ChangeResourceRecordSetsRequest {
   });
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-// TODO: implement uri member: Id
-      if (1 == 1) throw UnimplementedError(),
       changeBatch?.toXml('ChangeBatch'),
     ];
     final $attributes = <_s.XmlAttribute>[
@@ -5139,10 +5135,6 @@ class ChangeTagsForResourceRequest {
   });
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-// TODO: implement uri member: ResourceType
-      if (1 == 1) throw UnimplementedError(),
-// TODO: implement uri member: ResourceId
-      if (1 == 1) throw UnimplementedError(),
       if (addTags != null)
         _s.XmlElement(_s.XmlName('AddTags'), [],
             <_s.XmlNode>[...addTags.map((v) => v.toXml('AddTags'))]),
@@ -5895,8 +5887,6 @@ class CreateTrafficPolicyVersionRequest {
   });
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-// TODO: implement uri member: Id
-      if (1 == 1) throw UnimplementedError(),
       _s.encodeXmlStringValue('Document', document),
       _s.encodeXmlStringValue('Comment', comment),
     ];
@@ -5957,8 +5947,6 @@ class CreateVPCAssociationAuthorizationRequest {
   });
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-// TODO: implement uri member: Id
-      if (1 == 1) throw UnimplementedError(),
       vpc?.toXml('VPC'),
     ];
     final $attributes = <_s.XmlAttribute>[
@@ -6113,8 +6101,6 @@ class DeleteVPCAssociationAuthorizationRequest {
   });
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-// TODO: implement uri member: Id
-      if (1 == 1) throw UnimplementedError(),
       vpc?.toXml('VPC'),
     ];
     final $attributes = <_s.XmlAttribute>[
@@ -6181,8 +6167,6 @@ class DisassociateVPCFromHostedZoneRequest {
   });
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-// TODO: implement uri member: Id
-      if (1 == 1) throw UnimplementedError(),
       vpc?.toXml('VPC'),
       _s.encodeXmlStringValue('Comment', comment),
     ];
@@ -8001,8 +7985,6 @@ class ListTagsForResourcesRequest {
   });
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-// TODO: implement uri member: ResourceType
-      if (1 == 1) throw UnimplementedError(),
       if (resourceIds != null)
         _s.XmlElement(_s.XmlName('ResourceIds'), [], <_s.XmlNode>[
           ...resourceIds.map((v) => _s.encodeXmlStringValue('ResourceId', v))
@@ -10213,8 +10195,6 @@ class UpdateHealthCheckRequest {
   });
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-// TODO: implement uri member: HealthCheckId
-      if (1 == 1) throw UnimplementedError(),
       _s.encodeXmlIntValue('HealthCheckVersion', healthCheckVersion),
       _s.encodeXmlStringValue('IPAddress', iPAddress),
       _s.encodeXmlIntValue('Port', port),
@@ -10291,8 +10271,6 @@ class UpdateHostedZoneCommentRequest {
   });
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-// TODO: implement uri member: Id
-      if (1 == 1) throw UnimplementedError(),
       _s.encodeXmlStringValue('Comment', comment),
     ];
     final $attributes = <_s.XmlAttribute>[
@@ -10346,10 +10324,6 @@ class UpdateTrafficPolicyCommentRequest {
   });
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-// TODO: implement uri member: Id
-      if (1 == 1) throw UnimplementedError(),
-// TODO: implement uri member: Version
-      if (1 == 1) throw UnimplementedError(),
       _s.encodeXmlStringValue('Comment', comment),
     ];
     final $attributes = <_s.XmlAttribute>[
@@ -10407,8 +10381,6 @@ class UpdateTrafficPolicyInstanceRequest {
   });
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-// TODO: implement uri member: Id
-      if (1 == 1) throw UnimplementedError(),
       _s.encodeXmlIntValue('TTL', ttl),
       _s.encodeXmlStringValue('TrafficPolicyId', trafficPolicyId),
       _s.encodeXmlIntValue('TrafficPolicyVersion', trafficPolicyVersion),

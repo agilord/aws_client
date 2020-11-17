@@ -328,7 +328,7 @@ class Glacier {
     archiveSize?.let((v) => headers['x-amz-archive-size'] = v.toString());
     checksum?.let((v) => headers['x-amz-sha256-tree-hash'] = v.toString());
     final $payload = <String, dynamic>{};
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: $payload,
       headers: headers,
       method: 'POST',
@@ -336,7 +336,14 @@ class Glacier {
           '/${Uri.encodeComponent(accountId.toString())}/vaults/${Uri.encodeComponent(vaultName.toString())}/multipart-uploads/${Uri.encodeComponent(uploadId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
-    return ArchiveCreationOutput.fromJson(response);
+    final $json = await _s.jsonFromResponse(response);
+    return ArchiveCreationOutput(
+      archiveId:
+          _s.extractHeaderStringValue(response.headers, 'x-amz-archive-id'),
+      checksum: _s.extractHeaderStringValue(
+          response.headers, 'x-amz-sha256-tree-hash'),
+      location: _s.extractHeaderStringValue(response.headers, 'Location'),
+    );
   }
 
   /// This operation completes the vault locking process by transitioning the
@@ -449,14 +456,17 @@ class Glacier {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(vaultName, 'vaultName');
     final $payload = <String, dynamic>{};
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: $payload,
       method: 'PUT',
       requestUri:
           '/${Uri.encodeComponent(accountId.toString())}/vaults/${Uri.encodeComponent(vaultName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
-    return CreateVaultOutput.fromJson(response);
+    final $json = await _s.jsonFromResponse(response);
+    return CreateVaultOutput(
+      location: _s.extractHeaderStringValue(response.headers, 'Location'),
+    );
   }
 
   /// This operation deletes an archive from a vault. Subsequent requests to
@@ -940,7 +950,7 @@ class Glacier {
     ArgumentError.checkNotNull(vaultName, 'vaultName');
     final headers = <String, String>{};
     range?.let((v) => headers['Range'] = v.toString());
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       headers: headers,
       method: 'GET',
@@ -948,7 +958,20 @@ class Glacier {
           '/${Uri.encodeComponent(accountId.toString())}/vaults/${Uri.encodeComponent(vaultName.toString())}/jobs/${Uri.encodeComponent(jobId.toString())}/output',
       exceptionFnMap: _exceptionFns,
     );
-    return GetJobOutputOutput.fromJson({...response, 'body': response});
+    return GetJobOutputOutput(
+      body: await response.stream.toBytes(),
+      acceptRanges:
+          _s.extractHeaderStringValue(response.headers, 'Accept-Ranges'),
+      archiveDescription: _s.extractHeaderStringValue(
+          response.headers, 'x-amz-archive-description'),
+      checksum: _s.extractHeaderStringValue(
+          response.headers, 'x-amz-sha256-tree-hash'),
+      contentRange:
+          _s.extractHeaderStringValue(response.headers, 'Content-Range'),
+      contentType:
+          _s.extractHeaderStringValue(response.headers, 'Content-Type'),
+      status: response.statusCode,
+    );
   }
 
   /// This operation retrieves the <code>access-policy</code> subresource set on
@@ -980,15 +1003,17 @@ class Glacier {
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(vaultName, 'vaultName');
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri:
           '/${Uri.encodeComponent(accountId.toString())}/vaults/${Uri.encodeComponent(vaultName.toString())}/access-policy',
       exceptionFnMap: _exceptionFns,
     );
-    return GetVaultAccessPolicyOutput.fromJson(
-        {...response, 'policy': response});
+    final $json = await _s.jsonFromResponse(response);
+    return GetVaultAccessPolicyOutput(
+      policy: VaultAccessPolicy.fromJson($json),
+    );
   }
 
   /// This operation retrieves the following attributes from the
@@ -1099,15 +1124,17 @@ class Glacier {
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(vaultName, 'vaultName');
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri:
           '/${Uri.encodeComponent(accountId.toString())}/vaults/${Uri.encodeComponent(vaultName.toString())}/notification-configuration',
       exceptionFnMap: _exceptionFns,
     );
-    return GetVaultNotificationsOutput.fromJson(
-        {...response, 'vaultNotificationConfig': response});
+    final $json = await _s.jsonFromResponse(response);
+    return GetVaultNotificationsOutput(
+      vaultNotificationConfig: VaultNotificationConfig.fromJson($json),
+    );
   }
 
   /// This operation initiates a job of the specified type, which can be a
@@ -1143,14 +1170,20 @@ class Glacier {
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(vaultName, 'vaultName');
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: jobParameters,
       method: 'POST',
       requestUri:
           '/${Uri.encodeComponent(accountId.toString())}/vaults/${Uri.encodeComponent(vaultName.toString())}/jobs',
       exceptionFnMap: _exceptionFns,
     );
-    return InitiateJobOutput.fromJson(response);
+    final $json = await _s.jsonFromResponse(response);
+    return InitiateJobOutput(
+      jobId: _s.extractHeaderStringValue(response.headers, 'x-amz-job-id'),
+      jobOutputPath: _s.extractHeaderStringValue(
+          response.headers, 'x-amz-job-output-path'),
+      location: _s.extractHeaderStringValue(response.headers, 'Location'),
+    );
   }
 
   /// This operation initiates a multipart upload. Amazon S3 Glacier creates a
@@ -1231,7 +1264,7 @@ class Glacier {
         ?.let((v) => headers['x-amz-archive-description'] = v.toString());
     partSize?.let((v) => headers['x-amz-part-size'] = v.toString());
     final $payload = <String, dynamic>{};
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: $payload,
       headers: headers,
       method: 'POST',
@@ -1239,7 +1272,12 @@ class Glacier {
           '/${Uri.encodeComponent(accountId.toString())}/vaults/${Uri.encodeComponent(vaultName.toString())}/multipart-uploads',
       exceptionFnMap: _exceptionFns,
     );
-    return InitiateMultipartUploadOutput.fromJson(response);
+    final $json = await _s.jsonFromResponse(response);
+    return InitiateMultipartUploadOutput(
+      location: _s.extractHeaderStringValue(response.headers, 'Location'),
+      uploadId: _s.extractHeaderStringValue(
+          response.headers, 'x-amz-multipart-upload-id'),
+    );
   }
 
   /// This operation initiates the vault locking process by doing the following:
@@ -1308,14 +1346,17 @@ class Glacier {
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     ArgumentError.checkNotNull(vaultName, 'vaultName');
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: policy,
       method: 'POST',
       requestUri:
           '/${Uri.encodeComponent(accountId.toString())}/vaults/${Uri.encodeComponent(vaultName.toString())}/lock-policy',
       exceptionFnMap: _exceptionFns,
     );
-    return InitiateVaultLockOutput.fromJson(response);
+    final $json = await _s.jsonFromResponse(response);
+    return InitiateVaultLockOutput(
+      lockId: _s.extractHeaderStringValue(response.headers, 'x-amz-lock-id'),
+    );
   }
 
   /// This operation lists jobs for a vault, including jobs that are in-progress
@@ -1737,14 +1778,18 @@ class Glacier {
   }) async {
     ArgumentError.checkNotNull(accountId, 'accountId');
     final $payload = <String, dynamic>{};
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: $payload,
       method: 'POST',
       requestUri:
           '/${Uri.encodeComponent(accountId.toString())}/provisioned-capacity',
       exceptionFnMap: _exceptionFns,
     );
-    return PurchaseProvisionedCapacityOutput.fromJson(response);
+    final $json = await _s.jsonFromResponse(response);
+    return PurchaseProvisionedCapacityOutput(
+      capacityId:
+          _s.extractHeaderStringValue(response.headers, 'x-amz-capacity-id'),
+    );
   }
 
   /// This operation removes one or more tags from the set of tags attached to a
@@ -2030,7 +2075,7 @@ class Glacier {
     archiveDescription
         ?.let((v) => headers['x-amz-archive-description'] = v.toString());
     checksum?.let((v) => headers['x-amz-sha256-tree-hash'] = v.toString());
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: body,
       headers: headers,
       method: 'POST',
@@ -2038,7 +2083,14 @@ class Glacier {
           '/${Uri.encodeComponent(accountId.toString())}/vaults/${Uri.encodeComponent(vaultName.toString())}/archives',
       exceptionFnMap: _exceptionFns,
     );
-    return ArchiveCreationOutput.fromJson(response);
+    final $json = await _s.jsonFromResponse(response);
+    return ArchiveCreationOutput(
+      archiveId:
+          _s.extractHeaderStringValue(response.headers, 'x-amz-archive-id'),
+      checksum: _s.extractHeaderStringValue(
+          response.headers, 'x-amz-sha256-tree-hash'),
+      location: _s.extractHeaderStringValue(response.headers, 'Location'),
+    );
   }
 
   /// This operation uploads a part of an archive. You can upload archive parts
@@ -2140,7 +2192,7 @@ class Glacier {
     final headers = <String, String>{};
     checksum?.let((v) => headers['x-amz-sha256-tree-hash'] = v.toString());
     range?.let((v) => headers['Content-Range'] = v.toString());
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: body,
       headers: headers,
       method: 'PUT',
@@ -2148,7 +2200,11 @@ class Glacier {
           '/${Uri.encodeComponent(accountId.toString())}/vaults/${Uri.encodeComponent(vaultName.toString())}/multipart-uploads/${Uri.encodeComponent(uploadId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
-    return UploadMultipartPartOutput.fromJson(response);
+    final $json = await _s.jsonFromResponse(response);
+    return UploadMultipartPartOutput(
+      checksum: _s.extractHeaderStringValue(
+          response.headers, 'x-amz-sha256-tree-hash'),
+    );
   }
 }
 

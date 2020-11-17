@@ -1001,14 +1001,17 @@ class KinesisVideoArchivedMedia {
       'Fragments': fragments,
       'StreamName': streamName,
     };
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: $payload,
       method: 'POST',
       requestUri: '/getMediaForFragmentList',
       exceptionFnMap: _exceptionFns,
     );
-    return GetMediaForFragmentListOutput.fromJson(
-        {...response, 'Payload': response});
+    return GetMediaForFragmentListOutput(
+      payload: await response.stream.toBytes(),
+      contentType:
+          _s.extractHeaderStringValue(response.headers, 'Content-Type'),
+    );
   }
 
   /// Returns a list of <a>Fragment</a> objects from the specified stream and

@@ -407,15 +407,16 @@ class Schemas {
       if (schemaVersion != null)
         _s.toQueryParam('schemaVersion', schemaVersion),
     ].where((e) => e != null).join('&')}';
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri:
           '/v1/registries/name/${Uri.encodeComponent(registryName.toString())}/schemas/name/${Uri.encodeComponent(schemaName.toString())}/language/${Uri.encodeComponent(language.toString())}/source$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return GetCodeBindingSourceResponse.fromJson(
-        {...response, 'Body': response});
+    return GetCodeBindingSourceResponse(
+      body: await response.stream.toBytes(),
+    );
   }
 
   /// Get the discovered schema that was generated based on sampled events.

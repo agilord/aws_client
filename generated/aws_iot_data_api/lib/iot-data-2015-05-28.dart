@@ -82,14 +82,15 @@ class IoTDataPlane {
       isRequired: true,
     );
     final $payload = <String, dynamic>{};
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: $payload,
       method: 'DELETE',
       requestUri: '/things/${Uri.encodeComponent(thingName.toString())}/shadow',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteThingShadowResponse.fromJson(
-        {...response, 'payload': response});
+    return DeleteThingShadowResponse(
+      payload: await response.stream.toBytes(),
+    );
   }
 
   /// Gets the thing shadow for the specified thing.
@@ -126,13 +127,15 @@ class IoTDataPlane {
       r'''[a-zA-Z0-9_-]+''',
       isRequired: true,
     );
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri: '/things/${Uri.encodeComponent(thingName.toString())}/shadow',
       exceptionFnMap: _exceptionFns,
     );
-    return GetThingShadowResponse.fromJson({...response, 'payload': response});
+    return GetThingShadowResponse(
+      payload: await response.stream.toBytes(),
+    );
   }
 
   /// Publishes state information.
@@ -218,14 +221,15 @@ class IoTDataPlane {
       r'''[a-zA-Z0-9_-]+''',
       isRequired: true,
     );
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: payload,
       method: 'POST',
       requestUri: '/things/${Uri.encodeComponent(thingName.toString())}/shadow',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateThingShadowResponse.fromJson(
-        {...response, 'payload': response});
+    return UpdateThingShadowResponse(
+      payload: await response.stream.toBytes(),
+    );
   }
 }
 

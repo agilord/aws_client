@@ -746,7 +746,7 @@ class DashPackage {
   /// periods will be created where
   /// the Asset contains SCTE-35 ad markers.
   @_s.JsonKey(name: 'periodTriggers')
-  final List<__PeriodTriggersElement> periodTriggers;
+  final List<PeriodTriggersElement> periodTriggers;
 
   /// Duration (in seconds) of each segment. Actual segments will be
   /// rounded to the nearest multiple of the source segment duration.
@@ -1384,7 +1384,7 @@ class StreamSelection {
   Map<String, dynamic> toJson() => _$StreamSelectionToJson(this);
 }
 
-enum __PeriodTriggersElement {
+enum PeriodTriggersElement {
   @_s.JsonValue('ADS')
   ads,
 }

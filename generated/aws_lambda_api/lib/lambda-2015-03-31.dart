@@ -2237,7 +2237,7 @@ class Lambda {
     _query = '?${[
       if (qualifier != null) _s.toQueryParam('Qualifier', qualifier),
     ].where((e) => e != null).join('&')}';
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: payload,
       headers: headers,
       method: 'POST',
@@ -2245,7 +2245,16 @@ class Lambda {
           '/2015-03-31/functions/${Uri.encodeComponent(functionName.toString())}/invocations$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return InvocationResponse.fromJson({...response, 'Payload': response});
+    return InvocationResponse(
+      payload: await response.stream.toBytes(),
+      executedVersion: _s.extractHeaderStringValue(
+          response.headers, 'X-Amz-Executed-Version'),
+      functionError:
+          _s.extractHeaderStringValue(response.headers, 'X-Amz-Function-Error'),
+      logResult:
+          _s.extractHeaderStringValue(response.headers, 'X-Amz-Log-Result'),
+      statusCode: response.statusCode,
+    );
   }
 
   /// <important>

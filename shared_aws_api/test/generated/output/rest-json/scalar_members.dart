@@ -42,13 +42,26 @@ class ScalarMembers {
         );
 
   Future<OutputShape> operationName0() async {
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
     );
-    return OutputShape.fromJson(response);
+    final $json = await _s.jsonFromResponse(response);
+    return OutputShape(
+      char: $json['Char'] as String,
+      doubleValue: $json['Double'] as double,
+      falseBool: $json['FalseBool'] as bool,
+      float: $json['Float'] as double,
+      long: $json['Long'] as int,
+      num: $json['Num'] as int,
+      str: $json['Str'] as String,
+      trueBool: $json['TrueBool'] as bool,
+      imaHeader: _s.extractHeaderStringValue(response.headers, 'ImaHeader'),
+      imaHeaderLocation: _s.extractHeaderStringValue(response.headers, 'X-Foo'),
+      status: response.statusCode,
+    );
   }
 }
 
