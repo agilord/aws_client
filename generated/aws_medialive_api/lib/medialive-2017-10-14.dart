@@ -6562,7 +6562,7 @@ class HlsGroupSettings {
   /// Choose one or more ad marker types to pass SCTE35 signals through to this
   /// group of Apple HLS outputs.
   @_s.JsonKey(name: 'adMarkers')
-  final List<String> adMarkers;
+  final List<HlsAdMarkers> adMarkers;
 
   /// A partial URI prefix that will be prepended to each output in the media
   /// .m3u8 file. Can be used if base manifest is delivered from a different URL

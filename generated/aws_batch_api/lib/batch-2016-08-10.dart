@@ -2114,7 +2114,7 @@ class Device {
   /// default, the container has permissions for <code>read</code>,
   /// <code>write</code>, and <code>mknod</code> for the device.
   @_s.JsonKey(name: 'permissions')
-  final List<String> permissions;
+  final List<DeviceCgroupPermission> permissions;
 
   Device({
     @_s.required this.hostPath,

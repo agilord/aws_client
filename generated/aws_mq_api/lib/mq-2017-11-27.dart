@@ -1046,7 +1046,7 @@ class BrokerInstanceOption {
 
   /// The list of supported deployment modes.
   @_s.JsonKey(name: 'supportedDeploymentModes')
-  final List<String> supportedDeploymentModes;
+  final List<DeploymentMode> supportedDeploymentModes;
 
   /// The list of supported engine versions.
   @_s.JsonKey(name: 'supportedEngineVersions')

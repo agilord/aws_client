@@ -79,9 +79,19 @@ Map<String, dynamic> _$HumanLoopDataAttributesToJson(
     }
   }
 
-  writeNotNull('ContentClassifiers', instance.contentClassifiers);
+  writeNotNull(
+      'ContentClassifiers',
+      instance.contentClassifiers
+          ?.map((e) => _$ContentClassifierEnumMap[e])
+          ?.toList());
   return val;
 }
+
+const _$ContentClassifierEnumMap = {
+  ContentClassifier.freeOfPersonallyIdentifiableInformation:
+      'FreeOfPersonallyIdentifiableInformation',
+  ContentClassifier.freeOfAdultContent: 'FreeOfAdultContent',
+};
 
 Map<String, dynamic> _$HumanLoopInputToJson(HumanLoopInput instance) {
   final val = <String, dynamic>{};

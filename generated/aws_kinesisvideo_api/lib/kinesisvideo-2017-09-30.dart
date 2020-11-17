@@ -1850,7 +1850,7 @@ class SingleMasterChannelEndpointConfiguration {
   /// specified, this API returns a websocket endpoint. If <code>HTTPS</code> is
   /// specified, this API returns an <code>HTTPS</code> endpoint.
   @_s.JsonKey(name: 'Protocols')
-  final List<String> protocols;
+  final List<ChannelProtocol> protocols;
 
   /// This property is used to determine messaging permissions in this
   /// <code>SINGLE_MASTER</code> signaling channel. If <code>MASTER</code> is

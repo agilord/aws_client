@@ -72,7 +72,7 @@ class MarketplaceEntitlementService {
   /// previous GetEntitlementsResult.
   Future<GetEntitlementsResult> getEntitlements({
     @_s.required String productCode,
-    Map<String, List<String>> filter,
+    Map<GetEntitlementFilterName, List<String>> filter,
     int maxResults,
     String nextToken,
   }) async {

@@ -594,8 +594,9 @@ CompromisedCredentialsRiskConfigurationType
         ? null
         : CompromisedCredentialsActionsType.fromJson(
             json['Actions'] as Map<String, dynamic>),
-    eventFilter:
-        (json['EventFilter'] as List)?.map((e) => e as String)?.toList(),
+    eventFilter: (json['EventFilter'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$EventFilterTypeEnumMap, e))
+        ?.toList(),
   );
 }
 
@@ -610,9 +611,16 @@ Map<String, dynamic> _$CompromisedCredentialsRiskConfigurationTypeToJson(
   }
 
   writeNotNull('Actions', instance.actions?.toJson());
-  writeNotNull('EventFilter', instance.eventFilter);
+  writeNotNull('EventFilter',
+      instance.eventFilter?.map((e) => _$EventFilterTypeEnumMap[e])?.toList());
   return val;
 }
+
+const _$EventFilterTypeEnumMap = {
+  EventFilterType.signIn: 'SIGN_IN',
+  EventFilterType.passwordChange: 'PASSWORD_CHANGE',
+  EventFilterType.signUp: 'SIGN_UP',
+};
 
 ConfirmDeviceResponse _$ConfirmDeviceResponseFromJson(
     Map<String, dynamic> json) {
@@ -2064,8 +2072,9 @@ UserPoolClientDescription _$UserPoolClientDescriptionFromJson(
 
 UserPoolClientType _$UserPoolClientTypeFromJson(Map<String, dynamic> json) {
   return UserPoolClientType(
-    allowedOAuthFlows:
-        (json['AllowedOAuthFlows'] as List)?.map((e) => e as String)?.toList(),
+    allowedOAuthFlows: (json['AllowedOAuthFlows'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$OAuthFlowTypeEnumMap, e))
+        ?.toList(),
     allowedOAuthFlowsUserPoolClient:
         json['AllowedOAuthFlowsUserPoolClient'] as bool,
     allowedOAuthScopes:
@@ -2081,8 +2090,9 @@ UserPoolClientType _$UserPoolClientTypeFromJson(Map<String, dynamic> json) {
     clientSecret: json['ClientSecret'] as String,
     creationDate: unixTimestampFromJson(json['CreationDate']),
     defaultRedirectURI: json['DefaultRedirectURI'] as String,
-    explicitAuthFlows:
-        (json['ExplicitAuthFlows'] as List)?.map((e) => e as String)?.toList(),
+    explicitAuthFlows: (json['ExplicitAuthFlows'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$ExplicitAuthFlowsTypeEnumMap, e))
+        ?.toList(),
     lastModifiedDate: unixTimestampFromJson(json['LastModifiedDate']),
     logoutURLs: (json['LogoutURLs'] as List)?.map((e) => e as String)?.toList(),
     preventUserExistenceErrors: _$enumDecodeNullable(
@@ -2099,6 +2109,24 @@ UserPoolClientType _$UserPoolClientTypeFromJson(Map<String, dynamic> json) {
         (json['WriteAttributes'] as List)?.map((e) => e as String)?.toList(),
   );
 }
+
+const _$OAuthFlowTypeEnumMap = {
+  OAuthFlowType.code: 'code',
+  OAuthFlowType.implicit: 'implicit',
+  OAuthFlowType.clientCredentials: 'client_credentials',
+};
+
+const _$ExplicitAuthFlowsTypeEnumMap = {
+  ExplicitAuthFlowsType.adminNoSrpAuth: 'ADMIN_NO_SRP_AUTH',
+  ExplicitAuthFlowsType.customAuthFlowOnly: 'CUSTOM_AUTH_FLOW_ONLY',
+  ExplicitAuthFlowsType.userPasswordAuth: 'USER_PASSWORD_AUTH',
+  ExplicitAuthFlowsType.allowAdminUserPasswordAuth:
+      'ALLOW_ADMIN_USER_PASSWORD_AUTH',
+  ExplicitAuthFlowsType.allowCustomAuth: 'ALLOW_CUSTOM_AUTH',
+  ExplicitAuthFlowsType.allowUserPasswordAuth: 'ALLOW_USER_PASSWORD_AUTH',
+  ExplicitAuthFlowsType.allowUserSrpAuth: 'ALLOW_USER_SRP_AUTH',
+  ExplicitAuthFlowsType.allowRefreshTokenAuth: 'ALLOW_REFRESH_TOKEN_AUTH',
+};
 
 const _$PreventUserExistenceErrorTypesEnumMap = {
   PreventUserExistenceErrorTypes.legacy: 'LEGACY',
@@ -2157,11 +2185,12 @@ UserPoolType _$UserPoolTypeFromJson(Map<String, dynamic> json) {
         ? null
         : AdminCreateUserConfigType.fromJson(
             json['AdminCreateUserConfig'] as Map<String, dynamic>),
-    aliasAttributes:
-        (json['AliasAttributes'] as List)?.map((e) => e as String)?.toList(),
+    aliasAttributes: (json['AliasAttributes'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$AliasAttributeTypeEnumMap, e))
+        ?.toList(),
     arn: json['Arn'] as String,
     autoVerifiedAttributes: (json['AutoVerifiedAttributes'] as List)
-        ?.map((e) => e as String)
+        ?.map((e) => _$enumDecodeNullable(_$VerifiedAttributeTypeEnumMap, e))
         ?.toList(),
     creationDate: unixTimestampFromJson(json['CreationDate']),
     customDomain: json['CustomDomain'] as String,
@@ -2210,8 +2239,9 @@ UserPoolType _$UserPoolTypeFromJson(Map<String, dynamic> json) {
     userPoolTags: (json['UserPoolTags'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    usernameAttributes:
-        (json['UsernameAttributes'] as List)?.map((e) => e as String)?.toList(),
+    usernameAttributes: (json['UsernameAttributes'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$UsernameAttributeTypeEnumMap, e))
+        ?.toList(),
     usernameConfiguration: json['UsernameConfiguration'] == null
         ? null
         : UsernameConfigurationType.fromJson(
@@ -2222,6 +2252,22 @@ UserPoolType _$UserPoolTypeFromJson(Map<String, dynamic> json) {
             json['VerificationMessageTemplate'] as Map<String, dynamic>),
   );
 }
+
+const _$AliasAttributeTypeEnumMap = {
+  AliasAttributeType.phoneNumber: 'phone_number',
+  AliasAttributeType.email: 'email',
+  AliasAttributeType.preferredUsername: 'preferred_username',
+};
+
+const _$VerifiedAttributeTypeEnumMap = {
+  VerifiedAttributeType.phoneNumber: 'phone_number',
+  VerifiedAttributeType.email: 'email',
+};
+
+const _$UsernameAttributeTypeEnumMap = {
+  UsernameAttributeType.phoneNumber: 'phone_number',
+  UsernameAttributeType.email: 'email',
+};
 
 UserType _$UserTypeFromJson(Map<String, dynamic> json) {
   return UserType(

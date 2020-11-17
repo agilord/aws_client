@@ -194,10 +194,14 @@ Policy _$PolicyFromJson(Map<String, dynamic> json) {
         : SecurityServicePolicyData.fromJson(
             json['SecurityServicePolicyData'] as Map<String, dynamic>),
     excludeMap: (json['ExcludeMap'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(k, (e as List)?.map((e) => e as String)?.toList()),
+      (k, e) => MapEntry(
+          _$enumDecodeNullable(_$CustomerPolicyScopeIdTypeEnumMap, k),
+          (e as List)?.map((e) => e as String)?.toList()),
     ),
     includeMap: (json['IncludeMap'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(k, (e as List)?.map((e) => e as String)?.toList()),
+      (k, e) => MapEntry(
+          _$enumDecodeNullable(_$CustomerPolicyScopeIdTypeEnumMap, k),
+          (e as List)?.map((e) => e as String)?.toList()),
     ),
     policyId: json['PolicyId'] as String,
     policyUpdateToken: json['PolicyUpdateToken'] as String,
@@ -225,8 +229,14 @@ Map<String, dynamic> _$PolicyToJson(Policy instance) {
   writeNotNull('ResourceType', instance.resourceType);
   writeNotNull('SecurityServicePolicyData',
       instance.securityServicePolicyData?.toJson());
-  writeNotNull('ExcludeMap', instance.excludeMap);
-  writeNotNull('IncludeMap', instance.includeMap);
+  writeNotNull(
+      'ExcludeMap',
+      instance.excludeMap
+          ?.map((k, e) => MapEntry(_$CustomerPolicyScopeIdTypeEnumMap[k], e)));
+  writeNotNull(
+      'IncludeMap',
+      instance.includeMap
+          ?.map((k, e) => MapEntry(_$CustomerPolicyScopeIdTypeEnumMap[k], e)));
   writeNotNull('PolicyId', instance.policyId);
   writeNotNull('PolicyUpdateToken', instance.policyUpdateToken);
   writeNotNull(
@@ -235,13 +245,18 @@ Map<String, dynamic> _$PolicyToJson(Policy instance) {
   return val;
 }
 
+const _$CustomerPolicyScopeIdTypeEnumMap = {
+  CustomerPolicyScopeIdType.account: 'ACCOUNT',
+};
+
 PolicyComplianceDetail _$PolicyComplianceDetailFromJson(
     Map<String, dynamic> json) {
   return PolicyComplianceDetail(
     evaluationLimitExceeded: json['EvaluationLimitExceeded'] as bool,
     expiredAt: unixTimestampFromJson(json['ExpiredAt']),
     issueInfoMap: (json['IssueInfoMap'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(k, e as String),
+      (k, e) => MapEntry(
+          _$enumDecodeNullable(_$DependentServiceNameEnumMap, k), e as String),
     ),
     memberAccount: json['MemberAccount'] as String,
     policyId: json['PolicyId'] as String,
@@ -254,6 +269,13 @@ PolicyComplianceDetail _$PolicyComplianceDetailFromJson(
   );
 }
 
+const _$DependentServiceNameEnumMap = {
+  DependentServiceName.awsconfig: 'AWSCONFIG',
+  DependentServiceName.awswaf: 'AWSWAF',
+  DependentServiceName.awsshieldAdvanced: 'AWSSHIELD_ADVANCED',
+  DependentServiceName.awsvpc: 'AWSVPC',
+};
+
 PolicyComplianceStatus _$PolicyComplianceStatusFromJson(
     Map<String, dynamic> json) {
   return PolicyComplianceStatus(
@@ -263,7 +285,8 @@ PolicyComplianceStatus _$PolicyComplianceStatusFromJson(
             : EvaluationResult.fromJson(e as Map<String, dynamic>))
         ?.toList(),
     issueInfoMap: (json['IssueInfoMap'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(k, e as String),
+      (k, e) => MapEntry(
+          _$enumDecodeNullable(_$DependentServiceNameEnumMap, k), e as String),
     ),
     lastUpdated: unixTimestampFromJson(json['LastUpdated']),
     memberAccount: json['MemberAccount'] as String,

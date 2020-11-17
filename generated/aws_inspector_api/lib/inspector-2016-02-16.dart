@@ -1894,12 +1894,12 @@ class AgentFilter {
   /// <b>RUNNING</b>, <b>SHUTDOWN</b>, <b>UNHEALTHY</b>, <b>THROTTLED</b>, and
   /// <b>UNKNOWN</b>.
   @_s.JsonKey(name: 'agentHealthCodes')
-  final List<String> agentHealthCodes;
+  final List<AgentHealthCode> agentHealthCodes;
 
   /// The current health state of the agent. Values can be set to <b>HEALTHY</b>
   /// or <b>UNHEALTHY</b>.
   @_s.JsonKey(name: 'agentHealths')
-  final List<String> agentHealths;
+  final List<AgentHealth> agentHealths;
 
   AgentFilter({
     @_s.required this.agentHealthCodes,
@@ -2026,7 +2026,7 @@ class AssessmentRun {
 
   /// Provides a total count of generated findings per severity.
   @_s.JsonKey(name: 'findingCounts')
-  final Map<String, int> findingCounts;
+  final Map<Severity, int> findingCounts;
 
   /// The auto-generated name for the assessment run.
   @_s.JsonKey(name: 'name')
@@ -2198,7 +2198,7 @@ class AssessmentRunFilter {
   /// type property must be the exact match of the value of the
   /// <b>assessmentRunState</b> property of the <a>AssessmentRun</a> data type.
   @_s.JsonKey(name: 'states')
-  final List<String> states;
+  final List<AssessmentRunState> states;
 
   AssessmentRunFilter({
     this.completionTimeRange,
@@ -3180,7 +3180,7 @@ class FindingFilter {
   /// data type property must be the exact match of the value of the
   /// <b>severity</b> property of the <a>Finding</a> data type.
   @_s.JsonKey(name: 'severities')
-  final List<String> severities;
+  final List<Severity> severities;
 
   /// For a record to match a filter, the value that is specified for this data
   /// type property must be contained in the list of values of the

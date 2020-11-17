@@ -5331,7 +5331,7 @@ class GeoMatchStatement {
   /// ]</code>, from the alpha-2 country ISO codes of the ISO 3166 international
   /// standard.
   @_s.JsonKey(name: 'CountryCodes')
-  final List<String> countryCodes;
+  final List<CountryCode> countryCodes;
 
   GeoMatchStatement({
     this.countryCodes,

@@ -1385,7 +1385,7 @@ class Policy {
   /// <code>ExcludeMap</code> would be <code>{“ACCOUNT” : [“accountID1”,
   /// “accountID2”]}</code>.
   @_s.JsonKey(name: 'ExcludeMap')
-  final Map<String, List<String>> excludeMap;
+  final Map<CustomerPolicyScopeIdType, List<String>> excludeMap;
 
   /// Specifies the AWS account IDs to include in the policy. If
   /// <code>IncludeMap</code> is null, all accounts in the organization in AWS
@@ -1397,7 +1397,7 @@ class Policy {
   /// <code>IncludeMap</code> would be <code>{“ACCOUNT” : [“accountID1”,
   /// “accountID2”]}</code>.
   @_s.JsonKey(name: 'IncludeMap')
-  final Map<String, List<String>> includeMap;
+  final Map<CustomerPolicyScopeIdType, List<String>> includeMap;
 
   /// The ID of the AWS Firewall Manager policy.
   @_s.JsonKey(name: 'PolicyId')
@@ -1465,7 +1465,7 @@ class PolicyComplianceDetail {
   /// the name of the dependent service and the error message received that
   /// indicates the problem with the service.
   @_s.JsonKey(name: 'IssueInfoMap')
-  final Map<String, String> issueInfoMap;
+  final Map<DependentServiceName, String> issueInfoMap;
 
   /// The AWS account ID.
   @_s.JsonKey(name: 'MemberAccount')
@@ -1516,7 +1516,7 @@ class PolicyComplianceStatus {
   /// the name of the dependent service and the error message received that
   /// indicates the problem with the service.
   @_s.JsonKey(name: 'IssueInfoMap')
-  final Map<String, String> issueInfoMap;
+  final Map<DependentServiceName, String> issueInfoMap;
 
   /// Timestamp of the last update to the <code>EvaluationResult</code> objects.
   @_s.JsonKey(

@@ -431,11 +431,27 @@ Map<String, dynamic> _$NotificationSpecificationToJson(
   }
 
   writeNotNull('Destination', instance.destination);
-  writeNotNull('EventTypes', instance.eventTypes);
+  writeNotNull('EventTypes',
+      instance.eventTypes?.map((e) => _$EventTypeEnumMap[e])?.toList());
   writeNotNull('Transport', _$NotificationTransportEnumMap[instance.transport]);
   writeNotNull('Version', instance.version);
   return val;
 }
+
+const _$EventTypeEnumMap = {
+  EventType.assignmentAccepted: 'AssignmentAccepted',
+  EventType.assignmentAbandoned: 'AssignmentAbandoned',
+  EventType.assignmentReturned: 'AssignmentReturned',
+  EventType.assignmentSubmitted: 'AssignmentSubmitted',
+  EventType.assignmentRejected: 'AssignmentRejected',
+  EventType.assignmentApproved: 'AssignmentApproved',
+  EventType.hITCreated: 'HITCreated',
+  EventType.hITExpired: 'HITExpired',
+  EventType.hITReviewable: 'HITReviewable',
+  EventType.hITExtended: 'HITExtended',
+  EventType.hITDisposed: 'HITDisposed',
+  EventType.ping: 'Ping',
+};
 
 const _$NotificationTransportEnumMap = {
   NotificationTransport.email: 'Email',

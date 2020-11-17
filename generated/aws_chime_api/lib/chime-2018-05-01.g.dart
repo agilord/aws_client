@@ -21,8 +21,9 @@ Account _$AccountFromJson(Map<String, dynamic> json) {
             ? null
             : SigninDelegateGroup.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    supportedLicenses:
-        (json['SupportedLicenses'] as List)?.map((e) => e as String)?.toList(),
+    supportedLicenses: (json['SupportedLicenses'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$LicenseEnumMap, e))
+        ?.toList(),
   );
 }
 
@@ -1218,8 +1219,9 @@ Proxy _$ProxyFromJson(Map<String, dynamic> json) {
 
 ProxySession _$ProxySessionFromJson(Map<String, dynamic> json) {
   return ProxySession(
-    capabilities:
-        (json['Capabilities'] as List)?.map((e) => e as String)?.toList(),
+    capabilities: (json['Capabilities'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$CapabilityEnumMap, e))
+        ?.toList(),
     createdTimestamp: iso8601FromJson(json['CreatedTimestamp'] as String),
     endedTimestamp: iso8601FromJson(json['EndedTimestamp'] as String),
     expiryMinutes: json['ExpiryMinutes'] as int,
@@ -1242,6 +1244,11 @@ ProxySession _$ProxySessionFromJson(Map<String, dynamic> json) {
     voiceConnectorId: json['VoiceConnectorId'] as String,
   );
 }
+
+const _$CapabilityEnumMap = {
+  Capability.voice: 'Voice',
+  Capability.sms: 'SMS',
+};
 
 const _$GeoMatchLevelEnumMap = {
   GeoMatchLevel.country: 'Country',

@@ -6473,7 +6473,7 @@ class Product {
   /// </li>
   /// </ul>
   @_s.JsonKey(name: 'IntegrationTypes')
-  final List<String> integrationTypes;
+  final List<IntegrationType> integrationTypes;
 
   /// The URL for the page that contains more information about the product.
   @_s.JsonKey(name: 'MarketplaceUrl')

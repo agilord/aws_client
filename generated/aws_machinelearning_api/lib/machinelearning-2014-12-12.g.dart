@@ -495,7 +495,8 @@ PredictOutput _$PredictOutputFromJson(Map<String, dynamic> json) {
 Prediction _$PredictionFromJson(Map<String, dynamic> json) {
   return Prediction(
     details: (json['details'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(k, e as String),
+      (k, e) => MapEntry(
+          _$enumDecodeNullable(_$DetailsAttributesEnumMap, k), e as String),
     ),
     predictedLabel: json['predictedLabel'] as String,
     predictedScores: (json['predictedScores'] as Map<String, dynamic>)?.map(
@@ -504,6 +505,11 @@ Prediction _$PredictionFromJson(Map<String, dynamic> json) {
     predictedValue: (json['predictedValue'] as num)?.toDouble(),
   );
 }
+
+const _$DetailsAttributesEnumMap = {
+  DetailsAttributes.predictiveModelType: 'PredictiveModelType',
+  DetailsAttributes.algorithm: 'Algorithm',
+};
 
 PredictorNotMountedException _$PredictorNotMountedExceptionFromJson(
     Map<String, dynamic> json) {

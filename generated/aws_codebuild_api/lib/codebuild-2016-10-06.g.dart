@@ -718,7 +718,9 @@ ProjectCache _$ProjectCacheFromJson(Map<String, dynamic> json) {
   return ProjectCache(
     type: _$enumDecodeNullable(_$CacheTypeEnumMap, json['type']),
     location: json['location'] as String,
-    modes: (json['modes'] as List)?.map((e) => e as String)?.toList(),
+    modes: (json['modes'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$CacheModeEnumMap, e))
+        ?.toList(),
   );
 }
 
@@ -733,7 +735,8 @@ Map<String, dynamic> _$ProjectCacheToJson(ProjectCache instance) {
 
   writeNotNull('type', _$CacheTypeEnumMap[instance.type]);
   writeNotNull('location', instance.location);
-  writeNotNull('modes', instance.modes);
+  writeNotNull(
+      'modes', instance.modes?.map((e) => _$CacheModeEnumMap[e])?.toList());
   return val;
 }
 
@@ -741,6 +744,12 @@ const _$CacheTypeEnumMap = {
   CacheType.noCache: 'NO_CACHE',
   CacheType.s3: 'S3',
   CacheType.local: 'LOCAL',
+};
+
+const _$CacheModeEnumMap = {
+  CacheMode.localDockerLayerCache: 'LOCAL_DOCKER_LAYER_CACHE',
+  CacheMode.localSourceCache: 'LOCAL_SOURCE_CACHE',
+  CacheMode.localCustomCache: 'LOCAL_CUSTOM_CACHE',
 };
 
 ProjectEnvironment _$ProjectEnvironmentFromJson(Map<String, dynamic> json) {

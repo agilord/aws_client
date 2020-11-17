@@ -2743,7 +2743,7 @@ class DimensionValues {
   /// Category. The default values for <code>MatchOptions</code> is
   /// <code>EQUALS</code> and <code>CASE_SENSITIVE</code>.
   @_s.JsonKey(name: 'MatchOptions')
-  final List<String> matchOptions;
+  final List<MatchOption> matchOptions;
 
   /// The metadata values that you can use to filter and group your results. You
   /// can use <code>GetDimensionValues</code> to find specific values.
@@ -5306,7 +5306,7 @@ class TagValues {
   /// related to Cost Category. The default values for <code>MatchOptions</code>
   /// is <code>EQUALS</code> and <code>CASE_SENSITIVE</code>.
   @_s.JsonKey(name: 'MatchOptions')
-  final List<String> matchOptions;
+  final List<MatchOption> matchOptions;
 
   /// The specific value of the tag.
   @_s.JsonKey(name: 'Values')

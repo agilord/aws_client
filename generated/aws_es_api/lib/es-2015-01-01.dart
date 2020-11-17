@@ -254,7 +254,7 @@ class ElasticsearchService {
     ElasticsearchClusterConfig elasticsearchClusterConfig,
     String elasticsearchVersion,
     EncryptionAtRestOptions encryptionAtRestOptions,
-    Map<String, LogPublishingOption> logPublishingOptions,
+    Map<LogType, LogPublishingOption> logPublishingOptions,
     NodeToNodeEncryptionOptions nodeToNodeEncryptionOptions,
     SnapshotOptions snapshotOptions,
     VPCOptions vPCOptions,
@@ -1367,7 +1367,7 @@ class ElasticsearchService {
     DomainEndpointOptions domainEndpointOptions,
     EBSOptions eBSOptions,
     ElasticsearchClusterConfig elasticsearchClusterConfig,
-    Map<String, LogPublishingOption> logPublishingOptions,
+    Map<LogType, LogPublishingOption> logPublishingOptions,
     SnapshotOptions snapshotOptions,
     VPCOptions vPCOptions,
   }) async {
@@ -2679,7 +2679,7 @@ class ElasticsearchDomainStatus {
 
   /// Log publishing options for the given domain.
   @_s.JsonKey(name: 'LogPublishingOptions')
-  final Map<String, LogPublishingOption> logPublishingOptions;
+  final Map<LogType, LogPublishingOption> logPublishingOptions;
 
   /// Specifies the status of the <code>NodeToNodeEncryptionOptions</code>.
   @_s.JsonKey(name: 'NodeToNodeEncryptionOptions')
@@ -3047,7 +3047,7 @@ class ListElasticsearchInstanceTypesResponse {
   /// List of instance types supported by Amazon Elasticsearch service for given
   /// <code> <a>ElasticsearchVersion</a> </code>
   @_s.JsonKey(name: 'ElasticsearchInstanceTypes')
-  final List<String> elasticsearchInstanceTypes;
+  final List<ESPartitionInstanceType> elasticsearchInstanceTypes;
 
   /// In case if there are more results available NextToken would be present, make
   /// further request to the same API with received NextToken to paginate
@@ -3171,7 +3171,7 @@ class LogPublishingOption {
 class LogPublishingOptionsStatus {
   /// The log publishing options configured for the Elasticsearch domain.
   @_s.JsonKey(name: 'Options')
-  final Map<String, LogPublishingOption> options;
+  final Map<LogType, LogPublishingOption> options;
 
   /// The status of the log publishing options for the Elasticsearch domain. See
   /// <code>OptionStatus</code> for the status information that's included.

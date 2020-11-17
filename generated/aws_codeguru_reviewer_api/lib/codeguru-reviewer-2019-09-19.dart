@@ -238,8 +238,8 @@ class CodeGuruReviewer {
     List<String> names,
     String nextToken,
     List<String> owners,
-    List<String> providerTypes,
-    List<String> states,
+    List<ProviderType> providerTypes,
+    List<RepositoryAssociationState> states,
   }) async {
     _s.validateNumRange(
       'maxResults',

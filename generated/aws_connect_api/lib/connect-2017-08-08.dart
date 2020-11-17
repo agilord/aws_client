@@ -424,7 +424,7 @@ class Connect {
     @_s.required List<CurrentMetric> currentMetrics,
     @_s.required Filters filters,
     @_s.required String instanceId,
-    List<String> groupings,
+    List<Grouping> groupings,
     int maxResults,
     String nextToken,
   }) async {
@@ -663,7 +663,7 @@ class Connect {
     @_s.required List<HistoricalMetric> historicalMetrics,
     @_s.required String instanceId,
     @_s.required DateTime startTime,
-    List<String> groupings,
+    List<Grouping> groupings,
     int maxResults,
     String nextToken,
   }) async {
@@ -727,7 +727,7 @@ class Connect {
   /// previous response in the next request to retrieve the next set of results.
   Future<ListContactFlowsResponse> listContactFlows({
     @_s.required String instanceId,
-    List<String> contactFlowTypes,
+    List<ContactFlowType> contactFlowTypes,
     int maxResults,
     String nextToken,
   }) async {
@@ -842,8 +842,8 @@ class Connect {
     @_s.required String instanceId,
     int maxResults,
     String nextToken,
-    List<String> phoneNumberCountryCodes,
-    List<String> phoneNumberTypes,
+    List<PhoneNumberCountryCode> phoneNumberCountryCodes,
+    List<PhoneNumberType> phoneNumberTypes,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
     _s.validateStringLength(
@@ -903,7 +903,7 @@ class Connect {
     @_s.required String instanceId,
     int maxResults,
     String nextToken,
-    List<String> queueTypes,
+    List<QueueType> queueTypes,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
     _s.validateStringLength(
@@ -2093,7 +2093,7 @@ class Dimensions {
 class Filters {
   /// The channel to use to filter the metrics.
   @_s.JsonKey(name: 'Channels')
-  final List<String> channels;
+  final List<Channel> channels;
 
   /// The queues to use to filter the metrics. You can specify up to 100 queues
   /// per request.

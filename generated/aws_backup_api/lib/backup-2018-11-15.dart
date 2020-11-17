@@ -1585,7 +1585,7 @@ class Backup {
   /// vault’s events; for example,
   /// <code>arn:aws:sns:us-west-2:111122223333:MyVaultTopic</code>.
   Future<void> putBackupVaultNotifications({
-    @_s.required List<String> backupVaultEvents,
+    @_s.required List<BackupVaultEvent> backupVaultEvents,
     @_s.required String backupVaultName,
     @_s.required String sNSTopicArn,
   }) async {
@@ -3784,7 +3784,7 @@ class GetBackupVaultNotificationsOutput {
   /// An array of events that indicate the status of jobs to back up resources to
   /// the backup vault.
   @_s.JsonKey(name: 'BackupVaultEvents')
-  final List<String> backupVaultEvents;
+  final List<BackupVaultEvent> backupVaultEvents;
 
   /// The name of a logical container where backups are stored. Backup vaults are
   /// identified by names that are unique to the account used to create them and

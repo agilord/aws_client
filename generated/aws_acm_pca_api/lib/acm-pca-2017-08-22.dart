@@ -262,7 +262,7 @@ class ACMPCA {
   /// Parameter [sourceAccount] :
   /// The ID of the calling account.
   Future<void> createPermission({
-    @_s.required List<String> actions,
+    @_s.required List<ActionType> actions,
     @_s.required String certificateAuthorityArn,
     @_s.required String principal,
     String sourceAccount,
@@ -2440,7 +2440,7 @@ class ListTagsResponse {
 class Permission {
   /// The private CA actions that can be performed by the designated AWS service.
   @_s.JsonKey(name: 'Actions')
-  final List<String> actions;
+  final List<ActionType> actions;
 
   /// The Amazon Resource Number (ARN) of the private CA from which the permission
   /// was issued.

@@ -677,7 +677,7 @@ ElasticsearchDomainStatus _$ElasticsearchDomainStatusFromJson(
     logPublishingOptions:
         (json['LogPublishingOptions'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(
-          k,
+          _$enumDecodeNullable(_$LogTypeEnumMap, k),
           e == null
               ? null
               : LogPublishingOption.fromJson(e as Map<String, dynamic>)),
@@ -701,6 +701,12 @@ ElasticsearchDomainStatus _$ElasticsearchDomainStatusFromJson(
         : VPCDerivedInfo.fromJson(json['VPCOptions'] as Map<String, dynamic>),
   );
 }
+
+const _$LogTypeEnumMap = {
+  LogType.indexSlowLogs: 'INDEX_SLOW_LOGS',
+  LogType.searchSlowLogs: 'SEARCH_SLOW_LOGS',
+  LogType.esApplicationLogs: 'ES_APPLICATION_LOGS',
+};
 
 ElasticsearchVersionStatus _$ElasticsearchVersionStatusFromJson(
     Map<String, dynamic> json) {
@@ -865,7 +871,7 @@ ListElasticsearchInstanceTypesResponse
         Map<String, dynamic> json) {
   return ListElasticsearchInstanceTypesResponse(
     elasticsearchInstanceTypes: (json['ElasticsearchInstanceTypes'] as List)
-        ?.map((e) => e as String)
+        ?.map((e) => _$enumDecodeNullable(_$ESPartitionInstanceTypeEnumMap, e))
         ?.toList(),
     nextToken: json['NextToken'] as String,
   );
@@ -927,7 +933,7 @@ LogPublishingOptionsStatus _$LogPublishingOptionsStatusFromJson(
   return LogPublishingOptionsStatus(
     options: (json['Options'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(
-          k,
+          _$enumDecodeNullable(_$LogTypeEnumMap, k),
           e == null
               ? null
               : LogPublishingOption.fromJson(e as Map<String, dynamic>)),

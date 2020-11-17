@@ -11,7 +11,9 @@ OutputShape _$OutputShapeFromJson(Map<String, dynamic> json) {
     fooEnum: _$enumDecodeNullable(_$RESTJSONEnumTypeEnumMap, json['FooEnum']),
     headerEnum:
         _$enumDecodeNullable(_$RESTJSONEnumTypeEnumMap, json['x-amz-enum']),
-    listEnums: (json['ListEnums'] as List)?.map((e) => e as String)?.toList(),
+    listEnums: (json['ListEnums'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$RESTJSONEnumTypeEnumMap, e))
+        ?.toList(),
   );
 }
 

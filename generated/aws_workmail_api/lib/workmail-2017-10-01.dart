@@ -2124,7 +2124,7 @@ class WorkMail {
     @_s.required String entityId,
     @_s.required String granteeId,
     @_s.required String organizationId,
-    @_s.required List<String> permissionValues,
+    @_s.required List<PermissionType> permissionValues,
   }) async {
     ArgumentError.checkNotNull(entityId, 'entityId');
     _s.validateStringLength(
@@ -3665,7 +3665,7 @@ class Permission {
   /// these emails). FULL_ACCESS allows the grantee full access to the mailbox,
   /// irrespective of other folder-level permissions set on the mailbox.
   @_s.JsonKey(name: 'PermissionValues')
-  final List<String> permissionValues;
+  final List<PermissionType> permissionValues;
 
   Permission({
     @_s.required this.granteeId,

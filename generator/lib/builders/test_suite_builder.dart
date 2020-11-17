@@ -123,10 +123,7 @@ void _writeTestCase(
 }
 
 void _visitExpect(StringBuffer code, String memberTrail, Shape shape,
-    Member member, Object results,
-    {bool useEnum}) {
-  useEnum ??= true;
-
+    Member member, Object results) {
   if (results == null) {
     code.writeln('expect($memberTrail, isNull);');
     return;
@@ -136,15 +133,13 @@ void _visitExpect(StringBuffer code, String memberTrail, Shape shape,
     final resultList = results as List;
     for (var i = 0; i < resultList.length; i++) {
       _visitExpect(code, '$memberTrail[$i]', shape.member.shapeClass, null,
-          resultList[i],
-          useEnum: false);
+          resultList[i]);
     }
   } else if (shape.type == 'map') {
     final resultMap = results as Map;
     for (var key in resultMap.keys) {
       _visitExpect(code, "$memberTrail['$key']", shape.value.shapeClass, null,
-          resultMap[key],
-          useEnum: false);
+          resultMap[key]);
     }
   } else if (shape.type == 'structure') {
     for (var member in shape.members) {
@@ -154,7 +149,7 @@ void _visitExpect(StringBuffer code, String memberTrail, Shape shape,
     }
   } else {
     String match;
-    if (shape.enumeration != null && useEnum) {
+    if (shape.enumeration != null) {
       match = '${shape.className}.${toEnumerationFieldName('$results')}';
     } else if (shape.type == 'blob' && results is String) {
       match = "utf8.encode('$results')";
@@ -175,23 +170,22 @@ void _visitExpect(StringBuffer code, String memberTrail, Shape shape,
 }
 
 String _buildParameters(Shape shape, Member member, Object params,
-    {bool isRoot, Descriptor descriptor, bool useEnum}) {
+    {bool isRoot, Descriptor descriptor}) {
   isRoot ??= false;
-  useEnum ??= true;
 
   if (shape == null) return '';
   if (params == null) return isRoot ? '' : 'null';
 
   if (shape.type == 'list') {
     final resultList = params as List;
-    return '[${resultList.map((e) => _buildParameters(shape.member.shapeClass, null, e, descriptor: shape.member, useEnum: false)).join(', ')}]';
+    return '[${resultList.map((e) => _buildParameters(shape.member.shapeClass, null, e, descriptor: shape.member)).join(', ')}]';
   } else if (shape.type == 'map') {
     final resultMap = params as Map;
     final buffer = StringBuffer('{');
     for (var key in resultMap.keys) {
       final value = resultMap[key];
       buffer.writeln('${_buildParameters(shape.key.shapeClass, null, key)}: '
-          '${_buildParameters(shape.value.shapeClass, null, value, useEnum: false)},');
+          '${_buildParameters(shape.value.shapeClass, null, value)},');
     }
     buffer.writeln('}');
     return '$buffer';
@@ -212,7 +206,7 @@ String _buildParameters(Shape shape, Member member, Object params,
     }
     return '$buffer';
   } else {
-    if (shape.enumeration != null && useEnum) {
+    if (shape.enumeration != null) {
       if (params is String && params.isEmpty) return 'null';
       return '${shape.className}.${toEnumerationFieldName('$params')}';
     } else if (shape.type == 'blob' &&

@@ -54,7 +54,7 @@ class Enum {
   Future<void> operationName1({
     RESTJSONEnumType fooEnum,
     RESTJSONEnumType headerEnum,
-    List<String> listEnums,
+    List<RESTJSONEnumType> listEnums,
   }) async {
     final headers = <String, String>{};
     headerEnum?.let((v) => headers['x-amz-enum'] = v.toValue());
@@ -83,7 +83,7 @@ class OutputShape {
   @_s.JsonKey(name: 'x-amz-enum')
   final RESTJSONEnumType headerEnum;
   @_s.JsonKey(name: 'ListEnums')
-  final List<String> listEnums;
+  final List<RESTJSONEnumType> listEnums;
 
   OutputShape({
     this.fooEnum,

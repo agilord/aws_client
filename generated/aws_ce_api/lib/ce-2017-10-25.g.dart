@@ -248,8 +248,9 @@ DescribeCostCategoryDefinitionResponse
 DimensionValues _$DimensionValuesFromJson(Map<String, dynamic> json) {
   return DimensionValues(
     key: _$enumDecodeNullable(_$DimensionEnumMap, json['Key']),
-    matchOptions:
-        (json['MatchOptions'] as List)?.map((e) => e as String)?.toList(),
+    matchOptions: (json['MatchOptions'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$MatchOptionEnumMap, e))
+        ?.toList(),
     values: (json['Values'] as List)?.map((e) => e as String)?.toList(),
   );
 }
@@ -264,7 +265,8 @@ Map<String, dynamic> _$DimensionValuesToJson(DimensionValues instance) {
   }
 
   writeNotNull('Key', _$DimensionEnumMap[instance.key]);
-  writeNotNull('MatchOptions', instance.matchOptions);
+  writeNotNull('MatchOptions',
+      instance.matchOptions?.map((e) => _$MatchOptionEnumMap[e])?.toList());
   writeNotNull('Values', instance.values);
   return val;
 }
@@ -299,6 +301,15 @@ const _$DimensionEnumMap = {
   Dimension.savingsPlansType: 'SAVINGS_PLANS_TYPE',
   Dimension.savingsPlanArn: 'SAVINGS_PLAN_ARN',
   Dimension.paymentOption: 'PAYMENT_OPTION',
+};
+
+const _$MatchOptionEnumMap = {
+  MatchOption.equals: 'EQUALS',
+  MatchOption.startsWith: 'STARTS_WITH',
+  MatchOption.endsWith: 'ENDS_WITH',
+  MatchOption.contains: 'CONTAINS',
+  MatchOption.caseSensitive: 'CASE_SENSITIVE',
+  MatchOption.caseInsensitive: 'CASE_INSENSITIVE',
 };
 
 DimensionValuesWithAttributes _$DimensionValuesWithAttributesFromJson(
@@ -1272,8 +1283,9 @@ Map<String, dynamic> _$ServiceSpecificationToJson(
 TagValues _$TagValuesFromJson(Map<String, dynamic> json) {
   return TagValues(
     key: json['Key'] as String,
-    matchOptions:
-        (json['MatchOptions'] as List)?.map((e) => e as String)?.toList(),
+    matchOptions: (json['MatchOptions'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$MatchOptionEnumMap, e))
+        ?.toList(),
     values: (json['Values'] as List)?.map((e) => e as String)?.toList(),
   );
 }
@@ -1288,7 +1300,8 @@ Map<String, dynamic> _$TagValuesToJson(TagValues instance) {
   }
 
   writeNotNull('Key', instance.key);
-  writeNotNull('MatchOptions', instance.matchOptions);
+  writeNotNull('MatchOptions',
+      instance.matchOptions?.map((e) => _$MatchOptionEnumMap[e])?.toList());
   writeNotNull('Values', instance.values);
   return val;
 }

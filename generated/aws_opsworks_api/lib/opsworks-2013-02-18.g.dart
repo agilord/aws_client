@@ -23,7 +23,8 @@ App _$AppFromJson(Map<String, dynamic> json) {
         ? null
         : Source.fromJson(json['AppSource'] as Map<String, dynamic>),
     attributes: (json['Attributes'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(k, e as String),
+      (k, e) => MapEntry(
+          _$enumDecodeNullable(_$AppAttributesKeysEnumMap, k), e as String),
     ),
     createdAt: json['CreatedAt'] as String,
     dataSources: (json['DataSources'] as List)
@@ -80,6 +81,13 @@ T _$enumDecodeNullable<T>(
   }
   return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
 }
+
+const _$AppAttributesKeysEnumMap = {
+  AppAttributesKeys.documentRoot: 'DocumentRoot',
+  AppAttributesKeys.railsEnv: 'RailsEnv',
+  AppAttributesKeys.autoBundleOnDeploy: 'AutoBundleOnDeploy',
+  AppAttributesKeys.awsFlowRubySettings: 'AwsFlowRubySettings',
+};
 
 const _$AppTypeEnumMap = {
   AppType.awsFlowRuby: 'aws-flow-ruby',
@@ -943,7 +951,8 @@ Layer _$LayerFromJson(Map<String, dynamic> json) {
   return Layer(
     arn: json['Arn'] as String,
     attributes: (json['Attributes'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(k, e as String),
+      (k, e) => MapEntry(
+          _$enumDecodeNullable(_$LayerAttributesKeysEnumMap, k), e as String),
     ),
     autoAssignElasticIps: json['AutoAssignElasticIps'] as bool,
     autoAssignPublicIps: json['AutoAssignPublicIps'] as bool,
@@ -986,6 +995,35 @@ Layer _$LayerFromJson(Map<String, dynamic> json) {
         ?.toList(),
   );
 }
+
+const _$LayerAttributesKeysEnumMap = {
+  LayerAttributesKeys.ecsClusterArn: 'EcsClusterArn',
+  LayerAttributesKeys.enableHaproxyStats: 'EnableHaproxyStats',
+  LayerAttributesKeys.haproxyStatsUrl: 'HaproxyStatsUrl',
+  LayerAttributesKeys.haproxyStatsUser: 'HaproxyStatsUser',
+  LayerAttributesKeys.haproxyStatsPassword: 'HaproxyStatsPassword',
+  LayerAttributesKeys.haproxyHealthCheckUrl: 'HaproxyHealthCheckUrl',
+  LayerAttributesKeys.haproxyHealthCheckMethod: 'HaproxyHealthCheckMethod',
+  LayerAttributesKeys.mysqlRootPassword: 'MysqlRootPassword',
+  LayerAttributesKeys.mysqlRootPasswordUbiquitous:
+      'MysqlRootPasswordUbiquitous',
+  LayerAttributesKeys.gangliaUrl: 'GangliaUrl',
+  LayerAttributesKeys.gangliaUser: 'GangliaUser',
+  LayerAttributesKeys.gangliaPassword: 'GangliaPassword',
+  LayerAttributesKeys.memcachedMemory: 'MemcachedMemory',
+  LayerAttributesKeys.nodejsVersion: 'NodejsVersion',
+  LayerAttributesKeys.rubyVersion: 'RubyVersion',
+  LayerAttributesKeys.rubygemsVersion: 'RubygemsVersion',
+  LayerAttributesKeys.manageBundler: 'ManageBundler',
+  LayerAttributesKeys.bundlerVersion: 'BundlerVersion',
+  LayerAttributesKeys.railsStack: 'RailsStack',
+  LayerAttributesKeys.passengerVersion: 'PassengerVersion',
+  LayerAttributesKeys.jvm: 'Jvm',
+  LayerAttributesKeys.jvmVersion: 'JvmVersion',
+  LayerAttributesKeys.jvmOptions: 'JvmOptions',
+  LayerAttributesKeys.javaAppServer: 'JavaAppServer',
+  LayerAttributesKeys.javaAppServerVersion: 'JavaAppServerVersion',
+};
 
 const _$LayerTypeEnumMap = {
   LayerType.awsFlowRuby: 'aws-flow-ruby',
@@ -1289,7 +1327,8 @@ Stack _$StackFromJson(Map<String, dynamic> json) {
     agentVersion: json['AgentVersion'] as String,
     arn: json['Arn'] as String,
     attributes: (json['Attributes'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(k, e as String),
+      (k, e) => MapEntry(
+          _$enumDecodeNullable(_$StackAttributesKeysEnumMap, k), e as String),
     ),
     chefConfiguration: json['ChefConfiguration'] == null
         ? null
@@ -1322,6 +1361,10 @@ Stack _$StackFromJson(Map<String, dynamic> json) {
     vpcId: json['VpcId'] as String,
   );
 }
+
+const _$StackAttributesKeysEnumMap = {
+  StackAttributesKeys.color: 'Color',
+};
 
 StackConfigurationManager _$StackConfigurationManagerFromJson(
     Map<String, dynamic> json) {

@@ -4209,7 +4209,7 @@ class AlexaForBusiness {
   /// Parameter [roomArn] :
   /// The ARN of the room with which the device to sync is associated. Required.
   Future<void> startDeviceSync({
-    @_s.required List<String> features,
+    @_s.required List<Feature> features,
     String deviceArn,
     String roomArn,
   }) async {

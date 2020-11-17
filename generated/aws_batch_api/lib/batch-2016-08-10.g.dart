@@ -472,8 +472,9 @@ Device _$DeviceFromJson(Map<String, dynamic> json) {
   return Device(
     hostPath: json['hostPath'] as String,
     containerPath: json['containerPath'] as String,
-    permissions:
-        (json['permissions'] as List)?.map((e) => e as String)?.toList(),
+    permissions: (json['permissions'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$DeviceCgroupPermissionEnumMap, e))
+        ?.toList(),
   );
 }
 
@@ -488,9 +489,19 @@ Map<String, dynamic> _$DeviceToJson(Device instance) {
 
   writeNotNull('hostPath', instance.hostPath);
   writeNotNull('containerPath', instance.containerPath);
-  writeNotNull('permissions', instance.permissions);
+  writeNotNull(
+      'permissions',
+      instance.permissions
+          ?.map((e) => _$DeviceCgroupPermissionEnumMap[e])
+          ?.toList());
   return val;
 }
+
+const _$DeviceCgroupPermissionEnumMap = {
+  DeviceCgroupPermission.read: 'READ',
+  DeviceCgroupPermission.write: 'WRITE',
+  DeviceCgroupPermission.mknod: 'MKNOD',
+};
 
 Host _$HostFromJson(Map<String, dynamic> json) {
   return Host(

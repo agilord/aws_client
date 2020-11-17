@@ -44,7 +44,7 @@ class Enum {
 
   Future<void> operationName0({
     EnumType fooEnum,
-    List<String> listEnums,
+    List<EnumType> listEnums,
   }) async {
     final $request = <String, dynamic>{};
     fooEnum?.also((arg) => $request['FooEnum'] = arg.toValue());
@@ -63,7 +63,7 @@ class Enum {
 
   Future<void> operationName1({
     EnumType fooEnum,
-    List<String> listEnums,
+    List<EnumType> listEnums,
   }) async {
     final $request = <String, dynamic>{};
     fooEnum?.also((arg) => $request['FooEnum'] = arg.toValue());
@@ -82,7 +82,7 @@ class Enum {
 
   Future<void> operationName2({
     EnumType fooEnum,
-    List<String> listEnums,
+    List<EnumType> listEnums,
   }) async {
     final $request = <String, dynamic>{};
     fooEnum?.also((arg) => $request['FooEnum'] = arg.toValue());

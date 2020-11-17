@@ -2953,7 +2953,7 @@ class AppStream {
   /// Parameter [vpcConfig] :
   /// The VPC configuration for the fleet.
   Future<UpdateFleetResult> updateFleet({
-    List<String> attributesToDelete,
+    List<FleetAttribute> attributesToDelete,
     ComputeCapacity computeCapacity,
     bool deleteVpcConfig,
     String description,
@@ -3163,7 +3163,7 @@ class AppStream {
     @_s.required String name,
     List<AccessEndpoint> accessEndpoints,
     ApplicationSettings applicationSettings,
-    List<String> attributesToDelete,
+    List<StackAttribute> attributesToDelete,
     bool deleteStorageConnectors,
     String description,
     String displayName,

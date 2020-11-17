@@ -31,8 +31,9 @@ Block _$BlockFromJson(Map<String, dynamic> json) {
     columnIndex: json['ColumnIndex'] as int,
     columnSpan: json['ColumnSpan'] as int,
     confidence: (json['Confidence'] as num)?.toDouble(),
-    entityTypes:
-        (json['EntityTypes'] as List)?.map((e) => e as String)?.toList(),
+    entityTypes: (json['EntityTypes'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$EntityTypeEnumMap, e))
+        ?.toList(),
     geometry: json['Geometry'] == null
         ? null
         : Geometry.fromJson(json['Geometry'] as Map<String, dynamic>),
@@ -90,6 +91,11 @@ const _$BlockTypeEnumMap = {
   BlockType.table: 'TABLE',
   BlockType.cell: 'CELL',
   BlockType.selectionElement: 'SELECTION_ELEMENT',
+};
+
+const _$EntityTypeEnumMap = {
+  EntityType.key: 'KEY',
+  EntityType.value: 'VALUE',
 };
 
 const _$SelectionStatusEnumMap = {
@@ -256,9 +262,19 @@ Map<String, dynamic> _$HumanLoopDataAttributesToJson(
     }
   }
 
-  writeNotNull('ContentClassifiers', instance.contentClassifiers);
+  writeNotNull(
+      'ContentClassifiers',
+      instance.contentClassifiers
+          ?.map((e) => _$ContentClassifierEnumMap[e])
+          ?.toList());
   return val;
 }
+
+const _$ContentClassifierEnumMap = {
+  ContentClassifier.freeOfPersonallyIdentifiableInformation:
+      'FreeOfPersonallyIdentifiableInformation',
+  ContentClassifier.freeOfAdultContent: 'FreeOfAdultContent',
+};
 
 Map<String, dynamic> _$NotificationChannelToJson(NotificationChannel instance) {
   final val = <String, dynamic>{};

@@ -79,7 +79,7 @@ BrokerInstanceOption _$BrokerInstanceOptionFromJson(Map<String, dynamic> json) {
     storageType:
         _$enumDecodeNullable(_$BrokerStorageTypeEnumMap, json['storageType']),
     supportedDeploymentModes: (json['supportedDeploymentModes'] as List)
-        ?.map((e) => e as String)
+        ?.map((e) => _$enumDecodeNullable(_$DeploymentModeEnumMap, e))
         ?.toList(),
     supportedEngineVersions: (json['supportedEngineVersions'] as List)
         ?.map((e) => e as String)
@@ -90,6 +90,11 @@ BrokerInstanceOption _$BrokerInstanceOptionFromJson(Map<String, dynamic> json) {
 const _$BrokerStorageTypeEnumMap = {
   BrokerStorageType.ebs: 'EBS',
   BrokerStorageType.efs: 'EFS',
+};
+
+const _$DeploymentModeEnumMap = {
+  DeploymentMode.singleInstance: 'SINGLE_INSTANCE',
+  DeploymentMode.activeStandbyMultiAz: 'ACTIVE_STANDBY_MULTI_AZ',
 };
 
 BrokerSummary _$BrokerSummaryFromJson(Map<String, dynamic> json) {
@@ -112,11 +117,6 @@ const _$BrokerStateEnumMap = {
   BrokerState.deletionInProgress: 'DELETION_IN_PROGRESS',
   BrokerState.running: 'RUNNING',
   BrokerState.rebootInProgress: 'REBOOT_IN_PROGRESS',
-};
-
-const _$DeploymentModeEnumMap = {
-  DeploymentMode.singleInstance: 'SINGLE_INSTANCE',
-  DeploymentMode.activeStandbyMultiAz: 'ACTIVE_STANDBY_MULTI_AZ',
 };
 
 Configuration _$ConfigurationFromJson(Map<String, dynamic> json) {

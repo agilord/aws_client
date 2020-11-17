@@ -7642,7 +7642,7 @@ class GetMergeOptionsOutput {
 
   /// The merge option or strategy used to merge the code.
   @_s.JsonKey(name: 'mergeOptions')
-  final List<String> mergeOptions;
+  final List<MergeOptionTypeEnum> mergeOptions;
 
   /// The commit ID of the source commit specifier that was used in the merge
   /// evaluation.
@@ -9136,7 +9136,7 @@ class RepositoryTrigger {
   /// The valid value "all" cannot be used with any other values.
   /// </note>
   @_s.JsonKey(name: 'events')
-  final List<String> events;
+  final List<RepositoryTriggerEventEnum> events;
 
   /// The name of the trigger.
   @_s.JsonKey(name: 'name')

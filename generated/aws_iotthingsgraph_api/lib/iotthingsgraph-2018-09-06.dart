@@ -1291,7 +1291,7 @@ class IoTThingsGraph {
   /// The string that specifies the next page of results. Use this when you're
   /// paginating results.
   Future<SearchEntitiesResponse> searchEntities({
-    @_s.required List<String> entityTypes,
+    @_s.required List<EntityType> entityTypes,
     List<EntityFilter> filters,
     int maxResults,
     int namespaceVersion,

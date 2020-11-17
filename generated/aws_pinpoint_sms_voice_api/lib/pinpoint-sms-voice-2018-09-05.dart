@@ -419,7 +419,7 @@ class EventDestination {
   @_s.JsonKey(name: 'KinesisFirehoseDestination')
   final KinesisFirehoseDestination kinesisFirehoseDestination;
   @_s.JsonKey(name: 'MatchingEventTypes')
-  final List<String> matchingEventTypes;
+  final List<EventType> matchingEventTypes;
 
   /// A name that identifies the event destination configuration.
   @_s.JsonKey(name: 'Name')
@@ -457,7 +457,7 @@ class EventDestinationDefinition {
   @_s.JsonKey(name: 'KinesisFirehoseDestination')
   final KinesisFirehoseDestination kinesisFirehoseDestination;
   @_s.JsonKey(name: 'MatchingEventTypes')
-  final List<String> matchingEventTypes;
+  final List<EventType> matchingEventTypes;
   @_s.JsonKey(name: 'SnsDestination')
   final SnsDestination snsDestination;
 

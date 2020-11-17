@@ -25,8 +25,8 @@ void main() {
     final output = await service.operationName0();
     expect(output.fooEnum, RESTJSONEnumType.foo);
     expect(output.headerEnum, RESTJSONEnumType.baz);
-    expect(output.listEnums[0], "0");
-    expect(output.listEnums[1], "1");
+    expect(output.listEnums[0], RESTJSONEnumType.$0);
+    expect(output.listEnums[1], RESTJSONEnumType.$1);
 /*
 {
   "HeaderEnum": "baz",

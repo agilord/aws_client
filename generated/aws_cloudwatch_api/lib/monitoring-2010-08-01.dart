@@ -279,7 +279,7 @@ class CloudWatch {
   /// The starting date to retrieve alarm history.
   Future<DescribeAlarmHistoryOutput> describeAlarmHistory({
     String alarmName,
-    List<String> alarmTypes,
+    List<AlarmType> alarmTypes,
     DateTime endDate,
     HistoryItemType historyItemType,
     int maxRecords,
@@ -400,7 +400,7 @@ class CloudWatch {
     String actionPrefix,
     String alarmNamePrefix,
     List<String> alarmNames,
-    List<String> alarmTypes,
+    List<AlarmType> alarmTypes,
     String childrenOfAlarmName,
     int maxRecords,
     String nextToken,
@@ -1348,7 +1348,7 @@ class CloudWatch {
     @_s.required DateTime startTime,
     List<Dimension> dimensions,
     List<String> extendedStatistics,
-    List<String> statistics,
+    List<Statistic> statistics,
     StandardUnit unit,
   }) async {
     ArgumentError.checkNotNull(endTime, 'endTime');

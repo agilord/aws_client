@@ -142,8 +142,9 @@ SavingsPlan _$SavingsPlanFromJson(Map<String, dynamic> json) {
     offeringId: json['offeringId'] as String,
     paymentOption: _$enumDecodeNullable(
         _$SavingsPlanPaymentOptionEnumMap, json['paymentOption']),
-    productTypes:
-        (json['productTypes'] as List)?.map((e) => e as String)?.toList(),
+    productTypes: (json['productTypes'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$SavingsPlanProductTypeEnumMap, e))
+        ?.toList(),
     recurringPaymentAmount: json['recurringPaymentAmount'] as String,
     region: json['region'] as String,
     savingsPlanArn: json['savingsPlanArn'] as String,
@@ -159,6 +160,12 @@ SavingsPlan _$SavingsPlanFromJson(Map<String, dynamic> json) {
     upfrontPaymentAmount: json['upfrontPaymentAmount'] as String,
   );
 }
+
+const _$SavingsPlanProductTypeEnumMap = {
+  SavingsPlanProductType.ec2: 'EC2',
+  SavingsPlanProductType.fargate: 'Fargate',
+  SavingsPlanProductType.lambda: 'Lambda',
+};
 
 const _$SavingsPlanStateEnumMap = {
   SavingsPlanState.paymentPending: 'payment-pending',
@@ -203,8 +210,9 @@ SavingsPlanOffering _$SavingsPlanOfferingFromJson(Map<String, dynamic> json) {
     paymentOption: _$enumDecodeNullable(
         _$SavingsPlanPaymentOptionEnumMap, json['paymentOption']),
     planType: _$enumDecodeNullable(_$SavingsPlanTypeEnumMap, json['planType']),
-    productTypes:
-        (json['productTypes'] as List)?.map((e) => e as String)?.toList(),
+    productTypes: (json['productTypes'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$SavingsPlanProductTypeEnumMap, e))
+        ?.toList(),
     properties: (json['properties'] as List)
         ?.map((e) => e == null
             ? null
@@ -273,12 +281,6 @@ SavingsPlanOfferingRate _$SavingsPlanOfferingRateFromJson(
     usageType: json['usageType'] as String,
   );
 }
-
-const _$SavingsPlanProductTypeEnumMap = {
-  SavingsPlanProductType.ec2: 'EC2',
-  SavingsPlanProductType.fargate: 'Fargate',
-  SavingsPlanProductType.lambda: 'Lambda',
-};
 
 const _$SavingsPlanRateServiceCodeEnumMap = {
   SavingsPlanRateServiceCode.amazonEC2: 'AmazonEC2',

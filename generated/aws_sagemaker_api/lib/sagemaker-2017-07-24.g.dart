@@ -759,12 +759,12 @@ ChannelSpecification _$ChannelSpecificationFromJson(Map<String, dynamic> json) {
         ?.map((e) => e as String)
         ?.toList(),
     supportedInputModes: (json['SupportedInputModes'] as List)
-        ?.map((e) => e as String)
+        ?.map((e) => _$enumDecodeNullable(_$TrainingInputModeEnumMap, e))
         ?.toList(),
     description: json['Description'] as String,
     isRequired: json['IsRequired'] as bool,
     supportedCompressionTypes: (json['SupportedCompressionTypes'] as List)
-        ?.map((e) => e as String)
+        ?.map((e) => _$enumDecodeNullable(_$CompressionTypeEnumMap, e))
         ?.toList(),
   );
 }
@@ -781,10 +781,18 @@ Map<String, dynamic> _$ChannelSpecificationToJson(
 
   writeNotNull('Name', instance.name);
   writeNotNull('SupportedContentTypes', instance.supportedContentTypes);
-  writeNotNull('SupportedInputModes', instance.supportedInputModes);
+  writeNotNull(
+      'SupportedInputModes',
+      instance.supportedInputModes
+          ?.map((e) => _$TrainingInputModeEnumMap[e])
+          ?.toList());
   writeNotNull('Description', instance.description);
   writeNotNull('IsRequired', instance.isRequired);
-  writeNotNull('SupportedCompressionTypes', instance.supportedCompressionTypes);
+  writeNotNull(
+      'SupportedCompressionTypes',
+      instance.supportedCompressionTypes
+          ?.map((e) => _$CompressionTypeEnumMap[e])
+          ?.toList());
   return val;
 }
 
@@ -2028,8 +2036,10 @@ DescribeNotebookInstanceLifecycleConfigOutput
 DescribeNotebookInstanceOutput _$DescribeNotebookInstanceOutputFromJson(
     Map<String, dynamic> json) {
   return DescribeNotebookInstanceOutput(
-    acceleratorTypes:
-        (json['AcceleratorTypes'] as List)?.map((e) => e as String)?.toList(),
+    acceleratorTypes: (json['AcceleratorTypes'] as List)
+        ?.map((e) =>
+            _$enumDecodeNullable(_$NotebookInstanceAcceleratorTypeEnumMap, e))
+        ?.toList(),
     additionalCodeRepositories: (json['AdditionalCodeRepositories'] as List)
         ?.map((e) => e as String)
         ?.toList(),
@@ -2058,6 +2068,15 @@ DescribeNotebookInstanceOutput _$DescribeNotebookInstanceOutputFromJson(
     volumeSizeInGB: json['VolumeSizeInGB'] as int,
   );
 }
+
+const _$NotebookInstanceAcceleratorTypeEnumMap = {
+  NotebookInstanceAcceleratorType.mlEia1Medium: 'ml.eia1.medium',
+  NotebookInstanceAcceleratorType.mlEia1Large: 'ml.eia1.large',
+  NotebookInstanceAcceleratorType.mlEia1Xlarge: 'ml.eia1.xlarge',
+  NotebookInstanceAcceleratorType.mlEia2Medium: 'ml.eia2.medium',
+  NotebookInstanceAcceleratorType.mlEia2Large: 'ml.eia2.large',
+  NotebookInstanceAcceleratorType.mlEia2Xlarge: 'ml.eia2.xlarge',
+};
 
 const _$DirectInternetAccessEnumMap = {
   DirectInternetAccess.enabled: 'Enabled',
@@ -3374,15 +3393,16 @@ InferenceSpecification _$InferenceSpecificationFromJson(
         ?.toList(),
     supportedRealtimeInferenceInstanceTypes:
         (json['SupportedRealtimeInferenceInstanceTypes'] as List)
-            ?.map((e) => e as String)
+            ?.map((e) =>
+                _$enumDecodeNullable(_$ProductionVariantInstanceTypeEnumMap, e))
             ?.toList(),
     supportedResponseMIMETypes: (json['SupportedResponseMIMETypes'] as List)
         ?.map((e) => e as String)
         ?.toList(),
-    supportedTransformInstanceTypes:
-        (json['SupportedTransformInstanceTypes'] as List)
-            ?.map((e) => e as String)
-            ?.toList(),
+    supportedTransformInstanceTypes: (json['SupportedTransformInstanceTypes']
+            as List)
+        ?.map((e) => _$enumDecodeNullable(_$TransformInstanceTypeEnumMap, e))
+        ?.toList(),
   );
 }
 
@@ -3399,14 +3419,118 @@ Map<String, dynamic> _$InferenceSpecificationToJson(
   writeNotNull(
       'Containers', instance.containers?.map((e) => e?.toJson())?.toList());
   writeNotNull('SupportedContentTypes', instance.supportedContentTypes);
-  writeNotNull('SupportedRealtimeInferenceInstanceTypes',
-      instance.supportedRealtimeInferenceInstanceTypes);
+  writeNotNull(
+      'SupportedRealtimeInferenceInstanceTypes',
+      instance.supportedRealtimeInferenceInstanceTypes
+          ?.map((e) => _$ProductionVariantInstanceTypeEnumMap[e])
+          ?.toList());
   writeNotNull(
       'SupportedResponseMIMETypes', instance.supportedResponseMIMETypes);
-  writeNotNull('SupportedTransformInstanceTypes',
-      instance.supportedTransformInstanceTypes);
+  writeNotNull(
+      'SupportedTransformInstanceTypes',
+      instance.supportedTransformInstanceTypes
+          ?.map((e) => _$TransformInstanceTypeEnumMap[e])
+          ?.toList());
   return val;
 }
+
+const _$ProductionVariantInstanceTypeEnumMap = {
+  ProductionVariantInstanceType.mlT2Medium: 'ml.t2.medium',
+  ProductionVariantInstanceType.mlT2Large: 'ml.t2.large',
+  ProductionVariantInstanceType.mlT2Xlarge: 'ml.t2.xlarge',
+  ProductionVariantInstanceType.mlT2_2xlarge: 'ml.t2.2xlarge',
+  ProductionVariantInstanceType.mlM4Xlarge: 'ml.m4.xlarge',
+  ProductionVariantInstanceType.mlM4_2xlarge: 'ml.m4.2xlarge',
+  ProductionVariantInstanceType.mlM4_4xlarge: 'ml.m4.4xlarge',
+  ProductionVariantInstanceType.mlM4_10xlarge: 'ml.m4.10xlarge',
+  ProductionVariantInstanceType.mlM4_16xlarge: 'ml.m4.16xlarge',
+  ProductionVariantInstanceType.mlM5Large: 'ml.m5.large',
+  ProductionVariantInstanceType.mlM5Xlarge: 'ml.m5.xlarge',
+  ProductionVariantInstanceType.mlM5_2xlarge: 'ml.m5.2xlarge',
+  ProductionVariantInstanceType.mlM5_4xlarge: 'ml.m5.4xlarge',
+  ProductionVariantInstanceType.mlM5_12xlarge: 'ml.m5.12xlarge',
+  ProductionVariantInstanceType.mlM5_24xlarge: 'ml.m5.24xlarge',
+  ProductionVariantInstanceType.mlM5dLarge: 'ml.m5d.large',
+  ProductionVariantInstanceType.mlM5dXlarge: 'ml.m5d.xlarge',
+  ProductionVariantInstanceType.mlM5d_2xlarge: 'ml.m5d.2xlarge',
+  ProductionVariantInstanceType.mlM5d_4xlarge: 'ml.m5d.4xlarge',
+  ProductionVariantInstanceType.mlM5d_12xlarge: 'ml.m5d.12xlarge',
+  ProductionVariantInstanceType.mlM5d_24xlarge: 'ml.m5d.24xlarge',
+  ProductionVariantInstanceType.mlC4Large: 'ml.c4.large',
+  ProductionVariantInstanceType.mlC4Xlarge: 'ml.c4.xlarge',
+  ProductionVariantInstanceType.mlC4_2xlarge: 'ml.c4.2xlarge',
+  ProductionVariantInstanceType.mlC4_4xlarge: 'ml.c4.4xlarge',
+  ProductionVariantInstanceType.mlC4_8xlarge: 'ml.c4.8xlarge',
+  ProductionVariantInstanceType.mlP2Xlarge: 'ml.p2.xlarge',
+  ProductionVariantInstanceType.mlP2_8xlarge: 'ml.p2.8xlarge',
+  ProductionVariantInstanceType.mlP2_16xlarge: 'ml.p2.16xlarge',
+  ProductionVariantInstanceType.mlP3_2xlarge: 'ml.p3.2xlarge',
+  ProductionVariantInstanceType.mlP3_8xlarge: 'ml.p3.8xlarge',
+  ProductionVariantInstanceType.mlP3_16xlarge: 'ml.p3.16xlarge',
+  ProductionVariantInstanceType.mlC5Large: 'ml.c5.large',
+  ProductionVariantInstanceType.mlC5Xlarge: 'ml.c5.xlarge',
+  ProductionVariantInstanceType.mlC5_2xlarge: 'ml.c5.2xlarge',
+  ProductionVariantInstanceType.mlC5_4xlarge: 'ml.c5.4xlarge',
+  ProductionVariantInstanceType.mlC5_9xlarge: 'ml.c5.9xlarge',
+  ProductionVariantInstanceType.mlC5_18xlarge: 'ml.c5.18xlarge',
+  ProductionVariantInstanceType.mlC5dLarge: 'ml.c5d.large',
+  ProductionVariantInstanceType.mlC5dXlarge: 'ml.c5d.xlarge',
+  ProductionVariantInstanceType.mlC5d_2xlarge: 'ml.c5d.2xlarge',
+  ProductionVariantInstanceType.mlC5d_4xlarge: 'ml.c5d.4xlarge',
+  ProductionVariantInstanceType.mlC5d_9xlarge: 'ml.c5d.9xlarge',
+  ProductionVariantInstanceType.mlC5d_18xlarge: 'ml.c5d.18xlarge',
+  ProductionVariantInstanceType.mlG4dnXlarge: 'ml.g4dn.xlarge',
+  ProductionVariantInstanceType.mlG4dn_2xlarge: 'ml.g4dn.2xlarge',
+  ProductionVariantInstanceType.mlG4dn_4xlarge: 'ml.g4dn.4xlarge',
+  ProductionVariantInstanceType.mlG4dn_8xlarge: 'ml.g4dn.8xlarge',
+  ProductionVariantInstanceType.mlG4dn_12xlarge: 'ml.g4dn.12xlarge',
+  ProductionVariantInstanceType.mlG4dn_16xlarge: 'ml.g4dn.16xlarge',
+  ProductionVariantInstanceType.mlR5Large: 'ml.r5.large',
+  ProductionVariantInstanceType.mlR5Xlarge: 'ml.r5.xlarge',
+  ProductionVariantInstanceType.mlR5_2xlarge: 'ml.r5.2xlarge',
+  ProductionVariantInstanceType.mlR5_4xlarge: 'ml.r5.4xlarge',
+  ProductionVariantInstanceType.mlR5_12xlarge: 'ml.r5.12xlarge',
+  ProductionVariantInstanceType.mlR5_24xlarge: 'ml.r5.24xlarge',
+  ProductionVariantInstanceType.mlR5dLarge: 'ml.r5d.large',
+  ProductionVariantInstanceType.mlR5dXlarge: 'ml.r5d.xlarge',
+  ProductionVariantInstanceType.mlR5d_2xlarge: 'ml.r5d.2xlarge',
+  ProductionVariantInstanceType.mlR5d_4xlarge: 'ml.r5d.4xlarge',
+  ProductionVariantInstanceType.mlR5d_12xlarge: 'ml.r5d.12xlarge',
+  ProductionVariantInstanceType.mlR5d_24xlarge: 'ml.r5d.24xlarge',
+  ProductionVariantInstanceType.mlInf1Xlarge: 'ml.inf1.xlarge',
+  ProductionVariantInstanceType.mlInf1_2xlarge: 'ml.inf1.2xlarge',
+  ProductionVariantInstanceType.mlInf1_6xlarge: 'ml.inf1.6xlarge',
+  ProductionVariantInstanceType.mlInf1_24xlarge: 'ml.inf1.24xlarge',
+};
+
+const _$TransformInstanceTypeEnumMap = {
+  TransformInstanceType.mlM4Xlarge: 'ml.m4.xlarge',
+  TransformInstanceType.mlM4_2xlarge: 'ml.m4.2xlarge',
+  TransformInstanceType.mlM4_4xlarge: 'ml.m4.4xlarge',
+  TransformInstanceType.mlM4_10xlarge: 'ml.m4.10xlarge',
+  TransformInstanceType.mlM4_16xlarge: 'ml.m4.16xlarge',
+  TransformInstanceType.mlC4Xlarge: 'ml.c4.xlarge',
+  TransformInstanceType.mlC4_2xlarge: 'ml.c4.2xlarge',
+  TransformInstanceType.mlC4_4xlarge: 'ml.c4.4xlarge',
+  TransformInstanceType.mlC4_8xlarge: 'ml.c4.8xlarge',
+  TransformInstanceType.mlP2Xlarge: 'ml.p2.xlarge',
+  TransformInstanceType.mlP2_8xlarge: 'ml.p2.8xlarge',
+  TransformInstanceType.mlP2_16xlarge: 'ml.p2.16xlarge',
+  TransformInstanceType.mlP3_2xlarge: 'ml.p3.2xlarge',
+  TransformInstanceType.mlP3_8xlarge: 'ml.p3.8xlarge',
+  TransformInstanceType.mlP3_16xlarge: 'ml.p3.16xlarge',
+  TransformInstanceType.mlC5Xlarge: 'ml.c5.xlarge',
+  TransformInstanceType.mlC5_2xlarge: 'ml.c5.2xlarge',
+  TransformInstanceType.mlC5_4xlarge: 'ml.c5.4xlarge',
+  TransformInstanceType.mlC5_9xlarge: 'ml.c5.9xlarge',
+  TransformInstanceType.mlC5_18xlarge: 'ml.c5.18xlarge',
+  TransformInstanceType.mlM5Large: 'ml.m5.large',
+  TransformInstanceType.mlM5Xlarge: 'ml.m5.xlarge',
+  TransformInstanceType.mlM5_2xlarge: 'ml.m5.2xlarge',
+  TransformInstanceType.mlM5_4xlarge: 'ml.m5.4xlarge',
+  TransformInstanceType.mlM5_12xlarge: 'ml.m5.12xlarge',
+  TransformInstanceType.mlM5_24xlarge: 'ml.m5.24xlarge',
+};
 
 InputConfig _$InputConfigFromJson(Map<String, dynamic> json) {
   return InputConfig(
@@ -3596,8 +3720,9 @@ Map<String, dynamic> _$LabelingJobAlgorithmsConfigToJson(
 LabelingJobDataAttributes _$LabelingJobDataAttributesFromJson(
     Map<String, dynamic> json) {
   return LabelingJobDataAttributes(
-    contentClassifiers:
-        (json['ContentClassifiers'] as List)?.map((e) => e as String)?.toList(),
+    contentClassifiers: (json['ContentClassifiers'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$ContentClassifierEnumMap, e))
+        ?.toList(),
   );
 }
 
@@ -3611,9 +3736,19 @@ Map<String, dynamic> _$LabelingJobDataAttributesToJson(
     }
   }
 
-  writeNotNull('ContentClassifiers', instance.contentClassifiers);
+  writeNotNull(
+      'ContentClassifiers',
+      instance.contentClassifiers
+          ?.map((e) => _$ContentClassifierEnumMap[e])
+          ?.toList());
   return val;
 }
+
+const _$ContentClassifierEnumMap = {
+  ContentClassifier.freeOfPersonallyIdentifiableInformation:
+      'FreeOfPersonallyIdentifiableInformation',
+  ContentClassifier.freeOfAdultContent: 'FreeOfAdultContent',
+};
 
 LabelingJobDataSource _$LabelingJobDataSourceFromJson(
     Map<String, dynamic> json) {
@@ -5371,75 +5506,6 @@ Map<String, dynamic> _$ProductionVariantToJson(ProductionVariant instance) {
   return val;
 }
 
-const _$ProductionVariantInstanceTypeEnumMap = {
-  ProductionVariantInstanceType.mlT2Medium: 'ml.t2.medium',
-  ProductionVariantInstanceType.mlT2Large: 'ml.t2.large',
-  ProductionVariantInstanceType.mlT2Xlarge: 'ml.t2.xlarge',
-  ProductionVariantInstanceType.mlT2_2xlarge: 'ml.t2.2xlarge',
-  ProductionVariantInstanceType.mlM4Xlarge: 'ml.m4.xlarge',
-  ProductionVariantInstanceType.mlM4_2xlarge: 'ml.m4.2xlarge',
-  ProductionVariantInstanceType.mlM4_4xlarge: 'ml.m4.4xlarge',
-  ProductionVariantInstanceType.mlM4_10xlarge: 'ml.m4.10xlarge',
-  ProductionVariantInstanceType.mlM4_16xlarge: 'ml.m4.16xlarge',
-  ProductionVariantInstanceType.mlM5Large: 'ml.m5.large',
-  ProductionVariantInstanceType.mlM5Xlarge: 'ml.m5.xlarge',
-  ProductionVariantInstanceType.mlM5_2xlarge: 'ml.m5.2xlarge',
-  ProductionVariantInstanceType.mlM5_4xlarge: 'ml.m5.4xlarge',
-  ProductionVariantInstanceType.mlM5_12xlarge: 'ml.m5.12xlarge',
-  ProductionVariantInstanceType.mlM5_24xlarge: 'ml.m5.24xlarge',
-  ProductionVariantInstanceType.mlM5dLarge: 'ml.m5d.large',
-  ProductionVariantInstanceType.mlM5dXlarge: 'ml.m5d.xlarge',
-  ProductionVariantInstanceType.mlM5d_2xlarge: 'ml.m5d.2xlarge',
-  ProductionVariantInstanceType.mlM5d_4xlarge: 'ml.m5d.4xlarge',
-  ProductionVariantInstanceType.mlM5d_12xlarge: 'ml.m5d.12xlarge',
-  ProductionVariantInstanceType.mlM5d_24xlarge: 'ml.m5d.24xlarge',
-  ProductionVariantInstanceType.mlC4Large: 'ml.c4.large',
-  ProductionVariantInstanceType.mlC4Xlarge: 'ml.c4.xlarge',
-  ProductionVariantInstanceType.mlC4_2xlarge: 'ml.c4.2xlarge',
-  ProductionVariantInstanceType.mlC4_4xlarge: 'ml.c4.4xlarge',
-  ProductionVariantInstanceType.mlC4_8xlarge: 'ml.c4.8xlarge',
-  ProductionVariantInstanceType.mlP2Xlarge: 'ml.p2.xlarge',
-  ProductionVariantInstanceType.mlP2_8xlarge: 'ml.p2.8xlarge',
-  ProductionVariantInstanceType.mlP2_16xlarge: 'ml.p2.16xlarge',
-  ProductionVariantInstanceType.mlP3_2xlarge: 'ml.p3.2xlarge',
-  ProductionVariantInstanceType.mlP3_8xlarge: 'ml.p3.8xlarge',
-  ProductionVariantInstanceType.mlP3_16xlarge: 'ml.p3.16xlarge',
-  ProductionVariantInstanceType.mlC5Large: 'ml.c5.large',
-  ProductionVariantInstanceType.mlC5Xlarge: 'ml.c5.xlarge',
-  ProductionVariantInstanceType.mlC5_2xlarge: 'ml.c5.2xlarge',
-  ProductionVariantInstanceType.mlC5_4xlarge: 'ml.c5.4xlarge',
-  ProductionVariantInstanceType.mlC5_9xlarge: 'ml.c5.9xlarge',
-  ProductionVariantInstanceType.mlC5_18xlarge: 'ml.c5.18xlarge',
-  ProductionVariantInstanceType.mlC5dLarge: 'ml.c5d.large',
-  ProductionVariantInstanceType.mlC5dXlarge: 'ml.c5d.xlarge',
-  ProductionVariantInstanceType.mlC5d_2xlarge: 'ml.c5d.2xlarge',
-  ProductionVariantInstanceType.mlC5d_4xlarge: 'ml.c5d.4xlarge',
-  ProductionVariantInstanceType.mlC5d_9xlarge: 'ml.c5d.9xlarge',
-  ProductionVariantInstanceType.mlC5d_18xlarge: 'ml.c5d.18xlarge',
-  ProductionVariantInstanceType.mlG4dnXlarge: 'ml.g4dn.xlarge',
-  ProductionVariantInstanceType.mlG4dn_2xlarge: 'ml.g4dn.2xlarge',
-  ProductionVariantInstanceType.mlG4dn_4xlarge: 'ml.g4dn.4xlarge',
-  ProductionVariantInstanceType.mlG4dn_8xlarge: 'ml.g4dn.8xlarge',
-  ProductionVariantInstanceType.mlG4dn_12xlarge: 'ml.g4dn.12xlarge',
-  ProductionVariantInstanceType.mlG4dn_16xlarge: 'ml.g4dn.16xlarge',
-  ProductionVariantInstanceType.mlR5Large: 'ml.r5.large',
-  ProductionVariantInstanceType.mlR5Xlarge: 'ml.r5.xlarge',
-  ProductionVariantInstanceType.mlR5_2xlarge: 'ml.r5.2xlarge',
-  ProductionVariantInstanceType.mlR5_4xlarge: 'ml.r5.4xlarge',
-  ProductionVariantInstanceType.mlR5_12xlarge: 'ml.r5.12xlarge',
-  ProductionVariantInstanceType.mlR5_24xlarge: 'ml.r5.24xlarge',
-  ProductionVariantInstanceType.mlR5dLarge: 'ml.r5d.large',
-  ProductionVariantInstanceType.mlR5dXlarge: 'ml.r5d.xlarge',
-  ProductionVariantInstanceType.mlR5d_2xlarge: 'ml.r5d.2xlarge',
-  ProductionVariantInstanceType.mlR5d_4xlarge: 'ml.r5d.4xlarge',
-  ProductionVariantInstanceType.mlR5d_12xlarge: 'ml.r5d.12xlarge',
-  ProductionVariantInstanceType.mlR5d_24xlarge: 'ml.r5d.24xlarge',
-  ProductionVariantInstanceType.mlInf1Xlarge: 'ml.inf1.xlarge',
-  ProductionVariantInstanceType.mlInf1_2xlarge: 'ml.inf1.2xlarge',
-  ProductionVariantInstanceType.mlInf1_6xlarge: 'ml.inf1.6xlarge',
-  ProductionVariantInstanceType.mlInf1_24xlarge: 'ml.inf1.24xlarge',
-};
-
 const _$ProductionVariantAcceleratorTypeEnumMap = {
   ProductionVariantAcceleratorType.mlEia1Medium: 'ml.eia1.medium',
   ProductionVariantAcceleratorType.mlEia1Large: 'ml.eia1.large',
@@ -6236,7 +6302,7 @@ TrainingSpecification _$TrainingSpecificationFromJson(
   return TrainingSpecification(
     supportedTrainingInstanceTypes:
         (json['SupportedTrainingInstanceTypes'] as List)
-            ?.map((e) => e as String)
+            ?.map((e) => _$enumDecodeNullable(_$TrainingInstanceTypeEnumMap, e))
             ?.toList(),
     trainingChannels: (json['TrainingChannels'] as List)
         ?.map((e) => e == null
@@ -6276,8 +6342,11 @@ Map<String, dynamic> _$TrainingSpecificationToJson(
     }
   }
 
-  writeNotNull('SupportedTrainingInstanceTypes',
-      instance.supportedTrainingInstanceTypes);
+  writeNotNull(
+      'SupportedTrainingInstanceTypes',
+      instance.supportedTrainingInstanceTypes
+          ?.map((e) => _$TrainingInstanceTypeEnumMap[e])
+          ?.toList());
   writeNotNull('TrainingChannels',
       instance.trainingChannels?.map((e) => e?.toJson())?.toList());
   writeNotNull('TrainingImage', instance.trainingImage);
@@ -6468,35 +6537,6 @@ Map<String, dynamic> _$TransformResourcesToJson(TransformResources instance) {
   writeNotNull('VolumeKmsKeyId', instance.volumeKmsKeyId);
   return val;
 }
-
-const _$TransformInstanceTypeEnumMap = {
-  TransformInstanceType.mlM4Xlarge: 'ml.m4.xlarge',
-  TransformInstanceType.mlM4_2xlarge: 'ml.m4.2xlarge',
-  TransformInstanceType.mlM4_4xlarge: 'ml.m4.4xlarge',
-  TransformInstanceType.mlM4_10xlarge: 'ml.m4.10xlarge',
-  TransformInstanceType.mlM4_16xlarge: 'ml.m4.16xlarge',
-  TransformInstanceType.mlC4Xlarge: 'ml.c4.xlarge',
-  TransformInstanceType.mlC4_2xlarge: 'ml.c4.2xlarge',
-  TransformInstanceType.mlC4_4xlarge: 'ml.c4.4xlarge',
-  TransformInstanceType.mlC4_8xlarge: 'ml.c4.8xlarge',
-  TransformInstanceType.mlP2Xlarge: 'ml.p2.xlarge',
-  TransformInstanceType.mlP2_8xlarge: 'ml.p2.8xlarge',
-  TransformInstanceType.mlP2_16xlarge: 'ml.p2.16xlarge',
-  TransformInstanceType.mlP3_2xlarge: 'ml.p3.2xlarge',
-  TransformInstanceType.mlP3_8xlarge: 'ml.p3.8xlarge',
-  TransformInstanceType.mlP3_16xlarge: 'ml.p3.16xlarge',
-  TransformInstanceType.mlC5Xlarge: 'ml.c5.xlarge',
-  TransformInstanceType.mlC5_2xlarge: 'ml.c5.2xlarge',
-  TransformInstanceType.mlC5_4xlarge: 'ml.c5.4xlarge',
-  TransformInstanceType.mlC5_9xlarge: 'ml.c5.9xlarge',
-  TransformInstanceType.mlC5_18xlarge: 'ml.c5.18xlarge',
-  TransformInstanceType.mlM5Large: 'ml.m5.large',
-  TransformInstanceType.mlM5Xlarge: 'ml.m5.xlarge',
-  TransformInstanceType.mlM5_2xlarge: 'ml.m5.2xlarge',
-  TransformInstanceType.mlM5_4xlarge: 'ml.m5.4xlarge',
-  TransformInstanceType.mlM5_12xlarge: 'ml.m5.12xlarge',
-  TransformInstanceType.mlM5_24xlarge: 'ml.m5.24xlarge',
-};
 
 TransformS3DataSource _$TransformS3DataSourceFromJson(
     Map<String, dynamic> json) {

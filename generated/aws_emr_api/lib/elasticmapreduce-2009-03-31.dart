@@ -491,7 +491,7 @@ class EMR {
     DateTime createdAfter,
     DateTime createdBefore,
     List<String> jobFlowIds,
-    List<String> jobFlowStates,
+    List<JobFlowExecutionState> jobFlowStates,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -673,7 +673,7 @@ class EMR {
   /// Parameter [marker] :
   /// The pagination token that indicates the next set of results to retrieve.
   Future<ListClustersOutput> listClusters({
-    List<String> clusterStates,
+    List<ClusterState> clusterStates,
     DateTime createdAfter,
     DateTime createdBefore,
     String marker,
@@ -805,8 +805,8 @@ class EMR {
     String instanceFleetId,
     InstanceFleetType instanceFleetType,
     String instanceGroupId,
-    List<String> instanceGroupTypes,
-    List<String> instanceStates,
+    List<InstanceGroupType> instanceGroupTypes,
+    List<InstanceState> instanceStates,
     String marker,
   }) async {
     ArgumentError.checkNotNull(clusterId, 'clusterId');
@@ -892,7 +892,7 @@ class EMR {
     @_s.required String clusterId,
     String marker,
     List<String> stepIds,
-    List<String> stepStates,
+    List<StepState> stepStates,
   }) async {
     ArgumentError.checkNotNull(clusterId, 'clusterId');
     final headers = <String, String>{

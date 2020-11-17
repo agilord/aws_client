@@ -746,7 +746,7 @@ class DashPackage {
   /// periods will be created where
   /// the Asset contains SCTE-35 ad markers.
   @_s.JsonKey(name: 'periodTriggers')
-  final List<String> periodTriggers;
+  final List<__PeriodTriggersElement> periodTriggers;
 
   /// Duration (in seconds) of each segment. Actual segments will be
   /// rounded to the nearest multiple of the source segment duration.

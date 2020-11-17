@@ -759,8 +759,9 @@ FleetAttributes _$FleetAttributesFromJson(Map<String, dynamic> json) {
     serverLaunchParameters: json['ServerLaunchParameters'] as String,
     serverLaunchPath: json['ServerLaunchPath'] as String,
     status: _$enumDecodeNullable(_$FleetStatusEnumMap, json['Status']),
-    stoppedActions:
-        (json['StoppedActions'] as List)?.map((e) => e as String)?.toList(),
+    stoppedActions: (json['StoppedActions'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$FleetActionEnumMap, e))
+        ?.toList(),
     terminationTime: unixTimestampFromJson(json['TerminationTime']),
   );
 }
@@ -785,6 +786,10 @@ const _$FleetStatusEnumMap = {
   FleetStatus.deleting: 'DELETING',
   FleetStatus.error: 'ERROR',
   FleetStatus.terminated: 'TERMINATED',
+};
+
+const _$FleetActionEnumMap = {
+  FleetAction.autoScaling: 'AUTO_SCALING',
 };
 
 FleetCapacity _$FleetCapacityFromJson(Map<String, dynamic> json) {
@@ -879,8 +884,9 @@ GameServerGroup _$GameServerGroupFromJson(Map<String, dynamic> json) {
     status:
         _$enumDecodeNullable(_$GameServerGroupStatusEnumMap, json['Status']),
     statusReason: json['StatusReason'] as String,
-    suspendedActions:
-        (json['SuspendedActions'] as List)?.map((e) => e as String)?.toList(),
+    suspendedActions: (json['SuspendedActions'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$GameServerGroupActionEnumMap, e))
+        ?.toList(),
   );
 }
 
@@ -902,6 +908,10 @@ const _$GameServerGroupStatusEnumMap = {
   GameServerGroupStatus.deleting: 'DELETING',
   GameServerGroupStatus.deleted: 'DELETED',
   GameServerGroupStatus.error: 'ERROR',
+};
+
+const _$GameServerGroupActionEnumMap = {
+  GameServerGroupAction.replaceInstanceTypes: 'REPLACE_INSTANCE_TYPES',
 };
 
 Map<String, dynamic> _$GameServerGroupAutoScalingPolicyToJson(

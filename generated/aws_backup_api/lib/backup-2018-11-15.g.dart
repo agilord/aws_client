@@ -536,12 +536,31 @@ GetBackupVaultNotificationsOutput _$GetBackupVaultNotificationsOutputFromJson(
     Map<String, dynamic> json) {
   return GetBackupVaultNotificationsOutput(
     backupVaultArn: json['BackupVaultArn'] as String,
-    backupVaultEvents:
-        (json['BackupVaultEvents'] as List)?.map((e) => e as String)?.toList(),
+    backupVaultEvents: (json['BackupVaultEvents'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$BackupVaultEventEnumMap, e))
+        ?.toList(),
     backupVaultName: json['BackupVaultName'] as String,
     sNSTopicArn: json['SNSTopicArn'] as String,
   );
 }
+
+const _$BackupVaultEventEnumMap = {
+  BackupVaultEvent.backupJobStarted: 'BACKUP_JOB_STARTED',
+  BackupVaultEvent.backupJobCompleted: 'BACKUP_JOB_COMPLETED',
+  BackupVaultEvent.backupJobSuccessful: 'BACKUP_JOB_SUCCESSFUL',
+  BackupVaultEvent.backupJobFailed: 'BACKUP_JOB_FAILED',
+  BackupVaultEvent.backupJobExpired: 'BACKUP_JOB_EXPIRED',
+  BackupVaultEvent.restoreJobStarted: 'RESTORE_JOB_STARTED',
+  BackupVaultEvent.restoreJobCompleted: 'RESTORE_JOB_COMPLETED',
+  BackupVaultEvent.restoreJobSuccessful: 'RESTORE_JOB_SUCCESSFUL',
+  BackupVaultEvent.restoreJobFailed: 'RESTORE_JOB_FAILED',
+  BackupVaultEvent.copyJobStarted: 'COPY_JOB_STARTED',
+  BackupVaultEvent.copyJobSuccessful: 'COPY_JOB_SUCCESSFUL',
+  BackupVaultEvent.copyJobFailed: 'COPY_JOB_FAILED',
+  BackupVaultEvent.recoveryPointModified: 'RECOVERY_POINT_MODIFIED',
+  BackupVaultEvent.backupPlanCreated: 'BACKUP_PLAN_CREATED',
+  BackupVaultEvent.backupPlanModified: 'BACKUP_PLAN_MODIFIED',
+};
 
 GetRecoveryPointRestoreMetadataOutput
     _$GetRecoveryPointRestoreMetadataOutputFromJson(Map<String, dynamic> json) {

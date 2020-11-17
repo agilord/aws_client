@@ -834,9 +834,19 @@ Map<String, dynamic> _$HumanLoopDataAttributesToJson(
     }
   }
 
-  writeNotNull('ContentClassifiers', instance.contentClassifiers);
+  writeNotNull(
+      'ContentClassifiers',
+      instance.contentClassifiers
+          ?.map((e) => _$ContentClassifierEnumMap[e])
+          ?.toList());
   return val;
 }
+
+const _$ContentClassifierEnumMap = {
+  ContentClassifier.freeOfPersonallyIdentifiableInformation:
+      'FreeOfPersonallyIdentifiableInformation',
+  ContentClassifier.freeOfAdultContent: 'FreeOfAdultContent',
+};
 
 Map<String, dynamic> _$ImageToJson(Image instance) {
   final val = <String, dynamic>{};
@@ -1539,9 +1549,21 @@ UnindexedFace _$UnindexedFaceFromJson(Map<String, dynamic> json) {
     faceDetail: json['FaceDetail'] == null
         ? null
         : FaceDetail.fromJson(json['FaceDetail'] as Map<String, dynamic>),
-    reasons: (json['Reasons'] as List)?.map((e) => e as String)?.toList(),
+    reasons: (json['Reasons'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$ReasonEnumMap, e))
+        ?.toList(),
   );
 }
+
+const _$ReasonEnumMap = {
+  Reason.exceedsMaxFaces: 'EXCEEDS_MAX_FACES',
+  Reason.extremePose: 'EXTREME_POSE',
+  Reason.lowBrightness: 'LOW_BRIGHTNESS',
+  Reason.lowSharpness: 'LOW_SHARPNESS',
+  Reason.lowConfidence: 'LOW_CONFIDENCE',
+  Reason.smallBoundingBox: 'SMALL_BOUNDING_BOX',
+  Reason.lowFaceQuality: 'LOW_FACE_QUALITY',
+};
 
 Map<String, dynamic> _$VideoToJson(Video instance) {
   final val = <String, dynamic>{};

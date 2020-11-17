@@ -913,7 +913,7 @@ class Chime {
   /// The preference for proxy phone number reuse, or stickiness, between the
   /// same participants across sessions.
   Future<CreateProxySessionResponse> createProxySession({
-    @_s.required List<String> capabilities,
+    @_s.required List<Capability> capabilities,
     @_s.required List<String> participantPhoneNumbers,
     @_s.required String voiceConnectorId,
     int expiryMinutes,
@@ -4807,7 +4807,7 @@ class Chime {
   /// Parameter [expiryMinutes] :
   /// The number of minutes allowed for the proxy session.
   Future<UpdateProxySessionResponse> updateProxySession({
-    @_s.required List<String> capabilities,
+    @_s.required List<Capability> capabilities,
     @_s.required String proxySessionId,
     @_s.required String voiceConnectorId,
     int expiryMinutes,
@@ -5232,7 +5232,7 @@ class Account {
 
   /// Supported licenses for the Amazon Chime account.
   @_s.JsonKey(name: 'SupportedLicenses')
-  final List<String> supportedLicenses;
+  final List<License> supportedLicenses;
 
   Account({
     @_s.required this.accountId,
@@ -7682,7 +7682,7 @@ class Proxy {
 class ProxySession {
   /// The proxy session capabilities.
   @_s.JsonKey(name: 'Capabilities')
-  final List<String> capabilities;
+  final List<Capability> capabilities;
 
   /// The created timestamp, in ISO 8601 format.
   @_s.JsonKey(

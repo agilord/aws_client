@@ -547,7 +547,7 @@ class GroundStation {
   Future<ListContactsResponse> listContacts({
     @_s.required DateTime endTime,
     @_s.required DateTime startTime,
-    @_s.required List<String> statusList,
+    @_s.required List<ContactStatus> statusList,
     String groundStation,
     int maxResults,
     String missionProfileArn,

@@ -721,7 +721,7 @@ class S3Control {
   /// request.
   Future<ListJobsResult> listJobs({
     @_s.required String accountId,
-    List<String> jobStatuses,
+    List<JobStatus> jobStatuses,
     int maxResults,
     String nextToken,
   }) async {
@@ -1714,7 +1714,7 @@ class JobManifestSpec {
   /// If the specified manifest object is in the
   /// <code>S3BatchOperations_CSV_20180820</code> format, this element describes
   /// which columns contain the required data.
-  final List<String> fields;
+  final List<JobManifestFieldName> fields;
 
   JobManifestSpec({
     @_s.required this.format,
@@ -1723,9 +1723,10 @@ class JobManifestSpec {
   factory JobManifestSpec.fromXml(_s.XmlElement elem) {
     return JobManifestSpec(
       format: _s.extractXmlStringValue(elem, 'Format')?.toJobManifestFormat(),
-      fields: _s
-          .extractXmlChild(elem, 'Fields')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      fields: _s.extractXmlChild(elem, 'Fields')?.let((elem) => _s
+          .extractXmlStringListValues(elem, 'member')
+          .map((s) => s.toJobManifestFieldName())
+          .toList()),
     );
   }
 
@@ -1734,7 +1735,7 @@ class JobManifestSpec {
       _s.encodeXmlStringValue('Format', format?.toValue()),
       if (fields != null)
         _s.XmlElement(_s.XmlName('Fields'), [], <_s.XmlNode>[
-          ...fields.map((v) => _s.encodeXmlStringValue('Fields', v))
+          ...fields.map((v) => _s.encodeXmlStringValue('Fields', v.toValue()))
         ]),
     ];
     final $attributes = <_s.XmlAttribute>[

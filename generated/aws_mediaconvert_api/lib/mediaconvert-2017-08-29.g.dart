@@ -3578,7 +3578,9 @@ const _$HlsKeyProviderTypeEnumMap = {
 
 HlsGroupSettings _$HlsGroupSettingsFromJson(Map<String, dynamic> json) {
   return HlsGroupSettings(
-    adMarkers: (json['adMarkers'] as List)?.map((e) => e as String)?.toList(),
+    adMarkers: (json['adMarkers'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$HlsAdMarkersEnumMap, e))
+        ?.toList(),
     additionalManifests: (json['additionalManifests'] as List)
         ?.map((e) => e == null
             ? null
@@ -3640,7 +3642,8 @@ Map<String, dynamic> _$HlsGroupSettingsToJson(HlsGroupSettings instance) {
     }
   }
 
-  writeNotNull('adMarkers', instance.adMarkers);
+  writeNotNull('adMarkers',
+      instance.adMarkers?.map((e) => _$HlsAdMarkersEnumMap[e])?.toList());
   writeNotNull('additionalManifests',
       instance.additionalManifests?.map((e) => e?.toJson())?.toList());
   writeNotNull('baseUrl', instance.baseUrl);
@@ -3680,6 +3683,11 @@ Map<String, dynamic> _$HlsGroupSettingsToJson(HlsGroupSettings instance) {
       'timestampDeltaMilliseconds', instance.timestampDeltaMilliseconds);
   return val;
 }
+
+const _$HlsAdMarkersEnumMap = {
+  HlsAdMarkers.elemental: 'ELEMENTAL',
+  HlsAdMarkers.elementalScte35: 'ELEMENTAL_SCTE35',
+};
 
 const _$HlsCaptionLanguageSettingEnumMap = {
   HlsCaptionLanguageSetting.insert: 'INSERT',
@@ -6250,7 +6258,9 @@ TeletextDestinationSettings _$TeletextDestinationSettingsFromJson(
     Map<String, dynamic> json) {
   return TeletextDestinationSettings(
     pageNumber: json['pageNumber'] as String,
-    pageTypes: (json['pageTypes'] as List)?.map((e) => e as String)?.toList(),
+    pageTypes: (json['pageTypes'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$TeletextPageTypeEnumMap, e))
+        ?.toList(),
   );
 }
 
@@ -6265,9 +6275,19 @@ Map<String, dynamic> _$TeletextDestinationSettingsToJson(
   }
 
   writeNotNull('pageNumber', instance.pageNumber);
-  writeNotNull('pageTypes', instance.pageTypes);
+  writeNotNull('pageTypes',
+      instance.pageTypes?.map((e) => _$TeletextPageTypeEnumMap[e])?.toList());
   return val;
 }
+
+const _$TeletextPageTypeEnumMap = {
+  TeletextPageType.pageTypeInitial: 'PAGE_TYPE_INITIAL',
+  TeletextPageType.pageTypeSubtitle: 'PAGE_TYPE_SUBTITLE',
+  TeletextPageType.pageTypeAddlInfo: 'PAGE_TYPE_ADDL_INFO',
+  TeletextPageType.pageTypeProgramSchedule: 'PAGE_TYPE_PROGRAM_SCHEDULE',
+  TeletextPageType.pageTypeHearingImpairedSubtitle:
+      'PAGE_TYPE_HEARING_IMPAIRED_SUBTITLE',
+};
 
 TeletextSourceSettings _$TeletextSourceSettingsFromJson(
     Map<String, dynamic> json) {

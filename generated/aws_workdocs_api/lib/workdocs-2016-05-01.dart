@@ -4323,7 +4323,7 @@ class DocumentVersionMetadata {
 
   /// The source of the document.
   @_s.JsonKey(name: 'Source')
-  final Map<String, String> source;
+  final Map<DocumentSourceType, String> source;
 
   /// The status of the document.
   @_s.JsonKey(name: 'Status')
@@ -4331,7 +4331,7 @@ class DocumentVersionMetadata {
 
   /// The thumbnail of the document.
   @_s.JsonKey(name: 'Thumbnail')
-  final Map<String, String> thumbnail;
+  final Map<DocumentThumbnailType, String> thumbnail;
 
   DocumentVersionMetadata({
     this.contentCreatedTimestamp,

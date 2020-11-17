@@ -141,7 +141,7 @@ class ResourceGroupsTaggingAPI {
   /// by. If you use this parameter, the count of returned noncompliant
   /// resources includes only resources with the specified target IDs.
   Future<GetComplianceSummaryOutput> getComplianceSummary({
-    List<String> groupBy,
+    List<GroupByAttribute> groupBy,
     int maxResults,
     String paginationToken,
     List<String> regionFilters,

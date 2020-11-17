@@ -54,10 +54,48 @@ ConfigurationProfileSummary _$ConfigurationProfileSummaryFromJson(
     id: json['Id'] as String,
     locationUri: json['LocationUri'] as String,
     name: json['Name'] as String,
-    validatorTypes:
-        (json['ValidatorTypes'] as List)?.map((e) => e as String)?.toList(),
+    validatorTypes: (json['ValidatorTypes'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$ValidatorTypeEnumMap, e))
+        ?.toList(),
   );
 }
+
+T _$enumDecode<T>(
+  Map<T, dynamic> enumValues,
+  dynamic source, {
+  T unknownValue,
+}) {
+  if (source == null) {
+    throw ArgumentError('A value must be provided. Supported values: '
+        '${enumValues.values.join(', ')}');
+  }
+
+  final value = enumValues.entries
+      .singleWhere((e) => e.value == source, orElse: () => null)
+      ?.key;
+
+  if (value == null && unknownValue == null) {
+    throw ArgumentError('`$source` is not one of the supported values: '
+        '${enumValues.values.join(', ')}');
+  }
+  return value ?? unknownValue;
+}
+
+T _$enumDecodeNullable<T>(
+  Map<T, dynamic> enumValues,
+  dynamic source, {
+  T unknownValue,
+}) {
+  if (source == null) {
+    return null;
+  }
+  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+}
+
+const _$ValidatorTypeEnumMap = {
+  ValidatorType.jsonSchema: 'JSON_SCHEMA',
+  ValidatorType.lambda: 'LAMBDA',
+};
 
 ConfigurationProfiles _$ConfigurationProfilesFromJson(
     Map<String, dynamic> json) {
@@ -96,38 +134,6 @@ Deployment _$DeploymentFromJson(Map<String, dynamic> json) {
     startedAt: iso8601FromJson(json['StartedAt'] as String),
     state: _$enumDecodeNullable(_$DeploymentStateEnumMap, json['State']),
   );
-}
-
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
-}) {
-  if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
-}
-
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
-}) {
-  if (source == null) {
-    return null;
-  }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$GrowthTypeEnumMap = {
@@ -308,8 +314,3 @@ Map<String, dynamic> _$ValidatorToJson(Validator instance) {
   writeNotNull('Type', _$ValidatorTypeEnumMap[instance.type]);
   return val;
 }
-
-const _$ValidatorTypeEnumMap = {
-  ValidatorType.jsonSchema: 'JSON_SCHEMA',
-  ValidatorType.lambda: 'LAMBDA',
-};

@@ -410,8 +410,9 @@ GetLayerVersionPolicyResponse _$GetLayerVersionPolicyResponseFromJson(
 GetLayerVersionResponse _$GetLayerVersionResponseFromJson(
     Map<String, dynamic> json) {
   return GetLayerVersionResponse(
-    compatibleRuntimes:
-        (json['CompatibleRuntimes'] as List)?.map((e) => e as String)?.toList(),
+    compatibleRuntimes: (json['CompatibleRuntimes'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$RuntimeEnumMap, e))
+        ?.toList(),
     content: json['Content'] == null
         ? null
         : LayerVersionContentOutput.fromJson(
@@ -507,8 +508,9 @@ LayerVersionContentOutput _$LayerVersionContentOutputFromJson(
 LayerVersionsListItem _$LayerVersionsListItemFromJson(
     Map<String, dynamic> json) {
   return LayerVersionsListItem(
-    compatibleRuntimes:
-        (json['CompatibleRuntimes'] as List)?.map((e) => e as String)?.toList(),
+    compatibleRuntimes: (json['CompatibleRuntimes'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$RuntimeEnumMap, e))
+        ?.toList(),
     createdDate: json['CreatedDate'] as String,
     description: json['Description'] as String,
     layerVersionArn: json['LayerVersionArn'] as String,
@@ -693,8 +695,9 @@ ProvisionedConcurrencyConfigListItem
 PublishLayerVersionResponse _$PublishLayerVersionResponseFromJson(
     Map<String, dynamic> json) {
   return PublishLayerVersionResponse(
-    compatibleRuntimes:
-        (json['CompatibleRuntimes'] as List)?.map((e) => e as String)?.toList(),
+    compatibleRuntimes: (json['CompatibleRuntimes'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$RuntimeEnumMap, e))
+        ?.toList(),
     content: json['Content'] == null
         ? null
         : LayerVersionContentOutput.fromJson(

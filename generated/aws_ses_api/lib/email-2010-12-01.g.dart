@@ -201,7 +201,8 @@ Map<String, dynamic> _$EventDestinationToJson(EventDestination instance) {
     }
   }
 
-  writeNotNull('MatchingEventTypes', instance.matchingEventTypes);
+  writeNotNull('MatchingEventTypes',
+      instance.matchingEventTypes?.map((e) => _$EventTypeEnumMap[e])?.toList());
   writeNotNull('Name', instance.name);
   writeNotNull(
       'CloudWatchDestination', instance.cloudWatchDestination?.toJson());
@@ -211,6 +212,17 @@ Map<String, dynamic> _$EventDestinationToJson(EventDestination instance) {
   writeNotNull('SNSDestination', instance.sNSDestination?.toJson());
   return val;
 }
+
+const _$EventTypeEnumMap = {
+  EventType.send: 'send',
+  EventType.reject: 'reject',
+  EventType.bounce: 'bounce',
+  EventType.complaint: 'complaint',
+  EventType.delivery: 'delivery',
+  EventType.open: 'open',
+  EventType.click: 'click',
+  EventType.renderingFailure: 'renderingFailure',
+};
 
 Map<String, dynamic> _$ExtensionFieldToJson(ExtensionField instance) {
   final val = <String, dynamic>{};

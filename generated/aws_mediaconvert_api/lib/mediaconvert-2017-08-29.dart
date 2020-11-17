@@ -7451,7 +7451,7 @@ class HlsGroupSettings {
   /// setting does not determine whether SCTE-35 markers appear in the outputs
   /// themselves.
   @_s.JsonKey(name: 'adMarkers')
-  final List<String> adMarkers;
+  final List<HlsAdMarkers> adMarkers;
 
   /// By default, the service creates one top-level .m3u8 HLS manifest for each
   /// HLS output group in your job. This default manifest references every output
@@ -12875,7 +12875,7 @@ class TeletextDestinationSettings {
   /// don't use this field. When you pass through a set of Teletext pages, your
   /// output has the same page types as your input.
   @_s.JsonKey(name: 'pageTypes')
-  final List<String> pageTypes;
+  final List<TeletextPageType> pageTypes;
 
   TeletextDestinationSettings({
     this.pageNumber,

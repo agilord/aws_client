@@ -61,8 +61,9 @@ CorsRule _$CorsRuleFromJson(Map<String, dynamic> json) {
         (json['AllowedHeaders'] as List)?.map((e) => e as String)?.toList(),
     allowedOrigins:
         (json['AllowedOrigins'] as List)?.map((e) => e as String)?.toList(),
-    allowedMethods:
-        (json['AllowedMethods'] as List)?.map((e) => e as String)?.toList(),
+    allowedMethods: (json['AllowedMethods'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$MethodNameEnumMap, e))
+        ?.toList(),
     exposeHeaders:
         (json['ExposeHeaders'] as List)?.map((e) => e as String)?.toList(),
     maxAgeSeconds: json['MaxAgeSeconds'] as int,
@@ -80,11 +81,19 @@ Map<String, dynamic> _$CorsRuleToJson(CorsRule instance) {
 
   writeNotNull('AllowedHeaders', instance.allowedHeaders);
   writeNotNull('AllowedOrigins', instance.allowedOrigins);
-  writeNotNull('AllowedMethods', instance.allowedMethods);
+  writeNotNull('AllowedMethods',
+      instance.allowedMethods?.map((e) => _$MethodNameEnumMap[e])?.toList());
   writeNotNull('ExposeHeaders', instance.exposeHeaders);
   writeNotNull('MaxAgeSeconds', instance.maxAgeSeconds);
   return val;
 }
+
+const _$MethodNameEnumMap = {
+  MethodName.put: 'PUT',
+  MethodName.get: 'GET',
+  MethodName.delete: 'DELETE',
+  MethodName.head: 'HEAD',
+};
 
 CreateContainerOutput _$CreateContainerOutputFromJson(
     Map<String, dynamic> json) {

@@ -67,7 +67,7 @@ class OutputShape {
   @_s.JsonKey(name: 'FooEnum')
   final JSONEnumType fooEnum;
   @_s.JsonKey(name: 'ListEnums')
-  final List<String> listEnums;
+  final List<JSONEnumType> listEnums;
 
   OutputShape({
     this.fooEnum,

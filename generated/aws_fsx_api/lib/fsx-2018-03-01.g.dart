@@ -641,10 +641,11 @@ WindowsFileSystemConfiguration _$WindowsFileSystemConfigurationFromJson(
         json['DailyAutomaticBackupStartTime'] as String,
     deploymentType: _$enumDecodeNullable(
         _$WindowsDeploymentTypeEnumMap, json['DeploymentType']),
-    maintenanceOperationsInProgress:
-        (json['MaintenanceOperationsInProgress'] as List)
-            ?.map((e) => e as String)
-            ?.toList(),
+    maintenanceOperationsInProgress: (json['MaintenanceOperationsInProgress']
+            as List)
+        ?.map((e) =>
+            _$enumDecodeNullable(_$FileSystemMaintenanceOperationEnumMap, e))
+        ?.toList(),
     preferredFileServerIp: json['PreferredFileServerIp'] as String,
     preferredSubnetId: json['PreferredSubnetId'] as String,
     remoteAdministrationEndpoint:
@@ -659,3 +660,8 @@ WindowsFileSystemConfiguration _$WindowsFileSystemConfigurationFromJson(
     weeklyMaintenanceStartTime: json['WeeklyMaintenanceStartTime'] as String,
   );
 }
+
+const _$FileSystemMaintenanceOperationEnumMap = {
+  FileSystemMaintenanceOperation.patching: 'PATCHING',
+  FileSystemMaintenanceOperation.backingUp: 'BACKING_UP',
+};

@@ -1993,7 +1993,7 @@ class GetInstancesHealthStatusResponse {
   /// A complex type that contains the IDs and the health status of the instances
   /// that you specified in the <code>GetInstancesHealthStatus</code> request.
   @_s.JsonKey(name: 'Status')
-  final Map<String, String> status;
+  final Map<String, HealthStatus> status;
 
   GetInstancesHealthStatusResponse({
     this.nextToken,
@@ -3039,7 +3039,7 @@ class Operation {
   /// </li>
   /// </ul>
   @_s.JsonKey(name: 'Targets')
-  final Map<String, String> targets;
+  final Map<OperationTargetType, String> targets;
 
   /// The name of the operation that is associated with the specified ID.
   @_s.JsonKey(name: 'Type')

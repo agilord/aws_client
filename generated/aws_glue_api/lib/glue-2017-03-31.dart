@@ -9354,7 +9354,7 @@ class Connection {
   /// </li>
   /// </ul>
   @_s.JsonKey(name: 'ConnectionProperties')
-  final Map<String, String> connectionProperties;
+  final Map<ConnectionPropertyKey, String> connectionProperties;
 
   /// The type of the connection. Currently, only JDBC is supported; SFTP is not
   /// supported.
@@ -9421,7 +9421,7 @@ class Connection {
 class ConnectionInput {
   /// These key-value pairs define parameters for the connection.
   @_s.JsonKey(name: 'ConnectionProperties')
-  final Map<String, String> connectionProperties;
+  final Map<ConnectionPropertyKey, String> connectionProperties;
 
   /// The type of the connection. Currently, these types are supported:
   ///
@@ -14340,7 +14340,7 @@ class Predicate {
 class PrincipalPermissions {
   /// The permissions that are granted to the principal.
   @_s.JsonKey(name: 'Permissions')
-  final List<String> permissions;
+  final List<Permission> permissions;
 
   /// The principal who is granted permissions.
   @_s.JsonKey(name: 'Principal')

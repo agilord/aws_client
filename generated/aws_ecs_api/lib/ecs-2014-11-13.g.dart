@@ -885,8 +885,9 @@ Device _$DeviceFromJson(Map<String, dynamic> json) {
   return Device(
     hostPath: json['hostPath'] as String,
     containerPath: json['containerPath'] as String,
-    permissions:
-        (json['permissions'] as List)?.map((e) => e as String)?.toList(),
+    permissions: (json['permissions'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$DeviceCgroupPermissionEnumMap, e))
+        ?.toList(),
   );
 }
 
@@ -901,9 +902,19 @@ Map<String, dynamic> _$DeviceToJson(Device instance) {
 
   writeNotNull('hostPath', instance.hostPath);
   writeNotNull('containerPath', instance.containerPath);
-  writeNotNull('permissions', instance.permissions);
+  writeNotNull(
+      'permissions',
+      instance.permissions
+          ?.map((e) => _$DeviceCgroupPermissionEnumMap[e])
+          ?.toList());
   return val;
 }
+
+const _$DeviceCgroupPermissionEnumMap = {
+  DeviceCgroupPermission.read: 'read',
+  DeviceCgroupPermission.write: 'write',
+  DeviceCgroupPermission.mknod: 'mknod',
+};
 
 DiscoverPollEndpointResponse _$DiscoverPollEndpointResponseFromJson(
     Map<String, dynamic> json) {
@@ -2127,8 +2138,9 @@ const _$TaskStopCodeEnumMap = {
 
 TaskDefinition _$TaskDefinitionFromJson(Map<String, dynamic> json) {
   return TaskDefinition(
-    compatibilities:
-        (json['compatibilities'] as List)?.map((e) => e as String)?.toList(),
+    compatibilities: (json['compatibilities'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$CompatibilityEnumMap, e))
+        ?.toList(),
     containerDefinitions: (json['containerDefinitions'] as List)
         ?.map((e) => e == null
             ? null
@@ -2162,7 +2174,7 @@ TaskDefinition _$TaskDefinitionFromJson(Map<String, dynamic> json) {
             e == null ? null : Attribute.fromJson(e as Map<String, dynamic>))
         ?.toList(),
     requiresCompatibilities: (json['requiresCompatibilities'] as List)
-        ?.map((e) => e as String)
+        ?.map((e) => _$enumDecodeNullable(_$CompatibilityEnumMap, e))
         ?.toList(),
     revision: json['revision'] as int,
     status: _$enumDecodeNullable(_$TaskDefinitionStatusEnumMap, json['status']),
@@ -2174,6 +2186,11 @@ TaskDefinition _$TaskDefinitionFromJson(Map<String, dynamic> json) {
         ?.toList(),
   );
 }
+
+const _$CompatibilityEnumMap = {
+  Compatibility.ec2: 'EC2',
+  Compatibility.fargate: 'FARGATE',
+};
 
 const _$IpcModeEnumMap = {
   IpcMode.host: 'host',

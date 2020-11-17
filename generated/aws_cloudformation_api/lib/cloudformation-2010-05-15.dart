@@ -499,7 +499,7 @@ class CloudFormation {
   Future<CreateChangeSetOutput> createChangeSet({
     @_s.required String changeSetName,
     @_s.required String stackName,
-    List<String> capabilities,
+    List<Capability> capabilities,
     ChangeSetType changeSetType,
     String clientToken,
     String description,
@@ -876,7 +876,7 @@ class CloudFormation {
   /// <code>false</code>, the stack will be rolled back.
   Future<CreateStackOutput> createStack({
     @_s.required String stackName,
-    List<String> capabilities,
+    List<Capability> capabilities,
     String clientRequestToken,
     bool disableRollback,
     bool enableTerminationProtection,
@@ -1325,7 +1325,7 @@ class CloudFormation {
     @_s.required String stackSetName,
     String administrationRoleARN,
     AutoDeployment autoDeployment,
-    List<String> capabilities,
+    List<Capability> capabilities,
     String clientRequestToken,
     String description,
     String executionRoleName,
@@ -2155,7 +2155,7 @@ class CloudFormation {
     @_s.required String stackName,
     int maxResults,
     String nextToken,
-    List<String> stackResourceDriftStatusFilters,
+    List<StackResourceDriftStatus> stackResourceDriftStatusFilters,
   }) async {
     ArgumentError.checkNotNull(stackName, 'stackName');
     _s.validateStringLength(
@@ -3621,7 +3621,7 @@ class CloudFormation {
   /// <a>Stack</a> data type.
   Future<ListStacksOutput> listStacks({
     String nextToken,
-    List<String> stackStatusFilter,
+    List<StackStatus> stackStatusFilter,
   }) async {
     _s.validateStringLength(
       'nextToken',
@@ -4805,7 +4805,7 @@ class CloudFormation {
   /// <code>UsePreviousTemplate</code> to <code>true</code>.
   Future<UpdateStackOutput> updateStack({
     @_s.required String stackName,
-    List<String> capabilities,
+    List<Capability> capabilities,
     String clientRequestToken,
     List<String> notificationARNs,
     List<Parameter> parameters,
@@ -5406,7 +5406,7 @@ class CloudFormation {
     List<String> accounts,
     String administrationRoleARN,
     AutoDeployment autoDeployment,
-    List<String> capabilities,
+    List<Capability> capabilities,
     DeploymentTargets deploymentTargets,
     String description,
     String executionRoleName,
@@ -6263,7 +6263,7 @@ class DescribeAccountLimitsOutput {
 class DescribeChangeSetOutput {
   /// If you execute the change set, the list of capabilities that were explicitly
   /// acknowledged when the change set was created.
-  final List<String> capabilities;
+  final List<Capability> capabilities;
 
   /// The ARN of the change set.
   final String changeSetId;
@@ -6348,9 +6348,10 @@ class DescribeChangeSetOutput {
   });
   factory DescribeChangeSetOutput.fromXml(_s.XmlElement elem) {
     return DescribeChangeSetOutput(
-      capabilities: _s
-          .extractXmlChild(elem, 'Capabilities')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      capabilities: _s.extractXmlChild(elem, 'Capabilities')?.let((elem) => _s
+          .extractXmlStringListValues(elem, 'member')
+          .map((s) => s.toCapability())
+          .toList()),
       changeSetId: _s.extractXmlStringValue(elem, 'ChangeSetId'),
       changeSetName: _s.extractXmlStringValue(elem, 'ChangeSetName'),
       changes: _s.extractXmlChild(elem, 'Changes')?.let((elem) =>
@@ -7067,7 +7068,7 @@ class GetTemplateOutput {
   /// available. For change sets, the <code>Original</code> template is always
   /// available. After AWS CloudFormation finishes creating the change set, the
   /// <code>Processed</code> template becomes available.
-  final List<String> stagesAvailable;
+  final List<TemplateStage> stagesAvailable;
 
   /// Structure containing the template body. (For more information, go to <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-anatomy.html">Template
@@ -7083,9 +7084,11 @@ class GetTemplateOutput {
   });
   factory GetTemplateOutput.fromXml(_s.XmlElement elem) {
     return GetTemplateOutput(
-      stagesAvailable: _s
-          .extractXmlChild(elem, 'StagesAvailable')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      stagesAvailable: _s.extractXmlChild(elem, 'StagesAvailable')?.let(
+          (elem) => _s
+              .extractXmlStringListValues(elem, 'member')
+              .map((s) => s.toTemplateStage())
+              .toList()),
       templateBody: _s.extractXmlStringValue(elem, 'TemplateBody'),
     );
   }
@@ -7102,7 +7105,7 @@ class GetTemplateSummaryOutput {
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html#capabilities">Acknowledging
   /// IAM Resources in AWS CloudFormation Templates</a>.
-  final List<String> capabilities;
+  final List<Capability> capabilities;
 
   /// The list of resources that generated the values in the
   /// <code>Capabilities</code> response element.
@@ -7151,9 +7154,10 @@ class GetTemplateSummaryOutput {
   });
   factory GetTemplateSummaryOutput.fromXml(_s.XmlElement elem) {
     return GetTemplateSummaryOutput(
-      capabilities: _s
-          .extractXmlChild(elem, 'Capabilities')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      capabilities: _s.extractXmlChild(elem, 'Capabilities')?.let((elem) => _s
+          .extractXmlStringListValues(elem, 'member')
+          .map((s) => s.toCapability())
+          .toList()),
       capabilitiesReason: _s.extractXmlStringValue(elem, 'CapabilitiesReason'),
       declaredTransforms: _s
           .extractXmlChild(elem, 'DeclaredTransforms')
@@ -8210,7 +8214,7 @@ class ResourceChange {
   /// For the <code>Modify</code> action, indicates which resource attribute is
   /// triggering this update, such as a change in the resource attribute's
   /// <code>Metadata</code>, <code>Properties</code>, or <code>Tags</code>.
-  final List<String> scope;
+  final List<ResourceAttribute> scope;
 
   ResourceChange({
     this.action,
@@ -8233,9 +8237,10 @@ class ResourceChange {
       replacement:
           _s.extractXmlStringValue(elem, 'Replacement')?.toReplacement(),
       resourceType: _s.extractXmlStringValue(elem, 'ResourceType'),
-      scope: _s
-          .extractXmlChild(elem, 'Scope')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      scope: _s.extractXmlChild(elem, 'Scope')?.let((elem) => _s
+          .extractXmlStringListValues(elem, 'member')
+          .map((s) => s.toResourceAttribute())
+          .toList()),
     );
   }
 }
@@ -8687,7 +8692,7 @@ class Stack {
   final StackStatus stackStatus;
 
   /// The capabilities allowed in the stack.
-  final List<String> capabilities;
+  final List<Capability> capabilities;
 
   /// The unique ID of the change set.
   final String changeSetId;
@@ -8810,9 +8815,10 @@ class Stack {
       stackName: _s.extractXmlStringValue(elem, 'StackName'),
       stackStatus:
           _s.extractXmlStringValue(elem, 'StackStatus')?.toStackStatus(),
-      capabilities: _s
-          .extractXmlChild(elem, 'Capabilities')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      capabilities: _s.extractXmlChild(elem, 'Capabilities')?.let((elem) => _s
+          .extractXmlStringListValues(elem, 'member')
+          .map((s) => s.toCapability())
+          .toList()),
       changeSetId: _s.extractXmlStringValue(elem, 'ChangeSetId'),
       deletionTime: _s.extractXmlDateTimeValue(elem, 'DeletionTime'),
       description: _s.extractXmlStringValue(elem, 'Description'),
@@ -9837,7 +9843,7 @@ class StackSet {
   /// more information, see <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html#capabilities">Acknowledging
   /// IAM Resources in AWS CloudFormation Templates.</a>
-  final List<String> capabilities;
+  final List<Capability> capabilities;
 
   /// A description of the stack set that you specify when the stack set is
   /// created or updated.
@@ -9926,9 +9932,10 @@ class StackSet {
       autoDeployment: _s
           .extractXmlChild(elem, 'AutoDeployment')
           ?.let((e) => AutoDeployment.fromXml(e)),
-      capabilities: _s
-          .extractXmlChild(elem, 'Capabilities')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      capabilities: _s.extractXmlChild(elem, 'Capabilities')?.let((elem) => _s
+          .extractXmlStringListValues(elem, 'member')
+          .map((s) => s.toCapability())
+          .toList()),
       description: _s.extractXmlStringValue(elem, 'Description'),
       executionRoleName: _s.extractXmlStringValue(elem, 'ExecutionRoleName'),
       organizationalUnitIds: _s
@@ -11218,7 +11225,7 @@ class ValidateTemplateOutput {
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-iam-template.html#capabilities">Acknowledging
   /// IAM Resources in AWS CloudFormation Templates</a>.
-  final List<String> capabilities;
+  final List<Capability> capabilities;
 
   /// The list of resources that generated the values in the
   /// <code>Capabilities</code> response element.
@@ -11242,9 +11249,10 @@ class ValidateTemplateOutput {
   });
   factory ValidateTemplateOutput.fromXml(_s.XmlElement elem) {
     return ValidateTemplateOutput(
-      capabilities: _s
-          .extractXmlChild(elem, 'Capabilities')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      capabilities: _s.extractXmlChild(elem, 'Capabilities')?.let((elem) => _s
+          .extractXmlStringListValues(elem, 'member')
+          .map((s) => s.toCapability())
+          .toList()),
       capabilitiesReason: _s.extractXmlStringValue(elem, 'CapabilitiesReason'),
       declaredTransforms: _s
           .extractXmlChild(elem, 'DeclaredTransforms')

@@ -312,7 +312,9 @@ ListTagsResponse _$ListTagsResponseFromJson(Map<String, dynamic> json) {
 
 Permission _$PermissionFromJson(Map<String, dynamic> json) {
   return Permission(
-    actions: (json['Actions'] as List)?.map((e) => e as String)?.toList(),
+    actions: (json['Actions'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$ActionTypeEnumMap, e))
+        ?.toList(),
     certificateAuthorityArn: json['CertificateAuthorityArn'] as String,
     createdAt: unixTimestampFromJson(json['CreatedAt']),
     policy: json['Policy'] as String,
@@ -320,6 +322,12 @@ Permission _$PermissionFromJson(Map<String, dynamic> json) {
     sourceAccount: json['SourceAccount'] as String,
   );
 }
+
+const _$ActionTypeEnumMap = {
+  ActionType.issueCertificate: 'IssueCertificate',
+  ActionType.getCertificate: 'GetCertificate',
+  ActionType.listPermissions: 'ListPermissions',
+};
 
 RevocationConfiguration _$RevocationConfigurationFromJson(
     Map<String, dynamic> json) {

@@ -479,7 +479,7 @@ class CognitoIdentityProvider {
     @_s.required String userPoolId,
     @_s.required String username,
     Map<String, String> clientMetadata,
-    List<String> desiredDeliveryMediums,
+    List<DeliveryMediumType> desiredDeliveryMediums,
     bool forceAliasCreation,
     MessageActionType messageAction,
     String temporaryPassword,
@@ -4025,8 +4025,8 @@ class CognitoIdentityProvider {
     @_s.required String poolName,
     AccountRecoverySettingType accountRecoverySetting,
     AdminCreateUserConfigType adminCreateUserConfig,
-    List<String> aliasAttributes,
-    List<String> autoVerifiedAttributes,
+    List<AliasAttributeType> aliasAttributes,
+    List<VerifiedAttributeType> autoVerifiedAttributes,
     DeviceConfigurationType deviceConfiguration,
     EmailConfigurationType emailConfiguration,
     String emailVerificationMessage,
@@ -4040,7 +4040,7 @@ class CognitoIdentityProvider {
     String smsVerificationMessage,
     UserPoolAddOnsType userPoolAddOns,
     Map<String, String> userPoolTags,
-    List<String> usernameAttributes,
+    List<UsernameAttributeType> usernameAttributes,
     UsernameConfigurationType usernameConfiguration,
     VerificationMessageTemplateType verificationMessageTemplate,
   }) async {
@@ -4379,13 +4379,13 @@ class CognitoIdentityProvider {
   Future<CreateUserPoolClientResponse> createUserPoolClient({
     @_s.required String clientName,
     @_s.required String userPoolId,
-    List<String> allowedOAuthFlows,
+    List<OAuthFlowType> allowedOAuthFlows,
     bool allowedOAuthFlowsUserPoolClient,
     List<String> allowedOAuthScopes,
     AnalyticsConfigurationType analyticsConfiguration,
     List<String> callbackURLs,
     String defaultRedirectURI,
-    List<String> explicitAuthFlows,
+    List<ExplicitAuthFlowsType> explicitAuthFlows,
     bool generateSecret,
     List<String> logoutURLs,
     PreventUserExistenceErrorTypes preventUserExistenceErrors,
@@ -9023,7 +9023,7 @@ class CognitoIdentityProvider {
     @_s.required String userPoolId,
     AccountRecoverySettingType accountRecoverySetting,
     AdminCreateUserConfigType adminCreateUserConfig,
-    List<String> autoVerifiedAttributes,
+    List<VerifiedAttributeType> autoVerifiedAttributes,
     DeviceConfigurationType deviceConfiguration,
     EmailConfigurationType emailConfiguration,
     String emailVerificationMessage,
@@ -9359,14 +9359,14 @@ class CognitoIdentityProvider {
   Future<UpdateUserPoolClientResponse> updateUserPoolClient({
     @_s.required String clientId,
     @_s.required String userPoolId,
-    List<String> allowedOAuthFlows,
+    List<OAuthFlowType> allowedOAuthFlows,
     bool allowedOAuthFlowsUserPoolClient,
     List<String> allowedOAuthScopes,
     AnalyticsConfigurationType analyticsConfiguration,
     List<String> callbackURLs,
     String clientName,
     String defaultRedirectURI,
-    List<String> explicitAuthFlows,
+    List<ExplicitAuthFlowsType> explicitAuthFlows,
     List<String> logoutURLs,
     PreventUserExistenceErrorTypes preventUserExistenceErrors,
     List<String> readAttributes,
@@ -10916,7 +10916,7 @@ class CompromisedCredentialsRiskConfigurationType {
   /// Perform the action for these events. The default is to perform all events if
   /// no event filter is specified.
   @_s.JsonKey(name: 'EventFilter')
-  final List<String> eventFilter;
+  final List<EventFilterType> eventFilter;
 
   CompromisedCredentialsRiskConfigurationType({
     @_s.required this.actions,
@@ -14155,7 +14155,7 @@ class UserPoolClientType {
   /// the access token (and, optionally, ID token, based on scopes) from the token
   /// endpoint using a combination of client and client_secret.
   @_s.JsonKey(name: 'AllowedOAuthFlows')
-  final List<String> allowedOAuthFlows;
+  final List<OAuthFlowType> allowedOAuthFlows;
 
   /// Set to true if the client is allowed to follow the OAuth protocol when
   /// interacting with Cognito user pools.
@@ -14281,7 +14281,7 @@ class UserPoolClientType {
   /// </li>
   /// </ul>
   @_s.JsonKey(name: 'ExplicitAuthFlows')
-  final List<String> explicitAuthFlows;
+  final List<ExplicitAuthFlowsType> explicitAuthFlows;
 
   /// The date the user pool client was last modified.
   @_s.JsonKey(
@@ -14512,7 +14512,7 @@ class UserPoolType {
 
   /// Specifies the attributes that are aliased in a user pool.
   @_s.JsonKey(name: 'AliasAttributes')
-  final List<String> aliasAttributes;
+  final List<AliasAttributeType> aliasAttributes;
 
   /// The Amazon Resource Name (ARN) for the user pool.
   @_s.JsonKey(name: 'Arn')
@@ -14520,7 +14520,7 @@ class UserPoolType {
 
   /// Specifies the attributes that are auto-verified in a user pool.
   @_s.JsonKey(name: 'AutoVerifiedAttributes')
-  final List<String> autoVerifiedAttributes;
+  final List<VerifiedAttributeType> autoVerifiedAttributes;
 
   /// The date the user pool was created.
   @_s.JsonKey(
@@ -14647,7 +14647,7 @@ class UserPoolType {
   /// Specifies whether email addresses or phone numbers can be specified as
   /// usernames when a user signs up.
   @_s.JsonKey(name: 'UsernameAttributes')
-  final List<String> usernameAttributes;
+  final List<UsernameAttributeType> usernameAttributes;
 
   /// You can choose to enable case sensitivity on the username input for the
   /// selected sign-in option. For example, when this is set to

@@ -441,7 +441,7 @@ class Polly {
     String outputS3KeyPrefix,
     String sampleRate,
     String snsTopicArn,
-    List<String> speechMarkTypes,
+    List<SpeechMarkType> speechMarkTypes,
     TextType textType,
   }) async {
     ArgumentError.checkNotNull(outputFormat, 'outputFormat');
@@ -573,7 +573,7 @@ class Polly {
     LanguageCode languageCode,
     List<String> lexiconNames,
     String sampleRate,
-    List<String> speechMarkTypes,
+    List<SpeechMarkType> speechMarkTypes,
     TextType textType,
   }) async {
     ArgumentError.checkNotNull(outputFormat, 'outputFormat');
@@ -1119,7 +1119,7 @@ class SynthesisTask {
 
   /// The type of speech marks returned for the input text.
   @_s.JsonKey(name: 'SpeechMarkTypes')
-  final List<String> speechMarkTypes;
+  final List<SpeechMarkType> speechMarkTypes;
 
   /// The Amazon Polly generated identifier for a speech synthesis task.
   @_s.JsonKey(name: 'TaskId')
@@ -1259,7 +1259,7 @@ class Voice {
   /// fluent in both Indian English and Hindi, this parameter would show the code
   /// <code>hi-IN</code>.
   @_s.JsonKey(name: 'AdditionalLanguageCodes')
-  final List<String> additionalLanguageCodes;
+  final List<LanguageCode> additionalLanguageCodes;
 
   /// Gender of the voice.
   @_s.JsonKey(name: 'Gender')
@@ -1286,7 +1286,7 @@ class Voice {
   /// Specifies which engines (<code>standard</code> or <code>neural</code>) that
   /// are supported by a given voice.
   @_s.JsonKey(name: 'SupportedEngines')
-  final List<String> supportedEngines;
+  final List<Engine> supportedEngines;
 
   Voice({
     this.additionalLanguageCodes,

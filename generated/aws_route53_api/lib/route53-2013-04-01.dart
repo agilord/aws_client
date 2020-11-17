@@ -3945,8 +3945,8 @@ class Route53 {
     InsufficientDataHealthStatus insufficientDataHealthStatus,
     bool inverted,
     int port,
-    List<String> regions,
-    List<String> resetElements,
+    List<HealthCheckRegion> regions,
+    List<ResettableElementName> resetElements,
     String resourcePath,
     String searchString,
   }) async {
@@ -7094,7 +7094,7 @@ class HealthCheckConfig {
   /// health checks, Route 53 will briefly continue to perform checks from that
   /// region to ensure that some health checkers are always checking the endpoint
   /// (for example, if you replace three regions with four different regions).
-  final List<String> regions;
+  final List<HealthCheckRegion> regions;
 
   /// The number of seconds between the time that Amazon Route 53 gets a response
   /// from your endpoint and the time that it sends the next health check request.
@@ -7163,9 +7163,10 @@ class HealthCheckConfig {
       inverted: _s.extractXmlBoolValue(elem, 'Inverted'),
       measureLatency: _s.extractXmlBoolValue(elem, 'MeasureLatency'),
       port: _s.extractXmlIntValue(elem, 'Port'),
-      regions: _s
-          .extractXmlChild(elem, 'Regions')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'Region')),
+      regions: _s.extractXmlChild(elem, 'Regions')?.let((elem) => _s
+          .extractXmlStringListValues(elem, 'Region')
+          .map((s) => s.toHealthCheckRegion())
+          .toList()),
       requestInterval: _s.extractXmlIntValue(elem, 'RequestInterval'),
       resourcePath: _s.extractXmlStringValue(elem, 'ResourcePath'),
       searchString: _s.extractXmlStringValue(elem, 'SearchString'),
@@ -7195,7 +7196,7 @@ class HealthCheckConfig {
       _s.encodeXmlBoolValue('EnableSNI', enableSNI),
       if (regions != null)
         _s.XmlElement(_s.XmlName('Regions'), [], <_s.XmlNode>[
-          ...regions.map((v) => _s.encodeXmlStringValue('Region', v))
+          ...regions.map((v) => _s.encodeXmlStringValue('Region', v.toValue()))
         ]),
       alarmIdentifier?.toXml('AlarmIdentifier'),
       _s.encodeXmlStringValue('InsufficientDataHealthStatus',
@@ -10145,7 +10146,7 @@ class UpdateHealthCheckRequest {
   /// A complex type that contains one <code>Region</code> element for each region
   /// that you want Amazon Route 53 health checkers to check the specified
   /// endpoint from.
-  final List<String> regions;
+  final List<HealthCheckRegion> regions;
 
   /// A complex type that contains one <code>ResettableElementName</code> element
   /// for each element that you want to reset to the default value. Valid values
@@ -10173,7 +10174,7 @@ class UpdateHealthCheckRequest {
   /// to null.
   /// </li>
   /// </ul>
-  final List<String> resetElements;
+  final List<ResettableElementName> resetElements;
 
   /// The path that you want Amazon Route 53 to request when performing health
   /// checks. The path can be any value for which your endpoint will return an
@@ -10233,15 +10234,15 @@ class UpdateHealthCheckRequest {
       _s.encodeXmlBoolValue('EnableSNI', enableSNI),
       if (regions != null)
         _s.XmlElement(_s.XmlName('Regions'), [], <_s.XmlNode>[
-          ...regions.map((v) => _s.encodeXmlStringValue('Region', v))
+          ...regions.map((v) => _s.encodeXmlStringValue('Region', v.toValue()))
         ]),
       alarmIdentifier?.toXml('AlarmIdentifier'),
       _s.encodeXmlStringValue('InsufficientDataHealthStatus',
           insufficientDataHealthStatus?.toValue()),
       if (resetElements != null)
         _s.XmlElement(_s.XmlName('ResetElements'), [], <_s.XmlNode>[
-          ...resetElements
-              .map((v) => _s.encodeXmlStringValue('ResettableElementName', v))
+          ...resetElements.map((v) =>
+              _s.encodeXmlStringValue('ResettableElementName', v.toValue()))
         ]),
     ];
     final $attributes = <_s.XmlAttribute>[

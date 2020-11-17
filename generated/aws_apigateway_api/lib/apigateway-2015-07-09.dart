@@ -6553,7 +6553,7 @@ class EndpointConfiguration {
   /// custom domain name, the endpoint type is <code>REGIONAL</code>. For a
   /// private API, the endpoint type is <code>PRIVATE</code>.
   @_s.JsonKey(name: 'types')
-  final List<String> types;
+  final List<EndpointType> types;
 
   /// A list of VpcEndpointIds of an API (<a>RestApi</a>) against which to create
   /// Route53 ALIASes. It is only supported for <code>PRIVATE</code> endpoint

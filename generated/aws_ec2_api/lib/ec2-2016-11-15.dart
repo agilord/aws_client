@@ -6329,7 +6329,7 @@ class EC2 {
   /// <code>DryRunOperation</code>. Otherwise, it is
   /// <code>UnauthorizedOperation</code>.
   Future<DescribeAccountAttributesResult> describeAccountAttributes({
-    List<String> attributeNames,
+    List<AccountAttributeName> attributeNames,
     bool dryRun,
   }) async {
 // TODO: implement ec2
@@ -9001,7 +9001,7 @@ class EC2 {
   Future<DescribeInstanceTypesResult> describeInstanceTypes({
     bool dryRun,
     List<Filter> filters,
-    List<String> instanceTypes,
+    List<InstanceType> instanceTypes,
     int maxResults,
     String nextToken,
   }) async {
@@ -12368,7 +12368,7 @@ class EC2 {
     bool dryRun,
     DateTime endTime,
     List<Filter> filters,
-    List<String> instanceTypes,
+    List<InstanceType> instanceTypes,
     int maxResults,
     String nextToken,
     List<String> productDescriptions,
@@ -17652,9 +17652,9 @@ class EC2 {
   Future<ModifyTrafficMirrorFilterNetworkServicesResult>
       modifyTrafficMirrorFilterNetworkServices({
     @_s.required String trafficMirrorFilterId,
-    List<String> addNetworkServices,
+    List<TrafficMirrorNetworkService> addNetworkServices,
     bool dryRun,
-    List<String> removeNetworkServices,
+    List<TrafficMirrorNetworkService> removeNetworkServices,
   }) async {
     ArgumentError.checkNotNull(trafficMirrorFilterId, 'trafficMirrorFilterId');
 // TODO: implement ec2
@@ -17719,7 +17719,7 @@ class EC2 {
     TrafficMirrorPortRangeRequest destinationPortRange,
     bool dryRun,
     int protocol,
-    List<String> removeFields,
+    List<TrafficMirrorFilterRuleField> removeFields,
     TrafficMirrorRuleAction ruleAction,
     int ruleNumber,
     String sourceCidrBlock,
@@ -17781,7 +17781,7 @@ class EC2 {
     String description,
     bool dryRun,
     int packetLength,
-    List<String> removeFields,
+    List<TrafficMirrorSessionField> removeFields,
     int sessionNumber,
     String trafficMirrorFilterId,
     String trafficMirrorTargetId,
@@ -19465,7 +19465,7 @@ class EC2 {
   /// The time at which the reported instance health state began.
   Future<void> reportInstanceStatus({
     @_s.required List<String> instances,
-    @_s.required List<String> reasonCodes,
+    @_s.required List<ReportInstanceReasonCodes> reasonCodes,
     @_s.required ReportStatusType status,
     String description,
     bool dryRun,
@@ -30943,10 +30943,10 @@ class InstanceTypeInfo {
   final ProcessorInfo processorInfo;
 
   /// Indicates the supported root device types.
-  final List<String> supportedRootDeviceTypes;
+  final List<RootDeviceType> supportedRootDeviceTypes;
 
   /// Indicates whether the instance type is offered for spot or On-Demand.
-  final List<String> supportedUsageClasses;
+  final List<UsageClassType> supportedUsageClasses;
 
   /// Describes the vCPU configurations for the instance type.
   final VCpuInfo vCpuInfo;
@@ -34222,7 +34222,7 @@ class PlacementGroup {
 /// Describes the placement group support of the instance type.
 class PlacementGroupInfo {
   /// A list of supported placement groups types.
-  final List<String> supportedStrategies;
+  final List<PlacementGroupStrategy> supportedStrategies;
 
   PlacementGroupInfo({
     this.supportedStrategies,
@@ -34461,7 +34461,7 @@ class PrivateIpAddressSpecification {
 /// Describes the processor used by the instance type.
 class ProcessorInfo {
   /// A list of architectures supported by the instance type.
-  final List<String> supportedArchitectures;
+  final List<ArchitectureType> supportedArchitectures;
 
   /// The speed of the processor, in GHz.
   final double sustainedClockSpeedInGhz;
@@ -38563,7 +38563,7 @@ class TrafficMirrorFilter {
 
   /// The network service traffic that is associated with the Traffic Mirror
   /// filter.
-  final List<String> networkServices;
+  final List<TrafficMirrorNetworkService> networkServices;
 
   /// The tags assigned to the Traffic Mirror filter.
   final List<Tag> tags;

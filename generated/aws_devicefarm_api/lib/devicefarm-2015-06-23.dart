@@ -5160,12 +5160,12 @@ class AccountSettings {
 
   /// Returns the unmetered devices you have purchased or want to purchase.
   @_s.JsonKey(name: 'unmeteredDevices')
-  final Map<String, int> unmeteredDevices;
+  final Map<DevicePlatform, int> unmeteredDevices;
 
   /// Returns the unmetered remote access devices you have purchased or want to
   /// purchase.
   @_s.JsonKey(name: 'unmeteredRemoteAccessDevices')
-  final Map<String, int> unmeteredRemoteAccessDevices;
+  final Map<DevicePlatform, int> unmeteredRemoteAccessDevices;
 
   AccountSettings({
     this.awsAccountNumber,
@@ -7867,7 +7867,7 @@ class ListUniqueProblemsResult {
   /// </li>
   /// </ul>
   @_s.JsonKey(name: 'uniqueProblems')
-  final Map<String, List<UniqueProblem>> uniqueProblems;
+  final Map<ExecutionResult, List<UniqueProblem>> uniqueProblems;
 
   ListUniqueProblemsResult({
     this.nextToken,

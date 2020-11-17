@@ -2115,7 +2115,7 @@ class LogSetup {
 
   /// The available cluster control plane log types.
   @_s.JsonKey(name: 'types')
-  final List<String> types;
+  final List<LogType> types;
 
   LogSetup({
     this.enabled,

@@ -389,7 +389,7 @@ class BadRequestException implements _s.AwsException {
     createToJson: false)
 class BundleDetails {
   @_s.JsonKey(name: 'availablePlatforms')
-  final List<String> availablePlatforms;
+  final List<Platform> availablePlatforms;
   @_s.JsonKey(name: 'bundleId')
   final String bundleId;
   @_s.JsonKey(name: 'description')

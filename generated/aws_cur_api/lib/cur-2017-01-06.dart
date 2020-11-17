@@ -325,7 +325,7 @@ class ReportDefinition {
   /// A list of strings that indicate additional content that Amazon Web Services
   /// includes in the report, such as individual resource IDs.
   @_s.JsonKey(name: 'AdditionalSchemaElements')
-  final List<String> additionalSchemaElements;
+  final List<SchemaElement> additionalSchemaElements;
   @_s.JsonKey(name: 'Compression')
   final CompressionFormat compression;
   @_s.JsonKey(name: 'Format')
@@ -344,7 +344,7 @@ class ReportDefinition {
   /// A list of manifests that you want Amazon Web Services to create for this
   /// report.
   @_s.JsonKey(name: 'AdditionalArtifacts')
-  final List<String> additionalArtifacts;
+  final List<AdditionalArtifact> additionalArtifacts;
 
   /// Whether you want Amazon Web Services to update your reports after they have
   /// been finalized if Amazon Web Services detects charges related to previous

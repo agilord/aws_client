@@ -2633,7 +2633,7 @@ class Problem {
 
   /// Feedback provided by the user about the problem.
   @_s.JsonKey(name: 'Feedback')
-  final Map<String, String> feedback;
+  final Map<FeedbackKey, FeedbackValue> feedback;
 
   /// The ID of the problem.
   @_s.JsonKey(name: 'Id')

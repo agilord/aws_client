@@ -1517,7 +1517,7 @@ DescribeAccountAuditConfigurationResponse
         (json['auditNotificationTargetConfigurations'] as Map<String, dynamic>)
             ?.map(
       (k, e) => MapEntry(
-          k,
+          _$enumDecodeNullable(_$AuditNotificationTypeEnumMap, k),
           e == null
               ? null
               : AuditNotificationTarget.fromJson(e as Map<String, dynamic>)),
@@ -1525,6 +1525,10 @@ DescribeAccountAuditConfigurationResponse
     roleArn: json['roleArn'] as String,
   );
 }
+
+const _$AuditNotificationTypeEnumMap = {
+  AuditNotificationType.sns: 'SNS',
+};
 
 DescribeAuditFindingResponse _$DescribeAuditFindingResponseFromJson(
     Map<String, dynamic> json) {
@@ -1721,12 +1725,26 @@ DescribeEventConfigurationsResponse
     creationDate: unixTimestampFromJson(json['creationDate']),
     eventConfigurations:
         (json['eventConfigurations'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(k,
+      (k, e) => MapEntry(_$enumDecodeNullable(_$EventTypeEnumMap, k),
           e == null ? null : Configuration.fromJson(e as Map<String, dynamic>)),
     ),
     lastModifiedDate: unixTimestampFromJson(json['lastModifiedDate']),
   );
 }
+
+const _$EventTypeEnumMap = {
+  EventType.thing: 'THING',
+  EventType.thingGroup: 'THING_GROUP',
+  EventType.thingType: 'THING_TYPE',
+  EventType.thingGroupMembership: 'THING_GROUP_MEMBERSHIP',
+  EventType.thingGroupHierarchy: 'THING_GROUP_HIERARCHY',
+  EventType.thingTypeAssociation: 'THING_TYPE_ASSOCIATION',
+  EventType.job: 'JOB',
+  EventType.jobExecution: 'JOB_EXECUTION',
+  EventType.policy: 'POLICY',
+  EventType.certificate: 'CERTIFICATE',
+  EventType.caCertificate: 'CA_CERTIFICATE',
+};
 
 DescribeIndexResponse _$DescribeIndexResponseFromJson(
     Map<String, dynamic> json) {
@@ -1868,7 +1886,7 @@ DescribeSecurityProfileResponse _$DescribeSecurityProfileResponseFromJson(
             : MetricToRetain.fromJson(e as Map<String, dynamic>))
         ?.toList(),
     alertTargets: (json['alertTargets'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(k,
+      (k, e) => MapEntry(_$enumDecodeNullable(_$AlertTargetTypeEnumMap, k),
           e == null ? null : AlertTarget.fromJson(e as Map<String, dynamic>)),
     ),
     behaviors: (json['behaviors'] as List)
@@ -1883,6 +1901,10 @@ DescribeSecurityProfileResponse _$DescribeSecurityProfileResponseFromJson(
     version: json['version'] as int,
   );
 }
+
+const _$AlertTargetTypeEnumMap = {
+  AlertTargetType.sns: 'SNS',
+};
 
 DescribeStreamResponse _$DescribeStreamResponseFromJson(
     Map<String, dynamic> json) {
@@ -3679,12 +3701,19 @@ OTAUpdateInfo _$OTAUpdateInfoFromJson(Map<String, dynamic> json) {
     otaUpdateId: json['otaUpdateId'] as String,
     otaUpdateStatus:
         _$enumDecodeNullable(_$OTAUpdateStatusEnumMap, json['otaUpdateStatus']),
-    protocols: (json['protocols'] as List)?.map((e) => e as String)?.toList(),
+    protocols: (json['protocols'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$ProtocolEnumMap, e))
+        ?.toList(),
     targetSelection:
         _$enumDecodeNullable(_$TargetSelectionEnumMap, json['targetSelection']),
     targets: (json['targets'] as List)?.map((e) => e as String)?.toList(),
   );
 }
+
+const _$ProtocolEnumMap = {
+  Protocol.mqtt: 'MQTT',
+  Protocol.http: 'HTTP',
+};
 
 OTAUpdateSummary _$OTAUpdateSummaryFromJson(Map<String, dynamic> json) {
   return OTAUpdateSummary(
@@ -5122,7 +5151,7 @@ UpdateSecurityProfileResponse _$UpdateSecurityProfileResponseFromJson(
             : MetricToRetain.fromJson(e as Map<String, dynamic>))
         ?.toList(),
     alertTargets: (json['alertTargets'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(k,
+      (k, e) => MapEntry(_$enumDecodeNullable(_$AlertTargetTypeEnumMap, k),
           e == null ? null : AlertTarget.fromJson(e as Map<String, dynamic>)),
     ),
     behaviors: (json['behaviors'] as List)

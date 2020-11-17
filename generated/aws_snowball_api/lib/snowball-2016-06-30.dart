@@ -2567,7 +2567,7 @@ class ListJobsResult {
 class Notification {
   /// The list of job states that will trigger a notification for this job.
   @_s.JsonKey(name: 'JobStatesToNotify')
-  final List<String> jobStatesToNotify;
+  final List<JobState> jobStatesToNotify;
 
   /// Any change in job state will trigger a notification for this job.
   @_s.JsonKey(name: 'NotifyAll')

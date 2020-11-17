@@ -43,7 +43,7 @@ class Enum {
   Future<void> operationName1({
     RESTJSONEnumType fooEnum,
     RESTJSONEnumType headerEnum,
-    List<String> listEnums,
+    List<RESTJSONEnumType> listEnums,
   }) async {
     final headers = <String, String>{};
     headerEnum?.let((v) => headers['x-amz-enum'] = v.toValue());
@@ -62,7 +62,7 @@ class Enum {
 class OutputShape {
   final RESTJSONEnumType fooEnum;
   final RESTJSONEnumType headerEnum;
-  final List<String> listEnums;
+  final List<RESTJSONEnumType> listEnums;
 
   OutputShape({
     this.fooEnum,
@@ -78,9 +78,10 @@ class OutputShape {
       headerEnum: _s
           .extractHeaderStringValue(headers, 'x-amz-enum')
           ?.toRESTJSONEnumType(),
-      listEnums: _s
-          .extractXmlChild(elem, 'ListEnums')
-          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      listEnums: _s.extractXmlChild(elem, 'ListEnums')?.let((elem) => _s
+          .extractXmlStringListValues(elem, 'member')
+          .map((s) => s.toRESTJSONEnumType())
+          .toList()),
     );
   }
 
@@ -91,7 +92,8 @@ class OutputShape {
       _s.encodeXmlStringValue('FooEnum', fooEnum?.toValue()),
       if (listEnums != null)
         _s.XmlElement(_s.XmlName('ListEnums'), [], <_s.XmlNode>[
-          ...listEnums.map((v) => _s.encodeXmlStringValue('ListEnums', v))
+          ...listEnums
+              .map((v) => _s.encodeXmlStringValue('ListEnums', v.toValue()))
         ]),
     ];
     final $attributes = <_s.XmlAttribute>[

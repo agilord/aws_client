@@ -704,8 +704,9 @@ class ServiceCatalog {
     @_s.required String idempotencyToken,
     @_s.required String sourceProductArn,
     String acceptLanguage,
-    List<String> copyOptions,
-    List<Map<String, String>> sourceProvisioningArtifactIdentifiers,
+    List<CopyOption> copyOptions,
+    List<Map<ProvisioningArtifactPropertyName, String>>
+        sourceProvisioningArtifactIdentifiers,
     String targetProductId,
     String targetProductName,
   }) async {
@@ -1716,7 +1717,7 @@ class ServiceCatalog {
   /// Parameter [description] :
   /// The self-service action description.
   Future<CreateServiceActionOutput> createServiceAction({
-    @_s.required Map<String, String> definition,
+    @_s.required Map<ServiceActionDefinitionKey, String> definition,
     @_s.required ServiceActionDefinitionType definitionType,
     @_s.required String idempotencyToken,
     @_s.required String name,
@@ -6188,7 +6189,7 @@ class ServiceCatalog {
   /// The sort order. If no value is specified, the results are not sorted.
   Future<SearchProductsOutput> searchProducts({
     String acceptLanguage,
-    Map<String, List<String>> filters,
+    Map<ProductViewFilterBy, List<String>> filters,
     int pageSize,
     String pageToken,
     ProductViewSortBy sortBy,
@@ -6285,7 +6286,7 @@ class ServiceCatalog {
   /// The sort order. If no value is specified, the results are not sorted.
   Future<SearchProductsAsAdminOutput> searchProductsAsAdmin({
     String acceptLanguage,
-    Map<String, List<String>> filters,
+    Map<ProductViewFilterBy, List<String>> filters,
     int pageSize,
     String pageToken,
     String portfolioId,
@@ -6405,7 +6406,7 @@ class ServiceCatalog {
   Future<SearchProvisionedProductsOutput> searchProvisionedProducts({
     String acceptLanguage,
     AccessLevelFilter accessLevelFilter,
-    Map<String, List<String>> filters,
+    Map<ProvisionedProductViewFilterBy, List<String>> filters,
     int pageSize,
     String pageToken,
     String sortBy,
@@ -7214,7 +7215,7 @@ class ServiceCatalog {
       updateProvisionedProductProperties({
     @_s.required String idempotencyToken,
     @_s.required String provisionedProductId,
-    @_s.required Map<String, String> provisionedProductProperties,
+    @_s.required Map<PropertyKey, String> provisionedProductProperties,
     String acceptLanguage,
   }) async {
     ArgumentError.checkNotNull(idempotencyToken, 'idempotencyToken');
@@ -7431,7 +7432,7 @@ class ServiceCatalog {
   Future<UpdateServiceActionOutput> updateServiceAction({
     @_s.required String id,
     String acceptLanguage,
-    Map<String, String> definition,
+    Map<ServiceActionDefinitionKey, String> definition,
     String description,
     String name,
   }) async {
@@ -10943,7 +10944,7 @@ class ResourceChange {
 
   /// The change scope.
   @_s.JsonKey(name: 'Scope')
-  final List<String> scope;
+  final List<ResourceAttribute> scope;
 
   ResourceChange({
     this.action,
@@ -11239,7 +11240,7 @@ extension on ServiceActionDefinitionType {
 class ServiceActionDetail {
   /// A map that defines the self-service action.
   @_s.JsonKey(name: 'Definition')
-  final Map<String, String> definition;
+  final Map<ServiceActionDefinitionKey, String> definition;
 
   /// Summary information about the self-service action.
   @_s.JsonKey(name: 'ServiceActionSummary')
@@ -11653,7 +11654,7 @@ class UpdateProvisionedProductPropertiesOutput {
 
   /// A map that contains the properties updated.
   @_s.JsonKey(name: 'ProvisionedProductProperties')
-  final Map<String, String> provisionedProductProperties;
+  final Map<PropertyKey, String> provisionedProductProperties;
 
   /// The identifier of the record.
   @_s.JsonKey(name: 'RecordId')

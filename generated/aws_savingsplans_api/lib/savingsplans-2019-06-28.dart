@@ -183,7 +183,7 @@ class SavingsPlans {
     String nextToken,
     List<String> savingsPlanArns,
     List<String> savingsPlanIds,
-    List<String> states,
+    List<SavingsPlanState> states,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -260,11 +260,11 @@ class SavingsPlans {
     int maxResults,
     String nextToken,
     List<String> operations,
-    List<String> products,
+    List<SavingsPlanProductType> products,
     List<String> savingsPlanOfferingIds,
-    List<String> savingsPlanPaymentOptions,
-    List<String> savingsPlanTypes,
-    List<String> serviceCodes,
+    List<SavingsPlanPaymentOption> savingsPlanPaymentOptions,
+    List<SavingsPlanType> savingsPlanTypes,
+    List<SavingsPlanRateServiceCode> serviceCodes,
     List<String> usageTypes,
   }) async {
     _s.validateNumRange(
@@ -352,7 +352,7 @@ class SavingsPlans {
   /// Parameter [usageTypes] :
   /// The usage details of the line item in the billing report.
   Future<DescribeSavingsPlansOfferingsResponse> describeSavingsPlansOfferings({
-    List<String> currencies,
+    List<CurrencyCode> currencies,
     List<String> descriptions,
     List<int> durations,
     List<SavingsPlanOfferingFilterElement> filters,
@@ -360,8 +360,8 @@ class SavingsPlans {
     String nextToken,
     List<String> offeringIds,
     List<String> operations,
-    List<String> paymentOptions,
-    List<String> planTypes,
+    List<SavingsPlanPaymentOption> paymentOptions,
+    List<SavingsPlanType> planTypes,
     SavingsPlanProductType productType,
     List<String> serviceCodes,
     List<String> usageTypes,
@@ -733,7 +733,7 @@ class SavingsPlan {
 
   /// The product types.
   @_s.JsonKey(name: 'productTypes')
-  final List<String> productTypes;
+  final List<SavingsPlanProductType> productTypes;
 
   /// The recurring payment amount.
   @_s.JsonKey(name: 'recurringPaymentAmount')
@@ -858,7 +858,7 @@ class SavingsPlanOffering {
 
   /// The product type.
   @_s.JsonKey(name: 'productTypes')
-  final List<String> productTypes;
+  final List<SavingsPlanProductType> productTypes;
 
   /// The properties.
   @_s.JsonKey(name: 'properties')

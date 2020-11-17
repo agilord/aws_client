@@ -557,7 +557,7 @@ class OpsWorks {
     @_s.required String serviceRoleArn,
     @_s.required String sourceStackId,
     String agentVersion,
-    Map<String, String> attributes,
+    Map<StackAttributesKeys, String> attributes,
     ChefConfiguration chefConfiguration,
     List<String> cloneAppIds,
     bool clonePermissions,
@@ -702,7 +702,7 @@ class OpsWorks {
     @_s.required String stackId,
     @_s.required AppType type,
     Source appSource,
-    Map<String, String> attributes,
+    Map<AppAttributesKeys, String> attributes,
     List<DataSource> dataSources,
     String description,
     List<String> domains,
@@ -1199,7 +1199,7 @@ class OpsWorks {
     @_s.required String shortname,
     @_s.required String stackId,
     @_s.required LayerType type,
-    Map<String, String> attributes,
+    Map<LayerAttributesKeys, String> attributes,
     bool autoAssignElasticIps,
     bool autoAssignPublicIps,
     CloudWatchLogsConfiguration cloudWatchLogsConfiguration,
@@ -1586,7 +1586,7 @@ class OpsWorks {
     @_s.required String region,
     @_s.required String serviceRoleArn,
     String agentVersion,
-    Map<String, String> attributes,
+    Map<StackAttributesKeys, String> attributes,
     ChefConfiguration chefConfiguration,
     StackConfigurationManager configurationManager,
     Source customCookbooksSource,
@@ -4126,7 +4126,7 @@ class OpsWorks {
   Future<void> updateApp({
     @_s.required String appId,
     Source appSource,
-    Map<String, String> attributes,
+    Map<AppAttributesKeys, String> attributes,
     List<DataSource> dataSources,
     String description,
     List<String> domains,
@@ -4488,7 +4488,7 @@ class OpsWorks {
   /// Amazon EBS volumes.
   Future<void> updateLayer({
     @_s.required String layerId,
-    Map<String, String> attributes,
+    Map<LayerAttributesKeys, String> attributes,
     bool autoAssignElasticIps,
     bool autoAssignPublicIps,
     CloudWatchLogsConfiguration cloudWatchLogsConfiguration,
@@ -4870,7 +4870,7 @@ class OpsWorks {
   Future<void> updateStack({
     @_s.required String stackId,
     String agentVersion,
-    Map<String, String> attributes,
+    Map<StackAttributesKeys, String> attributes,
     ChefConfiguration chefConfiguration,
     StackConfigurationManager configurationManager,
     Source customCookbooksSource,
@@ -5072,7 +5072,7 @@ class App {
 
   /// The stack attributes.
   @_s.JsonKey(name: 'Attributes')
-  final Map<String, String> attributes;
+  final Map<AppAttributesKeys, String> attributes;
 
   /// When the app was created.
   @_s.JsonKey(name: 'CreatedAt')
@@ -7394,7 +7394,7 @@ class Layer {
   /// For an ECS Cluster layer, AWS OpsWorks Stacks the <code>EcsClusterArn</code>
   /// attribute is set to the cluster's ARN.
   @_s.JsonKey(name: 'Attributes')
-  final Map<String, String> attributes;
+  final Map<LayerAttributesKeys, String> attributes;
 
   /// Whether to automatically assign an <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html">Elastic
@@ -8449,7 +8449,7 @@ class Stack {
 
   /// The stack's attributes.
   @_s.JsonKey(name: 'Attributes')
-  final Map<String, String> attributes;
+  final Map<StackAttributesKeys, String> attributes;
 
   /// A <code>ChefConfiguration</code> object that specifies whether to enable
   /// Berkshelf and the Berkshelf version. For more information, see <a

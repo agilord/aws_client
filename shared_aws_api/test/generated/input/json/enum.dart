@@ -41,7 +41,7 @@ class Enum {
 
   Future<void> operationName0({
     EnumType fooEnum,
-    List<String> listEnums,
+    List<EnumType> listEnums,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',
@@ -62,7 +62,7 @@ class Enum {
 
   Future<void> operationName1({
     EnumType fooEnum,
-    List<String> listEnums,
+    List<EnumType> listEnums,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.0',

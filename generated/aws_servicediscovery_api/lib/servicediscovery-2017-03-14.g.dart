@@ -192,10 +192,16 @@ GetInstancesHealthStatusResponse _$GetInstancesHealthStatusResponseFromJson(
   return GetInstancesHealthStatusResponse(
     nextToken: json['NextToken'] as String,
     status: (json['Status'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(k, e as String),
+      (k, e) => MapEntry(k, _$enumDecodeNullable(_$HealthStatusEnumMap, e)),
     ),
   );
 }
+
+const _$HealthStatusEnumMap = {
+  HealthStatus.healthy: 'HEALTHY',
+  HealthStatus.unhealthy: 'UNHEALTHY',
+  HealthStatus.unknown: 'UNKNOWN',
+};
 
 GetNamespaceResponse _$GetNamespaceResponseFromJson(Map<String, dynamic> json) {
   return GetNamespaceResponse(
@@ -283,12 +289,6 @@ HttpInstanceSummary _$HttpInstanceSummaryFromJson(Map<String, dynamic> json) {
     serviceName: json['ServiceName'] as String,
   );
 }
-
-const _$HealthStatusEnumMap = {
-  HealthStatus.healthy: 'HEALTHY',
-  HealthStatus.unhealthy: 'UNHEALTHY',
-  HealthStatus.unknown: 'UNKNOWN',
-};
 
 HttpProperties _$HttpPropertiesFromJson(Map<String, dynamic> json) {
   return HttpProperties(
@@ -446,7 +446,8 @@ Operation _$OperationFromJson(Map<String, dynamic> json) {
     id: json['Id'] as String,
     status: _$enumDecodeNullable(_$OperationStatusEnumMap, json['Status']),
     targets: (json['Targets'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(k, e as String),
+      (k, e) => MapEntry(
+          _$enumDecodeNullable(_$OperationTargetTypeEnumMap, k), e as String),
     ),
     type: _$enumDecodeNullable(_$OperationTypeEnumMap, json['Type']),
     updateDate: unixTimestampFromJson(json['UpdateDate']),
@@ -458,6 +459,12 @@ const _$OperationStatusEnumMap = {
   OperationStatus.pending: 'PENDING',
   OperationStatus.success: 'SUCCESS',
   OperationStatus.fail: 'FAIL',
+};
+
+const _$OperationTargetTypeEnumMap = {
+  OperationTargetType.namespace: 'NAMESPACE',
+  OperationTargetType.service: 'SERVICE',
+  OperationTargetType.instance: 'INSTANCE',
 };
 
 const _$OperationTypeEnumMap = {

@@ -3770,7 +3770,7 @@ class Lightsail {
   /// Specify a protocol in your request to return information about a specific
   /// contact method protocol.
   Future<GetContactMethodsResult> getContactMethods({
-    List<String> protocols,
+    List<ContactProtocol> protocols,
   }) async {
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -4303,7 +4303,7 @@ class Lightsail {
     @_s.required InstanceMetricName metricName,
     @_s.required int period,
     @_s.required DateTime startTime,
-    @_s.required List<String> statistics,
+    @_s.required List<MetricStatistic> statistics,
     @_s.required MetricUnit unit,
   }) async {
     ArgumentError.checkNotNull(endTime, 'endTime');
@@ -4868,7 +4868,7 @@ class Lightsail {
     @_s.required LoadBalancerMetricName metricName,
     @_s.required int period,
     @_s.required DateTime startTime,
-    @_s.required List<String> statistics,
+    @_s.required List<MetricStatistic> statistics,
     @_s.required MetricUnit unit,
   }) async {
     ArgumentError.checkNotNull(endTime, 'endTime');
@@ -5751,7 +5751,7 @@ class Lightsail {
     @_s.required int period,
     @_s.required String relationalDatabaseName,
     @_s.required DateTime startTime,
-    @_s.required List<String> statistics,
+    @_s.required List<MetricStatistic> statistics,
     @_s.required MetricUnit unit,
   }) async {
     ArgumentError.checkNotNull(endTime, 'endTime');
@@ -6389,10 +6389,10 @@ class Lightsail {
     @_s.required MetricName metricName,
     @_s.required String monitoredResourceName,
     @_s.required double threshold,
-    List<String> contactProtocols,
+    List<ContactProtocol> contactProtocols,
     int datapointsToAlarm,
     bool notificationEnabled,
-    List<String> notificationTriggers,
+    List<AlarmState> notificationTriggers,
     TreatMissingData treatMissingData,
   }) async {
     ArgumentError.checkNotNull(alarmName, 'alarmName');
@@ -7608,7 +7608,7 @@ class Alarm {
   /// The contact protocols for the alarm, such as <code>Email</code>,
   /// <code>SMS</code> (text messaging), or both.
   @_s.JsonKey(name: 'contactProtocols')
-  final List<String> contactProtocols;
+  final List<ContactProtocol> contactProtocols;
 
   /// The timestamp when the alarm was created.
   @_s.JsonKey(
@@ -7649,7 +7649,7 @@ class Alarm {
 
   /// The alarm states that trigger a notification.
   @_s.JsonKey(name: 'notificationTriggers')
-  final List<String> notificationTriggers;
+  final List<AlarmState> notificationTriggers;
 
   /// The period, in seconds, over which the statistic is applied.
   @_s.JsonKey(name: 'period')
@@ -8211,7 +8211,7 @@ class Bundle {
   /// on a blueprint that supports the <code>WINDOWS</code> platform.
   /// <code>LINUX_UNIX</code> blueprints require a <code>LINUX_UNIX</code> bundle.
   @_s.JsonKey(name: 'supportedPlatforms')
-  final List<String> supportedPlatforms;
+  final List<InstancePlatform> supportedPlatforms;
 
   /// The data transfer rate per month in GB (e.g., <code>2000</code>).
   @_s.JsonKey(name: 'transferPerMonthInGb')
@@ -12151,7 +12151,7 @@ class LoadBalancer {
   /// A string to string map of the configuration options for your load balancer.
   /// Valid values are listed below.
   @_s.JsonKey(name: 'configurationOptions')
-  final Map<String, String> configurationOptions;
+  final Map<LoadBalancerAttributeName, String> configurationOptions;
 
   /// The date when your load balancer was created.
   @_s.JsonKey(

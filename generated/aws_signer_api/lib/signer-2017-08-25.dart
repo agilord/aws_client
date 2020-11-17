@@ -729,7 +729,7 @@ class EncryptionAlgorithmOptions {
   /// The set of accepted encryption algorithms that are allowed in a code signing
   /// job.
   @_s.JsonKey(name: 'allowedValues')
-  final List<String> allowedValues;
+  final List<EncryptionAlgorithm> allowedValues;
 
   /// The default encryption algorithm that is used by a code signing job.
   @_s.JsonKey(name: 'defaultValue')
@@ -867,7 +867,7 @@ enum HashAlgorithm {
 class HashAlgorithmOptions {
   /// The set of accepted hash algorithms allowed in a code signing job.
   @_s.JsonKey(name: 'allowedValues')
-  final List<String> allowedValues;
+  final List<HashAlgorithm> allowedValues;
 
   /// The default hash algorithm that is used in a code signing job.
   @_s.JsonKey(name: 'defaultValue')
@@ -1152,7 +1152,7 @@ class SigningImageFormat {
 
   /// The supported formats of a code signing image.
   @_s.JsonKey(name: 'supportedFormats')
-  final List<String> supportedFormats;
+  final List<ImageFormat> supportedFormats;
 
   SigningImageFormat({
     @_s.required this.defaultFormat,

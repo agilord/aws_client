@@ -1019,7 +1019,7 @@ class ConfigService {
   /// to get the next page of results in a paginated response.
   Future<DescribeComplianceByConfigRuleResponse>
       describeComplianceByConfigRule({
-    List<String> complianceTypes,
+    List<ComplianceType> complianceTypes,
     List<String> configRuleNames,
     String nextToken,
   }) async {
@@ -1105,7 +1105,7 @@ class ConfigService {
   /// specify that the resource type is an AWS account by specifying
   /// <code>AWS::::Account</code>.
   Future<DescribeComplianceByResourceResponse> describeComplianceByResource({
-    List<String> complianceTypes,
+    List<ComplianceType> complianceTypes,
     int limit,
     String nextToken,
     String resourceId,
@@ -1286,7 +1286,7 @@ class ConfigService {
     @_s.required String configurationAggregatorName,
     int limit,
     String nextToken,
-    List<String> updateStatus,
+    List<AggregatedSourceStatusType> updateStatus,
   }) async {
     ArgumentError.checkNotNull(
         configurationAggregatorName, 'configurationAggregatorName');
@@ -2602,7 +2602,7 @@ class ConfigService {
   Future<GetComplianceDetailsByConfigRuleResponse>
       getComplianceDetailsByConfigRule({
     @_s.required String configRuleName,
-    List<String> complianceTypes,
+    List<ComplianceType> complianceTypes,
     int limit,
     String nextToken,
   }) async {
@@ -2666,7 +2666,7 @@ class ConfigService {
       getComplianceDetailsByResource({
     @_s.required String resourceId,
     @_s.required String resourceType,
-    List<String> complianceTypes,
+    List<ComplianceType> complianceTypes,
     String nextToken,
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
@@ -8819,7 +8819,8 @@ class OrganizationCustomRuleMetadata {
   /// </li>
   /// </ul>
   @_s.JsonKey(name: 'OrganizationConfigRuleTriggerTypes')
-  final List<String> organizationConfigRuleTriggerTypes;
+  final List<OrganizationConfigRuleTriggerType>
+      organizationConfigRuleTriggerTypes;
 
   /// The description that you provide for organization config rule.
   @_s.JsonKey(name: 'Description')
@@ -9389,7 +9390,7 @@ class RecordingGroup {
   /// href="https://docs.aws.amazon.com/config/latest/developerguide/resource-config-reference.html#supported-resources">Supported
   /// AWS Resource Types</a>.
   @_s.JsonKey(name: 'resourceTypes')
-  final List<String> resourceTypes;
+  final List<ResourceType> resourceTypes;
 
   RecordingGroup({
     this.allSupported,

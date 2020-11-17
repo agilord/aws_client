@@ -1082,7 +1082,7 @@ class GuardDuty {
   /// Represents the criteria used for querying findings.
   Future<GetFindingsStatisticsResponse> getFindingsStatistics({
     @_s.required String detectorId,
-    @_s.required List<String> findingStatisticTypes,
+    @_s.required List<FindingStatisticType> findingStatisticTypes,
     FindingCriteria findingCriteria,
   }) async {
     ArgumentError.checkNotNull(detectorId, 'detectorId');

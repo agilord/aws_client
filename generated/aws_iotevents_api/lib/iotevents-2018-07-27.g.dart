@@ -1046,10 +1046,15 @@ TagrisVerifyResourcesExistOutput _$TagrisVerifyResourcesExistOutputFromJson(
   return TagrisVerifyResourcesExistOutput(
     tagrisSweepListResult:
         (json['TagrisSweepListResult'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(k, e as String),
+      (k, e) => MapEntry(k, _$enumDecodeNullable(_$TagrisStatusEnumMap, e)),
     ),
   );
 }
+
+const _$TagrisStatusEnumMap = {
+  TagrisStatus.active: 'ACTIVE',
+  TagrisStatus.notActive: 'NOT_ACTIVE',
+};
 
 TransitionEvent _$TransitionEventFromJson(Map<String, dynamic> json) {
   return TransitionEvent(
