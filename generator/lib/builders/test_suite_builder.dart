@@ -209,9 +209,7 @@ String _buildParameters(Shape shape, Member member, Object params,
     if (shape.enumeration != null) {
       if (params is String && params.isEmpty) return 'null';
       return '${shape.className}.${toEnumerationFieldName('$params')}';
-    } else if (shape.type == 'blob' &&
-        params is String &&
-        !shape.api.usesQueryProtocol) {
+    } else if (shape.type == 'blob' && params is String) {
       return "Uint8List.fromList('$params'.codeUnits)";
     } else if (shape.type == 'timestamp') {
       return 'DateTime.fromMillisecondsSinceEpoch($params * 1000)';

@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:http/http.dart';
 import 'package:meta/meta.dart';
@@ -160,13 +161,18 @@ Iterable<MapEntry<String, String>> _flatten(
     return;
   }
 
+  if (data is Uint8List) {
+    yield MapEntry(prefixes.join('.'), base64Encode(data));
+    return;
+  }
+
   if (data is List) {
     if (data.isEmpty) {
       final key = prefixes.join('.');
       yield MapEntry(key, '');
     } else {
       final member = shapes[shape.member?.shape];
-      final name = shape.member?.locationName ?? member.locationName;
+      final name = shape.member?.locationName ?? member?.locationName;
 
       if (shape.flattened && name != null) {
         prefixes.removeLast();
