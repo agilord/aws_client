@@ -2,6 +2,8 @@ import 'package:aws_client.generator/builders/protocols/service_builder.dart';
 import 'package:aws_client.generator/model/api.dart';
 import 'package:aws_client.generator/model/operation.dart';
 
+import '../builder_utils.dart';
+
 class JsonServiceBuilder extends ServiceBuilder {
   final Api api;
 
@@ -22,20 +24,19 @@ class JsonServiceBuilder extends ServiceBuilder {
 
   @override
   String operationContent(Operation operation) {
-    final payloadMembers = operation.input?.shapeClass?.members?.map((m) {
-      var serializationSuffix = '';
-      if (m.shapeClass.enumeration != null) {
-        m.shapeClass.isTopLevelInputEnum = true;
-        serializationSuffix = '?.toValue()';
-      } else if (m.shapeClass.type == 'blob') {
-        serializationSuffix = '${m.isRequired ? '?' : ''}.let(base64Encode)';
-      }
+    final buf = StringBuffer();
+    final inputClass = operation.input?.shapeClass;
 
+    final payloadMembers = inputClass?.members?.map((member) {
       final buffer = StringBuffer();
-      if (!m.isRequired) {
-        buffer.writeln('if (${m.fieldName} != null)');
+      if (!member.isRequired) {
+        buffer.writeln('if (${member.fieldName} != null)');
       }
-      buffer.writeln("'${m.name}': ${m.fieldName}$serializationSuffix,");
+      final encodeCode = encodeJsonCode(member.shapeClass, member.fieldName,
+          member: member, maybeNull: member.isRequired);
+      final location =
+          member.locationName ?? member.shapeClass.locationName ?? member.name;
+      buffer.writeln("'$location': $encodeCode,");
       return '$buffer';
     })?.join();
     var payload = '';
@@ -45,20 +46,26 @@ class JsonServiceBuilder extends ServiceBuilder {
 
     final outputClass = operation.output?.shapeClass?.className;
 
-    return '''
+    buf.writeln('''
       final headers = <String, String>{
         'Content-Type': 'application/x-amz-json-${api.metadata.jsonVersion ?? '1.0'}',
         'X-Amz-Target': '${api.metadata.targetPrefix}.${operation.name}'
-      };
-      final jsonResponse = await _protocol.send(
+      };''');
+
+    buf.writeln('''
+     final jsonResponse = await _protocol.send(
         method: '${operation.http.method}',
         requestUri: '${operation.http.requestUri}',
         exceptionFnMap: _exceptionFns,
         // TODO queryParams
         headers: headers,
         $payload
-      );
+''');
+    buf.writeln(');\n');
 
-      ${outputClass == null ? '' : 'return $outputClass.fromJson(jsonResponse.body);'}''';
+    if (outputClass != null) {
+      buf.writeln('return $outputClass.fromJson(jsonResponse.body);');
+    }
+    return '$buf';
   }
 }

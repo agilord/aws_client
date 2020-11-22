@@ -2,7 +2,7 @@ import 'package:aws_client.generator/builders/protocols/service_builder.dart';
 import 'package:aws_client.generator/model/api.dart';
 import 'package:aws_client.generator/model/operation.dart';
 import 'package:aws_client.generator/model/shape.dart';
-import '../../model/dart_type.dart';
+import '../builder_utils.dart';
 import '../library_builder.dart';
 
 class RestJsonServiceBuilder extends ServiceBuilder {
@@ -50,22 +50,17 @@ class RestJsonServiceBuilder extends ServiceBuilder {
       final payload = operation.input.payloadMember;
       if (payload == null) {
         buf.writeln('final \$payload = <String, dynamic>{');
-        inputShape.members.where((m) => m.isBody).forEach((member) {
-          var serializationSuffix = '';
-          if (member.shapeClass.enumeration != null) {
-            member.shapeClass.isTopLevelInputEnum = true;
-            serializationSuffix = '?.toValue()';
-          } else if (member.shapeClass.type == 'blob') {
-            serializationSuffix =
-                '${member.isRequired ? '?' : ''}.let(base64Encode)';
-          }
-
+        for (var member in inputShape.members.where((m) => m.isBody)) {
           if (!member.isRequired) {
             buf.writeln('if (${member.fieldName} != null)');
           }
-          buf.writeln(
-              "'${member.name}': ${member.fieldName}$serializationSuffix,");
-        });
+          final encodeCode = encodeJsonCode(member.shapeClass, member.fieldName,
+              member: member, maybeNull: member.isRequired);
+          final location = member.locationName ??
+              member.shapeClass.locationName ??
+              member.name;
+          buf.writeln("'$location': $encodeCode,");
+        }
         buf.writeln('};');
         payloadCode = '\$payload';
       } else {
@@ -127,27 +122,5 @@ class RestJsonServiceBuilder extends ServiceBuilder {
       }
     }
     return buf.toString();
-  }
-}
-
-String extractJsonCode(Shape shape, String variable, {Member member}) {
-  if (shape.type == 'map') {
-    return '($variable as Map<String, dynamic>)?.map((k, e) => MapEntry(k, ${extractJsonCode(shape.value.shapeClass, 'e')}))';
-  } else if (shape.type == 'list') {
-    return '($variable as List)?.map((e) => ${extractJsonCode(shape.member.shapeClass, 'e')})?.toList()';
-  } else if (shape.type == 'structure') {
-    return '${shape.className}.fromJson($variable as Map<String, dynamic>)';
-  } else if (shape.enumeration?.isNotEmpty ?? false) {
-    shape.isTopLevelOutputEnum = true;
-    return '($variable as String)?.to${shape.className}()';
-  } else if (shape.type == 'timestamp') {
-    final timestampFormat =
-        member?.timestampFormat ?? shape.timestampFormat ?? 'unixTimestamp';
-    final sourceType = timestampFormat == 'unixTimestamp' ? 'int' : 'String';
-    return '${timestampFormat}FromJson($variable as $sourceType)';
-  } else if (shape.type == 'blob') {
-    return 'const Uint8ListConverter().fromJson($variable as String)';
-  } else {
-    return '$variable as ${shape.type.getDartType(shape.api)}';
   }
 }

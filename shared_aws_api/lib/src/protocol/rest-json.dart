@@ -42,11 +42,14 @@ class RestJsonProtocol {
     Map<String, String> headers,
     dynamic payload,
   }) async {
+    var uri = Uri.parse('${_endpoint.url}$requestUri');
+    uri = uri.replace(queryParameters: {
+      ...uri.queryParameters,
+      ...?queryParams,
+    });
     final rq = Request(
       method,
-      Uri.parse('${_endpoint.url}$requestUri').replace(
-        queryParameters: queryParams ?? {},
-      ),
+      uri,
     );
     if (payload != null) {
       rq.body = json.encode(payload);

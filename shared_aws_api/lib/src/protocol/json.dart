@@ -43,11 +43,14 @@ class JsonProtocol {
     Map<String, String> headers,
     dynamic payload,
   }) async {
+    var uri = Uri.parse('${_endpoint.url}$requestUri');
+    uri = uri.replace(queryParameters: {
+      ...uri.queryParameters,
+      ...?queryParams,
+    });
     final rq = Request(
       method,
-      Uri.parse('${_endpoint.url}$requestUri').replace(
-        queryParameters: queryParams ?? {},
-      ),
+      uri,
     );
     rq.headers.addAll(headers ?? {});
     if (payload != null) {
