@@ -119,7 +119,7 @@ class Comprehend {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LanguageCode': languageCode?.toValue(),
+        'LanguageCode': languageCode?.toValue() ?? '',
         'TextList': textList,
       },
     );
@@ -161,7 +161,7 @@ class Comprehend {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LanguageCode': languageCode?.toValue(),
+        'LanguageCode': languageCode?.toValue() ?? '',
         'TextList': textList,
       },
     );
@@ -205,7 +205,7 @@ class Comprehend {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LanguageCode': languageCode?.toValue(),
+        'LanguageCode': languageCode?.toValue() ?? '',
         'TextList': textList,
       },
     );
@@ -250,7 +250,7 @@ class Comprehend {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LanguageCode': languageCode?.toValue(),
+        'LanguageCode': languageCode?.toValue() ?? '',
         'TextList': textList,
       },
     );
@@ -467,10 +467,10 @@ class Comprehend {
         'DataAccessRoleArn': dataAccessRoleArn,
         'DocumentClassifierName': documentClassifierName,
         'InputDataConfig': inputDataConfig,
-        'LanguageCode': languageCode?.toValue(),
+        'LanguageCode': languageCode?.toValue() ?? '',
         if (clientRequestToken != null)
           'ClientRequestToken': clientRequestToken,
-        if (mode != null) 'Mode': mode?.toValue(),
+        if (mode != null) 'Mode': mode.toValue(),
         if (outputDataConfig != null) 'OutputDataConfig': outputDataConfig,
         if (tags != null) 'Tags': tags,
         if (volumeKmsKeyId != null) 'VolumeKmsKeyId': volumeKmsKeyId,
@@ -728,7 +728,7 @@ class Comprehend {
       payload: {
         'DataAccessRoleArn': dataAccessRoleArn,
         'InputDataConfig': inputDataConfig,
-        'LanguageCode': languageCode?.toValue(),
+        'LanguageCode': languageCode?.toValue() ?? '',
         'RecognizerName': recognizerName,
         if (clientRequestToken != null)
           'ClientRequestToken': clientRequestToken,
@@ -1393,7 +1393,7 @@ class Comprehend {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LanguageCode': languageCode?.toValue(),
+        'LanguageCode': languageCode?.toValue() ?? '',
         'Text': text,
       },
     );
@@ -1440,7 +1440,7 @@ class Comprehend {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LanguageCode': languageCode?.toValue(),
+        'LanguageCode': languageCode?.toValue() ?? '',
         'Text': text,
       },
     );
@@ -1489,7 +1489,7 @@ class Comprehend {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LanguageCode': languageCode?.toValue(),
+        'LanguageCode': languageCode?.toValue() ?? '',
         'Text': text,
       },
     );
@@ -1538,7 +1538,7 @@ class Comprehend {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LanguageCode': languageCode?.toValue(),
+        'LanguageCode': languageCode?.toValue() ?? '',
         'Text': text,
       },
     );
@@ -2511,7 +2511,7 @@ class Comprehend {
       payload: {
         'DataAccessRoleArn': dataAccessRoleArn,
         'InputDataConfig': inputDataConfig,
-        'LanguageCode': languageCode?.toValue(),
+        'LanguageCode': languageCode?.toValue() ?? '',
         'OutputDataConfig': outputDataConfig,
         if (clientRequestToken != null)
           'ClientRequestToken': clientRequestToken,
@@ -2648,7 +2648,7 @@ class Comprehend {
       payload: {
         'DataAccessRoleArn': dataAccessRoleArn,
         'InputDataConfig': inputDataConfig,
-        'LanguageCode': languageCode?.toValue(),
+        'LanguageCode': languageCode?.toValue() ?? '',
         'OutputDataConfig': outputDataConfig,
         if (clientRequestToken != null)
           'ClientRequestToken': clientRequestToken,
@@ -2783,7 +2783,7 @@ class Comprehend {
       payload: {
         'DataAccessRoleArn': dataAccessRoleArn,
         'InputDataConfig': inputDataConfig,
-        'LanguageCode': languageCode?.toValue(),
+        'LanguageCode': languageCode?.toValue() ?? '',
         'OutputDataConfig': outputDataConfig,
         if (clientRequestToken != null)
           'ClientRequestToken': clientRequestToken,

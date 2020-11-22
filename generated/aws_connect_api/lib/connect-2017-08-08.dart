@@ -447,7 +447,8 @@ class Connect {
     final $payload = <String, dynamic>{
       'CurrentMetrics': currentMetrics,
       'Filters': filters,
-      if (groupings != null) 'Groupings': groupings,
+      if (groupings != null)
+        'Groupings': groupings.map((e) => e?.toValue() ?? '').toList(),
       if (maxResults != null) 'MaxResults': maxResults,
       if (nextToken != null) 'NextToken': nextToken,
     };
@@ -686,11 +687,12 @@ class Connect {
       100,
     );
     final $payload = <String, dynamic>{
-      'EndTime': endTime,
+      'EndTime': unixTimestampToJson(endTime),
       'Filters': filters,
       'HistoricalMetrics': historicalMetrics,
-      'StartTime': startTime,
-      if (groupings != null) 'Groupings': groupings,
+      'StartTime': unixTimestampToJson(startTime),
+      if (groupings != null)
+        'Groupings': groupings.map((e) => e?.toValue() ?? '').toList(),
       if (maxResults != null) 'MaxResults': maxResults,
       if (nextToken != null) 'NextToken': nextToken,
     };
@@ -2210,6 +2212,18 @@ enum Grouping {
   queue,
   @_s.JsonValue('CHANNEL')
   channel,
+}
+
+extension on Grouping {
+  String toValue() {
+    switch (this) {
+      case Grouping.queue:
+        return 'QUEUE';
+      case Grouping.channel:
+        return 'CHANNEL';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Contains information about a hierarchy group.

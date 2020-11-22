@@ -638,12 +638,12 @@ class DAX {
       headers: headers,
       payload: {
         if (duration != null) 'Duration': duration,
-        if (endTime != null) 'EndTime': endTime,
+        if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
         if (sourceName != null) 'SourceName': sourceName,
-        if (sourceType != null) 'SourceType': sourceType?.toValue(),
-        if (startTime != null) 'StartTime': startTime,
+        if (sourceType != null) 'SourceType': sourceType.toValue(),
+        if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
       },
     );
 

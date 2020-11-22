@@ -183,7 +183,7 @@ class MarketplaceMetering {
       headers: headers,
       payload: {
         'ProductCode': productCode,
-        'Timestamp': timestamp,
+        'Timestamp': unixTimestampToJson(timestamp),
         'UsageDimension': usageDimension,
         if (dryRun != null) 'DryRun': dryRun,
         if (usageQuantity != null) 'UsageQuantity': usageQuantity,

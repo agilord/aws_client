@@ -1158,7 +1158,7 @@ class Personalize {
       headers: headers,
       payload: {
         'solutionArn': solutionArn,
-        if (trainingMode != null) 'trainingMode': trainingMode?.toValue(),
+        if (trainingMode != null) 'trainingMode': trainingMode.toValue(),
       },
     );
 
@@ -2462,7 +2462,7 @@ class Personalize {
       payload: {
         if (maxResults != null) 'maxResults': maxResults,
         if (nextToken != null) 'nextToken': nextToken,
-        if (recipeProvider != null) 'recipeProvider': recipeProvider?.toValue(),
+        if (recipeProvider != null) 'recipeProvider': recipeProvider.toValue(),
       },
     );
 

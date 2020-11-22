@@ -2300,7 +2300,7 @@ class LexModelBuildingService {
     );
     final $payload = <String, dynamic>{
       'childDirected': childDirected,
-      'locale': locale?.toValue(),
+      'locale': locale?.toValue() ?? '',
       if (abortStatement != null) 'abortStatement': abortStatement,
       if (checksum != null) 'checksum': checksum,
       if (clarificationPrompt != null)
@@ -2311,8 +2311,7 @@ class LexModelBuildingService {
       if (idleSessionTTLInSeconds != null)
         'idleSessionTTLInSeconds': idleSessionTTLInSeconds,
       if (intents != null) 'intents': intents,
-      if (processBehavior != null)
-        'processBehavior': processBehavior?.toValue(),
+      if (processBehavior != null) 'processBehavior': processBehavior.toValue(),
       if (tags != null) 'tags': tags,
       if (voiceId != null) 'voiceId': voiceId,
     };
@@ -2866,7 +2865,7 @@ class LexModelBuildingService {
       if (slotTypeConfigurations != null)
         'slotTypeConfigurations': slotTypeConfigurations,
       if (valueSelectionStrategy != null)
-        'valueSelectionStrategy': valueSelectionStrategy?.toValue(),
+        'valueSelectionStrategy': valueSelectionStrategy.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2932,9 +2931,9 @@ class LexModelBuildingService {
     ArgumentError.checkNotNull(payload, 'payload');
     ArgumentError.checkNotNull(resourceType, 'resourceType');
     final $payload = <String, dynamic>{
-      'mergeStrategy': mergeStrategy?.toValue(),
+      'mergeStrategy': mergeStrategy?.toValue() ?? '',
       'payload': payload?.let(base64Encode),
-      'resourceType': resourceType?.toValue(),
+      'resourceType': resourceType?.toValue() ?? '',
       if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(

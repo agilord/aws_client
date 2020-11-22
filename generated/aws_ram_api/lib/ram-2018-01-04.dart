@@ -540,9 +540,9 @@ class RAM {
       500,
     );
     final $payload = <String, dynamic>{
-      'associationType': associationType?.toValue(),
+      'associationType': associationType?.toValue() ?? '',
       if (associationStatus != null)
-        'associationStatus': associationStatus?.toValue(),
+        'associationStatus': associationStatus.toValue(),
       if (maxResults != null) 'maxResults': maxResults,
       if (nextToken != null) 'nextToken': nextToken,
       if (principal != null) 'principal': principal,
@@ -658,13 +658,13 @@ class RAM {
       500,
     );
     final $payload = <String, dynamic>{
-      'resourceOwner': resourceOwner?.toValue(),
+      'resourceOwner': resourceOwner?.toValue() ?? '',
       if (maxResults != null) 'maxResults': maxResults,
       if (name != null) 'name': name,
       if (nextToken != null) 'nextToken': nextToken,
       if (resourceShareArns != null) 'resourceShareArns': resourceShareArns,
       if (resourceShareStatus != null)
-        'resourceShareStatus': resourceShareStatus?.toValue(),
+        'resourceShareStatus': resourceShareStatus.toValue(),
       if (tagFilters != null) 'tagFilters': tagFilters,
     };
     final response = await _protocol.send(
@@ -828,7 +828,7 @@ class RAM {
       500,
     );
     final $payload = <String, dynamic>{
-      'resourceOwner': resourceOwner?.toValue(),
+      'resourceOwner': resourceOwner?.toValue() ?? '',
       if (maxResults != null) 'maxResults': maxResults,
       if (nextToken != null) 'nextToken': nextToken,
       if (principals != null) 'principals': principals,
@@ -948,7 +948,7 @@ class RAM {
       500,
     );
     final $payload = <String, dynamic>{
-      'resourceOwner': resourceOwner?.toValue(),
+      'resourceOwner': resourceOwner?.toValue() ?? '',
       if (maxResults != null) 'maxResults': maxResults,
       if (nextToken != null) 'nextToken': nextToken,
       if (principal != null) 'principal': principal,

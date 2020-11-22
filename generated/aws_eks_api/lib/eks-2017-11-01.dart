@@ -441,7 +441,7 @@ class EKS {
       'nodeRole': nodeRole,
       'nodegroupName': nodegroupName,
       'subnets': subnets,
-      if (amiType != null) 'amiType': amiType?.toValue(),
+      if (amiType != null) 'amiType': amiType.toValue(),
       if (clientRequestToken != null) 'clientRequestToken': clientRequestToken,
       if (diskSize != null) 'diskSize': diskSize,
       if (instanceTypes != null) 'instanceTypes': instanceTypes,

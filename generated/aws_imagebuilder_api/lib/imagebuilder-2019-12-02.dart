@@ -209,7 +209,7 @@ class Imagebuilder {
     final $payload = <String, dynamic>{
       'clientToken': clientToken,
       'name': name,
-      'platform': platform?.toValue(),
+      'platform': platform?.toValue() ?? '',
       'semanticVersion': semanticVersion,
       if (changeDescription != null) 'changeDescription': changeDescription,
       if (data != null) 'data': data,
@@ -516,7 +516,7 @@ class Imagebuilder {
       if (imageTestsConfiguration != null)
         'imageTestsConfiguration': imageTestsConfiguration,
       if (schedule != null) 'schedule': schedule,
-      if (status != null) 'status': status?.toValue(),
+      if (status != null) 'status': status.toValue(),
       if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
@@ -1465,11 +1465,11 @@ class Imagebuilder {
     );
     final $payload = <String, dynamic>{
       'clientToken': clientToken,
-      'format': format?.toValue(),
+      'format': format?.toValue() ?? '',
       'name': name,
-      'platform': platform?.toValue(),
+      'platform': platform?.toValue() ?? '',
       'semanticVersion': semanticVersion,
-      'type': type?.toValue(),
+      'type': type?.toValue() ?? '',
       if (changeDescription != null) 'changeDescription': changeDescription,
       if (data != null) 'data': data,
       if (description != null) 'description': description,
@@ -1594,7 +1594,7 @@ class Imagebuilder {
       if (filters != null) 'filters': filters,
       if (maxResults != null) 'maxResults': maxResults,
       if (nextToken != null) 'nextToken': nextToken,
-      if (owner != null) 'owner': owner?.toValue(),
+      if (owner != null) 'owner': owner.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1881,7 +1881,7 @@ class Imagebuilder {
       if (filters != null) 'filters': filters,
       if (maxResults != null) 'maxResults': maxResults,
       if (nextToken != null) 'nextToken': nextToken,
-      if (owner != null) 'owner': owner?.toValue(),
+      if (owner != null) 'owner': owner.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1940,7 +1940,7 @@ class Imagebuilder {
       if (filters != null) 'filters': filters,
       if (maxResults != null) 'maxResults': maxResults,
       if (nextToken != null) 'nextToken': nextToken,
-      if (owner != null) 'owner': owner?.toValue(),
+      if (owner != null) 'owner': owner.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2502,7 +2502,7 @@ class Imagebuilder {
       if (imageTestsConfiguration != null)
         'imageTestsConfiguration': imageTestsConfiguration,
       if (schedule != null) 'schedule': schedule,
-      if (status != null) 'status': status?.toValue(),
+      if (status != null) 'status': status.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,

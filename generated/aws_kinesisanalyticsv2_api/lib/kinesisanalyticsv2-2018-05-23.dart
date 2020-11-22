@@ -653,7 +653,7 @@ class KinesisAnalyticsV2 {
       headers: headers,
       payload: {
         'ApplicationName': applicationName,
-        'RuntimeEnvironment': runtimeEnvironment?.toValue(),
+        'RuntimeEnvironment': runtimeEnvironment?.toValue() ?? '',
         'ServiceExecutionRole': serviceExecutionRole,
         if (applicationConfiguration != null)
           'ApplicationConfiguration': applicationConfiguration,
@@ -779,7 +779,7 @@ class KinesisAnalyticsV2 {
       headers: headers,
       payload: {
         'ApplicationName': applicationName,
-        'CreateTimestamp': createTimestamp,
+        'CreateTimestamp': unixTimestampToJson(createTimestamp),
       },
     );
 
@@ -1206,7 +1206,8 @@ class KinesisAnalyticsV2 {
       headers: headers,
       payload: {
         'ApplicationName': applicationName,
-        'SnapshotCreationTimestamp': snapshotCreationTimestamp,
+        'SnapshotCreationTimestamp':
+            unixTimestampToJson(snapshotCreationTimestamp),
         'SnapshotName': snapshotName,
       },
     );

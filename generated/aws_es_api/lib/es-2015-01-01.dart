@@ -290,7 +290,8 @@ class ElasticsearchService {
       if (encryptionAtRestOptions != null)
         'EncryptionAtRestOptions': encryptionAtRestOptions,
       if (logPublishingOptions != null)
-        'LogPublishingOptions': logPublishingOptions,
+        'LogPublishingOptions':
+            logPublishingOptions.map((k, e) => MapEntry(k.toValue(), e)),
       if (nodeToNodeEncryptionOptions != null)
         'NodeToNodeEncryptionOptions': nodeToNodeEncryptionOptions,
       if (snapshotOptions != null) 'SnapshotOptions': snapshotOptions,
@@ -358,7 +359,7 @@ class ElasticsearchService {
     final $payload = <String, dynamic>{
       'PackageName': packageName,
       'PackageSource': packageSource,
-      'PackageType': packageType?.toValue(),
+      'PackageType': packageType?.toValue() ?? '',
       if (packageDescription != null) 'PackageDescription': packageDescription,
     };
     final response = await _protocol.send(
@@ -1397,7 +1398,8 @@ class ElasticsearchService {
       if (elasticsearchClusterConfig != null)
         'ElasticsearchClusterConfig': elasticsearchClusterConfig,
       if (logPublishingOptions != null)
-        'LogPublishingOptions': logPublishingOptions,
+        'LogPublishingOptions':
+            logPublishingOptions.map((k, e) => MapEntry(k.toValue(), e)),
       if (snapshotOptions != null) 'SnapshotOptions': snapshotOptions,
       if (vPCOptions != null) 'VPCOptions': vPCOptions,
     };
@@ -3203,6 +3205,20 @@ enum LogType {
   searchSlowLogs,
   @_s.JsonValue('ES_APPLICATION_LOGS')
   esApplicationLogs,
+}
+
+extension on LogType {
+  String toValue() {
+    switch (this) {
+      case LogType.indexSlowLogs:
+        return 'INDEX_SLOW_LOGS';
+      case LogType.searchSlowLogs:
+        return 'SEARCH_SLOW_LOGS';
+      case LogType.esApplicationLogs:
+        return 'ES_APPLICATION_LOGS';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Credentials for the master user: username and password, ARN, or both.

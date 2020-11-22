@@ -118,7 +118,8 @@ class DataPipeline {
       payload: {
         'pipelineId': pipelineId,
         if (parameterValues != null) 'parameterValues': parameterValues,
-        if (startTimestamp != null) 'startTimestamp': startTimestamp,
+        if (startTimestamp != null)
+          'startTimestamp': unixTimestampToJson(startTimestamp),
       },
     );
 
@@ -1333,7 +1334,7 @@ class DataPipeline {
       headers: headers,
       payload: {
         'taskId': taskId,
-        'taskStatus': taskStatus?.toValue(),
+        'taskStatus': taskStatus?.toValue() ?? '',
         if (errorId != null) 'errorId': errorId,
         if (errorMessage != null) 'errorMessage': errorMessage,
         if (errorStackTrace != null) 'errorStackTrace': errorStackTrace,

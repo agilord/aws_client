@@ -1307,7 +1307,7 @@ class Glue {
         if (securityGroupIds != null) 'SecurityGroupIds': securityGroupIds,
         if (subnetId != null) 'SubnetId': subnetId,
         if (tags != null) 'Tags': tags,
-        if (workerType != null) 'WorkerType': workerType?.toValue(),
+        if (workerType != null) 'WorkerType': workerType.toValue(),
       },
     );
 
@@ -1572,7 +1572,7 @@ class Glue {
           'SecurityConfiguration': securityConfiguration,
         if (tags != null) 'Tags': tags,
         if (timeout != null) 'Timeout': timeout,
-        if (workerType != null) 'WorkerType': workerType?.toValue(),
+        if (workerType != null) 'WorkerType': workerType.toValue(),
       },
     );
 
@@ -1826,7 +1826,7 @@ class Glue {
         if (numberOfWorkers != null) 'NumberOfWorkers': numberOfWorkers,
         if (tags != null) 'Tags': tags,
         if (timeout != null) 'Timeout': timeout,
-        if (workerType != null) 'WorkerType': workerType?.toValue(),
+        if (workerType != null) 'WorkerType': workerType.toValue(),
       },
     );
 
@@ -1954,7 +1954,7 @@ class Glue {
       payload: {
         if (dagEdges != null) 'DagEdges': dagEdges,
         if (dagNodes != null) 'DagNodes': dagNodes,
-        if (language != null) 'Language': language?.toValue(),
+        if (language != null) 'Language': language.toValue(),
       },
     );
 
@@ -2201,7 +2201,7 @@ class Glue {
       payload: {
         'Actions': actions,
         'Name': name,
-        'Type': type?.toValue(),
+        'Type': type?.toValue() ?? '',
         if (description != null) 'Description': description,
         if (predicate != null) 'Predicate': predicate,
         if (schedule != null) 'Schedule': schedule,
@@ -4772,7 +4772,7 @@ class Glue {
       payload: {
         'Mapping': mapping,
         'Source': source,
-        if (language != null) 'Language': language?.toValue(),
+        if (language != null) 'Language': language.toValue(),
         if (location != null) 'Location': location,
         if (sinks != null) 'Sinks': sinks,
       },
@@ -6318,7 +6318,7 @@ class Glue {
       payload: {
         'PolicyInJson': policyInJson,
         if (policyExistsCondition != null)
-          'PolicyExistsCondition': policyExistsCondition?.toValue(),
+          'PolicyExistsCondition': policyExistsCondition.toValue(),
         if (policyHashCondition != null)
           'PolicyHashCondition': policyHashCondition,
       },
@@ -6950,7 +6950,7 @@ class Glue {
         if (securityConfiguration != null)
           'SecurityConfiguration': securityConfiguration,
         if (timeout != null) 'Timeout': timeout,
-        if (workerType != null) 'WorkerType': workerType?.toValue(),
+        if (workerType != null) 'WorkerType': workerType.toValue(),
       },
     );
 
@@ -8104,7 +8104,7 @@ class Glue {
         if (parameters != null) 'Parameters': parameters,
         if (role != null) 'Role': role,
         if (timeout != null) 'Timeout': timeout,
-        if (workerType != null) 'WorkerType': workerType?.toValue(),
+        if (workerType != null) 'WorkerType': workerType.toValue(),
       },
     );
 

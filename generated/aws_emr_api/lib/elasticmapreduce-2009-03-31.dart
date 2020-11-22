@@ -315,7 +315,7 @@ class EMR {
         'ClusterId': clusterId,
         'StepIds': stepIds,
         if (stepCancellationOption != null)
-          'StepCancellationOption': stepCancellationOption?.toValue(),
+          'StepCancellationOption': stepCancellationOption.toValue(),
       },
     );
 
@@ -504,10 +504,14 @@ class EMR {
       // TODO queryParams
       headers: headers,
       payload: {
-        if (createdAfter != null) 'CreatedAfter': createdAfter,
-        if (createdBefore != null) 'CreatedBefore': createdBefore,
+        if (createdAfter != null)
+          'CreatedAfter': unixTimestampToJson(createdAfter),
+        if (createdBefore != null)
+          'CreatedBefore': unixTimestampToJson(createdBefore),
         if (jobFlowIds != null) 'JobFlowIds': jobFlowIds,
-        if (jobFlowStates != null) 'JobFlowStates': jobFlowStates,
+        if (jobFlowStates != null)
+          'JobFlowStates':
+              jobFlowStates.map((e) => e?.toValue() ?? '').toList(),
       },
     );
 
@@ -689,9 +693,13 @@ class EMR {
       // TODO queryParams
       headers: headers,
       payload: {
-        if (clusterStates != null) 'ClusterStates': clusterStates,
-        if (createdAfter != null) 'CreatedAfter': createdAfter,
-        if (createdBefore != null) 'CreatedBefore': createdBefore,
+        if (clusterStates != null)
+          'ClusterStates':
+              clusterStates.map((e) => e?.toValue() ?? '').toList(),
+        if (createdAfter != null)
+          'CreatedAfter': unixTimestampToJson(createdAfter),
+        if (createdBefore != null)
+          'CreatedBefore': unixTimestampToJson(createdBefore),
         if (marker != null) 'Marker': marker,
       },
     );
@@ -824,11 +832,14 @@ class EMR {
         'ClusterId': clusterId,
         if (instanceFleetId != null) 'InstanceFleetId': instanceFleetId,
         if (instanceFleetType != null)
-          'InstanceFleetType': instanceFleetType?.toValue(),
+          'InstanceFleetType': instanceFleetType.toValue(),
         if (instanceGroupId != null) 'InstanceGroupId': instanceGroupId,
         if (instanceGroupTypes != null)
-          'InstanceGroupTypes': instanceGroupTypes,
-        if (instanceStates != null) 'InstanceStates': instanceStates,
+          'InstanceGroupTypes':
+              instanceGroupTypes.map((e) => e?.toValue() ?? '').toList(),
+        if (instanceStates != null)
+          'InstanceStates':
+              instanceStates.map((e) => e?.toValue() ?? '').toList(),
         if (marker != null) 'Marker': marker,
       },
     );
@@ -909,7 +920,8 @@ class EMR {
         'ClusterId': clusterId,
         if (marker != null) 'Marker': marker,
         if (stepIds != null) 'StepIds': stepIds,
-        if (stepStates != null) 'StepStates': stepStates,
+        if (stepStates != null)
+          'StepStates': stepStates.map((e) => e?.toValue() ?? '').toList(),
       },
     );
 
@@ -1588,9 +1600,9 @@ class EMR {
           'NewSupportedProducts': newSupportedProducts,
         if (releaseLabel != null) 'ReleaseLabel': releaseLabel,
         if (repoUpgradeOnBoot != null)
-          'RepoUpgradeOnBoot': repoUpgradeOnBoot?.toValue(),
+          'RepoUpgradeOnBoot': repoUpgradeOnBoot.toValue(),
         if (scaleDownBehavior != null)
-          'ScaleDownBehavior': scaleDownBehavior?.toValue(),
+          'ScaleDownBehavior': scaleDownBehavior.toValue(),
         if (securityConfiguration != null)
           'SecurityConfiguration': securityConfiguration,
         if (serviceRole != null) 'ServiceRole': serviceRole,
@@ -2501,6 +2513,28 @@ enum ClusterState {
   terminated,
   @_s.JsonValue('TERMINATED_WITH_ERRORS')
   terminatedWithErrors,
+}
+
+extension on ClusterState {
+  String toValue() {
+    switch (this) {
+      case ClusterState.starting:
+        return 'STARTING';
+      case ClusterState.bootstrapping:
+        return 'BOOTSTRAPPING';
+      case ClusterState.running:
+        return 'RUNNING';
+      case ClusterState.waiting:
+        return 'WAITING';
+      case ClusterState.terminating:
+        return 'TERMINATING';
+      case ClusterState.terminated:
+        return 'TERMINATED';
+      case ClusterState.terminatedWithErrors:
+        return 'TERMINATED_WITH_ERRORS';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// The reason that the cluster changed to its current state.
@@ -4188,6 +4222,20 @@ enum InstanceGroupType {
   task,
 }
 
+extension on InstanceGroupType {
+  String toValue() {
+    switch (this) {
+      case InstanceGroupType.master:
+        return 'MASTER';
+      case InstanceGroupType.core:
+        return 'CORE';
+      case InstanceGroupType.task:
+        return 'TASK';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Custom policy for requesting termination protection or termination of
 /// specific instances when shrinking an instance group.
 @_s.JsonSerializable(
@@ -4241,6 +4289,24 @@ enum InstanceState {
   running,
   @_s.JsonValue('TERMINATED')
   terminated,
+}
+
+extension on InstanceState {
+  String toValue() {
+    switch (this) {
+      case InstanceState.awaitingFulfillment:
+        return 'AWAITING_FULFILLMENT';
+      case InstanceState.provisioning:
+        return 'PROVISIONING';
+      case InstanceState.bootstrapping:
+        return 'BOOTSTRAPPING';
+      case InstanceState.running:
+        return 'RUNNING';
+      case InstanceState.terminated:
+        return 'TERMINATED';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// The details of the status change reason for the instance.
@@ -4600,6 +4666,30 @@ enum JobFlowExecutionState {
   completed,
   @_s.JsonValue('FAILED')
   failed,
+}
+
+extension on JobFlowExecutionState {
+  String toValue() {
+    switch (this) {
+      case JobFlowExecutionState.starting:
+        return 'STARTING';
+      case JobFlowExecutionState.bootstrapping:
+        return 'BOOTSTRAPPING';
+      case JobFlowExecutionState.running:
+        return 'RUNNING';
+      case JobFlowExecutionState.waiting:
+        return 'WAITING';
+      case JobFlowExecutionState.shuttingDown:
+        return 'SHUTTING_DOWN';
+      case JobFlowExecutionState.terminated:
+        return 'TERMINATED';
+      case JobFlowExecutionState.completed:
+        return 'COMPLETED';
+      case JobFlowExecutionState.failed:
+        return 'FAILED';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Describes the status of the cluster (job flow).
@@ -5885,6 +5975,28 @@ enum StepState {
   failed,
   @_s.JsonValue('INTERRUPTED')
   interrupted,
+}
+
+extension on StepState {
+  String toValue() {
+    switch (this) {
+      case StepState.pending:
+        return 'PENDING';
+      case StepState.cancelPending:
+        return 'CANCEL_PENDING';
+      case StepState.running:
+        return 'RUNNING';
+      case StepState.completed:
+        return 'COMPLETED';
+      case StepState.cancelled:
+        return 'CANCELLED';
+      case StepState.failed:
+        return 'FAILED';
+      case StepState.interrupted:
+        return 'INTERRUPTED';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// The details of the step state change reason.

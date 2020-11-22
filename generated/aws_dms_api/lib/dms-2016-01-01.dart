@@ -338,7 +338,7 @@ class DatabaseMigrationService {
       headers: headers,
       payload: {
         'EndpointIdentifier': endpointIdentifier,
-        'EndpointType': endpointType?.toValue(),
+        'EndpointType': endpointType?.toValue() ?? '',
         'EngineName': engineName,
         if (certificateArn != null) 'CertificateArn': certificateArn,
         if (databaseName != null) 'DatabaseName': databaseName,
@@ -362,7 +362,7 @@ class DatabaseMigrationService {
         if (serverName != null) 'ServerName': serverName,
         if (serviceAccessRoleArn != null)
           'ServiceAccessRoleArn': serviceAccessRoleArn,
-        if (sslMode != null) 'SslMode': sslMode?.toValue(),
+        if (sslMode != null) 'SslMode': sslMode.toValue(),
         if (tags != null) 'Tags': tags,
         if (username != null) 'Username': username,
       },
@@ -835,14 +835,15 @@ class DatabaseMigrationService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MigrationType': migrationType?.toValue(),
+        'MigrationType': migrationType?.toValue() ?? '',
         'ReplicationInstanceArn': replicationInstanceArn,
         'ReplicationTaskIdentifier': replicationTaskIdentifier,
         'SourceEndpointArn': sourceEndpointArn,
         'TableMappings': tableMappings,
         'TargetEndpointArn': targetEndpointArn,
         if (cdcStartPosition != null) 'CdcStartPosition': cdcStartPosition,
-        if (cdcStartTime != null) 'CdcStartTime': cdcStartTime,
+        if (cdcStartTime != null)
+          'CdcStartTime': unixTimestampToJson(cdcStartTime),
         if (cdcStopPosition != null) 'CdcStopPosition': cdcStopPosition,
         if (replicationTaskSettings != null)
           'ReplicationTaskSettings': replicationTaskSettings,
@@ -1455,14 +1456,14 @@ class DatabaseMigrationService {
       headers: headers,
       payload: {
         if (duration != null) 'Duration': duration,
-        if (endTime != null) 'EndTime': endTime,
+        if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
         if (eventCategories != null) 'EventCategories': eventCategories,
         if (filters != null) 'Filters': filters,
         if (marker != null) 'Marker': marker,
         if (maxRecords != null) 'MaxRecords': maxRecords,
         if (sourceIdentifier != null) 'SourceIdentifier': sourceIdentifier,
-        if (sourceType != null) 'SourceType': sourceType?.toValue(),
-        if (startTime != null) 'StartTime': startTime,
+        if (sourceType != null) 'SourceType': sourceType.toValue(),
+        if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
       },
     );
 
@@ -2009,7 +2010,7 @@ class DatabaseMigrationService {
         'CertificateIdentifier': certificateIdentifier,
         if (certificatePem != null) 'CertificatePem': certificatePem,
         if (certificateWallet != null)
-          'CertificateWallet': certificateWallet.let(base64Encode),
+          'CertificateWallet': base64Encode(certificateWallet),
         if (tags != null) 'Tags': tags,
       },
     );
@@ -2226,7 +2227,7 @@ class DatabaseMigrationService {
           'ElasticsearchSettings': elasticsearchSettings,
         if (endpointIdentifier != null)
           'EndpointIdentifier': endpointIdentifier,
-        if (endpointType != null) 'EndpointType': endpointType?.toValue(),
+        if (endpointType != null) 'EndpointType': endpointType.toValue(),
         if (engineName != null) 'EngineName': engineName,
         if (externalTableDefinition != null)
           'ExternalTableDefinition': externalTableDefinition,
@@ -2242,7 +2243,7 @@ class DatabaseMigrationService {
         if (serverName != null) 'ServerName': serverName,
         if (serviceAccessRoleArn != null)
           'ServiceAccessRoleArn': serviceAccessRoleArn,
-        if (sslMode != null) 'SslMode': sslMode?.toValue(),
+        if (sslMode != null) 'SslMode': sslMode.toValue(),
         if (username != null) 'Username': username,
       },
     );
@@ -2615,9 +2616,10 @@ class DatabaseMigrationService {
       payload: {
         'ReplicationTaskArn': replicationTaskArn,
         if (cdcStartPosition != null) 'CdcStartPosition': cdcStartPosition,
-        if (cdcStartTime != null) 'CdcStartTime': cdcStartTime,
+        if (cdcStartTime != null)
+          'CdcStartTime': unixTimestampToJson(cdcStartTime),
         if (cdcStopPosition != null) 'CdcStopPosition': cdcStopPosition,
-        if (migrationType != null) 'MigrationType': migrationType?.toValue(),
+        if (migrationType != null) 'MigrationType': migrationType.toValue(),
         if (replicationTaskIdentifier != null)
           'ReplicationTaskIdentifier': replicationTaskIdentifier,
         if (replicationTaskSettings != null)
@@ -2748,7 +2750,7 @@ class DatabaseMigrationService {
       payload: {
         'ReplicationTaskArn': replicationTaskArn,
         'TablesToReload': tablesToReload,
-        if (reloadOption != null) 'ReloadOption': reloadOption?.toValue(),
+        if (reloadOption != null) 'ReloadOption': reloadOption.toValue(),
       },
     );
 
@@ -2867,9 +2869,10 @@ class DatabaseMigrationService {
       headers: headers,
       payload: {
         'ReplicationTaskArn': replicationTaskArn,
-        'StartReplicationTaskType': startReplicationTaskType?.toValue(),
+        'StartReplicationTaskType': startReplicationTaskType?.toValue() ?? '',
         if (cdcStartPosition != null) 'CdcStartPosition': cdcStartPosition,
-        if (cdcStartTime != null) 'CdcStartTime': cdcStartTime,
+        if (cdcStartTime != null)
+          'CdcStartTime': unixTimestampToJson(cdcStartTime),
         if (cdcStopPosition != null) 'CdcStopPosition': cdcStopPosition,
       },
     );

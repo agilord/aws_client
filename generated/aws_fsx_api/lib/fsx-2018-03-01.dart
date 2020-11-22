@@ -300,7 +300,7 @@ class FSx {
       payload: {
         'FileSystemId': fileSystemId,
         'Report': report,
-        'Type': type?.toValue(),
+        'Type': type?.toValue() ?? '',
         if (clientRequestToken != null)
           'ClientRequestToken': clientRequestToken,
         if (paths != null) 'Paths': paths,
@@ -495,7 +495,7 @@ class FSx {
       // TODO queryParams
       headers: headers,
       payload: {
-        'FileSystemType': fileSystemType?.toValue(),
+        'FileSystemType': fileSystemType?.toValue() ?? '',
         'StorageCapacity': storageCapacity,
         'SubnetIds': subnetIds,
         if (clientRequestToken != null)
@@ -504,7 +504,7 @@ class FSx {
         if (lustreConfiguration != null)
           'LustreConfiguration': lustreConfiguration,
         if (securityGroupIds != null) 'SecurityGroupIds': securityGroupIds,
-        if (storageType != null) 'StorageType': storageType?.toValue(),
+        if (storageType != null) 'StorageType': storageType.toValue(),
         if (tags != null) 'Tags': tags,
         if (windowsConfiguration != null)
           'WindowsConfiguration': windowsConfiguration,
@@ -669,7 +669,7 @@ class FSx {
         if (clientRequestToken != null)
           'ClientRequestToken': clientRequestToken,
         if (securityGroupIds != null) 'SecurityGroupIds': securityGroupIds,
-        if (storageType != null) 'StorageType': storageType?.toValue(),
+        if (storageType != null) 'StorageType': storageType.toValue(),
         if (tags != null) 'Tags': tags,
         if (windowsConfiguration != null)
           'WindowsConfiguration': windowsConfiguration,

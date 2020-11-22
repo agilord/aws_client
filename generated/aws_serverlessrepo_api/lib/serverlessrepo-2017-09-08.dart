@@ -222,22 +222,22 @@ class ServerlessApplicationRepository {
     ArgumentError.checkNotNull(description, 'description');
     ArgumentError.checkNotNull(name, 'name');
     final $payload = <String, dynamic>{
-      'Author': author,
-      'Description': description,
-      'Name': name,
-      if (homePageUrl != null) 'HomePageUrl': homePageUrl,
-      if (labels != null) 'Labels': labels,
-      if (licenseBody != null) 'LicenseBody': licenseBody,
-      if (licenseUrl != null) 'LicenseUrl': licenseUrl,
-      if (readmeBody != null) 'ReadmeBody': readmeBody,
-      if (readmeUrl != null) 'ReadmeUrl': readmeUrl,
-      if (semanticVersion != null) 'SemanticVersion': semanticVersion,
+      'author': author,
+      'description': description,
+      'name': name,
+      if (homePageUrl != null) 'homePageUrl': homePageUrl,
+      if (labels != null) 'labels': labels,
+      if (licenseBody != null) 'licenseBody': licenseBody,
+      if (licenseUrl != null) 'licenseUrl': licenseUrl,
+      if (readmeBody != null) 'readmeBody': readmeBody,
+      if (readmeUrl != null) 'readmeUrl': readmeUrl,
+      if (semanticVersion != null) 'semanticVersion': semanticVersion,
       if (sourceCodeArchiveUrl != null)
-        'SourceCodeArchiveUrl': sourceCodeArchiveUrl,
-      if (sourceCodeUrl != null) 'SourceCodeUrl': sourceCodeUrl,
-      if (spdxLicenseId != null) 'SpdxLicenseId': spdxLicenseId,
-      if (templateBody != null) 'TemplateBody': templateBody,
-      if (templateUrl != null) 'TemplateUrl': templateUrl,
+        'sourceCodeArchiveUrl': sourceCodeArchiveUrl,
+      if (sourceCodeUrl != null) 'sourceCodeUrl': sourceCodeUrl,
+      if (spdxLicenseId != null) 'spdxLicenseId': spdxLicenseId,
+      if (templateBody != null) 'templateBody': templateBody,
+      if (templateUrl != null) 'templateUrl': templateUrl,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -289,10 +289,10 @@ class ServerlessApplicationRepository {
     ArgumentError.checkNotNull(semanticVersion, 'semanticVersion');
     final $payload = <String, dynamic>{
       if (sourceCodeArchiveUrl != null)
-        'SourceCodeArchiveUrl': sourceCodeArchiveUrl,
-      if (sourceCodeUrl != null) 'SourceCodeUrl': sourceCodeUrl,
-      if (templateBody != null) 'TemplateBody': templateBody,
-      if (templateUrl != null) 'TemplateUrl': templateUrl,
+        'sourceCodeArchiveUrl': sourceCodeArchiveUrl,
+      if (sourceCodeUrl != null) 'sourceCodeUrl': sourceCodeUrl,
+      if (templateBody != null) 'templateBody': templateBody,
+      if (templateUrl != null) 'templateUrl': templateUrl,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -451,19 +451,19 @@ class ServerlessApplicationRepository {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(stackName, 'stackName');
     final $payload = <String, dynamic>{
-      'StackName': stackName,
-      if (capabilities != null) 'Capabilities': capabilities,
-      if (changeSetName != null) 'ChangeSetName': changeSetName,
-      if (clientToken != null) 'ClientToken': clientToken,
-      if (description != null) 'Description': description,
-      if (notificationArns != null) 'NotificationArns': notificationArns,
-      if (parameterOverrides != null) 'ParameterOverrides': parameterOverrides,
-      if (resourceTypes != null) 'ResourceTypes': resourceTypes,
+      'stackName': stackName,
+      if (capabilities != null) 'capabilities': capabilities,
+      if (changeSetName != null) 'changeSetName': changeSetName,
+      if (clientToken != null) 'clientToken': clientToken,
+      if (description != null) 'description': description,
+      if (notificationArns != null) 'notificationArns': notificationArns,
+      if (parameterOverrides != null) 'parameterOverrides': parameterOverrides,
+      if (resourceTypes != null) 'resourceTypes': resourceTypes,
       if (rollbackConfiguration != null)
-        'RollbackConfiguration': rollbackConfiguration,
-      if (semanticVersion != null) 'SemanticVersion': semanticVersion,
-      if (tags != null) 'Tags': tags,
-      if (templateId != null) 'TemplateId': templateId,
+        'rollbackConfiguration': rollbackConfiguration,
+      if (semanticVersion != null) 'semanticVersion': semanticVersion,
+      if (tags != null) 'tags': tags,
+      if (templateId != null) 'templateId': templateId,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -498,7 +498,7 @@ class ServerlessApplicationRepository {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     final $payload = <String, dynamic>{
-      if (semanticVersion != null) 'SemanticVersion': semanticVersion,
+      if (semanticVersion != null) 'semanticVersion': semanticVersion,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -777,7 +777,7 @@ class ServerlessApplicationRepository {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(statements, 'statements');
     final $payload = <String, dynamic>{
-      'Statements': statements,
+      'statements': statements,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -811,7 +811,7 @@ class ServerlessApplicationRepository {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(organizationId, 'organizationId');
     final $payload = <String, dynamic>{
-      'OrganizationId': organizationId,
+      'organizationId': organizationId,
     };
     await _protocol.send(
       payload: $payload,
@@ -879,12 +879,12 @@ class ServerlessApplicationRepository {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     final $payload = <String, dynamic>{
-      if (author != null) 'Author': author,
-      if (description != null) 'Description': description,
-      if (homePageUrl != null) 'HomePageUrl': homePageUrl,
-      if (labels != null) 'Labels': labels,
-      if (readmeBody != null) 'ReadmeBody': readmeBody,
-      if (readmeUrl != null) 'ReadmeUrl': readmeUrl,
+      if (author != null) 'author': author,
+      if (description != null) 'description': description,
+      if (homePageUrl != null) 'homePageUrl': homePageUrl,
+      if (labels != null) 'labels': labels,
+      if (readmeBody != null) 'readmeBody': readmeBody,
+      if (readmeUrl != null) 'readmeUrl': readmeUrl,
     };
     final response = await _protocol.send(
       payload: $payload,

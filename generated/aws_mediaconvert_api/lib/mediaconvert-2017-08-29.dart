@@ -60,7 +60,7 @@ class MediaConvert {
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     final $payload = <String, dynamic>{
-      'Arn': arn,
+      'arn': arn,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -202,23 +202,23 @@ class MediaConvert {
       50,
     );
     final $payload = <String, dynamic>{
-      'Role': role,
-      'Settings': settings,
+      'role': role,
+      'settings': settings,
       if (accelerationSettings != null)
-        'AccelerationSettings': accelerationSettings,
+        'accelerationSettings': accelerationSettings,
       if (billingTagsSource != null)
-        'BillingTagsSource': billingTagsSource?.toValue(),
-      if (clientRequestToken != null) 'ClientRequestToken': clientRequestToken,
-      if (hopDestinations != null) 'HopDestinations': hopDestinations,
-      if (jobTemplate != null) 'JobTemplate': jobTemplate,
-      if (priority != null) 'Priority': priority,
-      if (queue != null) 'Queue': queue,
+        'billingTagsSource': billingTagsSource.toValue(),
+      if (clientRequestToken != null) 'clientRequestToken': clientRequestToken,
+      if (hopDestinations != null) 'hopDestinations': hopDestinations,
+      if (jobTemplate != null) 'jobTemplate': jobTemplate,
+      if (priority != null) 'priority': priority,
+      if (queue != null) 'queue': queue,
       if (simulateReservedQueue != null)
-        'SimulateReservedQueue': simulateReservedQueue?.toValue(),
+        'simulateReservedQueue': simulateReservedQueue.toValue(),
       if (statusUpdateInterval != null)
-        'StatusUpdateInterval': statusUpdateInterval?.toValue(),
-      if (tags != null) 'Tags': tags,
-      if (userMetadata != null) 'UserMetadata': userMetadata,
+        'statusUpdateInterval': statusUpdateInterval.toValue(),
+      if (tags != null) 'tags': tags,
+      if (userMetadata != null) 'userMetadata': userMetadata,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -308,18 +308,18 @@ class MediaConvert {
       50,
     );
     final $payload = <String, dynamic>{
-      'Name': name,
-      'Settings': settings,
+      'name': name,
+      'settings': settings,
       if (accelerationSettings != null)
-        'AccelerationSettings': accelerationSettings,
-      if (category != null) 'Category': category,
-      if (description != null) 'Description': description,
-      if (hopDestinations != null) 'HopDestinations': hopDestinations,
-      if (priority != null) 'Priority': priority,
-      if (queue != null) 'Queue': queue,
+        'accelerationSettings': accelerationSettings,
+      if (category != null) 'category': category,
+      if (description != null) 'description': description,
+      if (hopDestinations != null) 'hopDestinations': hopDestinations,
+      if (priority != null) 'priority': priority,
+      if (queue != null) 'queue': queue,
       if (statusUpdateInterval != null)
-        'StatusUpdateInterval': statusUpdateInterval?.toValue(),
-      if (tags != null) 'Tags': tags,
+        'statusUpdateInterval': statusUpdateInterval.toValue(),
+      if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -365,11 +365,11 @@ class MediaConvert {
     ArgumentError.checkNotNull(name, 'name');
     ArgumentError.checkNotNull(settings, 'settings');
     final $payload = <String, dynamic>{
-      'Name': name,
-      'Settings': settings,
-      if (category != null) 'Category': category,
-      if (description != null) 'Description': description,
-      if (tags != null) 'Tags': tags,
+      'name': name,
+      'settings': settings,
+      if (category != null) 'category': category,
+      if (description != null) 'description': description,
+      if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -426,13 +426,13 @@ class MediaConvert {
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     final $payload = <String, dynamic>{
-      'Name': name,
-      if (description != null) 'Description': description,
-      if (pricingPlan != null) 'PricingPlan': pricingPlan?.toValue(),
+      'name': name,
+      if (description != null) 'description': description,
+      if (pricingPlan != null) 'pricingPlan': pricingPlan.toValue(),
       if (reservationPlanSettings != null)
-        'ReservationPlanSettings': reservationPlanSettings,
-      if (status != null) 'Status': status?.toValue(),
-      if (tags != null) 'Tags': tags,
+        'reservationPlanSettings': reservationPlanSettings,
+      if (status != null) 'status': status.toValue(),
+      if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -548,9 +548,9 @@ class MediaConvert {
     String nextToken,
   }) async {
     final $payload = <String, dynamic>{
-      if (maxResults != null) 'MaxResults': maxResults,
-      if (mode != null) 'Mode': mode?.toValue(),
-      if (nextToken != null) 'NextToken': nextToken,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (mode != null) 'mode': mode.toValue(),
+      if (nextToken != null) 'nextToken': nextToken,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -978,8 +978,8 @@ class MediaConvert {
     ArgumentError.checkNotNull(arn, 'arn');
     ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
-      'Arn': arn,
-      'Tags': tags,
+      'arn': arn,
+      'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1013,7 +1013,7 @@ class MediaConvert {
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
     final $payload = <String, dynamic>{
-      if (tagKeys != null) 'TagKeys': tagKeys,
+      if (tagKeys != null) 'tagKeys': tagKeys,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1091,15 +1091,15 @@ class MediaConvert {
     );
     final $payload = <String, dynamic>{
       if (accelerationSettings != null)
-        'AccelerationSettings': accelerationSettings,
-      if (category != null) 'Category': category,
-      if (description != null) 'Description': description,
-      if (hopDestinations != null) 'HopDestinations': hopDestinations,
-      if (priority != null) 'Priority': priority,
-      if (queue != null) 'Queue': queue,
-      if (settings != null) 'Settings': settings,
+        'accelerationSettings': accelerationSettings,
+      if (category != null) 'category': category,
+      if (description != null) 'description': description,
+      if (hopDestinations != null) 'hopDestinations': hopDestinations,
+      if (priority != null) 'priority': priority,
+      if (queue != null) 'queue': queue,
+      if (settings != null) 'settings': settings,
       if (statusUpdateInterval != null)
-        'StatusUpdateInterval': statusUpdateInterval?.toValue(),
+        'statusUpdateInterval': statusUpdateInterval.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1139,9 +1139,9 @@ class MediaConvert {
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     final $payload = <String, dynamic>{
-      if (category != null) 'Category': category,
-      if (description != null) 'Description': description,
-      if (settings != null) 'Settings': settings,
+      if (category != null) 'category': category,
+      if (description != null) 'description': description,
+      if (settings != null) 'settings': settings,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1188,10 +1188,10 @@ class MediaConvert {
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     final $payload = <String, dynamic>{
-      if (description != null) 'Description': description,
+      if (description != null) 'description': description,
       if (reservationPlanSettings != null)
-        'ReservationPlanSettings': reservationPlanSettings,
-      if (status != null) 'Status': status?.toValue(),
+        'reservationPlanSettings': reservationPlanSettings,
+      if (status != null) 'status': status.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,

@@ -275,7 +275,7 @@ class DynamoDBStreams {
       headers: headers,
       payload: {
         'ShardId': shardId,
-        'ShardIteratorType': shardIteratorType?.toValue(),
+        'ShardIteratorType': shardIteratorType?.toValue() ?? '',
         'StreamArn': streamArn,
         if (sequenceNumber != null) 'SequenceNumber': sequenceNumber,
       },

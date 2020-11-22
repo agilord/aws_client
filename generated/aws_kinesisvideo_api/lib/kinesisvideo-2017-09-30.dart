@@ -89,7 +89,7 @@ class KinesisVideo {
     );
     final $payload = <String, dynamic>{
       'ChannelName': channelName,
-      if (channelType != null) 'ChannelType': channelType?.toValue(),
+      if (channelType != null) 'ChannelType': channelType.toValue(),
       if (singleMasterConfiguration != null)
         'SingleMasterConfiguration': singleMasterConfiguration,
       if (tags != null) 'Tags': tags,
@@ -549,7 +549,7 @@ class KinesisVideo {
       r'''[a-zA-Z0-9_.-]+''',
     );
     final $payload = <String, dynamic>{
-      'APIName': aPIName?.toValue(),
+      'APIName': aPIName?.toValue() ?? '',
       if (streamARN != null) 'StreamARN': streamARN,
       if (streamName != null) 'StreamName': streamName,
     };
@@ -1221,7 +1221,7 @@ class KinesisVideo {
     final $payload = <String, dynamic>{
       'CurrentVersion': currentVersion,
       'DataRetentionChangeInHours': dataRetentionChangeInHours,
-      'Operation': operation?.toValue(),
+      'Operation': operation?.toValue() ?? '',
       if (streamARN != null) 'StreamARN': streamARN,
       if (streamName != null) 'StreamName': streamName,
     };

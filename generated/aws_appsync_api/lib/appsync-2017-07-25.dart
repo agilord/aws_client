@@ -119,9 +119,9 @@ class AppSync {
     ArgumentError.checkNotNull(ttl, 'ttl');
     ArgumentError.checkNotNull(type, 'type');
     final $payload = <String, dynamic>{
-      'apiCachingBehavior': apiCachingBehavior?.toValue(),
+      'apiCachingBehavior': apiCachingBehavior?.toValue() ?? '',
       'ttl': ttl,
-      'type': type?.toValue(),
+      'type': type?.toValue() ?? '',
       if (atRestEncryptionEnabled != null)
         'atRestEncryptionEnabled': atRestEncryptionEnabled,
       if (transitEncryptionEnabled != null)
@@ -246,7 +246,7 @@ class AppSync {
     ArgumentError.checkNotNull(type, 'type');
     final $payload = <String, dynamic>{
       'name': name,
-      'type': type?.toValue(),
+      'type': type?.toValue() ?? '',
       if (description != null) 'description': description,
       if (dynamodbConfig != null) 'dynamodbConfig': dynamodbConfig,
       if (elasticsearchConfig != null)
@@ -420,7 +420,7 @@ class AppSync {
     ArgumentError.checkNotNull(authenticationType, 'authenticationType');
     ArgumentError.checkNotNull(name, 'name');
     final $payload = <String, dynamic>{
-      'authenticationType': authenticationType?.toValue(),
+      'authenticationType': authenticationType?.toValue() ?? '',
       'name': name,
       if (additionalAuthenticationProviders != null)
         'additionalAuthenticationProviders': additionalAuthenticationProviders,
@@ -570,7 +570,7 @@ class AppSync {
       'requestMappingTemplate': requestMappingTemplate,
       if (cachingConfig != null) 'cachingConfig': cachingConfig,
       if (dataSourceName != null) 'dataSourceName': dataSourceName,
-      if (kind != null) 'kind': kind?.toValue(),
+      if (kind != null) 'kind': kind.toValue(),
       if (pipelineConfig != null) 'pipelineConfig': pipelineConfig,
       if (responseMappingTemplate != null)
         'responseMappingTemplate': responseMappingTemplate,
@@ -615,7 +615,7 @@ class AppSync {
     ArgumentError.checkNotNull(format, 'format');
     final $payload = <String, dynamic>{
       'definition': definition,
-      'format': format?.toValue(),
+      'format': format?.toValue() ?? '',
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1842,9 +1842,9 @@ class AppSync {
     ArgumentError.checkNotNull(ttl, 'ttl');
     ArgumentError.checkNotNull(type, 'type');
     final $payload = <String, dynamic>{
-      'apiCachingBehavior': apiCachingBehavior?.toValue(),
+      'apiCachingBehavior': apiCachingBehavior?.toValue() ?? '',
       'ttl': ttl,
-      'type': type?.toValue(),
+      'type': type?.toValue() ?? '',
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1965,7 +1965,7 @@ class AppSync {
     );
     ArgumentError.checkNotNull(type, 'type');
     final $payload = <String, dynamic>{
-      'type': type?.toValue(),
+      'type': type?.toValue() ?? '',
       if (description != null) 'description': description,
       if (dynamodbConfig != null) 'dynamodbConfig': dynamodbConfig,
       if (elasticsearchConfig != null)
@@ -2159,7 +2159,7 @@ class AppSync {
       if (additionalAuthenticationProviders != null)
         'additionalAuthenticationProviders': additionalAuthenticationProviders,
       if (authenticationType != null)
-        'authenticationType': authenticationType?.toValue(),
+        'authenticationType': authenticationType.toValue(),
       if (logConfig != null) 'logConfig': logConfig,
       if (openIDConnectConfig != null)
         'openIDConnectConfig': openIDConnectConfig,
@@ -2297,7 +2297,7 @@ class AppSync {
       'requestMappingTemplate': requestMappingTemplate,
       if (cachingConfig != null) 'cachingConfig': cachingConfig,
       if (dataSourceName != null) 'dataSourceName': dataSourceName,
-      if (kind != null) 'kind': kind?.toValue(),
+      if (kind != null) 'kind': kind.toValue(),
       if (pipelineConfig != null) 'pipelineConfig': pipelineConfig,
       if (responseMappingTemplate != null)
         'responseMappingTemplate': responseMappingTemplate,
@@ -2355,7 +2355,7 @@ class AppSync {
       isRequired: true,
     );
     final $payload = <String, dynamic>{
-      'format': format?.toValue(),
+      'format': format?.toValue() ?? '',
       if (definition != null) 'definition': definition,
     };
     final response = await _protocol.send(

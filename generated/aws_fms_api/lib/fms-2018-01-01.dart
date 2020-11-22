@@ -490,11 +490,11 @@ class FMS {
       headers: headers,
       payload: {
         'PolicyId': policyId,
-        if (endTime != null) 'EndTime': endTime,
+        if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
         if (maxResults != null) 'MaxResults': maxResults,
         if (memberAccountId != null) 'MemberAccountId': memberAccountId,
         if (nextToken != null) 'NextToken': nextToken,
-        if (startTime != null) 'StartTime': startTime,
+        if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
       },
     );
 

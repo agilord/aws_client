@@ -54,8 +54,9 @@ class Base64EncodedBlobs {
       // TODO queryParams
       headers: headers,
       payload: {
-        if (blobArg != null) 'BlobArg': blobArg.let(base64Encode),
-        if (blobMap != null) 'BlobMap': blobMap,
+        if (blobArg != null) 'BlobArg': base64Encode(blobArg),
+        if (blobMap != null)
+          'BlobMap': blobMap.map((k, e) => MapEntry(k, e?.let(base64Encode))),
       },
     );
   }
@@ -75,8 +76,9 @@ class Base64EncodedBlobs {
       // TODO queryParams
       headers: headers,
       payload: {
-        if (blobArg != null) 'BlobArg': blobArg.let(base64Encode),
-        if (blobMap != null) 'BlobMap': blobMap,
+        if (blobArg != null) 'BlobArg': base64Encode(blobArg),
+        if (blobMap != null)
+          'BlobMap': blobMap.map((k, e) => MapEntry(k, e?.let(base64Encode))),
       },
     );
   }

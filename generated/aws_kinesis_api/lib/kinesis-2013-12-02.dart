@@ -755,7 +755,8 @@ class Kinesis {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ShardLevelMetrics': shardLevelMetrics,
+        'ShardLevelMetrics':
+            shardLevelMetrics?.map((e) => e?.toValue() ?? '')?.toList(),
         'StreamName': streamName,
       },
     );
@@ -839,7 +840,8 @@ class Kinesis {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ShardLevelMetrics': shardLevelMetrics,
+        'ShardLevelMetrics':
+            shardLevelMetrics?.map((e) => e?.toValue() ?? '')?.toList(),
         'StreamName': streamName,
       },
     );
@@ -1123,11 +1125,11 @@ class Kinesis {
       headers: headers,
       payload: {
         'ShardId': shardId,
-        'ShardIteratorType': shardIteratorType?.toValue(),
+        'ShardIteratorType': shardIteratorType?.toValue() ?? '',
         'StreamName': streamName,
         if (startingSequenceNumber != null)
           'StartingSequenceNumber': startingSequenceNumber,
-        if (timestamp != null) 'Timestamp': timestamp,
+        if (timestamp != null) 'Timestamp': unixTimestampToJson(timestamp),
       },
     );
 
@@ -1338,7 +1340,8 @@ class Kinesis {
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
         if (streamCreationTimestamp != null)
-          'StreamCreationTimestamp': streamCreationTimestamp,
+          'StreamCreationTimestamp':
+              unixTimestampToJson(streamCreationTimestamp),
         if (streamName != null) 'StreamName': streamName,
       },
     );
@@ -1453,7 +1456,8 @@ class Kinesis {
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
         if (streamCreationTimestamp != null)
-          'StreamCreationTimestamp': streamCreationTimestamp,
+          'StreamCreationTimestamp':
+              unixTimestampToJson(streamCreationTimestamp),
       },
     );
 
@@ -2378,7 +2382,7 @@ class Kinesis {
       // TODO queryParams
       headers: headers,
       payload: {
-        'EncryptionType': encryptionType?.toValue(),
+        'EncryptionType': encryptionType?.toValue() ?? '',
         'KeyId': keyId,
         'StreamName': streamName,
       },
@@ -2483,7 +2487,7 @@ class Kinesis {
       // TODO queryParams
       headers: headers,
       payload: {
-        'EncryptionType': encryptionType?.toValue(),
+        'EncryptionType': encryptionType?.toValue() ?? '',
         'KeyId': keyId,
         'StreamName': streamName,
       },
@@ -2590,7 +2594,7 @@ class Kinesis {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ScalingType': scalingType?.toValue(),
+        'ScalingType': scalingType?.toValue() ?? '',
         'StreamName': streamName,
         'TargetShardCount': targetShardCount,
       },
@@ -3309,6 +3313,30 @@ enum MetricsName {
   iteratorAgeMilliseconds,
   @_s.JsonValue('ALL')
   all,
+}
+
+extension on MetricsName {
+  String toValue() {
+    switch (this) {
+      case MetricsName.incomingBytes:
+        return 'IncomingBytes';
+      case MetricsName.incomingRecords:
+        return 'IncomingRecords';
+      case MetricsName.outgoingBytes:
+        return 'OutgoingBytes';
+      case MetricsName.outgoingRecords:
+        return 'OutgoingRecords';
+      case MetricsName.writeProvisionedThroughputExceeded:
+        return 'WriteProvisionedThroughputExceeded';
+      case MetricsName.readProvisionedThroughputExceeded:
+        return 'ReadProvisionedThroughputExceeded';
+      case MetricsName.iteratorAgeMilliseconds:
+        return 'IteratorAgeMilliseconds';
+      case MetricsName.all:
+        return 'ALL';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// The request rate for the stream is too high, or the requested data is too

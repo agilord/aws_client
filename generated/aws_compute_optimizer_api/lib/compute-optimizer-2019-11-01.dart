@@ -253,11 +253,11 @@ class ComputeOptimizer {
       // TODO queryParams
       headers: headers,
       payload: {
-        'endTime': endTime,
+        'endTime': unixTimestampToJson(endTime),
         'instanceArn': instanceArn,
         'period': period,
-        'startTime': startTime,
-        'stat': stat?.toValue(),
+        'startTime': unixTimestampToJson(startTime),
+        'stat': stat?.toValue() ?? '',
       },
     );
 
@@ -386,7 +386,7 @@ class ComputeOptimizer {
       // TODO queryParams
       headers: headers,
       payload: {
-        'status': status?.toValue(),
+        'status': status?.toValue() ?? '',
         if (includeMemberAccounts != null)
           'includeMemberAccounts': includeMemberAccounts,
       },

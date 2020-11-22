@@ -1263,9 +1263,10 @@ class MigrationHub {
       headers: headers,
       payload: {
         'ApplicationId': applicationId,
-        'Status': status?.toValue(),
+        'Status': status?.toValue() ?? '',
         if (dryRun != null) 'DryRun': dryRun,
-        if (updateDateTime != null) 'UpdateDateTime': updateDateTime,
+        if (updateDateTime != null)
+          'UpdateDateTime': unixTimestampToJson(updateDateTime),
       },
     );
 
@@ -1382,7 +1383,7 @@ class MigrationHub {
         'NextUpdateSeconds': nextUpdateSeconds,
         'ProgressUpdateStream': progressUpdateStream,
         'Task': task,
-        'UpdateDateTime': updateDateTime,
+        'UpdateDateTime': unixTimestampToJson(updateDateTime),
         if (dryRun != null) 'DryRun': dryRun,
       },
     );

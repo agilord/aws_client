@@ -539,7 +539,7 @@ class Lightsail {
       // TODO queryParams
       headers: headers,
       payload: {
-        'sourceRegion': sourceRegion?.toValue(),
+        'sourceRegion': sourceRegion?.toValue() ?? '',
         'targetSnapshotName': targetSnapshotName,
         if (restoreDate != null) 'restoreDate': restoreDate,
         if (sourceResourceName != null)
@@ -690,7 +690,7 @@ class Lightsail {
       headers: headers,
       payload: {
         'contactEndpoint': contactEndpoint,
-        'protocol': protocol?.toValue(),
+        'protocol': protocol?.toValue() ?? '',
       },
     );
 
@@ -2227,7 +2227,8 @@ class Lightsail {
           'relationalDatabaseBundleId': relationalDatabaseBundleId,
         if (relationalDatabaseSnapshotName != null)
           'relationalDatabaseSnapshotName': relationalDatabaseSnapshotName,
-        if (restoreTime != null) 'restoreTime': restoreTime,
+        if (restoreTime != null)
+          'restoreTime': unixTimestampToJson(restoreTime),
         if (sourceRelationalDatabaseName != null)
           'sourceRelationalDatabaseName': sourceRelationalDatabaseName,
         if (tags != null) 'tags': tags,
@@ -2465,7 +2466,7 @@ class Lightsail {
       // TODO queryParams
       headers: headers,
       payload: {
-        'protocol': protocol?.toValue(),
+        'protocol': protocol?.toValue() ?? '',
       },
     );
 
@@ -3311,7 +3312,7 @@ class Lightsail {
       // TODO queryParams
       headers: headers,
       payload: {
-        'addOnType': addOnType?.toValue(),
+        'addOnType': addOnType?.toValue() ?? '',
         'resourceName': resourceName,
       },
     );
@@ -3783,7 +3784,8 @@ class Lightsail {
       // TODO queryParams
       headers: headers,
       payload: {
-        if (protocols != null) 'protocols': protocols,
+        if (protocols != null)
+          'protocols': protocols.map((e) => e?.toValue() ?? '').toList(),
       },
     );
 
@@ -4147,7 +4149,7 @@ class Lightsail {
       headers: headers,
       payload: {
         'instanceName': instanceName,
-        if (protocol != null) 'protocol': protocol?.toValue(),
+        if (protocol != null) 'protocol': protocol.toValue(),
       },
     );
 
@@ -4337,13 +4339,13 @@ class Lightsail {
       // TODO queryParams
       headers: headers,
       payload: {
-        'endTime': endTime,
+        'endTime': unixTimestampToJson(endTime),
         'instanceName': instanceName,
-        'metricName': metricName?.toValue(),
+        'metricName': metricName?.toValue() ?? '',
         'period': period,
-        'startTime': startTime,
-        'statistics': statistics,
-        'unit': unit?.toValue(),
+        'startTime': unixTimestampToJson(startTime),
+        'statistics': statistics?.map((e) => e?.toValue() ?? '')?.toList(),
+        'unit': unit?.toValue() ?? '',
       },
     );
 
@@ -4902,13 +4904,13 @@ class Lightsail {
       // TODO queryParams
       headers: headers,
       payload: {
-        'endTime': endTime,
+        'endTime': unixTimestampToJson(endTime),
         'loadBalancerName': loadBalancerName,
-        'metricName': metricName?.toValue(),
+        'metricName': metricName?.toValue() ?? '',
         'period': period,
-        'startTime': startTime,
-        'statistics': statistics,
-        'unit': unit?.toValue(),
+        'startTime': unixTimestampToJson(startTime),
+        'statistics': statistics?.map((e) => e?.toValue() ?? '')?.toList(),
+        'unit': unit?.toValue() ?? '',
       },
     );
 
@@ -5470,10 +5472,10 @@ class Lightsail {
       payload: {
         'logStreamName': logStreamName,
         'relationalDatabaseName': relationalDatabaseName,
-        if (endTime != null) 'endTime': endTime,
+        if (endTime != null) 'endTime': unixTimestampToJson(endTime),
         if (pageToken != null) 'pageToken': pageToken,
         if (startFromHead != null) 'startFromHead': startFromHead,
-        if (startTime != null) 'startTime': startTime,
+        if (startTime != null) 'startTime': unixTimestampToJson(startTime),
       },
     );
 
@@ -5579,7 +5581,7 @@ class Lightsail {
       payload: {
         'relationalDatabaseName': relationalDatabaseName,
         if (passwordVersion != null)
-          'passwordVersion': passwordVersion?.toValue(),
+          'passwordVersion': passwordVersion.toValue(),
       },
     );
 
@@ -5786,13 +5788,13 @@ class Lightsail {
       // TODO queryParams
       headers: headers,
       payload: {
-        'endTime': endTime,
-        'metricName': metricName?.toValue(),
+        'endTime': unixTimestampToJson(endTime),
+        'metricName': metricName?.toValue() ?? '',
         'period': period,
         'relationalDatabaseName': relationalDatabaseName,
-        'startTime': startTime,
-        'statistics': statistics,
-        'unit': unit?.toValue(),
+        'startTime': unixTimestampToJson(startTime),
+        'statistics': statistics?.map((e) => e?.toValue() ?? '')?.toList(),
+        'unit': unit?.toValue() ?? '',
       },
     );
 
@@ -6425,19 +6427,22 @@ class Lightsail {
       headers: headers,
       payload: {
         'alarmName': alarmName,
-        'comparisonOperator': comparisonOperator?.toValue(),
+        'comparisonOperator': comparisonOperator?.toValue() ?? '',
         'evaluationPeriods': evaluationPeriods,
-        'metricName': metricName?.toValue(),
+        'metricName': metricName?.toValue() ?? '',
         'monitoredResourceName': monitoredResourceName,
         'threshold': threshold,
-        if (contactProtocols != null) 'contactProtocols': contactProtocols,
+        if (contactProtocols != null)
+          'contactProtocols':
+              contactProtocols.map((e) => e?.toValue() ?? '').toList(),
         if (datapointsToAlarm != null) 'datapointsToAlarm': datapointsToAlarm,
         if (notificationEnabled != null)
           'notificationEnabled': notificationEnabled,
         if (notificationTriggers != null)
-          'notificationTriggers': notificationTriggers,
+          'notificationTriggers':
+              notificationTriggers.map((e) => e?.toValue() ?? '').toList(),
         if (treatMissingData != null)
-          'treatMissingData': treatMissingData?.toValue(),
+          'treatMissingData': treatMissingData.toValue(),
       },
     );
 
@@ -6674,7 +6679,7 @@ class Lightsail {
       // TODO queryParams
       headers: headers,
       payload: {
-        'protocol': protocol?.toValue(),
+        'protocol': protocol?.toValue() ?? '',
       },
     );
 
@@ -7039,7 +7044,7 @@ class Lightsail {
       headers: headers,
       payload: {
         'alarmName': alarmName,
-        'state': state?.toValue(),
+        'state': state?.toValue() ?? '',
       },
     );
 
@@ -7240,7 +7245,7 @@ class Lightsail {
       // TODO queryParams
       headers: headers,
       payload: {
-        'attributeName': attributeName?.toValue(),
+        'attributeName': attributeName?.toValue() ?? '',
         'attributeValue': attributeValue,
         'loadBalancerName': loadBalancerName,
       },
@@ -12950,6 +12955,24 @@ enum MetricStatistic {
   average,
   @_s.JsonValue('SampleCount')
   sampleCount,
+}
+
+extension on MetricStatistic {
+  String toValue() {
+    switch (this) {
+      case MetricStatistic.minimum:
+        return 'Minimum';
+      case MetricStatistic.maximum:
+        return 'Maximum';
+      case MetricStatistic.sum:
+        return 'Sum';
+      case MetricStatistic.average:
+        return 'Average';
+      case MetricStatistic.sampleCount:
+        return 'SampleCount';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 enum MetricUnit {

@@ -225,7 +225,7 @@ class DynamoDB {
       payload: {
         'RequestItems': requestItems,
         if (returnConsumedCapacity != null)
-          'ReturnConsumedCapacity': returnConsumedCapacity?.toValue(),
+          'ReturnConsumedCapacity': returnConsumedCapacity.toValue(),
       },
     );
 
@@ -397,9 +397,9 @@ class DynamoDB {
       payload: {
         'RequestItems': requestItems,
         if (returnConsumedCapacity != null)
-          'ReturnConsumedCapacity': returnConsumedCapacity?.toValue(),
+          'ReturnConsumedCapacity': returnConsumedCapacity.toValue(),
         if (returnItemCollectionMetrics != null)
-          'ReturnItemCollectionMetrics': returnItemCollectionMetrics?.toValue(),
+          'ReturnItemCollectionMetrics': returnItemCollectionMetrics.toValue(),
       },
     );
 
@@ -910,7 +910,7 @@ class DynamoDB {
         'AttributeDefinitions': attributeDefinitions,
         'KeySchema': keySchema,
         'TableName': tableName,
-        if (billingMode != null) 'BillingMode': billingMode?.toValue(),
+        if (billingMode != null) 'BillingMode': billingMode.toValue(),
         if (globalSecondaryIndexes != null)
           'GlobalSecondaryIndexes': globalSecondaryIndexes,
         if (localSecondaryIndexes != null)
@@ -1186,17 +1186,17 @@ class DynamoDB {
         if (conditionExpression != null)
           'ConditionExpression': conditionExpression,
         if (conditionalOperator != null)
-          'ConditionalOperator': conditionalOperator?.toValue(),
+          'ConditionalOperator': conditionalOperator.toValue(),
         if (expected != null) 'Expected': expected,
         if (expressionAttributeNames != null)
           'ExpressionAttributeNames': expressionAttributeNames,
         if (expressionAttributeValues != null)
           'ExpressionAttributeValues': expressionAttributeValues,
         if (returnConsumedCapacity != null)
-          'ReturnConsumedCapacity': returnConsumedCapacity?.toValue(),
+          'ReturnConsumedCapacity': returnConsumedCapacity.toValue(),
         if (returnItemCollectionMetrics != null)
-          'ReturnItemCollectionMetrics': returnItemCollectionMetrics?.toValue(),
-        if (returnValues != null) 'ReturnValues': returnValues?.toValue(),
+          'ReturnItemCollectionMetrics': returnItemCollectionMetrics.toValue(),
+        if (returnValues != null) 'ReturnValues': returnValues.toValue(),
       },
     );
 
@@ -1918,7 +1918,7 @@ class DynamoDB {
         if (projectionExpression != null)
           'ProjectionExpression': projectionExpression,
         if (returnConsumedCapacity != null)
-          'ReturnConsumedCapacity': returnConsumedCapacity?.toValue(),
+          'ReturnConsumedCapacity': returnConsumedCapacity.toValue(),
       },
     );
 
@@ -2019,15 +2019,15 @@ class DynamoDB {
       // TODO queryParams
       headers: headers,
       payload: {
-        if (backupType != null) 'BackupType': backupType?.toValue(),
+        if (backupType != null) 'BackupType': backupType.toValue(),
         if (exclusiveStartBackupArn != null)
           'ExclusiveStartBackupArn': exclusiveStartBackupArn,
         if (limit != null) 'Limit': limit,
         if (tableName != null) 'TableName': tableName,
         if (timeRangeLowerBound != null)
-          'TimeRangeLowerBound': timeRangeLowerBound,
+          'TimeRangeLowerBound': unixTimestampToJson(timeRangeLowerBound),
         if (timeRangeUpperBound != null)
-          'TimeRangeUpperBound': timeRangeUpperBound,
+          'TimeRangeUpperBound': unixTimestampToJson(timeRangeUpperBound),
       },
     );
 
@@ -2554,17 +2554,17 @@ class DynamoDB {
         if (conditionExpression != null)
           'ConditionExpression': conditionExpression,
         if (conditionalOperator != null)
-          'ConditionalOperator': conditionalOperator?.toValue(),
+          'ConditionalOperator': conditionalOperator.toValue(),
         if (expected != null) 'Expected': expected,
         if (expressionAttributeNames != null)
           'ExpressionAttributeNames': expressionAttributeNames,
         if (expressionAttributeValues != null)
           'ExpressionAttributeValues': expressionAttributeValues,
         if (returnConsumedCapacity != null)
-          'ReturnConsumedCapacity': returnConsumedCapacity?.toValue(),
+          'ReturnConsumedCapacity': returnConsumedCapacity.toValue(),
         if (returnItemCollectionMetrics != null)
-          'ReturnItemCollectionMetrics': returnItemCollectionMetrics?.toValue(),
-        if (returnValues != null) 'ReturnValues': returnValues?.toValue(),
+          'ReturnItemCollectionMetrics': returnItemCollectionMetrics.toValue(),
+        if (returnValues != null) 'ReturnValues': returnValues.toValue(),
       },
     );
 
@@ -3042,7 +3042,7 @@ class DynamoDB {
         'TableName': tableName,
         if (attributesToGet != null) 'AttributesToGet': attributesToGet,
         if (conditionalOperator != null)
-          'ConditionalOperator': conditionalOperator?.toValue(),
+          'ConditionalOperator': conditionalOperator.toValue(),
         if (consistentRead != null) 'ConsistentRead': consistentRead,
         if (exclusiveStartKey != null) 'ExclusiveStartKey': exclusiveStartKey,
         if (expressionAttributeNames != null)
@@ -3059,9 +3059,9 @@ class DynamoDB {
           'ProjectionExpression': projectionExpression,
         if (queryFilter != null) 'QueryFilter': queryFilter,
         if (returnConsumedCapacity != null)
-          'ReturnConsumedCapacity': returnConsumedCapacity?.toValue(),
+          'ReturnConsumedCapacity': returnConsumedCapacity.toValue(),
         if (scanIndexForward != null) 'ScanIndexForward': scanIndexForward,
-        if (select != null) 'Select': select?.toValue(),
+        if (select != null) 'Select': select.toValue(),
       },
     );
 
@@ -3174,7 +3174,7 @@ class DynamoDB {
         'BackupArn': backupArn,
         'TargetTableName': targetTableName,
         if (billingModeOverride != null)
-          'BillingModeOverride': billingModeOverride?.toValue(),
+          'BillingModeOverride': billingModeOverride.toValue(),
         if (globalSecondaryIndexOverride != null)
           'GlobalSecondaryIndexOverride': globalSecondaryIndexOverride,
         if (localSecondaryIndexOverride != null)
@@ -3339,14 +3339,15 @@ class DynamoDB {
       payload: {
         'TargetTableName': targetTableName,
         if (billingModeOverride != null)
-          'BillingModeOverride': billingModeOverride?.toValue(),
+          'BillingModeOverride': billingModeOverride.toValue(),
         if (globalSecondaryIndexOverride != null)
           'GlobalSecondaryIndexOverride': globalSecondaryIndexOverride,
         if (localSecondaryIndexOverride != null)
           'LocalSecondaryIndexOverride': localSecondaryIndexOverride,
         if (provisionedThroughputOverride != null)
           'ProvisionedThroughputOverride': provisionedThroughputOverride,
-        if (restoreDateTime != null) 'RestoreDateTime': restoreDateTime,
+        if (restoreDateTime != null)
+          'RestoreDateTime': unixTimestampToJson(restoreDateTime),
         if (sSESpecificationOverride != null)
           'SSESpecificationOverride': sSESpecificationOverride,
         if (sourceTableArn != null) 'SourceTableArn': sourceTableArn,
@@ -3749,7 +3750,7 @@ class DynamoDB {
         'TableName': tableName,
         if (attributesToGet != null) 'AttributesToGet': attributesToGet,
         if (conditionalOperator != null)
-          'ConditionalOperator': conditionalOperator?.toValue(),
+          'ConditionalOperator': conditionalOperator.toValue(),
         if (consistentRead != null) 'ConsistentRead': consistentRead,
         if (exclusiveStartKey != null) 'ExclusiveStartKey': exclusiveStartKey,
         if (expressionAttributeNames != null)
@@ -3762,10 +3763,10 @@ class DynamoDB {
         if (projectionExpression != null)
           'ProjectionExpression': projectionExpression,
         if (returnConsumedCapacity != null)
-          'ReturnConsumedCapacity': returnConsumedCapacity?.toValue(),
+          'ReturnConsumedCapacity': returnConsumedCapacity.toValue(),
         if (scanFilter != null) 'ScanFilter': scanFilter,
         if (segment != null) 'Segment': segment,
-        if (select != null) 'Select': select?.toValue(),
+        if (select != null) 'Select': select.toValue(),
         if (totalSegments != null) 'TotalSegments': totalSegments,
       },
     );
@@ -3884,7 +3885,7 @@ class DynamoDB {
       payload: {
         'TransactItems': transactItems,
         if (returnConsumedCapacity != null)
-          'ReturnConsumedCapacity': returnConsumedCapacity?.toValue(),
+          'ReturnConsumedCapacity': returnConsumedCapacity.toValue(),
       },
     );
 
@@ -4036,9 +4037,9 @@ class DynamoDB {
         if (clientRequestToken != null)
           'ClientRequestToken': clientRequestToken,
         if (returnConsumedCapacity != null)
-          'ReturnConsumedCapacity': returnConsumedCapacity?.toValue(),
+          'ReturnConsumedCapacity': returnConsumedCapacity.toValue(),
         if (returnItemCollectionMetrics != null)
-          'ReturnItemCollectionMetrics': returnItemCollectionMetrics?.toValue(),
+          'ReturnItemCollectionMetrics': returnItemCollectionMetrics.toValue(),
       },
     );
 
@@ -4216,7 +4217,7 @@ class DynamoDB {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ContributorInsightsAction': contributorInsightsAction?.toValue(),
+        'ContributorInsightsAction': contributorInsightsAction?.toValue() ?? '',
         'TableName': tableName,
         if (indexName != null) 'IndexName': indexName,
       },
@@ -4393,7 +4394,7 @@ class DynamoDB {
       payload: {
         'GlobalTableName': globalTableName,
         if (globalTableBillingMode != null)
-          'GlobalTableBillingMode': globalTableBillingMode?.toValue(),
+          'GlobalTableBillingMode': globalTableBillingMode.toValue(),
         if (globalTableGlobalSecondaryIndexSettingsUpdate != null)
           'GlobalTableGlobalSecondaryIndexSettingsUpdate':
               globalTableGlobalSecondaryIndexSettingsUpdate,
@@ -4750,17 +4751,17 @@ class DynamoDB {
         if (conditionExpression != null)
           'ConditionExpression': conditionExpression,
         if (conditionalOperator != null)
-          'ConditionalOperator': conditionalOperator?.toValue(),
+          'ConditionalOperator': conditionalOperator.toValue(),
         if (expected != null) 'Expected': expected,
         if (expressionAttributeNames != null)
           'ExpressionAttributeNames': expressionAttributeNames,
         if (expressionAttributeValues != null)
           'ExpressionAttributeValues': expressionAttributeValues,
         if (returnConsumedCapacity != null)
-          'ReturnConsumedCapacity': returnConsumedCapacity?.toValue(),
+          'ReturnConsumedCapacity': returnConsumedCapacity.toValue(),
         if (returnItemCollectionMetrics != null)
-          'ReturnItemCollectionMetrics': returnItemCollectionMetrics?.toValue(),
-        if (returnValues != null) 'ReturnValues': returnValues?.toValue(),
+          'ReturnItemCollectionMetrics': returnItemCollectionMetrics.toValue(),
+        if (returnValues != null) 'ReturnValues': returnValues.toValue(),
         if (updateExpression != null) 'UpdateExpression': updateExpression,
       },
     );
@@ -4919,7 +4920,7 @@ class DynamoDB {
         'TableName': tableName,
         if (attributeDefinitions != null)
           'AttributeDefinitions': attributeDefinitions,
-        if (billingMode != null) 'BillingMode': billingMode?.toValue(),
+        if (billingMode != null) 'BillingMode': billingMode.toValue(),
         if (globalSecondaryIndexUpdates != null)
           'GlobalSecondaryIndexUpdates': globalSecondaryIndexUpdates,
         if (provisionedThroughput != null)

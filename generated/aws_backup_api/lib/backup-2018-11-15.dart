@@ -1599,7 +1599,8 @@ class Backup {
     );
     ArgumentError.checkNotNull(sNSTopicArn, 'sNSTopicArn');
     final $payload = <String, dynamic>{
-      'BackupVaultEvents': backupVaultEvents,
+      'BackupVaultEvents':
+          backupVaultEvents?.map((e) => e?.toValue() ?? '')?.toList(),
       'SNSTopicArn': sNSTopicArn,
     };
     await _protocol.send(
@@ -2643,6 +2644,44 @@ enum BackupVaultEvent {
   backupPlanCreated,
   @_s.JsonValue('BACKUP_PLAN_MODIFIED')
   backupPlanModified,
+}
+
+extension on BackupVaultEvent {
+  String toValue() {
+    switch (this) {
+      case BackupVaultEvent.backupJobStarted:
+        return 'BACKUP_JOB_STARTED';
+      case BackupVaultEvent.backupJobCompleted:
+        return 'BACKUP_JOB_COMPLETED';
+      case BackupVaultEvent.backupJobSuccessful:
+        return 'BACKUP_JOB_SUCCESSFUL';
+      case BackupVaultEvent.backupJobFailed:
+        return 'BACKUP_JOB_FAILED';
+      case BackupVaultEvent.backupJobExpired:
+        return 'BACKUP_JOB_EXPIRED';
+      case BackupVaultEvent.restoreJobStarted:
+        return 'RESTORE_JOB_STARTED';
+      case BackupVaultEvent.restoreJobCompleted:
+        return 'RESTORE_JOB_COMPLETED';
+      case BackupVaultEvent.restoreJobSuccessful:
+        return 'RESTORE_JOB_SUCCESSFUL';
+      case BackupVaultEvent.restoreJobFailed:
+        return 'RESTORE_JOB_FAILED';
+      case BackupVaultEvent.copyJobStarted:
+        return 'COPY_JOB_STARTED';
+      case BackupVaultEvent.copyJobSuccessful:
+        return 'COPY_JOB_SUCCESSFUL';
+      case BackupVaultEvent.copyJobFailed:
+        return 'COPY_JOB_FAILED';
+      case BackupVaultEvent.recoveryPointModified:
+        return 'RECOVERY_POINT_MODIFIED';
+      case BackupVaultEvent.backupPlanCreated:
+        return 'BACKUP_PLAN_CREATED';
+      case BackupVaultEvent.backupPlanModified:
+        return 'BACKUP_PLAN_MODIFIED';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Contains metadata about a backup vault.

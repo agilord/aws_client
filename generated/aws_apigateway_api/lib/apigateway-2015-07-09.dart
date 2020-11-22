@@ -228,7 +228,7 @@ class APIGateway {
     ArgumentError.checkNotNull(type, 'type');
     final $payload = <String, dynamic>{
       'name': name,
-      'type': type?.toValue(),
+      'type': type?.toValue() ?? '',
       if (authType != null) 'authType': authType,
       if (authorizerCredentials != null)
         'authorizerCredentials': authorizerCredentials,
@@ -360,7 +360,7 @@ class APIGateway {
       if (cacheClusterEnabled != null)
         'cacheClusterEnabled': cacheClusterEnabled,
       if (cacheClusterSize != null)
-        'cacheClusterSize': cacheClusterSize?.toValue(),
+        'cacheClusterSize': cacheClusterSize.toValue(),
       if (canarySettings != null) 'canarySettings': canarySettings,
       if (description != null) 'description': description,
       if (stageDescription != null) 'stageDescription': stageDescription,
@@ -548,7 +548,7 @@ class APIGateway {
         'regionalCertificateArn': regionalCertificateArn,
       if (regionalCertificateName != null)
         'regionalCertificateName': regionalCertificateName,
-      if (securityPolicy != null) 'securityPolicy': securityPolicy?.toValue(),
+      if (securityPolicy != null) 'securityPolicy': securityPolicy.toValue(),
       if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
@@ -764,7 +764,7 @@ class APIGateway {
     ArgumentError.checkNotNull(name, 'name');
     final $payload = <String, dynamic>{
       'name': name,
-      if (apiKeySource != null) 'apiKeySource': apiKeySource?.toValue(),
+      if (apiKeySource != null) 'apiKeySource': apiKeySource.toValue(),
       if (binaryMediaTypes != null) 'binaryMediaTypes': binaryMediaTypes,
       if (cloneFrom != null) 'cloneFrom': cloneFrom,
       if (description != null) 'description': description,
@@ -857,7 +857,7 @@ class APIGateway {
       if (cacheClusterEnabled != null)
         'cacheClusterEnabled': cacheClusterEnabled,
       if (cacheClusterSize != null)
-        'cacheClusterSize': cacheClusterSize?.toValue(),
+        'cacheClusterSize': cacheClusterSize.toValue(),
       if (canarySettings != null) 'canarySettings': canarySettings,
       if (description != null) 'description': description,
       if (documentationVersion != null)
@@ -3810,16 +3810,14 @@ class APIGateway {
     ArgumentError.checkNotNull(restApiId, 'restApiId');
     ArgumentError.checkNotNull(type, 'type');
     final $payload = <String, dynamic>{
-      'type': type?.toValue(),
+      'type': type?.toValue() ?? '',
       if (cacheKeyParameters != null) 'cacheKeyParameters': cacheKeyParameters,
       if (cacheNamespace != null) 'cacheNamespace': cacheNamespace,
       if (connectionId != null) 'connectionId': connectionId,
-      if (connectionType != null) 'connectionType': connectionType?.toValue(),
-      if (contentHandling != null)
-        'contentHandling': contentHandling?.toValue(),
+      if (connectionType != null) 'connectionType': connectionType.toValue(),
+      if (contentHandling != null) 'contentHandling': contentHandling.toValue(),
       if (credentials != null) 'credentials': credentials,
-      if (integrationHttpMethod != null)
-        'integrationHttpMethod': integrationHttpMethod,
+      if (integrationHttpMethod != null) 'httpMethod': integrationHttpMethod,
       if (passthroughBehavior != null)
         'passthroughBehavior': passthroughBehavior,
       if (requestParameters != null) 'requestParameters': requestParameters,
@@ -3920,8 +3918,7 @@ class APIGateway {
       isRequired: true,
     );
     final $payload = <String, dynamic>{
-      if (contentHandling != null)
-        'contentHandling': contentHandling?.toValue(),
+      if (contentHandling != null) 'contentHandling': contentHandling.toValue(),
       if (responseParameters != null) 'responseParameters': responseParameters,
       if (responseTemplates != null) 'responseTemplates': responseTemplates,
       if (selectionPattern != null) 'selectionPattern': selectionPattern,

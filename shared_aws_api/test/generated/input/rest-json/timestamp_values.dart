@@ -66,9 +66,9 @@ class TimestampValues {
         _s.toQueryParam('TimeFormatQuery', timeFormatInQuery),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{
-      if (timeArg != null) 'TimeArg': timeArg,
-      if (timeCustom != null) 'TimeCustom': timeCustom,
-      if (timeFormat != null) 'TimeFormat': timeFormat,
+      if (timeArg != null) 'TimeArg': unixTimestampToJson(timeArg),
+      if (timeCustom != null) 'TimeCustom': iso8601ToJson(timeCustom),
+      if (timeFormat != null) 'TimeFormat': rfc822ToJson(timeFormat),
     };
     await _protocol.send(
       payload: $payload,

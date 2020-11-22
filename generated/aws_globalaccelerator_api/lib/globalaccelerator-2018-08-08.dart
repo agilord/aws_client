@@ -198,7 +198,7 @@ class GlobalAccelerator {
         'IdempotencyToken': idempotencyToken,
         'Name': name,
         if (enabled != null) 'Enabled': enabled,
-        if (ipAddressType != null) 'IpAddressType': ipAddressType?.toValue(),
+        if (ipAddressType != null) 'IpAddressType': ipAddressType.toValue(),
         if (ipAddresses != null) 'IpAddresses': ipAddresses,
         if (tags != null) 'Tags': tags,
       },
@@ -352,7 +352,7 @@ class GlobalAccelerator {
         if (healthCheckPath != null) 'HealthCheckPath': healthCheckPath,
         if (healthCheckPort != null) 'HealthCheckPort': healthCheckPort,
         if (healthCheckProtocol != null)
-          'HealthCheckProtocol': healthCheckProtocol?.toValue(),
+          'HealthCheckProtocol': healthCheckProtocol.toValue(),
         if (thresholdCount != null) 'ThresholdCount': thresholdCount,
         if (trafficDialPercentage != null)
           'TrafficDialPercentage': trafficDialPercentage,
@@ -448,8 +448,8 @@ class GlobalAccelerator {
         'AcceleratorArn': acceleratorArn,
         'IdempotencyToken': idempotencyToken,
         'PortRanges': portRanges,
-        'Protocol': protocol?.toValue(),
-        if (clientAffinity != null) 'ClientAffinity': clientAffinity?.toValue(),
+        'Protocol': protocol?.toValue() ?? '',
+        if (clientAffinity != null) 'ClientAffinity': clientAffinity.toValue(),
       },
     );
 
@@ -1297,7 +1297,7 @@ class GlobalAccelerator {
       payload: {
         'AcceleratorArn': acceleratorArn,
         if (enabled != null) 'Enabled': enabled,
-        if (ipAddressType != null) 'IpAddressType': ipAddressType?.toValue(),
+        if (ipAddressType != null) 'IpAddressType': ipAddressType.toValue(),
         if (name != null) 'Name': name,
       },
     );
@@ -1504,7 +1504,7 @@ class GlobalAccelerator {
         if (healthCheckPath != null) 'HealthCheckPath': healthCheckPath,
         if (healthCheckPort != null) 'HealthCheckPort': healthCheckPort,
         if (healthCheckProtocol != null)
-          'HealthCheckProtocol': healthCheckProtocol?.toValue(),
+          'HealthCheckProtocol': healthCheckProtocol.toValue(),
         if (thresholdCount != null) 'ThresholdCount': thresholdCount,
         if (trafficDialPercentage != null)
           'TrafficDialPercentage': trafficDialPercentage,
@@ -1581,9 +1581,9 @@ class GlobalAccelerator {
       headers: headers,
       payload: {
         'ListenerArn': listenerArn,
-        if (clientAffinity != null) 'ClientAffinity': clientAffinity?.toValue(),
+        if (clientAffinity != null) 'ClientAffinity': clientAffinity.toValue(),
         if (portRanges != null) 'PortRanges': portRanges,
-        if (protocol != null) 'Protocol': protocol?.toValue(),
+        if (protocol != null) 'Protocol': protocol.toValue(),
       },
     );
 

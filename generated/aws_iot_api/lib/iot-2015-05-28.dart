@@ -936,7 +936,7 @@ class IoT {
     final $payload = <String, dynamic>{
       'authorizerFunctionArn': authorizerFunctionArn,
       if (signingDisabled != null) 'signingDisabled': signingDisabled,
-      if (status != null) 'status': status?.toValue(),
+      if (status != null) 'status': status.toValue(),
       if (tokenKeyName != null) 'tokenKeyName': tokenKeyName,
       if (tokenSigningPublicKeys != null)
         'tokenSigningPublicKeys': tokenSigningPublicKeys,
@@ -1159,7 +1159,7 @@ class IoT {
     final $payload = <String, dynamic>{
       'clientRequestToken': clientRequestToken,
       'stringValues': stringValues,
-      'type': type?.toValue(),
+      'type': type?.toValue() ?? '',
       if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
@@ -1253,7 +1253,7 @@ class IoT {
       if (domainName != null) 'domainName': domainName,
       if (serverCertificateArns != null)
         'serverCertificateArns': serverCertificateArns,
-      if (serviceType != null) 'serviceType': serviceType?.toValue(),
+      if (serviceType != null) 'serviceType': serviceType.toValue(),
       if (validationCertificateArn != null)
         'validationCertificateArn': validationCertificateArn,
     };
@@ -1488,8 +1488,7 @@ class IoT {
         'jobExecutionsRolloutConfig': jobExecutionsRolloutConfig,
       if (presignedUrlConfig != null) 'presignedUrlConfig': presignedUrlConfig,
       if (tags != null) 'tags': tags,
-      if (targetSelection != null)
-        'targetSelection': targetSelection?.toValue(),
+      if (targetSelection != null) 'targetSelection': targetSelection.toValue(),
       if (timeoutConfig != null) 'timeoutConfig': timeoutConfig,
     };
     final response = await _protocol.send(
@@ -1711,10 +1710,10 @@ class IoT {
       if (awsJobPresignedUrlConfig != null)
         'awsJobPresignedUrlConfig': awsJobPresignedUrlConfig,
       if (description != null) 'description': description,
-      if (protocols != null) 'protocols': protocols,
+      if (protocols != null)
+        'protocols': protocols.map((e) => e?.toValue() ?? '').toList(),
       if (tags != null) 'tags': tags,
-      if (targetSelection != null)
-        'targetSelection': targetSelection?.toValue(),
+      if (targetSelection != null) 'targetSelection': targetSelection.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2169,10 +2168,10 @@ class IoT {
       r'''^([1-9]|[12][0-9]|3[01])$|^LAST$''',
     );
     final $payload = <String, dynamic>{
-      'frequency': frequency?.toValue(),
+      'frequency': frequency?.toValue() ?? '',
       'targetCheckNames': targetCheckNames,
       if (dayOfMonth != null) 'dayOfMonth': dayOfMonth,
-      if (dayOfWeek != null) 'dayOfWeek': dayOfWeek?.toValue(),
+      if (dayOfWeek != null) 'dayOfWeek': dayOfWeek.toValue(),
       if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
@@ -2261,7 +2260,8 @@ class IoT {
         'additionalMetricsToRetain': additionalMetricsToRetain,
       if (additionalMetricsToRetainV2 != null)
         'additionalMetricsToRetainV2': additionalMetricsToRetainV2,
-      if (alertTargets != null) 'alertTargets': alertTargets,
+      if (alertTargets != null)
+        'alertTargets': alertTargets.map((k, e) => MapEntry(k.toValue(), e)),
       if (behaviors != null) 'behaviors': behaviors,
       if (securityProfileDescription != null)
         'securityProfileDescription': securityProfileDescription,
@@ -5897,11 +5897,11 @@ class IoT {
     );
     final $payload = <String, dynamic>{
       if (checkName != null) 'checkName': checkName,
-      if (endTime != null) 'endTime': endTime,
+      if (endTime != null) 'endTime': unixTimestampToJson(endTime),
       if (maxResults != null) 'maxResults': maxResults,
       if (nextToken != null) 'nextToken': nextToken,
       if (resourceIdentifier != null) 'resourceIdentifier': resourceIdentifier,
-      if (startTime != null) 'startTime': startTime,
+      if (startTime != null) 'startTime': unixTimestampToJson(startTime),
       if (taskId != null) 'taskId': taskId,
     };
     final response = await _protocol.send(
@@ -8501,7 +8501,7 @@ class IoT {
     final $payload = <String, dynamic>{
       'certificatePem': certificatePem,
       if (caCertificatePem != null) 'caCertificatePem': caCertificatePem,
-      if (status != null) 'status': status?.toValue(),
+      if (status != null) 'status': status.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -8991,7 +8991,7 @@ class IoT {
     ArgumentError.checkNotNull(logLevel, 'logLevel');
     ArgumentError.checkNotNull(logTarget, 'logTarget');
     final $payload = <String, dynamic>{
-      'logLevel': logLevel?.toValue(),
+      'logLevel': logLevel?.toValue() ?? '',
       'logTarget': logTarget,
     };
     await _protocol.send(
@@ -9022,8 +9022,7 @@ class IoT {
     String roleArn,
   }) async {
     final $payload = <String, dynamic>{
-      if (defaultLogLevel != null)
-        'defaultLogLevel': defaultLogLevel?.toValue(),
+      if (defaultLogLevel != null) 'defaultLogLevel': defaultLogLevel.toValue(),
       if (disableAllLogs != null) 'disableAllLogs': disableAllLogs,
       if (roleArn != null) 'roleArn': roleArn,
     };
@@ -9603,7 +9602,8 @@ class IoT {
         'auditCheckConfigurations': auditCheckConfigurations,
       if (auditNotificationTargetConfigurations != null)
         'auditNotificationTargetConfigurations':
-            auditNotificationTargetConfigurations,
+            auditNotificationTargetConfigurations
+                .map((k, e) => MapEntry(k.toValue(), e)),
       if (roleArn != null) 'roleArn': roleArn,
     };
     final response = await _protocol.send(
@@ -9674,7 +9674,7 @@ class IoT {
     final $payload = <String, dynamic>{
       if (authorizerFunctionArn != null)
         'authorizerFunctionArn': authorizerFunctionArn,
-      if (status != null) 'status': status?.toValue(),
+      if (status != null) 'status': status.toValue(),
       if (tokenKeyName != null) 'tokenKeyName': tokenKeyName,
       if (tokenSigningPublicKeys != null)
         'tokenSigningPublicKeys': tokenSigningPublicKeys,
@@ -9973,7 +9973,7 @@ class IoT {
     final $payload = <String, dynamic>{
       if (authorizerConfig != null) 'authorizerConfig': authorizerConfig,
       if (domainConfigurationStatus != null)
-        'domainConfigurationStatus': domainConfigurationStatus?.toValue(),
+        'domainConfigurationStatus': domainConfigurationStatus.toValue(),
       if (removeAuthorizerConfig != null)
         'removeAuthorizerConfig': removeAuthorizerConfig,
     };
@@ -10090,7 +10090,8 @@ class IoT {
   }) async {
     final $payload = <String, dynamic>{
       if (eventConfigurations != null)
-        'eventConfigurations': eventConfigurations,
+        'eventConfigurations':
+            eventConfigurations.map((k, e) => MapEntry(k.toValue(), e)),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -10469,8 +10470,8 @@ class IoT {
     );
     final $payload = <String, dynamic>{
       if (dayOfMonth != null) 'dayOfMonth': dayOfMonth,
-      if (dayOfWeek != null) 'dayOfWeek': dayOfWeek?.toValue(),
-      if (frequency != null) 'frequency': frequency?.toValue(),
+      if (dayOfWeek != null) 'dayOfWeek': dayOfWeek.toValue(),
+      if (frequency != null) 'frequency': frequency.toValue(),
       if (targetCheckNames != null) 'targetCheckNames': targetCheckNames,
     };
     final response = await _protocol.send(
@@ -10584,7 +10585,8 @@ class IoT {
         'additionalMetricsToRetain': additionalMetricsToRetain,
       if (additionalMetricsToRetainV2 != null)
         'additionalMetricsToRetainV2': additionalMetricsToRetainV2,
-      if (alertTargets != null) 'alertTargets': alertTargets,
+      if (alertTargets != null)
+        'alertTargets': alertTargets.map((k, e) => MapEntry(k.toValue(), e)),
       if (behaviors != null) 'behaviors': behaviors,
       if (deleteAdditionalMetricsToRetain != null)
         'deleteAdditionalMetricsToRetain': deleteAdditionalMetricsToRetain,
@@ -10905,7 +10907,7 @@ class IoT {
     ArgumentError.checkNotNull(status, 'status');
     final $payload = <String, dynamic>{
       'arn': arn,
-      'status': status?.toValue(),
+      'status': status?.toValue() ?? '',
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -11268,6 +11270,16 @@ class AlertTarget {
 enum AlertTargetType {
   @_s.JsonValue('SNS')
   sns,
+}
+
+extension on AlertTargetType {
+  String toValue() {
+    switch (this) {
+      case AlertTargetType.sns:
+        return 'SNS';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Contains information that allowed the authorization.
@@ -11862,6 +11874,16 @@ class AuditNotificationTarget {
 enum AuditNotificationType {
   @_s.JsonValue('SNS')
   sns,
+}
+
+extension on AuditNotificationType {
+  String toValue() {
+    switch (this) {
+      case AuditNotificationType.sns:
+        return 'SNS';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// The audits that were performed.
@@ -15428,6 +15450,36 @@ enum EventType {
   caCertificate,
 }
 
+extension on EventType {
+  String toValue() {
+    switch (this) {
+      case EventType.thing:
+        return 'THING';
+      case EventType.thingGroup:
+        return 'THING_GROUP';
+      case EventType.thingType:
+        return 'THING_TYPE';
+      case EventType.thingGroupMembership:
+        return 'THING_GROUP_MEMBERSHIP';
+      case EventType.thingGroupHierarchy:
+        return 'THING_GROUP_HIERARCHY';
+      case EventType.thingTypeAssociation:
+        return 'THING_TYPE_ASSOCIATION';
+      case EventType.job:
+        return 'JOB';
+      case EventType.jobExecution:
+        return 'JOB_EXECUTION';
+      case EventType.policy:
+        return 'POLICY';
+      case EventType.certificate:
+        return 'CERTIFICATE';
+      case EventType.caCertificate:
+        return 'CA_CERTIFICATE';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Information that explicitly denies authorization.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -18711,6 +18763,18 @@ enum Protocol {
   mqtt,
   @_s.JsonValue('HTTP')
   http,
+}
+
+extension on Protocol {
+  String toValue() {
+    switch (this) {
+      case Protocol.mqtt:
+        return 'MQTT';
+      case Protocol.http:
+        return 'HTTP';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// A summary of information about a fleet provisioning template.

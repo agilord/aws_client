@@ -206,12 +206,12 @@ class PI {
       // TODO queryParams
       headers: headers,
       payload: {
-        'EndTime': endTime,
+        'EndTime': unixTimestampToJson(endTime),
         'GroupBy': groupBy,
         'Identifier': identifier,
         'Metric': metric,
-        'ServiceType': serviceType?.toValue(),
-        'StartTime': startTime,
+        'ServiceType': serviceType?.toValue() ?? '',
+        'StartTime': unixTimestampToJson(startTime),
         if (filter != null) 'Filter': filter,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
@@ -332,11 +332,11 @@ class PI {
       // TODO queryParams
       headers: headers,
       payload: {
-        'EndTime': endTime,
+        'EndTime': unixTimestampToJson(endTime),
         'Identifier': identifier,
         'MetricQueries': metricQueries,
-        'ServiceType': serviceType?.toValue(),
-        'StartTime': startTime,
+        'ServiceType': serviceType?.toValue() ?? '',
+        'StartTime': unixTimestampToJson(startTime),
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
         if (periodInSeconds != null) 'PeriodInSeconds': periodInSeconds,

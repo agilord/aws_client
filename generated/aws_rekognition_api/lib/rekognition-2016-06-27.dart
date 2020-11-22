@@ -172,7 +172,7 @@ class Rekognition {
       payload: {
         'SourceImage': sourceImage,
         'TargetImage': targetImage,
-        if (qualityFilter != null) 'QualityFilter': qualityFilter?.toValue(),
+        if (qualityFilter != null) 'QualityFilter': qualityFilter.toValue(),
         if (similarityThreshold != null)
           'SimilarityThreshold': similarityThreshold,
       },
@@ -1204,7 +1204,8 @@ class Rekognition {
       headers: headers,
       payload: {
         'Image': image,
-        if (attributes != null) 'Attributes': attributes,
+        if (attributes != null)
+          'Attributes': attributes.map((e) => e?.toValue() ?? '').toList(),
       },
     );
 
@@ -1693,7 +1694,7 @@ class Rekognition {
         'JobId': jobId,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy?.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.toValue(),
       },
     );
 
@@ -1819,7 +1820,7 @@ class Rekognition {
         'JobId': jobId,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy?.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.toValue(),
       },
     );
 
@@ -2034,7 +2035,7 @@ class Rekognition {
         'JobId': jobId,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy?.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.toValue(),
       },
     );
 
@@ -2152,7 +2153,7 @@ class Rekognition {
         'JobId': jobId,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy?.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.toValue(),
       },
     );
 
@@ -2275,7 +2276,7 @@ class Rekognition {
         'JobId': jobId,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy?.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.toValue(),
       },
     );
 
@@ -2635,10 +2636,11 @@ class Rekognition {
         'CollectionId': collectionId,
         'Image': image,
         if (detectionAttributes != null)
-          'DetectionAttributes': detectionAttributes,
+          'DetectionAttributes':
+              detectionAttributes.map((e) => e?.toValue() ?? '').toList(),
         if (externalImageId != null) 'ExternalImageId': externalImageId,
         if (maxFaces != null) 'MaxFaces': maxFaces,
-        if (qualityFilter != null) 'QualityFilter': qualityFilter?.toValue(),
+        if (qualityFilter != null) 'QualityFilter': qualityFilter.toValue(),
       },
     );
 
@@ -3154,7 +3156,7 @@ class Rekognition {
         if (faceMatchThreshold != null)
           'FaceMatchThreshold': faceMatchThreshold,
         if (maxFaces != null) 'MaxFaces': maxFaces,
-        if (qualityFilter != null) 'QualityFilter': qualityFilter?.toValue(),
+        if (qualityFilter != null) 'QualityFilter': qualityFilter.toValue(),
       },
     );
 
@@ -3477,7 +3479,7 @@ class Rekognition {
         'Video': video,
         if (clientRequestToken != null)
           'ClientRequestToken': clientRequestToken,
-        if (faceAttributes != null) 'FaceAttributes': faceAttributes?.toValue(),
+        if (faceAttributes != null) 'FaceAttributes': faceAttributes.toValue(),
         if (jobTag != null) 'JobTag': jobTag,
         if (notificationChannel != null)
           'NotificationChannel': notificationChannel,
@@ -4212,6 +4214,18 @@ enum Attribute {
   $default,
   @_s.JsonValue('ALL')
   all,
+}
+
+extension on Attribute {
+  String toValue() {
+    switch (this) {
+      case Attribute.$default:
+        return 'DEFAULT';
+      case Attribute.all:
+        return 'ALL';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Indicates whether or not the face has a beard, and the confidence level in

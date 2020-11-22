@@ -645,9 +645,9 @@ class CloudTrail {
       // TODO queryParams
       headers: headers,
       payload: {
-        if (endTime != null) 'EndTime': endTime,
+        if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
         if (nextToken != null) 'NextToken': nextToken,
-        if (startTime != null) 'StartTime': startTime,
+        if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
       },
     );
 
@@ -849,12 +849,12 @@ class CloudTrail {
       // TODO queryParams
       headers: headers,
       payload: {
-        if (endTime != null) 'EndTime': endTime,
-        if (eventCategory != null) 'EventCategory': eventCategory?.toValue(),
+        if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
+        if (eventCategory != null) 'EventCategory': eventCategory.toValue(),
         if (lookupAttributes != null) 'LookupAttributes': lookupAttributes,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
-        if (startTime != null) 'StartTime': startTime,
+        if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
       },
     );
 

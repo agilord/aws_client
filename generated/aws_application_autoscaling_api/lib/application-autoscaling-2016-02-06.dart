@@ -316,8 +316,8 @@ class ApplicationAutoScaling {
       payload: {
         'PolicyName': policyName,
         'ResourceId': resourceId,
-        'ScalableDimension': scalableDimension?.toValue(),
-        'ServiceNamespace': serviceNamespace?.toValue(),
+        'ScalableDimension': scalableDimension?.toValue() ?? '',
+        'ServiceNamespace': serviceNamespace?.toValue() ?? '',
       },
     );
 
@@ -522,9 +522,9 @@ class ApplicationAutoScaling {
       headers: headers,
       payload: {
         'ResourceId': resourceId,
-        'ScalableDimension': scalableDimension?.toValue(),
+        'ScalableDimension': scalableDimension?.toValue() ?? '',
         'ScheduledActionName': scheduledActionName,
-        'ServiceNamespace': serviceNamespace?.toValue(),
+        'ServiceNamespace': serviceNamespace?.toValue() ?? '',
       },
     );
 
@@ -712,8 +712,8 @@ class ApplicationAutoScaling {
       headers: headers,
       payload: {
         'ResourceId': resourceId,
-        'ScalableDimension': scalableDimension?.toValue(),
-        'ServiceNamespace': serviceNamespace?.toValue(),
+        'ScalableDimension': scalableDimension?.toValue() ?? '',
+        'ServiceNamespace': serviceNamespace?.toValue() ?? '',
       },
     );
 
@@ -909,12 +909,12 @@ class ApplicationAutoScaling {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ServiceNamespace': serviceNamespace?.toValue(),
+        'ServiceNamespace': serviceNamespace?.toValue() ?? '',
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
         if (resourceIds != null) 'ResourceIds': resourceIds,
         if (scalableDimension != null)
-          'ScalableDimension': scalableDimension?.toValue(),
+          'ScalableDimension': scalableDimension.toValue(),
       },
     );
 
@@ -1123,12 +1123,12 @@ class ApplicationAutoScaling {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ServiceNamespace': serviceNamespace?.toValue(),
+        'ServiceNamespace': serviceNamespace?.toValue() ?? '',
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
         if (resourceId != null) 'ResourceId': resourceId,
         if (scalableDimension != null)
-          'ScalableDimension': scalableDimension?.toValue(),
+          'ScalableDimension': scalableDimension.toValue(),
       },
     );
 
@@ -1341,13 +1341,13 @@ class ApplicationAutoScaling {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ServiceNamespace': serviceNamespace?.toValue(),
+        'ServiceNamespace': serviceNamespace?.toValue() ?? '',
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
         if (policyNames != null) 'PolicyNames': policyNames,
         if (resourceId != null) 'ResourceId': resourceId,
         if (scalableDimension != null)
-          'ScalableDimension': scalableDimension?.toValue(),
+          'ScalableDimension': scalableDimension.toValue(),
       },
     );
 
@@ -1560,12 +1560,12 @@ class ApplicationAutoScaling {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ServiceNamespace': serviceNamespace?.toValue(),
+        'ServiceNamespace': serviceNamespace?.toValue() ?? '',
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
         if (resourceId != null) 'ResourceId': resourceId,
         if (scalableDimension != null)
-          'ScalableDimension': scalableDimension?.toValue(),
+          'ScalableDimension': scalableDimension.toValue(),
         if (scheduledActionNames != null)
           'ScheduledActionNames': scheduledActionNames,
       },
@@ -1834,9 +1834,9 @@ class ApplicationAutoScaling {
       payload: {
         'PolicyName': policyName,
         'ResourceId': resourceId,
-        'ScalableDimension': scalableDimension?.toValue(),
-        'ServiceNamespace': serviceNamespace?.toValue(),
-        if (policyType != null) 'PolicyType': policyType?.toValue(),
+        'ScalableDimension': scalableDimension?.toValue() ?? '',
+        'ServiceNamespace': serviceNamespace?.toValue() ?? '',
+        if (policyType != null) 'PolicyType': policyType.toValue(),
         if (stepScalingPolicyConfiguration != null)
           'StepScalingPolicyConfiguration': stepScalingPolicyConfiguration,
         if (targetTrackingScalingPolicyConfiguration != null)
@@ -2116,14 +2116,14 @@ class ApplicationAutoScaling {
       headers: headers,
       payload: {
         'ResourceId': resourceId,
-        'ScalableDimension': scalableDimension?.toValue(),
+        'ScalableDimension': scalableDimension?.toValue() ?? '',
         'ScheduledActionName': scheduledActionName,
-        'ServiceNamespace': serviceNamespace?.toValue(),
-        if (endTime != null) 'EndTime': endTime,
+        'ServiceNamespace': serviceNamespace?.toValue() ?? '',
+        if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
         if (scalableTargetAction != null)
           'ScalableTargetAction': scalableTargetAction,
         if (schedule != null) 'Schedule': schedule,
-        if (startTime != null) 'StartTime': startTime,
+        if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
       },
     );
 
@@ -2391,8 +2391,8 @@ class ApplicationAutoScaling {
       headers: headers,
       payload: {
         'ResourceId': resourceId,
-        'ScalableDimension': scalableDimension?.toValue(),
-        'ServiceNamespace': serviceNamespace?.toValue(),
+        'ScalableDimension': scalableDimension?.toValue() ?? '',
+        'ServiceNamespace': serviceNamespace?.toValue() ?? '',
         if (maxCapacity != null) 'MaxCapacity': maxCapacity,
         if (minCapacity != null) 'MinCapacity': minCapacity,
         if (roleARN != null) 'RoleARN': roleARN,

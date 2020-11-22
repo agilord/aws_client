@@ -210,7 +210,7 @@ class ManagedBlockchain {
     );
     final $payload = <String, dynamic>{
       'ClientRequestToken': clientRequestToken,
-      'Framework': framework?.toValue(),
+      'Framework': framework?.toValue() ?? '',
       'FrameworkVersion': frameworkVersion,
       'MemberConfiguration': memberConfiguration,
       'Name': name,
@@ -1249,7 +1249,7 @@ class ManagedBlockchain {
       isRequired: true,
     );
     final $payload = <String, dynamic>{
-      'Vote': vote?.toValue(),
+      'Vote': vote?.toValue() ?? '',
       'VoterMemberId': voterMemberId,
     };
     final response = await _protocol.send(

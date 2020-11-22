@@ -615,7 +615,7 @@ class ServiceDiscovery {
       payload: {
         'NamespaceName': namespaceName,
         'ServiceName': serviceName,
-        if (healthStatus != null) 'HealthStatus': healthStatus?.toValue(),
+        if (healthStatus != null) 'HealthStatus': healthStatus.toValue(),
         if (maxResults != null) 'MaxResults': maxResults,
         if (queryParameters != null) 'QueryParameters': queryParameters,
       },
@@ -1462,7 +1462,7 @@ class ServiceDiscovery {
       payload: {
         'InstanceId': instanceId,
         'ServiceId': serviceId,
-        'Status': status?.toValue(),
+        'Status': status?.toValue() ?? '',
       },
     );
   }

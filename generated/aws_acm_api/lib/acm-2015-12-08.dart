@@ -478,7 +478,7 @@ class ACM {
         'PrivateKey': privateKey?.let(base64Encode),
         if (certificateArn != null) 'CertificateArn': certificateArn,
         if (certificateChain != null)
-          'CertificateChain': certificateChain.let(base64Encode),
+          'CertificateChain': base64Encode(certificateChain),
         if (tags != null) 'Tags': tags,
       },
     );
@@ -547,7 +547,8 @@ class ACM {
       headers: headers,
       payload: {
         if (certificateStatuses != null)
-          'CertificateStatuses': certificateStatuses,
+          'CertificateStatuses':
+              certificateStatuses.map((e) => e?.toValue() ?? '').toList(),
         if (includes != null) 'Includes': includes,
         if (maxItems != null) 'MaxItems': maxItems,
         if (nextToken != null) 'NextToken': nextToken,
@@ -905,7 +906,7 @@ class ACM {
           'SubjectAlternativeNames': subjectAlternativeNames,
         if (tags != null) 'Tags': tags,
         if (validationMethod != null)
-          'ValidationMethod': validationMethod?.toValue(),
+          'ValidationMethod': validationMethod.toValue(),
       },
     );
 
@@ -1351,6 +1352,28 @@ enum CertificateStatus {
   revoked,
   @_s.JsonValue('FAILED')
   failed,
+}
+
+extension on CertificateStatus {
+  String toValue() {
+    switch (this) {
+      case CertificateStatus.pendingValidation:
+        return 'PENDING_VALIDATION';
+      case CertificateStatus.issued:
+        return 'ISSUED';
+      case CertificateStatus.inactive:
+        return 'INACTIVE';
+      case CertificateStatus.expired:
+        return 'EXPIRED';
+      case CertificateStatus.validationTimedOut:
+        return 'VALIDATION_TIMED_OUT';
+      case CertificateStatus.revoked:
+        return 'REVOKED';
+      case CertificateStatus.failed:
+        return 'FAILED';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// This structure is returned in the response object of <a>ListCertificates</a>

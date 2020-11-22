@@ -1660,7 +1660,7 @@ class DirectConnect {
       headers: headers,
       payload: {
         'connectionId': connectionId,
-        if (loaContentType != null) 'loaContentType': loaContentType?.toValue(),
+        if (loaContentType != null) 'loaContentType': loaContentType.toValue(),
         if (providerName != null) 'providerName': providerName,
       },
     );
@@ -2041,7 +2041,7 @@ class DirectConnect {
       headers: headers,
       payload: {
         'interconnectId': interconnectId,
-        if (loaContentType != null) 'loaContentType': loaContentType?.toValue(),
+        if (loaContentType != null) 'loaContentType': loaContentType.toValue(),
         if (providerName != null) 'providerName': providerName,
       },
     );
@@ -2148,7 +2148,7 @@ class DirectConnect {
       headers: headers,
       payload: {
         'connectionId': connectionId,
-        if (loaContentType != null) 'loaContentType': loaContentType?.toValue(),
+        if (loaContentType != null) 'loaContentType': loaContentType.toValue(),
         if (providerName != null) 'providerName': providerName,
       },
     );

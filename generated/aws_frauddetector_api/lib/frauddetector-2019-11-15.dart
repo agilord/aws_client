@@ -190,7 +190,7 @@ class FraudDetector {
           'externalModelEndpoints': externalModelEndpoints,
         if (modelVersions != null) 'modelVersions': modelVersions,
         if (ruleExecutionMode != null)
-          'ruleExecutionMode': ruleExecutionMode?.toValue(),
+          'ruleExecutionMode': ruleExecutionMode.toValue(),
       },
     );
 
@@ -250,7 +250,7 @@ class FraudDetector {
       headers: headers,
       payload: {
         'modelId': modelId,
-        'modelType': modelType?.toValue(),
+        'modelType': modelType?.toValue() ?? '',
         if (description != null) 'description': description,
       },
     );
@@ -346,7 +346,7 @@ class FraudDetector {
       payload: {
         'detectorId': detectorId,
         'expression': expression,
-        'language': language?.toValue(),
+        'language': language?.toValue() ?? '',
         'outcomes': outcomes,
         'ruleId': ruleId,
         if (description != null) 'description': description,
@@ -402,8 +402,8 @@ class FraudDetector {
       // TODO queryParams
       headers: headers,
       payload: {
-        'dataSource': dataSource?.toValue(),
-        'dataType': dataType?.toValue(),
+        'dataSource': dataSource?.toValue() ?? '',
+        'dataType': dataType?.toValue() ?? '',
         'defaultValue': defaultValue,
         'name': name,
         if (description != null) 'description': description,
@@ -750,7 +750,7 @@ class FraudDetector {
       payload: {
         if (maxResults != null) 'maxResults': maxResults,
         if (modelId != null) 'modelId': modelId,
-        if (modelType != null) 'modelType': modelType?.toValue(),
+        if (modelType != null) 'modelType': modelType.toValue(),
         if (modelVersionNumber != null)
           'modelVersionNumber': modelVersionNumber,
         if (nextToken != null) 'nextToken': nextToken,
@@ -988,7 +988,7 @@ class FraudDetector {
       headers: headers,
       payload: {
         'modelId': modelId,
-        'modelType': modelType?.toValue(),
+        'modelType': modelType?.toValue() ?? '',
         'modelVersionNumber': modelVersionNumber,
       },
     );
@@ -1051,7 +1051,7 @@ class FraudDetector {
       payload: {
         if (maxResults != null) 'maxResults': maxResults,
         if (modelId != null) 'modelId': modelId,
-        if (modelType != null) 'modelType': modelType?.toValue(),
+        if (modelType != null) 'modelType': modelType.toValue(),
         if (nextToken != null) 'nextToken': nextToken,
       },
     );
@@ -1422,8 +1422,8 @@ class FraudDetector {
       payload: {
         'inputConfiguration': inputConfiguration,
         'modelEndpoint': modelEndpoint,
-        'modelEndpointStatus': modelEndpointStatus?.toValue(),
-        'modelSource': modelSource?.toValue(),
+        'modelEndpointStatus': modelEndpointStatus?.toValue() ?? '',
+        'modelSource': modelSource?.toValue() ?? '',
         'outputConfiguration': outputConfiguration,
         'role': role,
       },
@@ -1500,7 +1500,7 @@ class FraudDetector {
       payload: {
         'labelSchema': labelSchema,
         'modelId': modelId,
-        'modelType': modelType?.toValue(),
+        'modelType': modelType?.toValue() ?? '',
         'modelVariables': modelVariables,
         'trainingDataSource': trainingDataSource,
         if (description != null) 'description': description,
@@ -1662,7 +1662,7 @@ class FraudDetector {
         if (description != null) 'description': description,
         if (modelVersions != null) 'modelVersions': modelVersions,
         if (ruleExecutionMode != null)
-          'ruleExecutionMode': ruleExecutionMode?.toValue(),
+          'ruleExecutionMode': ruleExecutionMode.toValue(),
       },
     );
 
@@ -1799,7 +1799,7 @@ class FraudDetector {
       payload: {
         'detectorId': detectorId,
         'detectorVersionId': detectorVersionId,
-        'status': status?.toValue(),
+        'status': status?.toValue() ?? '',
       },
     );
 
@@ -1888,9 +1888,9 @@ class FraudDetector {
       payload: {
         'description': description,
         'modelId': modelId,
-        'modelType': modelType?.toValue(),
+        'modelType': modelType?.toValue() ?? '',
         'modelVersionNumber': modelVersionNumber,
-        'status': status?.toValue(),
+        'status': status?.toValue() ?? '',
       },
     );
 
@@ -1998,7 +1998,7 @@ class FraudDetector {
       headers: headers,
       payload: {
         'expression': expression,
-        'language': language?.toValue(),
+        'language': language?.toValue() ?? '',
         'outcomes': outcomes,
         'rule': rule,
         if (description != null) 'description': description,

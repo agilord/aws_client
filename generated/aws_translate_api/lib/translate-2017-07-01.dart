@@ -176,7 +176,7 @@ class Translate {
       headers: headers,
       payload: {
         'Name': name,
-        'TerminologyDataFormat': terminologyDataFormat?.toValue(),
+        'TerminologyDataFormat': terminologyDataFormat?.toValue() ?? '',
       },
     );
 
@@ -261,7 +261,7 @@ class Translate {
       // TODO queryParams
       headers: headers,
       payload: {
-        'MergeStrategy': mergeStrategy?.toValue(),
+        'MergeStrategy': mergeStrategy?.toValue() ?? '',
         'Name': name,
         'TerminologyData': terminologyData,
         if (description != null) 'Description': description,

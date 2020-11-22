@@ -277,7 +277,7 @@ class WAFV2 {
       headers: headers,
       payload: {
         'Rules': rules,
-        'Scope': scope?.toValue(),
+        'Scope': scope?.toValue() ?? '',
       },
     );
 
@@ -418,9 +418,9 @@ class WAFV2 {
       headers: headers,
       payload: {
         'Addresses': addresses,
-        'IPAddressVersion': iPAddressVersion?.toValue(),
+        'IPAddressVersion': iPAddressVersion?.toValue() ?? '',
         'Name': name,
-        'Scope': scope?.toValue(),
+        'Scope': scope?.toValue() ?? '',
         if (description != null) 'Description': description,
         if (tags != null) 'Tags': tags,
       },
@@ -526,7 +526,7 @@ class WAFV2 {
       payload: {
         'Name': name,
         'RegularExpressionList': regularExpressionList,
-        'Scope': scope?.toValue(),
+        'Scope': scope?.toValue() ?? '',
         if (description != null) 'Description': description,
         if (tags != null) 'Tags': tags,
       },
@@ -673,7 +673,7 @@ class WAFV2 {
       payload: {
         'Capacity': capacity,
         'Name': name,
-        'Scope': scope?.toValue(),
+        'Scope': scope?.toValue() ?? '',
         'VisibilityConfig': visibilityConfig,
         if (description != null) 'Description': description,
         if (rules != null) 'Rules': rules,
@@ -808,7 +808,7 @@ class WAFV2 {
       payload: {
         'DefaultAction': defaultAction,
         'Name': name,
-        'Scope': scope?.toValue(),
+        'Scope': scope?.toValue() ?? '',
         'VisibilityConfig': visibilityConfig,
         if (description != null) 'Description': description,
         if (rules != null) 'Rules': rules,
@@ -1012,7 +1012,7 @@ class WAFV2 {
         'Id': id,
         'LockToken': lockToken,
         'Name': name,
-        'Scope': scope?.toValue(),
+        'Scope': scope?.toValue() ?? '',
       },
     );
 
@@ -1236,7 +1236,7 @@ class WAFV2 {
         'Id': id,
         'LockToken': lockToken,
         'Name': name,
-        'Scope': scope?.toValue(),
+        'Scope': scope?.toValue() ?? '',
       },
     );
 
@@ -1360,7 +1360,7 @@ class WAFV2 {
         'Id': id,
         'LockToken': lockToken,
         'Name': name,
-        'Scope': scope?.toValue(),
+        'Scope': scope?.toValue() ?? '',
       },
     );
 
@@ -1487,7 +1487,7 @@ class WAFV2 {
         'Id': id,
         'LockToken': lockToken,
         'Name': name,
-        'Scope': scope?.toValue(),
+        'Scope': scope?.toValue() ?? '',
       },
     );
 
@@ -1581,7 +1581,7 @@ class WAFV2 {
       headers: headers,
       payload: {
         'Name': name,
-        'Scope': scope?.toValue(),
+        'Scope': scope?.toValue() ?? '',
         'VendorName': vendorName,
       },
     );
@@ -1751,7 +1751,7 @@ class WAFV2 {
       payload: {
         'Id': id,
         'Name': name,
-        'Scope': scope?.toValue(),
+        'Scope': scope?.toValue() ?? '',
       },
     );
 
@@ -1964,7 +1964,7 @@ class WAFV2 {
       headers: headers,
       payload: {
         'RuleName': ruleName,
-        'Scope': scope?.toValue(),
+        'Scope': scope?.toValue() ?? '',
         'WebACLId': webACLId,
         'WebACLName': webACLName,
       },
@@ -2059,7 +2059,7 @@ class WAFV2 {
       payload: {
         'Id': id,
         'Name': name,
-        'Scope': scope?.toValue(),
+        'Scope': scope?.toValue() ?? '',
       },
     );
 
@@ -2153,7 +2153,7 @@ class WAFV2 {
       payload: {
         'Id': id,
         'Name': name,
-        'Scope': scope?.toValue(),
+        'Scope': scope?.toValue() ?? '',
       },
     );
 
@@ -2281,7 +2281,7 @@ class WAFV2 {
       payload: {
         'MaxItems': maxItems,
         'RuleMetricName': ruleMetricName,
-        'Scope': scope?.toValue(),
+        'Scope': scope?.toValue() ?? '',
         'TimeWindow': timeWindow,
         'WebAclArn': webAclArn,
       },
@@ -2377,7 +2377,7 @@ class WAFV2 {
       payload: {
         'Id': id,
         'Name': name,
-        'Scope': scope?.toValue(),
+        'Scope': scope?.toValue() ?? '',
       },
     );
 
@@ -2516,7 +2516,7 @@ class WAFV2 {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Scope': scope?.toValue(),
+        'Scope': scope?.toValue() ?? '',
         if (limit != null) 'Limit': limit,
         if (nextMarker != null) 'NextMarker': nextMarker,
       },
@@ -2603,7 +2603,7 @@ class WAFV2 {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Scope': scope?.toValue(),
+        'Scope': scope?.toValue() ?? '',
         if (limit != null) 'Limit': limit,
         if (nextMarker != null) 'NextMarker': nextMarker,
       },
@@ -2690,7 +2690,7 @@ class WAFV2 {
       payload: {
         if (limit != null) 'Limit': limit,
         if (nextMarker != null) 'NextMarker': nextMarker,
-        if (scope != null) 'Scope': scope?.toValue(),
+        if (scope != null) 'Scope': scope.toValue(),
       },
     );
 
@@ -2775,7 +2775,7 @@ class WAFV2 {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Scope': scope?.toValue(),
+        'Scope': scope?.toValue() ?? '',
         if (limit != null) 'Limit': limit,
         if (nextMarker != null) 'NextMarker': nextMarker,
       },
@@ -2838,7 +2838,7 @@ class WAFV2 {
       headers: headers,
       payload: {
         'WebACLArn': webACLArn,
-        if (resourceType != null) 'ResourceType': resourceType?.toValue(),
+        if (resourceType != null) 'ResourceType': resourceType.toValue(),
       },
     );
 
@@ -2923,7 +2923,7 @@ class WAFV2 {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Scope': scope?.toValue(),
+        'Scope': scope?.toValue() ?? '',
         if (limit != null) 'Limit': limit,
         if (nextMarker != null) 'NextMarker': nextMarker,
       },
@@ -3097,7 +3097,7 @@ class WAFV2 {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Scope': scope?.toValue(),
+        'Scope': scope?.toValue() ?? '',
         if (limit != null) 'Limit': limit,
         if (nextMarker != null) 'NextMarker': nextMarker,
       },
@@ -3571,7 +3571,7 @@ class WAFV2 {
         'Id': id,
         'LockToken': lockToken,
         'Name': name,
-        'Scope': scope?.toValue(),
+        'Scope': scope?.toValue() ?? '',
         if (description != null) 'Description': description,
       },
     );
@@ -3716,7 +3716,7 @@ class WAFV2 {
         'LockToken': lockToken,
         'Name': name,
         'RegularExpressionList': regularExpressionList,
-        'Scope': scope?.toValue(),
+        'Scope': scope?.toValue() ?? '',
         if (description != null) 'Description': description,
       },
     );
@@ -3877,7 +3877,7 @@ class WAFV2 {
         'Id': id,
         'LockToken': lockToken,
         'Name': name,
-        'Scope': scope?.toValue(),
+        'Scope': scope?.toValue() ?? '',
         'VisibilityConfig': visibilityConfig,
         if (description != null) 'Description': description,
         if (rules != null) 'Rules': rules,
@@ -4052,7 +4052,7 @@ class WAFV2 {
         'Id': id,
         'LockToken': lockToken,
         'Name': name,
-        'Scope': scope?.toValue(),
+        'Scope': scope?.toValue() ?? '',
         'VisibilityConfig': visibilityConfig,
         if (description != null) 'Description': description,
         if (rules != null) 'Rules': rules,

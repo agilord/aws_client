@@ -128,7 +128,7 @@ class IoT1ClickDevicesService {
   }) async {
     ArgumentError.checkNotNull(deviceId, 'deviceId');
     final $payload = <String, dynamic>{
-      if (tags != null) 'Tags': tags,
+      if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -221,9 +221,9 @@ class IoT1ClickDevicesService {
   }) async {
     ArgumentError.checkNotNull(deviceId, 'deviceId');
     final $payload = <String, dynamic>{
-      if (deviceMethod != null) 'DeviceMethod': deviceMethod,
+      if (deviceMethod != null) 'deviceMethod': deviceMethod,
       if (deviceMethodParameters != null)
-        'DeviceMethodParameters': deviceMethodParameters,
+        'deviceMethodParameters': deviceMethodParameters,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -388,7 +388,7 @@ class IoT1ClickDevicesService {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
-      'Tags': tags,
+      'tags': tags,
     };
     await _protocol.send(
       payload: $payload,
@@ -472,7 +472,7 @@ class IoT1ClickDevicesService {
   }) async {
     ArgumentError.checkNotNull(deviceId, 'deviceId');
     final $payload = <String, dynamic>{
-      if (enabled != null) 'Enabled': enabled,
+      if (enabled != null) 'enabled': enabled,
     };
     final response = await _protocol.send(
       payload: $payload,

@@ -129,7 +129,7 @@ class ServiceCatalog {
         'PortfolioId': portfolioId,
         if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
         if (portfolioShareType != null)
-          'PortfolioShareType': portfolioShareType?.toValue(),
+          'PortfolioShareType': portfolioShareType.toValue(),
       },
     );
 
@@ -271,7 +271,7 @@ class ServiceCatalog {
       payload: {
         'PortfolioId': portfolioId,
         'PrincipalARN': principalARN,
-        'PrincipalType': principalType?.toValue(),
+        'PrincipalType': principalType?.toValue() ?? '',
         if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
       },
     );
@@ -775,10 +775,13 @@ class ServiceCatalog {
         'IdempotencyToken': idempotencyToken,
         'SourceProductArn': sourceProductArn,
         if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
-        if (copyOptions != null) 'CopyOptions': copyOptions,
+        if (copyOptions != null)
+          'CopyOptions': copyOptions.map((e) => e?.toValue() ?? '').toList(),
         if (sourceProvisioningArtifactIdentifiers != null)
           'SourceProvisioningArtifactIdentifiers':
-              sourceProvisioningArtifactIdentifiers,
+              sourceProvisioningArtifactIdentifiers
+                  .map((e) => e?.map((k, e) => MapEntry(k.toValue(), e)))
+                  .toList(),
         if (targetProductId != null) 'TargetProductId': targetProductId,
         if (targetProductName != null) 'TargetProductName': targetProductName,
       },
@@ -1355,7 +1358,7 @@ class ServiceCatalog {
         'IdempotencyToken': idempotencyToken,
         'Name': name,
         'Owner': owner,
-        'ProductType': productType?.toValue(),
+        'ProductType': productType?.toValue() ?? '',
         'ProvisioningArtifactParameters': provisioningArtifactParameters,
         if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
         if (description != null) 'Description': description,
@@ -1547,7 +1550,7 @@ class ServiceCatalog {
       payload: {
         'IdempotencyToken': idempotencyToken,
         'PlanName': planName,
-        'PlanType': planType?.toValue(),
+        'PlanType': planType?.toValue() ?? '',
         'ProductId': productId,
         'ProvisionedProductName': provisionedProductName,
         'ProvisioningArtifactId': provisioningArtifactId,
@@ -1777,8 +1780,8 @@ class ServiceCatalog {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Definition': definition,
-        'DefinitionType': definitionType?.toValue(),
+        'Definition': definition?.map((k, e) => MapEntry(k.toValue(), e)),
+        'DefinitionType': definitionType?.toValue() ?? '',
         'IdempotencyToken': idempotencyToken,
         'Name': name,
         if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
@@ -4240,7 +4243,7 @@ class ServiceCatalog {
         if (pageSize != null) 'PageSize': pageSize,
         if (pageToken != null) 'PageToken': pageToken,
         if (portfolioShareType != null)
-          'PortfolioShareType': portfolioShareType?.toValue(),
+          'PortfolioShareType': portfolioShareType.toValue(),
       },
     );
 
@@ -4650,7 +4653,7 @@ class ServiceCatalog {
       // TODO queryParams
       headers: headers,
       payload: {
-        'OrganizationNodeType': organizationNodeType?.toValue(),
+        'OrganizationNodeType': organizationNodeType?.toValue() ?? '',
         'PortfolioId': portfolioId,
         if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
         if (pageSize != null) 'PageSize': pageSize,
@@ -6064,7 +6067,7 @@ class ServiceCatalog {
         'PortfolioId': portfolioId,
         if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
         if (portfolioShareType != null)
-          'PortfolioShareType': portfolioShareType?.toValue(),
+          'PortfolioShareType': portfolioShareType.toValue(),
       },
     );
 
@@ -6230,11 +6233,12 @@ class ServiceCatalog {
       headers: headers,
       payload: {
         if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
-        if (filters != null) 'Filters': filters,
+        if (filters != null)
+          'Filters': filters.map((k, e) => MapEntry(k.toValue(), e)),
         if (pageSize != null) 'PageSize': pageSize,
         if (pageToken != null) 'PageToken': pageToken,
-        if (sortBy != null) 'SortBy': sortBy?.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
       },
     );
 
@@ -6340,13 +6344,14 @@ class ServiceCatalog {
       headers: headers,
       payload: {
         if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
-        if (filters != null) 'Filters': filters,
+        if (filters != null)
+          'Filters': filters.map((k, e) => MapEntry(k.toValue(), e)),
         if (pageSize != null) 'PageSize': pageSize,
         if (pageToken != null) 'PageToken': pageToken,
         if (portfolioId != null) 'PortfolioId': portfolioId,
-        if (productSource != null) 'ProductSource': productSource?.toValue(),
-        if (sortBy != null) 'SortBy': sortBy?.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
+        if (productSource != null) 'ProductSource': productSource.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
       },
     );
 
@@ -6448,11 +6453,12 @@ class ServiceCatalog {
       payload: {
         if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
         if (accessLevelFilter != null) 'AccessLevelFilter': accessLevelFilter,
-        if (filters != null) 'Filters': filters,
+        if (filters != null)
+          'Filters': filters.map((k, e) => MapEntry(k.toValue(), e)),
         if (pageSize != null) 'PageSize': pageSize,
         if (pageToken != null) 'PageToken': pageToken,
         if (sortBy != null) 'SortBy': sortBy,
-        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
       },
     );
 
@@ -7268,7 +7274,8 @@ class ServiceCatalog {
       payload: {
         'IdempotencyToken': idempotencyToken,
         'ProvisionedProductId': provisionedProductId,
-        'ProvisionedProductProperties': provisionedProductProperties,
+        'ProvisionedProductProperties': provisionedProductProperties
+            ?.map((k, e) => MapEntry(k.toValue(), e)),
         if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
       },
     );
@@ -7390,7 +7397,7 @@ class ServiceCatalog {
         if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
         if (active != null) 'Active': active,
         if (description != null) 'Description': description,
-        if (guidance != null) 'Guidance': guidance?.toValue(),
+        if (guidance != null) 'Guidance': guidance.toValue(),
         if (name != null) 'Name': name,
       },
     );
@@ -7486,7 +7493,8 @@ class ServiceCatalog {
       payload: {
         'Id': id,
         if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
-        if (definition != null) 'Definition': definition,
+        if (definition != null)
+          'Definition': definition.map((k, e) => MapEntry(k.toValue(), e)),
         if (description != null) 'Description': description,
         if (name != null) 'Name': name,
       },
@@ -7867,6 +7875,16 @@ class ConstraintSummary {
 enum CopyOption {
   @_s.JsonValue('CopyTags')
   copyTags,
+}
+
+extension on CopyOption {
+  String toValue() {
+    switch (this) {
+      case CopyOption.copyTags:
+        return 'CopyTags';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 @_s.JsonSerializable(
@@ -9628,6 +9646,22 @@ enum ProductViewFilterBy {
   sourceProductId,
 }
 
+extension on ProductViewFilterBy {
+  String toValue() {
+    switch (this) {
+      case ProductViewFilterBy.fullTextSearch:
+        return 'FullTextSearch';
+      case ProductViewFilterBy.owner:
+        return 'Owner';
+      case ProductViewFilterBy.productType:
+        return 'ProductType';
+      case ProductViewFilterBy.sourceProductId:
+        return 'SourceProductId';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 enum ProductViewSortBy {
   @_s.JsonValue('Title')
   title,
@@ -9730,6 +9764,16 @@ class ProductViewSummary {
 enum PropertyKey {
   @_s.JsonValue('OWNER')
   owner,
+}
+
+extension on PropertyKey {
+  String toValue() {
+    switch (this) {
+      case PropertyKey.owner:
+        return 'OWNER';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 @_s.JsonSerializable(
@@ -10170,6 +10214,16 @@ enum ProvisionedProductViewFilterBy {
   searchQuery,
 }
 
+extension on ProvisionedProductViewFilterBy {
+  String toValue() {
+    switch (this) {
+      case ProvisionedProductViewFilterBy.searchQuery:
+        return 'SearchQuery';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Information about a provisioning artifact. A provisioning artifact is also
 /// known as a product version.
 @_s.JsonSerializable(
@@ -10442,6 +10496,16 @@ class ProvisioningArtifactProperties {
 enum ProvisioningArtifactPropertyName {
   @_s.JsonValue('Id')
   id,
+}
+
+extension on ProvisioningArtifactPropertyName {
+  String toValue() {
+    switch (this) {
+      case ProvisioningArtifactPropertyName.id:
+        return 'Id';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Summary information about a provisioning artifact (also known as a version)
@@ -11214,6 +11278,22 @@ enum ServiceActionDefinitionKey {
   assumeRole,
   @_s.JsonValue('Parameters')
   parameters,
+}
+
+extension on ServiceActionDefinitionKey {
+  String toValue() {
+    switch (this) {
+      case ServiceActionDefinitionKey.name:
+        return 'Name';
+      case ServiceActionDefinitionKey.version:
+        return 'Version';
+      case ServiceActionDefinitionKey.assumeRole:
+        return 'AssumeRole';
+      case ServiceActionDefinitionKey.parameters:
+        return 'Parameters';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 enum ServiceActionDefinitionType {

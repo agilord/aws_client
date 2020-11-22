@@ -1052,7 +1052,7 @@ class Shield {
       // TODO queryParams
       headers: headers,
       payload: {
-        if (autoRenew != null) 'AutoRenew': autoRenew?.toValue(),
+        if (autoRenew != null) 'AutoRenew': autoRenew.toValue(),
       },
     );
 

@@ -121,7 +121,7 @@ class DataExchange {
     ArgumentError.checkNotNull(description, 'description');
     ArgumentError.checkNotNull(name, 'name');
     final $payload = <String, dynamic>{
-      'AssetType': assetType?.toValue(),
+      'AssetType': assetType?.toValue() ?? '',
       'Description': description,
       'Name': name,
       if (tags != null) 'Tags': tags,
@@ -156,7 +156,7 @@ class DataExchange {
     ArgumentError.checkNotNull(type, 'type');
     final $payload = <String, dynamic>{
       'Details': details,
-      'Type': type?.toValue(),
+      'Type': type?.toValue() ?? '',
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -648,7 +648,7 @@ class DataExchange {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
-      'Tags': tags,
+      'tags': tags,
     };
     await _protocol.send(
       payload: $payload,

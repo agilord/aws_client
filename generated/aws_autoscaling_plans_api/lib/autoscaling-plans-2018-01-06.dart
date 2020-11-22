@@ -421,14 +421,14 @@ class AutoScalingPlans {
       // TODO queryParams
       headers: headers,
       payload: {
-        'EndTime': endTime,
-        'ForecastDataType': forecastDataType?.toValue(),
+        'EndTime': unixTimestampToJson(endTime),
+        'ForecastDataType': forecastDataType?.toValue() ?? '',
         'ResourceId': resourceId,
-        'ScalableDimension': scalableDimension?.toValue(),
+        'ScalableDimension': scalableDimension?.toValue() ?? '',
         'ScalingPlanName': scalingPlanName,
         'ScalingPlanVersion': scalingPlanVersion,
-        'ServiceNamespace': serviceNamespace?.toValue(),
-        'StartTime': startTime,
+        'ServiceNamespace': serviceNamespace?.toValue() ?? '',
+        'StartTime': unixTimestampToJson(startTime),
       },
     );
 

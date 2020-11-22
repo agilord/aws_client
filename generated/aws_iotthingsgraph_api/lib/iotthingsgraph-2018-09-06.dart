@@ -250,7 +250,7 @@ class IoTThingsGraph {
       headers: headers,
       payload: {
         'definition': definition,
-        'target': target?.toValue(),
+        'target': target?.toValue() ?? '',
         if (flowActionsRoleArn != null)
           'flowActionsRoleArn': flowActionsRoleArn,
         if (greengrassGroupName != null)
@@ -721,7 +721,7 @@ class IoTThingsGraph {
       // TODO queryParams
       headers: headers,
       payload: {
-        'entityType': entityType?.toValue(),
+        'entityType': entityType?.toValue() ?? '',
         'thingName': thingName,
       },
     );
@@ -1315,7 +1315,7 @@ class IoTThingsGraph {
       // TODO queryParams
       headers: headers,
       payload: {
-        'entityTypes': entityTypes,
+        'entityTypes': entityTypes?.map((e) => e?.toValue() ?? '')?.toList(),
         if (filters != null) 'filters': filters,
         if (maxResults != null) 'maxResults': maxResults,
         if (namespaceVersion != null) 'namespaceVersion': namespaceVersion,
@@ -1391,11 +1391,11 @@ class IoTThingsGraph {
       headers: headers,
       payload: {
         'systemInstanceId': systemInstanceId,
-        if (endTime != null) 'endTime': endTime,
+        if (endTime != null) 'endTime': unixTimestampToJson(endTime),
         if (flowExecutionId != null) 'flowExecutionId': flowExecutionId,
         if (maxResults != null) 'maxResults': maxResults,
         if (nextToken != null) 'nextToken': nextToken,
-        if (startTime != null) 'startTime': startTime,
+        if (startTime != null) 'startTime': unixTimestampToJson(startTime),
       },
     );
 

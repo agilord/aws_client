@@ -290,7 +290,7 @@ class Greengrass {
     final headers = <String, String>{};
     amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
     final $payload = <String, dynamic>{
-      'DeploymentType': deploymentType?.toValue(),
+      'DeploymentType': deploymentType?.toValue() ?? '',
       if (deploymentId != null) 'DeploymentId': deploymentId,
       if (groupVersionId != null) 'GroupVersionId': groupVersionId,
     };
@@ -789,12 +789,13 @@ class Greengrass {
     amznClientToken?.let((v) => headers['X-Amzn-Client-Token'] = v.toString());
     final $payload = <String, dynamic>{
       'S3UrlSignerRole': s3UrlSignerRole,
-      'SoftwareToUpdate': softwareToUpdate?.toValue(),
+      'SoftwareToUpdate': softwareToUpdate?.toValue() ?? '',
       'UpdateTargets': updateTargets,
-      'UpdateTargetsArchitecture': updateTargetsArchitecture?.toValue(),
-      'UpdateTargetsOperatingSystem': updateTargetsOperatingSystem?.toValue(),
+      'UpdateTargetsArchitecture': updateTargetsArchitecture?.toValue() ?? '',
+      'UpdateTargetsOperatingSystem':
+          updateTargetsOperatingSystem?.toValue() ?? '',
       if (updateAgentLogLevel != null)
-        'UpdateAgentLogLevel': updateAgentLogLevel?.toValue(),
+        'UpdateAgentLogLevel': updateAgentLogLevel.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,

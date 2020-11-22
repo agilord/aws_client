@@ -427,7 +427,7 @@ class SecurityHub {
       if (types != null) 'Types': types,
       if (userDefinedFields != null) 'UserDefinedFields': userDefinedFields,
       if (verificationState != null)
-        'VerificationState': verificationState?.toValue(),
+        'VerificationState': verificationState.toValue(),
       if (workflow != null) 'Workflow': workflow,
     };
     final response = await _protocol.send(
@@ -1765,7 +1765,7 @@ class SecurityHub {
     final $payload = <String, dynamic>{
       'Filters': filters,
       if (note != null) 'Note': note,
-      if (recordState != null) 'RecordState': recordState?.toValue(),
+      if (recordState != null) 'RecordState': recordState.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1867,7 +1867,7 @@ class SecurityHub {
       r'''.*\S.*''',
     );
     final $payload = <String, dynamic>{
-      if (controlStatus != null) 'ControlStatus': controlStatus?.toValue(),
+      if (controlStatus != null) 'ControlStatus': controlStatus.toValue(),
       if (disabledReason != null) 'DisabledReason': disabledReason,
     };
     final response = await _protocol.send(

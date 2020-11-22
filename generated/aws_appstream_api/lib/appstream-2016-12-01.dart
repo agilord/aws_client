@@ -572,7 +572,7 @@ class AppStream {
         if (domainJoinInfo != null) 'DomainJoinInfo': domainJoinInfo,
         if (enableDefaultInternetAccess != null)
           'EnableDefaultInternetAccess': enableDefaultInternetAccess,
-        if (fleetType != null) 'FleetType': fleetType?.toValue(),
+        if (fleetType != null) 'FleetType': fleetType.toValue(),
         if (iamRoleArn != null) 'IamRoleArn': iamRoleArn,
         if (idleDisconnectTimeoutInSeconds != null)
           'IdleDisconnectTimeoutInSeconds': idleDisconnectTimeoutInSeconds,
@@ -1230,11 +1230,11 @@ class AppStream {
       // TODO queryParams
       headers: headers,
       payload: {
-        'AuthenticationType': authenticationType?.toValue(),
+        'AuthenticationType': authenticationType?.toValue() ?? '',
         'UserName': userName,
         if (firstName != null) 'FirstName': firstName,
         if (lastName != null) 'LastName': lastName,
-        if (messageAction != null) 'MessageAction': messageAction?.toValue(),
+        if (messageAction != null) 'MessageAction': messageAction.toValue(),
       },
     );
 
@@ -1536,7 +1536,7 @@ class AppStream {
       // TODO queryParams
       headers: headers,
       payload: {
-        'AuthenticationType': authenticationType?.toValue(),
+        'AuthenticationType': authenticationType?.toValue() ?? '',
         'UserName': userName,
       },
     );
@@ -1803,7 +1803,7 @@ class AppStream {
         if (maxResults != null) 'MaxResults': maxResults,
         if (names != null) 'Names': names,
         if (nextToken != null) 'NextToken': nextToken,
-        if (type != null) 'Type': type?.toValue(),
+        if (type != null) 'Type': type.toValue(),
       },
     );
 
@@ -1890,7 +1890,7 @@ class AppStream {
         'FleetName': fleetName,
         'StackName': stackName,
         if (authenticationType != null)
-          'AuthenticationType': authenticationType?.toValue(),
+          'AuthenticationType': authenticationType.toValue(),
         if (limit != null) 'Limit': limit,
         if (nextToken != null) 'NextToken': nextToken,
         if (userId != null) 'UserId': userId,
@@ -2063,7 +2063,7 @@ class AppStream {
       headers: headers,
       payload: {
         if (authenticationType != null)
-          'AuthenticationType': authenticationType?.toValue(),
+          'AuthenticationType': authenticationType.toValue(),
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
         if (stackName != null) 'StackName': stackName,
@@ -2113,7 +2113,7 @@ class AppStream {
       // TODO queryParams
       headers: headers,
       payload: {
-        'AuthenticationType': authenticationType?.toValue(),
+        'AuthenticationType': authenticationType?.toValue() ?? '',
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
       },
@@ -2166,7 +2166,7 @@ class AppStream {
       // TODO queryParams
       headers: headers,
       payload: {
-        'AuthenticationType': authenticationType?.toValue(),
+        'AuthenticationType': authenticationType?.toValue() ?? '',
         'UserName': userName,
       },
     );
@@ -2272,7 +2272,7 @@ class AppStream {
       // TODO queryParams
       headers: headers,
       payload: {
-        'AuthenticationType': authenticationType?.toValue(),
+        'AuthenticationType': authenticationType?.toValue() ?? '',
         'UserName': userName,
       },
     );
@@ -3022,7 +3022,8 @@ class AppStream {
       headers: headers,
       payload: {
         if (attributesToDelete != null)
-          'AttributesToDelete': attributesToDelete,
+          'AttributesToDelete':
+              attributesToDelete.map((e) => e?.toValue() ?? '').toList(),
         if (computeCapacity != null) 'ComputeCapacity': computeCapacity,
         if (deleteVpcConfig != null) 'DeleteVpcConfig': deleteVpcConfig,
         if (description != null) 'Description': description,
@@ -3221,7 +3222,8 @@ class AppStream {
         if (applicationSettings != null)
           'ApplicationSettings': applicationSettings,
         if (attributesToDelete != null)
-          'AttributesToDelete': attributesToDelete,
+          'AttributesToDelete':
+              attributesToDelete.map((e) => e?.toValue() ?? '').toList(),
         if (deleteStorageConnectors != null)
           'DeleteStorageConnectors': deleteStorageConnectors,
         if (description != null) 'Description': description,
@@ -4380,6 +4382,22 @@ enum FleetAttribute {
   iamRoleArn,
 }
 
+extension on FleetAttribute {
+  String toValue() {
+    switch (this) {
+      case FleetAttribute.vpcConfiguration:
+        return 'VPC_CONFIGURATION';
+      case FleetAttribute.vpcConfigurationSecurityGroupIds:
+        return 'VPC_CONFIGURATION_SECURITY_GROUP_IDS';
+      case FleetAttribute.domainJoinInfo:
+        return 'DOMAIN_JOIN_INFO';
+      case FleetAttribute.iamRoleArn:
+        return 'IAM_ROLE_ARN';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Describes a fleet error.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -5337,6 +5355,36 @@ enum StackAttribute {
   iamRoleArn,
   @_s.JsonValue('ACCESS_ENDPOINTS')
   accessEndpoints,
+}
+
+extension on StackAttribute {
+  String toValue() {
+    switch (this) {
+      case StackAttribute.storageConnectors:
+        return 'STORAGE_CONNECTORS';
+      case StackAttribute.storageConnectorHomefolders:
+        return 'STORAGE_CONNECTOR_HOMEFOLDERS';
+      case StackAttribute.storageConnectorGoogleDrive:
+        return 'STORAGE_CONNECTOR_GOOGLE_DRIVE';
+      case StackAttribute.storageConnectorOneDrive:
+        return 'STORAGE_CONNECTOR_ONE_DRIVE';
+      case StackAttribute.redirectUrl:
+        return 'REDIRECT_URL';
+      case StackAttribute.feedbackUrl:
+        return 'FEEDBACK_URL';
+      case StackAttribute.themeName:
+        return 'THEME_NAME';
+      case StackAttribute.userSettings:
+        return 'USER_SETTINGS';
+      case StackAttribute.embedHostDomains:
+        return 'EMBED_HOST_DOMAINS';
+      case StackAttribute.iamRoleArn:
+        return 'IAM_ROLE_ARN';
+      case StackAttribute.accessEndpoints:
+        return 'ACCESS_ENDPOINTS';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Describes a stack error.

@@ -146,19 +146,19 @@ class Kafka {
       isRequired: true,
     );
     final $payload = <String, dynamic>{
-      'BrokerNodeGroupInfo': brokerNodeGroupInfo,
-      'ClusterName': clusterName,
-      'KafkaVersion': kafkaVersion,
-      'NumberOfBrokerNodes': numberOfBrokerNodes,
+      'brokerNodeGroupInfo': brokerNodeGroupInfo,
+      'clusterName': clusterName,
+      'kafkaVersion': kafkaVersion,
+      'numberOfBrokerNodes': numberOfBrokerNodes,
       if (clientAuthentication != null)
-        'ClientAuthentication': clientAuthentication,
-      if (configurationInfo != null) 'ConfigurationInfo': configurationInfo,
-      if (encryptionInfo != null) 'EncryptionInfo': encryptionInfo,
+        'clientAuthentication': clientAuthentication,
+      if (configurationInfo != null) 'configurationInfo': configurationInfo,
+      if (encryptionInfo != null) 'encryptionInfo': encryptionInfo,
       if (enhancedMonitoring != null)
-        'EnhancedMonitoring': enhancedMonitoring?.toValue(),
-      if (loggingInfo != null) 'LoggingInfo': loggingInfo,
-      if (openMonitoring != null) 'OpenMonitoring': openMonitoring,
-      if (tags != null) 'Tags': tags,
+        'enhancedMonitoring': enhancedMonitoring.toValue(),
+      if (loggingInfo != null) 'loggingInfo': loggingInfo,
+      if (openMonitoring != null) 'openMonitoring': openMonitoring,
+      if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -214,10 +214,10 @@ class Kafka {
     ArgumentError.checkNotNull(name, 'name');
     ArgumentError.checkNotNull(serverProperties, 'serverProperties');
     final $payload = <String, dynamic>{
-      'KafkaVersions': kafkaVersions,
-      'Name': name,
-      'ServerProperties': serverProperties?.let(base64Encode),
-      if (description != null) 'Description': description,
+      'kafkaVersions': kafkaVersions,
+      'name': name,
+      'serverProperties': serverProperties?.let(base64Encode),
+      if (description != null) 'description': description,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -776,7 +776,7 @@ class Kafka {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
-      'Tags': tags,
+      'tags': tags,
     };
     await _protocol.send(
       payload: $payload,
@@ -903,8 +903,8 @@ class Kafka {
       isRequired: true,
     );
     final $payload = <String, dynamic>{
-      'CurrentVersion': currentVersion,
-      'TargetNumberOfBrokerNodes': targetNumberOfBrokerNodes,
+      'currentVersion': currentVersion,
+      'targetNumberOfBrokerNodes': targetNumberOfBrokerNodes,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -952,8 +952,8 @@ class Kafka {
     ArgumentError.checkNotNull(
         targetBrokerEBSVolumeInfo, 'targetBrokerEBSVolumeInfo');
     final $payload = <String, dynamic>{
-      'CurrentVersion': currentVersion,
-      'TargetBrokerEBSVolumeInfo': targetBrokerEBSVolumeInfo,
+      'currentVersion': currentVersion,
+      'targetBrokerEBSVolumeInfo': targetBrokerEBSVolumeInfo,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1001,8 +1001,8 @@ class Kafka {
     ArgumentError.checkNotNull(configurationInfo, 'configurationInfo');
     ArgumentError.checkNotNull(currentVersion, 'currentVersion');
     final $payload = <String, dynamic>{
-      'ConfigurationInfo': configurationInfo,
-      'CurrentVersion': currentVersion,
+      'configurationInfo': configurationInfo,
+      'currentVersion': currentVersion,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1059,11 +1059,11 @@ class Kafka {
     ArgumentError.checkNotNull(clusterArn, 'clusterArn');
     ArgumentError.checkNotNull(currentVersion, 'currentVersion');
     final $payload = <String, dynamic>{
-      'CurrentVersion': currentVersion,
+      'currentVersion': currentVersion,
       if (enhancedMonitoring != null)
-        'EnhancedMonitoring': enhancedMonitoring?.toValue(),
-      if (loggingInfo != null) 'LoggingInfo': loggingInfo,
-      if (openMonitoring != null) 'OpenMonitoring': openMonitoring,
+        'enhancedMonitoring': enhancedMonitoring.toValue(),
+      if (loggingInfo != null) 'loggingInfo': loggingInfo,
+      if (openMonitoring != null) 'openMonitoring': openMonitoring,
     };
     final response = await _protocol.send(
       payload: $payload,

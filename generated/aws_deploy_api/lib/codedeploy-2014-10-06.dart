@@ -448,7 +448,7 @@ class CodeDeploy {
       payload: {
         if (deploymentId != null) 'deploymentId': deploymentId,
         if (deploymentWaitType != null)
-          'deploymentWaitType': deploymentWaitType?.toValue(),
+          'deploymentWaitType': deploymentWaitType.toValue(),
       },
     );
   }
@@ -500,7 +500,7 @@ class CodeDeploy {
       payload: {
         'applicationName': applicationName,
         if (computePlatform != null)
-          'computePlatform': computePlatform?.toValue(),
+          'computePlatform': computePlatform.toValue(),
         if (tags != null) 'tags': tags,
       },
     );
@@ -669,7 +669,7 @@ class CodeDeploy {
           'deploymentGroupName': deploymentGroupName,
         if (description != null) 'description': description,
         if (fileExistsBehavior != null)
-          'fileExistsBehavior': fileExistsBehavior?.toValue(),
+          'fileExistsBehavior': fileExistsBehavior.toValue(),
         if (ignoreApplicationStopFailures != null)
           'ignoreApplicationStopFailures': ignoreApplicationStopFailures,
         if (revision != null) 'revision': revision,
@@ -753,7 +753,7 @@ class CodeDeploy {
       payload: {
         'deploymentConfigName': deploymentConfigName,
         if (computePlatform != null)
-          'computePlatform': computePlatform?.toValue(),
+          'computePlatform': computePlatform.toValue(),
         if (minimumHealthyHosts != null)
           'minimumHealthyHosts': minimumHealthyHosts,
         if (trafficRoutingConfig != null)
@@ -1594,12 +1594,12 @@ class CodeDeploy {
       headers: headers,
       payload: {
         'applicationName': applicationName,
-        if (deployed != null) 'deployed': deployed?.toValue(),
+        if (deployed != null) 'deployed': deployed.toValue(),
         if (nextToken != null) 'nextToken': nextToken,
         if (s3Bucket != null) 's3Bucket': s3Bucket,
         if (s3KeyPrefix != null) 's3KeyPrefix': s3KeyPrefix,
-        if (sortBy != null) 'sortBy': sortBy?.toValue(),
-        if (sortOrder != null) 'sortOrder': sortOrder?.toValue(),
+        if (sortBy != null) 'sortBy': sortBy.toValue(),
+        if (sortOrder != null) 'sortOrder': sortOrder.toValue(),
       },
     );
 
@@ -1786,9 +1786,11 @@ class CodeDeploy {
       payload: {
         'deploymentId': deploymentId,
         if (instanceStatusFilter != null)
-          'instanceStatusFilter': instanceStatusFilter,
+          'instanceStatusFilter':
+              instanceStatusFilter.map((e) => e?.toValue() ?? '').toList(),
         if (instanceTypeFilter != null)
-          'instanceTypeFilter': instanceTypeFilter,
+          'instanceTypeFilter':
+              instanceTypeFilter.map((e) => e?.toValue() ?? '').toList(),
         if (nextToken != null) 'nextToken': nextToken,
       },
     );
@@ -1848,7 +1850,9 @@ class CodeDeploy {
       payload: {
         if (deploymentId != null) 'deploymentId': deploymentId,
         if (nextToken != null) 'nextToken': nextToken,
-        if (targetFilters != null) 'targetFilters': targetFilters,
+        if (targetFilters != null)
+          'targetFilters':
+              targetFilters.map((k, e) => MapEntry(k.toValue(), e)),
       },
     );
 
@@ -1951,7 +1955,8 @@ class CodeDeploy {
         if (deploymentGroupName != null)
           'deploymentGroupName': deploymentGroupName,
         if (includeOnlyStatuses != null)
-          'includeOnlyStatuses': includeOnlyStatuses,
+          'includeOnlyStatuses':
+              includeOnlyStatuses.map((e) => e?.toValue() ?? '').toList(),
         if (nextToken != null) 'nextToken': nextToken,
       },
     );
@@ -2039,7 +2044,7 @@ class CodeDeploy {
       payload: {
         if (nextToken != null) 'nextToken': nextToken,
         if (registrationStatus != null)
-          'registrationStatus': registrationStatus?.toValue(),
+          'registrationStatus': registrationStatus.toValue(),
         if (tagFilters != null) 'tagFilters': tagFilters,
       },
     );
@@ -2137,7 +2142,7 @@ class CodeDeploy {
         if (deploymentId != null) 'deploymentId': deploymentId,
         if (lifecycleEventHookExecutionId != null)
           'lifecycleEventHookExecutionId': lifecycleEventHookExecutionId,
-        if (status != null) 'status': status?.toValue(),
+        if (status != null) 'status': status.toValue(),
       },
     );
 
@@ -3876,6 +3881,28 @@ enum DeploymentStatus {
   ready,
 }
 
+extension on DeploymentStatus {
+  String toValue() {
+    switch (this) {
+      case DeploymentStatus.created:
+        return 'Created';
+      case DeploymentStatus.queued:
+        return 'Queued';
+      case DeploymentStatus.inProgress:
+        return 'InProgress';
+      case DeploymentStatus.succeeded:
+        return 'Succeeded';
+      case DeploymentStatus.failed:
+        return 'Failed';
+      case DeploymentStatus.stopped:
+        return 'Stopped';
+      case DeploymentStatus.ready:
+        return 'Ready';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Information about the type of deployment, either in-place or blue/green, you
 /// want to run and whether to route deployment traffic behind a load balancer.
 @_s.JsonSerializable(
@@ -4822,6 +4849,28 @@ enum InstanceStatus {
   ready,
 }
 
+extension on InstanceStatus {
+  String toValue() {
+    switch (this) {
+      case InstanceStatus.pending:
+        return 'Pending';
+      case InstanceStatus.inProgress:
+        return 'InProgress';
+      case InstanceStatus.succeeded:
+        return 'Succeeded';
+      case InstanceStatus.failed:
+        return 'Failed';
+      case InstanceStatus.skipped:
+        return 'Skipped';
+      case InstanceStatus.unknown:
+        return 'Unknown';
+      case InstanceStatus.ready:
+        return 'Ready';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Information about an instance in a deployment.
 @deprecated
 @_s.JsonSerializable(
@@ -4959,6 +5008,18 @@ enum InstanceType {
   blue,
   @_s.JsonValue('Green')
   green,
+}
+
+extension on InstanceType {
+  String toValue() {
+    switch (this) {
+      case InstanceType.blue:
+        return 'Blue';
+      case InstanceType.green:
+        return 'Green';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Information about a Lambda function specified in a deployment.
@@ -6023,6 +6084,18 @@ enum TargetFilterName {
   targetStatus,
   @_s.JsonValue('ServerInstanceLabel')
   serverInstanceLabel,
+}
+
+extension on TargetFilterName {
+  String toValue() {
+    switch (this) {
+      case TargetFilterName.targetStatus:
+        return 'TargetStatus';
+      case TargetFilterName.serverInstanceLabel:
+        return 'ServerInstanceLabel';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Information about a target group in Elastic Load Balancing to use in a

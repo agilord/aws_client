@@ -718,7 +718,7 @@ class KMS {
       payload: {
         'GranteePrincipal': granteePrincipal,
         'KeyId': keyId,
-        'Operations': operations,
+        'Operations': operations?.map((e) => e?.toValue() ?? '')?.toList(),
         if (constraints != null) 'Constraints': constraints,
         if (grantTokens != null) 'GrantTokens': grantTokens,
         if (name != null) 'Name': name,
@@ -1089,10 +1089,10 @@ class KMS {
           'BypassPolicyLockoutSafetyCheck': bypassPolicyLockoutSafetyCheck,
         if (customKeyStoreId != null) 'CustomKeyStoreId': customKeyStoreId,
         if (customerMasterKeySpec != null)
-          'CustomerMasterKeySpec': customerMasterKeySpec?.toValue(),
+          'CustomerMasterKeySpec': customerMasterKeySpec.toValue(),
         if (description != null) 'Description': description,
-        if (keyUsage != null) 'KeyUsage': keyUsage?.toValue(),
-        if (origin != null) 'Origin': origin?.toValue(),
+        if (keyUsage != null) 'KeyUsage': keyUsage.toValue(),
+        if (origin != null) 'Origin': origin.toValue(),
         if (policy != null) 'Policy': policy,
         if (tags != null) 'Tags': tags,
       },
@@ -1276,7 +1276,7 @@ class KMS {
       payload: {
         'CiphertextBlob': ciphertextBlob?.let(base64Encode),
         if (encryptionAlgorithm != null)
-          'EncryptionAlgorithm': encryptionAlgorithm?.toValue(),
+          'EncryptionAlgorithm': encryptionAlgorithm.toValue(),
         if (encryptionContext != null) 'EncryptionContext': encryptionContext,
         if (grantTokens != null) 'GrantTokens': grantTokens,
         if (keyId != null) 'KeyId': keyId,
@@ -2287,7 +2287,7 @@ class KMS {
         'KeyId': keyId,
         'Plaintext': plaintext?.let(base64Encode),
         if (encryptionAlgorithm != null)
-          'EncryptionAlgorithm': encryptionAlgorithm?.toValue(),
+          'EncryptionAlgorithm': encryptionAlgorithm.toValue(),
         if (encryptionContext != null) 'EncryptionContext': encryptionContext,
         if (grantTokens != null) 'GrantTokens': grantTokens,
       },
@@ -2481,7 +2481,7 @@ class KMS {
         'KeyId': keyId,
         if (encryptionContext != null) 'EncryptionContext': encryptionContext,
         if (grantTokens != null) 'GrantTokens': grantTokens,
-        if (keySpec != null) 'KeySpec': keySpec?.toValue(),
+        if (keySpec != null) 'KeySpec': keySpec.toValue(),
         if (numberOfBytes != null) 'NumberOfBytes': numberOfBytes,
       },
     );
@@ -2631,7 +2631,7 @@ class KMS {
       headers: headers,
       payload: {
         'KeyId': keyId,
-        'KeyPairSpec': keyPairSpec?.toValue(),
+        'KeyPairSpec': keyPairSpec?.toValue() ?? '',
         if (encryptionContext != null) 'EncryptionContext': encryptionContext,
         if (grantTokens != null) 'GrantTokens': grantTokens,
       },
@@ -2774,7 +2774,7 @@ class KMS {
       headers: headers,
       payload: {
         'KeyId': keyId,
-        'KeyPairSpec': keyPairSpec?.toValue(),
+        'KeyPairSpec': keyPairSpec?.toValue() ?? '',
         if (encryptionContext != null) 'EncryptionContext': encryptionContext,
         if (grantTokens != null) 'GrantTokens': grantTokens,
       },
@@ -2940,7 +2940,7 @@ class KMS {
         'KeyId': keyId,
         if (encryptionContext != null) 'EncryptionContext': encryptionContext,
         if (grantTokens != null) 'GrantTokens': grantTokens,
-        if (keySpec != null) 'KeySpec': keySpec?.toValue(),
+        if (keySpec != null) 'KeySpec': keySpec.toValue(),
         if (numberOfBytes != null) 'NumberOfBytes': numberOfBytes,
       },
     );
@@ -3268,8 +3268,8 @@ class KMS {
       headers: headers,
       payload: {
         'KeyId': keyId,
-        'WrappingAlgorithm': wrappingAlgorithm?.toValue(),
-        'WrappingKeySpec': wrappingKeySpec?.toValue(),
+        'WrappingAlgorithm': wrappingAlgorithm?.toValue() ?? '',
+        'WrappingKeySpec': wrappingKeySpec?.toValue() ?? '',
       },
     );
 
@@ -3566,8 +3566,8 @@ class KMS {
         'ImportToken': importToken?.let(base64Encode),
         'KeyId': keyId,
         if (expirationModel != null)
-          'ExpirationModel': expirationModel?.toValue(),
-        if (validTo != null) 'ValidTo': validTo,
+          'ExpirationModel': expirationModel.toValue(),
+        if (validTo != null) 'ValidTo': unixTimestampToJson(validTo),
       },
     );
 
@@ -4524,12 +4524,12 @@ class KMS {
         'DestinationKeyId': destinationKeyId,
         if (destinationEncryptionAlgorithm != null)
           'DestinationEncryptionAlgorithm':
-              destinationEncryptionAlgorithm?.toValue(),
+              destinationEncryptionAlgorithm.toValue(),
         if (destinationEncryptionContext != null)
           'DestinationEncryptionContext': destinationEncryptionContext,
         if (grantTokens != null) 'GrantTokens': grantTokens,
         if (sourceEncryptionAlgorithm != null)
-          'SourceEncryptionAlgorithm': sourceEncryptionAlgorithm?.toValue(),
+          'SourceEncryptionAlgorithm': sourceEncryptionAlgorithm.toValue(),
         if (sourceEncryptionContext != null)
           'SourceEncryptionContext': sourceEncryptionContext,
         if (sourceKeyId != null) 'SourceKeyId': sourceKeyId,
@@ -4956,9 +4956,9 @@ class KMS {
       payload: {
         'KeyId': keyId,
         'Message': message?.let(base64Encode),
-        'SigningAlgorithm': signingAlgorithm?.toValue(),
+        'SigningAlgorithm': signingAlgorithm?.toValue() ?? '',
         if (grantTokens != null) 'GrantTokens': grantTokens,
-        if (messageType != null) 'MessageType': messageType?.toValue(),
+        if (messageType != null) 'MessageType': messageType.toValue(),
       },
     );
 
@@ -5587,9 +5587,9 @@ class KMS {
         'KeyId': keyId,
         'Message': message?.let(base64Encode),
         'Signature': signature?.let(base64Encode),
-        'SigningAlgorithm': signingAlgorithm?.toValue(),
+        'SigningAlgorithm': signingAlgorithm?.toValue() ?? '',
         if (grantTokens != null) 'GrantTokens': grantTokens,
-        if (messageType != null) 'MessageType': messageType?.toValue(),
+        if (messageType != null) 'MessageType': messageType.toValue(),
       },
     );
 
@@ -6689,6 +6689,42 @@ enum GrantOperation {
   generateDataKeyPair,
   @_s.JsonValue('GenerateDataKeyPairWithoutPlaintext')
   generateDataKeyPairWithoutPlaintext,
+}
+
+extension on GrantOperation {
+  String toValue() {
+    switch (this) {
+      case GrantOperation.decrypt:
+        return 'Decrypt';
+      case GrantOperation.encrypt:
+        return 'Encrypt';
+      case GrantOperation.generateDataKey:
+        return 'GenerateDataKey';
+      case GrantOperation.generateDataKeyWithoutPlaintext:
+        return 'GenerateDataKeyWithoutPlaintext';
+      case GrantOperation.reEncryptFrom:
+        return 'ReEncryptFrom';
+      case GrantOperation.reEncryptTo:
+        return 'ReEncryptTo';
+      case GrantOperation.sign:
+        return 'Sign';
+      case GrantOperation.verify:
+        return 'Verify';
+      case GrantOperation.getPublicKey:
+        return 'GetPublicKey';
+      case GrantOperation.createGrant:
+        return 'CreateGrant';
+      case GrantOperation.retireGrant:
+        return 'RetireGrant';
+      case GrantOperation.describeKey:
+        return 'DescribeKey';
+      case GrantOperation.generateDataKeyPair:
+        return 'GenerateDataKeyPair';
+      case GrantOperation.generateDataKeyPairWithoutPlaintext:
+        return 'GenerateDataKeyPairWithoutPlaintext';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 @_s.JsonSerializable(

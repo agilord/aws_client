@@ -134,7 +134,7 @@ class Textract {
       headers: headers,
       payload: {
         'Document': document,
-        'FeatureTypes': featureTypes,
+        'FeatureTypes': featureTypes?.map((e) => e?.toValue() ?? '')?.toList(),
         if (humanLoopConfig != null) 'HumanLoopConfig': humanLoopConfig,
       },
     );
@@ -559,7 +559,7 @@ class Textract {
       headers: headers,
       payload: {
         'DocumentLocation': documentLocation,
-        'FeatureTypes': featureTypes,
+        'FeatureTypes': featureTypes?.map((e) => e?.toValue() ?? '')?.toList(),
         if (clientRequestToken != null)
           'ClientRequestToken': clientRequestToken,
         if (jobTag != null) 'JobTag': jobTag,
@@ -1111,6 +1111,18 @@ enum FeatureType {
   tables,
   @_s.JsonValue('FORMS')
   forms,
+}
+
+extension on FeatureType {
+  String toValue() {
+    switch (this) {
+      case FeatureType.tables:
+        return 'TABLES';
+      case FeatureType.forms:
+        return 'FORMS';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Information about where the following items are located on a document page:

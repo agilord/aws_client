@@ -1055,7 +1055,7 @@ class PinpointEmail {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
     final $payload = <String, dynamic>{
       if (sendingPoolName != null) 'SendingPoolName': sendingPoolName,
-      if (tlsPolicy != null) 'TlsPolicy': tlsPolicy?.toValue(),
+      if (tlsPolicy != null) 'TlsPolicy': tlsPolicy.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1423,7 +1423,7 @@ class PinpointEmail {
     ArgumentError.checkNotNull(emailIdentity, 'emailIdentity');
     final $payload = <String, dynamic>{
       if (behaviorOnMxFailure != null)
-        'BehaviorOnMxFailure': behaviorOnMxFailure?.toValue(),
+        'BehaviorOnMxFailure': behaviorOnMxFailure.toValue(),
       if (mailFromDomain != null) 'MailFromDomain': mailFromDomain,
     };
     final response = await _protocol.send(

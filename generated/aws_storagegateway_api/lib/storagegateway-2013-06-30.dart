@@ -1091,7 +1091,7 @@ class StorageGateway {
         if (kMSKey != null) 'KMSKey': kMSKey,
         if (nFSFileShareDefaults != null)
           'NFSFileShareDefaults': nFSFileShareDefaults,
-        if (objectACL != null) 'ObjectACL': objectACL?.toValue(),
+        if (objectACL != null) 'ObjectACL': objectACL.toValue(),
         if (readOnly != null) 'ReadOnly': readOnly,
         if (requesterPays != null) 'RequesterPays': requesterPays,
         if (squash != null) 'Squash': squash,
@@ -1328,7 +1328,7 @@ class StorageGateway {
         if (invalidUserList != null) 'InvalidUserList': invalidUserList,
         if (kMSEncrypted != null) 'KMSEncrypted': kMSEncrypted,
         if (kMSKey != null) 'KMSKey': kMSKey,
-        if (objectACL != null) 'ObjectACL': objectACL?.toValue(),
+        if (objectACL != null) 'ObjectACL': objectACL.toValue(),
         if (readOnly != null) 'ReadOnly': readOnly,
         if (requesterPays != null) 'RequesterPays': requesterPays,
         if (sMBACLEnabled != null) 'SMBACLEnabled': sMBACLEnabled,
@@ -4980,7 +4980,7 @@ class StorageGateway {
         if (kMSKey != null) 'KMSKey': kMSKey,
         if (nFSFileShareDefaults != null)
           'NFSFileShareDefaults': nFSFileShareDefaults,
-        if (objectACL != null) 'ObjectACL': objectACL?.toValue(),
+        if (objectACL != null) 'ObjectACL': objectACL.toValue(),
         if (readOnly != null) 'ReadOnly': readOnly,
         if (requesterPays != null) 'RequesterPays': requesterPays,
         if (squash != null) 'Squash': squash,
@@ -5148,7 +5148,7 @@ class StorageGateway {
         if (invalidUserList != null) 'InvalidUserList': invalidUserList,
         if (kMSEncrypted != null) 'KMSEncrypted': kMSEncrypted,
         if (kMSKey != null) 'KMSKey': kMSKey,
-        if (objectACL != null) 'ObjectACL': objectACL?.toValue(),
+        if (objectACL != null) 'ObjectACL': objectACL.toValue(),
         if (readOnly != null) 'ReadOnly': readOnly,
         if (requesterPays != null) 'RequesterPays': requesterPays,
         if (sMBACLEnabled != null) 'SMBACLEnabled': sMBACLEnabled,
@@ -5212,7 +5212,7 @@ class StorageGateway {
       headers: headers,
       payload: {
         'GatewayARN': gatewayARN,
-        'SMBSecurityStrategy': sMBSecurityStrategy?.toValue(),
+        'SMBSecurityStrategy': sMBSecurityStrategy?.toValue() ?? '',
       },
     );
 

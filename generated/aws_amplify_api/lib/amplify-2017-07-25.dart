@@ -194,7 +194,7 @@ class Amplify {
         'environmentVariables': environmentVariables,
       if (iamServiceRoleArn != null) 'iamServiceRoleArn': iamServiceRoleArn,
       if (oauthToken != null) 'oauthToken': oauthToken,
-      if (platform != null) 'platform': platform?.toValue(),
+      if (platform != null) 'platform': platform.toValue(),
       if (repository != null) 'repository': repository,
       if (tags != null) 'tags': tags,
     };
@@ -431,7 +431,7 @@ class Amplify {
       if (framework != null) 'framework': framework,
       if (pullRequestEnvironmentName != null)
         'pullRequestEnvironmentName': pullRequestEnvironmentName,
-      if (stage != null) 'stage': stage?.toValue(),
+      if (stage != null) 'stage': stage.toValue(),
       if (tags != null) 'tags': tags,
       if (ttl != null) 'ttl': ttl,
     };
@@ -906,8 +906,8 @@ class Amplify {
     );
     final $payload = <String, dynamic>{
       'domainName': domainName,
-      if (endTime != null) 'endTime': endTime,
-      if (startTime != null) 'startTime': startTime,
+      if (endTime != null) 'endTime': unixTimestampToJson(endTime),
+      if (startTime != null) 'startTime': unixTimestampToJson(startTime),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1798,10 +1798,10 @@ class Amplify {
       255,
     );
     final $payload = <String, dynamic>{
-      'jobType': jobType?.toValue(),
+      'jobType': jobType?.toValue() ?? '',
       if (commitId != null) 'commitId': commitId,
       if (commitMessage != null) 'commitMessage': commitMessage,
-      if (commitTime != null) 'commitTime': commitTime,
+      if (commitTime != null) 'commitTime': unixTimestampToJson(commitTime),
       if (jobId != null) 'jobId': jobId,
       if (jobReason != null) 'jobReason': jobReason,
     };
@@ -2099,7 +2099,7 @@ class Amplify {
       if (iamServiceRoleArn != null) 'iamServiceRoleArn': iamServiceRoleArn,
       if (name != null) 'name': name,
       if (oauthToken != null) 'oauthToken': oauthToken,
-      if (platform != null) 'platform': platform?.toValue(),
+      if (platform != null) 'platform': platform.toValue(),
       if (repository != null) 'repository': repository,
     };
     final response = await _protocol.send(
@@ -2260,7 +2260,7 @@ class Amplify {
       if (framework != null) 'framework': framework,
       if (pullRequestEnvironmentName != null)
         'pullRequestEnvironmentName': pullRequestEnvironmentName,
-      if (stage != null) 'stage': stage?.toValue(),
+      if (stage != null) 'stage': stage.toValue(),
       if (ttl != null) 'ttl': ttl,
     };
     final response = await _protocol.send(

@@ -315,7 +315,7 @@ class Kendra {
         'IndexId': indexId,
         'Name': name,
         'RoleArn': roleArn,
-        'Type': type?.toValue(),
+        'Type': type?.toValue() ?? '',
         if (description != null) 'Description': description,
         if (schedule != null) 'Schedule': schedule,
       },
@@ -928,7 +928,7 @@ class Kendra {
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
         if (startTimeFilter != null) 'StartTimeFilter': startTimeFilter,
-        if (statusFilter != null) 'StatusFilter': statusFilter?.toValue(),
+        if (statusFilter != null) 'StatusFilter': statusFilter.toValue(),
       },
     );
 
@@ -1251,7 +1251,7 @@ class Kendra {
         if (pageNumber != null) 'PageNumber': pageNumber,
         if (pageSize != null) 'PageSize': pageSize,
         if (queryResultTypeFilter != null)
-          'QueryResultTypeFilter': queryResultTypeFilter?.toValue(),
+          'QueryResultTypeFilter': queryResultTypeFilter.toValue(),
         if (requestedDocumentAttributes != null)
           'RequestedDocumentAttributes': requestedDocumentAttributes,
       },
