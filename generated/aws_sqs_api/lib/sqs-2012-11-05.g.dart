@@ -48,8 +48,10 @@ Map<String, dynamic> _$MessageAttributeValueToJson(
   }
 
   writeNotNull('DataType', instance.dataType);
-  writeNotNull('BinaryListValue', instance.binaryListValues);
-  writeNotNull('BinaryValue', instance.binaryValue);
+  writeNotNull('BinaryListValue',
+      const Uint8ListListConverter().toJson(instance.binaryListValues));
+  writeNotNull(
+      'BinaryValue', const Uint8ListConverter().toJson(instance.binaryValue));
   writeNotNull('StringListValue', instance.stringListValues);
   writeNotNull('StringValue', instance.stringValue);
   return val;
@@ -66,8 +68,10 @@ Map<String, dynamic> _$MessageSystemAttributeValueToJson(
   }
 
   writeNotNull('DataType', instance.dataType);
-  writeNotNull('BinaryListValue', instance.binaryListValues);
-  writeNotNull('BinaryValue', instance.binaryValue);
+  writeNotNull('BinaryListValue',
+      const Uint8ListListConverter().toJson(instance.binaryListValues));
+  writeNotNull(
+      'BinaryValue', const Uint8ListConverter().toJson(instance.binaryValue));
   writeNotNull('StringListValue', instance.stringListValues);
   writeNotNull('StringValue', instance.stringValue);
   return val;

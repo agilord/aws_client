@@ -43,7 +43,7 @@ class Base64EncodedBlobsNested {
             .map((key, value) => MapEntry(key, _s.Shape.fromJson(value)));
 
   Future<void> operationName0({
-    List<String> blobArgs,
+    List<Uint8List> blobArgs,
   }) async {
     final $request = <String, dynamic>{};
     blobArgs?.also((arg) => $request['BlobArgs'] = arg);

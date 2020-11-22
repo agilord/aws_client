@@ -5910,8 +5910,9 @@ class RawMessage {
   /// For more information, go to the <a
   /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-email-raw.html">Amazon
   /// SES Developer Guide</a>.
+  @Uint8ListConverter()
   @_s.JsonKey(name: 'Data')
-  final String data;
+  final Uint8List data;
 
   RawMessage({
     @_s.required this.data,

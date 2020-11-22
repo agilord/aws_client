@@ -59,14 +59,14 @@ class Blob {
 }
 
 class OutputShape {
-  final String blob;
+  final Uint8List blob;
 
   OutputShape({
     this.blob,
   });
   factory OutputShape.fromXml(_s.XmlElement elem) {
     return OutputShape(
-      blob: _s.extractXmlStringValue(elem, 'Blob'),
+      blob: _s.extractXmlUint8ListValue(elem, 'Blob'),
     );
   }
 }

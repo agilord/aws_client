@@ -48,7 +48,6 @@ extension StringStuff on String {
       case 'long':
         return 'int';
       case 'blob':
-        if (api.usesQueryProtocol) return 'String';
         return 'Uint8List';
       case 'timestamp':
         return 'DateTime';
