@@ -177,7 +177,8 @@ class ResourceGroupsTaggingAPI {
       // TODO queryParams
       headers: headers,
       payload: {
-        if (groupBy != null) 'GroupBy': groupBy,
+        if (groupBy != null)
+          'GroupBy': groupBy.map((e) => e?.toValue() ?? '').toList(),
         if (maxResults != null) 'MaxResults': maxResults,
         if (paginationToken != null) 'PaginationToken': paginationToken,
         if (regionFilters != null) 'RegionFilters': regionFilters,
@@ -950,6 +951,20 @@ enum GroupByAttribute {
   region,
   @_s.JsonValue('RESOURCE_TYPE')
   resourceType,
+}
+
+extension on GroupByAttribute {
+  String toValue() {
+    switch (this) {
+      case GroupByAttribute.targetId:
+        return 'TARGET_ID';
+      case GroupByAttribute.region:
+        return 'REGION';
+      case GroupByAttribute.resourceType:
+        return 'RESOURCE_TYPE';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// A list of resource ARNs and the tags (keys and values) that are associated

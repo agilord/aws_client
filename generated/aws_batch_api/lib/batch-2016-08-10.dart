@@ -197,9 +197,9 @@ class Batch {
     final $payload = <String, dynamic>{
       'computeEnvironmentName': computeEnvironmentName,
       'serviceRole': serviceRole,
-      'type': type?.toValue(),
+      'type': type?.toValue() ?? '',
       if (computeResources != null) 'computeResources': computeResources,
-      if (state != null) 'state': state?.toValue(),
+      if (state != null) 'state': state.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -259,7 +259,7 @@ class Batch {
       'computeEnvironmentOrder': computeEnvironmentOrder,
       'jobQueueName': jobQueueName,
       'priority': priority,
-      if (state != null) 'state': state?.toValue(),
+      if (state != null) 'state': state.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -618,7 +618,7 @@ class Batch {
     final $payload = <String, dynamic>{
       if (arrayJobId != null) 'arrayJobId': arrayJobId,
       if (jobQueue != null) 'jobQueue': jobQueue,
-      if (jobStatus != null) 'jobStatus': jobStatus?.toValue(),
+      if (jobStatus != null) 'jobStatus': jobStatus.toValue(),
       if (maxResults != null) 'maxResults': maxResults,
       if (multiNodeJobId != null) 'multiNodeJobId': multiNodeJobId,
       if (nextToken != null) 'nextToken': nextToken,
@@ -695,7 +695,7 @@ class Batch {
     ArgumentError.checkNotNull(type, 'type');
     final $payload = <String, dynamic>{
       'jobDefinitionName': jobDefinitionName,
-      'type': type?.toValue(),
+      'type': type?.toValue() ?? '',
       if (containerProperties != null)
         'containerProperties': containerProperties,
       if (nodeProperties != null) 'nodeProperties': nodeProperties,
@@ -901,7 +901,7 @@ class Batch {
       'computeEnvironment': computeEnvironment,
       if (computeResources != null) 'computeResources': computeResources,
       if (serviceRole != null) 'serviceRole': serviceRole,
-      if (state != null) 'state': state?.toValue(),
+      if (state != null) 'state': state.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -948,7 +948,7 @@ class Batch {
       if (computeEnvironmentOrder != null)
         'computeEnvironmentOrder': computeEnvironmentOrder,
       if (priority != null) 'priority': priority,
-      if (state != null) 'state': state?.toValue(),
+      if (state != null) 'state': state.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,

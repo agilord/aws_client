@@ -128,7 +128,7 @@ class LicenseManager {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LicenseCountingType': licenseCountingType?.toValue(),
+        'LicenseCountingType': licenseCountingType?.toValue() ?? '',
         'Name': name,
         if (description != null) 'Description': description,
         if (licenseCount != null) 'LicenseCount': licenseCount,
@@ -757,7 +757,7 @@ class LicenseManager {
         'LicenseConfigurationArn': licenseConfigurationArn,
         if (description != null) 'Description': description,
         if (licenseConfigurationStatus != null)
-          'LicenseConfigurationStatus': licenseConfigurationStatus?.toValue(),
+          'LicenseConfigurationStatus': licenseConfigurationStatus.toValue(),
         if (licenseCount != null) 'LicenseCount': licenseCount,
         if (licenseCountHardLimit != null)
           'LicenseCountHardLimit': licenseCountHardLimit,

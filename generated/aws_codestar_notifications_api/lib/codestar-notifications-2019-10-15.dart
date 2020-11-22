@@ -214,13 +214,13 @@ class CodeStarNotifications {
       r'''^[\w:/-]+$''',
     );
     final $payload = <String, dynamic>{
-      'DetailType': detailType?.toValue(),
+      'DetailType': detailType?.toValue() ?? '',
       'EventTypeIds': eventTypeIds,
       'Name': name,
       'Resource': resource,
       'Targets': targets,
       if (clientRequestToken != null) 'ClientRequestToken': clientRequestToken,
-      if (status != null) 'Status': status?.toValue(),
+      if (status != null) 'Status': status.toValue(),
       if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
@@ -740,10 +740,10 @@ class CodeStarNotifications {
     );
     final $payload = <String, dynamic>{
       'Arn': arn,
-      if (detailType != null) 'DetailType': detailType?.toValue(),
+      if (detailType != null) 'DetailType': detailType.toValue(),
       if (eventTypeIds != null) 'EventTypeIds': eventTypeIds,
       if (name != null) 'Name': name,
-      if (status != null) 'Status': status?.toValue(),
+      if (status != null) 'Status': status.toValue(),
       if (targets != null) 'Targets': targets,
     };
     final response = await _protocol.send(

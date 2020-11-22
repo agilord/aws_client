@@ -193,13 +193,13 @@ class SMS {
       // TODO queryParams
       headers: headers,
       payload: {
-        'seedReplicationTime': seedReplicationTime,
+        'seedReplicationTime': unixTimestampToJson(seedReplicationTime),
         'serverId': serverId,
         if (description != null) 'description': description,
         if (encrypted != null) 'encrypted': encrypted,
         if (frequency != null) 'frequency': frequency,
         if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
-        if (licenseType != null) 'licenseType': licenseType?.toValue(),
+        if (licenseType != null) 'licenseType': licenseType.toValue(),
         if (numberOfRecentAmisToKeep != null)
           'numberOfRecentAmisToKeep': numberOfRecentAmisToKeep,
         if (roleName != null) 'roleName': roleName,
@@ -447,7 +447,7 @@ class SMS {
       payload: {
         if (appId != null) 'appId': appId,
         if (changesetFormat != null)
-          'changesetFormat': changesetFormat?.toValue(),
+          'changesetFormat': changesetFormat.toValue(),
       },
     );
 
@@ -485,7 +485,7 @@ class SMS {
       headers: headers,
       payload: {
         if (appId != null) 'appId': appId,
-        if (templateFormat != null) 'templateFormat': templateFormat?.toValue(),
+        if (templateFormat != null) 'templateFormat': templateFormat.toValue(),
       },
     );
 
@@ -1217,9 +1217,10 @@ class SMS {
         if (encrypted != null) 'encrypted': encrypted,
         if (frequency != null) 'frequency': frequency,
         if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
-        if (licenseType != null) 'licenseType': licenseType?.toValue(),
+        if (licenseType != null) 'licenseType': licenseType.toValue(),
         if (nextReplicationRunStartTime != null)
-          'nextReplicationRunStartTime': nextReplicationRunStartTime,
+          'nextReplicationRunStartTime':
+              unixTimestampToJson(nextReplicationRunStartTime),
         if (numberOfRecentAmisToKeep != null)
           'numberOfRecentAmisToKeep': numberOfRecentAmisToKeep,
         if (roleName != null) 'roleName': roleName,

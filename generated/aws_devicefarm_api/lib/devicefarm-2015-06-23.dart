@@ -343,7 +343,7 @@ class DeviceFarm {
         if (downlinkJitterMs != null) 'downlinkJitterMs': downlinkJitterMs,
         if (downlinkLossPercent != null)
           'downlinkLossPercent': downlinkLossPercent,
-        if (type != null) 'type': type?.toValue(),
+        if (type != null) 'type': type.toValue(),
         if (uplinkBandwidthBits != null)
           'uplinkBandwidthBits': uplinkBandwidthBits,
         if (uplinkDelayMs != null) 'uplinkDelayMs': uplinkDelayMs,
@@ -591,7 +591,7 @@ class DeviceFarm {
         if (configuration != null) 'configuration': configuration,
         if (instanceArn != null) 'instanceArn': instanceArn,
         if (interactionMode != null)
-          'interactionMode': interactionMode?.toValue(),
+          'interactionMode': interactionMode.toValue(),
         if (name != null) 'name': name,
         if (remoteDebugEnabled != null)
           'remoteDebugEnabled': remoteDebugEnabled,
@@ -897,7 +897,7 @@ class DeviceFarm {
       payload: {
         'name': name,
         'projectArn': projectArn,
-        'type': type?.toValue(),
+        'type': type?.toValue() ?? '',
         if (contentType != null) 'contentType': contentType,
       },
     );
@@ -1685,7 +1685,7 @@ class DeviceFarm {
         if (appArn != null) 'appArn': appArn,
         if (configuration != null) 'configuration': configuration,
         if (test != null) 'test': test,
-        if (testType != null) 'testType': testType?.toValue(),
+        if (testType != null) 'testType': testType.toValue(),
       },
     );
 
@@ -2444,7 +2444,7 @@ class DeviceFarm {
       headers: headers,
       payload: {
         'arn': arn,
-        'type': type?.toValue(),
+        'type': type?.toValue() ?? '',
         if (nextToken != null) 'nextToken': nextToken,
       },
     );
@@ -2562,7 +2562,7 @@ class DeviceFarm {
       payload: {
         'arn': arn,
         if (nextToken != null) 'nextToken': nextToken,
-        if (type != null) 'type': type?.toValue(),
+        if (type != null) 'type': type.toValue(),
       },
     );
 
@@ -2874,7 +2874,7 @@ class DeviceFarm {
       payload: {
         'arn': arn,
         if (nextToken != null) 'nextToken': nextToken,
-        if (type != null) 'type': type?.toValue(),
+        if (type != null) 'type': type.toValue(),
       },
     );
 
@@ -3513,7 +3513,7 @@ class DeviceFarm {
         'sessionArn': sessionArn,
         if (maxResult != null) 'maxResult': maxResult,
         if (nextToken != null) 'nextToken': nextToken,
-        if (type != null) 'type': type?.toValue(),
+        if (type != null) 'type': type.toValue(),
       },
     );
 
@@ -3597,14 +3597,17 @@ class DeviceFarm {
       headers: headers,
       payload: {
         'projectArn': projectArn,
-        if (creationTimeAfter != null) 'creationTimeAfter': creationTimeAfter,
+        if (creationTimeAfter != null)
+          'creationTimeAfter': unixTimestampToJson(creationTimeAfter),
         if (creationTimeBefore != null)
-          'creationTimeBefore': creationTimeBefore,
-        if (endTimeAfter != null) 'endTimeAfter': endTimeAfter,
-        if (endTimeBefore != null) 'endTimeBefore': endTimeBefore,
+          'creationTimeBefore': unixTimestampToJson(creationTimeBefore),
+        if (endTimeAfter != null)
+          'endTimeAfter': unixTimestampToJson(endTimeAfter),
+        if (endTimeBefore != null)
+          'endTimeBefore': unixTimestampToJson(endTimeBefore),
         if (maxResult != null) 'maxResult': maxResult,
         if (nextToken != null) 'nextToken': nextToken,
-        if (status != null) 'status': status?.toValue(),
+        if (status != null) 'status': status.toValue(),
       },
     );
 
@@ -3885,7 +3888,7 @@ class DeviceFarm {
       payload: {
         'arn': arn,
         if (nextToken != null) 'nextToken': nextToken,
-        if (type != null) 'type': type?.toValue(),
+        if (type != null) 'type': type.toValue(),
       },
     );
 
@@ -4795,7 +4798,7 @@ class DeviceFarm {
         if (downlinkLossPercent != null)
           'downlinkLossPercent': downlinkLossPercent,
         if (name != null) 'name': name,
-        if (type != null) 'type': type?.toValue(),
+        if (type != null) 'type': type.toValue(),
         if (uplinkBandwidthBits != null)
           'uplinkBandwidthBits': uplinkBandwidthBits,
         if (uplinkDelayMs != null) 'uplinkDelayMs': uplinkDelayMs,

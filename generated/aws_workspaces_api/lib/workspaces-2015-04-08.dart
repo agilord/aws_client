@@ -1192,7 +1192,7 @@ class WorkSpaces {
         'Ec2ImageId': ec2ImageId,
         'ImageDescription': imageDescription,
         'ImageName': imageName,
-        'IngestionProcess': ingestionProcess?.toValue(),
+        'IngestionProcess': ingestionProcess?.toValue() ?? '',
         if (tags != null) 'Tags': tags,
       },
     );
@@ -1377,7 +1377,7 @@ class WorkSpaces {
           'DedicatedTenancyManagementCidrRange':
               dedicatedTenancyManagementCidrRange,
         if (dedicatedTenancySupport != null)
-          'DedicatedTenancySupport': dedicatedTenancySupport?.toValue(),
+          'DedicatedTenancySupport': dedicatedTenancySupport.toValue(),
       },
     );
 
@@ -1669,7 +1669,7 @@ class WorkSpaces {
       headers: headers,
       payload: {
         'WorkspaceId': workspaceId,
-        'WorkspaceState': workspaceState?.toValue(),
+        'WorkspaceState': workspaceState?.toValue() ?? '',
       },
     );
 
@@ -1839,7 +1839,7 @@ class WorkSpaces {
         if (enableSelfService != null) 'EnableSelfService': enableSelfService,
         if (subnetIds != null) 'SubnetIds': subnetIds,
         if (tags != null) 'Tags': tags,
-        if (tenancy != null) 'Tenancy': tenancy?.toValue(),
+        if (tenancy != null) 'Tenancy': tenancy.toValue(),
       },
     );
 

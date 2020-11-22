@@ -405,7 +405,7 @@ class WorkMail {
       payload: {
         'Name': name,
         'OrganizationId': organizationId,
-        'Type': type?.toValue(),
+        'Type': type?.toValue() ?? '',
       },
     );
 
@@ -2076,7 +2076,7 @@ class WorkMail {
       headers: headers,
       payload: {
         'Description': description,
-        'Effect': effect?.toValue(),
+        'Effect': effect?.toValue() ?? '',
         'Name': name,
         'OrganizationId': organizationId,
         if (actions != null) 'Actions': actions,
@@ -2164,7 +2164,8 @@ class WorkMail {
         'EntityId': entityId,
         'GranteeId': granteeId,
         'OrganizationId': organizationId,
-        'PermissionValues': permissionValues,
+        'PermissionValues':
+            permissionValues?.map((e) => e?.toValue() ?? '')?.toList(),
       },
     );
 
@@ -3683,6 +3684,20 @@ enum PermissionType {
   sendAs,
   @_s.JsonValue('SEND_ON_BEHALF')
   sendOnBehalf,
+}
+
+extension on PermissionType {
+  String toValue() {
+    switch (this) {
+      case PermissionType.fullAccess:
+        return 'FULL_ACCESS';
+      case PermissionType.sendAs:
+        return 'SEND_AS';
+      case PermissionType.sendOnBehalf:
+        return 'SEND_ON_BEHALF';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 @_s.JsonSerializable(

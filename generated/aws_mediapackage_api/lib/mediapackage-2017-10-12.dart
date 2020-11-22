@@ -64,9 +64,9 @@ class MediaPackage {
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     final $payload = <String, dynamic>{
-      'Id': id,
-      if (description != null) 'Description': description,
-      if (tags != null) 'Tags': tags,
+      'id': id,
+      if (description != null) 'description': description,
+      if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -112,11 +112,11 @@ class MediaPackage {
     ArgumentError.checkNotNull(s3Destination, 's3Destination');
     ArgumentError.checkNotNull(startTime, 'startTime');
     final $payload = <String, dynamic>{
-      'EndTime': endTime,
-      'Id': id,
-      'OriginEndpointId': originEndpointId,
-      'S3Destination': s3Destination,
-      'StartTime': startTime,
+      'endTime': endTime,
+      'id': id,
+      'originEndpointId': originEndpointId,
+      's3Destination': s3Destination,
+      'startTime': startTime,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -191,21 +191,21 @@ class MediaPackage {
     ArgumentError.checkNotNull(channelId, 'channelId');
     ArgumentError.checkNotNull(id, 'id');
     final $payload = <String, dynamic>{
-      'ChannelId': channelId,
-      'Id': id,
-      if (authorization != null) 'Authorization': authorization,
-      if (cmafPackage != null) 'CmafPackage': cmafPackage,
-      if (dashPackage != null) 'DashPackage': dashPackage,
-      if (description != null) 'Description': description,
-      if (hlsPackage != null) 'HlsPackage': hlsPackage,
-      if (manifestName != null) 'ManifestName': manifestName,
-      if (mssPackage != null) 'MssPackage': mssPackage,
-      if (origination != null) 'Origination': origination?.toValue(),
+      'channelId': channelId,
+      'id': id,
+      if (authorization != null) 'authorization': authorization,
+      if (cmafPackage != null) 'cmafPackage': cmafPackage,
+      if (dashPackage != null) 'dashPackage': dashPackage,
+      if (description != null) 'description': description,
+      if (hlsPackage != null) 'hlsPackage': hlsPackage,
+      if (manifestName != null) 'manifestName': manifestName,
+      if (mssPackage != null) 'mssPackage': mssPackage,
+      if (origination != null) 'origination': origination.toValue(),
       if (startoverWindowSeconds != null)
-        'StartoverWindowSeconds': startoverWindowSeconds,
-      if (tags != null) 'Tags': tags,
-      if (timeDelaySeconds != null) 'TimeDelaySeconds': timeDelaySeconds,
-      if (whitelist != null) 'Whitelist': whitelist,
+        'startoverWindowSeconds': startoverWindowSeconds,
+      if (tags != null) 'tags': tags,
+      if (timeDelaySeconds != null) 'timeDelaySeconds': timeDelaySeconds,
+      if (whitelist != null) 'whitelist': whitelist,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -553,7 +553,7 @@ class MediaPackage {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
-      'Tags': tags,
+      'tags': tags,
     };
     await _protocol.send(
       payload: $payload,
@@ -605,7 +605,7 @@ class MediaPackage {
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     final $payload = <String, dynamic>{
-      if (description != null) 'Description': description,
+      if (description != null) 'description': description,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -671,18 +671,18 @@ class MediaPackage {
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     final $payload = <String, dynamic>{
-      if (authorization != null) 'Authorization': authorization,
-      if (cmafPackage != null) 'CmafPackage': cmafPackage,
-      if (dashPackage != null) 'DashPackage': dashPackage,
-      if (description != null) 'Description': description,
-      if (hlsPackage != null) 'HlsPackage': hlsPackage,
-      if (manifestName != null) 'ManifestName': manifestName,
-      if (mssPackage != null) 'MssPackage': mssPackage,
-      if (origination != null) 'Origination': origination?.toValue(),
+      if (authorization != null) 'authorization': authorization,
+      if (cmafPackage != null) 'cmafPackage': cmafPackage,
+      if (dashPackage != null) 'dashPackage': dashPackage,
+      if (description != null) 'description': description,
+      if (hlsPackage != null) 'hlsPackage': hlsPackage,
+      if (manifestName != null) 'manifestName': manifestName,
+      if (mssPackage != null) 'mssPackage': mssPackage,
+      if (origination != null) 'origination': origination.toValue(),
       if (startoverWindowSeconds != null)
-        'StartoverWindowSeconds': startoverWindowSeconds,
-      if (timeDelaySeconds != null) 'TimeDelaySeconds': timeDelaySeconds,
-      if (whitelist != null) 'Whitelist': whitelist,
+        'startoverWindowSeconds': startoverWindowSeconds,
+      if (timeDelaySeconds != null) 'timeDelaySeconds': timeDelaySeconds,
+      if (whitelist != null) 'whitelist': whitelist,
     };
     final response = await _protocol.send(
       payload: $payload,

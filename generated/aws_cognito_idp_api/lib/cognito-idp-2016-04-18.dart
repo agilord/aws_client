@@ -540,10 +540,11 @@ class CognitoIdentityProvider {
         'Username': username,
         if (clientMetadata != null) 'ClientMetadata': clientMetadata,
         if (desiredDeliveryMediums != null)
-          'DesiredDeliveryMediums': desiredDeliveryMediums,
+          'DesiredDeliveryMediums':
+              desiredDeliveryMediums.map((e) => e?.toValue() ?? '').toList(),
         if (forceAliasCreation != null)
           'ForceAliasCreation': forceAliasCreation,
-        if (messageAction != null) 'MessageAction': messageAction?.toValue(),
+        if (messageAction != null) 'MessageAction': messageAction.toValue(),
         if (temporaryPassword != null) 'TemporaryPassword': temporaryPassword,
         if (userAttributes != null) 'UserAttributes': userAttributes,
         if (validationData != null) 'ValidationData': validationData,
@@ -1390,7 +1391,7 @@ class CognitoIdentityProvider {
       // TODO queryParams
       headers: headers,
       payload: {
-        'AuthFlow': authFlow?.toValue(),
+        'AuthFlow': authFlow?.toValue() ?? '',
         'ClientId': clientId,
         'UserPoolId': userPoolId,
         if (analyticsMetadata != null) 'AnalyticsMetadata': analyticsMetadata,
@@ -2188,7 +2189,7 @@ class CognitoIdentityProvider {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ChallengeName': challengeName?.toValue(),
+        'ChallengeName': challengeName?.toValue() ?? '',
         'ClientId': clientId,
         'UserPoolId': userPoolId,
         if (analyticsMetadata != null) 'AnalyticsMetadata': analyticsMetadata,
@@ -2549,7 +2550,7 @@ class CognitoIdentityProvider {
       headers: headers,
       payload: {
         'EventId': eventId,
-        'FeedbackValue': feedbackValue?.toValue(),
+        'FeedbackValue': feedbackValue?.toValue() ?? '',
         'UserPoolId': userPoolId,
         'Username': username,
       },
@@ -2645,7 +2646,7 @@ class CognitoIdentityProvider {
         'UserPoolId': userPoolId,
         'Username': username,
         if (deviceRememberedStatus != null)
-          'DeviceRememberedStatus': deviceRememberedStatus?.toValue(),
+          'DeviceRememberedStatus': deviceRememberedStatus.toValue(),
       },
     );
 
@@ -3720,7 +3721,7 @@ class CognitoIdentityProvider {
       payload: {
         'ProviderDetails': providerDetails,
         'ProviderName': providerName,
-        'ProviderType': providerType?.toValue(),
+        'ProviderType': providerType?.toValue() ?? '',
         'UserPoolId': userPoolId,
         if (attributeMapping != null) 'AttributeMapping': attributeMapping,
         if (idpIdentifiers != null) 'IdpIdentifiers': idpIdentifiers,
@@ -4118,9 +4119,12 @@ class CognitoIdentityProvider {
           'AccountRecoverySetting': accountRecoverySetting,
         if (adminCreateUserConfig != null)
           'AdminCreateUserConfig': adminCreateUserConfig,
-        if (aliasAttributes != null) 'AliasAttributes': aliasAttributes,
+        if (aliasAttributes != null)
+          'AliasAttributes':
+              aliasAttributes.map((e) => e?.toValue() ?? '').toList(),
         if (autoVerifiedAttributes != null)
-          'AutoVerifiedAttributes': autoVerifiedAttributes,
+          'AutoVerifiedAttributes':
+              autoVerifiedAttributes.map((e) => e?.toValue() ?? '').toList(),
         if (deviceConfiguration != null)
           'DeviceConfiguration': deviceConfiguration,
         if (emailConfiguration != null)
@@ -4131,7 +4135,7 @@ class CognitoIdentityProvider {
           'EmailVerificationSubject': emailVerificationSubject,
         if (lambdaConfig != null) 'LambdaConfig': lambdaConfig,
         if (mfaConfiguration != null)
-          'MfaConfiguration': mfaConfiguration?.toValue(),
+          'MfaConfiguration': mfaConfiguration.toValue(),
         if (policies != null) 'Policies': policies,
         if (schema != null) 'Schema': schema,
         if (smsAuthenticationMessage != null)
@@ -4142,7 +4146,8 @@ class CognitoIdentityProvider {
         if (userPoolAddOns != null) 'UserPoolAddOns': userPoolAddOns,
         if (userPoolTags != null) 'UserPoolTags': userPoolTags,
         if (usernameAttributes != null)
-          'UsernameAttributes': usernameAttributes,
+          'UsernameAttributes':
+              usernameAttributes.map((e) => e?.toValue() ?? '').toList(),
         if (usernameConfiguration != null)
           'UsernameConfiguration': usernameConfiguration,
         if (verificationMessageTemplate != null)
@@ -4452,7 +4457,9 @@ class CognitoIdentityProvider {
       payload: {
         'ClientName': clientName,
         'UserPoolId': userPoolId,
-        if (allowedOAuthFlows != null) 'AllowedOAuthFlows': allowedOAuthFlows,
+        if (allowedOAuthFlows != null)
+          'AllowedOAuthFlows':
+              allowedOAuthFlows.map((e) => e?.toValue() ?? '').toList(),
         if (allowedOAuthFlowsUserPoolClient != null)
           'AllowedOAuthFlowsUserPoolClient': allowedOAuthFlowsUserPoolClient,
         if (allowedOAuthScopes != null)
@@ -4462,11 +4469,13 @@ class CognitoIdentityProvider {
         if (callbackURLs != null) 'CallbackURLs': callbackURLs,
         if (defaultRedirectURI != null)
           'DefaultRedirectURI': defaultRedirectURI,
-        if (explicitAuthFlows != null) 'ExplicitAuthFlows': explicitAuthFlows,
+        if (explicitAuthFlows != null)
+          'ExplicitAuthFlows':
+              explicitAuthFlows.map((e) => e?.toValue() ?? '').toList(),
         if (generateSecret != null) 'GenerateSecret': generateSecret,
         if (logoutURLs != null) 'LogoutURLs': logoutURLs,
         if (preventUserExistenceErrors != null)
-          'PreventUserExistenceErrors': preventUserExistenceErrors?.toValue(),
+          'PreventUserExistenceErrors': preventUserExistenceErrors.toValue(),
         if (readAttributes != null) 'ReadAttributes': readAttributes,
         if (refreshTokenValidity != null)
           'RefreshTokenValidity': refreshTokenValidity,
@@ -6432,7 +6441,7 @@ class CognitoIdentityProvider {
       // TODO queryParams
       headers: headers,
       payload: {
-        'AuthFlow': authFlow?.toValue(),
+        'AuthFlow': authFlow?.toValue() ?? '',
         'ClientId': clientId,
         if (analyticsMetadata != null) 'AnalyticsMetadata': analyticsMetadata,
         if (authParameters != null) 'AuthParameters': authParameters,
@@ -7553,7 +7562,7 @@ class CognitoIdentityProvider {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ChallengeName': challengeName?.toValue(),
+        'ChallengeName': challengeName?.toValue() ?? '',
         'ClientId': clientId,
         if (analyticsMetadata != null) 'AnalyticsMetadata': analyticsMetadata,
         if (challengeResponses != null)
@@ -7743,7 +7752,7 @@ class CognitoIdentityProvider {
         'UserPoolId': userPoolId,
         if (css != null) 'CSS': css,
         if (clientId != null) 'ClientId': clientId,
-        if (imageFile != null) 'ImageFile': imageFile.let(base64Encode),
+        if (imageFile != null) 'ImageFile': base64Encode(imageFile),
       },
     );
 
@@ -7873,7 +7882,7 @@ class CognitoIdentityProvider {
       payload: {
         'UserPoolId': userPoolId,
         if (mfaConfiguration != null)
-          'MfaConfiguration': mfaConfiguration?.toValue(),
+          'MfaConfiguration': mfaConfiguration.toValue(),
         if (smsMfaConfiguration != null)
           'SmsMfaConfiguration': smsMfaConfiguration,
         if (softwareTokenMfaConfiguration != null)
@@ -8462,7 +8471,7 @@ class CognitoIdentityProvider {
       payload: {
         'EventId': eventId,
         'FeedbackToken': feedbackToken,
-        'FeedbackValue': feedbackValue?.toValue(),
+        'FeedbackValue': feedbackValue?.toValue() ?? '',
         'UserPoolId': userPoolId,
         'Username': username,
       },
@@ -8531,7 +8540,7 @@ class CognitoIdentityProvider {
         'AccessToken': accessToken,
         'DeviceKey': deviceKey,
         if (deviceRememberedStatus != null)
-          'DeviceRememberedStatus': deviceRememberedStatus?.toValue(),
+          'DeviceRememberedStatus': deviceRememberedStatus.toValue(),
       },
     );
 
@@ -9113,7 +9122,8 @@ class CognitoIdentityProvider {
         if (adminCreateUserConfig != null)
           'AdminCreateUserConfig': adminCreateUserConfig,
         if (autoVerifiedAttributes != null)
-          'AutoVerifiedAttributes': autoVerifiedAttributes,
+          'AutoVerifiedAttributes':
+              autoVerifiedAttributes.map((e) => e?.toValue() ?? '').toList(),
         if (deviceConfiguration != null)
           'DeviceConfiguration': deviceConfiguration,
         if (emailConfiguration != null)
@@ -9124,7 +9134,7 @@ class CognitoIdentityProvider {
           'EmailVerificationSubject': emailVerificationSubject,
         if (lambdaConfig != null) 'LambdaConfig': lambdaConfig,
         if (mfaConfiguration != null)
-          'MfaConfiguration': mfaConfiguration?.toValue(),
+          'MfaConfiguration': mfaConfiguration.toValue(),
         if (policies != null) 'Policies': policies,
         if (smsAuthenticationMessage != null)
           'SmsAuthenticationMessage': smsAuthenticationMessage,
@@ -9443,7 +9453,9 @@ class CognitoIdentityProvider {
       payload: {
         'ClientId': clientId,
         'UserPoolId': userPoolId,
-        if (allowedOAuthFlows != null) 'AllowedOAuthFlows': allowedOAuthFlows,
+        if (allowedOAuthFlows != null)
+          'AllowedOAuthFlows':
+              allowedOAuthFlows.map((e) => e?.toValue() ?? '').toList(),
         if (allowedOAuthFlowsUserPoolClient != null)
           'AllowedOAuthFlowsUserPoolClient': allowedOAuthFlowsUserPoolClient,
         if (allowedOAuthScopes != null)
@@ -9454,10 +9466,12 @@ class CognitoIdentityProvider {
         if (clientName != null) 'ClientName': clientName,
         if (defaultRedirectURI != null)
           'DefaultRedirectURI': defaultRedirectURI,
-        if (explicitAuthFlows != null) 'ExplicitAuthFlows': explicitAuthFlows,
+        if (explicitAuthFlows != null)
+          'ExplicitAuthFlows':
+              explicitAuthFlows.map((e) => e?.toValue() ?? '').toList(),
         if (logoutURLs != null) 'LogoutURLs': logoutURLs,
         if (preventUserExistenceErrors != null)
-          'PreventUserExistenceErrors': preventUserExistenceErrors?.toValue(),
+          'PreventUserExistenceErrors': preventUserExistenceErrors.toValue(),
         if (readAttributes != null) 'ReadAttributes': readAttributes,
         if (refreshTokenValidity != null)
           'RefreshTokenValidity': refreshTokenValidity,
@@ -10475,6 +10489,20 @@ enum AliasAttributeType {
   preferredUsername,
 }
 
+extension on AliasAttributeType {
+  String toValue() {
+    switch (this) {
+      case AliasAttributeType.phoneNumber:
+        return 'phone_number';
+      case AliasAttributeType.email:
+        return 'email';
+      case AliasAttributeType.preferredUsername:
+        return 'preferred_username';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// The Amazon Pinpoint analytics configuration for collecting metrics for a
 /// user pool.
 /// <note>
@@ -11198,6 +11226,18 @@ enum DeliveryMediumType {
   email,
 }
 
+extension on DeliveryMediumType {
+  String toValue() {
+    switch (this) {
+      case DeliveryMediumType.sms:
+        return 'SMS';
+      case DeliveryMediumType.email:
+        return 'EMAIL';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -11767,6 +11807,30 @@ enum ExplicitAuthFlowsType {
   allowUserSrpAuth,
   @_s.JsonValue('ALLOW_REFRESH_TOKEN_AUTH')
   allowRefreshTokenAuth,
+}
+
+extension on ExplicitAuthFlowsType {
+  String toValue() {
+    switch (this) {
+      case ExplicitAuthFlowsType.adminNoSrpAuth:
+        return 'ADMIN_NO_SRP_AUTH';
+      case ExplicitAuthFlowsType.customAuthFlowOnly:
+        return 'CUSTOM_AUTH_FLOW_ONLY';
+      case ExplicitAuthFlowsType.userPasswordAuth:
+        return 'USER_PASSWORD_AUTH';
+      case ExplicitAuthFlowsType.allowAdminUserPasswordAuth:
+        return 'ALLOW_ADMIN_USER_PASSWORD_AUTH';
+      case ExplicitAuthFlowsType.allowCustomAuth:
+        return 'ALLOW_CUSTOM_AUTH';
+      case ExplicitAuthFlowsType.allowUserPasswordAuth:
+        return 'ALLOW_USER_PASSWORD_AUTH';
+      case ExplicitAuthFlowsType.allowUserSrpAuth:
+        return 'ALLOW_USER_SRP_AUTH';
+      case ExplicitAuthFlowsType.allowRefreshTokenAuth:
+        return 'ALLOW_REFRESH_TOKEN_AUTH';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 enum FeedbackValueType {
@@ -12911,6 +12975,20 @@ enum OAuthFlowType {
   implicit,
   @_s.JsonValue('client_credentials')
   clientCredentials,
+}
+
+extension on OAuthFlowType {
+  String toValue() {
+    switch (this) {
+      case OAuthFlowType.code:
+        return 'code';
+      case OAuthFlowType.implicit:
+        return 'implicit';
+      case OAuthFlowType.clientCredentials:
+        return 'client_credentials';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// The password policy type.
@@ -14803,6 +14881,18 @@ enum UsernameAttributeType {
   email,
 }
 
+extension on UsernameAttributeType {
+  String toValue() {
+    switch (this) {
+      case UsernameAttributeType.phoneNumber:
+        return 'phone_number';
+      case UsernameAttributeType.email:
+        return 'email';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// The username configuration type.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -14895,6 +14985,18 @@ enum VerifiedAttributeType {
   phoneNumber,
   @_s.JsonValue('email')
   email,
+}
+
+extension on VerifiedAttributeType {
+  String toValue() {
+    switch (this) {
+      case VerifiedAttributeType.phoneNumber:
+        return 'phone_number';
+      case VerifiedAttributeType.email:
+        return 'email';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 @_s.JsonSerializable(

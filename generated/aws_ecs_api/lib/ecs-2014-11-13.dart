@@ -777,7 +777,7 @@ class ECS {
           'enableECSManagedTags': enableECSManagedTags,
         if (healthCheckGracePeriodSeconds != null)
           'healthCheckGracePeriodSeconds': healthCheckGracePeriodSeconds,
-        if (launchType != null) 'launchType': launchType?.toValue(),
+        if (launchType != null) 'launchType': launchType.toValue(),
         if (loadBalancers != null) 'loadBalancers': loadBalancers,
         if (networkConfiguration != null)
           'networkConfiguration': networkConfiguration,
@@ -785,10 +785,10 @@ class ECS {
           'placementConstraints': placementConstraints,
         if (placementStrategy != null) 'placementStrategy': placementStrategy,
         if (platformVersion != null) 'platformVersion': platformVersion,
-        if (propagateTags != null) 'propagateTags': propagateTags?.toValue(),
+        if (propagateTags != null) 'propagateTags': propagateTags.toValue(),
         if (role != null) 'role': role,
         if (schedulingStrategy != null)
-          'schedulingStrategy': schedulingStrategy?.toValue(),
+          'schedulingStrategy': schedulingStrategy.toValue(),
         if (serviceRegistries != null) 'serviceRegistries': serviceRegistries,
         if (tags != null) 'tags': tags,
         if (taskDefinition != null) 'taskDefinition': taskDefinition,
@@ -969,7 +969,7 @@ class ECS {
           'capacityProviderStrategy': capacityProviderStrategy,
         if (clientToken != null) 'clientToken': clientToken,
         if (externalId != null) 'externalId': externalId,
-        if (launchType != null) 'launchType': launchType?.toValue(),
+        if (launchType != null) 'launchType': launchType.toValue(),
         if (loadBalancers != null) 'loadBalancers': loadBalancers,
         if (networkConfiguration != null)
           'networkConfiguration': networkConfiguration,
@@ -1022,7 +1022,7 @@ class ECS {
       // TODO queryParams
       headers: headers,
       payload: {
-        'name': name?.toValue(),
+        'name': name?.toValue() ?? '',
         if (principalArn != null) 'principalArn': principalArn,
       },
     );
@@ -1432,7 +1432,8 @@ class ECS {
       headers: headers,
       payload: {
         if (capacityProviders != null) 'capacityProviders': capacityProviders,
-        if (include != null) 'include': include,
+        if (include != null)
+          'include': include.map((e) => e?.toValue() ?? '').toList(),
         if (maxResults != null) 'maxResults': maxResults,
         if (nextToken != null) 'nextToken': nextToken,
       },
@@ -1510,7 +1511,8 @@ class ECS {
       headers: headers,
       payload: {
         if (clusters != null) 'clusters': clusters,
-        if (include != null) 'include': include,
+        if (include != null)
+          'include': include.map((e) => e?.toValue() ?? '').toList(),
       },
     );
 
@@ -1561,7 +1563,8 @@ class ECS {
       payload: {
         'containerInstances': containerInstances,
         if (cluster != null) 'cluster': cluster,
-        if (include != null) 'include': include,
+        if (include != null)
+          'include': include.map((e) => e?.toValue() ?? '').toList(),
       },
     );
 
@@ -1609,7 +1612,8 @@ class ECS {
       payload: {
         'services': services,
         if (cluster != null) 'cluster': cluster,
-        if (include != null) 'include': include,
+        if (include != null)
+          'include': include.map((e) => e?.toValue() ?? '').toList(),
       },
     );
 
@@ -1657,7 +1661,8 @@ class ECS {
       headers: headers,
       payload: {
         'taskDefinition': taskDefinition,
-        if (include != null) 'include': include,
+        if (include != null)
+          'include': include.map((e) => e?.toValue() ?? '').toList(),
       },
     );
 
@@ -1716,7 +1721,8 @@ class ECS {
       payload: {
         'cluster': cluster,
         'service': service,
-        if (include != null) 'include': include,
+        if (include != null)
+          'include': include.map((e) => e?.toValue() ?? '').toList(),
         if (taskSets != null) 'taskSets': taskSets,
       },
     );
@@ -1764,7 +1770,8 @@ class ECS {
       payload: {
         'tasks': tasks,
         if (cluster != null) 'cluster': cluster,
-        if (include != null) 'include': include,
+        if (include != null)
+          'include': include.map((e) => e?.toValue() ?? '').toList(),
       },
     );
 
@@ -1882,7 +1889,7 @@ class ECS {
       payload: {
         if (effectiveSettings != null) 'effectiveSettings': effectiveSettings,
         if (maxResults != null) 'maxResults': maxResults,
-        if (name != null) 'name': name?.toValue(),
+        if (name != null) 'name': name.toValue(),
         if (nextToken != null) 'nextToken': nextToken,
         if (principalArn != null) 'principalArn': principalArn,
         if (value != null) 'value': value,
@@ -1960,7 +1967,7 @@ class ECS {
       // TODO queryParams
       headers: headers,
       payload: {
-        'targetType': targetType?.toValue(),
+        'targetType': targetType?.toValue() ?? '',
         if (attributeName != null) 'attributeName': attributeName,
         if (attributeValue != null) 'attributeValue': attributeValue,
         if (cluster != null) 'cluster': cluster,
@@ -2101,7 +2108,7 @@ class ECS {
         if (filter != null) 'filter': filter,
         if (maxResults != null) 'maxResults': maxResults,
         if (nextToken != null) 'nextToken': nextToken,
-        if (status != null) 'status': status?.toValue(),
+        if (status != null) 'status': status.toValue(),
       },
     );
 
@@ -2166,11 +2173,11 @@ class ECS {
       headers: headers,
       payload: {
         if (cluster != null) 'cluster': cluster,
-        if (launchType != null) 'launchType': launchType?.toValue(),
+        if (launchType != null) 'launchType': launchType.toValue(),
         if (maxResults != null) 'maxResults': maxResults,
         if (nextToken != null) 'nextToken': nextToken,
         if (schedulingStrategy != null)
-          'schedulingStrategy': schedulingStrategy?.toValue(),
+          'schedulingStrategy': schedulingStrategy.toValue(),
       },
     );
 
@@ -2285,7 +2292,7 @@ class ECS {
         if (familyPrefix != null) 'familyPrefix': familyPrefix,
         if (maxResults != null) 'maxResults': maxResults,
         if (nextToken != null) 'nextToken': nextToken,
-        if (status != null) 'status': status?.toValue(),
+        if (status != null) 'status': status.toValue(),
       },
     );
 
@@ -2368,8 +2375,8 @@ class ECS {
         if (familyPrefix != null) 'familyPrefix': familyPrefix,
         if (maxResults != null) 'maxResults': maxResults,
         if (nextToken != null) 'nextToken': nextToken,
-        if (sort != null) 'sort': sort?.toValue(),
-        if (status != null) 'status': status?.toValue(),
+        if (sort != null) 'sort': sort.toValue(),
+        if (status != null) 'status': status.toValue(),
       },
     );
 
@@ -2479,9 +2486,9 @@ class ECS {
       payload: {
         if (cluster != null) 'cluster': cluster,
         if (containerInstance != null) 'containerInstance': containerInstance,
-        if (desiredStatus != null) 'desiredStatus': desiredStatus?.toValue(),
+        if (desiredStatus != null) 'desiredStatus': desiredStatus.toValue(),
         if (family != null) 'family': family,
-        if (launchType != null) 'launchType': launchType?.toValue(),
+        if (launchType != null) 'launchType': launchType.toValue(),
         if (maxResults != null) 'maxResults': maxResults,
         if (nextToken != null) 'nextToken': nextToken,
         if (serviceName != null) 'serviceName': serviceName,
@@ -2574,7 +2581,7 @@ class ECS {
       // TODO queryParams
       headers: headers,
       payload: {
-        'name': name?.toValue(),
+        'name': name?.toValue() ?? '',
         'value': value,
         if (principalArn != null) 'principalArn': principalArn,
       },
@@ -2624,7 +2631,7 @@ class ECS {
       // TODO queryParams
       headers: headers,
       payload: {
-        'name': name?.toValue(),
+        'name': name?.toValue() ?? '',
         'value': value,
       },
     );
@@ -3236,16 +3243,17 @@ class ECS {
         if (executionRoleArn != null) 'executionRoleArn': executionRoleArn,
         if (inferenceAccelerators != null)
           'inferenceAccelerators': inferenceAccelerators,
-        if (ipcMode != null) 'ipcMode': ipcMode?.toValue(),
+        if (ipcMode != null) 'ipcMode': ipcMode.toValue(),
         if (memory != null) 'memory': memory,
-        if (networkMode != null) 'networkMode': networkMode?.toValue(),
-        if (pidMode != null) 'pidMode': pidMode?.toValue(),
+        if (networkMode != null) 'networkMode': networkMode.toValue(),
+        if (pidMode != null) 'pidMode': pidMode.toValue(),
         if (placementConstraints != null)
           'placementConstraints': placementConstraints,
         if (proxyConfiguration != null)
           'proxyConfiguration': proxyConfiguration,
         if (requiresCompatibilities != null)
-          'requiresCompatibilities': requiresCompatibilities,
+          'requiresCompatibilities':
+              requiresCompatibilities.map((e) => e?.toValue() ?? '').toList(),
         if (tags != null) 'tags': tags,
         if (taskRoleArn != null) 'taskRoleArn': taskRoleArn,
         if (volumes != null) 'volumes': volumes,
@@ -3511,7 +3519,7 @@ class ECS {
         if (enableECSManagedTags != null)
           'enableECSManagedTags': enableECSManagedTags,
         if (group != null) 'group': group,
-        if (launchType != null) 'launchType': launchType?.toValue(),
+        if (launchType != null) 'launchType': launchType.toValue(),
         if (networkConfiguration != null)
           'networkConfiguration': networkConfiguration,
         if (overrides != null) 'overrides': overrides,
@@ -3519,7 +3527,7 @@ class ECS {
           'placementConstraints': placementConstraints,
         if (placementStrategy != null) 'placementStrategy': placementStrategy,
         if (platformVersion != null) 'platformVersion': platformVersion,
-        if (propagateTags != null) 'propagateTags': propagateTags?.toValue(),
+        if (propagateTags != null) 'propagateTags': propagateTags.toValue(),
         if (referenceId != null) 'referenceId': referenceId,
         if (startedBy != null) 'startedBy': startedBy,
         if (tags != null) 'tags': tags,
@@ -3683,7 +3691,7 @@ class ECS {
         if (networkConfiguration != null)
           'networkConfiguration': networkConfiguration,
         if (overrides != null) 'overrides': overrides,
-        if (propagateTags != null) 'propagateTags': propagateTags?.toValue(),
+        if (propagateTags != null) 'propagateTags': propagateTags.toValue(),
         if (referenceId != null) 'referenceId': referenceId,
         if (startedBy != null) 'startedBy': startedBy,
         if (tags != null) 'tags': tags,
@@ -3932,9 +3940,11 @@ class ECS {
         if (cluster != null) 'cluster': cluster,
         if (containers != null) 'containers': containers,
         if (executionStoppedAt != null)
-          'executionStoppedAt': executionStoppedAt,
-        if (pullStartedAt != null) 'pullStartedAt': pullStartedAt,
-        if (pullStoppedAt != null) 'pullStoppedAt': pullStoppedAt,
+          'executionStoppedAt': unixTimestampToJson(executionStoppedAt),
+        if (pullStartedAt != null)
+          'pullStartedAt': unixTimestampToJson(pullStartedAt),
+        if (pullStoppedAt != null)
+          'pullStoppedAt': unixTimestampToJson(pullStoppedAt),
         if (reason != null) 'reason': reason,
         if (status != null) 'status': status,
         if (task != null) 'task': task,
@@ -4258,7 +4268,7 @@ class ECS {
       headers: headers,
       payload: {
         'containerInstances': containerInstances,
-        'status': status?.toValue(),
+        'status': status?.toValue() ?? '',
         if (cluster != null) 'cluster': cluster,
       },
     );
@@ -4973,6 +4983,16 @@ enum CapacityProviderField {
   tags,
 }
 
+extension on CapacityProviderField {
+  String toValue() {
+    switch (this) {
+      case CapacityProviderField.tags:
+        return 'TAGS';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 enum CapacityProviderStatus {
   @_s.JsonValue('ACTIVE')
   active,
@@ -5222,6 +5242,22 @@ enum ClusterField {
   tags,
 }
 
+extension on ClusterField {
+  String toValue() {
+    switch (this) {
+      case ClusterField.attachments:
+        return 'ATTACHMENTS';
+      case ClusterField.settings:
+        return 'SETTINGS';
+      case ClusterField.statistics:
+        return 'STATISTICS';
+      case ClusterField.tags:
+        return 'TAGS';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// The settings to use when creating a cluster. This parameter is used to
 /// enable CloudWatch Container Insights for a cluster.
 @_s.JsonSerializable(
@@ -5265,6 +5301,18 @@ enum Compatibility {
   ec2,
   @_s.JsonValue('FARGATE')
   fargate,
+}
+
+extension on Compatibility {
+  String toValue() {
+    switch (this) {
+      case Compatibility.ec2:
+        return 'EC2';
+      case Compatibility.fargate:
+        return 'FARGATE';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 enum Connectivity {
@@ -6459,6 +6507,16 @@ class ContainerInstance {
 enum ContainerInstanceField {
   @_s.JsonValue('TAGS')
   tags,
+}
+
+extension on ContainerInstanceField {
+  String toValue() {
+    switch (this) {
+      case ContainerInstanceField.tags:
+        return 'TAGS';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 enum ContainerInstanceStatus {
@@ -9757,6 +9815,16 @@ enum ServiceField {
   tags,
 }
 
+extension on ServiceField {
+  String toValue() {
+    switch (this) {
+      case ServiceField.tags:
+        return 'TAGS';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Details of the service registry.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -10830,6 +10898,16 @@ enum TaskDefinitionField {
   tags,
 }
 
+extension on TaskDefinitionField {
+  String toValue() {
+    switch (this) {
+      case TaskDefinitionField.tags:
+        return 'TAGS';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// An object representing a constraint on task placement in the task
 /// definition. For more information, see <a
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task-placement-constraints.html">Task
@@ -10897,6 +10975,16 @@ extension on TaskDefinitionStatus {
 enum TaskField {
   @_s.JsonValue('TAGS')
   tags,
+}
+
+extension on TaskField {
+  String toValue() {
+    switch (this) {
+      case TaskField.tags:
+        return 'TAGS';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// The overrides associated with a task.
@@ -11189,6 +11277,16 @@ class TaskSet {
 enum TaskSetField {
   @_s.JsonValue('TAGS')
   tags,
+}
+
+extension on TaskSetField {
+  String toValue() {
+    switch (this) {
+      case TaskSetField.tags:
+        return 'TAGS';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 enum TaskStopCode {

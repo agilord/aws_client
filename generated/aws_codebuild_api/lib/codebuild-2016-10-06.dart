@@ -465,7 +465,7 @@ class CodeBuild {
       payload: {
         'exportConfig': exportConfig,
         'name': name,
-        'type': type?.toValue(),
+        'type': type?.toValue() ?? '',
       },
     );
 
@@ -939,8 +939,8 @@ class CodeBuild {
       // TODO queryParams
       headers: headers,
       payload: {
-        'authType': authType?.toValue(),
-        'serverType': serverType?.toValue(),
+        'authType': authType?.toValue() ?? '',
+        'serverType': serverType?.toValue() ?? '',
         'token': token,
         if (shouldOverwrite != null) 'shouldOverwrite': shouldOverwrite,
         if (username != null) 'username': username,
@@ -1026,7 +1026,7 @@ class CodeBuild {
       headers: headers,
       payload: {
         if (nextToken != null) 'nextToken': nextToken,
-        if (sortOrder != null) 'sortOrder': sortOrder?.toValue(),
+        if (sortOrder != null) 'sortOrder': sortOrder.toValue(),
       },
     );
 
@@ -1088,7 +1088,7 @@ class CodeBuild {
       payload: {
         'projectName': projectName,
         if (nextToken != null) 'nextToken': nextToken,
-        if (sortOrder != null) 'sortOrder': sortOrder?.toValue(),
+        if (sortOrder != null) 'sortOrder': sortOrder.toValue(),
       },
     );
 
@@ -1182,8 +1182,8 @@ class CodeBuild {
       headers: headers,
       payload: {
         if (nextToken != null) 'nextToken': nextToken,
-        if (sortBy != null) 'sortBy': sortBy?.toValue(),
-        if (sortOrder != null) 'sortOrder': sortOrder?.toValue(),
+        if (sortBy != null) 'sortBy': sortBy.toValue(),
+        if (sortOrder != null) 'sortOrder': sortOrder.toValue(),
       },
     );
 
@@ -1254,8 +1254,8 @@ class CodeBuild {
       payload: {
         if (maxResults != null) 'maxResults': maxResults,
         if (nextToken != null) 'nextToken': nextToken,
-        if (sortBy != null) 'sortBy': sortBy?.toValue(),
-        if (sortOrder != null) 'sortOrder': sortOrder?.toValue(),
+        if (sortBy != null) 'sortBy': sortBy.toValue(),
+        if (sortOrder != null) 'sortOrder': sortOrder.toValue(),
       },
     );
 
@@ -1323,7 +1323,7 @@ class CodeBuild {
         if (filter != null) 'filter': filter,
         if (maxResults != null) 'maxResults': maxResults,
         if (nextToken != null) 'nextToken': nextToken,
-        if (sortOrder != null) 'sortOrder': sortOrder?.toValue(),
+        if (sortOrder != null) 'sortOrder': sortOrder.toValue(),
       },
     );
 
@@ -1388,7 +1388,7 @@ class CodeBuild {
         if (filter != null) 'filter': filter,
         if (maxResults != null) 'maxResults': maxResults,
         if (nextToken != null) 'nextToken': nextToken,
-        if (sortOrder != null) 'sortOrder': sortOrder?.toValue(),
+        if (sortOrder != null) 'sortOrder': sortOrder.toValue(),
       },
     );
 
@@ -1469,8 +1469,8 @@ class CodeBuild {
       payload: {
         if (maxResults != null) 'maxResults': maxResults,
         if (nextToken != null) 'nextToken': nextToken,
-        if (sortBy != null) 'sortBy': sortBy?.toValue(),
-        if (sortOrder != null) 'sortOrder': sortOrder?.toValue(),
+        if (sortBy != null) 'sortBy': sortBy.toValue(),
+        if (sortOrder != null) 'sortOrder': sortOrder.toValue(),
       },
     );
 
@@ -1546,8 +1546,8 @@ class CodeBuild {
       payload: {
         if (maxResults != null) 'maxResults': maxResults,
         if (nextToken != null) 'nextToken': nextToken,
-        if (sortBy != null) 'sortBy': sortBy?.toValue(),
-        if (sortOrder != null) 'sortOrder': sortOrder?.toValue(),
+        if (sortBy != null) 'sortBy': sortBy.toValue(),
+        if (sortOrder != null) 'sortOrder': sortOrder.toValue(),
       },
     );
 
@@ -1914,11 +1914,11 @@ class CodeBuild {
         if (certificateOverride != null)
           'certificateOverride': certificateOverride,
         if (computeTypeOverride != null)
-          'computeTypeOverride': computeTypeOverride?.toValue(),
+          'computeTypeOverride': computeTypeOverride.toValue(),
         if (encryptionKeyOverride != null)
           'encryptionKeyOverride': encryptionKeyOverride,
         if (environmentTypeOverride != null)
-          'environmentTypeOverride': environmentTypeOverride?.toValue(),
+          'environmentTypeOverride': environmentTypeOverride.toValue(),
         if (environmentVariablesOverride != null)
           'environmentVariablesOverride': environmentVariablesOverride,
         if (gitCloneDepthOverride != null)
@@ -1929,7 +1929,7 @@ class CodeBuild {
         if (imageOverride != null) 'imageOverride': imageOverride,
         if (imagePullCredentialsTypeOverride != null)
           'imagePullCredentialsTypeOverride':
-              imagePullCredentialsTypeOverride?.toValue(),
+              imagePullCredentialsTypeOverride.toValue(),
         if (insecureSslOverride != null)
           'insecureSslOverride': insecureSslOverride,
         if (logsConfigOverride != null)
@@ -1955,7 +1955,7 @@ class CodeBuild {
         if (sourceLocationOverride != null)
           'sourceLocationOverride': sourceLocationOverride,
         if (sourceTypeOverride != null)
-          'sourceTypeOverride': sourceTypeOverride?.toValue(),
+          'sourceTypeOverride': sourceTypeOverride.toValue(),
         if (sourceVersion != null) 'sourceVersion': sourceVersion,
         if (timeoutInMinutesOverride != null)
           'timeoutInMinutesOverride': timeoutInMinutesOverride,

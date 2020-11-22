@@ -703,7 +703,7 @@ class ServiceQuotas {
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
         if (serviceCode != null) 'ServiceCode': serviceCode,
-        if (status != null) 'Status': status?.toValue(),
+        if (status != null) 'Status': status.toValue(),
       },
     );
 
@@ -818,7 +818,7 @@ class ServiceQuotas {
         'ServiceCode': serviceCode,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
-        if (status != null) 'Status': status?.toValue(),
+        if (status != null) 'Status': status.toValue(),
       },
     );
 

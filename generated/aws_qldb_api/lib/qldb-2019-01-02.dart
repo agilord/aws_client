@@ -94,7 +94,7 @@ class QLDB {
     ArgumentError.checkNotNull(permissionsMode, 'permissionsMode');
     final $payload = <String, dynamic>{
       'Name': name,
-      'PermissionsMode': permissionsMode?.toValue(),
+      'PermissionsMode': permissionsMode?.toValue() ?? '',
       if (deletionProtection != null) 'DeletionProtection': deletionProtection,
       if (tags != null) 'Tags': tags,
     };
@@ -337,8 +337,8 @@ class QLDB {
     );
     ArgumentError.checkNotNull(s3ExportConfiguration, 's3ExportConfiguration');
     final $payload = <String, dynamic>{
-      'ExclusiveEndTime': exclusiveEndTime,
-      'InclusiveStartTime': inclusiveStartTime,
+      'ExclusiveEndTime': unixTimestampToJson(exclusiveEndTime),
+      'InclusiveStartTime': unixTimestampToJson(inclusiveStartTime),
       'RoleArn': roleArn,
       'S3ExportConfiguration': s3ExportConfiguration,
     };

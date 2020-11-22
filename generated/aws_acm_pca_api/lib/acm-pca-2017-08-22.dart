@@ -141,7 +141,7 @@ class ACMPCA {
       headers: headers,
       payload: {
         'CertificateAuthorityConfiguration': certificateAuthorityConfiguration,
-        'CertificateAuthorityType': certificateAuthorityType?.toValue(),
+        'CertificateAuthorityType': certificateAuthorityType?.toValue() ?? '',
         if (idempotencyToken != null) 'IdempotencyToken': idempotencyToken,
         if (revocationConfiguration != null)
           'RevocationConfiguration': revocationConfiguration,
@@ -212,7 +212,7 @@ class ACMPCA {
       // TODO queryParams
       headers: headers,
       payload: {
-        'AuditReportResponseFormat': auditReportResponseFormat?.toValue(),
+        'AuditReportResponseFormat': auditReportResponseFormat?.toValue() ?? '',
         'CertificateAuthorityArn': certificateAuthorityArn,
         'S3BucketName': s3BucketName,
       },
@@ -319,7 +319,7 @@ class ACMPCA {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Actions': actions,
+        'Actions': actions?.map((e) => e?.toValue() ?? '')?.toList(),
         'CertificateAuthorityArn': certificateAuthorityArn,
         'Principal': principal,
         if (sourceAccount != null) 'SourceAccount': sourceAccount,
@@ -956,7 +956,7 @@ class ACMPCA {
         'Certificate': certificate?.let(base64Encode),
         'CertificateAuthorityArn': certificateAuthorityArn,
         if (certificateChain != null)
-          'CertificateChain': certificateChain.let(base64Encode),
+          'CertificateChain': base64Encode(certificateChain),
       },
     );
   }
@@ -1109,7 +1109,7 @@ class ACMPCA {
       payload: {
         'CertificateAuthorityArn': certificateAuthorityArn,
         'Csr': csr?.let(base64Encode),
-        'SigningAlgorithm': signingAlgorithm?.toValue(),
+        'SigningAlgorithm': signingAlgorithm?.toValue() ?? '',
         'Validity': validity,
         if (idempotencyToken != null) 'IdempotencyToken': idempotencyToken,
         if (templateArn != null) 'TemplateArn': templateArn,
@@ -1481,7 +1481,7 @@ class ACMPCA {
       payload: {
         'CertificateAuthorityArn': certificateAuthorityArn,
         'CertificateSerial': certificateSerial,
-        'RevocationReason': revocationReason?.toValue(),
+        'RevocationReason': revocationReason?.toValue() ?? '',
       },
     );
   }
@@ -1667,7 +1667,7 @@ class ACMPCA {
         'CertificateAuthorityArn': certificateAuthorityArn,
         if (revocationConfiguration != null)
           'RevocationConfiguration': revocationConfiguration,
-        if (status != null) 'Status': status?.toValue(),
+        if (status != null) 'Status': status.toValue(),
       },
     );
   }
@@ -1785,6 +1785,20 @@ enum ActionType {
   getCertificate,
   @_s.JsonValue('ListPermissions')
   listPermissions,
+}
+
+extension on ActionType {
+  String toValue() {
+    switch (this) {
+      case ActionType.issueCertificate:
+        return 'IssueCertificate';
+      case ActionType.getCertificate:
+        return 'GetCertificate';
+      case ActionType.listPermissions:
+        return 'ListPermissions';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 enum AuditReportResponseFormat {

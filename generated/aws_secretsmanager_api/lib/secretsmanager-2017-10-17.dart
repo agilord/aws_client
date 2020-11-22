@@ -500,8 +500,7 @@ class SecretsManager {
           'ClientRequestToken': clientRequestToken,
         if (description != null) 'Description': description,
         if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
-        if (secretBinary != null)
-          'SecretBinary': secretBinary.let(base64Encode),
+        if (secretBinary != null) 'SecretBinary': base64Encode(secretBinary),
         if (secretString != null) 'SecretString': secretString,
         if (tags != null) 'Tags': tags,
       },
@@ -1691,8 +1690,7 @@ class SecretsManager {
         'SecretId': secretId,
         if (clientRequestToken != null)
           'ClientRequestToken': clientRequestToken,
-        if (secretBinary != null)
-          'SecretBinary': secretBinary.let(base64Encode),
+        if (secretBinary != null) 'SecretBinary': base64Encode(secretBinary),
         if (secretString != null) 'SecretString': secretString,
         if (versionStages != null) 'VersionStages': versionStages,
       },
@@ -2437,8 +2435,7 @@ class SecretsManager {
           'ClientRequestToken': clientRequestToken,
         if (description != null) 'Description': description,
         if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
-        if (secretBinary != null)
-          'SecretBinary': secretBinary.let(base64Encode),
+        if (secretBinary != null) 'SecretBinary': base64Encode(secretBinary),
         if (secretString != null) 'SecretString': secretString,
       },
     );

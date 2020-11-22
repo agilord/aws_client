@@ -590,7 +590,7 @@ class ComprehendMedical {
       payload: {
         'DataAccessRoleArn': dataAccessRoleArn,
         'InputDataConfig': inputDataConfig,
-        'LanguageCode': languageCode?.toValue(),
+        'LanguageCode': languageCode?.toValue() ?? '',
         'OutputDataConfig': outputDataConfig,
         if (clientRequestToken != null)
           'ClientRequestToken': clientRequestToken,
@@ -710,7 +710,7 @@ class ComprehendMedical {
       payload: {
         'DataAccessRoleArn': dataAccessRoleArn,
         'InputDataConfig': inputDataConfig,
-        'LanguageCode': languageCode?.toValue(),
+        'LanguageCode': languageCode?.toValue() ?? '',
         'OutputDataConfig': outputDataConfig,
         if (clientRequestToken != null)
           'ClientRequestToken': clientRequestToken,

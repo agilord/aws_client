@@ -341,16 +341,16 @@ class Snowball {
       headers: headers,
       payload: {
         'AddressId': addressId,
-        'JobType': jobType?.toValue(),
+        'JobType': jobType?.toValue() ?? '',
         'Resources': resources,
         'RoleARN': roleARN,
-        'ShippingOption': shippingOption?.toValue(),
+        'ShippingOption': shippingOption?.toValue() ?? '',
         if (description != null) 'Description': description,
         if (forwardingAddressId != null)
           'ForwardingAddressId': forwardingAddressId,
         if (kmsKeyARN != null) 'KmsKeyARN': kmsKeyARN,
         if (notification != null) 'Notification': notification,
-        if (snowballType != null) 'SnowballType': snowballType?.toValue(),
+        if (snowballType != null) 'SnowballType': snowballType.toValue(),
         if (taxDocuments != null) 'TaxDocuments': taxDocuments,
       },
     );
@@ -551,15 +551,15 @@ class Snowball {
         if (description != null) 'Description': description,
         if (forwardingAddressId != null)
           'ForwardingAddressId': forwardingAddressId,
-        if (jobType != null) 'JobType': jobType?.toValue(),
+        if (jobType != null) 'JobType': jobType.toValue(),
         if (kmsKeyARN != null) 'KmsKeyARN': kmsKeyARN,
         if (notification != null) 'Notification': notification,
         if (resources != null) 'Resources': resources,
         if (roleARN != null) 'RoleARN': roleARN,
-        if (shippingOption != null) 'ShippingOption': shippingOption?.toValue(),
+        if (shippingOption != null) 'ShippingOption': shippingOption.toValue(),
         if (snowballCapacityPreference != null)
-          'SnowballCapacityPreference': snowballCapacityPreference?.toValue(),
-        if (snowballType != null) 'SnowballType': snowballType?.toValue(),
+          'SnowballCapacityPreference': snowballCapacityPreference.toValue(),
+        if (snowballType != null) 'SnowballType': snowballType.toValue(),
         if (taxDocuments != null) 'TaxDocuments': taxDocuments,
       },
     );
@@ -1276,7 +1276,7 @@ class Snowball {
         if (notification != null) 'Notification': notification,
         if (resources != null) 'Resources': resources,
         if (roleARN != null) 'RoleARN': roleARN,
-        if (shippingOption != null) 'ShippingOption': shippingOption?.toValue(),
+        if (shippingOption != null) 'ShippingOption': shippingOption.toValue(),
       },
     );
 
@@ -1413,9 +1413,9 @@ class Snowball {
         if (notification != null) 'Notification': notification,
         if (resources != null) 'Resources': resources,
         if (roleARN != null) 'RoleARN': roleARN,
-        if (shippingOption != null) 'ShippingOption': shippingOption?.toValue(),
+        if (shippingOption != null) 'ShippingOption': shippingOption.toValue(),
         if (snowballCapacityPreference != null)
-          'SnowballCapacityPreference': snowballCapacityPreference?.toValue(),
+          'SnowballCapacityPreference': snowballCapacityPreference.toValue(),
       },
     );
 

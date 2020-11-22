@@ -144,7 +144,7 @@ class GameLift {
       // TODO queryParams
       headers: headers,
       payload: {
-        'AcceptanceType': acceptanceType?.toValue(),
+        'AcceptanceType': acceptanceType?.toValue() ?? '',
         'PlayerIds': playerIds,
         'TicketId': ticketId,
       },
@@ -562,7 +562,7 @@ class GameLift {
       payload: {
         if (name != null) 'Name': name,
         if (operatingSystem != null)
-          'OperatingSystem': operatingSystem?.toValue(),
+          'OperatingSystem': operatingSystem.toValue(),
         if (storageLocation != null) 'StorageLocation': storageLocation,
         if (tags != null) 'Tags': tags,
         if (version != null) 'Version': version,
@@ -920,7 +920,7 @@ class GameLift {
       // TODO queryParams
       headers: headers,
       payload: {
-        'EC2InstanceType': eC2InstanceType?.toValue(),
+        'EC2InstanceType': eC2InstanceType?.toValue() ?? '',
         'Name': name,
         if (buildId != null) 'BuildId': buildId,
         if (certificateConfiguration != null)
@@ -928,13 +928,13 @@ class GameLift {
         if (description != null) 'Description': description,
         if (eC2InboundPermissions != null)
           'EC2InboundPermissions': eC2InboundPermissions,
-        if (fleetType != null) 'FleetType': fleetType?.toValue(),
+        if (fleetType != null) 'FleetType': fleetType.toValue(),
         if (instanceRoleArn != null) 'InstanceRoleArn': instanceRoleArn,
         if (logPaths != null) 'LogPaths': logPaths,
         if (metricGroups != null) 'MetricGroups': metricGroups,
         if (newGameSessionProtectionPolicy != null)
           'NewGameSessionProtectionPolicy':
-              newGameSessionProtectionPolicy?.toValue(),
+              newGameSessionProtectionPolicy.toValue(),
         if (peerVpcAwsAccountId != null)
           'PeerVpcAwsAccountId': peerVpcAwsAccountId,
         if (peerVpcId != null) 'PeerVpcId': peerVpcId,
@@ -1217,9 +1217,9 @@ class GameLift {
         'RoleArn': roleArn,
         if (autoScalingPolicy != null) 'AutoScalingPolicy': autoScalingPolicy,
         if (balancingStrategy != null)
-          'BalancingStrategy': balancingStrategy?.toValue(),
+          'BalancingStrategy': balancingStrategy.toValue(),
         if (gameServerProtectionPolicy != null)
-          'GameServerProtectionPolicy': gameServerProtectionPolicy?.toValue(),
+          'GameServerProtectionPolicy': gameServerProtectionPolicy.toValue(),
         if (tags != null) 'Tags': tags,
         if (vpcSubnets != null) 'VpcSubnets': vpcSubnets,
       },
@@ -1887,7 +1887,7 @@ class GameLift {
           'AcceptanceTimeoutSeconds': acceptanceTimeoutSeconds,
         if (additionalPlayerCount != null)
           'AdditionalPlayerCount': additionalPlayerCount,
-        if (backfillMode != null) 'BackfillMode': backfillMode?.toValue(),
+        if (backfillMode != null) 'BackfillMode': backfillMode.toValue(),
         if (customEventData != null) 'CustomEventData': customEventData,
         if (description != null) 'Description': description,
         if (gameProperties != null) 'GameProperties': gameProperties,
@@ -2389,7 +2389,7 @@ class GameLift {
         if (storageLocation != null) 'StorageLocation': storageLocation,
         if (tags != null) 'Tags': tags,
         if (version != null) 'Version': version,
-        if (zipFile != null) 'ZipFile': zipFile.let(base64Encode),
+        if (zipFile != null) 'ZipFile': base64Encode(zipFile),
       },
     );
 
@@ -2940,7 +2940,7 @@ class GameLift {
       headers: headers,
       payload: {
         'GameServerGroupName': gameServerGroupName,
-        if (deleteOption != null) 'DeleteOption': deleteOption?.toValue(),
+        if (deleteOption != null) 'DeleteOption': deleteOption.toValue(),
       },
     );
 
@@ -3816,7 +3816,7 @@ class GameLift {
       headers: headers,
       payload: {
         if (eC2InstanceType != null)
-          'EC2InstanceType': eC2InstanceType?.toValue(),
+          'EC2InstanceType': eC2InstanceType.toValue(),
       },
     );
 
@@ -4202,10 +4202,10 @@ class GameLift {
       headers: headers,
       payload: {
         'FleetId': fleetId,
-        if (endTime != null) 'EndTime': endTime,
+        if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
         if (limit != null) 'Limit': limit,
         if (nextToken != null) 'NextToken': nextToken,
-        if (startTime != null) 'StartTime': startTime,
+        if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
       },
     );
 
@@ -5882,7 +5882,7 @@ class GameLift {
         'FleetId': fleetId,
         if (limit != null) 'Limit': limit,
         if (nextToken != null) 'NextToken': nextToken,
-        if (statusFilter != null) 'StatusFilter': statusFilter?.toValue(),
+        if (statusFilter != null) 'StatusFilter': statusFilter.toValue(),
       },
     );
 
@@ -6349,7 +6349,7 @@ class GameLift {
         if (name != null) 'Name': name,
         if (nextToken != null) 'NextToken': nextToken,
         if (routingStrategyType != null)
-          'RoutingStrategyType': routingStrategyType?.toValue(),
+          'RoutingStrategyType': routingStrategyType.toValue(),
       },
     );
 
@@ -6454,7 +6454,7 @@ class GameLift {
       payload: {
         if (limit != null) 'Limit': limit,
         if (nextToken != null) 'NextToken': nextToken,
-        if (status != null) 'Status': status?.toValue(),
+        if (status != null) 'Status': status.toValue(),
       },
     );
 
@@ -6762,7 +6762,7 @@ class GameLift {
         'GameServerGroupName': gameServerGroupName,
         if (limit != null) 'Limit': limit,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
       },
     );
 
@@ -7224,15 +7224,15 @@ class GameLift {
       headers: headers,
       payload: {
         'FleetId': fleetId,
-        'MetricName': metricName?.toValue(),
+        'MetricName': metricName?.toValue() ?? '',
         'Name': name,
         if (comparisonOperator != null)
-          'ComparisonOperator': comparisonOperator?.toValue(),
+          'ComparisonOperator': comparisonOperator.toValue(),
         if (evaluationPeriods != null) 'EvaluationPeriods': evaluationPeriods,
-        if (policyType != null) 'PolicyType': policyType?.toValue(),
+        if (policyType != null) 'PolicyType': policyType.toValue(),
         if (scalingAdjustment != null) 'ScalingAdjustment': scalingAdjustment,
         if (scalingAdjustmentType != null)
-          'ScalingAdjustmentType': scalingAdjustmentType?.toValue(),
+          'ScalingAdjustmentType': scalingAdjustmentType.toValue(),
         if (targetConfiguration != null)
           'TargetConfiguration': targetConfiguration,
         if (threshold != null) 'Threshold': threshold,
@@ -7664,7 +7664,8 @@ class GameLift {
       headers: headers,
       payload: {
         'GameServerGroupName': gameServerGroupName,
-        'ResumeActions': resumeActions,
+        'ResumeActions':
+            resumeActions?.map((e) => e?.toValue() ?? '')?.toList(),
       },
     );
 
@@ -8019,7 +8020,7 @@ class GameLift {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Actions': actions,
+        'Actions': actions?.map((e) => e?.toValue() ?? '')?.toList(),
         'FleetId': fleetId,
       },
     );
@@ -8668,7 +8669,7 @@ class GameLift {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Actions': actions,
+        'Actions': actions?.map((e) => e?.toValue() ?? '')?.toList(),
         'FleetId': fleetId,
       },
     );
@@ -8935,7 +8936,8 @@ class GameLift {
       headers: headers,
       payload: {
         'GameServerGroupName': gameServerGroupName,
-        'SuspendActions': suspendActions,
+        'SuspendActions':
+            suspendActions?.map((e) => e?.toValue() ?? '')?.toList(),
       },
     );
 
@@ -9481,7 +9483,7 @@ class GameLift {
         if (name != null) 'Name': name,
         if (newGameSessionProtectionPolicy != null)
           'NewGameSessionProtectionPolicy':
-              newGameSessionProtectionPolicy?.toValue(),
+              newGameSessionProtectionPolicy.toValue(),
         if (resourceCreationLimitPolicy != null)
           'ResourceCreationLimitPolicy': resourceCreationLimitPolicy,
       },
@@ -9898,9 +9900,9 @@ class GameLift {
         'GameServerId': gameServerId,
         if (customSortKey != null) 'CustomSortKey': customSortKey,
         if (gameServerData != null) 'GameServerData': gameServerData,
-        if (healthCheck != null) 'HealthCheck': healthCheck?.toValue(),
+        if (healthCheck != null) 'HealthCheck': healthCheck.toValue(),
         if (utilizationStatus != null)
-          'UtilizationStatus': utilizationStatus?.toValue(),
+          'UtilizationStatus': utilizationStatus.toValue(),
       },
     );
 
@@ -10060,9 +10062,9 @@ class GameLift {
       payload: {
         'GameServerGroupName': gameServerGroupName,
         if (balancingStrategy != null)
-          'BalancingStrategy': balancingStrategy?.toValue(),
+          'BalancingStrategy': balancingStrategy.toValue(),
         if (gameServerProtectionPolicy != null)
-          'GameServerProtectionPolicy': gameServerProtectionPolicy?.toValue(),
+          'GameServerProtectionPolicy': gameServerProtectionPolicy.toValue(),
         if (instanceDefinitions != null)
           'InstanceDefinitions': instanceDefinitions,
         if (roleArn != null) 'RoleArn': roleArn,
@@ -10198,9 +10200,9 @@ class GameLift {
           'MaximumPlayerSessionCount': maximumPlayerSessionCount,
         if (name != null) 'Name': name,
         if (playerSessionCreationPolicy != null)
-          'PlayerSessionCreationPolicy': playerSessionCreationPolicy?.toValue(),
+          'PlayerSessionCreationPolicy': playerSessionCreationPolicy.toValue(),
         if (protectionPolicy != null)
-          'ProtectionPolicy': protectionPolicy?.toValue(),
+          'ProtectionPolicy': protectionPolicy.toValue(),
       },
     );
 
@@ -10542,7 +10544,7 @@ class GameLift {
           'AcceptanceTimeoutSeconds': acceptanceTimeoutSeconds,
         if (additionalPlayerCount != null)
           'AdditionalPlayerCount': additionalPlayerCount,
-        if (backfillMode != null) 'BackfillMode': backfillMode?.toValue(),
+        if (backfillMode != null) 'BackfillMode': backfillMode.toValue(),
         if (customEventData != null) 'CustomEventData': customEventData,
         if (description != null) 'Description': description,
         if (gameProperties != null) 'GameProperties': gameProperties,
@@ -10788,7 +10790,7 @@ class GameLift {
         if (name != null) 'Name': name,
         if (storageLocation != null) 'StorageLocation': storageLocation,
         if (version != null) 'Version': version,
-        if (zipFile != null) 'ZipFile': zipFile.let(base64Encode),
+        if (zipFile != null) 'ZipFile': base64Encode(zipFile),
       },
     );
 
@@ -12797,6 +12799,16 @@ enum FleetAction {
   autoScaling,
 }
 
+extension on FleetAction {
+  String toValue() {
+    switch (this) {
+      case FleetAction.autoScaling:
+        return 'AUTO_SCALING';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// General properties describing a fleet.
 ///
 /// <ul>
@@ -13521,6 +13533,16 @@ class GameServerGroup {
 enum GameServerGroupAction {
   @_s.JsonValue('REPLACE_INSTANCE_TYPES')
   replaceInstanceTypes,
+}
+
+extension on GameServerGroupAction {
+  String toValue() {
+    switch (this) {
+      case GameServerGroupAction.replaceInstanceTypes:
+        return 'REPLACE_INSTANCE_TYPES';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// <b>This data type is part of Amazon GameLift FleetIQ with game server

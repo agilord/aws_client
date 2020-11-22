@@ -780,7 +780,7 @@ class CognitoSync {
     ArgumentError.checkNotNull(platform, 'platform');
     ArgumentError.checkNotNull(token, 'token');
     final $payload = <String, dynamic>{
-      'Platform': platform?.toValue(),
+      'Platform': platform?.toValue() ?? '',
       'Token': token,
     };
     final response = await _protocol.send(

@@ -146,12 +146,12 @@ class Transfer {
       headers: headers,
       payload: {
         if (endpointDetails != null) 'EndpointDetails': endpointDetails,
-        if (endpointType != null) 'EndpointType': endpointType?.toValue(),
+        if (endpointType != null) 'EndpointType': endpointType.toValue(),
         if (hostKey != null) 'HostKey': hostKey,
         if (identityProviderDetails != null)
           'IdentityProviderDetails': identityProviderDetails,
         if (identityProviderType != null)
-          'IdentityProviderType': identityProviderType?.toValue(),
+          'IdentityProviderType': identityProviderType.toValue(),
         if (loggingRole != null) 'LoggingRole': loggingRole,
         if (tags != null) 'Tags': tags,
       },
@@ -364,7 +364,7 @@ class Transfer {
         if (homeDirectoryMappings != null)
           'HomeDirectoryMappings': homeDirectoryMappings,
         if (homeDirectoryType != null)
-          'HomeDirectoryType': homeDirectoryType?.toValue(),
+          'HomeDirectoryType': homeDirectoryType.toValue(),
         if (policy != null) 'Policy': policy,
         if (sshPublicKeyBody != null) 'SshPublicKeyBody': sshPublicKeyBody,
         if (tags != null) 'Tags': tags,
@@ -1378,7 +1378,7 @@ class Transfer {
       payload: {
         'ServerId': serverId,
         if (endpointDetails != null) 'EndpointDetails': endpointDetails,
-        if (endpointType != null) 'EndpointType': endpointType?.toValue(),
+        if (endpointType != null) 'EndpointType': endpointType.toValue(),
         if (hostKey != null) 'HostKey': hostKey,
         if (identityProviderDetails != null)
           'IdentityProviderDetails': identityProviderDetails,
@@ -1568,7 +1568,7 @@ class Transfer {
         if (homeDirectoryMappings != null)
           'HomeDirectoryMappings': homeDirectoryMappings,
         if (homeDirectoryType != null)
-          'HomeDirectoryType': homeDirectoryType?.toValue(),
+          'HomeDirectoryType': homeDirectoryType.toValue(),
         if (policy != null) 'Policy': policy,
         if (role != null) 'Role': role,
       },

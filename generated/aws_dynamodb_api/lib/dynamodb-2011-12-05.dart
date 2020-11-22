@@ -238,7 +238,7 @@ class DynamoDB {
         'Key': key,
         'TableName': tableName,
         if (expected != null) 'Expected': expected,
-        if (returnValues != null) 'ReturnValues': returnValues?.toValue(),
+        if (returnValues != null) 'ReturnValues': returnValues.toValue(),
       },
     );
 
@@ -510,7 +510,7 @@ class DynamoDB {
         'Item': item,
         'TableName': tableName,
         if (expected != null) 'Expected': expected,
-        if (returnValues != null) 'ReturnValues': returnValues?.toValue(),
+        if (returnValues != null) 'ReturnValues': returnValues.toValue(),
       },
     );
 
@@ -778,7 +778,7 @@ class DynamoDB {
         'Key': key,
         'TableName': tableName,
         if (expected != null) 'Expected': expected,
-        if (returnValues != null) 'ReturnValues': returnValues?.toValue(),
+        if (returnValues != null) 'ReturnValues': returnValues.toValue(),
       },
     );
 

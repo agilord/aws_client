@@ -297,12 +297,11 @@ class EFS {
       'CreationToken': creationToken,
       if (encrypted != null) 'Encrypted': encrypted,
       if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
-      if (performanceMode != null)
-        'PerformanceMode': performanceMode?.toValue(),
+      if (performanceMode != null) 'PerformanceMode': performanceMode.toValue(),
       if (provisionedThroughputInMibps != null)
         'ProvisionedThroughputInMibps': provisionedThroughputInMibps,
       if (tags != null) 'Tags': tags,
-      if (throughputMode != null) 'ThroughputMode': throughputMode?.toValue(),
+      if (throughputMode != null) 'ThroughputMode': throughputMode.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1448,7 +1447,7 @@ class EFS {
     final $payload = <String, dynamic>{
       if (provisionedThroughputInMibps != null)
         'ProvisionedThroughputInMibps': provisionedThroughputInMibps,
-      if (throughputMode != null) 'ThroughputMode': throughputMode?.toValue(),
+      if (throughputMode != null) 'ThroughputMode': throughputMode.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,

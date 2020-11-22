@@ -54,8 +54,9 @@ class Enum {
       // TODO queryParams
       headers: headers,
       payload: {
-        if (fooEnum != null) 'FooEnum': fooEnum?.toValue(),
-        if (listEnums != null) 'ListEnums': listEnums,
+        if (fooEnum != null) 'FooEnum': fooEnum.toValue(),
+        if (listEnums != null)
+          'ListEnums': listEnums.map((e) => e?.toValue() ?? '').toList(),
       },
     );
   }
@@ -75,8 +76,9 @@ class Enum {
       // TODO queryParams
       headers: headers,
       payload: {
-        if (fooEnum != null) 'FooEnum': fooEnum?.toValue(),
-        if (listEnums != null) 'ListEnums': listEnums,
+        if (fooEnum != null) 'FooEnum': fooEnum.toValue(),
+        if (listEnums != null)
+          'ListEnums': listEnums.map((e) => e?.toValue() ?? '').toList(),
       },
     );
   }

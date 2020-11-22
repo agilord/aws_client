@@ -1252,7 +1252,7 @@ class IoTAnalytics {
     ArgumentError.checkNotNull(payloads, 'payloads');
     ArgumentError.checkNotNull(pipelineActivity, 'pipelineActivity');
     final $payload = <String, dynamic>{
-      'payloads': payloads,
+      'payloads': payloads?.map((e) => e?.let(base64Encode))?.toList(),
       'pipelineActivity': pipelineActivity,
     };
     final response = await _protocol.send(
@@ -1364,8 +1364,8 @@ class IoTAnalytics {
       isRequired: true,
     );
     final $payload = <String, dynamic>{
-      if (endTime != null) 'endTime': endTime,
-      if (startTime != null) 'startTime': startTime,
+      if (endTime != null) 'endTime': unixTimestampToJson(endTime),
+      if (startTime != null) 'startTime': unixTimestampToJson(startTime),
     };
     final response = await _protocol.send(
       payload: $payload,

@@ -940,7 +940,7 @@ class MTurk {
       payload: {
         'Description': description,
         'Name': name,
-        'QualificationTypeStatus': qualificationTypeStatus?.toValue(),
+        'QualificationTypeStatus': qualificationTypeStatus?.toValue() ?? '',
         if (answerKey != null) 'AnswerKey': answerKey,
         if (autoGranted != null) 'AutoGranted': autoGranted,
         if (autoGrantedValue != null) 'AutoGrantedValue': autoGrantedValue,
@@ -1615,7 +1615,8 @@ class MTurk {
       payload: {
         'HITId': hITId,
         if (assignmentStatuses != null)
-          'AssignmentStatuses': assignmentStatuses,
+          'AssignmentStatuses':
+              assignmentStatuses.map((e) => e?.toValue() ?? '').toList(),
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
       },
@@ -2026,7 +2027,8 @@ class MTurk {
         'HITId': hITId,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
-        if (policyLevels != null) 'PolicyLevels': policyLevels,
+        if (policyLevels != null)
+          'PolicyLevels': policyLevels.map((e) => e?.toValue() ?? '').toList(),
         if (retrieveActions != null) 'RetrieveActions': retrieveActions,
         if (retrieveResults != null) 'RetrieveResults': retrieveResults,
       },
@@ -2098,7 +2100,7 @@ class MTurk {
         if (hITTypeId != null) 'HITTypeId': hITTypeId,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
-        if (status != null) 'Status': status?.toValue(),
+        if (status != null) 'Status': status.toValue(),
       },
     );
 
@@ -2214,7 +2216,7 @@ class MTurk {
         'QualificationTypeId': qualificationTypeId,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
-        if (status != null) 'Status': status?.toValue(),
+        if (status != null) 'Status': status.toValue(),
       },
     );
 
@@ -2516,7 +2518,7 @@ class MTurk {
       headers: headers,
       payload: {
         'Notification': notification,
-        'TestEventType': testEventType?.toValue(),
+        'TestEventType': testEventType?.toValue() ?? '',
       },
     );
 
@@ -2565,7 +2567,7 @@ class MTurk {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ExpireAt': expireAt,
+        'ExpireAt': unixTimestampToJson(expireAt),
         'HITId': hITId,
       },
     );
@@ -2892,7 +2894,7 @@ class MTurk {
         if (autoGrantedValue != null) 'AutoGrantedValue': autoGrantedValue,
         if (description != null) 'Description': description,
         if (qualificationTypeStatus != null)
-          'QualificationTypeStatus': qualificationTypeStatus?.toValue(),
+          'QualificationTypeStatus': qualificationTypeStatus.toValue(),
         if (retryDelayInSeconds != null)
           'RetryDelayInSeconds': retryDelayInSeconds,
         if (test != null) 'Test': test,
@@ -3047,6 +3049,20 @@ enum AssignmentStatus {
   approved,
   @_s.JsonValue('Rejected')
   rejected,
+}
+
+extension on AssignmentStatus {
+  String toValue() {
+    switch (this) {
+      case AssignmentStatus.submitted:
+        return 'Submitted';
+      case AssignmentStatus.approved:
+        return 'Approved';
+      case AssignmentStatus.rejected:
+        return 'Rejected';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 @_s.JsonSerializable(
@@ -4617,6 +4633,18 @@ enum ReviewPolicyLevel {
   assignment,
   @_s.JsonValue('HIT')
   hit,
+}
+
+extension on ReviewPolicyLevel {
+  String toValue() {
+    switch (this) {
+      case ReviewPolicyLevel.assignment:
+        return 'Assignment';
+      case ReviewPolicyLevel.hit:
+        return 'HIT';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Contains both ReviewResult and ReviewAction elements for a particular HIT.

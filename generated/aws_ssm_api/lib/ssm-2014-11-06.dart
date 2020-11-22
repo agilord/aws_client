@@ -130,7 +130,7 @@ class SSM {
       headers: headers,
       payload: {
         'ResourceId': resourceId,
-        'ResourceType': resourceType?.toValue(),
+        'ResourceType': resourceType?.toValue() ?? '',
         'Tags': tags,
       },
     );
@@ -363,7 +363,8 @@ class SSM {
         if (defaultInstanceName != null)
           'DefaultInstanceName': defaultInstanceName,
         if (description != null) 'Description': description,
-        if (expirationDate != null) 'ExpirationDate': expirationDate,
+        if (expirationDate != null)
+          'ExpirationDate': unixTimestampToJson(expirationDate),
         if (registrationLimit != null) 'RegistrationLimit': registrationLimit,
         if (tags != null) 'Tags': tags,
       },
@@ -573,7 +574,7 @@ class SSM {
         if (automationTargetParameterName != null)
           'AutomationTargetParameterName': automationTargetParameterName,
         if (complianceSeverity != null)
-          'ComplianceSeverity': complianceSeverity?.toValue(),
+          'ComplianceSeverity': complianceSeverity.toValue(),
         if (documentVersion != null) 'DocumentVersion': documentVersion,
         if (instanceId != null) 'InstanceId': instanceId,
         if (maxConcurrency != null) 'MaxConcurrency': maxConcurrency,
@@ -774,8 +775,8 @@ class SSM {
         'Content': content,
         'Name': name,
         if (attachments != null) 'Attachments': attachments,
-        if (documentFormat != null) 'DocumentFormat': documentFormat?.toValue(),
-        if (documentType != null) 'DocumentType': documentType?.toValue(),
+        if (documentFormat != null) 'DocumentFormat': documentFormat.toValue(),
+        if (documentType != null) 'DocumentType': documentType.toValue(),
         if (requires != null) 'Requires': requires,
         if (tags != null) 'Tags': tags,
         if (targetType != null) 'TargetType': targetType,
@@ -1290,17 +1291,17 @@ class SSM {
         if (approvedPatches != null) 'ApprovedPatches': approvedPatches,
         if (approvedPatchesComplianceLevel != null)
           'ApprovedPatchesComplianceLevel':
-              approvedPatchesComplianceLevel?.toValue(),
+              approvedPatchesComplianceLevel.toValue(),
         if (approvedPatchesEnableNonSecurity != null)
           'ApprovedPatchesEnableNonSecurity': approvedPatchesEnableNonSecurity,
         if (clientToken != null) 'ClientToken': clientToken,
         if (description != null) 'Description': description,
         if (globalFilters != null) 'GlobalFilters': globalFilters,
         if (operatingSystem != null)
-          'OperatingSystem': operatingSystem?.toValue(),
+          'OperatingSystem': operatingSystem.toValue(),
         if (rejectedPatches != null) 'RejectedPatches': rejectedPatches,
         if (rejectedPatchesAction != null)
-          'RejectedPatchesAction': rejectedPatchesAction?.toValue(),
+          'RejectedPatchesAction': rejectedPatchesAction.toValue(),
         if (sources != null) 'Sources': sources,
         if (tags != null) 'Tags': tags,
       },
@@ -1656,7 +1657,7 @@ class SSM {
         if (clientToken != null) 'ClientToken': clientToken,
         if (dryRun != null) 'DryRun': dryRun,
         if (schemaDeleteOption != null)
-          'SchemaDeleteOption': schemaDeleteOption?.toValue(),
+          'SchemaDeleteOption': schemaDeleteOption.toValue(),
       },
     );
 
@@ -2633,7 +2634,7 @@ class SSM {
       headers: headers,
       payload: {
         'Name': name,
-        'PermissionType': permissionType?.toValue(),
+        'PermissionType': permissionType?.toValue() ?? '',
       },
     );
 
@@ -3434,7 +3435,7 @@ class SSM {
         if (filters != null) 'Filters': filters,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
-        if (resourceType != null) 'ResourceType': resourceType?.toValue(),
+        if (resourceType != null) 'ResourceType': resourceType.toValue(),
         if (targets != null) 'Targets': targets,
         if (windowId != null) 'WindowId': windowId,
       },
@@ -3672,7 +3673,7 @@ class SSM {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ResourceType': resourceType?.toValue(),
+        'ResourceType': resourceType?.toValue() ?? '',
         'Targets': targets,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
@@ -4081,11 +4082,11 @@ class SSM {
       // TODO queryParams
       headers: headers,
       payload: {
-        'OperatingSystem': operatingSystem?.toValue(),
-        'Property': property?.toValue(),
+        'OperatingSystem': operatingSystem?.toValue() ?? '',
+        'Property': property?.toValue() ?? '',
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
-        if (patchSet != null) 'PatchSet': patchSet?.toValue(),
+        if (patchSet != null) 'PatchSet': patchSet.toValue(),
       },
     );
 
@@ -4138,7 +4139,7 @@ class SSM {
       // TODO queryParams
       headers: headers,
       payload: {
-        'State': state?.toValue(),
+        'State': state?.toValue() ?? '',
         if (filters != null) 'Filters': filters,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
@@ -4366,7 +4367,7 @@ class SSM {
       headers: headers,
       payload: {
         if (operatingSystem != null)
-          'OperatingSystem': operatingSystem?.toValue(),
+          'OperatingSystem': operatingSystem.toValue(),
       },
     );
 
@@ -4488,7 +4489,7 @@ class SSM {
       headers: headers,
       payload: {
         'Name': name,
-        if (documentFormat != null) 'DocumentFormat': documentFormat?.toValue(),
+        if (documentFormat != null) 'DocumentFormat': documentFormat.toValue(),
         if (documentVersion != null) 'DocumentVersion': documentVersion,
         if (versionName != null) 'VersionName': versionName,
       },
@@ -5367,7 +5368,7 @@ class SSM {
       payload: {
         'PatchGroup': patchGroup,
         if (operatingSystem != null)
-          'OperatingSystem': operatingSystem?.toValue(),
+          'OperatingSystem': operatingSystem.toValue(),
       },
     );
 
@@ -6238,7 +6239,7 @@ class SSM {
       headers: headers,
       payload: {
         'ResourceId': resourceId,
-        'ResourceType': resourceType?.toValue(),
+        'ResourceType': resourceType?.toValue() ?? '',
       },
     );
 
@@ -6315,7 +6316,7 @@ class SSM {
       headers: headers,
       payload: {
         'Name': name,
-        'PermissionType': permissionType?.toValue(),
+        'PermissionType': permissionType?.toValue() ?? '',
         if (accountIdsToAdd != null) 'AccountIdsToAdd': accountIdsToAdd,
         if (accountIdsToRemove != null)
           'AccountIdsToRemove': accountIdsToRemove,
@@ -6853,7 +6854,7 @@ class SSM {
       headers: headers,
       payload: {
         'Name': name,
-        'Type': type?.toValue(),
+        'Type': type?.toValue() ?? '',
         'Value': value,
         if (allowedPattern != null) 'AllowedPattern': allowedPattern,
         if (description != null) 'Description': description,
@@ -6861,7 +6862,7 @@ class SSM {
         if (overwrite != null) 'Overwrite': overwrite,
         if (policies != null) 'Policies': policies,
         if (tags != null) 'Tags': tags,
-        if (tier != null) 'Tier': tier?.toValue(),
+        if (tier != null) 'Tier': tier.toValue(),
       },
     );
 
@@ -7116,7 +7117,7 @@ class SSM {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ResourceType': resourceType?.toValue(),
+        'ResourceType': resourceType?.toValue() ?? '',
         'Targets': targets,
         'WindowId': windowId,
         if (clientToken != null) 'ClientToken': clientToken,
@@ -7343,7 +7344,7 @@ class SSM {
         'MaxErrors': maxErrors,
         'Targets': targets,
         'TaskArn': taskArn,
-        'TaskType': taskType?.toValue(),
+        'TaskType': taskType?.toValue() ?? '',
         'WindowId': windowId,
         if (clientToken != null) 'ClientToken': clientToken,
         if (description != null) 'Description': description,
@@ -7413,7 +7414,7 @@ class SSM {
       headers: headers,
       payload: {
         'ResourceId': resourceId,
-        'ResourceType': resourceType?.toValue(),
+        'ResourceType': resourceType?.toValue() ?? '',
         'TagKeys': tagKeys,
       },
     );
@@ -7579,7 +7580,7 @@ class SSM {
       headers: headers,
       payload: {
         'AutomationExecutionId': automationExecutionId,
-        'SignalType': signalType?.toValue(),
+        'SignalType': signalType?.toValue() ?? '',
         if (payload != null) 'Payload': payload,
       },
     );
@@ -7805,7 +7806,7 @@ class SSM {
         if (comment != null) 'Comment': comment,
         if (documentHash != null) 'DocumentHash': documentHash,
         if (documentHashType != null)
-          'DocumentHashType': documentHashType?.toValue(),
+          'DocumentHashType': documentHashType.toValue(),
         if (documentVersion != null) 'DocumentVersion': documentVersion,
         if (instanceIds != null) 'InstanceIds': instanceIds,
         if (maxConcurrency != null) 'MaxConcurrency': maxConcurrency,
@@ -8026,7 +8027,7 @@ class SSM {
         if (documentVersion != null) 'DocumentVersion': documentVersion,
         if (maxConcurrency != null) 'MaxConcurrency': maxConcurrency,
         if (maxErrors != null) 'MaxErrors': maxErrors,
-        if (mode != null) 'Mode': mode?.toValue(),
+        if (mode != null) 'Mode': mode.toValue(),
         if (parameters != null) 'Parameters': parameters,
         if (tags != null) 'Tags': tags,
         if (targetLocations != null) 'TargetLocations': targetLocations,
@@ -8144,7 +8145,7 @@ class SSM {
       headers: headers,
       payload: {
         'AutomationExecutionId': automationExecutionId,
-        if (type != null) 'Type': type?.toValue(),
+        if (type != null) 'Type': type.toValue(),
       },
     );
 
@@ -8397,7 +8398,7 @@ class SSM {
         if (automationTargetParameterName != null)
           'AutomationTargetParameterName': automationTargetParameterName,
         if (complianceSeverity != null)
-          'ComplianceSeverity': complianceSeverity?.toValue(),
+          'ComplianceSeverity': complianceSeverity.toValue(),
         if (documentVersion != null) 'DocumentVersion': documentVersion,
         if (maxConcurrency != null) 'MaxConcurrency': maxConcurrency,
         if (maxErrors != null) 'MaxErrors': maxErrors,
@@ -8567,7 +8568,7 @@ class SSM {
         'Content': content,
         'Name': name,
         if (attachments != null) 'Attachments': attachments,
-        if (documentFormat != null) 'DocumentFormat': documentFormat?.toValue(),
+        if (documentFormat != null) 'DocumentFormat': documentFormat.toValue(),
         if (documentVersion != null) 'DocumentVersion': documentVersion,
         if (targetType != null) 'TargetType': targetType,
         if (versionName != null) 'VersionName': versionName,
@@ -9379,7 +9380,7 @@ class SSM {
         if (priority != null) 'Priority': priority,
         if (relatedOpsItems != null) 'RelatedOpsItems': relatedOpsItems,
         if (severity != null) 'Severity': severity,
-        if (status != null) 'Status': status?.toValue(),
+        if (status != null) 'Status': status.toValue(),
         if (title != null) 'Title': title,
       },
     );
@@ -9530,7 +9531,7 @@ class SSM {
         if (approvedPatches != null) 'ApprovedPatches': approvedPatches,
         if (approvedPatchesComplianceLevel != null)
           'ApprovedPatchesComplianceLevel':
-              approvedPatchesComplianceLevel?.toValue(),
+              approvedPatchesComplianceLevel.toValue(),
         if (approvedPatchesEnableNonSecurity != null)
           'ApprovedPatchesEnableNonSecurity': approvedPatchesEnableNonSecurity,
         if (description != null) 'Description': description,
@@ -9538,7 +9539,7 @@ class SSM {
         if (name != null) 'Name': name,
         if (rejectedPatches != null) 'RejectedPatches': rejectedPatches,
         if (rejectedPatchesAction != null)
-          'RejectedPatchesAction': rejectedPatchesAction?.toValue(),
+          'RejectedPatchesAction': rejectedPatchesAction.toValue(),
         if (replace != null) 'Replace': replace,
         if (sources != null) 'Sources': sources,
       },

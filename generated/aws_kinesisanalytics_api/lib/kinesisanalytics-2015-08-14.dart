@@ -788,7 +788,7 @@ class KinesisAnalytics {
       headers: headers,
       payload: {
         'ApplicationName': applicationName,
-        'CreateTimestamp': createTimestamp,
+        'CreateTimestamp': unixTimestampToJson(createTimestamp),
       },
     );
 

@@ -521,7 +521,7 @@ class Organizations {
         'AccountName': accountName,
         'Email': email,
         if (iamUserAccessToBilling != null)
-          'IamUserAccessToBilling': iamUserAccessToBilling?.toValue(),
+          'IamUserAccessToBilling': iamUserAccessToBilling.toValue(),
         if (roleName != null) 'RoleName': roleName,
       },
     );
@@ -783,7 +783,7 @@ class Organizations {
         'AccountName': accountName,
         'Email': email,
         if (iamUserAccessToBilling != null)
-          'IamUserAccessToBilling': iamUserAccessToBilling?.toValue(),
+          'IamUserAccessToBilling': iamUserAccessToBilling.toValue(),
         if (roleName != null) 'RoleName': roleName,
       },
     );
@@ -855,7 +855,7 @@ class Organizations {
       // TODO queryParams
       headers: headers,
       payload: {
-        if (featureSet != null) 'FeatureSet': featureSet?.toValue(),
+        if (featureSet != null) 'FeatureSet': featureSet.toValue(),
       },
     );
 
@@ -1036,7 +1036,7 @@ class Organizations {
         'Content': content,
         'Description': description,
         'Name': name,
-        'Type': type?.toValue(),
+        'Type': type?.toValue() ?? '',
       },
     );
 
@@ -1456,7 +1456,7 @@ class Organizations {
       // TODO queryParams
       headers: headers,
       payload: {
-        'PolicyType': policyType?.toValue(),
+        'PolicyType': policyType?.toValue() ?? '',
         if (targetId != null) 'TargetId': targetId,
       },
     );
@@ -1893,7 +1893,7 @@ class Organizations {
       // TODO queryParams
       headers: headers,
       payload: {
-        'PolicyType': policyType?.toValue(),
+        'PolicyType': policyType?.toValue() ?? '',
         'RootId': rootId,
       },
     );
@@ -2092,7 +2092,7 @@ class Organizations {
       // TODO queryParams
       headers: headers,
       payload: {
-        'PolicyType': policyType?.toValue(),
+        'PolicyType': policyType?.toValue() ?? '',
         'RootId': rootId,
       },
     );
@@ -2591,7 +2591,7 @@ class Organizations {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ChildType': childType?.toValue(),
+        'ChildType': childType?.toValue() ?? '',
         'ParentId': parentId,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
@@ -2669,7 +2669,8 @@ class Organizations {
       payload: {
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
-        if (states != null) 'States': states,
+        if (states != null)
+          'States': states.map((e) => e?.toValue() ?? '').toList(),
       },
     );
 
@@ -3279,7 +3280,7 @@ class Organizations {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Filter': filter?.toValue(),
+        'Filter': filter?.toValue() ?? '',
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
       },
@@ -3387,7 +3388,7 @@ class Organizations {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Filter': filter?.toValue(),
+        'Filter': filter?.toValue() ?? '',
         'TargetId': targetId,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
@@ -4359,6 +4360,20 @@ enum CreateAccountState {
   succeeded,
   @_s.JsonValue('FAILED')
   failed,
+}
+
+extension on CreateAccountState {
+  String toValue() {
+    switch (this) {
+      case CreateAccountState.inProgress:
+        return 'IN_PROGRESS';
+      case CreateAccountState.succeeded:
+        return 'SUCCEEDED';
+      case CreateAccountState.failed:
+        return 'FAILED';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Contains the status about a <a>CreateAccount</a> or

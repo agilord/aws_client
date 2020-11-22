@@ -373,7 +373,7 @@ class RoboMaker {
       isRequired: true,
     );
     final $payload = <String, dynamic>{
-      'architecture': architecture?.toValue(),
+      'architecture': architecture?.toValue() ?? '',
       'greengrassGroupId': greengrassGroupId,
       'name': name,
       if (tags != null) 'tags': tags,
@@ -747,8 +747,7 @@ class RoboMaker {
       if (clientRequestToken != null) 'clientRequestToken': clientRequestToken,
       if (compute != null) 'compute': compute,
       if (dataSources != null) 'dataSources': dataSources,
-      if (failureBehavior != null)
-        'failureBehavior': failureBehavior?.toValue(),
+      if (failureBehavior != null) 'failureBehavior': failureBehavior.toValue(),
       if (loggingConfig != null) 'loggingConfig': loggingConfig,
       if (outputLocation != null) 'outputLocation': outputLocation,
       if (robotApplications != null) 'robotApplications': robotApplications,

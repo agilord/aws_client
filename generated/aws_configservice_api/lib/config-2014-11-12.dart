@@ -1034,7 +1034,9 @@ class ConfigService {
       // TODO queryParams
       headers: headers,
       payload: {
-        if (complianceTypes != null) 'ComplianceTypes': complianceTypes,
+        if (complianceTypes != null)
+          'ComplianceTypes':
+              complianceTypes.map((e) => e?.toValue() ?? '').toList(),
         if (configRuleNames != null) 'ConfigRuleNames': configRuleNames,
         if (nextToken != null) 'NextToken': nextToken,
       },
@@ -1140,7 +1142,9 @@ class ConfigService {
       // TODO queryParams
       headers: headers,
       payload: {
-        if (complianceTypes != null) 'ComplianceTypes': complianceTypes,
+        if (complianceTypes != null)
+          'ComplianceTypes':
+              complianceTypes.map((e) => e?.toValue() ?? '').toList(),
         if (limit != null) 'Limit': limit,
         if (nextToken != null) 'NextToken': nextToken,
         if (resourceId != null) 'ResourceId': resourceId,
@@ -1324,7 +1328,8 @@ class ConfigService {
         'ConfigurationAggregatorName': configurationAggregatorName,
         if (limit != null) 'Limit': limit,
         if (nextToken != null) 'NextToken': nextToken,
-        if (updateStatus != null) 'UpdateStatus': updateStatus,
+        if (updateStatus != null)
+          'UpdateStatus': updateStatus.map((e) => e?.toValue() ?? '').toList(),
       },
     );
 
@@ -2344,7 +2349,7 @@ class ConfigService {
         'AwsRegion': awsRegion,
         'ConfigRuleName': configRuleName,
         'ConfigurationAggregatorName': configurationAggregatorName,
-        if (complianceType != null) 'ComplianceType': complianceType?.toValue(),
+        if (complianceType != null) 'ComplianceType': complianceType.toValue(),
         if (limit != null) 'Limit': limit,
         if (nextToken != null) 'NextToken': nextToken,
       },
@@ -2427,7 +2432,7 @@ class ConfigService {
       payload: {
         'ConfigurationAggregatorName': configurationAggregatorName,
         if (filters != null) 'Filters': filters,
-        if (groupByKey != null) 'GroupByKey': groupByKey?.toValue(),
+        if (groupByKey != null) 'GroupByKey': groupByKey.toValue(),
         if (limit != null) 'Limit': limit,
         if (nextToken != null) 'NextToken': nextToken,
       },
@@ -2511,7 +2516,7 @@ class ConfigService {
       payload: {
         'ConfigurationAggregatorName': configurationAggregatorName,
         if (filters != null) 'Filters': filters,
-        if (groupByKey != null) 'GroupByKey': groupByKey?.toValue(),
+        if (groupByKey != null) 'GroupByKey': groupByKey.toValue(),
         if (limit != null) 'Limit': limit,
         if (nextToken != null) 'NextToken': nextToken,
       },
@@ -2632,7 +2637,9 @@ class ConfigService {
       headers: headers,
       payload: {
         'ConfigRuleName': configRuleName,
-        if (complianceTypes != null) 'ComplianceTypes': complianceTypes,
+        if (complianceTypes != null)
+          'ComplianceTypes':
+              complianceTypes.map((e) => e?.toValue() ?? '').toList(),
         if (limit != null) 'Limit': limit,
         if (nextToken != null) 'NextToken': nextToken,
       },
@@ -2698,7 +2705,9 @@ class ConfigService {
       payload: {
         'ResourceId': resourceId,
         'ResourceType': resourceType,
-        if (complianceTypes != null) 'ComplianceTypes': complianceTypes,
+        if (complianceTypes != null)
+          'ComplianceTypes':
+              complianceTypes.map((e) => e?.toValue() ?? '').toList(),
         if (nextToken != null) 'NextToken': nextToken,
       },
     );
@@ -3234,11 +3243,12 @@ class ConfigService {
       headers: headers,
       payload: {
         'resourceId': resourceId,
-        'resourceType': resourceType?.toValue(),
+        'resourceType': resourceType?.toValue() ?? '',
         if (chronologicalOrder != null)
-          'chronologicalOrder': chronologicalOrder?.toValue(),
-        if (earlierTime != null) 'earlierTime': earlierTime,
-        if (laterTime != null) 'laterTime': laterTime,
+          'chronologicalOrder': chronologicalOrder.toValue(),
+        if (earlierTime != null)
+          'earlierTime': unixTimestampToJson(earlierTime),
+        if (laterTime != null) 'laterTime': unixTimestampToJson(laterTime),
         if (limit != null) 'limit': limit,
         if (nextToken != null) 'nextToken': nextToken,
       },
@@ -3323,7 +3333,7 @@ class ConfigService {
       headers: headers,
       payload: {
         'ConfigurationAggregatorName': configurationAggregatorName,
-        'ResourceType': resourceType?.toValue(),
+        'ResourceType': resourceType?.toValue() ?? '',
         if (filters != null) 'Filters': filters,
         if (limit != null) 'Limit': limit,
         if (nextToken != null) 'NextToken': nextToken,
@@ -3406,7 +3416,7 @@ class ConfigService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'resourceType': resourceType?.toValue(),
+        'resourceType': resourceType?.toValue() ?? '',
         if (includeDeletedResources != null)
           'includeDeletedResources': includeDeletedResources,
         if (limit != null) 'limit': limit,
@@ -4294,7 +4304,8 @@ class ConfigService {
       payload: {
         'ConfigRuleName': configRuleName,
         'ResourceKeys': resourceKeys,
-        if (expirationTime != null) 'ExpirationTime': expirationTime,
+        if (expirationTime != null)
+          'ExpirationTime': unixTimestampToJson(expirationTime),
         if (message != null) 'Message': message,
       },
     );
@@ -5168,6 +5179,20 @@ enum AggregatedSourceStatusType {
   succeeded,
   @_s.JsonValue('OUTDATED')
   outdated,
+}
+
+extension on AggregatedSourceStatusType {
+  String toValue() {
+    switch (this) {
+      case AggregatedSourceStatusType.failed:
+        return 'FAILED';
+      case AggregatedSourceStatusType.succeeded:
+        return 'SUCCEEDED';
+      case AggregatedSourceStatusType.outdated:
+        return 'OUTDATED';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 enum AggregatedSourceType {

@@ -229,7 +229,7 @@ class MediaTailor {
       if (personalizationThresholdSeconds != null)
         'PersonalizationThresholdSeconds': personalizationThresholdSeconds,
       if (slateAdUrl != null) 'SlateAdUrl': slateAdUrl,
-      if (tags != null) 'Tags': tags,
+      if (tags != null) 'tags': tags,
       if (transcodeProfileName != null)
         'TranscodeProfileName': transcodeProfileName,
       if (videoContentSourceUrl != null)
@@ -267,7 +267,7 @@ class MediaTailor {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
-      'Tags': tags,
+      'tags': tags,
     };
     await _protocol.send(
       payload: $payload,

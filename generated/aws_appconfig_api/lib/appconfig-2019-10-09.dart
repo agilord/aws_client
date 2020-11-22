@@ -341,11 +341,11 @@ class AppConfig {
       'DeploymentDurationInMinutes': deploymentDurationInMinutes,
       'GrowthFactor': growthFactor,
       'Name': name,
-      'ReplicateTo': replicateTo?.toValue(),
+      'ReplicateTo': replicateTo?.toValue() ?? '',
       if (description != null) 'Description': description,
       if (finalBakeTimeInMinutes != null)
         'FinalBakeTimeInMinutes': finalBakeTimeInMinutes,
-      if (growthType != null) 'GrowthType': growthType?.toValue(),
+      if (growthType != null) 'GrowthType': growthType.toValue(),
       if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
@@ -1620,7 +1620,7 @@ class AppConfig {
       if (finalBakeTimeInMinutes != null)
         'FinalBakeTimeInMinutes': finalBakeTimeInMinutes,
       if (growthFactor != null) 'GrowthFactor': growthFactor,
-      if (growthType != null) 'GrowthType': growthType?.toValue(),
+      if (growthType != null) 'GrowthType': growthType.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,

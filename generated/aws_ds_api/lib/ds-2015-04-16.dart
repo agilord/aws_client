@@ -423,7 +423,7 @@ class DirectoryService {
         'ConnectSettings': connectSettings,
         'Name': name,
         'Password': password,
-        'Size': size?.toValue(),
+        'Size': size?.toValue() ?? '',
         if (description != null) 'Description': description,
         if (shortName != null) 'ShortName': shortName,
         if (tags != null) 'Tags': tags,
@@ -757,7 +757,7 @@ class DirectoryService {
       payload: {
         'Name': name,
         'Password': password,
-        'Size': size?.toValue(),
+        'Size': size?.toValue() ?? '',
         if (description != null) 'Description': description,
         if (shortName != null) 'ShortName': shortName,
         if (tags != null) 'Tags': tags,
@@ -936,7 +936,7 @@ class DirectoryService {
         'Password': password,
         'VpcSettings': vpcSettings,
         if (description != null) 'Description': description,
-        if (edition != null) 'Edition': edition?.toValue(),
+        if (edition != null) 'Edition': edition.toValue(),
         if (shortName != null) 'ShortName': shortName,
         if (tags != null) 'Tags': tags,
       },
@@ -1096,12 +1096,12 @@ class DirectoryService {
       payload: {
         'DirectoryId': directoryId,
         'RemoteDomainName': remoteDomainName,
-        'TrustDirection': trustDirection?.toValue(),
+        'TrustDirection': trustDirection?.toValue() ?? '',
         'TrustPassword': trustPassword,
         if (conditionalForwarderIpAddrs != null)
           'ConditionalForwarderIpAddrs': conditionalForwarderIpAddrs,
-        if (selectiveAuth != null) 'SelectiveAuth': selectiveAuth?.toValue(),
-        if (trustType != null) 'TrustType': trustType?.toValue(),
+        if (selectiveAuth != null) 'SelectiveAuth': selectiveAuth.toValue(),
+        if (trustType != null) 'TrustType': trustType.toValue(),
       },
     );
 
@@ -1775,7 +1775,7 @@ class DirectoryService {
         'DirectoryId': directoryId,
         if (limit != null) 'Limit': limit,
         if (nextToken != null) 'NextToken': nextToken,
-        if (type != null) 'Type': type?.toValue(),
+        if (type != null) 'Type': type.toValue(),
       },
     );
 
@@ -2024,7 +2024,7 @@ class DirectoryService {
       headers: headers,
       payload: {
         'DirectoryId': directoryId,
-        'Type': type?.toValue(),
+        'Type': type?.toValue() ?? '',
       },
     );
 
@@ -2186,7 +2186,7 @@ class DirectoryService {
       headers: headers,
       payload: {
         'DirectoryId': directoryId,
-        'Type': type?.toValue(),
+        'Type': type?.toValue() ?? '',
       },
     );
 
@@ -3124,7 +3124,7 @@ class DirectoryService {
       headers: headers,
       payload: {
         'DirectoryId': directoryId,
-        'ShareMethod': shareMethod?.toValue(),
+        'ShareMethod': shareMethod?.toValue() ?? '',
         'ShareTarget': shareTarget,
         if (shareNotes != null) 'ShareNotes': shareNotes,
       },
@@ -3467,7 +3467,7 @@ class DirectoryService {
       headers: headers,
       payload: {
         'TrustId': trustId,
-        if (selectiveAuth != null) 'SelectiveAuth': selectiveAuth?.toValue(),
+        if (selectiveAuth != null) 'SelectiveAuth': selectiveAuth.toValue(),
       },
     );
 

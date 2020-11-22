@@ -865,7 +865,7 @@ class Chime {
     ArgumentError.checkNotNull(productType, 'productType');
     final $payload = <String, dynamic>{
       'E164PhoneNumbers': e164PhoneNumbers,
-      'ProductType': productType?.toValue(),
+      'ProductType': productType?.toValue() ?? '',
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -951,14 +951,14 @@ class Chime {
       r'''^$|^[a-zA-Z0-9 ]{0,30}$''',
     );
     final $payload = <String, dynamic>{
-      'Capabilities': capabilities,
+      'Capabilities': capabilities?.map((e) => e?.toValue() ?? '')?.toList(),
       'ParticipantPhoneNumbers': participantPhoneNumbers,
       if (expiryMinutes != null) 'ExpiryMinutes': expiryMinutes,
-      if (geoMatchLevel != null) 'GeoMatchLevel': geoMatchLevel?.toValue(),
+      if (geoMatchLevel != null) 'GeoMatchLevel': geoMatchLevel.toValue(),
       if (geoMatchParams != null) 'GeoMatchParams': geoMatchParams,
       if (name != null) 'Name': name,
       if (numberSelectionBehavior != null)
-        'NumberSelectionBehavior': numberSelectionBehavior?.toValue(),
+        'NumberSelectionBehavior': numberSelectionBehavior.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1081,7 +1081,7 @@ class Chime {
     );
     final $payload = <String, dynamic>{
       'MemberId': memberId,
-      if (role != null) 'Role': role?.toValue(),
+      if (role != null) 'Role': role.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1135,7 +1135,7 @@ class Chime {
     );
     final $payload = <String, dynamic>{
       if (email != null) 'Email': email,
-      if (userType != null) 'UserType': userType?.toValue(),
+      if (userType != null) 'UserType': userType.toValue(),
       if (username != null) 'Username': username,
     };
     final response = await _protocol.send(
@@ -1192,7 +1192,7 @@ class Chime {
     final $payload = <String, dynamic>{
       'Name': name,
       'RequireEncryption': requireEncryption,
-      if (awsRegion != null) 'AwsRegion': awsRegion?.toValue(),
+      if (awsRegion != null) 'AwsRegion': awsRegion.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2848,7 +2848,7 @@ class Chime {
     ArgumentError.checkNotNull(userEmailList, 'userEmailList');
     final $payload = <String, dynamic>{
       'UserEmailList': userEmailList,
-      if (userType != null) 'UserType': userType?.toValue(),
+      if (userType != null) 'UserType': userType.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -4737,7 +4737,7 @@ class Chime {
     );
     final $payload = <String, dynamic>{
       if (callingName != null) 'CallingName': callingName,
-      if (productType != null) 'ProductType': productType?.toValue(),
+      if (productType != null) 'ProductType': productType.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -4848,7 +4848,7 @@ class Chime {
       1152921504606846976,
     );
     final $payload = <String, dynamic>{
-      'Capabilities': capabilities,
+      'Capabilities': capabilities?.map((e) => e?.toValue() ?? '')?.toList(),
       if (expiryMinutes != null) 'ExpiryMinutes': expiryMinutes,
     };
     final response = await _protocol.send(
@@ -4964,7 +4964,7 @@ class Chime {
       isRequired: true,
     );
     final $payload = <String, dynamic>{
-      if (role != null) 'Role': role?.toValue(),
+      if (role != null) 'Role': role.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -5026,8 +5026,8 @@ class Chime {
     final $payload = <String, dynamic>{
       if (alexaForBusinessMetadata != null)
         'AlexaForBusinessMetadata': alexaForBusinessMetadata,
-      if (licenseType != null) 'LicenseType': licenseType?.toValue(),
-      if (userType != null) 'UserType': userType?.toValue(),
+      if (licenseType != null) 'LicenseType': licenseType.toValue(),
+      if (userType != null) 'UserType': userType.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -5666,6 +5666,18 @@ enum Capability {
   voice,
   @_s.JsonValue('SMS')
   sms,
+}
+
+extension on Capability {
+  String toValue() {
+    switch (this) {
+      case Capability.voice:
+        return 'Voice';
+      case Capability.sms:
+        return 'SMS';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 @_s.JsonSerializable(

@@ -45,7 +45,7 @@ class SerializeBlobsInBody {
   }) async {
     ArgumentError.checkNotNull(foo, 'foo');
     final $payload = <String, dynamic>{
-      if (bar != null) 'Bar': bar.let(base64Encode),
+      if (bar != null) 'Bar': base64Encode(bar),
     };
     await _protocol.send(
       payload: $payload,

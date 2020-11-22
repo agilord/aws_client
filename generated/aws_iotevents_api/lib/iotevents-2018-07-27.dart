@@ -139,7 +139,7 @@ class IoTEvents {
       if (detectorModelDescription != null)
         'detectorModelDescription': detectorModelDescription,
       if (evaluationMethod != null)
-        'evaluationMethod': evaluationMethod?.toValue(),
+        'evaluationMethod': evaluationMethod.toValue(),
       if (key != null) 'key': key,
       if (tags != null) 'tags': tags,
     };
@@ -748,7 +748,7 @@ class IoTEvents {
       if (detectorModelDescription != null)
         'detectorModelDescription': detectorModelDescription,
       if (evaluationMethod != null)
-        'evaluationMethod': evaluationMethod?.toValue(),
+        'evaluationMethod': evaluationMethod.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,

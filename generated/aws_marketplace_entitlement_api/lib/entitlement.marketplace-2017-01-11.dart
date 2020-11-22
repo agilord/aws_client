@@ -101,7 +101,8 @@ class MarketplaceEntitlementService {
       headers: headers,
       payload: {
         'ProductCode': productCode,
-        if (filter != null) 'Filter': filter,
+        if (filter != null)
+          'Filter': filter.map((k, e) => MapEntry(k.toValue(), e)),
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
       },
@@ -207,6 +208,18 @@ enum GetEntitlementFilterName {
   customerIdentifier,
   @_s.JsonValue('DIMENSION')
   dimension,
+}
+
+extension on GetEntitlementFilterName {
+  String toValue() {
+    switch (this) {
+      case GetEntitlementFilterName.customerIdentifier:
+        return 'CUSTOMER_IDENTIFIER';
+      case GetEntitlementFilterName.dimension:
+        return 'DIMENSION';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// The GetEntitlementsRequest contains results from the GetEntitlements

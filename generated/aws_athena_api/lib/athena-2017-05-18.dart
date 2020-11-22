@@ -1067,7 +1067,7 @@ class Athena {
         if (configurationUpdates != null)
           'ConfigurationUpdates': configurationUpdates,
         if (description != null) 'Description': description,
-        if (state != null) 'State': state?.toValue(),
+        if (state != null) 'State': state.toValue(),
       },
     );
 

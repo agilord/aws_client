@@ -316,7 +316,7 @@ class IoTJobsDataPlane {
       isRequired: true,
     );
     final $payload = <String, dynamic>{
-      'status': status?.toValue(),
+      'status': status?.toValue() ?? '',
       if (executionNumber != null) 'executionNumber': executionNumber,
       if (expectedVersion != null) 'expectedVersion': expectedVersion,
       if (includeJobDocument != null) 'includeJobDocument': includeJobDocument,

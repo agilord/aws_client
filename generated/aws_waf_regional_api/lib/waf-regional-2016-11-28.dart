@@ -554,7 +554,7 @@ class WAFRegional {
         'ChangeToken': changeToken,
         'MetricName': metricName,
         'Name': name,
-        'RateKey': rateKey?.toValue(),
+        'RateKey': rateKey?.toValue() ?? '',
         'RateLimit': rateLimit,
         if (tags != null) 'Tags': tags,
       },
@@ -3707,7 +3707,7 @@ class WAFRegional {
       headers: headers,
       payload: {
         'WebACLId': webACLId,
-        if (resourceType != null) 'ResourceType': resourceType?.toValue(),
+        if (resourceType != null) 'ResourceType': resourceType.toValue(),
       },
     );
 

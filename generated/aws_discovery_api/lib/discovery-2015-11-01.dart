@@ -848,7 +848,7 @@ class ApplicationDiscoveryService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'configurationType': configurationType?.toValue(),
+        'configurationType': configurationType?.toValue() ?? '',
         if (filters != null) 'filters': filters,
         if (maxResults != null) 'maxResults': maxResults,
         if (nextToken != null) 'nextToken': nextToken,
@@ -1047,10 +1047,12 @@ class ApplicationDiscoveryService {
       // TODO queryParams
       headers: headers,
       payload: {
-        if (endTime != null) 'endTime': endTime,
-        if (exportDataFormat != null) 'exportDataFormat': exportDataFormat,
+        if (endTime != null) 'endTime': unixTimestampToJson(endTime),
+        if (exportDataFormat != null)
+          'exportDataFormat':
+              exportDataFormat.map((e) => e?.toValue() ?? '').toList(),
         if (filters != null) 'filters': filters,
-        if (startTime != null) 'startTime': startTime,
+        if (startTime != null) 'startTime': unixTimestampToJson(startTime),
       },
     );
 
@@ -2075,6 +2077,18 @@ enum ExportDataFormat {
   csv,
   @_s.JsonValue('GRAPHML')
   graphml,
+}
+
+extension on ExportDataFormat {
+  String toValue() {
+    switch (this) {
+      case ExportDataFormat.csv:
+        return 'CSV';
+      case ExportDataFormat.graphml:
+        return 'GRAPHML';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Used to select which agent's data is to be exported. A single agent ID may

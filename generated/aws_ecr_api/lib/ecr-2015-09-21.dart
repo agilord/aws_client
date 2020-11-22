@@ -431,7 +431,7 @@ class ECR {
         if (imageScanningConfiguration != null)
           'imageScanningConfiguration': imageScanningConfiguration,
         if (imageTagMutability != null)
-          'imageTagMutability': imageTagMutability?.toValue(),
+          'imageTagMutability': imageTagMutability.toValue(),
         if (tags != null) 'tags': tags,
       },
     );
@@ -1652,7 +1652,7 @@ class ECR {
       // TODO queryParams
       headers: headers,
       payload: {
-        'imageTagMutability': imageTagMutability?.toValue(),
+        'imageTagMutability': imageTagMutability?.toValue() ?? '',
         'repositoryName': repositoryName,
         if (registryId != null) 'registryId': registryId,
       },

@@ -174,7 +174,7 @@ class WorkLink {
       r'''^[a-zA-Z0-9]?((?!-)([A-Za-z0-9-]*[A-Za-z0-9])\.)+[a-zA-Z0-9]+$''',
     );
     final $payload = <String, dynamic>{
-      'AuthorizationProviderType': authorizationProviderType?.toValue(),
+      'AuthorizationProviderType': authorizationProviderType?.toValue() ?? '',
       'FleetArn': fleetArn,
       if (domainName != null) 'DomainName': domainName,
     };
@@ -1559,7 +1559,7 @@ class WorkLink {
     );
     final $payload = <String, dynamic>{
       'FleetArn': fleetArn,
-      'IdentityProviderType': identityProviderType?.toValue(),
+      'IdentityProviderType': identityProviderType?.toValue() ?? '',
       if (identityProviderSamlMetadata != null)
         'IdentityProviderSamlMetadata': identityProviderSamlMetadata,
     };

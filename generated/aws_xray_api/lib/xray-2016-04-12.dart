@@ -406,8 +406,8 @@ class XRay {
       32,
     );
     final $payload = <String, dynamic>{
-      'EndTime': endTime,
-      'StartTime': startTime,
+      'EndTime': unixTimestampToJson(endTime),
+      'StartTime': unixTimestampToJson(startTime),
       if (groupARN != null) 'GroupARN': groupARN,
       if (groupName != null) 'GroupName': groupName,
       if (nextToken != null) 'NextToken': nextToken,
@@ -478,8 +478,8 @@ class XRay {
       32,
     );
     final $payload = <String, dynamic>{
-      'EndTime': endTime,
-      'StartTime': startTime,
+      'EndTime': unixTimestampToJson(endTime),
+      'StartTime': unixTimestampToJson(startTime),
       if (entitySelectorExpression != null)
         'EntitySelectorExpression': entitySelectorExpression,
       if (groupARN != null) 'GroupARN': groupARN,
@@ -585,13 +585,13 @@ class XRay {
     ArgumentError.checkNotNull(endTime, 'endTime');
     ArgumentError.checkNotNull(startTime, 'startTime');
     final $payload = <String, dynamic>{
-      'EndTime': endTime,
-      'StartTime': startTime,
+      'EndTime': unixTimestampToJson(endTime),
+      'StartTime': unixTimestampToJson(startTime),
       if (filterExpression != null) 'FilterExpression': filterExpression,
       if (nextToken != null) 'NextToken': nextToken,
       if (sampling != null) 'Sampling': sampling,
       if (samplingStrategy != null) 'SamplingStrategy': samplingStrategy,
-      if (timeRangeType != null) 'TimeRangeType': timeRangeType?.toValue(),
+      if (timeRangeType != null) 'TimeRangeType': timeRangeType.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -643,7 +643,7 @@ class XRay {
       3000,
     );
     final $payload = <String, dynamic>{
-      'Type': type?.toValue(),
+      'Type': type?.toValue() ?? '',
       if (keyId != null) 'KeyId': keyId,
     };
     final response = await _protocol.send(

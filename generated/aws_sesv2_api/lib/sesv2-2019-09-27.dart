@@ -1175,7 +1175,9 @@ class SESV2 {
     List<SuppressionListReason> suppressedReasons,
   }) async {
     final $payload = <String, dynamic>{
-      if (suppressedReasons != null) 'SuppressedReasons': suppressedReasons,
+      if (suppressedReasons != null)
+        'SuppressedReasons':
+            suppressedReasons.map((e) => e?.toValue() ?? '').toList(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1216,7 +1218,7 @@ class SESV2 {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
     final $payload = <String, dynamic>{
       if (sendingPoolName != null) 'SendingPoolName': sendingPoolName,
-      if (tlsPolicy != null) 'TlsPolicy': tlsPolicy?.toValue(),
+      if (tlsPolicy != null) 'TlsPolicy': tlsPolicy.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1328,7 +1330,9 @@ class SESV2 {
   }) async {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
     final $payload = <String, dynamic>{
-      if (suppressedReasons != null) 'SuppressedReasons': suppressedReasons,
+      if (suppressedReasons != null)
+        'SuppressedReasons':
+            suppressedReasons.map((e) => e?.toValue() ?? '').toList(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1579,7 +1583,7 @@ class SESV2 {
     ArgumentError.checkNotNull(
         signingAttributesOrigin, 'signingAttributesOrigin');
     final $payload = <String, dynamic>{
-      'SigningAttributesOrigin': signingAttributesOrigin?.toValue(),
+      'SigningAttributesOrigin': signingAttributesOrigin?.toValue() ?? '',
       if (signingAttributes != null) 'SigningAttributes': signingAttributes,
     };
     final response = await _protocol.send(
@@ -1695,7 +1699,7 @@ class SESV2 {
     ArgumentError.checkNotNull(emailIdentity, 'emailIdentity');
     final $payload = <String, dynamic>{
       if (behaviorOnMxFailure != null)
-        'BehaviorOnMxFailure': behaviorOnMxFailure?.toValue(),
+        'BehaviorOnMxFailure': behaviorOnMxFailure.toValue(),
       if (mailFromDomain != null) 'MailFromDomain': mailFromDomain,
     };
     final response = await _protocol.send(
@@ -1728,7 +1732,7 @@ class SESV2 {
     ArgumentError.checkNotNull(reason, 'reason');
     final $payload = <String, dynamic>{
       'EmailAddress': emailAddress,
-      'Reason': reason?.toValue(),
+      'Reason': reason?.toValue() ?? '',
     };
     final response = await _protocol.send(
       payload: $payload,

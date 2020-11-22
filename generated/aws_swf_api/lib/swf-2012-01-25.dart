@@ -1231,7 +1231,7 @@ class SWF {
       headers: headers,
       payload: {
         'domain': domain,
-        'registrationStatus': registrationStatus?.toValue(),
+        'registrationStatus': registrationStatus?.toValue() ?? '',
         if (maximumPageSize != null) 'maximumPageSize': maximumPageSize,
         if (name != null) 'name': name,
         if (nextPageToken != null) 'nextPageToken': nextPageToken,
@@ -1524,7 +1524,7 @@ class SWF {
       // TODO queryParams
       headers: headers,
       payload: {
-        'registrationStatus': registrationStatus?.toValue(),
+        'registrationStatus': registrationStatus?.toValue() ?? '',
         if (maximumPageSize != null) 'maximumPageSize': maximumPageSize,
         if (nextPageToken != null) 'nextPageToken': nextPageToken,
         if (reverseOrder != null) 'reverseOrder': reverseOrder,
@@ -1843,7 +1843,7 @@ class SWF {
       headers: headers,
       payload: {
         'domain': domain,
-        'registrationStatus': registrationStatus?.toValue(),
+        'registrationStatus': registrationStatus?.toValue() ?? '',
         if (maximumPageSize != null) 'maximumPageSize': maximumPageSize,
         if (name != null) 'name': name,
         if (nextPageToken != null) 'nextPageToken': nextPageToken,
@@ -2827,7 +2827,7 @@ class SWF {
         'name': name,
         'version': version,
         if (defaultChildPolicy != null)
-          'defaultChildPolicy': defaultChildPolicy?.toValue(),
+          'defaultChildPolicy': defaultChildPolicy.toValue(),
         if (defaultExecutionStartToCloseTimeout != null)
           'defaultExecutionStartToCloseTimeout':
               defaultExecutionStartToCloseTimeout,
@@ -3712,7 +3712,7 @@ class SWF {
         'domain': domain,
         'workflowId': workflowId,
         'workflowType': workflowType,
-        if (childPolicy != null) 'childPolicy': childPolicy?.toValue(),
+        if (childPolicy != null) 'childPolicy': childPolicy.toValue(),
         if (executionStartToCloseTimeout != null)
           'executionStartToCloseTimeout': executionStartToCloseTimeout,
         if (input != null) 'input': input,
@@ -3922,7 +3922,7 @@ class SWF {
       payload: {
         'domain': domain,
         'workflowId': workflowId,
-        if (childPolicy != null) 'childPolicy': childPolicy?.toValue(),
+        if (childPolicy != null) 'childPolicy': childPolicy.toValue(),
         if (details != null) 'details': details,
         if (reason != null) 'reason': reason,
         if (runId != null) 'runId': runId,

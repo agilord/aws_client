@@ -658,7 +658,7 @@ class ApplicationInsights {
       payload: {
         'ComponentName': componentName,
         'ResourceGroupName': resourceGroupName,
-        'Tier': tier?.toValue(),
+        'Tier': tier?.toValue() ?? '',
       },
     );
 
@@ -1066,12 +1066,12 @@ class ApplicationInsights {
       // TODO queryParams
       headers: headers,
       payload: {
-        if (endTime != null) 'EndTime': endTime,
-        if (eventStatus != null) 'EventStatus': eventStatus?.toValue(),
+        if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
+        if (eventStatus != null) 'EventStatus': eventStatus.toValue(),
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
         if (resourceGroupName != null) 'ResourceGroupName': resourceGroupName,
-        if (startTime != null) 'StartTime': startTime,
+        if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
       },
     );
 
@@ -1276,11 +1276,11 @@ class ApplicationInsights {
       // TODO queryParams
       headers: headers,
       payload: {
-        if (endTime != null) 'EndTime': endTime,
+        if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
         if (resourceGroupName != null) 'ResourceGroupName': resourceGroupName,
-        if (startTime != null) 'StartTime': startTime,
+        if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
       },
     );
 
@@ -1648,7 +1648,7 @@ class ApplicationInsights {
         if (componentConfiguration != null)
           'ComponentConfiguration': componentConfiguration,
         if (monitor != null) 'Monitor': monitor,
-        if (tier != null) 'Tier': tier?.toValue(),
+        if (tier != null) 'Tier': tier.toValue(),
       },
     );
 

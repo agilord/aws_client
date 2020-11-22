@@ -143,24 +143,24 @@ class MQ {
   }) async {
     final $payload = <String, dynamic>{
       if (autoMinorVersionUpgrade != null)
-        'AutoMinorVersionUpgrade': autoMinorVersionUpgrade,
-      if (brokerName != null) 'BrokerName': brokerName,
-      if (configuration != null) 'Configuration': configuration,
-      if (creatorRequestId != null) 'CreatorRequestId': creatorRequestId,
-      if (deploymentMode != null) 'DeploymentMode': deploymentMode?.toValue(),
-      if (encryptionOptions != null) 'EncryptionOptions': encryptionOptions,
-      if (engineType != null) 'EngineType': engineType?.toValue(),
-      if (engineVersion != null) 'EngineVersion': engineVersion,
-      if (hostInstanceType != null) 'HostInstanceType': hostInstanceType,
-      if (logs != null) 'Logs': logs,
+        'autoMinorVersionUpgrade': autoMinorVersionUpgrade,
+      if (brokerName != null) 'brokerName': brokerName,
+      if (configuration != null) 'configuration': configuration,
+      if (creatorRequestId != null) 'creatorRequestId': creatorRequestId,
+      if (deploymentMode != null) 'deploymentMode': deploymentMode.toValue(),
+      if (encryptionOptions != null) 'encryptionOptions': encryptionOptions,
+      if (engineType != null) 'engineType': engineType.toValue(),
+      if (engineVersion != null) 'engineVersion': engineVersion,
+      if (hostInstanceType != null) 'hostInstanceType': hostInstanceType,
+      if (logs != null) 'logs': logs,
       if (maintenanceWindowStartTime != null)
-        'MaintenanceWindowStartTime': maintenanceWindowStartTime,
-      if (publiclyAccessible != null) 'PubliclyAccessible': publiclyAccessible,
-      if (securityGroups != null) 'SecurityGroups': securityGroups,
-      if (storageType != null) 'StorageType': storageType?.toValue(),
-      if (subnetIds != null) 'SubnetIds': subnetIds,
-      if (tags != null) 'Tags': tags,
-      if (users != null) 'Users': users,
+        'maintenanceWindowStartTime': maintenanceWindowStartTime,
+      if (publiclyAccessible != null) 'publiclyAccessible': publiclyAccessible,
+      if (securityGroups != null) 'securityGroups': securityGroups,
+      if (storageType != null) 'storageType': storageType.toValue(),
+      if (subnetIds != null) 'subnetIds': subnetIds,
+      if (tags != null) 'tags': tags,
+      if (users != null) 'users': users,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -202,10 +202,10 @@ class MQ {
     Map<String, String> tags,
   }) async {
     final $payload = <String, dynamic>{
-      if (engineType != null) 'EngineType': engineType?.toValue(),
-      if (engineVersion != null) 'EngineVersion': engineVersion,
-      if (name != null) 'Name': name,
-      if (tags != null) 'Tags': tags,
+      if (engineType != null) 'engineType': engineType.toValue(),
+      if (engineVersion != null) 'engineVersion': engineVersion,
+      if (name != null) 'name': name,
+      if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -234,7 +234,7 @@ class MQ {
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     final $payload = <String, dynamic>{
-      if (tags != null) 'Tags': tags,
+      if (tags != null) 'tags': tags,
     };
     await _protocol.send(
       payload: $payload,
@@ -283,9 +283,9 @@ class MQ {
     ArgumentError.checkNotNull(brokerId, 'brokerId');
     ArgumentError.checkNotNull(username, 'username');
     final $payload = <String, dynamic>{
-      if (consoleAccess != null) 'ConsoleAccess': consoleAccess,
-      if (groups != null) 'Groups': groups,
-      if (password != null) 'Password': password,
+      if (consoleAccess != null) 'consoleAccess': consoleAccess,
+      if (groups != null) 'groups': groups,
+      if (password != null) 'password': password,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -846,12 +846,12 @@ class MQ {
     ArgumentError.checkNotNull(brokerId, 'brokerId');
     final $payload = <String, dynamic>{
       if (autoMinorVersionUpgrade != null)
-        'AutoMinorVersionUpgrade': autoMinorVersionUpgrade,
-      if (configuration != null) 'Configuration': configuration,
-      if (engineVersion != null) 'EngineVersion': engineVersion,
-      if (hostInstanceType != null) 'HostInstanceType': hostInstanceType,
-      if (logs != null) 'Logs': logs,
-      if (securityGroups != null) 'SecurityGroups': securityGroups,
+        'autoMinorVersionUpgrade': autoMinorVersionUpgrade,
+      if (configuration != null) 'configuration': configuration,
+      if (engineVersion != null) 'engineVersion': engineVersion,
+      if (hostInstanceType != null) 'hostInstanceType': hostInstanceType,
+      if (logs != null) 'logs': logs,
+      if (securityGroups != null) 'securityGroups': securityGroups,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -885,8 +885,8 @@ class MQ {
   }) async {
     ArgumentError.checkNotNull(configurationId, 'configurationId');
     final $payload = <String, dynamic>{
-      if (data != null) 'Data': data,
-      if (description != null) 'Description': description,
+      if (data != null) 'data': data,
+      if (description != null) 'description': description,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -936,9 +936,9 @@ class MQ {
     ArgumentError.checkNotNull(brokerId, 'brokerId');
     ArgumentError.checkNotNull(username, 'username');
     final $payload = <String, dynamic>{
-      if (consoleAccess != null) 'ConsoleAccess': consoleAccess,
-      if (groups != null) 'Groups': groups,
-      if (password != null) 'Password': password,
+      if (consoleAccess != null) 'consoleAccess': consoleAccess,
+      if (groups != null) 'groups': groups,
+      if (password != null) 'password': password,
     };
     final response = await _protocol.send(
       payload: $payload,

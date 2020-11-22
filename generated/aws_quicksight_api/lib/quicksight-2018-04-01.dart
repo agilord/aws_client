@@ -353,7 +353,7 @@ class QuickSight {
     ArgumentError.checkNotNull(physicalTableMap, 'physicalTableMap');
     final $payload = <String, dynamic>{
       'DataSetId': dataSetId,
-      'ImportMode': importMode?.toValue(),
+      'ImportMode': importMode?.toValue() ?? '',
       'Name': name,
       'PhysicalTableMap': physicalTableMap,
       if (columnGroups != null) 'ColumnGroups': columnGroups,
@@ -461,7 +461,7 @@ class QuickSight {
     final $payload = <String, dynamic>{
       'DataSourceId': dataSourceId,
       'Name': name,
-      'Type': type?.toValue(),
+      'Type': type?.toValue() ?? '',
       if (credentials != null) 'Credentials': credentials,
       if (dataSourceParameters != null)
         'DataSourceParameters': dataSourceParameters,
@@ -775,7 +775,7 @@ class QuickSight {
     );
     final $payload = <String, dynamic>{
       'AssignmentName': assignmentName,
-      'AssignmentStatus': assignmentStatus?.toValue(),
+      'AssignmentStatus': assignmentStatus?.toValue() ?? '',
       if (identities != null) 'Identities': identities,
       if (policyArn != null) 'PolicyArn': policyArn,
     };
@@ -3973,8 +3973,8 @@ class QuickSight {
     );
     final $payload = <String, dynamic>{
       'Email': email,
-      'IdentityType': identityType?.toValue(),
-      'UserRole': userRole?.toValue(),
+      'IdentityType': identityType?.toValue() ?? '',
+      'UserRole': userRole?.toValue() ?? '',
       if (iamArn != null) 'IamArn': iamArn,
       if (sessionName != null) 'SessionName': sessionName,
       if (userName != null) 'UserName': userName,
@@ -4501,7 +4501,7 @@ class QuickSight {
     );
     ArgumentError.checkNotNull(physicalTableMap, 'physicalTableMap');
     final $payload = <String, dynamic>{
-      'ImportMode': importMode?.toValue(),
+      'ImportMode': importMode?.toValue() ?? '',
       'Name': name,
       'PhysicalTableMap': physicalTableMap,
       if (columnGroups != null) 'ColumnGroups': columnGroups,
@@ -4906,7 +4906,7 @@ class QuickSight {
     );
     final $payload = <String, dynamic>{
       if (assignmentStatus != null)
-        'AssignmentStatus': assignmentStatus?.toValue(),
+        'AssignmentStatus': assignmentStatus.toValue(),
       if (identities != null) 'Identities': identities,
       if (policyArn != null) 'PolicyArn': policyArn,
     };
@@ -5271,7 +5271,7 @@ class QuickSight {
     );
     final $payload = <String, dynamic>{
       'Email': email,
-      'Role': role?.toValue(),
+      'Role': role?.toValue() ?? '',
     };
     final response = await _protocol.send(
       payload: $payload,

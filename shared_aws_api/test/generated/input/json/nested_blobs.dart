@@ -53,7 +53,8 @@ class NestedBlobs {
       // TODO queryParams
       headers: headers,
       payload: {
-        if (listParam != null) 'ListParam': listParam,
+        if (listParam != null)
+          'ListParam': listParam.map((e) => e?.let(base64Encode)).toList(),
       },
     );
   }

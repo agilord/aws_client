@@ -239,7 +239,7 @@ class Cloud9 {
       headers: headers,
       payload: {
         'environmentId': environmentId,
-        'permissions': permissions?.toValue(),
+        'permissions': permissions?.toValue() ?? '',
         'userArn': userArn,
       },
     );
@@ -427,7 +427,8 @@ class Cloud9 {
         if (environmentId != null) 'environmentId': environmentId,
         if (maxResults != null) 'maxResults': maxResults,
         if (nextToken != null) 'nextToken': nextToken,
-        if (permissions != null) 'permissions': permissions,
+        if (permissions != null)
+          'permissions': permissions.map((e) => e?.toValue() ?? '').toList(),
         if (userArn != null) 'userArn': userArn,
       },
     );
@@ -814,7 +815,7 @@ class Cloud9 {
       headers: headers,
       payload: {
         'environmentId': environmentId,
-        'permissions': permissions?.toValue(),
+        'permissions': permissions?.toValue() ?? '',
         'userArn': userArn,
       },
     );
@@ -1238,6 +1239,20 @@ enum Permissions {
   readWrite,
   @_s.JsonValue('read-only')
   readOnly,
+}
+
+extension on Permissions {
+  String toValue() {
+    switch (this) {
+      case Permissions.owner:
+        return 'owner';
+      case Permissions.readWrite:
+        return 'read-write';
+      case Permissions.readOnly:
+        return 'read-only';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Metadata that is associated with AWS resources. In particular, a name-value

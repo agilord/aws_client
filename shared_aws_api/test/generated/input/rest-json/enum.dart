@@ -54,8 +54,9 @@ class Enum {
       if (queryListEnums != null) _s.toQueryParam('List', queryListEnums),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{
-      if (fooEnum != null) 'FooEnum': fooEnum?.toValue(),
-      if (listEnums != null) 'ListEnums': listEnums,
+      if (fooEnum != null) 'FooEnum': fooEnum.toValue(),
+      if (listEnums != null)
+        'ListEnums': listEnums.map((e) => e?.toValue() ?? '').toList(),
     };
     await _protocol.send(
       payload: $payload,
@@ -81,8 +82,9 @@ class Enum {
       if (queryListEnums != null) _s.toQueryParam('List', queryListEnums),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{
-      if (fooEnum != null) 'FooEnum': fooEnum?.toValue(),
-      if (listEnums != null) 'ListEnums': listEnums,
+      if (fooEnum != null) 'FooEnum': fooEnum.toValue(),
+      if (listEnums != null)
+        'ListEnums': listEnums.map((e) => e?.toValue() ?? '').toList(),
     };
     await _protocol.send(
       payload: $payload,

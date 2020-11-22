@@ -654,7 +654,7 @@ class DataSync {
       payload: {
         'S3BucketArn': s3BucketArn,
         'S3Config': s3Config,
-        if (s3StorageClass != null) 'S3StorageClass': s3StorageClass?.toValue(),
+        if (s3StorageClass != null) 'S3StorageClass': s3StorageClass.toValue(),
         if (subdirectory != null) 'Subdirectory': subdirectory,
         if (tags != null) 'Tags': tags,
       },

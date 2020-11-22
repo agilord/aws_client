@@ -208,7 +208,8 @@ class SavingsPlans {
       if (nextToken != null) 'nextToken': nextToken,
       if (savingsPlanArns != null) 'savingsPlanArns': savingsPlanArns,
       if (savingsPlanIds != null) 'savingsPlanIds': savingsPlanIds,
-      if (states != null) 'states': states,
+      if (states != null)
+        'states': states.map((e) => e?.toValue() ?? '').toList(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -289,13 +290,18 @@ class SavingsPlans {
       if (maxResults != null) 'maxResults': maxResults,
       if (nextToken != null) 'nextToken': nextToken,
       if (operations != null) 'operations': operations,
-      if (products != null) 'products': products,
+      if (products != null)
+        'products': products.map((e) => e?.toValue() ?? '').toList(),
       if (savingsPlanOfferingIds != null)
         'savingsPlanOfferingIds': savingsPlanOfferingIds,
       if (savingsPlanPaymentOptions != null)
-        'savingsPlanPaymentOptions': savingsPlanPaymentOptions,
-      if (savingsPlanTypes != null) 'savingsPlanTypes': savingsPlanTypes,
-      if (serviceCodes != null) 'serviceCodes': serviceCodes,
+        'savingsPlanPaymentOptions':
+            savingsPlanPaymentOptions.map((e) => e?.toValue() ?? '').toList(),
+      if (savingsPlanTypes != null)
+        'savingsPlanTypes':
+            savingsPlanTypes.map((e) => e?.toValue() ?? '').toList(),
+      if (serviceCodes != null)
+        'serviceCodes': serviceCodes.map((e) => e?.toValue() ?? '').toList(),
       if (usageTypes != null) 'usageTypes': usageTypes,
     };
     final response = await _protocol.send(
@@ -384,7 +390,8 @@ class SavingsPlans {
       r'''^[A-Za-z0-9/=\+]+$''',
     );
     final $payload = <String, dynamic>{
-      if (currencies != null) 'currencies': currencies,
+      if (currencies != null)
+        'currencies': currencies.map((e) => e?.toValue() ?? '').toList(),
       if (descriptions != null) 'descriptions': descriptions,
       if (durations != null) 'durations': durations,
       if (filters != null) 'filters': filters,
@@ -392,9 +399,12 @@ class SavingsPlans {
       if (nextToken != null) 'nextToken': nextToken,
       if (offeringIds != null) 'offeringIds': offeringIds,
       if (operations != null) 'operations': operations,
-      if (paymentOptions != null) 'paymentOptions': paymentOptions,
-      if (planTypes != null) 'planTypes': planTypes,
-      if (productType != null) 'productType': productType?.toValue(),
+      if (paymentOptions != null)
+        'paymentOptions':
+            paymentOptions.map((e) => e?.toValue() ?? '').toList(),
+      if (planTypes != null)
+        'planTypes': planTypes.map((e) => e?.toValue() ?? '').toList(),
+      if (productType != null) 'productType': productType.toValue(),
       if (serviceCodes != null) 'serviceCodes': serviceCodes,
       if (usageTypes != null) 'usageTypes': usageTypes,
     };
@@ -534,6 +544,18 @@ enum CurrencyCode {
   cny,
   @_s.JsonValue('USD')
   usd,
+}
+
+extension on CurrencyCode {
+  String toValue() {
+    switch (this) {
+      case CurrencyCode.cny:
+        return 'CNY';
+      case CurrencyCode.usd:
+        return 'USD';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 @_s.JsonSerializable(
@@ -1057,6 +1079,20 @@ enum SavingsPlanPaymentOption {
   noUpfront,
 }
 
+extension on SavingsPlanPaymentOption {
+  String toValue() {
+    switch (this) {
+      case SavingsPlanPaymentOption.allUpfront:
+        return 'All Upfront';
+      case SavingsPlanPaymentOption.partialUpfront:
+        return 'Partial Upfront';
+      case SavingsPlanPaymentOption.noUpfront:
+        return 'No Upfront';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 enum SavingsPlanProductType {
   @_s.JsonValue('EC2')
   ec2,
@@ -1234,6 +1270,20 @@ enum SavingsPlanRateServiceCode {
   awsLambda,
 }
 
+extension on SavingsPlanRateServiceCode {
+  String toValue() {
+    switch (this) {
+      case SavingsPlanRateServiceCode.amazonEC2:
+        return 'AmazonEC2';
+      case SavingsPlanRateServiceCode.amazonECS:
+        return 'AmazonECS';
+      case SavingsPlanRateServiceCode.awsLambda:
+        return 'AWSLambda';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 enum SavingsPlanRateUnit {
   @_s.JsonValue('Hrs')
   hrs,
@@ -1254,11 +1304,39 @@ enum SavingsPlanState {
   retired,
 }
 
+extension on SavingsPlanState {
+  String toValue() {
+    switch (this) {
+      case SavingsPlanState.paymentPending:
+        return 'payment-pending';
+      case SavingsPlanState.paymentFailed:
+        return 'payment-failed';
+      case SavingsPlanState.active:
+        return 'active';
+      case SavingsPlanState.retired:
+        return 'retired';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 enum SavingsPlanType {
   @_s.JsonValue('Compute')
   compute,
   @_s.JsonValue('EC2Instance')
   eC2Instance,
+}
+
+extension on SavingsPlanType {
+  String toValue() {
+    switch (this) {
+      case SavingsPlanType.compute:
+        return 'Compute';
+      case SavingsPlanType.eC2Instance:
+        return 'EC2Instance';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 enum SavingsPlansFilterName {

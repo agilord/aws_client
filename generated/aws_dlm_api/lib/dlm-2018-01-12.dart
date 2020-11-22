@@ -108,7 +108,7 @@ class DLM {
       'Description': description,
       'ExecutionRoleArn': executionRoleArn,
       'PolicyDetails': policyDetails,
-      'State': state?.toValue(),
+      'State': state?.toValue() ?? '',
       if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
@@ -436,7 +436,7 @@ class DLM {
       if (description != null) 'Description': description,
       if (executionRoleArn != null) 'ExecutionRoleArn': executionRoleArn,
       if (policyDetails != null) 'PolicyDetails': policyDetails,
-      if (state != null) 'State': state?.toValue(),
+      if (state != null) 'State': state.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,

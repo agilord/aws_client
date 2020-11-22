@@ -579,7 +579,7 @@ class Inspector {
       headers: headers,
       payload: {
         'exclusionArns': exclusionArns,
-        if (locale != null) 'locale': locale?.toValue(),
+        if (locale != null) 'locale': locale.toValue(),
       },
     );
 
@@ -614,7 +614,7 @@ class Inspector {
       headers: headers,
       payload: {
         'findingArns': findingArns,
-        if (locale != null) 'locale': locale?.toValue(),
+        if (locale != null) 'locale': locale.toValue(),
       },
     );
 
@@ -679,7 +679,7 @@ class Inspector {
       headers: headers,
       payload: {
         'rulesPackageArns': rulesPackageArns,
-        if (locale != null) 'locale': locale?.toValue(),
+        if (locale != null) 'locale': locale.toValue(),
       },
     );
 
@@ -738,8 +738,8 @@ class Inspector {
       headers: headers,
       payload: {
         'assessmentRunArn': assessmentRunArn,
-        'reportFileFormat': reportFileFormat?.toValue(),
-        'reportType': reportType?.toValue(),
+        'reportFileFormat': reportFileFormat?.toValue() ?? '',
+        'reportType': reportType?.toValue() ?? '',
       },
     );
 
@@ -817,7 +817,7 @@ class Inspector {
       payload: {
         'assessmentTemplateArn': assessmentTemplateArn,
         'previewToken': previewToken,
-        if (locale != null) 'locale': locale?.toValue(),
+        if (locale != null) 'locale': locale.toValue(),
         if (maxResults != null) 'maxResults': maxResults,
         if (nextToken != null) 'nextToken': nextToken,
       },
@@ -1675,7 +1675,7 @@ class Inspector {
       headers: headers,
       payload: {
         'assessmentRunArn': assessmentRunArn,
-        if (stopAction != null) 'stopAction': stopAction?.toValue(),
+        if (stopAction != null) 'stopAction': stopAction.toValue(),
       },
     );
   }
@@ -1732,7 +1732,7 @@ class Inspector {
       // TODO queryParams
       headers: headers,
       payload: {
-        'event': event?.toValue(),
+        'event': event?.toValue() ?? '',
         'resourceArn': resourceArn,
         'topicArn': topicArn,
       },
@@ -1790,7 +1790,7 @@ class Inspector {
       // TODO queryParams
       headers: headers,
       payload: {
-        'event': event?.toValue(),
+        'event': event?.toValue() ?? '',
         'resourceArn': resourceArn,
         'topicArn': topicArn,
       },

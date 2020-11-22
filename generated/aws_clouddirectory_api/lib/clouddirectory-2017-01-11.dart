@@ -605,8 +605,8 @@ class CloudDirectory {
     final $payload = <String, dynamic>{
       'Name': name,
       if (attributes != null) 'Attributes': attributes,
-      if (facetStyle != null) 'FacetStyle': facetStyle?.toValue(),
-      if (objectType != null) 'ObjectType': objectType?.toValue(),
+      if (facetStyle != null) 'FacetStyle': facetStyle.toValue(),
+      if (objectType != null) 'ObjectType': objectType.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1487,7 +1487,7 @@ class CloudDirectory {
       'AttributeNames': attributeNames,
       'TypedLinkSpecifier': typedLinkSpecifier,
       if (consistencyLevel != null)
-        'ConsistencyLevel': consistencyLevel?.toValue(),
+        'ConsistencyLevel': consistencyLevel.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1864,7 +1864,7 @@ class CloudDirectory {
     final $payload = <String, dynamic>{
       if (maxResults != null) 'MaxResults': maxResults,
       if (nextToken != null) 'NextToken': nextToken,
-      if (state != null) 'state': state?.toValue(),
+      if (state != null) 'state': state.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2053,7 +2053,7 @@ class CloudDirectory {
     final $payload = <String, dynamic>{
       'ObjectReference': objectReference,
       if (consistencyLevel != null)
-        'ConsistencyLevel': consistencyLevel?.toValue(),
+        'ConsistencyLevel': consistencyLevel.toValue(),
       if (filterAttributeRanges != null)
         'FilterAttributeRanges': filterAttributeRanges,
       if (filterTypedLink != null) 'FilterTypedLink': filterTypedLink,
@@ -2598,7 +2598,7 @@ class CloudDirectory {
     final $payload = <String, dynamic>{
       'ObjectReference': objectReference,
       if (consistencyLevel != null)
-        'ConsistencyLevel': consistencyLevel?.toValue(),
+        'ConsistencyLevel': consistencyLevel.toValue(),
       if (filterAttributeRanges != null)
         'FilterAttributeRanges': filterAttributeRanges,
       if (filterTypedLink != null) 'FilterTypedLink': filterTypedLink,
@@ -3272,7 +3272,7 @@ class CloudDirectory {
     final $payload = <String, dynamic>{
       'Name': name,
       if (attributeUpdates != null) 'AttributeUpdates': attributeUpdates,
-      if (objectType != null) 'ObjectType': objectType?.toValue(),
+      if (objectType != null) 'ObjectType': objectType.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,

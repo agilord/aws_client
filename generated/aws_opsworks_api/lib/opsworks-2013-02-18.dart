@@ -593,7 +593,8 @@ class OpsWorks {
         'ServiceRoleArn': serviceRoleArn,
         'SourceStackId': sourceStackId,
         if (agentVersion != null) 'AgentVersion': agentVersion,
-        if (attributes != null) 'Attributes': attributes,
+        if (attributes != null)
+          'Attributes': attributes.map((k, e) => MapEntry(k.toValue(), e)),
         if (chefConfiguration != null) 'ChefConfiguration': chefConfiguration,
         if (cloneAppIds != null) 'CloneAppIds': cloneAppIds,
         if (clonePermissions != null) 'ClonePermissions': clonePermissions,
@@ -608,7 +609,7 @@ class OpsWorks {
           'DefaultInstanceProfileArn': defaultInstanceProfileArn,
         if (defaultOs != null) 'DefaultOs': defaultOs,
         if (defaultRootDeviceType != null)
-          'DefaultRootDeviceType': defaultRootDeviceType?.toValue(),
+          'DefaultRootDeviceType': defaultRootDeviceType.toValue(),
         if (defaultSshKeyName != null) 'DefaultSshKeyName': defaultSshKeyName,
         if (defaultSubnetId != null) 'DefaultSubnetId': defaultSubnetId,
         if (hostnameTheme != null) 'HostnameTheme': hostnameTheme,
@@ -727,9 +728,10 @@ class OpsWorks {
       payload: {
         'Name': name,
         'StackId': stackId,
-        'Type': type?.toValue(),
+        'Type': type?.toValue() ?? '',
         if (appSource != null) 'AppSource': appSource,
-        if (attributes != null) 'Attributes': attributes,
+        if (attributes != null)
+          'Attributes': attributes.map((k, e) => MapEntry(k.toValue(), e)),
         if (dataSources != null) 'DataSources': dataSources,
         if (description != null) 'Description': description,
         if (domains != null) 'Domains': domains,
@@ -1051,9 +1053,9 @@ class OpsWorks {
         'StackId': stackId,
         if (agentVersion != null) 'AgentVersion': agentVersion,
         if (amiId != null) 'AmiId': amiId,
-        if (architecture != null) 'Architecture': architecture?.toValue(),
+        if (architecture != null) 'Architecture': architecture.toValue(),
         if (autoScalingType != null)
-          'AutoScalingType': autoScalingType?.toValue(),
+          'AutoScalingType': autoScalingType.toValue(),
         if (availabilityZone != null) 'AvailabilityZone': availabilityZone,
         if (blockDeviceMappings != null)
           'BlockDeviceMappings': blockDeviceMappings,
@@ -1062,7 +1064,7 @@ class OpsWorks {
         if (installUpdatesOnBoot != null)
           'InstallUpdatesOnBoot': installUpdatesOnBoot,
         if (os != null) 'Os': os,
-        if (rootDeviceType != null) 'RootDeviceType': rootDeviceType?.toValue(),
+        if (rootDeviceType != null) 'RootDeviceType': rootDeviceType.toValue(),
         if (sshKeyName != null) 'SshKeyName': sshKeyName,
         if (subnetId != null) 'SubnetId': subnetId,
         if (tenancy != null) 'Tenancy': tenancy,
@@ -1232,8 +1234,9 @@ class OpsWorks {
         'Name': name,
         'Shortname': shortname,
         'StackId': stackId,
-        'Type': type?.toValue(),
-        if (attributes != null) 'Attributes': attributes,
+        'Type': type?.toValue() ?? '',
+        if (attributes != null)
+          'Attributes': attributes.map((k, e) => MapEntry(k.toValue(), e)),
         if (autoAssignElasticIps != null)
           'AutoAssignElasticIps': autoAssignElasticIps,
         if (autoAssignPublicIps != null)
@@ -1622,7 +1625,8 @@ class OpsWorks {
         'Region': region,
         'ServiceRoleArn': serviceRoleArn,
         if (agentVersion != null) 'AgentVersion': agentVersion,
-        if (attributes != null) 'Attributes': attributes,
+        if (attributes != null)
+          'Attributes': attributes.map((k, e) => MapEntry(k.toValue(), e)),
         if (chefConfiguration != null) 'ChefConfiguration': chefConfiguration,
         if (configurationManager != null)
           'ConfigurationManager': configurationManager,
@@ -1633,7 +1637,7 @@ class OpsWorks {
           'DefaultAvailabilityZone': defaultAvailabilityZone,
         if (defaultOs != null) 'DefaultOs': defaultOs,
         if (defaultRootDeviceType != null)
-          'DefaultRootDeviceType': defaultRootDeviceType?.toValue(),
+          'DefaultRootDeviceType': defaultRootDeviceType.toValue(),
         if (defaultSshKeyName != null) 'DefaultSshKeyName': defaultSshKeyName,
         if (defaultSubnetId != null) 'DefaultSubnetId': defaultSubnetId,
         if (hostnameTheme != null) 'HostnameTheme': hostnameTheme,
@@ -4150,7 +4154,8 @@ class OpsWorks {
       payload: {
         'AppId': appId,
         if (appSource != null) 'AppSource': appSource,
-        if (attributes != null) 'Attributes': attributes,
+        if (attributes != null)
+          'Attributes': attributes.map((k, e) => MapEntry(k.toValue(), e)),
         if (dataSources != null) 'DataSources': dataSources,
         if (description != null) 'Description': description,
         if (domains != null) 'Domains': domains,
@@ -4158,7 +4163,7 @@ class OpsWorks {
         if (environment != null) 'Environment': environment,
         if (name != null) 'Name': name,
         if (sslConfiguration != null) 'SslConfiguration': sslConfiguration,
-        if (type != null) 'Type': type?.toValue(),
+        if (type != null) 'Type': type.toValue(),
       },
     );
   }
@@ -4371,9 +4376,9 @@ class OpsWorks {
         'InstanceId': instanceId,
         if (agentVersion != null) 'AgentVersion': agentVersion,
         if (amiId != null) 'AmiId': amiId,
-        if (architecture != null) 'Architecture': architecture?.toValue(),
+        if (architecture != null) 'Architecture': architecture.toValue(),
         if (autoScalingType != null)
-          'AutoScalingType': autoScalingType?.toValue(),
+          'AutoScalingType': autoScalingType.toValue(),
         if (ebsOptimized != null) 'EbsOptimized': ebsOptimized,
         if (hostname != null) 'Hostname': hostname,
         if (installUpdatesOnBoot != null)
@@ -4518,7 +4523,8 @@ class OpsWorks {
       headers: headers,
       payload: {
         'LayerId': layerId,
-        if (attributes != null) 'Attributes': attributes,
+        if (attributes != null)
+          'Attributes': attributes.map((k, e) => MapEntry(k.toValue(), e)),
         if (autoAssignElasticIps != null)
           'AutoAssignElasticIps': autoAssignElasticIps,
         if (autoAssignPublicIps != null)
@@ -4901,7 +4907,8 @@ class OpsWorks {
       payload: {
         'StackId': stackId,
         if (agentVersion != null) 'AgentVersion': agentVersion,
-        if (attributes != null) 'Attributes': attributes,
+        if (attributes != null)
+          'Attributes': attributes.map((k, e) => MapEntry(k.toValue(), e)),
         if (chefConfiguration != null) 'ChefConfiguration': chefConfiguration,
         if (configurationManager != null)
           'ConfigurationManager': configurationManager,
@@ -4914,7 +4921,7 @@ class OpsWorks {
           'DefaultInstanceProfileArn': defaultInstanceProfileArn,
         if (defaultOs != null) 'DefaultOs': defaultOs,
         if (defaultRootDeviceType != null)
-          'DefaultRootDeviceType': defaultRootDeviceType?.toValue(),
+          'DefaultRootDeviceType': defaultRootDeviceType.toValue(),
         if (defaultSshKeyName != null) 'DefaultSshKeyName': defaultSshKeyName,
         if (defaultSubnetId != null) 'DefaultSubnetId': defaultSubnetId,
         if (hostnameTheme != null) 'HostnameTheme': hostnameTheme,
@@ -5160,6 +5167,22 @@ enum AppAttributesKeys {
   autoBundleOnDeploy,
   @_s.JsonValue('AwsFlowRubySettings')
   awsFlowRubySettings,
+}
+
+extension on AppAttributesKeys {
+  String toValue() {
+    switch (this) {
+      case AppAttributesKeys.documentRoot:
+        return 'DocumentRoot';
+      case AppAttributesKeys.railsEnv:
+        return 'RailsEnv';
+      case AppAttributesKeys.autoBundleOnDeploy:
+        return 'AutoBundleOnDeploy';
+      case AppAttributesKeys.awsFlowRubySettings:
+        return 'AwsFlowRubySettings';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 enum AppType {
@@ -7596,6 +7619,64 @@ enum LayerAttributesKeys {
   javaAppServerVersion,
 }
 
+extension on LayerAttributesKeys {
+  String toValue() {
+    switch (this) {
+      case LayerAttributesKeys.ecsClusterArn:
+        return 'EcsClusterArn';
+      case LayerAttributesKeys.enableHaproxyStats:
+        return 'EnableHaproxyStats';
+      case LayerAttributesKeys.haproxyStatsUrl:
+        return 'HaproxyStatsUrl';
+      case LayerAttributesKeys.haproxyStatsUser:
+        return 'HaproxyStatsUser';
+      case LayerAttributesKeys.haproxyStatsPassword:
+        return 'HaproxyStatsPassword';
+      case LayerAttributesKeys.haproxyHealthCheckUrl:
+        return 'HaproxyHealthCheckUrl';
+      case LayerAttributesKeys.haproxyHealthCheckMethod:
+        return 'HaproxyHealthCheckMethod';
+      case LayerAttributesKeys.mysqlRootPassword:
+        return 'MysqlRootPassword';
+      case LayerAttributesKeys.mysqlRootPasswordUbiquitous:
+        return 'MysqlRootPasswordUbiquitous';
+      case LayerAttributesKeys.gangliaUrl:
+        return 'GangliaUrl';
+      case LayerAttributesKeys.gangliaUser:
+        return 'GangliaUser';
+      case LayerAttributesKeys.gangliaPassword:
+        return 'GangliaPassword';
+      case LayerAttributesKeys.memcachedMemory:
+        return 'MemcachedMemory';
+      case LayerAttributesKeys.nodejsVersion:
+        return 'NodejsVersion';
+      case LayerAttributesKeys.rubyVersion:
+        return 'RubyVersion';
+      case LayerAttributesKeys.rubygemsVersion:
+        return 'RubygemsVersion';
+      case LayerAttributesKeys.manageBundler:
+        return 'ManageBundler';
+      case LayerAttributesKeys.bundlerVersion:
+        return 'BundlerVersion';
+      case LayerAttributesKeys.railsStack:
+        return 'RailsStack';
+      case LayerAttributesKeys.passengerVersion:
+        return 'PassengerVersion';
+      case LayerAttributesKeys.jvm:
+        return 'Jvm';
+      case LayerAttributesKeys.jvmVersion:
+        return 'JvmVersion';
+      case LayerAttributesKeys.jvmOptions:
+        return 'JvmOptions';
+      case LayerAttributesKeys.javaAppServer:
+        return 'JavaAppServer';
+      case LayerAttributesKeys.javaAppServerVersion:
+        return 'JavaAppServerVersion';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 enum LayerType {
   @_s.JsonValue('aws-flow-ruby')
   awsFlowRuby,
@@ -8588,6 +8669,16 @@ class Stack {
 enum StackAttributesKeys {
   @_s.JsonValue('Color')
   color,
+}
+
+extension on StackAttributesKeys {
+  String toValue() {
+    switch (this) {
+      case StackAttributesKeys.color:
+        return 'Color';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Describes the configuration manager.

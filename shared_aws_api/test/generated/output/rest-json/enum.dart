@@ -68,8 +68,9 @@ class Enum {
     final headers = <String, String>{};
     headerEnum?.let((v) => headers['x-amz-enum'] = v.toValue());
     final $payload = <String, dynamic>{
-      if (fooEnum != null) 'FooEnum': fooEnum?.toValue(),
-      if (listEnums != null) 'ListEnums': listEnums,
+      if (fooEnum != null) 'FooEnum': fooEnum.toValue(),
+      if (listEnums != null)
+        'ListEnums': listEnums.map((e) => e?.toValue() ?? '').toList(),
     };
     await _protocol.send(
       payload: $payload,

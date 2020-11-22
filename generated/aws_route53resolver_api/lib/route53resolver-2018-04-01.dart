@@ -323,7 +323,7 @@ class Route53Resolver {
       headers: headers,
       payload: {
         'CreatorRequestId': creatorRequestId,
-        'Direction': direction?.toValue(),
+        'Direction': direction?.toValue() ?? '',
         'IpAddresses': ipAddresses,
         'SecurityGroupIds': securityGroupIds,
         if (name != null) 'Name': name,
@@ -435,7 +435,7 @@ class Route53Resolver {
       payload: {
         'CreatorRequestId': creatorRequestId,
         'DomainName': domainName,
-        'RuleType': ruleType?.toValue(),
+        'RuleType': ruleType?.toValue() ?? '',
         if (name != null) 'Name': name,
         if (resolverEndpointId != null)
           'ResolverEndpointId': resolverEndpointId,

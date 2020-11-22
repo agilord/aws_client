@@ -77,11 +77,11 @@ class MediaPackageVod {
     ArgumentError.checkNotNull(sourceArn, 'sourceArn');
     ArgumentError.checkNotNull(sourceRoleArn, 'sourceRoleArn');
     final $payload = <String, dynamic>{
-      'Id': id,
-      'PackagingGroupId': packagingGroupId,
-      'SourceArn': sourceArn,
-      'SourceRoleArn': sourceRoleArn,
-      if (resourceId != null) 'ResourceId': resourceId,
+      'id': id,
+      'packagingGroupId': packagingGroupId,
+      'sourceArn': sourceArn,
+      'sourceRoleArn': sourceRoleArn,
+      if (resourceId != null) 'resourceId': resourceId,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -117,12 +117,12 @@ class MediaPackageVod {
     ArgumentError.checkNotNull(id, 'id');
     ArgumentError.checkNotNull(packagingGroupId, 'packagingGroupId');
     final $payload = <String, dynamic>{
-      'Id': id,
-      'PackagingGroupId': packagingGroupId,
-      if (cmafPackage != null) 'CmafPackage': cmafPackage,
-      if (dashPackage != null) 'DashPackage': dashPackage,
-      if (hlsPackage != null) 'HlsPackage': hlsPackage,
-      if (mssPackage != null) 'MssPackage': mssPackage,
+      'id': id,
+      'packagingGroupId': packagingGroupId,
+      if (cmafPackage != null) 'cmafPackage': cmafPackage,
+      if (dashPackage != null) 'dashPackage': dashPackage,
+      if (hlsPackage != null) 'hlsPackage': hlsPackage,
+      if (mssPackage != null) 'mssPackage': mssPackage,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -149,7 +149,7 @@ class MediaPackageVod {
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     final $payload = <String, dynamic>{
-      'Id': id,
+      'id': id,
     };
     final response = await _protocol.send(
       payload: $payload,

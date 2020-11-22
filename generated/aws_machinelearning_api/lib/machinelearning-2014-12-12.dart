@@ -95,7 +95,7 @@ class MachineLearning {
       headers: headers,
       payload: {
         'ResourceId': resourceId,
-        'ResourceType': resourceType?.toValue(),
+        'ResourceType': resourceType?.toValue() ?? '',
         'Tags': tags,
       },
     );
@@ -1056,7 +1056,7 @@ class MachineLearning {
       headers: headers,
       payload: {
         'MLModelId': mLModelId,
-        'MLModelType': mLModelType?.toValue(),
+        'MLModelType': mLModelType?.toValue() ?? '',
         'TrainingDataSourceId': trainingDataSourceId,
         if (mLModelName != null) 'MLModelName': mLModelName,
         if (parameters != null) 'Parameters': parameters,
@@ -1414,7 +1414,7 @@ class MachineLearning {
       headers: headers,
       payload: {
         'ResourceId': resourceId,
-        'ResourceType': resourceType?.toValue(),
+        'ResourceType': resourceType?.toValue() ?? '',
         'TagKeys': tagKeys,
       },
     );
@@ -1630,7 +1630,7 @@ class MachineLearning {
       headers: headers,
       payload: {
         if (eq != null) 'EQ': eq,
-        if (filterVariable != null) 'FilterVariable': filterVariable?.toValue(),
+        if (filterVariable != null) 'FilterVariable': filterVariable.toValue(),
         if (ge != null) 'GE': ge,
         if (gt != null) 'GT': gt,
         if (le != null) 'LE': le,
@@ -1639,7 +1639,7 @@ class MachineLearning {
         if (ne != null) 'NE': ne,
         if (nextToken != null) 'NextToken': nextToken,
         if (prefix != null) 'Prefix': prefix,
-        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
       },
     );
 
@@ -1848,7 +1848,7 @@ class MachineLearning {
       headers: headers,
       payload: {
         if (eq != null) 'EQ': eq,
-        if (filterVariable != null) 'FilterVariable': filterVariable?.toValue(),
+        if (filterVariable != null) 'FilterVariable': filterVariable.toValue(),
         if (ge != null) 'GE': ge,
         if (gt != null) 'GT': gt,
         if (le != null) 'LE': le,
@@ -1857,7 +1857,7 @@ class MachineLearning {
         if (ne != null) 'NE': ne,
         if (nextToken != null) 'NextToken': nextToken,
         if (prefix != null) 'Prefix': prefix,
-        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
       },
     );
 
@@ -2069,7 +2069,7 @@ class MachineLearning {
       headers: headers,
       payload: {
         if (eq != null) 'EQ': eq,
-        if (filterVariable != null) 'FilterVariable': filterVariable?.toValue(),
+        if (filterVariable != null) 'FilterVariable': filterVariable.toValue(),
         if (ge != null) 'GE': ge,
         if (gt != null) 'GT': gt,
         if (le != null) 'LE': le,
@@ -2078,7 +2078,7 @@ class MachineLearning {
         if (ne != null) 'NE': ne,
         if (nextToken != null) 'NextToken': nextToken,
         if (prefix != null) 'Prefix': prefix,
-        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
       },
     );
 
@@ -2298,7 +2298,7 @@ class MachineLearning {
       headers: headers,
       payload: {
         if (eq != null) 'EQ': eq,
-        if (filterVariable != null) 'FilterVariable': filterVariable?.toValue(),
+        if (filterVariable != null) 'FilterVariable': filterVariable.toValue(),
         if (ge != null) 'GE': ge,
         if (gt != null) 'GT': gt,
         if (le != null) 'LE': le,
@@ -2307,7 +2307,7 @@ class MachineLearning {
         if (ne != null) 'NE': ne,
         if (nextToken != null) 'NextToken': nextToken,
         if (prefix != null) 'Prefix': prefix,
-        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
       },
     );
 
@@ -2356,7 +2356,7 @@ class MachineLearning {
       headers: headers,
       payload: {
         'ResourceId': resourceId,
-        'ResourceType': resourceType?.toValue(),
+        'ResourceType': resourceType?.toValue() ?? '',
       },
     );
 

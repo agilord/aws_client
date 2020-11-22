@@ -55,9 +55,9 @@ class TimestampValues {
       // TODO queryParams
       headers: headers,
       payload: {
-        if (timeArg != null) 'TimeArg': timeArg,
-        if (timeCustom != null) 'TimeCustom': timeCustom,
-        if (timeFormat != null) 'TimeFormat': timeFormat,
+        if (timeArg != null) 'TimeArg': unixTimestampToJson(timeArg),
+        if (timeCustom != null) 'TimeCustom': rfc822ToJson(timeCustom),
+        if (timeFormat != null) 'TimeFormat': rfc822ToJson(timeFormat),
       },
     );
   }

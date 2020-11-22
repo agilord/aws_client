@@ -101,7 +101,7 @@ class CostExplorer {
       headers: headers,
       payload: {
         'Name': name,
-        'RuleVersion': ruleVersion?.toValue(),
+        'RuleVersion': ruleVersion?.toValue() ?? '',
         'Rules': rules,
       },
     );
@@ -329,7 +329,7 @@ class CostExplorer {
       payload: {
         'TimePeriod': timePeriod,
         if (filter != null) 'Filter': filter,
-        if (granularity != null) 'Granularity': granularity?.toValue(),
+        if (granularity != null) 'Granularity': granularity.toValue(),
         if (groupBy != null) 'GroupBy': groupBy,
         if (metrics != null) 'Metrics': metrics,
         if (nextPageToken != null) 'NextPageToken': nextPageToken,
@@ -453,7 +453,7 @@ class CostExplorer {
       payload: {
         'TimePeriod': timePeriod,
         if (filter != null) 'Filter': filter,
-        if (granularity != null) 'Granularity': granularity?.toValue(),
+        if (granularity != null) 'Granularity': granularity.toValue(),
         if (groupBy != null) 'GroupBy': groupBy,
         if (metrics != null) 'Metrics': metrics,
         if (nextPageToken != null) 'NextPageToken': nextPageToken,
@@ -544,8 +544,8 @@ class CostExplorer {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Granularity': granularity?.toValue(),
-        'Metric': metric?.toValue(),
+        'Granularity': granularity?.toValue() ?? '',
+        'Metric': metric?.toValue() ?? '',
         'TimePeriod': timePeriod,
         if (filter != null) 'Filter': filter,
         if (predictionIntervalLevel != null)
@@ -768,9 +768,9 @@ class CostExplorer {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Dimension': dimension?.toValue(),
+        'Dimension': dimension?.toValue() ?? '',
         'TimePeriod': timePeriod,
-        if (context != null) 'Context': context?.toValue(),
+        if (context != null) 'Context': context.toValue(),
         if (nextPageToken != null) 'NextPageToken': nextPageToken,
         if (searchString != null) 'SearchString': searchString,
       },
@@ -986,7 +986,7 @@ class CostExplorer {
       payload: {
         'TimePeriod': timePeriod,
         if (filter != null) 'Filter': filter,
-        if (granularity != null) 'Granularity': granularity?.toValue(),
+        if (granularity != null) 'Granularity': granularity.toValue(),
         if (groupBy != null) 'GroupBy': groupBy,
         if (metrics != null) 'Metrics': metrics,
         if (nextPageToken != null) 'NextPageToken': nextPageToken,
@@ -1123,15 +1123,15 @@ class CostExplorer {
       payload: {
         'Service': service,
         if (accountId != null) 'AccountId': accountId,
-        if (accountScope != null) 'AccountScope': accountScope?.toValue(),
+        if (accountScope != null) 'AccountScope': accountScope.toValue(),
         if (lookbackPeriodInDays != null)
-          'LookbackPeriodInDays': lookbackPeriodInDays?.toValue(),
+          'LookbackPeriodInDays': lookbackPeriodInDays.toValue(),
         if (nextPageToken != null) 'NextPageToken': nextPageToken,
         if (pageSize != null) 'PageSize': pageSize,
-        if (paymentOption != null) 'PaymentOption': paymentOption?.toValue(),
+        if (paymentOption != null) 'PaymentOption': paymentOption.toValue(),
         if (serviceSpecification != null)
           'ServiceSpecification': serviceSpecification,
-        if (termInYears != null) 'TermInYears': termInYears?.toValue(),
+        if (termInYears != null) 'TermInYears': termInYears.toValue(),
       },
     );
 
@@ -1252,7 +1252,7 @@ class CostExplorer {
       payload: {
         'TimePeriod': timePeriod,
         if (filter != null) 'Filter': filter,
-        if (granularity != null) 'Granularity': granularity?.toValue(),
+        if (granularity != null) 'Granularity': granularity.toValue(),
         if (groupBy != null) 'GroupBy': groupBy,
         if (nextPageToken != null) 'NextPageToken': nextPageToken,
       },
@@ -1467,7 +1467,7 @@ class CostExplorer {
       payload: {
         'TimePeriod': timePeriod,
         if (filter != null) 'Filter': filter,
-        if (granularity != null) 'Granularity': granularity?.toValue(),
+        if (granularity != null) 'Granularity': granularity.toValue(),
         if (groupBy != null) 'GroupBy': groupBy,
         if (maxResults != null) 'MaxResults': maxResults,
         if (metrics != null) 'Metrics': metrics,
@@ -1572,11 +1572,11 @@ class CostExplorer {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LookbackPeriodInDays': lookbackPeriodInDays?.toValue(),
-        'PaymentOption': paymentOption?.toValue(),
-        'SavingsPlansType': savingsPlansType?.toValue(),
-        'TermInYears': termInYears?.toValue(),
-        if (accountScope != null) 'AccountScope': accountScope?.toValue(),
+        'LookbackPeriodInDays': lookbackPeriodInDays?.toValue() ?? '',
+        'PaymentOption': paymentOption?.toValue() ?? '',
+        'SavingsPlansType': savingsPlansType?.toValue() ?? '',
+        'TermInYears': termInYears?.toValue() ?? '',
+        if (accountScope != null) 'AccountScope': accountScope.toValue(),
         if (filter != null) 'Filter': filter,
         if (nextPageToken != null) 'NextPageToken': nextPageToken,
         if (pageSize != null) 'PageSize': pageSize,
@@ -1660,7 +1660,7 @@ class CostExplorer {
       payload: {
         'TimePeriod': timePeriod,
         if (filter != null) 'Filter': filter,
-        if (granularity != null) 'Granularity': granularity?.toValue(),
+        if (granularity != null) 'Granularity': granularity.toValue(),
       },
     );
 
@@ -1935,8 +1935,8 @@ class CostExplorer {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Granularity': granularity?.toValue(),
-        'Metric': metric?.toValue(),
+        'Granularity': granularity?.toValue() ?? '',
+        'Metric': metric?.toValue() ?? '',
         'TimePeriod': timePeriod,
         if (filter != null) 'Filter': filter,
         if (predictionIntervalLevel != null)
@@ -2071,7 +2071,7 @@ class CostExplorer {
       headers: headers,
       payload: {
         'CostCategoryArn': costCategoryArn,
-        'RuleVersion': ruleVersion?.toValue(),
+        'RuleVersion': ruleVersion?.toValue() ?? '',
         'Rules': rules,
       },
     );

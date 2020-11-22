@@ -558,9 +558,9 @@ class GroundStation {
     ArgumentError.checkNotNull(startTime, 'startTime');
     ArgumentError.checkNotNull(statusList, 'statusList');
     final $payload = <String, dynamic>{
-      'endTime': endTime,
-      'startTime': startTime,
-      'statusList': statusList,
+      'endTime': unixTimestampToJson(endTime),
+      'startTime': unixTimestampToJson(startTime),
+      'statusList': statusList?.map((e) => e?.toValue() ?? '')?.toList(),
       if (groundStation != null) 'groundStation': groundStation,
       if (maxResults != null) 'maxResults': maxResults,
       if (missionProfileArn != null) 'missionProfileArn': missionProfileArn,
@@ -761,11 +761,11 @@ class GroundStation {
     ArgumentError.checkNotNull(satelliteArn, 'satelliteArn');
     ArgumentError.checkNotNull(startTime, 'startTime');
     final $payload = <String, dynamic>{
-      'endTime': endTime,
+      'endTime': unixTimestampToJson(endTime),
       'groundStation': groundStation,
       'missionProfileArn': missionProfileArn,
       'satelliteArn': satelliteArn,
-      'startTime': startTime,
+      'startTime': unixTimestampToJson(startTime),
       if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
@@ -1352,6 +1352,38 @@ enum ContactStatus {
   scheduled,
   @_s.JsonValue('SCHEDULING')
   scheduling,
+}
+
+extension on ContactStatus {
+  String toValue() {
+    switch (this) {
+      case ContactStatus.available:
+        return 'AVAILABLE';
+      case ContactStatus.awsCancelled:
+        return 'AWS_CANCELLED';
+      case ContactStatus.cancelled:
+        return 'CANCELLED';
+      case ContactStatus.cancelling:
+        return 'CANCELLING';
+      case ContactStatus.completed:
+        return 'COMPLETED';
+      case ContactStatus.failed:
+        return 'FAILED';
+      case ContactStatus.failedToSchedule:
+        return 'FAILED_TO_SCHEDULE';
+      case ContactStatus.pass:
+        return 'PASS';
+      case ContactStatus.postpass:
+        return 'POSTPASS';
+      case ContactStatus.prepass:
+        return 'PREPASS';
+      case ContactStatus.scheduled:
+        return 'SCHEDULED';
+      case ContactStatus.scheduling:
+        return 'SCHEDULING';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 enum Criticality {

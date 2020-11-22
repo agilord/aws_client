@@ -423,13 +423,13 @@ class KinesisVideoArchivedMedia {
       if (dASHFragmentSelector != null)
         'DASHFragmentSelector': dASHFragmentSelector,
       if (displayFragmentNumber != null)
-        'DisplayFragmentNumber': displayFragmentNumber?.toValue(),
+        'DisplayFragmentNumber': displayFragmentNumber.toValue(),
       if (displayFragmentTimestamp != null)
-        'DisplayFragmentTimestamp': displayFragmentTimestamp?.toValue(),
+        'DisplayFragmentTimestamp': displayFragmentTimestamp.toValue(),
       if (expires != null) 'Expires': expires,
       if (maxManifestFragmentResults != null)
         'MaxManifestFragmentResults': maxManifestFragmentResults,
-      if (playbackMode != null) 'PlaybackMode': playbackMode?.toValue(),
+      if (playbackMode != null) 'PlaybackMode': playbackMode.toValue(),
       if (streamARN != null) 'StreamARN': streamARN,
       if (streamName != null) 'StreamName': streamName,
     };
@@ -894,18 +894,17 @@ class KinesisVideoArchivedMedia {
       r'''[a-zA-Z0-9_.-]+''',
     );
     final $payload = <String, dynamic>{
-      if (containerFormat != null)
-        'ContainerFormat': containerFormat?.toValue(),
+      if (containerFormat != null) 'ContainerFormat': containerFormat.toValue(),
       if (discontinuityMode != null)
-        'DiscontinuityMode': discontinuityMode?.toValue(),
+        'DiscontinuityMode': discontinuityMode.toValue(),
       if (displayFragmentTimestamp != null)
-        'DisplayFragmentTimestamp': displayFragmentTimestamp?.toValue(),
+        'DisplayFragmentTimestamp': displayFragmentTimestamp.toValue(),
       if (expires != null) 'Expires': expires,
       if (hLSFragmentSelector != null)
         'HLSFragmentSelector': hLSFragmentSelector,
       if (maxMediaPlaylistFragmentResults != null)
         'MaxMediaPlaylistFragmentResults': maxMediaPlaylistFragmentResults,
-      if (playbackMode != null) 'PlaybackMode': playbackMode?.toValue(),
+      if (playbackMode != null) 'PlaybackMode': playbackMode.toValue(),
       if (streamARN != null) 'StreamARN': streamARN,
       if (streamName != null) 'StreamName': streamName,
     };

@@ -103,7 +103,7 @@ class AccessAnalyzer {
     ArgumentError.checkNotNull(type, 'type');
     final $payload = <String, dynamic>{
       'analyzerName': analyzerName,
-      'type': type?.toValue(),
+      'type': type?.toValue() ?? '',
       if (archiveRules != null) 'archiveRules': archiveRules,
       if (clientToken != null) 'clientToken': clientToken,
       if (tags != null) 'tags': tags,
@@ -511,7 +511,7 @@ class AccessAnalyzer {
       'analyzerArn': analyzerArn,
       if (maxResults != null) 'maxResults': maxResults,
       if (nextToken != null) 'nextToken': nextToken,
-      if (resourceType != null) 'resourceType': resourceType?.toValue(),
+      if (resourceType != null) 'resourceType': resourceType.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -905,7 +905,7 @@ class AccessAnalyzer {
     );
     final $payload = <String, dynamic>{
       'analyzerArn': analyzerArn,
-      'status': status?.toValue(),
+      'status': status?.toValue() ?? '',
       if (clientToken != null) 'clientToken': clientToken,
       if (ids != null) 'ids': ids,
       if (resourceArn != null) 'resourceArn': resourceArn,

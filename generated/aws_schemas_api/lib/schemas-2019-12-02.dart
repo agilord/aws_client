@@ -81,7 +81,7 @@ class Schemas {
     final $payload = <String, dynamic>{
       'SourceArn': sourceArn,
       if (description != null) 'Description': description,
-      if (tags != null) 'Tags': tags,
+      if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -120,7 +120,7 @@ class Schemas {
     );
     final $payload = <String, dynamic>{
       if (description != null) 'Description': description,
-      if (tags != null) 'Tags': tags,
+      if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -171,9 +171,9 @@ class Schemas {
     );
     final $payload = <String, dynamic>{
       'Content': content,
-      'Type': type?.toValue(),
+      'Type': type?.toValue() ?? '',
       if (description != null) 'Description': description,
-      if (tags != null) 'Tags': tags,
+      if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -440,7 +440,7 @@ class Schemas {
     ArgumentError.checkNotNull(type, 'type');
     final $payload = <String, dynamic>{
       'Events': events,
-      'Type': type?.toValue(),
+      'Type': type?.toValue() ?? '',
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -756,7 +756,7 @@ class Schemas {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
-      'Tags': tags,
+      'tags': tags,
     };
     await _protocol.send(
       payload: $payload,
@@ -941,7 +941,7 @@ class Schemas {
       if (clientTokenId != null) 'ClientTokenId': clientTokenId,
       if (content != null) 'Content': content,
       if (description != null) 'Description': description,
-      if (type != null) 'Type': type?.toValue(),
+      if (type != null) 'Type': type.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,

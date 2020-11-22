@@ -465,18 +465,20 @@ class Polly {
       r'''^arn:aws(-(cn|iso(-b)?|us-gov))?:sns:[a-z0-9_-]{1,50}:\d{12}:[a-zA-Z0-9_-]{1,256}$''',
     );
     final $payload = <String, dynamic>{
-      'OutputFormat': outputFormat?.toValue(),
+      'OutputFormat': outputFormat?.toValue() ?? '',
       'OutputS3BucketName': outputS3BucketName,
       'Text': text,
-      'VoiceId': voiceId?.toValue(),
-      if (engine != null) 'Engine': engine?.toValue(),
-      if (languageCode != null) 'LanguageCode': languageCode?.toValue(),
+      'VoiceId': voiceId?.toValue() ?? '',
+      if (engine != null) 'Engine': engine.toValue(),
+      if (languageCode != null) 'LanguageCode': languageCode.toValue(),
       if (lexiconNames != null) 'LexiconNames': lexiconNames,
       if (outputS3KeyPrefix != null) 'OutputS3KeyPrefix': outputS3KeyPrefix,
       if (sampleRate != null) 'SampleRate': sampleRate,
       if (snsTopicArn != null) 'SnsTopicArn': snsTopicArn,
-      if (speechMarkTypes != null) 'SpeechMarkTypes': speechMarkTypes,
-      if (textType != null) 'TextType': textType?.toValue(),
+      if (speechMarkTypes != null)
+        'SpeechMarkTypes':
+            speechMarkTypes.map((e) => e?.toValue() ?? '').toList(),
+      if (textType != null) 'TextType': textType.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -580,15 +582,17 @@ class Polly {
     ArgumentError.checkNotNull(text, 'text');
     ArgumentError.checkNotNull(voiceId, 'voiceId');
     final $payload = <String, dynamic>{
-      'OutputFormat': outputFormat?.toValue(),
+      'OutputFormat': outputFormat?.toValue() ?? '',
       'Text': text,
-      'VoiceId': voiceId?.toValue(),
-      if (engine != null) 'Engine': engine?.toValue(),
-      if (languageCode != null) 'LanguageCode': languageCode?.toValue(),
+      'VoiceId': voiceId?.toValue() ?? '',
+      if (engine != null) 'Engine': engine.toValue(),
+      if (languageCode != null) 'LanguageCode': languageCode.toValue(),
       if (lexiconNames != null) 'LexiconNames': lexiconNames,
       if (sampleRate != null) 'SampleRate': sampleRate,
-      if (speechMarkTypes != null) 'SpeechMarkTypes': speechMarkTypes,
-      if (textType != null) 'TextType': textType?.toValue(),
+      if (speechMarkTypes != null)
+        'SpeechMarkTypes':
+            speechMarkTypes.map((e) => e?.toValue() ?? '').toList(),
+      if (textType != null) 'TextType': textType.toValue(),
     };
     final response = await _protocol.sendRaw(
       payload: $payload,
@@ -1034,6 +1038,22 @@ enum SpeechMarkType {
   viseme,
   @_s.JsonValue('word')
   word,
+}
+
+extension on SpeechMarkType {
+  String toValue() {
+    switch (this) {
+      case SpeechMarkType.sentence:
+        return 'sentence';
+      case SpeechMarkType.ssml:
+        return 'ssml';
+      case SpeechMarkType.viseme:
+        return 'viseme';
+      case SpeechMarkType.word:
+        return 'word';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 @_s.JsonSerializable(

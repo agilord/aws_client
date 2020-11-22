@@ -696,9 +696,10 @@ class Lambda {
       if (parallelizationFactor != null)
         'ParallelizationFactor': parallelizationFactor,
       if (startingPosition != null)
-        'StartingPosition': startingPosition?.toValue(),
+        'StartingPosition': startingPosition.toValue(),
       if (startingPositionTimestamp != null)
-        'StartingPositionTimestamp': startingPositionTimestamp,
+        'StartingPositionTimestamp':
+            unixTimestampToJson(startingPositionTimestamp),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -935,7 +936,7 @@ class Lambda {
       'FunctionName': functionName,
       'Handler': handler,
       'Role': role,
-      'Runtime': runtime?.toValue(),
+      'Runtime': runtime?.toValue() ?? '',
       if (deadLetterConfig != null) 'DeadLetterConfig': deadLetterConfig,
       if (description != null) 'Description': description,
       if (environment != null) 'Environment': environment,
@@ -3021,7 +3022,9 @@ class Lambda {
     );
     final $payload = <String, dynamic>{
       'Content': content,
-      if (compatibleRuntimes != null) 'CompatibleRuntimes': compatibleRuntimes,
+      if (compatibleRuntimes != null)
+        'CompatibleRuntimes':
+            compatibleRuntimes.map((e) => e?.toValue() ?? '').toList(),
       if (description != null) 'Description': description,
       if (licenseInfo != null) 'LicenseInfo': licenseInfo,
     };
@@ -4118,7 +4121,7 @@ class Lambda {
       if (s3Bucket != null) 'S3Bucket': s3Bucket,
       if (s3Key != null) 'S3Key': s3Key,
       if (s3ObjectVersion != null) 'S3ObjectVersion': s3ObjectVersion,
-      if (zipFile != null) 'ZipFile': zipFile.let(base64Encode),
+      if (zipFile != null) 'ZipFile': base64Encode(zipFile),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -4322,7 +4325,7 @@ class Lambda {
       if (memorySize != null) 'MemorySize': memorySize,
       if (revisionId != null) 'RevisionId': revisionId,
       if (role != null) 'Role': role,
-      if (runtime != null) 'Runtime': runtime?.toValue(),
+      if (runtime != null) 'Runtime': runtime.toValue(),
       if (timeout != null) 'Timeout': timeout,
       if (tracingConfig != null) 'TracingConfig': tracingConfig,
       if (vpcConfig != null) 'VpcConfig': vpcConfig,

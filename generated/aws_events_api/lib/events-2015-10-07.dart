@@ -1764,7 +1764,7 @@ class CloudWatchEvents {
         if (roleArn != null) 'RoleArn': roleArn,
         if (scheduleExpression != null)
           'ScheduleExpression': scheduleExpression,
-        if (state != null) 'State': state?.toValue(),
+        if (state != null) 'State': state.toValue(),
         if (tags != null) 'Tags': tags,
       },
     );

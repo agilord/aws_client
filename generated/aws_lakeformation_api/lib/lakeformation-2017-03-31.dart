@@ -392,12 +392,14 @@ class LakeFormation {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Permissions': permissions,
+        'Permissions': permissions?.map((e) => e?.toValue() ?? '')?.toList(),
         'Principal': principal,
         'Resource': resource,
         if (catalogId != null) 'CatalogId': catalogId,
         if (permissionsWithGrantOption != null)
-          'PermissionsWithGrantOption': permissionsWithGrantOption,
+          'PermissionsWithGrantOption': permissionsWithGrantOption
+              .map((e) => e?.toValue() ?? '')
+              .toList(),
       },
     );
 
@@ -484,7 +486,7 @@ class LakeFormation {
         if (nextToken != null) 'NextToken': nextToken,
         if (principal != null) 'Principal': principal,
         if (resource != null) 'Resource': resource,
-        if (resourceType != null) 'ResourceType': resourceType?.toValue(),
+        if (resourceType != null) 'ResourceType': resourceType.toValue(),
       },
     );
 
@@ -704,12 +706,14 @@ class LakeFormation {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Permissions': permissions,
+        'Permissions': permissions?.map((e) => e?.toValue() ?? '')?.toList(),
         'Principal': principal,
         'Resource': resource,
         if (catalogId != null) 'CatalogId': catalogId,
         if (permissionsWithGrantOption != null)
-          'PermissionsWithGrantOption': permissionsWithGrantOption,
+          'PermissionsWithGrantOption': permissionsWithGrantOption
+              .map((e) => e?.toValue() ?? '')
+              .toList(),
       },
     );
 
@@ -1245,6 +1249,32 @@ enum Permission {
   createTable,
   @_s.JsonValue('DATA_LOCATION_ACCESS')
   dataLocationAccess,
+}
+
+extension on Permission {
+  String toValue() {
+    switch (this) {
+      case Permission.all:
+        return 'ALL';
+      case Permission.select:
+        return 'SELECT';
+      case Permission.alter:
+        return 'ALTER';
+      case Permission.drop:
+        return 'DROP';
+      case Permission.delete:
+        return 'DELETE';
+      case Permission.insert:
+        return 'INSERT';
+      case Permission.createDatabase:
+        return 'CREATE_DATABASE';
+      case Permission.createTable:
+        return 'CREATE_TABLE';
+      case Permission.dataLocationAccess:
+        return 'DATA_LOCATION_ACCESS';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Permissions granted to a principal.

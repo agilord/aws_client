@@ -979,7 +979,7 @@ class CloudWatchLogs {
       payload: {
         if (limit != null) 'limit': limit,
         if (nextToken != null) 'nextToken': nextToken,
-        if (statusCode != null) 'statusCode': statusCode?.toValue(),
+        if (statusCode != null) 'statusCode': statusCode.toValue(),
         if (taskId != null) 'taskId': taskId,
       },
     );
@@ -1161,7 +1161,7 @@ class CloudWatchLogs {
         if (logStreamNamePrefix != null)
           'logStreamNamePrefix': logStreamNamePrefix,
         if (nextToken != null) 'nextToken': nextToken,
-        if (orderBy != null) 'orderBy': orderBy?.toValue(),
+        if (orderBy != null) 'orderBy': orderBy.toValue(),
       },
     );
 
@@ -1348,7 +1348,7 @@ class CloudWatchLogs {
         if (logGroupName != null) 'logGroupName': logGroupName,
         if (maxResults != null) 'maxResults': maxResults,
         if (nextToken != null) 'nextToken': nextToken,
-        if (status != null) 'status': status?.toValue(),
+        if (status != null) 'status': status.toValue(),
       },
     );
 
@@ -2648,7 +2648,7 @@ class CloudWatchLogs {
         'filterName': filterName,
         'filterPattern': filterPattern,
         'logGroupName': logGroupName,
-        if (distribution != null) 'distribution': distribution?.toValue(),
+        if (distribution != null) 'distribution': distribution.toValue(),
         if (roleArn != null) 'roleArn': roleArn,
       },
     );

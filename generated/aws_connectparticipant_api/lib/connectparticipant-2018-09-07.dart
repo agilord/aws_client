@@ -96,7 +96,7 @@ class ConnectParticipant {
     final headers = <String, String>{};
     participantToken?.let((v) => headers['X-Amz-Bearer'] = v.toString());
     final $payload = <String, dynamic>{
-      'Type': type,
+      'Type': type?.map((e) => e?.toValue() ?? '')?.toList(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -227,8 +227,8 @@ class ConnectParticipant {
       if (contactId != null) 'ContactId': contactId,
       if (maxResults != null) 'MaxResults': maxResults,
       if (nextToken != null) 'NextToken': nextToken,
-      if (scanDirection != null) 'ScanDirection': scanDirection?.toValue(),
-      if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
+      if (scanDirection != null) 'ScanDirection': scanDirection.toValue(),
+      if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
       if (startPosition != null) 'StartPosition': startPosition,
     };
     final response = await _protocol.send(
@@ -436,6 +436,18 @@ enum ConnectionType {
   websocket,
   @_s.JsonValue('CONNECTION_CREDENTIALS')
   connectionCredentials,
+}
+
+extension on ConnectionType {
+  String toValue() {
+    switch (this) {
+      case ConnectionType.websocket:
+        return 'WEBSOCKET';
+      case ConnectionType.connectionCredentials:
+        return 'CONNECTION_CREDENTIALS';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 @_s.JsonSerializable(

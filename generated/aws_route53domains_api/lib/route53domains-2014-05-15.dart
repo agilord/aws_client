@@ -654,7 +654,8 @@ class Route53Domains {
       payload: {
         if (marker != null) 'Marker': marker,
         if (maxItems != null) 'MaxItems': maxItems,
-        if (submittedSince != null) 'SubmittedSince': submittedSince,
+        if (submittedSince != null)
+          'SubmittedSince': unixTimestampToJson(submittedSince),
       },
     );
 
@@ -1515,10 +1516,10 @@ class Route53Domains {
       // TODO queryParams
       headers: headers,
       payload: {
-        if (end != null) 'End': end,
+        if (end != null) 'End': unixTimestampToJson(end),
         if (marker != null) 'Marker': marker,
         if (maxItems != null) 'MaxItems': maxItems,
-        if (start != null) 'Start': start,
+        if (start != null) 'Start': unixTimestampToJson(start),
       },
     );
 

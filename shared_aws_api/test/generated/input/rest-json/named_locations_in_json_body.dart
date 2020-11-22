@@ -43,7 +43,7 @@ class NamedLocationsInJSONBody {
     DateTime timeArg,
   }) async {
     final $payload = <String, dynamic>{
-      if (timeArg != null) 'TimeArg': timeArg,
+      if (timeArg != null) 'timestamp_location': unixTimestampToJson(timeArg),
     };
     await _protocol.send(
       payload: $payload,

@@ -233,7 +233,7 @@ class Firehose {
           'DeliveryStreamEncryptionConfigurationInput':
               deliveryStreamEncryptionConfigurationInput,
         if (deliveryStreamType != null)
-          'DeliveryStreamType': deliveryStreamType?.toValue(),
+          'DeliveryStreamType': deliveryStreamType.toValue(),
         if (elasticsearchDestinationConfiguration != null)
           'ElasticsearchDestinationConfiguration':
               elasticsearchDestinationConfiguration,
@@ -472,7 +472,7 @@ class Firehose {
       headers: headers,
       payload: {
         if (deliveryStreamType != null)
-          'DeliveryStreamType': deliveryStreamType?.toValue(),
+          'DeliveryStreamType': deliveryStreamType.toValue(),
         if (exclusiveStartDeliveryStreamName != null)
           'ExclusiveStartDeliveryStreamName': exclusiveStartDeliveryStreamName,
         if (limit != null) 'Limit': limit,

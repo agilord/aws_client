@@ -403,7 +403,7 @@ class SageMaker {
       headers: headers,
       payload: {
         'AppName': appName,
-        'AppType': appType?.toValue(),
+        'AppType': appType?.toValue() ?? '',
         'DomainId': domainId,
         'UserProfileName': userProfileName,
         if (resourceSpec != null) 'ResourceSpec': resourceSpec,
@@ -525,7 +525,7 @@ class SageMaker {
           'AutoMLJobObjective': autoMLJobObjective,
         if (generateCandidateDefinitionsOnly != null)
           'GenerateCandidateDefinitionsOnly': generateCandidateDefinitionsOnly,
-        if (problemType != null) 'ProblemType': problemType?.toValue(),
+        if (problemType != null) 'ProblemType': problemType.toValue(),
         if (tags != null) 'Tags': tags,
       },
     );
@@ -830,7 +830,7 @@ class SageMaker {
       // TODO queryParams
       headers: headers,
       payload: {
-        'AuthMode': authMode?.toValue(),
+        'AuthMode': authMode?.toValue() ?? '',
         'DefaultUserSettings': defaultUserSettings,
         'DomainName': domainName,
         'SubnetIds': subnetIds,
@@ -2260,20 +2260,22 @@ class SageMaker {
       // TODO queryParams
       headers: headers,
       payload: {
-        'InstanceType': instanceType?.toValue(),
+        'InstanceType': instanceType?.toValue() ?? '',
         'NotebookInstanceName': notebookInstanceName,
         'RoleArn': roleArn,
-        if (acceleratorTypes != null) 'AcceleratorTypes': acceleratorTypes,
+        if (acceleratorTypes != null)
+          'AcceleratorTypes':
+              acceleratorTypes.map((e) => e?.toValue() ?? '').toList(),
         if (additionalCodeRepositories != null)
           'AdditionalCodeRepositories': additionalCodeRepositories,
         if (defaultCodeRepository != null)
           'DefaultCodeRepository': defaultCodeRepository,
         if (directInternetAccess != null)
-          'DirectInternetAccess': directInternetAccess?.toValue(),
+          'DirectInternetAccess': directInternetAccess.toValue(),
         if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
         if (lifecycleConfigName != null)
           'LifecycleConfigName': lifecycleConfigName,
-        if (rootAccess != null) 'RootAccess': rootAccess?.toValue(),
+        if (rootAccess != null) 'RootAccess': rootAccess.toValue(),
         if (securityGroupIds != null) 'SecurityGroupIds': securityGroupIds,
         if (subnetId != null) 'SubnetId': subnetId,
         if (tags != null) 'Tags': tags,
@@ -3113,7 +3115,7 @@ class SageMaker {
         'TransformJobName': transformJobName,
         'TransformOutput': transformOutput,
         'TransformResources': transformResources,
-        if (batchStrategy != null) 'BatchStrategy': batchStrategy?.toValue(),
+        if (batchStrategy != null) 'BatchStrategy': batchStrategy.toValue(),
         if (dataProcessing != null) 'DataProcessing': dataProcessing,
         if (environment != null) 'Environment': environment,
         if (experimentConfig != null) 'ExperimentConfig': experimentConfig,
@@ -3344,11 +3346,11 @@ class SageMaker {
       payload: {
         'TrialComponentName': trialComponentName,
         if (displayName != null) 'DisplayName': displayName,
-        if (endTime != null) 'EndTime': endTime,
+        if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
         if (inputArtifacts != null) 'InputArtifacts': inputArtifacts,
         if (outputArtifacts != null) 'OutputArtifacts': outputArtifacts,
         if (parameters != null) 'Parameters': parameters,
-        if (startTime != null) 'StartTime': startTime,
+        if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
         if (status != null) 'Status': status,
         if (tags != null) 'Tags': tags,
       },
@@ -3665,7 +3667,7 @@ class SageMaker {
       headers: headers,
       payload: {
         'AppName': appName,
-        'AppType': appType?.toValue(),
+        'AppType': appType?.toValue() ?? '',
         'DomainId': domainId,
         'UserProfileName': userProfileName,
       },
@@ -4469,7 +4471,7 @@ class SageMaker {
       headers: headers,
       payload: {
         'AppName': appName,
-        'AppType': appType?.toValue(),
+        'AppType': appType?.toValue() ?? '',
         'DomainId': domainId,
         'UserProfileName': userProfileName,
       },
@@ -5618,7 +5620,7 @@ class SageMaker {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Resource': resource?.toValue(),
+        'Resource': resource?.toValue() ?? '',
         if (suggestionQuery != null) 'SuggestionQuery': suggestionQuery,
       },
     );
@@ -5702,14 +5704,15 @@ class SageMaker {
       // TODO queryParams
       headers: headers,
       payload: {
-        if (creationTimeAfter != null) 'CreationTimeAfter': creationTimeAfter,
+        if (creationTimeAfter != null)
+          'CreationTimeAfter': unixTimestampToJson(creationTimeAfter),
         if (creationTimeBefore != null)
-          'CreationTimeBefore': creationTimeBefore,
+          'CreationTimeBefore': unixTimestampToJson(creationTimeBefore),
         if (maxResults != null) 'MaxResults': maxResults,
         if (nameContains != null) 'NameContains': nameContains,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy?.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
       },
     );
 
@@ -5792,8 +5795,8 @@ class SageMaker {
         if (domainIdEquals != null) 'DomainIdEquals': domainIdEquals,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy?.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
         if (userProfileNameEquals != null)
           'UserProfileNameEquals': userProfileNameEquals,
       },
@@ -5885,19 +5888,20 @@ class SageMaker {
       // TODO queryParams
       headers: headers,
       payload: {
-        if (creationTimeAfter != null) 'CreationTimeAfter': creationTimeAfter,
+        if (creationTimeAfter != null)
+          'CreationTimeAfter': unixTimestampToJson(creationTimeAfter),
         if (creationTimeBefore != null)
-          'CreationTimeBefore': creationTimeBefore,
+          'CreationTimeBefore': unixTimestampToJson(creationTimeBefore),
         if (lastModifiedTimeAfter != null)
-          'LastModifiedTimeAfter': lastModifiedTimeAfter,
+          'LastModifiedTimeAfter': unixTimestampToJson(lastModifiedTimeAfter),
         if (lastModifiedTimeBefore != null)
-          'LastModifiedTimeBefore': lastModifiedTimeBefore,
+          'LastModifiedTimeBefore': unixTimestampToJson(lastModifiedTimeBefore),
         if (maxResults != null) 'MaxResults': maxResults,
         if (nameContains != null) 'NameContains': nameContains,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy?.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
-        if (statusEquals != null) 'StatusEquals': statusEquals?.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+        if (statusEquals != null) 'StatusEquals': statusEquals.toValue(),
       },
     );
 
@@ -5991,9 +5995,9 @@ class SageMaker {
           'CandidateNameEquals': candidateNameEquals,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy?.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
-        if (statusEquals != null) 'StatusEquals': statusEquals?.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+        if (statusEquals != null) 'StatusEquals': statusEquals.toValue(),
       },
     );
 
@@ -6085,18 +6089,19 @@ class SageMaker {
       // TODO queryParams
       headers: headers,
       payload: {
-        if (creationTimeAfter != null) 'CreationTimeAfter': creationTimeAfter,
+        if (creationTimeAfter != null)
+          'CreationTimeAfter': unixTimestampToJson(creationTimeAfter),
         if (creationTimeBefore != null)
-          'CreationTimeBefore': creationTimeBefore,
+          'CreationTimeBefore': unixTimestampToJson(creationTimeBefore),
         if (lastModifiedTimeAfter != null)
-          'LastModifiedTimeAfter': lastModifiedTimeAfter,
+          'LastModifiedTimeAfter': unixTimestampToJson(lastModifiedTimeAfter),
         if (lastModifiedTimeBefore != null)
-          'LastModifiedTimeBefore': lastModifiedTimeBefore,
+          'LastModifiedTimeBefore': unixTimestampToJson(lastModifiedTimeBefore),
         if (maxResults != null) 'MaxResults': maxResults,
         if (nameContains != null) 'NameContains': nameContains,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy?.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
       },
     );
 
@@ -6198,19 +6203,20 @@ class SageMaker {
       // TODO queryParams
       headers: headers,
       payload: {
-        if (creationTimeAfter != null) 'CreationTimeAfter': creationTimeAfter,
+        if (creationTimeAfter != null)
+          'CreationTimeAfter': unixTimestampToJson(creationTimeAfter),
         if (creationTimeBefore != null)
-          'CreationTimeBefore': creationTimeBefore,
+          'CreationTimeBefore': unixTimestampToJson(creationTimeBefore),
         if (lastModifiedTimeAfter != null)
-          'LastModifiedTimeAfter': lastModifiedTimeAfter,
+          'LastModifiedTimeAfter': unixTimestampToJson(lastModifiedTimeAfter),
         if (lastModifiedTimeBefore != null)
-          'LastModifiedTimeBefore': lastModifiedTimeBefore,
+          'LastModifiedTimeBefore': unixTimestampToJson(lastModifiedTimeBefore),
         if (maxResults != null) 'MaxResults': maxResults,
         if (nameContains != null) 'NameContains': nameContains,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy?.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
-        if (statusEquals != null) 'StatusEquals': statusEquals?.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+        if (statusEquals != null) 'StatusEquals': statusEquals.toValue(),
       },
     );
 
@@ -6340,14 +6346,15 @@ class SageMaker {
       // TODO queryParams
       headers: headers,
       payload: {
-        if (creationTimeAfter != null) 'CreationTimeAfter': creationTimeAfter,
+        if (creationTimeAfter != null)
+          'CreationTimeAfter': unixTimestampToJson(creationTimeAfter),
         if (creationTimeBefore != null)
-          'CreationTimeBefore': creationTimeBefore,
+          'CreationTimeBefore': unixTimestampToJson(creationTimeBefore),
         if (maxResults != null) 'MaxResults': maxResults,
         if (nameContains != null) 'NameContains': nameContains,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy?.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
       },
     );
 
@@ -6443,19 +6450,20 @@ class SageMaker {
       // TODO queryParams
       headers: headers,
       payload: {
-        if (creationTimeAfter != null) 'CreationTimeAfter': creationTimeAfter,
+        if (creationTimeAfter != null)
+          'CreationTimeAfter': unixTimestampToJson(creationTimeAfter),
         if (creationTimeBefore != null)
-          'CreationTimeBefore': creationTimeBefore,
+          'CreationTimeBefore': unixTimestampToJson(creationTimeBefore),
         if (lastModifiedTimeAfter != null)
-          'LastModifiedTimeAfter': lastModifiedTimeAfter,
+          'LastModifiedTimeAfter': unixTimestampToJson(lastModifiedTimeAfter),
         if (lastModifiedTimeBefore != null)
-          'LastModifiedTimeBefore': lastModifiedTimeBefore,
+          'LastModifiedTimeBefore': unixTimestampToJson(lastModifiedTimeBefore),
         if (maxResults != null) 'MaxResults': maxResults,
         if (nameContains != null) 'NameContains': nameContains,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy?.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
-        if (statusEquals != null) 'StatusEquals': statusEquals?.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+        if (statusEquals != null) 'StatusEquals': statusEquals.toValue(),
       },
     );
 
@@ -6523,12 +6531,14 @@ class SageMaker {
       // TODO queryParams
       headers: headers,
       payload: {
-        if (createdAfter != null) 'CreatedAfter': createdAfter,
-        if (createdBefore != null) 'CreatedBefore': createdBefore,
+        if (createdAfter != null)
+          'CreatedAfter': unixTimestampToJson(createdAfter),
+        if (createdBefore != null)
+          'CreatedBefore': unixTimestampToJson(createdBefore),
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy?.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
       },
     );
 
@@ -6592,12 +6602,13 @@ class SageMaker {
       // TODO queryParams
       headers: headers,
       payload: {
-        if (creationTimeAfter != null) 'CreationTimeAfter': creationTimeAfter,
+        if (creationTimeAfter != null)
+          'CreationTimeAfter': unixTimestampToJson(creationTimeAfter),
         if (creationTimeBefore != null)
-          'CreationTimeBefore': creationTimeBefore,
+          'CreationTimeBefore': unixTimestampToJson(creationTimeBefore),
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
       },
     );
 
@@ -6661,12 +6672,13 @@ class SageMaker {
       // TODO queryParams
       headers: headers,
       payload: {
-        if (creationTimeAfter != null) 'CreationTimeAfter': creationTimeAfter,
+        if (creationTimeAfter != null)
+          'CreationTimeAfter': unixTimestampToJson(creationTimeAfter),
         if (creationTimeBefore != null)
-          'CreationTimeBefore': creationTimeBefore,
+          'CreationTimeBefore': unixTimestampToJson(creationTimeBefore),
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
       },
     );
 
@@ -6763,19 +6775,20 @@ class SageMaker {
       // TODO queryParams
       headers: headers,
       payload: {
-        if (creationTimeAfter != null) 'CreationTimeAfter': creationTimeAfter,
+        if (creationTimeAfter != null)
+          'CreationTimeAfter': unixTimestampToJson(creationTimeAfter),
         if (creationTimeBefore != null)
-          'CreationTimeBefore': creationTimeBefore,
+          'CreationTimeBefore': unixTimestampToJson(creationTimeBefore),
         if (lastModifiedTimeAfter != null)
-          'LastModifiedTimeAfter': lastModifiedTimeAfter,
+          'LastModifiedTimeAfter': unixTimestampToJson(lastModifiedTimeAfter),
         if (lastModifiedTimeBefore != null)
-          'LastModifiedTimeBefore': lastModifiedTimeBefore,
+          'LastModifiedTimeBefore': unixTimestampToJson(lastModifiedTimeBefore),
         if (maxResults != null) 'MaxResults': maxResults,
         if (nameContains != null) 'NameContains': nameContains,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy?.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
-        if (statusEquals != null) 'StatusEquals': statusEquals?.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+        if (statusEquals != null) 'StatusEquals': statusEquals.toValue(),
       },
     );
 
@@ -6872,19 +6885,20 @@ class SageMaker {
       // TODO queryParams
       headers: headers,
       payload: {
-        if (creationTimeAfter != null) 'CreationTimeAfter': creationTimeAfter,
+        if (creationTimeAfter != null)
+          'CreationTimeAfter': unixTimestampToJson(creationTimeAfter),
         if (creationTimeBefore != null)
-          'CreationTimeBefore': creationTimeBefore,
+          'CreationTimeBefore': unixTimestampToJson(creationTimeBefore),
         if (lastModifiedTimeAfter != null)
-          'LastModifiedTimeAfter': lastModifiedTimeAfter,
+          'LastModifiedTimeAfter': unixTimestampToJson(lastModifiedTimeAfter),
         if (lastModifiedTimeBefore != null)
-          'LastModifiedTimeBefore': lastModifiedTimeBefore,
+          'LastModifiedTimeBefore': unixTimestampToJson(lastModifiedTimeBefore),
         if (maxResults != null) 'MaxResults': maxResults,
         if (nameContains != null) 'NameContains': nameContains,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy?.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
-        if (statusEquals != null) 'StatusEquals': statusEquals?.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+        if (statusEquals != null) 'StatusEquals': statusEquals.toValue(),
       },
     );
 
@@ -6989,15 +7003,16 @@ class SageMaker {
       headers: headers,
       payload: {
         'WorkteamArn': workteamArn,
-        if (creationTimeAfter != null) 'CreationTimeAfter': creationTimeAfter,
+        if (creationTimeAfter != null)
+          'CreationTimeAfter': unixTimestampToJson(creationTimeAfter),
         if (creationTimeBefore != null)
-          'CreationTimeBefore': creationTimeBefore,
+          'CreationTimeBefore': unixTimestampToJson(creationTimeBefore),
         if (jobReferenceCodeContains != null)
           'JobReferenceCodeContains': jobReferenceCodeContains,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy?.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
       },
     );
 
@@ -7080,14 +7095,15 @@ class SageMaker {
       // TODO queryParams
       headers: headers,
       payload: {
-        if (creationTimeAfter != null) 'CreationTimeAfter': creationTimeAfter,
+        if (creationTimeAfter != null)
+          'CreationTimeAfter': unixTimestampToJson(creationTimeAfter),
         if (creationTimeBefore != null)
-          'CreationTimeBefore': creationTimeBefore,
+          'CreationTimeBefore': unixTimestampToJson(creationTimeBefore),
         if (maxResults != null) 'MaxResults': maxResults,
         if (nameContains != null) 'NameContains': nameContains,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy?.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
       },
     );
 
@@ -7169,14 +7185,15 @@ class SageMaker {
       // TODO queryParams
       headers: headers,
       payload: {
-        if (creationTimeAfter != null) 'CreationTimeAfter': creationTimeAfter,
+        if (creationTimeAfter != null)
+          'CreationTimeAfter': unixTimestampToJson(creationTimeAfter),
         if (creationTimeBefore != null)
-          'CreationTimeBefore': creationTimeBefore,
+          'CreationTimeBefore': unixTimestampToJson(creationTimeBefore),
         if (maxResults != null) 'MaxResults': maxResults,
         if (nameContains != null) 'NameContains': nameContains,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy?.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
       },
     );
 
@@ -7293,25 +7310,26 @@ class SageMaker {
       // TODO queryParams
       headers: headers,
       payload: {
-        if (creationTimeAfter != null) 'CreationTimeAfter': creationTimeAfter,
+        if (creationTimeAfter != null)
+          'CreationTimeAfter': unixTimestampToJson(creationTimeAfter),
         if (creationTimeBefore != null)
-          'CreationTimeBefore': creationTimeBefore,
+          'CreationTimeBefore': unixTimestampToJson(creationTimeBefore),
         if (endpointName != null) 'EndpointName': endpointName,
         if (lastModifiedTimeAfter != null)
-          'LastModifiedTimeAfter': lastModifiedTimeAfter,
+          'LastModifiedTimeAfter': unixTimestampToJson(lastModifiedTimeAfter),
         if (lastModifiedTimeBefore != null)
-          'LastModifiedTimeBefore': lastModifiedTimeBefore,
+          'LastModifiedTimeBefore': unixTimestampToJson(lastModifiedTimeBefore),
         if (maxResults != null) 'MaxResults': maxResults,
         if (monitoringScheduleName != null)
           'MonitoringScheduleName': monitoringScheduleName,
         if (nextToken != null) 'NextToken': nextToken,
         if (scheduledTimeAfter != null)
-          'ScheduledTimeAfter': scheduledTimeAfter,
+          'ScheduledTimeAfter': unixTimestampToJson(scheduledTimeAfter),
         if (scheduledTimeBefore != null)
-          'ScheduledTimeBefore': scheduledTimeBefore,
-        if (sortBy != null) 'SortBy': sortBy?.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
-        if (statusEquals != null) 'StatusEquals': statusEquals?.toValue(),
+          'ScheduledTimeBefore': unixTimestampToJson(scheduledTimeBefore),
+        if (sortBy != null) 'SortBy': sortBy.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+        if (statusEquals != null) 'StatusEquals': statusEquals.toValue(),
       },
     );
 
@@ -7425,20 +7443,21 @@ class SageMaker {
       // TODO queryParams
       headers: headers,
       payload: {
-        if (creationTimeAfter != null) 'CreationTimeAfter': creationTimeAfter,
+        if (creationTimeAfter != null)
+          'CreationTimeAfter': unixTimestampToJson(creationTimeAfter),
         if (creationTimeBefore != null)
-          'CreationTimeBefore': creationTimeBefore,
+          'CreationTimeBefore': unixTimestampToJson(creationTimeBefore),
         if (endpointName != null) 'EndpointName': endpointName,
         if (lastModifiedTimeAfter != null)
-          'LastModifiedTimeAfter': lastModifiedTimeAfter,
+          'LastModifiedTimeAfter': unixTimestampToJson(lastModifiedTimeAfter),
         if (lastModifiedTimeBefore != null)
-          'LastModifiedTimeBefore': lastModifiedTimeBefore,
+          'LastModifiedTimeBefore': unixTimestampToJson(lastModifiedTimeBefore),
         if (maxResults != null) 'MaxResults': maxResults,
         if (nameContains != null) 'NameContains': nameContains,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy?.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
-        if (statusEquals != null) 'StatusEquals': statusEquals?.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+        if (statusEquals != null) 'StatusEquals': statusEquals.toValue(),
       },
     );
 
@@ -7533,18 +7552,19 @@ class SageMaker {
       // TODO queryParams
       headers: headers,
       payload: {
-        if (creationTimeAfter != null) 'CreationTimeAfter': creationTimeAfter,
+        if (creationTimeAfter != null)
+          'CreationTimeAfter': unixTimestampToJson(creationTimeAfter),
         if (creationTimeBefore != null)
-          'CreationTimeBefore': creationTimeBefore,
+          'CreationTimeBefore': unixTimestampToJson(creationTimeBefore),
         if (lastModifiedTimeAfter != null)
-          'LastModifiedTimeAfter': lastModifiedTimeAfter,
+          'LastModifiedTimeAfter': unixTimestampToJson(lastModifiedTimeAfter),
         if (lastModifiedTimeBefore != null)
-          'LastModifiedTimeBefore': lastModifiedTimeBefore,
+          'LastModifiedTimeBefore': unixTimestampToJson(lastModifiedTimeBefore),
         if (maxResults != null) 'MaxResults': maxResults,
         if (nameContains != null) 'NameContains': nameContains,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy?.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
       },
     );
 
@@ -7701,24 +7721,25 @@ class SageMaker {
       payload: {
         if (additionalCodeRepositoryEquals != null)
           'AdditionalCodeRepositoryEquals': additionalCodeRepositoryEquals,
-        if (creationTimeAfter != null) 'CreationTimeAfter': creationTimeAfter,
+        if (creationTimeAfter != null)
+          'CreationTimeAfter': unixTimestampToJson(creationTimeAfter),
         if (creationTimeBefore != null)
-          'CreationTimeBefore': creationTimeBefore,
+          'CreationTimeBefore': unixTimestampToJson(creationTimeBefore),
         if (defaultCodeRepositoryContains != null)
           'DefaultCodeRepositoryContains': defaultCodeRepositoryContains,
         if (lastModifiedTimeAfter != null)
-          'LastModifiedTimeAfter': lastModifiedTimeAfter,
+          'LastModifiedTimeAfter': unixTimestampToJson(lastModifiedTimeAfter),
         if (lastModifiedTimeBefore != null)
-          'LastModifiedTimeBefore': lastModifiedTimeBefore,
+          'LastModifiedTimeBefore': unixTimestampToJson(lastModifiedTimeBefore),
         if (maxResults != null) 'MaxResults': maxResults,
         if (nameContains != null) 'NameContains': nameContains,
         if (nextToken != null) 'NextToken': nextToken,
         if (notebookInstanceLifecycleConfigNameContains != null)
           'NotebookInstanceLifecycleConfigNameContains':
               notebookInstanceLifecycleConfigNameContains,
-        if (sortBy != null) 'SortBy': sortBy?.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
-        if (statusEquals != null) 'StatusEquals': statusEquals?.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+        if (statusEquals != null) 'StatusEquals': statusEquals.toValue(),
       },
     );
 
@@ -7803,19 +7824,20 @@ class SageMaker {
       // TODO queryParams
       headers: headers,
       payload: {
-        if (creationTimeAfter != null) 'CreationTimeAfter': creationTimeAfter,
+        if (creationTimeAfter != null)
+          'CreationTimeAfter': unixTimestampToJson(creationTimeAfter),
         if (creationTimeBefore != null)
-          'CreationTimeBefore': creationTimeBefore,
+          'CreationTimeBefore': unixTimestampToJson(creationTimeBefore),
         if (lastModifiedTimeAfter != null)
-          'LastModifiedTimeAfter': lastModifiedTimeAfter,
+          'LastModifiedTimeAfter': unixTimestampToJson(lastModifiedTimeAfter),
         if (lastModifiedTimeBefore != null)
-          'LastModifiedTimeBefore': lastModifiedTimeBefore,
+          'LastModifiedTimeBefore': unixTimestampToJson(lastModifiedTimeBefore),
         if (maxResults != null) 'MaxResults': maxResults,
         if (nameContains != null) 'NameContains': nameContains,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy?.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
-        if (statusEquals != null) 'StatusEquals': statusEquals?.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+        if (statusEquals != null) 'StatusEquals': statusEquals.toValue(),
       },
     );
 
@@ -8048,19 +8070,20 @@ class SageMaker {
       // TODO queryParams
       headers: headers,
       payload: {
-        if (creationTimeAfter != null) 'CreationTimeAfter': creationTimeAfter,
+        if (creationTimeAfter != null)
+          'CreationTimeAfter': unixTimestampToJson(creationTimeAfter),
         if (creationTimeBefore != null)
-          'CreationTimeBefore': creationTimeBefore,
+          'CreationTimeBefore': unixTimestampToJson(creationTimeBefore),
         if (lastModifiedTimeAfter != null)
-          'LastModifiedTimeAfter': lastModifiedTimeAfter,
+          'LastModifiedTimeAfter': unixTimestampToJson(lastModifiedTimeAfter),
         if (lastModifiedTimeBefore != null)
-          'LastModifiedTimeBefore': lastModifiedTimeBefore,
+          'LastModifiedTimeBefore': unixTimestampToJson(lastModifiedTimeBefore),
         if (maxResults != null) 'MaxResults': maxResults,
         if (nameContains != null) 'NameContains': nameContains,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy?.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
-        if (statusEquals != null) 'StatusEquals': statusEquals?.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+        if (statusEquals != null) 'StatusEquals': statusEquals.toValue(),
       },
     );
 
@@ -8150,9 +8173,9 @@ class SageMaker {
         'HyperParameterTuningJobName': hyperParameterTuningJobName,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy?.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
-        if (statusEquals != null) 'StatusEquals': statusEquals?.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+        if (statusEquals != null) 'StatusEquals': statusEquals.toValue(),
       },
     );
 
@@ -8250,19 +8273,20 @@ class SageMaker {
       // TODO queryParams
       headers: headers,
       payload: {
-        if (creationTimeAfter != null) 'CreationTimeAfter': creationTimeAfter,
+        if (creationTimeAfter != null)
+          'CreationTimeAfter': unixTimestampToJson(creationTimeAfter),
         if (creationTimeBefore != null)
-          'CreationTimeBefore': creationTimeBefore,
+          'CreationTimeBefore': unixTimestampToJson(creationTimeBefore),
         if (lastModifiedTimeAfter != null)
-          'LastModifiedTimeAfter': lastModifiedTimeAfter,
+          'LastModifiedTimeAfter': unixTimestampToJson(lastModifiedTimeAfter),
         if (lastModifiedTimeBefore != null)
-          'LastModifiedTimeBefore': lastModifiedTimeBefore,
+          'LastModifiedTimeBefore': unixTimestampToJson(lastModifiedTimeBefore),
         if (maxResults != null) 'MaxResults': maxResults,
         if (nameContains != null) 'NameContains': nameContains,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy?.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
-        if (statusEquals != null) 'StatusEquals': statusEquals?.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
+        if (statusEquals != null) 'StatusEquals': statusEquals.toValue(),
       },
     );
 
@@ -8391,13 +8415,15 @@ class SageMaker {
       // TODO queryParams
       headers: headers,
       payload: {
-        if (createdAfter != null) 'CreatedAfter': createdAfter,
-        if (createdBefore != null) 'CreatedBefore': createdBefore,
+        if (createdAfter != null)
+          'CreatedAfter': unixTimestampToJson(createdAfter),
+        if (createdBefore != null)
+          'CreatedBefore': unixTimestampToJson(createdBefore),
         if (experimentName != null) 'ExperimentName': experimentName,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy?.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
         if (sourceArn != null) 'SourceArn': sourceArn,
         if (trialName != null) 'TrialName': trialName,
       },
@@ -8503,13 +8529,15 @@ class SageMaker {
       // TODO queryParams
       headers: headers,
       payload: {
-        if (createdAfter != null) 'CreatedAfter': createdAfter,
-        if (createdBefore != null) 'CreatedBefore': createdBefore,
+        if (createdAfter != null)
+          'CreatedAfter': unixTimestampToJson(createdAfter),
+        if (createdBefore != null)
+          'CreatedBefore': unixTimestampToJson(createdBefore),
         if (experimentName != null) 'ExperimentName': experimentName,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy?.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
         if (trialComponentName != null)
           'TrialComponentName': trialComponentName,
       },
@@ -8594,8 +8622,8 @@ class SageMaker {
         if (domainIdEquals != null) 'DomainIdEquals': domainIdEquals,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy?.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
         if (userProfileNameContains != null)
           'UserProfileNameContains': userProfileNameContains,
       },
@@ -8674,8 +8702,8 @@ class SageMaker {
         if (maxResults != null) 'MaxResults': maxResults,
         if (nameContains != null) 'NameContains': nameContains,
         if (nextToken != null) 'NextToken': nextToken,
-        if (sortBy != null) 'SortBy': sortBy?.toValue(),
-        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
+        if (sortBy != null) 'SortBy': sortBy.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
       },
     );
 
@@ -8820,12 +8848,12 @@ class SageMaker {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Resource': resource?.toValue(),
+        'Resource': resource?.toValue() ?? '',
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
         if (searchExpression != null) 'SearchExpression': searchExpression,
         if (sortBy != null) 'SortBy': sortBy,
-        if (sortOrder != null) 'SortOrder': sortOrder?.toValue(),
+        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
       },
     );
 
@@ -9864,7 +9892,9 @@ class SageMaker {
       headers: headers,
       payload: {
         'NotebookInstanceName': notebookInstanceName,
-        if (acceleratorTypes != null) 'AcceleratorTypes': acceleratorTypes,
+        if (acceleratorTypes != null)
+          'AcceleratorTypes':
+              acceleratorTypes.map((e) => e?.toValue() ?? '').toList(),
         if (additionalCodeRepositories != null)
           'AdditionalCodeRepositories': additionalCodeRepositories,
         if (defaultCodeRepository != null)
@@ -9879,11 +9909,11 @@ class SageMaker {
               disassociateDefaultCodeRepository,
         if (disassociateLifecycleConfig != null)
           'DisassociateLifecycleConfig': disassociateLifecycleConfig,
-        if (instanceType != null) 'InstanceType': instanceType?.toValue(),
+        if (instanceType != null) 'InstanceType': instanceType.toValue(),
         if (lifecycleConfigName != null)
           'LifecycleConfigName': lifecycleConfigName,
         if (roleArn != null) 'RoleArn': roleArn,
-        if (rootAccess != null) 'RootAccess': rootAccess?.toValue(),
+        if (rootAccess != null) 'RootAccess': rootAccess.toValue(),
         if (volumeSizeInGB != null) 'VolumeSizeInGB': volumeSizeInGB,
       },
     );
@@ -10102,7 +10132,7 @@ class SageMaker {
       payload: {
         'TrialComponentName': trialComponentName,
         if (displayName != null) 'DisplayName': displayName,
-        if (endTime != null) 'EndTime': endTime,
+        if (endTime != null) 'EndTime': unixTimestampToJson(endTime),
         if (inputArtifacts != null) 'InputArtifacts': inputArtifacts,
         if (inputArtifactsToRemove != null)
           'InputArtifactsToRemove': inputArtifactsToRemove,
@@ -10112,7 +10142,7 @@ class SageMaker {
         if (parameters != null) 'Parameters': parameters,
         if (parametersToRemove != null)
           'ParametersToRemove': parametersToRemove,
-        if (startTime != null) 'StartTime': startTime,
+        if (startTime != null) 'StartTime': unixTimestampToJson(startTime),
         if (status != null) 'Status': status,
       },
     );
@@ -21162,6 +21192,26 @@ enum NotebookInstanceAcceleratorType {
   mlEia2Large,
   @_s.JsonValue('ml.eia2.xlarge')
   mlEia2Xlarge,
+}
+
+extension on NotebookInstanceAcceleratorType {
+  String toValue() {
+    switch (this) {
+      case NotebookInstanceAcceleratorType.mlEia1Medium:
+        return 'ml.eia1.medium';
+      case NotebookInstanceAcceleratorType.mlEia1Large:
+        return 'ml.eia1.large';
+      case NotebookInstanceAcceleratorType.mlEia1Xlarge:
+        return 'ml.eia1.xlarge';
+      case NotebookInstanceAcceleratorType.mlEia2Medium:
+        return 'ml.eia2.medium';
+      case NotebookInstanceAcceleratorType.mlEia2Large:
+        return 'ml.eia2.large';
+      case NotebookInstanceAcceleratorType.mlEia2Xlarge:
+        return 'ml.eia2.xlarge';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 enum NotebookInstanceLifecycleConfigSortKey {

@@ -521,7 +521,7 @@ class AlexaForBusiness {
       headers: headers,
       payload: {
         'ContentRange': contentRange,
-        'Format': format?.toValue(),
+        'Format': format?.toValue() ?? '',
         if (clientRequestToken != null)
           'ClientRequestToken': clientRequestToken,
         if (recurrence != null) 'Recurrence': recurrence,
@@ -604,7 +604,7 @@ class AlexaForBusiness {
       headers: headers,
       payload: {
         'ConferenceProviderName': conferenceProviderName,
-        'ConferenceProviderType': conferenceProviderType?.toValue(),
+        'ConferenceProviderType': conferenceProviderType?.toValue() ?? '',
         'MeetingSetting': meetingSetting,
         if (clientRequestToken != null)
           'ClientRequestToken': clientRequestToken,
@@ -960,13 +960,13 @@ class AlexaForBusiness {
       payload: {
         'ClientRequestToken': clientRequestToken,
         'NetworkProfileName': networkProfileName,
-        'SecurityType': securityType?.toValue(),
+        'SecurityType': securityType?.toValue() ?? '',
         'Ssid': ssid,
         if (certificateAuthorityArn != null)
           'CertificateAuthorityArn': certificateAuthorityArn,
         if (currentPassword != null) 'CurrentPassword': currentPassword,
         if (description != null) 'Description': description,
-        if (eapMethod != null) 'EapMethod': eapMethod?.toValue(),
+        if (eapMethod != null) 'EapMethod': eapMethod.toValue(),
         if (nextPassword != null) 'NextPassword': nextPassword,
         if (trustAnchors != null) 'TrustAnchors': trustAnchors,
       },
@@ -1093,11 +1093,11 @@ class AlexaForBusiness {
       headers: headers,
       payload: {
         'Address': address,
-        'DistanceUnit': distanceUnit?.toValue(),
+        'DistanceUnit': distanceUnit?.toValue() ?? '',
         'ProfileName': profileName,
-        'TemperatureUnit': temperatureUnit?.toValue(),
+        'TemperatureUnit': temperatureUnit?.toValue() ?? '',
         'Timezone': timezone,
-        'WakeWord': wakeWord?.toValue(),
+        'WakeWord': wakeWord?.toValue() ?? '',
         if (clientRequestToken != null)
           'ClientRequestToken': clientRequestToken,
         if (locale != null) 'Locale': locale,
@@ -1620,7 +1620,7 @@ class AlexaForBusiness {
       headers: headers,
       payload: {
         'DeviceArn': deviceArn,
-        'DeviceUsageType': deviceUsageType?.toValue(),
+        'DeviceUsageType': deviceUsageType?.toValue() ?? '',
       },
     );
 
@@ -2765,7 +2765,7 @@ class AlexaForBusiness {
       headers: headers,
       payload: {
         'DeviceArn': deviceArn,
-        if (eventType != null) 'EventType': eventType?.toValue(),
+        if (eventType != null) 'EventType': eventType.toValue(),
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
       },
@@ -2930,11 +2930,11 @@ class AlexaForBusiness {
       // TODO queryParams
       headers: headers,
       payload: {
-        if (enablementType != null) 'EnablementType': enablementType?.toValue(),
+        if (enablementType != null) 'EnablementType': enablementType.toValue(),
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
         if (skillGroupArn != null) 'SkillGroupArn': skillGroupArn,
-        if (skillType != null) 'SkillType': skillType?.toValue(),
+        if (skillType != null) 'SkillType': skillType.toValue(),
       },
     );
 
@@ -4235,7 +4235,7 @@ class AlexaForBusiness {
       // TODO queryParams
       headers: headers,
       payload: {
-        'Features': features,
+        'Features': features?.map((e) => e?.toValue() ?? '')?.toList(),
         if (deviceArn != null) 'DeviceArn': deviceArn,
         if (roomArn != null) 'RoomArn': roomArn,
       },
@@ -4507,7 +4507,7 @@ class AlexaForBusiness {
       headers: headers,
       payload: {
         'ScheduleArn': scheduleArn,
-        if (format != null) 'Format': format?.toValue(),
+        if (format != null) 'Format': format.toValue(),
         if (recurrence != null) 'Recurrence': recurrence,
         if (s3BucketName != null) 'S3BucketName': s3BucketName,
         if (s3KeyPrefix != null) 'S3KeyPrefix': s3KeyPrefix,
@@ -4565,7 +4565,7 @@ class AlexaForBusiness {
       headers: headers,
       payload: {
         'ConferenceProviderArn': conferenceProviderArn,
-        'ConferenceProviderType': conferenceProviderType?.toValue(),
+        'ConferenceProviderType': conferenceProviderType?.toValue() ?? '',
         'MeetingSetting': meetingSetting,
         if (iPDialIn != null) 'IPDialIn': iPDialIn,
         if (pSTNDialIn != null) 'PSTNDialIn': pSTNDialIn,
@@ -5112,7 +5112,7 @@ class AlexaForBusiness {
       headers: headers,
       payload: {
         if (address != null) 'Address': address,
-        if (distanceUnit != null) 'DistanceUnit': distanceUnit?.toValue(),
+        if (distanceUnit != null) 'DistanceUnit': distanceUnit.toValue(),
         if (isDefault != null) 'IsDefault': isDefault,
         if (locale != null) 'Locale': locale,
         if (maxVolumeLimit != null) 'MaxVolumeLimit': maxVolumeLimit,
@@ -5123,9 +5123,9 @@ class AlexaForBusiness {
         if (profileName != null) 'ProfileName': profileName,
         if (setupModeDisabled != null) 'SetupModeDisabled': setupModeDisabled,
         if (temperatureUnit != null)
-          'TemperatureUnit': temperatureUnit?.toValue(),
+          'TemperatureUnit': temperatureUnit.toValue(),
         if (timezone != null) 'Timezone': timezone,
-        if (wakeWord != null) 'WakeWord': wakeWord?.toValue(),
+        if (wakeWord != null) 'WakeWord': wakeWord.toValue(),
       },
     );
 
@@ -6947,6 +6947,30 @@ enum Feature {
   settings,
   @_s.JsonValue('ALL')
   all,
+}
+
+extension on Feature {
+  String toValue() {
+    switch (this) {
+      case Feature.bluetooth:
+        return 'BLUETOOTH';
+      case Feature.volume:
+        return 'VOLUME';
+      case Feature.notifications:
+        return 'NOTIFICATIONS';
+      case Feature.lists:
+        return 'LISTS';
+      case Feature.skills:
+        return 'SKILLS';
+      case Feature.networkProfile:
+        return 'NETWORK_PROFILE';
+      case Feature.settings:
+        return 'SETTINGS';
+      case Feature.all:
+        return 'ALL';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// A filter name and value pair that is used to return a more specific list of

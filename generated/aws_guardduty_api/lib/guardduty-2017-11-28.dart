@@ -88,8 +88,8 @@ class GuardDuty {
     ArgumentError.checkNotNull(invitationId, 'invitationId');
     ArgumentError.checkNotNull(masterId, 'masterId');
     final $payload = <String, dynamic>{
-      'InvitationId': invitationId,
-      'MasterId': masterId,
+      'invitationId': invitationId,
+      'masterId': masterId,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -130,7 +130,7 @@ class GuardDuty {
     );
     ArgumentError.checkNotNull(findingIds, 'findingIds');
     final $payload = <String, dynamic>{
-      'FindingIds': findingIds,
+      'findingIds': findingIds,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -176,11 +176,11 @@ class GuardDuty {
       64,
     );
     final $payload = <String, dynamic>{
-      'Enable': enable,
-      if (clientToken != null) 'ClientToken': clientToken,
+      'enable': enable,
+      if (clientToken != null) 'clientToken': clientToken,
       if (findingPublishingFrequency != null)
-        'FindingPublishingFrequency': findingPublishingFrequency?.toValue(),
-      if (tags != null) 'Tags': tags,
+        'findingPublishingFrequency': findingPublishingFrequency.toValue(),
+      if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -268,13 +268,13 @@ class GuardDuty {
       100,
     );
     final $payload = <String, dynamic>{
-      'FindingCriteria': findingCriteria,
-      'Name': name,
-      if (action != null) 'Action': action?.toValue(),
-      if (clientToken != null) 'ClientToken': clientToken,
-      if (description != null) 'Description': description,
-      if (rank != null) 'Rank': rank,
-      if (tags != null) 'Tags': tags,
+      'findingCriteria': findingCriteria,
+      'name': name,
+      if (action != null) 'action': action.toValue(),
+      if (clientToken != null) 'clientToken': clientToken,
+      if (description != null) 'description': description,
+      if (rank != null) 'rank': rank,
+      if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -362,12 +362,12 @@ class GuardDuty {
       64,
     );
     final $payload = <String, dynamic>{
-      'Activate': activate,
-      'Format': format?.toValue(),
-      'Location': location,
-      'Name': name,
-      if (clientToken != null) 'ClientToken': clientToken,
-      if (tags != null) 'Tags': tags,
+      'activate': activate,
+      'format': format?.toValue() ?? '',
+      'location': location,
+      'name': name,
+      if (clientToken != null) 'clientToken': clientToken,
+      if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -407,7 +407,7 @@ class GuardDuty {
       isRequired: true,
     );
     final $payload = <String, dynamic>{
-      'AccountDetails': accountDetails,
+      'accountDetails': accountDetails,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -462,9 +462,9 @@ class GuardDuty {
       64,
     );
     final $payload = <String, dynamic>{
-      'DestinationProperties': destinationProperties,
-      'DestinationType': destinationType?.toValue(),
-      if (clientToken != null) 'ClientToken': clientToken,
+      'destinationProperties': destinationProperties,
+      'destinationType': destinationType?.toValue() ?? '',
+      if (clientToken != null) 'clientToken': clientToken,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -501,7 +501,7 @@ class GuardDuty {
       isRequired: true,
     );
     final $payload = <String, dynamic>{
-      if (findingTypes != null) 'FindingTypes': findingTypes,
+      if (findingTypes != null) 'findingTypes': findingTypes,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -587,12 +587,12 @@ class GuardDuty {
       64,
     );
     final $payload = <String, dynamic>{
-      'Activate': activate,
-      'Format': format?.toValue(),
-      'Location': location,
-      'Name': name,
-      if (clientToken != null) 'ClientToken': clientToken,
-      if (tags != null) 'Tags': tags,
+      'activate': activate,
+      'format': format?.toValue() ?? '',
+      'location': location,
+      'name': name,
+      if (clientToken != null) 'clientToken': clientToken,
+      if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -618,7 +618,7 @@ class GuardDuty {
   }) async {
     ArgumentError.checkNotNull(accountIds, 'accountIds');
     final $payload = <String, dynamic>{
-      'AccountIds': accountIds,
+      'accountIds': accountIds,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -740,7 +740,7 @@ class GuardDuty {
   }) async {
     ArgumentError.checkNotNull(accountIds, 'accountIds');
     final $payload = <String, dynamic>{
-      'AccountIds': accountIds,
+      'accountIds': accountIds,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -778,7 +778,7 @@ class GuardDuty {
       isRequired: true,
     );
     final $payload = <String, dynamic>{
-      'AccountIds': accountIds,
+      'accountIds': accountIds,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -952,7 +952,7 @@ class GuardDuty {
       isRequired: true,
     );
     final $payload = <String, dynamic>{
-      'AccountIds': accountIds,
+      'accountIds': accountIds,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1053,8 +1053,8 @@ class GuardDuty {
     );
     ArgumentError.checkNotNull(findingIds, 'findingIds');
     final $payload = <String, dynamic>{
-      'FindingIds': findingIds,
-      if (sortCriteria != null) 'SortCriteria': sortCriteria,
+      'findingIds': findingIds,
+      if (sortCriteria != null) 'sortCriteria': sortCriteria,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1095,8 +1095,9 @@ class GuardDuty {
     );
     ArgumentError.checkNotNull(findingStatisticTypes, 'findingStatisticTypes');
     final $payload = <String, dynamic>{
-      'FindingStatisticTypes': findingStatisticTypes,
-      if (findingCriteria != null) 'FindingCriteria': findingCriteria,
+      'findingStatisticTypes':
+          findingStatisticTypes?.map((e) => e?.toValue() ?? '')?.toList(),
+      if (findingCriteria != null) 'findingCriteria': findingCriteria,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1212,7 +1213,7 @@ class GuardDuty {
       isRequired: true,
     );
     final $payload = <String, dynamic>{
-      'AccountIds': accountIds,
+      'accountIds': accountIds,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1296,10 +1297,10 @@ class GuardDuty {
       isRequired: true,
     );
     final $payload = <String, dynamic>{
-      'AccountIds': accountIds,
+      'accountIds': accountIds,
       if (disableEmailNotification != null)
-        'DisableEmailNotification': disableEmailNotification,
-      if (message != null) 'Message': message,
+        'disableEmailNotification': disableEmailNotification,
+      if (message != null) 'message': message,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1608,10 +1609,10 @@ class GuardDuty {
       50,
     );
     final $payload = <String, dynamic>{
-      if (findingCriteria != null) 'FindingCriteria': findingCriteria,
-      if (maxResults != null) 'MaxResults': maxResults,
-      if (nextToken != null) 'NextToken': nextToken,
-      if (sortCriteria != null) 'SortCriteria': sortCriteria,
+      if (findingCriteria != null) 'findingCriteria': findingCriteria,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+      if (sortCriteria != null) 'sortCriteria': sortCriteria,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1936,7 +1937,7 @@ class GuardDuty {
       isRequired: true,
     );
     final $payload = <String, dynamic>{
-      'AccountIds': accountIds,
+      'accountIds': accountIds,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1976,7 +1977,7 @@ class GuardDuty {
       isRequired: true,
     );
     final $payload = <String, dynamic>{
-      'AccountIds': accountIds,
+      'accountIds': accountIds,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2012,7 +2013,7 @@ class GuardDuty {
     );
     ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
-      'Tags': tags,
+      'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2047,7 +2048,7 @@ class GuardDuty {
     );
     ArgumentError.checkNotNull(findingIds, 'findingIds');
     final $payload = <String, dynamic>{
-      'FindingIds': findingIds,
+      'findingIds': findingIds,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2123,9 +2124,9 @@ class GuardDuty {
       isRequired: true,
     );
     final $payload = <String, dynamic>{
-      if (enable != null) 'Enable': enable,
+      if (enable != null) 'enable': enable,
       if (findingPublishingFrequency != null)
-        'FindingPublishingFrequency': findingPublishingFrequency?.toValue(),
+        'findingPublishingFrequency': findingPublishingFrequency.toValue(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2191,10 +2192,10 @@ class GuardDuty {
       100,
     );
     final $payload = <String, dynamic>{
-      if (action != null) 'Action': action?.toValue(),
-      if (description != null) 'Description': description,
-      if (findingCriteria != null) 'FindingCriteria': findingCriteria,
-      if (rank != null) 'Rank': rank,
+      if (action != null) 'action': action.toValue(),
+      if (description != null) 'description': description,
+      if (findingCriteria != null) 'findingCriteria': findingCriteria,
+      if (rank != null) 'rank': rank,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2240,9 +2241,9 @@ class GuardDuty {
     ArgumentError.checkNotNull(feedback, 'feedback');
     ArgumentError.checkNotNull(findingIds, 'findingIds');
     final $payload = <String, dynamic>{
-      'Feedback': feedback?.toValue(),
-      'FindingIds': findingIds,
-      if (comments != null) 'Comments': comments,
+      'feedback': feedback?.toValue() ?? '',
+      'findingIds': findingIds,
+      if (comments != null) 'comments': comments,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2305,9 +2306,9 @@ class GuardDuty {
       300,
     );
     final $payload = <String, dynamic>{
-      if (activate != null) 'Activate': activate,
-      if (location != null) 'Location': location,
-      if (name != null) 'Name': name,
+      if (activate != null) 'activate': activate,
+      if (location != null) 'location': location,
+      if (name != null) 'name': name,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2352,7 +2353,7 @@ class GuardDuty {
     );
     final $payload = <String, dynamic>{
       if (destinationProperties != null)
-        'DestinationProperties': destinationProperties,
+        'destinationProperties': destinationProperties,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2415,9 +2416,9 @@ class GuardDuty {
       300,
     );
     final $payload = <String, dynamic>{
-      if (activate != null) 'Activate': activate,
-      if (location != null) 'Location': location,
-      if (name != null) 'Name': name,
+      if (activate != null) 'activate': activate,
+      if (location != null) 'location': location,
+      if (name != null) 'name': name,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -3307,6 +3308,16 @@ extension on FindingPublishingFrequency {
 enum FindingStatisticType {
   @_s.JsonValue('COUNT_BY_SEVERITY')
   countBySeverity,
+}
+
+extension on FindingStatisticType {
+  String toValue() {
+    switch (this) {
+      case FindingStatisticType.countBySeverity:
+        return 'COUNT_BY_SEVERITY';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Contains information about finding statistics.
