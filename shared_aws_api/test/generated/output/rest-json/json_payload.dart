@@ -42,13 +42,17 @@ class JSONPayload {
         );
 
   Future<OutputShape> operationName0() async {
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
     );
-    return OutputShape.fromJson({...response, 'Data': response});
+    final $json = await _s.jsonFromResponse(response);
+    return OutputShape(
+      data: BodyStructure.fromJson($json),
+      header: _s.extractHeaderStringValue(response.headers, 'X-Foo'),
+    );
   }
 }
 

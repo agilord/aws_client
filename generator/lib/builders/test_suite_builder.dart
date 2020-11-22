@@ -160,11 +160,6 @@ void _visitExpect(StringBuffer code, String memberTrail, Shape shape,
     if (shape.type == 'timestamp') {
       memberTrail += '.millisecondsSinceEpoch ~/ 1000';
     }
-    if ([shape.location, member?.location].contains('statusCode')) {
-      code.writeln('    // Extraction from statusCode is not supported yet');
-      code.write('    // ');
-    }
-
     code.writeln('expect($memberTrail, $match);');
   }
 }

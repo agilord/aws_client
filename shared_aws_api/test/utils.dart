@@ -23,12 +23,12 @@ class _JsonEqual extends _FeatureMatcher<String> {
 
   @override
   bool typedMatches(String item, Map matchState) {
-    if (item == null || item.isEmpty) {
+    if (item == null || item.isEmpty || _expected == null) {
       return equals(_expected).matches(item, matchState);
     }
     final expectedJson = _tryParseJson(_expected);
     if (expectedJson == null) {
-      return equals(_expected).matches(item, matchState);
+      return equals(_expected.codeUnits).matches(item, matchState);
     }
 
     final itemJson = _tryParseJson(item);

@@ -107,20 +107,8 @@ class InputShape {
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlDateTimeValue('TimeArg', timeArg),
-// TODO: implement header member: x-amz-timearg
-      if (1 == 1) throw UnimplementedError(),
-// TODO: implement querystring member: TimeQuery
-      if (1 == 1) throw UnimplementedError(),
       _s.encodeXmlDateTimeValue('TimeCustom', timeCustom),
-// TODO: implement header member: x-amz-timecustom-header
-      if (1 == 1) throw UnimplementedError(),
-// TODO: implement querystring member: TimeCustomQuery
-      if (1 == 1) throw UnimplementedError(),
       _s.encodeXmlDateTimeValue('TimeFormat', timeFormat),
-// TODO: implement header member: x-amz-timeformat-header
-      if (1 == 1) throw UnimplementedError(),
-// TODO: implement querystring member: TimeFormatQuery
-      if (1 == 1) throw UnimplementedError(),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,

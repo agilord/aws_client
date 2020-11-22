@@ -42,23 +42,35 @@ class JSONValueTrait {
         );
 
   Future<OutputShape> operationName0() async {
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
     );
-    return OutputShape.fromJson(response);
+    final $json = await _s.jsonFromResponse(response);
+    return OutputShape(
+      bodyField: $json['BodyField'] as String,
+      bodyListField:
+          ($json['BodyListField'] as List)?.map((e) => e as String)?.toList(),
+      headerField: _s.extractHeaderStringValue(response.headers, 'X-Amz-Foo'),
+    );
   }
 
   Future<OutputShape> operationName1() async {
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
     );
-    return OutputShape.fromJson(response);
+    final $json = await _s.jsonFromResponse(response);
+    return OutputShape(
+      bodyField: $json['BodyField'] as String,
+      bodyListField:
+          ($json['BodyListField'] as List)?.map((e) => e as String)?.toList(),
+      headerField: _s.extractHeaderStringValue(response.headers, 'X-Amz-Foo'),
+    );
   }
 }
 

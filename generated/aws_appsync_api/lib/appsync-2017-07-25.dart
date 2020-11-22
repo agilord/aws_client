@@ -1074,15 +1074,16 @@ class AppSync {
       if (includeDirectives != null)
         _s.toQueryParam('includeDirectives', includeDirectives),
     ].where((e) => e != null).join('&')}';
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri:
           '/v1/apis/${Uri.encodeComponent(apiId.toString())}/schema$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return GetIntrospectionSchemaResponse.fromJson(
-        {...response, 'schema': response});
+    return GetIntrospectionSchemaResponse(
+      schema: await response.stream.toBytes(),
+    );
   }
 
   /// Retrieves a <code>Resolver</code> object.

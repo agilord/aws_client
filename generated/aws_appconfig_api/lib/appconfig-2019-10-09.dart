@@ -679,14 +679,20 @@ class AppConfig {
         _s.toQueryParam(
             'client_configuration_version', clientConfigurationVersion),
     ].where((e) => e != null).join('&')}';
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri:
           '/applications/${Uri.encodeComponent(application.toString())}/environments/${Uri.encodeComponent(environment.toString())}/configurations/${Uri.encodeComponent(configuration.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return Configuration.fromJson({...response, 'Content': response});
+    return Configuration(
+      content: await response.stream.toBytes(),
+      configurationVersion: _s.extractHeaderStringValue(
+          response.headers, 'Configuration-Version'),
+      contentType:
+          _s.extractHeaderStringValue(response.headers, 'Content-Type'),
+    );
   }
 
   /// Retrieve information about a configuration profile.

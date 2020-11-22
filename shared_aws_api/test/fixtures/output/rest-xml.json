@@ -527,7 +527,6 @@
   },
   {
     "description": "Streaming payload",
-    "skip": "Not implemented",
     "metadata": {
       "protocol": "rest-xml"
     },

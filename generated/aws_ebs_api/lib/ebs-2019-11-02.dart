@@ -119,15 +119,23 @@ class EBS {
     _query = '?${[
       if (blockToken != null) _s.toQueryParam('blockToken', blockToken),
     ].where((e) => e != null).join('&')}';
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri:
           '/snapshots/${Uri.encodeComponent(snapshotId.toString())}/blocks/${Uri.encodeComponent(blockIndex.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return GetSnapshotBlockResponse.fromJson(
-        {...response, 'BlockData': response});
+    return GetSnapshotBlockResponse(
+      blockData: await response.stream.toBytes(),
+      checksum: _s.extractHeaderStringValue(response.headers, 'x-amz-Checksum'),
+      checksumAlgorithm: _s
+          .extractHeaderStringValue(
+              response.headers, 'x-amz-Checksum-Algorithm')
+          ?.toChecksumAlgorithm(),
+      dataLength:
+          _s.extractHeaderIntValue(response.headers, 'x-amz-Data-Length'),
+    );
   }
 
   /// Returns the block indexes and block tokens for blocks that are different
@@ -362,6 +370,16 @@ class ChangedBlock {
 enum ChecksumAlgorithm {
   @_s.JsonValue('SHA256')
   sha256,
+}
+
+extension on String {
+  ChecksumAlgorithm toChecksumAlgorithm() {
+    switch (this) {
+      case 'SHA256':
+        return ChecksumAlgorithm.sha256;
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 @_s.JsonSerializable(

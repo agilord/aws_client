@@ -87,8 +87,6 @@ class OutputShape {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-// TODO: implement header member: x-amz-enum
-      if (1 == 1) throw UnimplementedError(),
       _s.encodeXmlStringValue('FooEnum', fooEnum?.toValue()),
       if (listEnums != null)
         _s.XmlElement(_s.XmlName('ListEnums'), [], <_s.XmlNode>[

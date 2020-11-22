@@ -56,14 +56,16 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(
         createApplicationRequest, 'createApplicationRequest');
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: createApplicationRequest,
       method: 'POST',
       requestUri: '/v1/apps',
       exceptionFnMap: _exceptionFns,
     );
-    return CreateAppResponse.fromJson(
-        {...response, 'ApplicationResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return CreateAppResponse(
+      applicationResponse: ApplicationResponse.fromJson($json),
+    );
   }
 
   /// Creates a new campaign for an application or updates the settings of an
@@ -86,15 +88,17 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(writeCampaignRequest, 'writeCampaignRequest');
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: writeCampaignRequest,
       method: 'POST',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/campaigns',
       exceptionFnMap: _exceptionFns,
     );
-    return CreateCampaignResponse.fromJson(
-        {...response, 'CampaignResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return CreateCampaignResponse(
+      campaignResponse: CampaignResponse.fromJson($json),
+    );
   }
 
   /// Creates a message template for messages that are sent through the email
@@ -117,15 +121,17 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(emailTemplateRequest, 'emailTemplateRequest');
     ArgumentError.checkNotNull(templateName, 'templateName');
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: emailTemplateRequest,
       method: 'POST',
       requestUri:
           '/v1/templates/${Uri.encodeComponent(templateName.toString())}/email',
       exceptionFnMap: _exceptionFns,
     );
-    return CreateEmailTemplateResponse.fromJson(
-        {...response, 'CreateTemplateMessageBody': response});
+    final $json = await _s.jsonFromResponse(response);
+    return CreateEmailTemplateResponse(
+      createTemplateMessageBody: CreateTemplateMessageBody.fromJson($json),
+    );
   }
 
   /// Creates an export job for an application.
@@ -147,15 +153,17 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(exportJobRequest, 'exportJobRequest');
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: exportJobRequest,
       method: 'POST',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/jobs/export',
       exceptionFnMap: _exceptionFns,
     );
-    return CreateExportJobResponse.fromJson(
-        {...response, 'ExportJobResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return CreateExportJobResponse(
+      exportJobResponse: ExportJobResponse.fromJson($json),
+    );
   }
 
   /// Creates an import job for an application.
@@ -177,15 +185,17 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(importJobRequest, 'importJobRequest');
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: importJobRequest,
       method: 'POST',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/jobs/import',
       exceptionFnMap: _exceptionFns,
     );
-    return CreateImportJobResponse.fromJson(
-        {...response, 'ImportJobResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return CreateImportJobResponse(
+      importJobResponse: ImportJobResponse.fromJson($json),
+    );
   }
 
   /// Creates a journey for an application.
@@ -207,15 +217,17 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(writeJourneyRequest, 'writeJourneyRequest');
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: writeJourneyRequest,
       method: 'POST',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/journeys',
       exceptionFnMap: _exceptionFns,
     );
-    return CreateJourneyResponse.fromJson(
-        {...response, 'JourneyResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return CreateJourneyResponse(
+      journeyResponse: JourneyResponse.fromJson($json),
+    );
   }
 
   /// Creates a message template for messages that are sent through a push
@@ -240,15 +252,17 @@ class Pinpoint {
     ArgumentError.checkNotNull(
         pushNotificationTemplateRequest, 'pushNotificationTemplateRequest');
     ArgumentError.checkNotNull(templateName, 'templateName');
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: pushNotificationTemplateRequest,
       method: 'POST',
       requestUri:
           '/v1/templates/${Uri.encodeComponent(templateName.toString())}/push',
       exceptionFnMap: _exceptionFns,
     );
-    return CreatePushTemplateResponse.fromJson(
-        {...response, 'CreateTemplateMessageBody': response});
+    final $json = await _s.jsonFromResponse(response);
+    return CreatePushTemplateResponse(
+      createTemplateMessageBody: CreateTemplateMessageBody.fromJson($json),
+    );
   }
 
   /// Creates an Amazon Pinpoint configuration for a recommender model.
@@ -266,14 +280,17 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(
         createRecommenderConfiguration, 'createRecommenderConfiguration');
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: createRecommenderConfiguration,
       method: 'POST',
       requestUri: '/v1/recommenders',
       exceptionFnMap: _exceptionFns,
     );
-    return CreateRecommenderConfigurationResponse.fromJson(
-        {...response, 'RecommenderConfigurationResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return CreateRecommenderConfigurationResponse(
+      recommenderConfigurationResponse:
+          RecommenderConfigurationResponse.fromJson($json),
+    );
   }
 
   /// Creates a new segment for an application or updates the configuration,
@@ -297,15 +314,17 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(writeSegmentRequest, 'writeSegmentRequest');
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: writeSegmentRequest,
       method: 'POST',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/segments',
       exceptionFnMap: _exceptionFns,
     );
-    return CreateSegmentResponse.fromJson(
-        {...response, 'SegmentResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return CreateSegmentResponse(
+      segmentResponse: SegmentResponse.fromJson($json),
+    );
   }
 
   /// Creates a message template for messages that are sent through the SMS
@@ -328,15 +347,17 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(sMSTemplateRequest, 'sMSTemplateRequest');
     ArgumentError.checkNotNull(templateName, 'templateName');
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: sMSTemplateRequest,
       method: 'POST',
       requestUri:
           '/v1/templates/${Uri.encodeComponent(templateName.toString())}/sms',
       exceptionFnMap: _exceptionFns,
     );
-    return CreateSmsTemplateResponse.fromJson(
-        {...response, 'CreateTemplateMessageBody': response});
+    final $json = await _s.jsonFromResponse(response);
+    return CreateSmsTemplateResponse(
+      createTemplateMessageBody: CreateTemplateMessageBody.fromJson($json),
+    );
   }
 
   /// Creates a message template for messages that are sent through the voice
@@ -359,15 +380,17 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(templateName, 'templateName');
     ArgumentError.checkNotNull(voiceTemplateRequest, 'voiceTemplateRequest');
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: voiceTemplateRequest,
       method: 'POST',
       requestUri:
           '/v1/templates/${Uri.encodeComponent(templateName.toString())}/voice',
       exceptionFnMap: _exceptionFns,
     );
-    return CreateVoiceTemplateResponse.fromJson(
-        {...response, 'CreateTemplateMessageBody': response});
+    final $json = await _s.jsonFromResponse(response);
+    return CreateVoiceTemplateResponse(
+      createTemplateMessageBody: CreateTemplateMessageBody.fromJson($json),
+    );
   }
 
   /// Disables the ADM channel for an application and deletes any existing
@@ -389,15 +412,17 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     final $payload = <String, dynamic>{};
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: $payload,
       method: 'DELETE',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/adm',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteAdmChannelResponse.fromJson(
-        {...response, 'ADMChannelResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return DeleteAdmChannelResponse(
+      aDMChannelResponse: ADMChannelResponse.fromJson($json),
+    );
   }
 
   /// Disables the APNs channel for an application and deletes any existing
@@ -419,15 +444,17 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     final $payload = <String, dynamic>{};
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: $payload,
       method: 'DELETE',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/apns',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteApnsChannelResponse.fromJson(
-        {...response, 'APNSChannelResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return DeleteApnsChannelResponse(
+      aPNSChannelResponse: APNSChannelResponse.fromJson($json),
+    );
   }
 
   /// Disables the APNs sandbox channel for an application and deletes any
@@ -449,15 +476,17 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     final $payload = <String, dynamic>{};
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: $payload,
       method: 'DELETE',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/apns_sandbox',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteApnsSandboxChannelResponse.fromJson(
-        {...response, 'APNSSandboxChannelResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return DeleteApnsSandboxChannelResponse(
+      aPNSSandboxChannelResponse: APNSSandboxChannelResponse.fromJson($json),
+    );
   }
 
   /// Disables the APNs VoIP channel for an application and deletes any existing
@@ -479,15 +508,17 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     final $payload = <String, dynamic>{};
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: $payload,
       method: 'DELETE',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/apns_voip',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteApnsVoipChannelResponse.fromJson(
-        {...response, 'APNSVoipChannelResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return DeleteApnsVoipChannelResponse(
+      aPNSVoipChannelResponse: APNSVoipChannelResponse.fromJson($json),
+    );
   }
 
   /// Disables the APNs VoIP sandbox channel for an application and deletes any
@@ -509,15 +540,18 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     final $payload = <String, dynamic>{};
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: $payload,
       method: 'DELETE',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/apns_voip_sandbox',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteApnsVoipSandboxChannelResponse.fromJson(
-        {...response, 'APNSVoipSandboxChannelResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return DeleteApnsVoipSandboxChannelResponse(
+      aPNSVoipSandboxChannelResponse:
+          APNSVoipSandboxChannelResponse.fromJson($json),
+    );
   }
 
   /// Deletes an application.
@@ -538,14 +572,16 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     final $payload = <String, dynamic>{};
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: $payload,
       method: 'DELETE',
       requestUri: '/v1/apps/${Uri.encodeComponent(applicationId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteAppResponse.fromJson(
-        {...response, 'ApplicationResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return DeleteAppResponse(
+      applicationResponse: ApplicationResponse.fromJson($json),
+    );
   }
 
   /// Disables the Baidu channel for an application and deletes any existing
@@ -567,15 +603,17 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     final $payload = <String, dynamic>{};
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: $payload,
       method: 'DELETE',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/baidu',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteBaiduChannelResponse.fromJson(
-        {...response, 'BaiduChannelResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return DeleteBaiduChannelResponse(
+      baiduChannelResponse: BaiduChannelResponse.fromJson($json),
+    );
   }
 
   /// Deletes a campaign from an application.
@@ -601,15 +639,17 @@ class Pinpoint {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(campaignId, 'campaignId');
     final $payload = <String, dynamic>{};
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: $payload,
       method: 'DELETE',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/campaigns/${Uri.encodeComponent(campaignId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteCampaignResponse.fromJson(
-        {...response, 'CampaignResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return DeleteCampaignResponse(
+      campaignResponse: CampaignResponse.fromJson($json),
+    );
   }
 
   /// Disables the email channel for an application and deletes any existing
@@ -631,15 +671,17 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     final $payload = <String, dynamic>{};
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: $payload,
       method: 'DELETE',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/email',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteEmailChannelResponse.fromJson(
-        {...response, 'EmailChannelResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return DeleteEmailChannelResponse(
+      emailChannelResponse: EmailChannelResponse.fromJson($json),
+    );
   }
 
   /// Deletes a message template for messages that were sent through the email
@@ -699,15 +741,17 @@ class Pinpoint {
       if (version != null) _s.toQueryParam('version', version),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{};
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: $payload,
       method: 'DELETE',
       requestUri:
           '/v1/templates/${Uri.encodeComponent(templateName.toString())}/email$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteEmailTemplateResponse.fromJson(
-        {...response, 'MessageBody': response});
+    final $json = await _s.jsonFromResponse(response);
+    return DeleteEmailTemplateResponse(
+      messageBody: MessageBody.fromJson($json),
+    );
   }
 
   /// Deletes an endpoint from an application.
@@ -733,15 +777,17 @@ class Pinpoint {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(endpointId, 'endpointId');
     final $payload = <String, dynamic>{};
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: $payload,
       method: 'DELETE',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/endpoints/${Uri.encodeComponent(endpointId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteEndpointResponse.fromJson(
-        {...response, 'EndpointResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return DeleteEndpointResponse(
+      endpointResponse: EndpointResponse.fromJson($json),
+    );
   }
 
   /// Deletes the event stream for an application.
@@ -762,15 +808,17 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     final $payload = <String, dynamic>{};
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: $payload,
       method: 'DELETE',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/eventstream',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteEventStreamResponse.fromJson(
-        {...response, 'EventStream': response});
+    final $json = await _s.jsonFromResponse(response);
+    return DeleteEventStreamResponse(
+      eventStream: EventStream.fromJson($json),
+    );
   }
 
   /// Disables the GCM channel for an application and deletes any existing
@@ -792,15 +840,17 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     final $payload = <String, dynamic>{};
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: $payload,
       method: 'DELETE',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/gcm',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteGcmChannelResponse.fromJson(
-        {...response, 'GCMChannelResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return DeleteGcmChannelResponse(
+      gCMChannelResponse: GCMChannelResponse.fromJson($json),
+    );
   }
 
   /// Deletes a journey from an application.
@@ -826,15 +876,17 @@ class Pinpoint {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(journeyId, 'journeyId');
     final $payload = <String, dynamic>{};
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: $payload,
       method: 'DELETE',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/journeys/${Uri.encodeComponent(journeyId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteJourneyResponse.fromJson(
-        {...response, 'JourneyResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return DeleteJourneyResponse(
+      journeyResponse: JourneyResponse.fromJson($json),
+    );
   }
 
   /// Deletes a message template for messages that were sent through a push
@@ -894,15 +946,17 @@ class Pinpoint {
       if (version != null) _s.toQueryParam('version', version),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{};
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: $payload,
       method: 'DELETE',
       requestUri:
           '/v1/templates/${Uri.encodeComponent(templateName.toString())}/push$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return DeletePushTemplateResponse.fromJson(
-        {...response, 'MessageBody': response});
+    final $json = await _s.jsonFromResponse(response);
+    return DeletePushTemplateResponse(
+      messageBody: MessageBody.fromJson($json),
+    );
   }
 
   /// Deletes an Amazon Pinpoint configuration for a recommender model.
@@ -925,15 +979,18 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(recommenderId, 'recommenderId');
     final $payload = <String, dynamic>{};
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: $payload,
       method: 'DELETE',
       requestUri:
           '/v1/recommenders/${Uri.encodeComponent(recommenderId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteRecommenderConfigurationResponse.fromJson(
-        {...response, 'RecommenderConfigurationResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return DeleteRecommenderConfigurationResponse(
+      recommenderConfigurationResponse:
+          RecommenderConfigurationResponse.fromJson($json),
+    );
   }
 
   /// Deletes a segment from an application.
@@ -959,15 +1016,17 @@ class Pinpoint {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(segmentId, 'segmentId');
     final $payload = <String, dynamic>{};
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: $payload,
       method: 'DELETE',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/segments/${Uri.encodeComponent(segmentId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteSegmentResponse.fromJson(
-        {...response, 'SegmentResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return DeleteSegmentResponse(
+      segmentResponse: SegmentResponse.fromJson($json),
+    );
   }
 
   /// Disables the SMS channel for an application and deletes any existing
@@ -989,15 +1048,17 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     final $payload = <String, dynamic>{};
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: $payload,
       method: 'DELETE',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/sms',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteSmsChannelResponse.fromJson(
-        {...response, 'SMSChannelResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return DeleteSmsChannelResponse(
+      sMSChannelResponse: SMSChannelResponse.fromJson($json),
+    );
   }
 
   /// Deletes a message template for messages that were sent through the SMS
@@ -1057,15 +1118,17 @@ class Pinpoint {
       if (version != null) _s.toQueryParam('version', version),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{};
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: $payload,
       method: 'DELETE',
       requestUri:
           '/v1/templates/${Uri.encodeComponent(templateName.toString())}/sms$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteSmsTemplateResponse.fromJson(
-        {...response, 'MessageBody': response});
+    final $json = await _s.jsonFromResponse(response);
+    return DeleteSmsTemplateResponse(
+      messageBody: MessageBody.fromJson($json),
+    );
   }
 
   /// Deletes all the endpoints that are associated with a specific user ID.
@@ -1091,15 +1154,17 @@ class Pinpoint {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(userId, 'userId');
     final $payload = <String, dynamic>{};
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: $payload,
       method: 'DELETE',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/users/${Uri.encodeComponent(userId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteUserEndpointsResponse.fromJson(
-        {...response, 'EndpointsResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return DeleteUserEndpointsResponse(
+      endpointsResponse: EndpointsResponse.fromJson($json),
+    );
   }
 
   /// Disables the voice channel for an application and deletes any existing
@@ -1121,15 +1186,17 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     final $payload = <String, dynamic>{};
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: $payload,
       method: 'DELETE',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/voice',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteVoiceChannelResponse.fromJson(
-        {...response, 'VoiceChannelResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return DeleteVoiceChannelResponse(
+      voiceChannelResponse: VoiceChannelResponse.fromJson($json),
+    );
   }
 
   /// Deletes a message template for messages that were sent through the voice
@@ -1189,15 +1256,17 @@ class Pinpoint {
       if (version != null) _s.toQueryParam('version', version),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{};
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: $payload,
       method: 'DELETE',
       requestUri:
           '/v1/templates/${Uri.encodeComponent(templateName.toString())}/voice$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteVoiceTemplateResponse.fromJson(
-        {...response, 'MessageBody': response});
+    final $json = await _s.jsonFromResponse(response);
+    return DeleteVoiceTemplateResponse(
+      messageBody: MessageBody.fromJson($json),
+    );
   }
 
   /// Retrieves information about the status and settings of the ADM channel for
@@ -1218,15 +1287,17 @@ class Pinpoint {
     @_s.required String applicationId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/adm',
       exceptionFnMap: _exceptionFns,
     );
-    return GetAdmChannelResponse.fromJson(
-        {...response, 'ADMChannelResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return GetAdmChannelResponse(
+      aDMChannelResponse: ADMChannelResponse.fromJson($json),
+    );
   }
 
   /// Retrieves information about the status and settings of the APNs channel
@@ -1247,15 +1318,17 @@ class Pinpoint {
     @_s.required String applicationId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/apns',
       exceptionFnMap: _exceptionFns,
     );
-    return GetApnsChannelResponse.fromJson(
-        {...response, 'APNSChannelResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return GetApnsChannelResponse(
+      aPNSChannelResponse: APNSChannelResponse.fromJson($json),
+    );
   }
 
   /// Retrieves information about the status and settings of the APNs sandbox
@@ -1276,15 +1349,17 @@ class Pinpoint {
     @_s.required String applicationId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/apns_sandbox',
       exceptionFnMap: _exceptionFns,
     );
-    return GetApnsSandboxChannelResponse.fromJson(
-        {...response, 'APNSSandboxChannelResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return GetApnsSandboxChannelResponse(
+      aPNSSandboxChannelResponse: APNSSandboxChannelResponse.fromJson($json),
+    );
   }
 
   /// Retrieves information about the status and settings of the APNs VoIP
@@ -1305,15 +1380,17 @@ class Pinpoint {
     @_s.required String applicationId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/apns_voip',
       exceptionFnMap: _exceptionFns,
     );
-    return GetApnsVoipChannelResponse.fromJson(
-        {...response, 'APNSVoipChannelResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return GetApnsVoipChannelResponse(
+      aPNSVoipChannelResponse: APNSVoipChannelResponse.fromJson($json),
+    );
   }
 
   /// Retrieves information about the status and settings of the APNs VoIP
@@ -1334,15 +1411,18 @@ class Pinpoint {
     @_s.required String applicationId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/apns_voip_sandbox',
       exceptionFnMap: _exceptionFns,
     );
-    return GetApnsVoipSandboxChannelResponse.fromJson(
-        {...response, 'APNSVoipSandboxChannelResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return GetApnsVoipSandboxChannelResponse(
+      aPNSVoipSandboxChannelResponse:
+          APNSVoipSandboxChannelResponse.fromJson($json),
+    );
   }
 
   /// Retrieves information about an application.
@@ -1362,14 +1442,16 @@ class Pinpoint {
     @_s.required String applicationId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri: '/v1/apps/${Uri.encodeComponent(applicationId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
-    return GetAppResponse.fromJson(
-        {...response, 'ApplicationResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return GetAppResponse(
+      applicationResponse: ApplicationResponse.fromJson($json),
+    );
   }
 
   /// Retrieves (queries) pre-aggregated data for a standard metric that applies
@@ -1436,15 +1518,18 @@ class Pinpoint {
       if (pageSize != null) _s.toQueryParam('page-size', pageSize),
       if (startTime != null) _s.toQueryParam('start-time', startTime),
     ].where((e) => e != null).join('&')}';
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/kpis/daterange/${Uri.encodeComponent(kpiName.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return GetApplicationDateRangeKpiResponse.fromJson(
-        {...response, 'ApplicationDateRangeKpiResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return GetApplicationDateRangeKpiResponse(
+      applicationDateRangeKpiResponse:
+          ApplicationDateRangeKpiResponse.fromJson($json),
+    );
   }
 
   /// Retrieves information about the settings for an application.
@@ -1464,15 +1549,17 @@ class Pinpoint {
     @_s.required String applicationId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/settings',
       exceptionFnMap: _exceptionFns,
     );
-    return GetApplicationSettingsResponse.fromJson(
-        {...response, 'ApplicationSettingsResource': response});
+    final $json = await _s.jsonFromResponse(response);
+    return GetApplicationSettingsResponse(
+      applicationSettingsResource: ApplicationSettingsResource.fromJson($json),
+    );
   }
 
   /// Retrieves information about all the applications that are associated with
@@ -1503,14 +1590,16 @@ class Pinpoint {
       if (pageSize != null) _s.toQueryParam('page-size', pageSize),
       if (token != null) _s.toQueryParam('token', token),
     ].where((e) => e != null).join('&')}';
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri: '/v1/apps$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return GetAppsResponse.fromJson(
-        {...response, 'ApplicationsResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return GetAppsResponse(
+      applicationsResponse: ApplicationsResponse.fromJson($json),
+    );
   }
 
   /// Retrieves information about the status and settings of the Baidu channel
@@ -1531,15 +1620,17 @@ class Pinpoint {
     @_s.required String applicationId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/baidu',
       exceptionFnMap: _exceptionFns,
     );
-    return GetBaiduChannelResponse.fromJson(
-        {...response, 'BaiduChannelResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return GetBaiduChannelResponse(
+      baiduChannelResponse: BaiduChannelResponse.fromJson($json),
+    );
   }
 
   /// Retrieves information about the status, configuration, and other settings
@@ -1565,15 +1656,17 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(campaignId, 'campaignId');
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/campaigns/${Uri.encodeComponent(campaignId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
-    return GetCampaignResponse.fromJson(
-        {...response, 'CampaignResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return GetCampaignResponse(
+      campaignResponse: CampaignResponse.fromJson($json),
+    );
   }
 
   /// Retrieves information about all the activities for a campaign.
@@ -1614,15 +1707,17 @@ class Pinpoint {
       if (pageSize != null) _s.toQueryParam('page-size', pageSize),
       if (token != null) _s.toQueryParam('token', token),
     ].where((e) => e != null).join('&')}';
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/campaigns/${Uri.encodeComponent(campaignId.toString())}/activities$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return GetCampaignActivitiesResponse.fromJson(
-        {...response, 'ActivitiesResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return GetCampaignActivitiesResponse(
+      activitiesResponse: ActivitiesResponse.fromJson($json),
+    );
   }
 
   /// Retrieves (queries) pre-aggregated data for a standard metric that applies
@@ -1694,15 +1789,18 @@ class Pinpoint {
       if (pageSize != null) _s.toQueryParam('page-size', pageSize),
       if (startTime != null) _s.toQueryParam('start-time', startTime),
     ].where((e) => e != null).join('&')}';
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/campaigns/${Uri.encodeComponent(campaignId.toString())}/kpis/daterange/${Uri.encodeComponent(kpiName.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return GetCampaignDateRangeKpiResponse.fromJson(
-        {...response, 'CampaignDateRangeKpiResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return GetCampaignDateRangeKpiResponse(
+      campaignDateRangeKpiResponse:
+          CampaignDateRangeKpiResponse.fromJson($json),
+    );
   }
 
   /// Retrieves information about the status, configuration, and other settings
@@ -1733,15 +1831,17 @@ class Pinpoint {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(campaignId, 'campaignId');
     ArgumentError.checkNotNull(version, 'version');
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/campaigns/${Uri.encodeComponent(campaignId.toString())}/versions/${Uri.encodeComponent(version.toString())}',
       exceptionFnMap: _exceptionFns,
     );
-    return GetCampaignVersionResponse.fromJson(
-        {...response, 'CampaignResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return GetCampaignVersionResponse(
+      campaignResponse: CampaignResponse.fromJson($json),
+    );
   }
 
   /// Retrieves information about the status, configuration, and other settings
@@ -1783,15 +1883,17 @@ class Pinpoint {
       if (pageSize != null) _s.toQueryParam('page-size', pageSize),
       if (token != null) _s.toQueryParam('token', token),
     ].where((e) => e != null).join('&')}';
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/campaigns/${Uri.encodeComponent(campaignId.toString())}/versions$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return GetCampaignVersionsResponse.fromJson(
-        {...response, 'CampaignsResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return GetCampaignVersionsResponse(
+      campaignsResponse: CampaignsResponse.fromJson($json),
+    );
   }
 
   /// Retrieves information about the status, configuration, and other settings
@@ -1828,15 +1930,17 @@ class Pinpoint {
       if (pageSize != null) _s.toQueryParam('page-size', pageSize),
       if (token != null) _s.toQueryParam('token', token),
     ].where((e) => e != null).join('&')}';
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/campaigns$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return GetCampaignsResponse.fromJson(
-        {...response, 'CampaignsResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return GetCampaignsResponse(
+      campaignsResponse: CampaignsResponse.fromJson($json),
+    );
   }
 
   /// Retrieves information about the history and status of each channel for an
@@ -1857,15 +1961,17 @@ class Pinpoint {
     @_s.required String applicationId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels',
       exceptionFnMap: _exceptionFns,
     );
-    return GetChannelsResponse.fromJson(
-        {...response, 'ChannelsResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return GetChannelsResponse(
+      channelsResponse: ChannelsResponse.fromJson($json),
+    );
   }
 
   /// Retrieves information about the status and settings of the email channel
@@ -1886,15 +1992,17 @@ class Pinpoint {
     @_s.required String applicationId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/email',
       exceptionFnMap: _exceptionFns,
     );
-    return GetEmailChannelResponse.fromJson(
-        {...response, 'EmailChannelResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return GetEmailChannelResponse(
+      emailChannelResponse: EmailChannelResponse.fromJson($json),
+    );
   }
 
   /// Retrieves the content and settings of a message template for messages that
@@ -1953,15 +2061,17 @@ class Pinpoint {
     _query = '?${[
       if (version != null) _s.toQueryParam('version', version),
     ].where((e) => e != null).join('&')}';
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri:
           '/v1/templates/${Uri.encodeComponent(templateName.toString())}/email$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return GetEmailTemplateResponse.fromJson(
-        {...response, 'EmailTemplateResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return GetEmailTemplateResponse(
+      emailTemplateResponse: EmailTemplateResponse.fromJson($json),
+    );
   }
 
   /// Retrieves information about the settings and attributes of a specific
@@ -1987,15 +2097,17 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(endpointId, 'endpointId');
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/endpoints/${Uri.encodeComponent(endpointId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
-    return GetEndpointResponse.fromJson(
-        {...response, 'EndpointResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return GetEndpointResponse(
+      endpointResponse: EndpointResponse.fromJson($json),
+    );
   }
 
   /// Retrieves information about the event stream settings for an application.
@@ -2015,15 +2127,17 @@ class Pinpoint {
     @_s.required String applicationId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/eventstream',
       exceptionFnMap: _exceptionFns,
     );
-    return GetEventStreamResponse.fromJson(
-        {...response, 'EventStream': response});
+    final $json = await _s.jsonFromResponse(response);
+    return GetEventStreamResponse(
+      eventStream: EventStream.fromJson($json),
+    );
   }
 
   /// Retrieves information about the status and settings of a specific export
@@ -2049,15 +2163,17 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(jobId, 'jobId');
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/jobs/export/${Uri.encodeComponent(jobId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
-    return GetExportJobResponse.fromJson(
-        {...response, 'ExportJobResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return GetExportJobResponse(
+      exportJobResponse: ExportJobResponse.fromJson($json),
+    );
   }
 
   /// Retrieves information about the status and settings of all the export jobs
@@ -2094,15 +2210,17 @@ class Pinpoint {
       if (pageSize != null) _s.toQueryParam('page-size', pageSize),
       if (token != null) _s.toQueryParam('token', token),
     ].where((e) => e != null).join('&')}';
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/jobs/export$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return GetExportJobsResponse.fromJson(
-        {...response, 'ExportJobsResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return GetExportJobsResponse(
+      exportJobsResponse: ExportJobsResponse.fromJson($json),
+    );
   }
 
   /// Retrieves information about the status and settings of the GCM channel for
@@ -2123,15 +2241,17 @@ class Pinpoint {
     @_s.required String applicationId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/gcm',
       exceptionFnMap: _exceptionFns,
     );
-    return GetGcmChannelResponse.fromJson(
-        {...response, 'GCMChannelResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return GetGcmChannelResponse(
+      gCMChannelResponse: GCMChannelResponse.fromJson($json),
+    );
   }
 
   /// Retrieves information about the status and settings of a specific import
@@ -2157,15 +2277,17 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(jobId, 'jobId');
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/jobs/import/${Uri.encodeComponent(jobId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
-    return GetImportJobResponse.fromJson(
-        {...response, 'ImportJobResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return GetImportJobResponse(
+      importJobResponse: ImportJobResponse.fromJson($json),
+    );
   }
 
   /// Retrieves information about the status and settings of all the import jobs
@@ -2202,15 +2324,17 @@ class Pinpoint {
       if (pageSize != null) _s.toQueryParam('page-size', pageSize),
       if (token != null) _s.toQueryParam('token', token),
     ].where((e) => e != null).join('&')}';
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/jobs/import$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return GetImportJobsResponse.fromJson(
-        {...response, 'ImportJobsResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return GetImportJobsResponse(
+      importJobsResponse: ImportJobsResponse.fromJson($json),
+    );
   }
 
   /// Retrieves information about the status, configuration, and other settings
@@ -2236,15 +2360,17 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(journeyId, 'journeyId');
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/journeys/${Uri.encodeComponent(journeyId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
-    return GetJourneyResponse.fromJson(
-        {...response, 'JourneyResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return GetJourneyResponse(
+      journeyResponse: JourneyResponse.fromJson($json),
+    );
   }
 
   /// Retrieves (queries) pre-aggregated data for a standard engagement metric
@@ -2316,15 +2442,17 @@ class Pinpoint {
       if (pageSize != null) _s.toQueryParam('page-size', pageSize),
       if (startTime != null) _s.toQueryParam('start-time', startTime),
     ].where((e) => e != null).join('&')}';
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/journeys/${Uri.encodeComponent(journeyId.toString())}/kpis/daterange/${Uri.encodeComponent(kpiName.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return GetJourneyDateRangeKpiResponse.fromJson(
-        {...response, 'JourneyDateRangeKpiResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return GetJourneyDateRangeKpiResponse(
+      journeyDateRangeKpiResponse: JourneyDateRangeKpiResponse.fromJson($json),
+    );
   }
 
   /// Retrieves (queries) pre-aggregated data for a standard execution metric
@@ -2373,15 +2501,18 @@ class Pinpoint {
       if (nextToken != null) _s.toQueryParam('next-token', nextToken),
       if (pageSize != null) _s.toQueryParam('page-size', pageSize),
     ].where((e) => e != null).join('&')}';
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/journeys/${Uri.encodeComponent(journeyId.toString())}/activities/${Uri.encodeComponent(journeyActivityId.toString())}/execution-metrics$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return GetJourneyExecutionActivityMetricsResponse.fromJson(
-        {...response, 'JourneyExecutionActivityMetricsResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return GetJourneyExecutionActivityMetricsResponse(
+      journeyExecutionActivityMetricsResponse:
+          JourneyExecutionActivityMetricsResponse.fromJson($json),
+    );
   }
 
   /// Retrieves (queries) pre-aggregated data for a standard execution metric
@@ -2424,15 +2555,18 @@ class Pinpoint {
       if (nextToken != null) _s.toQueryParam('next-token', nextToken),
       if (pageSize != null) _s.toQueryParam('page-size', pageSize),
     ].where((e) => e != null).join('&')}';
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/journeys/${Uri.encodeComponent(journeyId.toString())}/execution-metrics$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return GetJourneyExecutionMetricsResponse.fromJson(
-        {...response, 'JourneyExecutionMetricsResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return GetJourneyExecutionMetricsResponse(
+      journeyExecutionMetricsResponse:
+          JourneyExecutionMetricsResponse.fromJson($json),
+    );
   }
 
   /// Retrieves the content and settings of a message template for messages that
@@ -2491,15 +2625,18 @@ class Pinpoint {
     _query = '?${[
       if (version != null) _s.toQueryParam('version', version),
     ].where((e) => e != null).join('&')}';
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri:
           '/v1/templates/${Uri.encodeComponent(templateName.toString())}/push$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return GetPushTemplateResponse.fromJson(
-        {...response, 'PushNotificationTemplateResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return GetPushTemplateResponse(
+      pushNotificationTemplateResponse:
+          PushNotificationTemplateResponse.fromJson($json),
+    );
   }
 
   /// Retrieves information about an Amazon Pinpoint configuration for a
@@ -2521,15 +2658,18 @@ class Pinpoint {
     @_s.required String recommenderId,
   }) async {
     ArgumentError.checkNotNull(recommenderId, 'recommenderId');
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri:
           '/v1/recommenders/${Uri.encodeComponent(recommenderId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
-    return GetRecommenderConfigurationResponse.fromJson(
-        {...response, 'RecommenderConfigurationResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return GetRecommenderConfigurationResponse(
+      recommenderConfigurationResponse:
+          RecommenderConfigurationResponse.fromJson($json),
+    );
   }
 
   /// Retrieves information about all the recommender model configurations that
@@ -2560,14 +2700,17 @@ class Pinpoint {
       if (pageSize != null) _s.toQueryParam('page-size', pageSize),
       if (token != null) _s.toQueryParam('token', token),
     ].where((e) => e != null).join('&')}';
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri: '/v1/recommenders$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return GetRecommenderConfigurationsResponse.fromJson(
-        {...response, 'ListRecommenderConfigurationsResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return GetRecommenderConfigurationsResponse(
+      listRecommenderConfigurationsResponse:
+          ListRecommenderConfigurationsResponse.fromJson($json),
+    );
   }
 
   /// Retrieves information about the configuration, dimension, and other
@@ -2593,15 +2736,17 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(segmentId, 'segmentId');
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/segments/${Uri.encodeComponent(segmentId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
-    return GetSegmentResponse.fromJson(
-        {...response, 'SegmentResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return GetSegmentResponse(
+      segmentResponse: SegmentResponse.fromJson($json),
+    );
   }
 
   /// Retrieves information about the status and settings of the export jobs for
@@ -2643,15 +2788,17 @@ class Pinpoint {
       if (pageSize != null) _s.toQueryParam('page-size', pageSize),
       if (token != null) _s.toQueryParam('token', token),
     ].where((e) => e != null).join('&')}';
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/segments/${Uri.encodeComponent(segmentId.toString())}/jobs/export$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return GetSegmentExportJobsResponse.fromJson(
-        {...response, 'ExportJobsResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return GetSegmentExportJobsResponse(
+      exportJobsResponse: ExportJobsResponse.fromJson($json),
+    );
   }
 
   /// Retrieves information about the status and settings of the import jobs for
@@ -2693,15 +2840,17 @@ class Pinpoint {
       if (pageSize != null) _s.toQueryParam('page-size', pageSize),
       if (token != null) _s.toQueryParam('token', token),
     ].where((e) => e != null).join('&')}';
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/segments/${Uri.encodeComponent(segmentId.toString())}/jobs/import$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return GetSegmentImportJobsResponse.fromJson(
-        {...response, 'ImportJobsResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return GetSegmentImportJobsResponse(
+      importJobsResponse: ImportJobsResponse.fromJson($json),
+    );
   }
 
   /// Retrieves information about the configuration, dimension, and other
@@ -2733,15 +2882,17 @@ class Pinpoint {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(segmentId, 'segmentId');
     ArgumentError.checkNotNull(version, 'version');
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/segments/${Uri.encodeComponent(segmentId.toString())}/versions/${Uri.encodeComponent(version.toString())}',
       exceptionFnMap: _exceptionFns,
     );
-    return GetSegmentVersionResponse.fromJson(
-        {...response, 'SegmentResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return GetSegmentVersionResponse(
+      segmentResponse: SegmentResponse.fromJson($json),
+    );
   }
 
   /// Retrieves information about the configuration, dimension, and other
@@ -2784,15 +2935,17 @@ class Pinpoint {
       if (pageSize != null) _s.toQueryParam('page-size', pageSize),
       if (token != null) _s.toQueryParam('token', token),
     ].where((e) => e != null).join('&')}';
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/segments/${Uri.encodeComponent(segmentId.toString())}/versions$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return GetSegmentVersionsResponse.fromJson(
-        {...response, 'SegmentsResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return GetSegmentVersionsResponse(
+      segmentsResponse: SegmentsResponse.fromJson($json),
+    );
   }
 
   /// Retrieves information about the configuration, dimension, and other
@@ -2829,15 +2982,17 @@ class Pinpoint {
       if (pageSize != null) _s.toQueryParam('page-size', pageSize),
       if (token != null) _s.toQueryParam('token', token),
     ].where((e) => e != null).join('&')}';
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/segments$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return GetSegmentsResponse.fromJson(
-        {...response, 'SegmentsResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return GetSegmentsResponse(
+      segmentsResponse: SegmentsResponse.fromJson($json),
+    );
   }
 
   /// Retrieves information about the status and settings of the SMS channel for
@@ -2858,15 +3013,17 @@ class Pinpoint {
     @_s.required String applicationId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/sms',
       exceptionFnMap: _exceptionFns,
     );
-    return GetSmsChannelResponse.fromJson(
-        {...response, 'SMSChannelResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return GetSmsChannelResponse(
+      sMSChannelResponse: SMSChannelResponse.fromJson($json),
+    );
   }
 
   /// Retrieves the content and settings of a message template for messages that
@@ -2925,15 +3082,17 @@ class Pinpoint {
     _query = '?${[
       if (version != null) _s.toQueryParam('version', version),
     ].where((e) => e != null).join('&')}';
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri:
           '/v1/templates/${Uri.encodeComponent(templateName.toString())}/sms$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return GetSmsTemplateResponse.fromJson(
-        {...response, 'SMSTemplateResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return GetSmsTemplateResponse(
+      sMSTemplateResponse: SMSTemplateResponse.fromJson($json),
+    );
   }
 
   /// Retrieves information about all the endpoints that are associated with a
@@ -2959,15 +3118,17 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(userId, 'userId');
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/users/${Uri.encodeComponent(userId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
-    return GetUserEndpointsResponse.fromJson(
-        {...response, 'EndpointsResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return GetUserEndpointsResponse(
+      endpointsResponse: EndpointsResponse.fromJson($json),
+    );
   }
 
   /// Retrieves information about the status and settings of the voice channel
@@ -2988,15 +3149,17 @@ class Pinpoint {
     @_s.required String applicationId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/voice',
       exceptionFnMap: _exceptionFns,
     );
-    return GetVoiceChannelResponse.fromJson(
-        {...response, 'VoiceChannelResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return GetVoiceChannelResponse(
+      voiceChannelResponse: VoiceChannelResponse.fromJson($json),
+    );
   }
 
   /// Retrieves the content and settings of a message template for messages that
@@ -3055,15 +3218,17 @@ class Pinpoint {
     _query = '?${[
       if (version != null) _s.toQueryParam('version', version),
     ].where((e) => e != null).join('&')}';
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri:
           '/v1/templates/${Uri.encodeComponent(templateName.toString())}/voice$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return GetVoiceTemplateResponse.fromJson(
-        {...response, 'VoiceTemplateResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return GetVoiceTemplateResponse(
+      voiceTemplateResponse: VoiceTemplateResponse.fromJson($json),
+    );
   }
 
   /// Retrieves information about the status, configuration, and other settings
@@ -3100,15 +3265,17 @@ class Pinpoint {
       if (pageSize != null) _s.toQueryParam('page-size', pageSize),
       if (token != null) _s.toQueryParam('token', token),
     ].where((e) => e != null).join('&')}';
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/journeys$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return ListJourneysResponse.fromJson(
-        {...response, 'JourneysResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return ListJourneysResponse(
+      journeysResponse: JourneysResponse.fromJson($json),
+    );
   }
 
   /// Retrieves all the tags (keys and values) that are associated with an
@@ -3120,14 +3287,16 @@ class Pinpoint {
     @_s.required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri: '/v1/tags/${Uri.encodeComponent(resourceArn.toString())}',
       exceptionFnMap: _exceptionFns,
     );
-    return ListTagsForResourceResponse.fromJson(
-        {...response, 'TagsModel': response});
+    final $json = await _s.jsonFromResponse(response);
+    return ListTagsForResourceResponse(
+      tagsModel: TagsModel.fromJson($json),
+    );
   }
 
   /// Retrieves information about all the versions of a specific message
@@ -3173,15 +3342,17 @@ class Pinpoint {
       if (nextToken != null) _s.toQueryParam('next-token', nextToken),
       if (pageSize != null) _s.toQueryParam('page-size', pageSize),
     ].where((e) => e != null).join('&')}';
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri:
           '/v1/templates/${Uri.encodeComponent(templateName.toString())}/${Uri.encodeComponent(templateType.toString())}/versions$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return ListTemplateVersionsResponse.fromJson(
-        {...response, 'TemplateVersionsResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return ListTemplateVersionsResponse(
+      templateVersionsResponse: TemplateVersionsResponse.fromJson($json),
+    );
   }
 
   /// Retrieves information about all the message templates that are associated
@@ -3225,14 +3396,16 @@ class Pinpoint {
       if (prefix != null) _s.toQueryParam('prefix', prefix),
       if (templateType != null) _s.toQueryParam('template-type', templateType),
     ].where((e) => e != null).join('&')}';
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri: '/v1/templates$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return ListTemplatesResponse.fromJson(
-        {...response, 'TemplatesResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return ListTemplatesResponse(
+      templatesResponse: TemplatesResponse.fromJson($json),
+    );
   }
 
   /// Retrieves information about a phone number.
@@ -3248,14 +3421,16 @@ class Pinpoint {
     @_s.required NumberValidateRequest numberValidateRequest,
   }) async {
     ArgumentError.checkNotNull(numberValidateRequest, 'numberValidateRequest');
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: numberValidateRequest,
       method: 'POST',
       requestUri: '/v1/phone/number/validate',
       exceptionFnMap: _exceptionFns,
     );
-    return PhoneNumberValidateResponse.fromJson(
-        {...response, 'NumberValidateResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return PhoneNumberValidateResponse(
+      numberValidateResponse: NumberValidateResponse.fromJson($json),
+    );
   }
 
   /// Creates a new event stream for an application or updates the settings of
@@ -3278,15 +3453,17 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(writeEventStream, 'writeEventStream');
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: writeEventStream,
       method: 'POST',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/eventstream',
       exceptionFnMap: _exceptionFns,
     );
-    return PutEventStreamResponse.fromJson(
-        {...response, 'EventStream': response});
+    final $json = await _s.jsonFromResponse(response);
+    return PutEventStreamResponse(
+      eventStream: EventStream.fromJson($json),
+    );
   }
 
   /// Creates a new event to record for endpoints, or creates or updates
@@ -3309,15 +3486,17 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(eventsRequest, 'eventsRequest');
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: eventsRequest,
       method: 'POST',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/events',
       exceptionFnMap: _exceptionFns,
     );
-    return PutEventsResponse.fromJson(
-        {...response, 'EventsResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return PutEventsResponse(
+      eventsResponse: EventsResponse.fromJson($json),
+    );
   }
 
   /// Removes one or more attributes, of the same attribute type, from all the
@@ -3363,15 +3542,17 @@ class Pinpoint {
     ArgumentError.checkNotNull(attributeType, 'attributeType');
     ArgumentError.checkNotNull(
         updateAttributesRequest, 'updateAttributesRequest');
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: updateAttributesRequest,
       method: 'PUT',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/attributes/${Uri.encodeComponent(attributeType.toString())}',
       exceptionFnMap: _exceptionFns,
     );
-    return RemoveAttributesResponse.fromJson(
-        {...response, 'AttributesResource': response});
+    final $json = await _s.jsonFromResponse(response);
+    return RemoveAttributesResponse(
+      attributesResource: AttributesResource.fromJson($json),
+    );
   }
 
   /// Creates and sends a direct message.
@@ -3393,15 +3574,17 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(messageRequest, 'messageRequest');
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: messageRequest,
       method: 'POST',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/messages',
       exceptionFnMap: _exceptionFns,
     );
-    return SendMessagesResponse.fromJson(
-        {...response, 'MessageResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return SendMessagesResponse(
+      messageResponse: MessageResponse.fromJson($json),
+    );
   }
 
   /// Creates and sends a message to a list of users.
@@ -3424,15 +3607,17 @@ class Pinpoint {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(
         sendUsersMessageRequest, 'sendUsersMessageRequest');
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: sendUsersMessageRequest,
       method: 'POST',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/users-messages',
       exceptionFnMap: _exceptionFns,
     );
-    return SendUsersMessagesResponse.fromJson(
-        {...response, 'SendUsersMessageResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return SendUsersMessagesResponse(
+      sendUsersMessageResponse: SendUsersMessageResponse.fromJson($json),
+    );
   }
 
   /// Adds one or more tags (keys and values) to an application, campaign,
@@ -3504,15 +3689,17 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(aDMChannelRequest, 'aDMChannelRequest');
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: aDMChannelRequest,
       method: 'PUT',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/adm',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateAdmChannelResponse.fromJson(
-        {...response, 'ADMChannelResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return UpdateAdmChannelResponse(
+      aDMChannelResponse: ADMChannelResponse.fromJson($json),
+    );
   }
 
   /// Enables the APNs channel for an application or updates the status and
@@ -3535,15 +3722,17 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(aPNSChannelRequest, 'aPNSChannelRequest');
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: aPNSChannelRequest,
       method: 'PUT',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/apns',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateApnsChannelResponse.fromJson(
-        {...response, 'APNSChannelResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return UpdateApnsChannelResponse(
+      aPNSChannelResponse: APNSChannelResponse.fromJson($json),
+    );
   }
 
   /// Enables the APNs sandbox channel for an application or updates the status
@@ -3567,15 +3756,17 @@ class Pinpoint {
     ArgumentError.checkNotNull(
         aPNSSandboxChannelRequest, 'aPNSSandboxChannelRequest');
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: aPNSSandboxChannelRequest,
       method: 'PUT',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/apns_sandbox',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateApnsSandboxChannelResponse.fromJson(
-        {...response, 'APNSSandboxChannelResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return UpdateApnsSandboxChannelResponse(
+      aPNSSandboxChannelResponse: APNSSandboxChannelResponse.fromJson($json),
+    );
   }
 
   /// Enables the APNs VoIP channel for an application or updates the status and
@@ -3599,15 +3790,17 @@ class Pinpoint {
     ArgumentError.checkNotNull(
         aPNSVoipChannelRequest, 'aPNSVoipChannelRequest');
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: aPNSVoipChannelRequest,
       method: 'PUT',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/apns_voip',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateApnsVoipChannelResponse.fromJson(
-        {...response, 'APNSVoipChannelResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return UpdateApnsVoipChannelResponse(
+      aPNSVoipChannelResponse: APNSVoipChannelResponse.fromJson($json),
+    );
   }
 
   /// Enables the APNs VoIP sandbox channel for an application or updates the
@@ -3631,15 +3824,18 @@ class Pinpoint {
     ArgumentError.checkNotNull(
         aPNSVoipSandboxChannelRequest, 'aPNSVoipSandboxChannelRequest');
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: aPNSVoipSandboxChannelRequest,
       method: 'PUT',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/apns_voip_sandbox',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateApnsVoipSandboxChannelResponse.fromJson(
-        {...response, 'APNSVoipSandboxChannelResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return UpdateApnsVoipSandboxChannelResponse(
+      aPNSVoipSandboxChannelResponse:
+          APNSVoipSandboxChannelResponse.fromJson($json),
+    );
   }
 
   /// Updates the settings for an application.
@@ -3663,15 +3859,17 @@ class Pinpoint {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(
         writeApplicationSettingsRequest, 'writeApplicationSettingsRequest');
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: writeApplicationSettingsRequest,
       method: 'PUT',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/settings',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateApplicationSettingsResponse.fromJson(
-        {...response, 'ApplicationSettingsResource': response});
+    final $json = await _s.jsonFromResponse(response);
+    return UpdateApplicationSettingsResponse(
+      applicationSettingsResource: ApplicationSettingsResource.fromJson($json),
+    );
   }
 
   /// Enables the Baidu channel for an application or updates the status and
@@ -3694,15 +3892,17 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(baiduChannelRequest, 'baiduChannelRequest');
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: baiduChannelRequest,
       method: 'PUT',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/baidu',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateBaiduChannelResponse.fromJson(
-        {...response, 'BaiduChannelResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return UpdateBaiduChannelResponse(
+      baiduChannelResponse: BaiduChannelResponse.fromJson($json),
+    );
   }
 
   /// Updates the configuration and other settings for a campaign.
@@ -3729,15 +3929,17 @@ class Pinpoint {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(campaignId, 'campaignId');
     ArgumentError.checkNotNull(writeCampaignRequest, 'writeCampaignRequest');
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: writeCampaignRequest,
       method: 'PUT',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/campaigns/${Uri.encodeComponent(campaignId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateCampaignResponse.fromJson(
-        {...response, 'CampaignResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return UpdateCampaignResponse(
+      campaignResponse: CampaignResponse.fromJson($json),
+    );
   }
 
   /// Enables the email channel for an application or updates the status and
@@ -3760,15 +3962,17 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(emailChannelRequest, 'emailChannelRequest');
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: emailChannelRequest,
       method: 'PUT',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/email',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateEmailChannelResponse.fromJson(
-        {...response, 'EmailChannelResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return UpdateEmailChannelResponse(
+      emailChannelResponse: EmailChannelResponse.fromJson($json),
+    );
   }
 
   /// Updates an existing message template for messages that are sent through
@@ -3843,15 +4047,17 @@ class Pinpoint {
         _s.toQueryParam('create-new-version', createNewVersion),
       if (version != null) _s.toQueryParam('version', version),
     ].where((e) => e != null).join('&')}';
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: emailTemplateRequest,
       method: 'PUT',
       requestUri:
           '/v1/templates/${Uri.encodeComponent(templateName.toString())}/email$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateEmailTemplateResponse.fromJson(
-        {...response, 'MessageBody': response});
+    final $json = await _s.jsonFromResponse(response);
+    return UpdateEmailTemplateResponse(
+      messageBody: MessageBody.fromJson($json),
+    );
   }
 
   /// Creates a new endpoint for an application or updates the settings and
@@ -3881,15 +4087,17 @@ class Pinpoint {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(endpointId, 'endpointId');
     ArgumentError.checkNotNull(endpointRequest, 'endpointRequest');
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: endpointRequest,
       method: 'PUT',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/endpoints/${Uri.encodeComponent(endpointId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateEndpointResponse.fromJson(
-        {...response, 'MessageBody': response});
+    final $json = await _s.jsonFromResponse(response);
+    return UpdateEndpointResponse(
+      messageBody: MessageBody.fromJson($json),
+    );
   }
 
   /// Creates a new batch of endpoints for an application or updates the
@@ -3915,15 +4123,17 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(endpointBatchRequest, 'endpointBatchRequest');
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: endpointBatchRequest,
       method: 'PUT',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/endpoints',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateEndpointsBatchResponse.fromJson(
-        {...response, 'MessageBody': response});
+    final $json = await _s.jsonFromResponse(response);
+    return UpdateEndpointsBatchResponse(
+      messageBody: MessageBody.fromJson($json),
+    );
   }
 
   /// Enables the GCM channel for an application or updates the status and
@@ -3946,15 +4156,17 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(gCMChannelRequest, 'gCMChannelRequest');
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: gCMChannelRequest,
       method: 'PUT',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/gcm',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateGcmChannelResponse.fromJson(
-        {...response, 'GCMChannelResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return UpdateGcmChannelResponse(
+      gCMChannelResponse: GCMChannelResponse.fromJson($json),
+    );
   }
 
   /// Updates the configuration and other settings for a journey.
@@ -3981,15 +4193,17 @@ class Pinpoint {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(journeyId, 'journeyId');
     ArgumentError.checkNotNull(writeJourneyRequest, 'writeJourneyRequest');
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: writeJourneyRequest,
       method: 'PUT',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/journeys/${Uri.encodeComponent(journeyId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateJourneyResponse.fromJson(
-        {...response, 'JourneyResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return UpdateJourneyResponse(
+      journeyResponse: JourneyResponse.fromJson($json),
+    );
   }
 
   /// Cancels (stops) an active journey.
@@ -4016,15 +4230,17 @@ class Pinpoint {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(journeyId, 'journeyId');
     ArgumentError.checkNotNull(journeyStateRequest, 'journeyStateRequest');
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: journeyStateRequest,
       method: 'PUT',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/journeys/${Uri.encodeComponent(journeyId.toString())}/state',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateJourneyStateResponse.fromJson(
-        {...response, 'JourneyResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return UpdateJourneyStateResponse(
+      journeyResponse: JourneyResponse.fromJson($json),
+    );
   }
 
   /// Updates an existing message template for messages that are sent through a
@@ -4101,15 +4317,17 @@ class Pinpoint {
         _s.toQueryParam('create-new-version', createNewVersion),
       if (version != null) _s.toQueryParam('version', version),
     ].where((e) => e != null).join('&')}';
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: pushNotificationTemplateRequest,
       method: 'PUT',
       requestUri:
           '/v1/templates/${Uri.encodeComponent(templateName.toString())}/push$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdatePushTemplateResponse.fromJson(
-        {...response, 'MessageBody': response});
+    final $json = await _s.jsonFromResponse(response);
+    return UpdatePushTemplateResponse(
+      messageBody: MessageBody.fromJson($json),
+    );
   }
 
   /// Updates an Amazon Pinpoint configuration for a recommender model.
@@ -4134,15 +4352,18 @@ class Pinpoint {
     ArgumentError.checkNotNull(recommenderId, 'recommenderId');
     ArgumentError.checkNotNull(
         updateRecommenderConfiguration, 'updateRecommenderConfiguration');
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: updateRecommenderConfiguration,
       method: 'PUT',
       requestUri:
           '/v1/recommenders/${Uri.encodeComponent(recommenderId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateRecommenderConfigurationResponse.fromJson(
-        {...response, 'RecommenderConfigurationResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return UpdateRecommenderConfigurationResponse(
+      recommenderConfigurationResponse:
+          RecommenderConfigurationResponse.fromJson($json),
+    );
   }
 
   /// Creates a new segment for an application or updates the configuration,
@@ -4171,15 +4392,17 @@ class Pinpoint {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(segmentId, 'segmentId');
     ArgumentError.checkNotNull(writeSegmentRequest, 'writeSegmentRequest');
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: writeSegmentRequest,
       method: 'PUT',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/segments/${Uri.encodeComponent(segmentId.toString())}',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateSegmentResponse.fromJson(
-        {...response, 'SegmentResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return UpdateSegmentResponse(
+      segmentResponse: SegmentResponse.fromJson($json),
+    );
   }
 
   /// Enables the SMS channel for an application or updates the status and
@@ -4202,15 +4425,17 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(sMSChannelRequest, 'sMSChannelRequest');
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: sMSChannelRequest,
       method: 'PUT',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/sms',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateSmsChannelResponse.fromJson(
-        {...response, 'SMSChannelResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return UpdateSmsChannelResponse(
+      sMSChannelResponse: SMSChannelResponse.fromJson($json),
+    );
   }
 
   /// Updates an existing message template for messages that are sent through
@@ -4285,15 +4510,17 @@ class Pinpoint {
         _s.toQueryParam('create-new-version', createNewVersion),
       if (version != null) _s.toQueryParam('version', version),
     ].where((e) => e != null).join('&')}';
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: sMSTemplateRequest,
       method: 'PUT',
       requestUri:
           '/v1/templates/${Uri.encodeComponent(templateName.toString())}/sms$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateSmsTemplateResponse.fromJson(
-        {...response, 'MessageBody': response});
+    final $json = await _s.jsonFromResponse(response);
+    return UpdateSmsTemplateResponse(
+      messageBody: MessageBody.fromJson($json),
+    );
   }
 
   /// Changes the status of a specific version of a message template to
@@ -4325,15 +4552,17 @@ class Pinpoint {
         templateActiveVersionRequest, 'templateActiveVersionRequest');
     ArgumentError.checkNotNull(templateName, 'templateName');
     ArgumentError.checkNotNull(templateType, 'templateType');
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: templateActiveVersionRequest,
       method: 'PUT',
       requestUri:
           '/v1/templates/${Uri.encodeComponent(templateName.toString())}/${Uri.encodeComponent(templateType.toString())}/active-version',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateTemplateActiveVersionResponse.fromJson(
-        {...response, 'MessageBody': response});
+    final $json = await _s.jsonFromResponse(response);
+    return UpdateTemplateActiveVersionResponse(
+      messageBody: MessageBody.fromJson($json),
+    );
   }
 
   /// Enables the voice channel for an application or updates the status and
@@ -4356,15 +4585,17 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(voiceChannelRequest, 'voiceChannelRequest');
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: voiceChannelRequest,
       method: 'PUT',
       requestUri:
           '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/voice',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateVoiceChannelResponse.fromJson(
-        {...response, 'VoiceChannelResponse': response});
+    final $json = await _s.jsonFromResponse(response);
+    return UpdateVoiceChannelResponse(
+      voiceChannelResponse: VoiceChannelResponse.fromJson($json),
+    );
   }
 
   /// Updates an existing message template for messages that are sent through
@@ -4439,15 +4670,17 @@ class Pinpoint {
         _s.toQueryParam('create-new-version', createNewVersion),
       if (version != null) _s.toQueryParam('version', version),
     ].where((e) => e != null).join('&')}';
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: voiceTemplateRequest,
       method: 'PUT',
       requestUri:
           '/v1/templates/${Uri.encodeComponent(templateName.toString())}/voice$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateVoiceTemplateResponse.fromJson(
-        {...response, 'MessageBody': response});
+    final $json = await _s.jsonFromResponse(response);
+    return UpdateVoiceTemplateResponse(
+      messageBody: MessageBody.fromJson($json),
+    );
   }
 }
 

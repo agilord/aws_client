@@ -241,7 +241,7 @@ Map<String, dynamic> _$DashEncryptionToJson(DashEncryption instance) {
 DashPackage _$DashPackageFromJson(Map<String, dynamic> json) {
   return DashPackage(
     adTriggers: (json['adTriggers'] as List)
-        ?.map((e) => _$enumDecodeNullable(_$__AdTriggersElementEnumMap, e))
+        ?.map((e) => _$enumDecodeNullable(_$AdTriggersElementEnumMap, e))
         ?.toList(),
     adsOnDeliveryRestrictions: _$enumDecodeNullable(
         _$AdsOnDeliveryRestrictionsEnumMap, json['adsOnDeliveryRestrictions']),
@@ -254,7 +254,7 @@ DashPackage _$DashPackageFromJson(Map<String, dynamic> json) {
     minBufferTimeSeconds: json['minBufferTimeSeconds'] as int,
     minUpdatePeriodSeconds: json['minUpdatePeriodSeconds'] as int,
     periodTriggers: (json['periodTriggers'] as List)
-        ?.map((e) => _$enumDecodeNullable(_$__PeriodTriggersElementEnumMap, e))
+        ?.map((e) => _$enumDecodeNullable(_$PeriodTriggersElementEnumMap, e))
         ?.toList(),
     profile: _$enumDecodeNullable(_$ProfileEnumMap, json['profile']),
     segmentDurationSeconds: json['segmentDurationSeconds'] as int,
@@ -278,11 +278,8 @@ Map<String, dynamic> _$DashPackageToJson(DashPackage instance) {
     }
   }
 
-  writeNotNull(
-      'adTriggers',
-      instance.adTriggers
-          ?.map((e) => _$__AdTriggersElementEnumMap[e])
-          ?.toList());
+  writeNotNull('adTriggers',
+      instance.adTriggers?.map((e) => _$AdTriggersElementEnumMap[e])?.toList());
   writeNotNull('adsOnDeliveryRestrictions',
       _$AdsOnDeliveryRestrictionsEnumMap[instance.adsOnDeliveryRestrictions]);
   writeNotNull('encryption', instance.encryption?.toJson());
@@ -294,7 +291,7 @@ Map<String, dynamic> _$DashPackageToJson(DashPackage instance) {
   writeNotNull(
       'periodTriggers',
       instance.periodTriggers
-          ?.map((e) => _$__PeriodTriggersElementEnumMap[e])
+          ?.map((e) => _$PeriodTriggersElementEnumMap[e])
           ?.toList());
   writeNotNull('profile', _$ProfileEnumMap[instance.profile]);
   writeNotNull('segmentDurationSeconds', instance.segmentDurationSeconds);
@@ -306,18 +303,18 @@ Map<String, dynamic> _$DashPackageToJson(DashPackage instance) {
   return val;
 }
 
-const _$__AdTriggersElementEnumMap = {
-  __AdTriggersElement.spliceInsert: 'SPLICE_INSERT',
-  __AdTriggersElement.$break: 'BREAK',
-  __AdTriggersElement.providerAdvertisement: 'PROVIDER_ADVERTISEMENT',
-  __AdTriggersElement.distributorAdvertisement: 'DISTRIBUTOR_ADVERTISEMENT',
-  __AdTriggersElement.providerPlacementOpportunity:
+const _$AdTriggersElementEnumMap = {
+  AdTriggersElement.spliceInsert: 'SPLICE_INSERT',
+  AdTriggersElement.$break: 'BREAK',
+  AdTriggersElement.providerAdvertisement: 'PROVIDER_ADVERTISEMENT',
+  AdTriggersElement.distributorAdvertisement: 'DISTRIBUTOR_ADVERTISEMENT',
+  AdTriggersElement.providerPlacementOpportunity:
       'PROVIDER_PLACEMENT_OPPORTUNITY',
-  __AdTriggersElement.distributorPlacementOpportunity:
+  AdTriggersElement.distributorPlacementOpportunity:
       'DISTRIBUTOR_PLACEMENT_OPPORTUNITY',
-  __AdTriggersElement.providerOverlayPlacementOpportunity:
+  AdTriggersElement.providerOverlayPlacementOpportunity:
       'PROVIDER_OVERLAY_PLACEMENT_OPPORTUNITY',
-  __AdTriggersElement.distributorOverlayPlacementOpportunity:
+  AdTriggersElement.distributorOverlayPlacementOpportunity:
       'DISTRIBUTOR_OVERLAY_PLACEMENT_OPPORTUNITY',
 };
 
@@ -333,8 +330,8 @@ const _$ManifestLayoutEnumMap = {
   ManifestLayout.compact: 'COMPACT',
 };
 
-const _$__PeriodTriggersElementEnumMap = {
-  __PeriodTriggersElement.ads: 'ADS',
+const _$PeriodTriggersElementEnumMap = {
+  PeriodTriggersElement.ads: 'ADS',
 };
 
 const _$ProfileEnumMap = {
@@ -530,11 +527,8 @@ Map<String, dynamic> _$HlsManifestCreateOrUpdateParametersToJson(
 
   writeNotNull('id', instance.id);
   writeNotNull('adMarkers', _$AdMarkersEnumMap[instance.adMarkers]);
-  writeNotNull(
-      'adTriggers',
-      instance.adTriggers
-          ?.map((e) => _$__AdTriggersElementEnumMap[e])
-          ?.toList());
+  writeNotNull('adTriggers',
+      instance.adTriggers?.map((e) => _$AdTriggersElementEnumMap[e])?.toList());
   writeNotNull('adsOnDeliveryRestrictions',
       _$AdsOnDeliveryRestrictionsEnumMap[instance.adsOnDeliveryRestrictions]);
   writeNotNull('includeIframeOnlyStream', instance.includeIframeOnlyStream);
@@ -550,7 +544,7 @@ HlsPackage _$HlsPackageFromJson(Map<String, dynamic> json) {
   return HlsPackage(
     adMarkers: _$enumDecodeNullable(_$AdMarkersEnumMap, json['adMarkers']),
     adTriggers: (json['adTriggers'] as List)
-        ?.map((e) => _$enumDecodeNullable(_$__AdTriggersElementEnumMap, e))
+        ?.map((e) => _$enumDecodeNullable(_$AdTriggersElementEnumMap, e))
         ?.toList(),
     adsOnDeliveryRestrictions: _$enumDecodeNullable(
         _$AdsOnDeliveryRestrictionsEnumMap, json['adsOnDeliveryRestrictions']),
@@ -582,11 +576,8 @@ Map<String, dynamic> _$HlsPackageToJson(HlsPackage instance) {
   }
 
   writeNotNull('adMarkers', _$AdMarkersEnumMap[instance.adMarkers]);
-  writeNotNull(
-      'adTriggers',
-      instance.adTriggers
-          ?.map((e) => _$__AdTriggersElementEnumMap[e])
-          ?.toList());
+  writeNotNull('adTriggers',
+      instance.adTriggers?.map((e) => _$AdTriggersElementEnumMap[e])?.toList());
   writeNotNull('adsOnDeliveryRestrictions',
       _$AdsOnDeliveryRestrictionsEnumMap[instance.adsOnDeliveryRestrictions]);
   writeNotNull('encryption', instance.encryption?.toJson());

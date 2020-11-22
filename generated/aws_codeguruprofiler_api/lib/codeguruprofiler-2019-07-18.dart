@@ -87,15 +87,17 @@ class CodeGuruProfiler {
     final $payload = <String, dynamic>{
       if (fleetInstanceId != null) 'fleetInstanceId': fleetInstanceId,
     };
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: $payload,
       method: 'POST',
       requestUri:
           '/profilingGroups/${Uri.encodeComponent(profilingGroupName.toString())}/configureAgent',
       exceptionFnMap: _exceptionFns,
     );
-    return ConfigureAgentResponse.fromJson(
-        {...response, 'configuration': response});
+    final $json = await _s.jsonFromResponse(response);
+    return ConfigureAgentResponse(
+      configuration: AgentConfiguration.fromJson($json),
+    );
   }
 
   /// Creates a profiling group.
@@ -160,14 +162,16 @@ class CodeGuruProfiler {
       if (agentOrchestrationConfig != null)
         'agentOrchestrationConfig': agentOrchestrationConfig,
     };
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: $payload,
       method: 'POST',
       requestUri: '/profilingGroups$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return CreateProfilingGroupResponse.fromJson(
-        {...response, 'profilingGroup': response});
+    final $json = await _s.jsonFromResponse(response);
+    return CreateProfilingGroupResponse(
+      profilingGroup: ProfilingGroupDescription.fromJson($json),
+    );
   }
 
   /// Deletes a profiling group.
@@ -233,15 +237,17 @@ class CodeGuruProfiler {
       r'''^[\w-]+$''',
       isRequired: true,
     );
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri:
           '/profilingGroups/${Uri.encodeComponent(profilingGroupName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
-    return DescribeProfilingGroupResponse.fromJson(
-        {...response, 'profilingGroup': response});
+    final $json = await _s.jsonFromResponse(response);
+    return DescribeProfilingGroupResponse(
+      profilingGroup: ProfilingGroupDescription.fromJson($json),
+    );
   }
 
   /// Gets the profiling group policy.
@@ -369,7 +375,7 @@ class CodeGuruProfiler {
       if (period != null) _s.toQueryParam('period', period),
       if (startTime != null) _s.toQueryParam('startTime', startTime),
     ].where((e) => e != null).join('&')}';
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       headers: headers,
       method: 'GET',
@@ -377,7 +383,13 @@ class CodeGuruProfiler {
           '/profilingGroups/${Uri.encodeComponent(profilingGroupName.toString())}/profile$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return GetProfileResponse.fromJson({...response, 'profile': response});
+    return GetProfileResponse(
+      profile: await response.stream.toBytes(),
+      contentType:
+          _s.extractHeaderStringValue(response.headers, 'Content-Type'),
+      contentEncoding:
+          _s.extractHeaderStringValue(response.headers, 'Content-Encoding'),
+    );
   }
 
   /// List the start times of the available aggregated profiles of a profiling
@@ -779,15 +791,17 @@ class CodeGuruProfiler {
     final $payload = <String, dynamic>{
       'agentOrchestrationConfig': agentOrchestrationConfig,
     };
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: $payload,
       method: 'PUT',
       requestUri:
           '/profilingGroups/${Uri.encodeComponent(profilingGroupName.toString())}',
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateProfilingGroupResponse.fromJson(
-        {...response, 'profilingGroup': response});
+    final $json = await _s.jsonFromResponse(response);
+    return UpdateProfilingGroupResponse(
+      profilingGroup: ProfilingGroupDescription.fromJson($json),
+    );
   }
 }
 

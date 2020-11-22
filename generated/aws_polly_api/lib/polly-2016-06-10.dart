@@ -590,14 +590,19 @@ class Polly {
       if (speechMarkTypes != null) 'SpeechMarkTypes': speechMarkTypes,
       if (textType != null) 'TextType': textType?.toValue(),
     };
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: $payload,
       method: 'POST',
       requestUri: '/v1/speech',
       exceptionFnMap: _exceptionFns,
     );
-    return SynthesizeSpeechOutput.fromJson(
-        {...response, 'AudioStream': response});
+    return SynthesizeSpeechOutput(
+      audioStream: await response.stream.toBytes(),
+      contentType:
+          _s.extractHeaderStringValue(response.headers, 'Content-Type'),
+      requestCharacters: _s.extractHeaderIntValue(
+          response.headers, 'x-amzn-RequestCharacters'),
+    );
   }
 }
 

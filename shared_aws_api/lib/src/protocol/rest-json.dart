@@ -34,7 +34,7 @@ class RestJsonProtocol {
     return RestJsonProtocol._(client, endpoint, credentials);
   }
 
-  Future<Map<String, dynamic>> send({
+  Future<StreamedResponse> sendRaw({
     @required String method,
     @required String requestUri,
     @required Map<String, AwsExceptionFn> exceptionFnMap,
@@ -48,8 +48,12 @@ class RestJsonProtocol {
         queryParameters: queryParams ?? {},
       ),
     );
-    rq.body = (payload == null ? null : json.encode(payload)) ?? '';
-    rq.headers.addAll(headers ?? {});
+    if (payload != null) {
+      rq.body = json.encode(payload);
+    }
+    if (headers != null) {
+      rq.headers.addAll(headers);
+    }
 
     signAws4HmacSha256(
       rq: rq,
@@ -60,19 +64,29 @@ class RestJsonProtocol {
 
     final rs = await _client.send(rq);
 
-    final body = await rs.stream.bytesToString();
-
     if (rs.statusCode < 200 || rs.statusCode >= 300) {
-      throwException(rs, body, exceptionFnMap);
+      throwException(rs, await rs.stream.bytesToString(), exceptionFnMap);
     }
 
-    final parsedBody = body.isEmpty
-        ? <String, dynamic>{}
-        : jsonDecode(body) as Map<String, dynamic>;
+    return rs;
+  }
 
-    return {
-      ...rs.headers,
-      ...parsedBody,
-    };
+  Future<Map<String, dynamic>> send({
+    @required String method,
+    @required String requestUri,
+    @required Map<String, AwsExceptionFn> exceptionFnMap,
+    Map<String, String> queryParams,
+    Map<String, String> headers,
+    dynamic payload,
+  }) async {
+    final rs = await sendRaw(
+      method: method,
+      requestUri: requestUri,
+      exceptionFnMap: exceptionFnMap,
+      queryParams: queryParams,
+      headers: headers,
+      payload: payload,
+    );
+    return jsonFromResponse(rs);
   }
 }

@@ -150,13 +150,17 @@ class KinesisVideoMedia {
       if (streamARN != null) 'StreamARN': streamARN,
       if (streamName != null) 'StreamName': streamName,
     };
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: $payload,
       method: 'POST',
       requestUri: '/getMedia',
       exceptionFnMap: _exceptionFns,
     );
-    return GetMediaOutput.fromJson({...response, 'Payload': response});
+    return GetMediaOutput(
+      payload: await response.stream.toBytes(),
+      contentType:
+          _s.extractHeaderStringValue(response.headers, 'Content-Type'),
+    );
   }
 }
 

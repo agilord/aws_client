@@ -19,6 +19,8 @@ class Shape {
   @JsonKey(ignore: true)
   bool isTopLevelInputEnum = false;
   @JsonKey(ignore: true)
+  bool isTopLevelOutputEnum = false;
+  @JsonKey(ignore: true)
   bool isUsedInOutput = false;
   final String type;
   @JsonKey(name: 'enum')
@@ -128,7 +130,7 @@ class Shape {
 
   bool get hasQueryMembers => queryMembers.isNotEmpty;
 
-  bool get hasNoBodyMembers => _members.where((m) => m.isBody).isEmpty;
+  bool get hasBodyMembers => _members.any((m) => m.isBody);
 
   Iterable<Member> get headerMembers => _members.where((m) => m.isHeader);
 
@@ -160,6 +162,9 @@ class Shape {
   String get className {
     var cn = name.substring(0, 1).toUpperCase() + name.substring(1);
     if (cn == 'Function') cn = '\$$cn';
+
+    cn = cn.replaceAll(RegExp(r'^_+'), '');
+
     return cn;
   }
 
@@ -275,7 +280,9 @@ class Member {
 
   bool get isQuery => location == 'querystring';
 
-  bool get isBody => !isHeader && !isUri && !isQuery;
+  bool get isStatusCode => location == 'statusCode';
+
+  bool get isBody => !isHeader && !isUri && !isQuery && !isStatusCode;
 }
 
 extension NameStuff on String {

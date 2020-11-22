@@ -11,6 +11,7 @@ import 'package:aws_client.generator/model/dart_type.dart';
 import 'package:aws_client.generator/model/operation.dart';
 import 'package:aws_client.generator/model/shape.dart';
 import 'package:aws_client.generator/model/xml_namespace.dart';
+import 'package:aws_client.generator/utils/string_utils.dart';
 
 import '../utils/documentation_utils.dart';
 
@@ -195,7 +196,7 @@ ${builder.constructor()}
 }
         """);
       }
-      if (shape.api.generateFromXml) {
+      if (shape.api.generateFromXml || shape.isTopLevelOutputEnum) {
         writeln("""extension on String {
   $name to$name() {
     switch (this) {
@@ -286,7 +287,7 @@ ${builder.constructor()}
       }
 
       if (shape.generateFromXml) {
-        final lintComment = shape.hasNoBodyMembers
+        final lintComment = !shape.hasBodyMembers
             ? '\n    // ignore: avoid_unused_constructor_parameters\n    '
             : '';
         var params = '';
@@ -308,22 +309,7 @@ ${builder.constructor()}
           }
           String extractor;
           if (member.isHeader) {
-            if (member.shapeClass.type == 'map') {
-              extractor =
-                  '_s.extractHeaderMapValues(headers, \'${member.locationName ?? member.name}\')';
-            } else if (member.shapeClass.enumeration?.isNotEmpty ?? false) {
-              extractor =
-                  '_s.extractHeaderStringValue(headers, \'${member.locationName ?? member.name}\')?.to${_uppercaseName(member.dartType)}()';
-            } else {
-              var extraParameters = '';
-              if (member.timestampFormat != null ||
-                  member.shapeClass.timestampFormat != null) {
-                extraParameters =
-                    ', parser: _s.${member.timestampFormat ?? member.shapeClass.timestampFormat}FromJson';
-              }
-              extractor =
-                  '_s.extractHeader${_uppercaseName(member.dartType)}Value(headers, \'${member.locationName ?? member.name}\'$extraParameters)';
-            }
+            extractor = extractHeaderCode(member, 'headers');
           }
 
           extractor ??= _xmlExtractorFn(
@@ -352,10 +338,7 @@ ${builder.constructor()}
         writeln('    final \$children = <_s.XmlNode>[');
         for (final member
             in shape.membersMap.values.where((e) => !e.xmlAttribute)) {
-          if (member.isQuery || member.isUri || member.isHeader) {
-            writeln(
-                '// TODO: implement ${member.location} member: ${member.locationName ?? member.name}');
-            writeln('if (1 == 1) throw UnimplementedError(),');
+          if (!member.isBody) {
             continue;
           }
           final fn = _toXmlFn(
@@ -451,7 +434,7 @@ String _xmlExtractorFn(
     if (member?.xmlAttribute == true) {
       functionSuffix = 'Attribute';
     }
-    return '_s.extractXml${_uppercaseName(dartType)}$functionSuffix($elemVar, \'$elemName\'$extraParameters)${enumeration ? '?.to${parent.className}()' : ''}';
+    return '_s.extractXml${uppercaseName(dartType)}$functionSuffix($elemVar, \'$elemName\'$extraParameters)${enumeration ? '?.to${parent.className}()' : ''}';
   } else if (type == 'list') {
     final memberShape = api.shapes[shapeRef.member.shape];
     var memberElemName = shapeRef.member.locationName;
@@ -464,9 +447,9 @@ String _xmlExtractorFn(
     String fn;
     if (memberShape.type.isBasicType()) {
       fn =
-          '_s.extractXml${_uppercaseName(memberShape.type.getDartType(api))}ListValues($elemVar, \'$memberElemName\')';
+          '_s.extractXml${uppercaseName(memberShape.type.getDartType(api))}ListValues($elemVar, \'$memberElemName\')';
       if (memberShape.enumeration != null) {
-        fn += '.map((s) => s.to${_uppercaseName(memberShape.name)}()).toList()';
+        fn += '.map((s) => s.to${uppercaseName(memberShape.name)}()).toList()';
       }
     } else {
       fn = '$elemVar.findElements(\'$memberElemName\')'
@@ -526,7 +509,7 @@ String _toXmlFn(
 
   if (type.isBasicType()) {
     final dartType = type.getDartType(api);
-    return '_s.encodeXml${_uppercaseName(dartType)}Value(\'$elemName\', $fieldName${enumeration ? '?.toValue()' : ''})';
+    return '_s.encodeXml${uppercaseName(dartType)}Value(\'$elemName\', $fieldName${enumeration ? '?.toValue()' : ''})';
   } else if (type == 'list') {
     final memberShape = api.shapes[shapeRef.member.shape];
     final en = shapeRef.member.locationName ?? elemName;
@@ -535,7 +518,7 @@ String _toXmlFn(
       final enumeration = memberShape.enumeration?.isNotEmpty ?? false;
       final mdt = memberShape.type.getDartType(api);
       fn =
-          '...$fieldName.map((v) => _s.encodeXml${_uppercaseName(mdt)}Value(\'$en\', v${enumeration ? '.toValue()' : ''}))';
+          '...$fieldName.map((v) => _s.encodeXml${uppercaseName(mdt)}Value(\'$en\', v${enumeration ? '.toValue()' : ''}))';
     } else {
       fn = '...$fieldName.map((v) => v.toXml(\'$elemName\'))';
     }
@@ -550,9 +533,6 @@ String _toXmlFn(
     return '$fieldName?.toXml(\'$elemName\')';
   }
 }
-
-String _uppercaseName(String value) =>
-    value.substring(0, 1).toUpperCase() + value.substring(1);
 
 String toEnumerationFieldName(String value) {
   var fieldName = value
@@ -569,6 +549,23 @@ String xmlNamespaceToCode(XmlNamespace namespace, {String importPrefix = ''}) {
   final nameCode =
       namespace.prefix != null ? "'${namespace.prefix}', 'xmlns'" : "'xmlns'";
   return "${importPrefix}XmlAttribute(${importPrefix}XmlName($nameCode), '${namespace.uri}')";
+}
+
+String extractHeaderCode(Member member, String variable) {
+  if (member.shapeClass.type == 'map') {
+    return '_s.extractHeaderMapValues($variable, \'${member.locationName ?? member.name}\')';
+  } else if (member.shapeClass.enumeration?.isNotEmpty ?? false) {
+    member.shapeClass.isTopLevelOutputEnum = true;
+    return '_s.extractHeaderStringValue($variable, \'${member.locationName ?? member.name}\')?.to${uppercaseName(member.dartType)}()';
+  } else {
+    var extraParameters = '';
+    if (member.timestampFormat != null ||
+        member.shapeClass.timestampFormat != null) {
+      extraParameters =
+          ', parser: _s.${member.timestampFormat ?? member.shapeClass.timestampFormat}FromJson';
+    }
+    return '_s.extractHeader${uppercaseName(member.dartType)}Value($variable, \'${member.locationName ?? member.name}\'$extraParameters)';
+  }
 }
 
 extension Utils<T> on Iterable<T> {

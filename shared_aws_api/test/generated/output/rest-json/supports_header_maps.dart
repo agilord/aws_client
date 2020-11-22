@@ -42,13 +42,17 @@ class SupportsHeaderMaps {
         );
 
   Future<OutputShape> operationName0() async {
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
     );
-    return OutputShape.fromJson(response);
+    final $json = await _s.jsonFromResponse(response);
+    return OutputShape(
+      allHeaders: _s.extractHeaderMapValues(response.headers, 'AllHeaders'),
+      prefixedHeaders: _s.extractHeaderMapValues(response.headers, 'X-'),
+    );
   }
 }
 

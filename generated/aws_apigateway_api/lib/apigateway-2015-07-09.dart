@@ -2375,7 +2375,7 @@ class APIGateway {
     _query = '?${[
       if (parameters != null) _s.toQueryParam(null, parameters),
     ].where((e) => e != null).join('&')}';
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       headers: headers,
       method: 'GET',
@@ -2383,7 +2383,13 @@ class APIGateway {
           '/restapis/${Uri.encodeComponent(restApiId.toString())}/stages/${Uri.encodeComponent(stageName.toString())}/exports/${Uri.encodeComponent(exportType.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return ExportResponse.fromJson({...response, 'body': response});
+    return ExportResponse(
+      body: await response.stream.toBytes(),
+      contentDisposition:
+          _s.extractHeaderStringValue(response.headers, 'Content-Disposition'),
+      contentType:
+          _s.extractHeaderStringValue(response.headers, 'Content-Type'),
+    );
   }
 
   /// Gets a <a>GatewayResponse</a> of a specified response type on the given
@@ -2986,14 +2992,20 @@ class APIGateway {
     _query = '?${[
       if (parameters != null) _s.toQueryParam(null, parameters),
     ].where((e) => e != null).join('&')}';
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri:
           '/restapis/${Uri.encodeComponent(restApiId.toString())}/stages/${Uri.encodeComponent(stageName.toString())}/sdks/${Uri.encodeComponent(sdkType.toString())}$_query',
       exceptionFnMap: _exceptionFns,
     );
-    return SdkResponse.fromJson({...response, 'body': response});
+    return SdkResponse(
+      body: await response.stream.toBytes(),
+      contentDisposition:
+          _s.extractHeaderStringValue(response.headers, 'Content-Disposition'),
+      contentType:
+          _s.extractHeaderStringValue(response.headers, 'Content-Type'),
+    );
   }
 
   ///

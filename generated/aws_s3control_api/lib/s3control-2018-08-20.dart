@@ -1107,10 +1107,6 @@ class CreateAccessPointRequest {
   });
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-// TODO: implement header member: x-amz-account-id
-      if (1 == 1) throw UnimplementedError(),
-// TODO: implement uri member: name
-      if (1 == 1) throw UnimplementedError(),
       _s.encodeXmlStringValue('Bucket', bucket),
       vpcConfiguration?.toXml('VpcConfiguration'),
       publicAccessBlockConfiguration?.toXml('PublicAccessBlockConfiguration'),
@@ -1182,8 +1178,6 @@ class CreateJobRequest {
   });
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-// TODO: implement header member: x-amz-account-id
-      if (1 == 1) throw UnimplementedError(),
       _s.encodeXmlBoolValue('ConfirmationRequired', confirmationRequired),
       operation?.toXml('Operation'),
       report?.toXml('Report'),
@@ -2327,10 +2321,6 @@ class PutAccessPointPolicyRequest {
   });
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-// TODO: implement header member: x-amz-account-id
-      if (1 == 1) throw UnimplementedError(),
-// TODO: implement uri member: name
-      if (1 == 1) throw UnimplementedError(),
       _s.encodeXmlStringValue('Policy', policy),
     ];
     final $attributes = <_s.XmlAttribute>[
@@ -2362,10 +2352,6 @@ class PutJobTaggingRequest {
   });
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-// TODO: implement header member: x-amz-account-id
-      if (1 == 1) throw UnimplementedError(),
-// TODO: implement uri member: id
-      if (1 == 1) throw UnimplementedError(),
       if (tags != null)
         _s.XmlElement(_s.XmlName('Tags'), [],
             <_s.XmlNode>[...tags.map((v) => v.toXml('Tags'))]),

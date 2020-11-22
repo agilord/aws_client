@@ -42,13 +42,28 @@ class TimestampMembers {
         );
 
   Future<OutputShape> operationName0() async {
-    final response = await _protocol.send(
+    final response = await _protocol.sendRaw(
       payload: null,
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
     );
-    return OutputShape.fromJson(response);
+    final $json = await _s.jsonFromResponse(response);
+    return OutputShape(
+      structMember:
+          TimeContainer.fromJson($json['StructMember'] as Map<String, dynamic>),
+      timeArg: unixTimestampFromJson($json['TimeArg'] as int),
+      timeCustom: rfc822FromJson($json['TimeCustom'] as String),
+      timeFormat: iso8601FromJson($json['TimeFormat'] as String),
+      timeArgInHeader:
+          _s.extractHeaderDateTimeValue(response.headers, 'x-amz-timearg'),
+      timeCustomInHeader: _s.extractHeaderDateTimeValue(
+          response.headers, 'x-amz-timecustom',
+          parser: _s.unixTimestampFromJson),
+      timeFormatInHeader: _s.extractHeaderDateTimeValue(
+          response.headers, 'x-amz-timeformat',
+          parser: _s.iso8601FromJson),
+    );
   }
 }
 

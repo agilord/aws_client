@@ -31,8 +31,7 @@ void main() {
     expect(output.imaHeaderLocation, "abc");
     expect(output.long, 200);
     expect(output.num, 123);
-    // Extraction from statusCode is not supported yet
-    // expect(output.status, 200);
+    expect(output.status, 200);
     expect(output.str, "myname");
     expect(output.trueBool, true);
 /*

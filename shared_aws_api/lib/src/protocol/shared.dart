@@ -212,8 +212,16 @@ XmlElement encodeXmlDoubleValue(String name, double value) {
   return encodeXmlStringValue(name, value?.toString());
 }
 
-XmlElement encodeXmlDateTimeValue(String name, DateTime value) {
-  return encodeXmlStringValue(name, value?.toUtc()?.toIso8601String());
+XmlElement encodeXmlDateTimeValue(String name, DateTime value,
+    {String Function(DateTime) formatter}) {
+  value = value?.toUtc();
+
+  String output;
+  if (value != null) {
+    output = formatter != null ? formatter(value) : value.toIso8601String();
+  }
+
+  return encodeXmlStringValue(name, output);
 }
 
 XmlElement encodeXmlUint8ListValue(String name, Uint8List value) {
@@ -281,6 +289,13 @@ class JsonResponse {
   final Map<String, dynamic> body;
 
   JsonResponse(this.headers, this.body);
+}
+
+Future<Map<String, dynamic>> jsonFromResponse(StreamedResponse rs) async {
+  final body = await rs.stream.bytesToString();
+  return body.isEmpty
+      ? <String, dynamic>{}
+      : jsonDecode(body) as Map<String, dynamic>;
 }
 
 void throwException(StreamedResponse rs, String body,

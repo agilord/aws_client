@@ -18218,16 +18218,6 @@ class SelectObjectContentRequest {
   });
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-// TODO: implement uri member: Bucket
-      if (1 == 1) throw UnimplementedError(),
-// TODO: implement uri member: Key
-      if (1 == 1) throw UnimplementedError(),
-// TODO: implement header member: x-amz-server-side-encryption-customer-algorithm
-      if (1 == 1) throw UnimplementedError(),
-// TODO: implement header member: x-amz-server-side-encryption-customer-key
-      if (1 == 1) throw UnimplementedError(),
-// TODO: implement header member: x-amz-server-side-encryption-customer-key-MD5
-      if (1 == 1) throw UnimplementedError(),
       _s.encodeXmlStringValue('Expression', expression),
       _s.encodeXmlStringValue('ExpressionType', expressionType?.toValue()),
       requestProgress?.toXml('RequestProgress'),
