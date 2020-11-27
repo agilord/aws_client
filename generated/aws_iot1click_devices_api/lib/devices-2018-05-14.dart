@@ -282,8 +282,9 @@ class IoT1ClickDevicesService {
     var _query = '';
     _query = '?${[
       if (fromTimeStamp != null)
-        _s.toQueryParam('fromTimeStamp', fromTimeStamp),
-      if (toTimeStamp != null) _s.toQueryParam('toTimeStamp', toTimeStamp),
+        _s.toQueryParam('fromTimeStamp', _s.iso8601ToJson(fromTimeStamp)),
+      if (toTimeStamp != null)
+        _s.toQueryParam('toTimeStamp', _s.iso8601ToJson(toTimeStamp)),
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';

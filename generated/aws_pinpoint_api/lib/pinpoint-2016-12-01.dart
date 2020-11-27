@@ -1513,10 +1513,12 @@ class Pinpoint {
     ArgumentError.checkNotNull(kpiName, 'kpiName');
     var _query = '';
     _query = '?${[
-      if (endTime != null) _s.toQueryParam('end-time', endTime),
+      if (endTime != null)
+        _s.toQueryParam('end-time', _s.iso8601ToJson(endTime)),
       if (nextToken != null) _s.toQueryParam('next-token', nextToken),
       if (pageSize != null) _s.toQueryParam('page-size', pageSize),
-      if (startTime != null) _s.toQueryParam('start-time', startTime),
+      if (startTime != null)
+        _s.toQueryParam('start-time', _s.iso8601ToJson(startTime)),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.sendRaw(
       payload: null,
@@ -1784,10 +1786,12 @@ class Pinpoint {
     ArgumentError.checkNotNull(kpiName, 'kpiName');
     var _query = '';
     _query = '?${[
-      if (endTime != null) _s.toQueryParam('end-time', endTime),
+      if (endTime != null)
+        _s.toQueryParam('end-time', _s.iso8601ToJson(endTime)),
       if (nextToken != null) _s.toQueryParam('next-token', nextToken),
       if (pageSize != null) _s.toQueryParam('page-size', pageSize),
-      if (startTime != null) _s.toQueryParam('start-time', startTime),
+      if (startTime != null)
+        _s.toQueryParam('start-time', _s.iso8601ToJson(startTime)),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.sendRaw(
       payload: null,
@@ -2437,10 +2441,12 @@ class Pinpoint {
     ArgumentError.checkNotNull(kpiName, 'kpiName');
     var _query = '';
     _query = '?${[
-      if (endTime != null) _s.toQueryParam('end-time', endTime),
+      if (endTime != null)
+        _s.toQueryParam('end-time', _s.iso8601ToJson(endTime)),
       if (nextToken != null) _s.toQueryParam('next-token', nextToken),
       if (pageSize != null) _s.toQueryParam('page-size', pageSize),
-      if (startTime != null) _s.toQueryParam('start-time', startTime),
+      if (startTime != null)
+        _s.toQueryParam('start-time', _s.iso8601ToJson(startTime)),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.sendRaw(
       payload: null,

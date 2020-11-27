@@ -3233,12 +3233,14 @@ class Chime {
     );
     var _query = '';
     _query = '?${[
-      if (filterName != null) _s.toQueryParam('filter-name', filterName),
+      if (filterName != null)
+        _s.toQueryParam('filter-name', filterName.toValue()),
       if (filterValue != null) _s.toQueryParam('filter-value', filterValue),
       if (maxResults != null) _s.toQueryParam('max-results', maxResults),
       if (nextToken != null) _s.toQueryParam('next-token', nextToken),
-      if (productType != null) _s.toQueryParam('product-type', productType),
-      if (status != null) _s.toQueryParam('status', status),
+      if (productType != null)
+        _s.toQueryParam('product-type', productType.toValue()),
+      if (status != null) _s.toQueryParam('status', status.toValue()),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
@@ -3306,7 +3308,7 @@ class Chime {
     _query = '?${[
       if (maxResults != null) _s.toQueryParam('max-results', maxResults),
       if (nextToken != null) _s.toQueryParam('next-token', nextToken),
-      if (status != null) _s.toQueryParam('status', status),
+      if (status != null) _s.toQueryParam('status', status.toValue()),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
@@ -3536,7 +3538,7 @@ class Chime {
       if (maxResults != null) _s.toQueryParam('max-results', maxResults),
       if (nextToken != null) _s.toQueryParam('next-token', nextToken),
       if (userEmail != null) _s.toQueryParam('user-email', userEmail),
-      if (userType != null) _s.toQueryParam('user-type', userType),
+      if (userType != null) _s.toQueryParam('user-type', userType.toValue()),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
@@ -4226,7 +4228,7 @@ class Chime {
       r'''^8(00|33|44|55|66|77|88)$''',
     );
     var _query = '';
-    _query = '?${[
+    _query = '&${[
       if (areaCode != null) _s.toQueryParam('area-code', areaCode),
       if (city != null) _s.toQueryParam('city', city),
       if (country != null) _s.toQueryParam('country', country),
@@ -7472,6 +7474,22 @@ enum PhoneNumberAssociationName {
   voiceConnectorGroupId,
 }
 
+extension on PhoneNumberAssociationName {
+  String toValue() {
+    switch (this) {
+      case PhoneNumberAssociationName.accountId:
+        return 'AccountId';
+      case PhoneNumberAssociationName.userId:
+        return 'UserId';
+      case PhoneNumberAssociationName.voiceConnectorId:
+        return 'VoiceConnectorId';
+      case PhoneNumberAssociationName.voiceConnectorGroupId:
+        return 'VoiceConnectorGroupId';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// The phone number capabilities for Amazon Chime Business Calling phone
 /// numbers, such as enabled inbound and outbound calling and text messaging.
 @_s.JsonSerializable(
@@ -7645,6 +7663,30 @@ enum PhoneNumberStatus {
   deleteFailed,
 }
 
+extension on PhoneNumberStatus {
+  String toValue() {
+    switch (this) {
+      case PhoneNumberStatus.acquireInProgress:
+        return 'AcquireInProgress';
+      case PhoneNumberStatus.acquireFailed:
+        return 'AcquireFailed';
+      case PhoneNumberStatus.unassigned:
+        return 'Unassigned';
+      case PhoneNumberStatus.assigned:
+        return 'Assigned';
+      case PhoneNumberStatus.releaseInProgress:
+        return 'ReleaseInProgress';
+      case PhoneNumberStatus.deleteInProgress:
+        return 'DeleteInProgress';
+      case PhoneNumberStatus.releaseFailed:
+        return 'ReleaseFailed';
+      case PhoneNumberStatus.deleteFailed:
+        return 'DeleteFailed';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 enum PhoneNumberType {
   @_s.JsonValue('Local')
   local,
@@ -7779,6 +7821,20 @@ enum ProxySessionStatus {
   inProgress,
   @_s.JsonValue('Closed')
   closed,
+}
+
+extension on ProxySessionStatus {
+  String toValue() {
+    switch (this) {
+      case ProxySessionStatus.open:
+        return 'Open';
+      case ProxySessionStatus.inProgress:
+        return 'InProgress';
+      case ProxySessionStatus.closed:
+        return 'Closed';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 @_s.JsonSerializable(

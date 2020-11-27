@@ -32,12 +32,16 @@ class XMLPayload {
         );
 
   Future<OutputShape> operationName0() async {
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
     );
-    return OutputShape.fromXml($result.body, headers: $result.headers);
+    final $elem = await _s.xmlFromResponse($result);
+    return OutputShape(
+      data: SingleStructure.fromXml($elem),
+      header: _s.extractHeaderStringValue($result.headers, 'X-Foo'),
+    );
   }
 }
 
@@ -49,15 +53,6 @@ class OutputShape {
     this.data,
     this.header,
   });
-  factory OutputShape.fromXml(
-    _s.XmlElement elem, {
-    Map<String, String> headers,
-  }) {
-    return OutputShape(
-      data: elem?.let((e) => SingleStructure.fromXml(e)),
-      header: _s.extractHeaderStringValue(headers, 'X-Foo'),
-    );
-  }
 }
 
 class SingleStructure {

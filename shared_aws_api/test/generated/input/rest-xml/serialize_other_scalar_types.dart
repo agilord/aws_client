@@ -67,10 +67,10 @@ class InputShape {
   });
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlBoolValue('First', first),
-      _s.encodeXmlBoolValue('Second', second),
-      _s.encodeXmlDoubleValue('Third', third),
-      _s.encodeXmlIntValue('Fourth', fourth),
+      if (first != null) _s.encodeXmlBoolValue('First', first),
+      if (second != null) _s.encodeXmlBoolValue('Second', second),
+      if (third != null) _s.encodeXmlDoubleValue('Third', third),
+      if (fourth != null) _s.encodeXmlIntValue('Fourth', fourth),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,

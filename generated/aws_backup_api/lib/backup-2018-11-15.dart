@@ -917,13 +917,13 @@ class Backup {
       if (byBackupVaultName != null)
         _s.toQueryParam('backupVaultName', byBackupVaultName),
       if (byCreatedAfter != null)
-        _s.toQueryParam('createdAfter', byCreatedAfter),
+        _s.toQueryParam('createdAfter', _s.iso8601ToJson(byCreatedAfter)),
       if (byCreatedBefore != null)
-        _s.toQueryParam('createdBefore', byCreatedBefore),
+        _s.toQueryParam('createdBefore', _s.iso8601ToJson(byCreatedBefore)),
       if (byResourceArn != null) _s.toQueryParam('resourceArn', byResourceArn),
       if (byResourceType != null)
         _s.toQueryParam('resourceType', byResourceType),
-      if (byState != null) _s.toQueryParam('state', byState),
+      if (byState != null) _s.toQueryParam('state', byState.toValue()),
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -1233,15 +1233,15 @@ class Backup {
     var _query = '';
     _query = '?${[
       if (byCreatedAfter != null)
-        _s.toQueryParam('createdAfter', byCreatedAfter),
+        _s.toQueryParam('createdAfter', _s.iso8601ToJson(byCreatedAfter)),
       if (byCreatedBefore != null)
-        _s.toQueryParam('createdBefore', byCreatedBefore),
+        _s.toQueryParam('createdBefore', _s.iso8601ToJson(byCreatedBefore)),
       if (byDestinationVaultArn != null)
         _s.toQueryParam('destinationVaultArn', byDestinationVaultArn),
       if (byResourceArn != null) _s.toQueryParam('resourceArn', byResourceArn),
       if (byResourceType != null)
         _s.toQueryParam('resourceType', byResourceType),
-      if (byState != null) _s.toQueryParam('state', byState),
+      if (byState != null) _s.toQueryParam('state', byState.toValue()),
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -1367,9 +1367,9 @@ class Backup {
       if (byBackupPlanId != null)
         _s.toQueryParam('backupPlanId', byBackupPlanId),
       if (byCreatedAfter != null)
-        _s.toQueryParam('createdAfter', byCreatedAfter),
+        _s.toQueryParam('createdAfter', _s.iso8601ToJson(byCreatedAfter)),
       if (byCreatedBefore != null)
-        _s.toQueryParam('createdBefore', byCreatedBefore),
+        _s.toQueryParam('createdBefore', _s.iso8601ToJson(byCreatedBefore)),
       if (byResourceArn != null) _s.toQueryParam('resourceArn', byResourceArn),
       if (byResourceType != null)
         _s.toQueryParam('resourceType', byResourceType),
@@ -2230,6 +2230,30 @@ enum BackupJobState {
   expired,
 }
 
+extension on BackupJobState {
+  String toValue() {
+    switch (this) {
+      case BackupJobState.created:
+        return 'CREATED';
+      case BackupJobState.pending:
+        return 'PENDING';
+      case BackupJobState.running:
+        return 'RUNNING';
+      case BackupJobState.aborting:
+        return 'ABORTING';
+      case BackupJobState.aborted:
+        return 'ABORTED';
+      case BackupJobState.completed:
+        return 'COMPLETED';
+      case BackupJobState.failed:
+        return 'FAILED';
+      case BackupJobState.expired:
+        return 'EXPIRED';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Contains an optional backup plan display name and an array of
 /// <code>BackupRule</code> objects, each of which specifies a backup rule. Each
 /// rule in a backup plan is a separate scheduled task and can back up a
@@ -2961,6 +2985,22 @@ enum CopyJobState {
   completed,
   @_s.JsonValue('FAILED')
   failed,
+}
+
+extension on CopyJobState {
+  String toValue() {
+    switch (this) {
+      case CopyJobState.created:
+        return 'CREATED';
+      case CopyJobState.running:
+        return 'RUNNING';
+      case CopyJobState.completed:
+        return 'COMPLETED';
+      case CopyJobState.failed:
+        return 'FAILED';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 @_s.JsonSerializable(

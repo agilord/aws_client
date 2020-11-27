@@ -575,7 +575,8 @@ class CloudFormation {
     final $request = <String, dynamic>{};
     $request['ChangeSetName'] = changeSetName;
     $request['StackName'] = stackName;
-    capabilities?.also((arg) => $request['Capabilities'] = arg);
+    capabilities?.also((arg) =>
+        $request['Capabilities'] = arg.map((e) => e?.toValue() ?? '').toList());
     changeSetType?.also((arg) => $request['ChangeSetType'] = arg.toValue());
     clientToken?.also((arg) => $request['ClientToken'] = arg);
     description?.also((arg) => $request['Description'] = arg);
@@ -943,7 +944,8 @@ class CloudFormation {
     );
     final $request = <String, dynamic>{};
     $request['StackName'] = stackName;
-    capabilities?.also((arg) => $request['Capabilities'] = arg);
+    capabilities?.also((arg) =>
+        $request['Capabilities'] = arg.map((e) => e?.toValue() ?? '').toList());
     clientRequestToken?.also((arg) => $request['ClientRequestToken'] = arg);
     disableRollback?.also((arg) => $request['DisableRollback'] = arg);
     enableTerminationProtection
@@ -1387,7 +1389,8 @@ class CloudFormation {
     administrationRoleARN
         ?.also((arg) => $request['AdministrationRoleARN'] = arg);
     autoDeployment?.also((arg) => $request['AutoDeployment'] = arg);
-    capabilities?.also((arg) => $request['Capabilities'] = arg);
+    capabilities?.also((arg) =>
+        $request['Capabilities'] = arg.map((e) => e?.toValue() ?? '').toList());
     clientRequestToken?.also((arg) => $request['ClientRequestToken'] = arg);
     description?.also((arg) => $request['Description'] = arg);
     executionRoleName?.also((arg) => $request['ExecutionRoleName'] = arg);
@@ -2187,8 +2190,9 @@ class CloudFormation {
     $request['StackName'] = stackName;
     maxResults?.also((arg) => $request['MaxResults'] = arg);
     nextToken?.also((arg) => $request['NextToken'] = arg);
-    stackResourceDriftStatusFilters
-        ?.also((arg) => $request['StackResourceDriftStatusFilters'] = arg);
+    stackResourceDriftStatusFilters?.also((arg) =>
+        $request['StackResourceDriftStatusFilters'] =
+            arg.map((e) => e?.toValue() ?? '').toList());
     final $result = await _protocol.send(
       $request,
       action: 'DescribeStackResourceDrifts',
@@ -3631,7 +3635,8 @@ class CloudFormation {
     );
     final $request = <String, dynamic>{};
     nextToken?.also((arg) => $request['NextToken'] = arg);
-    stackStatusFilter?.also((arg) => $request['StackStatusFilter'] = arg);
+    stackStatusFilter?.also((arg) => $request['StackStatusFilter'] =
+        arg.map((e) => e?.toValue() ?? '').toList());
     final $result = await _protocol.send(
       $request,
       action: 'ListStacks',
@@ -4877,7 +4882,8 @@ class CloudFormation {
     );
     final $request = <String, dynamic>{};
     $request['StackName'] = stackName;
-    capabilities?.also((arg) => $request['Capabilities'] = arg);
+    capabilities?.also((arg) =>
+        $request['Capabilities'] = arg.map((e) => e?.toValue() ?? '').toList());
     clientRequestToken?.also((arg) => $request['ClientRequestToken'] = arg);
     notificationARNs?.also((arg) => $request['NotificationARNs'] = arg);
     parameters?.also((arg) => $request['Parameters'] = arg);
@@ -5473,7 +5479,8 @@ class CloudFormation {
     administrationRoleARN
         ?.also((arg) => $request['AdministrationRoleARN'] = arg);
     autoDeployment?.also((arg) => $request['AutoDeployment'] = arg);
-    capabilities?.also((arg) => $request['Capabilities'] = arg);
+    capabilities?.also((arg) =>
+        $request['Capabilities'] = arg.map((e) => e?.toValue() ?? '').toList());
     deploymentTargets?.also((arg) => $request['DeploymentTargets'] = arg);
     description?.also((arg) => $request['Description'] = arg);
     executionRoleName?.also((arg) => $request['ExecutionRoleName'] = arg);
@@ -5797,6 +5804,20 @@ enum Capability {
   capabilityNamedIam,
   @_s.JsonValue('CAPABILITY_AUTO_EXPAND')
   capabilityAutoExpand,
+}
+
+extension on Capability {
+  String toValue() {
+    switch (this) {
+      case Capability.capabilityIam:
+        return 'CAPABILITY_IAM';
+      case Capability.capabilityNamedIam:
+        return 'CAPABILITY_NAMED_IAM';
+      case Capability.capabilityAutoExpand:
+        return 'CAPABILITY_AUTO_EXPAND';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 extension on String {
@@ -9741,6 +9762,22 @@ enum StackResourceDriftStatus {
   notChecked,
 }
 
+extension on StackResourceDriftStatus {
+  String toValue() {
+    switch (this) {
+      case StackResourceDriftStatus.inSync:
+        return 'IN_SYNC';
+      case StackResourceDriftStatus.modified:
+        return 'MODIFIED';
+      case StackResourceDriftStatus.deleted:
+        return 'DELETED';
+      case StackResourceDriftStatus.notChecked:
+        return 'NOT_CHECKED';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 extension on String {
   StackResourceDriftStatus toStackResourceDriftStatus() {
     switch (this) {
@@ -10826,6 +10863,58 @@ enum StackStatus {
   importRollbackFailed,
   @_s.JsonValue('IMPORT_ROLLBACK_COMPLETE')
   importRollbackComplete,
+}
+
+extension on StackStatus {
+  String toValue() {
+    switch (this) {
+      case StackStatus.createInProgress:
+        return 'CREATE_IN_PROGRESS';
+      case StackStatus.createFailed:
+        return 'CREATE_FAILED';
+      case StackStatus.createComplete:
+        return 'CREATE_COMPLETE';
+      case StackStatus.rollbackInProgress:
+        return 'ROLLBACK_IN_PROGRESS';
+      case StackStatus.rollbackFailed:
+        return 'ROLLBACK_FAILED';
+      case StackStatus.rollbackComplete:
+        return 'ROLLBACK_COMPLETE';
+      case StackStatus.deleteInProgress:
+        return 'DELETE_IN_PROGRESS';
+      case StackStatus.deleteFailed:
+        return 'DELETE_FAILED';
+      case StackStatus.deleteComplete:
+        return 'DELETE_COMPLETE';
+      case StackStatus.updateInProgress:
+        return 'UPDATE_IN_PROGRESS';
+      case StackStatus.updateCompleteCleanupInProgress:
+        return 'UPDATE_COMPLETE_CLEANUP_IN_PROGRESS';
+      case StackStatus.updateComplete:
+        return 'UPDATE_COMPLETE';
+      case StackStatus.updateRollbackInProgress:
+        return 'UPDATE_ROLLBACK_IN_PROGRESS';
+      case StackStatus.updateRollbackFailed:
+        return 'UPDATE_ROLLBACK_FAILED';
+      case StackStatus.updateRollbackCompleteCleanupInProgress:
+        return 'UPDATE_ROLLBACK_COMPLETE_CLEANUP_IN_PROGRESS';
+      case StackStatus.updateRollbackComplete:
+        return 'UPDATE_ROLLBACK_COMPLETE';
+      case StackStatus.reviewInProgress:
+        return 'REVIEW_IN_PROGRESS';
+      case StackStatus.importInProgress:
+        return 'IMPORT_IN_PROGRESS';
+      case StackStatus.importComplete:
+        return 'IMPORT_COMPLETE';
+      case StackStatus.importRollbackInProgress:
+        return 'IMPORT_ROLLBACK_IN_PROGRESS';
+      case StackStatus.importRollbackFailed:
+        return 'IMPORT_ROLLBACK_FAILED';
+      case StackStatus.importRollbackComplete:
+        return 'IMPORT_ROLLBACK_COMPLETE';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 extension on String {

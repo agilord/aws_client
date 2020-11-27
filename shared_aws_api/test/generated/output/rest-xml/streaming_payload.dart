@@ -32,12 +32,14 @@ class StreamingPayload {
         );
 
   Future<OutputShape> operationName0() async {
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
     );
-    return OutputShape.fromXml($result.body);
+    return OutputShape(
+      stream: await $result.stream.toBytes(),
+    );
   }
 }
 

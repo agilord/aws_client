@@ -48,9 +48,11 @@ class TimestampValues {
     DateTime timeFormat,
   }) async {
     final $request = <String, dynamic>{};
-    timeArg?.also((arg) => $request['TimeArg'] = arg);
-    timeCustom?.also((arg) => $request['TimeCustom'] = arg);
-    timeFormat?.also((arg) => $request['TimeFormat'] = arg);
+    timeArg?.also((arg) => $request['TimeArg'] = _s.iso8601ToJson(arg));
+    timeCustom?.also((arg) =>
+        $request['TimeCustom'] = _s.unixTimestampToJson(arg).toString());
+    timeFormat?.also((arg) =>
+        $request['TimeFormat'] = _s.unixTimestampToJson(arg).toString());
     await _protocol.send(
       $request,
       action: 'OperationName',

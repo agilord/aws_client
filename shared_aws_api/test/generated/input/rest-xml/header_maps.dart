@@ -34,37 +34,13 @@ class HeaderMaps {
   Future<void> operationName0({
     Map<String, String> foo,
   }) async {
+    final headers = <String, String>{};
+    foo?.forEach((key, value) => headers['x-foo-$key'] = value);
     await _protocol.send(
       method: 'POST',
       requestUri: '/',
-      payload: InputShape(foo: foo).toXml(
-        'OperationRequest',
-        attributes: [
-          _s.XmlAttribute(_s.XmlName('xmlns'), 'https://foo/'),
-        ],
-      ),
+      headers: headers,
       exceptionFnMap: _exceptionFns,
-    );
-  }
-}
-
-class InputShape {
-  final Map<String, String> foo;
-
-  InputShape({
-    this.foo,
-  });
-  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
-    final $children = <_s.XmlNode>[
-      if (foo != null) throw UnimplementedError('XML map: FooShape'),
-    ];
-    final $attributes = <_s.XmlAttribute>[
-      ...?attributes,
-    ];
-    return _s.XmlElement(
-      _s.XmlName(elemName),
-      $attributes,
-      $children.where((e) => e != null),
     );
   }
 }

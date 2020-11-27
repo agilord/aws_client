@@ -466,7 +466,7 @@ class RDS {
     ArgumentError.checkNotNull(backtrackTo, 'backtrackTo');
     ArgumentError.checkNotNull(dBClusterIdentifier, 'dBClusterIdentifier');
     final $request = <String, dynamic>{};
-    $request['BacktrackTo'] = backtrackTo;
+    $request['BacktrackTo'] = _s.iso8601ToJson(backtrackTo);
     $request['DBClusterIdentifier'] = dBClusterIdentifier;
     force?.also((arg) => $request['Force'] = arg);
     useEarliestTimeOnPointInTimeUnavailable?.also(
@@ -7179,14 +7179,14 @@ class RDS {
   }) async {
     final $request = <String, dynamic>{};
     duration?.also((arg) => $request['Duration'] = arg);
-    endTime?.also((arg) => $request['EndTime'] = arg);
+    endTime?.also((arg) => $request['EndTime'] = _s.iso8601ToJson(arg));
     eventCategories?.also((arg) => $request['EventCategories'] = arg);
     filters?.also((arg) => $request['Filters'] = arg);
     marker?.also((arg) => $request['Marker'] = arg);
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
     sourceIdentifier?.also((arg) => $request['SourceIdentifier'] = arg);
     sourceType?.also((arg) => $request['SourceType'] = arg.toValue());
-    startTime?.also((arg) => $request['StartTime'] = arg);
+    startTime?.also((arg) => $request['StartTime'] = _s.iso8601ToJson(arg));
     final $result = await _protocol.send(
       $request,
       action: 'DescribeEvents',
@@ -12038,7 +12038,8 @@ class RDS {
     kmsKeyId?.also((arg) => $request['KmsKeyId'] = arg);
     optionGroupName?.also((arg) => $request['OptionGroupName'] = arg);
     port?.also((arg) => $request['Port'] = arg);
-    restoreToTime?.also((arg) => $request['RestoreToTime'] = arg);
+    restoreToTime
+        ?.also((arg) => $request['RestoreToTime'] = _s.iso8601ToJson(arg));
     restoreType?.also((arg) => $request['RestoreType'] = arg);
     tags?.also((arg) => $request['Tags'] = arg);
     useLatestRestorableTime
@@ -13361,7 +13362,7 @@ class RDS {
     port?.also((arg) => $request['Port'] = arg);
     processorFeatures?.also((arg) => $request['ProcessorFeatures'] = arg);
     publiclyAccessible?.also((arg) => $request['PubliclyAccessible'] = arg);
-    restoreTime?.also((arg) => $request['RestoreTime'] = arg);
+    restoreTime?.also((arg) => $request['RestoreTime'] = _s.iso8601ToJson(arg));
     sourceDBInstanceIdentifier
         ?.also((arg) => $request['SourceDBInstanceIdentifier'] = arg);
     sourceDbiResourceId?.also((arg) => $request['SourceDbiResourceId'] = arg);

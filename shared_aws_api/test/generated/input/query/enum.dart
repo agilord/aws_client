@@ -48,7 +48,8 @@ class Enum {
   }) async {
     final $request = <String, dynamic>{};
     fooEnum?.also((arg) => $request['FooEnum'] = arg.toValue());
-    listEnums?.also((arg) => $request['ListEnums'] = arg);
+    listEnums?.also((arg) =>
+        $request['ListEnums'] = arg.map((e) => e?.toValue() ?? '').toList());
     await _protocol.send(
       $request,
       action: 'OperationName',
@@ -67,7 +68,8 @@ class Enum {
   }) async {
     final $request = <String, dynamic>{};
     fooEnum?.also((arg) => $request['FooEnum'] = arg.toValue());
-    listEnums?.also((arg) => $request['ListEnums'] = arg);
+    listEnums?.also((arg) =>
+        $request['ListEnums'] = arg.map((e) => e?.toValue() ?? '').toList());
     await _protocol.send(
       $request,
       action: 'OperationName',
@@ -86,7 +88,8 @@ class Enum {
   }) async {
     final $request = <String, dynamic>{};
     fooEnum?.also((arg) => $request['FooEnum'] = arg.toValue());
-    listEnums?.also((arg) => $request['ListEnums'] = arg);
+    listEnums?.also((arg) =>
+        $request['ListEnums'] = arg.map((e) => e?.toValue() ?? '').toList());
     await _protocol.send(
       $request,
       action: 'OperationName',

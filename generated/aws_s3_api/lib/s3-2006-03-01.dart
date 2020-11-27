@@ -108,7 +108,7 @@ class S3 {
     requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
     final queryParams = <String, String>{};
     uploadId?.let((v) => queryParams['uploadId'] = v.toString());
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'DELETE',
       requestUri:
           '/${Uri.encodeComponent(bucket.toString())}/${Uri.encodeComponent(key.toString())}',
@@ -116,8 +116,12 @@ class S3 {
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
-    return AbortMultipartUploadOutput.fromXml($result.body,
-        headers: $result.headers);
+    final $elem = await _s.xmlFromResponse($result);
+    return AbortMultipartUploadOutput(
+      requestCharged: _s
+          .extractHeaderStringValue($result.headers, 'x-amz-request-charged')
+          ?.toRequestCharged(),
+    );
   }
 
   /// Completes a multipart upload by assembling previously uploaded parts.
@@ -264,7 +268,7 @@ class S3 {
     requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
     final queryParams = <String, String>{};
     uploadId?.let((v) => queryParams['uploadId'] = v.toString());
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'POST',
       requestUri:
           '/${Uri.encodeComponent(bucket.toString())}/${Uri.encodeComponent(key.toString())}',
@@ -273,8 +277,26 @@ class S3 {
       payload: multipartUpload?.toXml('MultipartUpload'),
       exceptionFnMap: _exceptionFns,
     );
-    return CompleteMultipartUploadOutput.fromXml($result.body,
-        headers: $result.headers);
+    final $elem = await _s.xmlFromResponse($result);
+    return CompleteMultipartUploadOutput(
+      bucket: _s.extractXmlStringValue($elem, 'Bucket'),
+      eTag: _s.extractXmlStringValue($elem, 'ETag'),
+      key: _s.extractXmlStringValue($elem, 'Key'),
+      location: _s.extractXmlStringValue($elem, 'Location'),
+      expiration:
+          _s.extractHeaderStringValue($result.headers, 'x-amz-expiration'),
+      requestCharged: _s
+          .extractHeaderStringValue($result.headers, 'x-amz-request-charged')
+          ?.toRequestCharged(),
+      sSEKMSKeyId: _s.extractHeaderStringValue(
+          $result.headers, 'x-amz-server-side-encryption-aws-kms-key-id'),
+      serverSideEncryption: _s
+          .extractHeaderStringValue(
+              $result.headers, 'x-amz-server-side-encryption')
+          ?.toServerSideEncryption(),
+      versionId:
+          _s.extractHeaderStringValue($result.headers, 'x-amz-version-id'),
+    );
   }
 
   /// Creates a copy of an object that is already stored in Amazon S3.
@@ -805,13 +827,11 @@ class S3 {
     copySourceIfMatch
         ?.let((v) => headers['x-amz-copy-source-if-match'] = v.toString());
     copySourceIfModifiedSince?.let((v) =>
-        headers['x-amz-copy-source-if-modified-since'] =
-            v.toUtc().toIso8601String());
+        headers['x-amz-copy-source-if-modified-since'] = _s.rfc822ToJson(v));
     copySourceIfNoneMatch
         ?.let((v) => headers['x-amz-copy-source-if-none-match'] = v.toString());
     copySourceIfUnmodifiedSince?.let((v) =>
-        headers['x-amz-copy-source-if-unmodified-since'] =
-            v.toUtc().toIso8601String());
+        headers['x-amz-copy-source-if-unmodified-since'] = _s.rfc822ToJson(v));
     copySourceSSECustomerAlgorithm?.let((v) =>
         headers['x-amz-copy-source-server-side-encryption-customer-algorithm'] =
             v.toString());
@@ -821,7 +841,7 @@ class S3 {
     copySourceSSECustomerKeyMD5?.let((v) =>
         headers['x-amz-copy-source-server-side-encryption-customer-key-MD5'] =
             v.toString());
-    expires?.let((v) => headers['Expires'] = v.toUtc().toIso8601String());
+    expires?.let((v) => headers['Expires'] = _s.rfc822ToJson(v));
     grantFullControl
         ?.let((v) => headers['x-amz-grant-full-control'] = v.toString());
     grantRead?.let((v) => headers['x-amz-grant-read'] = v.toString());
@@ -834,8 +854,7 @@ class S3 {
         ?.let((v) => headers['x-amz-object-lock-legal-hold'] = v.toValue());
     objectLockMode?.let((v) => headers['x-amz-object-lock-mode'] = v.toValue());
     objectLockRetainUntilDate?.let((v) =>
-        headers['x-amz-object-lock-retain-until-date'] =
-            v.toUtc().toIso8601String());
+        headers['x-amz-object-lock-retain-until-date'] = _s.iso8601ToJson(v));
     requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
     sSECustomerAlgorithm?.let((v) =>
         headers['x-amz-server-side-encryption-customer-algorithm'] =
@@ -857,14 +876,38 @@ class S3 {
         ?.let((v) => headers['x-amz-tagging-directive'] = v.toValue());
     websiteRedirectLocation
         ?.let((v) => headers['x-amz-website-redirect-location'] = v.toString());
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'PUT',
       requestUri:
           '/${Uri.encodeComponent(bucket.toString())}/${Uri.encodeComponent(key.toString())}',
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
-    return CopyObjectOutput.fromXml($result.body, headers: $result.headers);
+    final $elem = await _s.xmlFromResponse($result);
+    return CopyObjectOutput(
+      copyObjectResult: CopyObjectResult.fromXml($elem),
+      copySourceVersionId: _s.extractHeaderStringValue(
+          $result.headers, 'x-amz-copy-source-version-id'),
+      expiration:
+          _s.extractHeaderStringValue($result.headers, 'x-amz-expiration'),
+      requestCharged: _s
+          .extractHeaderStringValue($result.headers, 'x-amz-request-charged')
+          ?.toRequestCharged(),
+      sSECustomerAlgorithm: _s.extractHeaderStringValue(
+          $result.headers, 'x-amz-server-side-encryption-customer-algorithm'),
+      sSECustomerKeyMD5: _s.extractHeaderStringValue(
+          $result.headers, 'x-amz-server-side-encryption-customer-key-MD5'),
+      sSEKMSEncryptionContext: _s.extractHeaderStringValue(
+          $result.headers, 'x-amz-server-side-encryption-context'),
+      sSEKMSKeyId: _s.extractHeaderStringValue(
+          $result.headers, 'x-amz-server-side-encryption-aws-kms-key-id'),
+      serverSideEncryption: _s
+          .extractHeaderStringValue(
+              $result.headers, 'x-amz-server-side-encryption')
+          ?.toServerSideEncryption(),
+      versionId:
+          _s.extractHeaderStringValue($result.headers, 'x-amz-version-id'),
+    );
   }
 
   /// Creates a new bucket. To create a bucket, you must register with Amazon S3
@@ -1012,14 +1055,17 @@ class S3 {
     grantWriteACP?.let((v) => headers['x-amz-grant-write-acp'] = v.toString());
     objectLockEnabledForBucket?.let(
         (v) => headers['x-amz-bucket-object-lock-enabled'] = v.toString());
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'PUT',
       requestUri: '/${Uri.encodeComponent(bucket.toString())}',
       headers: headers,
       payload: createBucketConfiguration?.toXml('CreateBucketConfiguration'),
       exceptionFnMap: _exceptionFns,
     );
-    return CreateBucketOutput.fromXml($result.body, headers: $result.headers);
+    final $elem = await _s.xmlFromResponse($result);
+    return CreateBucketOutput(
+      location: _s.extractHeaderStringValue($result.headers, 'Location'),
+    );
   }
 
   /// This operation initiates a multipart upload and returns an upload ID. This
@@ -1407,7 +1453,7 @@ class S3 {
     contentEncoding?.let((v) => headers['Content-Encoding'] = v.toString());
     contentLanguage?.let((v) => headers['Content-Language'] = v.toString());
     contentType?.let((v) => headers['Content-Type'] = v.toString());
-    expires?.let((v) => headers['Expires'] = v.toUtc().toIso8601String());
+    expires?.let((v) => headers['Expires'] = _s.rfc822ToJson(v));
     grantFullControl
         ?.let((v) => headers['x-amz-grant-full-control'] = v.toString());
     grantRead?.let((v) => headers['x-amz-grant-read'] = v.toString());
@@ -1418,8 +1464,7 @@ class S3 {
         ?.let((v) => headers['x-amz-object-lock-legal-hold'] = v.toValue());
     objectLockMode?.let((v) => headers['x-amz-object-lock-mode'] = v.toValue());
     objectLockRetainUntilDate?.let((v) =>
-        headers['x-amz-object-lock-retain-until-date'] =
-            v.toUtc().toIso8601String());
+        headers['x-amz-object-lock-retain-until-date'] = _s.iso8601ToJson(v));
     requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
     sSECustomerAlgorithm?.let((v) =>
         headers['x-amz-server-side-encryption-customer-algorithm'] =
@@ -1439,15 +1484,38 @@ class S3 {
     tagging?.let((v) => headers['x-amz-tagging'] = v.toString());
     websiteRedirectLocation
         ?.let((v) => headers['x-amz-website-redirect-location'] = v.toString());
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'POST',
       requestUri:
           '/${Uri.encodeComponent(bucket.toString())}/${Uri.encodeComponent(key.toString())}?uploads',
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
-    return CreateMultipartUploadOutput.fromXml($result.body,
-        headers: $result.headers);
+    final $elem = await _s.xmlFromResponse($result);
+    return CreateMultipartUploadOutput(
+      bucket: _s.extractXmlStringValue($elem, 'Bucket'),
+      key: _s.extractXmlStringValue($elem, 'Key'),
+      uploadId: _s.extractXmlStringValue($elem, 'UploadId'),
+      abortDate:
+          _s.extractHeaderDateTimeValue($result.headers, 'x-amz-abort-date'),
+      abortRuleId:
+          _s.extractHeaderStringValue($result.headers, 'x-amz-abort-rule-id'),
+      requestCharged: _s
+          .extractHeaderStringValue($result.headers, 'x-amz-request-charged')
+          ?.toRequestCharged(),
+      sSECustomerAlgorithm: _s.extractHeaderStringValue(
+          $result.headers, 'x-amz-server-side-encryption-customer-algorithm'),
+      sSECustomerKeyMD5: _s.extractHeaderStringValue(
+          $result.headers, 'x-amz-server-side-encryption-customer-key-MD5'),
+      sSEKMSEncryptionContext: _s.extractHeaderStringValue(
+          $result.headers, 'x-amz-server-side-encryption-context'),
+      sSEKMSKeyId: _s.extractHeaderStringValue(
+          $result.headers, 'x-amz-server-side-encryption-aws-kms-key-id'),
+      serverSideEncryption: _s
+          .extractHeaderStringValue(
+              $result.headers, 'x-amz-server-side-encryption')
+          ?.toServerSideEncryption(),
+    );
   }
 
   /// Deletes the bucket. All objects (including all object versions and delete
@@ -2004,7 +2072,7 @@ class S3 {
     requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
     final queryParams = <String, String>{};
     versionId?.let((v) => queryParams['versionId'] = v.toString());
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'DELETE',
       requestUri:
           '/${Uri.encodeComponent(bucket.toString())}/${Uri.encodeComponent(key.toString())}',
@@ -2012,7 +2080,16 @@ class S3 {
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteObjectOutput.fromXml($result.body, headers: $result.headers);
+    final $elem = await _s.xmlFromResponse($result);
+    return DeleteObjectOutput(
+      deleteMarker:
+          _s.extractHeaderBoolValue($result.headers, 'x-amz-delete-marker'),
+      requestCharged: _s
+          .extractHeaderStringValue($result.headers, 'x-amz-request-charged')
+          ?.toRequestCharged(),
+      versionId:
+          _s.extractHeaderStringValue($result.headers, 'x-amz-version-id'),
+    );
   }
 
   /// Removes the entire tag set from the specified object. For more information
@@ -2073,15 +2150,18 @@ class S3 {
     );
     final queryParams = <String, String>{};
     versionId?.let((v) => queryParams['versionId'] = v.toString());
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'DELETE',
       requestUri:
           '/${Uri.encodeComponent(bucket.toString())}/${Uri.encodeComponent(key.toString())}?tagging',
       queryParams: queryParams,
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteObjectTaggingOutput.fromXml($result.body,
-        headers: $result.headers);
+    final $elem = await _s.xmlFromResponse($result);
+    return DeleteObjectTaggingOutput(
+      versionId:
+          _s.extractHeaderStringValue($result.headers, 'x-amz-version-id'),
+    );
   }
 
   /// This operation enables you to delete multiple objects from a bucket using
@@ -2178,14 +2258,24 @@ class S3 {
         (v) => headers['x-amz-bypass-governance-retention'] = v.toString());
     mfa?.let((v) => headers['x-amz-mfa'] = v.toString());
     requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'POST',
       requestUri: '/${Uri.encodeComponent(bucket.toString())}?delete',
       headers: headers,
       payload: delete.toXml('Delete'),
       exceptionFnMap: _exceptionFns,
     );
-    return DeleteObjectsOutput.fromXml($result.body, headers: $result.headers);
+    final $elem = await _s.xmlFromResponse($result);
+    return DeleteObjectsOutput(
+      deleted: $elem
+          .findElements('Deleted')
+          .map((c) => DeletedObject.fromXml(c))
+          .toList(),
+      errors: $elem.findElements('Error').map((c) => Error.fromXml(c)).toList(),
+      requestCharged: _s
+          .extractHeaderStringValue($result.headers, 'x-amz-request-charged')
+          ?.toRequestCharged(),
+    );
   }
 
   /// Removes the <code>PublicAccessBlock</code> configuration for an Amazon S3
@@ -2356,13 +2446,16 @@ class S3 {
     ArgumentError.checkNotNull(id, 'id');
     final queryParams = <String, String>{};
     id?.let((v) => queryParams['id'] = v.toString());
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri: '/${Uri.encodeComponent(bucket.toString())}?analytics',
       queryParams: queryParams,
       exceptionFnMap: _exceptionFns,
     );
-    return GetBucketAnalyticsConfigurationOutput.fromXml($result.body);
+    final $elem = await _s.xmlFromResponse($result);
+    return GetBucketAnalyticsConfigurationOutput(
+      analyticsConfiguration: AnalyticsConfiguration.fromXml($elem),
+    );
   }
 
   /// Returns the cors configuration information set for the bucket.
@@ -2432,12 +2525,16 @@ class S3 {
     @_s.required String bucket,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri: '/${Uri.encodeComponent(bucket.toString())}?encryption',
       exceptionFnMap: _exceptionFns,
     );
-    return GetBucketEncryptionOutput.fromXml($result.body);
+    final $elem = await _s.xmlFromResponse($result);
+    return GetBucketEncryptionOutput(
+      serverSideEncryptionConfiguration:
+          ServerSideEncryptionConfiguration.fromXml($elem),
+    );
   }
 
   /// Returns an inventory configuration (identified by the inventory
@@ -2485,13 +2582,16 @@ class S3 {
     ArgumentError.checkNotNull(id, 'id');
     final queryParams = <String, String>{};
     id?.let((v) => queryParams['id'] = v.toString());
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri: '/${Uri.encodeComponent(bucket.toString())}?inventory',
       queryParams: queryParams,
       exceptionFnMap: _exceptionFns,
     );
-    return GetBucketInventoryConfigurationOutput.fromXml($result.body);
+    final $elem = await _s.xmlFromResponse($result);
+    return GetBucketInventoryConfigurationOutput(
+      inventoryConfiguration: InventoryConfiguration.fromXml($elem),
+    );
   }
 
   /// <important>
@@ -2743,13 +2843,16 @@ class S3 {
     ArgumentError.checkNotNull(id, 'id');
     final queryParams = <String, String>{};
     id?.let((v) => queryParams['id'] = v.toString());
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri: '/${Uri.encodeComponent(bucket.toString())}?metrics',
       queryParams: queryParams,
       exceptionFnMap: _exceptionFns,
     );
-    return GetBucketMetricsConfigurationOutput.fromXml($result.body);
+    final $elem = await _s.xmlFromResponse($result);
+    return GetBucketMetricsConfigurationOutput(
+      metricsConfiguration: MetricsConfiguration.fromXml($elem),
+    );
   }
 
   /// No longer used, see <a>GetBucketNotificationConfiguration</a>.
@@ -2843,12 +2946,14 @@ class S3 {
     @_s.required String bucket,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri: '/${Uri.encodeComponent(bucket.toString())}?policy',
       exceptionFnMap: _exceptionFns,
     );
-    return GetBucketPolicyOutput.fromXml($result.body);
+    return GetBucketPolicyOutput(
+      policy: await $result.stream.bytesToString(),
+    );
   }
 
   /// Retrieves the policy status for an Amazon S3 bucket, indicating whether
@@ -2889,12 +2994,15 @@ class S3 {
     @_s.required String bucket,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri: '/${Uri.encodeComponent(bucket.toString())}?policyStatus',
       exceptionFnMap: _exceptionFns,
     );
-    return GetBucketPolicyStatusOutput.fromXml($result.body);
+    final $elem = await _s.xmlFromResponse($result);
+    return GetBucketPolicyStatusOutput(
+      policyStatus: PolicyStatus.fromXml($elem),
+    );
   }
 
   /// Returns the replication configuration of a bucket.
@@ -2938,12 +3046,15 @@ class S3 {
     @_s.required String bucket,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri: '/${Uri.encodeComponent(bucket.toString())}?replication',
       exceptionFnMap: _exceptionFns,
     );
-    return GetBucketReplicationOutput.fromXml($result.body);
+    final $elem = await _s.xmlFromResponse($result);
+    return GetBucketReplicationOutput(
+      replicationConfiguration: ReplicationConfiguration.fromXml($elem),
+    );
   }
 
   /// Returns the request payment configuration of a bucket. To use this version
@@ -3377,11 +3488,11 @@ class S3 {
     );
     final headers = <String, String>{};
     ifMatch?.let((v) => headers['If-Match'] = v.toString());
-    ifModifiedSince?.let(
-        (v) => headers['If-Modified-Since'] = v.toUtc().toIso8601String());
+    ifModifiedSince
+        ?.let((v) => headers['If-Modified-Since'] = _s.rfc822ToJson(v));
     ifNoneMatch?.let((v) => headers['If-None-Match'] = v.toString());
-    ifUnmodifiedSince?.let(
-        (v) => headers['If-Unmodified-Since'] = v.toUtc().toIso8601String());
+    ifUnmodifiedSince
+        ?.let((v) => headers['If-Unmodified-Since'] = _s.rfc822ToJson(v));
     range?.let((v) => headers['Range'] = v.toString());
     requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
     sSECustomerAlgorithm?.let((v) =>
@@ -3404,10 +3515,10 @@ class S3 {
         ?.let((v) => queryParams['response-content-language'] = v.toString());
     responseContentType
         ?.let((v) => queryParams['response-content-type'] = v.toString());
-    responseExpires?.let(
-        (v) => queryParams['response-expires'] = v.toUtc().toIso8601String());
+    responseExpires
+        ?.let((v) => queryParams['response-expires'] = _s.iso8601ToJson(v));
     versionId?.let((v) => queryParams['versionId'] = v.toString());
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri:
           '/${Uri.encodeComponent(bucket.toString())}/${Uri.encodeComponent(key.toString())}',
@@ -3415,7 +3526,73 @@ class S3 {
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
-    return GetObjectOutput.fromXml($result.body, headers: $result.headers);
+    return GetObjectOutput(
+      body: await $result.stream.toBytes(),
+      acceptRanges:
+          _s.extractHeaderStringValue($result.headers, 'accept-ranges'),
+      cacheControl:
+          _s.extractHeaderStringValue($result.headers, 'Cache-Control'),
+      contentDisposition:
+          _s.extractHeaderStringValue($result.headers, 'Content-Disposition'),
+      contentEncoding:
+          _s.extractHeaderStringValue($result.headers, 'Content-Encoding'),
+      contentLanguage:
+          _s.extractHeaderStringValue($result.headers, 'Content-Language'),
+      contentLength:
+          _s.extractHeaderIntValue($result.headers, 'Content-Length'),
+      contentRange:
+          _s.extractHeaderStringValue($result.headers, 'Content-Range'),
+      contentType: _s.extractHeaderStringValue($result.headers, 'Content-Type'),
+      deleteMarker:
+          _s.extractHeaderBoolValue($result.headers, 'x-amz-delete-marker'),
+      eTag: _s.extractHeaderStringValue($result.headers, 'ETag'),
+      expiration:
+          _s.extractHeaderStringValue($result.headers, 'x-amz-expiration'),
+      expires: _s.extractHeaderDateTimeValue($result.headers, 'Expires'),
+      lastModified:
+          _s.extractHeaderDateTimeValue($result.headers, 'Last-Modified'),
+      metadata: _s.extractHeaderMapValues($result.headers, 'x-amz-meta-'),
+      missingMeta:
+          _s.extractHeaderIntValue($result.headers, 'x-amz-missing-meta'),
+      objectLockLegalHoldStatus: _s
+          .extractHeaderStringValue(
+              $result.headers, 'x-amz-object-lock-legal-hold')
+          ?.toObjectLockLegalHoldStatus(),
+      objectLockMode: _s
+          .extractHeaderStringValue($result.headers, 'x-amz-object-lock-mode')
+          ?.toObjectLockMode(),
+      objectLockRetainUntilDate: _s.extractHeaderDateTimeValue(
+          $result.headers, 'x-amz-object-lock-retain-until-date',
+          parser: _s.iso8601FromJson),
+      partsCount:
+          _s.extractHeaderIntValue($result.headers, 'x-amz-mp-parts-count'),
+      replicationStatus: _s
+          .extractHeaderStringValue($result.headers, 'x-amz-replication-status')
+          ?.toReplicationStatus(),
+      requestCharged: _s
+          .extractHeaderStringValue($result.headers, 'x-amz-request-charged')
+          ?.toRequestCharged(),
+      restore: _s.extractHeaderStringValue($result.headers, 'x-amz-restore'),
+      sSECustomerAlgorithm: _s.extractHeaderStringValue(
+          $result.headers, 'x-amz-server-side-encryption-customer-algorithm'),
+      sSECustomerKeyMD5: _s.extractHeaderStringValue(
+          $result.headers, 'x-amz-server-side-encryption-customer-key-MD5'),
+      sSEKMSKeyId: _s.extractHeaderStringValue(
+          $result.headers, 'x-amz-server-side-encryption-aws-kms-key-id'),
+      serverSideEncryption: _s
+          .extractHeaderStringValue(
+              $result.headers, 'x-amz-server-side-encryption')
+          ?.toServerSideEncryption(),
+      storageClass: _s
+          .extractHeaderStringValue($result.headers, 'x-amz-storage-class')
+          ?.toStorageClass(),
+      tagCount:
+          _s.extractHeaderIntValue($result.headers, 'x-amz-tagging-count'),
+      versionId:
+          _s.extractHeaderStringValue($result.headers, 'x-amz-version-id'),
+      websiteRedirectLocation: _s.extractHeaderStringValue(
+          $result.headers, 'x-amz-website-redirect-location'),
+    );
   }
 
   /// Returns the access control list (ACL) of an object. To use this operation,
@@ -3481,7 +3658,7 @@ class S3 {
     requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
     final queryParams = <String, String>{};
     versionId?.let((v) => queryParams['versionId'] = v.toString());
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri:
           '/${Uri.encodeComponent(bucket.toString())}/${Uri.encodeComponent(key.toString())}?acl',
@@ -3489,7 +3666,15 @@ class S3 {
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
-    return GetObjectAclOutput.fromXml($result.body, headers: $result.headers);
+    final $elem = await _s.xmlFromResponse($result);
+    return GetObjectAclOutput(
+      grants: _s.extractXmlChild($elem, 'AccessControlList')?.let(($elem) =>
+          $elem.findElements('Grant').map((c) => Grant.fromXml(c)).toList()),
+      owner: _s.extractXmlChild($elem, 'Owner')?.let((e) => Owner.fromXml(e)),
+      requestCharged: _s
+          .extractHeaderStringValue($result.headers, 'x-amz-request-charged')
+          ?.toRequestCharged(),
+    );
   }
 
   /// Gets an object's current Legal Hold status. For more information, see <a
@@ -3534,7 +3719,7 @@ class S3 {
     requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
     final queryParams = <String, String>{};
     versionId?.let((v) => queryParams['versionId'] = v.toString());
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri:
           '/${Uri.encodeComponent(bucket.toString())}/${Uri.encodeComponent(key.toString())}?legal-hold',
@@ -3542,7 +3727,10 @@ class S3 {
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
-    return GetObjectLegalHoldOutput.fromXml($result.body);
+    final $elem = await _s.xmlFromResponse($result);
+    return GetObjectLegalHoldOutput(
+      legalHold: ObjectLockLegalHold.fromXml($elem),
+    );
   }
 
   /// Gets the Object Lock configuration for a bucket. The rule specified in the
@@ -3557,12 +3745,15 @@ class S3 {
     @_s.required String bucket,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri: '/${Uri.encodeComponent(bucket.toString())}?object-lock',
       exceptionFnMap: _exceptionFns,
     );
-    return GetObjectLockConfigurationOutput.fromXml($result.body);
+    final $elem = await _s.xmlFromResponse($result);
+    return GetObjectLockConfigurationOutput(
+      objectLockConfiguration: ObjectLockConfiguration.fromXml($elem),
+    );
   }
 
   /// Retrieves an object's retention settings. For more information, see <a
@@ -3608,7 +3799,7 @@ class S3 {
     requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
     final queryParams = <String, String>{};
     versionId?.let((v) => queryParams['versionId'] = v.toString());
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri:
           '/${Uri.encodeComponent(bucket.toString())}/${Uri.encodeComponent(key.toString())}?retention',
@@ -3616,7 +3807,10 @@ class S3 {
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
-    return GetObjectRetentionOutput.fromXml($result.body);
+    final $elem = await _s.xmlFromResponse($result);
+    return GetObjectRetentionOutput(
+      retention: ObjectLockRetention.fromXml($elem),
+    );
   }
 
   /// Returns the tag-set of an object. You send the GET request against the
@@ -3680,15 +3874,20 @@ class S3 {
     );
     final queryParams = <String, String>{};
     versionId?.let((v) => queryParams['versionId'] = v.toString());
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri:
           '/${Uri.encodeComponent(bucket.toString())}/${Uri.encodeComponent(key.toString())}?tagging',
       queryParams: queryParams,
       exceptionFnMap: _exceptionFns,
     );
-    return GetObjectTaggingOutput.fromXml($result.body,
-        headers: $result.headers);
+    final $elem = await _s.xmlFromResponse($result);
+    return GetObjectTaggingOutput(
+      tagSet: _s.extractXmlChild($elem, 'TagSet')?.let(($elem) =>
+          $elem.findElements('Tag').map((c) => Tag.fromXml(c)).toList()),
+      versionId:
+          _s.extractHeaderStringValue($result.headers, 'x-amz-version-id'),
+    );
   }
 
   /// Return torrent files from a bucket. BitTorrent can save you bandwidth when
@@ -3733,15 +3932,19 @@ class S3 {
     );
     final headers = <String, String>{};
     requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri:
           '/${Uri.encodeComponent(bucket.toString())}/${Uri.encodeComponent(key.toString())}?torrent',
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
-    return GetObjectTorrentOutput.fromXml($result.body,
-        headers: $result.headers);
+    return GetObjectTorrentOutput(
+      body: await $result.stream.toBytes(),
+      requestCharged: _s
+          .extractHeaderStringValue($result.headers, 'x-amz-request-charged')
+          ?.toRequestCharged(),
+    );
   }
 
   /// Retrieves the <code>PublicAccessBlock</code> configuration for an Amazon
@@ -3790,13 +3993,17 @@ class S3 {
     @_s.required String bucket,
   }) async {
     ArgumentError.checkNotNull(bucket, 'bucket');
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri:
           '/${Uri.encodeComponent(bucket.toString())}?publicAccessBlock',
       exceptionFnMap: _exceptionFns,
     );
-    return GetPublicAccessBlockOutput.fromXml($result.body);
+    final $elem = await _s.xmlFromResponse($result);
+    return GetPublicAccessBlockOutput(
+      publicAccessBlockConfiguration:
+          PublicAccessBlockConfiguration.fromXml($elem),
+    );
   }
 
   /// This operation is useful to determine if a bucket exists and you have
@@ -4012,11 +4219,11 @@ class S3 {
     );
     final headers = <String, String>{};
     ifMatch?.let((v) => headers['If-Match'] = v.toString());
-    ifModifiedSince?.let(
-        (v) => headers['If-Modified-Since'] = v.toUtc().toIso8601String());
+    ifModifiedSince
+        ?.let((v) => headers['If-Modified-Since'] = _s.rfc822ToJson(v));
     ifNoneMatch?.let((v) => headers['If-None-Match'] = v.toString());
-    ifUnmodifiedSince?.let(
-        (v) => headers['If-Unmodified-Since'] = v.toUtc().toIso8601String());
+    ifUnmodifiedSince
+        ?.let((v) => headers['If-Unmodified-Since'] = _s.rfc822ToJson(v));
     range?.let((v) => headers['Range'] = v.toString());
     requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
     sSECustomerAlgorithm?.let((v) =>
@@ -4030,7 +4237,7 @@ class S3 {
     final queryParams = <String, String>{};
     partNumber?.let((v) => queryParams['partNumber'] = v.toString());
     versionId?.let((v) => queryParams['versionId'] = v.toString());
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'HEAD',
       requestUri:
           '/${Uri.encodeComponent(bucket.toString())}/${Uri.encodeComponent(key.toString())}',
@@ -4038,7 +4245,69 @@ class S3 {
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
-    return HeadObjectOutput.fromXml($result.body, headers: $result.headers);
+    final $elem = await _s.xmlFromResponse($result);
+    return HeadObjectOutput(
+      acceptRanges:
+          _s.extractHeaderStringValue($result.headers, 'accept-ranges'),
+      cacheControl:
+          _s.extractHeaderStringValue($result.headers, 'Cache-Control'),
+      contentDisposition:
+          _s.extractHeaderStringValue($result.headers, 'Content-Disposition'),
+      contentEncoding:
+          _s.extractHeaderStringValue($result.headers, 'Content-Encoding'),
+      contentLanguage:
+          _s.extractHeaderStringValue($result.headers, 'Content-Language'),
+      contentLength:
+          _s.extractHeaderIntValue($result.headers, 'Content-Length'),
+      contentType: _s.extractHeaderStringValue($result.headers, 'Content-Type'),
+      deleteMarker:
+          _s.extractHeaderBoolValue($result.headers, 'x-amz-delete-marker'),
+      eTag: _s.extractHeaderStringValue($result.headers, 'ETag'),
+      expiration:
+          _s.extractHeaderStringValue($result.headers, 'x-amz-expiration'),
+      expires: _s.extractHeaderDateTimeValue($result.headers, 'Expires'),
+      lastModified:
+          _s.extractHeaderDateTimeValue($result.headers, 'Last-Modified'),
+      metadata: _s.extractHeaderMapValues($result.headers, 'x-amz-meta-'),
+      missingMeta:
+          _s.extractHeaderIntValue($result.headers, 'x-amz-missing-meta'),
+      objectLockLegalHoldStatus: _s
+          .extractHeaderStringValue(
+              $result.headers, 'x-amz-object-lock-legal-hold')
+          ?.toObjectLockLegalHoldStatus(),
+      objectLockMode: _s
+          .extractHeaderStringValue($result.headers, 'x-amz-object-lock-mode')
+          ?.toObjectLockMode(),
+      objectLockRetainUntilDate: _s.extractHeaderDateTimeValue(
+          $result.headers, 'x-amz-object-lock-retain-until-date',
+          parser: _s.iso8601FromJson),
+      partsCount:
+          _s.extractHeaderIntValue($result.headers, 'x-amz-mp-parts-count'),
+      replicationStatus: _s
+          .extractHeaderStringValue($result.headers, 'x-amz-replication-status')
+          ?.toReplicationStatus(),
+      requestCharged: _s
+          .extractHeaderStringValue($result.headers, 'x-amz-request-charged')
+          ?.toRequestCharged(),
+      restore: _s.extractHeaderStringValue($result.headers, 'x-amz-restore'),
+      sSECustomerAlgorithm: _s.extractHeaderStringValue(
+          $result.headers, 'x-amz-server-side-encryption-customer-algorithm'),
+      sSECustomerKeyMD5: _s.extractHeaderStringValue(
+          $result.headers, 'x-amz-server-side-encryption-customer-key-MD5'),
+      sSEKMSKeyId: _s.extractHeaderStringValue(
+          $result.headers, 'x-amz-server-side-encryption-aws-kms-key-id'),
+      serverSideEncryption: _s
+          .extractHeaderStringValue(
+              $result.headers, 'x-amz-server-side-encryption')
+          ?.toServerSideEncryption(),
+      storageClass: _s
+          .extractHeaderStringValue($result.headers, 'x-amz-storage-class')
+          ?.toStorageClass(),
+      versionId:
+          _s.extractHeaderStringValue($result.headers, 'x-amz-version-id'),
+      websiteRedirectLocation: _s.extractHeaderStringValue(
+          $result.headers, 'x-amz-website-redirect-location'),
+    );
   }
 
   /// Lists the analytics configurations for the bucket. You can have up to
@@ -4770,7 +5039,7 @@ class S3 {
     maxParts?.let((v) => queryParams['max-parts'] = v.toString());
     partNumberMarker
         ?.let((v) => queryParams['part-number-marker'] = v.toString());
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri:
           '/${Uri.encodeComponent(bucket.toString())}/${Uri.encodeComponent(key.toString())}',
@@ -4778,7 +5047,31 @@ class S3 {
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
-    return ListPartsOutput.fromXml($result.body, headers: $result.headers);
+    final $elem = await _s.xmlFromResponse($result);
+    return ListPartsOutput(
+      bucket: _s.extractXmlStringValue($elem, 'Bucket'),
+      initiator: _s
+          .extractXmlChild($elem, 'Initiator')
+          ?.let((e) => Initiator.fromXml(e)),
+      isTruncated: _s.extractXmlBoolValue($elem, 'IsTruncated'),
+      key: _s.extractXmlStringValue($elem, 'Key'),
+      maxParts: _s.extractXmlIntValue($elem, 'MaxParts'),
+      nextPartNumberMarker:
+          _s.extractXmlIntValue($elem, 'NextPartNumberMarker'),
+      owner: _s.extractXmlChild($elem, 'Owner')?.let((e) => Owner.fromXml(e)),
+      partNumberMarker: _s.extractXmlIntValue($elem, 'PartNumberMarker'),
+      parts: $elem.findElements('Part').map((c) => Part.fromXml(c)).toList(),
+      storageClass:
+          _s.extractXmlStringValue($elem, 'StorageClass')?.toStorageClass(),
+      uploadId: _s.extractXmlStringValue($elem, 'UploadId'),
+      abortDate:
+          _s.extractHeaderDateTimeValue($result.headers, 'x-amz-abort-date'),
+      abortRuleId:
+          _s.extractHeaderStringValue($result.headers, 'x-amz-abort-rule-id'),
+      requestCharged: _s
+          .extractHeaderStringValue($result.headers, 'x-amz-request-charged')
+          ?.toRequestCharged(),
+    );
   }
 
   /// Sets the accelerate configuration of an existing bucket. Amazon S3
@@ -6987,7 +7280,7 @@ class S3 {
     contentLength?.let((v) => headers['Content-Length'] = v.toString());
     contentMD5?.let((v) => headers['Content-MD5'] = v.toString());
     contentType?.let((v) => headers['Content-Type'] = v.toString());
-    expires?.let((v) => headers['Expires'] = v.toUtc().toIso8601String());
+    expires?.let((v) => headers['Expires'] = _s.rfc822ToJson(v));
     grantFullControl
         ?.let((v) => headers['x-amz-grant-full-control'] = v.toString());
     grantRead?.let((v) => headers['x-amz-grant-read'] = v.toString());
@@ -6998,8 +7291,7 @@ class S3 {
         ?.let((v) => headers['x-amz-object-lock-legal-hold'] = v.toValue());
     objectLockMode?.let((v) => headers['x-amz-object-lock-mode'] = v.toValue());
     objectLockRetainUntilDate?.let((v) =>
-        headers['x-amz-object-lock-retain-until-date'] =
-            v.toUtc().toIso8601String());
+        headers['x-amz-object-lock-retain-until-date'] = _s.iso8601ToJson(v));
     requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
     sSECustomerAlgorithm?.let((v) =>
         headers['x-amz-server-side-encryption-customer-algorithm'] =
@@ -7019,7 +7311,7 @@ class S3 {
     tagging?.let((v) => headers['x-amz-tagging'] = v.toString());
     websiteRedirectLocation
         ?.let((v) => headers['x-amz-website-redirect-location'] = v.toString());
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'PUT',
       requestUri:
           '/${Uri.encodeComponent(bucket.toString())}/${Uri.encodeComponent(key.toString())}',
@@ -7027,7 +7319,29 @@ class S3 {
       payload: body,
       exceptionFnMap: _exceptionFns,
     );
-    return PutObjectOutput.fromXml($result.body, headers: $result.headers);
+    final $elem = await _s.xmlFromResponse($result);
+    return PutObjectOutput(
+      eTag: _s.extractHeaderStringValue($result.headers, 'ETag'),
+      expiration:
+          _s.extractHeaderStringValue($result.headers, 'x-amz-expiration'),
+      requestCharged: _s
+          .extractHeaderStringValue($result.headers, 'x-amz-request-charged')
+          ?.toRequestCharged(),
+      sSECustomerAlgorithm: _s.extractHeaderStringValue(
+          $result.headers, 'x-amz-server-side-encryption-customer-algorithm'),
+      sSECustomerKeyMD5: _s.extractHeaderStringValue(
+          $result.headers, 'x-amz-server-side-encryption-customer-key-MD5'),
+      sSEKMSEncryptionContext: _s.extractHeaderStringValue(
+          $result.headers, 'x-amz-server-side-encryption-context'),
+      sSEKMSKeyId: _s.extractHeaderStringValue(
+          $result.headers, 'x-amz-server-side-encryption-aws-kms-key-id'),
+      serverSideEncryption: _s
+          .extractHeaderStringValue(
+              $result.headers, 'x-amz-server-side-encryption')
+          ?.toServerSideEncryption(),
+      versionId:
+          _s.extractHeaderStringValue($result.headers, 'x-amz-version-id'),
+    );
   }
 
   /// Uses the <code>acl</code> subresource to set the access control list (ACL)
@@ -7228,7 +7542,7 @@ class S3 {
     requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
     final queryParams = <String, String>{};
     versionId?.let((v) => queryParams['versionId'] = v.toString());
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'PUT',
       requestUri:
           '/${Uri.encodeComponent(bucket.toString())}/${Uri.encodeComponent(key.toString())}?acl',
@@ -7237,7 +7551,12 @@ class S3 {
       payload: accessControlPolicy?.toXml('AccessControlPolicy'),
       exceptionFnMap: _exceptionFns,
     );
-    return PutObjectAclOutput.fromXml($result.body, headers: $result.headers);
+    final $elem = await _s.xmlFromResponse($result);
+    return PutObjectAclOutput(
+      requestCharged: _s
+          .extractHeaderStringValue($result.headers, 'x-amz-request-charged')
+          ?.toRequestCharged(),
+    );
   }
 
   /// Applies a Legal Hold configuration to the specified object.
@@ -7299,7 +7618,7 @@ class S3 {
     requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
     final queryParams = <String, String>{};
     versionId?.let((v) => queryParams['versionId'] = v.toString());
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'PUT',
       requestUri:
           '/${Uri.encodeComponent(bucket.toString())}/${Uri.encodeComponent(key.toString())}?legal-hold',
@@ -7308,8 +7627,12 @@ class S3 {
       payload: legalHold?.toXml('LegalHold'),
       exceptionFnMap: _exceptionFns,
     );
-    return PutObjectLegalHoldOutput.fromXml($result.body,
-        headers: $result.headers);
+    final $elem = await _s.xmlFromResponse($result);
+    return PutObjectLegalHoldOutput(
+      requestCharged: _s
+          .extractHeaderStringValue($result.headers, 'x-amz-request-charged')
+          ?.toRequestCharged(),
+    );
   }
 
   /// Places an Object Lock configuration on the specified bucket. The rule
@@ -7352,15 +7675,19 @@ class S3 {
     contentMD5?.let((v) => headers['Content-MD5'] = v.toString());
     requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
     token?.let((v) => headers['x-amz-bucket-object-lock-token'] = v.toString());
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'PUT',
       requestUri: '/${Uri.encodeComponent(bucket.toString())}?object-lock',
       headers: headers,
       payload: objectLockConfiguration?.toXml('ObjectLockConfiguration'),
       exceptionFnMap: _exceptionFns,
     );
-    return PutObjectLockConfigurationOutput.fromXml($result.body,
-        headers: $result.headers);
+    final $elem = await _s.xmlFromResponse($result);
+    return PutObjectLockConfigurationOutput(
+      requestCharged: _s
+          .extractHeaderStringValue($result.headers, 'x-amz-request-charged')
+          ?.toRequestCharged(),
+    );
   }
 
   /// Places an Object Retention configuration on an object.
@@ -7430,7 +7757,7 @@ class S3 {
     requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
     final queryParams = <String, String>{};
     versionId?.let((v) => queryParams['versionId'] = v.toString());
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'PUT',
       requestUri:
           '/${Uri.encodeComponent(bucket.toString())}/${Uri.encodeComponent(key.toString())}?retention',
@@ -7439,8 +7766,12 @@ class S3 {
       payload: retention?.toXml('Retention'),
       exceptionFnMap: _exceptionFns,
     );
-    return PutObjectRetentionOutput.fromXml($result.body,
-        headers: $result.headers);
+    final $elem = await _s.xmlFromResponse($result);
+    return PutObjectRetentionOutput(
+      requestCharged: _s
+          .extractHeaderStringValue($result.headers, 'x-amz-request-charged')
+          ?.toRequestCharged(),
+    );
   }
 
   /// Sets the supplied tag-set to an object that already exists in a bucket
@@ -7566,7 +7897,7 @@ class S3 {
     contentMD5?.let((v) => headers['Content-MD5'] = v.toString());
     final queryParams = <String, String>{};
     versionId?.let((v) => queryParams['versionId'] = v.toString());
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'PUT',
       requestUri:
           '/${Uri.encodeComponent(bucket.toString())}/${Uri.encodeComponent(key.toString())}?tagging',
@@ -7575,8 +7906,11 @@ class S3 {
       payload: tagging.toXml('Tagging'),
       exceptionFnMap: _exceptionFns,
     );
-    return PutObjectTaggingOutput.fromXml($result.body,
-        headers: $result.headers);
+    final $elem = await _s.xmlFromResponse($result);
+    return PutObjectTaggingOutput(
+      versionId:
+          _s.extractHeaderStringValue($result.headers, 'x-amz-version-id'),
+    );
   }
 
   /// Creates or modifies the <code>PublicAccessBlock</code> configuration for
@@ -7988,7 +8322,7 @@ class S3 {
     requestPayer?.let((v) => headers['x-amz-request-payer'] = v.toValue());
     final queryParams = <String, String>{};
     versionId?.let((v) => queryParams['versionId'] = v.toString());
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'POST',
       requestUri:
           '/${Uri.encodeComponent(bucket.toString())}/${Uri.encodeComponent(key.toString())}?restore',
@@ -7997,7 +8331,14 @@ class S3 {
       payload: restoreRequest?.toXml('RestoreRequest'),
       exceptionFnMap: _exceptionFns,
     );
-    return RestoreObjectOutput.fromXml($result.body, headers: $result.headers);
+    final $elem = await _s.xmlFromResponse($result);
+    return RestoreObjectOutput(
+      requestCharged: _s
+          .extractHeaderStringValue($result.headers, 'x-amz-request-charged')
+          ?.toRequestCharged(),
+      restoreOutputPath: _s.extractHeaderStringValue(
+          $result.headers, 'x-amz-restore-output-path'),
+    );
   }
 
   /// This operation filters the contents of an Amazon S3 object based on a
@@ -8211,7 +8552,7 @@ class S3 {
     sSECustomerKeyMD5?.let((v) =>
         headers['x-amz-server-side-encryption-customer-key-MD5'] =
             v.toString());
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'POST',
       requestUri:
           '/${Uri.encodeComponent(bucket.toString())}/${Uri.encodeComponent(key.toString())}?select&select-type=2',
@@ -8237,7 +8578,10 @@ class S3 {
       ),
       exceptionFnMap: _exceptionFns,
     );
-    return SelectObjectContentOutput.fromXml($result.body);
+    final $elem = await _s.xmlFromResponse($result);
+    return SelectObjectContentOutput(
+      payload: SelectObjectContentEventStream.fromXml($elem),
+    );
   }
 
   /// Uploads a part in a multipart upload.
@@ -8437,7 +8781,7 @@ class S3 {
     final queryParams = <String, String>{};
     partNumber?.let((v) => queryParams['partNumber'] = v.toString());
     uploadId?.let((v) => queryParams['uploadId'] = v.toString());
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'PUT',
       requestUri:
           '/${Uri.encodeComponent(bucket.toString())}/${Uri.encodeComponent(key.toString())}',
@@ -8446,7 +8790,23 @@ class S3 {
       payload: body,
       exceptionFnMap: _exceptionFns,
     );
-    return UploadPartOutput.fromXml($result.body, headers: $result.headers);
+    final $elem = await _s.xmlFromResponse($result);
+    return UploadPartOutput(
+      eTag: _s.extractHeaderStringValue($result.headers, 'ETag'),
+      requestCharged: _s
+          .extractHeaderStringValue($result.headers, 'x-amz-request-charged')
+          ?.toRequestCharged(),
+      sSECustomerAlgorithm: _s.extractHeaderStringValue(
+          $result.headers, 'x-amz-server-side-encryption-customer-algorithm'),
+      sSECustomerKeyMD5: _s.extractHeaderStringValue(
+          $result.headers, 'x-amz-server-side-encryption-customer-key-MD5'),
+      sSEKMSKeyId: _s.extractHeaderStringValue(
+          $result.headers, 'x-amz-server-side-encryption-aws-kms-key-id'),
+      serverSideEncryption: _s
+          .extractHeaderStringValue(
+              $result.headers, 'x-amz-server-side-encryption')
+          ?.toServerSideEncryption(),
+    );
   }
 
   /// Uploads a part by copying data from an existing object as data source. You
@@ -8717,13 +9077,11 @@ class S3 {
     copySourceIfMatch
         ?.let((v) => headers['x-amz-copy-source-if-match'] = v.toString());
     copySourceIfModifiedSince?.let((v) =>
-        headers['x-amz-copy-source-if-modified-since'] =
-            v.toUtc().toIso8601String());
+        headers['x-amz-copy-source-if-modified-since'] = _s.rfc822ToJson(v));
     copySourceIfNoneMatch
         ?.let((v) => headers['x-amz-copy-source-if-none-match'] = v.toString());
     copySourceIfUnmodifiedSince?.let((v) =>
-        headers['x-amz-copy-source-if-unmodified-since'] =
-            v.toUtc().toIso8601String());
+        headers['x-amz-copy-source-if-unmodified-since'] = _s.rfc822ToJson(v));
     copySourceRange
         ?.let((v) => headers['x-amz-copy-source-range'] = v.toString());
     copySourceSSECustomerAlgorithm?.let((v) =>
@@ -8747,7 +9105,7 @@ class S3 {
     final queryParams = <String, String>{};
     partNumber?.let((v) => queryParams['partNumber'] = v.toString());
     uploadId?.let((v) => queryParams['uploadId'] = v.toString());
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'PUT',
       requestUri:
           '/${Uri.encodeComponent(bucket.toString())}/${Uri.encodeComponent(key.toString())}',
@@ -8755,7 +9113,25 @@ class S3 {
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
-    return UploadPartCopyOutput.fromXml($result.body, headers: $result.headers);
+    final $elem = await _s.xmlFromResponse($result);
+    return UploadPartCopyOutput(
+      copyPartResult: CopyPartResult.fromXml($elem),
+      copySourceVersionId: _s.extractHeaderStringValue(
+          $result.headers, 'x-amz-copy-source-version-id'),
+      requestCharged: _s
+          .extractHeaderStringValue($result.headers, 'x-amz-request-charged')
+          ?.toRequestCharged(),
+      sSECustomerAlgorithm: _s.extractHeaderStringValue(
+          $result.headers, 'x-amz-server-side-encryption-customer-algorithm'),
+      sSECustomerKeyMD5: _s.extractHeaderStringValue(
+          $result.headers, 'x-amz-server-side-encryption-customer-key-MD5'),
+      sSEKMSKeyId: _s.extractHeaderStringValue(
+          $result.headers, 'x-amz-server-side-encryption-aws-kms-key-id'),
+      serverSideEncryption: _s
+          .extractHeaderStringValue(
+              $result.headers, 'x-amz-server-side-encryption')
+          ?.toServerSideEncryption(),
+    );
   }
 }
 
@@ -8781,7 +9157,8 @@ class AbortIncompleteMultipartUpload {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlIntValue('DaysAfterInitiation', daysAfterInitiation),
+      if (daysAfterInitiation != null)
+        _s.encodeXmlIntValue('DaysAfterInitiation', daysAfterInitiation),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -8800,17 +9177,6 @@ class AbortMultipartUploadOutput {
   AbortMultipartUploadOutput({
     this.requestCharged,
   });
-  factory AbortMultipartUploadOutput.fromXml(
-    // ignore: avoid_unused_constructor_parameters
-    _s.XmlElement elem, {
-    Map<String, String> headers,
-  }) {
-    return AbortMultipartUploadOutput(
-      requestCharged: _s
-          .extractHeaderStringValue(headers, 'x-amz-request-charged')
-          ?.toRequestCharged(),
-    );
-  }
 }
 
 /// Configures the transfer acceleration state for an Amazon S3 bucket. For more
@@ -8827,7 +9193,7 @@ class AccelerateConfiguration {
   });
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Status', status?.toValue()),
+      if (status != null) _s.encodeXmlStringValue('Status', status.toValue()),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -8857,8 +9223,8 @@ class AccessControlPolicy {
     final $children = <_s.XmlNode>[
       if (grants != null)
         _s.XmlElement(_s.XmlName('AccessControlList'), [],
-            <_s.XmlNode>[...grants.map((v) => v.toXml('AccessControlList'))]),
-      owner?.toXml('Owner'),
+            grants.map((e) => e?.toXml('Grant'))),
+      if (owner != null) owner?.toXml('Owner'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -8890,7 +9256,7 @@ class AccessControlTranslation {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Owner', owner?.toValue()),
+      _s.encodeXmlStringValue('Owner', owner?.toValue() ?? ''),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -8928,8 +9294,8 @@ class AnalyticsAndOperator {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Prefix', prefix),
-      if (tags != null) ...tags.map((v) => v.toXml('Tag')),
+      if (prefix != null) _s.encodeXmlStringValue('Prefix', prefix),
+      if (tags != null) ...tags.map((e) => e?.toXml('Tag')),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -8977,7 +9343,7 @@ class AnalyticsConfiguration {
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Id', id),
-      filter?.toXml('Filter'),
+      if (filter != null) filter?.toXml('Filter'),
       storageClassAnalysis?.toXml('StorageClassAnalysis'),
     ];
     final $attributes = <_s.XmlAttribute>[
@@ -9053,9 +9419,9 @@ class AnalyticsFilter {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Prefix', prefix),
-      tag?.toXml('Tag'),
-      and?.toXml('And'),
+      if (prefix != null) _s.encodeXmlStringValue('Prefix', prefix),
+      if (tag != null) tag?.toXml('Tag'),
+      if (and != null) and?.toXml('And'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -9103,10 +9469,11 @@ class AnalyticsS3BucketDestination {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Format', format?.toValue()),
-      _s.encodeXmlStringValue('BucketAccountId', bucketAccountId),
+      _s.encodeXmlStringValue('Format', format?.toValue() ?? ''),
+      if (bucketAccountId != null)
+        _s.encodeXmlStringValue('BucketAccountId', bucketAccountId),
       _s.encodeXmlStringValue('Bucket', bucket),
-      _s.encodeXmlStringValue('Prefix', prefix),
+      if (prefix != null) _s.encodeXmlStringValue('Prefix', prefix),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -9246,7 +9613,7 @@ class BucketLifecycleConfiguration {
   });
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      if (rules != null) ...rules.map((v) => v.toXml('Rule')),
+      ...rules?.map((e) => e?.toXml('Rule')),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -9342,7 +9709,7 @@ class BucketLoggingStatus {
   });
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      loggingEnabled?.toXml('LoggingEnabled'),
+      if (loggingEnabled != null) loggingEnabled?.toXml('LoggingEnabled'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -9433,7 +9800,7 @@ class CORSConfiguration {
   });
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      if (cORSRules != null) ...cORSRules.map((v) => v.toXml('CORSRule')),
+      ...cORSRules?.map((e) => e?.toXml('CORSRule')),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -9492,16 +9859,15 @@ class CORSRule {
     final $children = <_s.XmlNode>[
       if (allowedHeaders != null)
         ...allowedHeaders
-            .map((v) => _s.encodeXmlStringValue('AllowedHeader', v)),
-      if (allowedMethods != null)
-        ...allowedMethods
-            .map((v) => _s.encodeXmlStringValue('AllowedMethod', v)),
-      if (allowedOrigins != null)
-        ...allowedOrigins
-            .map((v) => _s.encodeXmlStringValue('AllowedOrigin', v)),
+            .map((e) => _s.encodeXmlStringValue('AllowedHeader', e)),
+      ...allowedMethods
+          ?.map((e) => _s.encodeXmlStringValue('AllowedMethod', e)),
+      ...allowedOrigins
+          ?.map((e) => _s.encodeXmlStringValue('AllowedOrigin', e)),
       if (exposeHeaders != null)
-        ...exposeHeaders.map((v) => _s.encodeXmlStringValue('ExposeHeader', v)),
-      _s.encodeXmlIntValue('MaxAgeSeconds', maxAgeSeconds),
+        ...exposeHeaders.map((e) => _s.encodeXmlStringValue('ExposeHeader', e)),
+      if (maxAgeSeconds != null)
+        _s.encodeXmlIntValue('MaxAgeSeconds', maxAgeSeconds),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -9582,14 +9948,20 @@ class CSVInput {
   });
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('FileHeaderInfo', fileHeaderInfo?.toValue()),
-      _s.encodeXmlStringValue('Comments', comments),
-      _s.encodeXmlStringValue('QuoteEscapeCharacter', quoteEscapeCharacter),
-      _s.encodeXmlStringValue('RecordDelimiter', recordDelimiter),
-      _s.encodeXmlStringValue('FieldDelimiter', fieldDelimiter),
-      _s.encodeXmlStringValue('QuoteCharacter', quoteCharacter),
-      _s.encodeXmlBoolValue(
-          'AllowQuotedRecordDelimiter', allowQuotedRecordDelimiter),
+      if (fileHeaderInfo != null)
+        _s.encodeXmlStringValue('FileHeaderInfo', fileHeaderInfo.toValue()),
+      if (comments != null) _s.encodeXmlStringValue('Comments', comments),
+      if (quoteEscapeCharacter != null)
+        _s.encodeXmlStringValue('QuoteEscapeCharacter', quoteEscapeCharacter),
+      if (recordDelimiter != null)
+        _s.encodeXmlStringValue('RecordDelimiter', recordDelimiter),
+      if (fieldDelimiter != null)
+        _s.encodeXmlStringValue('FieldDelimiter', fieldDelimiter),
+      if (quoteCharacter != null)
+        _s.encodeXmlStringValue('QuoteCharacter', quoteCharacter),
+      if (allowQuotedRecordDelimiter != null)
+        _s.encodeXmlBoolValue(
+            'AllowQuotedRecordDelimiter', allowQuotedRecordDelimiter),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -9643,11 +10015,16 @@ class CSVOutput {
   });
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('QuoteFields', quoteFields?.toValue()),
-      _s.encodeXmlStringValue('QuoteEscapeCharacter', quoteEscapeCharacter),
-      _s.encodeXmlStringValue('RecordDelimiter', recordDelimiter),
-      _s.encodeXmlStringValue('FieldDelimiter', fieldDelimiter),
-      _s.encodeXmlStringValue('QuoteCharacter', quoteCharacter),
+      if (quoteFields != null)
+        _s.encodeXmlStringValue('QuoteFields', quoteFields.toValue()),
+      if (quoteEscapeCharacter != null)
+        _s.encodeXmlStringValue('QuoteEscapeCharacter', quoteEscapeCharacter),
+      if (recordDelimiter != null)
+        _s.encodeXmlStringValue('RecordDelimiter', recordDelimiter),
+      if (fieldDelimiter != null)
+        _s.encodeXmlStringValue('FieldDelimiter', fieldDelimiter),
+      if (quoteCharacter != null)
+        _s.encodeXmlStringValue('QuoteCharacter', quoteCharacter),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -9696,12 +10073,15 @@ class CloudFunctionConfiguration {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Id', id),
-      _s.encodeXmlStringValue('Event', event?.toValue()),
+      if (id != null) _s.encodeXmlStringValue('Id', id),
+      if (event != null) _s.encodeXmlStringValue('Event', event.toValue()),
       if (events != null)
-        ...events.map((v) => _s.encodeXmlStringValue('Event', v.toValue())),
-      _s.encodeXmlStringValue('CloudFunction', cloudFunction),
-      _s.encodeXmlStringValue('InvocationRole', invocationRole),
+        ...events
+            .map((e) => _s.encodeXmlStringValue('Event', e?.toValue() ?? '')),
+      if (cloudFunction != null)
+        _s.encodeXmlStringValue('CloudFunction', cloudFunction),
+      if (invocationRole != null)
+        _s.encodeXmlStringValue('InvocationRole', invocationRole),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -9783,27 +10163,6 @@ class CompleteMultipartUploadOutput {
     this.serverSideEncryption,
     this.versionId,
   });
-  factory CompleteMultipartUploadOutput.fromXml(
-    _s.XmlElement elem, {
-    Map<String, String> headers,
-  }) {
-    return CompleteMultipartUploadOutput(
-      bucket: _s.extractXmlStringValue(elem, 'Bucket'),
-      eTag: _s.extractXmlStringValue(elem, 'ETag'),
-      expiration: _s.extractHeaderStringValue(headers, 'x-amz-expiration'),
-      key: _s.extractXmlStringValue(elem, 'Key'),
-      location: _s.extractXmlStringValue(elem, 'Location'),
-      requestCharged: _s
-          .extractHeaderStringValue(headers, 'x-amz-request-charged')
-          ?.toRequestCharged(),
-      sSEKMSKeyId: _s.extractHeaderStringValue(
-          headers, 'x-amz-server-side-encryption-aws-kms-key-id'),
-      serverSideEncryption: _s
-          .extractHeaderStringValue(headers, 'x-amz-server-side-encryption')
-          ?.toServerSideEncryption(),
-      versionId: _s.extractHeaderStringValue(headers, 'x-amz-version-id'),
-    );
-  }
 }
 
 /// The container for the completed multipart upload details.
@@ -9816,7 +10175,7 @@ class CompletedMultipartUpload {
   });
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      if (parts != null) ...parts.map((v) => v.toXml('Part')),
+      if (parts != null) ...parts.map((e) => e?.toXml('Part')),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -9844,8 +10203,8 @@ class CompletedPart {
   });
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('ETag', eTag),
-      _s.encodeXmlIntValue('PartNumber', partNumber),
+      if (eTag != null) _s.encodeXmlStringValue('ETag', eTag),
+      if (partNumber != null) _s.encodeXmlIntValue('PartNumber', partNumber),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -9929,9 +10288,11 @@ class Condition {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue(
-          'HttpErrorCodeReturnedEquals', httpErrorCodeReturnedEquals),
-      _s.encodeXmlStringValue('KeyPrefixEquals', keyPrefixEquals),
+      if (httpErrorCodeReturnedEquals != null)
+        _s.encodeXmlStringValue(
+            'HttpErrorCodeReturnedEquals', httpErrorCodeReturnedEquals),
+      if (keyPrefixEquals != null)
+        _s.encodeXmlStringValue('KeyPrefixEquals', keyPrefixEquals),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -10004,32 +10365,6 @@ class CopyObjectOutput {
     this.serverSideEncryption,
     this.versionId,
   });
-  factory CopyObjectOutput.fromXml(
-    _s.XmlElement elem, {
-    Map<String, String> headers,
-  }) {
-    return CopyObjectOutput(
-      copyObjectResult: elem?.let((e) => CopyObjectResult.fromXml(e)),
-      copySourceVersionId:
-          _s.extractHeaderStringValue(headers, 'x-amz-copy-source-version-id'),
-      expiration: _s.extractHeaderStringValue(headers, 'x-amz-expiration'),
-      requestCharged: _s
-          .extractHeaderStringValue(headers, 'x-amz-request-charged')
-          ?.toRequestCharged(),
-      sSECustomerAlgorithm: _s.extractHeaderStringValue(
-          headers, 'x-amz-server-side-encryption-customer-algorithm'),
-      sSECustomerKeyMD5: _s.extractHeaderStringValue(
-          headers, 'x-amz-server-side-encryption-customer-key-MD5'),
-      sSEKMSEncryptionContext: _s.extractHeaderStringValue(
-          headers, 'x-amz-server-side-encryption-context'),
-      sSEKMSKeyId: _s.extractHeaderStringValue(
-          headers, 'x-amz-server-side-encryption-aws-kms-key-id'),
-      serverSideEncryption: _s
-          .extractHeaderStringValue(headers, 'x-amz-server-side-encryption')
-          ?.toServerSideEncryption(),
-      versionId: _s.extractHeaderStringValue(headers, 'x-amz-version-id'),
-    );
-  }
 }
 
 /// Container for all response elements.
@@ -10086,8 +10421,9 @@ class CreateBucketConfiguration {
   });
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue(
-          'LocationConstraint', locationConstraint?.toValue()),
+      if (locationConstraint != null)
+        _s.encodeXmlStringValue(
+            'LocationConstraint', locationConstraint.toValue()),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -10109,15 +10445,6 @@ class CreateBucketOutput {
   CreateBucketOutput({
     this.location,
   });
-  factory CreateBucketOutput.fromXml(
-    // ignore: avoid_unused_constructor_parameters
-    _s.XmlElement elem, {
-    Map<String, String> headers,
-  }) {
-    return CreateBucketOutput(
-      location: _s.extractHeaderStringValue(headers, 'Location'),
-    );
-  }
 }
 
 class CreateMultipartUploadOutput {
@@ -10196,32 +10523,6 @@ class CreateMultipartUploadOutput {
     this.serverSideEncryption,
     this.uploadId,
   });
-  factory CreateMultipartUploadOutput.fromXml(
-    _s.XmlElement elem, {
-    Map<String, String> headers,
-  }) {
-    return CreateMultipartUploadOutput(
-      abortDate: _s.extractHeaderDateTimeValue(headers, 'x-amz-abort-date'),
-      abortRuleId: _s.extractHeaderStringValue(headers, 'x-amz-abort-rule-id'),
-      bucket: _s.extractXmlStringValue(elem, 'Bucket'),
-      key: _s.extractXmlStringValue(elem, 'Key'),
-      requestCharged: _s
-          .extractHeaderStringValue(headers, 'x-amz-request-charged')
-          ?.toRequestCharged(),
-      sSECustomerAlgorithm: _s.extractHeaderStringValue(
-          headers, 'x-amz-server-side-encryption-customer-algorithm'),
-      sSECustomerKeyMD5: _s.extractHeaderStringValue(
-          headers, 'x-amz-server-side-encryption-customer-key-MD5'),
-      sSEKMSEncryptionContext: _s.extractHeaderStringValue(
-          headers, 'x-amz-server-side-encryption-context'),
-      sSEKMSKeyId: _s.extractHeaderStringValue(
-          headers, 'x-amz-server-side-encryption-aws-kms-key-id'),
-      serverSideEncryption: _s
-          .extractHeaderStringValue(headers, 'x-amz-server-side-encryption')
-          ?.toServerSideEncryption(),
-      uploadId: _s.extractXmlStringValue(elem, 'UploadId'),
-    );
-  }
 }
 
 /// The container element for specifying the default Object Lock retention
@@ -10254,9 +10555,9 @@ class DefaultRetention {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Mode', mode?.toValue()),
-      _s.encodeXmlIntValue('Days', days),
-      _s.encodeXmlIntValue('Years', years),
+      if (mode != null) _s.encodeXmlStringValue('Mode', mode.toValue()),
+      if (days != null) _s.encodeXmlIntValue('Days', days),
+      if (years != null) _s.encodeXmlIntValue('Years', years),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -10284,8 +10585,8 @@ class Delete {
   });
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      if (objects != null) ...objects.map((v) => v.toXml('Object')),
-      _s.encodeXmlBoolValue('Quiet', quiet),
+      ...objects?.map((e) => e?.toXml('Object')),
+      if (quiet != null) _s.encodeXmlBoolValue('Quiet', quiet),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -10371,7 +10672,7 @@ class DeleteMarkerReplication {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Status', status?.toValue()),
+      if (status != null) _s.encodeXmlStringValue('Status', status.toValue()),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -10428,19 +10729,6 @@ class DeleteObjectOutput {
     this.requestCharged,
     this.versionId,
   });
-  factory DeleteObjectOutput.fromXml(
-    // ignore: avoid_unused_constructor_parameters
-    _s.XmlElement elem, {
-    Map<String, String> headers,
-  }) {
-    return DeleteObjectOutput(
-      deleteMarker: _s.extractHeaderBoolValue(headers, 'x-amz-delete-marker'),
-      requestCharged: _s
-          .extractHeaderStringValue(headers, 'x-amz-request-charged')
-          ?.toRequestCharged(),
-      versionId: _s.extractHeaderStringValue(headers, 'x-amz-version-id'),
-    );
-  }
 }
 
 class DeleteObjectTaggingOutput {
@@ -10450,15 +10738,6 @@ class DeleteObjectTaggingOutput {
   DeleteObjectTaggingOutput({
     this.versionId,
   });
-  factory DeleteObjectTaggingOutput.fromXml(
-    // ignore: avoid_unused_constructor_parameters
-    _s.XmlElement elem, {
-    Map<String, String> headers,
-  }) {
-    return DeleteObjectTaggingOutput(
-      versionId: _s.extractHeaderStringValue(headers, 'x-amz-version-id'),
-    );
-  }
 }
 
 class DeleteObjectsOutput {
@@ -10476,21 +10755,6 @@ class DeleteObjectsOutput {
     this.errors,
     this.requestCharged,
   });
-  factory DeleteObjectsOutput.fromXml(
-    _s.XmlElement elem, {
-    Map<String, String> headers,
-  }) {
-    return DeleteObjectsOutput(
-      deleted: elem
-          .findElements('Deleted')
-          .map((c) => DeletedObject.fromXml(c))
-          .toList(),
-      errors: elem.findElements('Error').map((c) => Error.fromXml(c)).toList(),
-      requestCharged: _s
-          .extractHeaderStringValue(headers, 'x-amz-request-charged')
-          ?.toRequestCharged(),
-    );
-  }
 }
 
 /// Information about the deleted object.
@@ -10610,12 +10874,15 @@ class Destination {
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Bucket', bucket),
-      _s.encodeXmlStringValue('Account', account),
-      _s.encodeXmlStringValue('StorageClass', storageClass?.toValue()),
-      accessControlTranslation?.toXml('AccessControlTranslation'),
-      encryptionConfiguration?.toXml('EncryptionConfiguration'),
-      replicationTime?.toXml('ReplicationTime'),
-      metrics?.toXml('Metrics'),
+      if (account != null) _s.encodeXmlStringValue('Account', account),
+      if (storageClass != null)
+        _s.encodeXmlStringValue('StorageClass', storageClass.toValue()),
+      if (accessControlTranslation != null)
+        accessControlTranslation?.toXml('AccessControlTranslation'),
+      if (encryptionConfiguration != null)
+        encryptionConfiguration?.toXml('EncryptionConfiguration'),
+      if (replicationTime != null) replicationTime?.toXml('ReplicationTime'),
+      if (metrics != null) metrics?.toXml('Metrics'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -10684,9 +10951,10 @@ class Encryption {
   });
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('EncryptionType', encryptionType?.toValue()),
-      _s.encodeXmlStringValue('KMSKeyId', kMSKeyId),
-      _s.encodeXmlStringValue('KMSContext', kMSContext),
+      _s.encodeXmlStringValue(
+          'EncryptionType', encryptionType?.toValue() ?? ''),
+      if (kMSKeyId != null) _s.encodeXmlStringValue('KMSKeyId', kMSKeyId),
+      if (kMSContext != null) _s.encodeXmlStringValue('KMSContext', kMSContext),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -10723,7 +10991,8 @@ class EncryptionConfiguration {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('ReplicaKmsKeyID', replicaKmsKeyID),
+      if (replicaKmsKeyID != null)
+        _s.encodeXmlStringValue('ReplicaKmsKeyID', replicaKmsKeyID),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -12334,7 +12603,7 @@ class ExistingObjectReplication {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Status', status?.toValue()),
+      _s.encodeXmlStringValue('Status', status?.toValue() ?? ''),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -12491,8 +12760,8 @@ class FilterRule {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Name', name?.toValue()),
-      _s.encodeXmlStringValue('Value', value),
+      if (name != null) _s.encodeXmlStringValue('Name', name.toValue()),
+      if (value != null) _s.encodeXmlStringValue('Value', value),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -12857,19 +13126,6 @@ class GetObjectAclOutput {
     this.owner,
     this.requestCharged,
   });
-  factory GetObjectAclOutput.fromXml(
-    _s.XmlElement elem, {
-    Map<String, String> headers,
-  }) {
-    return GetObjectAclOutput(
-      grants: _s.extractXmlChild(elem, 'AccessControlList')?.let((elem) =>
-          elem.findElements('Grant').map((c) => Grant.fromXml(c)).toList()),
-      owner: _s.extractXmlChild(elem, 'Owner')?.let((e) => Owner.fromXml(e)),
-      requestCharged: _s
-          .extractHeaderStringValue(headers, 'x-amz-request-charged')
-          ?.toRequestCharged(),
-    );
-  }
 }
 
 class GetObjectLegalHoldOutput {
@@ -13051,63 +13307,6 @@ class GetObjectOutput {
     this.versionId,
     this.websiteRedirectLocation,
   });
-  factory GetObjectOutput.fromXml(
-    _s.XmlElement elem, {
-    Map<String, String> headers,
-  }) {
-    return GetObjectOutput(
-      acceptRanges: _s.extractHeaderStringValue(headers, 'accept-ranges'),
-      body: _s.extractXmlUint8ListValue(elem, 'Body'),
-      cacheControl: _s.extractHeaderStringValue(headers, 'Cache-Control'),
-      contentDisposition:
-          _s.extractHeaderStringValue(headers, 'Content-Disposition'),
-      contentEncoding: _s.extractHeaderStringValue(headers, 'Content-Encoding'),
-      contentLanguage: _s.extractHeaderStringValue(headers, 'Content-Language'),
-      contentLength: _s.extractHeaderIntValue(headers, 'Content-Length'),
-      contentRange: _s.extractHeaderStringValue(headers, 'Content-Range'),
-      contentType: _s.extractHeaderStringValue(headers, 'Content-Type'),
-      deleteMarker: _s.extractHeaderBoolValue(headers, 'x-amz-delete-marker'),
-      eTag: _s.extractHeaderStringValue(headers, 'ETag'),
-      expiration: _s.extractHeaderStringValue(headers, 'x-amz-expiration'),
-      expires: _s.extractHeaderDateTimeValue(headers, 'Expires'),
-      lastModified: _s.extractHeaderDateTimeValue(headers, 'Last-Modified'),
-      metadata: _s.extractHeaderMapValues(headers, 'x-amz-meta-'),
-      missingMeta: _s.extractHeaderIntValue(headers, 'x-amz-missing-meta'),
-      objectLockLegalHoldStatus: _s
-          .extractHeaderStringValue(headers, 'x-amz-object-lock-legal-hold')
-          ?.toObjectLockLegalHoldStatus(),
-      objectLockMode: _s
-          .extractHeaderStringValue(headers, 'x-amz-object-lock-mode')
-          ?.toObjectLockMode(),
-      objectLockRetainUntilDate: _s.extractHeaderDateTimeValue(
-          headers, 'x-amz-object-lock-retain-until-date',
-          parser: _s.iso8601FromJson),
-      partsCount: _s.extractHeaderIntValue(headers, 'x-amz-mp-parts-count'),
-      replicationStatus: _s
-          .extractHeaderStringValue(headers, 'x-amz-replication-status')
-          ?.toReplicationStatus(),
-      requestCharged: _s
-          .extractHeaderStringValue(headers, 'x-amz-request-charged')
-          ?.toRequestCharged(),
-      restore: _s.extractHeaderStringValue(headers, 'x-amz-restore'),
-      sSECustomerAlgorithm: _s.extractHeaderStringValue(
-          headers, 'x-amz-server-side-encryption-customer-algorithm'),
-      sSECustomerKeyMD5: _s.extractHeaderStringValue(
-          headers, 'x-amz-server-side-encryption-customer-key-MD5'),
-      sSEKMSKeyId: _s.extractHeaderStringValue(
-          headers, 'x-amz-server-side-encryption-aws-kms-key-id'),
-      serverSideEncryption: _s
-          .extractHeaderStringValue(headers, 'x-amz-server-side-encryption')
-          ?.toServerSideEncryption(),
-      storageClass: _s
-          .extractHeaderStringValue(headers, 'x-amz-storage-class')
-          ?.toStorageClass(),
-      tagCount: _s.extractHeaderIntValue(headers, 'x-amz-tagging-count'),
-      versionId: _s.extractHeaderStringValue(headers, 'x-amz-version-id'),
-      websiteRedirectLocation: _s.extractHeaderStringValue(
-          headers, 'x-amz-website-redirect-location'),
-    );
-  }
 }
 
 class GetObjectRetentionOutput {
@@ -13135,16 +13334,6 @@ class GetObjectTaggingOutput {
     @_s.required this.tagSet,
     this.versionId,
   });
-  factory GetObjectTaggingOutput.fromXml(
-    _s.XmlElement elem, {
-    Map<String, String> headers,
-  }) {
-    return GetObjectTaggingOutput(
-      tagSet: _s.extractXmlChild(elem, 'TagSet')?.let((elem) =>
-          elem.findElements('Tag').map((c) => Tag.fromXml(c)).toList()),
-      versionId: _s.extractHeaderStringValue(headers, 'x-amz-version-id'),
-    );
-  }
 }
 
 class GetObjectTorrentOutput {
@@ -13156,17 +13345,6 @@ class GetObjectTorrentOutput {
     this.body,
     this.requestCharged,
   });
-  factory GetObjectTorrentOutput.fromXml(
-    _s.XmlElement elem, {
-    Map<String, String> headers,
-  }) {
-    return GetObjectTorrentOutput(
-      body: _s.extractXmlUint8ListValue(elem, 'Body'),
-      requestCharged: _s
-          .extractHeaderStringValue(headers, 'x-amz-request-charged')
-          ?.toRequestCharged(),
-    );
-  }
 }
 
 class GetPublicAccessBlockOutput {
@@ -13195,7 +13373,7 @@ class GlacierJobParameters {
   });
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Tier', tier?.toValue()),
+      _s.encodeXmlStringValue('Tier', tier?.toValue() ?? ''),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -13230,8 +13408,9 @@ class Grant {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      grantee?.toXml('Grantee'),
-      _s.encodeXmlStringValue('Permission', permission?.toValue()),
+      if (grantee != null) grantee?.toXml('Grantee'),
+      if (permission != null)
+        _s.encodeXmlStringValue('Permission', permission.toValue()),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -13280,10 +13459,12 @@ class Grantee {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('DisplayName', displayName),
-      _s.encodeXmlStringValue('EmailAddress', emailAddress),
-      _s.encodeXmlStringValue('ID', id),
-      _s.encodeXmlStringValue('URI', uri),
+      if (displayName != null)
+        _s.encodeXmlStringValue('DisplayName', displayName),
+      if (emailAddress != null)
+        _s.encodeXmlStringValue('EmailAddress', emailAddress),
+      if (id != null) _s.encodeXmlStringValue('ID', id),
+      if (uri != null) _s.encodeXmlStringValue('URI', uri),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -13499,61 +13680,6 @@ class HeadObjectOutput {
     this.versionId,
     this.websiteRedirectLocation,
   });
-  factory HeadObjectOutput.fromXml(
-    // ignore: avoid_unused_constructor_parameters
-    _s.XmlElement elem, {
-    Map<String, String> headers,
-  }) {
-    return HeadObjectOutput(
-      acceptRanges: _s.extractHeaderStringValue(headers, 'accept-ranges'),
-      cacheControl: _s.extractHeaderStringValue(headers, 'Cache-Control'),
-      contentDisposition:
-          _s.extractHeaderStringValue(headers, 'Content-Disposition'),
-      contentEncoding: _s.extractHeaderStringValue(headers, 'Content-Encoding'),
-      contentLanguage: _s.extractHeaderStringValue(headers, 'Content-Language'),
-      contentLength: _s.extractHeaderIntValue(headers, 'Content-Length'),
-      contentType: _s.extractHeaderStringValue(headers, 'Content-Type'),
-      deleteMarker: _s.extractHeaderBoolValue(headers, 'x-amz-delete-marker'),
-      eTag: _s.extractHeaderStringValue(headers, 'ETag'),
-      expiration: _s.extractHeaderStringValue(headers, 'x-amz-expiration'),
-      expires: _s.extractHeaderDateTimeValue(headers, 'Expires'),
-      lastModified: _s.extractHeaderDateTimeValue(headers, 'Last-Modified'),
-      metadata: _s.extractHeaderMapValues(headers, 'x-amz-meta-'),
-      missingMeta: _s.extractHeaderIntValue(headers, 'x-amz-missing-meta'),
-      objectLockLegalHoldStatus: _s
-          .extractHeaderStringValue(headers, 'x-amz-object-lock-legal-hold')
-          ?.toObjectLockLegalHoldStatus(),
-      objectLockMode: _s
-          .extractHeaderStringValue(headers, 'x-amz-object-lock-mode')
-          ?.toObjectLockMode(),
-      objectLockRetainUntilDate: _s.extractHeaderDateTimeValue(
-          headers, 'x-amz-object-lock-retain-until-date',
-          parser: _s.iso8601FromJson),
-      partsCount: _s.extractHeaderIntValue(headers, 'x-amz-mp-parts-count'),
-      replicationStatus: _s
-          .extractHeaderStringValue(headers, 'x-amz-replication-status')
-          ?.toReplicationStatus(),
-      requestCharged: _s
-          .extractHeaderStringValue(headers, 'x-amz-request-charged')
-          ?.toRequestCharged(),
-      restore: _s.extractHeaderStringValue(headers, 'x-amz-restore'),
-      sSECustomerAlgorithm: _s.extractHeaderStringValue(
-          headers, 'x-amz-server-side-encryption-customer-algorithm'),
-      sSECustomerKeyMD5: _s.extractHeaderStringValue(
-          headers, 'x-amz-server-side-encryption-customer-key-MD5'),
-      sSEKMSKeyId: _s.extractHeaderStringValue(
-          headers, 'x-amz-server-side-encryption-aws-kms-key-id'),
-      serverSideEncryption: _s
-          .extractHeaderStringValue(headers, 'x-amz-server-side-encryption')
-          ?.toServerSideEncryption(),
-      storageClass: _s
-          .extractHeaderStringValue(headers, 'x-amz-storage-class')
-          ?.toStorageClass(),
-      versionId: _s.extractHeaderStringValue(headers, 'x-amz-version-id'),
-      websiteRedirectLocation: _s.extractHeaderStringValue(
-          headers, 'x-amz-website-redirect-location'),
-    );
-  }
 }
 
 /// Container for the <code>Suffix</code> element.
@@ -13633,10 +13759,11 @@ class InputSerialization {
   });
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      csv?.toXml('CSV'),
-      _s.encodeXmlStringValue('CompressionType', compressionType?.toValue()),
-      json?.toXml('JSON'),
-      parquet?.toXml('Parquet'),
+      if (csv != null) csv?.toXml('CSV'),
+      if (compressionType != null)
+        _s.encodeXmlStringValue('CompressionType', compressionType.toValue()),
+      if (json != null) json?.toXml('JSON'),
+      if (parquet != null) parquet?.toXml('Parquet'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -13720,15 +13847,16 @@ class InventoryConfiguration {
     final $children = <_s.XmlNode>[
       destination?.toXml('Destination'),
       _s.encodeXmlBoolValue('IsEnabled', isEnabled),
-      filter?.toXml('Filter'),
+      if (filter != null) filter?.toXml('Filter'),
       _s.encodeXmlStringValue('Id', id),
       _s.encodeXmlStringValue(
-          'IncludedObjectVersions', includedObjectVersions?.toValue()),
+          'IncludedObjectVersions', includedObjectVersions?.toValue() ?? ''),
       if (optionalFields != null)
-        _s.XmlElement(_s.XmlName('OptionalFields'), [], <_s.XmlNode>[
-          ...optionalFields
-              .map((v) => _s.encodeXmlStringValue('Field', v.toValue()))
-        ]),
+        _s.XmlElement(
+            _s.XmlName('OptionalFields'),
+            [],
+            optionalFields.map(
+                (e) => _s.encodeXmlStringValue('Field', e?.toValue() ?? ''))),
       schedule?.toXml('Schedule'),
     ];
     final $attributes = <_s.XmlAttribute>[
@@ -13797,8 +13925,8 @@ class InventoryEncryption {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      sses3?.toXml('SSE-S3'),
-      ssekms?.toXml('SSE-KMS'),
+      if (sses3 != null) sses3?.toXml('SSE-S3'),
+      if (ssekms != null) ssekms?.toXml('SSE-KMS'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -14048,11 +14176,11 @@ class InventoryS3BucketDestination {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('AccountId', accountId),
+      if (accountId != null) _s.encodeXmlStringValue('AccountId', accountId),
       _s.encodeXmlStringValue('Bucket', bucket),
-      _s.encodeXmlStringValue('Format', format?.toValue()),
-      _s.encodeXmlStringValue('Prefix', prefix),
-      encryption?.toXml('Encryption'),
+      _s.encodeXmlStringValue('Format', format?.toValue() ?? ''),
+      if (prefix != null) _s.encodeXmlStringValue('Prefix', prefix),
+      if (encryption != null) encryption?.toXml('Encryption'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -14082,7 +14210,7 @@ class InventorySchedule {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Frequency', frequency?.toValue()),
+      _s.encodeXmlStringValue('Frequency', frequency?.toValue() ?? ''),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -14105,7 +14233,7 @@ class JSONInput {
   });
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Type', type?.toValue()),
+      if (type != null) _s.encodeXmlStringValue('Type', type.toValue()),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -14128,7 +14256,8 @@ class JSONOutput {
   });
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('RecordDelimiter', recordDelimiter),
+      if (recordDelimiter != null)
+        _s.encodeXmlStringValue('RecordDelimiter', recordDelimiter),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -14206,11 +14335,11 @@ class LambdaFunctionConfiguration {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Id', id),
+      if (id != null) _s.encodeXmlStringValue('Id', id),
       _s.encodeXmlStringValue('CloudFunction', lambdaFunctionArn),
-      if (events != null)
-        ...events.map((v) => _s.encodeXmlStringValue('Event', v.toValue())),
-      filter?.toXml('Filter'),
+      ...events
+          ?.map((e) => _s.encodeXmlStringValue('Event', e?.toValue() ?? '')),
+      if (filter != null) filter?.toXml('Filter'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -14233,7 +14362,7 @@ class LifecycleConfiguration {
   });
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      if (rules != null) ...rules.map((v) => v.toXml('Rule')),
+      ...rules?.map((e) => e?.toXml('Rule')),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -14279,10 +14408,12 @@ class LifecycleExpiration {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlDateTimeValue('Date', date),
-      _s.encodeXmlIntValue('Days', days),
-      _s.encodeXmlBoolValue(
-          'ExpiredObjectDeleteMarker', expiredObjectDeleteMarker),
+      if (date != null)
+        _s.encodeXmlDateTimeValue('Date', date, formatter: _s.iso8601ToJson),
+      if (days != null) _s.encodeXmlIntValue('Days', days),
+      if (expiredObjectDeleteMarker != null)
+        _s.encodeXmlBoolValue(
+            'ExpiredObjectDeleteMarker', expiredObjectDeleteMarker),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -14367,17 +14498,20 @@ class LifecycleRule {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      expiration?.toXml('Expiration'),
-      _s.encodeXmlStringValue('ID', id),
-      _s.encodeXmlStringValue('Prefix', prefix),
-      filter?.toXml('Filter'),
-      _s.encodeXmlStringValue('Status', status?.toValue()),
-      if (transitions != null) ...transitions.map((v) => v.toXml('Transition')),
+      if (expiration != null) expiration?.toXml('Expiration'),
+      if (id != null) _s.encodeXmlStringValue('ID', id),
+      if (prefix != null) _s.encodeXmlStringValue('Prefix', prefix),
+      if (filter != null) filter?.toXml('Filter'),
+      _s.encodeXmlStringValue('Status', status?.toValue() ?? ''),
+      if (transitions != null)
+        ...transitions.map((e) => e?.toXml('Transition')),
       if (noncurrentVersionTransitions != null)
         ...noncurrentVersionTransitions
-            .map((v) => v.toXml('NoncurrentVersionTransition')),
-      noncurrentVersionExpiration?.toXml('NoncurrentVersionExpiration'),
-      abortIncompleteMultipartUpload?.toXml('AbortIncompleteMultipartUpload'),
+            .map((e) => e?.toXml('NoncurrentVersionTransition')),
+      if (noncurrentVersionExpiration != null)
+        noncurrentVersionExpiration?.toXml('NoncurrentVersionExpiration'),
+      if (abortIncompleteMultipartUpload != null)
+        abortIncompleteMultipartUpload?.toXml('AbortIncompleteMultipartUpload'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -14414,8 +14548,8 @@ class LifecycleRuleAndOperator {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Prefix', prefix),
-      if (tags != null) ...tags.map((v) => v.toXml('Tag')),
+      if (prefix != null) _s.encodeXmlStringValue('Prefix', prefix),
+      if (tags != null) ...tags.map((e) => e?.toXml('Tag')),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -14457,9 +14591,9 @@ class LifecycleRuleFilter {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Prefix', prefix),
-      tag?.toXml('Tag'),
-      and?.toXml('And'),
+      if (prefix != null) _s.encodeXmlStringValue('Prefix', prefix),
+      if (tag != null) tag?.toXml('Tag'),
+      if (and != null) and?.toXml('And'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -15109,32 +15243,6 @@ class ListPartsOutput {
     this.storageClass,
     this.uploadId,
   });
-  factory ListPartsOutput.fromXml(
-    _s.XmlElement elem, {
-    Map<String, String> headers,
-  }) {
-    return ListPartsOutput(
-      abortDate: _s.extractHeaderDateTimeValue(headers, 'x-amz-abort-date'),
-      abortRuleId: _s.extractHeaderStringValue(headers, 'x-amz-abort-rule-id'),
-      bucket: _s.extractXmlStringValue(elem, 'Bucket'),
-      initiator: _s
-          .extractXmlChild(elem, 'Initiator')
-          ?.let((e) => Initiator.fromXml(e)),
-      isTruncated: _s.extractXmlBoolValue(elem, 'IsTruncated'),
-      key: _s.extractXmlStringValue(elem, 'Key'),
-      maxParts: _s.extractXmlIntValue(elem, 'MaxParts'),
-      nextPartNumberMarker: _s.extractXmlIntValue(elem, 'NextPartNumberMarker'),
-      owner: _s.extractXmlChild(elem, 'Owner')?.let((e) => Owner.fromXml(e)),
-      partNumberMarker: _s.extractXmlIntValue(elem, 'PartNumberMarker'),
-      parts: elem.findElements('Part').map((c) => Part.fromXml(c)).toList(),
-      requestCharged: _s
-          .extractHeaderStringValue(headers, 'x-amz-request-charged')
-          ?.toRequestCharged(),
-      storageClass:
-          _s.extractXmlStringValue(elem, 'StorageClass')?.toStorageClass(),
-      uploadId: _s.extractXmlStringValue(elem, 'UploadId'),
-    );
-  }
 }
 
 /// Describes where logs are stored and the prefix that Amazon S3 assigns to all
@@ -15180,7 +15288,7 @@ class LoggingEnabled {
       _s.encodeXmlStringValue('TargetBucket', targetBucket),
       if (targetGrants != null)
         _s.XmlElement(_s.XmlName('TargetGrants'), [],
-            <_s.XmlNode>[...targetGrants.map((v) => v.toXml('TargetGrants'))]),
+            targetGrants.map((e) => e?.toXml('Grant'))),
       _s.encodeXmlStringValue('TargetPrefix', targetPrefix),
     ];
     final $attributes = <_s.XmlAttribute>[
@@ -15295,8 +15403,8 @@ class MetadataEntry {
   });
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Name', name),
-      _s.encodeXmlStringValue('Value', value),
+      if (name != null) _s.encodeXmlStringValue('Name', name),
+      if (value != null) _s.encodeXmlStringValue('Value', value),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -15335,7 +15443,7 @@ class Metrics {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Status', status?.toValue()),
+      _s.encodeXmlStringValue('Status', status?.toValue() ?? ''),
       eventThreshold?.toXml('EventThreshold'),
     ];
     final $attributes = <_s.XmlAttribute>[
@@ -15372,8 +15480,8 @@ class MetricsAndOperator {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Prefix', prefix),
-      if (tags != null) ...tags.map((v) => v.toXml('Tag')),
+      if (prefix != null) _s.encodeXmlStringValue('Prefix', prefix),
+      if (tags != null) ...tags.map((e) => e?.toXml('Tag')),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -15419,7 +15527,7 @@ class MetricsConfiguration {
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Id', id),
-      filter?.toXml('Filter'),
+      if (filter != null) filter?.toXml('Filter'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -15464,9 +15572,9 @@ class MetricsFilter {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Prefix', prefix),
-      tag?.toXml('Tag'),
-      and?.toXml('And'),
+      if (prefix != null) _s.encodeXmlStringValue('Prefix', prefix),
+      if (tag != null) tag?.toXml('Tag'),
+      if (and != null) and?.toXml('And'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -15576,7 +15684,8 @@ class NoncurrentVersionExpiration {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlIntValue('NoncurrentDays', noncurrentDays),
+      if (noncurrentDays != null)
+        _s.encodeXmlIntValue('NoncurrentDays', noncurrentDays),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -15626,8 +15735,10 @@ class NoncurrentVersionTransition {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlIntValue('NoncurrentDays', noncurrentDays),
-      _s.encodeXmlStringValue('StorageClass', storageClass?.toValue()),
+      if (noncurrentDays != null)
+        _s.encodeXmlIntValue('NoncurrentDays', noncurrentDays),
+      if (storageClass != null)
+        _s.encodeXmlStringValue('StorageClass', storageClass.toValue()),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -15680,12 +15791,12 @@ class NotificationConfiguration {
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       if (topicConfigurations != null)
-        ...topicConfigurations.map((v) => v.toXml('TopicConfiguration')),
+        ...topicConfigurations.map((e) => e?.toXml('TopicConfiguration')),
       if (queueConfigurations != null)
-        ...queueConfigurations.map((v) => v.toXml('QueueConfiguration')),
+        ...queueConfigurations.map((e) => e?.toXml('QueueConfiguration')),
       if (lambdaFunctionConfigurations != null)
         ...lambdaFunctionConfigurations
-            .map((v) => v.toXml('CloudFunctionConfiguration')),
+            .map((e) => e?.toXml('CloudFunctionConfiguration')),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -15733,9 +15844,12 @@ class NotificationConfigurationDeprecated {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      topicConfiguration?.toXml('TopicConfiguration'),
-      queueConfiguration?.toXml('QueueConfiguration'),
-      cloudFunctionConfiguration?.toXml('CloudFunctionConfiguration'),
+      if (topicConfiguration != null)
+        topicConfiguration?.toXml('TopicConfiguration'),
+      if (queueConfiguration != null)
+        queueConfiguration?.toXml('QueueConfiguration'),
+      if (cloudFunctionConfiguration != null)
+        cloudFunctionConfiguration?.toXml('CloudFunctionConfiguration'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -15768,7 +15882,7 @@ class NotificationConfigurationFilter {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      key?.toXml('S3Key'),
+      if (key != null) key?.toXml('S3Key'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -15894,7 +16008,7 @@ class ObjectIdentifier {
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Key', key),
-      _s.encodeXmlStringValue('VersionId', versionId),
+      if (versionId != null) _s.encodeXmlStringValue('VersionId', versionId),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -15932,9 +16046,10 @@ class ObjectLockConfiguration {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue(
-          'ObjectLockEnabled', objectLockEnabled?.toValue()),
-      rule?.toXml('Rule'),
+      if (objectLockEnabled != null)
+        _s.encodeXmlStringValue(
+            'ObjectLockEnabled', objectLockEnabled.toValue()),
+      if (rule != null) rule?.toXml('Rule'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -15989,7 +16104,7 @@ class ObjectLockLegalHold {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Status', status?.toValue()),
+      if (status != null) _s.encodeXmlStringValue('Status', status.toValue()),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -16082,8 +16197,10 @@ class ObjectLockRetention {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Mode', mode?.toValue()),
-      _s.encodeXmlDateTimeValue('RetainUntilDate', retainUntilDate),
+      if (mode != null) _s.encodeXmlStringValue('Mode', mode.toValue()),
+      if (retainUntilDate != null)
+        _s.encodeXmlDateTimeValue('RetainUntilDate', retainUntilDate,
+            formatter: _s.iso8601ToJson),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -16144,7 +16261,7 @@ class ObjectLockRule {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      defaultRetention?.toXml('DefaultRetention'),
+      if (defaultRetention != null) defaultRetention?.toXml('DefaultRetention'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -16299,7 +16416,7 @@ class OutputLocation {
   });
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      s3?.toXml('S3'),
+      if (s3 != null) s3?.toXml('S3'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -16326,8 +16443,8 @@ class OutputSerialization {
   });
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      csv?.toXml('CSV'),
-      json?.toXml('JSON'),
+      if (csv != null) csv?.toXml('CSV'),
+      if (json != null) json?.toXml('JSON'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -16361,8 +16478,9 @@ class Owner {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('DisplayName', displayName),
-      _s.encodeXmlStringValue('ID', id),
+      if (displayName != null)
+        _s.encodeXmlStringValue('DisplayName', displayName),
+      if (id != null) _s.encodeXmlStringValue('ID', id),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -16678,10 +16796,14 @@ class PublicAccessBlockConfiguration {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlBoolValue('BlockPublicAcls', blockPublicAcls),
-      _s.encodeXmlBoolValue('IgnorePublicAcls', ignorePublicAcls),
-      _s.encodeXmlBoolValue('BlockPublicPolicy', blockPublicPolicy),
-      _s.encodeXmlBoolValue('RestrictPublicBuckets', restrictPublicBuckets),
+      if (blockPublicAcls != null)
+        _s.encodeXmlBoolValue('BlockPublicAcls', blockPublicAcls),
+      if (ignorePublicAcls != null)
+        _s.encodeXmlBoolValue('IgnorePublicAcls', ignorePublicAcls),
+      if (blockPublicPolicy != null)
+        _s.encodeXmlBoolValue('BlockPublicPolicy', blockPublicPolicy),
+      if (restrictPublicBuckets != null)
+        _s.encodeXmlBoolValue('RestrictPublicBuckets', restrictPublicBuckets),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -16700,17 +16822,6 @@ class PutObjectAclOutput {
   PutObjectAclOutput({
     this.requestCharged,
   });
-  factory PutObjectAclOutput.fromXml(
-    // ignore: avoid_unused_constructor_parameters
-    _s.XmlElement elem, {
-    Map<String, String> headers,
-  }) {
-    return PutObjectAclOutput(
-      requestCharged: _s
-          .extractHeaderStringValue(headers, 'x-amz-request-charged')
-          ?.toRequestCharged(),
-    );
-  }
 }
 
 class PutObjectLegalHoldOutput {
@@ -16719,17 +16830,6 @@ class PutObjectLegalHoldOutput {
   PutObjectLegalHoldOutput({
     this.requestCharged,
   });
-  factory PutObjectLegalHoldOutput.fromXml(
-    // ignore: avoid_unused_constructor_parameters
-    _s.XmlElement elem, {
-    Map<String, String> headers,
-  }) {
-    return PutObjectLegalHoldOutput(
-      requestCharged: _s
-          .extractHeaderStringValue(headers, 'x-amz-request-charged')
-          ?.toRequestCharged(),
-    );
-  }
 }
 
 class PutObjectLockConfigurationOutput {
@@ -16738,17 +16838,6 @@ class PutObjectLockConfigurationOutput {
   PutObjectLockConfigurationOutput({
     this.requestCharged,
   });
-  factory PutObjectLockConfigurationOutput.fromXml(
-    // ignore: avoid_unused_constructor_parameters
-    _s.XmlElement elem, {
-    Map<String, String> headers,
-  }) {
-    return PutObjectLockConfigurationOutput(
-      requestCharged: _s
-          .extractHeaderStringValue(headers, 'x-amz-request-charged')
-          ?.toRequestCharged(),
-    );
-  }
 }
 
 class PutObjectOutput {
@@ -16804,31 +16893,6 @@ class PutObjectOutput {
     this.serverSideEncryption,
     this.versionId,
   });
-  factory PutObjectOutput.fromXml(
-    // ignore: avoid_unused_constructor_parameters
-    _s.XmlElement elem, {
-    Map<String, String> headers,
-  }) {
-    return PutObjectOutput(
-      eTag: _s.extractHeaderStringValue(headers, 'ETag'),
-      expiration: _s.extractHeaderStringValue(headers, 'x-amz-expiration'),
-      requestCharged: _s
-          .extractHeaderStringValue(headers, 'x-amz-request-charged')
-          ?.toRequestCharged(),
-      sSECustomerAlgorithm: _s.extractHeaderStringValue(
-          headers, 'x-amz-server-side-encryption-customer-algorithm'),
-      sSECustomerKeyMD5: _s.extractHeaderStringValue(
-          headers, 'x-amz-server-side-encryption-customer-key-MD5'),
-      sSEKMSEncryptionContext: _s.extractHeaderStringValue(
-          headers, 'x-amz-server-side-encryption-context'),
-      sSEKMSKeyId: _s.extractHeaderStringValue(
-          headers, 'x-amz-server-side-encryption-aws-kms-key-id'),
-      serverSideEncryption: _s
-          .extractHeaderStringValue(headers, 'x-amz-server-side-encryption')
-          ?.toServerSideEncryption(),
-      versionId: _s.extractHeaderStringValue(headers, 'x-amz-version-id'),
-    );
-  }
 }
 
 class PutObjectRetentionOutput {
@@ -16837,17 +16901,6 @@ class PutObjectRetentionOutput {
   PutObjectRetentionOutput({
     this.requestCharged,
   });
-  factory PutObjectRetentionOutput.fromXml(
-    // ignore: avoid_unused_constructor_parameters
-    _s.XmlElement elem, {
-    Map<String, String> headers,
-  }) {
-    return PutObjectRetentionOutput(
-      requestCharged: _s
-          .extractHeaderStringValue(headers, 'x-amz-request-charged')
-          ?.toRequestCharged(),
-    );
-  }
 }
 
 class PutObjectTaggingOutput {
@@ -16857,15 +16910,6 @@ class PutObjectTaggingOutput {
   PutObjectTaggingOutput({
     this.versionId,
   });
-  factory PutObjectTaggingOutput.fromXml(
-    // ignore: avoid_unused_constructor_parameters
-    _s.XmlElement elem, {
-    Map<String, String> headers,
-  }) {
-    return PutObjectTaggingOutput(
-      versionId: _s.extractHeaderStringValue(headers, 'x-amz-version-id'),
-    );
-  }
 }
 
 /// Specifies the configuration for publishing messages to an Amazon Simple
@@ -16902,11 +16946,11 @@ class QueueConfiguration {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Id', id),
+      if (id != null) _s.encodeXmlStringValue('Id', id),
       _s.encodeXmlStringValue('Queue', queueArn),
-      if (events != null)
-        ...events.map((v) => _s.encodeXmlStringValue('Event', v.toValue())),
-      filter?.toXml('Filter'),
+      ...events
+          ?.map((e) => _s.encodeXmlStringValue('Event', e?.toValue() ?? '')),
+      if (filter != null) filter?.toXml('Filter'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -16954,11 +16998,12 @@ class QueueConfigurationDeprecated {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Id', id),
-      _s.encodeXmlStringValue('Event', event?.toValue()),
+      if (id != null) _s.encodeXmlStringValue('Id', id),
+      if (event != null) _s.encodeXmlStringValue('Event', event.toValue()),
       if (events != null)
-        ...events.map((v) => _s.encodeXmlStringValue('Event', v.toValue())),
-      _s.encodeXmlStringValue('Queue', queue),
+        ...events
+            .map((e) => _s.encodeXmlStringValue('Event', e?.toValue() ?? '')),
+      if (queue != null) _s.encodeXmlStringValue('Queue', queue),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -17064,11 +17109,15 @@ class Redirect {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('HostName', hostName),
-      _s.encodeXmlStringValue('HttpRedirectCode', httpRedirectCode),
-      _s.encodeXmlStringValue('Protocol', protocol?.toValue()),
-      _s.encodeXmlStringValue('ReplaceKeyPrefixWith', replaceKeyPrefixWith),
-      _s.encodeXmlStringValue('ReplaceKeyWith', replaceKeyWith),
+      if (hostName != null) _s.encodeXmlStringValue('HostName', hostName),
+      if (httpRedirectCode != null)
+        _s.encodeXmlStringValue('HttpRedirectCode', httpRedirectCode),
+      if (protocol != null)
+        _s.encodeXmlStringValue('Protocol', protocol.toValue()),
+      if (replaceKeyPrefixWith != null)
+        _s.encodeXmlStringValue('ReplaceKeyPrefixWith', replaceKeyPrefixWith),
+      if (replaceKeyWith != null)
+        _s.encodeXmlStringValue('ReplaceKeyWith', replaceKeyWith),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -17105,7 +17154,8 @@ class RedirectAllRequestsTo {
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('HostName', hostName),
-      _s.encodeXmlStringValue('Protocol', protocol?.toValue()),
+      if (protocol != null)
+        _s.encodeXmlStringValue('Protocol', protocol.toValue()),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -17150,7 +17200,7 @@ class ReplicationConfiguration {
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Role', role),
-      if (rules != null) ...rules.map((v) => v.toXml('Rule')),
+      ...rules?.map((e) => e?.toXml('Rule')),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -17251,15 +17301,18 @@ class ReplicationRule {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('ID', id),
-      _s.encodeXmlIntValue('Priority', priority),
-      _s.encodeXmlStringValue('Prefix', prefix),
-      filter?.toXml('Filter'),
-      _s.encodeXmlStringValue('Status', status?.toValue()),
-      sourceSelectionCriteria?.toXml('SourceSelectionCriteria'),
-      existingObjectReplication?.toXml('ExistingObjectReplication'),
+      if (id != null) _s.encodeXmlStringValue('ID', id),
+      if (priority != null) _s.encodeXmlIntValue('Priority', priority),
+      if (prefix != null) _s.encodeXmlStringValue('Prefix', prefix),
+      if (filter != null) filter?.toXml('Filter'),
+      _s.encodeXmlStringValue('Status', status?.toValue() ?? ''),
+      if (sourceSelectionCriteria != null)
+        sourceSelectionCriteria?.toXml('SourceSelectionCriteria'),
+      if (existingObjectReplication != null)
+        existingObjectReplication?.toXml('ExistingObjectReplication'),
       destination?.toXml('Destination'),
-      deleteMarkerReplication?.toXml('DeleteMarkerReplication'),
+      if (deleteMarkerReplication != null)
+        deleteMarkerReplication?.toXml('DeleteMarkerReplication'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -17309,8 +17362,8 @@ class ReplicationRuleAndOperator {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Prefix', prefix),
-      if (tags != null) ...tags.map((v) => v.toXml('Tag')),
+      if (prefix != null) _s.encodeXmlStringValue('Prefix', prefix),
+      if (tags != null) ...tags.map((e) => e?.toXml('Tag')),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -17369,9 +17422,9 @@ class ReplicationRuleFilter {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Prefix', prefix),
-      tag?.toXml('Tag'),
-      and?.toXml('And'),
+      if (prefix != null) _s.encodeXmlStringValue('Prefix', prefix),
+      if (tag != null) tag?.toXml('Tag'),
+      if (and != null) and?.toXml('And'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -17480,7 +17533,7 @@ class ReplicationTime {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Status', status?.toValue()),
+      _s.encodeXmlStringValue('Status', status?.toValue() ?? ''),
       time?.toXml('Time'),
     ];
     final $attributes = <_s.XmlAttribute>[
@@ -17542,7 +17595,7 @@ class ReplicationTimeValue {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlIntValue('Minutes', minutes),
+      if (minutes != null) _s.encodeXmlIntValue('Minutes', minutes),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -17621,7 +17674,7 @@ class RequestPaymentConfiguration {
   });
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Payer', payer?.toValue()),
+      _s.encodeXmlStringValue('Payer', payer?.toValue() ?? ''),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -17646,7 +17699,7 @@ class RequestProgress {
   });
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlBoolValue('Enabled', enabled),
+      if (enabled != null) _s.encodeXmlBoolValue('Enabled', enabled),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -17670,19 +17723,6 @@ class RestoreObjectOutput {
     this.requestCharged,
     this.restoreOutputPath,
   });
-  factory RestoreObjectOutput.fromXml(
-    // ignore: avoid_unused_constructor_parameters
-    _s.XmlElement elem, {
-    Map<String, String> headers,
-  }) {
-    return RestoreObjectOutput(
-      requestCharged: _s
-          .extractHeaderStringValue(headers, 'x-amz-request-charged')
-          ?.toRequestCharged(),
-      restoreOutputPath:
-          _s.extractHeaderStringValue(headers, 'x-amz-restore-output-path'),
-    );
-  }
 }
 
 /// Container for restore job parameters.
@@ -17721,13 +17761,15 @@ class RestoreRequest {
   });
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlIntValue('Days', days),
-      glacierJobParameters?.toXml('GlacierJobParameters'),
-      _s.encodeXmlStringValue('Type', type?.toValue()),
-      _s.encodeXmlStringValue('Tier', tier?.toValue()),
-      _s.encodeXmlStringValue('Description', description),
-      selectParameters?.toXml('SelectParameters'),
-      outputLocation?.toXml('OutputLocation'),
+      if (days != null) _s.encodeXmlIntValue('Days', days),
+      if (glacierJobParameters != null)
+        glacierJobParameters?.toXml('GlacierJobParameters'),
+      if (type != null) _s.encodeXmlStringValue('Type', type.toValue()),
+      if (tier != null) _s.encodeXmlStringValue('Tier', tier.toValue()),
+      if (description != null)
+        _s.encodeXmlStringValue('Description', description),
+      if (selectParameters != null) selectParameters?.toXml('SelectParameters'),
+      if (outputLocation != null) outputLocation?.toXml('OutputLocation'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -17794,7 +17836,7 @@ class RoutingRule {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      condition?.toXml('Condition'),
+      if (condition != null) condition?.toXml('Condition'),
       redirect?.toXml('Redirect'),
     ];
     final $attributes = <_s.XmlAttribute>[
@@ -17870,14 +17912,17 @@ class Rule {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      expiration?.toXml('Expiration'),
-      _s.encodeXmlStringValue('ID', id),
+      if (expiration != null) expiration?.toXml('Expiration'),
+      if (id != null) _s.encodeXmlStringValue('ID', id),
       _s.encodeXmlStringValue('Prefix', prefix),
-      _s.encodeXmlStringValue('Status', status?.toValue()),
-      transition?.toXml('Transition'),
-      noncurrentVersionTransition?.toXml('NoncurrentVersionTransition'),
-      noncurrentVersionExpiration?.toXml('NoncurrentVersionExpiration'),
-      abortIncompleteMultipartUpload?.toXml('AbortIncompleteMultipartUpload'),
+      _s.encodeXmlStringValue('Status', status?.toValue() ?? ''),
+      if (transition != null) transition?.toXml('Transition'),
+      if (noncurrentVersionTransition != null)
+        noncurrentVersionTransition?.toXml('NoncurrentVersionTransition'),
+      if (noncurrentVersionExpiration != null)
+        noncurrentVersionExpiration?.toXml('NoncurrentVersionExpiration'),
+      if (abortIncompleteMultipartUpload != null)
+        abortIncompleteMultipartUpload?.toXml('AbortIncompleteMultipartUpload'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -17908,7 +17953,8 @@ class S3KeyFilter {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      if (filterRules != null) ...filterRules.map((v) => v.toXml('FilterRule')),
+      if (filterRules != null)
+        ...filterRules.map((e) => e?.toXml('FilterRule')),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -17960,17 +18006,18 @@ class S3Location {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('BucketName', bucketName),
       _s.encodeXmlStringValue('Prefix', prefix),
-      encryption?.toXml('Encryption'),
-      _s.encodeXmlStringValue('CannedACL', cannedACL?.toValue()),
+      if (encryption != null) encryption?.toXml('Encryption'),
+      if (cannedACL != null)
+        _s.encodeXmlStringValue('CannedACL', cannedACL.toValue()),
       if (accessControlList != null)
-        _s.XmlElement(_s.XmlName('AccessControlList'), [], <_s.XmlNode>[
-          ...accessControlList.map((v) => v.toXml('AccessControlList'))
-        ]),
-      tagging?.toXml('Tagging'),
+        _s.XmlElement(_s.XmlName('AccessControlList'), [],
+            accessControlList.map((e) => e?.toXml('Grant'))),
+      if (tagging != null) tagging?.toXml('Tagging'),
       if (userMetadata != null)
         _s.XmlElement(_s.XmlName('UserMetadata'), [],
-            <_s.XmlNode>[...userMetadata.map((v) => v.toXml('UserMetadata'))]),
-      _s.encodeXmlStringValue('StorageClass', storageClass?.toValue()),
+            userMetadata.map((e) => e?.toXml('MetadataEntry'))),
+      if (storageClass != null)
+        _s.encodeXmlStringValue('StorageClass', storageClass.toValue()),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -18062,8 +18109,8 @@ class ScanRange {
   });
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlIntValue('Start', start),
-      _s.encodeXmlIntValue('End', end),
+      if (start != null) _s.encodeXmlIntValue('Start', start),
+      if (end != null) _s.encodeXmlIntValue('End', end),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -18219,11 +18266,12 @@ class SelectObjectContentRequest {
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Expression', expression),
-      _s.encodeXmlStringValue('ExpressionType', expressionType?.toValue()),
-      requestProgress?.toXml('RequestProgress'),
+      _s.encodeXmlStringValue(
+          'ExpressionType', expressionType?.toValue() ?? ''),
+      if (requestProgress != null) requestProgress?.toXml('RequestProgress'),
       inputSerialization?.toXml('InputSerialization'),
       outputSerialization?.toXml('OutputSerialization'),
-      scanRange?.toXml('ScanRange'),
+      if (scanRange != null) scanRange?.toXml('ScanRange'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -18259,7 +18307,8 @@ class SelectParameters {
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       inputSerialization?.toXml('InputSerialization'),
-      _s.encodeXmlStringValue('ExpressionType', expressionType?.toValue()),
+      _s.encodeXmlStringValue(
+          'ExpressionType', expressionType?.toValue() ?? ''),
       _s.encodeXmlStringValue('Expression', expression),
       outputSerialization?.toXml('OutputSerialization'),
     ];
@@ -18333,8 +18382,9 @@ class ServerSideEncryptionByDefault {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('SSEAlgorithm', sSEAlgorithm?.toValue()),
-      _s.encodeXmlStringValue('KMSMasterKeyID', kMSMasterKeyID),
+      _s.encodeXmlStringValue('SSEAlgorithm', sSEAlgorithm?.toValue() ?? ''),
+      if (kMSMasterKeyID != null)
+        _s.encodeXmlStringValue('KMSMasterKeyID', kMSMasterKeyID),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -18367,7 +18417,7 @@ class ServerSideEncryptionConfiguration {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      if (rules != null) ...rules.map((v) => v.toXml('Rule')),
+      ...rules?.map((e) => e?.toXml('Rule')),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -18400,8 +18450,9 @@ class ServerSideEncryptionRule {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      applyServerSideEncryptionByDefault
-          ?.toXml('ApplyServerSideEncryptionByDefault'),
+      if (applyServerSideEncryptionByDefault != null)
+        applyServerSideEncryptionByDefault
+            ?.toXml('ApplyServerSideEncryptionByDefault'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -18438,7 +18489,8 @@ class SourceSelectionCriteria {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      sseKmsEncryptedObjects?.toXml('SseKmsEncryptedObjects'),
+      if (sseKmsEncryptedObjects != null)
+        sseKmsEncryptedObjects?.toXml('SseKmsEncryptedObjects'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -18472,7 +18524,7 @@ class SseKmsEncryptedObjects {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Status', status?.toValue()),
+      _s.encodeXmlStringValue('Status', status?.toValue() ?? ''),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -18630,7 +18682,7 @@ class StorageClassAnalysis {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      dataExport?.toXml('DataExport'),
+      if (dataExport != null) dataExport?.toXml('DataExport'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -18671,7 +18723,7 @@ class StorageClassAnalysisDataExport {
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue(
-          'OutputSchemaVersion', outputSchemaVersion?.toValue()),
+          'OutputSchemaVersion', outputSchemaVersion?.toValue() ?? ''),
       destination?.toXml('Destination'),
     ];
     final $attributes = <_s.XmlAttribute>[
@@ -18754,9 +18806,8 @@ class Tagging {
   });
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      if (tagSet != null)
-        _s.XmlElement(_s.XmlName('TagSet'), [],
-            <_s.XmlNode>[...tagSet.map((v) => v.toXml('TagSet'))]),
+      _s.XmlElement(
+          _s.XmlName('TagSet'), [], tagSet?.map((e) => e?.toXml('Tag'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -18822,8 +18873,9 @@ class TargetGrant {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      grantee?.toXml('Grantee'),
-      _s.encodeXmlStringValue('Permission', permission?.toValue()),
+      if (grantee != null) grantee?.toXml('Grantee'),
+      if (permission != null)
+        _s.encodeXmlStringValue('Permission', permission.toValue()),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -18908,11 +18960,11 @@ class TopicConfiguration {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Id', id),
+      if (id != null) _s.encodeXmlStringValue('Id', id),
       _s.encodeXmlStringValue('Topic', topicArn),
-      if (events != null)
-        ...events.map((v) => _s.encodeXmlStringValue('Event', v.toValue())),
-      filter?.toXml('Filter'),
+      ...events
+          ?.map((e) => _s.encodeXmlStringValue('Event', e?.toValue() ?? '')),
+      if (filter != null) filter?.toXml('Filter'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -18961,11 +19013,12 @@ class TopicConfigurationDeprecated {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Id', id),
+      if (id != null) _s.encodeXmlStringValue('Id', id),
       if (events != null)
-        ...events.map((v) => _s.encodeXmlStringValue('Event', v.toValue())),
-      _s.encodeXmlStringValue('Event', event?.toValue()),
-      _s.encodeXmlStringValue('Topic', topic),
+        ...events
+            .map((e) => _s.encodeXmlStringValue('Event', e?.toValue() ?? '')),
+      if (event != null) _s.encodeXmlStringValue('Event', event.toValue()),
+      if (topic != null) _s.encodeXmlStringValue('Topic', topic),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -19009,9 +19062,11 @@ class Transition {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlDateTimeValue('Date', date),
-      _s.encodeXmlIntValue('Days', days),
-      _s.encodeXmlStringValue('StorageClass', storageClass?.toValue()),
+      if (date != null)
+        _s.encodeXmlDateTimeValue('Date', date, formatter: _s.iso8601ToJson),
+      if (days != null) _s.encodeXmlIntValue('Days', days),
+      if (storageClass != null)
+        _s.encodeXmlStringValue('StorageClass', storageClass.toValue()),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -19139,28 +19194,6 @@ class UploadPartCopyOutput {
     this.sSEKMSKeyId,
     this.serverSideEncryption,
   });
-  factory UploadPartCopyOutput.fromXml(
-    _s.XmlElement elem, {
-    Map<String, String> headers,
-  }) {
-    return UploadPartCopyOutput(
-      copyPartResult: elem?.let((e) => CopyPartResult.fromXml(e)),
-      copySourceVersionId:
-          _s.extractHeaderStringValue(headers, 'x-amz-copy-source-version-id'),
-      requestCharged: _s
-          .extractHeaderStringValue(headers, 'x-amz-request-charged')
-          ?.toRequestCharged(),
-      sSECustomerAlgorithm: _s.extractHeaderStringValue(
-          headers, 'x-amz-server-side-encryption-customer-algorithm'),
-      sSECustomerKeyMD5: _s.extractHeaderStringValue(
-          headers, 'x-amz-server-side-encryption-customer-key-MD5'),
-      sSEKMSKeyId: _s.extractHeaderStringValue(
-          headers, 'x-amz-server-side-encryption-aws-kms-key-id'),
-      serverSideEncryption: _s
-          .extractHeaderStringValue(headers, 'x-amz-server-side-encryption')
-          ?.toServerSideEncryption(),
-    );
-  }
 }
 
 class UploadPartOutput {
@@ -19195,27 +19228,6 @@ class UploadPartOutput {
     this.sSEKMSKeyId,
     this.serverSideEncryption,
   });
-  factory UploadPartOutput.fromXml(
-    // ignore: avoid_unused_constructor_parameters
-    _s.XmlElement elem, {
-    Map<String, String> headers,
-  }) {
-    return UploadPartOutput(
-      eTag: _s.extractHeaderStringValue(headers, 'ETag'),
-      requestCharged: _s
-          .extractHeaderStringValue(headers, 'x-amz-request-charged')
-          ?.toRequestCharged(),
-      sSECustomerAlgorithm: _s.extractHeaderStringValue(
-          headers, 'x-amz-server-side-encryption-customer-algorithm'),
-      sSECustomerKeyMD5: _s.extractHeaderStringValue(
-          headers, 'x-amz-server-side-encryption-customer-key-MD5'),
-      sSEKMSKeyId: _s.extractHeaderStringValue(
-          headers, 'x-amz-server-side-encryption-aws-kms-key-id'),
-      serverSideEncryption: _s
-          .extractHeaderStringValue(headers, 'x-amz-server-side-encryption')
-          ?.toServerSideEncryption(),
-    );
-  }
 }
 
 /// Describes the versioning state of an Amazon S3 bucket. For more information,
@@ -19239,8 +19251,9 @@ class VersioningConfiguration {
   });
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('MfaDelete', mFADelete?.toValue()),
-      _s.encodeXmlStringValue('Status', status?.toValue()),
+      if (mFADelete != null)
+        _s.encodeXmlStringValue('MfaDelete', mFADelete.toValue()),
+      if (status != null) _s.encodeXmlStringValue('Status', status.toValue()),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -19278,12 +19291,13 @@ class WebsiteConfiguration {
   });
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      errorDocument?.toXml('ErrorDocument'),
-      indexDocument?.toXml('IndexDocument'),
-      redirectAllRequestsTo?.toXml('RedirectAllRequestsTo'),
+      if (errorDocument != null) errorDocument?.toXml('ErrorDocument'),
+      if (indexDocument != null) indexDocument?.toXml('IndexDocument'),
+      if (redirectAllRequestsTo != null)
+        redirectAllRequestsTo?.toXml('RedirectAllRequestsTo'),
       if (routingRules != null)
         _s.XmlElement(_s.XmlName('RoutingRules'), [],
-            <_s.XmlNode>[...routingRules.map((v) => v.toXml('RoutingRules'))]),
+            routingRules.map((e) => e?.toXml('RoutingRule'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,

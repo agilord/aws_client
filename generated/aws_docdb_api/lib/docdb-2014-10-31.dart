@@ -2057,14 +2057,14 @@ class DocDB {
   }) async {
     final $request = <String, dynamic>{};
     duration?.also((arg) => $request['Duration'] = arg);
-    endTime?.also((arg) => $request['EndTime'] = arg);
+    endTime?.also((arg) => $request['EndTime'] = _s.iso8601ToJson(arg));
     eventCategories?.also((arg) => $request['EventCategories'] = arg);
     filters?.also((arg) => $request['Filters'] = arg);
     marker?.also((arg) => $request['Marker'] = arg);
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
     sourceIdentifier?.also((arg) => $request['SourceIdentifier'] = arg);
     sourceType?.also((arg) => $request['SourceType'] = arg.toValue());
-    startTime?.also((arg) => $request['StartTime'] = arg);
+    startTime?.also((arg) => $request['StartTime'] = _s.iso8601ToJson(arg));
     final $result = await _protocol.send(
       $request,
       action: 'DescribeEvents',
@@ -3326,7 +3326,8 @@ class DocDB {
         ?.also((arg) => $request['EnableCloudwatchLogsExports'] = arg);
     kmsKeyId?.also((arg) => $request['KmsKeyId'] = arg);
     port?.also((arg) => $request['Port'] = arg);
-    restoreToTime?.also((arg) => $request['RestoreToTime'] = arg);
+    restoreToTime
+        ?.also((arg) => $request['RestoreToTime'] = _s.iso8601ToJson(arg));
     tags?.also((arg) => $request['Tags'] = arg);
     useLatestRestorableTime
         ?.also((arg) => $request['UseLatestRestorableTime'] = arg);

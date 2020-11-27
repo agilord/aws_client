@@ -370,10 +370,12 @@ class CodeGuruProfiler {
     accept?.let((v) => headers['Accept'] = v.toString());
     var _query = '';
     _query = '?${[
-      if (endTime != null) _s.toQueryParam('endTime', endTime),
+      if (endTime != null)
+        _s.toQueryParam('endTime', _s.iso8601ToJson(endTime)),
       if (maxDepth != null) _s.toQueryParam('maxDepth', maxDepth),
       if (period != null) _s.toQueryParam('period', period),
-      if (startTime != null) _s.toQueryParam('startTime', startTime),
+      if (startTime != null)
+        _s.toQueryParam('startTime', _s.iso8601ToJson(startTime)),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.sendRaw(
       payload: null,
@@ -480,12 +482,14 @@ class CodeGuruProfiler {
     );
     var _query = '';
     _query = '?${[
-      if (endTime != null) _s.toQueryParam('endTime', endTime),
-      if (period != null) _s.toQueryParam('period', period),
-      if (startTime != null) _s.toQueryParam('startTime', startTime),
+      if (endTime != null)
+        _s.toQueryParam('endTime', _s.iso8601ToJson(endTime)),
+      if (period != null) _s.toQueryParam('period', period.toValue()),
+      if (startTime != null)
+        _s.toQueryParam('startTime', _s.iso8601ToJson(startTime)),
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-      if (orderBy != null) _s.toQueryParam('orderBy', orderBy),
+      if (orderBy != null) _s.toQueryParam('orderBy', orderBy.toValue()),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
@@ -885,6 +889,20 @@ enum AggregationPeriod {
   pt5m,
 }
 
+extension on AggregationPeriod {
+  String toValue() {
+    switch (this) {
+      case AggregationPeriod.p1d:
+        return 'P1D';
+      case AggregationPeriod.pt1h:
+        return 'PT1H';
+      case AggregationPeriod.pt5m:
+        return 'PT5M';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// The structure representing the configureAgentResponse.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -1070,6 +1088,18 @@ enum OrderBy {
   timestampAscending,
   @_s.JsonValue('TimestampDescending')
   timestampDescending,
+}
+
+extension on OrderBy {
+  String toValue() {
+    switch (this) {
+      case OrderBy.timestampAscending:
+        return 'TimestampAscending';
+      case OrderBy.timestampDescending:
+        return 'TimestampDescending';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// The structure representing the postAgentProfileResponse.

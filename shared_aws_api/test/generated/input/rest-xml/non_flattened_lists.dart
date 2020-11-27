@@ -57,9 +57,8 @@ class InputShape {
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       if (listParam != null)
-        _s.XmlElement(_s.XmlName('ListParam'), [], <_s.XmlNode>[
-          ...listParam.map((v) => _s.encodeXmlStringValue('ListParam', v))
-        ]),
+        _s.XmlElement(_s.XmlName('ListParam'), [],
+            listParam.map((e) => _s.encodeXmlStringValue('member', e))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,

@@ -21,7 +21,7 @@ import 'package:shared_aws_api/shared.dart'
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
-part 'uri_parameter,_querystring_params,_headers_and_json_body.g.dart';
+part 'uri_parameter_querystring_params_headers_and_json_body.g.dart';
 
 /// URI parameter, querystring params, headers and JSON body
 class URIParameterQuerystringParamsHeadersAndJSONBody {

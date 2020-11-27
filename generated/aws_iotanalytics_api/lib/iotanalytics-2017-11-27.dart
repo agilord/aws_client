@@ -1035,9 +1035,10 @@ class IoTAnalytics {
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
       if (scheduledBefore != null)
-        _s.toQueryParam('scheduledBefore', scheduledBefore),
+        _s.toQueryParam('scheduledBefore', _s.iso8601ToJson(scheduledBefore)),
       if (scheduledOnOrAfter != null)
-        _s.toQueryParam('scheduledOnOrAfter', scheduledOnOrAfter),
+        _s.toQueryParam(
+            'scheduledOnOrAfter', _s.iso8601ToJson(scheduledOnOrAfter)),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
@@ -1313,9 +1314,11 @@ class IoTAnalytics {
     );
     var _query = '';
     _query = '?${[
-      if (endTime != null) _s.toQueryParam('endTime', endTime),
+      if (endTime != null)
+        _s.toQueryParam('endTime', _s.iso8601ToJson(endTime)),
       if (maxMessages != null) _s.toQueryParam('maxMessages', maxMessages),
-      if (startTime != null) _s.toQueryParam('startTime', startTime),
+      if (startTime != null)
+        _s.toQueryParam('startTime', _s.iso8601ToJson(startTime)),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,

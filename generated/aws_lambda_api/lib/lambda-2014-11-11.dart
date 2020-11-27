@@ -700,9 +700,9 @@ class Lambda {
     var _query = '';
     _query = '?${[
       if (handler != null) _s.toQueryParam('Handler', handler),
-      if (mode != null) _s.toQueryParam('Mode', mode),
+      if (mode != null) _s.toQueryParam('Mode', mode.toValue()),
       if (role != null) _s.toQueryParam('Role', role),
-      if (runtime != null) _s.toQueryParam('Runtime', runtime),
+      if (runtime != null) _s.toQueryParam('Runtime', runtime.toValue()),
       if (description != null) _s.toQueryParam('Description', description),
       if (memorySize != null) _s.toQueryParam('MemorySize', memorySize),
       if (timeout != null) _s.toQueryParam('Timeout', timeout),
@@ -1028,6 +1028,16 @@ enum Mode {
   event,
 }
 
+extension on Mode {
+  String toValue() {
+    switch (this) {
+      case Mode.event:
+        return 'event';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// The function or the event source specified in the request does not exist.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -1051,6 +1061,16 @@ class ResourceNotFoundException implements _s.AwsException {
 enum Runtime {
   @_s.JsonValue('nodejs')
   nodejs,
+}
+
+extension on Runtime {
+  String toValue() {
+    switch (this) {
+      case Runtime.nodejs:
+        return 'nodejs';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// The AWS Lambda service encountered an internal error.

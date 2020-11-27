@@ -2190,11 +2190,11 @@ class APIGateway {
     _query = '?${[
       if (limit != null) _s.toQueryParam('limit', limit),
       if (locationStatus != null)
-        _s.toQueryParam('locationStatus', locationStatus),
+        _s.toQueryParam('locationStatus', locationStatus.toValue()),
       if (nameQuery != null) _s.toQueryParam('name', nameQuery),
       if (path != null) _s.toQueryParam('path', path),
       if (position != null) _s.toQueryParam('position', position),
-      if (type != null) _s.toQueryParam('type', type),
+      if (type != null) _s.toQueryParam('type', type.toValue()),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
@@ -3426,8 +3426,8 @@ class APIGateway {
     ArgumentError.checkNotNull(body, 'body');
     ArgumentError.checkNotNull(format, 'format');
     var _query = '';
-    _query = '?${[
-      if (format != null) _s.toQueryParam('format', format),
+    _query = '&${[
+      if (format != null) _s.toQueryParam('format', format.toValue()),
       if (failOnWarnings != null)
         _s.toQueryParam('failonwarnings', failOnWarnings),
     ].where((e) => e != null).join('&')}';
@@ -3476,7 +3476,7 @@ class APIGateway {
     _query = '?${[
       if (failOnWarnings != null)
         _s.toQueryParam('failonwarnings', failOnWarnings),
-      if (mode != null) _s.toQueryParam('mode', mode),
+      if (mode != null) _s.toQueryParam('mode', mode.toValue()),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: body,
@@ -3541,7 +3541,7 @@ class APIGateway {
   }) async {
     ArgumentError.checkNotNull(body, 'body');
     var _query = '';
-    _query = '?${[
+    _query = '&${[
       if (failOnWarnings != null)
         _s.toQueryParam('failonwarnings', failOnWarnings),
       if (parameters != null) _s.toQueryParam(null, parameters),
@@ -4164,7 +4164,7 @@ class APIGateway {
     _query = '?${[
       if (failOnWarnings != null)
         _s.toQueryParam('failonwarnings', failOnWarnings),
-      if (mode != null) _s.toQueryParam('mode', mode),
+      if (mode != null) _s.toQueryParam('mode', mode.toValue()),
       if (parameters != null) _s.toQueryParam(null, parameters),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
@@ -5494,6 +5494,16 @@ enum ApiKeysFormat {
   csv,
 }
 
+extension on ApiKeysFormat {
+  String toValue() {
+    switch (this) {
+      case ApiKeysFormat.csv:
+        return 'csv';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// API stage name of the associated API stage in a usage plan.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -6281,6 +6291,38 @@ enum DocumentationPartType {
   responseHeader,
   @_s.JsonValue('RESPONSE_BODY')
   responseBody,
+}
+
+extension on DocumentationPartType {
+  String toValue() {
+    switch (this) {
+      case DocumentationPartType.api:
+        return 'API';
+      case DocumentationPartType.authorizer:
+        return 'AUTHORIZER';
+      case DocumentationPartType.model:
+        return 'MODEL';
+      case DocumentationPartType.resource:
+        return 'RESOURCE';
+      case DocumentationPartType.method:
+        return 'METHOD';
+      case DocumentationPartType.pathParameter:
+        return 'PATH_PARAMETER';
+      case DocumentationPartType.queryParameter:
+        return 'QUERY_PARAMETER';
+      case DocumentationPartType.requestHeader:
+        return 'REQUEST_HEADER';
+      case DocumentationPartType.requestBody:
+        return 'REQUEST_BODY';
+      case DocumentationPartType.response:
+        return 'RESPONSE';
+      case DocumentationPartType.responseHeader:
+        return 'RESPONSE_HEADER';
+      case DocumentationPartType.responseBody:
+        return 'RESPONSE_BODY';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// The collection of documentation parts of an API.
@@ -7389,6 +7431,18 @@ enum LocationStatusType {
   undocumented,
 }
 
+extension on LocationStatusType {
+  String toValue() {
+    switch (this) {
+      case LocationStatusType.documented:
+        return 'DOCUMENTED';
+      case LocationStatusType.undocumented:
+        return 'UNDOCUMENTED';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Represents a client-facing interface by which the client calls the API to
 /// access back-end resources. A <b>Method</b> resource is integrated with an
 /// <a>Integration</a> resource. Both consist of a request and one or more
@@ -8013,6 +8067,18 @@ enum PutMode {
   merge,
   @_s.JsonValue('overwrite')
   overwrite,
+}
+
+extension on PutMode {
+  String toValue() {
+    switch (this) {
+      case PutMode.merge:
+        return 'merge';
+      case PutMode.overwrite:
+        return 'overwrite';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 enum QuotaPeriodType {

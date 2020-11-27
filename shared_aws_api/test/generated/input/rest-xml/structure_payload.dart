@@ -84,7 +84,7 @@ class FooShape {
   });
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('baz', baz),
+      if (baz != null) _s.encodeXmlStringValue('baz', baz),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,

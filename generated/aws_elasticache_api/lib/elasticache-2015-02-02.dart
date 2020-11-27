@@ -2700,12 +2700,12 @@ class ElastiCache {
   }) async {
     final $request = <String, dynamic>{};
     duration?.also((arg) => $request['Duration'] = arg);
-    endTime?.also((arg) => $request['EndTime'] = arg);
+    endTime?.also((arg) => $request['EndTime'] = _s.iso8601ToJson(arg));
     marker?.also((arg) => $request['Marker'] = arg);
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
     sourceIdentifier?.also((arg) => $request['SourceIdentifier'] = arg);
     sourceType?.also((arg) => $request['SourceType'] = arg.toValue());
-    startTime?.also((arg) => $request['StartTime'] = arg);
+    startTime?.also((arg) => $request['StartTime'] = _s.iso8601ToJson(arg));
     final $result = await _protocol.send(
       $request,
       action: 'DescribeEvents',
@@ -3221,7 +3221,8 @@ class ElastiCache {
     marker?.also((arg) => $request['Marker'] = arg);
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
     serviceUpdateName?.also((arg) => $request['ServiceUpdateName'] = arg);
-    serviceUpdateStatus?.also((arg) => $request['ServiceUpdateStatus'] = arg);
+    serviceUpdateStatus?.also((arg) => $request['ServiceUpdateStatus'] =
+        arg.map((e) => e?.toValue() ?? '').toList());
     final $result = await _protocol.send(
       $request,
       action: 'DescribeServiceUpdates',
@@ -3375,12 +3376,14 @@ class ElastiCache {
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
     replicationGroupIds?.also((arg) => $request['ReplicationGroupIds'] = arg);
     serviceUpdateName?.also((arg) => $request['ServiceUpdateName'] = arg);
-    serviceUpdateStatus?.also((arg) => $request['ServiceUpdateStatus'] = arg);
+    serviceUpdateStatus?.also((arg) => $request['ServiceUpdateStatus'] =
+        arg.map((e) => e?.toValue() ?? '').toList());
     serviceUpdateTimeRange
         ?.also((arg) => $request['ServiceUpdateTimeRange'] = arg);
     showNodeLevelUpdateStatus
         ?.also((arg) => $request['ShowNodeLevelUpdateStatus'] = arg);
-    updateActionStatus?.also((arg) => $request['UpdateActionStatus'] = arg);
+    updateActionStatus?.also((arg) => $request['UpdateActionStatus'] =
+        arg.map((e) => e?.toValue() ?? '').toList());
     final $result = await _protocol.send(
       $request,
       action: 'DescribeUpdateActions',
@@ -8740,6 +8743,20 @@ enum ServiceUpdateStatus {
   expired,
 }
 
+extension on ServiceUpdateStatus {
+  String toValue() {
+    switch (this) {
+      case ServiceUpdateStatus.available:
+        return 'available';
+      case ServiceUpdateStatus.cancelled:
+        return 'cancelled';
+      case ServiceUpdateStatus.expired:
+        return 'expired';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 extension on String {
   ServiceUpdateStatus toServiceUpdateStatus() {
     switch (this) {
@@ -9531,6 +9548,26 @@ enum UpdateActionStatus {
   stopped,
   @_s.JsonValue('complete')
   complete,
+}
+
+extension on UpdateActionStatus {
+  String toValue() {
+    switch (this) {
+      case UpdateActionStatus.notApplied:
+        return 'not-applied';
+      case UpdateActionStatus.waitingToStart:
+        return 'waiting-to-start';
+      case UpdateActionStatus.inProgress:
+        return 'in-progress';
+      case UpdateActionStatus.stopping:
+        return 'stopping';
+      case UpdateActionStatus.stopped:
+        return 'stopped';
+      case UpdateActionStatus.complete:
+        return 'complete';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 extension on String {

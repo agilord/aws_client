@@ -43,19 +43,17 @@ class TimestampShapes {
     DateTime timeFormatInQuery,
   }) async {
     final headers = <String, String>{};
-    timeArgInHeader
-        ?.let((v) => headers['x-amz-timearg'] = v.toUtc().toIso8601String());
-    timeCustomInHeader?.let((v) =>
-        headers['x-amz-timecustom-header'] = v.toUtc().toIso8601String());
-    timeFormatInHeader?.let((v) =>
-        headers['x-amz-timeformat-header'] = v.toUtc().toIso8601String());
+    timeArgInHeader?.let((v) => headers['x-amz-timearg'] = _s.rfc822ToJson(v));
+    timeCustomInHeader?.let((v) => headers['x-amz-timecustom-header'] =
+        _s.unixTimestampToJson(v).toString());
+    timeFormatInHeader?.let((v) => headers['x-amz-timeformat-header'] =
+        _s.unixTimestampToJson(v).toString());
     final queryParams = <String, String>{};
-    timeArgInQuery
-        ?.let((v) => queryParams['TimeQuery'] = v.toUtc().toIso8601String());
-    timeCustomInQuery?.let(
-        (v) => queryParams['TimeCustomQuery'] = v.toUtc().toIso8601String());
-    timeFormatInQuery?.let(
-        (v) => queryParams['TimeFormatQuery'] = v.toUtc().toIso8601String());
+    timeArgInQuery?.let((v) => queryParams['TimeQuery'] = _s.iso8601ToJson(v));
+    timeCustomInQuery?.let((v) =>
+        queryParams['TimeCustomQuery'] = _s.unixTimestampToJson(v).toString());
+    timeFormatInQuery?.let((v) =>
+        queryParams['TimeFormatQuery'] = _s.unixTimestampToJson(v).toString());
     await _protocol.send(
       method: 'POST',
       requestUri: '/2014-01-01/hostedzone',
@@ -106,9 +104,13 @@ class InputShape {
   });
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlDateTimeValue('TimeArg', timeArg),
-      _s.encodeXmlDateTimeValue('TimeCustom', timeCustom),
-      _s.encodeXmlDateTimeValue('TimeFormat', timeFormat),
+      if (timeArg != null) _s.encodeXmlDateTimeValue('TimeArg', timeArg),
+      if (timeCustom != null)
+        _s.encodeXmlDateTimeValue('TimeCustom', timeCustom,
+            formatter: _s.rfc822ToJson),
+      if (timeFormat != null)
+        _s.encodeXmlDateTimeValue('TimeFormat', timeFormat,
+            formatter: _s.rfc822ToJson),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,

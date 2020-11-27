@@ -1520,7 +1520,8 @@ class WorkDocs {
     _query = '?${[
       if (activityTypes != null)
         _s.toQueryParam('activityTypes', activityTypes),
-      if (endTime != null) _s.toQueryParam('endTime', endTime),
+      if (endTime != null)
+        _s.toQueryParam('endTime', _s.iso8601ToJson(endTime)),
       if (includeIndirectActivities != null)
         _s.toQueryParam('includeIndirectActivities', includeIndirectActivities),
       if (limit != null) _s.toQueryParam('limit', limit),
@@ -1528,7 +1529,8 @@ class WorkDocs {
       if (organizationId != null)
         _s.toQueryParam('organizationId', organizationId),
       if (resourceId != null) _s.toQueryParam('resourceId', resourceId),
-      if (startTime != null) _s.toQueryParam('startTime', startTime),
+      if (startTime != null)
+        _s.toQueryParam('startTime', _s.iso8601ToJson(startTime)),
       if (userId != null) _s.toQueryParam('userId', userId),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
@@ -1858,9 +1860,9 @@ class WorkDocs {
       if (include != null) _s.toQueryParam('include', include),
       if (limit != null) _s.toQueryParam('limit', limit),
       if (marker != null) _s.toQueryParam('marker', marker),
-      if (order != null) _s.toQueryParam('order', order),
-      if (sort != null) _s.toQueryParam('sort', sort),
-      if (type != null) _s.toQueryParam('type', type),
+      if (order != null) _s.toQueryParam('order', order.toValue()),
+      if (sort != null) _s.toQueryParam('sort', sort.toValue()),
+      if (type != null) _s.toQueryParam('type', type.toValue()),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
@@ -2322,14 +2324,14 @@ class WorkDocs {
     var _query = '';
     _query = '?${[
       if (fields != null) _s.toQueryParam('fields', fields),
-      if (include != null) _s.toQueryParam('include', include),
+      if (include != null) _s.toQueryParam('include', include.toValue()),
       if (limit != null) _s.toQueryParam('limit', limit),
       if (marker != null) _s.toQueryParam('marker', marker),
-      if (order != null) _s.toQueryParam('order', order),
+      if (order != null) _s.toQueryParam('order', order.toValue()),
       if (organizationId != null)
         _s.toQueryParam('organizationId', organizationId),
       if (query != null) _s.toQueryParam('query', query),
-      if (sort != null) _s.toQueryParam('sort', sort),
+      if (sort != null) _s.toQueryParam('sort', sort.toValue()),
       if (userIds != null) _s.toQueryParam('userIds', userIds),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
@@ -2870,7 +2872,7 @@ class WorkDocs {
     var _query = '';
     _query = '?${[
       if (collectionType != null)
-        _s.toQueryParam('collectionType', collectionType),
+        _s.toQueryParam('collectionType', collectionType.toValue()),
       if (limit != null) _s.toQueryParam('limit', limit),
       if (marker != null) _s.toQueryParam('marker', marker),
       if (userId != null) _s.toQueryParam('userId', userId),
@@ -3128,7 +3130,8 @@ class WorkDocs {
     authenticationToken?.let((v) => headers['Authentication'] = v.toString());
     var _query = '';
     _query = '?${[
-      if (principalType != null) _s.toQueryParam('type', principalType),
+      if (principalType != null)
+        _s.toQueryParam('type', principalType.toValue()),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{};
     await _protocol.send(
@@ -4377,6 +4380,20 @@ enum FolderContentType {
   folder,
 }
 
+extension on FolderContentType {
+  String toValue() {
+    switch (this) {
+      case FolderContentType.all:
+        return 'ALL';
+      case FolderContentType.document:
+        return 'DOCUMENT';
+      case FolderContentType.folder:
+        return 'FOLDER';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Describes a folder.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -4728,6 +4745,18 @@ enum OrderType {
   descending,
 }
 
+extension on OrderType {
+  String toValue() {
+    switch (this) {
+      case OrderType.ascending:
+        return 'ASCENDING';
+      case OrderType.descending:
+        return 'DESCENDING';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Describes the users or user groups.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -4815,9 +4844,37 @@ enum PrincipalType {
   organization,
 }
 
+extension on PrincipalType {
+  String toValue() {
+    switch (this) {
+      case PrincipalType.user:
+        return 'USER';
+      case PrincipalType.group:
+        return 'GROUP';
+      case PrincipalType.invite:
+        return 'INVITE';
+      case PrincipalType.anonymous:
+        return 'ANONYMOUS';
+      case PrincipalType.organization:
+        return 'ORGANIZATION';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 enum ResourceCollectionType {
   @_s.JsonValue('SHARED_WITH_ME')
   sharedWithMe,
+}
+
+extension on ResourceCollectionType {
+  String toValue() {
+    switch (this) {
+      case ResourceCollectionType.sharedWithMe:
+        return 'SHARED_WITH_ME';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Describes the metadata of a resource.
@@ -4915,6 +4972,18 @@ enum ResourceSortType {
   date,
   @_s.JsonValue('NAME')
   name,
+}
+
+extension on ResourceSortType {
+  String toValue() {
+    switch (this) {
+      case ResourceSortType.date:
+        return 'DATE';
+      case ResourceSortType.name:
+        return 'NAME';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 enum ResourceStateType {
@@ -5276,6 +5345,18 @@ enum UserFilterType {
   activePending,
 }
 
+extension on UserFilterType {
+  String toValue() {
+    switch (this) {
+      case UserFilterType.all:
+        return 'ALL';
+      case UserFilterType.activePending:
+        return 'ACTIVE_PENDING';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Describes the metadata of the user.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -5325,6 +5406,24 @@ enum UserSortType {
   userStatus,
   @_s.JsonValue('STORAGE_USED')
   storageUsed,
+}
+
+extension on UserSortType {
+  String toValue() {
+    switch (this) {
+      case UserSortType.userName:
+        return 'USER_NAME';
+      case UserSortType.fullName:
+        return 'FULL_NAME';
+      case UserSortType.storageLimit:
+        return 'STORAGE_LIMIT';
+      case UserSortType.userStatus:
+        return 'USER_STATUS';
+      case UserSortType.storageUsed:
+        return 'STORAGE_USED';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 enum UserStatusType {

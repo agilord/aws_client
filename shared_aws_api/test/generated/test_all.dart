@@ -32,7 +32,7 @@ import 'input/rest-json/idempotency_token_auto_fill_test.dart' as _i29;
 import 'input/rest-json/json_value_trait_test.dart' as _i30;
 import 'input/rest-json/named_locations_in_json_body_test.dart' as _i31;
 import 'input/rest-json/no_parameters_test.dart' as _i32;
-import 'input/rest-json/omits_null_query_params,_but_serializes_empty_strings_test.dart'
+import 'input/rest-json/omits_null_query_params_but_serializes_empty_strings_test.dart'
     as _i33;
 import 'input/rest-json/querystring_list_of_strings_test.dart' as _i34;
 import 'input/rest-json/recursive_shapes_test.dart' as _i35;
@@ -44,14 +44,14 @@ import 'input/rest-json/string_to_string_list_maps_in_querystring_test.dart'
 import 'input/rest-json/string_to_string_maps_in_querystring_test.dart' as _i40;
 import 'input/rest-json/structure_payload_test.dart' as _i41;
 import 'input/rest-json/timestamp_values_test.dart' as _i42;
-import 'input/rest-json/uri_parameter,_querystring_params,_headers_and_json_body_test.dart'
-    as _i43;
-import 'input/rest-json/uri_parameter,_querystring_params_and_json_body_test.dart'
-    as _i44;
-import 'input/rest-json/uri_parameter_and_querystring_params_test.dart' as _i45;
+import 'input/rest-json/uri_parameter_and_querystring_params_test.dart' as _i43;
 import 'input/rest-json/uri_parameter_only_with_location_name_test.dart'
-    as _i46;
+    as _i44;
 import 'input/rest-json/uri_parameter_only_with_no_location_name_test.dart'
+    as _i45;
+import 'input/rest-json/uri_parameter_querystring_params_and_json_body_test.dart'
+    as _i46;
+import 'input/rest-json/uri_parameter_querystring_params_headers_and_json_body_test.dart'
     as _i47;
 import 'input/rest-xml/basic_xml_serialization_test.dart' as _i48;
 import 'input/rest-xml/blob_payload_test.dart' as _i49;
@@ -68,7 +68,7 @@ import 'input/rest-xml/list_of_structures_test.dart' as _i59;
 import 'input/rest-xml/nested_structures_test.dart' as _i60;
 import 'input/rest-xml/non_flattened_lists_test.dart' as _i61;
 import 'input/rest-xml/non_flattened_lists_with_locationname_test.dart' as _i62;
-import 'input/rest-xml/omits_null_query_params,_but_serializes_empty_strings_test.dart'
+import 'input/rest-xml/omits_null_query_params_but_serializes_empty_strings_test.dart'
     as _i63;
 import 'input/rest-xml/querystring_list_of_strings_test.dart' as _i64;
 import 'input/rest-xml/recursive_shapes_test.dart' as _i65;
@@ -169,7 +169,7 @@ void main() {
   group('input/rest-json/named_locations_in_json_body_test', _i31.main);
   group('input/rest-json/no_parameters_test', _i32.main);
   group(
-      'input/rest-json/omits_null_query_params,_but_serializes_empty_strings_test',
+      'input/rest-json/omits_null_query_params_but_serializes_empty_strings_test',
       _i33.main);
   group('input/rest-json/querystring_list_of_strings_test', _i34.main);
   group('input/rest-json/recursive_shapes_test', _i35.main);
@@ -181,15 +181,15 @@ void main() {
   group('input/rest-json/string_to_string_maps_in_querystring_test', _i40.main);
   group('input/rest-json/structure_payload_test', _i41.main);
   group('input/rest-json/timestamp_values_test', _i42.main);
+  group('input/rest-json/uri_parameter_and_querystring_params_test', _i43.main);
   group(
-      'input/rest-json/uri_parameter,_querystring_params,_headers_and_json_body_test',
-      _i43.main);
-  group('input/rest-json/uri_parameter,_querystring_params_and_json_body_test',
-      _i44.main);
-  group('input/rest-json/uri_parameter_and_querystring_params_test', _i45.main);
-  group(
-      'input/rest-json/uri_parameter_only_with_location_name_test', _i46.main);
+      'input/rest-json/uri_parameter_only_with_location_name_test', _i44.main);
   group('input/rest-json/uri_parameter_only_with_no_location_name_test',
+      _i45.main);
+  group('input/rest-json/uri_parameter_querystring_params_and_json_body_test',
+      _i46.main);
+  group(
+      'input/rest-json/uri_parameter_querystring_params_headers_and_json_body_test',
       _i47.main);
   group('input/rest-xml/basic_xml_serialization_test', _i48.main);
   group('input/rest-xml/blob_payload_test', _i49.main);
@@ -207,7 +207,7 @@ void main() {
   group('input/rest-xml/non_flattened_lists_test', _i61.main);
   group('input/rest-xml/non_flattened_lists_with_locationname_test', _i62.main);
   group(
-      'input/rest-xml/omits_null_query_params,_but_serializes_empty_strings_test',
+      'input/rest-xml/omits_null_query_params_but_serializes_empty_strings_test',
       _i63.main);
   group('input/rest-xml/querystring_list_of_strings_test', _i64.main);
   group('input/rest-xml/recursive_shapes_test', _i65.main);

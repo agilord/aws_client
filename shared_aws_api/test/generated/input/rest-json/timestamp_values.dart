@@ -51,19 +51,21 @@ class TimestampValues {
     DateTime timeFormatInQuery,
   }) async {
     final headers = <String, String>{};
-    timeArgInHeader
-        ?.let((v) => headers['x-amz-timearg'] = v.toUtc().toIso8601String());
-    timeCustomInHeader?.let((v) =>
-        headers['x-amz-timecustom-header'] = v.toUtc().toIso8601String());
-    timeFormatInHeader?.let((v) =>
-        headers['x-amz-timeformat-header'] = v.toUtc().toIso8601String());
+    timeArgInHeader?.let((v) => headers['x-amz-timearg'] = _s.rfc822ToJson(v));
+    timeCustomInHeader?.let((v) => headers['x-amz-timecustom-header'] =
+        _s.unixTimestampToJson(v).toString());
+    timeFormatInHeader?.let((v) => headers['x-amz-timeformat-header'] =
+        _s.unixTimestampToJson(v).toString());
     var _query = '';
     _query = '?${[
-      if (timeArgInQuery != null) _s.toQueryParam('TimeQuery', timeArgInQuery),
+      if (timeArgInQuery != null)
+        _s.toQueryParam('TimeQuery', _s.iso8601ToJson(timeArgInQuery)),
       if (timeCustomInQuery != null)
-        _s.toQueryParam('TimeCustomQuery', timeCustomInQuery),
+        _s.toQueryParam('TimeCustomQuery',
+            _s.unixTimestampToJson(timeCustomInQuery).toString()),
       if (timeFormatInQuery != null)
-        _s.toQueryParam('TimeFormatQuery', timeFormatInQuery),
+        _s.toQueryParam('TimeFormatQuery',
+            _s.unixTimestampToJson(timeFormatInQuery).toString()),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{
       if (timeArg != null) 'TimeArg': unixTimestampToJson(timeArg),

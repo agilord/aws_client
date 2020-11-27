@@ -546,7 +546,7 @@ class AccessAnalyzer {
     _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-      if (type != null) _s.toQueryParam('type', type),
+      if (type != null) _s.toQueryParam('type', type.toValue()),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,

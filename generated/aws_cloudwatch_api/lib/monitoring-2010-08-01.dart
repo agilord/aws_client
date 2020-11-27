@@ -301,13 +301,14 @@ class CloudWatch {
     );
     final $request = <String, dynamic>{};
     alarmName?.also((arg) => $request['AlarmName'] = arg);
-    alarmTypes?.also((arg) => $request['AlarmTypes'] = arg);
-    endDate?.also((arg) => $request['EndDate'] = arg);
+    alarmTypes?.also((arg) =>
+        $request['AlarmTypes'] = arg.map((e) => e?.toValue() ?? '').toList());
+    endDate?.also((arg) => $request['EndDate'] = _s.iso8601ToJson(arg));
     historyItemType?.also((arg) => $request['HistoryItemType'] = arg.toValue());
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
     nextToken?.also((arg) => $request['NextToken'] = arg);
     scanBy?.also((arg) => $request['ScanBy'] = arg.toValue());
-    startDate?.also((arg) => $request['StartDate'] = arg);
+    startDate?.also((arg) => $request['StartDate'] = _s.iso8601ToJson(arg));
     final $result = await _protocol.send(
       $request,
       action: 'DescribeAlarmHistory',
@@ -441,7 +442,8 @@ class CloudWatch {
     actionPrefix?.also((arg) => $request['ActionPrefix'] = arg);
     alarmNamePrefix?.also((arg) => $request['AlarmNamePrefix'] = arg);
     alarmNames?.also((arg) => $request['AlarmNames'] = arg);
-    alarmTypes?.also((arg) => $request['AlarmTypes'] = arg);
+    alarmTypes?.also((arg) =>
+        $request['AlarmTypes'] = arg.map((e) => e?.toValue() ?? '').toList());
     childrenOfAlarmName?.also((arg) => $request['ChildrenOfAlarmName'] = arg);
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
     nextToken?.also((arg) => $request['NextToken'] = arg);
@@ -976,10 +978,10 @@ class CloudWatch {
       r'''[\x20-\x7E]+''',
     );
     final $request = <String, dynamic>{};
-    $request['EndTime'] = endTime;
+    $request['EndTime'] = _s.iso8601ToJson(endTime);
     $request['Period'] = period;
     $request['RuleName'] = ruleName;
-    $request['StartTime'] = startTime;
+    $request['StartTime'] = _s.iso8601ToJson(startTime);
     maxContributorCount?.also((arg) => $request['MaxContributorCount'] = arg);
     metrics?.also((arg) => $request['Metrics'] = arg);
     orderBy?.also((arg) => $request['OrderBy'] = arg);
@@ -1137,9 +1139,9 @@ class CloudWatch {
     ArgumentError.checkNotNull(metricDataQueries, 'metricDataQueries');
     ArgumentError.checkNotNull(startTime, 'startTime');
     final $request = <String, dynamic>{};
-    $request['EndTime'] = endTime;
+    $request['EndTime'] = _s.iso8601ToJson(endTime);
     $request['MetricDataQueries'] = metricDataQueries;
-    $request['StartTime'] = startTime;
+    $request['StartTime'] = _s.iso8601ToJson(startTime);
     maxDatapoints?.also((arg) => $request['MaxDatapoints'] = arg);
     nextToken?.also((arg) => $request['NextToken'] = arg);
     scanBy?.also((arg) => $request['ScanBy'] = arg.toValue());
@@ -1384,14 +1386,15 @@ class CloudWatch {
     );
     ArgumentError.checkNotNull(startTime, 'startTime');
     final $request = <String, dynamic>{};
-    $request['EndTime'] = endTime;
+    $request['EndTime'] = _s.iso8601ToJson(endTime);
     $request['MetricName'] = metricName;
     $request['Namespace'] = namespace;
     $request['Period'] = period;
-    $request['StartTime'] = startTime;
+    $request['StartTime'] = _s.iso8601ToJson(startTime);
     dimensions?.also((arg) => $request['Dimensions'] = arg);
     extendedStatistics?.also((arg) => $request['ExtendedStatistics'] = arg);
-    statistics?.also((arg) => $request['Statistics'] = arg);
+    statistics?.also((arg) =>
+        $request['Statistics'] = arg.map((e) => e?.toValue() ?? '').toList());
     unit?.also((arg) => $request['Unit'] = arg.toValue());
     final $result = await _protocol.send(
       $request,
@@ -2935,6 +2938,18 @@ enum AlarmType {
   compositeAlarm,
   @_s.JsonValue('MetricAlarm')
   metricAlarm,
+}
+
+extension on AlarmType {
+  String toValue() {
+    switch (this) {
+      case AlarmType.compositeAlarm:
+        return 'CompositeAlarm';
+      case AlarmType.metricAlarm:
+        return 'MetricAlarm';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 extension on String {

@@ -50,8 +50,10 @@ class Enum {
     headerEnum?.let((v) => headers['x-amz-enum'] = v.toValue());
     var _query = '';
     _query = '?${[
-      if (queryFooEnum != null) _s.toQueryParam('Enum', queryFooEnum),
-      if (queryListEnums != null) _s.toQueryParam('List', queryListEnums),
+      if (queryFooEnum != null) _s.toQueryParam('Enum', queryFooEnum.toValue()),
+      if (queryListEnums != null)
+        _s.toQueryParam(
+            'List', queryListEnums.map((e) => e?.toValue() ?? '').toList()),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{
       if (fooEnum != null) 'FooEnum': fooEnum.toValue(),
@@ -78,8 +80,10 @@ class Enum {
     headerEnum?.let((v) => headers['x-amz-enum'] = v.toValue());
     var _query = '';
     _query = '?${[
-      if (queryFooEnum != null) _s.toQueryParam('Enum', queryFooEnum),
-      if (queryListEnums != null) _s.toQueryParam('List', queryListEnums),
+      if (queryFooEnum != null) _s.toQueryParam('Enum', queryFooEnum.toValue()),
+      if (queryListEnums != null)
+        _s.toQueryParam(
+            'List', queryListEnums.map((e) => e?.toValue() ?? '').toList()),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{
       if (fooEnum != null) 'FooEnum': fooEnum.toValue(),

@@ -690,8 +690,10 @@ class PinpointEmail {
     ArgumentError.checkNotNull(startDate, 'startDate');
     var _query = '';
     _query = '?${[
-      if (endDate != null) _s.toQueryParam('EndDate', endDate),
-      if (startDate != null) _s.toQueryParam('StartDate', startDate),
+      if (endDate != null)
+        _s.toQueryParam('EndDate', _s.iso8601ToJson(endDate)),
+      if (startDate != null)
+        _s.toQueryParam('StartDate', _s.iso8601ToJson(startDate)),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
@@ -887,8 +889,10 @@ class PinpointEmail {
     ArgumentError.checkNotNull(subscribedDomain, 'subscribedDomain');
     var _query = '';
     _query = '?${[
-      if (endDate != null) _s.toQueryParam('EndDate', endDate),
-      if (startDate != null) _s.toQueryParam('StartDate', startDate),
+      if (endDate != null)
+        _s.toQueryParam('EndDate', _s.iso8601ToJson(endDate)),
+      if (startDate != null)
+        _s.toQueryParam('StartDate', _s.iso8601ToJson(startDate)),
       if (nextToken != null) _s.toQueryParam('NextToken', nextToken),
       if (pageSize != null) _s.toQueryParam('PageSize', pageSize),
     ].where((e) => e != null).join('&')}';

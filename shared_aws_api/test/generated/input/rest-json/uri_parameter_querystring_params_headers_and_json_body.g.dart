@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'uri_parameter,_querystring_params_and_json_body.dart';
+part of 'uri_parameter_querystring_params_headers_and_json_body.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator

@@ -1523,10 +1523,10 @@ class Redshift {
     $request['ScheduledActionName'] = scheduledActionName;
     $request['TargetAction'] = targetAction;
     enable?.also((arg) => $request['Enable'] = arg);
-    endTime?.also((arg) => $request['EndTime'] = arg);
+    endTime?.also((arg) => $request['EndTime'] = _s.iso8601ToJson(arg));
     scheduledActionDescription
         ?.also((arg) => $request['ScheduledActionDescription'] = arg);
-    startTime?.also((arg) => $request['StartTime'] = arg);
+    startTime?.also((arg) => $request['StartTime'] = _s.iso8601ToJson(arg));
     final $result = await _protocol.send(
       $request,
       action: 'CreateScheduledAction',
@@ -2651,14 +2651,14 @@ class Redshift {
     final $request = <String, dynamic>{};
     clusterExists?.also((arg) => $request['ClusterExists'] = arg);
     clusterIdentifier?.also((arg) => $request['ClusterIdentifier'] = arg);
-    endTime?.also((arg) => $request['EndTime'] = arg);
+    endTime?.also((arg) => $request['EndTime'] = _s.iso8601ToJson(arg));
     marker?.also((arg) => $request['Marker'] = arg);
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
     ownerAccount?.also((arg) => $request['OwnerAccount'] = arg);
     snapshotIdentifier?.also((arg) => $request['SnapshotIdentifier'] = arg);
     snapshotType?.also((arg) => $request['SnapshotType'] = arg);
     sortingEntities?.also((arg) => $request['SortingEntities'] = arg);
-    startTime?.also((arg) => $request['StartTime'] = arg);
+    startTime?.also((arg) => $request['StartTime'] = _s.iso8601ToJson(arg));
     tagKeys?.also((arg) => $request['TagKeys'] = arg);
     tagValues?.also((arg) => $request['TagValues'] = arg);
     final $result = await _protocol.send(
@@ -3256,12 +3256,12 @@ class Redshift {
   }) async {
     final $request = <String, dynamic>{};
     duration?.also((arg) => $request['Duration'] = arg);
-    endTime?.also((arg) => $request['EndTime'] = arg);
+    endTime?.also((arg) => $request['EndTime'] = _s.iso8601ToJson(arg));
     marker?.also((arg) => $request['Marker'] = arg);
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
     sourceIdentifier?.also((arg) => $request['SourceIdentifier'] = arg);
     sourceType?.also((arg) => $request['SourceType'] = arg.toValue());
-    startTime?.also((arg) => $request['StartTime'] = arg);
+    startTime?.also((arg) => $request['StartTime'] = _s.iso8601ToJson(arg));
     final $result = await _protocol.send(
       $request,
       action: 'DescribeEvents',
@@ -3837,12 +3837,12 @@ class Redshift {
   }) async {
     final $request = <String, dynamic>{};
     active?.also((arg) => $request['Active'] = arg);
-    endTime?.also((arg) => $request['EndTime'] = arg);
+    endTime?.also((arg) => $request['EndTime'] = _s.iso8601ToJson(arg));
     filters?.also((arg) => $request['Filters'] = arg);
     marker?.also((arg) => $request['Marker'] = arg);
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
     scheduledActionName?.also((arg) => $request['ScheduledActionName'] = arg);
-    startTime?.also((arg) => $request['StartTime'] = arg);
+    startTime?.also((arg) => $request['StartTime'] = _s.iso8601ToJson(arg));
     targetActionType
         ?.also((arg) => $request['TargetActionType'] = arg.toValue());
     final $result = await _protocol.send(
@@ -5150,12 +5150,12 @@ class Redshift {
     deferMaintenance?.also((arg) => $request['DeferMaintenance'] = arg);
     deferMaintenanceDuration
         ?.also((arg) => $request['DeferMaintenanceDuration'] = arg);
-    deferMaintenanceEndTime
-        ?.also((arg) => $request['DeferMaintenanceEndTime'] = arg);
+    deferMaintenanceEndTime?.also(
+        (arg) => $request['DeferMaintenanceEndTime'] = _s.iso8601ToJson(arg));
     deferMaintenanceIdentifier
         ?.also((arg) => $request['DeferMaintenanceIdentifier'] = arg);
-    deferMaintenanceStartTime
-        ?.also((arg) => $request['DeferMaintenanceStartTime'] = arg);
+    deferMaintenanceStartTime?.also(
+        (arg) => $request['DeferMaintenanceStartTime'] = _s.iso8601ToJson(arg));
     final $result = await _protocol.send(
       $request,
       action: 'ModifyClusterMaintenance',
@@ -5489,12 +5489,12 @@ class Redshift {
     final $request = <String, dynamic>{};
     $request['ScheduledActionName'] = scheduledActionName;
     enable?.also((arg) => $request['Enable'] = arg);
-    endTime?.also((arg) => $request['EndTime'] = arg);
+    endTime?.also((arg) => $request['EndTime'] = _s.iso8601ToJson(arg));
     iamRole?.also((arg) => $request['IamRole'] = arg);
     schedule?.also((arg) => $request['Schedule'] = arg);
     scheduledActionDescription
         ?.also((arg) => $request['ScheduledActionDescription'] = arg);
-    startTime?.also((arg) => $request['StartTime'] = arg);
+    startTime?.also((arg) => $request['StartTime'] = _s.iso8601ToJson(arg));
     targetAction?.also((arg) => $request['TargetAction'] = arg);
     final $result = await _protocol.send(
       $request,

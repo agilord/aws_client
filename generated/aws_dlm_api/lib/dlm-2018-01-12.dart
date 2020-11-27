@@ -198,8 +198,9 @@ class DLM {
     _query = '?${[
       if (policyIds != null) _s.toQueryParam('policyIds', policyIds),
       if (resourceTypes != null)
-        _s.toQueryParam('resourceTypes', resourceTypes),
-      if (state != null) _s.toQueryParam('state', state),
+        _s.toQueryParam('resourceTypes',
+            resourceTypes.map((e) => e?.toValue() ?? '').toList()),
+      if (state != null) _s.toQueryParam('state', state.toValue()),
       if (tagsToAdd != null) _s.toQueryParam('tagsToAdd', tagsToAdd),
       if (targetTags != null) _s.toQueryParam('targetTags', targetTags),
     ].where((e) => e != null).join('&')}';
@@ -660,6 +661,20 @@ enum GettablePolicyStateValues {
   error,
 }
 
+extension on GettablePolicyStateValues {
+  String toValue() {
+    switch (this) {
+      case GettablePolicyStateValues.enabled:
+        return 'ENABLED';
+      case GettablePolicyStateValues.disabled:
+        return 'DISABLED';
+      case GettablePolicyStateValues.error:
+        return 'ERROR';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 enum IntervalUnitValues {
   @_s.JsonValue('HOURS')
   hours,
@@ -856,6 +871,18 @@ enum ResourceTypeValues {
   volume,
   @_s.JsonValue('INSTANCE')
   instance,
+}
+
+extension on ResourceTypeValues {
+  String toValue() {
+    switch (this) {
+      case ResourceTypeValues.volume:
+        return 'VOLUME';
+      case ResourceTypeValues.instance:
+        return 'INSTANCE';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Specifies the retention rule for a lifecycle policy. You can retain
