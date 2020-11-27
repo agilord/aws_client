@@ -43,16 +43,23 @@ class RestJsonProtocol {
     dynamic payload,
   }) async {
     var uri = Uri.parse('${_endpoint.url}$requestUri');
-    uri = uri.replace(queryParameters: {
-      ...uri.queryParameters,
-      ...?queryParams,
-    });
+    uri = uri.replace(
+        query: [
+      uri.query,
+      if (queryParams != null) Uri(queryParameters: queryParams).query,
+    ].where((e) => e != null).join('&'));
     final rq = Request(
       method,
       uri,
     );
     if (payload != null) {
-      rq.body = json.encode(payload);
+      if (payload is List<int>) {
+        rq.bodyBytes = payload;
+      } else if (payload is String) {
+        rq.body = payload;
+      } else {
+        rq.body = json.encode(payload);
+      }
     }
     if (headers != null) {
       rq.headers.addAll(headers);
@@ -81,6 +88,7 @@ class RestJsonProtocol {
     Map<String, String> queryParams,
     Map<String, String> headers,
     dynamic payload,
+    bool isRawPayload = false,
   }) async {
     final rs = await sendRaw(
       method: method,

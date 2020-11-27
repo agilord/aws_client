@@ -2,6 +2,8 @@ import 'package:aws_client.generator/builders/protocols/service_builder.dart';
 import 'package:aws_client.generator/model/api.dart';
 import 'package:aws_client.generator/model/operation.dart';
 
+import '../builder_utils.dart';
+
 class QueryServiceBuilder extends ServiceBuilder {
   final Api api;
 
@@ -31,17 +33,15 @@ class QueryServiceBuilder extends ServiceBuilder {
     buf.writeln('    final \$request = <String, dynamic>{};');
     parameterShape?.members?.forEach((member) {
       member.shapeClass.markUsed(true);
-      var serializationSuffix = '';
-      if (member.shapeClass.enumeration != null) {
-        member.shapeClass.isTopLevelInputEnum = true;
-        serializationSuffix = '.toValue()';
-      }
+
       if (member.isRequired) {
-        buf.writeln(
-            "\$request['${member.name}'] = ${member.fieldName}$serializationSuffix;");
+        final code = encodeQueryCode(member.shapeClass, member.fieldName,
+            member: member);
+        buf.writeln("\$request['${member.name}'] = $code;");
       } else {
+        final code = encodeQueryCode(member.shapeClass, 'arg', member: member);
         buf.writeln(
-            "${member.fieldName}?.also((arg) => \$request['${member.name}'] = arg$serializationSuffix);");
+            "${member.fieldName}?.also((arg) => \$request['${member.name}'] = $code);");
       }
     });
     final params = StringBuffer([

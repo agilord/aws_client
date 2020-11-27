@@ -28,7 +28,10 @@ class TestSuite {
         .split(' ')
         .map((s) => s.substring(0, 1).toUpperCase() + s.substring(1))
         .join('');
-    final fileName = description.toLowerCase().replaceAll(RegExp(r'\s'), '_');
+    final fileName = description
+        .toLowerCase()
+        .replaceAll(RegExp(r'[^a-zA-Z0-9]'), '_')
+        .replaceAll(RegExp(r'_+'), '_');
 
     final operations = cases.map((c) => c.given).toList();
     final operationsDefinition = <String, Map<String, Object>>{};

@@ -272,15 +272,14 @@ class Member {
   }
 
   bool get isHeader =>
-      location == 'header' ||
-      location == 'headers' ||
-      shapeClass.location == 'header';
+      (location ?? shapeClass.location) == 'header' ||
+      (location ?? shapeClass.location) == 'headers';
 
-  bool get isUri => location == 'uri';
+  bool get isUri => (location ?? shapeClass.location) == 'uri';
 
-  bool get isQuery => location == 'querystring';
+  bool get isQuery => (location ?? shapeClass.location) == 'querystring';
 
-  bool get isStatusCode => location == 'statusCode';
+  bool get isStatusCode => (location ?? shapeClass.location) == 'statusCode';
 
   bool get isBody => !isHeader && !isUri && !isQuery && !isStatusCode;
 }

@@ -36,7 +36,7 @@ class RestXmlProtocol {
     return RestXmlProtocol._(client, endpoint, credentials);
   }
 
-  Future<RestXmlResponse> send({
+  Future<StreamedResponse> sendRaw({
     @required String method,
     @required String requestUri,
     @required Map<String, AwsExceptionFn> exceptionFnMap,
@@ -47,27 +47,56 @@ class RestXmlProtocol {
   }) async {
     final rq = _buildRequest(method, requestUri, queryParams, payload, headers);
     final rs = await _client.send(rq);
-    final body = await rs.stream.bytesToString();
-    XmlDocument root;
-    if (body?.isNotEmpty == true) {
-      root = XmlDocument.parse(body);
+
+    if (rs.statusCode < 200 || rs.statusCode >= 300) {
+      final body = await rs.stream.bytesToString();
+      XmlDocument root;
+      if (body?.isNotEmpty == true) {
+        root = XmlDocument.parse(body);
+      }
+      final elem = root?.rootElement;
+
+      if (elem?.name?.local == 'ErrorResponse') {
+        final error = elem.findElements('Error').first;
+        final type = error.findElements('Type').first.text;
+        final code = error.findElements('Code').first.text;
+        final message = error.findElements('Message').first.text;
+        final fn = exceptionFnMap[code];
+        final exception = fn != null
+            ? fn(type, message)
+            : GenericAwsException(type: type, code: code, message: message);
+        throw exception;
+      } else if (elem?.name?.local == 'Error') {
+        final code = elem.findElements('Code').first.text;
+        final message = elem.findElements('Message').first.text;
+        throw GenericAwsException(code: code, message: message);
+      } else {
+        throw Exception('$body');
+      }
     }
-    var elem = root?.rootElement;
-    if (elem?.name?.local == 'ErrorResponse') {
-      final error = elem.findElements('Error').first;
-      final type = error.findElements('Type').first.text;
-      final code = error.findElements('Code').first.text;
-      final message = error.findElements('Message').first.text;
-      final fn = exceptionFnMap[code];
-      final exception = fn != null
-          ? fn(type, message)
-          : GenericAwsException(type: type, code: code, message: message);
-      throw exception;
-    }
-    if (resultWrapper != null && elem != null) {
-      elem = elem.findElements(resultWrapper).first;
-    }
-    return RestXmlResponse(rs.headers, elem ?? XmlElement(XmlName('empty')));
+    return rs;
+  }
+
+  Future<RestXmlResponse> send({
+    @required String method,
+    @required String requestUri,
+    @required Map<String, AwsExceptionFn> exceptionFnMap,
+    Map<String, String> queryParams,
+    Map<String, String> headers,
+    dynamic payload,
+    String resultWrapper,
+  }) async {
+    final rs = await sendRaw(
+        method: method,
+        requestUri: requestUri,
+        exceptionFnMap: exceptionFnMap,
+        queryParams: queryParams,
+        headers: headers,
+        payload: payload,
+        resultWrapper: resultWrapper);
+
+    final elem = await xmlFromResponse(rs, resultWrapper: resultWrapper);
+    return RestXmlResponse(rs.headers, elem);
   }
 
   Request _buildRequest(

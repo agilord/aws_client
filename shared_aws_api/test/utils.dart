@@ -28,7 +28,12 @@ class _JsonEqual extends _FeatureMatcher<String> {
     }
     final expectedJson = _tryParseJson(_expected);
     if (expectedJson == null) {
-      return equals(_expected.codeUnits).matches(item, matchState);
+      var rawExpected = _expected as dynamic;
+      if (item is List<int>) {
+        rawExpected = _expected.codeUnits;
+      }
+
+      return equals(rawExpected).matches(item, matchState);
     }
 
     final itemJson = _tryParseJson(item);
