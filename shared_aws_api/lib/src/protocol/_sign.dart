@@ -5,6 +5,7 @@ import 'package:http/http.dart';
 import 'package:meta/meta.dart';
 
 import '../credentials.dart';
+import '../utils/query_string.dart';
 import 'endpoint.dart' show ServiceMetadata;
 
 void signAws4HmacSha256({
@@ -32,7 +33,7 @@ void signAws4HmacSha256({
   final canonical = [
     rq.method.toUpperCase(),
     Uri.encodeFull(rq.url.path),
-    '',
+    canonicalQueryParametersAll(rq.url.queryParametersAll),
     ...canonicalHeaders,
     '',
     headerKeys.join(';'),
