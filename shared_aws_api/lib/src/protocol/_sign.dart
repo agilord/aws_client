@@ -32,7 +32,7 @@ void signAws4HmacSha256({
   final canonical = [
     rq.method.toUpperCase(),
     Uri.encodeFull(rq.url.path),
-    _normalizeQuery(rq.url.queryParametersAll),
+    '',
     ...canonicalHeaders,
     '',
     headerKeys.join(';'),
@@ -81,16 +81,4 @@ String _currentDateHeader() {
       .split('.')
       .first;
   return '${date}Z';
-}
-
-String _normalizeQuery(Map<String, List<String>> query) {
-  final items = <String>[];
-  for (var key in query.keys) {
-    for (var value in query[key]) {
-      items.add(
-          '${Uri.encodeQueryComponent(key)}=${Uri.encodeQueryComponent(value)}');
-    }
-  }
-  items.sort();
-  return items.join('&');
 }
