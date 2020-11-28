@@ -202,7 +202,7 @@ class Mobile {
     ArgumentError.checkNotNull(bundleId, 'bundleId');
     var _query = '';
     _query = '?${[
-      if (platform != null) _s.toQueryParam('platform', platform),
+      if (platform != null) _s.toQueryParam('platform', platform.toValue()),
       if (projectId != null) _s.toQueryParam('projectId', projectId),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{};
@@ -664,6 +664,28 @@ enum Platform {
   android,
   @_s.JsonValue('JAVASCRIPT')
   javascript,
+}
+
+extension on Platform {
+  String toValue() {
+    switch (this) {
+      case Platform.osx:
+        return 'OSX';
+      case Platform.windows:
+        return 'WINDOWS';
+      case Platform.linux:
+        return 'LINUX';
+      case Platform.objc:
+        return 'OBJC';
+      case Platform.swift:
+        return 'SWIFT';
+      case Platform.android:
+        return 'ANDROID';
+      case Platform.javascript:
+        return 'JAVASCRIPT';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Detailed information about an AWS Mobile Hub project.

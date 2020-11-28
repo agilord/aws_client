@@ -2730,7 +2730,8 @@ class QuickSight {
     );
     var _query = '';
     _query = '?${[
-      if (identityType != null) _s.toQueryParam('creds-type', identityType),
+      if (identityType != null)
+        _s.toQueryParam('creds-type', identityType.toValue()),
       if (resetDisabled != null)
         _s.toQueryParam('reset-disabled', resetDisabled),
       if (sessionLifetimeInMinutes != null)

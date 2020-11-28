@@ -419,7 +419,7 @@ class Route53 {
       isRequired: true,
     );
     ArgumentError.checkNotNull(healthCheckConfig, 'healthCheckConfig');
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'POST',
       requestUri: '/2013-04-01/healthcheck',
       payload: CreateHealthCheckRequest(
@@ -434,8 +434,13 @@ class Route53 {
       ),
       exceptionFnMap: _exceptionFns,
     );
-    return CreateHealthCheckResponse.fromXml($result.body,
-        headers: $result.headers);
+    final $elem = await _s.xmlFromResponse($result);
+    return CreateHealthCheckResponse(
+      healthCheck: _s
+          .extractXmlChild($elem, 'HealthCheck')
+          ?.let((e) => HealthCheck.fromXml(e)),
+      location: _s.extractHeaderStringValue($result.headers, 'Location'),
+    );
   }
 
   /// Creates a new public or private hosted zone. You create records in a
@@ -574,7 +579,7 @@ class Route53 {
       0,
       32,
     );
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'POST',
       requestUri: '/2013-04-01/hostedzone',
       payload: CreateHostedZoneRequest(
@@ -592,8 +597,20 @@ class Route53 {
       ),
       exceptionFnMap: _exceptionFns,
     );
-    return CreateHostedZoneResponse.fromXml($result.body,
-        headers: $result.headers);
+    final $elem = await _s.xmlFromResponse($result);
+    return CreateHostedZoneResponse(
+      changeInfo: _s
+          .extractXmlChild($elem, 'ChangeInfo')
+          ?.let((e) => ChangeInfo.fromXml(e)),
+      delegationSet: _s
+          .extractXmlChild($elem, 'DelegationSet')
+          ?.let((e) => DelegationSet.fromXml(e)),
+      hostedZone: _s
+          .extractXmlChild($elem, 'HostedZone')
+          ?.let((e) => HostedZone.fromXml(e)),
+      vpc: _s.extractXmlChild($elem, 'VPC')?.let((e) => VPC.fromXml(e)),
+      location: _s.extractHeaderStringValue($result.headers, 'Location'),
+    );
   }
 
   /// Creates a configuration for DNS query logging. After you create a query
@@ -753,7 +770,7 @@ class Route53 {
       32,
       isRequired: true,
     );
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'POST',
       requestUri: '/2013-04-01/queryloggingconfig',
       payload: CreateQueryLoggingConfigRequest(
@@ -768,8 +785,13 @@ class Route53 {
       ),
       exceptionFnMap: _exceptionFns,
     );
-    return CreateQueryLoggingConfigResponse.fromXml($result.body,
-        headers: $result.headers);
+    final $elem = await _s.xmlFromResponse($result);
+    return CreateQueryLoggingConfigResponse(
+      queryLoggingConfig: _s
+          .extractXmlChild($elem, 'QueryLoggingConfig')
+          ?.let((e) => QueryLoggingConfig.fromXml(e)),
+      location: _s.extractHeaderStringValue($result.headers, 'Location'),
+    );
   }
 
   /// Creates a delegation set (a group of four name servers) that can be reused
@@ -872,7 +894,7 @@ class Route53 {
       0,
       32,
     );
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'POST',
       requestUri: '/2013-04-01/delegationset',
       payload: CreateReusableDelegationSetRequest(
@@ -886,8 +908,13 @@ class Route53 {
       ),
       exceptionFnMap: _exceptionFns,
     );
-    return CreateReusableDelegationSetResponse.fromXml($result.body,
-        headers: $result.headers);
+    final $elem = await _s.xmlFromResponse($result);
+    return CreateReusableDelegationSetResponse(
+      delegationSet: _s
+          .extractXmlChild($elem, 'DelegationSet')
+          ?.let((e) => DelegationSet.fromXml(e)),
+      location: _s.extractHeaderStringValue($result.headers, 'Location'),
+    );
   }
 
   /// Creates a traffic policy, which you use to create multiple DNS resource
@@ -937,7 +964,7 @@ class Route53 {
       0,
       1024,
     );
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'POST',
       requestUri: '/2013-04-01/trafficpolicy',
       payload: CreateTrafficPolicyRequest(
@@ -951,8 +978,13 @@ class Route53 {
       ),
       exceptionFnMap: _exceptionFns,
     );
-    return CreateTrafficPolicyResponse.fromXml($result.body,
-        headers: $result.headers);
+    final $elem = await _s.xmlFromResponse($result);
+    return CreateTrafficPolicyResponse(
+      trafficPolicy: _s
+          .extractXmlChild($elem, 'TrafficPolicy')
+          ?.let((e) => TrafficPolicy.fromXml(e)),
+      location: _s.extractHeaderStringValue($result.headers, 'Location'),
+    );
   }
 
   /// Creates resource record sets in a specified hosted zone based on the
@@ -1037,7 +1069,7 @@ class Route53 {
       1000,
       isRequired: true,
     );
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'POST',
       requestUri: '/2013-04-01/trafficpolicyinstance',
       payload: CreateTrafficPolicyInstanceRequest(
@@ -1055,8 +1087,13 @@ class Route53 {
       ),
       exceptionFnMap: _exceptionFns,
     );
-    return CreateTrafficPolicyInstanceResponse.fromXml($result.body,
-        headers: $result.headers);
+    final $elem = await _s.xmlFromResponse($result);
+    return CreateTrafficPolicyInstanceResponse(
+      trafficPolicyInstance: _s
+          .extractXmlChild($elem, 'TrafficPolicyInstance')
+          ?.let((e) => TrafficPolicyInstance.fromXml(e)),
+      location: _s.extractHeaderStringValue($result.headers, 'Location'),
+    );
   }
 
   /// Creates a new version of an existing traffic policy. When you create a new
@@ -1113,7 +1150,7 @@ class Route53 {
       0,
       1024,
     );
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'POST',
       requestUri:
           '/2013-04-01/trafficpolicy/${Uri.encodeComponent(id.toString())}',
@@ -1128,8 +1165,13 @@ class Route53 {
       ),
       exceptionFnMap: _exceptionFns,
     );
-    return CreateTrafficPolicyVersionResponse.fromXml($result.body,
-        headers: $result.headers);
+    final $elem = await _s.xmlFromResponse($result);
+    return CreateTrafficPolicyVersionResponse(
+      trafficPolicy: _s
+          .extractXmlChild($elem, 'TrafficPolicy')
+          ?.let((e) => TrafficPolicy.fromXml(e)),
+      location: _s.extractHeaderStringValue($result.headers, 'Location'),
+    );
   }
 
   /// Authorizes the AWS account that created a specified VPC to submit an
@@ -4395,7 +4437,7 @@ class AlarmIdentifier {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Region', region?.toValue()),
+      _s.encodeXmlStringValue('Region', region?.toValue() ?? ''),
       _s.encodeXmlStringValue('Name', name),
     ];
     final $attributes = <_s.XmlAttribute>[
@@ -4829,7 +4871,7 @@ class AssociateVPCWithHostedZoneRequest {
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       vpc?.toXml('VPC'),
-      _s.encodeXmlStringValue('Comment', comment),
+      if (comment != null) _s.encodeXmlStringValue('Comment', comment),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -4898,7 +4940,7 @@ class Change {
   });
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Action', action?.toValue()),
+      _s.encodeXmlStringValue('Action', action?.toValue() ?? ''),
       resourceRecordSet?.toXml('ResourceRecordSet'),
     ];
     final $attributes = <_s.XmlAttribute>[
@@ -4961,10 +5003,9 @@ class ChangeBatch {
   });
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Comment', comment),
-      if (changes != null)
-        _s.XmlElement(_s.XmlName('Changes'), [],
-            <_s.XmlNode>[...changes.map((v) => v.toXml('Changes'))]),
+      if (comment != null) _s.encodeXmlStringValue('Comment', comment),
+      _s.XmlElement(
+          _s.XmlName('Changes'), [], changes?.map((e) => e?.toXml('Change'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -5136,12 +5177,11 @@ class ChangeTagsForResourceRequest {
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       if (addTags != null)
-        _s.XmlElement(_s.XmlName('AddTags'), [],
-            <_s.XmlNode>[...addTags.map((v) => v.toXml('AddTags'))]),
+        _s.XmlElement(
+            _s.XmlName('AddTags'), [], addTags.map((e) => e?.toXml('Tag'))),
       if (removeTagKeys != null)
-        _s.XmlElement(_s.XmlName('RemoveTagKeys'), [], <_s.XmlNode>[
-          ...removeTagKeys.map((v) => _s.encodeXmlStringValue('Key', v))
-        ]),
+        _s.XmlElement(_s.XmlName('RemoveTagKeys'), [],
+            removeTagKeys.map((e) => _s.encodeXmlStringValue('Key', e))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -5464,17 +5504,6 @@ class CreateHealthCheckResponse {
     @_s.required this.healthCheck,
     @_s.required this.location,
   });
-  factory CreateHealthCheckResponse.fromXml(
-    _s.XmlElement elem, {
-    Map<String, String> headers,
-  }) {
-    return CreateHealthCheckResponse(
-      healthCheck: _s
-          .extractXmlChild(elem, 'HealthCheck')
-          ?.let((e) => HealthCheck.fromXml(e)),
-      location: _s.extractHeaderStringValue(headers, 'Location'),
-    );
-  }
 }
 
 /// A complex type that contains information about the request to create a
@@ -5540,10 +5569,11 @@ class CreateHostedZoneRequest {
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Name', name),
-      vpc?.toXml('VPC'),
+      if (vpc != null) vpc?.toXml('VPC'),
       _s.encodeXmlStringValue('CallerReference', callerReference),
-      hostedZoneConfig?.toXml('HostedZoneConfig'),
-      _s.encodeXmlStringValue('DelegationSetId', delegationSetId),
+      if (hostedZoneConfig != null) hostedZoneConfig?.toXml('HostedZoneConfig'),
+      if (delegationSetId != null)
+        _s.encodeXmlStringValue('DelegationSetId', delegationSetId),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -5582,24 +5612,6 @@ class CreateHostedZoneResponse {
     @_s.required this.location,
     this.vpc,
   });
-  factory CreateHostedZoneResponse.fromXml(
-    _s.XmlElement elem, {
-    Map<String, String> headers,
-  }) {
-    return CreateHostedZoneResponse(
-      changeInfo: _s
-          .extractXmlChild(elem, 'ChangeInfo')
-          ?.let((e) => ChangeInfo.fromXml(e)),
-      delegationSet: _s
-          .extractXmlChild(elem, 'DelegationSet')
-          ?.let((e) => DelegationSet.fromXml(e)),
-      hostedZone: _s
-          .extractXmlChild(elem, 'HostedZone')
-          ?.let((e) => HostedZone.fromXml(e)),
-      location: _s.extractHeaderStringValue(headers, 'Location'),
-      vpc: _s.extractXmlChild(elem, 'VPC')?.let((e) => VPC.fromXml(e)),
-    );
-  }
 }
 
 class CreateQueryLoggingConfigRequest {
@@ -5653,17 +5665,6 @@ class CreateQueryLoggingConfigResponse {
     @_s.required this.location,
     @_s.required this.queryLoggingConfig,
   });
-  factory CreateQueryLoggingConfigResponse.fromXml(
-    _s.XmlElement elem, {
-    Map<String, String> headers,
-  }) {
-    return CreateQueryLoggingConfigResponse(
-      location: _s.extractHeaderStringValue(headers, 'Location'),
-      queryLoggingConfig: _s
-          .extractXmlChild(elem, 'QueryLoggingConfig')
-          ?.let((e) => QueryLoggingConfig.fromXml(e)),
-    );
-  }
 }
 
 class CreateReusableDelegationSetRequest {
@@ -5687,7 +5688,8 @@ class CreateReusableDelegationSetRequest {
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('CallerReference', callerReference),
-      _s.encodeXmlStringValue('HostedZoneId', hostedZoneId),
+      if (hostedZoneId != null)
+        _s.encodeXmlStringValue('HostedZoneId', hostedZoneId),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -5711,17 +5713,6 @@ class CreateReusableDelegationSetResponse {
     @_s.required this.delegationSet,
     @_s.required this.location,
   });
-  factory CreateReusableDelegationSetResponse.fromXml(
-    _s.XmlElement elem, {
-    Map<String, String> headers,
-  }) {
-    return CreateReusableDelegationSetResponse(
-      delegationSet: _s
-          .extractXmlChild(elem, 'DelegationSet')
-          ?.let((e) => DelegationSet.fromXml(e)),
-      location: _s.extractHeaderStringValue(headers, 'Location'),
-    );
-  }
 }
 
 /// A complex type that contains information about the resource record sets that
@@ -5788,17 +5779,6 @@ class CreateTrafficPolicyInstanceResponse {
     @_s.required this.location,
     @_s.required this.trafficPolicyInstance,
   });
-  factory CreateTrafficPolicyInstanceResponse.fromXml(
-    _s.XmlElement elem, {
-    Map<String, String> headers,
-  }) {
-    return CreateTrafficPolicyInstanceResponse(
-      location: _s.extractHeaderStringValue(headers, 'Location'),
-      trafficPolicyInstance: _s
-          .extractXmlChild(elem, 'TrafficPolicyInstance')
-          ?.let((e) => TrafficPolicyInstance.fromXml(e)),
-    );
-  }
 }
 
 /// A complex type that contains information about the traffic policy that you
@@ -5825,7 +5805,7 @@ class CreateTrafficPolicyRequest {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Name', name),
       _s.encodeXmlStringValue('Document', document),
-      _s.encodeXmlStringValue('Comment', comment),
+      if (comment != null) _s.encodeXmlStringValue('Comment', comment),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -5851,17 +5831,6 @@ class CreateTrafficPolicyResponse {
     @_s.required this.location,
     @_s.required this.trafficPolicy,
   });
-  factory CreateTrafficPolicyResponse.fromXml(
-    _s.XmlElement elem, {
-    Map<String, String> headers,
-  }) {
-    return CreateTrafficPolicyResponse(
-      location: _s.extractHeaderStringValue(headers, 'Location'),
-      trafficPolicy: _s
-          .extractXmlChild(elem, 'TrafficPolicy')
-          ?.let((e) => TrafficPolicy.fromXml(e)),
-    );
-  }
 }
 
 /// A complex type that contains information about the traffic policy that you
@@ -5888,7 +5857,7 @@ class CreateTrafficPolicyVersionRequest {
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Document', document),
-      _s.encodeXmlStringValue('Comment', comment),
+      if (comment != null) _s.encodeXmlStringValue('Comment', comment),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -5915,17 +5884,6 @@ class CreateTrafficPolicyVersionResponse {
     @_s.required this.location,
     @_s.required this.trafficPolicy,
   });
-  factory CreateTrafficPolicyVersionResponse.fromXml(
-    _s.XmlElement elem, {
-    Map<String, String> headers,
-  }) {
-    return CreateTrafficPolicyVersionResponse(
-      location: _s.extractHeaderStringValue(headers, 'Location'),
-      trafficPolicy: _s
-          .extractXmlChild(elem, 'TrafficPolicy')
-          ?.let((e) => TrafficPolicy.fromXml(e)),
-    );
-  }
 }
 
 /// A complex type that contains information about the request to authorize
@@ -6168,7 +6126,7 @@ class DisassociateVPCFromHostedZoneRequest {
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       vpc?.toXml('VPC'),
-      _s.encodeXmlStringValue('Comment', comment),
+      if (comment != null) _s.encodeXmlStringValue('Comment', comment),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -6267,9 +6225,12 @@ class GeoLocation {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('ContinentCode', continentCode),
-      _s.encodeXmlStringValue('CountryCode', countryCode),
-      _s.encodeXmlStringValue('SubdivisionCode', subdivisionCode),
+      if (continentCode != null)
+        _s.encodeXmlStringValue('ContinentCode', continentCode),
+      if (countryCode != null)
+        _s.encodeXmlStringValue('CountryCode', countryCode),
+      if (subdivisionCode != null)
+        _s.encodeXmlStringValue('SubdivisionCode', subdivisionCode),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -7159,32 +7120,43 @@ class HealthCheckConfig {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('IPAddress', iPAddress),
-      _s.encodeXmlIntValue('Port', port),
-      _s.encodeXmlStringValue('Type', type?.toValue()),
-      _s.encodeXmlStringValue('ResourcePath', resourcePath),
-      _s.encodeXmlStringValue(
-          'FullyQualifiedDomainName', fullyQualifiedDomainName),
-      _s.encodeXmlStringValue('SearchString', searchString),
-      _s.encodeXmlIntValue('RequestInterval', requestInterval),
-      _s.encodeXmlIntValue('FailureThreshold', failureThreshold),
-      _s.encodeXmlBoolValue('MeasureLatency', measureLatency),
-      _s.encodeXmlBoolValue('Inverted', inverted),
-      _s.encodeXmlBoolValue('Disabled', disabled),
-      _s.encodeXmlIntValue('HealthThreshold', healthThreshold),
+      if (iPAddress != null) _s.encodeXmlStringValue('IPAddress', iPAddress),
+      if (port != null) _s.encodeXmlIntValue('Port', port),
+      _s.encodeXmlStringValue('Type', type?.toValue() ?? ''),
+      if (resourcePath != null)
+        _s.encodeXmlStringValue('ResourcePath', resourcePath),
+      if (fullyQualifiedDomainName != null)
+        _s.encodeXmlStringValue(
+            'FullyQualifiedDomainName', fullyQualifiedDomainName),
+      if (searchString != null)
+        _s.encodeXmlStringValue('SearchString', searchString),
+      if (requestInterval != null)
+        _s.encodeXmlIntValue('RequestInterval', requestInterval),
+      if (failureThreshold != null)
+        _s.encodeXmlIntValue('FailureThreshold', failureThreshold),
+      if (measureLatency != null)
+        _s.encodeXmlBoolValue('MeasureLatency', measureLatency),
+      if (inverted != null) _s.encodeXmlBoolValue('Inverted', inverted),
+      if (disabled != null) _s.encodeXmlBoolValue('Disabled', disabled),
+      if (healthThreshold != null)
+        _s.encodeXmlIntValue('HealthThreshold', healthThreshold),
       if (childHealthChecks != null)
-        _s.XmlElement(_s.XmlName('ChildHealthChecks'), [], <_s.XmlNode>[
-          ...childHealthChecks
-              .map((v) => _s.encodeXmlStringValue('ChildHealthCheck', v))
-        ]),
-      _s.encodeXmlBoolValue('EnableSNI', enableSNI),
+        _s.XmlElement(
+            _s.XmlName('ChildHealthChecks'),
+            [],
+            childHealthChecks
+                .map((e) => _s.encodeXmlStringValue('ChildHealthCheck', e))),
+      if (enableSNI != null) _s.encodeXmlBoolValue('EnableSNI', enableSNI),
       if (regions != null)
-        _s.XmlElement(_s.XmlName('Regions'), [], <_s.XmlNode>[
-          ...regions.map((v) => _s.encodeXmlStringValue('Region', v.toValue()))
-        ]),
-      alarmIdentifier?.toXml('AlarmIdentifier'),
-      _s.encodeXmlStringValue('InsufficientDataHealthStatus',
-          insufficientDataHealthStatus?.toValue()),
+        _s.XmlElement(
+            _s.XmlName('Regions'),
+            [],
+            regions.map(
+                (e) => _s.encodeXmlStringValue('Region', e?.toValue() ?? ''))),
+      if (alarmIdentifier != null) alarmIdentifier?.toXml('AlarmIdentifier'),
+      if (insufficientDataHealthStatus != null)
+        _s.encodeXmlStringValue('InsufficientDataHealthStatus',
+            insufficientDataHealthStatus.toValue()),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -7422,8 +7394,9 @@ class HostedZoneConfig {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Comment', comment),
-      _s.encodeXmlBoolValue('PrivateZone', privateZone),
+      if (comment != null) _s.encodeXmlStringValue('Comment', comment),
+      if (privateZone != null)
+        _s.encodeXmlBoolValue('PrivateZone', privateZone),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -7985,10 +7958,8 @@ class ListTagsForResourcesRequest {
   });
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      if (resourceIds != null)
-        _s.XmlElement(_s.XmlName('ResourceIds'), [], <_s.XmlNode>[
-          ...resourceIds.map((v) => _s.encodeXmlStringValue('ResourceId', v))
-        ]),
+      _s.XmlElement(_s.XmlName('ResourceIds'), [],
+          resourceIds?.map((e) => _s.encodeXmlStringValue('ResourceId', e))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -9161,22 +9132,26 @@ class ResourceRecordSet {
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Name', name),
-      _s.encodeXmlStringValue('Type', type?.toValue()),
-      _s.encodeXmlStringValue('SetIdentifier', setIdentifier),
-      _s.encodeXmlIntValue('Weight', weight),
-      _s.encodeXmlStringValue('Region', region?.toValue()),
-      geoLocation?.toXml('GeoLocation'),
-      _s.encodeXmlStringValue('Failover', failover?.toValue()),
-      _s.encodeXmlBoolValue('MultiValueAnswer', multiValueAnswer),
-      _s.encodeXmlIntValue('TTL', ttl),
+      _s.encodeXmlStringValue('Type', type?.toValue() ?? ''),
+      if (setIdentifier != null)
+        _s.encodeXmlStringValue('SetIdentifier', setIdentifier),
+      if (weight != null) _s.encodeXmlIntValue('Weight', weight),
+      if (region != null) _s.encodeXmlStringValue('Region', region.toValue()),
+      if (geoLocation != null) geoLocation?.toXml('GeoLocation'),
+      if (failover != null)
+        _s.encodeXmlStringValue('Failover', failover.toValue()),
+      if (multiValueAnswer != null)
+        _s.encodeXmlBoolValue('MultiValueAnswer', multiValueAnswer),
+      if (ttl != null) _s.encodeXmlIntValue('TTL', ttl),
       if (resourceRecords != null)
-        _s.XmlElement(_s.XmlName('ResourceRecords'), [], <_s.XmlNode>[
-          ...resourceRecords.map((v) => v.toXml('ResourceRecords'))
-        ]),
-      aliasTarget?.toXml('AliasTarget'),
-      _s.encodeXmlStringValue('HealthCheckId', healthCheckId),
-      _s.encodeXmlStringValue(
-          'TrafficPolicyInstanceId', trafficPolicyInstanceId),
+        _s.XmlElement(_s.XmlName('ResourceRecords'), [],
+            resourceRecords.map((e) => e?.toXml('ResourceRecord'))),
+      if (aliasTarget != null) aliasTarget?.toXml('AliasTarget'),
+      if (healthCheckId != null)
+        _s.encodeXmlStringValue('HealthCheckId', healthCheckId),
+      if (trafficPolicyInstanceId != null)
+        _s.encodeXmlStringValue(
+            'TrafficPolicyInstanceId', trafficPolicyInstanceId),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -9555,8 +9530,8 @@ class Tag {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Key', key),
-      _s.encodeXmlStringValue('Value', value),
+      if (key != null) _s.encodeXmlStringValue('Key', key),
+      if (value != null) _s.encodeXmlStringValue('Value', value),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -10195,35 +10170,46 @@ class UpdateHealthCheckRequest {
   });
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlIntValue('HealthCheckVersion', healthCheckVersion),
-      _s.encodeXmlStringValue('IPAddress', iPAddress),
-      _s.encodeXmlIntValue('Port', port),
-      _s.encodeXmlStringValue('ResourcePath', resourcePath),
-      _s.encodeXmlStringValue(
-          'FullyQualifiedDomainName', fullyQualifiedDomainName),
-      _s.encodeXmlStringValue('SearchString', searchString),
-      _s.encodeXmlIntValue('FailureThreshold', failureThreshold),
-      _s.encodeXmlBoolValue('Inverted', inverted),
-      _s.encodeXmlBoolValue('Disabled', disabled),
-      _s.encodeXmlIntValue('HealthThreshold', healthThreshold),
+      if (healthCheckVersion != null)
+        _s.encodeXmlIntValue('HealthCheckVersion', healthCheckVersion),
+      if (iPAddress != null) _s.encodeXmlStringValue('IPAddress', iPAddress),
+      if (port != null) _s.encodeXmlIntValue('Port', port),
+      if (resourcePath != null)
+        _s.encodeXmlStringValue('ResourcePath', resourcePath),
+      if (fullyQualifiedDomainName != null)
+        _s.encodeXmlStringValue(
+            'FullyQualifiedDomainName', fullyQualifiedDomainName),
+      if (searchString != null)
+        _s.encodeXmlStringValue('SearchString', searchString),
+      if (failureThreshold != null)
+        _s.encodeXmlIntValue('FailureThreshold', failureThreshold),
+      if (inverted != null) _s.encodeXmlBoolValue('Inverted', inverted),
+      if (disabled != null) _s.encodeXmlBoolValue('Disabled', disabled),
+      if (healthThreshold != null)
+        _s.encodeXmlIntValue('HealthThreshold', healthThreshold),
       if (childHealthChecks != null)
-        _s.XmlElement(_s.XmlName('ChildHealthChecks'), [], <_s.XmlNode>[
-          ...childHealthChecks
-              .map((v) => _s.encodeXmlStringValue('ChildHealthCheck', v))
-        ]),
-      _s.encodeXmlBoolValue('EnableSNI', enableSNI),
+        _s.XmlElement(
+            _s.XmlName('ChildHealthChecks'),
+            [],
+            childHealthChecks
+                .map((e) => _s.encodeXmlStringValue('ChildHealthCheck', e))),
+      if (enableSNI != null) _s.encodeXmlBoolValue('EnableSNI', enableSNI),
       if (regions != null)
-        _s.XmlElement(_s.XmlName('Regions'), [], <_s.XmlNode>[
-          ...regions.map((v) => _s.encodeXmlStringValue('Region', v.toValue()))
-        ]),
-      alarmIdentifier?.toXml('AlarmIdentifier'),
-      _s.encodeXmlStringValue('InsufficientDataHealthStatus',
-          insufficientDataHealthStatus?.toValue()),
+        _s.XmlElement(
+            _s.XmlName('Regions'),
+            [],
+            regions.map(
+                (e) => _s.encodeXmlStringValue('Region', e?.toValue() ?? ''))),
+      if (alarmIdentifier != null) alarmIdentifier?.toXml('AlarmIdentifier'),
+      if (insufficientDataHealthStatus != null)
+        _s.encodeXmlStringValue('InsufficientDataHealthStatus',
+            insufficientDataHealthStatus.toValue()),
       if (resetElements != null)
-        _s.XmlElement(_s.XmlName('ResetElements'), [], <_s.XmlNode>[
-          ...resetElements.map((v) =>
-              _s.encodeXmlStringValue('ResettableElementName', v.toValue()))
-        ]),
+        _s.XmlElement(
+            _s.XmlName('ResetElements'),
+            [],
+            resetElements.map((e) => _s.encodeXmlStringValue(
+                'ResettableElementName', e?.toValue() ?? ''))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -10271,7 +10257,7 @@ class UpdateHostedZoneCommentRequest {
   });
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Comment', comment),
+      if (comment != null) _s.encodeXmlStringValue('Comment', comment),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -10436,8 +10422,9 @@ class VPC {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('VPCRegion', vPCRegion?.toValue()),
-      _s.encodeXmlStringValue('VPCId', vPCId),
+      if (vPCRegion != null)
+        _s.encodeXmlStringValue('VPCRegion', vPCRegion.toValue()),
+      if (vPCId != null) _s.encodeXmlStringValue('VPCId', vPCId),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,

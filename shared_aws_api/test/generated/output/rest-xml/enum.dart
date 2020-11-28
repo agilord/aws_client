@@ -32,12 +32,22 @@ class Enum {
         );
 
   Future<OutputShape> operationName0() async {
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'POST',
       requestUri: '/path',
       exceptionFnMap: _exceptionFns,
     );
-    return OutputShape.fromXml($result.body, headers: $result.headers);
+    final $elem = await _s.xmlFromResponse($result);
+    return OutputShape(
+      fooEnum: _s.extractXmlStringValue($elem, 'FooEnum')?.toRESTJSONEnumType(),
+      listEnums: _s.extractXmlChild($elem, 'ListEnums')?.let(($elem) => _s
+          .extractXmlStringListValues($elem, 'member')
+          .map((s) => s.toRESTJSONEnumType())
+          .toList()),
+      headerEnum: _s
+          .extractHeaderStringValue($result.headers, 'x-amz-enum')
+          ?.toRESTJSONEnumType(),
+    );
   }
 
   Future<void> operationName1({
@@ -69,30 +79,16 @@ class OutputShape {
     this.headerEnum,
     this.listEnums,
   });
-  factory OutputShape.fromXml(
-    _s.XmlElement elem, {
-    Map<String, String> headers,
-  }) {
-    return OutputShape(
-      fooEnum: _s.extractXmlStringValue(elem, 'FooEnum')?.toRESTJSONEnumType(),
-      headerEnum: _s
-          .extractHeaderStringValue(headers, 'x-amz-enum')
-          ?.toRESTJSONEnumType(),
-      listEnums: _s.extractXmlChild(elem, 'ListEnums')?.let((elem) => _s
-          .extractXmlStringListValues(elem, 'member')
-          .map((s) => s.toRESTJSONEnumType())
-          .toList()),
-    );
-  }
-
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('FooEnum', fooEnum?.toValue()),
+      if (fooEnum != null)
+        _s.encodeXmlStringValue('FooEnum', fooEnum.toValue()),
       if (listEnums != null)
-        _s.XmlElement(_s.XmlName('ListEnums'), [], <_s.XmlNode>[
-          ...listEnums
-              .map((v) => _s.encodeXmlStringValue('ListEnums', v.toValue()))
-        ]),
+        _s.XmlElement(
+            _s.XmlName('ListEnums'),
+            [],
+            listEnums.map(
+                (e) => _s.encodeXmlStringValue('member', e?.toValue() ?? ''))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,

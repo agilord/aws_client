@@ -750,7 +750,8 @@ class Connect {
     var _query = '';
     _query = '?${[
       if (contactFlowTypes != null)
-        _s.toQueryParam('contactFlowTypes', contactFlowTypes),
+        _s.toQueryParam('contactFlowTypes',
+            contactFlowTypes.map((e) => e?.toValue() ?? '').toList()),
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -866,9 +867,11 @@ class Connect {
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
       if (phoneNumberCountryCodes != null)
-        _s.toQueryParam('phoneNumberCountryCodes', phoneNumberCountryCodes),
+        _s.toQueryParam('phoneNumberCountryCodes',
+            phoneNumberCountryCodes.map((e) => e?.toValue() ?? '').toList()),
       if (phoneNumberTypes != null)
-        _s.toQueryParam('phoneNumberTypes', phoneNumberTypes),
+        _s.toQueryParam('phoneNumberTypes',
+            phoneNumberTypes.map((e) => e?.toValue() ?? '').toList()),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
@@ -925,7 +928,9 @@ class Connect {
     _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-      if (queueTypes != null) _s.toQueryParam('queueTypes', queueTypes),
+      if (queueTypes != null)
+        _s.toQueryParam(
+            'queueTypes', queueTypes.map((e) => e?.toValue() ?? '').toList()),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
@@ -1845,6 +1850,32 @@ enum ContactFlowType {
   agentTransfer,
   @_s.JsonValue('QUEUE_TRANSFER')
   queueTransfer,
+}
+
+extension on ContactFlowType {
+  String toValue() {
+    switch (this) {
+      case ContactFlowType.contactFlow:
+        return 'CONTACT_FLOW';
+      case ContactFlowType.customerQueue:
+        return 'CUSTOMER_QUEUE';
+      case ContactFlowType.customerHold:
+        return 'CUSTOMER_HOLD';
+      case ContactFlowType.customerWhisper:
+        return 'CUSTOMER_WHISPER';
+      case ContactFlowType.agentHold:
+        return 'AGENT_HOLD';
+      case ContactFlowType.agentWhisper:
+        return 'AGENT_WHISPER';
+      case ContactFlowType.outboundWhisper:
+        return 'OUTBOUND_WHISPER';
+      case ContactFlowType.agentTransfer:
+        return 'AGENT_TRANSFER';
+      case ContactFlowType.queueTransfer:
+        return 'QUEUE_TRANSFER';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 @_s.JsonSerializable(
@@ -3254,6 +3285,488 @@ enum PhoneNumberCountryCode {
   zw,
 }
 
+extension on PhoneNumberCountryCode {
+  String toValue() {
+    switch (this) {
+      case PhoneNumberCountryCode.af:
+        return 'AF';
+      case PhoneNumberCountryCode.al:
+        return 'AL';
+      case PhoneNumberCountryCode.dz:
+        return 'DZ';
+      case PhoneNumberCountryCode.as:
+        return 'AS';
+      case PhoneNumberCountryCode.ad:
+        return 'AD';
+      case PhoneNumberCountryCode.ao:
+        return 'AO';
+      case PhoneNumberCountryCode.ai:
+        return 'AI';
+      case PhoneNumberCountryCode.aq:
+        return 'AQ';
+      case PhoneNumberCountryCode.ag:
+        return 'AG';
+      case PhoneNumberCountryCode.ar:
+        return 'AR';
+      case PhoneNumberCountryCode.am:
+        return 'AM';
+      case PhoneNumberCountryCode.aw:
+        return 'AW';
+      case PhoneNumberCountryCode.au:
+        return 'AU';
+      case PhoneNumberCountryCode.at:
+        return 'AT';
+      case PhoneNumberCountryCode.az:
+        return 'AZ';
+      case PhoneNumberCountryCode.bs:
+        return 'BS';
+      case PhoneNumberCountryCode.bh:
+        return 'BH';
+      case PhoneNumberCountryCode.bd:
+        return 'BD';
+      case PhoneNumberCountryCode.bb:
+        return 'BB';
+      case PhoneNumberCountryCode.by:
+        return 'BY';
+      case PhoneNumberCountryCode.be:
+        return 'BE';
+      case PhoneNumberCountryCode.bz:
+        return 'BZ';
+      case PhoneNumberCountryCode.bj:
+        return 'BJ';
+      case PhoneNumberCountryCode.bm:
+        return 'BM';
+      case PhoneNumberCountryCode.bt:
+        return 'BT';
+      case PhoneNumberCountryCode.bo:
+        return 'BO';
+      case PhoneNumberCountryCode.ba:
+        return 'BA';
+      case PhoneNumberCountryCode.bw:
+        return 'BW';
+      case PhoneNumberCountryCode.br:
+        return 'BR';
+      case PhoneNumberCountryCode.io:
+        return 'IO';
+      case PhoneNumberCountryCode.vg:
+        return 'VG';
+      case PhoneNumberCountryCode.bn:
+        return 'BN';
+      case PhoneNumberCountryCode.bg:
+        return 'BG';
+      case PhoneNumberCountryCode.bf:
+        return 'BF';
+      case PhoneNumberCountryCode.bi:
+        return 'BI';
+      case PhoneNumberCountryCode.kh:
+        return 'KH';
+      case PhoneNumberCountryCode.cm:
+        return 'CM';
+      case PhoneNumberCountryCode.ca:
+        return 'CA';
+      case PhoneNumberCountryCode.cv:
+        return 'CV';
+      case PhoneNumberCountryCode.ky:
+        return 'KY';
+      case PhoneNumberCountryCode.cf:
+        return 'CF';
+      case PhoneNumberCountryCode.td:
+        return 'TD';
+      case PhoneNumberCountryCode.cl:
+        return 'CL';
+      case PhoneNumberCountryCode.cn:
+        return 'CN';
+      case PhoneNumberCountryCode.cx:
+        return 'CX';
+      case PhoneNumberCountryCode.cc:
+        return 'CC';
+      case PhoneNumberCountryCode.co:
+        return 'CO';
+      case PhoneNumberCountryCode.km:
+        return 'KM';
+      case PhoneNumberCountryCode.ck:
+        return 'CK';
+      case PhoneNumberCountryCode.cr:
+        return 'CR';
+      case PhoneNumberCountryCode.hr:
+        return 'HR';
+      case PhoneNumberCountryCode.cu:
+        return 'CU';
+      case PhoneNumberCountryCode.cw:
+        return 'CW';
+      case PhoneNumberCountryCode.cy:
+        return 'CY';
+      case PhoneNumberCountryCode.cz:
+        return 'CZ';
+      case PhoneNumberCountryCode.cd:
+        return 'CD';
+      case PhoneNumberCountryCode.dk:
+        return 'DK';
+      case PhoneNumberCountryCode.dj:
+        return 'DJ';
+      case PhoneNumberCountryCode.dm:
+        return 'DM';
+      case PhoneNumberCountryCode.$do:
+        return 'DO';
+      case PhoneNumberCountryCode.tl:
+        return 'TL';
+      case PhoneNumberCountryCode.ec:
+        return 'EC';
+      case PhoneNumberCountryCode.eg:
+        return 'EG';
+      case PhoneNumberCountryCode.sv:
+        return 'SV';
+      case PhoneNumberCountryCode.gq:
+        return 'GQ';
+      case PhoneNumberCountryCode.er:
+        return 'ER';
+      case PhoneNumberCountryCode.ee:
+        return 'EE';
+      case PhoneNumberCountryCode.et:
+        return 'ET';
+      case PhoneNumberCountryCode.fk:
+        return 'FK';
+      case PhoneNumberCountryCode.fo:
+        return 'FO';
+      case PhoneNumberCountryCode.fj:
+        return 'FJ';
+      case PhoneNumberCountryCode.fi:
+        return 'FI';
+      case PhoneNumberCountryCode.fr:
+        return 'FR';
+      case PhoneNumberCountryCode.pf:
+        return 'PF';
+      case PhoneNumberCountryCode.ga:
+        return 'GA';
+      case PhoneNumberCountryCode.gm:
+        return 'GM';
+      case PhoneNumberCountryCode.ge:
+        return 'GE';
+      case PhoneNumberCountryCode.de:
+        return 'DE';
+      case PhoneNumberCountryCode.gh:
+        return 'GH';
+      case PhoneNumberCountryCode.gi:
+        return 'GI';
+      case PhoneNumberCountryCode.gr:
+        return 'GR';
+      case PhoneNumberCountryCode.gl:
+        return 'GL';
+      case PhoneNumberCountryCode.gd:
+        return 'GD';
+      case PhoneNumberCountryCode.gu:
+        return 'GU';
+      case PhoneNumberCountryCode.gt:
+        return 'GT';
+      case PhoneNumberCountryCode.gg:
+        return 'GG';
+      case PhoneNumberCountryCode.gn:
+        return 'GN';
+      case PhoneNumberCountryCode.gw:
+        return 'GW';
+      case PhoneNumberCountryCode.gy:
+        return 'GY';
+      case PhoneNumberCountryCode.ht:
+        return 'HT';
+      case PhoneNumberCountryCode.hn:
+        return 'HN';
+      case PhoneNumberCountryCode.hk:
+        return 'HK';
+      case PhoneNumberCountryCode.hu:
+        return 'HU';
+      case PhoneNumberCountryCode.$is:
+        return 'IS';
+      case PhoneNumberCountryCode.$in:
+        return 'IN';
+      case PhoneNumberCountryCode.id:
+        return 'ID';
+      case PhoneNumberCountryCode.ir:
+        return 'IR';
+      case PhoneNumberCountryCode.iq:
+        return 'IQ';
+      case PhoneNumberCountryCode.ie:
+        return 'IE';
+      case PhoneNumberCountryCode.im:
+        return 'IM';
+      case PhoneNumberCountryCode.il:
+        return 'IL';
+      case PhoneNumberCountryCode.it:
+        return 'IT';
+      case PhoneNumberCountryCode.ci:
+        return 'CI';
+      case PhoneNumberCountryCode.jm:
+        return 'JM';
+      case PhoneNumberCountryCode.jp:
+        return 'JP';
+      case PhoneNumberCountryCode.je:
+        return 'JE';
+      case PhoneNumberCountryCode.jo:
+        return 'JO';
+      case PhoneNumberCountryCode.kz:
+        return 'KZ';
+      case PhoneNumberCountryCode.ke:
+        return 'KE';
+      case PhoneNumberCountryCode.ki:
+        return 'KI';
+      case PhoneNumberCountryCode.kw:
+        return 'KW';
+      case PhoneNumberCountryCode.kg:
+        return 'KG';
+      case PhoneNumberCountryCode.la:
+        return 'LA';
+      case PhoneNumberCountryCode.lv:
+        return 'LV';
+      case PhoneNumberCountryCode.lb:
+        return 'LB';
+      case PhoneNumberCountryCode.ls:
+        return 'LS';
+      case PhoneNumberCountryCode.lr:
+        return 'LR';
+      case PhoneNumberCountryCode.ly:
+        return 'LY';
+      case PhoneNumberCountryCode.li:
+        return 'LI';
+      case PhoneNumberCountryCode.lt:
+        return 'LT';
+      case PhoneNumberCountryCode.lu:
+        return 'LU';
+      case PhoneNumberCountryCode.mo:
+        return 'MO';
+      case PhoneNumberCountryCode.mk:
+        return 'MK';
+      case PhoneNumberCountryCode.mg:
+        return 'MG';
+      case PhoneNumberCountryCode.mw:
+        return 'MW';
+      case PhoneNumberCountryCode.my:
+        return 'MY';
+      case PhoneNumberCountryCode.mv:
+        return 'MV';
+      case PhoneNumberCountryCode.ml:
+        return 'ML';
+      case PhoneNumberCountryCode.mt:
+        return 'MT';
+      case PhoneNumberCountryCode.mh:
+        return 'MH';
+      case PhoneNumberCountryCode.mr:
+        return 'MR';
+      case PhoneNumberCountryCode.mu:
+        return 'MU';
+      case PhoneNumberCountryCode.yt:
+        return 'YT';
+      case PhoneNumberCountryCode.mx:
+        return 'MX';
+      case PhoneNumberCountryCode.fm:
+        return 'FM';
+      case PhoneNumberCountryCode.md:
+        return 'MD';
+      case PhoneNumberCountryCode.mc:
+        return 'MC';
+      case PhoneNumberCountryCode.mn:
+        return 'MN';
+      case PhoneNumberCountryCode.me:
+        return 'ME';
+      case PhoneNumberCountryCode.ms:
+        return 'MS';
+      case PhoneNumberCountryCode.ma:
+        return 'MA';
+      case PhoneNumberCountryCode.mz:
+        return 'MZ';
+      case PhoneNumberCountryCode.mm:
+        return 'MM';
+      case PhoneNumberCountryCode.na:
+        return 'NA';
+      case PhoneNumberCountryCode.nr:
+        return 'NR';
+      case PhoneNumberCountryCode.np:
+        return 'NP';
+      case PhoneNumberCountryCode.nl:
+        return 'NL';
+      case PhoneNumberCountryCode.an:
+        return 'AN';
+      case PhoneNumberCountryCode.nc:
+        return 'NC';
+      case PhoneNumberCountryCode.nz:
+        return 'NZ';
+      case PhoneNumberCountryCode.ni:
+        return 'NI';
+      case PhoneNumberCountryCode.ne:
+        return 'NE';
+      case PhoneNumberCountryCode.ng:
+        return 'NG';
+      case PhoneNumberCountryCode.nu:
+        return 'NU';
+      case PhoneNumberCountryCode.kp:
+        return 'KP';
+      case PhoneNumberCountryCode.mp:
+        return 'MP';
+      case PhoneNumberCountryCode.no:
+        return 'NO';
+      case PhoneNumberCountryCode.om:
+        return 'OM';
+      case PhoneNumberCountryCode.pk:
+        return 'PK';
+      case PhoneNumberCountryCode.pw:
+        return 'PW';
+      case PhoneNumberCountryCode.pa:
+        return 'PA';
+      case PhoneNumberCountryCode.pg:
+        return 'PG';
+      case PhoneNumberCountryCode.py:
+        return 'PY';
+      case PhoneNumberCountryCode.pe:
+        return 'PE';
+      case PhoneNumberCountryCode.ph:
+        return 'PH';
+      case PhoneNumberCountryCode.pn:
+        return 'PN';
+      case PhoneNumberCountryCode.pl:
+        return 'PL';
+      case PhoneNumberCountryCode.pt:
+        return 'PT';
+      case PhoneNumberCountryCode.pr:
+        return 'PR';
+      case PhoneNumberCountryCode.qa:
+        return 'QA';
+      case PhoneNumberCountryCode.cg:
+        return 'CG';
+      case PhoneNumberCountryCode.re:
+        return 'RE';
+      case PhoneNumberCountryCode.ro:
+        return 'RO';
+      case PhoneNumberCountryCode.ru:
+        return 'RU';
+      case PhoneNumberCountryCode.rw:
+        return 'RW';
+      case PhoneNumberCountryCode.bl:
+        return 'BL';
+      case PhoneNumberCountryCode.sh:
+        return 'SH';
+      case PhoneNumberCountryCode.kn:
+        return 'KN';
+      case PhoneNumberCountryCode.lc:
+        return 'LC';
+      case PhoneNumberCountryCode.mf:
+        return 'MF';
+      case PhoneNumberCountryCode.pm:
+        return 'PM';
+      case PhoneNumberCountryCode.vc:
+        return 'VC';
+      case PhoneNumberCountryCode.ws:
+        return 'WS';
+      case PhoneNumberCountryCode.sm:
+        return 'SM';
+      case PhoneNumberCountryCode.st:
+        return 'ST';
+      case PhoneNumberCountryCode.sa:
+        return 'SA';
+      case PhoneNumberCountryCode.sn:
+        return 'SN';
+      case PhoneNumberCountryCode.rs:
+        return 'RS';
+      case PhoneNumberCountryCode.sc:
+        return 'SC';
+      case PhoneNumberCountryCode.sl:
+        return 'SL';
+      case PhoneNumberCountryCode.sg:
+        return 'SG';
+      case PhoneNumberCountryCode.sx:
+        return 'SX';
+      case PhoneNumberCountryCode.sk:
+        return 'SK';
+      case PhoneNumberCountryCode.si:
+        return 'SI';
+      case PhoneNumberCountryCode.sb:
+        return 'SB';
+      case PhoneNumberCountryCode.so:
+        return 'SO';
+      case PhoneNumberCountryCode.za:
+        return 'ZA';
+      case PhoneNumberCountryCode.kr:
+        return 'KR';
+      case PhoneNumberCountryCode.es:
+        return 'ES';
+      case PhoneNumberCountryCode.lk:
+        return 'LK';
+      case PhoneNumberCountryCode.sd:
+        return 'SD';
+      case PhoneNumberCountryCode.sr:
+        return 'SR';
+      case PhoneNumberCountryCode.sj:
+        return 'SJ';
+      case PhoneNumberCountryCode.sz:
+        return 'SZ';
+      case PhoneNumberCountryCode.se:
+        return 'SE';
+      case PhoneNumberCountryCode.ch:
+        return 'CH';
+      case PhoneNumberCountryCode.sy:
+        return 'SY';
+      case PhoneNumberCountryCode.tw:
+        return 'TW';
+      case PhoneNumberCountryCode.tj:
+        return 'TJ';
+      case PhoneNumberCountryCode.tz:
+        return 'TZ';
+      case PhoneNumberCountryCode.th:
+        return 'TH';
+      case PhoneNumberCountryCode.tg:
+        return 'TG';
+      case PhoneNumberCountryCode.tk:
+        return 'TK';
+      case PhoneNumberCountryCode.to:
+        return 'TO';
+      case PhoneNumberCountryCode.tt:
+        return 'TT';
+      case PhoneNumberCountryCode.tn:
+        return 'TN';
+      case PhoneNumberCountryCode.tr:
+        return 'TR';
+      case PhoneNumberCountryCode.tm:
+        return 'TM';
+      case PhoneNumberCountryCode.tc:
+        return 'TC';
+      case PhoneNumberCountryCode.tv:
+        return 'TV';
+      case PhoneNumberCountryCode.vi:
+        return 'VI';
+      case PhoneNumberCountryCode.ug:
+        return 'UG';
+      case PhoneNumberCountryCode.ua:
+        return 'UA';
+      case PhoneNumberCountryCode.ae:
+        return 'AE';
+      case PhoneNumberCountryCode.gb:
+        return 'GB';
+      case PhoneNumberCountryCode.us:
+        return 'US';
+      case PhoneNumberCountryCode.uy:
+        return 'UY';
+      case PhoneNumberCountryCode.uz:
+        return 'UZ';
+      case PhoneNumberCountryCode.vu:
+        return 'VU';
+      case PhoneNumberCountryCode.va:
+        return 'VA';
+      case PhoneNumberCountryCode.ve:
+        return 'VE';
+      case PhoneNumberCountryCode.vn:
+        return 'VN';
+      case PhoneNumberCountryCode.wf:
+        return 'WF';
+      case PhoneNumberCountryCode.eh:
+        return 'EH';
+      case PhoneNumberCountryCode.ye:
+        return 'YE';
+      case PhoneNumberCountryCode.zm:
+        return 'ZM';
+      case PhoneNumberCountryCode.zw:
+        return 'ZW';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Contains summary information about a phone number for a contact center.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3297,6 +3810,18 @@ enum PhoneNumberType {
   tollFree,
   @_s.JsonValue('DID')
   did,
+}
+
+extension on PhoneNumberType {
+  String toValue() {
+    switch (this) {
+      case PhoneNumberType.tollFree:
+        return 'TOLL_FREE';
+      case PhoneNumberType.did:
+        return 'DID';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 enum PhoneType {
@@ -3367,6 +3892,18 @@ enum QueueType {
   standard,
   @_s.JsonValue('AGENT')
   agent,
+}
+
+extension on QueueType {
+  String toValue() {
+    switch (this) {
+      case QueueType.standard:
+        return 'STANDARD';
+      case QueueType.agent:
+        return 'AGENT';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Contains summary information about a routing profile.

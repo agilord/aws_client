@@ -886,8 +886,9 @@ class SES {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
     final $request = <String, dynamic>{};
     $request['ConfigurationSetName'] = configurationSetName;
-    configurationSetAttributeNames
-        ?.also((arg) => $request['ConfigurationSetAttributeNames'] = arg);
+    configurationSetAttributeNames?.also((arg) =>
+        $request['ConfigurationSetAttributeNames'] =
+            arg.map((e) => e?.toValue() ?? '').toList());
     final $result = await _protocol.send(
       $request,
       action: 'DescribeConfigurationSet',
@@ -4256,6 +4257,22 @@ enum ConfigurationSetAttribute {
   deliveryOptions,
   @_s.JsonValue('reputationOptions')
   reputationOptions,
+}
+
+extension on ConfigurationSetAttribute {
+  String toValue() {
+    switch (this) {
+      case ConfigurationSetAttribute.eventDestinations:
+        return 'eventDestinations';
+      case ConfigurationSetAttribute.trackingOptions:
+        return 'trackingOptions';
+      case ConfigurationSetAttribute.deliveryOptions:
+        return 'deliveryOptions';
+      case ConfigurationSetAttribute.reputationOptions:
+        return 'reputationOptions';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 extension on String {

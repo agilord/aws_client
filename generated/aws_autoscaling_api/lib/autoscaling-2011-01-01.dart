@@ -2276,11 +2276,11 @@ class AutoScaling {
     );
     final $request = <String, dynamic>{};
     autoScalingGroupName?.also((arg) => $request['AutoScalingGroupName'] = arg);
-    endTime?.also((arg) => $request['EndTime'] = arg);
+    endTime?.also((arg) => $request['EndTime'] = _s.iso8601ToJson(arg));
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
     nextToken?.also((arg) => $request['NextToken'] = arg);
     scheduledActionNames?.also((arg) => $request['ScheduledActionNames'] = arg);
-    startTime?.also((arg) => $request['StartTime'] = arg);
+    startTime?.also((arg) => $request['StartTime'] = _s.iso8601ToJson(arg));
     final $result = await _protocol.send(
       $request,
       action: 'DescribeScheduledActions',
@@ -3528,12 +3528,12 @@ class AutoScaling {
     $request['AutoScalingGroupName'] = autoScalingGroupName;
     $request['ScheduledActionName'] = scheduledActionName;
     desiredCapacity?.also((arg) => $request['DesiredCapacity'] = arg);
-    endTime?.also((arg) => $request['EndTime'] = arg);
+    endTime?.also((arg) => $request['EndTime'] = _s.iso8601ToJson(arg));
     maxSize?.also((arg) => $request['MaxSize'] = arg);
     minSize?.also((arg) => $request['MinSize'] = arg);
     recurrence?.also((arg) => $request['Recurrence'] = arg);
-    startTime?.also((arg) => $request['StartTime'] = arg);
-    time?.also((arg) => $request['Time'] = arg);
+    startTime?.also((arg) => $request['StartTime'] = _s.iso8601ToJson(arg));
+    time?.also((arg) => $request['Time'] = _s.iso8601ToJson(arg));
     await _protocol.send(
       $request,
       action: 'PutScheduledUpdateGroupAction',

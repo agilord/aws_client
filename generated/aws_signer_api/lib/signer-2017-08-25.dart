@@ -231,7 +231,7 @@ class Signer {
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
       if (platformId != null) _s.toQueryParam('platformId', platformId),
       if (requestedBy != null) _s.toQueryParam('requestedBy', requestedBy),
-      if (status != null) _s.toQueryParam('status', status),
+      if (status != null) _s.toQueryParam('status', status.toValue()),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
@@ -1382,6 +1382,20 @@ enum SigningStatus {
   failed,
   @_s.JsonValue('Succeeded')
   succeeded,
+}
+
+extension on SigningStatus {
+  String toValue() {
+    switch (this) {
+      case SigningStatus.inProgress:
+        return 'InProgress';
+      case SigningStatus.failed:
+        return 'Failed';
+      case SigningStatus.succeeded:
+        return 'Succeeded';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// An <code>S3Source</code> object that contains information about the S3

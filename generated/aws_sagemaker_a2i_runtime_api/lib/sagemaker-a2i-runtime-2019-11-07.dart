@@ -234,12 +234,14 @@ class AugmentedAIRuntime {
       if (flowDefinitionArn != null)
         _s.toQueryParam('FlowDefinitionArn', flowDefinitionArn),
       if (creationTimeAfter != null)
-        _s.toQueryParam('CreationTimeAfter', creationTimeAfter),
+        _s.toQueryParam(
+            'CreationTimeAfter', _s.iso8601ToJson(creationTimeAfter)),
       if (creationTimeBefore != null)
-        _s.toQueryParam('CreationTimeBefore', creationTimeBefore),
+        _s.toQueryParam(
+            'CreationTimeBefore', _s.iso8601ToJson(creationTimeBefore)),
       if (maxResults != null) _s.toQueryParam('MaxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('NextToken', nextToken),
-      if (sortOrder != null) _s.toQueryParam('SortOrder', sortOrder),
+      if (sortOrder != null) _s.toQueryParam('SortOrder', sortOrder.toValue()),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
@@ -580,6 +582,18 @@ enum SortOrder {
   ascending,
   @_s.JsonValue('Descending')
   descending,
+}
+
+extension on SortOrder {
+  String toValue() {
+    switch (this) {
+      case SortOrder.ascending:
+        return 'Ascending';
+      case SortOrder.descending:
+        return 'Descending';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 @_s.JsonSerializable(

@@ -56,7 +56,7 @@ class InputShape {
   });
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      structureParam?.toXml('StructureParam'),
+      if (structureParam != null) structureParam?.toXml('StructureParam'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -77,7 +77,7 @@ class StructureShape {
   });
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlUint8ListValue('b', b),
+      if (b != null) _s.encodeXmlUint8ListValue('b', b),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,

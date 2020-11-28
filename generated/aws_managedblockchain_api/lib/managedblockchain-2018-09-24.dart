@@ -776,7 +776,7 @@ class ManagedBlockchain {
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (name != null) _s.toQueryParam('name', name),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-      if (status != null) _s.toQueryParam('status', status),
+      if (status != null) _s.toQueryParam('status', status.toValue()),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
@@ -833,11 +833,11 @@ class ManagedBlockchain {
     );
     var _query = '';
     _query = '?${[
-      if (framework != null) _s.toQueryParam('framework', framework),
+      if (framework != null) _s.toQueryParam('framework', framework.toValue()),
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (name != null) _s.toQueryParam('name', name),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-      if (status != null) _s.toQueryParam('status', status),
+      if (status != null) _s.toQueryParam('status', status.toValue()),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
@@ -909,7 +909,7 @@ class ManagedBlockchain {
     _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-      if (status != null) _s.toQueryParam('status', status),
+      if (status != null) _s.toQueryParam('status', status.toValue()),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
@@ -2036,6 +2036,26 @@ enum MemberStatus {
   deleted,
 }
 
+extension on MemberStatus {
+  String toValue() {
+    switch (this) {
+      case MemberStatus.creating:
+        return 'CREATING';
+      case MemberStatus.available:
+        return 'AVAILABLE';
+      case MemberStatus.createFailed:
+        return 'CREATE_FAILED';
+      case MemberStatus.updating:
+        return 'UPDATING';
+      case MemberStatus.deleting:
+        return 'DELETING';
+      case MemberStatus.deleted:
+        return 'DELETED';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// A summary of configuration properties for a member.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2270,6 +2290,24 @@ enum NetworkStatus {
   deleting,
   @_s.JsonValue('DELETED')
   deleted,
+}
+
+extension on NetworkStatus {
+  String toValue() {
+    switch (this) {
+      case NetworkStatus.creating:
+        return 'CREATING';
+      case NetworkStatus.available:
+        return 'AVAILABLE';
+      case NetworkStatus.createFailed:
+        return 'CREATE_FAILED';
+      case NetworkStatus.deleting:
+        return 'DELETING';
+      case NetworkStatus.deleted:
+        return 'DELETED';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// A summary of network configuration properties.
@@ -2525,6 +2563,28 @@ enum NodeStatus {
   deleted,
   @_s.JsonValue('FAILED')
   failed,
+}
+
+extension on NodeStatus {
+  String toValue() {
+    switch (this) {
+      case NodeStatus.creating:
+        return 'CREATING';
+      case NodeStatus.available:
+        return 'AVAILABLE';
+      case NodeStatus.createFailed:
+        return 'CREATE_FAILED';
+      case NodeStatus.updating:
+        return 'UPDATING';
+      case NodeStatus.deleting:
+        return 'DELETING';
+      case NodeStatus.deleted:
+        return 'DELETED';
+      case NodeStatus.failed:
+        return 'FAILED';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// A summary of configuration properties for a peer node.

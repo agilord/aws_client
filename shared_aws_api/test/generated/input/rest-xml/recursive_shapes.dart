@@ -136,7 +136,7 @@ class InputShape {
   });
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      recursiveStruct?.toXml('RecursiveStruct'),
+      if (recursiveStruct != null) recursiveStruct?.toXml('RecursiveStruct'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -163,14 +163,20 @@ class RecursiveStructType {
   });
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('NoRecurse', noRecurse),
-      recursiveStruct?.toXml('RecursiveStruct'),
+      if (noRecurse != null) _s.encodeXmlStringValue('NoRecurse', noRecurse),
+      if (recursiveStruct != null) recursiveStruct?.toXml('RecursiveStruct'),
       if (recursiveList != null)
-        _s.XmlElement(_s.XmlName('RecursiveList'), [], <_s.XmlNode>[
-          ...recursiveList.map((v) => v.toXml('RecursiveList'))
-        ]),
+        _s.XmlElement(_s.XmlName('RecursiveList'), [],
+            recursiveList.map((e) => e?.toXml('member'))),
       if (recursiveMap != null)
-        throw UnimplementedError('XML map: RecursiveMapType'),
+        _s.XmlElement(
+            _s.XmlName('RecursiveMap'),
+            [],
+            recursiveMap.entries.map((e) => _s.XmlElement(
+                    _s.XmlName('entry'), [], <_s.XmlNode>[
+                  _s.encodeXmlStringValue('key', e.key),
+                  e.value?.toXml('value')
+                ]))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,

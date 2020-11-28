@@ -60,8 +60,9 @@ class InputShape {
   });
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      subStructure?.toXml('SubStructure'),
-      _s.encodeXmlStringValue('Description', description),
+      if (subStructure != null) subStructure?.toXml('SubStructure'),
+      if (description != null)
+        _s.encodeXmlStringValue('Description', description),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -84,8 +85,8 @@ class SubStructure {
   });
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Foo', foo),
-      _s.encodeXmlStringValue('Bar', bar),
+      if (foo != null) _s.encodeXmlStringValue('Foo', foo),
+      if (bar != null) _s.encodeXmlStringValue('Bar', bar),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,

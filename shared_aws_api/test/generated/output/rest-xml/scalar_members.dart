@@ -32,21 +32,47 @@ class ScalarMembers {
         );
 
   Future<OutputShape> operationName0() async {
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
     );
-    return OutputShape.fromXml($result.body, headers: $result.headers);
+    final $elem = await _s.xmlFromResponse($result);
+    return OutputShape(
+      char: _s.extractXmlStringValue($elem, 'Char'),
+      doubleValue: _s.extractXmlDoubleValue($elem, 'Double'),
+      falseBool: _s.extractXmlBoolValue($elem, 'FalseBool'),
+      float: _s.extractXmlDoubleValue($elem, 'Float'),
+      long: _s.extractXmlIntValue($elem, 'Long'),
+      num: _s.extractXmlIntValue($elem, 'FooNum'),
+      str: _s.extractXmlStringValue($elem, 'Str'),
+      timestamp: _s.extractXmlDateTimeValue($elem, 'Timestamp'),
+      trueBool: _s.extractXmlBoolValue($elem, 'TrueBool'),
+      imaHeader: _s.extractHeaderStringValue($result.headers, 'ImaHeader'),
+      imaHeaderLocation: _s.extractHeaderStringValue($result.headers, 'X-Foo'),
+    );
   }
 
   Future<OutputShape> operationName1() async {
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
     );
-    return OutputShape.fromXml($result.body, headers: $result.headers);
+    final $elem = await _s.xmlFromResponse($result);
+    return OutputShape(
+      char: _s.extractXmlStringValue($elem, 'Char'),
+      doubleValue: _s.extractXmlDoubleValue($elem, 'Double'),
+      falseBool: _s.extractXmlBoolValue($elem, 'FalseBool'),
+      float: _s.extractXmlDoubleValue($elem, 'Float'),
+      long: _s.extractXmlIntValue($elem, 'Long'),
+      num: _s.extractXmlIntValue($elem, 'FooNum'),
+      str: _s.extractXmlStringValue($elem, 'Str'),
+      timestamp: _s.extractXmlDateTimeValue($elem, 'Timestamp'),
+      trueBool: _s.extractXmlBoolValue($elem, 'TrueBool'),
+      imaHeader: _s.extractHeaderStringValue($result.headers, 'ImaHeader'),
+      imaHeaderLocation: _s.extractHeaderStringValue($result.headers, 'X-Foo'),
+    );
   }
 }
 
@@ -76,24 +102,6 @@ class OutputShape {
     this.timestamp,
     this.trueBool,
   });
-  factory OutputShape.fromXml(
-    _s.XmlElement elem, {
-    Map<String, String> headers,
-  }) {
-    return OutputShape(
-      char: _s.extractXmlStringValue(elem, 'Char'),
-      doubleValue: _s.extractXmlDoubleValue(elem, 'Double'),
-      falseBool: _s.extractXmlBoolValue(elem, 'FalseBool'),
-      float: _s.extractXmlDoubleValue(elem, 'Float'),
-      imaHeader: _s.extractHeaderStringValue(headers, 'ImaHeader'),
-      imaHeaderLocation: _s.extractHeaderStringValue(headers, 'X-Foo'),
-      long: _s.extractXmlIntValue(elem, 'Long'),
-      num: _s.extractXmlIntValue(elem, 'FooNum'),
-      str: _s.extractXmlStringValue(elem, 'Str'),
-      timestamp: _s.extractXmlDateTimeValue(elem, 'Timestamp'),
-      trueBool: _s.extractXmlBoolValue(elem, 'TrueBool'),
-    );
-  }
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{};

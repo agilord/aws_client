@@ -51,7 +51,7 @@ class Grant {
   });
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      grantee?.toXml('Grantee'),
+      if (grantee != null) grantee?.toXml('Grantee'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -74,7 +74,8 @@ class Grantee {
   });
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('EmailAddress', emailAddress),
+      if (emailAddress != null)
+        _s.encodeXmlStringValue('EmailAddress', emailAddress),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,

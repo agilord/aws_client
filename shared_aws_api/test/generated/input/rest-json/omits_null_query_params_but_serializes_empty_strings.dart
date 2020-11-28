@@ -21,12 +21,10 @@ import 'package:shared_aws_api/shared.dart'
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
-part 'uri_parameter,_querystring_params_and_json_body.g.dart';
-
-/// URI parameter, querystring params and JSON body
-class URIParameterQuerystringParamsAndJSONBody {
+/// Omits null query params, but serializes empty strings
+class OmitsNullQueryParamsButSerializesEmptyStrings {
   final _s.RestJsonProtocol _protocol;
-  URIParameterQuerystringParamsAndJSONBody({
+  OmitsNullQueryParamsButSerializesEmptyStrings({
     @_s.required String region,
     _s.AwsClientCredentials credentials,
     _s.Client client,
@@ -34,7 +32,7 @@ class URIParameterQuerystringParamsAndJSONBody {
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
-            endpointPrefix: 'URIParameter,QuerystringParamsAndJSONBody',
+            endpointPrefix: 'OmitsNullQueryParams,ButSerializesEmptyStrings',
           ),
           region: region,
           credentials: credentials,
@@ -42,45 +40,36 @@ class URIParameterQuerystringParamsAndJSONBody {
         );
 
   Future<void> operationName0({
-    String ascending,
-    StructType config,
-    String pageToken,
-    String pipelineId,
+    String foo,
   }) async {
     var _query = '';
     _query = '?${[
-      if (ascending != null) _s.toQueryParam('Ascending', ascending),
-      if (pageToken != null) _s.toQueryParam('PageToken', pageToken),
+      if (foo != null) _s.toQueryParam('param-name', foo),
     ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{
-      if (config != null) 'Config': config,
-    };
+    final $payload = <String, dynamic>{};
     await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri:
-          '/2014-01-01/jobsByPipeline/${Uri.encodeComponent(pipelineId.toString())}$_query',
+      requestUri: '/path$_query',
       exceptionFnMap: _exceptionFns,
     );
   }
-}
 
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: false,
-    createToJson: true)
-class StructType {
-  @_s.JsonKey(name: 'A')
-  final String a;
-  @_s.JsonKey(name: 'B')
-  final String b;
-
-  StructType({
-    this.a,
-    this.b,
-  });
-  Map<String, dynamic> toJson() => _$StructTypeToJson(this);
+  Future<void> operationName1({
+    String foo,
+  }) async {
+    var _query = '';
+    _query = '&${[
+      if (foo != null) _s.toQueryParam('param-name', foo),
+    ].where((e) => e != null).join('&')}';
+    final $payload = <String, dynamic>{};
+    await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/path?abc=mno$_query',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{};

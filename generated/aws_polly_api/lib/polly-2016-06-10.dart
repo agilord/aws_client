@@ -141,11 +141,12 @@ class Polly {
     );
     var _query = '';
     _query = '?${[
-      if (engine != null) _s.toQueryParam('Engine', engine),
+      if (engine != null) _s.toQueryParam('Engine', engine.toValue()),
       if (includeAdditionalLanguageCodes != null)
         _s.toQueryParam(
             'IncludeAdditionalLanguageCodes', includeAdditionalLanguageCodes),
-      if (languageCode != null) _s.toQueryParam('LanguageCode', languageCode),
+      if (languageCode != null)
+        _s.toQueryParam('LanguageCode', languageCode.toValue()),
       if (nextToken != null) _s.toQueryParam('NextToken', nextToken),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
@@ -288,7 +289,7 @@ class Polly {
     _query = '?${[
       if (maxResults != null) _s.toQueryParam('MaxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('NextToken', nextToken),
-      if (status != null) _s.toQueryParam('Status', status),
+      if (status != null) _s.toQueryParam('Status', status.toValue()),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
@@ -1248,6 +1249,22 @@ enum TaskStatus {
   completed,
   @_s.JsonValue('failed')
   failed,
+}
+
+extension on TaskStatus {
+  String toValue() {
+    switch (this) {
+      case TaskStatus.scheduled:
+        return 'scheduled';
+      case TaskStatus.inProgress:
+        return 'inProgress';
+      case TaskStatus.completed:
+        return 'completed';
+      case TaskStatus.failed:
+        return 'failed';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 enum TextType {

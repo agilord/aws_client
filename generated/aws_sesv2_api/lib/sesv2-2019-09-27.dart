@@ -735,8 +735,10 @@ class SESV2 {
     ArgumentError.checkNotNull(startDate, 'startDate');
     var _query = '';
     _query = '?${[
-      if (endDate != null) _s.toQueryParam('EndDate', endDate),
-      if (startDate != null) _s.toQueryParam('StartDate', startDate),
+      if (endDate != null)
+        _s.toQueryParam('EndDate', _s.iso8601ToJson(endDate)),
+      if (startDate != null)
+        _s.toQueryParam('StartDate', _s.iso8601ToJson(startDate)),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
@@ -955,8 +957,10 @@ class SESV2 {
     ArgumentError.checkNotNull(subscribedDomain, 'subscribedDomain');
     var _query = '';
     _query = '?${[
-      if (endDate != null) _s.toQueryParam('EndDate', endDate),
-      if (startDate != null) _s.toQueryParam('StartDate', startDate),
+      if (endDate != null)
+        _s.toQueryParam('EndDate', _s.iso8601ToJson(endDate)),
+      if (startDate != null)
+        _s.toQueryParam('StartDate', _s.iso8601ToJson(startDate)),
       if (nextToken != null) _s.toQueryParam('NextToken', nextToken),
       if (pageSize != null) _s.toQueryParam('PageSize', pageSize),
     ].where((e) => e != null).join('&')}';
@@ -1049,11 +1053,15 @@ class SESV2 {
   }) async {
     var _query = '';
     _query = '?${[
-      if (endDate != null) _s.toQueryParam('EndDate', endDate),
+      if (endDate != null)
+        _s.toQueryParam('EndDate', _s.iso8601ToJson(endDate)),
       if (nextToken != null) _s.toQueryParam('NextToken', nextToken),
       if (pageSize != null) _s.toQueryParam('PageSize', pageSize),
-      if (reasons != null) _s.toQueryParam('Reason', reasons),
-      if (startDate != null) _s.toQueryParam('StartDate', startDate),
+      if (reasons != null)
+        _s.toQueryParam(
+            'Reason', reasons.map((e) => e?.toValue() ?? '').toList()),
+      if (startDate != null)
+        _s.toQueryParam('StartDate', _s.iso8601ToJson(startDate)),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,

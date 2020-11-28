@@ -1,5 +1,8 @@
+import 'package:aws_client.generator/model/descriptor.dart';
+
 import '../model/dart_type.dart';
 import '../model/shape.dart';
+import '../utils/string_utils.dart';
 
 String extractJsonCode(Shape shape, String variable, {Member member}) {
   if (shape.type == 'map') {
@@ -53,4 +56,86 @@ String encodeJsonCode(Shape shape, String variable,
     }
   }
   return '$variable';
+}
+
+String encodeXmlCode(Shape shape, String variable,
+    {Member structureMember,
+    Descriptor listMember,
+    Descriptor value,
+    Descriptor key,
+    bool maybeNull}) {
+  maybeNull ??= true;
+
+  final elemName = structureMember?.locationName ??
+      value?.locationName ??
+      key?.locationName ??
+      listMember?.locationName ??
+      shape.locationName ??
+      (value != null ? 'value' : null) ??
+      (key != null ? 'key' : null) ??
+      (listMember != null ? 'member' : null) ??
+      structureMember.name;
+
+  if (shape.type == 'map') {
+    final keyCode = encodeXmlCode(shape.key.shapeClass, 'e.key',
+        key: shape.key, maybeNull: false);
+    final valueCode =
+        encodeXmlCode(shape.value.shapeClass, 'e.value', value: shape.value);
+    final fn =
+        "$variable${maybeNull ? '?' : ''}.entries.map((e) => _s.XmlElement(_s.XmlName('entry'), [], <_s.XmlNode>[$keyCode, $valueCode]))";
+    return '_s.XmlElement(_s.XmlName(\'$elemName\'), [], $fn)';
+  } else if (shape.type == 'list') {
+    final flattened = shape.flattened || (structureMember?.flattened ?? false);
+    final valueCode = encodeXmlCode(shape.member.shapeClass, 'e',
+        structureMember: flattened ? structureMember : null,
+        listMember: flattened ? null : shape.member);
+    final nullAware = maybeNull ? '?' : '';
+    var fn = '$variable$nullAware.map((e) => $valueCode)';
+
+    if (flattened) {
+      fn = '...$fn';
+    } else {
+      fn = '_s.XmlElement(_s.XmlName(\'$elemName\'), [], $fn)';
+    }
+    return fn;
+  } else if (shape.type == 'structure') {
+    return '$variable?.toXml(\'$elemName\')';
+  } else if (shape.type == 'timestamp') {
+    final timestampFormat =
+        structureMember?.timestampFormat ?? shape.timestampFormat;
+    var formatterArg = '';
+    if (timestampFormat != null) {
+      formatterArg = ', formatter: _s.${timestampFormat}ToJson';
+    }
+    return '_s.encodeXmlDateTimeValue(\'$elemName\', $variable$formatterArg)';
+  }
+
+  if (shape.enumeration != null) {
+    shape.isTopLevelInputEnum = true;
+    variable =
+        "$variable${maybeNull ? '?' : ''}.toValue()${maybeNull ? " ?? ''" : ''}";
+  }
+
+  final dartType = shape.type.getDartType(shape.api);
+  return '_s.encodeXml${uppercaseName(dartType)}Value(\'$elemName\', $variable)';
+}
+
+String encodeQueryCode(Shape shape, String variable,
+    {Member member, bool maybeNull = false}) {
+  if (shape.enumeration != null) {
+    shape.isTopLevelInputEnum = true;
+    return '$variable${maybeNull ? '?' : ''}.toValue()${maybeNull ? "??''" : ''}';
+  } else if (shape.type == 'list') {
+    final code = encodeQueryCode(shape.member.shapeClass, 'e', maybeNull: true);
+    if (code != 'e') {
+      return '$variable${maybeNull ? '?' : ''}.map((e) => $code)${maybeNull ? '?' : ''}.toList()';
+    }
+  } else if (shape.type == 'timestamp') {
+    final timestampFormat =
+        member?.timestampFormat ?? shape.timestampFormat ?? 'iso8601';
+    variable =
+        '_s.${timestampFormat}ToJson($variable)${timestampFormat == 'unixTimestamp' ? '.toString()' : ''}';
+  }
+
+  return variable;
 }

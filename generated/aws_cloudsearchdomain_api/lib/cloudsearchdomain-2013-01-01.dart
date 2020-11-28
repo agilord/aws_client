@@ -468,7 +468,7 @@ class CloudSearchDomain {
   }) async {
     ArgumentError.checkNotNull(query, 'query');
     var _query = '';
-    _query = '?${[
+    _query = '&${[
       if (query != null) _s.toQueryParam('q', query),
       if (cursor != null) _s.toQueryParam('cursor', cursor),
       if (expr != null) _s.toQueryParam('expr', expr),
@@ -477,7 +477,8 @@ class CloudSearchDomain {
       if (highlight != null) _s.toQueryParam('highlight', highlight),
       if (partial != null) _s.toQueryParam('partial', partial),
       if (queryOptions != null) _s.toQueryParam('q.options', queryOptions),
-      if (queryParser != null) _s.toQueryParam('q.parser', queryParser),
+      if (queryParser != null)
+        _s.toQueryParam('q.parser', queryParser.toValue()),
       if (returnValue != null) _s.toQueryParam('return', returnValue),
       if (size != null) _s.toQueryParam('size', size),
       if (sort != null) _s.toQueryParam('sort', sort),
@@ -531,7 +532,7 @@ class CloudSearchDomain {
     ArgumentError.checkNotNull(query, 'query');
     ArgumentError.checkNotNull(suggester, 'suggester');
     var _query = '';
-    _query = '?${[
+    _query = '&${[
       if (query != null) _s.toQueryParam('q', query),
       if (suggester != null) _s.toQueryParam('suggester', suggester),
       if (size != null) _s.toQueryParam('size', size),
@@ -863,6 +864,22 @@ enum QueryParser {
   lucene,
   @_s.JsonValue('dismax')
   dismax,
+}
+
+extension on QueryParser {
+  String toValue() {
+    switch (this) {
+      case QueryParser.simple:
+        return 'simple';
+      case QueryParser.structured:
+        return 'structured';
+      case QueryParser.lucene:
+        return 'lucene';
+      case QueryParser.dismax:
+        return 'dismax';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Information about any problems encountered while processing a search

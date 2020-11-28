@@ -735,10 +735,10 @@ class MediaConvert {
     var _query = '';
     _query = '?${[
       if (category != null) _s.toQueryParam('category', category),
-      if (listBy != null) _s.toQueryParam('listBy', listBy),
+      if (listBy != null) _s.toQueryParam('listBy', listBy.toValue()),
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-      if (order != null) _s.toQueryParam('order', order),
+      if (order != null) _s.toQueryParam('order', order.toValue()),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
@@ -797,9 +797,9 @@ class MediaConvert {
     _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-      if (order != null) _s.toQueryParam('order', order),
+      if (order != null) _s.toQueryParam('order', order.toValue()),
       if (queue != null) _s.toQueryParam('queue', queue),
-      if (status != null) _s.toQueryParam('status', status),
+      if (status != null) _s.toQueryParam('status', status.toValue()),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
@@ -858,10 +858,10 @@ class MediaConvert {
     var _query = '';
     _query = '?${[
       if (category != null) _s.toQueryParam('category', category),
-      if (listBy != null) _s.toQueryParam('listBy', listBy),
+      if (listBy != null) _s.toQueryParam('listBy', listBy.toValue()),
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-      if (order != null) _s.toQueryParam('order', order),
+      if (order != null) _s.toQueryParam('order', order.toValue()),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
@@ -914,10 +914,10 @@ class MediaConvert {
     );
     var _query = '';
     _query = '?${[
-      if (listBy != null) _s.toQueryParam('listBy', listBy),
+      if (listBy != null) _s.toQueryParam('listBy', listBy.toValue()),
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-      if (order != null) _s.toQueryParam('order', order),
+      if (order != null) _s.toQueryParam('order', order.toValue()),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
@@ -8840,6 +8840,24 @@ enum JobStatus {
   error,
 }
 
+extension on JobStatus {
+  String toValue() {
+    switch (this) {
+      case JobStatus.submitted:
+        return 'SUBMITTED';
+      case JobStatus.progressing:
+        return 'PROGRESSING';
+      case JobStatus.complete:
+        return 'COMPLETE';
+      case JobStatus.canceled:
+        return 'CANCELED';
+      case JobStatus.error:
+        return 'ERROR';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// A job template is a pre-made set of encoding instructions that you can use
 /// to quickly create a job.
 @_s.JsonSerializable(
@@ -8944,6 +8962,20 @@ enum JobTemplateListBy {
   creationDate,
   @_s.JsonValue('SYSTEM')
   system,
+}
+
+extension on JobTemplateListBy {
+  String toValue() {
+    switch (this) {
+      case JobTemplateListBy.name:
+        return 'NAME';
+      case JobTemplateListBy.creationDate:
+        return 'CREATION_DATE';
+      case JobTemplateListBy.system:
+        return 'SYSTEM';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// JobTemplateSettings contains all the transcode settings saved in the
@@ -11419,6 +11451,18 @@ enum Order {
   descending,
 }
 
+extension on Order {
+  String toValue() {
+    switch (this) {
+      case Order.ascending:
+        return 'ASCENDING';
+      case Order.descending:
+        return 'DESCENDING';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// An output object describes the settings for a single output file or stream
 /// in an output group.
 @_s.JsonSerializable(
@@ -11769,6 +11813,20 @@ enum PresetListBy {
   creationDate,
   @_s.JsonValue('SYSTEM')
   system,
+}
+
+extension on PresetListBy {
+  String toValue() {
+    switch (this) {
+      case PresetListBy.name:
+        return 'NAME';
+      case PresetListBy.creationDate:
+        return 'CREATION_DATE';
+      case PresetListBy.system:
+        return 'SYSTEM';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Settings for preset
@@ -12137,6 +12195,18 @@ enum QueueListBy {
   name,
   @_s.JsonValue('CREATION_DATE')
   creationDate,
+}
+
+extension on QueueListBy {
+  String toValue() {
+    switch (this) {
+      case QueueListBy.name:
+        return 'NAME';
+      case QueueListBy.creationDate:
+        return 'CREATION_DATE';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Queues can be ACTIVE or PAUSED. If you pause a queue, jobs in that queue

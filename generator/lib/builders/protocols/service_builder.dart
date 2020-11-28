@@ -40,20 +40,27 @@ abstract class ServiceBuilder {
   void _buildMap(StringBuffer out, Iterable<Member> members, String varName) {
     out.writeln('final $varName = <String, String>{};');
     members.forEach((m) {
-      if (m.location == 'headers') {
+      final location = m.location ?? m.shapeClass.location;
+      if (location == 'headers') {
         out.writeln(
-            '${m.fieldName}?.forEach((key, value) => $varName[\'${m.locationName ?? m.name}\$key\'] = value);');
+            '${m.fieldName}?.forEach((key, value) => $varName[\'${m.locationName ?? m.shapeClass.locationName ?? m.name}\$key\'] = value);');
       } else {
         var converter = 'v.toString()';
         if (m.dartType == 'DateTime') {
-          converter = 'v.toUtc().toIso8601String()';
+          final timestampFormat = m.timestampFormat ??
+              m.shapeClass.timestampFormat ??
+              (location == 'header' ? 'rfc822' : 'iso8601');
+          converter = '_s.${timestampFormat}ToJson(v)';
+          if (timestampFormat == 'unixTimestamp') {
+            converter += '.toString()';
+          }
         }
         if (m.shapeClass.enumeration != null) {
           m.shapeClass.isTopLevelInputEnum = true;
           converter = 'v.toValue()';
         }
         out.writeln(
-            '${m.fieldName}?.let((v) => $varName[\'${m.locationName ?? m.name}\'] = $converter);');
+            '${m.fieldName}?.let((v) => $varName[\'${m.locationName ?? m.shapeClass.locationName ?? m.name}\'] = $converter);');
       }
     });
   }

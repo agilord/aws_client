@@ -1862,7 +1862,7 @@ class Lambda {
       isRequired: true,
     );
     var _query = '';
-    _query = '?${[
+    _query = '&${[
       if (arn != null) _s.toQueryParam('Arn', arn),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
@@ -2633,7 +2633,7 @@ class Lambda {
     var _query = '';
     _query = '?${[
       if (functionVersion != null)
-        _s.toQueryParam('FunctionVersion', functionVersion),
+        _s.toQueryParam('FunctionVersion', functionVersion.toValue()),
       if (marker != null) _s.toQueryParam('Marker', marker),
       if (masterRegion != null) _s.toQueryParam('MasterRegion', masterRegion),
       if (maxItems != null) _s.toQueryParam('MaxItems', maxItems),
@@ -2700,7 +2700,7 @@ class Lambda {
     var _query = '';
     _query = '?${[
       if (compatibleRuntime != null)
-        _s.toQueryParam('CompatibleRuntime', compatibleRuntime),
+        _s.toQueryParam('CompatibleRuntime', compatibleRuntime.toValue()),
       if (marker != null) _s.toQueryParam('Marker', marker),
       if (maxItems != null) _s.toQueryParam('MaxItems', maxItems),
     ].where((e) => e != null).join('&')}';
@@ -2748,7 +2748,7 @@ class Lambda {
     var _query = '';
     _query = '?${[
       if (compatibleRuntime != null)
-        _s.toQueryParam('CompatibleRuntime', compatibleRuntime),
+        _s.toQueryParam('CompatibleRuntime', compatibleRuntime.toValue()),
       if (marker != null) _s.toQueryParam('Marker', marker),
       if (maxItems != null) _s.toQueryParam('MaxItems', maxItems),
     ].where((e) => e != null).join('&')}';
@@ -2820,7 +2820,7 @@ class Lambda {
       50,
     );
     var _query = '';
-    _query = '?${[
+    _query = '&${[
       if (marker != null) _s.toQueryParam('Marker', marker),
       if (maxItems != null) _s.toQueryParam('MaxItems', maxItems),
     ].where((e) => e != null).join('&')}';
@@ -5166,6 +5166,16 @@ class FunctionEventInvokeConfig {
 enum FunctionVersion {
   @_s.JsonValue('ALL')
   all,
+}
+
+extension on FunctionVersion {
+  String toValue() {
+    switch (this) {
+      case FunctionVersion.all:
+        return 'ALL';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 @_s.JsonSerializable(

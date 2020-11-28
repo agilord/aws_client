@@ -216,9 +216,11 @@ XmlElement encodeXmlDateTimeValue(String name, DateTime value,
     {String Function(DateTime) formatter}) {
   value = value?.toUtc();
 
+  formatter ??= iso8601ToJson;
+
   String output;
   if (value != null) {
-    output = formatter != null ? formatter(value) : value.toIso8601String();
+    output = formatter(value);
   }
 
   return encodeXmlStringValue(name, output);
@@ -296,6 +298,21 @@ Future<Map<String, dynamic>> jsonFromResponse(StreamedResponse rs) async {
   return body.isEmpty
       ? <String, dynamic>{}
       : jsonDecode(body) as Map<String, dynamic>;
+}
+
+Future<XmlElement> xmlFromResponse(StreamedResponse rs,
+    {String resultWrapper}) async {
+  final body = await rs.stream.bytesToString();
+  if (body.isNotEmpty) {
+    var elem = XmlDocument.parse(body).rootElement;
+
+    if (resultWrapper != null && elem != null) {
+      elem = elem.findElements(resultWrapper).first;
+    }
+    return elem;
+  } else {
+    return XmlElement(XmlName('empty'));
+  }
 }
 
 void throwException(StreamedResponse rs, String body,

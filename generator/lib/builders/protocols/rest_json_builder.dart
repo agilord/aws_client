@@ -34,21 +34,25 @@ class RestJsonServiceBuilder extends ServiceBuilder {
 
     if (hasQueryMembers) {
       buf.writeln("var _query = '';");
-      buf.writeln("_query = '?\${[");
+      buf.writeln(
+          "_query = '${operation.http.requestUri.contains('?') ? '&' : '?'}\${[");
       for (final member in inputShape.queryMembers) {
+        final variable = encodeQueryCode(member.shapeClass, member.fieldName,
+            member: member);
         buf.writeln('if(${member.fieldName} != null)');
         buf.writeln(
-            '_s.toQueryParam(${member.locationName == null ? 'null' : "'${member.locationName}'"}, ${member.fieldName}),');
+            '_s.toQueryParam(${member.locationName == null ? 'null' : "'${member.locationName}'"}, $variable),');
       }
       buf.writeln("].where((e) => e != null).join('&')}';");
     }
 
     final outputShape = operation.output?.shapeClass;
 
-    var payloadCode = 'null';
+    var payloadCode = 'payload: null,';
     if (!operation.http.bodyForbidden && inputShape != null) {
       final payload = operation.input.payloadMember;
       if (payload == null) {
+        //if (inputShape.hasBodyMembers) {
         buf.writeln('final \$payload = <String, dynamic>{');
         for (var member in inputShape.members.where((m) => m.isBody)) {
           if (!member.isRequired) {
@@ -62,22 +66,23 @@ class RestJsonServiceBuilder extends ServiceBuilder {
           buf.writeln("'$location': $encodeCode,");
         }
         buf.writeln('};');
-        payloadCode = '\$payload';
+        payloadCode = 'payload: \$payload,';
+        //}
       } else {
-        payloadCode = payload.fieldName;
+        payloadCode = 'payload: ${payload.fieldName},';
       }
     }
-    var isBlobPayload = false;
+    var isBlobResponse = false;
     Member payloadMember;
     if (outputShape?.payload != null) {
       payloadMember = outputShape.membersMap[outputShape.payload];
-      isBlobPayload = payloadMember.shapeClass.type == 'blob';
+      isBlobResponse = payloadMember.shapeClass.type == 'blob';
     }
     final isInlineExtraction =
         payloadMember != null || outputShape?.hasHeaderMembers == true;
 
     buf.writeln(
-        '${outputShape != null ? 'final response = ' : ''}await _protocol.send${isInlineExtraction ? 'Raw' : ''}(payload: $payloadCode,');
+        '${outputShape != null ? 'final response = ' : ''}await _protocol.send${isInlineExtraction ? 'Raw' : ''}($payloadCode');
 
     if (inputShape?.hasHeaderMembers == true) {
       buf.writeln('headers: headers,');
@@ -90,14 +95,14 @@ class RestJsonServiceBuilder extends ServiceBuilder {
 
     if (outputShape != null) {
       final outputShape = operation.output.shapeClass;
-      if (!isBlobPayload && isInlineExtraction) {
+      if (!isBlobResponse && isInlineExtraction) {
         buf.writeln('final \$json = await _s.jsonFromResponse(response);');
       }
 
       buf.writeln('return ${outputShape.className}');
       if (isInlineExtraction) {
         buf.writeln('(');
-        if (isBlobPayload) {
+        if (isBlobResponse) {
           buf.writeln(
               '${payloadMember.fieldName}: await response.stream.toBytes(),');
         } else if (payloadMember != null) {

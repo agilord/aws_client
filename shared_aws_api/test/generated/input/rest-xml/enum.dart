@@ -102,12 +102,14 @@ class InputShape {
   });
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('FooEnum', fooEnum?.toValue()),
+      if (fooEnum != null)
+        _s.encodeXmlStringValue('FooEnum', fooEnum.toValue()),
       if (listEnums != null)
-        _s.XmlElement(_s.XmlName('ListEnums'), [], <_s.XmlNode>[
-          ...listEnums
-              .map((v) => _s.encodeXmlStringValue('ListEnums', v.toValue()))
-        ]),
+        _s.XmlElement(
+            _s.XmlName('ListEnums'),
+            [],
+            listEnums.map(
+                (e) => _s.encodeXmlStringValue('member', e?.toValue() ?? ''))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,

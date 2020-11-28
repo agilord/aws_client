@@ -32,12 +32,30 @@ class TimestampMembers {
         );
 
   Future<OutputShape> operationName0() async {
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'POST',
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
     );
-    return OutputShape.fromXml($result.body, headers: $result.headers);
+    final $elem = await _s.xmlFromResponse($result);
+    return OutputShape(
+      structMember: _s
+          .extractXmlChild($elem, 'StructMember')
+          ?.let((e) => TimeContainer.fromXml(e)),
+      timeArg: _s.extractXmlDateTimeValue($elem, 'TimeArg'),
+      timeCustom: _s.extractXmlDateTimeValue($elem, 'TimeCustom',
+          parser: _s.rfc822FromJson),
+      timeFormat: _s.extractXmlDateTimeValue($elem, 'TimeFormat',
+          parser: _s.unixTimestampFromJson),
+      timeArgInHeader:
+          _s.extractHeaderDateTimeValue($result.headers, 'x-amz-timearg'),
+      timeCustomInHeader: _s.extractHeaderDateTimeValue(
+          $result.headers, 'x-amz-timecustom',
+          parser: _s.unixTimestampFromJson),
+      timeFormatInHeader: _s.extractHeaderDateTimeValue(
+          $result.headers, 'x-amz-timeformat',
+          parser: _s.unixTimestampFromJson),
+    );
   }
 }
 
@@ -59,28 +77,6 @@ class OutputShape {
     this.timeFormat,
     this.timeFormatInHeader,
   });
-  factory OutputShape.fromXml(
-    _s.XmlElement elem, {
-    Map<String, String> headers,
-  }) {
-    return OutputShape(
-      structMember: _s
-          .extractXmlChild(elem, 'StructMember')
-          ?.let((e) => TimeContainer.fromXml(e)),
-      timeArg: _s.extractXmlDateTimeValue(elem, 'TimeArg'),
-      timeArgInHeader: _s.extractHeaderDateTimeValue(headers, 'x-amz-timearg'),
-      timeCustom: _s.extractXmlDateTimeValue(elem, 'TimeCustom',
-          parser: _s.rfc822FromJson),
-      timeCustomInHeader: _s.extractHeaderDateTimeValue(
-          headers, 'x-amz-timecustom',
-          parser: _s.unixTimestampFromJson),
-      timeFormat: _s.extractXmlDateTimeValue(elem, 'TimeFormat',
-          parser: _s.unixTimestampFromJson),
-      timeFormatInHeader: _s.extractHeaderDateTimeValue(
-          headers, 'x-amz-timeformat',
-          parser: _s.unixTimestampFromJson),
-    );
-  }
 }
 
 class TimeContainer {

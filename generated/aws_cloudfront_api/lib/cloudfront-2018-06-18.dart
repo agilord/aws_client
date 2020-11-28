@@ -58,15 +58,20 @@ class CloudFront {
   }) async {
     ArgumentError.checkNotNull(cloudFrontOriginAccessIdentityConfig,
         'cloudFrontOriginAccessIdentityConfig');
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'POST',
       requestUri: '/2018-06-18/origin-access-identity/cloudfront',
       payload: cloudFrontOriginAccessIdentityConfig
           .toXml('CloudFrontOriginAccessIdentityConfig'),
       exceptionFnMap: _exceptionFns,
     );
-    return CreateCloudFrontOriginAccessIdentityResult.fromXml($result.body,
-        headers: $result.headers);
+    final $elem = await _s.xmlFromResponse($result);
+    return CreateCloudFrontOriginAccessIdentityResult(
+      cloudFrontOriginAccessIdentity:
+          CloudFrontOriginAccessIdentity.fromXml($elem),
+      eTag: _s.extractHeaderStringValue($result.headers, 'ETag'),
+      location: _s.extractHeaderStringValue($result.headers, 'Location'),
+    );
   }
 
   /// Creates a new web distribution. You create a CloudFront distribution to
@@ -139,14 +144,18 @@ class CloudFront {
     @_s.required DistributionConfig distributionConfig,
   }) async {
     ArgumentError.checkNotNull(distributionConfig, 'distributionConfig');
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'POST',
       requestUri: '/2018-06-18/distribution',
       payload: distributionConfig.toXml('DistributionConfig'),
       exceptionFnMap: _exceptionFns,
     );
-    return CreateDistributionResult.fromXml($result.body,
-        headers: $result.headers);
+    final $elem = await _s.xmlFromResponse($result);
+    return CreateDistributionResult(
+      distribution: Distribution.fromXml($elem),
+      eTag: _s.extractHeaderStringValue($result.headers, 'ETag'),
+      location: _s.extractHeaderStringValue($result.headers, 'Location'),
+    );
   }
 
   /// Create a new distribution with tags.
@@ -204,14 +213,18 @@ class CloudFront {
   }) async {
     ArgumentError.checkNotNull(
         distributionConfigWithTags, 'distributionConfigWithTags');
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'POST',
       requestUri: '/2018-06-18/distribution?WithTags',
       payload: distributionConfigWithTags.toXml('DistributionConfigWithTags'),
       exceptionFnMap: _exceptionFns,
     );
-    return CreateDistributionWithTagsResult.fromXml($result.body,
-        headers: $result.headers);
+    final $elem = await _s.xmlFromResponse($result);
+    return CreateDistributionWithTagsResult(
+      distribution: Distribution.fromXml($elem),
+      eTag: _s.extractHeaderStringValue($result.headers, 'ETag'),
+      location: _s.extractHeaderStringValue($result.headers, 'Location'),
+    );
   }
 
   /// Create a new field-level encryption configuration.
@@ -233,14 +246,18 @@ class CloudFront {
   }) async {
     ArgumentError.checkNotNull(
         fieldLevelEncryptionConfig, 'fieldLevelEncryptionConfig');
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'POST',
       requestUri: '/2018-06-18/field-level-encryption',
       payload: fieldLevelEncryptionConfig.toXml('FieldLevelEncryptionConfig'),
       exceptionFnMap: _exceptionFns,
     );
-    return CreateFieldLevelEncryptionConfigResult.fromXml($result.body,
-        headers: $result.headers);
+    final $elem = await _s.xmlFromResponse($result);
+    return CreateFieldLevelEncryptionConfigResult(
+      fieldLevelEncryption: FieldLevelEncryption.fromXml($elem),
+      eTag: _s.extractHeaderStringValue($result.headers, 'ETag'),
+      location: _s.extractHeaderStringValue($result.headers, 'Location'),
+    );
   }
 
   /// Create a field-level encryption profile.
@@ -263,15 +280,19 @@ class CloudFront {
   }) async {
     ArgumentError.checkNotNull(
         fieldLevelEncryptionProfileConfig, 'fieldLevelEncryptionProfileConfig');
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'POST',
       requestUri: '/2018-06-18/field-level-encryption-profile',
       payload: fieldLevelEncryptionProfileConfig
           .toXml('FieldLevelEncryptionProfileConfig'),
       exceptionFnMap: _exceptionFns,
     );
-    return CreateFieldLevelEncryptionProfileResult.fromXml($result.body,
-        headers: $result.headers);
+    final $elem = await _s.xmlFromResponse($result);
+    return CreateFieldLevelEncryptionProfileResult(
+      fieldLevelEncryptionProfile: FieldLevelEncryptionProfile.fromXml($elem),
+      eTag: _s.extractHeaderStringValue($result.headers, 'ETag'),
+      location: _s.extractHeaderStringValue($result.headers, 'Location'),
+    );
   }
 
   /// Create a new invalidation.
@@ -295,15 +316,18 @@ class CloudFront {
   }) async {
     ArgumentError.checkNotNull(distributionId, 'distributionId');
     ArgumentError.checkNotNull(invalidationBatch, 'invalidationBatch');
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'POST',
       requestUri:
           '/2018-06-18/distribution/${Uri.encodeComponent(distributionId.toString())}/invalidation',
       payload: invalidationBatch.toXml('InvalidationBatch'),
       exceptionFnMap: _exceptionFns,
     );
-    return CreateInvalidationResult.fromXml($result.body,
-        headers: $result.headers);
+    final $elem = await _s.xmlFromResponse($result);
+    return CreateInvalidationResult(
+      invalidation: Invalidation.fromXml($elem),
+      location: _s.extractHeaderStringValue($result.headers, 'Location'),
+    );
   }
 
   /// Add a new public key to CloudFront to use, for example, for field-level
@@ -319,14 +343,18 @@ class CloudFront {
     @_s.required PublicKeyConfig publicKeyConfig,
   }) async {
     ArgumentError.checkNotNull(publicKeyConfig, 'publicKeyConfig');
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'POST',
       requestUri: '/2018-06-18/public-key',
       payload: publicKeyConfig.toXml('PublicKeyConfig'),
       exceptionFnMap: _exceptionFns,
     );
-    return CreatePublicKeyResult.fromXml($result.body,
-        headers: $result.headers);
+    final $elem = await _s.xmlFromResponse($result);
+    return CreatePublicKeyResult(
+      publicKey: PublicKey.fromXml($elem),
+      eTag: _s.extractHeaderStringValue($result.headers, 'ETag'),
+      location: _s.extractHeaderStringValue($result.headers, 'Location'),
+    );
   }
 
   /// Creates a new RMTP distribution. An RTMP distribution is similar to a web
@@ -383,14 +411,18 @@ class CloudFront {
   }) async {
     ArgumentError.checkNotNull(
         streamingDistributionConfig, 'streamingDistributionConfig');
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'POST',
       requestUri: '/2018-06-18/streaming-distribution',
       payload: streamingDistributionConfig.toXml('StreamingDistributionConfig'),
       exceptionFnMap: _exceptionFns,
     );
-    return CreateStreamingDistributionResult.fromXml($result.body,
-        headers: $result.headers);
+    final $elem = await _s.xmlFromResponse($result);
+    return CreateStreamingDistributionResult(
+      streamingDistribution: StreamingDistribution.fromXml($elem),
+      eTag: _s.extractHeaderStringValue($result.headers, 'ETag'),
+      location: _s.extractHeaderStringValue($result.headers, 'Location'),
+    );
   }
 
   /// Create a new streaming distribution with tags.
@@ -418,15 +450,19 @@ class CloudFront {
   }) async {
     ArgumentError.checkNotNull(streamingDistributionConfigWithTags,
         'streamingDistributionConfigWithTags');
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'POST',
       requestUri: '/2018-06-18/streaming-distribution?WithTags',
       payload: streamingDistributionConfigWithTags
           .toXml('StreamingDistributionConfigWithTags'),
       exceptionFnMap: _exceptionFns,
     );
-    return CreateStreamingDistributionWithTagsResult.fromXml($result.body,
-        headers: $result.headers);
+    final $elem = await _s.xmlFromResponse($result);
+    return CreateStreamingDistributionWithTagsResult(
+      streamingDistribution: StreamingDistribution.fromXml($elem),
+      eTag: _s.extractHeaderStringValue($result.headers, 'ETag'),
+      location: _s.extractHeaderStringValue($result.headers, 'Location'),
+    );
   }
 
   /// Delete an origin access identity.
@@ -674,14 +710,18 @@ class CloudFront {
     @_s.required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri:
           '/2018-06-18/origin-access-identity/cloudfront/${Uri.encodeComponent(id.toString())}',
       exceptionFnMap: _exceptionFns,
     );
-    return GetCloudFrontOriginAccessIdentityResult.fromXml($result.body,
-        headers: $result.headers);
+    final $elem = await _s.xmlFromResponse($result);
+    return GetCloudFrontOriginAccessIdentityResult(
+      cloudFrontOriginAccessIdentity:
+          CloudFrontOriginAccessIdentity.fromXml($elem),
+      eTag: _s.extractHeaderStringValue($result.headers, 'ETag'),
+    );
   }
 
   /// Get the configuration information about an origin access identity.
@@ -696,14 +736,18 @@ class CloudFront {
     @_s.required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri:
           '/2018-06-18/origin-access-identity/cloudfront/${Uri.encodeComponent(id.toString())}/config',
       exceptionFnMap: _exceptionFns,
     );
-    return GetCloudFrontOriginAccessIdentityConfigResult.fromXml($result.body,
-        headers: $result.headers);
+    final $elem = await _s.xmlFromResponse($result);
+    return GetCloudFrontOriginAccessIdentityConfigResult(
+      cloudFrontOriginAccessIdentityConfig:
+          CloudFrontOriginAccessIdentityConfig.fromXml($elem),
+      eTag: _s.extractHeaderStringValue($result.headers, 'ETag'),
+    );
   }
 
   /// Get the information about a distribution.
@@ -717,14 +761,17 @@ class CloudFront {
     @_s.required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri:
           '/2018-06-18/distribution/${Uri.encodeComponent(id.toString())}',
       exceptionFnMap: _exceptionFns,
     );
-    return GetDistributionResult.fromXml($result.body,
-        headers: $result.headers);
+    final $elem = await _s.xmlFromResponse($result);
+    return GetDistributionResult(
+      distribution: Distribution.fromXml($elem),
+      eTag: _s.extractHeaderStringValue($result.headers, 'ETag'),
+    );
   }
 
   /// Get the configuration information about a distribution.
@@ -738,14 +785,17 @@ class CloudFront {
     @_s.required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri:
           '/2018-06-18/distribution/${Uri.encodeComponent(id.toString())}/config',
       exceptionFnMap: _exceptionFns,
     );
-    return GetDistributionConfigResult.fromXml($result.body,
-        headers: $result.headers);
+    final $elem = await _s.xmlFromResponse($result);
+    return GetDistributionConfigResult(
+      distributionConfig: DistributionConfig.fromXml($elem),
+      eTag: _s.extractHeaderStringValue($result.headers, 'ETag'),
+    );
   }
 
   /// Get the field-level encryption configuration information.
@@ -759,14 +809,17 @@ class CloudFront {
     @_s.required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri:
           '/2018-06-18/field-level-encryption/${Uri.encodeComponent(id.toString())}',
       exceptionFnMap: _exceptionFns,
     );
-    return GetFieldLevelEncryptionResult.fromXml($result.body,
-        headers: $result.headers);
+    final $elem = await _s.xmlFromResponse($result);
+    return GetFieldLevelEncryptionResult(
+      fieldLevelEncryption: FieldLevelEncryption.fromXml($elem),
+      eTag: _s.extractHeaderStringValue($result.headers, 'ETag'),
+    );
   }
 
   /// Get the field-level encryption configuration information.
@@ -781,14 +834,17 @@ class CloudFront {
     @_s.required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri:
           '/2018-06-18/field-level-encryption/${Uri.encodeComponent(id.toString())}/config',
       exceptionFnMap: _exceptionFns,
     );
-    return GetFieldLevelEncryptionConfigResult.fromXml($result.body,
-        headers: $result.headers);
+    final $elem = await _s.xmlFromResponse($result);
+    return GetFieldLevelEncryptionConfigResult(
+      fieldLevelEncryptionConfig: FieldLevelEncryptionConfig.fromXml($elem),
+      eTag: _s.extractHeaderStringValue($result.headers, 'ETag'),
+    );
   }
 
   /// Get the field-level encryption profile information.
@@ -803,14 +859,17 @@ class CloudFront {
     @_s.required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri:
           '/2018-06-18/field-level-encryption-profile/${Uri.encodeComponent(id.toString())}',
       exceptionFnMap: _exceptionFns,
     );
-    return GetFieldLevelEncryptionProfileResult.fromXml($result.body,
-        headers: $result.headers);
+    final $elem = await _s.xmlFromResponse($result);
+    return GetFieldLevelEncryptionProfileResult(
+      fieldLevelEncryptionProfile: FieldLevelEncryptionProfile.fromXml($elem),
+      eTag: _s.extractHeaderStringValue($result.headers, 'ETag'),
+    );
   }
 
   /// Get the field-level encryption profile configuration information.
@@ -826,14 +885,18 @@ class CloudFront {
     @_s.required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri:
           '/2018-06-18/field-level-encryption-profile/${Uri.encodeComponent(id.toString())}/config',
       exceptionFnMap: _exceptionFns,
     );
-    return GetFieldLevelEncryptionProfileConfigResult.fromXml($result.body,
-        headers: $result.headers);
+    final $elem = await _s.xmlFromResponse($result);
+    return GetFieldLevelEncryptionProfileConfigResult(
+      fieldLevelEncryptionProfileConfig:
+          FieldLevelEncryptionProfileConfig.fromXml($elem),
+      eTag: _s.extractHeaderStringValue($result.headers, 'ETag'),
+    );
   }
 
   /// Get the information about an invalidation.
@@ -854,13 +917,16 @@ class CloudFront {
   }) async {
     ArgumentError.checkNotNull(distributionId, 'distributionId');
     ArgumentError.checkNotNull(id, 'id');
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri:
           '/2018-06-18/distribution/${Uri.encodeComponent(distributionId.toString())}/invalidation/${Uri.encodeComponent(id.toString())}',
       exceptionFnMap: _exceptionFns,
     );
-    return GetInvalidationResult.fromXml($result.body);
+    final $elem = await _s.xmlFromResponse($result);
+    return GetInvalidationResult(
+      invalidation: Invalidation.fromXml($elem),
+    );
   }
 
   /// Get the public key information.
@@ -874,13 +940,17 @@ class CloudFront {
     @_s.required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri:
           '/2018-06-18/public-key/${Uri.encodeComponent(id.toString())}',
       exceptionFnMap: _exceptionFns,
     );
-    return GetPublicKeyResult.fromXml($result.body, headers: $result.headers);
+    final $elem = await _s.xmlFromResponse($result);
+    return GetPublicKeyResult(
+      publicKey: PublicKey.fromXml($elem),
+      eTag: _s.extractHeaderStringValue($result.headers, 'ETag'),
+    );
   }
 
   /// Return public key configuration informaation
@@ -894,14 +964,17 @@ class CloudFront {
     @_s.required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri:
           '/2018-06-18/public-key/${Uri.encodeComponent(id.toString())}/config',
       exceptionFnMap: _exceptionFns,
     );
-    return GetPublicKeyConfigResult.fromXml($result.body,
-        headers: $result.headers);
+    final $elem = await _s.xmlFromResponse($result);
+    return GetPublicKeyConfigResult(
+      publicKeyConfig: PublicKeyConfig.fromXml($elem),
+      eTag: _s.extractHeaderStringValue($result.headers, 'ETag'),
+    );
   }
 
   /// Gets information about a specified RTMP distribution, including the
@@ -916,14 +989,17 @@ class CloudFront {
     @_s.required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri:
           '/2018-06-18/streaming-distribution/${Uri.encodeComponent(id.toString())}',
       exceptionFnMap: _exceptionFns,
     );
-    return GetStreamingDistributionResult.fromXml($result.body,
-        headers: $result.headers);
+    final $elem = await _s.xmlFromResponse($result);
+    return GetStreamingDistributionResult(
+      streamingDistribution: StreamingDistribution.fromXml($elem),
+      eTag: _s.extractHeaderStringValue($result.headers, 'ETag'),
+    );
   }
 
   /// Get the configuration information about a streaming distribution.
@@ -938,14 +1014,17 @@ class CloudFront {
     @_s.required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri:
           '/2018-06-18/streaming-distribution/${Uri.encodeComponent(id.toString())}/config',
       exceptionFnMap: _exceptionFns,
     );
-    return GetStreamingDistributionConfigResult.fromXml($result.body,
-        headers: $result.headers);
+    final $elem = await _s.xmlFromResponse($result);
+    return GetStreamingDistributionConfigResult(
+      streamingDistributionConfig: StreamingDistributionConfig.fromXml($elem),
+      eTag: _s.extractHeaderStringValue($result.headers, 'ETag'),
+    );
   }
 
   /// Lists origin access identities.
@@ -971,13 +1050,17 @@ class CloudFront {
     final queryParams = <String, String>{};
     marker?.let((v) => queryParams['Marker'] = v.toString());
     maxItems?.let((v) => queryParams['MaxItems'] = v.toString());
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri: '/2018-06-18/origin-access-identity/cloudfront',
       queryParams: queryParams,
       exceptionFnMap: _exceptionFns,
     );
-    return ListCloudFrontOriginAccessIdentitiesResult.fromXml($result.body);
+    final $elem = await _s.xmlFromResponse($result);
+    return ListCloudFrontOriginAccessIdentitiesResult(
+      cloudFrontOriginAccessIdentityList:
+          CloudFrontOriginAccessIdentityList.fromXml($elem),
+    );
   }
 
   /// List distributions.
@@ -1001,13 +1084,16 @@ class CloudFront {
     final queryParams = <String, String>{};
     marker?.let((v) => queryParams['Marker'] = v.toString());
     maxItems?.let((v) => queryParams['MaxItems'] = v.toString());
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri: '/2018-06-18/distribution',
       queryParams: queryParams,
       exceptionFnMap: _exceptionFns,
     );
-    return ListDistributionsResult.fromXml($result.body);
+    final $elem = await _s.xmlFromResponse($result);
+    return ListDistributionsResult(
+      distributionList: DistributionList.fromXml($elem),
+    );
   }
 
   /// List the distributions that are associated with a specified AWS WAF web
@@ -1042,14 +1128,17 @@ class CloudFront {
     final queryParams = <String, String>{};
     marker?.let((v) => queryParams['Marker'] = v.toString());
     maxItems?.let((v) => queryParams['MaxItems'] = v.toString());
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri:
           '/2018-06-18/distributionsByWebACLId/${Uri.encodeComponent(webACLId.toString())}',
       queryParams: queryParams,
       exceptionFnMap: _exceptionFns,
     );
-    return ListDistributionsByWebACLIdResult.fromXml($result.body);
+    final $elem = await _s.xmlFromResponse($result);
+    return ListDistributionsByWebACLIdResult(
+      distributionList: DistributionList.fromXml($elem),
+    );
   }
 
   /// List all field-level encryption configurations that have been created in
@@ -1076,13 +1165,16 @@ class CloudFront {
     final queryParams = <String, String>{};
     marker?.let((v) => queryParams['Marker'] = v.toString());
     maxItems?.let((v) => queryParams['MaxItems'] = v.toString());
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri: '/2018-06-18/field-level-encryption',
       queryParams: queryParams,
       exceptionFnMap: _exceptionFns,
     );
-    return ListFieldLevelEncryptionConfigsResult.fromXml($result.body);
+    final $elem = await _s.xmlFromResponse($result);
+    return ListFieldLevelEncryptionConfigsResult(
+      fieldLevelEncryptionList: FieldLevelEncryptionList.fromXml($elem),
+    );
   }
 
   /// Request a list of field-level encryption profiles that have been created
@@ -1108,13 +1200,17 @@ class CloudFront {
     final queryParams = <String, String>{};
     marker?.let((v) => queryParams['Marker'] = v.toString());
     maxItems?.let((v) => queryParams['MaxItems'] = v.toString());
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri: '/2018-06-18/field-level-encryption-profile',
       queryParams: queryParams,
       exceptionFnMap: _exceptionFns,
     );
-    return ListFieldLevelEncryptionProfilesResult.fromXml($result.body);
+    final $elem = await _s.xmlFromResponse($result);
+    return ListFieldLevelEncryptionProfilesResult(
+      fieldLevelEncryptionProfileList:
+          FieldLevelEncryptionProfileList.fromXml($elem),
+    );
   }
 
   /// Lists invalidation batches.
@@ -1147,14 +1243,17 @@ class CloudFront {
     final queryParams = <String, String>{};
     marker?.let((v) => queryParams['Marker'] = v.toString());
     maxItems?.let((v) => queryParams['MaxItems'] = v.toString());
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri:
           '/2018-06-18/distribution/${Uri.encodeComponent(distributionId.toString())}/invalidation',
       queryParams: queryParams,
       exceptionFnMap: _exceptionFns,
     );
-    return ListInvalidationsResult.fromXml($result.body);
+    final $elem = await _s.xmlFromResponse($result);
+    return ListInvalidationsResult(
+      invalidationList: InvalidationList.fromXml($elem),
+    );
   }
 
   /// List all public keys that have been added to CloudFront for this account.
@@ -1178,13 +1277,16 @@ class CloudFront {
     final queryParams = <String, String>{};
     marker?.let((v) => queryParams['Marker'] = v.toString());
     maxItems?.let((v) => queryParams['MaxItems'] = v.toString());
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri: '/2018-06-18/public-key',
       queryParams: queryParams,
       exceptionFnMap: _exceptionFns,
     );
-    return ListPublicKeysResult.fromXml($result.body);
+    final $elem = await _s.xmlFromResponse($result);
+    return ListPublicKeysResult(
+      publicKeyList: PublicKeyList.fromXml($elem),
+    );
   }
 
   /// List streaming distributions.
@@ -1205,13 +1307,16 @@ class CloudFront {
     final queryParams = <String, String>{};
     marker?.let((v) => queryParams['Marker'] = v.toString());
     maxItems?.let((v) => queryParams['MaxItems'] = v.toString());
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri: '/2018-06-18/streaming-distribution',
       queryParams: queryParams,
       exceptionFnMap: _exceptionFns,
     );
-    return ListStreamingDistributionsResult.fromXml($result.body);
+    final $elem = await _s.xmlFromResponse($result);
+    return ListStreamingDistributionsResult(
+      streamingDistributionList: StreamingDistributionList.fromXml($elem),
+    );
   }
 
   /// List tags for a CloudFront resource.
@@ -1235,13 +1340,16 @@ class CloudFront {
     );
     final queryParams = <String, String>{};
     resource?.let((v) => queryParams['Resource'] = v.toString());
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri: '/2018-06-18/tagging',
       queryParams: queryParams,
       exceptionFnMap: _exceptionFns,
     );
-    return ListTagsForResourceResult.fromXml($result.body);
+    final $elem = await _s.xmlFromResponse($result);
+    return ListTagsForResourceResult(
+      tags: Tags.fromXml($elem),
+    );
   }
 
   /// Add tags to a CloudFront resource.
@@ -1348,7 +1456,7 @@ class CloudFront {
     ArgumentError.checkNotNull(id, 'id');
     final headers = <String, String>{};
     ifMatch?.let((v) => headers['If-Match'] = v.toString());
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'PUT',
       requestUri:
           '/2018-06-18/origin-access-identity/cloudfront/${Uri.encodeComponent(id.toString())}/config',
@@ -1357,8 +1465,12 @@ class CloudFront {
           .toXml('CloudFrontOriginAccessIdentityConfig'),
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateCloudFrontOriginAccessIdentityResult.fromXml($result.body,
-        headers: $result.headers);
+    final $elem = await _s.xmlFromResponse($result);
+    return UpdateCloudFrontOriginAccessIdentityResult(
+      cloudFrontOriginAccessIdentity:
+          CloudFrontOriginAccessIdentity.fromXml($elem),
+      eTag: _s.extractHeaderStringValue($result.headers, 'ETag'),
+    );
   }
 
   /// Updates the configuration for a web distribution.
@@ -1510,7 +1622,7 @@ class CloudFront {
     ArgumentError.checkNotNull(id, 'id');
     final headers = <String, String>{};
     ifMatch?.let((v) => headers['If-Match'] = v.toString());
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'PUT',
       requestUri:
           '/2018-06-18/distribution/${Uri.encodeComponent(id.toString())}/config',
@@ -1518,8 +1630,11 @@ class CloudFront {
       payload: distributionConfig.toXml('DistributionConfig'),
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateDistributionResult.fromXml($result.body,
-        headers: $result.headers);
+    final $elem = await _s.xmlFromResponse($result);
+    return UpdateDistributionResult(
+      distribution: Distribution.fromXml($elem),
+      eTag: _s.extractHeaderStringValue($result.headers, 'ETag'),
+    );
   }
 
   /// Update a field-level encryption configuration.
@@ -1557,7 +1672,7 @@ class CloudFront {
     ArgumentError.checkNotNull(id, 'id');
     final headers = <String, String>{};
     ifMatch?.let((v) => headers['If-Match'] = v.toString());
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'PUT',
       requestUri:
           '/2018-06-18/field-level-encryption/${Uri.encodeComponent(id.toString())}/config',
@@ -1565,8 +1680,11 @@ class CloudFront {
       payload: fieldLevelEncryptionConfig.toXml('FieldLevelEncryptionConfig'),
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateFieldLevelEncryptionConfigResult.fromXml($result.body,
-        headers: $result.headers);
+    final $elem = await _s.xmlFromResponse($result);
+    return UpdateFieldLevelEncryptionConfigResult(
+      fieldLevelEncryption: FieldLevelEncryption.fromXml($elem),
+      eTag: _s.extractHeaderStringValue($result.headers, 'ETag'),
+    );
   }
 
   /// Update a field-level encryption profile.
@@ -1606,7 +1724,7 @@ class CloudFront {
     ArgumentError.checkNotNull(id, 'id');
     final headers = <String, String>{};
     ifMatch?.let((v) => headers['If-Match'] = v.toString());
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'PUT',
       requestUri:
           '/2018-06-18/field-level-encryption-profile/${Uri.encodeComponent(id.toString())}/config',
@@ -1615,8 +1733,11 @@ class CloudFront {
           .toXml('FieldLevelEncryptionProfileConfig'),
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateFieldLevelEncryptionProfileResult.fromXml($result.body,
-        headers: $result.headers);
+    final $elem = await _s.xmlFromResponse($result);
+    return UpdateFieldLevelEncryptionProfileResult(
+      fieldLevelEncryptionProfile: FieldLevelEncryptionProfile.fromXml($elem),
+      eTag: _s.extractHeaderStringValue($result.headers, 'ETag'),
+    );
   }
 
   /// Update public key information. Note that the only value you can change is
@@ -1649,7 +1770,7 @@ class CloudFront {
     ArgumentError.checkNotNull(publicKeyConfig, 'publicKeyConfig');
     final headers = <String, String>{};
     ifMatch?.let((v) => headers['If-Match'] = v.toString());
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'PUT',
       requestUri:
           '/2018-06-18/public-key/${Uri.encodeComponent(id.toString())}/config',
@@ -1657,8 +1778,11 @@ class CloudFront {
       payload: publicKeyConfig.toXml('PublicKeyConfig'),
       exceptionFnMap: _exceptionFns,
     );
-    return UpdatePublicKeyResult.fromXml($result.body,
-        headers: $result.headers);
+    final $elem = await _s.xmlFromResponse($result);
+    return UpdatePublicKeyResult(
+      publicKey: PublicKey.fromXml($elem),
+      eTag: _s.extractHeaderStringValue($result.headers, 'ETag'),
+    );
   }
 
   /// Update a streaming distribution.
@@ -1698,7 +1822,7 @@ class CloudFront {
         streamingDistributionConfig, 'streamingDistributionConfig');
     final headers = <String, String>{};
     ifMatch?.let((v) => headers['If-Match'] = v.toString());
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'PUT',
       requestUri:
           '/2018-06-18/streaming-distribution/${Uri.encodeComponent(id.toString())}/config',
@@ -1706,8 +1830,11 @@ class CloudFront {
       payload: streamingDistributionConfig.toXml('StreamingDistributionConfig'),
       exceptionFnMap: _exceptionFns,
     );
-    return UpdateStreamingDistributionResult.fromXml($result.body,
-        headers: $result.headers);
+    final $elem = await _s.xmlFromResponse($result);
+    return UpdateStreamingDistributionResult(
+      streamingDistribution: StreamingDistribution.fromXml($elem),
+      eTag: _s.extractHeaderStringValue($result.headers, 'ETag'),
+    );
   }
 }
 
@@ -1792,9 +1919,8 @@ class Aliases {
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('Quantity', quantity),
       if (items != null)
-        _s.XmlElement(_s.XmlName('Items'), [], <_s.XmlNode>[
-          ...items.map((v) => _s.encodeXmlStringValue('CNAME', v))
-        ]),
+        _s.XmlElement(_s.XmlName('Items'), [],
+            items.map((e) => _s.encodeXmlStringValue('CNAME', e))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -1862,11 +1988,12 @@ class AllowedMethods {
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('Quantity', quantity),
-      if (items != null)
-        _s.XmlElement(_s.XmlName('Items'), [], <_s.XmlNode>[
-          ...items.map((v) => _s.encodeXmlStringValue('Method', v.toValue()))
-        ]),
-      cachedMethods?.toXml('CachedMethods'),
+      _s.XmlElement(
+          _s.XmlName('Items'),
+          [],
+          items?.map(
+              (e) => _s.encodeXmlStringValue('Method', e?.toValue() ?? ''))),
+      if (cachedMethods != null) cachedMethods?.toXml('CachedMethods'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -2112,15 +2239,19 @@ class CacheBehavior {
       forwardedValues?.toXml('ForwardedValues'),
       trustedSigners?.toXml('TrustedSigners'),
       _s.encodeXmlStringValue(
-          'ViewerProtocolPolicy', viewerProtocolPolicy?.toValue()),
+          'ViewerProtocolPolicy', viewerProtocolPolicy?.toValue() ?? ''),
       _s.encodeXmlIntValue('MinTTL', minTTL),
-      allowedMethods?.toXml('AllowedMethods'),
-      _s.encodeXmlBoolValue('SmoothStreaming', smoothStreaming),
-      _s.encodeXmlIntValue('DefaultTTL', defaultTTL),
-      _s.encodeXmlIntValue('MaxTTL', maxTTL),
-      _s.encodeXmlBoolValue('Compress', compress),
-      lambdaFunctionAssociations?.toXml('LambdaFunctionAssociations'),
-      _s.encodeXmlStringValue('FieldLevelEncryptionId', fieldLevelEncryptionId),
+      if (allowedMethods != null) allowedMethods?.toXml('AllowedMethods'),
+      if (smoothStreaming != null)
+        _s.encodeXmlBoolValue('SmoothStreaming', smoothStreaming),
+      if (defaultTTL != null) _s.encodeXmlIntValue('DefaultTTL', defaultTTL),
+      if (maxTTL != null) _s.encodeXmlIntValue('MaxTTL', maxTTL),
+      if (compress != null) _s.encodeXmlBoolValue('Compress', compress),
+      if (lambdaFunctionAssociations != null)
+        lambdaFunctionAssociations?.toXml('LambdaFunctionAssociations'),
+      if (fieldLevelEncryptionId != null)
+        _s.encodeXmlStringValue(
+            'FieldLevelEncryptionId', fieldLevelEncryptionId),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -2163,7 +2294,7 @@ class CacheBehaviors {
       _s.encodeXmlIntValue('Quantity', quantity),
       if (items != null)
         _s.XmlElement(_s.XmlName('Items'), [],
-            <_s.XmlNode>[...items.map((v) => v.toXml('Items'))]),
+            items.map((e) => e?.toXml('CacheBehavior'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -2220,10 +2351,11 @@ class CachedMethods {
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('Quantity', quantity),
-      if (items != null)
-        _s.XmlElement(_s.XmlName('Items'), [], <_s.XmlNode>[
-          ...items.map((v) => _s.encodeXmlStringValue('Method', v.toValue()))
-        ]),
+      _s.XmlElement(
+          _s.XmlName('Items'),
+          [],
+          items?.map(
+              (e) => _s.encodeXmlStringValue('Method', e?.toValue() ?? ''))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -2473,8 +2605,8 @@ class ContentTypeProfile {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Format', format?.toValue()),
-      _s.encodeXmlStringValue('ProfileId', profileId),
+      _s.encodeXmlStringValue('Format', format?.toValue() ?? ''),
+      if (profileId != null) _s.encodeXmlStringValue('ProfileId', profileId),
       _s.encodeXmlStringValue('ContentType', contentType),
     ];
     final $attributes = <_s.XmlAttribute>[
@@ -2518,7 +2650,8 @@ class ContentTypeProfileConfig {
     final $children = <_s.XmlNode>[
       _s.encodeXmlBoolValue(
           'ForwardWhenContentTypeIsUnknown', forwardWhenContentTypeIsUnknown),
-      contentTypeProfiles?.toXml('ContentTypeProfiles'),
+      if (contentTypeProfiles != null)
+        contentTypeProfiles?.toXml('ContentTypeProfiles'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -2558,7 +2691,7 @@ class ContentTypeProfiles {
       _s.encodeXmlIntValue('Quantity', quantity),
       if (items != null)
         _s.XmlElement(_s.XmlName('Items'), [],
-            <_s.XmlNode>[...items.map((v) => v.toXml('Items'))]),
+            items.map((e) => e?.toXml('ContentTypeProfile'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -2603,9 +2736,8 @@ class CookieNames {
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('Quantity', quantity),
       if (items != null)
-        _s.XmlElement(_s.XmlName('Items'), [], <_s.XmlNode>[
-          ...items.map((v) => _s.encodeXmlStringValue('Name', v))
-        ]),
+        _s.XmlElement(_s.XmlName('Items'), [],
+            items.map((e) => _s.encodeXmlStringValue('Name', e))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -2666,8 +2798,8 @@ class CookiePreference {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Forward', forward?.toValue()),
-      whitelistedNames?.toXml('WhitelistedNames'),
+      _s.encodeXmlStringValue('Forward', forward?.toValue() ?? ''),
+      if (whitelistedNames != null) whitelistedNames?.toXml('WhitelistedNames'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -2698,17 +2830,6 @@ class CreateCloudFrontOriginAccessIdentityResult {
     this.eTag,
     this.location,
   });
-  factory CreateCloudFrontOriginAccessIdentityResult.fromXml(
-    _s.XmlElement elem, {
-    Map<String, String> headers,
-  }) {
-    return CreateCloudFrontOriginAccessIdentityResult(
-      cloudFrontOriginAccessIdentity:
-          elem?.let((e) => CloudFrontOriginAccessIdentity.fromXml(e)),
-      eTag: _s.extractHeaderStringValue(headers, 'ETag'),
-      location: _s.extractHeaderStringValue(headers, 'Location'),
-    );
-  }
 }
 
 /// The returned result of the corresponding request.
@@ -2729,16 +2850,6 @@ class CreateDistributionResult {
     this.eTag,
     this.location,
   });
-  factory CreateDistributionResult.fromXml(
-    _s.XmlElement elem, {
-    Map<String, String> headers,
-  }) {
-    return CreateDistributionResult(
-      distribution: elem?.let((e) => Distribution.fromXml(e)),
-      eTag: _s.extractHeaderStringValue(headers, 'ETag'),
-      location: _s.extractHeaderStringValue(headers, 'Location'),
-    );
-  }
 }
 
 /// The returned result of the corresponding request.
@@ -2759,16 +2870,6 @@ class CreateDistributionWithTagsResult {
     this.eTag,
     this.location,
   });
-  factory CreateDistributionWithTagsResult.fromXml(
-    _s.XmlElement elem, {
-    Map<String, String> headers,
-  }) {
-    return CreateDistributionWithTagsResult(
-      distribution: elem?.let((e) => Distribution.fromXml(e)),
-      eTag: _s.extractHeaderStringValue(headers, 'ETag'),
-      location: _s.extractHeaderStringValue(headers, 'Location'),
-    );
-  }
 }
 
 class CreateFieldLevelEncryptionConfigResult {
@@ -2789,16 +2890,6 @@ class CreateFieldLevelEncryptionConfigResult {
     this.fieldLevelEncryption,
     this.location,
   });
-  factory CreateFieldLevelEncryptionConfigResult.fromXml(
-    _s.XmlElement elem, {
-    Map<String, String> headers,
-  }) {
-    return CreateFieldLevelEncryptionConfigResult(
-      eTag: _s.extractHeaderStringValue(headers, 'ETag'),
-      fieldLevelEncryption: elem?.let((e) => FieldLevelEncryption.fromXml(e)),
-      location: _s.extractHeaderStringValue(headers, 'Location'),
-    );
-  }
 }
 
 class CreateFieldLevelEncryptionProfileResult {
@@ -2819,17 +2910,6 @@ class CreateFieldLevelEncryptionProfileResult {
     this.fieldLevelEncryptionProfile,
     this.location,
   });
-  factory CreateFieldLevelEncryptionProfileResult.fromXml(
-    _s.XmlElement elem, {
-    Map<String, String> headers,
-  }) {
-    return CreateFieldLevelEncryptionProfileResult(
-      eTag: _s.extractHeaderStringValue(headers, 'ETag'),
-      fieldLevelEncryptionProfile:
-          elem?.let((e) => FieldLevelEncryptionProfile.fromXml(e)),
-      location: _s.extractHeaderStringValue(headers, 'Location'),
-    );
-  }
 }
 
 /// The returned result of the corresponding request.
@@ -2845,15 +2925,6 @@ class CreateInvalidationResult {
     this.invalidation,
     this.location,
   });
-  factory CreateInvalidationResult.fromXml(
-    _s.XmlElement elem, {
-    Map<String, String> headers,
-  }) {
-    return CreateInvalidationResult(
-      invalidation: elem?.let((e) => Invalidation.fromXml(e)),
-      location: _s.extractHeaderStringValue(headers, 'Location'),
-    );
-  }
 }
 
 class CreatePublicKeyResult {
@@ -2874,16 +2945,6 @@ class CreatePublicKeyResult {
     this.location,
     this.publicKey,
   });
-  factory CreatePublicKeyResult.fromXml(
-    _s.XmlElement elem, {
-    Map<String, String> headers,
-  }) {
-    return CreatePublicKeyResult(
-      eTag: _s.extractHeaderStringValue(headers, 'ETag'),
-      location: _s.extractHeaderStringValue(headers, 'Location'),
-      publicKey: elem?.let((e) => PublicKey.fromXml(e)),
-    );
-  }
 }
 
 /// The returned result of the corresponding request.
@@ -2904,16 +2965,6 @@ class CreateStreamingDistributionResult {
     this.location,
     this.streamingDistribution,
   });
-  factory CreateStreamingDistributionResult.fromXml(
-    _s.XmlElement elem, {
-    Map<String, String> headers,
-  }) {
-    return CreateStreamingDistributionResult(
-      eTag: _s.extractHeaderStringValue(headers, 'ETag'),
-      location: _s.extractHeaderStringValue(headers, 'Location'),
-      streamingDistribution: elem?.let((e) => StreamingDistribution.fromXml(e)),
-    );
-  }
 }
 
 /// The returned result of the corresponding request.
@@ -2933,16 +2984,6 @@ class CreateStreamingDistributionWithTagsResult {
     this.location,
     this.streamingDistribution,
   });
-  factory CreateStreamingDistributionWithTagsResult.fromXml(
-    _s.XmlElement elem, {
-    Map<String, String> headers,
-  }) {
-    return CreateStreamingDistributionWithTagsResult(
-      eTag: _s.extractHeaderStringValue(headers, 'ETag'),
-      location: _s.extractHeaderStringValue(headers, 'Location'),
-      streamingDistribution: elem?.let((e) => StreamingDistribution.fromXml(e)),
-    );
-  }
 }
 
 /// A complex type that controls:
@@ -3057,9 +3098,12 @@ class CustomErrorResponse {
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('ErrorCode', errorCode),
-      _s.encodeXmlStringValue('ResponsePagePath', responsePagePath),
-      _s.encodeXmlStringValue('ResponseCode', responseCode),
-      _s.encodeXmlIntValue('ErrorCachingMinTTL', errorCachingMinTTL),
+      if (responsePagePath != null)
+        _s.encodeXmlStringValue('ResponsePagePath', responsePagePath),
+      if (responseCode != null)
+        _s.encodeXmlStringValue('ResponseCode', responseCode),
+      if (errorCachingMinTTL != null)
+        _s.encodeXmlIntValue('ErrorCachingMinTTL', errorCachingMinTTL),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -3116,7 +3160,7 @@ class CustomErrorResponses {
       _s.encodeXmlIntValue('Quantity', quantity),
       if (items != null)
         _s.XmlElement(_s.XmlName('Items'), [],
-            <_s.XmlNode>[...items.map((v) => v.toXml('Items'))]),
+            items.map((e) => e?.toXml('CustomErrorResponse'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -3158,7 +3202,7 @@ class CustomHeaders {
       _s.encodeXmlIntValue('Quantity', quantity),
       if (items != null)
         _s.XmlElement(_s.XmlName('Items'), [],
-            <_s.XmlNode>[...items.map((v) => v.toXml('Items'))]),
+            items.map((e) => e?.toXml('OriginCustomHeader'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -3233,10 +3277,13 @@ class CustomOriginConfig {
       _s.encodeXmlIntValue('HTTPPort', hTTPPort),
       _s.encodeXmlIntValue('HTTPSPort', hTTPSPort),
       _s.encodeXmlStringValue(
-          'OriginProtocolPolicy', originProtocolPolicy?.toValue()),
-      originSslProtocols?.toXml('OriginSslProtocols'),
-      _s.encodeXmlIntValue('OriginReadTimeout', originReadTimeout),
-      _s.encodeXmlIntValue('OriginKeepaliveTimeout', originKeepaliveTimeout),
+          'OriginProtocolPolicy', originProtocolPolicy?.toValue() ?? ''),
+      if (originSslProtocols != null)
+        originSslProtocols?.toXml('OriginSslProtocols'),
+      if (originReadTimeout != null)
+        _s.encodeXmlIntValue('OriginReadTimeout', originReadTimeout),
+      if (originKeepaliveTimeout != null)
+        _s.encodeXmlIntValue('OriginKeepaliveTimeout', originKeepaliveTimeout),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -3423,15 +3470,19 @@ class DefaultCacheBehavior {
       forwardedValues?.toXml('ForwardedValues'),
       trustedSigners?.toXml('TrustedSigners'),
       _s.encodeXmlStringValue(
-          'ViewerProtocolPolicy', viewerProtocolPolicy?.toValue()),
+          'ViewerProtocolPolicy', viewerProtocolPolicy?.toValue() ?? ''),
       _s.encodeXmlIntValue('MinTTL', minTTL),
-      allowedMethods?.toXml('AllowedMethods'),
-      _s.encodeXmlBoolValue('SmoothStreaming', smoothStreaming),
-      _s.encodeXmlIntValue('DefaultTTL', defaultTTL),
-      _s.encodeXmlIntValue('MaxTTL', maxTTL),
-      _s.encodeXmlBoolValue('Compress', compress),
-      lambdaFunctionAssociations?.toXml('LambdaFunctionAssociations'),
-      _s.encodeXmlStringValue('FieldLevelEncryptionId', fieldLevelEncryptionId),
+      if (allowedMethods != null) allowedMethods?.toXml('AllowedMethods'),
+      if (smoothStreaming != null)
+        _s.encodeXmlBoolValue('SmoothStreaming', smoothStreaming),
+      if (defaultTTL != null) _s.encodeXmlIntValue('DefaultTTL', defaultTTL),
+      if (maxTTL != null) _s.encodeXmlIntValue('MaxTTL', maxTTL),
+      if (compress != null) _s.encodeXmlBoolValue('Compress', compress),
+      if (lambdaFunctionAssociations != null)
+        lambdaFunctionAssociations?.toXml('LambdaFunctionAssociations'),
+      if (fieldLevelEncryptionId != null)
+        _s.encodeXmlStringValue(
+            'FieldLevelEncryptionId', fieldLevelEncryptionId),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -3768,21 +3819,27 @@ class DistributionConfig {
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('CallerReference', callerReference),
-      aliases?.toXml('Aliases'),
-      _s.encodeXmlStringValue('DefaultRootObject', defaultRootObject),
+      if (aliases != null) aliases?.toXml('Aliases'),
+      if (defaultRootObject != null)
+        _s.encodeXmlStringValue('DefaultRootObject', defaultRootObject),
       origins?.toXml('Origins'),
       defaultCacheBehavior?.toXml('DefaultCacheBehavior'),
-      cacheBehaviors?.toXml('CacheBehaviors'),
-      customErrorResponses?.toXml('CustomErrorResponses'),
+      if (cacheBehaviors != null) cacheBehaviors?.toXml('CacheBehaviors'),
+      if (customErrorResponses != null)
+        customErrorResponses?.toXml('CustomErrorResponses'),
       _s.encodeXmlStringValue('Comment', comment),
-      logging?.toXml('Logging'),
-      _s.encodeXmlStringValue('PriceClass', priceClass?.toValue()),
+      if (logging != null) logging?.toXml('Logging'),
+      if (priceClass != null)
+        _s.encodeXmlStringValue('PriceClass', priceClass.toValue()),
       _s.encodeXmlBoolValue('Enabled', enabled),
-      viewerCertificate?.toXml('ViewerCertificate'),
-      restrictions?.toXml('Restrictions'),
-      _s.encodeXmlStringValue('WebACLId', webACLId),
-      _s.encodeXmlStringValue('HttpVersion', httpVersion?.toValue()),
-      _s.encodeXmlBoolValue('IsIPV6Enabled', isIPV6Enabled),
+      if (viewerCertificate != null)
+        viewerCertificate?.toXml('ViewerCertificate'),
+      if (restrictions != null) restrictions?.toXml('Restrictions'),
+      if (webACLId != null) _s.encodeXmlStringValue('WebACLId', webACLId),
+      if (httpVersion != null)
+        _s.encodeXmlStringValue('HttpVersion', httpVersion.toValue()),
+      if (isIPV6Enabled != null)
+        _s.encodeXmlBoolValue('IsIPV6Enabled', isIPV6Enabled),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -4027,7 +4084,7 @@ class EncryptionEntities {
       _s.encodeXmlIntValue('Quantity', quantity),
       if (items != null)
         _s.XmlElement(_s.XmlName('Items'), [],
-            <_s.XmlNode>[...items.map((v) => v.toXml('Items'))]),
+            items.map((e) => e?.toXml('EncryptionEntity'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -4202,9 +4259,11 @@ class FieldLevelEncryptionConfig {
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('CallerReference', callerReference),
-      _s.encodeXmlStringValue('Comment', comment),
-      queryArgProfileConfig?.toXml('QueryArgProfileConfig'),
-      contentTypeProfileConfig?.toXml('ContentTypeProfileConfig'),
+      if (comment != null) _s.encodeXmlStringValue('Comment', comment),
+      if (queryArgProfileConfig != null)
+        queryArgProfileConfig?.toXml('QueryArgProfileConfig'),
+      if (contentTypeProfileConfig != null)
+        contentTypeProfileConfig?.toXml('ContentTypeProfileConfig'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -4319,7 +4378,7 @@ class FieldLevelEncryptionProfileConfig {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Name', name),
       _s.encodeXmlStringValue('CallerReference', callerReference),
-      _s.encodeXmlStringValue('Comment', comment),
+      if (comment != null) _s.encodeXmlStringValue('Comment', comment),
       encryptionEntities?.toXml('EncryptionEntities'),
     ];
     final $attributes = <_s.XmlAttribute>[
@@ -4474,9 +4533,8 @@ class FieldPatterns {
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('Quantity', quantity),
       if (items != null)
-        _s.XmlElement(_s.XmlName('Items'), [], <_s.XmlNode>[
-          ...items.map((v) => _s.encodeXmlStringValue('FieldPattern', v))
-        ]),
+        _s.XmlElement(_s.XmlName('Items'), [],
+            items.map((e) => _s.encodeXmlStringValue('FieldPattern', e))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -4584,8 +4642,9 @@ class ForwardedValues {
     final $children = <_s.XmlNode>[
       _s.encodeXmlBoolValue('QueryString', queryString),
       cookies?.toXml('Cookies'),
-      headers?.toXml('Headers'),
-      queryStringCacheKeys?.toXml('QueryStringCacheKeys'),
+      if (headers != null) headers?.toXml('Headers'),
+      if (queryStringCacheKeys != null)
+        queryStringCacheKeys?.toXml('QueryStringCacheKeys'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -4663,12 +4722,12 @@ class GeoRestriction {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('RestrictionType', restrictionType?.toValue()),
+      _s.encodeXmlStringValue(
+          'RestrictionType', restrictionType?.toValue() ?? ''),
       _s.encodeXmlIntValue('Quantity', quantity),
       if (items != null)
-        _s.XmlElement(_s.XmlName('Items'), [], <_s.XmlNode>[
-          ...items.map((v) => _s.encodeXmlStringValue('Location', v))
-        ]),
+        _s.XmlElement(_s.XmlName('Items'), [],
+            items.map((e) => _s.encodeXmlStringValue('Location', e))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -4729,16 +4788,6 @@ class GetCloudFrontOriginAccessIdentityConfigResult {
     this.cloudFrontOriginAccessIdentityConfig,
     this.eTag,
   });
-  factory GetCloudFrontOriginAccessIdentityConfigResult.fromXml(
-    _s.XmlElement elem, {
-    Map<String, String> headers,
-  }) {
-    return GetCloudFrontOriginAccessIdentityConfigResult(
-      cloudFrontOriginAccessIdentityConfig:
-          elem?.let((e) => CloudFrontOriginAccessIdentityConfig.fromXml(e)),
-      eTag: _s.extractHeaderStringValue(headers, 'ETag'),
-    );
-  }
 }
 
 /// The returned result of the corresponding request.
@@ -4754,16 +4803,6 @@ class GetCloudFrontOriginAccessIdentityResult {
     this.cloudFrontOriginAccessIdentity,
     this.eTag,
   });
-  factory GetCloudFrontOriginAccessIdentityResult.fromXml(
-    _s.XmlElement elem, {
-    Map<String, String> headers,
-  }) {
-    return GetCloudFrontOriginAccessIdentityResult(
-      cloudFrontOriginAccessIdentity:
-          elem?.let((e) => CloudFrontOriginAccessIdentity.fromXml(e)),
-      eTag: _s.extractHeaderStringValue(headers, 'ETag'),
-    );
-  }
 }
 
 /// The returned result of the corresponding request.
@@ -4779,15 +4818,6 @@ class GetDistributionConfigResult {
     this.distributionConfig,
     this.eTag,
   });
-  factory GetDistributionConfigResult.fromXml(
-    _s.XmlElement elem, {
-    Map<String, String> headers,
-  }) {
-    return GetDistributionConfigResult(
-      distributionConfig: elem?.let((e) => DistributionConfig.fromXml(e)),
-      eTag: _s.extractHeaderStringValue(headers, 'ETag'),
-    );
-  }
 }
 
 /// The returned result of the corresponding request.
@@ -4803,15 +4833,6 @@ class GetDistributionResult {
     this.distribution,
     this.eTag,
   });
-  factory GetDistributionResult.fromXml(
-    _s.XmlElement elem, {
-    Map<String, String> headers,
-  }) {
-    return GetDistributionResult(
-      distribution: elem?.let((e) => Distribution.fromXml(e)),
-      eTag: _s.extractHeaderStringValue(headers, 'ETag'),
-    );
-  }
 }
 
 class GetFieldLevelEncryptionConfigResult {
@@ -4826,16 +4847,6 @@ class GetFieldLevelEncryptionConfigResult {
     this.eTag,
     this.fieldLevelEncryptionConfig,
   });
-  factory GetFieldLevelEncryptionConfigResult.fromXml(
-    _s.XmlElement elem, {
-    Map<String, String> headers,
-  }) {
-    return GetFieldLevelEncryptionConfigResult(
-      eTag: _s.extractHeaderStringValue(headers, 'ETag'),
-      fieldLevelEncryptionConfig:
-          elem?.let((e) => FieldLevelEncryptionConfig.fromXml(e)),
-    );
-  }
 }
 
 class GetFieldLevelEncryptionProfileConfigResult {
@@ -4850,16 +4861,6 @@ class GetFieldLevelEncryptionProfileConfigResult {
     this.eTag,
     this.fieldLevelEncryptionProfileConfig,
   });
-  factory GetFieldLevelEncryptionProfileConfigResult.fromXml(
-    _s.XmlElement elem, {
-    Map<String, String> headers,
-  }) {
-    return GetFieldLevelEncryptionProfileConfigResult(
-      eTag: _s.extractHeaderStringValue(headers, 'ETag'),
-      fieldLevelEncryptionProfileConfig:
-          elem?.let((e) => FieldLevelEncryptionProfileConfig.fromXml(e)),
-    );
-  }
 }
 
 class GetFieldLevelEncryptionProfileResult {
@@ -4874,16 +4875,6 @@ class GetFieldLevelEncryptionProfileResult {
     this.eTag,
     this.fieldLevelEncryptionProfile,
   });
-  factory GetFieldLevelEncryptionProfileResult.fromXml(
-    _s.XmlElement elem, {
-    Map<String, String> headers,
-  }) {
-    return GetFieldLevelEncryptionProfileResult(
-      eTag: _s.extractHeaderStringValue(headers, 'ETag'),
-      fieldLevelEncryptionProfile:
-          elem?.let((e) => FieldLevelEncryptionProfile.fromXml(e)),
-    );
-  }
 }
 
 class GetFieldLevelEncryptionResult {
@@ -4898,15 +4889,6 @@ class GetFieldLevelEncryptionResult {
     this.eTag,
     this.fieldLevelEncryption,
   });
-  factory GetFieldLevelEncryptionResult.fromXml(
-    _s.XmlElement elem, {
-    Map<String, String> headers,
-  }) {
-    return GetFieldLevelEncryptionResult(
-      eTag: _s.extractHeaderStringValue(headers, 'ETag'),
-      fieldLevelEncryption: elem?.let((e) => FieldLevelEncryption.fromXml(e)),
-    );
-  }
 }
 
 /// The returned result of the corresponding request.
@@ -4938,15 +4920,6 @@ class GetPublicKeyConfigResult {
     this.eTag,
     this.publicKeyConfig,
   });
-  factory GetPublicKeyConfigResult.fromXml(
-    _s.XmlElement elem, {
-    Map<String, String> headers,
-  }) {
-    return GetPublicKeyConfigResult(
-      eTag: _s.extractHeaderStringValue(headers, 'ETag'),
-      publicKeyConfig: elem?.let((e) => PublicKeyConfig.fromXml(e)),
-    );
-  }
 }
 
 class GetPublicKeyResult {
@@ -4961,15 +4934,6 @@ class GetPublicKeyResult {
     this.eTag,
     this.publicKey,
   });
-  factory GetPublicKeyResult.fromXml(
-    _s.XmlElement elem, {
-    Map<String, String> headers,
-  }) {
-    return GetPublicKeyResult(
-      eTag: _s.extractHeaderStringValue(headers, 'ETag'),
-      publicKey: elem?.let((e) => PublicKey.fromXml(e)),
-    );
-  }
 }
 
 /// The returned result of the corresponding request.
@@ -4985,16 +4949,6 @@ class GetStreamingDistributionConfigResult {
     this.eTag,
     this.streamingDistributionConfig,
   });
-  factory GetStreamingDistributionConfigResult.fromXml(
-    _s.XmlElement elem, {
-    Map<String, String> headers,
-  }) {
-    return GetStreamingDistributionConfigResult(
-      eTag: _s.extractHeaderStringValue(headers, 'ETag'),
-      streamingDistributionConfig:
-          elem?.let((e) => StreamingDistributionConfig.fromXml(e)),
-    );
-  }
 }
 
 /// The returned result of the corresponding request.
@@ -5010,15 +4964,6 @@ class GetStreamingDistributionResult {
     this.eTag,
     this.streamingDistribution,
   });
-  factory GetStreamingDistributionResult.fromXml(
-    _s.XmlElement elem, {
-    Map<String, String> headers,
-  }) {
-    return GetStreamingDistributionResult(
-      eTag: _s.extractHeaderStringValue(headers, 'ETag'),
-      streamingDistribution: elem?.let((e) => StreamingDistribution.fromXml(e)),
-    );
-  }
 }
 
 /// A complex type that specifies the request headers, if any, that you want
@@ -5101,9 +5046,8 @@ class Headers {
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('Quantity', quantity),
       if (items != null)
-        _s.XmlElement(_s.XmlName('Items'), [], <_s.XmlNode>[
-          ...items.map((v) => _s.encodeXmlStringValue('Name', v))
-        ]),
+        _s.XmlElement(_s.XmlName('Items'), [],
+            items.map((e) => _s.encodeXmlStringValue('Name', e))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -5440,8 +5384,9 @@ class LambdaFunctionAssociation {
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('LambdaFunctionARN', lambdaFunctionARN),
-      _s.encodeXmlStringValue('EventType', eventType?.toValue()),
-      _s.encodeXmlBoolValue('IncludeBody', includeBody),
+      _s.encodeXmlStringValue('EventType', eventType?.toValue() ?? ''),
+      if (includeBody != null)
+        _s.encodeXmlBoolValue('IncludeBody', includeBody),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -5495,7 +5440,7 @@ class LambdaFunctionAssociations {
       _s.encodeXmlIntValue('Quantity', quantity),
       if (items != null)
         _s.XmlElement(_s.XmlName('Items'), [],
-            <_s.XmlNode>[...items.map((v) => v.toXml('Items'))]),
+            items.map((e) => e?.toXml('LambdaFunctionAssociation'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -5949,10 +5894,11 @@ class Origin {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Id', id),
       _s.encodeXmlStringValue('DomainName', domainName),
-      _s.encodeXmlStringValue('OriginPath', originPath),
-      customHeaders?.toXml('CustomHeaders'),
-      s3OriginConfig?.toXml('S3OriginConfig'),
-      customOriginConfig?.toXml('CustomOriginConfig'),
+      if (originPath != null) _s.encodeXmlStringValue('OriginPath', originPath),
+      if (customHeaders != null) customHeaders?.toXml('CustomHeaders'),
+      if (s3OriginConfig != null) s3OriginConfig?.toXml('S3OriginConfig'),
+      if (customOriginConfig != null)
+        customOriginConfig?.toXml('CustomOriginConfig'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -6067,11 +6013,11 @@ class OriginSslProtocols {
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('Quantity', quantity),
-      if (items != null)
-        _s.XmlElement(_s.XmlName('Items'), [], <_s.XmlNode>[
-          ...items
-              .map((v) => _s.encodeXmlStringValue('SslProtocol', v.toValue()))
-        ]),
+      _s.XmlElement(
+          _s.XmlName('Items'),
+          [],
+          items?.map((e) =>
+              _s.encodeXmlStringValue('SslProtocol', e?.toValue() ?? ''))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -6109,8 +6055,8 @@ class Origins {
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('Quantity', quantity),
       if (items != null)
-        _s.XmlElement(_s.XmlName('Items'), [],
-            <_s.XmlNode>[...items.map((v) => v.toXml('Items'))]),
+        _s.XmlElement(
+            _s.XmlName('Items'), [], items.map((e) => e?.toXml('Origin'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -6153,9 +6099,8 @@ class Paths {
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('Quantity', quantity),
       if (items != null)
-        _s.XmlElement(_s.XmlName('Items'), [], <_s.XmlNode>[
-          ...items.map((v) => _s.encodeXmlStringValue('Path', v))
-        ]),
+        _s.XmlElement(_s.XmlName('Items'), [],
+            items.map((e) => _s.encodeXmlStringValue('Path', e))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -6268,7 +6213,7 @@ class PublicKeyConfig {
       _s.encodeXmlStringValue('CallerReference', callerReference),
       _s.encodeXmlStringValue('Name', name),
       _s.encodeXmlStringValue('EncodedKey', encodedKey),
-      _s.encodeXmlStringValue('Comment', comment),
+      if (comment != null) _s.encodeXmlStringValue('Comment', comment),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -6419,7 +6364,7 @@ class QueryArgProfileConfig {
     final $children = <_s.XmlNode>[
       _s.encodeXmlBoolValue('ForwardWhenQueryArgProfileIsUnknown',
           forwardWhenQueryArgProfileIsUnknown),
-      queryArgProfiles?.toXml('QueryArgProfiles'),
+      if (queryArgProfiles != null) queryArgProfiles?.toXml('QueryArgProfiles'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -6461,7 +6406,7 @@ class QueryArgProfiles {
       _s.encodeXmlIntValue('Quantity', quantity),
       if (items != null)
         _s.XmlElement(_s.XmlName('Items'), [],
-            <_s.XmlNode>[...items.map((v) => v.toXml('Items'))]),
+            items.map((e) => e?.toXml('QueryArgProfile'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -6501,9 +6446,8 @@ class QueryStringCacheKeys {
     final $children = <_s.XmlNode>[
       _s.encodeXmlIntValue('Quantity', quantity),
       if (items != null)
-        _s.XmlElement(_s.XmlName('Items'), [], <_s.XmlNode>[
-          ...items.map((v) => _s.encodeXmlStringValue('Name', v))
-        ]),
+        _s.XmlElement(_s.XmlName('Items'), [],
+            items.map((e) => _s.encodeXmlStringValue('Name', e))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -6911,11 +6855,12 @@ class StreamingDistributionConfig {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('CallerReference', callerReference),
       s3Origin?.toXml('S3Origin'),
-      aliases?.toXml('Aliases'),
+      if (aliases != null) aliases?.toXml('Aliases'),
       _s.encodeXmlStringValue('Comment', comment),
-      logging?.toXml('Logging'),
+      if (logging != null) logging?.toXml('Logging'),
       trustedSigners?.toXml('TrustedSigners'),
-      _s.encodeXmlStringValue('PriceClass', priceClass?.toValue()),
+      if (priceClass != null)
+        _s.encodeXmlStringValue('PriceClass', priceClass.toValue()),
       _s.encodeXmlBoolValue('Enabled', enabled),
     ];
     final $attributes = <_s.XmlAttribute>[
@@ -7181,7 +7126,7 @@ class Tag {
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Key', key),
-      _s.encodeXmlStringValue('Value', value),
+      if (value != null) _s.encodeXmlStringValue('Value', value),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -7205,9 +7150,8 @@ class TagKeys {
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       if (items != null)
-        _s.XmlElement(_s.XmlName('Items'), [], <_s.XmlNode>[
-          ...items.map((v) => _s.encodeXmlStringValue('Key', v))
-        ]),
+        _s.XmlElement(_s.XmlName('Items'), [],
+            items.map((e) => _s.encodeXmlStringValue('Key', e))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -7238,8 +7182,8 @@ class Tags {
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       if (items != null)
-        _s.XmlElement(_s.XmlName('Items'), [],
-            <_s.XmlNode>[...items.map((v) => v.toXml('Items'))]),
+        _s.XmlElement(
+            _s.XmlName('Items'), [], items.map((e) => e?.toXml('Tag'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -7310,9 +7254,8 @@ class TrustedSigners {
       _s.encodeXmlBoolValue('Enabled', enabled),
       _s.encodeXmlIntValue('Quantity', quantity),
       if (items != null)
-        _s.XmlElement(_s.XmlName('Items'), [], <_s.XmlNode>[
-          ...items.map((v) => _s.encodeXmlStringValue('AwsAccountNumber', v))
-        ]),
+        _s.XmlElement(_s.XmlName('Items'), [],
+            items.map((e) => _s.encodeXmlStringValue('AwsAccountNumber', e))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -7338,16 +7281,6 @@ class UpdateCloudFrontOriginAccessIdentityResult {
     this.cloudFrontOriginAccessIdentity,
     this.eTag,
   });
-  factory UpdateCloudFrontOriginAccessIdentityResult.fromXml(
-    _s.XmlElement elem, {
-    Map<String, String> headers,
-  }) {
-    return UpdateCloudFrontOriginAccessIdentityResult(
-      cloudFrontOriginAccessIdentity:
-          elem?.let((e) => CloudFrontOriginAccessIdentity.fromXml(e)),
-      eTag: _s.extractHeaderStringValue(headers, 'ETag'),
-    );
-  }
 }
 
 /// The returned result of the corresponding request.
@@ -7363,15 +7296,6 @@ class UpdateDistributionResult {
     this.distribution,
     this.eTag,
   });
-  factory UpdateDistributionResult.fromXml(
-    _s.XmlElement elem, {
-    Map<String, String> headers,
-  }) {
-    return UpdateDistributionResult(
-      distribution: elem?.let((e) => Distribution.fromXml(e)),
-      eTag: _s.extractHeaderStringValue(headers, 'ETag'),
-    );
-  }
 }
 
 class UpdateFieldLevelEncryptionConfigResult {
@@ -7386,15 +7310,6 @@ class UpdateFieldLevelEncryptionConfigResult {
     this.eTag,
     this.fieldLevelEncryption,
   });
-  factory UpdateFieldLevelEncryptionConfigResult.fromXml(
-    _s.XmlElement elem, {
-    Map<String, String> headers,
-  }) {
-    return UpdateFieldLevelEncryptionConfigResult(
-      eTag: _s.extractHeaderStringValue(headers, 'ETag'),
-      fieldLevelEncryption: elem?.let((e) => FieldLevelEncryption.fromXml(e)),
-    );
-  }
 }
 
 class UpdateFieldLevelEncryptionProfileResult {
@@ -7408,16 +7323,6 @@ class UpdateFieldLevelEncryptionProfileResult {
     this.eTag,
     this.fieldLevelEncryptionProfile,
   });
-  factory UpdateFieldLevelEncryptionProfileResult.fromXml(
-    _s.XmlElement elem, {
-    Map<String, String> headers,
-  }) {
-    return UpdateFieldLevelEncryptionProfileResult(
-      eTag: _s.extractHeaderStringValue(headers, 'ETag'),
-      fieldLevelEncryptionProfile:
-          elem?.let((e) => FieldLevelEncryptionProfile.fromXml(e)),
-    );
-  }
 }
 
 class UpdatePublicKeyResult {
@@ -7432,15 +7337,6 @@ class UpdatePublicKeyResult {
     this.eTag,
     this.publicKey,
   });
-  factory UpdatePublicKeyResult.fromXml(
-    _s.XmlElement elem, {
-    Map<String, String> headers,
-  }) {
-    return UpdatePublicKeyResult(
-      eTag: _s.extractHeaderStringValue(headers, 'ETag'),
-      publicKey: elem?.let((e) => PublicKey.fromXml(e)),
-    );
-  }
 }
 
 /// The returned result of the corresponding request.
@@ -7456,15 +7352,6 @@ class UpdateStreamingDistributionResult {
     this.eTag,
     this.streamingDistribution,
   });
-  factory UpdateStreamingDistributionResult.fromXml(
-    _s.XmlElement elem, {
-    Map<String, String> headers,
-  }) {
-    return UpdateStreamingDistributionResult(
-      eTag: _s.extractHeaderStringValue(headers, 'ETag'),
-      streamingDistribution: elem?.let((e) => StreamingDistribution.fromXml(e)),
-    );
-  }
 }
 
 /// A complex type that specifies the following:
@@ -7760,16 +7647,23 @@ class ViewerCertificate {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlBoolValue(
-          'CloudFrontDefaultCertificate', cloudFrontDefaultCertificate),
-      _s.encodeXmlStringValue('IAMCertificateId', iAMCertificateId),
-      _s.encodeXmlStringValue('ACMCertificateArn', aCMCertificateArn),
-      _s.encodeXmlStringValue('SSLSupportMethod', sSLSupportMethod?.toValue()),
-      _s.encodeXmlStringValue(
-          'MinimumProtocolVersion', minimumProtocolVersion?.toValue()),
-      _s.encodeXmlStringValue('Certificate', certificate),
-      _s.encodeXmlStringValue(
-          'CertificateSource', certificateSource?.toValue()),
+      if (cloudFrontDefaultCertificate != null)
+        _s.encodeXmlBoolValue(
+            'CloudFrontDefaultCertificate', cloudFrontDefaultCertificate),
+      if (iAMCertificateId != null)
+        _s.encodeXmlStringValue('IAMCertificateId', iAMCertificateId),
+      if (aCMCertificateArn != null)
+        _s.encodeXmlStringValue('ACMCertificateArn', aCMCertificateArn),
+      if (sSLSupportMethod != null)
+        _s.encodeXmlStringValue('SSLSupportMethod', sSLSupportMethod.toValue()),
+      if (minimumProtocolVersion != null)
+        _s.encodeXmlStringValue(
+            'MinimumProtocolVersion', minimumProtocolVersion.toValue()),
+      if (certificate != null)
+        _s.encodeXmlStringValue('Certificate', certificate),
+      if (certificateSource != null)
+        _s.encodeXmlStringValue(
+            'CertificateSource', certificateSource.toValue()),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,

@@ -925,13 +925,13 @@ class RDS {
   }) async {
     final $request = <String, dynamic>{};
     duration?.also((arg) => $request['Duration'] = arg);
-    endTime?.also((arg) => $request['EndTime'] = arg);
+    endTime?.also((arg) => $request['EndTime'] = _s.iso8601ToJson(arg));
     eventCategories?.also((arg) => $request['EventCategories'] = arg);
     marker?.also((arg) => $request['Marker'] = arg);
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
     sourceIdentifier?.also((arg) => $request['SourceIdentifier'] = arg);
     sourceType?.also((arg) => $request['SourceType'] = arg.toValue());
-    startTime?.also((arg) => $request['StartTime'] = arg);
+    startTime?.also((arg) => $request['StartTime'] = _s.iso8601ToJson(arg));
     final $result = await _protocol.send(
       $request,
       action: 'DescribeEvents',
@@ -1604,7 +1604,7 @@ class RDS {
     optionGroupName?.also((arg) => $request['OptionGroupName'] = arg);
     port?.also((arg) => $request['Port'] = arg);
     publiclyAccessible?.also((arg) => $request['PubliclyAccessible'] = arg);
-    restoreTime?.also((arg) => $request['RestoreTime'] = arg);
+    restoreTime?.also((arg) => $request['RestoreTime'] = _s.iso8601ToJson(arg));
     useLatestRestorableTime
         ?.also((arg) => $request['UseLatestRestorableTime'] = arg);
     final $result = await _protocol.send(

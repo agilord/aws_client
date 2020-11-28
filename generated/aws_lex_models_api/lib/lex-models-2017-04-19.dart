@@ -1373,7 +1373,7 @@ class LexModelBuildingService {
     );
     var _query = '';
     _query = '?${[
-      if (locale != null) _s.toQueryParam('locale', locale),
+      if (locale != null) _s.toQueryParam('locale', locale.toValue()),
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
       if (signatureContains != null)
@@ -1432,7 +1432,7 @@ class LexModelBuildingService {
     );
     var _query = '';
     _query = '?${[
-      if (locale != null) _s.toQueryParam('locale', locale),
+      if (locale != null) _s.toQueryParam('locale', locale.toValue()),
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
       if (signatureContains != null)
@@ -1503,9 +1503,11 @@ class LexModelBuildingService {
     );
     var _query = '';
     _query = '?${[
-      if (exportType != null) _s.toQueryParam('exportType', exportType),
+      if (exportType != null)
+        _s.toQueryParam('exportType', exportType.toValue()),
       if (name != null) _s.toQueryParam('name', name),
-      if (resourceType != null) _s.toQueryParam('resourceType', resourceType),
+      if (resourceType != null)
+        _s.toQueryParam('resourceType', resourceType.toValue()),
       if (version != null) _s.toQueryParam('version', version),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
@@ -2010,9 +2012,10 @@ class LexModelBuildingService {
     ArgumentError.checkNotNull(botVersions, 'botVersions');
     ArgumentError.checkNotNull(statusType, 'statusType');
     var _query = '';
-    _query = '?${[
+    _query = '&${[
       if (botVersions != null) _s.toQueryParam('bot_versions', botVersions),
-      if (statusType != null) _s.toQueryParam('status_type', statusType),
+      if (statusType != null)
+        _s.toQueryParam('status_type', statusType.toValue()),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
@@ -3769,6 +3772,18 @@ enum ExportType {
   alexaSkillsKit,
   @_s.JsonValue('LEX')
   lex,
+}
+
+extension on ExportType {
+  String toValue() {
+    switch (this) {
+      case ExportType.alexaSkillsKit:
+        return 'ALEXA_SKILLS_KIT';
+      case ExportType.lex:
+        return 'LEX';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// A prompt for additional activity after an intent is fulfilled. For example,
@@ -5812,6 +5827,18 @@ enum StatusType {
   detected,
   @_s.JsonValue('Missed')
   missed,
+}
+
+extension on StatusType {
+  String toValue() {
+    switch (this) {
+      case StatusType.detected:
+        return 'Detected';
+      case StatusType.missed:
+        return 'Missed';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// A list of key/value pairs that identify a bot, bot alias, or bot channel.

@@ -611,13 +611,17 @@ class S3Control {
     );
     final headers = <String, String>{};
     accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
-    final $result = await _protocol.send(
+    final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri: '/v20180820/configuration/publicAccessBlock',
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
-    return GetPublicAccessBlockOutput.fromXml($result.body);
+    final $elem = await _s.xmlFromResponse($result);
+    return GetPublicAccessBlockOutput(
+      publicAccessBlockConfiguration:
+          PublicAccessBlockConfiguration.fromXml($elem),
+    );
   }
 
   /// Returns a list of the access points currently associated with the
@@ -1108,8 +1112,9 @@ class CreateAccessPointRequest {
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('Bucket', bucket),
-      vpcConfiguration?.toXml('VpcConfiguration'),
-      publicAccessBlockConfiguration?.toXml('PublicAccessBlockConfiguration'),
+      if (vpcConfiguration != null) vpcConfiguration?.toXml('VpcConfiguration'),
+      if (publicAccessBlockConfiguration != null)
+        publicAccessBlockConfiguration?.toXml('PublicAccessBlockConfiguration'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -1178,17 +1183,19 @@ class CreateJobRequest {
   });
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlBoolValue('ConfirmationRequired', confirmationRequired),
+      if (confirmationRequired != null)
+        _s.encodeXmlBoolValue('ConfirmationRequired', confirmationRequired),
       operation?.toXml('Operation'),
       report?.toXml('Report'),
       _s.encodeXmlStringValue('ClientRequestToken', clientRequestToken),
       manifest?.toXml('Manifest'),
-      _s.encodeXmlStringValue('Description', description),
+      if (description != null)
+        _s.encodeXmlStringValue('Description', description),
       _s.encodeXmlIntValue('Priority', priority),
       _s.encodeXmlStringValue('RoleArn', roleArn),
       if (tags != null)
-        _s.XmlElement(_s.XmlName('Tags'), [],
-            <_s.XmlNode>[...tags.map((v) => v.toXml('Tags'))]),
+        _s.XmlElement(
+            _s.XmlName('Tags'), [], tags.map((e) => e?.toXml('member'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -1685,7 +1692,8 @@ class JobManifestLocation {
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       _s.encodeXmlStringValue('ObjectArn', objectArn),
-      _s.encodeXmlStringValue('ObjectVersionId', objectVersionId),
+      if (objectVersionId != null)
+        _s.encodeXmlStringValue('ObjectVersionId', objectVersionId),
       _s.encodeXmlStringValue('ETag', eTag),
     ];
     final $attributes = <_s.XmlAttribute>[
@@ -1726,11 +1734,13 @@ class JobManifestSpec {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Format', format?.toValue()),
+      _s.encodeXmlStringValue('Format', format?.toValue() ?? ''),
       if (fields != null)
-        _s.XmlElement(_s.XmlName('Fields'), [], <_s.XmlNode>[
-          ...fields.map((v) => _s.encodeXmlStringValue('Fields', v.toValue()))
-        ]),
+        _s.XmlElement(
+            _s.XmlName('Fields'),
+            [],
+            fields.map(
+                (e) => _s.encodeXmlStringValue('member', e?.toValue() ?? ''))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -1797,11 +1807,13 @@ class JobOperation {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      lambdaInvoke?.toXml('LambdaInvoke'),
-      s3PutObjectCopy?.toXml('S3PutObjectCopy'),
-      s3PutObjectAcl?.toXml('S3PutObjectAcl'),
-      s3PutObjectTagging?.toXml('S3PutObjectTagging'),
-      s3InitiateRestoreObject?.toXml('S3InitiateRestoreObject'),
+      if (lambdaInvoke != null) lambdaInvoke?.toXml('LambdaInvoke'),
+      if (s3PutObjectCopy != null) s3PutObjectCopy?.toXml('S3PutObjectCopy'),
+      if (s3PutObjectAcl != null) s3PutObjectAcl?.toXml('S3PutObjectAcl'),
+      if (s3PutObjectTagging != null)
+        s3PutObjectTagging?.toXml('S3PutObjectTagging'),
+      if (s3InitiateRestoreObject != null)
+        s3InitiateRestoreObject?.toXml('S3InitiateRestoreObject'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -1882,11 +1894,12 @@ class JobReport {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Bucket', bucket),
-      _s.encodeXmlStringValue('Format', format?.toValue()),
+      if (bucket != null) _s.encodeXmlStringValue('Bucket', bucket),
+      if (format != null) _s.encodeXmlStringValue('Format', format.toValue()),
       _s.encodeXmlBoolValue('Enabled', enabled),
-      _s.encodeXmlStringValue('Prefix', prefix),
-      _s.encodeXmlStringValue('ReportScope', reportScope?.toValue()),
+      if (prefix != null) _s.encodeXmlStringValue('Prefix', prefix),
+      if (reportScope != null)
+        _s.encodeXmlStringValue('ReportScope', reportScope.toValue()),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -2054,7 +2067,8 @@ class LambdaInvokeOperation {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('FunctionArn', functionArn),
+      if (functionArn != null)
+        _s.encodeXmlStringValue('FunctionArn', functionArn),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -2282,10 +2296,14 @@ class PublicAccessBlockConfiguration {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlBoolValue('BlockPublicAcls', blockPublicAcls),
-      _s.encodeXmlBoolValue('IgnorePublicAcls', ignorePublicAcls),
-      _s.encodeXmlBoolValue('BlockPublicPolicy', blockPublicPolicy),
-      _s.encodeXmlBoolValue('RestrictPublicBuckets', restrictPublicBuckets),
+      if (blockPublicAcls != null)
+        _s.encodeXmlBoolValue('BlockPublicAcls', blockPublicAcls),
+      if (ignorePublicAcls != null)
+        _s.encodeXmlBoolValue('IgnorePublicAcls', ignorePublicAcls),
+      if (blockPublicPolicy != null)
+        _s.encodeXmlBoolValue('BlockPublicPolicy', blockPublicPolicy),
+      if (restrictPublicBuckets != null)
+        _s.encodeXmlBoolValue('RestrictPublicBuckets', restrictPublicBuckets),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -2352,9 +2370,8 @@ class PutJobTaggingRequest {
   });
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      if (tags != null)
-        _s.XmlElement(_s.XmlName('Tags'), [],
-            <_s.XmlNode>[...tags.map((v) => v.toXml('Tags'))]),
+      _s.XmlElement(
+          _s.XmlName('Tags'), [], tags?.map((e) => e?.toXml('member'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -2431,8 +2448,8 @@ class S3AccessControlList {
     final $children = <_s.XmlNode>[
       owner?.toXml('Owner'),
       if (grants != null)
-        _s.XmlElement(_s.XmlName('Grants'), [],
-            <_s.XmlNode>[...grants.map((v) => v.toXml('Grants'))]),
+        _s.XmlElement(
+            _s.XmlName('Grants'), [], grants.map((e) => e?.toXml('member'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -2470,9 +2487,11 @@ class S3AccessControlPolicy {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      accessControlList?.toXml('AccessControlList'),
-      _s.encodeXmlStringValue(
-          'CannedAccessControlList', cannedAccessControlList?.toValue()),
+      if (accessControlList != null)
+        accessControlList?.toXml('AccessControlList'),
+      if (cannedAccessControlList != null)
+        _s.encodeXmlStringValue(
+            'CannedAccessControlList', cannedAccessControlList.toValue()),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -2657,34 +2676,46 @@ class S3CopyObjectOperation {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('TargetResource', targetResource),
-      _s.encodeXmlStringValue(
-          'CannedAccessControlList', cannedAccessControlList?.toValue()),
+      if (targetResource != null)
+        _s.encodeXmlStringValue('TargetResource', targetResource),
+      if (cannedAccessControlList != null)
+        _s.encodeXmlStringValue(
+            'CannedAccessControlList', cannedAccessControlList.toValue()),
       if (accessControlGrants != null)
-        _s.XmlElement(_s.XmlName('AccessControlGrants'), [], <_s.XmlNode>[
-          ...accessControlGrants.map((v) => v.toXml('AccessControlGrants'))
-        ]),
-      _s.encodeXmlStringValue(
-          'MetadataDirective', metadataDirective?.toValue()),
-      _s.encodeXmlDateTimeValue(
-          'ModifiedSinceConstraint', modifiedSinceConstraint),
-      newObjectMetadata?.toXml('NewObjectMetadata'),
+        _s.XmlElement(_s.XmlName('AccessControlGrants'), [],
+            accessControlGrants.map((e) => e?.toXml('member'))),
+      if (metadataDirective != null)
+        _s.encodeXmlStringValue(
+            'MetadataDirective', metadataDirective.toValue()),
+      if (modifiedSinceConstraint != null)
+        _s.encodeXmlDateTimeValue(
+            'ModifiedSinceConstraint', modifiedSinceConstraint),
+      if (newObjectMetadata != null)
+        newObjectMetadata?.toXml('NewObjectMetadata'),
       if (newObjectTagging != null)
-        _s.XmlElement(_s.XmlName('NewObjectTagging'), [], <_s.XmlNode>[
-          ...newObjectTagging.map((v) => v.toXml('NewObjectTagging'))
-        ]),
-      _s.encodeXmlStringValue('RedirectLocation', redirectLocation),
-      _s.encodeXmlBoolValue('RequesterPays', requesterPays),
-      _s.encodeXmlStringValue('StorageClass', storageClass?.toValue()),
-      _s.encodeXmlDateTimeValue(
-          'UnModifiedSinceConstraint', unModifiedSinceConstraint),
-      _s.encodeXmlStringValue('SSEAwsKmsKeyId', sSEAwsKmsKeyId),
-      _s.encodeXmlStringValue('TargetKeyPrefix', targetKeyPrefix),
-      _s.encodeXmlStringValue(
-          'ObjectLockLegalHoldStatus', objectLockLegalHoldStatus?.toValue()),
-      _s.encodeXmlStringValue('ObjectLockMode', objectLockMode?.toValue()),
-      _s.encodeXmlDateTimeValue(
-          'ObjectLockRetainUntilDate', objectLockRetainUntilDate),
+        _s.XmlElement(_s.XmlName('NewObjectTagging'), [],
+            newObjectTagging.map((e) => e?.toXml('member'))),
+      if (redirectLocation != null)
+        _s.encodeXmlStringValue('RedirectLocation', redirectLocation),
+      if (requesterPays != null)
+        _s.encodeXmlBoolValue('RequesterPays', requesterPays),
+      if (storageClass != null)
+        _s.encodeXmlStringValue('StorageClass', storageClass.toValue()),
+      if (unModifiedSinceConstraint != null)
+        _s.encodeXmlDateTimeValue(
+            'UnModifiedSinceConstraint', unModifiedSinceConstraint),
+      if (sSEAwsKmsKeyId != null)
+        _s.encodeXmlStringValue('SSEAwsKmsKeyId', sSEAwsKmsKeyId),
+      if (targetKeyPrefix != null)
+        _s.encodeXmlStringValue('TargetKeyPrefix', targetKeyPrefix),
+      if (objectLockLegalHoldStatus != null)
+        _s.encodeXmlStringValue(
+            'ObjectLockLegalHoldStatus', objectLockLegalHoldStatus.toValue()),
+      if (objectLockMode != null)
+        _s.encodeXmlStringValue('ObjectLockMode', objectLockMode.toValue()),
+      if (objectLockRetainUntilDate != null)
+        _s.encodeXmlDateTimeValue(
+            'ObjectLockRetainUntilDate', objectLockRetainUntilDate),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -2749,8 +2780,9 @@ class S3Grant {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      grantee?.toXml('Grantee'),
-      _s.encodeXmlStringValue('Permission', permission?.toValue()),
+      if (grantee != null) grantee?.toXml('Grantee'),
+      if (permission != null)
+        _s.encodeXmlStringValue('Permission', permission.toValue()),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -2791,9 +2823,11 @@ class S3Grantee {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('TypeIdentifier', typeIdentifier?.toValue()),
-      _s.encodeXmlStringValue('Identifier', identifier),
-      _s.encodeXmlStringValue('DisplayName', displayName),
+      if (typeIdentifier != null)
+        _s.encodeXmlStringValue('TypeIdentifier', typeIdentifier.toValue()),
+      if (identifier != null) _s.encodeXmlStringValue('Identifier', identifier),
+      if (displayName != null)
+        _s.encodeXmlStringValue('DisplayName', displayName),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -2868,8 +2902,10 @@ class S3InitiateRestoreObjectOperation {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlIntValue('ExpirationInDays', expirationInDays),
-      _s.encodeXmlStringValue('GlacierJobTier', glacierJobTier?.toValue()),
+      if (expirationInDays != null)
+        _s.encodeXmlIntValue('ExpirationInDays', expirationInDays),
+      if (glacierJobTier != null)
+        _s.encodeXmlStringValue('GlacierJobTier', glacierJobTier.toValue()),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -3043,18 +3079,34 @@ class S3ObjectMetadata {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('CacheControl', cacheControl),
-      _s.encodeXmlStringValue('ContentDisposition', contentDisposition),
-      _s.encodeXmlStringValue('ContentEncoding', contentEncoding),
-      _s.encodeXmlStringValue('ContentLanguage', contentLanguage),
+      if (cacheControl != null)
+        _s.encodeXmlStringValue('CacheControl', cacheControl),
+      if (contentDisposition != null)
+        _s.encodeXmlStringValue('ContentDisposition', contentDisposition),
+      if (contentEncoding != null)
+        _s.encodeXmlStringValue('ContentEncoding', contentEncoding),
+      if (contentLanguage != null)
+        _s.encodeXmlStringValue('ContentLanguage', contentLanguage),
       if (userMetadata != null)
-        throw UnimplementedError('XML map: S3UserMetadata'),
-      _s.encodeXmlIntValue('ContentLength', contentLength),
-      _s.encodeXmlStringValue('ContentMD5', contentMD5),
-      _s.encodeXmlStringValue('ContentType', contentType),
-      _s.encodeXmlDateTimeValue('HttpExpiresDate', httpExpiresDate),
-      _s.encodeXmlBoolValue('RequesterCharged', requesterCharged),
-      _s.encodeXmlStringValue('SSEAlgorithm', sSEAlgorithm?.toValue()),
+        _s.XmlElement(
+            _s.XmlName('UserMetadata'),
+            [],
+            userMetadata.entries.map((e) => _s.XmlElement(
+                    _s.XmlName('entry'), [], <_s.XmlNode>[
+                  _s.encodeXmlStringValue('key', e.key),
+                  _s.encodeXmlStringValue('value', e.value)
+                ]))),
+      if (contentLength != null)
+        _s.encodeXmlIntValue('ContentLength', contentLength),
+      if (contentMD5 != null) _s.encodeXmlStringValue('ContentMD5', contentMD5),
+      if (contentType != null)
+        _s.encodeXmlStringValue('ContentType', contentType),
+      if (httpExpiresDate != null)
+        _s.encodeXmlDateTimeValue('HttpExpiresDate', httpExpiresDate),
+      if (requesterCharged != null)
+        _s.encodeXmlBoolValue('RequesterCharged', requesterCharged),
+      if (sSEAlgorithm != null)
+        _s.encodeXmlStringValue('SSEAlgorithm', sSEAlgorithm.toValue()),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -3088,8 +3140,9 @@ class S3ObjectOwner {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('ID', id),
-      _s.encodeXmlStringValue('DisplayName', displayName),
+      if (id != null) _s.encodeXmlStringValue('ID', id),
+      if (displayName != null)
+        _s.encodeXmlStringValue('DisplayName', displayName),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -3198,7 +3251,8 @@ class S3SetObjectAclOperation {
 
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      accessControlPolicy?.toXml('AccessControlPolicy'),
+      if (accessControlPolicy != null)
+        accessControlPolicy?.toXml('AccessControlPolicy'),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -3234,8 +3288,8 @@ class S3SetObjectTaggingOperation {
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
       if (tagSet != null)
-        _s.XmlElement(_s.XmlName('TagSet'), [],
-            <_s.XmlNode>[...tagSet.map((v) => v.toXml('TagSet'))]),
+        _s.XmlElement(
+            _s.XmlName('TagSet'), [], tagSet.map((e) => e?.toXml('member'))),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,

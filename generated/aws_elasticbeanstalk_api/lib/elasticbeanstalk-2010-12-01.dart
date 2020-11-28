@@ -1374,7 +1374,8 @@ class ElasticBeanstalk {
       40,
     );
     final $request = <String, dynamic>{};
-    attributeNames?.also((arg) => $request['AttributeNames'] = arg);
+    attributeNames?.also((arg) => $request['AttributeNames'] =
+        arg.map((e) => e?.toValue() ?? '').toList());
     environmentId?.also((arg) => $request['EnvironmentId'] = arg);
     environmentName?.also((arg) => $request['EnvironmentName'] = arg);
     final $result = await _protocol.send(
@@ -1594,8 +1595,8 @@ class ElasticBeanstalk {
     environmentIds?.also((arg) => $request['EnvironmentIds'] = arg);
     environmentNames?.also((arg) => $request['EnvironmentNames'] = arg);
     includeDeleted?.also((arg) => $request['IncludeDeleted'] = arg);
-    includedDeletedBackTo
-        ?.also((arg) => $request['IncludedDeletedBackTo'] = arg);
+    includedDeletedBackTo?.also(
+        (arg) => $request['IncludedDeletedBackTo'] = _s.iso8601ToJson(arg));
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
     nextToken?.also((arg) => $request['NextToken'] = arg);
     versionLabel?.also((arg) => $request['VersionLabel'] = arg);
@@ -1714,7 +1715,7 @@ class ElasticBeanstalk {
     );
     final $request = <String, dynamic>{};
     applicationName?.also((arg) => $request['ApplicationName'] = arg);
-    endTime?.also((arg) => $request['EndTime'] = arg);
+    endTime?.also((arg) => $request['EndTime'] = _s.iso8601ToJson(arg));
     environmentId?.also((arg) => $request['EnvironmentId'] = arg);
     environmentName?.also((arg) => $request['EnvironmentName'] = arg);
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
@@ -1722,7 +1723,7 @@ class ElasticBeanstalk {
     platformArn?.also((arg) => $request['PlatformArn'] = arg);
     requestId?.also((arg) => $request['RequestId'] = arg);
     severity?.also((arg) => $request['Severity'] = arg.toValue());
-    startTime?.also((arg) => $request['StartTime'] = arg);
+    startTime?.also((arg) => $request['StartTime'] = _s.iso8601ToJson(arg));
     templateName?.also((arg) => $request['TemplateName'] = arg);
     versionLabel?.also((arg) => $request['VersionLabel'] = arg);
     final $result = await _protocol.send(
@@ -1779,7 +1780,8 @@ class ElasticBeanstalk {
       100,
     );
     final $request = <String, dynamic>{};
-    attributeNames?.also((arg) => $request['AttributeNames'] = arg);
+    attributeNames?.also((arg) => $request['AttributeNames'] =
+        arg.map((e) => e?.toValue() ?? '').toList());
     environmentId?.also((arg) => $request['EnvironmentId'] = arg);
     environmentName?.also((arg) => $request['EnvironmentName'] = arg);
     nextToken?.also((arg) => $request['NextToken'] = arg);
@@ -4628,6 +4630,30 @@ enum EnvironmentHealthAttribute {
   refreshedAt,
 }
 
+extension on EnvironmentHealthAttribute {
+  String toValue() {
+    switch (this) {
+      case EnvironmentHealthAttribute.status:
+        return 'Status';
+      case EnvironmentHealthAttribute.color:
+        return 'Color';
+      case EnvironmentHealthAttribute.causes:
+        return 'Causes';
+      case EnvironmentHealthAttribute.applicationMetrics:
+        return 'ApplicationMetrics';
+      case EnvironmentHealthAttribute.instancesHealth:
+        return 'InstancesHealth';
+      case EnvironmentHealthAttribute.all:
+        return 'All';
+      case EnvironmentHealthAttribute.healthStatus:
+        return 'HealthStatus';
+      case EnvironmentHealthAttribute.refreshedAt:
+        return 'RefreshedAt';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 extension on String {
   EnvironmentHealthAttribute toEnvironmentHealthAttribute() {
     switch (this) {
@@ -5259,6 +5285,36 @@ enum InstancesHealthAttribute {
   instanceType,
   @_s.JsonValue('All')
   all,
+}
+
+extension on InstancesHealthAttribute {
+  String toValue() {
+    switch (this) {
+      case InstancesHealthAttribute.healthStatus:
+        return 'HealthStatus';
+      case InstancesHealthAttribute.color:
+        return 'Color';
+      case InstancesHealthAttribute.causes:
+        return 'Causes';
+      case InstancesHealthAttribute.applicationMetrics:
+        return 'ApplicationMetrics';
+      case InstancesHealthAttribute.refreshedAt:
+        return 'RefreshedAt';
+      case InstancesHealthAttribute.launchedAt:
+        return 'LaunchedAt';
+      case InstancesHealthAttribute.system:
+        return 'System';
+      case InstancesHealthAttribute.deployment:
+        return 'Deployment';
+      case InstancesHealthAttribute.availabilityZone:
+        return 'AvailabilityZone';
+      case InstancesHealthAttribute.instanceType:
+        return 'InstanceType';
+      case InstancesHealthAttribute.all:
+        return 'All';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 extension on String {

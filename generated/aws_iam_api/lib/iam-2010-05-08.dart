@@ -4200,7 +4200,8 @@ class IAM {
       1000,
     );
     final $request = <String, dynamic>{};
-    filter?.also((arg) => $request['Filter'] = arg);
+    filter?.also((arg) =>
+        $request['Filter'] = arg.map((e) => e?.toValue() ?? '').toList());
     marker?.also((arg) => $request['Marker'] = arg);
     maxItems?.also((arg) => $request['MaxItems'] = arg);
     final $result = await _protocol.send(

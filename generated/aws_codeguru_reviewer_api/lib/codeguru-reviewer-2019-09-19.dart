@@ -259,8 +259,12 @@ class CodeGuruReviewer {
       if (names != null) _s.toQueryParam('Name', names),
       if (nextToken != null) _s.toQueryParam('NextToken', nextToken),
       if (owners != null) _s.toQueryParam('Owner', owners),
-      if (providerTypes != null) _s.toQueryParam('ProviderType', providerTypes),
-      if (states != null) _s.toQueryParam('State', states),
+      if (providerTypes != null)
+        _s.toQueryParam('ProviderType',
+            providerTypes.map((e) => e?.toValue() ?? '').toList()),
+      if (states != null)
+        _s.toQueryParam(
+            'State', states.map((e) => e?.toValue() ?? '').toList()),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
@@ -375,6 +379,18 @@ enum ProviderType {
   gitHub,
 }
 
+extension on ProviderType {
+  String toValue() {
+    switch (this) {
+      case ProviderType.codeCommit:
+        return 'CodeCommit';
+      case ProviderType.gitHub:
+        return 'GitHub';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Information about a repository.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -467,6 +483,22 @@ enum RepositoryAssociationState {
   failed,
   @_s.JsonValue('Disassociating')
   disassociating,
+}
+
+extension on RepositoryAssociationState {
+  String toValue() {
+    switch (this) {
+      case RepositoryAssociationState.associated:
+        return 'Associated';
+      case RepositoryAssociationState.associating:
+        return 'Associating';
+      case RepositoryAssociationState.failed:
+        return 'Failed';
+      case RepositoryAssociationState.disassociating:
+        return 'Disassociating';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Information about a repository association.

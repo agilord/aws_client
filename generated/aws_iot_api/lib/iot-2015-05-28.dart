@@ -3832,7 +3832,8 @@ class IoT {
     var _query = '';
     _query = '?${[
       if (targetName != null) _s.toQueryParam('targetName', targetName),
-      if (targetType != null) _s.toQueryParam('targetType', targetType),
+      if (targetType != null)
+        _s.toQueryParam('targetType', targetType.toValue()),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{};
     await _protocol.send(
@@ -5981,7 +5982,8 @@ class IoT {
     _query = '?${[
       if (findingId != null) _s.toQueryParam('findingId', findingId),
       if (taskId != null) _s.toQueryParam('taskId', taskId),
-      if (actionStatus != null) _s.toQueryParam('actionStatus', actionStatus),
+      if (actionStatus != null)
+        _s.toQueryParam('actionStatus', actionStatus.toValue()),
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -6068,13 +6070,16 @@ class IoT {
     );
     var _query = '';
     _query = '?${[
-      if (endTime != null) _s.toQueryParam('endTime', endTime),
-      if (startTime != null) _s.toQueryParam('startTime', startTime),
+      if (endTime != null)
+        _s.toQueryParam('endTime', _s.iso8601ToJson(endTime)),
+      if (startTime != null)
+        _s.toQueryParam('startTime', _s.iso8601ToJson(startTime)),
       if (auditTaskId != null) _s.toQueryParam('auditTaskId', auditTaskId),
       if (findingId != null) _s.toQueryParam('findingId', findingId),
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-      if (taskStatus != null) _s.toQueryParam('taskStatus', taskStatus),
+      if (taskStatus != null)
+        _s.toQueryParam('taskStatus', taskStatus.toValue()),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
@@ -6131,12 +6136,15 @@ class IoT {
     );
     var _query = '';
     _query = '?${[
-      if (endTime != null) _s.toQueryParam('endTime', endTime),
-      if (startTime != null) _s.toQueryParam('startTime', startTime),
+      if (endTime != null)
+        _s.toQueryParam('endTime', _s.iso8601ToJson(endTime)),
+      if (startTime != null)
+        _s.toQueryParam('startTime', _s.iso8601ToJson(startTime)),
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-      if (taskStatus != null) _s.toQueryParam('taskStatus', taskStatus),
-      if (taskType != null) _s.toQueryParam('taskType', taskType),
+      if (taskStatus != null)
+        _s.toQueryParam('taskStatus', taskStatus.toValue()),
+      if (taskType != null) _s.toQueryParam('taskType', taskType.toValue()),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
@@ -6189,7 +6197,7 @@ class IoT {
         _s.toQueryParam('isAscendingOrder', ascendingOrder),
       if (marker != null) _s.toQueryParam('marker', marker),
       if (pageSize != null) _s.toQueryParam('pageSize', pageSize),
-      if (status != null) _s.toQueryParam('status', status),
+      if (status != null) _s.toQueryParam('status', status.toValue()),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
@@ -6501,7 +6509,8 @@ class IoT {
     _query = '?${[
       if (marker != null) _s.toQueryParam('marker', marker),
       if (pageSize != null) _s.toQueryParam('pageSize', pageSize),
-      if (serviceType != null) _s.toQueryParam('serviceType', serviceType),
+      if (serviceType != null)
+        _s.toQueryParam('serviceType', serviceType.toValue()),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
@@ -6598,7 +6607,7 @@ class IoT {
     _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-      if (status != null) _s.toQueryParam('status', status),
+      if (status != null) _s.toQueryParam('status', status.toValue()),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
@@ -6659,7 +6668,7 @@ class IoT {
     _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-      if (status != null) _s.toQueryParam('status', status),
+      if (status != null) _s.toQueryParam('status', status.toValue()),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
@@ -6741,9 +6750,9 @@ class IoT {
     _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-      if (status != null) _s.toQueryParam('status', status),
+      if (status != null) _s.toQueryParam('status', status.toValue()),
       if (targetSelection != null)
-        _s.toQueryParam('targetSelection', targetSelection),
+        _s.toQueryParam('targetSelection', targetSelection.toValue()),
       if (thingGroupId != null) _s.toQueryParam('thingGroupId', thingGroupId),
       if (thingGroupName != null)
         _s.toQueryParam('thingGroupName', thingGroupName),
@@ -6786,7 +6795,8 @@ class IoT {
     );
     var _query = '';
     _query = '?${[
-      if (actionType != null) _s.toQueryParam('actionType', actionType),
+      if (actionType != null)
+        _s.toQueryParam('actionType', actionType.toValue()),
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -6831,7 +6841,7 @@ class IoT {
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
       if (otaUpdateStatus != null)
-        _s.toQueryParam('otaUpdateStatus', otaUpdateStatus),
+        _s.toQueryParam('otaUpdateStatus', otaUpdateStatus.toValue()),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
@@ -7853,7 +7863,8 @@ class IoT {
     );
     var _query = '';
     _query = '?${[
-      if (reportType != null) _s.toQueryParam('reportType', reportType),
+      if (reportType != null)
+        _s.toQueryParam('reportType', reportType.toValue()),
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -7897,7 +7908,7 @@ class IoT {
     _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-      if (status != null) _s.toQueryParam('status', status),
+      if (status != null) _s.toQueryParam('status', status.toValue()),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
@@ -8282,7 +8293,8 @@ class IoT {
     _query = '?${[
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-      if (targetType != null) _s.toQueryParam('targetType', targetType),
+      if (targetType != null)
+        _s.toQueryParam('targetType', targetType.toValue()),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
@@ -8355,8 +8367,10 @@ class IoT {
     );
     var _query = '';
     _query = '?${[
-      if (endTime != null) _s.toQueryParam('endTime', endTime),
-      if (startTime != null) _s.toQueryParam('startTime', startTime),
+      if (endTime != null)
+        _s.toQueryParam('endTime', _s.iso8601ToJson(endTime)),
+      if (startTime != null)
+        _s.toQueryParam('startTime', _s.iso8601ToJson(startTime)),
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
       if (securityProfileName != null)
@@ -9794,8 +9808,9 @@ class IoT {
     var _query = '';
     _query = '?${[
       if (newAutoRegistrationStatus != null)
-        _s.toQueryParam('newAutoRegistrationStatus', newAutoRegistrationStatus),
-      if (newStatus != null) _s.toQueryParam('newStatus', newStatus),
+        _s.toQueryParam(
+            'newAutoRegistrationStatus', newAutoRegistrationStatus.toValue()),
+      if (newStatus != null) _s.toQueryParam('newStatus', newStatus.toValue()),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{
       if (registrationConfig != null) 'registrationConfig': registrationConfig,
@@ -9864,7 +9879,7 @@ class IoT {
     ArgumentError.checkNotNull(newStatus, 'newStatus');
     var _query = '';
     _query = '?${[
-      if (newStatus != null) _s.toQueryParam('newStatus', newStatus),
+      if (newStatus != null) _s.toQueryParam('newStatus', newStatus.toValue()),
     ].where((e) => e != null).join('&')}';
     final $payload = <String, dynamic>{};
     await _protocol.send(
@@ -11758,6 +11773,26 @@ enum AuditMitigationActionsExecutionStatus {
   pending,
 }
 
+extension on AuditMitigationActionsExecutionStatus {
+  String toValue() {
+    switch (this) {
+      case AuditMitigationActionsExecutionStatus.inProgress:
+        return 'IN_PROGRESS';
+      case AuditMitigationActionsExecutionStatus.completed:
+        return 'COMPLETED';
+      case AuditMitigationActionsExecutionStatus.failed:
+        return 'FAILED';
+      case AuditMitigationActionsExecutionStatus.canceled:
+        return 'CANCELED';
+      case AuditMitigationActionsExecutionStatus.skipped:
+        return 'SKIPPED';
+      case AuditMitigationActionsExecutionStatus.pending:
+        return 'PENDING';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Information about an audit mitigation actions task that is returned by
 /// <code>ListAuditMitigationActionsTasks</code>.
 @_s.JsonSerializable(
@@ -11800,6 +11835,22 @@ enum AuditMitigationActionsTaskStatus {
   failed,
   @_s.JsonValue('CANCELED')
   canceled,
+}
+
+extension on AuditMitigationActionsTaskStatus {
+  String toValue() {
+    switch (this) {
+      case AuditMitigationActionsTaskStatus.inProgress:
+        return 'IN_PROGRESS';
+      case AuditMitigationActionsTaskStatus.completed:
+        return 'COMPLETED';
+      case AuditMitigationActionsTaskStatus.failed:
+        return 'FAILED';
+      case AuditMitigationActionsTaskStatus.canceled:
+        return 'CANCELED';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Used in MitigationActionParams, this information identifies the target
@@ -11927,11 +11978,39 @@ enum AuditTaskStatus {
   canceled,
 }
 
+extension on AuditTaskStatus {
+  String toValue() {
+    switch (this) {
+      case AuditTaskStatus.inProgress:
+        return 'IN_PROGRESS';
+      case AuditTaskStatus.completed:
+        return 'COMPLETED';
+      case AuditTaskStatus.failed:
+        return 'FAILED';
+      case AuditTaskStatus.canceled:
+        return 'CANCELED';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 enum AuditTaskType {
   @_s.JsonValue('ON_DEMAND_AUDIT_TASK')
   onDemandAuditTask,
   @_s.JsonValue('SCHEDULED_AUDIT_TASK')
   scheduledAuditTask,
+}
+
+extension on AuditTaskType {
+  String toValue() {
+    switch (this) {
+      case AuditTaskType.onDemandAuditTask:
+        return 'ON_DEMAND_AUDIT_TASK';
+      case AuditTaskType.scheduledAuditTask:
+        return 'SCHEDULED_AUDIT_TASK';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 enum AuthDecision {
@@ -12148,6 +12227,18 @@ enum AutoRegistrationStatus {
   enable,
   @_s.JsonValue('DISABLE')
   disable,
+}
+
+extension on AutoRegistrationStatus {
+  String toValue() {
+    switch (this) {
+      case AutoRegistrationStatus.enable:
+        return 'ENABLE';
+      case AutoRegistrationStatus.disable:
+        return 'DISABLE';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Configuration for the rollout of OTA updates.
@@ -12449,6 +12540,18 @@ enum CACertificateStatus {
   active,
   @_s.JsonValue('INACTIVE')
   inactive,
+}
+
+extension on CACertificateStatus {
+  String toValue() {
+    switch (this) {
+      case CACertificateStatus.active:
+        return 'ACTIVE';
+      case CACertificateStatus.inactive:
+        return 'INACTIVE';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 enum CACertificateUpdateAction {
@@ -16522,6 +16625,30 @@ enum JobExecutionStatus {
   canceled,
 }
 
+extension on JobExecutionStatus {
+  String toValue() {
+    switch (this) {
+      case JobExecutionStatus.queued:
+        return 'QUEUED';
+      case JobExecutionStatus.inProgress:
+        return 'IN_PROGRESS';
+      case JobExecutionStatus.succeeded:
+        return 'SUCCEEDED';
+      case JobExecutionStatus.failed:
+        return 'FAILED';
+      case JobExecutionStatus.timedOut:
+        return 'TIMED_OUT';
+      case JobExecutionStatus.rejected:
+        return 'REJECTED';
+      case JobExecutionStatus.removed:
+        return 'REMOVED';
+      case JobExecutionStatus.canceled:
+        return 'CANCELED';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Details of the job execution status.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -16734,6 +16861,22 @@ enum JobStatus {
   completed,
   @_s.JsonValue('DELETION_IN_PROGRESS')
   deletionInProgress,
+}
+
+extension on JobStatus {
+  String toValue() {
+    switch (this) {
+      case JobStatus.inProgress:
+        return 'IN_PROGRESS';
+      case JobStatus.canceled:
+        return 'CANCELED';
+      case JobStatus.completed:
+        return 'COMPLETED';
+      case JobStatus.deletionInProgress:
+        return 'DELETION_IN_PROGRESS';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// The job summary.
@@ -18075,6 +18218,18 @@ enum LogTargetType {
   thingGroup,
 }
 
+extension on LogTargetType {
+  String toValue() {
+    switch (this) {
+      case LogTargetType.$default:
+        return 'DEFAULT';
+      case LogTargetType.thingGroup:
+        return 'THING_GROUP';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Describes the logging options payload.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -18329,6 +18484,26 @@ enum MitigationActionType {
   publishFindingToSns,
 }
 
+extension on MitigationActionType {
+  String toValue() {
+    switch (this) {
+      case MitigationActionType.updateDeviceCertificate:
+        return 'UPDATE_DEVICE_CERTIFICATE';
+      case MitigationActionType.updateCaCertificate:
+        return 'UPDATE_CA_CERTIFICATE';
+      case MitigationActionType.addThingsToThingGroup:
+        return 'ADD_THINGS_TO_THING_GROUP';
+      case MitigationActionType.replaceDefaultPolicyVersion:
+        return 'REPLACE_DEFAULT_POLICY_VERSION';
+      case MitigationActionType.enableIotLogging:
+        return 'ENABLE_IOT_LOGGING';
+      case MitigationActionType.publishFindingToSns:
+        return 'PUBLISH_FINDING_TO_SNS';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Specifies the MQTT context to use for the test authorizer request
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -18541,6 +18716,22 @@ enum OTAUpdateStatus {
   createComplete,
   @_s.JsonValue('CREATE_FAILED')
   createFailed,
+}
+
+extension on OTAUpdateStatus {
+  String toValue() {
+    switch (this) {
+      case OTAUpdateStatus.createPending:
+        return 'CREATE_PENDING';
+      case OTAUpdateStatus.createInProgress:
+        return 'CREATE_IN_PROGRESS';
+      case OTAUpdateStatus.createComplete:
+        return 'CREATE_COMPLETE';
+      case OTAUpdateStatus.createFailed:
+        return 'CREATE_FAILED';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// An OTA update summary.
@@ -19153,6 +19344,18 @@ enum ReportType {
   errors,
   @_s.JsonValue('RESULTS')
   results,
+}
+
+extension on ReportType {
+  String toValue() {
+    switch (this) {
+      case ReportType.errors:
+        return 'ERRORS';
+      case ReportType.results:
+        return 'RESULTS';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Describes an action to republish to another topic.
@@ -19957,6 +20160,24 @@ enum Status {
   cancelled,
   @_s.JsonValue('Cancelling')
   cancelling,
+}
+
+extension on Status {
+  String toValue() {
+    switch (this) {
+      case Status.inProgress:
+        return 'InProgress';
+      case Status.completed:
+        return 'Completed';
+      case Status.failed:
+        return 'Failed';
+      case Status.cancelled:
+        return 'Cancelled';
+      case Status.cancelling:
+        return 'Cancelling';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Starts execution of a Step Functions state machine.

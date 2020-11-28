@@ -62,7 +62,7 @@ class StaticInputShape {
   });
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Name', name),
+      if (name != null) _s.encodeXmlStringValue('Name', name),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,
@@ -83,7 +83,7 @@ class MemberRefInputShape {
   });
   _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
     final $children = <_s.XmlNode>[
-      _s.encodeXmlStringValue('Name', name),
+      if (name != null) _s.encodeXmlStringValue('Name', name),
     ];
     final $attributes = <_s.XmlAttribute>[
       ...?attributes,

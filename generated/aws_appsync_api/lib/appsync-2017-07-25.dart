@@ -1070,7 +1070,7 @@ class AppSync {
     ArgumentError.checkNotNull(format, 'format');
     var _query = '';
     _query = '?${[
-      if (format != null) _s.toQueryParam('format', format),
+      if (format != null) _s.toQueryParam('format', format.toValue()),
       if (includeDirectives != null)
         _s.toQueryParam('includeDirectives', includeDirectives),
     ].where((e) => e != null).join('&')}';
@@ -1206,7 +1206,7 @@ class AppSync {
     );
     var _query = '';
     _query = '?${[
-      if (format != null) _s.toQueryParam('format', format),
+      if (format != null) _s.toQueryParam('format', format.toValue()),
     ].where((e) => e != null).join('&')}';
     final response = await _protocol.send(
       payload: null,
@@ -1635,7 +1635,7 @@ class AppSync {
     );
     var _query = '';
     _query = '?${[
-      if (format != null) _s.toQueryParam('format', format),
+      if (format != null) _s.toQueryParam('format', format.toValue()),
       if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
       if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
     ].where((e) => e != null).join('&')}';
@@ -3893,6 +3893,18 @@ enum OutputType {
   sdl,
   @_s.JsonValue('JSON')
   json,
+}
+
+extension on OutputType {
+  String toValue() {
+    switch (this) {
+      case OutputType.sdl:
+        return 'SDL';
+      case OutputType.json:
+        return 'JSON';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// The pipeline configuration for a resolver of kind <code>PIPELINE</code>.

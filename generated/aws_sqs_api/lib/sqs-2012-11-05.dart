@@ -998,7 +998,8 @@ class SQS {
     ArgumentError.checkNotNull(queueUrl, 'queueUrl');
     final $request = <String, dynamic>{};
     $request['QueueUrl'] = queueUrl;
-    attributeNames?.also((arg) => $request['AttributeNames'] = arg);
+    attributeNames?.also((arg) => $request['AttributeNames'] =
+        arg.map((e) => e?.toValue() ?? '').toList());
     final $result = await _protocol.send(
       $request,
       action: 'GetQueueAttributes',
@@ -1458,7 +1459,8 @@ class SQS {
     ArgumentError.checkNotNull(queueUrl, 'queueUrl');
     final $request = <String, dynamic>{};
     $request['QueueUrl'] = queueUrl;
-    attributeNames?.also((arg) => $request['AttributeNames'] = arg);
+    attributeNames?.also((arg) => $request['AttributeNames'] =
+        arg.map((e) => e?.toValue() ?? '').toList());
     maxNumberOfMessages?.also((arg) => $request['MaxNumberOfMessages'] = arg);
     messageAttributeNames
         ?.also((arg) => $request['MessageAttributeNames'] = arg);
@@ -2743,6 +2745,50 @@ enum QueueAttributeName {
   kmsMasterKeyId,
   @_s.JsonValue('KmsDataKeyReusePeriodSeconds')
   kmsDataKeyReusePeriodSeconds,
+}
+
+extension on QueueAttributeName {
+  String toValue() {
+    switch (this) {
+      case QueueAttributeName.all:
+        return 'All';
+      case QueueAttributeName.policy:
+        return 'Policy';
+      case QueueAttributeName.visibilityTimeout:
+        return 'VisibilityTimeout';
+      case QueueAttributeName.maximumMessageSize:
+        return 'MaximumMessageSize';
+      case QueueAttributeName.messageRetentionPeriod:
+        return 'MessageRetentionPeriod';
+      case QueueAttributeName.approximateNumberOfMessages:
+        return 'ApproximateNumberOfMessages';
+      case QueueAttributeName.approximateNumberOfMessagesNotVisible:
+        return 'ApproximateNumberOfMessagesNotVisible';
+      case QueueAttributeName.createdTimestamp:
+        return 'CreatedTimestamp';
+      case QueueAttributeName.lastModifiedTimestamp:
+        return 'LastModifiedTimestamp';
+      case QueueAttributeName.queueArn:
+        return 'QueueArn';
+      case QueueAttributeName.approximateNumberOfMessagesDelayed:
+        return 'ApproximateNumberOfMessagesDelayed';
+      case QueueAttributeName.delaySeconds:
+        return 'DelaySeconds';
+      case QueueAttributeName.receiveMessageWaitTimeSeconds:
+        return 'ReceiveMessageWaitTimeSeconds';
+      case QueueAttributeName.redrivePolicy:
+        return 'RedrivePolicy';
+      case QueueAttributeName.fifoQueue:
+        return 'FifoQueue';
+      case QueueAttributeName.contentBasedDeduplication:
+        return 'ContentBasedDeduplication';
+      case QueueAttributeName.kmsMasterKeyId:
+        return 'KmsMasterKeyId';
+      case QueueAttributeName.kmsDataKeyReusePeriodSeconds:
+        return 'KmsDataKeyReusePeriodSeconds';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 extension on String {
