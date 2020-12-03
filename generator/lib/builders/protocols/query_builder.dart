@@ -1,8 +1,7 @@
 import 'package:aws_client.generator/builders/protocols/service_builder.dart';
 import 'package:aws_client.generator/model/api.dart';
 import 'package:aws_client.generator/model/operation.dart';
-
-import '../builder_utils.dart';
+import 'package:aws_client.generator/model/shape.dart';
 
 class QueryServiceBuilder extends ServiceBuilder {
   final Api api;
@@ -35,11 +34,12 @@ class QueryServiceBuilder extends ServiceBuilder {
       member.shapeClass.markUsed(true);
 
       if (member.isRequired) {
-        final code = encodeQueryCode(member.shapeClass, member.fieldName,
-            member: member);
+        final code = _encodeQueryCode(member.shapeClass, member.fieldName,
+            member: member, maybeNull: false);
         buf.writeln("\$request['${member.name}'] = $code;");
       } else {
-        final code = encodeQueryCode(member.shapeClass, 'arg', member: member);
+        final code = _encodeQueryCode(member.shapeClass, 'arg',
+            member: member, maybeNull: false);
         buf.writeln(
             "${member.fieldName}?.also((arg) => \$request['${member.name}'] = $code);");
       }
@@ -66,4 +66,26 @@ class QueryServiceBuilder extends ServiceBuilder {
     }
     return buf.toString();
   }
+}
+
+String _encodeQueryCode(Shape shape, String variable,
+    {Member member, bool maybeNull}) {
+  maybeNull ??= true;
+  if (shape.enumeration != null) {
+    shape.isTopLevelInputEnum = true;
+    return '$variable${maybeNull ? '?' : ''}.toValue()${maybeNull ? "??''" : ''}';
+  } else if (shape.type == 'list') {
+    final code = _encodeQueryCode(shape.member.shapeClass, 'e');
+    if (code != 'e') {
+      final nullAware = maybeNull ? '?' : '';
+      return '$nullAware$variable$nullAware.map((e) => $code)$nullAware.toList()';
+    }
+  } else if (shape.type == 'timestamp') {
+    final timestampFormat =
+        member?.timestampFormat ?? shape.timestampFormat ?? 'iso8601';
+    variable =
+        '_s.${timestampFormat}ToJson($variable)${timestampFormat == 'unixTimestamp' ? '.toString()' : ''}';
+  }
+
+  return variable;
 }

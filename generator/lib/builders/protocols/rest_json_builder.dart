@@ -29,22 +29,7 @@ class RestJsonServiceBuilder extends ServiceBuilder {
     final inputShape = operation.input?.shapeClass;
 
     buildRequestHeaders(operation, buf);
-
-    final hasQueryMembers = inputShape?.hasQueryMembers == true;
-
-    if (hasQueryMembers) {
-      buf.writeln("var _query = '';");
-      buf.writeln(
-          "_query = '${operation.http.requestUri.contains('?') ? '&' : '?'}\${[");
-      for (final member in inputShape.queryMembers) {
-        final variable = encodeQueryCode(member.shapeClass, member.fieldName,
-            member: member);
-        buf.writeln('if(${member.fieldName} != null)');
-        buf.writeln(
-            '_s.toQueryParam(${member.locationName == null ? 'null' : "'${member.locationName}'"}, $variable),');
-      }
-      buf.writeln("].where((e) => e != null).join('&')}';");
-    }
+    buildRequestQueryParams(operation, buf);
 
     final outputShape = operation.output?.shapeClass;
 
@@ -52,22 +37,23 @@ class RestJsonServiceBuilder extends ServiceBuilder {
     if (!operation.http.bodyForbidden && inputShape != null) {
       final payload = operation.input.payloadMember;
       if (payload == null) {
-        //if (inputShape.hasBodyMembers) {
-        buf.writeln('final \$payload = <String, dynamic>{');
-        for (var member in inputShape.members.where((m) => m.isBody)) {
-          if (!member.isRequired) {
-            buf.writeln('if (${member.fieldName} != null)');
+        if (inputShape.hasBodyMembers) {
+          buf.writeln('final \$payload = <String, dynamic>{');
+          for (var member in inputShape.members.where((m) => m.isBody)) {
+            if (!member.isRequired) {
+              buf.writeln('if (${member.fieldName} != null)');
+            }
+            final encodeCode = encodeJsonCode(
+                member.shapeClass, member.fieldName,
+                member: member, maybeNull: member.isRequired);
+            final location = member.locationName ??
+                member.shapeClass.locationName ??
+                member.name;
+            buf.writeln("'$location': $encodeCode,");
           }
-          final encodeCode = encodeJsonCode(member.shapeClass, member.fieldName,
-              member: member, maybeNull: member.isRequired);
-          final location = member.locationName ??
-              member.shapeClass.locationName ??
-              member.name;
-          buf.writeln("'$location': $encodeCode,");
+          buf.writeln('};');
+          payloadCode = 'payload: \$payload,';
         }
-        buf.writeln('};');
-        payloadCode = 'payload: \$payload,';
-        //}
       } else {
         payloadCode = 'payload: ${payload.fieldName},';
       }
@@ -84,14 +70,14 @@ class RestJsonServiceBuilder extends ServiceBuilder {
     buf.writeln(
         '${outputShape != null ? 'final response = ' : ''}await _protocol.send${isInlineExtraction ? 'Raw' : ''}($payloadCode');
 
-    if (inputShape?.hasHeaderMembers == true) {
-      buf.writeln('headers: headers,');
-    }
-
-    buf.writeln('method: \'${operation.http.method}\', '
-        "requestUri: '${buildRequestUri(operation)}${hasQueryMembers ? '\$_query' : ''}', "
-        'exceptionFnMap: _exceptionFns, '
-        ');');
+    buf.writeln([
+      'method: \'${operation.http.method}\',',
+      'requestUri: \'${buildRequestUri(operation)}\',',
+      if (inputShape?.hasQueryMembers ?? false) 'queryParams: \$query,',
+      if (inputShape?.hasHeaderMembers ?? false) 'headers: headers,',
+      'exceptionFnMap: _exceptionFns,',
+    ].join('\n'));
+    buf.writeln(');');
 
     if (outputShape != null) {
       final outputShape = operation.output.shapeClass;

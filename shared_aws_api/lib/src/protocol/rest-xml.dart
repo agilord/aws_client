@@ -40,7 +40,7 @@ class RestXmlProtocol {
     @required String method,
     @required String requestUri,
     @required Map<String, AwsExceptionFn> exceptionFnMap,
-    Map<String, String> queryParams,
+    Map<String, List<String>> queryParams,
     Map<String, String> headers,
     dynamic payload,
     String resultWrapper,
@@ -81,7 +81,7 @@ class RestXmlProtocol {
     @required String method,
     @required String requestUri,
     @required Map<String, AwsExceptionFn> exceptionFnMap,
-    Map<String, String> queryParams,
+    Map<String, List<String>> queryParams,
     Map<String, String> headers,
     dynamic payload,
     String resultWrapper,
@@ -102,16 +102,15 @@ class RestXmlProtocol {
   Request _buildRequest(
       String method,
       String requestUri,
-      Map<String, String> queryParams,
+      Map<String, List<String>> queryParams,
       dynamic payload,
       Map<String, String> headers) {
-    queryParams ??= <String, String>{};
-
     var uri = Uri.parse('${_endpoint.url}$requestUri');
-    if (queryParams.isNotEmpty) {
-      uri = uri
-          .replace(queryParameters: {...uri.queryParameters, ...queryParams});
-    }
+    uri = uri.replace(queryParameters: {
+      ...uri.queryParametersAll,
+      ...?queryParams,
+    });
+
     final rq = Request(
       method,
       uri,

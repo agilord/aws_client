@@ -352,37 +352,3 @@ void throwException(StreamedResponse rs, String body,
         );
   throw exception;
 }
-
-String toQueryParam(String name, dynamic param) {
-  if (param == null) {
-    return null;
-  }
-
-  if (param is String || param is bool) {
-    if (name != null) {
-      return '$name=$param';
-    }
-    return '$param';
-  }
-
-  if (param is Map) {
-    return param.entries
-        .map((e) => toQueryParam(e.key as String, e.value))
-        .where((e) => e != null)
-        .join('&');
-  }
-
-  if (param is List) {
-    return param
-        .map((e) {
-          final value = toQueryParam(null, e);
-          if (value == null) return null;
-          return '$name=$value';
-        })
-        .where((e) => e != null)
-        .join('&');
-  }
-
-  // Last resort
-  return toQueryParam(name, param.toJson());
-}

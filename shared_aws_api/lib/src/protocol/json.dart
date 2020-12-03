@@ -39,7 +39,7 @@ class JsonProtocol {
     @required String method,
     @required String requestUri,
     @required Map<String, AwsExceptionFn> exceptionFnMap,
-    Map<String, String> queryParams,
+    Map<String, List<String>> queryParams,
     Map<String, String> headers,
     dynamic payload,
   }) async {

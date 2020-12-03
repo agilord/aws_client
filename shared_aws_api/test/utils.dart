@@ -11,11 +11,37 @@ String pathAndQuery(Uri uri) {
   return uri.path;
 }
 
+Matcher equalsPathAndQuery(String value) => _PathAndQueryEqual(value);
+
 Matcher equalsJson(String value) => _JsonEqual(value);
 
 Matcher equalsQuery(String value) => _QueryEqual(value);
 
 Matcher equalsXml(String value) => _XmlEqual(value);
+
+class _PathAndQueryEqual extends _FeatureMatcher<Uri> {
+  final String _expected;
+
+  _PathAndQueryEqual(String expected)
+      : _expected = _canonical(Uri.parse(expected));
+
+  static String _canonical(Uri uri) {
+    return Uri(
+      path: uri.path,
+      query: canonicalQueryParametersAll(uri.queryParametersAll),
+    ).toString();
+  }
+
+  @override
+  bool typedMatches(Uri item, Map matchState) {
+    return equals(_expected).matches(_canonical(item), matchState);
+  }
+
+  @override
+  Description describe(Description description) {
+    return description.add("path and query '$_expected'");
+  }
+}
 
 class _JsonEqual extends _FeatureMatcher<String> {
   final String _expected;
