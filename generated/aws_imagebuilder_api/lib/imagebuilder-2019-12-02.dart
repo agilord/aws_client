@@ -807,16 +807,15 @@ class Imagebuilder {
       r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):component/[a-z0-9-_]+/\d+\.\d+\.\d+/\d+$''',
       isRequired: true,
     );
-    var _query = '';
-    _query = '?${[
+    final $query = <String, List<String>>{
       if (componentBuildVersionArn != null)
-        _s.toQueryParam('componentBuildVersionArn', componentBuildVersionArn),
-    ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+        'componentBuildVersionArn': [componentBuildVersionArn],
+    };
     final response = await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri: '/DeleteComponent$_query',
+      requestUri: '/DeleteComponent',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return DeleteComponentResponse.fromJson(response);
@@ -847,17 +846,15 @@ class Imagebuilder {
       r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):distribution-configuration/[a-z0-9-_]+$''',
       isRequired: true,
     );
-    var _query = '';
-    _query = '?${[
+    final $query = <String, List<String>>{
       if (distributionConfigurationArn != null)
-        _s.toQueryParam(
-            'distributionConfigurationArn', distributionConfigurationArn),
-    ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+        'distributionConfigurationArn': [distributionConfigurationArn],
+    };
     final response = await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri: '/DeleteDistributionConfiguration$_query',
+      requestUri: '/DeleteDistributionConfiguration',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return DeleteDistributionConfigurationResponse.fromJson(response);
@@ -885,16 +882,15 @@ class Imagebuilder {
       r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):image/[a-z0-9-_]+/\d+\.\d+\.\d+/\d+$''',
       isRequired: true,
     );
-    var _query = '';
-    _query = '?${[
+    final $query = <String, List<String>>{
       if (imageBuildVersionArn != null)
-        _s.toQueryParam('imageBuildVersionArn', imageBuildVersionArn),
-    ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+        'imageBuildVersionArn': [imageBuildVersionArn],
+    };
     final response = await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri: '/DeleteImage$_query',
+      requestUri: '/DeleteImage',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return DeleteImageResponse.fromJson(response);
@@ -922,16 +918,14 @@ class Imagebuilder {
       r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):image-pipeline/[a-z0-9-_]+$''',
       isRequired: true,
     );
-    var _query = '';
-    _query = '?${[
-      if (imagePipelineArn != null)
-        _s.toQueryParam('imagePipelineArn', imagePipelineArn),
-    ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $query = <String, List<String>>{
+      if (imagePipelineArn != null) 'imagePipelineArn': [imagePipelineArn],
+    };
     final response = await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri: '/DeleteImagePipeline$_query',
+      requestUri: '/DeleteImagePipeline',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return DeleteImagePipelineResponse.fromJson(response);
@@ -959,16 +953,14 @@ class Imagebuilder {
       r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):image-recipe/[a-z0-9-_]+/\d+\.\d+\.\d+$''',
       isRequired: true,
     );
-    var _query = '';
-    _query = '?${[
-      if (imageRecipeArn != null)
-        _s.toQueryParam('imageRecipeArn', imageRecipeArn),
-    ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $query = <String, List<String>>{
+      if (imageRecipeArn != null) 'imageRecipeArn': [imageRecipeArn],
+    };
     final response = await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri: '/DeleteImageRecipe$_query',
+      requestUri: '/DeleteImageRecipe',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return DeleteImageRecipeResponse.fromJson(response);
@@ -999,17 +991,15 @@ class Imagebuilder {
       r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):infrastructure-configuration/[a-z0-9-_]+$''',
       isRequired: true,
     );
-    var _query = '';
-    _query = '?${[
+    final $query = <String, List<String>>{
       if (infrastructureConfigurationArn != null)
-        _s.toQueryParam(
-            'infrastructureConfigurationArn', infrastructureConfigurationArn),
-    ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+        'infrastructureConfigurationArn': [infrastructureConfigurationArn],
+    };
     final response = await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri: '/DeleteInfrastructureConfiguration$_query',
+      requestUri: '/DeleteInfrastructureConfiguration',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return DeleteInfrastructureConfigurationResponse.fromJson(response);
@@ -1038,15 +1028,15 @@ class Imagebuilder {
       r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):component/[a-z0-9-_]+/\d+\.\d+\.\d+/\d+$''',
       isRequired: true,
     );
-    var _query = '';
-    _query = '?${[
+    final $query = <String, List<String>>{
       if (componentBuildVersionArn != null)
-        _s.toQueryParam('componentBuildVersionArn', componentBuildVersionArn),
-    ].where((e) => e != null).join('&')}';
+        'componentBuildVersionArn': [componentBuildVersionArn],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/GetComponent$_query',
+      requestUri: '/GetComponent',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return GetComponentResponse.fromJson(response);
@@ -1074,14 +1064,14 @@ class Imagebuilder {
       r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):component/[a-z0-9-_]+/\d+\.\d+\.\d+/\d+$''',
       isRequired: true,
     );
-    var _query = '';
-    _query = '?${[
-      if (componentArn != null) _s.toQueryParam('componentArn', componentArn),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (componentArn != null) 'componentArn': [componentArn],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/GetComponentPolicy$_query',
+      requestUri: '/GetComponentPolicy',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return GetComponentPolicyResponse.fromJson(response);
@@ -1110,16 +1100,15 @@ class Imagebuilder {
       r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):distribution-configuration/[a-z0-9-_]+$''',
       isRequired: true,
     );
-    var _query = '';
-    _query = '?${[
+    final $query = <String, List<String>>{
       if (distributionConfigurationArn != null)
-        _s.toQueryParam(
-            'distributionConfigurationArn', distributionConfigurationArn),
-    ].where((e) => e != null).join('&')}';
+        'distributionConfigurationArn': [distributionConfigurationArn],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/GetDistributionConfiguration$_query',
+      requestUri: '/GetDistributionConfiguration',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return GetDistributionConfigurationResponse.fromJson(response);
@@ -1146,15 +1135,15 @@ class Imagebuilder {
       r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):image/[a-z0-9-_]+/\d+\.\d+\.\d+/\d+$''',
       isRequired: true,
     );
-    var _query = '';
-    _query = '?${[
+    final $query = <String, List<String>>{
       if (imageBuildVersionArn != null)
-        _s.toQueryParam('imageBuildVersionArn', imageBuildVersionArn),
-    ].where((e) => e != null).join('&')}';
+        'imageBuildVersionArn': [imageBuildVersionArn],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/GetImage$_query',
+      requestUri: '/GetImage',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return GetImageResponse.fromJson(response);
@@ -1182,15 +1171,14 @@ class Imagebuilder {
       r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):image-pipeline/[a-z0-9-_]+$''',
       isRequired: true,
     );
-    var _query = '';
-    _query = '?${[
-      if (imagePipelineArn != null)
-        _s.toQueryParam('imagePipelineArn', imagePipelineArn),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (imagePipelineArn != null) 'imagePipelineArn': [imagePipelineArn],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/GetImagePipeline$_query',
+      requestUri: '/GetImagePipeline',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return GetImagePipelineResponse.fromJson(response);
@@ -1218,14 +1206,14 @@ class Imagebuilder {
       r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):image/[a-z0-9-_]+/\d+\.\d+\.\d+/\d+$''',
       isRequired: true,
     );
-    var _query = '';
-    _query = '?${[
-      if (imageArn != null) _s.toQueryParam('imageArn', imageArn),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (imageArn != null) 'imageArn': [imageArn],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/GetImagePolicy$_query',
+      requestUri: '/GetImagePolicy',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return GetImagePolicyResponse.fromJson(response);
@@ -1253,15 +1241,14 @@ class Imagebuilder {
       r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):image-recipe/[a-z0-9-_]+/\d+\.\d+\.\d+$''',
       isRequired: true,
     );
-    var _query = '';
-    _query = '?${[
-      if (imageRecipeArn != null)
-        _s.toQueryParam('imageRecipeArn', imageRecipeArn),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (imageRecipeArn != null) 'imageRecipeArn': [imageRecipeArn],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/GetImageRecipe$_query',
+      requestUri: '/GetImageRecipe',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return GetImageRecipeResponse.fromJson(response);
@@ -1289,15 +1276,14 @@ class Imagebuilder {
       r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):image-recipe/[a-z0-9-_]+/\d+\.\d+\.\d+$''',
       isRequired: true,
     );
-    var _query = '';
-    _query = '?${[
-      if (imageRecipeArn != null)
-        _s.toQueryParam('imageRecipeArn', imageRecipeArn),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (imageRecipeArn != null) 'imageRecipeArn': [imageRecipeArn],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/GetImageRecipePolicy$_query',
+      requestUri: '/GetImageRecipePolicy',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return GetImageRecipePolicyResponse.fromJson(response);
@@ -1327,16 +1313,15 @@ class Imagebuilder {
       r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):infrastructure-configuration/[a-z0-9-_]+$''',
       isRequired: true,
     );
-    var _query = '';
-    _query = '?${[
+    final $query = <String, List<String>>{
       if (infrastructureConfigurationArn != null)
-        _s.toQueryParam(
-            'infrastructureConfigurationArn', infrastructureConfigurationArn),
-    ].where((e) => e != null).join('&')}';
+        'infrastructureConfigurationArn': [infrastructureConfigurationArn],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/GetInfrastructureConfiguration$_query',
+      requestUri: '/GetInfrastructureConfiguration',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return GetInfrastructureConfigurationResponse.fromJson(response);
@@ -2024,7 +2009,7 @@ class Imagebuilder {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsForResourceResponse.fromJson(response);
@@ -2275,7 +2260,7 @@ class Imagebuilder {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
       exceptionFnMap: _exceptionFns,
     );
     return TagResourceResponse.fromJson(response);
@@ -2304,15 +2289,14 @@ class Imagebuilder {
       isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
-    var _query = '';
-    _query = '?${[
-      if (tagKeys != null) _s.toQueryParam('tagKeys', tagKeys),
-    ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $query = <String, List<String>>{
+      if (tagKeys != null) 'tagKeys': tagKeys,
+    };
     final response = await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$_query',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return UntagResourceResponse.fromJson(response);

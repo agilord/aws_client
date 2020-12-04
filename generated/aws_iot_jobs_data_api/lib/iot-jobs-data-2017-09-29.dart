@@ -106,18 +106,18 @@ class IoTJobsDataPlane {
       r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
-    var _query = '';
-    _query = '?${[
+    final $query = <String, List<String>>{
       if (executionNumber != null)
-        _s.toQueryParam('executionNumber', executionNumber),
+        'executionNumber': [executionNumber.toString()],
       if (includeJobDocument != null)
-        _s.toQueryParam('includeJobDocument', includeJobDocument),
-    ].where((e) => e != null).join('&')}';
+        'includeJobDocument': [includeJobDocument.toString()],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/things/${Uri.encodeComponent(thingName.toString())}/jobs/${Uri.encodeComponent(jobId.toString())}$_query',
+          '/things/${Uri.encodeComponent(thingName)}/jobs/${Uri.encodeComponent(jobId)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return DescribeJobExecutionResponse.fromJson(response);
@@ -153,7 +153,7 @@ class IoTJobsDataPlane {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/things/${Uri.encodeComponent(thingName.toString())}/jobs',
+      requestUri: '/things/${Uri.encodeComponent(thingName)}/jobs',
       exceptionFnMap: _exceptionFns,
     );
     return GetPendingJobExecutionsResponse.fromJson(response);
@@ -213,8 +213,7 @@ class IoTJobsDataPlane {
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
-      requestUri:
-          '/things/${Uri.encodeComponent(thingName.toString())}/jobs/\$next',
+      requestUri: '/things/${Uri.encodeComponent(thingName)}/jobs/\$next',
       exceptionFnMap: _exceptionFns,
     );
     return StartNextPendingJobExecutionResponse.fromJson(response);
@@ -330,7 +329,7 @@ class IoTJobsDataPlane {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/things/${Uri.encodeComponent(thingName.toString())}/jobs/${Uri.encodeComponent(jobId.toString())}',
+          '/things/${Uri.encodeComponent(thingName)}/jobs/${Uri.encodeComponent(jobId)}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateJobExecutionResponse.fromJson(response);

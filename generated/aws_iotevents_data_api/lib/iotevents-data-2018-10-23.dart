@@ -148,15 +148,15 @@ class IoTEventsData {
       keyValue,
       r'''^[a-zA-Z0-9\-_:]+$''',
     );
-    var _query = '';
-    _query = '?${[
-      if (keyValue != null) _s.toQueryParam('keyValue', keyValue),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (keyValue != null) 'keyValue': [keyValue],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/detectors/${Uri.encodeComponent(detectorModelName.toString())}/keyValues/$_query',
+          '/detectors/${Uri.encodeComponent(detectorModelName)}/keyValues/',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return DescribeDetectorResponse.fromJson(response);
@@ -214,17 +214,16 @@ class IoTEventsData {
       1,
       128,
     );
-    var _query = '';
-    _query = '?${[
-      if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
-      if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-      if (stateName != null) _s.toQueryParam('stateName', stateName),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+      if (stateName != null) 'stateName': [stateName],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/detectors/${Uri.encodeComponent(detectorModelName.toString())}$_query',
+      requestUri: '/detectors/${Uri.encodeComponent(detectorModelName)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListDetectorsResponse.fromJson(response);

@@ -12,7 +12,7 @@ void main() {
   test('Structure payload 0', () async {
     final client = MockClient((request) async {
       expect(request.body, equalsXml(r'''<foo><baz>bar</baz></foo>'''));
-      expect(pathAndQuery(request.url), '/');
+      expect(request.url, equalsPathAndQuery('/'));
       expect(request.method, equalsIgnoringCase('POST'));
       return Response('<Response></Response>', 200, headers: {});
     });
@@ -39,7 +39,7 @@ void main() {
   test('Structure payload 1', () async {
     final client = MockClient((request) async {
       expect(request.body, equalsXml(r''''''));
-      expect(pathAndQuery(request.url), '/');
+      expect(request.url, equalsPathAndQuery('/'));
       expect(request.method, equalsIgnoringCase('POST'));
       return Response('<Response></Response>', 200, headers: {});
     });
@@ -58,7 +58,7 @@ void main() {
   test('Structure payload 2', () async {
     final client = MockClient((request) async {
       expect(request.body, equalsXml(r'''<foo />'''));
-      expect(pathAndQuery(request.url), '/');
+      expect(request.url, equalsPathAndQuery('/'));
       expect(request.method, equalsIgnoringCase('POST'));
       return Response('<Response></Response>', 200, headers: {});
     });
@@ -81,7 +81,7 @@ void main() {
   test('Structure payload 3', () async {
     final client = MockClient((request) async {
       expect(request.body, equalsXml(r''''''));
-      expect(pathAndQuery(request.url), '/');
+      expect(request.url, equalsPathAndQuery('/'));
       expect(request.method, equalsIgnoringCase('POST'));
       return Response('<Response></Response>', 200, headers: {});
     });

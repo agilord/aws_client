@@ -34,12 +34,13 @@ class OmitsNullQueryParamsButSerializesEmptyStrings {
   Future<void> operationName0({
     String foo,
   }) async {
-    final queryParams = <String, String>{};
-    foo?.let((v) => queryParams['param-name'] = v.toString());
+    final $query = <String, List<String>>{
+      if (foo != null) 'param-name': [foo],
+    };
     await _protocol.send(
       method: 'POST',
       requestUri: '/path',
-      queryParams: queryParams,
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -47,12 +48,13 @@ class OmitsNullQueryParamsButSerializesEmptyStrings {
   Future<void> operationName1({
     String foo,
   }) async {
-    final queryParams = <String, String>{};
-    foo?.let((v) => queryParams['param-name'] = v.toString());
+    final $query = <String, List<String>>{
+      if (foo != null) 'param-name': [foo],
+    };
     await _protocol.send(
       method: 'POST',
       requestUri: '/path?abc=mno',
-      queryParams: queryParams,
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
   }

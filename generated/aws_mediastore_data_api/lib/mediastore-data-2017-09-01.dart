@@ -71,11 +71,10 @@ class MediaStoreData {
       r'''(?:[A-Za-z0-9_\.\-\~]+/){0,10}[A-Za-z0-9_\.\-\~]+''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
     final response = await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri: '/${Uri.encodeComponent(path.toString())}',
+      requestUri: '/${path.split('/').map(Uri.encodeComponent).join('/')}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteObjectResponse.fromJson(response);
@@ -111,7 +110,7 @@ class MediaStoreData {
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'HEAD',
-      requestUri: '/${Uri.encodeComponent(path.toString())}',
+      requestUri: '/${path.split('/').map(Uri.encodeComponent).join('/')}',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -200,9 +199,9 @@ class MediaStoreData {
     range?.let((v) => headers['Range'] = v.toString());
     final response = await _protocol.sendRaw(
       payload: null,
-      headers: headers,
       method: 'GET',
-      requestUri: '/${Uri.encodeComponent(path.toString())}',
+      requestUri: '/${path.split('/').map(Uri.encodeComponent).join('/')}',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return GetObjectResponse(
@@ -275,16 +274,16 @@ class MediaStoreData {
       path,
       r'''/?(?:[A-Za-z0-9_\.\-\~]+/){0,10}(?:[A-Za-z0-9_\.\-\~]+)?/?''',
     );
-    var _query = '';
-    _query = '?${[
-      if (maxResults != null) _s.toQueryParam('MaxResults', maxResults),
-      if (nextToken != null) _s.toQueryParam('NextToken', nextToken),
-      if (path != null) _s.toQueryParam('Path', path),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'MaxResults': [maxResults.toString()],
+      if (nextToken != null) 'NextToken': [nextToken],
+      if (path != null) 'Path': [path],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/$_query',
+      requestUri: '/',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListItemsResponse.fromJson(response);
@@ -392,9 +391,9 @@ class MediaStoreData {
         ?.let((v) => headers['x-amz-upload-availability'] = v.toValue());
     final response = await _protocol.send(
       payload: body,
-      headers: headers,
       method: 'PUT',
-      requestUri: '/${Uri.encodeComponent(path.toString())}',
+      requestUri: '/${path.split('/').map(Uri.encodeComponent).join('/')}',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return PutObjectResponse.fromJson(response);

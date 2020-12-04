@@ -15,7 +15,7 @@ void main() {
           request.body,
           equalsXml(
               r'''<OperationRequest xmlns="https://foo/"><RecursiveStruct><NoRecurse>foo</NoRecurse></RecursiveStruct></OperationRequest>'''));
-      expect(pathAndQuery(request.url), '/path');
+      expect(request.url, equalsPathAndQuery('/path'));
       return Response('<Response></Response>', 200, headers: {});
     });
 
@@ -44,7 +44,7 @@ void main() {
           request.body,
           equalsXml(
               r'''<OperationRequest xmlns="https://foo/"><RecursiveStruct><RecursiveStruct><NoRecurse>foo</NoRecurse></RecursiveStruct></RecursiveStruct></OperationRequest>'''));
-      expect(pathAndQuery(request.url), '/path');
+      expect(request.url, equalsPathAndQuery('/path'));
       return Response('<Response></Response>', 200, headers: {});
     });
 
@@ -77,7 +77,7 @@ void main() {
           request.body,
           equalsXml(
               r'''<OperationRequest xmlns="https://foo/"><RecursiveStruct><RecursiveStruct><RecursiveStruct><RecursiveStruct><NoRecurse>foo</NoRecurse></RecursiveStruct></RecursiveStruct></RecursiveStruct></RecursiveStruct></OperationRequest>'''));
-      expect(pathAndQuery(request.url), '/path');
+      expect(request.url, equalsPathAndQuery('/path'));
       return Response('<Response></Response>', 200, headers: {});
     });
 
@@ -118,7 +118,7 @@ void main() {
           request.body,
           equalsXml(
               r'''<OperationRequest xmlns="https://foo/"><RecursiveStruct><RecursiveList><member><NoRecurse>foo</NoRecurse></member><member><NoRecurse>bar</NoRecurse></member></RecursiveList></RecursiveStruct></OperationRequest>'''));
-      expect(pathAndQuery(request.url), '/path');
+      expect(request.url, equalsPathAndQuery('/path'));
       return Response('<Response></Response>', 200, headers: {});
     });
 
@@ -161,7 +161,7 @@ void main() {
           request.body,
           equalsXml(
               r'''<OperationRequest xmlns="https://foo/"><RecursiveStruct><RecursiveList><member><NoRecurse>foo</NoRecurse></member><member><RecursiveStruct><NoRecurse>bar</NoRecurse></RecursiveStruct></member></RecursiveList></RecursiveStruct></OperationRequest>'''));
-      expect(pathAndQuery(request.url), '/path');
+      expect(request.url, equalsPathAndQuery('/path'));
       return Response('<Response></Response>', 200, headers: {});
     });
 
@@ -208,7 +208,7 @@ void main() {
           request.body,
           equalsXml(
               r'''<OperationRequest xmlns="https://foo/"><RecursiveStruct><RecursiveMap><entry><key>foo</key><value><NoRecurse>foo</NoRecurse></value></entry><entry><key>bar</key><value><NoRecurse>bar</NoRecurse></value></entry></RecursiveMap></RecursiveStruct></OperationRequest>'''));
-      expect(pathAndQuery(request.url), '/path');
+      expect(request.url, equalsPathAndQuery('/path'));
       return Response('<Response></Response>', 200, headers: {});
     });
 

@@ -72,11 +72,10 @@ class Polly {
       r'''[0-9A-Za-z]{1,20}''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
     final response = await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri: '/v1/lexicons/${Uri.encodeComponent(name.toString())}',
+      requestUri: '/v1/lexicons/${Uri.encodeComponent(name)}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteLexiconOutput.fromJson(response);
@@ -139,20 +138,20 @@ class Polly {
       0,
       4096,
     );
-    var _query = '';
-    _query = '?${[
-      if (engine != null) _s.toQueryParam('Engine', engine.toValue()),
+    final $query = <String, List<String>>{
+      if (engine != null) 'Engine': [engine.toValue()],
       if (includeAdditionalLanguageCodes != null)
-        _s.toQueryParam(
-            'IncludeAdditionalLanguageCodes', includeAdditionalLanguageCodes),
-      if (languageCode != null)
-        _s.toQueryParam('LanguageCode', languageCode.toValue()),
-      if (nextToken != null) _s.toQueryParam('NextToken', nextToken),
-    ].where((e) => e != null).join('&')}';
+        'IncludeAdditionalLanguageCodes': [
+          includeAdditionalLanguageCodes.toString()
+        ],
+      if (languageCode != null) 'LanguageCode': [languageCode.toValue()],
+      if (nextToken != null) 'NextToken': [nextToken],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/v1/voices$_query',
+      requestUri: '/v1/voices',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return DescribeVoicesOutput.fromJson(response);
@@ -181,7 +180,7 @@ class Polly {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/v1/lexicons/${Uri.encodeComponent(name.toString())}',
+      requestUri: '/v1/lexicons/${Uri.encodeComponent(name)}',
       exceptionFnMap: _exceptionFns,
     );
     return GetLexiconOutput.fromJson(response);
@@ -211,8 +210,7 @@ class Polly {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/v1/synthesisTasks/${Uri.encodeComponent(taskId.toString())}',
+      requestUri: '/v1/synthesisTasks/${Uri.encodeComponent(taskId)}',
       exceptionFnMap: _exceptionFns,
     );
     return GetSpeechSynthesisTaskOutput.fromJson(response);
@@ -239,14 +237,14 @@ class Polly {
       0,
       4096,
     );
-    var _query = '';
-    _query = '?${[
-      if (nextToken != null) _s.toQueryParam('NextToken', nextToken),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (nextToken != null) 'NextToken': [nextToken],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/v1/lexicons$_query',
+      requestUri: '/v1/lexicons',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListLexiconsOutput.fromJson(response);
@@ -285,16 +283,16 @@ class Polly {
       0,
       4096,
     );
-    var _query = '';
-    _query = '?${[
-      if (maxResults != null) _s.toQueryParam('MaxResults', maxResults),
-      if (nextToken != null) _s.toQueryParam('NextToken', nextToken),
-      if (status != null) _s.toQueryParam('Status', status.toValue()),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'MaxResults': [maxResults.toString()],
+      if (nextToken != null) 'NextToken': [nextToken],
+      if (status != null) 'Status': [status.toValue()],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/v1/synthesisTasks$_query',
+      requestUri: '/v1/synthesisTasks',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListSpeechSynthesisTasksOutput.fromJson(response);
@@ -343,7 +341,7 @@ class Polly {
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
-      requestUri: '/v1/lexicons/${Uri.encodeComponent(name.toString())}',
+      requestUri: '/v1/lexicons/${Uri.encodeComponent(name)}',
       exceptionFnMap: _exceptionFns,
     );
     return PutLexiconOutput.fromJson(response);

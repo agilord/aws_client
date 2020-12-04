@@ -12,8 +12,10 @@ void main() {
   test('URI parameter and querystring params 0', () async {
     final client = MockClient((request) async {
       expect(request.body, equalsJson(r''''''));
-      expect(pathAndQuery(request.url),
-          '/2014-01-01/jobsByPipeline/foo?Ascending=true&PageToken=bar');
+      expect(
+          request.url,
+          equalsPathAndQuery(
+              '/2014-01-01/jobsByPipeline/foo?Ascending=true&PageToken=bar'));
       return Response('{}', 200, headers: {});
     });
 

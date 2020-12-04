@@ -298,7 +298,7 @@ class ServerlessApplicationRepository {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/applications/${Uri.encodeComponent(applicationId.toString())}/versions/${Uri.encodeComponent(semanticVersion.toString())}',
+          '/applications/${Uri.encodeComponent(applicationId)}/versions/${Uri.encodeComponent(semanticVersion)}',
       exceptionFnMap: _exceptionFns,
     );
     return CreateApplicationVersionResponse.fromJson(response);
@@ -469,7 +469,7 @@ class ServerlessApplicationRepository {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/applications/${Uri.encodeComponent(applicationId.toString())}/changesets',
+          '/applications/${Uri.encodeComponent(applicationId)}/changesets',
       exceptionFnMap: _exceptionFns,
     );
     return CreateCloudFormationChangeSetResponse.fromJson(response);
@@ -504,7 +504,7 @@ class ServerlessApplicationRepository {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/applications/${Uri.encodeComponent(applicationId.toString())}/templates',
+          '/applications/${Uri.encodeComponent(applicationId)}/templates',
       exceptionFnMap: _exceptionFns,
     );
     return CreateCloudFormationTemplateResponse.fromJson(response);
@@ -525,12 +525,10 @@ class ServerlessApplicationRepository {
     @_s.required String applicationId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    final $payload = <String, dynamic>{};
     await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri:
-          '/applications/${Uri.encodeComponent(applicationId.toString())}',
+      requestUri: '/applications/${Uri.encodeComponent(applicationId)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -553,16 +551,14 @@ class ServerlessApplicationRepository {
     String semanticVersion,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    var _query = '';
-    _query = '?${[
-      if (semanticVersion != null)
-        _s.toQueryParam('semanticVersion', semanticVersion),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (semanticVersion != null) 'semanticVersion': [semanticVersion],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/applications/${Uri.encodeComponent(applicationId.toString())}$_query',
+      requestUri: '/applications/${Uri.encodeComponent(applicationId)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return GetApplicationResponse.fromJson(response);
@@ -585,8 +581,7 @@ class ServerlessApplicationRepository {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/applications/${Uri.encodeComponent(applicationId.toString())}/policy',
+      requestUri: '/applications/${Uri.encodeComponent(applicationId)}/policy',
       exceptionFnMap: _exceptionFns,
     );
     return GetApplicationPolicyResponse.fromJson(response);
@@ -618,7 +613,7 @@ class ServerlessApplicationRepository {
       payload: null,
       method: 'GET',
       requestUri:
-          '/applications/${Uri.encodeComponent(applicationId.toString())}/templates/${Uri.encodeComponent(templateId.toString())}',
+          '/applications/${Uri.encodeComponent(applicationId)}/templates/${Uri.encodeComponent(templateId)}',
       exceptionFnMap: _exceptionFns,
     );
     return GetCloudFormationTemplateResponse.fromJson(response);
@@ -656,18 +651,17 @@ class ServerlessApplicationRepository {
       1,
       100,
     );
-    var _query = '';
-    _query = '?${[
-      if (maxItems != null) _s.toQueryParam('maxItems', maxItems),
-      if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-      if (semanticVersion != null)
-        _s.toQueryParam('semanticVersion', semanticVersion),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (maxItems != null) 'maxItems': [maxItems.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+      if (semanticVersion != null) 'semanticVersion': [semanticVersion],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/applications/${Uri.encodeComponent(applicationId.toString())}/dependencies$_query',
+          '/applications/${Uri.encodeComponent(applicationId)}/dependencies',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListApplicationDependenciesResponse.fromJson(response);
@@ -701,16 +695,16 @@ class ServerlessApplicationRepository {
       1,
       100,
     );
-    var _query = '';
-    _query = '?${[
-      if (maxItems != null) _s.toQueryParam('maxItems', maxItems),
-      if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (maxItems != null) 'maxItems': [maxItems.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/applications/${Uri.encodeComponent(applicationId.toString())}/versions$_query',
+          '/applications/${Uri.encodeComponent(applicationId)}/versions',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListApplicationVersionsResponse.fromJson(response);
@@ -738,15 +732,15 @@ class ServerlessApplicationRepository {
       1,
       100,
     );
-    var _query = '';
-    _query = '?${[
-      if (maxItems != null) _s.toQueryParam('maxItems', maxItems),
-      if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (maxItems != null) 'maxItems': [maxItems.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/applications$_query',
+      requestUri: '/applications',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListApplicationsResponse.fromJson(response);
@@ -782,8 +776,7 @@ class ServerlessApplicationRepository {
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
-      requestUri:
-          '/applications/${Uri.encodeComponent(applicationId.toString())}/policy',
+      requestUri: '/applications/${Uri.encodeComponent(applicationId)}/policy',
       exceptionFnMap: _exceptionFns,
     );
     return PutApplicationPolicyResponse.fromJson(response);
@@ -816,8 +809,7 @@ class ServerlessApplicationRepository {
     await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri:
-          '/applications/${Uri.encodeComponent(applicationId.toString())}/unshare',
+      requestUri: '/applications/${Uri.encodeComponent(applicationId)}/unshare',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -889,8 +881,7 @@ class ServerlessApplicationRepository {
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
-      requestUri:
-          '/applications/${Uri.encodeComponent(applicationId.toString())}',
+      requestUri: '/applications/${Uri.encodeComponent(applicationId)}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateApplicationResponse.fromJson(response);

@@ -74,9 +74,9 @@ class Enum {
     };
     await _protocol.send(
       payload: $payload,
-      headers: headers,
       method: 'POST',
       requestUri: '/path',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
   }

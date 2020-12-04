@@ -280,17 +280,15 @@ class RAM {
     String clientToken,
   }) async {
     ArgumentError.checkNotNull(resourceShareArn, 'resourceShareArn');
-    var _query = '';
-    _query = '?${[
-      if (resourceShareArn != null)
-        _s.toQueryParam('resourceShareArn', resourceShareArn),
-      if (clientToken != null) _s.toQueryParam('clientToken', clientToken),
-    ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $query = <String, List<String>>{
+      if (resourceShareArn != null) 'resourceShareArn': [resourceShareArn],
+      if (clientToken != null) 'clientToken': [clientToken],
+    };
     final response = await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri: '/deleteresourceshare$_query',
+      requestUri: '/deleteresourceshare',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return DeleteResourceShareResponse.fromJson(response);
@@ -394,9 +392,8 @@ class RAM {
   /// May throw [ServiceUnavailableException].
   Future<EnableSharingWithAwsOrganizationResponse>
       enableSharingWithAwsOrganization() async {
-    final $payload = <String, dynamic>{};
     final response = await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'POST',
       requestUri: '/enablesharingwithawsorganization',
       exceptionFnMap: _exceptionFns,
@@ -995,16 +992,14 @@ class RAM {
     @_s.required String resourceShareArn,
   }) async {
     ArgumentError.checkNotNull(resourceShareArn, 'resourceShareArn');
-    var _query = '';
-    _query = '?${[
-      if (resourceShareArn != null)
-        _s.toQueryParam('resourceShareArn', resourceShareArn),
-    ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $query = <String, List<String>>{
+      if (resourceShareArn != null) 'resourceShareArn': [resourceShareArn],
+    };
     final response = await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'POST',
-      requestUri: '/promoteresourcesharecreatedfrompolicy$_query',
+      requestUri: '/promoteresourcesharecreatedfrompolicy',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return PromoteResourceShareCreatedFromPolicyResponse.fromJson(response);

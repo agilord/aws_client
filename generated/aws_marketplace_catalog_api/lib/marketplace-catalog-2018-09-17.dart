@@ -100,16 +100,15 @@ class MarketplaceCatalog {
       r'''^[\w\-]+$''',
       isRequired: true,
     );
-    var _query = '';
-    _query = '?${[
-      if (catalog != null) _s.toQueryParam('catalog', catalog),
-      if (changeSetId != null) _s.toQueryParam('changeSetId', changeSetId),
-    ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $query = <String, List<String>>{
+      if (catalog != null) 'catalog': [catalog],
+      if (changeSetId != null) 'changeSetId': [changeSetId],
+    };
     final response = await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'PATCH',
-      requestUri: '/CancelChangeSet$_query',
+      requestUri: '/CancelChangeSet',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return CancelChangeSetResponse.fromJson(response);
@@ -162,15 +161,15 @@ class MarketplaceCatalog {
       r'''^[\w\-]+$''',
       isRequired: true,
     );
-    var _query = '';
-    _query = '?${[
-      if (catalog != null) _s.toQueryParam('catalog', catalog),
-      if (changeSetId != null) _s.toQueryParam('changeSetId', changeSetId),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (catalog != null) 'catalog': [catalog],
+      if (changeSetId != null) 'changeSetId': [changeSetId],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/DescribeChangeSet$_query',
+      requestUri: '/DescribeChangeSet',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return DescribeChangeSetResponse.fromJson(response);
@@ -223,15 +222,15 @@ class MarketplaceCatalog {
       r'''^[\w\-]+$''',
       isRequired: true,
     );
-    var _query = '';
-    _query = '?${[
-      if (catalog != null) _s.toQueryParam('catalog', catalog),
-      if (entityId != null) _s.toQueryParam('entityId', entityId),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (catalog != null) 'catalog': [catalog],
+      if (entityId != null) 'entityId': [entityId],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/DescribeEntity$_query',
+      requestUri: '/DescribeEntity',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return DescribeEntityResponse.fromJson(response);

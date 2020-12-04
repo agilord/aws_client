@@ -34,12 +34,13 @@ class QuerystringListOfStrings {
   Future<void> operationName0({
     List<String> items,
   }) async {
-    final queryParams = <String, String>{};
-    items?.let((v) => queryParams['item'] = v.toString());
+    final $query = <String, List<String>>{
+      if (items != null) 'item': items,
+    };
     await _protocol.send(
       method: 'GET',
       requestUri: '/path',
-      queryParams: queryParams,
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
   }

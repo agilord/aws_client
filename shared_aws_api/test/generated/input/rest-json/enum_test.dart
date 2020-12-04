@@ -16,7 +16,8 @@ void main() {
           equalsJson(
               r'''{"FooEnum": "foo", "ListEnums": ["foo", "", "bar"]}'''));
       expect(request.headers['x-amz-enum'], 'baz');
-      expect(pathAndQuery(request.url), '/path?Enum=bar&List=0&List=1&List=');
+      expect(request.url,
+          equalsPathAndQuery('/path?Enum=bar&List=0&List=1&List='));
       return Response('{}', 200, headers: {});
     });
 
@@ -53,7 +54,7 @@ void main() {
 
   test('Enum 1', () async {
     final client = MockClient((request) async {
-      expect(pathAndQuery(request.url), '/path');
+      expect(request.url, equalsPathAndQuery('/path'));
       return Response('{}', 200, headers: {});
     });
 

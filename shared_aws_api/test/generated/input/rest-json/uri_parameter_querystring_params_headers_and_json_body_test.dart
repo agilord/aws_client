@@ -14,8 +14,10 @@ void main() {
       expect(request.body,
           equalsJson(r'''{"Config": {"A": "one", "B": "two"}}'''));
       expect(request.headers['x-amz-checksum'], '12345');
-      expect(pathAndQuery(request.url),
-          '/2014-01-01/jobsByPipeline/foo?Ascending=true&PageToken=bar');
+      expect(
+          request.url,
+          equalsPathAndQuery(
+              '/2014-01-01/jobsByPipeline/foo?Ascending=true&PageToken=bar'));
       return Response('{}', 200, headers: {});
     });
 

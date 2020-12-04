@@ -85,12 +85,11 @@ class CognitoSync {
       r'''[\w-]+:[0-9a-f-]+''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
     final response = await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'POST',
       requestUri:
-          '/identitypools/${Uri.encodeComponent(identityPoolId.toString())}/bulkpublish',
+          '/identitypools/${Uri.encodeComponent(identityPoolId)}/bulkpublish',
       exceptionFnMap: _exceptionFns,
     );
     return BulkPublishResponse.fromJson(response);
@@ -171,12 +170,11 @@ class CognitoSync {
       r'''[\w-]+:[0-9a-f-]+''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
     final response = await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
       requestUri:
-          '/identitypools/${Uri.encodeComponent(identityPoolId.toString())}/identities/${Uri.encodeComponent(identityId.toString())}/datasets/${Uri.encodeComponent(datasetName.toString())}',
+          '/identitypools/${Uri.encodeComponent(identityPoolId)}/identities/${Uri.encodeComponent(identityId)}/datasets/${Uri.encodeComponent(datasetName)}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteDatasetResponse.fromJson(response);
@@ -261,7 +259,7 @@ class CognitoSync {
       payload: null,
       method: 'GET',
       requestUri:
-          '/identitypools/${Uri.encodeComponent(identityPoolId.toString())}/identities/${Uri.encodeComponent(identityId.toString())}/datasets/${Uri.encodeComponent(datasetName.toString())}',
+          '/identitypools/${Uri.encodeComponent(identityPoolId)}/identities/${Uri.encodeComponent(identityId)}/datasets/${Uri.encodeComponent(datasetName)}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeDatasetResponse.fromJson(response);
@@ -303,8 +301,7 @@ class CognitoSync {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/identitypools/${Uri.encodeComponent(identityPoolId.toString())}',
+      requestUri: '/identitypools/${Uri.encodeComponent(identityPoolId)}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeIdentityPoolUsageResponse.fromJson(response);
@@ -367,7 +364,7 @@ class CognitoSync {
       payload: null,
       method: 'GET',
       requestUri:
-          '/identitypools/${Uri.encodeComponent(identityPoolId.toString())}/identities/${Uri.encodeComponent(identityId.toString())}',
+          '/identitypools/${Uri.encodeComponent(identityPoolId)}/identities/${Uri.encodeComponent(identityId)}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeIdentityUsageResponse.fromJson(response);
@@ -404,12 +401,11 @@ class CognitoSync {
       r'''[\w-]+:[0-9a-f-]+''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
     final response = await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'POST',
       requestUri:
-          '/identitypools/${Uri.encodeComponent(identityPoolId.toString())}/getBulkPublishDetails',
+          '/identitypools/${Uri.encodeComponent(identityPoolId)}/getBulkPublishDetails',
       exceptionFnMap: _exceptionFns,
     );
     return GetBulkPublishDetailsResponse.fromJson(response);
@@ -450,7 +446,7 @@ class CognitoSync {
       payload: null,
       method: 'GET',
       requestUri:
-          '/identitypools/${Uri.encodeComponent(identityPoolId.toString())}/events',
+          '/identitypools/${Uri.encodeComponent(identityPoolId)}/events',
       exceptionFnMap: _exceptionFns,
     );
     return GetCognitoEventsResponse.fromJson(response);
@@ -492,7 +488,7 @@ class CognitoSync {
       payload: null,
       method: 'GET',
       requestUri:
-          '/identitypools/${Uri.encodeComponent(identityPoolId.toString())}/configuration',
+          '/identitypools/${Uri.encodeComponent(identityPoolId)}/configuration',
       exceptionFnMap: _exceptionFns,
     );
     return GetIdentityPoolConfigurationResponse.fromJson(response);
@@ -560,16 +556,16 @@ class CognitoSync {
       r'''[\w-]+:[0-9a-f-]+''',
       isRequired: true,
     );
-    var _query = '';
-    _query = '?${[
-      if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
-      if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/identitypools/${Uri.encodeComponent(identityPoolId.toString())}/identities/${Uri.encodeComponent(identityId.toString())}/datasets$_query',
+          '/identitypools/${Uri.encodeComponent(identityPoolId)}/identities/${Uri.encodeComponent(identityId)}/datasets',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListDatasetsResponse.fromJson(response);
@@ -595,15 +591,15 @@ class CognitoSync {
     int maxResults,
     String nextToken,
   }) async {
-    var _query = '';
-    _query = '?${[
-      if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
-      if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/identitypools$_query',
+      requestUri: '/identitypools',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListIdentityPoolUsageResponse.fromJson(response);
@@ -699,20 +695,18 @@ class CognitoSync {
       r'''[\w-]+:[0-9a-f-]+''',
       isRequired: true,
     );
-    var _query = '';
-    _query = '?${[
-      if (lastSyncCount != null)
-        _s.toQueryParam('lastSyncCount', lastSyncCount),
-      if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
-      if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-      if (syncSessionToken != null)
-        _s.toQueryParam('syncSessionToken', syncSessionToken),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (lastSyncCount != null) 'lastSyncCount': [lastSyncCount.toString()],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+      if (syncSessionToken != null) 'syncSessionToken': [syncSessionToken],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/identitypools/${Uri.encodeComponent(identityPoolId.toString())}/identities/${Uri.encodeComponent(identityId.toString())}/datasets/${Uri.encodeComponent(datasetName.toString())}/records$_query',
+          '/identitypools/${Uri.encodeComponent(identityPoolId)}/identities/${Uri.encodeComponent(identityId)}/datasets/${Uri.encodeComponent(datasetName)}/records',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListRecordsResponse.fromJson(response);
@@ -787,7 +781,7 @@ class CognitoSync {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/identitypools/${Uri.encodeComponent(identityPoolId.toString())}/identity/${Uri.encodeComponent(identityId.toString())}/device',
+          '/identitypools/${Uri.encodeComponent(identityPoolId)}/identity/${Uri.encodeComponent(identityId)}/device',
       exceptionFnMap: _exceptionFns,
     );
     return RegisterDeviceResponse.fromJson(response);
@@ -838,7 +832,7 @@ class CognitoSync {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/identitypools/${Uri.encodeComponent(identityPoolId.toString())}/events',
+          '/identitypools/${Uri.encodeComponent(identityPoolId)}/events',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -892,7 +886,7 @@ class CognitoSync {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/identitypools/${Uri.encodeComponent(identityPoolId.toString())}/configuration',
+          '/identitypools/${Uri.encodeComponent(identityPoolId)}/configuration',
       exceptionFnMap: _exceptionFns,
     );
     return SetIdentityPoolConfigurationResponse.fromJson(response);
@@ -980,12 +974,11 @@ class CognitoSync {
       r'''[\w-]+:[0-9a-f-]+''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
     final response = await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'POST',
       requestUri:
-          '/identitypools/${Uri.encodeComponent(identityPoolId.toString())}/identities/${Uri.encodeComponent(identityId.toString())}/datasets/${Uri.encodeComponent(datasetName.toString())}/subscriptions/${Uri.encodeComponent(deviceId.toString())}',
+          '/identitypools/${Uri.encodeComponent(identityPoolId)}/identities/${Uri.encodeComponent(identityId)}/datasets/${Uri.encodeComponent(datasetName)}/subscriptions/${Uri.encodeComponent(deviceId)}',
       exceptionFnMap: _exceptionFns,
     );
     return SubscribeToDatasetResponse.fromJson(response);
@@ -1073,12 +1066,11 @@ class CognitoSync {
       r'''[\w-]+:[0-9a-f-]+''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
     final response = await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
       requestUri:
-          '/identitypools/${Uri.encodeComponent(identityPoolId.toString())}/identities/${Uri.encodeComponent(identityId.toString())}/datasets/${Uri.encodeComponent(datasetName.toString())}/subscriptions/${Uri.encodeComponent(deviceId.toString())}',
+          '/identitypools/${Uri.encodeComponent(identityPoolId)}/identities/${Uri.encodeComponent(identityId)}/datasets/${Uri.encodeComponent(datasetName)}/subscriptions/${Uri.encodeComponent(deviceId)}',
       exceptionFnMap: _exceptionFns,
     );
     return UnsubscribeFromDatasetResponse.fromJson(response);
@@ -1208,10 +1200,10 @@ class CognitoSync {
     };
     final response = await _protocol.send(
       payload: $payload,
-      headers: headers,
       method: 'POST',
       requestUri:
-          '/identitypools/${Uri.encodeComponent(identityPoolId.toString())}/identities/${Uri.encodeComponent(identityId.toString())}/datasets/${Uri.encodeComponent(datasetName.toString())}',
+          '/identitypools/${Uri.encodeComponent(identityPoolId)}/identities/${Uri.encodeComponent(identityId)}/datasets/${Uri.encodeComponent(datasetName)}',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return UpdateRecordsResponse.fromJson(response);

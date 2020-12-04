@@ -158,11 +158,10 @@ class Outposts {
       r'''^(arn:aws([a-z-]+)?:outposts:[a-z\d-]+:\d{12}:outpost/)?op-[a-f0-9]{17}$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
     final response = await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri: '/outposts/${Uri.encodeComponent(outpostId.toString())}',
+      requestUri: '/outposts/${Uri.encodeComponent(outpostId)}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteOutpostOutput.fromJson(response);
@@ -191,11 +190,10 @@ class Outposts {
       r'''os-[a-f0-9]{17}''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
     final response = await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri: '/sites/${Uri.encodeComponent(siteId.toString())}',
+      requestUri: '/sites/${Uri.encodeComponent(siteId)}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteSiteOutput.fromJson(response);
@@ -227,7 +225,7 @@ class Outposts {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/outposts/${Uri.encodeComponent(outpostId.toString())}',
+      requestUri: '/outposts/${Uri.encodeComponent(outpostId)}',
       exceptionFnMap: _exceptionFns,
     );
     return GetOutpostOutput.fromJson(response);
@@ -275,16 +273,15 @@ class Outposts {
       nextToken,
       r'''.*\S.*''',
     );
-    var _query = '';
-    _query = '?${[
-      if (maxResults != null) _s.toQueryParam('MaxResults', maxResults),
-      if (nextToken != null) _s.toQueryParam('NextToken', nextToken),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'MaxResults': [maxResults.toString()],
+      if (nextToken != null) 'NextToken': [nextToken],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/outposts/${Uri.encodeComponent(outpostId.toString())}/instanceTypes$_query',
+      requestUri: '/outposts/${Uri.encodeComponent(outpostId)}/instanceTypes',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return GetOutpostInstanceTypesOutput.fromJson(response);
@@ -316,15 +313,15 @@ class Outposts {
       nextToken,
       r'''.*\S.*''',
     );
-    var _query = '';
-    _query = '?${[
-      if (maxResults != null) _s.toQueryParam('MaxResults', maxResults),
-      if (nextToken != null) _s.toQueryParam('NextToken', nextToken),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'MaxResults': [maxResults.toString()],
+      if (nextToken != null) 'NextToken': [nextToken],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/outposts$_query',
+      requestUri: '/outposts',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListOutpostsOutput.fromJson(response);
@@ -356,15 +353,15 @@ class Outposts {
       nextToken,
       r'''.*\S.*''',
     );
-    var _query = '';
-    _query = '?${[
-      if (maxResults != null) _s.toQueryParam('MaxResults', maxResults),
-      if (nextToken != null) _s.toQueryParam('NextToken', nextToken),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'MaxResults': [maxResults.toString()],
+      if (nextToken != null) 'NextToken': [nextToken],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/sites$_query',
+      requestUri: '/sites',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListSitesOutput.fromJson(response);

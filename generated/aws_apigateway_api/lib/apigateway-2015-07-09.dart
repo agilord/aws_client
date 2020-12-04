@@ -243,8 +243,7 @@ class APIGateway {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri:
-          '/restapis/${Uri.encodeComponent(restApiId.toString())}/authorizers',
+      requestUri: '/restapis/${Uri.encodeComponent(restApiId)}/authorizers',
       exceptionFnMap: _exceptionFns,
     );
     return Authorizer.fromJson(response);
@@ -292,7 +291,7 @@ class APIGateway {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/domainnames/${Uri.encodeComponent(domainName.toString())}/basepathmappings',
+          '/domainnames/${Uri.encodeComponent(domainName)}/basepathmappings',
       exceptionFnMap: _exceptionFns,
     );
     return BasePathMapping.fromJson(response);
@@ -371,8 +370,7 @@ class APIGateway {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri:
-          '/restapis/${Uri.encodeComponent(restApiId.toString())}/deployments',
+      requestUri: '/restapis/${Uri.encodeComponent(restApiId)}/deployments',
       exceptionFnMap: _exceptionFns,
     );
     return Deployment.fromJson(response);
@@ -413,7 +411,7 @@ class APIGateway {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/restapis/${Uri.encodeComponent(restApiId.toString())}/documentation/parts',
+          '/restapis/${Uri.encodeComponent(restApiId)}/documentation/parts',
       exceptionFnMap: _exceptionFns,
     );
     return DocumentationPart.fromJson(response);
@@ -455,7 +453,7 @@ class APIGateway {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/restapis/${Uri.encodeComponent(restApiId.toString())}/documentation/versions',
+          '/restapis/${Uri.encodeComponent(restApiId)}/documentation/versions',
       exceptionFnMap: _exceptionFns,
     );
     return DocumentationVersion.fromJson(response);
@@ -605,8 +603,7 @@ class APIGateway {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri:
-          '/restapis/${Uri.encodeComponent(restApiId.toString())}/models',
+      requestUri: '/restapis/${Uri.encodeComponent(restApiId)}/models',
       exceptionFnMap: _exceptionFns,
     );
     return Model.fromJson(response);
@@ -652,7 +649,7 @@ class APIGateway {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/restapis/${Uri.encodeComponent(restApiId.toString())}/requestvalidators',
+          '/restapis/${Uri.encodeComponent(restApiId)}/requestvalidators',
       exceptionFnMap: _exceptionFns,
     );
     return RequestValidator.fromJson(response);
@@ -690,7 +687,7 @@ class APIGateway {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/restapis/${Uri.encodeComponent(restApiId.toString())}/resources/${Uri.encodeComponent(parentId.toString())}',
+          '/restapis/${Uri.encodeComponent(restApiId)}/resources/${Uri.encodeComponent(parentId)}',
       exceptionFnMap: _exceptionFns,
     );
     return Resource.fromJson(response);
@@ -869,8 +866,7 @@ class APIGateway {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri:
-          '/restapis/${Uri.encodeComponent(restApiId.toString())}/stages',
+      requestUri: '/restapis/${Uri.encodeComponent(restApiId)}/stages',
       exceptionFnMap: _exceptionFns,
     );
     return Stage.fromJson(response);
@@ -965,8 +961,7 @@ class APIGateway {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri:
-          '/usageplans/${Uri.encodeComponent(usagePlanId.toString())}/keys',
+      requestUri: '/usageplans/${Uri.encodeComponent(usagePlanId)}/keys',
       exceptionFnMap: _exceptionFns,
     );
     return UsagePlanKey.fromJson(response);
@@ -1031,11 +1026,10 @@ class APIGateway {
     @_s.required String apiKey,
   }) async {
     ArgumentError.checkNotNull(apiKey, 'apiKey');
-    final $payload = <String, dynamic>{};
     await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri: '/apikeys/${Uri.encodeComponent(apiKey.toString())}',
+      requestUri: '/apikeys/${Uri.encodeComponent(apiKey)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1062,12 +1056,11 @@ class APIGateway {
   }) async {
     ArgumentError.checkNotNull(authorizerId, 'authorizerId');
     ArgumentError.checkNotNull(restApiId, 'restApiId');
-    final $payload = <String, dynamic>{};
     await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
       requestUri:
-          '/restapis/${Uri.encodeComponent(restApiId.toString())}/authorizers/${Uri.encodeComponent(authorizerId.toString())}',
+          '/restapis/${Uri.encodeComponent(restApiId)}/authorizers/${Uri.encodeComponent(authorizerId)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1096,12 +1089,11 @@ class APIGateway {
   }) async {
     ArgumentError.checkNotNull(basePath, 'basePath');
     ArgumentError.checkNotNull(domainName, 'domainName');
-    final $payload = <String, dynamic>{};
     await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
       requestUri:
-          '/domainnames/${Uri.encodeComponent(domainName.toString())}/basepathmappings/${Uri.encodeComponent(basePath.toString())}',
+          '/domainnames/${Uri.encodeComponent(domainName)}/basepathmappings/${Uri.encodeComponent(basePath)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1120,12 +1112,11 @@ class APIGateway {
     @_s.required String clientCertificateId,
   }) async {
     ArgumentError.checkNotNull(clientCertificateId, 'clientCertificateId');
-    final $payload = <String, dynamic>{};
     await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
       requestUri:
-          '/clientcertificates/${Uri.encodeComponent(clientCertificateId.toString())}',
+          '/clientcertificates/${Uri.encodeComponent(clientCertificateId)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1149,12 +1140,11 @@ class APIGateway {
   }) async {
     ArgumentError.checkNotNull(deploymentId, 'deploymentId');
     ArgumentError.checkNotNull(restApiId, 'restApiId');
-    final $payload = <String, dynamic>{};
     await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
       requestUri:
-          '/restapis/${Uri.encodeComponent(restApiId.toString())}/deployments/${Uri.encodeComponent(deploymentId.toString())}',
+          '/restapis/${Uri.encodeComponent(restApiId)}/deployments/${Uri.encodeComponent(deploymentId)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1177,12 +1167,11 @@ class APIGateway {
   }) async {
     ArgumentError.checkNotNull(documentationPartId, 'documentationPartId');
     ArgumentError.checkNotNull(restApiId, 'restApiId');
-    final $payload = <String, dynamic>{};
     await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
       requestUri:
-          '/restapis/${Uri.encodeComponent(restApiId.toString())}/documentation/parts/${Uri.encodeComponent(documentationPartId.toString())}',
+          '/restapis/${Uri.encodeComponent(restApiId)}/documentation/parts/${Uri.encodeComponent(documentationPartId)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1206,12 +1195,11 @@ class APIGateway {
   }) async {
     ArgumentError.checkNotNull(documentationVersion, 'documentationVersion');
     ArgumentError.checkNotNull(restApiId, 'restApiId');
-    final $payload = <String, dynamic>{};
     await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
       requestUri:
-          '/restapis/${Uri.encodeComponent(restApiId.toString())}/documentation/versions/${Uri.encodeComponent(documentationVersion.toString())}',
+          '/restapis/${Uri.encodeComponent(restApiId)}/documentation/versions/${Uri.encodeComponent(documentationVersion)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1229,11 +1217,10 @@ class APIGateway {
     @_s.required String domainName,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
-    final $payload = <String, dynamic>{};
     await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri: '/domainnames/${Uri.encodeComponent(domainName.toString())}',
+      requestUri: '/domainnames/${Uri.encodeComponent(domainName)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1284,12 +1271,11 @@ class APIGateway {
   }) async {
     ArgumentError.checkNotNull(responseType, 'responseType');
     ArgumentError.checkNotNull(restApiId, 'restApiId');
-    final $payload = <String, dynamic>{};
     await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
       requestUri:
-          '/restapis/${Uri.encodeComponent(restApiId.toString())}/gatewayresponses/${Uri.encodeComponent(responseType.toString())}',
+          '/restapis/${Uri.encodeComponent(restApiId)}/gatewayresponses/${Uri.encodeComponent(responseType.toValue())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1317,12 +1303,11 @@ class APIGateway {
     ArgumentError.checkNotNull(httpMethod, 'httpMethod');
     ArgumentError.checkNotNull(resourceId, 'resourceId');
     ArgumentError.checkNotNull(restApiId, 'restApiId');
-    final $payload = <String, dynamic>{};
     await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
       requestUri:
-          '/restapis/${Uri.encodeComponent(restApiId.toString())}/resources/${Uri.encodeComponent(resourceId.toString())}/methods/${Uri.encodeComponent(httpMethod.toString())}/integration',
+          '/restapis/${Uri.encodeComponent(restApiId)}/resources/${Uri.encodeComponent(resourceId)}/methods/${Uri.encodeComponent(httpMethod)}/integration',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1363,12 +1348,11 @@ class APIGateway {
       r'''[1-5]\d\d''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
     await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
       requestUri:
-          '/restapis/${Uri.encodeComponent(restApiId.toString())}/resources/${Uri.encodeComponent(resourceId.toString())}/methods/${Uri.encodeComponent(httpMethod.toString())}/integration/responses/${Uri.encodeComponent(statusCode.toString())}',
+          '/restapis/${Uri.encodeComponent(restApiId)}/resources/${Uri.encodeComponent(resourceId)}/methods/${Uri.encodeComponent(httpMethod)}/integration/responses/${Uri.encodeComponent(statusCode)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1396,12 +1380,11 @@ class APIGateway {
     ArgumentError.checkNotNull(httpMethod, 'httpMethod');
     ArgumentError.checkNotNull(resourceId, 'resourceId');
     ArgumentError.checkNotNull(restApiId, 'restApiId');
-    final $payload = <String, dynamic>{};
     await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
       requestUri:
-          '/restapis/${Uri.encodeComponent(restApiId.toString())}/resources/${Uri.encodeComponent(resourceId.toString())}/methods/${Uri.encodeComponent(httpMethod.toString())}',
+          '/restapis/${Uri.encodeComponent(restApiId)}/resources/${Uri.encodeComponent(resourceId)}/methods/${Uri.encodeComponent(httpMethod)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1443,12 +1426,11 @@ class APIGateway {
       r'''[1-5]\d\d''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
     await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
       requestUri:
-          '/restapis/${Uri.encodeComponent(restApiId.toString())}/resources/${Uri.encodeComponent(resourceId.toString())}/methods/${Uri.encodeComponent(httpMethod.toString())}/responses/${Uri.encodeComponent(statusCode.toString())}',
+          '/restapis/${Uri.encodeComponent(restApiId)}/resources/${Uri.encodeComponent(resourceId)}/methods/${Uri.encodeComponent(httpMethod)}/responses/${Uri.encodeComponent(statusCode)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1472,12 +1454,11 @@ class APIGateway {
   }) async {
     ArgumentError.checkNotNull(modelName, 'modelName');
     ArgumentError.checkNotNull(restApiId, 'restApiId');
-    final $payload = <String, dynamic>{};
     await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
       requestUri:
-          '/restapis/${Uri.encodeComponent(restApiId.toString())}/models/${Uri.encodeComponent(modelName.toString())}',
+          '/restapis/${Uri.encodeComponent(restApiId)}/models/${Uri.encodeComponent(modelName)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1501,12 +1482,11 @@ class APIGateway {
   }) async {
     ArgumentError.checkNotNull(requestValidatorId, 'requestValidatorId');
     ArgumentError.checkNotNull(restApiId, 'restApiId');
-    final $payload = <String, dynamic>{};
     await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
       requestUri:
-          '/restapis/${Uri.encodeComponent(restApiId.toString())}/requestvalidators/${Uri.encodeComponent(requestValidatorId.toString())}',
+          '/restapis/${Uri.encodeComponent(restApiId)}/requestvalidators/${Uri.encodeComponent(requestValidatorId)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1530,12 +1510,11 @@ class APIGateway {
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
     ArgumentError.checkNotNull(restApiId, 'restApiId');
-    final $payload = <String, dynamic>{};
     await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
       requestUri:
-          '/restapis/${Uri.encodeComponent(restApiId.toString())}/resources/${Uri.encodeComponent(resourceId.toString())}',
+          '/restapis/${Uri.encodeComponent(restApiId)}/resources/${Uri.encodeComponent(resourceId)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1553,11 +1532,10 @@ class APIGateway {
     @_s.required String restApiId,
   }) async {
     ArgumentError.checkNotNull(restApiId, 'restApiId');
-    final $payload = <String, dynamic>{};
     await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri: '/restapis/${Uri.encodeComponent(restApiId.toString())}',
+      requestUri: '/restapis/${Uri.encodeComponent(restApiId)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1580,12 +1558,11 @@ class APIGateway {
   }) async {
     ArgumentError.checkNotNull(restApiId, 'restApiId');
     ArgumentError.checkNotNull(stageName, 'stageName');
-    final $payload = <String, dynamic>{};
     await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
       requestUri:
-          '/restapis/${Uri.encodeComponent(restApiId.toString())}/stages/${Uri.encodeComponent(stageName.toString())}',
+          '/restapis/${Uri.encodeComponent(restApiId)}/stages/${Uri.encodeComponent(stageName)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1603,11 +1580,10 @@ class APIGateway {
     @_s.required String usagePlanId,
   }) async {
     ArgumentError.checkNotNull(usagePlanId, 'usagePlanId');
-    final $payload = <String, dynamic>{};
     await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri: '/usageplans/${Uri.encodeComponent(usagePlanId.toString())}',
+      requestUri: '/usageplans/${Uri.encodeComponent(usagePlanId)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1634,12 +1610,11 @@ class APIGateway {
   }) async {
     ArgumentError.checkNotNull(keyId, 'keyId');
     ArgumentError.checkNotNull(usagePlanId, 'usagePlanId');
-    final $payload = <String, dynamic>{};
     await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
       requestUri:
-          '/usageplans/${Uri.encodeComponent(usagePlanId.toString())}/keys/${Uri.encodeComponent(keyId.toString())}',
+          '/usageplans/${Uri.encodeComponent(usagePlanId)}/keys/${Uri.encodeComponent(keyId)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1658,11 +1633,10 @@ class APIGateway {
     @_s.required String vpcLinkId,
   }) async {
     ArgumentError.checkNotNull(vpcLinkId, 'vpcLinkId');
-    final $payload = <String, dynamic>{};
     await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri: '/vpclinks/${Uri.encodeComponent(vpcLinkId.toString())}',
+      requestUri: '/vpclinks/${Uri.encodeComponent(vpcLinkId)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1685,12 +1659,11 @@ class APIGateway {
   }) async {
     ArgumentError.checkNotNull(restApiId, 'restApiId');
     ArgumentError.checkNotNull(stageName, 'stageName');
-    final $payload = <String, dynamic>{};
     await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
       requestUri:
-          '/restapis/${Uri.encodeComponent(restApiId.toString())}/stages/${Uri.encodeComponent(stageName.toString())}/cache/authorizers',
+          '/restapis/${Uri.encodeComponent(restApiId)}/stages/${Uri.encodeComponent(stageName)}/cache/authorizers',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1713,12 +1686,11 @@ class APIGateway {
   }) async {
     ArgumentError.checkNotNull(restApiId, 'restApiId');
     ArgumentError.checkNotNull(stageName, 'stageName');
-    final $payload = <String, dynamic>{};
     await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
       requestUri:
-          '/restapis/${Uri.encodeComponent(restApiId.toString())}/stages/${Uri.encodeComponent(stageName.toString())}/cache/data',
+          '/restapis/${Uri.encodeComponent(restApiId)}/stages/${Uri.encodeComponent(stageName)}/cache/data',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1785,14 +1757,14 @@ class APIGateway {
     bool includeValue,
   }) async {
     ArgumentError.checkNotNull(apiKey, 'apiKey');
-    var _query = '';
-    _query = '?${[
-      if (includeValue != null) _s.toQueryParam('includeValue', includeValue),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (includeValue != null) 'includeValue': [includeValue.toString()],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/apikeys/${Uri.encodeComponent(apiKey.toString())}$_query',
+      requestUri: '/apikeys/${Uri.encodeComponent(apiKey)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ApiKey.fromJson(response);
@@ -1828,19 +1800,18 @@ class APIGateway {
     String nameQuery,
     String position,
   }) async {
-    var _query = '';
-    _query = '?${[
-      if (customerId != null) _s.toQueryParam('customerId', customerId),
-      if (includeValues != null)
-        _s.toQueryParam('includeValues', includeValues),
-      if (limit != null) _s.toQueryParam('limit', limit),
-      if (nameQuery != null) _s.toQueryParam('name', nameQuery),
-      if (position != null) _s.toQueryParam('position', position),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (customerId != null) 'customerId': [customerId],
+      if (includeValues != null) 'includeValues': [includeValues.toString()],
+      if (limit != null) 'limit': [limit.toString()],
+      if (nameQuery != null) 'name': [nameQuery],
+      if (position != null) 'position': [position],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/apikeys$_query',
+      requestUri: '/apikeys',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ApiKeys.fromJson(response);
@@ -1870,7 +1841,7 @@ class APIGateway {
       payload: null,
       method: 'GET',
       requestUri:
-          '/restapis/${Uri.encodeComponent(restApiId.toString())}/authorizers/${Uri.encodeComponent(authorizerId.toString())}',
+          '/restapis/${Uri.encodeComponent(restApiId)}/authorizers/${Uri.encodeComponent(authorizerId)}',
       exceptionFnMap: _exceptionFns,
     );
     return Authorizer.fromJson(response);
@@ -1901,16 +1872,15 @@ class APIGateway {
     String position,
   }) async {
     ArgumentError.checkNotNull(restApiId, 'restApiId');
-    var _query = '';
-    _query = '?${[
-      if (limit != null) _s.toQueryParam('limit', limit),
-      if (position != null) _s.toQueryParam('position', position),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (limit != null) 'limit': [limit.toString()],
+      if (position != null) 'position': [position],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/restapis/${Uri.encodeComponent(restApiId.toString())}/authorizers$_query',
+      requestUri: '/restapis/${Uri.encodeComponent(restApiId)}/authorizers',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return Authorizers.fromJson(response);
@@ -1941,7 +1911,7 @@ class APIGateway {
       payload: null,
       method: 'GET',
       requestUri:
-          '/domainnames/${Uri.encodeComponent(domainName.toString())}/basepathmappings/${Uri.encodeComponent(basePath.toString())}',
+          '/domainnames/${Uri.encodeComponent(domainName)}/basepathmappings/${Uri.encodeComponent(basePath)}',
       exceptionFnMap: _exceptionFns,
     );
     return BasePathMapping.fromJson(response);
@@ -1968,16 +1938,16 @@ class APIGateway {
     String position,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
-    var _query = '';
-    _query = '?${[
-      if (limit != null) _s.toQueryParam('limit', limit),
-      if (position != null) _s.toQueryParam('position', position),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (limit != null) 'limit': [limit.toString()],
+      if (position != null) 'position': [position],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/domainnames/${Uri.encodeComponent(domainName.toString())}/basepathmappings$_query',
+          '/domainnames/${Uri.encodeComponent(domainName)}/basepathmappings',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return BasePathMappings.fromJson(response);
@@ -2000,7 +1970,7 @@ class APIGateway {
       payload: null,
       method: 'GET',
       requestUri:
-          '/clientcertificates/${Uri.encodeComponent(clientCertificateId.toString())}',
+          '/clientcertificates/${Uri.encodeComponent(clientCertificateId)}',
       exceptionFnMap: _exceptionFns,
     );
     return ClientCertificate.fromJson(response);
@@ -2022,15 +1992,15 @@ class APIGateway {
     int limit,
     String position,
   }) async {
-    var _query = '';
-    _query = '?${[
-      if (limit != null) _s.toQueryParam('limit', limit),
-      if (position != null) _s.toQueryParam('position', position),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (limit != null) 'limit': [limit.toString()],
+      if (position != null) 'position': [position],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/clientcertificates$_query',
+      requestUri: '/clientcertificates',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ClientCertificates.fromJson(response);
@@ -2069,15 +2039,15 @@ class APIGateway {
   }) async {
     ArgumentError.checkNotNull(deploymentId, 'deploymentId');
     ArgumentError.checkNotNull(restApiId, 'restApiId');
-    var _query = '';
-    _query = '?${[
-      if (embed != null) _s.toQueryParam('embed', embed),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (embed != null) 'embed': embed,
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/restapis/${Uri.encodeComponent(restApiId.toString())}/deployments/${Uri.encodeComponent(deploymentId.toString())}$_query',
+          '/restapis/${Uri.encodeComponent(restApiId)}/deployments/${Uri.encodeComponent(deploymentId)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return Deployment.fromJson(response);
@@ -2105,16 +2075,15 @@ class APIGateway {
     String position,
   }) async {
     ArgumentError.checkNotNull(restApiId, 'restApiId');
-    var _query = '';
-    _query = '?${[
-      if (limit != null) _s.toQueryParam('limit', limit),
-      if (position != null) _s.toQueryParam('position', position),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (limit != null) 'limit': [limit.toString()],
+      if (position != null) 'position': [position],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/restapis/${Uri.encodeComponent(restApiId.toString())}/deployments$_query',
+      requestUri: '/restapis/${Uri.encodeComponent(restApiId)}/deployments',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return Deployments.fromJson(response);
@@ -2140,7 +2109,7 @@ class APIGateway {
       payload: null,
       method: 'GET',
       requestUri:
-          '/restapis/${Uri.encodeComponent(restApiId.toString())}/documentation/parts/${Uri.encodeComponent(documentationPartId.toString())}',
+          '/restapis/${Uri.encodeComponent(restApiId)}/documentation/parts/${Uri.encodeComponent(documentationPartId)}',
       exceptionFnMap: _exceptionFns,
     );
     return DocumentationPart.fromJson(response);
@@ -2186,21 +2155,20 @@ class APIGateway {
     DocumentationPartType type,
   }) async {
     ArgumentError.checkNotNull(restApiId, 'restApiId');
-    var _query = '';
-    _query = '?${[
-      if (limit != null) _s.toQueryParam('limit', limit),
-      if (locationStatus != null)
-        _s.toQueryParam('locationStatus', locationStatus.toValue()),
-      if (nameQuery != null) _s.toQueryParam('name', nameQuery),
-      if (path != null) _s.toQueryParam('path', path),
-      if (position != null) _s.toQueryParam('position', position),
-      if (type != null) _s.toQueryParam('type', type.toValue()),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (limit != null) 'limit': [limit.toString()],
+      if (locationStatus != null) 'locationStatus': [locationStatus.toValue()],
+      if (nameQuery != null) 'name': [nameQuery],
+      if (path != null) 'path': [path],
+      if (position != null) 'position': [position],
+      if (type != null) 'type': [type.toValue()],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/restapis/${Uri.encodeComponent(restApiId.toString())}/documentation/parts$_query',
+          '/restapis/${Uri.encodeComponent(restApiId)}/documentation/parts',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return DocumentationParts.fromJson(response);
@@ -2227,7 +2195,7 @@ class APIGateway {
       payload: null,
       method: 'GET',
       requestUri:
-          '/restapis/${Uri.encodeComponent(restApiId.toString())}/documentation/versions/${Uri.encodeComponent(documentationVersion.toString())}',
+          '/restapis/${Uri.encodeComponent(restApiId)}/documentation/versions/${Uri.encodeComponent(documentationVersion)}',
       exceptionFnMap: _exceptionFns,
     );
     return DocumentationVersion.fromJson(response);
@@ -2254,16 +2222,16 @@ class APIGateway {
     String position,
   }) async {
     ArgumentError.checkNotNull(restApiId, 'restApiId');
-    var _query = '';
-    _query = '?${[
-      if (limit != null) _s.toQueryParam('limit', limit),
-      if (position != null) _s.toQueryParam('position', position),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (limit != null) 'limit': [limit.toString()],
+      if (position != null) 'position': [position],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/restapis/${Uri.encodeComponent(restApiId.toString())}/documentation/versions$_query',
+          '/restapis/${Uri.encodeComponent(restApiId)}/documentation/versions',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return DocumentationVersions.fromJson(response);
@@ -2286,7 +2254,7 @@ class APIGateway {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/domainnames/${Uri.encodeComponent(domainName.toString())}',
+      requestUri: '/domainnames/${Uri.encodeComponent(domainName)}',
       exceptionFnMap: _exceptionFns,
     );
     return DomainName.fromJson(response);
@@ -2308,15 +2276,15 @@ class APIGateway {
     int limit,
     String position,
   }) async {
-    var _query = '';
-    _query = '?${[
-      if (limit != null) _s.toQueryParam('limit', limit),
-      if (position != null) _s.toQueryParam('position', position),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (limit != null) 'limit': [limit.toString()],
+      if (position != null) 'position': [position],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/domainnames$_query',
+      requestUri: '/domainnames',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return DomainNames.fromJson(response);
@@ -2371,16 +2339,17 @@ class APIGateway {
     ArgumentError.checkNotNull(stageName, 'stageName');
     final headers = <String, String>{};
     accepts?.let((v) => headers['Accept'] = v.toString());
-    var _query = '';
-    _query = '?${[
-      if (parameters != null) _s.toQueryParam(null, parameters),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (parameters != null)
+        for (var e in parameters.entries) e.key: [e.value],
+    };
     final response = await _protocol.sendRaw(
       payload: null,
-      headers: headers,
       method: 'GET',
       requestUri:
-          '/restapis/${Uri.encodeComponent(restApiId.toString())}/stages/${Uri.encodeComponent(stageName.toString())}/exports/${Uri.encodeComponent(exportType.toString())}$_query',
+          '/restapis/${Uri.encodeComponent(restApiId)}/stages/${Uri.encodeComponent(stageName)}/exports/${Uri.encodeComponent(exportType)}',
+      queryParams: $query,
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return ExportResponse(
@@ -2439,7 +2408,7 @@ class APIGateway {
       payload: null,
       method: 'GET',
       requestUri:
-          '/restapis/${Uri.encodeComponent(restApiId.toString())}/gatewayresponses/${Uri.encodeComponent(responseType.toString())}',
+          '/restapis/${Uri.encodeComponent(restApiId)}/gatewayresponses/${Uri.encodeComponent(responseType.toValue())}',
       exceptionFnMap: _exceptionFns,
     );
     return GatewayResponse.fromJson(response);
@@ -2473,16 +2442,16 @@ class APIGateway {
     String position,
   }) async {
     ArgumentError.checkNotNull(restApiId, 'restApiId');
-    var _query = '';
-    _query = '?${[
-      if (limit != null) _s.toQueryParam('limit', limit),
-      if (position != null) _s.toQueryParam('position', position),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (limit != null) 'limit': [limit.toString()],
+      if (position != null) 'position': [position],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/restapis/${Uri.encodeComponent(restApiId.toString())}/gatewayresponses$_query',
+          '/restapis/${Uri.encodeComponent(restApiId)}/gatewayresponses',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return GatewayResponses.fromJson(response);
@@ -2514,7 +2483,7 @@ class APIGateway {
       payload: null,
       method: 'GET',
       requestUri:
-          '/restapis/${Uri.encodeComponent(restApiId.toString())}/resources/${Uri.encodeComponent(resourceId.toString())}/methods/${Uri.encodeComponent(httpMethod.toString())}/integration',
+          '/restapis/${Uri.encodeComponent(restApiId)}/resources/${Uri.encodeComponent(resourceId)}/methods/${Uri.encodeComponent(httpMethod)}/integration',
       exceptionFnMap: _exceptionFns,
     );
     return Integration.fromJson(response);
@@ -2558,7 +2527,7 @@ class APIGateway {
       payload: null,
       method: 'GET',
       requestUri:
-          '/restapis/${Uri.encodeComponent(restApiId.toString())}/resources/${Uri.encodeComponent(resourceId.toString())}/methods/${Uri.encodeComponent(httpMethod.toString())}/integration/responses/${Uri.encodeComponent(statusCode.toString())}',
+          '/restapis/${Uri.encodeComponent(restApiId)}/resources/${Uri.encodeComponent(resourceId)}/methods/${Uri.encodeComponent(httpMethod)}/integration/responses/${Uri.encodeComponent(statusCode)}',
       exceptionFnMap: _exceptionFns,
     );
     return IntegrationResponse.fromJson(response);
@@ -2590,7 +2559,7 @@ class APIGateway {
       payload: null,
       method: 'GET',
       requestUri:
-          '/restapis/${Uri.encodeComponent(restApiId.toString())}/resources/${Uri.encodeComponent(resourceId.toString())}/methods/${Uri.encodeComponent(httpMethod.toString())}',
+          '/restapis/${Uri.encodeComponent(restApiId)}/resources/${Uri.encodeComponent(resourceId)}/methods/${Uri.encodeComponent(httpMethod)}',
       exceptionFnMap: _exceptionFns,
     );
     return Method.fromJson(response);
@@ -2634,7 +2603,7 @@ class APIGateway {
       payload: null,
       method: 'GET',
       requestUri:
-          '/restapis/${Uri.encodeComponent(restApiId.toString())}/resources/${Uri.encodeComponent(resourceId.toString())}/methods/${Uri.encodeComponent(httpMethod.toString())}/responses/${Uri.encodeComponent(statusCode.toString())}',
+          '/restapis/${Uri.encodeComponent(restApiId)}/resources/${Uri.encodeComponent(resourceId)}/methods/${Uri.encodeComponent(httpMethod)}/responses/${Uri.encodeComponent(statusCode)}',
       exceptionFnMap: _exceptionFns,
     );
     return MethodResponse.fromJson(response);
@@ -2664,15 +2633,15 @@ class APIGateway {
   }) async {
     ArgumentError.checkNotNull(modelName, 'modelName');
     ArgumentError.checkNotNull(restApiId, 'restApiId');
-    var _query = '';
-    _query = '?${[
-      if (flatten != null) _s.toQueryParam('flatten', flatten),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (flatten != null) 'flatten': [flatten.toString()],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/restapis/${Uri.encodeComponent(restApiId.toString())}/models/${Uri.encodeComponent(modelName.toString())}$_query',
+          '/restapis/${Uri.encodeComponent(restApiId)}/models/${Uri.encodeComponent(modelName)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return Model.fromJson(response);
@@ -2701,7 +2670,7 @@ class APIGateway {
       payload: null,
       method: 'GET',
       requestUri:
-          '/restapis/${Uri.encodeComponent(restApiId.toString())}/models/${Uri.encodeComponent(modelName.toString())}/default_template',
+          '/restapis/${Uri.encodeComponent(restApiId)}/models/${Uri.encodeComponent(modelName)}/default_template',
       exceptionFnMap: _exceptionFns,
     );
     return Template.fromJson(response);
@@ -2729,16 +2698,15 @@ class APIGateway {
     String position,
   }) async {
     ArgumentError.checkNotNull(restApiId, 'restApiId');
-    var _query = '';
-    _query = '?${[
-      if (limit != null) _s.toQueryParam('limit', limit),
-      if (position != null) _s.toQueryParam('position', position),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (limit != null) 'limit': [limit.toString()],
+      if (position != null) 'position': [position],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/restapis/${Uri.encodeComponent(restApiId.toString())}/models$_query',
+      requestUri: '/restapis/${Uri.encodeComponent(restApiId)}/models',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return Models.fromJson(response);
@@ -2765,7 +2733,7 @@ class APIGateway {
       payload: null,
       method: 'GET',
       requestUri:
-          '/restapis/${Uri.encodeComponent(restApiId.toString())}/requestvalidators/${Uri.encodeComponent(requestValidatorId.toString())}',
+          '/restapis/${Uri.encodeComponent(restApiId)}/requestvalidators/${Uri.encodeComponent(requestValidatorId)}',
       exceptionFnMap: _exceptionFns,
     );
     return RequestValidator.fromJson(response);
@@ -2793,16 +2761,16 @@ class APIGateway {
     String position,
   }) async {
     ArgumentError.checkNotNull(restApiId, 'restApiId');
-    var _query = '';
-    _query = '?${[
-      if (limit != null) _s.toQueryParam('limit', limit),
-      if (position != null) _s.toQueryParam('position', position),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (limit != null) 'limit': [limit.toString()],
+      if (position != null) 'position': [position],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/restapis/${Uri.encodeComponent(restApiId.toString())}/requestvalidators$_query',
+          '/restapis/${Uri.encodeComponent(restApiId)}/requestvalidators',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return RequestValidators.fromJson(response);
@@ -2836,15 +2804,15 @@ class APIGateway {
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
     ArgumentError.checkNotNull(restApiId, 'restApiId');
-    var _query = '';
-    _query = '?${[
-      if (embed != null) _s.toQueryParam('embed', embed),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (embed != null) 'embed': embed,
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/restapis/${Uri.encodeComponent(restApiId.toString())}/resources/${Uri.encodeComponent(resourceId.toString())}$_query',
+          '/restapis/${Uri.encodeComponent(restApiId)}/resources/${Uri.encodeComponent(resourceId)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return Resource.fromJson(response);
@@ -2882,17 +2850,16 @@ class APIGateway {
     String position,
   }) async {
     ArgumentError.checkNotNull(restApiId, 'restApiId');
-    var _query = '';
-    _query = '?${[
-      if (embed != null) _s.toQueryParam('embed', embed),
-      if (limit != null) _s.toQueryParam('limit', limit),
-      if (position != null) _s.toQueryParam('position', position),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (embed != null) 'embed': embed,
+      if (limit != null) 'limit': [limit.toString()],
+      if (position != null) 'position': [position],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/restapis/${Uri.encodeComponent(restApiId.toString())}/resources$_query',
+      requestUri: '/restapis/${Uri.encodeComponent(restApiId)}/resources',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return Resources.fromJson(response);
@@ -2913,7 +2880,7 @@ class APIGateway {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/restapis/${Uri.encodeComponent(restApiId.toString())}',
+      requestUri: '/restapis/${Uri.encodeComponent(restApiId)}',
       exceptionFnMap: _exceptionFns,
     );
     return RestApi.fromJson(response);
@@ -2935,15 +2902,15 @@ class APIGateway {
     int limit,
     String position,
   }) async {
-    var _query = '';
-    _query = '?${[
-      if (limit != null) _s.toQueryParam('limit', limit),
-      if (position != null) _s.toQueryParam('position', position),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (limit != null) 'limit': [limit.toString()],
+      if (position != null) 'position': [position],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/restapis$_query',
+      requestUri: '/restapis',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return RestApis.fromJson(response);
@@ -2988,15 +2955,16 @@ class APIGateway {
     ArgumentError.checkNotNull(restApiId, 'restApiId');
     ArgumentError.checkNotNull(sdkType, 'sdkType');
     ArgumentError.checkNotNull(stageName, 'stageName');
-    var _query = '';
-    _query = '?${[
-      if (parameters != null) _s.toQueryParam(null, parameters),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (parameters != null)
+        for (var e in parameters.entries) e.key: [e.value],
+    };
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri:
-          '/restapis/${Uri.encodeComponent(restApiId.toString())}/stages/${Uri.encodeComponent(stageName.toString())}/sdks/${Uri.encodeComponent(sdkType.toString())}$_query',
+          '/restapis/${Uri.encodeComponent(restApiId)}/stages/${Uri.encodeComponent(stageName)}/sdks/${Uri.encodeComponent(sdkType)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return SdkResponse(
@@ -3022,7 +2990,7 @@ class APIGateway {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/sdktypes/${Uri.encodeComponent(id.toString())}',
+      requestUri: '/sdktypes/${Uri.encodeComponent(id)}',
       exceptionFnMap: _exceptionFns,
     );
     return SdkType.fromJson(response);
@@ -3042,15 +3010,15 @@ class APIGateway {
     int limit,
     String position,
   }) async {
-    var _query = '';
-    _query = '?${[
-      if (limit != null) _s.toQueryParam('limit', limit),
-      if (position != null) _s.toQueryParam('position', position),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (limit != null) 'limit': [limit.toString()],
+      if (position != null) 'position': [position],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/sdktypes$_query',
+      requestUri: '/sdktypes',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return SdkTypes.fromJson(response);
@@ -3077,7 +3045,7 @@ class APIGateway {
       payload: null,
       method: 'GET',
       requestUri:
-          '/restapis/${Uri.encodeComponent(restApiId.toString())}/stages/${Uri.encodeComponent(stageName.toString())}',
+          '/restapis/${Uri.encodeComponent(restApiId)}/stages/${Uri.encodeComponent(stageName)}',
       exceptionFnMap: _exceptionFns,
     );
     return Stage.fromJson(response);
@@ -3099,15 +3067,14 @@ class APIGateway {
     String deploymentId,
   }) async {
     ArgumentError.checkNotNull(restApiId, 'restApiId');
-    var _query = '';
-    _query = '?${[
-      if (deploymentId != null) _s.toQueryParam('deploymentId', deploymentId),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (deploymentId != null) 'deploymentId': [deploymentId],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/restapis/${Uri.encodeComponent(restApiId.toString())}/stages$_query',
+      requestUri: '/restapis/${Uri.encodeComponent(restApiId)}/stages',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return Stages.fromJson(response);
@@ -3137,15 +3104,15 @@ class APIGateway {
     String position,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    var _query = '';
-    _query = '?${[
-      if (limit != null) _s.toQueryParam('limit', limit),
-      if (position != null) _s.toQueryParam('position', position),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (limit != null) 'limit': [limit.toString()],
+      if (position != null) 'position': [position],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$_query',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return Tags.fromJson(response);
@@ -3187,19 +3154,18 @@ class APIGateway {
     ArgumentError.checkNotNull(endDate, 'endDate');
     ArgumentError.checkNotNull(startDate, 'startDate');
     ArgumentError.checkNotNull(usagePlanId, 'usagePlanId');
-    var _query = '';
-    _query = '?${[
-      if (endDate != null) _s.toQueryParam('endDate', endDate),
-      if (startDate != null) _s.toQueryParam('startDate', startDate),
-      if (keyId != null) _s.toQueryParam('keyId', keyId),
-      if (limit != null) _s.toQueryParam('limit', limit),
-      if (position != null) _s.toQueryParam('position', position),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (endDate != null) 'endDate': [endDate],
+      if (startDate != null) 'startDate': [startDate],
+      if (keyId != null) 'keyId': [keyId],
+      if (limit != null) 'limit': [limit.toString()],
+      if (position != null) 'position': [position],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/usageplans/${Uri.encodeComponent(usagePlanId.toString())}/usage$_query',
+      requestUri: '/usageplans/${Uri.encodeComponent(usagePlanId)}/usage',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return Usage.fromJson(response);
@@ -3222,7 +3188,7 @@ class APIGateway {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/usageplans/${Uri.encodeComponent(usagePlanId.toString())}',
+      requestUri: '/usageplans/${Uri.encodeComponent(usagePlanId)}',
       exceptionFnMap: _exceptionFns,
     );
     return UsagePlan.fromJson(response);
@@ -3253,7 +3219,7 @@ class APIGateway {
       payload: null,
       method: 'GET',
       requestUri:
-          '/usageplans/${Uri.encodeComponent(usagePlanId.toString())}/keys/${Uri.encodeComponent(keyId.toString())}',
+          '/usageplans/${Uri.encodeComponent(usagePlanId)}/keys/${Uri.encodeComponent(keyId)}',
       exceptionFnMap: _exceptionFns,
     );
     return UsagePlanKey.fromJson(response);
@@ -3289,17 +3255,16 @@ class APIGateway {
     String position,
   }) async {
     ArgumentError.checkNotNull(usagePlanId, 'usagePlanId');
-    var _query = '';
-    _query = '?${[
-      if (limit != null) _s.toQueryParam('limit', limit),
-      if (nameQuery != null) _s.toQueryParam('name', nameQuery),
-      if (position != null) _s.toQueryParam('position', position),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (limit != null) 'limit': [limit.toString()],
+      if (nameQuery != null) 'name': [nameQuery],
+      if (position != null) 'position': [position],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/usageplans/${Uri.encodeComponent(usagePlanId.toString())}/keys$_query',
+      requestUri: '/usageplans/${Uri.encodeComponent(usagePlanId)}/keys',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return UsagePlanKeys.fromJson(response);
@@ -3327,16 +3292,16 @@ class APIGateway {
     int limit,
     String position,
   }) async {
-    var _query = '';
-    _query = '?${[
-      if (keyId != null) _s.toQueryParam('keyId', keyId),
-      if (limit != null) _s.toQueryParam('limit', limit),
-      if (position != null) _s.toQueryParam('position', position),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (keyId != null) 'keyId': [keyId],
+      if (limit != null) 'limit': [limit.toString()],
+      if (position != null) 'position': [position],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/usageplans$_query',
+      requestUri: '/usageplans',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return UsagePlans.fromJson(response);
@@ -3358,7 +3323,7 @@ class APIGateway {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/vpclinks/${Uri.encodeComponent(vpcLinkId.toString())}',
+      requestUri: '/vpclinks/${Uri.encodeComponent(vpcLinkId)}',
       exceptionFnMap: _exceptionFns,
     );
     return VpcLink.fromJson(response);
@@ -3381,15 +3346,15 @@ class APIGateway {
     int limit,
     String position,
   }) async {
-    var _query = '';
-    _query = '?${[
-      if (limit != null) _s.toQueryParam('limit', limit),
-      if (position != null) _s.toQueryParam('position', position),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (limit != null) 'limit': [limit.toString()],
+      if (position != null) 'position': [position],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/vpclinks$_query',
+      requestUri: '/vpclinks',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return VpcLinks.fromJson(response);
@@ -3425,16 +3390,15 @@ class APIGateway {
   }) async {
     ArgumentError.checkNotNull(body, 'body');
     ArgumentError.checkNotNull(format, 'format');
-    var _query = '';
-    _query = '&${[
-      if (format != null) _s.toQueryParam('format', format.toValue()),
-      if (failOnWarnings != null)
-        _s.toQueryParam('failonwarnings', failOnWarnings),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (format != null) 'format': [format.toValue()],
+      if (failOnWarnings != null) 'failonwarnings': [failOnWarnings.toString()],
+    };
     final response = await _protocol.send(
       payload: body,
       method: 'POST',
-      requestUri: '/apikeys?mode=import$_query',
+      requestUri: '/apikeys?mode=import',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ApiKeyIds.fromJson(response);
@@ -3472,17 +3436,16 @@ class APIGateway {
   }) async {
     ArgumentError.checkNotNull(body, 'body');
     ArgumentError.checkNotNull(restApiId, 'restApiId');
-    var _query = '';
-    _query = '?${[
-      if (failOnWarnings != null)
-        _s.toQueryParam('failonwarnings', failOnWarnings),
-      if (mode != null) _s.toQueryParam('mode', mode.toValue()),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (failOnWarnings != null) 'failonwarnings': [failOnWarnings.toString()],
+      if (mode != null) 'mode': [mode.toValue()],
+    };
     final response = await _protocol.send(
       payload: body,
       method: 'PUT',
       requestUri:
-          '/restapis/${Uri.encodeComponent(restApiId.toString())}/documentation/parts$_query',
+          '/restapis/${Uri.encodeComponent(restApiId)}/documentation/parts',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return DocumentationPartIds.fromJson(response);
@@ -3540,16 +3503,16 @@ class APIGateway {
     Map<String, String> parameters,
   }) async {
     ArgumentError.checkNotNull(body, 'body');
-    var _query = '';
-    _query = '&${[
-      if (failOnWarnings != null)
-        _s.toQueryParam('failonwarnings', failOnWarnings),
-      if (parameters != null) _s.toQueryParam(null, parameters),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (failOnWarnings != null) 'failonwarnings': [failOnWarnings.toString()],
+      if (parameters != null)
+        for (var e in parameters.entries) e.key: [e.value],
+    };
     final response = await _protocol.send(
       payload: body,
       method: 'POST',
-      requestUri: '/restapis?mode=import$_query',
+      requestUri: '/restapis?mode=import',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return RestApi.fromJson(response);
@@ -3632,7 +3595,7 @@ class APIGateway {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/restapis/${Uri.encodeComponent(restApiId.toString())}/gatewayresponses/${Uri.encodeComponent(responseType.toString())}',
+          '/restapis/${Uri.encodeComponent(restApiId)}/gatewayresponses/${Uri.encodeComponent(responseType.toValue())}',
       exceptionFnMap: _exceptionFns,
     );
     return GatewayResponse.fromJson(response);
@@ -3829,7 +3792,7 @@ class APIGateway {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/restapis/${Uri.encodeComponent(restApiId.toString())}/resources/${Uri.encodeComponent(resourceId.toString())}/methods/${Uri.encodeComponent(httpMethod.toString())}/integration',
+          '/restapis/${Uri.encodeComponent(restApiId)}/resources/${Uri.encodeComponent(resourceId)}/methods/${Uri.encodeComponent(httpMethod)}/integration',
       exceptionFnMap: _exceptionFns,
     );
     return Integration.fromJson(response);
@@ -3927,7 +3890,7 @@ class APIGateway {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/restapis/${Uri.encodeComponent(restApiId.toString())}/resources/${Uri.encodeComponent(resourceId.toString())}/methods/${Uri.encodeComponent(httpMethod.toString())}/integration/responses/${Uri.encodeComponent(statusCode.toString())}',
+          '/restapis/${Uri.encodeComponent(restApiId)}/resources/${Uri.encodeComponent(resourceId)}/methods/${Uri.encodeComponent(httpMethod)}/integration/responses/${Uri.encodeComponent(statusCode)}',
       exceptionFnMap: _exceptionFns,
     );
     return IntegrationResponse.fromJson(response);
@@ -4034,7 +3997,7 @@ class APIGateway {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/restapis/${Uri.encodeComponent(restApiId.toString())}/resources/${Uri.encodeComponent(resourceId.toString())}/methods/${Uri.encodeComponent(httpMethod.toString())}',
+          '/restapis/${Uri.encodeComponent(restApiId)}/resources/${Uri.encodeComponent(resourceId)}/methods/${Uri.encodeComponent(httpMethod)}',
       exceptionFnMap: _exceptionFns,
     );
     return Method.fromJson(response);
@@ -4108,7 +4071,7 @@ class APIGateway {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/restapis/${Uri.encodeComponent(restApiId.toString())}/resources/${Uri.encodeComponent(resourceId.toString())}/methods/${Uri.encodeComponent(httpMethod.toString())}/responses/${Uri.encodeComponent(statusCode.toString())}',
+          '/restapis/${Uri.encodeComponent(restApiId)}/resources/${Uri.encodeComponent(resourceId)}/methods/${Uri.encodeComponent(httpMethod)}/responses/${Uri.encodeComponent(statusCode)}',
       exceptionFnMap: _exceptionFns,
     );
     return MethodResponse.fromJson(response);
@@ -4160,18 +4123,17 @@ class APIGateway {
   }) async {
     ArgumentError.checkNotNull(body, 'body');
     ArgumentError.checkNotNull(restApiId, 'restApiId');
-    var _query = '';
-    _query = '?${[
-      if (failOnWarnings != null)
-        _s.toQueryParam('failonwarnings', failOnWarnings),
-      if (mode != null) _s.toQueryParam('mode', mode.toValue()),
-      if (parameters != null) _s.toQueryParam(null, parameters),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (failOnWarnings != null) 'failonwarnings': [failOnWarnings.toString()],
+      if (mode != null) 'mode': [mode.toValue()],
+      if (parameters != null)
+        for (var e in parameters.entries) e.key: [e.value],
+    };
     final response = await _protocol.send(
       payload: body,
       method: 'PUT',
-      requestUri:
-          '/restapis/${Uri.encodeComponent(restApiId.toString())}$_query',
+      requestUri: '/restapis/${Uri.encodeComponent(restApiId)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return RestApi.fromJson(response);
@@ -4205,7 +4167,7 @@ class APIGateway {
     await _protocol.send(
       payload: $payload,
       method: 'PUT',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -4279,7 +4241,7 @@ class APIGateway {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/restapis/${Uri.encodeComponent(restApiId.toString())}/authorizers/${Uri.encodeComponent(authorizerId.toString())}',
+          '/restapis/${Uri.encodeComponent(restApiId)}/authorizers/${Uri.encodeComponent(authorizerId)}',
       exceptionFnMap: _exceptionFns,
     );
     return TestInvokeAuthorizerResponse.fromJson(response);
@@ -4352,7 +4314,7 @@ class APIGateway {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/restapis/${Uri.encodeComponent(restApiId.toString())}/resources/${Uri.encodeComponent(resourceId.toString())}/methods/${Uri.encodeComponent(httpMethod.toString())}',
+          '/restapis/${Uri.encodeComponent(restApiId)}/resources/${Uri.encodeComponent(resourceId)}/methods/${Uri.encodeComponent(httpMethod)}',
       exceptionFnMap: _exceptionFns,
     );
     return TestInvokeMethodResponse.fromJson(response);
@@ -4377,15 +4339,14 @@ class APIGateway {
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
-    var _query = '';
-    _query = '?${[
-      if (tagKeys != null) _s.toQueryParam('tagKeys', tagKeys),
-    ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $query = <String, List<String>>{
+      if (tagKeys != null) 'tagKeys': tagKeys,
+    };
     await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$_query',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -4440,7 +4401,7 @@ class APIGateway {
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
-      requestUri: '/apikeys/${Uri.encodeComponent(apiKey.toString())}',
+      requestUri: '/apikeys/${Uri.encodeComponent(apiKey)}',
       exceptionFnMap: _exceptionFns,
     );
     return ApiKey.fromJson(response);
@@ -4479,7 +4440,7 @@ class APIGateway {
       payload: $payload,
       method: 'PATCH',
       requestUri:
-          '/restapis/${Uri.encodeComponent(restApiId.toString())}/authorizers/${Uri.encodeComponent(authorizerId.toString())}',
+          '/restapis/${Uri.encodeComponent(restApiId)}/authorizers/${Uri.encodeComponent(authorizerId)}',
       exceptionFnMap: _exceptionFns,
     );
     return Authorizer.fromJson(response);
@@ -4520,7 +4481,7 @@ class APIGateway {
       payload: $payload,
       method: 'PATCH',
       requestUri:
-          '/domainnames/${Uri.encodeComponent(domainName.toString())}/basepathmappings/${Uri.encodeComponent(basePath.toString())}',
+          '/domainnames/${Uri.encodeComponent(domainName)}/basepathmappings/${Uri.encodeComponent(basePath)}',
       exceptionFnMap: _exceptionFns,
     );
     return BasePathMapping.fromJson(response);
@@ -4552,7 +4513,7 @@ class APIGateway {
       payload: $payload,
       method: 'PATCH',
       requestUri:
-          '/clientcertificates/${Uri.encodeComponent(clientCertificateId.toString())}',
+          '/clientcertificates/${Uri.encodeComponent(clientCertificateId)}',
       exceptionFnMap: _exceptionFns,
     );
     return ClientCertificate.fromJson(response);
@@ -4590,7 +4551,7 @@ class APIGateway {
       payload: $payload,
       method: 'PATCH',
       requestUri:
-          '/restapis/${Uri.encodeComponent(restApiId.toString())}/deployments/${Uri.encodeComponent(deploymentId.toString())}',
+          '/restapis/${Uri.encodeComponent(restApiId)}/deployments/${Uri.encodeComponent(deploymentId)}',
       exceptionFnMap: _exceptionFns,
     );
     return Deployment.fromJson(response);
@@ -4627,7 +4588,7 @@ class APIGateway {
       payload: $payload,
       method: 'PATCH',
       requestUri:
-          '/restapis/${Uri.encodeComponent(restApiId.toString())}/documentation/parts/${Uri.encodeComponent(documentationPartId.toString())}',
+          '/restapis/${Uri.encodeComponent(restApiId)}/documentation/parts/${Uri.encodeComponent(documentationPartId)}',
       exceptionFnMap: _exceptionFns,
     );
     return DocumentationPart.fromJson(response);
@@ -4664,7 +4625,7 @@ class APIGateway {
       payload: $payload,
       method: 'PATCH',
       requestUri:
-          '/restapis/${Uri.encodeComponent(restApiId.toString())}/documentation/versions/${Uri.encodeComponent(documentationVersion.toString())}',
+          '/restapis/${Uri.encodeComponent(restApiId)}/documentation/versions/${Uri.encodeComponent(documentationVersion)}',
       exceptionFnMap: _exceptionFns,
     );
     return DocumentationVersion.fromJson(response);
@@ -4695,7 +4656,7 @@ class APIGateway {
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
-      requestUri: '/domainnames/${Uri.encodeComponent(domainName.toString())}',
+      requestUri: '/domainnames/${Uri.encodeComponent(domainName)}',
       exceptionFnMap: _exceptionFns,
     );
     return DomainName.fromJson(response);
@@ -4757,7 +4718,7 @@ class APIGateway {
       payload: $payload,
       method: 'PATCH',
       requestUri:
-          '/restapis/${Uri.encodeComponent(restApiId.toString())}/gatewayresponses/${Uri.encodeComponent(responseType.toString())}',
+          '/restapis/${Uri.encodeComponent(restApiId)}/gatewayresponses/${Uri.encodeComponent(responseType.toValue())}',
       exceptionFnMap: _exceptionFns,
     );
     return GatewayResponse.fromJson(response);
@@ -4799,7 +4760,7 @@ class APIGateway {
       payload: $payload,
       method: 'PATCH',
       requestUri:
-          '/restapis/${Uri.encodeComponent(restApiId.toString())}/resources/${Uri.encodeComponent(resourceId.toString())}/methods/${Uri.encodeComponent(httpMethod.toString())}/integration',
+          '/restapis/${Uri.encodeComponent(restApiId)}/resources/${Uri.encodeComponent(resourceId)}/methods/${Uri.encodeComponent(httpMethod)}/integration',
       exceptionFnMap: _exceptionFns,
     );
     return Integration.fromJson(response);
@@ -4853,7 +4814,7 @@ class APIGateway {
       payload: $payload,
       method: 'PATCH',
       requestUri:
-          '/restapis/${Uri.encodeComponent(restApiId.toString())}/resources/${Uri.encodeComponent(resourceId.toString())}/methods/${Uri.encodeComponent(httpMethod.toString())}/integration/responses/${Uri.encodeComponent(statusCode.toString())}',
+          '/restapis/${Uri.encodeComponent(restApiId)}/resources/${Uri.encodeComponent(resourceId)}/methods/${Uri.encodeComponent(httpMethod)}/integration/responses/${Uri.encodeComponent(statusCode)}',
       exceptionFnMap: _exceptionFns,
     );
     return IntegrationResponse.fromJson(response);
@@ -4895,7 +4856,7 @@ class APIGateway {
       payload: $payload,
       method: 'PATCH',
       requestUri:
-          '/restapis/${Uri.encodeComponent(restApiId.toString())}/resources/${Uri.encodeComponent(resourceId.toString())}/methods/${Uri.encodeComponent(httpMethod.toString())}',
+          '/restapis/${Uri.encodeComponent(restApiId)}/resources/${Uri.encodeComponent(resourceId)}/methods/${Uri.encodeComponent(httpMethod)}',
       exceptionFnMap: _exceptionFns,
     );
     return Method.fromJson(response);
@@ -4950,7 +4911,7 @@ class APIGateway {
       payload: $payload,
       method: 'PATCH',
       requestUri:
-          '/restapis/${Uri.encodeComponent(restApiId.toString())}/resources/${Uri.encodeComponent(resourceId.toString())}/methods/${Uri.encodeComponent(httpMethod.toString())}/responses/${Uri.encodeComponent(statusCode.toString())}',
+          '/restapis/${Uri.encodeComponent(restApiId)}/resources/${Uri.encodeComponent(resourceId)}/methods/${Uri.encodeComponent(httpMethod)}/responses/${Uri.encodeComponent(statusCode)}',
       exceptionFnMap: _exceptionFns,
     );
     return MethodResponse.fromJson(response);
@@ -4987,7 +4948,7 @@ class APIGateway {
       payload: $payload,
       method: 'PATCH',
       requestUri:
-          '/restapis/${Uri.encodeComponent(restApiId.toString())}/models/${Uri.encodeComponent(modelName.toString())}',
+          '/restapis/${Uri.encodeComponent(restApiId)}/models/${Uri.encodeComponent(modelName)}',
       exceptionFnMap: _exceptionFns,
     );
     return Model.fromJson(response);
@@ -5023,7 +4984,7 @@ class APIGateway {
       payload: $payload,
       method: 'PATCH',
       requestUri:
-          '/restapis/${Uri.encodeComponent(restApiId.toString())}/requestvalidators/${Uri.encodeComponent(requestValidatorId.toString())}',
+          '/restapis/${Uri.encodeComponent(restApiId)}/requestvalidators/${Uri.encodeComponent(requestValidatorId)}',
       exceptionFnMap: _exceptionFns,
     );
     return RequestValidator.fromJson(response);
@@ -5060,7 +5021,7 @@ class APIGateway {
       payload: $payload,
       method: 'PATCH',
       requestUri:
-          '/restapis/${Uri.encodeComponent(restApiId.toString())}/resources/${Uri.encodeComponent(resourceId.toString())}',
+          '/restapis/${Uri.encodeComponent(restApiId)}/resources/${Uri.encodeComponent(resourceId)}',
       exceptionFnMap: _exceptionFns,
     );
     return Resource.fromJson(response);
@@ -5091,7 +5052,7 @@ class APIGateway {
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
-      requestUri: '/restapis/${Uri.encodeComponent(restApiId.toString())}',
+      requestUri: '/restapis/${Uri.encodeComponent(restApiId)}',
       exceptionFnMap: _exceptionFns,
     );
     return RestApi.fromJson(response);
@@ -5129,7 +5090,7 @@ class APIGateway {
       payload: $payload,
       method: 'PATCH',
       requestUri:
-          '/restapis/${Uri.encodeComponent(restApiId.toString())}/stages/${Uri.encodeComponent(stageName.toString())}',
+          '/restapis/${Uri.encodeComponent(restApiId)}/stages/${Uri.encodeComponent(stageName)}',
       exceptionFnMap: _exceptionFns,
     );
     return Stage.fromJson(response);
@@ -5167,7 +5128,7 @@ class APIGateway {
       payload: $payload,
       method: 'PATCH',
       requestUri:
-          '/usageplans/${Uri.encodeComponent(usagePlanId.toString())}/keys/${Uri.encodeComponent(keyId.toString())}/usage',
+          '/usageplans/${Uri.encodeComponent(usagePlanId)}/keys/${Uri.encodeComponent(keyId)}/usage',
       exceptionFnMap: _exceptionFns,
     );
     return Usage.fromJson(response);
@@ -5198,7 +5159,7 @@ class APIGateway {
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
-      requestUri: '/usageplans/${Uri.encodeComponent(usagePlanId.toString())}',
+      requestUri: '/usageplans/${Uri.encodeComponent(usagePlanId)}',
       exceptionFnMap: _exceptionFns,
     );
     return UsagePlan.fromJson(response);
@@ -5230,7 +5191,7 @@ class APIGateway {
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
-      requestUri: '/vpclinks/${Uri.encodeComponent(vpcLinkId.toString())}',
+      requestUri: '/vpclinks/${Uri.encodeComponent(vpcLinkId)}',
       exceptionFnMap: _exceptionFns,
     );
     return VpcLink.fromJson(response);
@@ -6819,6 +6780,54 @@ enum GatewayResponseType {
   throttled,
   @_s.JsonValue('QUOTA_EXCEEDED')
   quotaExceeded,
+}
+
+extension on GatewayResponseType {
+  String toValue() {
+    switch (this) {
+      case GatewayResponseType.default_4xx:
+        return 'DEFAULT_4XX';
+      case GatewayResponseType.default_5xx:
+        return 'DEFAULT_5XX';
+      case GatewayResponseType.resourceNotFound:
+        return 'RESOURCE_NOT_FOUND';
+      case GatewayResponseType.unauthorized:
+        return 'UNAUTHORIZED';
+      case GatewayResponseType.invalidApiKey:
+        return 'INVALID_API_KEY';
+      case GatewayResponseType.accessDenied:
+        return 'ACCESS_DENIED';
+      case GatewayResponseType.authorizerFailure:
+        return 'AUTHORIZER_FAILURE';
+      case GatewayResponseType.authorizerConfigurationError:
+        return 'AUTHORIZER_CONFIGURATION_ERROR';
+      case GatewayResponseType.invalidSignature:
+        return 'INVALID_SIGNATURE';
+      case GatewayResponseType.expiredToken:
+        return 'EXPIRED_TOKEN';
+      case GatewayResponseType.missingAuthenticationToken:
+        return 'MISSING_AUTHENTICATION_TOKEN';
+      case GatewayResponseType.integrationFailure:
+        return 'INTEGRATION_FAILURE';
+      case GatewayResponseType.integrationTimeout:
+        return 'INTEGRATION_TIMEOUT';
+      case GatewayResponseType.apiConfigurationError:
+        return 'API_CONFIGURATION_ERROR';
+      case GatewayResponseType.unsupportedMediaType:
+        return 'UNSUPPORTED_MEDIA_TYPE';
+      case GatewayResponseType.badRequestParameters:
+        return 'BAD_REQUEST_PARAMETERS';
+      case GatewayResponseType.badRequestBody:
+        return 'BAD_REQUEST_BODY';
+      case GatewayResponseType.requestTooLarge:
+        return 'REQUEST_TOO_LARGE';
+      case GatewayResponseType.throttled:
+        return 'THROTTLED';
+      case GatewayResponseType.quotaExceeded:
+        return 'QUOTA_EXCEEDED';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// The collection of the <a>GatewayResponse</a> instances of a <a>RestApi</a>

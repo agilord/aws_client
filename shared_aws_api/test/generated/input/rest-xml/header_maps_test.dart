@@ -14,7 +14,7 @@ void main() {
       expect(request.body, equalsXml(r''''''));
       expect(request.headers['x-foo-a'], 'b');
       expect(request.headers['x-foo-c'], 'd');
-      expect(pathAndQuery(request.url), '/');
+      expect(request.url, equalsPathAndQuery('/'));
       expect(request.method, equalsIgnoringCase('POST'));
       return Response('<Response></Response>', 200, headers: {});
     });

@@ -50,7 +50,7 @@ class SerializeBlobsInBody {
     await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/2014-01-01/${Uri.encodeComponent(foo.toString())}',
+      requestUri: '/2014-01-01/${Uri.encodeComponent(foo)}',
       exceptionFnMap: _exceptionFns,
     );
   }

@@ -246,10 +246,9 @@ class AppMesh {
       12,
       12,
     );
-    var _query = '';
-    _query = '?${[
-      if (meshOwner != null) _s.toQueryParam('meshOwner', meshOwner),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (meshOwner != null) 'meshOwner': [meshOwner],
+    };
     final $payload = <String, dynamic>{
       'routeName': routeName,
       'spec': spec,
@@ -260,7 +259,8 @@ class AppMesh {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/v20190125/meshes/${Uri.encodeComponent(meshName.toString())}/virtualRouter/${Uri.encodeComponent(virtualRouterName.toString())}/routes$_query',
+          '/v20190125/meshes/${Uri.encodeComponent(meshName)}/virtualRouter/${Uri.encodeComponent(virtualRouterName)}/routes',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -384,10 +384,9 @@ class AppMesh {
       12,
       12,
     );
-    var _query = '';
-    _query = '?${[
-      if (meshOwner != null) _s.toQueryParam('meshOwner', meshOwner),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (meshOwner != null) 'meshOwner': [meshOwner],
+    };
     final $payload = <String, dynamic>{
       'spec': spec,
       'virtualNodeName': virtualNodeName,
@@ -398,7 +397,8 @@ class AppMesh {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/v20190125/meshes/${Uri.encodeComponent(meshName.toString())}/virtualNodes$_query',
+          '/v20190125/meshes/${Uri.encodeComponent(meshName)}/virtualNodes',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -498,10 +498,9 @@ class AppMesh {
       12,
       12,
     );
-    var _query = '';
-    _query = '?${[
-      if (meshOwner != null) _s.toQueryParam('meshOwner', meshOwner),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (meshOwner != null) 'meshOwner': [meshOwner],
+    };
     final $payload = <String, dynamic>{
       'spec': spec,
       'virtualRouterName': virtualRouterName,
@@ -512,7 +511,8 @@ class AppMesh {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/v20190125/meshes/${Uri.encodeComponent(meshName.toString())}/virtualRouters$_query',
+          '/v20190125/meshes/${Uri.encodeComponent(meshName)}/virtualRouters',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -603,10 +603,9 @@ class AppMesh {
       12,
       12,
     );
-    var _query = '';
-    _query = '?${[
-      if (meshOwner != null) _s.toQueryParam('meshOwner', meshOwner),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (meshOwner != null) 'meshOwner': [meshOwner],
+    };
     final $payload = <String, dynamic>{
       'spec': spec,
       'virtualServiceName': virtualServiceName,
@@ -617,7 +616,8 @@ class AppMesh {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/v20190125/meshes/${Uri.encodeComponent(meshName.toString())}/virtualServices$_query',
+          '/v20190125/meshes/${Uri.encodeComponent(meshName)}/virtualServices',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -654,12 +654,10 @@ class AppMesh {
       255,
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
     final response = await _protocol.sendRaw(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri:
-          '/v20190125/meshes/${Uri.encodeComponent(meshName.toString())}',
+      requestUri: '/v20190125/meshes/${Uri.encodeComponent(meshName)}',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -730,16 +728,15 @@ class AppMesh {
       12,
       12,
     );
-    var _query = '';
-    _query = '?${[
-      if (meshOwner != null) _s.toQueryParam('meshOwner', meshOwner),
-    ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $query = <String, List<String>>{
+      if (meshOwner != null) 'meshOwner': [meshOwner],
+    };
     final response = await _protocol.sendRaw(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
       requestUri:
-          '/v20190125/meshes/${Uri.encodeComponent(meshName.toString())}/virtualRouter/${Uri.encodeComponent(virtualRouterName.toString())}/routes/${Uri.encodeComponent(routeName.toString())}$_query',
+          '/v20190125/meshes/${Uri.encodeComponent(meshName)}/virtualRouter/${Uri.encodeComponent(virtualRouterName)}/routes/${Uri.encodeComponent(routeName)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -803,16 +800,15 @@ class AppMesh {
       12,
       12,
     );
-    var _query = '';
-    _query = '?${[
-      if (meshOwner != null) _s.toQueryParam('meshOwner', meshOwner),
-    ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $query = <String, List<String>>{
+      if (meshOwner != null) 'meshOwner': [meshOwner],
+    };
     final response = await _protocol.sendRaw(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
       requestUri:
-          '/v20190125/meshes/${Uri.encodeComponent(meshName.toString())}/virtualNodes/${Uri.encodeComponent(virtualNodeName.toString())}$_query',
+          '/v20190125/meshes/${Uri.encodeComponent(meshName)}/virtualNodes/${Uri.encodeComponent(virtualNodeName)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -876,16 +872,15 @@ class AppMesh {
       12,
       12,
     );
-    var _query = '';
-    _query = '?${[
-      if (meshOwner != null) _s.toQueryParam('meshOwner', meshOwner),
-    ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $query = <String, List<String>>{
+      if (meshOwner != null) 'meshOwner': [meshOwner],
+    };
     final response = await _protocol.sendRaw(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
       requestUri:
-          '/v20190125/meshes/${Uri.encodeComponent(meshName.toString())}/virtualRouters/${Uri.encodeComponent(virtualRouterName.toString())}$_query',
+          '/v20190125/meshes/${Uri.encodeComponent(meshName)}/virtualRouters/${Uri.encodeComponent(virtualRouterName)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -936,16 +931,15 @@ class AppMesh {
       12,
       12,
     );
-    var _query = '';
-    _query = '?${[
-      if (meshOwner != null) _s.toQueryParam('meshOwner', meshOwner),
-    ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $query = <String, List<String>>{
+      if (meshOwner != null) 'meshOwner': [meshOwner],
+    };
     final response = await _protocol.sendRaw(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
       requestUri:
-          '/v20190125/meshes/${Uri.encodeComponent(meshName.toString())}/virtualServices/${Uri.encodeComponent(virtualServiceName.toString())}$_query',
+          '/v20190125/meshes/${Uri.encodeComponent(meshName)}/virtualServices/${Uri.encodeComponent(virtualServiceName)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -991,15 +985,14 @@ class AppMesh {
       12,
       12,
     );
-    var _query = '';
-    _query = '?${[
-      if (meshOwner != null) _s.toQueryParam('meshOwner', meshOwner),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (meshOwner != null) 'meshOwner': [meshOwner],
+    };
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/v20190125/meshes/${Uri.encodeComponent(meshName.toString())}$_query',
+      requestUri: '/v20190125/meshes/${Uri.encodeComponent(meshName)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -1069,15 +1062,15 @@ class AppMesh {
       12,
       12,
     );
-    var _query = '';
-    _query = '?${[
-      if (meshOwner != null) _s.toQueryParam('meshOwner', meshOwner),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (meshOwner != null) 'meshOwner': [meshOwner],
+    };
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri:
-          '/v20190125/meshes/${Uri.encodeComponent(meshName.toString())}/virtualRouter/${Uri.encodeComponent(virtualRouterName.toString())}/routes/${Uri.encodeComponent(routeName.toString())}$_query',
+          '/v20190125/meshes/${Uri.encodeComponent(meshName)}/virtualRouter/${Uri.encodeComponent(virtualRouterName)}/routes/${Uri.encodeComponent(routeName)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -1135,15 +1128,15 @@ class AppMesh {
       12,
       12,
     );
-    var _query = '';
-    _query = '?${[
-      if (meshOwner != null) _s.toQueryParam('meshOwner', meshOwner),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (meshOwner != null) 'meshOwner': [meshOwner],
+    };
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri:
-          '/v20190125/meshes/${Uri.encodeComponent(meshName.toString())}/virtualNodes/${Uri.encodeComponent(virtualNodeName.toString())}$_query',
+          '/v20190125/meshes/${Uri.encodeComponent(meshName)}/virtualNodes/${Uri.encodeComponent(virtualNodeName)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -1201,15 +1194,15 @@ class AppMesh {
       12,
       12,
     );
-    var _query = '';
-    _query = '?${[
-      if (meshOwner != null) _s.toQueryParam('meshOwner', meshOwner),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (meshOwner != null) 'meshOwner': [meshOwner],
+    };
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri:
-          '/v20190125/meshes/${Uri.encodeComponent(meshName.toString())}/virtualRouters/${Uri.encodeComponent(virtualRouterName.toString())}$_query',
+          '/v20190125/meshes/${Uri.encodeComponent(meshName)}/virtualRouters/${Uri.encodeComponent(virtualRouterName)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -1260,15 +1253,15 @@ class AppMesh {
       12,
       12,
     );
-    var _query = '';
-    _query = '?${[
-      if (meshOwner != null) _s.toQueryParam('meshOwner', meshOwner),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (meshOwner != null) 'meshOwner': [meshOwner],
+    };
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri:
-          '/v20190125/meshes/${Uri.encodeComponent(meshName.toString())}/virtualServices/${Uri.encodeComponent(virtualServiceName.toString())}$_query',
+          '/v20190125/meshes/${Uri.encodeComponent(meshName)}/virtualServices/${Uri.encodeComponent(virtualServiceName)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -1325,15 +1318,15 @@ class AppMesh {
       1,
       100,
     );
-    var _query = '';
-    _query = '?${[
-      if (limit != null) _s.toQueryParam('limit', limit),
-      if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (limit != null) 'limit': [limit.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/v20190125/meshes$_query',
+      requestUri: '/v20190125/meshes',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListMeshesOutput.fromJson(response);
@@ -1419,17 +1412,17 @@ class AppMesh {
       12,
       12,
     );
-    var _query = '';
-    _query = '?${[
-      if (limit != null) _s.toQueryParam('limit', limit),
-      if (meshOwner != null) _s.toQueryParam('meshOwner', meshOwner),
-      if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (limit != null) 'limit': [limit.toString()],
+      if (meshOwner != null) 'meshOwner': [meshOwner],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/v20190125/meshes/${Uri.encodeComponent(meshName.toString())}/virtualRouter/${Uri.encodeComponent(virtualRouterName.toString())}/routes$_query',
+          '/v20190125/meshes/${Uri.encodeComponent(meshName)}/virtualRouter/${Uri.encodeComponent(virtualRouterName)}/routes',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListRoutesOutput.fromJson(response);
@@ -1482,16 +1475,16 @@ class AppMesh {
       1,
       50,
     );
-    var _query = '';
-    _query = '?${[
-      if (resourceArn != null) _s.toQueryParam('resourceArn', resourceArn),
-      if (limit != null) _s.toQueryParam('limit', limit),
-      if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (resourceArn != null) 'resourceArn': [resourceArn],
+      if (limit != null) 'limit': [limit.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/v20190125/tags$_query',
+      requestUri: '/v20190125/tags',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsForResourceOutput.fromJson(response);
@@ -1565,17 +1558,17 @@ class AppMesh {
       12,
       12,
     );
-    var _query = '';
-    _query = '?${[
-      if (limit != null) _s.toQueryParam('limit', limit),
-      if (meshOwner != null) _s.toQueryParam('meshOwner', meshOwner),
-      if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (limit != null) 'limit': [limit.toString()],
+      if (meshOwner != null) 'meshOwner': [meshOwner],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/v20190125/meshes/${Uri.encodeComponent(meshName.toString())}/virtualNodes$_query',
+          '/v20190125/meshes/${Uri.encodeComponent(meshName)}/virtualNodes',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListVirtualNodesOutput.fromJson(response);
@@ -1649,17 +1642,17 @@ class AppMesh {
       12,
       12,
     );
-    var _query = '';
-    _query = '?${[
-      if (limit != null) _s.toQueryParam('limit', limit),
-      if (meshOwner != null) _s.toQueryParam('meshOwner', meshOwner),
-      if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (limit != null) 'limit': [limit.toString()],
+      if (meshOwner != null) 'meshOwner': [meshOwner],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/v20190125/meshes/${Uri.encodeComponent(meshName.toString())}/virtualRouters$_query',
+          '/v20190125/meshes/${Uri.encodeComponent(meshName)}/virtualRouters',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListVirtualRoutersOutput.fromJson(response);
@@ -1733,17 +1726,17 @@ class AppMesh {
       12,
       12,
     );
-    var _query = '';
-    _query = '?${[
-      if (limit != null) _s.toQueryParam('limit', limit),
-      if (meshOwner != null) _s.toQueryParam('meshOwner', meshOwner),
-      if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (limit != null) 'limit': [limit.toString()],
+      if (meshOwner != null) 'meshOwner': [meshOwner],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/v20190125/meshes/${Uri.encodeComponent(meshName.toString())}/virtualServices$_query',
+          '/v20190125/meshes/${Uri.encodeComponent(meshName)}/virtualServices',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListVirtualServicesOutput.fromJson(response);
@@ -1779,17 +1772,17 @@ class AppMesh {
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tags, 'tags');
-    var _query = '';
-    _query = '?${[
-      if (resourceArn != null) _s.toQueryParam('resourceArn', resourceArn),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (resourceArn != null) 'resourceArn': [resourceArn],
+    };
     final $payload = <String, dynamic>{
       'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
-      requestUri: '/v20190125/tag$_query',
+      requestUri: '/v20190125/tag',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return TagResourceOutput.fromJson(response);
@@ -1815,17 +1808,17 @@ class AppMesh {
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
-    var _query = '';
-    _query = '?${[
-      if (resourceArn != null) _s.toQueryParam('resourceArn', resourceArn),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (resourceArn != null) 'resourceArn': [resourceArn],
+    };
     final $payload = <String, dynamic>{
       'tagKeys': tagKeys,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
-      requestUri: '/v20190125/untag$_query',
+      requestUri: '/v20190125/untag',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return UntagResourceOutput.fromJson(response);
@@ -1871,8 +1864,7 @@ class AppMesh {
     final response = await _protocol.sendRaw(
       payload: $payload,
       method: 'PUT',
-      requestUri:
-          '/v20190125/meshes/${Uri.encodeComponent(meshName.toString())}',
+      requestUri: '/v20190125/meshes/${Uri.encodeComponent(meshName)}',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -1955,10 +1947,9 @@ class AppMesh {
       12,
       12,
     );
-    var _query = '';
-    _query = '?${[
-      if (meshOwner != null) _s.toQueryParam('meshOwner', meshOwner),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (meshOwner != null) 'meshOwner': [meshOwner],
+    };
     final $payload = <String, dynamic>{
       'spec': spec,
       if (clientToken != null) 'clientToken': clientToken,
@@ -1967,7 +1958,8 @@ class AppMesh {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/v20190125/meshes/${Uri.encodeComponent(meshName.toString())}/virtualRouter/${Uri.encodeComponent(virtualRouterName.toString())}/routes/${Uri.encodeComponent(routeName.toString())}$_query',
+          '/v20190125/meshes/${Uri.encodeComponent(meshName)}/virtualRouter/${Uri.encodeComponent(virtualRouterName)}/routes/${Uri.encodeComponent(routeName)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -2039,10 +2031,9 @@ class AppMesh {
       12,
       12,
     );
-    var _query = '';
-    _query = '?${[
-      if (meshOwner != null) _s.toQueryParam('meshOwner', meshOwner),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (meshOwner != null) 'meshOwner': [meshOwner],
+    };
     final $payload = <String, dynamic>{
       'spec': spec,
       if (clientToken != null) 'clientToken': clientToken,
@@ -2051,7 +2042,8 @@ class AppMesh {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/v20190125/meshes/${Uri.encodeComponent(meshName.toString())}/virtualNodes/${Uri.encodeComponent(virtualNodeName.toString())}$_query',
+          '/v20190125/meshes/${Uri.encodeComponent(meshName)}/virtualNodes/${Uri.encodeComponent(virtualNodeName)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -2123,10 +2115,9 @@ class AppMesh {
       12,
       12,
     );
-    var _query = '';
-    _query = '?${[
-      if (meshOwner != null) _s.toQueryParam('meshOwner', meshOwner),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (meshOwner != null) 'meshOwner': [meshOwner],
+    };
     final $payload = <String, dynamic>{
       'spec': spec,
       if (clientToken != null) 'clientToken': clientToken,
@@ -2135,7 +2126,8 @@ class AppMesh {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/v20190125/meshes/${Uri.encodeComponent(meshName.toString())}/virtualRouters/${Uri.encodeComponent(virtualRouterName.toString())}$_query',
+          '/v20190125/meshes/${Uri.encodeComponent(meshName)}/virtualRouters/${Uri.encodeComponent(virtualRouterName)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -2201,10 +2193,9 @@ class AppMesh {
       12,
       12,
     );
-    var _query = '';
-    _query = '?${[
-      if (meshOwner != null) _s.toQueryParam('meshOwner', meshOwner),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (meshOwner != null) 'meshOwner': [meshOwner],
+    };
     final $payload = <String, dynamic>{
       'spec': spec,
       if (clientToken != null) 'clientToken': clientToken,
@@ -2213,7 +2204,8 @@ class AppMesh {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/v20190125/meshes/${Uri.encodeComponent(meshName.toString())}/virtualServices/${Uri.encodeComponent(virtualServiceName.toString())}$_query',
+          '/v20190125/meshes/${Uri.encodeComponent(meshName)}/virtualServices/${Uri.encodeComponent(virtualServiceName)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);

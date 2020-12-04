@@ -12,7 +12,7 @@ void main() {
   test('Endpoint host trait 0', () async {
     final client = MockClient((request) async {
       expect(request.body, equalsJson(r'''{"Name": "myname"}'''));
-      expect(pathAndQuery(request.url), '/path');
+      expect(request.url, equalsPathAndQuery('/path'));
       //expect(request.url.host, 'data-service.region.amazonaws.com');
       return Response('{}', 200, headers: {});
     });
@@ -35,7 +35,7 @@ void main() {
   test('Endpoint host trait 1', () async {
     final client = MockClient((request) async {
       expect(request.body, equalsJson(r'''{"Name": "myname"}'''));
-      expect(pathAndQuery(request.url), '/path');
+      expect(request.url, equalsPathAndQuery('/path'));
       //expect(request.url.host, 'foo-myname.service.region.amazonaws.com');
       return Response('{}', 200, headers: {});
     });

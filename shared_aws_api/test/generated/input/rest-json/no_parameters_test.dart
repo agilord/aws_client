@@ -12,7 +12,7 @@ void main() {
   test('No parameters 0', () async {
     final client = MockClient((request) async {
       expect(request.body, equalsJson(r''''''));
-      expect(pathAndQuery(request.url), '/2014-01-01/jobs');
+      expect(request.url, equalsPathAndQuery('/2014-01-01/jobs'));
       return Response('{}', 200, headers: {});
     });
 

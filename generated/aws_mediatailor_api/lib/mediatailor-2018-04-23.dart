@@ -59,12 +59,10 @@ class MediaTailor {
     @_s.required String name,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
-    final $payload = <String, dynamic>{};
     final response = await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri:
-          '/playbackConfiguration/${Uri.encodeComponent(name.toString())}',
+      requestUri: '/playbackConfiguration/${Uri.encodeComponent(name)}',
       exceptionFnMap: _exceptionFns,
     );
     return DeletePlaybackConfigurationResponse.fromJson(response);
@@ -81,8 +79,7 @@ class MediaTailor {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/playbackConfiguration/${Uri.encodeComponent(name.toString())}',
+      requestUri: '/playbackConfiguration/${Uri.encodeComponent(name)}',
       exceptionFnMap: _exceptionFns,
     );
     return GetPlaybackConfigurationResponse.fromJson(response);
@@ -111,15 +108,15 @@ class MediaTailor {
       1,
       100,
     );
-    var _query = '';
-    _query = '?${[
-      if (maxResults != null) _s.toQueryParam('MaxResults', maxResults),
-      if (nextToken != null) _s.toQueryParam('NextToken', nextToken),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'MaxResults': [maxResults.toString()],
+      if (nextToken != null) 'NextToken': [nextToken],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/playbackConfigurations$_query',
+      requestUri: '/playbackConfigurations',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListPlaybackConfigurationsResponse.fromJson(response);
@@ -140,7 +137,7 @@ class MediaTailor {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsForResourceResponse.fromJson(response);
@@ -272,7 +269,7 @@ class MediaTailor {
     await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -295,15 +292,14 @@ class MediaTailor {
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
-    var _query = '';
-    _query = '?${[
-      if (tagKeys != null) _s.toQueryParam('tagKeys', tagKeys),
-    ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $query = <String, List<String>>{
+      if (tagKeys != null) 'tagKeys': tagKeys,
+    };
     await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$_query',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
   }

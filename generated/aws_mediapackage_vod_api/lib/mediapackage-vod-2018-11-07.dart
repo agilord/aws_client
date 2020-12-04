@@ -175,11 +175,10 @@ class MediaPackageVod {
     @_s.required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    final $payload = <String, dynamic>{};
     final response = await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri: '/assets/${Uri.encodeComponent(id.toString())}',
+      requestUri: '/assets/${Uri.encodeComponent(id)}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteAssetResponse.fromJson(response);
@@ -200,12 +199,10 @@ class MediaPackageVod {
     @_s.required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    final $payload = <String, dynamic>{};
     final response = await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri:
-          '/packaging_configurations/${Uri.encodeComponent(id.toString())}',
+      requestUri: '/packaging_configurations/${Uri.encodeComponent(id)}',
       exceptionFnMap: _exceptionFns,
     );
     return DeletePackagingConfigurationResponse.fromJson(response);
@@ -226,11 +223,10 @@ class MediaPackageVod {
     @_s.required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    final $payload = <String, dynamic>{};
     final response = await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri: '/packaging_groups/${Uri.encodeComponent(id.toString())}',
+      requestUri: '/packaging_groups/${Uri.encodeComponent(id)}',
       exceptionFnMap: _exceptionFns,
     );
     return DeletePackagingGroupResponse.fromJson(response);
@@ -254,7 +250,7 @@ class MediaPackageVod {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/assets/${Uri.encodeComponent(id.toString())}',
+      requestUri: '/assets/${Uri.encodeComponent(id)}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeAssetResponse.fromJson(response);
@@ -280,8 +276,7 @@ class MediaPackageVod {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/packaging_configurations/${Uri.encodeComponent(id.toString())}',
+      requestUri: '/packaging_configurations/${Uri.encodeComponent(id)}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribePackagingConfigurationResponse.fromJson(response);
@@ -305,7 +300,7 @@ class MediaPackageVod {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/packaging_groups/${Uri.encodeComponent(id.toString())}',
+      requestUri: '/packaging_groups/${Uri.encodeComponent(id)}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribePackagingGroupResponse.fromJson(response);
@@ -339,17 +334,16 @@ class MediaPackageVod {
       1,
       1000,
     );
-    var _query = '';
-    _query = '?${[
-      if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
-      if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-      if (packagingGroupId != null)
-        _s.toQueryParam('packagingGroupId', packagingGroupId),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+      if (packagingGroupId != null) 'packagingGroupId': [packagingGroupId],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/assets$_query',
+      requestUri: '/assets',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListAssetsResponse.fromJson(response);
@@ -384,17 +378,16 @@ class MediaPackageVod {
       1,
       1000,
     );
-    var _query = '';
-    _query = '?${[
-      if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
-      if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-      if (packagingGroupId != null)
-        _s.toQueryParam('packagingGroupId', packagingGroupId),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+      if (packagingGroupId != null) 'packagingGroupId': [packagingGroupId],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/packaging_configurations$_query',
+      requestUri: '/packaging_configurations',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListPackagingConfigurationsResponse.fromJson(response);
@@ -424,15 +417,15 @@ class MediaPackageVod {
       1,
       1000,
     );
-    var _query = '';
-    _query = '?${[
-      if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
-      if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/packaging_groups$_query',
+      requestUri: '/packaging_groups',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListPackagingGroupsResponse.fromJson(response);

@@ -38,7 +38,7 @@ class GreedyKeys {
     await _protocol.send(
       method: 'GET',
       requestUri:
-          '/${Uri.encodeComponent(bucket.toString())}/${Uri.encodeComponent(key.toString())}',
+          '/${Uri.encodeComponent(bucket)}/${key.split('/').map(Uri.encodeComponent).join('/')}',
       exceptionFnMap: _exceptionFns,
     );
   }

@@ -212,9 +212,8 @@ class XRay {
   /// May throw [InvalidRequestException].
   /// May throw [ThrottledException].
   Future<GetEncryptionConfigResult> getEncryptionConfig() async {
-    final $payload = <String, dynamic>{};
     final response = await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'POST',
       requestUri: '/EncryptionConfig',
       exceptionFnMap: _exceptionFns,

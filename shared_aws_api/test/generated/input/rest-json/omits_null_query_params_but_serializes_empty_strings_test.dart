@@ -12,7 +12,7 @@ void main() {
   test('Omits null query params, but serializes empty strings 0', () async {
     final client = MockClient((request) async {
       expect(request.body, equalsJson(r''''''));
-      expect(pathAndQuery(request.url), '/path');
+      expect(request.url, equalsPathAndQuery('/path'));
       expect(request.method, equalsIgnoringCase('POST'));
       return Response('{}', 200, headers: {});
     });
@@ -35,7 +35,7 @@ void main() {
   test('Omits null query params, but serializes empty strings 1', () async {
     final client = MockClient((request) async {
       expect(request.body, equalsJson(r''''''));
-      expect(pathAndQuery(request.url), '/path?abc=mno&param-name=');
+      expect(request.url, equalsPathAndQuery('/path?abc=mno&param-name='));
       expect(request.method, equalsIgnoringCase('POST'));
       return Response('{}', 200, headers: {});
     });

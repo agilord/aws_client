@@ -12,7 +12,7 @@ void main() {
   test('String payload 0', () async {
     final client = MockClient((request) async {
       expect(request.body, equalsJson(r'''bar'''));
-      expect(pathAndQuery(request.url), '/');
+      expect(request.url, equalsPathAndQuery('/'));
       expect(request.method, equalsIgnoringCase('POST'));
       return Response('{}', 200, headers: {});
     });

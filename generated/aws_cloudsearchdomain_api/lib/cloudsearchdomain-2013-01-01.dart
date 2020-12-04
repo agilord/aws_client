@@ -467,28 +467,27 @@ class CloudSearchDomain {
     String stats,
   }) async {
     ArgumentError.checkNotNull(query, 'query');
-    var _query = '';
-    _query = '&${[
-      if (query != null) _s.toQueryParam('q', query),
-      if (cursor != null) _s.toQueryParam('cursor', cursor),
-      if (expr != null) _s.toQueryParam('expr', expr),
-      if (facet != null) _s.toQueryParam('facet', facet),
-      if (filterQuery != null) _s.toQueryParam('fq', filterQuery),
-      if (highlight != null) _s.toQueryParam('highlight', highlight),
-      if (partial != null) _s.toQueryParam('partial', partial),
-      if (queryOptions != null) _s.toQueryParam('q.options', queryOptions),
-      if (queryParser != null)
-        _s.toQueryParam('q.parser', queryParser.toValue()),
-      if (returnValue != null) _s.toQueryParam('return', returnValue),
-      if (size != null) _s.toQueryParam('size', size),
-      if (sort != null) _s.toQueryParam('sort', sort),
-      if (start != null) _s.toQueryParam('start', start),
-      if (stats != null) _s.toQueryParam('stats', stats),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (query != null) 'q': [query],
+      if (cursor != null) 'cursor': [cursor],
+      if (expr != null) 'expr': [expr],
+      if (facet != null) 'facet': [facet],
+      if (filterQuery != null) 'fq': [filterQuery],
+      if (highlight != null) 'highlight': [highlight],
+      if (partial != null) 'partial': [partial.toString()],
+      if (queryOptions != null) 'q.options': [queryOptions],
+      if (queryParser != null) 'q.parser': [queryParser.toValue()],
+      if (returnValue != null) 'return': [returnValue],
+      if (size != null) 'size': [size.toString()],
+      if (sort != null) 'sort': [sort],
+      if (start != null) 'start': [start.toString()],
+      if (stats != null) 'stats': [stats],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/2013-01-01/search?format=sdk&pretty=true$_query',
+      requestUri: '/2013-01-01/search?format=sdk&pretty=true',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return SearchResponse.fromJson(response);
@@ -531,16 +530,16 @@ class CloudSearchDomain {
   }) async {
     ArgumentError.checkNotNull(query, 'query');
     ArgumentError.checkNotNull(suggester, 'suggester');
-    var _query = '';
-    _query = '&${[
-      if (query != null) _s.toQueryParam('q', query),
-      if (suggester != null) _s.toQueryParam('suggester', suggester),
-      if (size != null) _s.toQueryParam('size', size),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (query != null) 'q': [query],
+      if (suggester != null) 'suggester': [suggester],
+      if (size != null) 'size': [size.toString()],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/2013-01-01/suggest?format=sdk&pretty=true$_query',
+      requestUri: '/2013-01-01/suggest?format=sdk&pretty=true',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return SuggestResponse.fromJson(response);
@@ -596,9 +595,9 @@ class CloudSearchDomain {
     contentType?.let((v) => headers['Content-Type'] = v.toValue());
     final response = await _protocol.send(
       payload: documents,
-      headers: headers,
       method: 'POST',
       requestUri: '/2013-01-01/documents/batch?format=sdk',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return UploadDocumentsResponse.fromJson(response);

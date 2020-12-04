@@ -77,11 +77,10 @@ class DataExchange {
     @_s.required String jobId,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
-    final $payload = <String, dynamic>{};
     await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri: '/v1/jobs/${Uri.encodeComponent(jobId.toString())}',
+      requestUri: '/v1/jobs/${Uri.encodeComponent(jobId)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -206,8 +205,7 @@ class DataExchange {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri:
-          '/v1/data-sets/${Uri.encodeComponent(dataSetId.toString())}/revisions',
+      requestUri: '/v1/data-sets/${Uri.encodeComponent(dataSetId)}/revisions',
       exceptionFnMap: _exceptionFns,
     );
     return CreateRevisionResponse.fromJson(response);
@@ -238,12 +236,11 @@ class DataExchange {
     ArgumentError.checkNotNull(assetId, 'assetId');
     ArgumentError.checkNotNull(dataSetId, 'dataSetId');
     ArgumentError.checkNotNull(revisionId, 'revisionId');
-    final $payload = <String, dynamic>{};
     await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
       requestUri:
-          '/v1/data-sets/${Uri.encodeComponent(dataSetId.toString())}/revisions/${Uri.encodeComponent(revisionId.toString())}/assets/${Uri.encodeComponent(assetId.toString())}',
+          '/v1/data-sets/${Uri.encodeComponent(dataSetId)}/revisions/${Uri.encodeComponent(revisionId)}/assets/${Uri.encodeComponent(assetId)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -263,11 +260,10 @@ class DataExchange {
     @_s.required String dataSetId,
   }) async {
     ArgumentError.checkNotNull(dataSetId, 'dataSetId');
-    final $payload = <String, dynamic>{};
     await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri: '/v1/data-sets/${Uri.encodeComponent(dataSetId.toString())}',
+      requestUri: '/v1/data-sets/${Uri.encodeComponent(dataSetId)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -292,12 +288,11 @@ class DataExchange {
   }) async {
     ArgumentError.checkNotNull(dataSetId, 'dataSetId');
     ArgumentError.checkNotNull(revisionId, 'revisionId');
-    final $payload = <String, dynamic>{};
     await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
       requestUri:
-          '/v1/data-sets/${Uri.encodeComponent(dataSetId.toString())}/revisions/${Uri.encodeComponent(revisionId.toString())}',
+          '/v1/data-sets/${Uri.encodeComponent(dataSetId)}/revisions/${Uri.encodeComponent(revisionId)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -329,7 +324,7 @@ class DataExchange {
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/data-sets/${Uri.encodeComponent(dataSetId.toString())}/revisions/${Uri.encodeComponent(revisionId.toString())}/assets/${Uri.encodeComponent(assetId.toString())}',
+          '/v1/data-sets/${Uri.encodeComponent(dataSetId)}/revisions/${Uri.encodeComponent(revisionId)}/assets/${Uri.encodeComponent(assetId)}',
       exceptionFnMap: _exceptionFns,
     );
     return GetAssetResponse.fromJson(response);
@@ -351,7 +346,7 @@ class DataExchange {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/v1/data-sets/${Uri.encodeComponent(dataSetId.toString())}',
+      requestUri: '/v1/data-sets/${Uri.encodeComponent(dataSetId)}',
       exceptionFnMap: _exceptionFns,
     );
     return GetDataSetResponse.fromJson(response);
@@ -373,7 +368,7 @@ class DataExchange {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/v1/jobs/${Uri.encodeComponent(jobId.toString())}',
+      requestUri: '/v1/jobs/${Uri.encodeComponent(jobId)}',
       exceptionFnMap: _exceptionFns,
     );
     return GetJobResponse.fromJson(response);
@@ -401,7 +396,7 @@ class DataExchange {
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/data-sets/${Uri.encodeComponent(dataSetId.toString())}/revisions/${Uri.encodeComponent(revisionId.toString())}',
+          '/v1/data-sets/${Uri.encodeComponent(dataSetId)}/revisions/${Uri.encodeComponent(revisionId)}',
       exceptionFnMap: _exceptionFns,
     );
     return GetRevisionResponse.fromJson(response);
@@ -436,16 +431,15 @@ class DataExchange {
       1,
       25,
     );
-    var _query = '';
-    _query = '?${[
-      if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
-      if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/v1/data-sets/${Uri.encodeComponent(dataSetId.toString())}/revisions$_query',
+      requestUri: '/v1/data-sets/${Uri.encodeComponent(dataSetId)}/revisions',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListDataSetRevisionsResponse.fromJson(response);
@@ -481,16 +475,16 @@ class DataExchange {
       1,
       25,
     );
-    var _query = '';
-    _query = '?${[
-      if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
-      if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-      if (origin != null) _s.toQueryParam('origin', origin),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+      if (origin != null) 'origin': [origin],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/v1/data-sets$_query',
+      requestUri: '/v1/data-sets',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListDataSetsResponse.fromJson(response);
@@ -527,17 +521,17 @@ class DataExchange {
       1,
       25,
     );
-    var _query = '';
-    _query = '?${[
-      if (dataSetId != null) _s.toQueryParam('dataSetId', dataSetId),
-      if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
-      if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-      if (revisionId != null) _s.toQueryParam('revisionId', revisionId),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (dataSetId != null) 'dataSetId': [dataSetId],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+      if (revisionId != null) 'revisionId': [revisionId],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/v1/jobs$_query',
+      requestUri: '/v1/jobs',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListJobsResponse.fromJson(response);
@@ -577,16 +571,16 @@ class DataExchange {
       1,
       25,
     );
-    var _query = '';
-    _query = '?${[
-      if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
-      if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/data-sets/${Uri.encodeComponent(dataSetId.toString())}/revisions/${Uri.encodeComponent(revisionId.toString())}/assets$_query',
+          '/v1/data-sets/${Uri.encodeComponent(dataSetId)}/revisions/${Uri.encodeComponent(revisionId)}/assets',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListRevisionAssetsResponse.fromJson(response);
@@ -603,7 +597,7 @@ class DataExchange {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsForResourceResponse.fromJson(response);
@@ -624,11 +618,10 @@ class DataExchange {
     @_s.required String jobId,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
-    final $payload = <String, dynamic>{};
     final response = await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'PATCH',
-      requestUri: '/v1/jobs/${Uri.encodeComponent(jobId.toString())}',
+      requestUri: '/v1/jobs/${Uri.encodeComponent(jobId)}',
       exceptionFnMap: _exceptionFns,
     );
     return StartJobResponse.fromJson(response);
@@ -653,7 +646,7 @@ class DataExchange {
     await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -671,15 +664,14 @@ class DataExchange {
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
-    var _query = '';
-    _query = '?${[
-      if (tagKeys != null) _s.toQueryParam('tagKeys', tagKeys),
-    ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $query = <String, List<String>>{
+      if (tagKeys != null) 'tagKeys': tagKeys,
+    };
     await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$_query',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -723,7 +715,7 @@ class DataExchange {
       payload: $payload,
       method: 'PATCH',
       requestUri:
-          '/v1/data-sets/${Uri.encodeComponent(dataSetId.toString())}/revisions/${Uri.encodeComponent(revisionId.toString())}/assets/${Uri.encodeComponent(assetId.toString())}',
+          '/v1/data-sets/${Uri.encodeComponent(dataSetId)}/revisions/${Uri.encodeComponent(revisionId)}/assets/${Uri.encodeComponent(assetId)}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateAssetResponse.fromJson(response);
@@ -758,7 +750,7 @@ class DataExchange {
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
-      requestUri: '/v1/data-sets/${Uri.encodeComponent(dataSetId.toString())}',
+      requestUri: '/v1/data-sets/${Uri.encodeComponent(dataSetId)}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateDataSetResponse.fromJson(response);
@@ -808,7 +800,7 @@ class DataExchange {
       payload: $payload,
       method: 'PATCH',
       requestUri:
-          '/v1/data-sets/${Uri.encodeComponent(dataSetId.toString())}/revisions/${Uri.encodeComponent(revisionId.toString())}',
+          '/v1/data-sets/${Uri.encodeComponent(dataSetId)}/revisions/${Uri.encodeComponent(revisionId)}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateRevisionResponse.fromJson(response);

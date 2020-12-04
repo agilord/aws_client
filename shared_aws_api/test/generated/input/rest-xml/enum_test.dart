@@ -16,8 +16,8 @@ void main() {
           equalsXml(
               r'''<InputShape><FooEnum>foo</FooEnum><ListEnums><member>foo</member><member></member><member>bar</member></ListEnums></InputShape>'''));
       expect(request.headers['x-amz-enum'], 'baz');
-      expect(pathAndQuery(request.url),
-          '/Enum/bar?ListEnums=0&ListEnums=&ListEnums=1');
+      expect(request.url,
+          equalsPathAndQuery('/Enum/bar?ListEnums=0&ListEnums=&ListEnums=1'));
       return Response('<Response></Response>', 200, headers: {});
     });
 
@@ -54,7 +54,7 @@ void main() {
 
   test('Enum 1', () async {
     final client = MockClient((request) async {
-      expect(pathAndQuery(request.url), '/path');
+      expect(request.url, equalsPathAndQuery('/path'));
       return Response('<Response></Response>', 200, headers: {});
     });
 

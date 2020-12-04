@@ -112,12 +112,11 @@ class ElasticsearchService {
       isRequired: true,
     );
     ArgumentError.checkNotNull(packageID, 'packageID');
-    final $payload = <String, dynamic>{};
     final response = await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'POST',
       requestUri:
-          '/2015-01-01/packages/associate/${Uri.encodeComponent(packageID.toString())}/${Uri.encodeComponent(domainName.toString())}',
+          '/2015-01-01/packages/associate/${Uri.encodeComponent(packageID)}/${Uri.encodeComponent(domainName)}',
       exceptionFnMap: _exceptionFns,
     );
     return AssociatePackageResponse.fromJson(response);
@@ -398,12 +397,10 @@ class ElasticsearchService {
       r'''[a-z][a-z0-9\-]+''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
     final response = await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri:
-          '/2015-01-01/es/domain/${Uri.encodeComponent(domainName.toString())}',
+      requestUri: '/2015-01-01/es/domain/${Uri.encodeComponent(domainName)}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteElasticsearchDomainResponse.fromJson(response);
@@ -445,12 +442,10 @@ class ElasticsearchService {
     @_s.required String packageID,
   }) async {
     ArgumentError.checkNotNull(packageID, 'packageID');
-    final $payload = <String, dynamic>{};
     final response = await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri:
-          '/2015-01-01/packages/${Uri.encodeComponent(packageID.toString())}',
+      requestUri: '/2015-01-01/packages/${Uri.encodeComponent(packageID)}',
       exceptionFnMap: _exceptionFns,
     );
     return DeletePackageResponse.fromJson(response);
@@ -486,8 +481,7 @@ class ElasticsearchService {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/2015-01-01/es/domain/${Uri.encodeComponent(domainName.toString())}',
+      requestUri: '/2015-01-01/es/domain/${Uri.encodeComponent(domainName)}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeElasticsearchDomainResponse.fromJson(response);
@@ -526,7 +520,7 @@ class ElasticsearchService {
       payload: null,
       method: 'GET',
       requestUri:
-          '/2015-01-01/es/domain/${Uri.encodeComponent(domainName.toString())}/config',
+          '/2015-01-01/es/domain/${Uri.encodeComponent(domainName)}/config',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeElasticsearchDomainConfigResponse.fromJson(response);
@@ -599,15 +593,15 @@ class ElasticsearchService {
       domainName,
       r'''[a-z][a-z0-9\-]+''',
     );
-    var _query = '';
-    _query = '?${[
-      if (domainName != null) _s.toQueryParam('domainName', domainName),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (domainName != null) 'domainName': [domainName],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/2015-01-01/es/instanceTypeLimits/${Uri.encodeComponent(elasticsearchVersion.toString())}/${Uri.encodeComponent(instanceType.toString())}$_query',
+          '/2015-01-01/es/instanceTypeLimits/${Uri.encodeComponent(elasticsearchVersion)}/${Uri.encodeComponent(instanceType.toValue())}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return DescribeElasticsearchInstanceTypeLimitsResponse.fromJson(response);
@@ -692,17 +686,17 @@ class ElasticsearchService {
       reservedElasticsearchInstanceOfferingId,
       r'''\p{XDigit}{8}-\p{XDigit}{4}-\p{XDigit}{4}-\p{XDigit}{4}-\p{XDigit}{12}''',
     );
-    var _query = '';
-    _query = '?${[
-      if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
-      if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
       if (reservedElasticsearchInstanceOfferingId != null)
-        _s.toQueryParam('offeringId', reservedElasticsearchInstanceOfferingId),
-    ].where((e) => e != null).join('&')}';
+        'offeringId': [reservedElasticsearchInstanceOfferingId],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/2015-01-01/es/reservedInstanceOfferings$_query',
+      requestUri: '/2015-01-01/es/reservedInstanceOfferings',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return DescribeReservedElasticsearchInstanceOfferingsResponse.fromJson(
@@ -746,17 +740,17 @@ class ElasticsearchService {
       reservedElasticsearchInstanceId,
       r'''\p{XDigit}{8}-\p{XDigit}{4}-\p{XDigit}{4}-\p{XDigit}{4}-\p{XDigit}{12}''',
     );
-    var _query = '';
-    _query = '?${[
-      if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
-      if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
       if (reservedElasticsearchInstanceId != null)
-        _s.toQueryParam('reservationId', reservedElasticsearchInstanceId),
-    ].where((e) => e != null).join('&')}';
+        'reservationId': [reservedElasticsearchInstanceId],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/2015-01-01/es/reservedInstances$_query',
+      requestUri: '/2015-01-01/es/reservedInstances',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return DescribeReservedElasticsearchInstancesResponse.fromJson(response);
@@ -796,12 +790,11 @@ class ElasticsearchService {
       isRequired: true,
     );
     ArgumentError.checkNotNull(packageID, 'packageID');
-    final $payload = <String, dynamic>{};
     final response = await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'POST',
       requestUri:
-          '/2015-01-01/packages/dissociate/${Uri.encodeComponent(packageID.toString())}/${Uri.encodeComponent(domainName.toString())}',
+          '/2015-01-01/packages/dissociate/${Uri.encodeComponent(packageID)}/${Uri.encodeComponent(domainName)}',
       exceptionFnMap: _exceptionFns,
     );
     return DissociatePackageResponse.fromJson(response);
@@ -831,14 +824,14 @@ class ElasticsearchService {
       domainName,
       r'''[a-z][a-z0-9\-]+''',
     );
-    var _query = '';
-    _query = '?${[
-      if (domainName != null) _s.toQueryParam('domainName', domainName),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (domainName != null) 'domainName': [domainName],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/2015-01-01/es/compatibleVersions$_query',
+      requestUri: '/2015-01-01/es/compatibleVersions',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return GetCompatibleElasticsearchVersionsResponse.fromJson(response);
@@ -877,16 +870,16 @@ class ElasticsearchService {
       0,
       100,
     );
-    var _query = '';
-    _query = '?${[
-      if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
-      if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/2015-01-01/es/upgradeDomain/${Uri.encodeComponent(domainName.toString())}/history$_query',
+          '/2015-01-01/es/upgradeDomain/${Uri.encodeComponent(domainName)}/history',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return GetUpgradeHistoryResponse.fromJson(response);
@@ -921,7 +914,7 @@ class ElasticsearchService {
       payload: null,
       method: 'GET',
       requestUri:
-          '/2015-01-01/es/upgradeDomain/${Uri.encodeComponent(domainName.toString())}/status',
+          '/2015-01-01/es/upgradeDomain/${Uri.encodeComponent(domainName)}/status',
       exceptionFnMap: _exceptionFns,
     );
     return GetUpgradeStatusResponse.fromJson(response);
@@ -971,16 +964,16 @@ class ElasticsearchService {
       0,
       100,
     );
-    var _query = '';
-    _query = '?${[
-      if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
-      if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/2015-01-01/packages/${Uri.encodeComponent(packageID.toString())}/domains$_query',
+          '/2015-01-01/packages/${Uri.encodeComponent(packageID)}/domains',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListDomainsForPackageResponse.fromJson(response);
@@ -1035,17 +1028,17 @@ class ElasticsearchService {
       0,
       100,
     );
-    var _query = '';
-    _query = '?${[
-      if (domainName != null) _s.toQueryParam('domainName', domainName),
-      if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
-      if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (domainName != null) 'domainName': [domainName],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/2015-01-01/es/instanceTypes/${Uri.encodeComponent(elasticsearchVersion.toString())}$_query',
+          '/2015-01-01/es/instanceTypes/${Uri.encodeComponent(elasticsearchVersion)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListElasticsearchInstanceTypesResponse.fromJson(response);
@@ -1071,15 +1064,15 @@ class ElasticsearchService {
       0,
       100,
     );
-    var _query = '';
-    _query = '?${[
-      if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
-      if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/2015-01-01/es/versions$_query',
+      requestUri: '/2015-01-01/es/versions',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListElasticsearchVersionsResponse.fromJson(response);
@@ -1127,16 +1120,16 @@ class ElasticsearchService {
       0,
       100,
     );
-    var _query = '';
-    _query = '?${[
-      if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
-      if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/2015-01-01/domain/${Uri.encodeComponent(domainName.toString())}/packages$_query',
+          '/2015-01-01/domain/${Uri.encodeComponent(domainName)}/packages',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListPackagesForDomainResponse.fromJson(response);
@@ -1156,14 +1149,14 @@ class ElasticsearchService {
     @_s.required String arn,
   }) async {
     ArgumentError.checkNotNull(arn, 'arn');
-    var _query = '';
-    _query = '?${[
-      if (arn != null) _s.toQueryParam('arn', arn),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (arn != null) 'arn': [arn],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/2015-01-01/tags/$_query',
+      requestUri: '/2015-01-01/tags/',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsResponse.fromJson(response);
@@ -1407,7 +1400,7 @@ class ElasticsearchService {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/2015-01-01/es/domain/${Uri.encodeComponent(domainName.toString())}/config',
+          '/2015-01-01/es/domain/${Uri.encodeComponent(domainName)}/config',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateElasticsearchDomainConfigResponse.fromJson(response);
@@ -2393,6 +2386,130 @@ enum ESPartitionInstanceType {
   i3_8xlargeElasticsearch,
   @_s.JsonValue('i3.16xlarge.elasticsearch')
   i3_16xlargeElasticsearch,
+}
+
+extension on ESPartitionInstanceType {
+  String toValue() {
+    switch (this) {
+      case ESPartitionInstanceType.m3MediumElasticsearch:
+        return 'm3.medium.elasticsearch';
+      case ESPartitionInstanceType.m3LargeElasticsearch:
+        return 'm3.large.elasticsearch';
+      case ESPartitionInstanceType.m3XlargeElasticsearch:
+        return 'm3.xlarge.elasticsearch';
+      case ESPartitionInstanceType.m3_2xlargeElasticsearch:
+        return 'm3.2xlarge.elasticsearch';
+      case ESPartitionInstanceType.m4LargeElasticsearch:
+        return 'm4.large.elasticsearch';
+      case ESPartitionInstanceType.m4XlargeElasticsearch:
+        return 'm4.xlarge.elasticsearch';
+      case ESPartitionInstanceType.m4_2xlargeElasticsearch:
+        return 'm4.2xlarge.elasticsearch';
+      case ESPartitionInstanceType.m4_4xlargeElasticsearch:
+        return 'm4.4xlarge.elasticsearch';
+      case ESPartitionInstanceType.m4_10xlargeElasticsearch:
+        return 'm4.10xlarge.elasticsearch';
+      case ESPartitionInstanceType.m5LargeElasticsearch:
+        return 'm5.large.elasticsearch';
+      case ESPartitionInstanceType.m5XlargeElasticsearch:
+        return 'm5.xlarge.elasticsearch';
+      case ESPartitionInstanceType.m5_2xlargeElasticsearch:
+        return 'm5.2xlarge.elasticsearch';
+      case ESPartitionInstanceType.m5_4xlargeElasticsearch:
+        return 'm5.4xlarge.elasticsearch';
+      case ESPartitionInstanceType.m5_12xlargeElasticsearch:
+        return 'm5.12xlarge.elasticsearch';
+      case ESPartitionInstanceType.r5LargeElasticsearch:
+        return 'r5.large.elasticsearch';
+      case ESPartitionInstanceType.r5XlargeElasticsearch:
+        return 'r5.xlarge.elasticsearch';
+      case ESPartitionInstanceType.r5_2xlargeElasticsearch:
+        return 'r5.2xlarge.elasticsearch';
+      case ESPartitionInstanceType.r5_4xlargeElasticsearch:
+        return 'r5.4xlarge.elasticsearch';
+      case ESPartitionInstanceType.r5_12xlargeElasticsearch:
+        return 'r5.12xlarge.elasticsearch';
+      case ESPartitionInstanceType.c5LargeElasticsearch:
+        return 'c5.large.elasticsearch';
+      case ESPartitionInstanceType.c5XlargeElasticsearch:
+        return 'c5.xlarge.elasticsearch';
+      case ESPartitionInstanceType.c5_2xlargeElasticsearch:
+        return 'c5.2xlarge.elasticsearch';
+      case ESPartitionInstanceType.c5_4xlargeElasticsearch:
+        return 'c5.4xlarge.elasticsearch';
+      case ESPartitionInstanceType.c5_9xlargeElasticsearch:
+        return 'c5.9xlarge.elasticsearch';
+      case ESPartitionInstanceType.c5_18xlargeElasticsearch:
+        return 'c5.18xlarge.elasticsearch';
+      case ESPartitionInstanceType.ultrawarm1MediumElasticsearch:
+        return 'ultrawarm1.medium.elasticsearch';
+      case ESPartitionInstanceType.ultrawarm1LargeElasticsearch:
+        return 'ultrawarm1.large.elasticsearch';
+      case ESPartitionInstanceType.t2MicroElasticsearch:
+        return 't2.micro.elasticsearch';
+      case ESPartitionInstanceType.t2SmallElasticsearch:
+        return 't2.small.elasticsearch';
+      case ESPartitionInstanceType.t2MediumElasticsearch:
+        return 't2.medium.elasticsearch';
+      case ESPartitionInstanceType.r3LargeElasticsearch:
+        return 'r3.large.elasticsearch';
+      case ESPartitionInstanceType.r3XlargeElasticsearch:
+        return 'r3.xlarge.elasticsearch';
+      case ESPartitionInstanceType.r3_2xlargeElasticsearch:
+        return 'r3.2xlarge.elasticsearch';
+      case ESPartitionInstanceType.r3_4xlargeElasticsearch:
+        return 'r3.4xlarge.elasticsearch';
+      case ESPartitionInstanceType.r3_8xlargeElasticsearch:
+        return 'r3.8xlarge.elasticsearch';
+      case ESPartitionInstanceType.i2XlargeElasticsearch:
+        return 'i2.xlarge.elasticsearch';
+      case ESPartitionInstanceType.i2_2xlargeElasticsearch:
+        return 'i2.2xlarge.elasticsearch';
+      case ESPartitionInstanceType.d2XlargeElasticsearch:
+        return 'd2.xlarge.elasticsearch';
+      case ESPartitionInstanceType.d2_2xlargeElasticsearch:
+        return 'd2.2xlarge.elasticsearch';
+      case ESPartitionInstanceType.d2_4xlargeElasticsearch:
+        return 'd2.4xlarge.elasticsearch';
+      case ESPartitionInstanceType.d2_8xlargeElasticsearch:
+        return 'd2.8xlarge.elasticsearch';
+      case ESPartitionInstanceType.c4LargeElasticsearch:
+        return 'c4.large.elasticsearch';
+      case ESPartitionInstanceType.c4XlargeElasticsearch:
+        return 'c4.xlarge.elasticsearch';
+      case ESPartitionInstanceType.c4_2xlargeElasticsearch:
+        return 'c4.2xlarge.elasticsearch';
+      case ESPartitionInstanceType.c4_4xlargeElasticsearch:
+        return 'c4.4xlarge.elasticsearch';
+      case ESPartitionInstanceType.c4_8xlargeElasticsearch:
+        return 'c4.8xlarge.elasticsearch';
+      case ESPartitionInstanceType.r4LargeElasticsearch:
+        return 'r4.large.elasticsearch';
+      case ESPartitionInstanceType.r4XlargeElasticsearch:
+        return 'r4.xlarge.elasticsearch';
+      case ESPartitionInstanceType.r4_2xlargeElasticsearch:
+        return 'r4.2xlarge.elasticsearch';
+      case ESPartitionInstanceType.r4_4xlargeElasticsearch:
+        return 'r4.4xlarge.elasticsearch';
+      case ESPartitionInstanceType.r4_8xlargeElasticsearch:
+        return 'r4.8xlarge.elasticsearch';
+      case ESPartitionInstanceType.r4_16xlargeElasticsearch:
+        return 'r4.16xlarge.elasticsearch';
+      case ESPartitionInstanceType.i3LargeElasticsearch:
+        return 'i3.large.elasticsearch';
+      case ESPartitionInstanceType.i3XlargeElasticsearch:
+        return 'i3.xlarge.elasticsearch';
+      case ESPartitionInstanceType.i3_2xlargeElasticsearch:
+        return 'i3.2xlarge.elasticsearch';
+      case ESPartitionInstanceType.i3_4xlargeElasticsearch:
+        return 'i3.4xlarge.elasticsearch';
+      case ESPartitionInstanceType.i3_8xlargeElasticsearch:
+        return 'i3.8xlarge.elasticsearch';
+      case ESPartitionInstanceType.i3_16xlargeElasticsearch:
+        return 'i3.16xlarge.elasticsearch';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 enum ESWarmPartitionInstanceType {

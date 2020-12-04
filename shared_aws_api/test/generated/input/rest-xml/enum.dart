@@ -40,12 +40,14 @@ class Enum {
   }) async {
     final headers = <String, String>{};
     headerEnum?.let((v) => headers['x-amz-enum'] = v.toValue());
-    final queryParams = <String, String>{};
-    uRIListEnums?.let((v) => queryParams['ListEnums'] = v.toString());
+    final $query = <String, List<String>>{
+      if (uRIListEnums != null)
+        'ListEnums': uRIListEnums.map((e) => e?.toValue() ?? '').toList(),
+    };
     await _protocol.send(
       method: 'POST',
-      requestUri: '/Enum/${Uri.encodeComponent(uRIFooEnum.toString())}',
-      queryParams: queryParams,
+      requestUri: '/Enum/${Uri.encodeComponent(uRIFooEnum.toValue())}',
+      queryParams: $query,
       headers: headers,
       payload: InputShape(
               fooEnum: fooEnum,
@@ -67,12 +69,14 @@ class Enum {
   }) async {
     final headers = <String, String>{};
     headerEnum?.let((v) => headers['x-amz-enum'] = v.toValue());
-    final queryParams = <String, String>{};
-    uRIListEnums?.let((v) => queryParams['ListEnums'] = v.toString());
+    final $query = <String, List<String>>{
+      if (uRIListEnums != null)
+        'ListEnums': uRIListEnums.map((e) => e?.toValue() ?? '').toList(),
+    };
     await _protocol.send(
       method: 'POST',
       requestUri: '/path',
-      queryParams: queryParams,
+      queryParams: $query,
       headers: headers,
       payload: InputShape(
               fooEnum: fooEnum,

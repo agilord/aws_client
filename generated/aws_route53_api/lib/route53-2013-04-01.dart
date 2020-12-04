@@ -97,7 +97,7 @@ class Route53 {
     final $result = await _protocol.send(
       method: 'POST',
       requestUri:
-          '/2013-04-01/hostedzone/${Uri.encodeComponent(hostedZoneId.toString())}/associatevpc',
+          '/2013-04-01/hostedzone/${Uri.encodeComponent(hostedZoneId)}/associatevpc',
       payload: AssociateVPCWithHostedZoneRequest(
               hostedZoneId: hostedZoneId, vpc: vpc, comment: comment)
           .toXml(
@@ -237,7 +237,7 @@ class Route53 {
     final $result = await _protocol.send(
       method: 'POST',
       requestUri:
-          '/2013-04-01/hostedzone/${Uri.encodeComponent(hostedZoneId.toString())}/rrset/',
+          '/2013-04-01/hostedzone/${Uri.encodeComponent(hostedZoneId)}/rrset/',
       payload: ChangeResourceRecordSetsRequest(
               changeBatch: changeBatch, hostedZoneId: hostedZoneId)
           .toXml(
@@ -309,7 +309,7 @@ class Route53 {
     await _protocol.send(
       method: 'POST',
       requestUri:
-          '/2013-04-01/tags/${Uri.encodeComponent(resourceType.toString())}/${Uri.encodeComponent(resourceId.toString())}',
+          '/2013-04-01/tags/${Uri.encodeComponent(resourceType.toValue())}/${Uri.encodeComponent(resourceId)}',
       payload: ChangeTagsForResourceRequest(
               resourceId: resourceId,
               resourceType: resourceType,
@@ -1152,8 +1152,7 @@ class Route53 {
     );
     final $result = await _protocol.sendRaw(
       method: 'POST',
-      requestUri:
-          '/2013-04-01/trafficpolicy/${Uri.encodeComponent(id.toString())}',
+      requestUri: '/2013-04-01/trafficpolicy/${Uri.encodeComponent(id)}',
       payload: CreateTrafficPolicyVersionRequest(
               document: document, id: id, comment: comment)
           .toXml(
@@ -1217,7 +1216,7 @@ class Route53 {
     final $result = await _protocol.send(
       method: 'POST',
       requestUri:
-          '/2013-04-01/hostedzone/${Uri.encodeComponent(hostedZoneId.toString())}/authorizevpcassociation',
+          '/2013-04-01/hostedzone/${Uri.encodeComponent(hostedZoneId)}/authorizevpcassociation',
       payload: CreateVPCAssociationAuthorizationRequest(
               hostedZoneId: hostedZoneId, vpc: vpc)
           .toXml(
@@ -1271,7 +1270,7 @@ class Route53 {
     await _protocol.send(
       method: 'DELETE',
       requestUri:
-          '/2013-04-01/healthcheck/${Uri.encodeComponent(healthCheckId.toString())}',
+          '/2013-04-01/healthcheck/${Uri.encodeComponent(healthCheckId)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1353,8 +1352,7 @@ class Route53 {
     );
     final $result = await _protocol.send(
       method: 'DELETE',
-      requestUri:
-          '/2013-04-01/hostedzone/${Uri.encodeComponent(id.toString())}',
+      requestUri: '/2013-04-01/hostedzone/${Uri.encodeComponent(id)}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteHostedZoneResponse.fromXml($result.body);
@@ -1387,8 +1385,7 @@ class Route53 {
     );
     await _protocol.send(
       method: 'DELETE',
-      requestUri:
-          '/2013-04-01/queryloggingconfig/${Uri.encodeComponent(id.toString())}',
+      requestUri: '/2013-04-01/queryloggingconfig/${Uri.encodeComponent(id)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1424,8 +1421,7 @@ class Route53 {
     );
     await _protocol.send(
       method: 'DELETE',
-      requestUri:
-          '/2013-04-01/delegationset/${Uri.encodeComponent(id.toString())}',
+      requestUri: '/2013-04-01/delegationset/${Uri.encodeComponent(id)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1465,7 +1461,7 @@ class Route53 {
     await _protocol.send(
       method: 'DELETE',
       requestUri:
-          '/2013-04-01/trafficpolicy/${Uri.encodeComponent(id.toString())}/${Uri.encodeComponent(version.toString())}',
+          '/2013-04-01/trafficpolicy/${Uri.encodeComponent(id)}/${Uri.encodeComponent(version.toString())}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1502,7 +1498,7 @@ class Route53 {
     await _protocol.send(
       method: 'DELETE',
       requestUri:
-          '/2013-04-01/trafficpolicyinstance/${Uri.encodeComponent(id.toString())}',
+          '/2013-04-01/trafficpolicyinstance/${Uri.encodeComponent(id)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1551,7 +1547,7 @@ class Route53 {
     await _protocol.send(
       method: 'POST',
       requestUri:
-          '/2013-04-01/hostedzone/${Uri.encodeComponent(hostedZoneId.toString())}/deauthorizevpcassociation',
+          '/2013-04-01/hostedzone/${Uri.encodeComponent(hostedZoneId)}/deauthorizevpcassociation',
       payload: DeleteVPCAssociationAuthorizationRequest(
               hostedZoneId: hostedZoneId, vpc: vpc)
           .toXml(
@@ -1615,7 +1611,7 @@ class Route53 {
     final $result = await _protocol.send(
       method: 'POST',
       requestUri:
-          '/2013-04-01/hostedzone/${Uri.encodeComponent(hostedZoneId.toString())}/disassociatevpc',
+          '/2013-04-01/hostedzone/${Uri.encodeComponent(hostedZoneId)}/disassociatevpc',
       payload: DisassociateVPCFromHostedZoneRequest(
               hostedZoneId: hostedZoneId, vpc: vpc, comment: comment)
           .toXml(
@@ -1682,7 +1678,7 @@ class Route53 {
     final $result = await _protocol.send(
       method: 'GET',
       requestUri:
-          '/2013-04-01/accountlimit/${Uri.encodeComponent(type.toString())}',
+          '/2013-04-01/accountlimit/${Uri.encodeComponent(type.toValue())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetAccountLimitResponse.fromXml($result.body);
@@ -1723,7 +1719,7 @@ class Route53 {
     );
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/2013-04-01/change/${Uri.encodeComponent(id.toString())}',
+      requestUri: '/2013-04-01/change/${Uri.encodeComponent(id)}',
       exceptionFnMap: _exceptionFns,
     );
     return GetChangeResponse.fromXml($result.body);
@@ -1836,14 +1832,15 @@ class Route53 {
       1,
       3,
     );
-    final queryParams = <String, String>{};
-    continentCode?.let((v) => queryParams['continentcode'] = v.toString());
-    countryCode?.let((v) => queryParams['countrycode'] = v.toString());
-    subdivisionCode?.let((v) => queryParams['subdivisioncode'] = v.toString());
+    final $query = <String, List<String>>{
+      if (continentCode != null) 'continentcode': [continentCode],
+      if (countryCode != null) 'countrycode': [countryCode],
+      if (subdivisionCode != null) 'subdivisioncode': [subdivisionCode],
+    };
     final $result = await _protocol.send(
       method: 'GET',
       requestUri: '/2013-04-01/geolocation',
-      queryParams: queryParams,
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return GetGeoLocationResponse.fromXml($result.body);
@@ -1874,7 +1871,7 @@ class Route53 {
     final $result = await _protocol.send(
       method: 'GET',
       requestUri:
-          '/2013-04-01/healthcheck/${Uri.encodeComponent(healthCheckId.toString())}',
+          '/2013-04-01/healthcheck/${Uri.encodeComponent(healthCheckId)}',
       exceptionFnMap: _exceptionFns,
     );
     return GetHealthCheckResponse.fromXml($result.body);
@@ -1921,7 +1918,7 @@ class Route53 {
     final $result = await _protocol.send(
       method: 'GET',
       requestUri:
-          '/2013-04-01/healthcheck/${Uri.encodeComponent(healthCheckId.toString())}/lastfailurereason',
+          '/2013-04-01/healthcheck/${Uri.encodeComponent(healthCheckId)}/lastfailurereason',
       exceptionFnMap: _exceptionFns,
     );
     return GetHealthCheckLastFailureReasonResponse.fromXml($result.body);
@@ -1956,7 +1953,7 @@ class Route53 {
     final $result = await _protocol.send(
       method: 'GET',
       requestUri:
-          '/2013-04-01/healthcheck/${Uri.encodeComponent(healthCheckId.toString())}/status',
+          '/2013-04-01/healthcheck/${Uri.encodeComponent(healthCheckId)}/status',
       exceptionFnMap: _exceptionFns,
     );
     return GetHealthCheckStatusResponse.fromXml($result.body);
@@ -1983,8 +1980,7 @@ class Route53 {
     );
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri:
-          '/2013-04-01/hostedzone/${Uri.encodeComponent(id.toString())}',
+      requestUri: '/2013-04-01/hostedzone/${Uri.encodeComponent(id)}',
       exceptionFnMap: _exceptionFns,
     );
     return GetHostedZoneResponse.fromXml($result.body);
@@ -2049,7 +2045,7 @@ class Route53 {
     final $result = await _protocol.send(
       method: 'GET',
       requestUri:
-          '/2013-04-01/hostedzonelimit/${Uri.encodeComponent(hostedZoneId.toString())}/${Uri.encodeComponent(type.toString())}',
+          '/2013-04-01/hostedzonelimit/${Uri.encodeComponent(hostedZoneId)}/${Uri.encodeComponent(type.toValue())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetHostedZoneLimitResponse.fromXml($result.body);
@@ -2082,8 +2078,7 @@ class Route53 {
     );
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri:
-          '/2013-04-01/queryloggingconfig/${Uri.encodeComponent(id.toString())}',
+      requestUri: '/2013-04-01/queryloggingconfig/${Uri.encodeComponent(id)}',
       exceptionFnMap: _exceptionFns,
     );
     return GetQueryLoggingConfigResponse.fromXml($result.body);
@@ -2112,8 +2107,7 @@ class Route53 {
     );
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri:
-          '/2013-04-01/delegationset/${Uri.encodeComponent(id.toString())}',
+      requestUri: '/2013-04-01/delegationset/${Uri.encodeComponent(id)}',
       exceptionFnMap: _exceptionFns,
     );
     return GetReusableDelegationSetResponse.fromXml($result.body);
@@ -2155,7 +2149,7 @@ class Route53 {
     final $result = await _protocol.send(
       method: 'GET',
       requestUri:
-          '/2013-04-01/reusabledelegationsetlimit/${Uri.encodeComponent(delegationSetId.toString())}/${Uri.encodeComponent(type.toString())}',
+          '/2013-04-01/reusabledelegationsetlimit/${Uri.encodeComponent(delegationSetId)}/${Uri.encodeComponent(type.toValue())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetReusableDelegationSetLimitResponse.fromXml($result.body);
@@ -2195,7 +2189,7 @@ class Route53 {
     final $result = await _protocol.send(
       method: 'GET',
       requestUri:
-          '/2013-04-01/trafficpolicy/${Uri.encodeComponent(id.toString())}/${Uri.encodeComponent(version.toString())}',
+          '/2013-04-01/trafficpolicy/${Uri.encodeComponent(id)}/${Uri.encodeComponent(version.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return GetTrafficPolicyResponse.fromXml($result.body);
@@ -2233,7 +2227,7 @@ class Route53 {
     final $result = await _protocol.send(
       method: 'GET',
       requestUri:
-          '/2013-04-01/trafficpolicyinstance/${Uri.encodeComponent(id.toString())}',
+          '/2013-04-01/trafficpolicyinstance/${Uri.encodeComponent(id)}',
       exceptionFnMap: _exceptionFns,
     );
     return GetTrafficPolicyInstanceResponse.fromXml($result.body);
@@ -2325,18 +2319,18 @@ class Route53 {
       1,
       3,
     );
-    final queryParams = <String, String>{};
-    maxItems?.let((v) => queryParams['maxitems'] = v.toString());
-    startContinentCode
-        ?.let((v) => queryParams['startcontinentcode'] = v.toString());
-    startCountryCode
-        ?.let((v) => queryParams['startcountrycode'] = v.toString());
-    startSubdivisionCode
-        ?.let((v) => queryParams['startsubdivisioncode'] = v.toString());
+    final $query = <String, List<String>>{
+      if (maxItems != null) 'maxitems': [maxItems],
+      if (startContinentCode != null)
+        'startcontinentcode': [startContinentCode],
+      if (startCountryCode != null) 'startcountrycode': [startCountryCode],
+      if (startSubdivisionCode != null)
+        'startsubdivisioncode': [startSubdivisionCode],
+    };
     final $result = await _protocol.send(
       method: 'GET',
       requestUri: '/2013-04-01/geolocations',
-      queryParams: queryParams,
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListGeoLocationsResponse.fromXml($result.body);
@@ -2377,13 +2371,14 @@ class Route53 {
       0,
       64,
     );
-    final queryParams = <String, String>{};
-    marker?.let((v) => queryParams['marker'] = v.toString());
-    maxItems?.let((v) => queryParams['maxitems'] = v.toString());
+    final $query = <String, List<String>>{
+      if (marker != null) 'marker': [marker],
+      if (maxItems != null) 'maxitems': [maxItems],
+    };
     final $result = await _protocol.send(
       method: 'GET',
       requestUri: '/2013-04-01/healthcheck',
-      queryParams: queryParams,
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListHealthChecksResponse.fromXml($result.body);
@@ -2443,14 +2438,15 @@ class Route53 {
       0,
       64,
     );
-    final queryParams = <String, String>{};
-    delegationSetId?.let((v) => queryParams['delegationsetid'] = v.toString());
-    marker?.let((v) => queryParams['marker'] = v.toString());
-    maxItems?.let((v) => queryParams['maxitems'] = v.toString());
+    final $query = <String, List<String>>{
+      if (delegationSetId != null) 'delegationsetid': [delegationSetId],
+      if (marker != null) 'marker': [marker],
+      if (maxItems != null) 'maxitems': [maxItems],
+    };
     final $result = await _protocol.send(
       method: 'GET',
       requestUri: '/2013-04-01/hostedzone',
-      queryParams: queryParams,
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListHostedZonesResponse.fromXml($result.body);
@@ -2571,14 +2567,15 @@ class Route53 {
       0,
       32,
     );
-    final queryParams = <String, String>{};
-    dNSName?.let((v) => queryParams['dnsname'] = v.toString());
-    hostedZoneId?.let((v) => queryParams['hostedzoneid'] = v.toString());
-    maxItems?.let((v) => queryParams['maxitems'] = v.toString());
+    final $query = <String, List<String>>{
+      if (dNSName != null) 'dnsname': [dNSName],
+      if (hostedZoneId != null) 'hostedzoneid': [hostedZoneId],
+      if (maxItems != null) 'maxitems': [maxItems],
+    };
     final $result = await _protocol.send(
       method: 'GET',
       requestUri: '/2013-04-01/hostedzonesbyname',
-      queryParams: queryParams,
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListHostedZonesByNameResponse.fromXml($result.body);
@@ -2647,14 +2644,15 @@ class Route53 {
       0,
       256,
     );
-    final queryParams = <String, String>{};
-    hostedZoneId?.let((v) => queryParams['hostedzoneid'] = v.toString());
-    maxResults?.let((v) => queryParams['maxresults'] = v.toString());
-    nextToken?.let((v) => queryParams['nexttoken'] = v.toString());
+    final $query = <String, List<String>>{
+      if (hostedZoneId != null) 'hostedzoneid': [hostedZoneId],
+      if (maxResults != null) 'maxresults': [maxResults],
+      if (nextToken != null) 'nexttoken': [nextToken],
+    };
     final $result = await _protocol.send(
       method: 'GET',
       requestUri: '/2013-04-01/queryloggingconfig',
-      queryParams: queryParams,
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListQueryLoggingConfigsResponse.fromXml($result.body);
@@ -2822,16 +2820,17 @@ class Route53 {
       0,
       1024,
     );
-    final queryParams = <String, String>{};
-    maxItems?.let((v) => queryParams['maxitems'] = v.toString());
-    startRecordIdentifier?.let((v) => queryParams['identifier'] = v.toString());
-    startRecordName?.let((v) => queryParams['name'] = v.toString());
-    startRecordType?.let((v) => queryParams['type'] = v.toValue());
+    final $query = <String, List<String>>{
+      if (maxItems != null) 'maxitems': [maxItems],
+      if (startRecordIdentifier != null) 'identifier': [startRecordIdentifier],
+      if (startRecordName != null) 'name': [startRecordName],
+      if (startRecordType != null) 'type': [startRecordType.toValue()],
+    };
     final $result = await _protocol.send(
       method: 'GET',
       requestUri:
-          '/2013-04-01/hostedzone/${Uri.encodeComponent(hostedZoneId.toString())}/rrset',
-      queryParams: queryParams,
+          '/2013-04-01/hostedzone/${Uri.encodeComponent(hostedZoneId)}/rrset',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListResourceRecordSetsResponse.fromXml($result.body);
@@ -2869,13 +2868,14 @@ class Route53 {
       0,
       64,
     );
-    final queryParams = <String, String>{};
-    marker?.let((v) => queryParams['marker'] = v.toString());
-    maxItems?.let((v) => queryParams['maxitems'] = v.toString());
+    final $query = <String, List<String>>{
+      if (marker != null) 'marker': [marker],
+      if (maxItems != null) 'maxitems': [maxItems],
+    };
     final $result = await _protocol.send(
       method: 'GET',
       requestUri: '/2013-04-01/delegationset',
-      queryParams: queryParams,
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListReusableDelegationSetsResponse.fromXml($result.body);
@@ -2924,7 +2924,7 @@ class Route53 {
     final $result = await _protocol.send(
       method: 'GET',
       requestUri:
-          '/2013-04-01/tags/${Uri.encodeComponent(resourceType.toString())}/${Uri.encodeComponent(resourceId.toString())}',
+          '/2013-04-01/tags/${Uri.encodeComponent(resourceType.toValue())}/${Uri.encodeComponent(resourceId)}',
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsForResourceResponse.fromXml($result.body);
@@ -2967,7 +2967,7 @@ class Route53 {
     final $result = await _protocol.send(
       method: 'POST',
       requestUri:
-          '/2013-04-01/tags/${Uri.encodeComponent(resourceType.toString())}',
+          '/2013-04-01/tags/${Uri.encodeComponent(resourceType.toValue())}',
       payload: ListTagsForResourcesRequest(
               resourceIds: resourceIds, resourceType: resourceType)
           .toXml(
@@ -3017,14 +3017,15 @@ class Route53 {
       1,
       36,
     );
-    final queryParams = <String, String>{};
-    maxItems?.let((v) => queryParams['maxitems'] = v.toString());
-    trafficPolicyIdMarker
-        ?.let((v) => queryParams['trafficpolicyid'] = v.toString());
+    final $query = <String, List<String>>{
+      if (maxItems != null) 'maxitems': [maxItems],
+      if (trafficPolicyIdMarker != null)
+        'trafficpolicyid': [trafficPolicyIdMarker],
+    };
     final $result = await _protocol.send(
       method: 'GET',
       requestUri: '/2013-04-01/trafficpolicies',
-      queryParams: queryParams,
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListTrafficPoliciesResponse.fromXml($result.body);
@@ -3113,17 +3114,20 @@ class Route53 {
       0,
       1024,
     );
-    final queryParams = <String, String>{};
-    hostedZoneIdMarker?.let((v) => queryParams['hostedzoneid'] = v.toString());
-    maxItems?.let((v) => queryParams['maxitems'] = v.toString());
-    trafficPolicyInstanceNameMarker
-        ?.let((v) => queryParams['trafficpolicyinstancename'] = v.toString());
-    trafficPolicyInstanceTypeMarker
-        ?.let((v) => queryParams['trafficpolicyinstancetype'] = v.toValue());
+    final $query = <String, List<String>>{
+      if (hostedZoneIdMarker != null) 'hostedzoneid': [hostedZoneIdMarker],
+      if (maxItems != null) 'maxitems': [maxItems],
+      if (trafficPolicyInstanceNameMarker != null)
+        'trafficpolicyinstancename': [trafficPolicyInstanceNameMarker],
+      if (trafficPolicyInstanceTypeMarker != null)
+        'trafficpolicyinstancetype': [
+          trafficPolicyInstanceTypeMarker.toValue()
+        ],
+    };
     final $result = await _protocol.send(
       method: 'GET',
       requestUri: '/2013-04-01/trafficpolicyinstances',
-      queryParams: queryParams,
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListTrafficPolicyInstancesResponse.fromXml($result.body);
@@ -3205,17 +3209,20 @@ class Route53 {
       0,
       1024,
     );
-    final queryParams = <String, String>{};
-    hostedZoneId?.let((v) => queryParams['id'] = v.toString());
-    maxItems?.let((v) => queryParams['maxitems'] = v.toString());
-    trafficPolicyInstanceNameMarker
-        ?.let((v) => queryParams['trafficpolicyinstancename'] = v.toString());
-    trafficPolicyInstanceTypeMarker
-        ?.let((v) => queryParams['trafficpolicyinstancetype'] = v.toValue());
+    final $query = <String, List<String>>{
+      if (hostedZoneId != null) 'id': [hostedZoneId],
+      if (maxItems != null) 'maxitems': [maxItems],
+      if (trafficPolicyInstanceNameMarker != null)
+        'trafficpolicyinstancename': [trafficPolicyInstanceNameMarker],
+      if (trafficPolicyInstanceTypeMarker != null)
+        'trafficpolicyinstancetype': [
+          trafficPolicyInstanceTypeMarker.toValue()
+        ],
+    };
     final $result = await _protocol.send(
       method: 'GET',
       requestUri: '/2013-04-01/trafficpolicyinstances/hostedzone',
-      queryParams: queryParams,
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListTrafficPolicyInstancesByHostedZoneResponse.fromXml($result.body);
@@ -3336,19 +3343,23 @@ class Route53 {
       0,
       1024,
     );
-    final queryParams = <String, String>{};
-    trafficPolicyId?.let((v) => queryParams['id'] = v.toString());
-    trafficPolicyVersion?.let((v) => queryParams['version'] = v.toString());
-    hostedZoneIdMarker?.let((v) => queryParams['hostedzoneid'] = v.toString());
-    maxItems?.let((v) => queryParams['maxitems'] = v.toString());
-    trafficPolicyInstanceNameMarker
-        ?.let((v) => queryParams['trafficpolicyinstancename'] = v.toString());
-    trafficPolicyInstanceTypeMarker
-        ?.let((v) => queryParams['trafficpolicyinstancetype'] = v.toValue());
+    final $query = <String, List<String>>{
+      if (trafficPolicyId != null) 'id': [trafficPolicyId],
+      if (trafficPolicyVersion != null)
+        'version': [trafficPolicyVersion.toString()],
+      if (hostedZoneIdMarker != null) 'hostedzoneid': [hostedZoneIdMarker],
+      if (maxItems != null) 'maxitems': [maxItems],
+      if (trafficPolicyInstanceNameMarker != null)
+        'trafficpolicyinstancename': [trafficPolicyInstanceNameMarker],
+      if (trafficPolicyInstanceTypeMarker != null)
+        'trafficpolicyinstancetype': [
+          trafficPolicyInstanceTypeMarker.toValue()
+        ],
+    };
     final $result = await _protocol.send(
       method: 'GET',
       requestUri: '/2013-04-01/trafficpolicyinstances/trafficpolicy',
-      queryParams: queryParams,
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListTrafficPolicyInstancesByPolicyResponse.fromXml($result.body);
@@ -3404,15 +3415,16 @@ class Route53 {
       0,
       4,
     );
-    final queryParams = <String, String>{};
-    maxItems?.let((v) => queryParams['maxitems'] = v.toString());
-    trafficPolicyVersionMarker
-        ?.let((v) => queryParams['trafficpolicyversion'] = v.toString());
+    final $query = <String, List<String>>{
+      if (maxItems != null) 'maxitems': [maxItems],
+      if (trafficPolicyVersionMarker != null)
+        'trafficpolicyversion': [trafficPolicyVersionMarker],
+    };
     final $result = await _protocol.send(
       method: 'GET',
       requestUri:
-          '/2013-04-01/trafficpolicies/${Uri.encodeComponent(id.toString())}/versions',
-      queryParams: queryParams,
+          '/2013-04-01/trafficpolicies/${Uri.encodeComponent(id)}/versions',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListTrafficPolicyVersionsResponse.fromXml($result.body);
@@ -3465,14 +3477,15 @@ class Route53 {
       0,
       256,
     );
-    final queryParams = <String, String>{};
-    maxResults?.let((v) => queryParams['maxresults'] = v.toString());
-    nextToken?.let((v) => queryParams['nexttoken'] = v.toString());
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxresults': [maxResults],
+      if (nextToken != null) 'nexttoken': [nextToken],
+    };
     final $result = await _protocol.send(
       method: 'GET',
       requestUri:
-          '/2013-04-01/hostedzone/${Uri.encodeComponent(hostedZoneId.toString())}/authorizevpcassociation',
-      queryParams: queryParams,
+          '/2013-04-01/hostedzone/${Uri.encodeComponent(hostedZoneId)}/authorizevpcassociation',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListVPCAssociationAuthorizationsResponse.fromXml($result.body);
@@ -3582,19 +3595,20 @@ class Route53 {
       resolverIP,
       r'''(^((([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))$|^(([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,7}:|([0-9a-fA-F]{1,4}:){1,6}:[0-9a-fA-F]{1,4}|([0-9a-fA-F]{1,4}:){1,5}(:[0-9a-fA-F]{1,4}){1,2}|([0-9a-fA-F]{1,4}:){1,4}(:[0-9a-fA-F]{1,4}){1,3}|([0-9a-fA-F]{1,4}:){1,3}(:[0-9a-fA-F]{1,4}){1,4}|([0-9a-fA-F]{1,4}:){1,2}(:[0-9a-fA-F]{1,4}){1,5}|[0-9a-fA-F]{1,4}:((:[0-9a-fA-F]{1,4}){1,6})|:((:[0-9a-fA-F]{1,4}){1,7}|:)|fe80:(:[0-9a-fA-F]{0,4}){0,4}%[0-9a-zA-Z]{1,}|::(ffff(:0{1,4}){0,1}:){0,1}((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])|([0-9a-fA-F]{1,4}:){1,4}:((25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9])\.){3,3}(25[0-5]|(2[0-4]|1{0,1}[0-9]){0,1}[0-9]))$)''',
     );
-    final queryParams = <String, String>{};
-    hostedZoneId?.let((v) => queryParams['hostedzoneid'] = v.toString());
-    recordName?.let((v) => queryParams['recordname'] = v.toString());
-    recordType?.let((v) => queryParams['recordtype'] = v.toValue());
-    eDNS0ClientSubnetIP
-        ?.let((v) => queryParams['edns0clientsubnetip'] = v.toString());
-    eDNS0ClientSubnetMask
-        ?.let((v) => queryParams['edns0clientsubnetmask'] = v.toString());
-    resolverIP?.let((v) => queryParams['resolverip'] = v.toString());
+    final $query = <String, List<String>>{
+      if (hostedZoneId != null) 'hostedzoneid': [hostedZoneId],
+      if (recordName != null) 'recordname': [recordName],
+      if (recordType != null) 'recordtype': [recordType.toValue()],
+      if (eDNS0ClientSubnetIP != null)
+        'edns0clientsubnetip': [eDNS0ClientSubnetIP],
+      if (eDNS0ClientSubnetMask != null)
+        'edns0clientsubnetmask': [eDNS0ClientSubnetMask],
+      if (resolverIP != null) 'resolverip': [resolverIP],
+    };
     final $result = await _protocol.send(
       method: 'GET',
       requestUri: '/2013-04-01/testdnsanswer',
-      queryParams: queryParams,
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return TestDNSAnswerResponse.fromXml($result.body);
@@ -4056,7 +4070,7 @@ class Route53 {
     final $result = await _protocol.send(
       method: 'POST',
       requestUri:
-          '/2013-04-01/healthcheck/${Uri.encodeComponent(healthCheckId.toString())}',
+          '/2013-04-01/healthcheck/${Uri.encodeComponent(healthCheckId)}',
       payload: UpdateHealthCheckRequest(
               healthCheckId: healthCheckId,
               alarmIdentifier: alarmIdentifier,
@@ -4119,8 +4133,7 @@ class Route53 {
     );
     final $result = await _protocol.send(
       method: 'POST',
-      requestUri:
-          '/2013-04-01/hostedzone/${Uri.encodeComponent(id.toString())}',
+      requestUri: '/2013-04-01/hostedzone/${Uri.encodeComponent(id)}',
       payload: UpdateHostedZoneCommentRequest(id: id, comment: comment).toXml(
         'UpdateHostedZoneCommentRequest',
         attributes: [
@@ -4181,7 +4194,7 @@ class Route53 {
     final $result = await _protocol.send(
       method: 'POST',
       requestUri:
-          '/2013-04-01/trafficpolicy/${Uri.encodeComponent(id.toString())}/${Uri.encodeComponent(version.toString())}',
+          '/2013-04-01/trafficpolicy/${Uri.encodeComponent(id)}/${Uri.encodeComponent(version.toString())}',
       payload: UpdateTrafficPolicyCommentRequest(
               comment: comment, id: id, version: version)
           .toXml(
@@ -4281,7 +4294,7 @@ class Route53 {
     final $result = await _protocol.send(
       method: 'POST',
       requestUri:
-          '/2013-04-01/trafficpolicyinstance/${Uri.encodeComponent(id.toString())}',
+          '/2013-04-01/trafficpolicyinstance/${Uri.encodeComponent(id)}',
       payload: UpdateTrafficPolicyInstanceRequest(
               id: id,
               ttl: ttl,

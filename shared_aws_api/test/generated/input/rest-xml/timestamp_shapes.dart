@@ -48,16 +48,22 @@ class TimestampShapes {
         _s.unixTimestampToJson(v).toString());
     timeFormatInHeader?.let((v) => headers['x-amz-timeformat-header'] =
         _s.unixTimestampToJson(v).toString());
-    final queryParams = <String, String>{};
-    timeArgInQuery?.let((v) => queryParams['TimeQuery'] = _s.iso8601ToJson(v));
-    timeCustomInQuery?.let((v) =>
-        queryParams['TimeCustomQuery'] = _s.unixTimestampToJson(v).toString());
-    timeFormatInQuery?.let((v) =>
-        queryParams['TimeFormatQuery'] = _s.unixTimestampToJson(v).toString());
+    final $query = <String, List<String>>{
+      if (timeArgInQuery != null)
+        'TimeQuery': [_s.iso8601ToJson(timeArgInQuery).toString()],
+      if (timeCustomInQuery != null)
+        'TimeCustomQuery': [
+          _s.unixTimestampToJson(timeCustomInQuery).toString().toString()
+        ],
+      if (timeFormatInQuery != null)
+        'TimeFormatQuery': [
+          _s.unixTimestampToJson(timeFormatInQuery).toString().toString()
+        ],
+    };
     await _protocol.send(
       method: 'POST',
       requestUri: '/2014-01-01/hostedzone',
-      queryParams: queryParams,
+      queryParams: $query,
       headers: headers,
       payload: InputShape(
               timeArg: timeArg,

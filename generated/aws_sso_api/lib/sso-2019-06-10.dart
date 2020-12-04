@@ -90,16 +90,16 @@ class SSO {
     ArgumentError.checkNotNull(roleName, 'roleName');
     final headers = <String, String>{};
     accessToken?.let((v) => headers['x-amz-sso_bearer_token'] = v.toString());
-    var _query = '';
-    _query = '?${[
-      if (accountId != null) _s.toQueryParam('account_id', accountId),
-      if (roleName != null) _s.toQueryParam('role_name', roleName),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (accountId != null) 'account_id': [accountId],
+      if (roleName != null) 'role_name': [roleName],
+    };
     final response = await _protocol.send(
       payload: null,
-      headers: headers,
       method: 'GET',
-      requestUri: '/federation/credentials$_query',
+      requestUri: '/federation/credentials',
+      queryParams: $query,
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return GetRoleCredentialsResponse.fromJson(response);
@@ -143,17 +143,17 @@ class SSO {
     );
     final headers = <String, String>{};
     accessToken?.let((v) => headers['x-amz-sso_bearer_token'] = v.toString());
-    var _query = '';
-    _query = '?${[
-      if (accountId != null) _s.toQueryParam('account_id', accountId),
-      if (maxResults != null) _s.toQueryParam('max_result', maxResults),
-      if (nextToken != null) _s.toQueryParam('next_token', nextToken),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (accountId != null) 'account_id': [accountId],
+      if (maxResults != null) 'max_result': [maxResults.toString()],
+      if (nextToken != null) 'next_token': [nextToken],
+    };
     final response = await _protocol.send(
       payload: null,
-      headers: headers,
       method: 'GET',
-      requestUri: '/assignment/roles$_query',
+      requestUri: '/assignment/roles',
+      queryParams: $query,
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return ListAccountRolesResponse.fromJson(response);
@@ -196,16 +196,16 @@ class SSO {
     );
     final headers = <String, String>{};
     accessToken?.let((v) => headers['x-amz-sso_bearer_token'] = v.toString());
-    var _query = '';
-    _query = '?${[
-      if (maxResults != null) _s.toQueryParam('max_result', maxResults),
-      if (nextToken != null) _s.toQueryParam('next_token', nextToken),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'max_result': [maxResults.toString()],
+      if (nextToken != null) 'next_token': [nextToken],
+    };
     final response = await _protocol.send(
       payload: null,
-      headers: headers,
       method: 'GET',
-      requestUri: '/assignment/accounts$_query',
+      requestUri: '/assignment/accounts',
+      queryParams: $query,
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return ListAccountsResponse.fromJson(response);
@@ -229,12 +229,11 @@ class SSO {
     ArgumentError.checkNotNull(accessToken, 'accessToken');
     final headers = <String, String>{};
     accessToken?.let((v) => headers['x-amz-sso_bearer_token'] = v.toString());
-    final $payload = <String, dynamic>{};
     await _protocol.send(
-      payload: $payload,
-      headers: headers,
+      payload: null,
       method: 'POST',
       requestUri: '/logout',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
   }

@@ -81,11 +81,10 @@ class IoTDataPlane {
       r'''[a-zA-Z0-9_-]+''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
     final response = await _protocol.sendRaw(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri: '/things/${Uri.encodeComponent(thingName.toString())}/shadow',
+      requestUri: '/things/${Uri.encodeComponent(thingName)}/shadow',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteThingShadowResponse(
@@ -130,7 +129,7 @@ class IoTDataPlane {
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
-      requestUri: '/things/${Uri.encodeComponent(thingName.toString())}/shadow',
+      requestUri: '/things/${Uri.encodeComponent(thingName)}/shadow',
       exceptionFnMap: _exceptionFns,
     );
     return GetThingShadowResponse(
@@ -169,14 +168,14 @@ class IoTDataPlane {
       0,
       1,
     );
-    var _query = '';
-    _query = '?${[
-      if (qos != null) _s.toQueryParam('qos', qos),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (qos != null) 'qos': [qos.toString()],
+    };
     await _protocol.send(
       payload: payload,
       method: 'POST',
-      requestUri: '/topics/${Uri.encodeComponent(topic.toString())}$_query',
+      requestUri: '/topics/${Uri.encodeComponent(topic)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -224,7 +223,7 @@ class IoTDataPlane {
     final response = await _protocol.sendRaw(
       payload: payload,
       method: 'POST',
-      requestUri: '/things/${Uri.encodeComponent(thingName.toString())}/shadow',
+      requestUri: '/things/${Uri.encodeComponent(thingName)}/shadow',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateThingShadowResponse(

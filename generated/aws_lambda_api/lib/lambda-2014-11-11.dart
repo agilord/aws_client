@@ -170,12 +170,10 @@ class Lambda {
       r'''[a-zA-Z0-9-_]+''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
     await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri:
-          '/2014-11-13/functions/${Uri.encodeComponent(functionName.toString())}',
+      requestUri: '/2014-11-13/functions/${Uri.encodeComponent(functionName)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -200,7 +198,7 @@ class Lambda {
       payload: null,
       method: 'GET',
       requestUri:
-          '/2014-11-13/event-source-mappings/${Uri.encodeComponent(uuid.toString())}',
+          '/2014-11-13/event-source-mappings/${Uri.encodeComponent(uuid)}',
       exceptionFnMap: _exceptionFns,
     );
     return EventSourceConfiguration.fromJson(response);
@@ -240,8 +238,7 @@ class Lambda {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/2014-11-13/functions/${Uri.encodeComponent(functionName.toString())}',
+      requestUri: '/2014-11-13/functions/${Uri.encodeComponent(functionName)}',
       exceptionFnMap: _exceptionFns,
     );
     return GetFunctionResponse.fromJson(response);
@@ -281,7 +278,7 @@ class Lambda {
       payload: null,
       method: 'GET',
       requestUri:
-          '/2014-11-13/functions/${Uri.encodeComponent(functionName.toString())}/configuration',
+          '/2014-11-13/functions/${Uri.encodeComponent(functionName)}/configuration',
       exceptionFnMap: _exceptionFns,
     );
     return FunctionConfiguration.fromJson(response);
@@ -327,7 +324,7 @@ class Lambda {
       payload: invokeArgs,
       method: 'POST',
       requestUri:
-          '/2014-11-13/functions/${Uri.encodeComponent(functionName.toString())}/invoke-async/',
+          '/2014-11-13/functions/${Uri.encodeComponent(functionName)}/invoke-async/',
       exceptionFnMap: _exceptionFns,
     );
     return InvokeAsyncResponse.fromJson(response);
@@ -385,18 +382,17 @@ class Lambda {
       1,
       10000,
     );
-    var _query = '';
-    _query = '?${[
-      if (eventSourceArn != null)
-        _s.toQueryParam('EventSource', eventSourceArn),
-      if (functionName != null) _s.toQueryParam('FunctionName', functionName),
-      if (marker != null) _s.toQueryParam('Marker', marker),
-      if (maxItems != null) _s.toQueryParam('MaxItems', maxItems),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (eventSourceArn != null) 'EventSource': [eventSourceArn],
+      if (functionName != null) 'FunctionName': [functionName],
+      if (marker != null) 'Marker': [marker],
+      if (maxItems != null) 'MaxItems': [maxItems.toString()],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/2014-11-13/event-source-mappings/$_query',
+      requestUri: '/2014-11-13/event-source-mappings/',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListEventSourcesResponse.fromJson(response);
@@ -429,15 +425,15 @@ class Lambda {
       1,
       10000,
     );
-    var _query = '';
-    _query = '?${[
-      if (marker != null) _s.toQueryParam('Marker', marker),
-      if (maxItems != null) _s.toQueryParam('MaxItems', maxItems),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (marker != null) 'Marker': [marker],
+      if (maxItems != null) 'MaxItems': [maxItems.toString()],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/2014-11-13/functions/$_query',
+      requestUri: '/2014-11-13/functions/',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListFunctionsResponse.fromJson(response);
@@ -459,12 +455,11 @@ class Lambda {
     @_s.required String uuid,
   }) async {
     ArgumentError.checkNotNull(uuid, 'uuid');
-    final $payload = <String, dynamic>{};
     await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
       requestUri:
-          '/2014-11-13/event-source-mappings/${Uri.encodeComponent(uuid.toString())}',
+          '/2014-11-13/event-source-mappings/${Uri.encodeComponent(uuid)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -559,20 +554,19 @@ class Lambda {
       1,
       60,
     );
-    var _query = '';
-    _query = '?${[
-      if (description != null) _s.toQueryParam('Description', description),
-      if (handler != null) _s.toQueryParam('Handler', handler),
-      if (memorySize != null) _s.toQueryParam('MemorySize', memorySize),
-      if (role != null) _s.toQueryParam('Role', role),
-      if (timeout != null) _s.toQueryParam('Timeout', timeout),
-    ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $query = <String, List<String>>{
+      if (description != null) 'Description': [description],
+      if (handler != null) 'Handler': [handler],
+      if (memorySize != null) 'MemorySize': [memorySize.toString()],
+      if (role != null) 'Role': [role],
+      if (timeout != null) 'Timeout': [timeout.toString()],
+    };
     final response = await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'PUT',
       requestUri:
-          '/2014-11-13/functions/${Uri.encodeComponent(functionName.toString())}/configuration$_query',
+          '/2014-11-13/functions/${Uri.encodeComponent(functionName)}/configuration',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return FunctionConfiguration.fromJson(response);
@@ -697,21 +691,20 @@ class Lambda {
       1,
       60,
     );
-    var _query = '';
-    _query = '?${[
-      if (handler != null) _s.toQueryParam('Handler', handler),
-      if (mode != null) _s.toQueryParam('Mode', mode.toValue()),
-      if (role != null) _s.toQueryParam('Role', role),
-      if (runtime != null) _s.toQueryParam('Runtime', runtime.toValue()),
-      if (description != null) _s.toQueryParam('Description', description),
-      if (memorySize != null) _s.toQueryParam('MemorySize', memorySize),
-      if (timeout != null) _s.toQueryParam('Timeout', timeout),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (handler != null) 'Handler': [handler],
+      if (mode != null) 'Mode': [mode.toValue()],
+      if (role != null) 'Role': [role],
+      if (runtime != null) 'Runtime': [runtime.toValue()],
+      if (description != null) 'Description': [description],
+      if (memorySize != null) 'MemorySize': [memorySize.toString()],
+      if (timeout != null) 'Timeout': [timeout.toString()],
+    };
     final response = await _protocol.send(
       payload: functionZip,
       method: 'PUT',
-      requestUri:
-          '/2014-11-13/functions/${Uri.encodeComponent(functionName.toString())}$_query',
+      requestUri: '/2014-11-13/functions/${Uri.encodeComponent(functionName)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return FunctionConfiguration.fromJson(response);

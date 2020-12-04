@@ -252,17 +252,14 @@ class Kafka {
     String currentVersion,
   }) async {
     ArgumentError.checkNotNull(clusterArn, 'clusterArn');
-    var _query = '';
-    _query = '?${[
-      if (currentVersion != null)
-        _s.toQueryParam('currentVersion', currentVersion),
-    ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $query = <String, List<String>>{
+      if (currentVersion != null) 'currentVersion': [currentVersion],
+    };
     final response = await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri:
-          '/v1/clusters/${Uri.encodeComponent(clusterArn.toString())}$_query',
+      requestUri: '/v1/clusters/${Uri.encodeComponent(clusterArn)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return DeleteClusterResponse.fromJson(response);
@@ -290,7 +287,7 @@ class Kafka {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/v1/clusters/${Uri.encodeComponent(clusterArn.toString())}',
+      requestUri: '/v1/clusters/${Uri.encodeComponent(clusterArn)}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeClusterResponse.fromJson(response);
@@ -318,8 +315,7 @@ class Kafka {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/v1/operations/${Uri.encodeComponent(clusterOperationArn.toString())}',
+      requestUri: '/v1/operations/${Uri.encodeComponent(clusterOperationArn)}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeClusterOperationResponse.fromJson(response);
@@ -348,7 +344,7 @@ class Kafka {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/v1/configurations/${Uri.encodeComponent(arn.toString())}',
+      requestUri: '/v1/configurations/${Uri.encodeComponent(arn)}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeConfigurationResponse.fromJson(response);
@@ -385,7 +381,7 @@ class Kafka {
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/configurations/${Uri.encodeComponent(arn.toString())}/revisions/${Uri.encodeComponent(revision.toString())}',
+          '/v1/configurations/${Uri.encodeComponent(arn)}/revisions/${Uri.encodeComponent(revision.toString())}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeConfigurationRevisionResponse.fromJson(response);
@@ -413,7 +409,7 @@ class Kafka {
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/clusters/${Uri.encodeComponent(clusterArn.toString())}/bootstrap-brokers',
+          '/v1/clusters/${Uri.encodeComponent(clusterArn)}/bootstrap-brokers',
       exceptionFnMap: _exceptionFns,
     );
     return GetBootstrapBrokersResponse.fromJson(response);
@@ -458,16 +454,15 @@ class Kafka {
       1,
       100,
     );
-    var _query = '';
-    _query = '?${[
-      if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
-      if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/v1/clusters/${Uri.encodeComponent(clusterArn.toString())}/operations$_query',
+      requestUri: '/v1/clusters/${Uri.encodeComponent(clusterArn)}/operations',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListClusterOperationsResponse.fromJson(response);
@@ -511,17 +506,16 @@ class Kafka {
       1,
       100,
     );
-    var _query = '';
-    _query = '?${[
-      if (clusterNameFilter != null)
-        _s.toQueryParam('clusterNameFilter', clusterNameFilter),
-      if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
-      if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (clusterNameFilter != null) 'clusterNameFilter': [clusterNameFilter],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/v1/clusters$_query',
+      requestUri: '/v1/clusters',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListClustersResponse.fromJson(response);
@@ -568,16 +562,15 @@ class Kafka {
       1,
       100,
     );
-    var _query = '';
-    _query = '?${[
-      if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
-      if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/v1/configurations/${Uri.encodeComponent(arn.toString())}/revisions$_query',
+      requestUri: '/v1/configurations/${Uri.encodeComponent(arn)}/revisions',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListConfigurationRevisionsResponse.fromJson(response);
@@ -615,15 +608,15 @@ class Kafka {
       1,
       100,
     );
-    var _query = '';
-    _query = '?${[
-      if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
-      if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/v1/configurations$_query',
+      requestUri: '/v1/configurations',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListConfigurationsResponse.fromJson(response);
@@ -658,15 +651,15 @@ class Kafka {
       1,
       100,
     );
-    var _query = '';
-    _query = '?${[
-      if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
-      if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/v1/kafka-versions$_query',
+      requestUri: '/v1/kafka-versions',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListKafkaVersionsResponse.fromJson(response);
@@ -710,16 +703,15 @@ class Kafka {
       1,
       100,
     );
-    var _query = '';
-    _query = '?${[
-      if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
-      if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/v1/clusters/${Uri.encodeComponent(clusterArn.toString())}/nodes$_query',
+      requestUri: '/v1/clusters/${Uri.encodeComponent(clusterArn)}/nodes',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListNodesResponse.fromJson(response);
@@ -745,7 +737,7 @@ class Kafka {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/v1/tags/${Uri.encodeComponent(resourceArn.toString())}',
+      requestUri: '/v1/tags/${Uri.encodeComponent(resourceArn)}',
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsForResourceResponse.fromJson(response);
@@ -781,7 +773,7 @@ class Kafka {
     await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/v1/tags/${Uri.encodeComponent(resourceArn.toString())}',
+      requestUri: '/v1/tags/${Uri.encodeComponent(resourceArn)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -846,16 +838,14 @@ class Kafka {
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
-    var _query = '';
-    _query = '?${[
-      if (tagKeys != null) _s.toQueryParam('tagKeys', tagKeys),
-    ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $query = <String, List<String>>{
+      if (tagKeys != null) 'tagKeys': tagKeys,
+    };
     await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri:
-          '/v1/tags/${Uri.encodeComponent(resourceArn.toString())}$_query',
+      requestUri: '/v1/tags/${Uri.encodeComponent(resourceArn)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -909,8 +899,7 @@ class Kafka {
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
-      requestUri:
-          '/v1/clusters/${Uri.encodeComponent(clusterArn.toString())}/nodes/count',
+      requestUri: '/v1/clusters/${Uri.encodeComponent(clusterArn)}/nodes/count',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateBrokerCountResponse.fromJson(response);
@@ -959,7 +948,7 @@ class Kafka {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/v1/clusters/${Uri.encodeComponent(clusterArn.toString())}/nodes/storage',
+          '/v1/clusters/${Uri.encodeComponent(clusterArn)}/nodes/storage',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateBrokerStorageResponse.fromJson(response);
@@ -1008,7 +997,7 @@ class Kafka {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/v1/clusters/${Uri.encodeComponent(clusterArn.toString())}/configuration',
+          '/v1/clusters/${Uri.encodeComponent(clusterArn)}/configuration',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateClusterConfigurationResponse.fromJson(response);
@@ -1068,8 +1057,7 @@ class Kafka {
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
-      requestUri:
-          '/v1/clusters/${Uri.encodeComponent(clusterArn.toString())}/monitoring',
+      requestUri: '/v1/clusters/${Uri.encodeComponent(clusterArn)}/monitoring',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateMonitoringResponse.fromJson(response);

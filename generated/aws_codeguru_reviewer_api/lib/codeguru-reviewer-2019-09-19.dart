@@ -143,8 +143,7 @@ class CodeGuruReviewer {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/associations/${Uri.encodeComponent(associationArn.toString())}',
+      requestUri: '/associations/${Uri.encodeComponent(associationArn)}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeRepositoryAssociationResponse.fromJson(response);
@@ -178,12 +177,10 @@ class CodeGuruReviewer {
       r'''^arn:aws[^:\s]*:codeguru-reviewer:[^:\s]+:[\d]{12}:[a-z]+:[\w-]+$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
     final response = await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri:
-          '/associations/${Uri.encodeComponent(associationArn.toString())}',
+      requestUri: '/associations/${Uri.encodeComponent(associationArn)}',
       exceptionFnMap: _exceptionFns,
     );
     return DisassociateRepositoryResponse.fromJson(response);
@@ -253,23 +250,21 @@ class CodeGuruReviewer {
       1,
       2048,
     );
-    var _query = '';
-    _query = '?${[
-      if (maxResults != null) _s.toQueryParam('MaxResults', maxResults),
-      if (names != null) _s.toQueryParam('Name', names),
-      if (nextToken != null) _s.toQueryParam('NextToken', nextToken),
-      if (owners != null) _s.toQueryParam('Owner', owners),
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'MaxResults': [maxResults.toString()],
+      if (names != null) 'Name': names,
+      if (nextToken != null) 'NextToken': [nextToken],
+      if (owners != null) 'Owner': owners,
       if (providerTypes != null)
-        _s.toQueryParam('ProviderType',
-            providerTypes.map((e) => e?.toValue() ?? '').toList()),
+        'ProviderType': providerTypes.map((e) => e?.toValue() ?? '').toList(),
       if (states != null)
-        _s.toQueryParam(
-            'State', states.map((e) => e?.toValue() ?? '').toList()),
-    ].where((e) => e != null).join('&')}';
+        'State': states.map((e) => e?.toValue() ?? '').toList(),
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/associations$_query',
+      requestUri: '/associations',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListRepositoryAssociationsResponse.fromJson(response);

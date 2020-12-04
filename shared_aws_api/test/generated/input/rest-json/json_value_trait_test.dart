@@ -14,7 +14,8 @@ void main() {
       expect(
           request.body, equalsJson(r'''{"BodyField":"{\"Foo\":\"Bar\"}"}'''));
       expect(request.headers['X-Amz-Foo'], 'eyJGb28iOiJCYXIifQ==');
-      expect(pathAndQuery(request.url), '/?Bar=%7B%22Foo%22%3A%22Bar%22%7D');
+      expect(
+          request.url, equalsPathAndQuery('/?Bar=%7B%22Foo%22%3A%22Bar%22%7D'));
       return Response('{}', 200, headers: {});
     });
 
@@ -51,7 +52,7 @@ void main() {
     final client = MockClient((request) async {
       expect(request.body,
           equalsJson(r'''{"BodyListField":["{\"Foo\":\"Bar\"}"]}'''));
-      expect(pathAndQuery(request.url), '/');
+      expect(request.url, equalsPathAndQuery('/'));
       return Response('{}', 200, headers: {});
     });
 
@@ -81,7 +82,7 @@ void main() {
   test('JSON value trait 2', () async {
     final client = MockClient((request) async {
       expect(request.body, equalsJson(r''''''));
-      expect(pathAndQuery(request.url), '/');
+      expect(request.url, equalsPathAndQuery('/'));
       return Response('{}', 200, headers: {});
     });
 

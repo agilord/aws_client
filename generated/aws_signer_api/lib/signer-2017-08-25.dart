@@ -84,12 +84,10 @@ class Signer {
       r'''^[a-zA-Z0-9_]{2,}''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
     await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri:
-          '/signing-profiles/${Uri.encodeComponent(profileName.toString())}',
+      requestUri: '/signing-profiles/${Uri.encodeComponent(profileName)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -111,7 +109,7 @@ class Signer {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/signing-jobs/${Uri.encodeComponent(jobId.toString())}',
+      requestUri: '/signing-jobs/${Uri.encodeComponent(jobId)}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeSigningJobResponse.fromJson(response);
@@ -132,8 +130,7 @@ class Signer {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/signing-platforms/${Uri.encodeComponent(platformId.toString())}',
+      requestUri: '/signing-platforms/${Uri.encodeComponent(platformId)}',
       exceptionFnMap: _exceptionFns,
     );
     return GetSigningPlatformResponse.fromJson(response);
@@ -168,8 +165,7 @@ class Signer {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/signing-profiles/${Uri.encodeComponent(profileName.toString())}',
+      requestUri: '/signing-profiles/${Uri.encodeComponent(profileName)}',
       exceptionFnMap: _exceptionFns,
     );
     return GetSigningProfileResponse.fromJson(response);
@@ -225,18 +221,18 @@ class Signer {
       1,
       25,
     );
-    var _query = '';
-    _query = '?${[
-      if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
-      if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-      if (platformId != null) _s.toQueryParam('platformId', platformId),
-      if (requestedBy != null) _s.toQueryParam('requestedBy', requestedBy),
-      if (status != null) _s.toQueryParam('status', status.toValue()),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+      if (platformId != null) 'platformId': [platformId],
+      if (requestedBy != null) 'requestedBy': [requestedBy],
+      if (status != null) 'status': [status.toValue()],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/signing-jobs$_query',
+      requestUri: '/signing-jobs',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListSigningJobsResponse.fromJson(response);
@@ -286,18 +282,18 @@ class Signer {
       1,
       25,
     );
-    var _query = '';
-    _query = '?${[
-      if (category != null) _s.toQueryParam('category', category),
-      if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
-      if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-      if (partner != null) _s.toQueryParam('partner', partner),
-      if (target != null) _s.toQueryParam('target', target),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (category != null) 'category': [category],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+      if (partner != null) 'partner': [partner],
+      if (target != null) 'target': [target],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/signing-platforms$_query',
+      requestUri: '/signing-platforms',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListSigningPlatformsResponse.fromJson(response);
@@ -341,17 +337,17 @@ class Signer {
       1,
       25,
     );
-    var _query = '';
-    _query = '?${[
+    final $query = <String, List<String>>{
       if (includeCanceled != null)
-        _s.toQueryParam('includeCanceled', includeCanceled),
-      if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
-      if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-    ].where((e) => e != null).join('&')}';
+        'includeCanceled': [includeCanceled.toString()],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/signing-profiles$_query',
+      requestUri: '/signing-profiles',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListSigningProfilesResponse.fromJson(response);
@@ -372,7 +368,7 @@ class Signer {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsForResourceResponse.fromJson(response);
@@ -445,8 +441,7 @@ class Signer {
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
-      requestUri:
-          '/signing-profiles/${Uri.encodeComponent(profileName.toString())}',
+      requestUri: '/signing-profiles/${Uri.encodeComponent(profileName)}',
       exceptionFnMap: _exceptionFns,
     );
     return PutSigningProfileResponse.fromJson(response);
@@ -565,7 +560,7 @@ class Signer {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
       exceptionFnMap: _exceptionFns,
     );
     return TagResourceResponse.fromJson(response);
@@ -589,15 +584,14 @@ class Signer {
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
-    var _query = '';
-    _query = '?${[
-      if (tagKeys != null) _s.toQueryParam('tagKeys', tagKeys),
-    ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $query = <String, List<String>>{
+      if (tagKeys != null) 'tagKeys': tagKeys,
+    };
     final response = await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$_query',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return UntagResourceResponse.fromJson(response);

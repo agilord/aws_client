@@ -15,7 +15,7 @@ void main() {
       expect(request.headers['X-Amz-Target'], 'com.amazonaws.foo.StaticOp');
       expect(request.headers['Content-Type'],
           startsWith('application/x-amz-json-1.1'));
-      expect(pathAndQuery(request.url), '/');
+      expect(request.url, equalsPathAndQuery('/'));
       //expect(request.url.host, 'data-service.region.amazonaws.com');
       return Response('{}', 200, headers: {});
     });
@@ -41,7 +41,7 @@ void main() {
       expect(request.headers['X-Amz-Target'], 'com.amazonaws.foo.MemberRefOp');
       expect(request.headers['Content-Type'],
           startsWith('application/x-amz-json-1.1'));
-      expect(pathAndQuery(request.url), '/');
+      expect(request.url, equalsPathAndQuery('/'));
       //expect(request.url.host, 'foo-myname.service.region.amazonaws.com');
       return Response('{}', 200, headers: {});
     });

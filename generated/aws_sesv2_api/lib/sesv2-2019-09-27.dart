@@ -149,7 +149,7 @@ class SESV2 {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/v2/email/configuration-sets/${Uri.encodeComponent(configurationSetName.toString())}/event-destinations',
+          '/v2/email/configuration-sets/${Uri.encodeComponent(configurationSetName)}/event-destinations',
       exceptionFnMap: _exceptionFns,
     );
     return CreateConfigurationSetEventDestinationResponse.fromJson(response);
@@ -341,12 +341,11 @@ class SESV2 {
     @_s.required String configurationSetName,
   }) async {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
-    final $payload = <String, dynamic>{};
     final response = await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
       requestUri:
-          '/v2/email/configuration-sets/${Uri.encodeComponent(configurationSetName.toString())}',
+          '/v2/email/configuration-sets/${Uri.encodeComponent(configurationSetName)}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteConfigurationSetResponse.fromJson(response);
@@ -377,12 +376,11 @@ class SESV2 {
   }) async {
     ArgumentError.checkNotNull(configurationSetName, 'configurationSetName');
     ArgumentError.checkNotNull(eventDestinationName, 'eventDestinationName');
-    final $payload = <String, dynamic>{};
     final response = await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
       requestUri:
-          '/v2/email/configuration-sets/${Uri.encodeComponent(configurationSetName.toString())}/event-destinations/${Uri.encodeComponent(eventDestinationName.toString())}',
+          '/v2/email/configuration-sets/${Uri.encodeComponent(configurationSetName)}/event-destinations/${Uri.encodeComponent(eventDestinationName)}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteConfigurationSetEventDestinationResponse.fromJson(response);
@@ -401,12 +399,11 @@ class SESV2 {
     @_s.required String poolName,
   }) async {
     ArgumentError.checkNotNull(poolName, 'poolName');
-    final $payload = <String, dynamic>{};
     final response = await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
       requestUri:
-          '/v2/email/dedicated-ip-pools/${Uri.encodeComponent(poolName.toString())}',
+          '/v2/email/dedicated-ip-pools/${Uri.encodeComponent(poolName)}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteDedicatedIpPoolResponse.fromJson(response);
@@ -427,12 +424,10 @@ class SESV2 {
     @_s.required String emailIdentity,
   }) async {
     ArgumentError.checkNotNull(emailIdentity, 'emailIdentity');
-    final $payload = <String, dynamic>{};
     final response = await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri:
-          '/v2/email/identities/${Uri.encodeComponent(emailIdentity.toString())}',
+      requestUri: '/v2/email/identities/${Uri.encodeComponent(emailIdentity)}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteEmailIdentityResponse.fromJson(response);
@@ -451,12 +446,11 @@ class SESV2 {
     @_s.required String emailAddress,
   }) async {
     ArgumentError.checkNotNull(emailAddress, 'emailAddress');
-    final $payload = <String, dynamic>{};
     final response = await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
       requestUri:
-          '/v2/email/suppression/addresses/${Uri.encodeComponent(emailAddress.toString())}',
+          '/v2/email/suppression/addresses/${Uri.encodeComponent(emailAddress)}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteSuppressedDestinationResponse.fromJson(response);
@@ -492,15 +486,14 @@ class SESV2 {
     @_s.required List<String> blacklistItemNames,
   }) async {
     ArgumentError.checkNotNull(blacklistItemNames, 'blacklistItemNames');
-    var _query = '';
-    _query = '?${[
-      if (blacklistItemNames != null)
-        _s.toQueryParam('BlacklistItemNames', blacklistItemNames),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (blacklistItemNames != null) 'BlacklistItemNames': blacklistItemNames,
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/v2/email/deliverability-dashboard/blacklist-report$_query',
+      requestUri: '/v2/email/deliverability-dashboard/blacklist-report',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return GetBlacklistReportsResponse.fromJson(response);
@@ -531,7 +524,7 @@ class SESV2 {
       payload: null,
       method: 'GET',
       requestUri:
-          '/v2/email/configuration-sets/${Uri.encodeComponent(configurationSetName.toString())}',
+          '/v2/email/configuration-sets/${Uri.encodeComponent(configurationSetName)}',
       exceptionFnMap: _exceptionFns,
     );
     return GetConfigurationSetResponse.fromJson(response);
@@ -562,7 +555,7 @@ class SESV2 {
       payload: null,
       method: 'GET',
       requestUri:
-          '/v2/email/configuration-sets/${Uri.encodeComponent(configurationSetName.toString())}/event-destinations',
+          '/v2/email/configuration-sets/${Uri.encodeComponent(configurationSetName)}/event-destinations',
       exceptionFnMap: _exceptionFns,
     );
     return GetConfigurationSetEventDestinationsResponse.fromJson(response);
@@ -587,8 +580,7 @@ class SESV2 {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/v2/email/dedicated-ips/${Uri.encodeComponent(ip.toString())}',
+      requestUri: '/v2/email/dedicated-ips/${Uri.encodeComponent(ip)}',
       exceptionFnMap: _exceptionFns,
     );
     return GetDedicatedIpResponse.fromJson(response);
@@ -618,16 +610,16 @@ class SESV2 {
     int pageSize,
     String poolName,
   }) async {
-    var _query = '';
-    _query = '?${[
-      if (nextToken != null) _s.toQueryParam('NextToken', nextToken),
-      if (pageSize != null) _s.toQueryParam('PageSize', pageSize),
-      if (poolName != null) _s.toQueryParam('PoolName', poolName),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (nextToken != null) 'NextToken': [nextToken],
+      if (pageSize != null) 'PageSize': [pageSize.toString()],
+      if (poolName != null) 'PoolName': [poolName],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/v2/email/dedicated-ips$_query',
+      requestUri: '/v2/email/dedicated-ips',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return GetDedicatedIpsResponse.fromJson(response);
@@ -675,7 +667,7 @@ class SESV2 {
       payload: null,
       method: 'GET',
       requestUri:
-          '/v2/email/deliverability-dashboard/test-reports/${Uri.encodeComponent(reportId.toString())}',
+          '/v2/email/deliverability-dashboard/test-reports/${Uri.encodeComponent(reportId)}',
       exceptionFnMap: _exceptionFns,
     );
     return GetDeliverabilityTestReportResponse.fromJson(response);
@@ -701,7 +693,7 @@ class SESV2 {
       payload: null,
       method: 'GET',
       requestUri:
-          '/v2/email/deliverability-dashboard/campaigns/${Uri.encodeComponent(campaignId.toString())}',
+          '/v2/email/deliverability-dashboard/campaigns/${Uri.encodeComponent(campaignId)}',
       exceptionFnMap: _exceptionFns,
     );
     return GetDomainDeliverabilityCampaignResponse.fromJson(response);
@@ -733,18 +725,17 @@ class SESV2 {
     ArgumentError.checkNotNull(domain, 'domain');
     ArgumentError.checkNotNull(endDate, 'endDate');
     ArgumentError.checkNotNull(startDate, 'startDate');
-    var _query = '';
-    _query = '?${[
-      if (endDate != null)
-        _s.toQueryParam('EndDate', _s.iso8601ToJson(endDate)),
+    final $query = <String, List<String>>{
+      if (endDate != null) 'EndDate': [_s.iso8601ToJson(endDate).toString()],
       if (startDate != null)
-        _s.toQueryParam('StartDate', _s.iso8601ToJson(startDate)),
-    ].where((e) => e != null).join('&')}';
+        'StartDate': [_s.iso8601ToJson(startDate).toString()],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/v2/email/deliverability-dashboard/statistics-report/${Uri.encodeComponent(domain.toString())}$_query',
+          '/v2/email/deliverability-dashboard/statistics-report/${Uri.encodeComponent(domain)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return GetDomainStatisticsReportResponse.fromJson(response);
@@ -767,8 +758,7 @@ class SESV2 {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/v2/email/identities/${Uri.encodeComponent(emailIdentity.toString())}',
+      requestUri: '/v2/email/identities/${Uri.encodeComponent(emailIdentity)}',
       exceptionFnMap: _exceptionFns,
     );
     return GetEmailIdentityResponse.fromJson(response);
@@ -791,7 +781,7 @@ class SESV2 {
       payload: null,
       method: 'GET',
       requestUri:
-          '/v2/email/suppression/addresses/${Uri.encodeComponent(emailAddress.toString())}',
+          '/v2/email/suppression/addresses/${Uri.encodeComponent(emailAddress)}',
       exceptionFnMap: _exceptionFns,
     );
     return GetSuppressedDestinationResponse.fromJson(response);
@@ -824,15 +814,15 @@ class SESV2 {
     String nextToken,
     int pageSize,
   }) async {
-    var _query = '';
-    _query = '?${[
-      if (nextToken != null) _s.toQueryParam('NextToken', nextToken),
-      if (pageSize != null) _s.toQueryParam('PageSize', pageSize),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (nextToken != null) 'NextToken': [nextToken],
+      if (pageSize != null) 'PageSize': [pageSize.toString()],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/v2/email/configuration-sets$_query',
+      requestUri: '/v2/email/configuration-sets',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListConfigurationSetsResponse.fromJson(response);
@@ -858,15 +848,15 @@ class SESV2 {
     String nextToken,
     int pageSize,
   }) async {
-    var _query = '';
-    _query = '?${[
-      if (nextToken != null) _s.toQueryParam('NextToken', nextToken),
-      if (pageSize != null) _s.toQueryParam('PageSize', pageSize),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (nextToken != null) 'NextToken': [nextToken],
+      if (pageSize != null) 'PageSize': [pageSize.toString()],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/v2/email/dedicated-ip-pools$_query',
+      requestUri: '/v2/email/dedicated-ip-pools',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListDedicatedIpPoolsResponse.fromJson(response);
@@ -898,15 +888,15 @@ class SESV2 {
     String nextToken,
     int pageSize,
   }) async {
-    var _query = '';
-    _query = '?${[
-      if (nextToken != null) _s.toQueryParam('NextToken', nextToken),
-      if (pageSize != null) _s.toQueryParam('PageSize', pageSize),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (nextToken != null) 'NextToken': [nextToken],
+      if (pageSize != null) 'PageSize': [pageSize.toString()],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/v2/email/deliverability-dashboard/test-reports$_query',
+      requestUri: '/v2/email/deliverability-dashboard/test-reports',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListDeliverabilityTestReportsResponse.fromJson(response);
@@ -955,20 +945,19 @@ class SESV2 {
     ArgumentError.checkNotNull(endDate, 'endDate');
     ArgumentError.checkNotNull(startDate, 'startDate');
     ArgumentError.checkNotNull(subscribedDomain, 'subscribedDomain');
-    var _query = '';
-    _query = '?${[
-      if (endDate != null)
-        _s.toQueryParam('EndDate', _s.iso8601ToJson(endDate)),
+    final $query = <String, List<String>>{
+      if (endDate != null) 'EndDate': [_s.iso8601ToJson(endDate).toString()],
       if (startDate != null)
-        _s.toQueryParam('StartDate', _s.iso8601ToJson(startDate)),
-      if (nextToken != null) _s.toQueryParam('NextToken', nextToken),
-      if (pageSize != null) _s.toQueryParam('PageSize', pageSize),
-    ].where((e) => e != null).join('&')}';
+        'StartDate': [_s.iso8601ToJson(startDate).toString()],
+      if (nextToken != null) 'NextToken': [nextToken],
+      if (pageSize != null) 'PageSize': [pageSize.toString()],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/v2/email/deliverability-dashboard/domains/${Uri.encodeComponent(subscribedDomain.toString())}/campaigns$_query',
+          '/v2/email/deliverability-dashboard/domains/${Uri.encodeComponent(subscribedDomain)}/campaigns',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListDomainDeliverabilityCampaignsResponse.fromJson(response);
@@ -999,15 +988,15 @@ class SESV2 {
     String nextToken,
     int pageSize,
   }) async {
-    var _query = '';
-    _query = '?${[
-      if (nextToken != null) _s.toQueryParam('NextToken', nextToken),
-      if (pageSize != null) _s.toQueryParam('PageSize', pageSize),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (nextToken != null) 'NextToken': [nextToken],
+      if (pageSize != null) 'PageSize': [pageSize.toString()],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/v2/email/identities$_query',
+      requestUri: '/v2/email/identities',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListEmailIdentitiesResponse.fromJson(response);
@@ -1051,22 +1040,20 @@ class SESV2 {
     List<SuppressionListReason> reasons,
     DateTime startDate,
   }) async {
-    var _query = '';
-    _query = '?${[
-      if (endDate != null)
-        _s.toQueryParam('EndDate', _s.iso8601ToJson(endDate)),
-      if (nextToken != null) _s.toQueryParam('NextToken', nextToken),
-      if (pageSize != null) _s.toQueryParam('PageSize', pageSize),
+    final $query = <String, List<String>>{
+      if (endDate != null) 'EndDate': [_s.iso8601ToJson(endDate).toString()],
+      if (nextToken != null) 'NextToken': [nextToken],
+      if (pageSize != null) 'PageSize': [pageSize.toString()],
       if (reasons != null)
-        _s.toQueryParam(
-            'Reason', reasons.map((e) => e?.toValue() ?? '').toList()),
+        'Reason': reasons.map((e) => e?.toValue() ?? '').toList(),
       if (startDate != null)
-        _s.toQueryParam('StartDate', _s.iso8601ToJson(startDate)),
-    ].where((e) => e != null).join('&')}';
+        'StartDate': [_s.iso8601ToJson(startDate).toString()],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/v2/email/suppression/addresses$_query',
+      requestUri: '/v2/email/suppression/addresses',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListSuppressedDestinationsResponse.fromJson(response);
@@ -1090,14 +1077,14 @@ class SESV2 {
     @_s.required String resourceArn,
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
-    var _query = '';
-    _query = '?${[
-      if (resourceArn != null) _s.toQueryParam('ResourceArn', resourceArn),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (resourceArn != null) 'ResourceArn': [resourceArn],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/v2/email/tags$_query',
+      requestUri: '/v2/email/tags',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsForResourceResponse.fromJson(response);
@@ -1232,7 +1219,7 @@ class SESV2 {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/v2/email/configuration-sets/${Uri.encodeComponent(configurationSetName.toString())}/delivery-options',
+          '/v2/email/configuration-sets/${Uri.encodeComponent(configurationSetName)}/delivery-options',
       exceptionFnMap: _exceptionFns,
     );
     return PutConfigurationSetDeliveryOptionsResponse.fromJson(response);
@@ -1266,7 +1253,7 @@ class SESV2 {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/v2/email/configuration-sets/${Uri.encodeComponent(configurationSetName.toString())}/reputation-options',
+          '/v2/email/configuration-sets/${Uri.encodeComponent(configurationSetName)}/reputation-options',
       exceptionFnMap: _exceptionFns,
     );
     return PutConfigurationSetReputationOptionsResponse.fromJson(response);
@@ -1299,7 +1286,7 @@ class SESV2 {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/v2/email/configuration-sets/${Uri.encodeComponent(configurationSetName.toString())}/sending',
+          '/v2/email/configuration-sets/${Uri.encodeComponent(configurationSetName)}/sending',
       exceptionFnMap: _exceptionFns,
     );
     return PutConfigurationSetSendingOptionsResponse.fromJson(response);
@@ -1346,7 +1333,7 @@ class SESV2 {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/v2/email/configuration-sets/${Uri.encodeComponent(configurationSetName.toString())}/suppression-options',
+          '/v2/email/configuration-sets/${Uri.encodeComponent(configurationSetName)}/suppression-options',
       exceptionFnMap: _exceptionFns,
     );
     return PutConfigurationSetSuppressionOptionsResponse.fromJson(response);
@@ -1378,7 +1365,7 @@ class SESV2 {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/v2/email/configuration-sets/${Uri.encodeComponent(configurationSetName.toString())}/tracking-options',
+          '/v2/email/configuration-sets/${Uri.encodeComponent(configurationSetName)}/tracking-options',
       exceptionFnMap: _exceptionFns,
     );
     return PutConfigurationSetTrackingOptionsResponse.fromJson(response);
@@ -1417,8 +1404,7 @@ class SESV2 {
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
-      requestUri:
-          '/v2/email/dedicated-ips/${Uri.encodeComponent(ip.toString())}/pool',
+      requestUri: '/v2/email/dedicated-ips/${Uri.encodeComponent(ip)}/pool',
       exceptionFnMap: _exceptionFns,
     );
     return PutDedicatedIpInPoolResponse.fromJson(response);
@@ -1449,8 +1435,7 @@ class SESV2 {
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
-      requestUri:
-          '/v2/email/dedicated-ips/${Uri.encodeComponent(ip.toString())}/warmup',
+      requestUri: '/v2/email/dedicated-ips/${Uri.encodeComponent(ip)}/warmup',
       exceptionFnMap: _exceptionFns,
     );
     return PutDedicatedIpWarmupAttributesResponse.fromJson(response);
@@ -1525,7 +1510,7 @@ class SESV2 {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/v2/email/identities/${Uri.encodeComponent(emailIdentity.toString())}/dkim',
+          '/v2/email/identities/${Uri.encodeComponent(emailIdentity)}/dkim',
       exceptionFnMap: _exceptionFns,
     );
     return PutEmailIdentityDkimAttributesResponse.fromJson(response);
@@ -1598,7 +1583,7 @@ class SESV2 {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/v1/email/identities/${Uri.encodeComponent(emailIdentity.toString())}/dkim/signing',
+          '/v1/email/identities/${Uri.encodeComponent(emailIdentity)}/dkim/signing',
       exceptionFnMap: _exceptionFns,
     );
     return PutEmailIdentityDkimSigningAttributesResponse.fromJson(response);
@@ -1653,7 +1638,7 @@ class SESV2 {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/v2/email/identities/${Uri.encodeComponent(emailIdentity.toString())}/feedback',
+          '/v2/email/identities/${Uri.encodeComponent(emailIdentity)}/feedback',
       exceptionFnMap: _exceptionFns,
     );
     return PutEmailIdentityFeedbackAttributesResponse.fromJson(response);
@@ -1714,7 +1699,7 @@ class SESV2 {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/v2/email/identities/${Uri.encodeComponent(emailIdentity.toString())}/mail-from',
+          '/v2/email/identities/${Uri.encodeComponent(emailIdentity)}/mail-from',
       exceptionFnMap: _exceptionFns,
     );
     return PutEmailIdentityMailFromAttributesResponse.fromJson(response);
@@ -1906,16 +1891,15 @@ class SESV2 {
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
-    var _query = '';
-    _query = '?${[
-      if (resourceArn != null) _s.toQueryParam('ResourceArn', resourceArn),
-      if (tagKeys != null) _s.toQueryParam('TagKeys', tagKeys),
-    ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $query = <String, List<String>>{
+      if (resourceArn != null) 'ResourceArn': [resourceArn],
+      if (tagKeys != null) 'TagKeys': tagKeys,
+    };
     final response = await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri: '/v2/email/tags$_query',
+      requestUri: '/v2/email/tags',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return UntagResourceResponse.fromJson(response);
@@ -1958,7 +1942,7 @@ class SESV2 {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/v2/email/configuration-sets/${Uri.encodeComponent(configurationSetName.toString())}/event-destinations/${Uri.encodeComponent(eventDestinationName.toString())}',
+          '/v2/email/configuration-sets/${Uri.encodeComponent(configurationSetName)}/event-destinations/${Uri.encodeComponent(eventDestinationName)}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateConfigurationSetEventDestinationResponse.fromJson(response);

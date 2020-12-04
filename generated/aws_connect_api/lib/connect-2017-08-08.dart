@@ -157,7 +157,7 @@ class Connect {
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
-      requestUri: '/users/${Uri.encodeComponent(instanceId.toString())}',
+      requestUri: '/users/${Uri.encodeComponent(instanceId)}',
       exceptionFnMap: _exceptionFns,
     );
     return CreateUserResponse.fromJson(response);
@@ -189,12 +189,11 @@ class Connect {
       isRequired: true,
     );
     ArgumentError.checkNotNull(userId, 'userId');
-    final $payload = <String, dynamic>{};
     await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
       requestUri:
-          '/users/${Uri.encodeComponent(instanceId.toString())}/${Uri.encodeComponent(userId.toString())}',
+          '/users/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(userId)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -231,7 +230,7 @@ class Connect {
       payload: null,
       method: 'GET',
       requestUri:
-          '/users/${Uri.encodeComponent(instanceId.toString())}/${Uri.encodeComponent(userId.toString())}',
+          '/users/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(userId)}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeUserResponse.fromJson(response);
@@ -267,7 +266,7 @@ class Connect {
       payload: null,
       method: 'GET',
       requestUri:
-          '/user-hierarchy-groups/${Uri.encodeComponent(instanceId.toString())}/${Uri.encodeComponent(hierarchyGroupId.toString())}',
+          '/user-hierarchy-groups/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(hierarchyGroupId)}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeUserHierarchyGroupResponse.fromJson(response);
@@ -300,7 +299,7 @@ class Connect {
       payload: null,
       method: 'GET',
       requestUri:
-          '/user-hierarchy-structure/${Uri.encodeComponent(instanceId.toString())}',
+          '/user-hierarchy-structure/${Uri.encodeComponent(instanceId)}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeUserHierarchyStructureResponse.fromJson(response);
@@ -341,7 +340,7 @@ class Connect {
       payload: null,
       method: 'GET',
       requestUri:
-          '/contact/attributes/${Uri.encodeComponent(instanceId.toString())}/${Uri.encodeComponent(initialContactId.toString())}',
+          '/contact/attributes/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(initialContactId)}',
       exceptionFnMap: _exceptionFns,
     );
     return GetContactAttributesResponse.fromJson(response);
@@ -455,8 +454,7 @@ class Connect {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri:
-          '/metrics/current/${Uri.encodeComponent(instanceId.toString())}',
+      requestUri: '/metrics/current/${Uri.encodeComponent(instanceId)}',
       exceptionFnMap: _exceptionFns,
     );
     return GetCurrentMetricDataResponse.fromJson(response);
@@ -487,8 +485,7 @@ class Connect {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/user/federate/${Uri.encodeComponent(instanceId.toString())}',
+      requestUri: '/user/federate/${Uri.encodeComponent(instanceId)}',
       exceptionFnMap: _exceptionFns,
     );
     return GetFederationTokenResponse.fromJson(response);
@@ -699,8 +696,7 @@ class Connect {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri:
-          '/metrics/historical/${Uri.encodeComponent(instanceId.toString())}',
+      requestUri: '/metrics/historical/${Uri.encodeComponent(instanceId)}',
       exceptionFnMap: _exceptionFns,
     );
     return GetMetricDataResponse.fromJson(response);
@@ -747,19 +743,18 @@ class Connect {
       1,
       1000,
     );
-    var _query = '';
-    _query = '?${[
+    final $query = <String, List<String>>{
       if (contactFlowTypes != null)
-        _s.toQueryParam('contactFlowTypes',
-            contactFlowTypes.map((e) => e?.toValue() ?? '').toList()),
-      if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
-      if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-    ].where((e) => e != null).join('&')}';
+        'contactFlowTypes':
+            contactFlowTypes.map((e) => e?.toValue() ?? '').toList(),
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/contact-flows-summary/${Uri.encodeComponent(instanceId.toString())}$_query',
+      requestUri: '/contact-flows-summary/${Uri.encodeComponent(instanceId)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListContactFlowsResponse.fromJson(response);
@@ -802,16 +797,16 @@ class Connect {
       1,
       1000,
     );
-    var _query = '';
-    _query = '?${[
-      if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
-      if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/hours-of-operations-summary/${Uri.encodeComponent(instanceId.toString())}$_query',
+          '/hours-of-operations-summary/${Uri.encodeComponent(instanceId)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListHoursOfOperationsResponse.fromJson(response);
@@ -862,22 +857,21 @@ class Connect {
       1,
       1000,
     );
-    var _query = '';
-    _query = '?${[
-      if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
-      if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
       if (phoneNumberCountryCodes != null)
-        _s.toQueryParam('phoneNumberCountryCodes',
-            phoneNumberCountryCodes.map((e) => e?.toValue() ?? '').toList()),
+        'phoneNumberCountryCodes':
+            phoneNumberCountryCodes.map((e) => e?.toValue() ?? '').toList(),
       if (phoneNumberTypes != null)
-        _s.toQueryParam('phoneNumberTypes',
-            phoneNumberTypes.map((e) => e?.toValue() ?? '').toList()),
-    ].where((e) => e != null).join('&')}';
+        'phoneNumberTypes':
+            phoneNumberTypes.map((e) => e?.toValue() ?? '').toList(),
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/phone-numbers-summary/${Uri.encodeComponent(instanceId.toString())}$_query',
+      requestUri: '/phone-numbers-summary/${Uri.encodeComponent(instanceId)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListPhoneNumbersResponse.fromJson(response);
@@ -924,19 +918,17 @@ class Connect {
       1,
       1000,
     );
-    var _query = '';
-    _query = '?${[
-      if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
-      if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
       if (queueTypes != null)
-        _s.toQueryParam(
-            'queueTypes', queueTypes.map((e) => e?.toValue() ?? '').toList()),
-    ].where((e) => e != null).join('&')}';
+        'queueTypes': queueTypes.map((e) => e?.toValue() ?? '').toList(),
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/queues-summary/${Uri.encodeComponent(instanceId.toString())}$_query',
+      requestUri: '/queues-summary/${Uri.encodeComponent(instanceId)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListQueuesResponse.fromJson(response);
@@ -979,16 +971,16 @@ class Connect {
       1,
       1000,
     );
-    var _query = '';
-    _query = '?${[
-      if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
-      if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/routing-profiles-summary/${Uri.encodeComponent(instanceId.toString())}$_query',
+          '/routing-profiles-summary/${Uri.encodeComponent(instanceId)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListRoutingProfilesResponse.fromJson(response);
@@ -1031,16 +1023,16 @@ class Connect {
       1,
       1000,
     );
-    var _query = '';
-    _query = '?${[
-      if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
-      if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/security-profiles-summary/${Uri.encodeComponent(instanceId.toString())}$_query',
+          '/security-profiles-summary/${Uri.encodeComponent(instanceId)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListSecurityProfilesResponse.fromJson(response);
@@ -1063,7 +1055,7 @@ class Connect {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsForResourceResponse.fromJson(response);
@@ -1106,16 +1098,16 @@ class Connect {
       1,
       1000,
     );
-    var _query = '';
-    _query = '?${[
-      if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
-      if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/user-hierarchy-groups-summary/${Uri.encodeComponent(instanceId.toString())}$_query',
+          '/user-hierarchy-groups-summary/${Uri.encodeComponent(instanceId)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListUserHierarchyGroupsResponse.fromJson(response);
@@ -1158,16 +1150,15 @@ class Connect {
       1,
       1000,
     );
-    var _query = '';
-    _query = '?${[
-      if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
-      if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/users-summary/${Uri.encodeComponent(instanceId.toString())}$_query',
+      requestUri: '/users-summary/${Uri.encodeComponent(instanceId)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListUsersResponse.fromJson(response);
@@ -1434,7 +1425,7 @@ class Connect {
     await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1458,15 +1449,14 @@ class Connect {
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
-    var _query = '';
-    _query = '?${[
-      if (tagKeys != null) _s.toQueryParam('tagKeys', tagKeys),
-    ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $query = <String, List<String>>{
+      if (tagKeys != null) 'tagKeys': tagKeys,
+    };
     await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$_query',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1586,7 +1576,7 @@ class Connect {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/users/${Uri.encodeComponent(instanceId.toString())}/${Uri.encodeComponent(userId.toString())}/hierarchy',
+          '/users/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(userId)}/hierarchy',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1629,7 +1619,7 @@ class Connect {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/users/${Uri.encodeComponent(instanceId.toString())}/${Uri.encodeComponent(userId.toString())}/identity-info',
+          '/users/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(userId)}/identity-info',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1672,7 +1662,7 @@ class Connect {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/users/${Uri.encodeComponent(instanceId.toString())}/${Uri.encodeComponent(userId.toString())}/phone-config',
+          '/users/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(userId)}/phone-config',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1715,7 +1705,7 @@ class Connect {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/users/${Uri.encodeComponent(instanceId.toString())}/${Uri.encodeComponent(userId.toString())}/routing-profile',
+          '/users/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(userId)}/routing-profile',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1758,7 +1748,7 @@ class Connect {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/users/${Uri.encodeComponent(instanceId.toString())}/${Uri.encodeComponent(userId.toString())}/security-profiles',
+          '/users/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(userId)}/security-profiles',
       exceptionFnMap: _exceptionFns,
     );
   }

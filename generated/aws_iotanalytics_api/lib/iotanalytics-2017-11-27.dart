@@ -173,12 +173,11 @@ class IoTAnalytics {
       isRequired: true,
     );
     ArgumentError.checkNotNull(reprocessingId, 'reprocessingId');
-    final $payload = <String, dynamic>{};
     final response = await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
       requestUri:
-          '/pipelines/${Uri.encodeComponent(pipelineName.toString())}/reprocessing/${Uri.encodeComponent(reprocessingId.toString())}',
+          '/pipelines/${Uri.encodeComponent(pipelineName)}/reprocessing/${Uri.encodeComponent(reprocessingId)}',
       exceptionFnMap: _exceptionFns,
     );
     return CancelPipelineReprocessingResponse.fromJson(response);
@@ -362,12 +361,10 @@ class IoTAnalytics {
       r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
     final response = await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'POST',
-      requestUri:
-          '/datasets/${Uri.encodeComponent(datasetName.toString())}/content',
+      requestUri: '/datasets/${Uri.encodeComponent(datasetName)}/content',
       exceptionFnMap: _exceptionFns,
     );
     return CreateDatasetContentResponse.fromJson(response);
@@ -525,11 +522,10 @@ class IoTAnalytics {
       r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
     await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri: '/channels/${Uri.encodeComponent(channelName.toString())}',
+      requestUri: '/channels/${Uri.encodeComponent(channelName)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -564,11 +560,10 @@ class IoTAnalytics {
       r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
     await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri: '/datasets/${Uri.encodeComponent(datasetName.toString())}',
+      requestUri: '/datasets/${Uri.encodeComponent(datasetName)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -613,16 +608,14 @@ class IoTAnalytics {
       7,
       36,
     );
-    var _query = '';
-    _query = '?${[
-      if (versionId != null) _s.toQueryParam('versionId', versionId),
-    ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $query = <String, List<String>>{
+      if (versionId != null) 'versionId': [versionId],
+    };
     await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri:
-          '/datasets/${Uri.encodeComponent(datasetName.toString())}/content$_query',
+      requestUri: '/datasets/${Uri.encodeComponent(datasetName)}/content',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -654,12 +647,10 @@ class IoTAnalytics {
       r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
     await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri:
-          '/datastores/${Uri.encodeComponent(datastoreName.toString())}',
+      requestUri: '/datastores/${Uri.encodeComponent(datastoreName)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -691,11 +682,10 @@ class IoTAnalytics {
       r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
     await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri: '/pipelines/${Uri.encodeComponent(pipelineName.toString())}',
+      requestUri: '/pipelines/${Uri.encodeComponent(pipelineName)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -733,16 +723,15 @@ class IoTAnalytics {
       r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
-    var _query = '';
-    _query = '?${[
+    final $query = <String, List<String>>{
       if (includeStatistics != null)
-        _s.toQueryParam('includeStatistics', includeStatistics),
-    ].where((e) => e != null).join('&')}';
+        'includeStatistics': [includeStatistics.toString()],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/channels/${Uri.encodeComponent(channelName.toString())}$_query',
+      requestUri: '/channels/${Uri.encodeComponent(channelName)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return DescribeChannelResponse.fromJson(response);
@@ -778,7 +767,7 @@ class IoTAnalytics {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/datasets/${Uri.encodeComponent(datasetName.toString())}',
+      requestUri: '/datasets/${Uri.encodeComponent(datasetName)}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeDatasetResponse.fromJson(response);
@@ -817,16 +806,15 @@ class IoTAnalytics {
       r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
-    var _query = '';
-    _query = '?${[
+    final $query = <String, List<String>>{
       if (includeStatistics != null)
-        _s.toQueryParam('includeStatistics', includeStatistics),
-    ].where((e) => e != null).join('&')}';
+        'includeStatistics': [includeStatistics.toString()],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/datastores/${Uri.encodeComponent(datastoreName.toString())}$_query',
+      requestUri: '/datastores/${Uri.encodeComponent(datastoreName)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return DescribeDatastoreResponse.fromJson(response);
@@ -879,7 +867,7 @@ class IoTAnalytics {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/pipelines/${Uri.encodeComponent(pipelineName.toString())}',
+      requestUri: '/pipelines/${Uri.encodeComponent(pipelineName)}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribePipelineResponse.fromJson(response);
@@ -925,15 +913,14 @@ class IoTAnalytics {
       7,
       36,
     );
-    var _query = '';
-    _query = '?${[
-      if (versionId != null) _s.toQueryParam('versionId', versionId),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (versionId != null) 'versionId': [versionId],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/datasets/${Uri.encodeComponent(datasetName.toString())}/content$_query',
+      requestUri: '/datasets/${Uri.encodeComponent(datasetName)}/content',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return GetDatasetContentResponse.fromJson(response);
@@ -963,15 +950,15 @@ class IoTAnalytics {
       1,
       250,
     );
-    var _query = '';
-    _query = '?${[
-      if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
-      if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/channels$_query',
+      requestUri: '/channels',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListChannelsResponse.fromJson(response);
@@ -1030,21 +1017,19 @@ class IoTAnalytics {
       1,
       250,
     );
-    var _query = '';
-    _query = '?${[
-      if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
-      if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
       if (scheduledBefore != null)
-        _s.toQueryParam('scheduledBefore', _s.iso8601ToJson(scheduledBefore)),
+        'scheduledBefore': [_s.iso8601ToJson(scheduledBefore).toString()],
       if (scheduledOnOrAfter != null)
-        _s.toQueryParam(
-            'scheduledOnOrAfter', _s.iso8601ToJson(scheduledOnOrAfter)),
-    ].where((e) => e != null).join('&')}';
+        'scheduledOnOrAfter': [_s.iso8601ToJson(scheduledOnOrAfter).toString()],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/datasets/${Uri.encodeComponent(datasetName.toString())}/contents$_query',
+      requestUri: '/datasets/${Uri.encodeComponent(datasetName)}/contents',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListDatasetContentsResponse.fromJson(response);
@@ -1074,15 +1059,15 @@ class IoTAnalytics {
       1,
       250,
     );
-    var _query = '';
-    _query = '?${[
-      if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
-      if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/datasets$_query',
+      requestUri: '/datasets',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListDatasetsResponse.fromJson(response);
@@ -1112,15 +1097,15 @@ class IoTAnalytics {
       1,
       250,
     );
-    var _query = '';
-    _query = '?${[
-      if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
-      if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/datastores$_query',
+      requestUri: '/datastores',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListDatastoresResponse.fromJson(response);
@@ -1150,15 +1135,15 @@ class IoTAnalytics {
       1,
       250,
     );
-    var _query = '';
-    _query = '?${[
-      if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
-      if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/pipelines$_query',
+      requestUri: '/pipelines',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListPipelinesResponse.fromJson(response);
@@ -1186,14 +1171,14 @@ class IoTAnalytics {
       2048,
       isRequired: true,
     );
-    var _query = '';
-    _query = '?${[
-      if (resourceArn != null) _s.toQueryParam('resourceArn', resourceArn),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (resourceArn != null) 'resourceArn': [resourceArn],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/tags$_query',
+      requestUri: '/tags',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsForResourceResponse.fromJson(response);
@@ -1312,19 +1297,17 @@ class IoTAnalytics {
       1,
       10,
     );
-    var _query = '';
-    _query = '?${[
-      if (endTime != null)
-        _s.toQueryParam('endTime', _s.iso8601ToJson(endTime)),
-      if (maxMessages != null) _s.toQueryParam('maxMessages', maxMessages),
+    final $query = <String, List<String>>{
+      if (endTime != null) 'endTime': [_s.iso8601ToJson(endTime).toString()],
+      if (maxMessages != null) 'maxMessages': [maxMessages.toString()],
       if (startTime != null)
-        _s.toQueryParam('startTime', _s.iso8601ToJson(startTime)),
-    ].where((e) => e != null).join('&')}';
+        'startTime': [_s.iso8601ToJson(startTime).toString()],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/channels/${Uri.encodeComponent(channelName.toString())}/sample$_query',
+      requestUri: '/channels/${Uri.encodeComponent(channelName)}/sample',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return SampleChannelDataResponse.fromJson(response);
@@ -1374,7 +1357,7 @@ class IoTAnalytics {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/pipelines/${Uri.encodeComponent(pipelineName.toString())}/reprocessing',
+          '/pipelines/${Uri.encodeComponent(pipelineName)}/reprocessing',
       exceptionFnMap: _exceptionFns,
     );
     return StartPipelineReprocessingResponse.fromJson(response);
@@ -1408,17 +1391,17 @@ class IoTAnalytics {
       isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
-    var _query = '';
-    _query = '?${[
-      if (resourceArn != null) _s.toQueryParam('resourceArn', resourceArn),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (resourceArn != null) 'resourceArn': [resourceArn],
+    };
     final $payload = <String, dynamic>{
       'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/tags$_query',
+      requestUri: '/tags',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return TagResourceResponse.fromJson(response);
@@ -1451,16 +1434,15 @@ class IoTAnalytics {
       isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
-    var _query = '';
-    _query = '?${[
-      if (resourceArn != null) _s.toQueryParam('resourceArn', resourceArn),
-      if (tagKeys != null) _s.toQueryParam('tagKeys', tagKeys),
-    ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $query = <String, List<String>>{
+      if (resourceArn != null) 'resourceArn': [resourceArn],
+      if (tagKeys != null) 'tagKeys': tagKeys,
+    };
     final response = await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri: '/tags$_query',
+      requestUri: '/tags',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return UntagResourceResponse.fromJson(response);
@@ -1511,7 +1493,7 @@ class IoTAnalytics {
     await _protocol.send(
       payload: $payload,
       method: 'PUT',
-      requestUri: '/channels/${Uri.encodeComponent(channelName.toString())}',
+      requestUri: '/channels/${Uri.encodeComponent(channelName)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1582,7 +1564,7 @@ class IoTAnalytics {
     await _protocol.send(
       payload: $payload,
       method: 'PUT',
-      requestUri: '/datasets/${Uri.encodeComponent(datasetName.toString())}',
+      requestUri: '/datasets/${Uri.encodeComponent(datasetName)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1634,8 +1616,7 @@ class IoTAnalytics {
     await _protocol.send(
       payload: $payload,
       method: 'PUT',
-      requestUri:
-          '/datastores/${Uri.encodeComponent(datastoreName.toString())}',
+      requestUri: '/datastores/${Uri.encodeComponent(datastoreName)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1693,7 +1674,7 @@ class IoTAnalytics {
     await _protocol.send(
       payload: $payload,
       method: 'PUT',
-      requestUri: '/pipelines/${Uri.encodeComponent(pipelineName.toString())}',
+      requestUri: '/pipelines/${Uri.encodeComponent(pipelineName)}',
       exceptionFnMap: _exceptionFns,
     );
   }

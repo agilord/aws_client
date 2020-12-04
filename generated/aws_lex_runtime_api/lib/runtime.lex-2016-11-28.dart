@@ -89,12 +89,11 @@ class LexRuntimeService {
       r'''[0-9a-zA-Z._:-]+''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
     final response = await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
       requestUri:
-          '/bot/${Uri.encodeComponent(botName.toString())}/alias/${Uri.encodeComponent(botAlias.toString())}/user/${Uri.encodeComponent(userId.toString())}/session',
+          '/bot/${Uri.encodeComponent(botName)}/alias/${Uri.encodeComponent(botAlias)}/user/${Uri.encodeComponent(userId)}/session',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteSessionResponse.fromJson(response);
@@ -156,16 +155,16 @@ class LexRuntimeService {
       checkpointLabelFilter,
       r'''[a-zA-Z0-9-]+''',
     );
-    var _query = '';
-    _query = '?${[
+    final $query = <String, List<String>>{
       if (checkpointLabelFilter != null)
-        _s.toQueryParam('checkpointLabelFilter', checkpointLabelFilter),
-    ].where((e) => e != null).join('&')}';
+        'checkpointLabelFilter': [checkpointLabelFilter],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/bot/${Uri.encodeComponent(botName.toString())}/alias/${Uri.encodeComponent(botAlias.toString())}/user/${Uri.encodeComponent(userId.toString())}/session/$_query',
+          '/bot/${Uri.encodeComponent(botName)}/alias/${Uri.encodeComponent(botAlias)}/user/${Uri.encodeComponent(userId)}/session/',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return GetSessionResponse.fromJson(response);
@@ -459,10 +458,10 @@ class LexRuntimeService {
         ?.let((v) => headers['x-amz-lex-session-attributes'] = v.toString());
     final response = await _protocol.sendRaw(
       payload: inputStream,
-      headers: headers,
       method: 'POST',
       requestUri:
-          '/bot/${Uri.encodeComponent(botName.toString())}/alias/${Uri.encodeComponent(botAlias.toString())}/user/${Uri.encodeComponent(userId.toString())}/content',
+          '/bot/${Uri.encodeComponent(botName)}/alias/${Uri.encodeComponent(botAlias)}/user/${Uri.encodeComponent(userId)}/content',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return PostContentResponse(
@@ -675,7 +674,7 @@ class LexRuntimeService {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/bot/${Uri.encodeComponent(botName.toString())}/alias/${Uri.encodeComponent(botAlias.toString())}/user/${Uri.encodeComponent(userId.toString())}/text',
+          '/bot/${Uri.encodeComponent(botName)}/alias/${Uri.encodeComponent(botAlias)}/user/${Uri.encodeComponent(userId)}/text',
       exceptionFnMap: _exceptionFns,
     );
     return PostTextResponse.fromJson(response);
@@ -820,10 +819,10 @@ class LexRuntimeService {
     };
     final response = await _protocol.sendRaw(
       payload: $payload,
-      headers: headers,
       method: 'POST',
       requestUri:
-          '/bot/${Uri.encodeComponent(botName.toString())}/alias/${Uri.encodeComponent(botAlias.toString())}/user/${Uri.encodeComponent(userId.toString())}/session',
+          '/bot/${Uri.encodeComponent(botName)}/alias/${Uri.encodeComponent(botAlias)}/user/${Uri.encodeComponent(userId)}/session',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return PutSessionResponse(

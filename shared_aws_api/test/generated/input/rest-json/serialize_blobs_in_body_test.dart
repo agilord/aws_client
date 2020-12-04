@@ -12,7 +12,7 @@ void main() {
   test('Serialize blobs in body 0', () async {
     final client = MockClient((request) async {
       expect(request.body, equalsJson(r'''{"Bar": "QmxvYiBwYXJhbQ=="}'''));
-      expect(pathAndQuery(request.url), '/2014-01-01/foo_name');
+      expect(request.url, equalsPathAndQuery('/2014-01-01/foo_name'));
       return Response('{}', 200, headers: {});
     });
 

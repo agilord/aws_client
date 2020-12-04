@@ -112,12 +112,10 @@ class AugmentedAIRuntime {
       r'''^[a-z0-9](-*[a-z0-9])*$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
     final response = await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri:
-          '/human-loops/${Uri.encodeComponent(humanLoopName.toString())}',
+      requestUri: '/human-loops/${Uri.encodeComponent(humanLoopName)}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteHumanLoopResponse.fromJson(response);
@@ -152,8 +150,7 @@ class AugmentedAIRuntime {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/human-loops/${Uri.encodeComponent(humanLoopName.toString())}',
+      requestUri: '/human-loops/${Uri.encodeComponent(humanLoopName)}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeHumanLoopResponse.fromJson(response);
@@ -229,24 +226,21 @@ class AugmentedAIRuntime {
       nextToken,
       r'''.*''',
     );
-    var _query = '';
-    _query = '?${[
-      if (flowDefinitionArn != null)
-        _s.toQueryParam('FlowDefinitionArn', flowDefinitionArn),
+    final $query = <String, List<String>>{
+      if (flowDefinitionArn != null) 'FlowDefinitionArn': [flowDefinitionArn],
       if (creationTimeAfter != null)
-        _s.toQueryParam(
-            'CreationTimeAfter', _s.iso8601ToJson(creationTimeAfter)),
+        'CreationTimeAfter': [_s.iso8601ToJson(creationTimeAfter).toString()],
       if (creationTimeBefore != null)
-        _s.toQueryParam(
-            'CreationTimeBefore', _s.iso8601ToJson(creationTimeBefore)),
-      if (maxResults != null) _s.toQueryParam('MaxResults', maxResults),
-      if (nextToken != null) _s.toQueryParam('NextToken', nextToken),
-      if (sortOrder != null) _s.toQueryParam('SortOrder', sortOrder.toValue()),
-    ].where((e) => e != null).join('&')}';
+        'CreationTimeBefore': [_s.iso8601ToJson(creationTimeBefore).toString()],
+      if (maxResults != null) 'MaxResults': [maxResults.toString()],
+      if (nextToken != null) 'NextToken': [nextToken],
+      if (sortOrder != null) 'SortOrder': [sortOrder.toValue()],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/human-loops$_query',
+      requestUri: '/human-loops',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListHumanLoopsResponse.fromJson(response);
