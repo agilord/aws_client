@@ -7,6 +7,7 @@ import 'package:shared_aws_api/src/model/shape.dart';
 import 'package:xml/xml.dart';
 
 import '../credentials.dart';
+import '../utils/query_string.dart';
 
 import '_sign.dart';
 import 'endpoint.dart';
@@ -82,7 +83,8 @@ class QueryProtocol {
     String action,
   ) {
     final rq = Request(method, Uri.parse('${_endpoint.url}$requestUri'));
-    rq.body = canonical(flatQueryParams(data, shape, shapes, version, action));
+    rq.body = canonicalQueryParameters(
+        flatQueryParams(data, shape, shapes, version, action));
     rq.headers['Content-Type'] = 'application/x-www-form-urlencoded';
     // TODO: handle if the API is using different signing
     signAws4HmacSha256(
@@ -257,13 +259,4 @@ Iterable<MapEntry<String, String>> _flatten(
 
   throw ArgumentError(
       'Unknown type at "${prefixes.join('.')}": ${data.runtimeType} ($data)');
-}
-
-String canonical(Map<String, String> data) {
-  final list = data.entries
-      .map((e) =>
-          '${Uri.encodeQueryComponent(e.key)}=${Uri.encodeQueryComponent(e.value)}')
-      .toList();
-  list.sort();
-  return list.join('&');
 }

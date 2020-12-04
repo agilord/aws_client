@@ -1,11 +1,12 @@
 import 'dart:convert';
 
+import 'package:shared_aws_api/src/utils/query_string.dart';
 import 'package:test/test.dart';
 import 'package:xml/xml.dart';
 
 String pathAndQuery(Uri uri) {
   if (uri.hasQuery && uri.query.isNotEmpty) {
-    return '${uri.path}?${uri.query}';
+    return '${uri.path}?${canonicalQueryParametersAll(uri.queryParametersAll)}';
   }
   return uri.path;
 }
@@ -125,10 +126,13 @@ class _QueryEqual extends _FeatureMatcher<String> {
 
   _QueryEqual(this._expected);
 
+  static String _canonical(String query) {
+    return canonicalQueryParametersAll(Uri(query: query).queryParametersAll);
+  }
+
   @override
   bool typedMatches(String item, Map matchState) {
-    return unorderedEquals(_expected.split('&'))
-        .matches(item.split('&'), matchState);
+    return equals(_canonical(_expected)).matches(_canonical(item), matchState);
   }
 
   @override
