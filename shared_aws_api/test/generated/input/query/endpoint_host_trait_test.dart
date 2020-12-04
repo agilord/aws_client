@@ -13,7 +13,7 @@ void main() {
     final client = MockClient((request) async {
       expect(request.body,
           equalsQuery(r'''Action=StaticOp&Version=2014-01-01&Name=myname'''));
-      expect(pathAndQuery(request.url), '/');
+      expect(request.url, equalsPathAndQuery('/'));
       //expect(request.url.host, 'data-service.region.amazonaws.com');
       return Response('<Response></Response>', 200, headers: {});
     });
@@ -39,7 +39,7 @@ void main() {
           request.body,
           equalsQuery(
               r'''Action=MemberRefOp&Version=2014-01-01&Name=myname'''));
-      expect(pathAndQuery(request.url), '/');
+      expect(request.url, equalsPathAndQuery('/'));
       //expect(request.url.host, 'foo-myname.service.region.amazonaws.com');
       return Response('<Response></Response>', 200, headers: {});
     });

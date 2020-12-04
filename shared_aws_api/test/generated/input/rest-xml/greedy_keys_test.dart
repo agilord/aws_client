@@ -12,7 +12,7 @@ void main() {
   test('Greedy keys 0', () async {
     final client = MockClient((request) async {
       expect(request.body, equalsXml(r''''''));
-      expect(pathAndQuery(request.url), '/my%2Fbucket/testing%20/123');
+      expect(request.url, equalsPathAndQuery('/my%2Fbucket/testing%20/123'));
       expect(request.method, equalsIgnoringCase('GET'));
       return Response('<Response></Response>', 200, headers: {});
     });

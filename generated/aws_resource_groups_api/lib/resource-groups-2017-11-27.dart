@@ -159,11 +159,10 @@ class ResourceGroups {
       r'''[a-zA-Z0-9_\.-]+''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
     final response = await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri: '/groups/${Uri.encodeComponent(groupName.toString())}',
+      requestUri: '/groups/${Uri.encodeComponent(groupName)}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteGroupOutput.fromJson(response);
@@ -200,7 +199,7 @@ class ResourceGroups {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/groups/${Uri.encodeComponent(groupName.toString())}',
+      requestUri: '/groups/${Uri.encodeComponent(groupName)}',
       exceptionFnMap: _exceptionFns,
     );
     return GetGroupOutput.fromJson(response);
@@ -237,7 +236,7 @@ class ResourceGroups {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/groups/${Uri.encodeComponent(groupName.toString())}/query',
+      requestUri: '/groups/${Uri.encodeComponent(groupName)}/query',
       exceptionFnMap: _exceptionFns,
     );
     return GetGroupQueryOutput.fromJson(response);
@@ -276,7 +275,7 @@ class ResourceGroups {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/resources/${Uri.encodeComponent(arn.toString())}/tags',
+      requestUri: '/resources/${Uri.encodeComponent(arn)}/tags',
       exceptionFnMap: _exceptionFns,
     );
     return GetTagsOutput.fromJson(response);
@@ -353,11 +352,10 @@ class ResourceGroups {
       nextToken,
       r'''^[a-zA-Z0-9+/]*={0,2}$''',
     );
-    var _query = '';
-    _query = '?${[
-      if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
-      if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
     final $payload = <String, dynamic>{
       if (filters != null) 'Filters': filters,
     };
@@ -365,7 +363,8 @@ class ResourceGroups {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/groups/${Uri.encodeComponent(groupName.toString())}/resource-identifiers-list$_query',
+          '/groups/${Uri.encodeComponent(groupName)}/resource-identifiers-list',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListGroupResourcesOutput.fromJson(response);
@@ -421,18 +420,18 @@ class ResourceGroups {
       nextToken,
       r'''^[a-zA-Z0-9+/]*={0,2}$''',
     );
-    var _query = '';
-    _query = '?${[
-      if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
-      if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
     final $payload = <String, dynamic>{
       if (filters != null) 'Filters': filters,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/groups-list$_query',
+      requestUri: '/groups-list',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListGroupsOutput.fromJson(response);
@@ -543,7 +542,7 @@ class ResourceGroups {
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
-      requestUri: '/resources/${Uri.encodeComponent(arn.toString())}/tags',
+      requestUri: '/resources/${Uri.encodeComponent(arn)}/tags',
       exceptionFnMap: _exceptionFns,
     );
     return TagOutput.fromJson(response);
@@ -588,7 +587,7 @@ class ResourceGroups {
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
-      requestUri: '/resources/${Uri.encodeComponent(arn.toString())}/tags',
+      requestUri: '/resources/${Uri.encodeComponent(arn)}/tags',
       exceptionFnMap: _exceptionFns,
     );
     return UntagOutput.fromJson(response);
@@ -647,7 +646,7 @@ class ResourceGroups {
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
-      requestUri: '/groups/${Uri.encodeComponent(groupName.toString())}',
+      requestUri: '/groups/${Uri.encodeComponent(groupName)}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateGroupOutput.fromJson(response);
@@ -693,7 +692,7 @@ class ResourceGroups {
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
-      requestUri: '/groups/${Uri.encodeComponent(groupName.toString())}/query',
+      requestUri: '/groups/${Uri.encodeComponent(groupName)}/query',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateGroupQueryOutput.fromJson(response);

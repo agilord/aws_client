@@ -48,13 +48,11 @@ class Enum {
   }) async {
     final headers = <String, String>{};
     headerEnum?.let((v) => headers['x-amz-enum'] = v.toValue());
-    var _query = '';
-    _query = '?${[
-      if (queryFooEnum != null) _s.toQueryParam('Enum', queryFooEnum.toValue()),
+    final $query = <String, List<String>>{
+      if (queryFooEnum != null) 'Enum': [queryFooEnum.toValue()],
       if (queryListEnums != null)
-        _s.toQueryParam(
-            'List', queryListEnums.map((e) => e?.toValue() ?? '').toList()),
-    ].where((e) => e != null).join('&')}';
+        'List': queryListEnums.map((e) => e?.toValue() ?? '').toList(),
+    };
     final $payload = <String, dynamic>{
       if (fooEnum != null) 'FooEnum': fooEnum.toValue(),
       if (listEnums != null)
@@ -62,9 +60,10 @@ class Enum {
     };
     await _protocol.send(
       payload: $payload,
-      headers: headers,
       method: 'POST',
-      requestUri: '/path$_query',
+      requestUri: '/path',
+      queryParams: $query,
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -78,13 +77,11 @@ class Enum {
   }) async {
     final headers = <String, String>{};
     headerEnum?.let((v) => headers['x-amz-enum'] = v.toValue());
-    var _query = '';
-    _query = '?${[
-      if (queryFooEnum != null) _s.toQueryParam('Enum', queryFooEnum.toValue()),
+    final $query = <String, List<String>>{
+      if (queryFooEnum != null) 'Enum': [queryFooEnum.toValue()],
       if (queryListEnums != null)
-        _s.toQueryParam(
-            'List', queryListEnums.map((e) => e?.toValue() ?? '').toList()),
-    ].where((e) => e != null).join('&')}';
+        'List': queryListEnums.map((e) => e?.toValue() ?? '').toList(),
+    };
     final $payload = <String, dynamic>{
       if (fooEnum != null) 'FooEnum': fooEnum.toValue(),
       if (listEnums != null)
@@ -92,9 +89,10 @@ class Enum {
     };
     await _protocol.send(
       payload: $payload,
-      headers: headers,
       method: 'POST',
-      requestUri: '/path$_query',
+      requestUri: '/path',
+      queryParams: $query,
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
   }

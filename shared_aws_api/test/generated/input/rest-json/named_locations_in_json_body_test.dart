@@ -13,7 +13,7 @@ void main() {
     final client = MockClient((request) async {
       expect(
           request.body, equalsJson(r'''{"timestamp_location": 1422172800}'''));
-      expect(pathAndQuery(request.url), '/path');
+      expect(request.url, equalsPathAndQuery('/path'));
       return Response('{}', 200, headers: {});
     });
 

@@ -70,8 +70,7 @@ class MediaConnect {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri:
-          '/v1/flows/${Uri.encodeComponent(flowArn.toString())}/outputs',
+      requestUri: '/v1/flows/${Uri.encodeComponent(flowArn)}/outputs',
       exceptionFnMap: _exceptionFns,
     );
     return AddFlowOutputsResponse.fromJson(response);
@@ -103,7 +102,7 @@ class MediaConnect {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/v1/flows/${Uri.encodeComponent(flowArn.toString())}/source',
+      requestUri: '/v1/flows/${Uri.encodeComponent(flowArn)}/source',
       exceptionFnMap: _exceptionFns,
     );
     return AddFlowSourcesResponse.fromJson(response);
@@ -135,8 +134,7 @@ class MediaConnect {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri:
-          '/v1/flows/${Uri.encodeComponent(flowArn.toString())}/vpcInterfaces',
+      requestUri: '/v1/flows/${Uri.encodeComponent(flowArn)}/vpcInterfaces',
       exceptionFnMap: _exceptionFns,
     );
     return AddFlowVpcInterfacesResponse.fromJson(response);
@@ -213,11 +211,10 @@ class MediaConnect {
     @_s.required String flowArn,
   }) async {
     ArgumentError.checkNotNull(flowArn, 'flowArn');
-    final $payload = <String, dynamic>{};
     final response = await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri: '/v1/flows/${Uri.encodeComponent(flowArn.toString())}',
+      requestUri: '/v1/flows/${Uri.encodeComponent(flowArn)}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteFlowResponse.fromJson(response);
@@ -243,7 +240,7 @@ class MediaConnect {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/v1/flows/${Uri.encodeComponent(flowArn.toString())}',
+      requestUri: '/v1/flows/${Uri.encodeComponent(flowArn)}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeFlowResponse.fromJson(response);
@@ -276,8 +273,7 @@ class MediaConnect {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri:
-          '/v1/flows/${Uri.encodeComponent(flowArn.toString())}/entitlements',
+      requestUri: '/v1/flows/${Uri.encodeComponent(flowArn)}/entitlements',
       exceptionFnMap: _exceptionFns,
     );
     return GrantFlowEntitlementsResponse.fromJson(response);
@@ -316,15 +312,15 @@ class MediaConnect {
       1,
       1000,
     );
-    var _query = '';
-    _query = '?${[
-      if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
-      if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/v1/entitlements$_query',
+      requestUri: '/v1/entitlements',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListEntitlementsResponse.fromJson(response);
@@ -363,15 +359,15 @@ class MediaConnect {
       1,
       1000,
     );
-    var _query = '';
-    _query = '?${[
-      if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
-      if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/v1/flows$_query',
+      requestUri: '/v1/flows',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListFlowsResponse.fromJson(response);
@@ -393,7 +389,7 @@ class MediaConnect {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsForResourceResponse.fromJson(response);
@@ -423,12 +419,11 @@ class MediaConnect {
   }) async {
     ArgumentError.checkNotNull(flowArn, 'flowArn');
     ArgumentError.checkNotNull(outputArn, 'outputArn');
-    final $payload = <String, dynamic>{};
     final response = await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
       requestUri:
-          '/v1/flows/${Uri.encodeComponent(flowArn.toString())}/outputs/${Uri.encodeComponent(outputArn.toString())}',
+          '/v1/flows/${Uri.encodeComponent(flowArn)}/outputs/${Uri.encodeComponent(outputArn)}',
       exceptionFnMap: _exceptionFns,
     );
     return RemoveFlowOutputResponse.fromJson(response);
@@ -455,12 +450,11 @@ class MediaConnect {
   }) async {
     ArgumentError.checkNotNull(flowArn, 'flowArn');
     ArgumentError.checkNotNull(sourceArn, 'sourceArn');
-    final $payload = <String, dynamic>{};
     final response = await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
       requestUri:
-          '/v1/flows/${Uri.encodeComponent(flowArn.toString())}/source/${Uri.encodeComponent(sourceArn.toString())}',
+          '/v1/flows/${Uri.encodeComponent(flowArn)}/source/${Uri.encodeComponent(sourceArn)}',
       exceptionFnMap: _exceptionFns,
     );
     return RemoveFlowSourceResponse.fromJson(response);
@@ -490,12 +484,11 @@ class MediaConnect {
   }) async {
     ArgumentError.checkNotNull(flowArn, 'flowArn');
     ArgumentError.checkNotNull(vpcInterfaceName, 'vpcInterfaceName');
-    final $payload = <String, dynamic>{};
     final response = await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
       requestUri:
-          '/v1/flows/${Uri.encodeComponent(flowArn.toString())}/vpcInterfaces/${Uri.encodeComponent(vpcInterfaceName.toString())}',
+          '/v1/flows/${Uri.encodeComponent(flowArn)}/vpcInterfaces/${Uri.encodeComponent(vpcInterfaceName)}',
       exceptionFnMap: _exceptionFns,
     );
     return RemoveFlowVpcInterfaceResponse.fromJson(response);
@@ -523,12 +516,11 @@ class MediaConnect {
   }) async {
     ArgumentError.checkNotNull(entitlementArn, 'entitlementArn');
     ArgumentError.checkNotNull(flowArn, 'flowArn');
-    final $payload = <String, dynamic>{};
     final response = await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
       requestUri:
-          '/v1/flows/${Uri.encodeComponent(flowArn.toString())}/entitlements/${Uri.encodeComponent(entitlementArn.toString())}',
+          '/v1/flows/${Uri.encodeComponent(flowArn)}/entitlements/${Uri.encodeComponent(entitlementArn)}',
       exceptionFnMap: _exceptionFns,
     );
     return RevokeFlowEntitlementResponse.fromJson(response);
@@ -549,11 +541,10 @@ class MediaConnect {
     @_s.required String flowArn,
   }) async {
     ArgumentError.checkNotNull(flowArn, 'flowArn');
-    final $payload = <String, dynamic>{};
     final response = await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'POST',
-      requestUri: '/v1/flows/start/${Uri.encodeComponent(flowArn.toString())}',
+      requestUri: '/v1/flows/start/${Uri.encodeComponent(flowArn)}',
       exceptionFnMap: _exceptionFns,
     );
     return StartFlowResponse.fromJson(response);
@@ -574,11 +565,10 @@ class MediaConnect {
     @_s.required String flowArn,
   }) async {
     ArgumentError.checkNotNull(flowArn, 'flowArn');
-    final $payload = <String, dynamic>{};
     final response = await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'POST',
-      requestUri: '/v1/flows/stop/${Uri.encodeComponent(flowArn.toString())}',
+      requestUri: '/v1/flows/stop/${Uri.encodeComponent(flowArn)}',
       exceptionFnMap: _exceptionFns,
     );
     return StopFlowResponse.fromJson(response);
@@ -613,7 +603,7 @@ class MediaConnect {
     await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -636,15 +626,14 @@ class MediaConnect {
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
-    var _query = '';
-    _query = '?${[
-      if (tagKeys != null) _s.toQueryParam('tagKeys', tagKeys),
-    ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $query = <String, List<String>>{
+      if (tagKeys != null) 'tagKeys': tagKeys,
+    };
     await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$_query',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -672,7 +661,7 @@ class MediaConnect {
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
-      requestUri: '/v1/flows/${Uri.encodeComponent(flowArn.toString())}',
+      requestUri: '/v1/flows/${Uri.encodeComponent(flowArn)}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateFlowResponse.fromJson(response);
@@ -726,7 +715,7 @@ class MediaConnect {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/v1/flows/${Uri.encodeComponent(flowArn.toString())}/entitlements/${Uri.encodeComponent(entitlementArn.toString())}',
+          '/v1/flows/${Uri.encodeComponent(flowArn)}/entitlements/${Uri.encodeComponent(entitlementArn)}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateFlowEntitlementResponse.fromJson(response);
@@ -819,7 +808,7 @@ class MediaConnect {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/v1/flows/${Uri.encodeComponent(flowArn.toString())}/outputs/${Uri.encodeComponent(outputArn.toString())}',
+          '/v1/flows/${Uri.encodeComponent(flowArn)}/outputs/${Uri.encodeComponent(outputArn)}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateFlowOutputResponse.fromJson(response);
@@ -908,7 +897,7 @@ class MediaConnect {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/v1/flows/${Uri.encodeComponent(flowArn.toString())}/source/${Uri.encodeComponent(sourceArn.toString())}',
+          '/v1/flows/${Uri.encodeComponent(flowArn)}/source/${Uri.encodeComponent(sourceArn)}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateFlowSourceResponse.fromJson(response);

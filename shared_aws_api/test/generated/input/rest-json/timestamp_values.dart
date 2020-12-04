@@ -56,17 +56,18 @@ class TimestampValues {
         _s.unixTimestampToJson(v).toString());
     timeFormatInHeader?.let((v) => headers['x-amz-timeformat-header'] =
         _s.unixTimestampToJson(v).toString());
-    var _query = '';
-    _query = '?${[
+    final $query = <String, List<String>>{
       if (timeArgInQuery != null)
-        _s.toQueryParam('TimeQuery', _s.iso8601ToJson(timeArgInQuery)),
+        'TimeQuery': [_s.iso8601ToJson(timeArgInQuery).toString()],
       if (timeCustomInQuery != null)
-        _s.toQueryParam('TimeCustomQuery',
-            _s.unixTimestampToJson(timeCustomInQuery).toString()),
+        'TimeCustomQuery': [
+          _s.unixTimestampToJson(timeCustomInQuery).toString().toString()
+        ],
       if (timeFormatInQuery != null)
-        _s.toQueryParam('TimeFormatQuery',
-            _s.unixTimestampToJson(timeFormatInQuery).toString()),
-    ].where((e) => e != null).join('&')}';
+        'TimeFormatQuery': [
+          _s.unixTimestampToJson(timeFormatInQuery).toString().toString()
+        ],
+    };
     final $payload = <String, dynamic>{
       if (timeArg != null) 'TimeArg': unixTimestampToJson(timeArg),
       if (timeCustom != null) 'TimeCustom': iso8601ToJson(timeCustom),
@@ -74,9 +75,10 @@ class TimestampValues {
     };
     await _protocol.send(
       payload: $payload,
-      headers: headers,
       method: 'POST',
-      requestUri: '/path$_query',
+      requestUri: '/path',
+      queryParams: $query,
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
   }

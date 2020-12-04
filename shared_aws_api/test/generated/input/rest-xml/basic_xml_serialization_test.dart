@@ -15,7 +15,7 @@ void main() {
           request.body,
           equalsXml(
               r'''<OperationRequest xmlns="https://foo/"><Name>foo</Name><Description>bar</Description></OperationRequest>'''));
-      expect(pathAndQuery(request.url), '/2014-01-01/hostedzone');
+      expect(request.url, equalsPathAndQuery('/2014-01-01/hostedzone'));
       expect(request.method, equalsIgnoringCase('POST'));
       return Response('<Response></Response>', 200, headers: {});
     });
@@ -43,7 +43,7 @@ void main() {
           request.body,
           equalsXml(
               r'''<OperationRequest xmlns="https://foo/"><Name>foo</Name><Description>bar</Description></OperationRequest>'''));
-      expect(pathAndQuery(request.url), '/2014-01-01/hostedzone');
+      expect(request.url, equalsPathAndQuery('/2014-01-01/hostedzone'));
       expect(request.method, equalsIgnoringCase('PUT'));
       return Response('<Response></Response>', 200, headers: {});
     });
@@ -68,7 +68,7 @@ void main() {
   test('Basic XML serialization 2', () async {
     final client = MockClient((request) async {
       expect(request.body, equalsXml(r''''''));
-      expect(pathAndQuery(request.url), '/2014-01-01/hostedzone');
+      expect(request.url, equalsPathAndQuery('/2014-01-01/hostedzone'));
       expect(request.method, equalsIgnoringCase('GET'));
       return Response('<Response></Response>', 200, headers: {});
     });

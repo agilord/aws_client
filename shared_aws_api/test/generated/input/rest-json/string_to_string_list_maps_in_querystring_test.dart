@@ -12,8 +12,10 @@ void main() {
   test('String to string list maps in querystring 0', () async {
     final client = MockClient((request) async {
       expect(request.body, equalsJson(r''''''));
-      expect(pathAndQuery(request.url),
-          '/2014-01-01/jobsByPipeline/id?foo=bar&foo=baz&fizz=buzz&fizz=pop');
+      expect(
+          request.url,
+          equalsPathAndQuery(
+              '/2014-01-01/jobsByPipeline/id?foo=bar&foo=baz&fizz=buzz&fizz=pop'));
       return Response('{}', 200, headers: {});
     });
 

@@ -183,8 +183,7 @@ class AccessAnalyzer {
     await _protocol.send(
       payload: $payload,
       method: 'PUT',
-      requestUri:
-          '/analyzer/${Uri.encodeComponent(analyzerName.toString())}/archive-rule',
+      requestUri: '/analyzer/${Uri.encodeComponent(analyzerName)}/archive-rule',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -223,16 +222,14 @@ class AccessAnalyzer {
       r'''^[A-Za-z][A-Za-z0-9_.-]*$''',
       isRequired: true,
     );
-    var _query = '';
-    _query = '?${[
-      if (clientToken != null) _s.toQueryParam('clientToken', clientToken),
-    ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $query = <String, List<String>>{
+      if (clientToken != null) 'clientToken': [clientToken],
+    };
     await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri:
-          '/analyzer/${Uri.encodeComponent(analyzerName.toString())}$_query',
+      requestUri: '/analyzer/${Uri.encodeComponent(analyzerName)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -286,16 +283,15 @@ class AccessAnalyzer {
       r'''^[A-Za-z][A-Za-z0-9_.-]*$''',
       isRequired: true,
     );
-    var _query = '';
-    _query = '?${[
-      if (clientToken != null) _s.toQueryParam('clientToken', clientToken),
-    ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $query = <String, List<String>>{
+      if (clientToken != null) 'clientToken': [clientToken],
+    };
     await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
       requestUri:
-          '/analyzer/${Uri.encodeComponent(analyzerName.toString())}/archive-rule/${Uri.encodeComponent(ruleName.toString())}$_query',
+          '/analyzer/${Uri.encodeComponent(analyzerName)}/archive-rule/${Uri.encodeComponent(ruleName)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -331,15 +327,15 @@ class AccessAnalyzer {
       r'''arn:[^:]*:[^:]*:[^:]*:[^:]*:.*$''',
       isRequired: true,
     );
-    var _query = '';
-    _query = '?${[
-      if (analyzerArn != null) _s.toQueryParam('analyzerArn', analyzerArn),
-      if (resourceArn != null) _s.toQueryParam('resourceArn', resourceArn),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (analyzerArn != null) 'analyzerArn': [analyzerArn],
+      if (resourceArn != null) 'resourceArn': [resourceArn],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/analyzed-resource$_query',
+      requestUri: '/analyzed-resource',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return GetAnalyzedResourceResponse.fromJson(response);
@@ -375,7 +371,7 @@ class AccessAnalyzer {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/analyzer/${Uri.encodeComponent(analyzerName.toString())}',
+      requestUri: '/analyzer/${Uri.encodeComponent(analyzerName)}',
       exceptionFnMap: _exceptionFns,
     );
     return GetAnalyzerResponse.fromJson(response);
@@ -430,7 +426,7 @@ class AccessAnalyzer {
       payload: null,
       method: 'GET',
       requestUri:
-          '/analyzer/${Uri.encodeComponent(analyzerName.toString())}/archive-rule/${Uri.encodeComponent(ruleName.toString())}',
+          '/analyzer/${Uri.encodeComponent(analyzerName)}/archive-rule/${Uri.encodeComponent(ruleName)}',
       exceptionFnMap: _exceptionFns,
     );
     return GetArchiveRuleResponse.fromJson(response);
@@ -461,14 +457,14 @@ class AccessAnalyzer {
       isRequired: true,
     );
     ArgumentError.checkNotNull(id, 'id');
-    var _query = '';
-    _query = '?${[
-      if (analyzerArn != null) _s.toQueryParam('analyzerArn', analyzerArn),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (analyzerArn != null) 'analyzerArn': [analyzerArn],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/finding/${Uri.encodeComponent(id.toString())}$_query',
+      requestUri: '/finding/${Uri.encodeComponent(id)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return GetFindingResponse.fromJson(response);
@@ -542,16 +538,16 @@ class AccessAnalyzer {
     String nextToken,
     Type type,
   }) async {
-    var _query = '';
-    _query = '?${[
-      if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
-      if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-      if (type != null) _s.toQueryParam('type', type.toValue()),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+      if (type != null) 'type': [type.toValue()],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/analyzer$_query',
+      requestUri: '/analyzer',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListAnalyzersResponse.fromJson(response);
@@ -591,16 +587,15 @@ class AccessAnalyzer {
       r'''^[A-Za-z][A-Za-z0-9_.-]*$''',
       isRequired: true,
     );
-    var _query = '';
-    _query = '?${[
-      if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
-      if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/analyzer/${Uri.encodeComponent(analyzerName.toString())}/archive-rule$_query',
+      requestUri: '/analyzer/${Uri.encodeComponent(analyzerName)}/archive-rule',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListArchiveRulesResponse.fromJson(response);
@@ -675,7 +670,7 @@ class AccessAnalyzer {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsForResourceResponse.fromJson(response);
@@ -751,7 +746,7 @@ class AccessAnalyzer {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
       exceptionFnMap: _exceptionFns,
     );
     return TagResourceResponse.fromJson(response);
@@ -776,15 +771,14 @@ class AccessAnalyzer {
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
-    var _query = '';
-    _query = '?${[
-      if (tagKeys != null) _s.toQueryParam('tagKeys', tagKeys),
-    ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $query = <String, List<String>>{
+      if (tagKeys != null) 'tagKeys': tagKeys,
+    };
     final response = await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$_query',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return UntagResourceResponse.fromJson(response);
@@ -853,7 +847,7 @@ class AccessAnalyzer {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/analyzer/${Uri.encodeComponent(analyzerName.toString())}/archive-rule/${Uri.encodeComponent(ruleName.toString())}',
+          '/analyzer/${Uri.encodeComponent(analyzerName)}/archive-rule/${Uri.encodeComponent(ruleName)}',
       exceptionFnMap: _exceptionFns,
     );
   }

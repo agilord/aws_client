@@ -15,7 +15,7 @@ void main() {
           request.body,
           equalsXml(
               r'''<Grant><Grantee xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="CanonicalUser"><EmailAddress>foo@example.com</EmailAddress></Grantee></Grant>'''));
-      expect(pathAndQuery(request.url), '/');
+      expect(request.url, equalsPathAndQuery('/'));
       expect(request.method, equalsIgnoringCase('POST'));
       return Response('<Response></Response>', 200, headers: {});
     });

@@ -96,9 +96,9 @@ class CloudDirectory {
     };
     final response = await _protocol.send(
       payload: $payload,
-      headers: headers,
       method: 'PUT',
       requestUri: '/amazonclouddirectory/2017-01-11/object/facets',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return AddFacetToObjectResponse.fromJson(response);
@@ -139,9 +139,9 @@ class CloudDirectory {
     };
     final response = await _protocol.send(
       payload: $payload,
-      headers: headers,
       method: 'PUT',
       requestUri: '/amazonclouddirectory/2017-01-11/schema/apply',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return ApplySchemaResponse.fromJson(response);
@@ -214,9 +214,9 @@ class CloudDirectory {
     };
     final response = await _protocol.send(
       payload: $payload,
-      headers: headers,
       method: 'PUT',
       requestUri: '/amazonclouddirectory/2017-01-11/object/attach',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return AttachObjectResponse.fromJson(response);
@@ -262,9 +262,9 @@ class CloudDirectory {
     };
     final response = await _protocol.send(
       payload: $payload,
-      headers: headers,
       method: 'PUT',
       requestUri: '/amazonclouddirectory/2017-01-11/policy/attach',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return AttachPolicyResponse.fromJson(response);
@@ -310,9 +310,9 @@ class CloudDirectory {
     };
     final response = await _protocol.send(
       payload: $payload,
-      headers: headers,
       method: 'PUT',
       requestUri: '/amazonclouddirectory/2017-01-11/index/attach',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return AttachToIndexResponse.fromJson(response);
@@ -372,9 +372,9 @@ class CloudDirectory {
     };
     final response = await _protocol.send(
       payload: $payload,
-      headers: headers,
       method: 'PUT',
       requestUri: '/amazonclouddirectory/2017-01-11/typedlink/attach',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return AttachTypedLinkResponse.fromJson(response);
@@ -417,9 +417,9 @@ class CloudDirectory {
     };
     final response = await _protocol.send(
       payload: $payload,
-      headers: headers,
       method: 'POST',
       requestUri: '/amazonclouddirectory/2017-01-11/batchread',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return BatchReadResponse.fromJson(response);
@@ -456,9 +456,9 @@ class CloudDirectory {
     };
     final response = await _protocol.send(
       payload: $payload,
-      headers: headers,
       method: 'PUT',
       requestUri: '/amazonclouddirectory/2017-01-11/batchwrite',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return BatchWriteResponse.fromJson(response);
@@ -514,9 +514,9 @@ class CloudDirectory {
     };
     final response = await _protocol.send(
       payload: $payload,
-      headers: headers,
       method: 'PUT',
       requestUri: '/amazonclouddirectory/2017-01-11/directory/create',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return CreateDirectoryResponse.fromJson(response);
@@ -610,9 +610,9 @@ class CloudDirectory {
     };
     final response = await _protocol.send(
       payload: $payload,
-      headers: headers,
       method: 'PUT',
       requestUri: '/amazonclouddirectory/2017-01-11/facet/create',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return CreateFacetResponse.fromJson(response);
@@ -682,9 +682,9 @@ class CloudDirectory {
     };
     final response = await _protocol.send(
       payload: $payload,
-      headers: headers,
       method: 'PUT',
       requestUri: '/amazonclouddirectory/2017-01-11/index',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return CreateIndexResponse.fromJson(response);
@@ -757,9 +757,9 @@ class CloudDirectory {
     };
     final response = await _protocol.send(
       payload: $payload,
-      headers: headers,
       method: 'PUT',
       requestUri: '/amazonclouddirectory/2017-01-11/object',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return CreateObjectResponse.fromJson(response);
@@ -861,9 +861,9 @@ class CloudDirectory {
     };
     final response = await _protocol.send(
       payload: $payload,
-      headers: headers,
       method: 'PUT',
       requestUri: '/amazonclouddirectory/2017-01-11/typedlink/facet/create',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return CreateTypedLinkFacetResponse.fromJson(response);
@@ -891,12 +891,11 @@ class CloudDirectory {
     ArgumentError.checkNotNull(directoryArn, 'directoryArn');
     final headers = <String, String>{};
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    final $payload = <String, dynamic>{};
     final response = await _protocol.send(
-      payload: $payload,
-      headers: headers,
+      payload: null,
       method: 'PUT',
       requestUri: '/amazonclouddirectory/2017-01-11/directory',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return DeleteDirectoryResponse.fromJson(response);
@@ -948,9 +947,9 @@ class CloudDirectory {
     };
     final response = await _protocol.send(
       payload: $payload,
-      headers: headers,
       method: 'PUT',
       requestUri: '/amazonclouddirectory/2017-01-11/facet/delete',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return DeleteFacetResponse.fromJson(response);
@@ -993,9 +992,9 @@ class CloudDirectory {
     };
     final response = await _protocol.send(
       payload: $payload,
-      headers: headers,
       method: 'PUT',
       requestUri: '/amazonclouddirectory/2017-01-11/object/delete',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return DeleteObjectResponse.fromJson(response);
@@ -1022,12 +1021,11 @@ class CloudDirectory {
     ArgumentError.checkNotNull(schemaArn, 'schemaArn');
     final headers = <String, String>{};
     schemaArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    final $payload = <String, dynamic>{};
     final response = await _protocol.send(
-      payload: $payload,
-      headers: headers,
+      payload: null,
       method: 'PUT',
       requestUri: '/amazonclouddirectory/2017-01-11/schema',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return DeleteSchemaResponse.fromJson(response);
@@ -1071,9 +1069,9 @@ class CloudDirectory {
     };
     final response = await _protocol.send(
       payload: $payload,
-      headers: headers,
       method: 'PUT',
       requestUri: '/amazonclouddirectory/2017-01-11/typedlink/facet/delete',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return DeleteTypedLinkFacetResponse.fromJson(response);
@@ -1117,9 +1115,9 @@ class CloudDirectory {
     };
     final response = await _protocol.send(
       payload: $payload,
-      headers: headers,
       method: 'PUT',
       requestUri: '/amazonclouddirectory/2017-01-11/index/detach',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return DetachFromIndexResponse.fromJson(response);
@@ -1178,9 +1176,9 @@ class CloudDirectory {
     };
     final response = await _protocol.send(
       payload: $payload,
-      headers: headers,
       method: 'PUT',
       requestUri: '/amazonclouddirectory/2017-01-11/object/detach',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return DetachObjectResponse.fromJson(response);
@@ -1224,9 +1222,9 @@ class CloudDirectory {
     };
     final response = await _protocol.send(
       payload: $payload,
-      headers: headers,
       method: 'PUT',
       requestUri: '/amazonclouddirectory/2017-01-11/policy/detach',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return DetachPolicyResponse.fromJson(response);
@@ -1266,9 +1264,9 @@ class CloudDirectory {
     };
     await _protocol.send(
       payload: $payload,
-      headers: headers,
       method: 'PUT',
       requestUri: '/amazonclouddirectory/2017-01-11/typedlink/detach',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1294,12 +1292,11 @@ class CloudDirectory {
     ArgumentError.checkNotNull(directoryArn, 'directoryArn');
     final headers = <String, String>{};
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    final $payload = <String, dynamic>{};
     final response = await _protocol.send(
-      payload: $payload,
-      headers: headers,
+      payload: null,
       method: 'PUT',
       requestUri: '/amazonclouddirectory/2017-01-11/directory/disable',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return DisableDirectoryResponse.fromJson(response);
@@ -1325,12 +1322,11 @@ class CloudDirectory {
     ArgumentError.checkNotNull(directoryArn, 'directoryArn');
     final headers = <String, String>{};
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    final $payload = <String, dynamic>{};
     final response = await _protocol.send(
-      payload: $payload,
-      headers: headers,
+      payload: null,
       method: 'PUT',
       requestUri: '/amazonclouddirectory/2017-01-11/directory/enable',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return EnableDirectoryResponse.fromJson(response);
@@ -1382,12 +1378,11 @@ class CloudDirectory {
     ArgumentError.checkNotNull(directoryArn, 'directoryArn');
     final headers = <String, String>{};
     directoryArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    final $payload = <String, dynamic>{};
     final response = await _protocol.send(
-      payload: $payload,
-      headers: headers,
+      payload: null,
       method: 'POST',
       requestUri: '/amazonclouddirectory/2017-01-11/directory/get',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return GetDirectoryResponse.fromJson(response);
@@ -1438,9 +1433,9 @@ class CloudDirectory {
     };
     final response = await _protocol.send(
       payload: $payload,
-      headers: headers,
       method: 'POST',
       requestUri: '/amazonclouddirectory/2017-01-11/facet',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return GetFacetResponse.fromJson(response);
@@ -1491,9 +1486,9 @@ class CloudDirectory {
     };
     final response = await _protocol.send(
       payload: $payload,
-      headers: headers,
       method: 'POST',
       requestUri: '/amazonclouddirectory/2017-01-11/typedlink/attributes/get',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return GetLinkAttributesResponse.fromJson(response);
@@ -1549,9 +1544,9 @@ class CloudDirectory {
     };
     final response = await _protocol.send(
       payload: $payload,
-      headers: headers,
       method: 'POST',
       requestUri: '/amazonclouddirectory/2017-01-11/object/attributes/get',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return GetObjectAttributesResponse.fromJson(response);
@@ -1592,9 +1587,9 @@ class CloudDirectory {
     };
     final response = await _protocol.send(
       payload: $payload,
-      headers: headers,
       method: 'POST',
       requestUri: '/amazonclouddirectory/2017-01-11/object/information',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return GetObjectInformationResponse.fromJson(response);
@@ -1621,12 +1616,11 @@ class CloudDirectory {
     ArgumentError.checkNotNull(schemaArn, 'schemaArn');
     final headers = <String, String>{};
     schemaArn?.let((v) => headers['x-amz-data-partition'] = v.toString());
-    final $payload = <String, dynamic>{};
     final response = await _protocol.send(
-      payload: $payload,
-      headers: headers,
+      payload: null,
       method: 'POST',
       requestUri: '/amazonclouddirectory/2017-01-11/schema/json',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return GetSchemaAsJsonResponse.fromJson(response);
@@ -1672,9 +1666,9 @@ class CloudDirectory {
     };
     final response = await _protocol.send(
       payload: $payload,
-      headers: headers,
       method: 'POST',
       requestUri: '/amazonclouddirectory/2017-01-11/typedlink/facet/get',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return GetTypedLinkFacetInformationResponse.fromJson(response);
@@ -1783,9 +1777,9 @@ class CloudDirectory {
     };
     final response = await _protocol.send(
       payload: $payload,
-      headers: headers,
       method: 'POST',
       requestUri: '/amazonclouddirectory/2017-01-11/object/indices',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return ListAttachedIndicesResponse.fromJson(response);
@@ -1934,9 +1928,9 @@ class CloudDirectory {
     };
     final response = await _protocol.send(
       payload: $payload,
-      headers: headers,
       method: 'POST',
       requestUri: '/amazonclouddirectory/2017-01-11/facet/attributes',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return ListFacetAttributesResponse.fromJson(response);
@@ -1981,9 +1975,9 @@ class CloudDirectory {
     };
     final response = await _protocol.send(
       payload: $payload,
-      headers: headers,
       method: 'POST',
       requestUri: '/amazonclouddirectory/2017-01-11/facet/list',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return ListFacetNamesResponse.fromJson(response);
@@ -2062,9 +2056,9 @@ class CloudDirectory {
     };
     final response = await _protocol.send(
       payload: $payload,
-      headers: headers,
       method: 'POST',
       requestUri: '/amazonclouddirectory/2017-01-11/typedlink/incoming',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return ListIncomingTypedLinksResponse.fromJson(response);
@@ -2133,9 +2127,9 @@ class CloudDirectory {
     };
     final response = await _protocol.send(
       payload: $payload,
-      headers: headers,
       method: 'POST',
       requestUri: '/amazonclouddirectory/2017-01-11/index/targets',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return ListIndexResponse.fromJson(response);
@@ -2250,9 +2244,9 @@ class CloudDirectory {
     };
     final response = await _protocol.send(
       payload: $payload,
-      headers: headers,
       method: 'POST',
       requestUri: '/amazonclouddirectory/2017-01-11/object/attributes',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return ListObjectAttributesResponse.fromJson(response);
@@ -2318,9 +2312,9 @@ class CloudDirectory {
     };
     final response = await _protocol.send(
       payload: $payload,
-      headers: headers,
       method: 'POST',
       requestUri: '/amazonclouddirectory/2017-01-11/object/children',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return ListObjectChildrenResponse.fromJson(response);
@@ -2385,9 +2379,9 @@ class CloudDirectory {
     };
     final response = await _protocol.send(
       payload: $payload,
-      headers: headers,
       method: 'POST',
       requestUri: '/amazonclouddirectory/2017-01-11/object/parentpaths',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return ListObjectParentPathsResponse.fromJson(response);
@@ -2461,9 +2455,9 @@ class CloudDirectory {
     };
     final response = await _protocol.send(
       payload: $payload,
-      headers: headers,
       method: 'POST',
       requestUri: '/amazonclouddirectory/2017-01-11/object/parent',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return ListObjectParentsResponse.fromJson(response);
@@ -2526,9 +2520,9 @@ class CloudDirectory {
     };
     final response = await _protocol.send(
       payload: $payload,
-      headers: headers,
       method: 'POST',
       requestUri: '/amazonclouddirectory/2017-01-11/object/policy',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return ListObjectPoliciesResponse.fromJson(response);
@@ -2607,9 +2601,9 @@ class CloudDirectory {
     };
     final response = await _protocol.send(
       payload: $payload,
-      headers: headers,
       method: 'POST',
       requestUri: '/amazonclouddirectory/2017-01-11/typedlink/outgoing',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return ListOutgoingTypedLinksResponse.fromJson(response);
@@ -2674,9 +2668,9 @@ class CloudDirectory {
     };
     final response = await _protocol.send(
       payload: $payload,
-      headers: headers,
       method: 'POST',
       requestUri: '/amazonclouddirectory/2017-01-11/policy/attachment',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return ListPolicyAttachmentsResponse.fromJson(response);
@@ -2836,9 +2830,9 @@ class CloudDirectory {
     };
     final response = await _protocol.send(
       payload: $payload,
-      headers: headers,
       method: 'POST',
       requestUri: '/amazonclouddirectory/2017-01-11/typedlink/facet/attributes',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return ListTypedLinkFacetAttributesResponse.fromJson(response);
@@ -2887,9 +2881,9 @@ class CloudDirectory {
     };
     final response = await _protocol.send(
       payload: $payload,
-      headers: headers,
       method: 'POST',
       requestUri: '/amazonclouddirectory/2017-01-11/typedlink/facet/list',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return ListTypedLinkFacetNamesResponse.fromJson(response);
@@ -2951,9 +2945,9 @@ class CloudDirectory {
     };
     final response = await _protocol.send(
       payload: $payload,
-      headers: headers,
       method: 'POST',
       requestUri: '/amazonclouddirectory/2017-01-11/policy/lookup',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return LookupPolicyResponse.fromJson(response);
@@ -3040,9 +3034,9 @@ class CloudDirectory {
     };
     final response = await _protocol.send(
       payload: $payload,
-      headers: headers,
       method: 'PUT',
       requestUri: '/amazonclouddirectory/2017-01-11/schema/publish',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return PublishSchemaResponse.fromJson(response);
@@ -3080,9 +3074,9 @@ class CloudDirectory {
     };
     final response = await _protocol.send(
       payload: $payload,
-      headers: headers,
       method: 'PUT',
       requestUri: '/amazonclouddirectory/2017-01-11/schema/json',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return PutSchemaFromJsonResponse.fromJson(response);
@@ -3124,9 +3118,9 @@ class CloudDirectory {
     };
     final response = await _protocol.send(
       payload: $payload,
-      headers: headers,
       method: 'PUT',
       requestUri: '/amazonclouddirectory/2017-01-11/object/facets/delete',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return RemoveFacetFromObjectResponse.fromJson(response);
@@ -3276,9 +3270,9 @@ class CloudDirectory {
     };
     final response = await _protocol.send(
       payload: $payload,
-      headers: headers,
       method: 'PUT',
       requestUri: '/amazonclouddirectory/2017-01-11/facet',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return UpdateFacetResponse.fromJson(response);
@@ -3326,10 +3320,10 @@ class CloudDirectory {
     };
     final response = await _protocol.send(
       payload: $payload,
-      headers: headers,
       method: 'POST',
       requestUri:
           '/amazonclouddirectory/2017-01-11/typedlink/attributes/update',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return UpdateLinkAttributesResponse.fromJson(response);
@@ -3374,9 +3368,9 @@ class CloudDirectory {
     };
     final response = await _protocol.send(
       payload: $payload,
-      headers: headers,
       method: 'PUT',
       requestUri: '/amazonclouddirectory/2017-01-11/object/update',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return UpdateObjectAttributesResponse.fromJson(response);
@@ -3425,9 +3419,9 @@ class CloudDirectory {
     };
     final response = await _protocol.send(
       payload: $payload,
-      headers: headers,
       method: 'PUT',
       requestUri: '/amazonclouddirectory/2017-01-11/schema/update',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return UpdateSchemaResponse.fromJson(response);
@@ -3497,9 +3491,9 @@ class CloudDirectory {
     };
     final response = await _protocol.send(
       payload: $payload,
-      headers: headers,
       method: 'PUT',
       requestUri: '/amazonclouddirectory/2017-01-11/typedlink/facet',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return UpdateTypedLinkFacetResponse.fromJson(response);

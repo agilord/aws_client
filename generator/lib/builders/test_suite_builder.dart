@@ -63,7 +63,7 @@ void _writeTestCase(
         code.writeln("  expect(request.headers['$header'], $expectCode);");
       }
     }
-    code.writeln("expect(pathAndQuery(request.url), '${request.uri}');");
+    code.writeln("expect(request.url, equalsPathAndQuery('${request.uri}'));");
     if (request.host != null) {
       //TODO: to support that, we need to be able to pass hostPrefix to instantiate
       // the service

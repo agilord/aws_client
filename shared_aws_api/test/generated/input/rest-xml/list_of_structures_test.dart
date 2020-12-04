@@ -15,7 +15,7 @@ void main() {
           request.body,
           equalsXml(
               r'''<OperationRequest xmlns="https://foo/"><item><value>one</value></item><item><value>two</value></item><item><value>three</value></item></OperationRequest>'''));
-      expect(pathAndQuery(request.url), '/2014-01-01/hostedzone');
+      expect(request.url, equalsPathAndQuery('/2014-01-01/hostedzone'));
       expect(request.method, equalsIgnoringCase('POST'));
       return Response('<Response></Response>', 200, headers: {});
     });

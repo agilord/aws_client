@@ -319,7 +319,7 @@ class CloudFront {
     final $result = await _protocol.sendRaw(
       method: 'POST',
       requestUri:
-          '/2018-06-18/distribution/${Uri.encodeComponent(distributionId.toString())}/invalidation',
+          '/2018-06-18/distribution/${Uri.encodeComponent(distributionId)}/invalidation',
       payload: invalidationBatch.toXml('InvalidationBatch'),
       exceptionFnMap: _exceptionFns,
     );
@@ -490,7 +490,7 @@ class CloudFront {
     await _protocol.send(
       method: 'DELETE',
       requestUri:
-          '/2018-06-18/origin-access-identity/cloudfront/${Uri.encodeComponent(id.toString())}',
+          '/2018-06-18/origin-access-identity/cloudfront/${Uri.encodeComponent(id)}',
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
@@ -519,8 +519,7 @@ class CloudFront {
     ifMatch?.let((v) => headers['If-Match'] = v.toString());
     await _protocol.send(
       method: 'DELETE',
-      requestUri:
-          '/2018-06-18/distribution/${Uri.encodeComponent(id.toString())}',
+      requestUri: '/2018-06-18/distribution/${Uri.encodeComponent(id)}',
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
@@ -551,7 +550,7 @@ class CloudFront {
     await _protocol.send(
       method: 'DELETE',
       requestUri:
-          '/2018-06-18/field-level-encryption/${Uri.encodeComponent(id.toString())}',
+          '/2018-06-18/field-level-encryption/${Uri.encodeComponent(id)}',
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
@@ -582,7 +581,7 @@ class CloudFront {
     await _protocol.send(
       method: 'DELETE',
       requestUri:
-          '/2018-06-18/field-level-encryption-profile/${Uri.encodeComponent(id.toString())}',
+          '/2018-06-18/field-level-encryption-profile/${Uri.encodeComponent(id)}',
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
@@ -612,8 +611,7 @@ class CloudFront {
     ifMatch?.let((v) => headers['If-Match'] = v.toString());
     await _protocol.send(
       method: 'DELETE',
-      requestUri:
-          '/2018-06-18/public-key/${Uri.encodeComponent(id.toString())}',
+      requestUri: '/2018-06-18/public-key/${Uri.encodeComponent(id)}',
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
@@ -692,7 +690,7 @@ class CloudFront {
     await _protocol.send(
       method: 'DELETE',
       requestUri:
-          '/2018-06-18/streaming-distribution/${Uri.encodeComponent(id.toString())}',
+          '/2018-06-18/streaming-distribution/${Uri.encodeComponent(id)}',
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
@@ -713,7 +711,7 @@ class CloudFront {
     final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri:
-          '/2018-06-18/origin-access-identity/cloudfront/${Uri.encodeComponent(id.toString())}',
+          '/2018-06-18/origin-access-identity/cloudfront/${Uri.encodeComponent(id)}',
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -739,7 +737,7 @@ class CloudFront {
     final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri:
-          '/2018-06-18/origin-access-identity/cloudfront/${Uri.encodeComponent(id.toString())}/config',
+          '/2018-06-18/origin-access-identity/cloudfront/${Uri.encodeComponent(id)}/config',
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -763,8 +761,7 @@ class CloudFront {
     ArgumentError.checkNotNull(id, 'id');
     final $result = await _protocol.sendRaw(
       method: 'GET',
-      requestUri:
-          '/2018-06-18/distribution/${Uri.encodeComponent(id.toString())}',
+      requestUri: '/2018-06-18/distribution/${Uri.encodeComponent(id)}',
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -787,8 +784,7 @@ class CloudFront {
     ArgumentError.checkNotNull(id, 'id');
     final $result = await _protocol.sendRaw(
       method: 'GET',
-      requestUri:
-          '/2018-06-18/distribution/${Uri.encodeComponent(id.toString())}/config',
+      requestUri: '/2018-06-18/distribution/${Uri.encodeComponent(id)}/config',
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -812,7 +808,7 @@ class CloudFront {
     final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri:
-          '/2018-06-18/field-level-encryption/${Uri.encodeComponent(id.toString())}',
+          '/2018-06-18/field-level-encryption/${Uri.encodeComponent(id)}',
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -837,7 +833,7 @@ class CloudFront {
     final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri:
-          '/2018-06-18/field-level-encryption/${Uri.encodeComponent(id.toString())}/config',
+          '/2018-06-18/field-level-encryption/${Uri.encodeComponent(id)}/config',
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -862,7 +858,7 @@ class CloudFront {
     final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri:
-          '/2018-06-18/field-level-encryption-profile/${Uri.encodeComponent(id.toString())}',
+          '/2018-06-18/field-level-encryption-profile/${Uri.encodeComponent(id)}',
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -888,7 +884,7 @@ class CloudFront {
     final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri:
-          '/2018-06-18/field-level-encryption-profile/${Uri.encodeComponent(id.toString())}/config',
+          '/2018-06-18/field-level-encryption-profile/${Uri.encodeComponent(id)}/config',
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -920,7 +916,7 @@ class CloudFront {
     final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri:
-          '/2018-06-18/distribution/${Uri.encodeComponent(distributionId.toString())}/invalidation/${Uri.encodeComponent(id.toString())}',
+          '/2018-06-18/distribution/${Uri.encodeComponent(distributionId)}/invalidation/${Uri.encodeComponent(id)}',
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -942,8 +938,7 @@ class CloudFront {
     ArgumentError.checkNotNull(id, 'id');
     final $result = await _protocol.sendRaw(
       method: 'GET',
-      requestUri:
-          '/2018-06-18/public-key/${Uri.encodeComponent(id.toString())}',
+      requestUri: '/2018-06-18/public-key/${Uri.encodeComponent(id)}',
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -966,8 +961,7 @@ class CloudFront {
     ArgumentError.checkNotNull(id, 'id');
     final $result = await _protocol.sendRaw(
       method: 'GET',
-      requestUri:
-          '/2018-06-18/public-key/${Uri.encodeComponent(id.toString())}/config',
+      requestUri: '/2018-06-18/public-key/${Uri.encodeComponent(id)}/config',
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -992,7 +986,7 @@ class CloudFront {
     final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri:
-          '/2018-06-18/streaming-distribution/${Uri.encodeComponent(id.toString())}',
+          '/2018-06-18/streaming-distribution/${Uri.encodeComponent(id)}',
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -1017,7 +1011,7 @@ class CloudFront {
     final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri:
-          '/2018-06-18/streaming-distribution/${Uri.encodeComponent(id.toString())}/config',
+          '/2018-06-18/streaming-distribution/${Uri.encodeComponent(id)}/config',
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -1047,13 +1041,14 @@ class CloudFront {
     String marker,
     String maxItems,
   }) async {
-    final queryParams = <String, String>{};
-    marker?.let((v) => queryParams['Marker'] = v.toString());
-    maxItems?.let((v) => queryParams['MaxItems'] = v.toString());
+    final $query = <String, List<String>>{
+      if (marker != null) 'Marker': [marker],
+      if (maxItems != null) 'MaxItems': [maxItems],
+    };
     final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri: '/2018-06-18/origin-access-identity/cloudfront',
-      queryParams: queryParams,
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -1081,13 +1076,14 @@ class CloudFront {
     String marker,
     String maxItems,
   }) async {
-    final queryParams = <String, String>{};
-    marker?.let((v) => queryParams['Marker'] = v.toString());
-    maxItems?.let((v) => queryParams['MaxItems'] = v.toString());
+    final $query = <String, List<String>>{
+      if (marker != null) 'Marker': [marker],
+      if (maxItems != null) 'MaxItems': [maxItems],
+    };
     final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri: '/2018-06-18/distribution',
-      queryParams: queryParams,
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -1125,14 +1121,15 @@ class CloudFront {
     String maxItems,
   }) async {
     ArgumentError.checkNotNull(webACLId, 'webACLId');
-    final queryParams = <String, String>{};
-    marker?.let((v) => queryParams['Marker'] = v.toString());
-    maxItems?.let((v) => queryParams['MaxItems'] = v.toString());
+    final $query = <String, List<String>>{
+      if (marker != null) 'Marker': [marker],
+      if (maxItems != null) 'MaxItems': [maxItems],
+    };
     final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri:
-          '/2018-06-18/distributionsByWebACLId/${Uri.encodeComponent(webACLId.toString())}',
-      queryParams: queryParams,
+          '/2018-06-18/distributionsByWebACLId/${Uri.encodeComponent(webACLId)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -1162,13 +1159,14 @@ class CloudFront {
     String marker,
     String maxItems,
   }) async {
-    final queryParams = <String, String>{};
-    marker?.let((v) => queryParams['Marker'] = v.toString());
-    maxItems?.let((v) => queryParams['MaxItems'] = v.toString());
+    final $query = <String, List<String>>{
+      if (marker != null) 'Marker': [marker],
+      if (maxItems != null) 'MaxItems': [maxItems],
+    };
     final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri: '/2018-06-18/field-level-encryption',
-      queryParams: queryParams,
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -1197,13 +1195,14 @@ class CloudFront {
     String marker,
     String maxItems,
   }) async {
-    final queryParams = <String, String>{};
-    marker?.let((v) => queryParams['Marker'] = v.toString());
-    maxItems?.let((v) => queryParams['MaxItems'] = v.toString());
+    final $query = <String, List<String>>{
+      if (marker != null) 'Marker': [marker],
+      if (maxItems != null) 'MaxItems': [maxItems],
+    };
     final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri: '/2018-06-18/field-level-encryption-profile',
-      queryParams: queryParams,
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -1240,14 +1239,15 @@ class CloudFront {
     String maxItems,
   }) async {
     ArgumentError.checkNotNull(distributionId, 'distributionId');
-    final queryParams = <String, String>{};
-    marker?.let((v) => queryParams['Marker'] = v.toString());
-    maxItems?.let((v) => queryParams['MaxItems'] = v.toString());
+    final $query = <String, List<String>>{
+      if (marker != null) 'Marker': [marker],
+      if (maxItems != null) 'MaxItems': [maxItems],
+    };
     final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri:
-          '/2018-06-18/distribution/${Uri.encodeComponent(distributionId.toString())}/invalidation',
-      queryParams: queryParams,
+          '/2018-06-18/distribution/${Uri.encodeComponent(distributionId)}/invalidation',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -1274,13 +1274,14 @@ class CloudFront {
     String marker,
     String maxItems,
   }) async {
-    final queryParams = <String, String>{};
-    marker?.let((v) => queryParams['Marker'] = v.toString());
-    maxItems?.let((v) => queryParams['MaxItems'] = v.toString());
+    final $query = <String, List<String>>{
+      if (marker != null) 'Marker': [marker],
+      if (maxItems != null) 'MaxItems': [maxItems],
+    };
     final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri: '/2018-06-18/public-key',
-      queryParams: queryParams,
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -1304,13 +1305,14 @@ class CloudFront {
     String marker,
     String maxItems,
   }) async {
-    final queryParams = <String, String>{};
-    marker?.let((v) => queryParams['Marker'] = v.toString());
-    maxItems?.let((v) => queryParams['MaxItems'] = v.toString());
+    final $query = <String, List<String>>{
+      if (marker != null) 'Marker': [marker],
+      if (maxItems != null) 'MaxItems': [maxItems],
+    };
     final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri: '/2018-06-18/streaming-distribution',
-      queryParams: queryParams,
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -1338,12 +1340,13 @@ class CloudFront {
       r'''arn:aws:cloudfront::[0-9]+:.*''',
       isRequired: true,
     );
-    final queryParams = <String, String>{};
-    resource?.let((v) => queryParams['Resource'] = v.toString());
+    final $query = <String, List<String>>{
+      if (resource != null) 'Resource': [resource],
+    };
     final $result = await _protocol.sendRaw(
       method: 'GET',
       requestUri: '/2018-06-18/tagging',
-      queryParams: queryParams,
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     final $elem = await _s.xmlFromResponse($result);
@@ -1376,12 +1379,13 @@ class CloudFront {
       isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
-    final queryParams = <String, String>{};
-    resource?.let((v) => queryParams['Resource'] = v.toString());
+    final $query = <String, List<String>>{
+      if (resource != null) 'Resource': [resource],
+    };
     await _protocol.send(
       method: 'POST',
       requestUri: '/2018-06-18/tagging?Operation=Tag',
-      queryParams: queryParams,
+      queryParams: $query,
       payload: tags.toXml('Tags'),
       exceptionFnMap: _exceptionFns,
     );
@@ -1411,12 +1415,13 @@ class CloudFront {
       isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
-    final queryParams = <String, String>{};
-    resource?.let((v) => queryParams['Resource'] = v.toString());
+    final $query = <String, List<String>>{
+      if (resource != null) 'Resource': [resource],
+    };
     await _protocol.send(
       method: 'POST',
       requestUri: '/2018-06-18/tagging?Operation=Untag',
-      queryParams: queryParams,
+      queryParams: $query,
       payload: tagKeys.toXml('TagKeys'),
       exceptionFnMap: _exceptionFns,
     );
@@ -1459,7 +1464,7 @@ class CloudFront {
     final $result = await _protocol.sendRaw(
       method: 'PUT',
       requestUri:
-          '/2018-06-18/origin-access-identity/cloudfront/${Uri.encodeComponent(id.toString())}/config',
+          '/2018-06-18/origin-access-identity/cloudfront/${Uri.encodeComponent(id)}/config',
       headers: headers,
       payload: cloudFrontOriginAccessIdentityConfig
           .toXml('CloudFrontOriginAccessIdentityConfig'),
@@ -1624,8 +1629,7 @@ class CloudFront {
     ifMatch?.let((v) => headers['If-Match'] = v.toString());
     final $result = await _protocol.sendRaw(
       method: 'PUT',
-      requestUri:
-          '/2018-06-18/distribution/${Uri.encodeComponent(id.toString())}/config',
+      requestUri: '/2018-06-18/distribution/${Uri.encodeComponent(id)}/config',
       headers: headers,
       payload: distributionConfig.toXml('DistributionConfig'),
       exceptionFnMap: _exceptionFns,
@@ -1675,7 +1679,7 @@ class CloudFront {
     final $result = await _protocol.sendRaw(
       method: 'PUT',
       requestUri:
-          '/2018-06-18/field-level-encryption/${Uri.encodeComponent(id.toString())}/config',
+          '/2018-06-18/field-level-encryption/${Uri.encodeComponent(id)}/config',
       headers: headers,
       payload: fieldLevelEncryptionConfig.toXml('FieldLevelEncryptionConfig'),
       exceptionFnMap: _exceptionFns,
@@ -1727,7 +1731,7 @@ class CloudFront {
     final $result = await _protocol.sendRaw(
       method: 'PUT',
       requestUri:
-          '/2018-06-18/field-level-encryption-profile/${Uri.encodeComponent(id.toString())}/config',
+          '/2018-06-18/field-level-encryption-profile/${Uri.encodeComponent(id)}/config',
       headers: headers,
       payload: fieldLevelEncryptionProfileConfig
           .toXml('FieldLevelEncryptionProfileConfig'),
@@ -1772,8 +1776,7 @@ class CloudFront {
     ifMatch?.let((v) => headers['If-Match'] = v.toString());
     final $result = await _protocol.sendRaw(
       method: 'PUT',
-      requestUri:
-          '/2018-06-18/public-key/${Uri.encodeComponent(id.toString())}/config',
+      requestUri: '/2018-06-18/public-key/${Uri.encodeComponent(id)}/config',
       headers: headers,
       payload: publicKeyConfig.toXml('PublicKeyConfig'),
       exceptionFnMap: _exceptionFns,
@@ -1825,7 +1828,7 @@ class CloudFront {
     final $result = await _protocol.sendRaw(
       method: 'PUT',
       requestUri:
-          '/2018-06-18/streaming-distribution/${Uri.encodeComponent(id.toString())}/config',
+          '/2018-06-18/streaming-distribution/${Uri.encodeComponent(id)}/config',
       headers: headers,
       payload: streamingDistributionConfig.toXml('StreamingDistributionConfig'),
       exceptionFnMap: _exceptionFns,

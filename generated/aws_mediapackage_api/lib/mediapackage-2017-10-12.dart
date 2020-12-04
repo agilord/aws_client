@@ -231,11 +231,10 @@ class MediaPackage {
     @_s.required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    final $payload = <String, dynamic>{};
     final response = await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri: '/channels/${Uri.encodeComponent(id.toString())}',
+      requestUri: '/channels/${Uri.encodeComponent(id)}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteChannelResponse.fromJson(response);
@@ -256,11 +255,10 @@ class MediaPackage {
     @_s.required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    final $payload = <String, dynamic>{};
     final response = await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri: '/origin_endpoints/${Uri.encodeComponent(id.toString())}',
+      requestUri: '/origin_endpoints/${Uri.encodeComponent(id)}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteOriginEndpointResponse.fromJson(response);
@@ -284,7 +282,7 @@ class MediaPackage {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/channels/${Uri.encodeComponent(id.toString())}',
+      requestUri: '/channels/${Uri.encodeComponent(id)}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeChannelResponse.fromJson(response);
@@ -308,7 +306,7 @@ class MediaPackage {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/harvest_jobs/${Uri.encodeComponent(id.toString())}',
+      requestUri: '/harvest_jobs/${Uri.encodeComponent(id)}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeHarvestJobResponse.fromJson(response);
@@ -332,7 +330,7 @@ class MediaPackage {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/origin_endpoints/${Uri.encodeComponent(id.toString())}',
+      requestUri: '/origin_endpoints/${Uri.encodeComponent(id)}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeOriginEndpointResponse.fromJson(response);
@@ -362,15 +360,15 @@ class MediaPackage {
       1,
       1000,
     );
-    var _query = '';
-    _query = '?${[
-      if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
-      if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/channels$_query',
+      requestUri: '/channels',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListChannelsResponse.fromJson(response);
@@ -410,19 +408,17 @@ class MediaPackage {
       1,
       1000,
     );
-    var _query = '';
-    _query = '?${[
-      if (includeChannelId != null)
-        _s.toQueryParam('includeChannelId', includeChannelId),
-      if (includeStatus != null)
-        _s.toQueryParam('includeStatus', includeStatus),
-      if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
-      if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (includeChannelId != null) 'includeChannelId': [includeChannelId],
+      if (includeStatus != null) 'includeStatus': [includeStatus],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/harvest_jobs$_query',
+      requestUri: '/harvest_jobs',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListHarvestJobsResponse.fromJson(response);
@@ -457,16 +453,16 @@ class MediaPackage {
       1,
       1000,
     );
-    var _query = '';
-    _query = '?${[
-      if (channelId != null) _s.toQueryParam('channelId', channelId),
-      if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
-      if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (channelId != null) 'channelId': [channelId],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/origin_endpoints$_query',
+      requestUri: '/origin_endpoints',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListOriginEndpointsResponse.fromJson(response);
@@ -479,7 +475,7 @@ class MediaPackage {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsForResourceResponse.fromJson(response);
@@ -503,11 +499,10 @@ class MediaPackage {
     @_s.required String id,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
-    final $payload = <String, dynamic>{};
     final response = await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'PUT',
-      requestUri: '/channels/${Uri.encodeComponent(id.toString())}/credentials',
+      requestUri: '/channels/${Uri.encodeComponent(id)}/credentials',
       exceptionFnMap: _exceptionFns,
     );
     return RotateChannelCredentialsResponse.fromJson(response);
@@ -535,12 +530,11 @@ class MediaPackage {
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     ArgumentError.checkNotNull(ingestEndpointId, 'ingestEndpointId');
-    final $payload = <String, dynamic>{};
     final response = await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'PUT',
       requestUri:
-          '/channels/${Uri.encodeComponent(id.toString())}/ingest_endpoints/${Uri.encodeComponent(ingestEndpointId.toString())}/credentials',
+          '/channels/${Uri.encodeComponent(id)}/ingest_endpoints/${Uri.encodeComponent(ingestEndpointId)}/credentials',
       exceptionFnMap: _exceptionFns,
     );
     return RotateIngestEndpointCredentialsResponse.fromJson(response);
@@ -558,7 +552,7 @@ class MediaPackage {
     await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -572,15 +566,14 @@ class MediaPackage {
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
-    var _query = '';
-    _query = '?${[
-      if (tagKeys != null) _s.toQueryParam('tagKeys', tagKeys),
-    ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $query = <String, List<String>>{
+      if (tagKeys != null) 'tagKeys': tagKeys,
+    };
     await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$_query',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -610,7 +603,7 @@ class MediaPackage {
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
-      requestUri: '/channels/${Uri.encodeComponent(id.toString())}',
+      requestUri: '/channels/${Uri.encodeComponent(id)}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateChannelResponse.fromJson(response);
@@ -687,7 +680,7 @@ class MediaPackage {
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
-      requestUri: '/origin_endpoints/${Uri.encodeComponent(id.toString())}',
+      requestUri: '/origin_endpoints/${Uri.encodeComponent(id)}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateOriginEndpointResponse.fromJson(response);

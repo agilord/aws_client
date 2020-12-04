@@ -68,7 +68,7 @@ class WorkMailMessageFlow {
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
-      requestUri: '/messages/${Uri.encodeComponent(messageId.toString())}',
+      requestUri: '/messages/${Uri.encodeComponent(messageId)}',
       exceptionFnMap: _exceptionFns,
     );
     return GetRawMessageContentResponse(

@@ -12,7 +12,7 @@ void main() {
   test('URI parameter only with no location name 0', () async {
     final client = MockClient((request) async {
       expect(request.body, equalsJson(r''''''));
-      expect(pathAndQuery(request.url), '/2014-01-01/jobsByPipeline/foo');
+      expect(request.url, equalsPathAndQuery('/2014-01-01/jobsByPipeline/foo'));
       return Response('{}', 200, headers: {});
     });
 

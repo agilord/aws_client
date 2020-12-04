@@ -15,7 +15,7 @@ void main() {
           request.body,
           equalsQuery(
               r'''Action=OperationName&Version=2014-01-01&BlobArg=Zm9v'''));
-      expect(pathAndQuery(request.url), '/');
+      expect(request.url, equalsPathAndQuery('/'));
       return Response('<Response></Response>', 200, headers: {});
     });
 

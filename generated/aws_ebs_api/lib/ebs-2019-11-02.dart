@@ -115,15 +115,15 @@ class EBS {
       r'''^snap-[0-9a-f]+$''',
       isRequired: true,
     );
-    var _query = '';
-    _query = '?${[
-      if (blockToken != null) _s.toQueryParam('blockToken', blockToken),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (blockToken != null) 'blockToken': [blockToken],
+    };
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri:
-          '/snapshots/${Uri.encodeComponent(snapshotId.toString())}/blocks/${Uri.encodeComponent(blockIndex.toString())}$_query',
+          '/snapshots/${Uri.encodeComponent(snapshotId)}/blocks/${Uri.encodeComponent(blockIndex.toString())}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return GetSnapshotBlockResponse(
@@ -219,20 +219,19 @@ class EBS {
       nextToken,
       r'''^[A-Za-z0-9+/=]+$''',
     );
-    var _query = '';
-    _query = '?${[
-      if (firstSnapshotId != null)
-        _s.toQueryParam('firstSnapshotId', firstSnapshotId),
-      if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
-      if (nextToken != null) _s.toQueryParam('pageToken', nextToken),
+    final $query = <String, List<String>>{
+      if (firstSnapshotId != null) 'firstSnapshotId': [firstSnapshotId],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'pageToken': [nextToken],
       if (startingBlockIndex != null)
-        _s.toQueryParam('startingBlockIndex', startingBlockIndex),
-    ].where((e) => e != null).join('&')}';
+        'startingBlockIndex': [startingBlockIndex.toString()],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/snapshots/${Uri.encodeComponent(secondSnapshotId.toString())}/changedblocks$_query',
+          '/snapshots/${Uri.encodeComponent(secondSnapshotId)}/changedblocks',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListChangedBlocksResponse.fromJson(response);
@@ -294,18 +293,17 @@ class EBS {
       nextToken,
       r'''^[A-Za-z0-9+/=]+$''',
     );
-    var _query = '';
-    _query = '?${[
-      if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
-      if (nextToken != null) _s.toQueryParam('pageToken', nextToken),
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'pageToken': [nextToken],
       if (startingBlockIndex != null)
-        _s.toQueryParam('startingBlockIndex', startingBlockIndex),
-    ].where((e) => e != null).join('&')}';
+        'startingBlockIndex': [startingBlockIndex.toString()],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/snapshots/${Uri.encodeComponent(snapshotId.toString())}/blocks$_query',
+      requestUri: '/snapshots/${Uri.encodeComponent(snapshotId)}/blocks',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListSnapshotBlocksResponse.fromJson(response);

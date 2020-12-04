@@ -72,11 +72,10 @@ class ElasticTranscoder {
       r'''^\d{13}-\w{6}$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
     final response = await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri: '/2012-09-25/jobs/${Uri.encodeComponent(id.toString())}',
+      requestUri: '/2012-09-25/jobs/${Uri.encodeComponent(id)}',
       exceptionFnMap: _exceptionFns,
     );
     return CancelJobResponse.fromJson(response);
@@ -647,11 +646,10 @@ class ElasticTranscoder {
       r'''^\d{13}-\w{6}$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
     final response = await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri: '/2012-09-25/pipelines/${Uri.encodeComponent(id.toString())}',
+      requestUri: '/2012-09-25/pipelines/${Uri.encodeComponent(id)}',
       exceptionFnMap: _exceptionFns,
     );
     return DeletePipelineResponse.fromJson(response);
@@ -683,11 +681,10 @@ class ElasticTranscoder {
       r'''^\d{13}-\w{6}$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
     final response = await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri: '/2012-09-25/presets/${Uri.encodeComponent(id.toString())}',
+      requestUri: '/2012-09-25/presets/${Uri.encodeComponent(id)}',
       exceptionFnMap: _exceptionFns,
     );
     return DeletePresetResponse.fromJson(response);
@@ -740,16 +737,16 @@ class ElasticTranscoder {
       pageToken,
       r'''^\d{13}-\w{6}$''',
     );
-    var _query = '';
-    _query = '?${[
-      if (ascending != null) _s.toQueryParam('Ascending', ascending),
-      if (pageToken != null) _s.toQueryParam('PageToken', pageToken),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (ascending != null) 'Ascending': [ascending],
+      if (pageToken != null) 'PageToken': [pageToken],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/2012-09-25/jobsByPipeline/${Uri.encodeComponent(pipelineId.toString())}$_query',
+          '/2012-09-25/jobsByPipeline/${Uri.encodeComponent(pipelineId)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListJobsByPipelineResponse.fromJson(response);
@@ -802,16 +799,15 @@ class ElasticTranscoder {
       pageToken,
       r'''^\d{13}-\w{6}$''',
     );
-    var _query = '';
-    _query = '?${[
-      if (ascending != null) _s.toQueryParam('Ascending', ascending),
-      if (pageToken != null) _s.toQueryParam('PageToken', pageToken),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (ascending != null) 'Ascending': [ascending],
+      if (pageToken != null) 'PageToken': [pageToken],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/2012-09-25/jobsByStatus/${Uri.encodeComponent(status.toString())}$_query',
+      requestUri: '/2012-09-25/jobsByStatus/${Uri.encodeComponent(status)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListJobsByStatusResponse.fromJson(response);
@@ -848,15 +844,15 @@ class ElasticTranscoder {
       pageToken,
       r'''^\d{13}-\w{6}$''',
     );
-    var _query = '';
-    _query = '?${[
-      if (ascending != null) _s.toQueryParam('Ascending', ascending),
-      if (pageToken != null) _s.toQueryParam('PageToken', pageToken),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (ascending != null) 'Ascending': [ascending],
+      if (pageToken != null) 'PageToken': [pageToken],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/2012-09-25/pipelines$_query',
+      requestUri: '/2012-09-25/pipelines',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListPipelinesResponse.fromJson(response);
@@ -893,15 +889,15 @@ class ElasticTranscoder {
       pageToken,
       r'''^\d{13}-\w{6}$''',
     );
-    var _query = '';
-    _query = '?${[
-      if (ascending != null) _s.toQueryParam('Ascending', ascending),
-      if (pageToken != null) _s.toQueryParam('PageToken', pageToken),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (ascending != null) 'Ascending': [ascending],
+      if (pageToken != null) 'PageToken': [pageToken],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/2012-09-25/presets$_query',
+      requestUri: '/2012-09-25/presets',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListPresetsResponse.fromJson(response);
@@ -930,7 +926,7 @@ class ElasticTranscoder {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/2012-09-25/jobs/${Uri.encodeComponent(id.toString())}',
+      requestUri: '/2012-09-25/jobs/${Uri.encodeComponent(id)}',
       exceptionFnMap: _exceptionFns,
     );
     return ReadJobResponse.fromJson(response);
@@ -959,7 +955,7 @@ class ElasticTranscoder {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/2012-09-25/pipelines/${Uri.encodeComponent(id.toString())}',
+      requestUri: '/2012-09-25/pipelines/${Uri.encodeComponent(id)}',
       exceptionFnMap: _exceptionFns,
     );
     return ReadPipelineResponse.fromJson(response);
@@ -989,7 +985,7 @@ class ElasticTranscoder {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/2012-09-25/presets/${Uri.encodeComponent(id.toString())}',
+      requestUri: '/2012-09-25/presets/${Uri.encodeComponent(id)}',
       exceptionFnMap: _exceptionFns,
     );
     return ReadPresetResponse.fromJson(response);
@@ -1372,7 +1368,7 @@ class ElasticTranscoder {
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
-      requestUri: '/2012-09-25/pipelines/${Uri.encodeComponent(id.toString())}',
+      requestUri: '/2012-09-25/pipelines/${Uri.encodeComponent(id)}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdatePipelineResponse.fromJson(response);
@@ -1444,7 +1440,7 @@ class ElasticTranscoder {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/2012-09-25/pipelines/${Uri.encodeComponent(id.toString())}/notifications',
+          '/2012-09-25/pipelines/${Uri.encodeComponent(id)}/notifications',
       exceptionFnMap: _exceptionFns,
     );
     return UpdatePipelineNotificationsResponse.fromJson(response);
@@ -1504,8 +1500,7 @@ class ElasticTranscoder {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri:
-          '/2012-09-25/pipelines/${Uri.encodeComponent(id.toString())}/status',
+      requestUri: '/2012-09-25/pipelines/${Uri.encodeComponent(id)}/status',
       exceptionFnMap: _exceptionFns,
     );
     return UpdatePipelineStatusResponse.fromJson(response);

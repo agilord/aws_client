@@ -56,12 +56,10 @@ class ApiGatewayManagementApi {
     @_s.required String connectionId,
   }) async {
     ArgumentError.checkNotNull(connectionId, 'connectionId');
-    final $payload = <String, dynamic>{};
     await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri:
-          '/@connections/${Uri.encodeComponent(connectionId.toString())}',
+      requestUri: '/@connections/${Uri.encodeComponent(connectionId)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -78,8 +76,7 @@ class ApiGatewayManagementApi {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/@connections/${Uri.encodeComponent(connectionId.toString())}',
+      requestUri: '/@connections/${Uri.encodeComponent(connectionId)}',
       exceptionFnMap: _exceptionFns,
     );
     return GetConnectionResponse.fromJson(response);
@@ -106,8 +103,7 @@ class ApiGatewayManagementApi {
     await _protocol.send(
       payload: data,
       method: 'POST',
-      requestUri:
-          '/@connections/${Uri.encodeComponent(connectionId.toString())}',
+      requestUri: '/@connections/${Uri.encodeComponent(connectionId)}',
       exceptionFnMap: _exceptionFns,
     );
   }

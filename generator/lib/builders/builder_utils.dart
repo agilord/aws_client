@@ -119,23 +119,3 @@ String encodeXmlCode(Shape shape, String variable,
   final dartType = shape.type.getDartType(shape.api);
   return '_s.encodeXml${uppercaseName(dartType)}Value(\'$elemName\', $variable)';
 }
-
-String encodeQueryCode(Shape shape, String variable,
-    {Member member, bool maybeNull = false}) {
-  if (shape.enumeration != null) {
-    shape.isTopLevelInputEnum = true;
-    return '$variable${maybeNull ? '?' : ''}.toValue()${maybeNull ? "??''" : ''}';
-  } else if (shape.type == 'list') {
-    final code = encodeQueryCode(shape.member.shapeClass, 'e', maybeNull: true);
-    if (code != 'e') {
-      return '$variable${maybeNull ? '?' : ''}.map((e) => $code)${maybeNull ? '?' : ''}.toList()';
-    }
-  } else if (shape.type == 'timestamp') {
-    final timestampFormat =
-        member?.timestampFormat ?? shape.timestampFormat ?? 'iso8601';
-    variable =
-        '_s.${timestampFormat}ToJson($variable)${timestampFormat == 'unixTimestamp' ? '.toString()' : ''}';
-  }
-
-  return variable;
-}

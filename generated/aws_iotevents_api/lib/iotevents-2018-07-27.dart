@@ -242,12 +242,10 @@ class IoTEvents {
       r'''^[a-zA-Z0-9_-]+$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
     final response = await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri:
-          '/detector-models/${Uri.encodeComponent(detectorModelName.toString())}',
+      requestUri: '/detector-models/${Uri.encodeComponent(detectorModelName)}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteDetectorModelResponse.fromJson(response);
@@ -281,11 +279,10 @@ class IoTEvents {
       r'''^[a-zA-Z][a-zA-Z0-9_]*$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
     final response = await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri: '/inputs/${Uri.encodeComponent(inputName.toString())}',
+      requestUri: '/inputs/${Uri.encodeComponent(inputName)}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteInputResponse.fromJson(response);
@@ -329,16 +326,14 @@ class IoTEvents {
       1,
       128,
     );
-    var _query = '';
-    _query = '?${[
-      if (detectorModelVersion != null)
-        _s.toQueryParam('version', detectorModelVersion),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (detectorModelVersion != null) 'version': [detectorModelVersion],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/detector-models/${Uri.encodeComponent(detectorModelName.toString())}$_query',
+      requestUri: '/detector-models/${Uri.encodeComponent(detectorModelName)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return DescribeDetectorModelResponse.fromJson(response);
@@ -374,7 +369,7 @@ class IoTEvents {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/inputs/${Uri.encodeComponent(inputName.toString())}',
+      requestUri: '/inputs/${Uri.encodeComponent(inputName)}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeInputResponse.fromJson(response);
@@ -440,16 +435,16 @@ class IoTEvents {
       1,
       250,
     );
-    var _query = '';
-    _query = '?${[
-      if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
-      if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/detector-models/${Uri.encodeComponent(detectorModelName.toString())}/versions$_query',
+          '/detector-models/${Uri.encodeComponent(detectorModelName)}/versions',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListDetectorModelVersionsResponse.fromJson(response);
@@ -478,15 +473,15 @@ class IoTEvents {
       1,
       250,
     );
-    var _query = '';
-    _query = '?${[
-      if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
-      if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/detector-models$_query',
+      requestUri: '/detector-models',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListDetectorModelsResponse.fromJson(response);
@@ -514,15 +509,15 @@ class IoTEvents {
       1,
       250,
     );
-    var _query = '';
-    _query = '?${[
-      if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
-      if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/inputs$_query',
+      requestUri: '/inputs',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListInputsResponse.fromJson(response);
@@ -549,14 +544,14 @@ class IoTEvents {
       2048,
       isRequired: true,
     );
-    var _query = '';
-    _query = '?${[
-      if (resourceArn != null) _s.toQueryParam('resourceArn', resourceArn),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (resourceArn != null) 'resourceArn': [resourceArn],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/tags$_query',
+      requestUri: '/tags',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsForResourceResponse.fromJson(response);
@@ -622,17 +617,17 @@ class IoTEvents {
       isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
-    var _query = '';
-    _query = '?${[
-      if (resourceArn != null) _s.toQueryParam('resourceArn', resourceArn),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (resourceArn != null) 'resourceArn': [resourceArn],
+    };
     final $payload = <String, dynamic>{
       'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/tags$_query',
+      requestUri: '/tags',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return TagResourceResponse.fromJson(response);
@@ -664,16 +659,15 @@ class IoTEvents {
       isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
-    var _query = '';
-    _query = '?${[
-      if (resourceArn != null) _s.toQueryParam('resourceArn', resourceArn),
-      if (tagKeys != null) _s.toQueryParam('tagKeys', tagKeys),
-    ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $query = <String, List<String>>{
+      if (resourceArn != null) 'resourceArn': [resourceArn],
+      if (tagKeys != null) 'tagKeys': tagKeys,
+    };
     final response = await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri: '/tags$_query',
+      requestUri: '/tags',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return UntagResourceResponse.fromJson(response);
@@ -753,8 +747,7 @@ class IoTEvents {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri:
-          '/detector-models/${Uri.encodeComponent(detectorModelName.toString())}',
+      requestUri: '/detector-models/${Uri.encodeComponent(detectorModelName)}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateDetectorModelResponse.fromJson(response);
@@ -810,7 +803,7 @@ class IoTEvents {
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
-      requestUri: '/inputs/${Uri.encodeComponent(inputName.toString())}',
+      requestUri: '/inputs/${Uri.encodeComponent(inputName)}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateInputResponse.fromJson(response);

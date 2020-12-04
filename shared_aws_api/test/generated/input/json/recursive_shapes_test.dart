@@ -17,7 +17,7 @@ void main() {
           request.headers['X-Amz-Target'], 'com.amazonaws.foo.OperationName');
       expect(request.headers['Content-Type'],
           startsWith('application/x-amz-json-1.1'));
-      expect(pathAndQuery(request.url), '/');
+      expect(request.url, equalsPathAndQuery('/'));
       return Response('{}', 200, headers: {});
     });
 
@@ -50,7 +50,7 @@ void main() {
           request.headers['X-Amz-Target'], 'com.amazonaws.foo.OperationName');
       expect(request.headers['Content-Type'],
           startsWith('application/x-amz-json-1.1'));
-      expect(pathAndQuery(request.url), '/');
+      expect(request.url, equalsPathAndQuery('/'));
       return Response('{}', 200, headers: {});
     });
 
@@ -87,7 +87,7 @@ void main() {
           request.headers['X-Amz-Target'], 'com.amazonaws.foo.OperationName');
       expect(request.headers['Content-Type'],
           startsWith('application/x-amz-json-1.1'));
-      expect(pathAndQuery(request.url), '/');
+      expect(request.url, equalsPathAndQuery('/'));
       return Response('{}', 200, headers: {});
     });
 
@@ -132,7 +132,7 @@ void main() {
           request.headers['X-Amz-Target'], 'com.amazonaws.foo.OperationName');
       expect(request.headers['Content-Type'],
           startsWith('application/x-amz-json-1.1'));
-      expect(pathAndQuery(request.url), '/');
+      expect(request.url, equalsPathAndQuery('/'));
       return Response('{}', 200, headers: {});
     });
 
@@ -179,7 +179,7 @@ void main() {
           request.headers['X-Amz-Target'], 'com.amazonaws.foo.OperationName');
       expect(request.headers['Content-Type'],
           startsWith('application/x-amz-json-1.1'));
-      expect(pathAndQuery(request.url), '/');
+      expect(request.url, equalsPathAndQuery('/'));
       return Response('{}', 200, headers: {});
     });
 
@@ -230,7 +230,7 @@ void main() {
           request.headers['X-Amz-Target'], 'com.amazonaws.foo.OperationName');
       expect(request.headers['Content-Type'],
           startsWith('application/x-amz-json-1.1'));
-      expect(pathAndQuery(request.url), '/');
+      expect(request.url, equalsPathAndQuery('/'));
       return Response('{}', 200, headers: {});
     });
 

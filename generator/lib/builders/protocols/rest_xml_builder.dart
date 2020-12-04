@@ -67,7 +67,7 @@ class RestXmlServiceBuilder extends ServiceBuilder {
     final params = [
       'method: \'${operation.http.method}\',',
       'requestUri: \'${buildRequestUri(operation)}\',',
-      if (shapeClass?.hasQueryMembers ?? false) 'queryParams: queryParams,',
+      if (shapeClass?.hasQueryMembers ?? false) 'queryParams: \$query,',
       if (shapeClass?.hasHeaderMembers ?? false) 'headers: headers,',
       if (payloadArg != null) 'payload: $payloadArg,',
       'exceptionFnMap: _exceptionFns,',

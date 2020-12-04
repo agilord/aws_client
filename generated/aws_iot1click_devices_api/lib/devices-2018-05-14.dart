@@ -61,11 +61,10 @@ class IoT1ClickDevicesService {
     @_s.required String claimCode,
   }) async {
     ArgumentError.checkNotNull(claimCode, 'claimCode');
-    final $payload = <String, dynamic>{};
     final response = await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'PUT',
-      requestUri: '/claims/${Uri.encodeComponent(claimCode.toString())}',
+      requestUri: '/claims/${Uri.encodeComponent(claimCode)}',
       exceptionFnMap: _exceptionFns,
     );
     return ClaimDevicesByClaimCodeResponse.fromJson(response);
@@ -87,7 +86,7 @@ class IoT1ClickDevicesService {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/devices/${Uri.encodeComponent(deviceId.toString())}',
+      requestUri: '/devices/${Uri.encodeComponent(deviceId)}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeDeviceResponse.fromJson(response);
@@ -133,8 +132,7 @@ class IoT1ClickDevicesService {
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
-      requestUri:
-          '/devices/${Uri.encodeComponent(deviceId.toString())}/finalize-claim',
+      requestUri: '/devices/${Uri.encodeComponent(deviceId)}/finalize-claim',
       exceptionFnMap: _exceptionFns,
     );
     return FinalizeDeviceClaimResponse.fromJson(response);
@@ -156,8 +154,7 @@ class IoT1ClickDevicesService {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/devices/${Uri.encodeComponent(deviceId.toString())}/methods',
+      requestUri: '/devices/${Uri.encodeComponent(deviceId)}/methods',
       exceptionFnMap: _exceptionFns,
     );
     return GetDeviceMethodsResponse.fromJson(response);
@@ -184,12 +181,10 @@ class IoT1ClickDevicesService {
     @_s.required String deviceId,
   }) async {
     ArgumentError.checkNotNull(deviceId, 'deviceId');
-    final $payload = <String, dynamic>{};
     final response = await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'PUT',
-      requestUri:
-          '/devices/${Uri.encodeComponent(deviceId.toString())}/initiate-claim',
+      requestUri: '/devices/${Uri.encodeComponent(deviceId)}/initiate-claim',
       exceptionFnMap: _exceptionFns,
     );
     return InitiateDeviceClaimResponse.fromJson(response);
@@ -228,8 +223,7 @@ class IoT1ClickDevicesService {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri:
-          '/devices/${Uri.encodeComponent(deviceId.toString())}/methods',
+      requestUri: '/devices/${Uri.encodeComponent(deviceId)}/methods',
       exceptionFnMap: _exceptionFns,
     );
     return InvokeDeviceMethodResponse.fromJson(response);
@@ -279,20 +273,19 @@ class IoT1ClickDevicesService {
       1,
       250,
     );
-    var _query = '';
-    _query = '?${[
+    final $query = <String, List<String>>{
       if (fromTimeStamp != null)
-        _s.toQueryParam('fromTimeStamp', _s.iso8601ToJson(fromTimeStamp)),
+        'fromTimeStamp': [_s.iso8601ToJson(fromTimeStamp).toString()],
       if (toTimeStamp != null)
-        _s.toQueryParam('toTimeStamp', _s.iso8601ToJson(toTimeStamp)),
-      if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
-      if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-    ].where((e) => e != null).join('&')}';
+        'toTimeStamp': [_s.iso8601ToJson(toTimeStamp).toString()],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/devices/${Uri.encodeComponent(deviceId.toString())}/events$_query',
+      requestUri: '/devices/${Uri.encodeComponent(deviceId)}/events',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListDeviceEventsResponse.fromJson(response);
@@ -325,16 +318,16 @@ class IoT1ClickDevicesService {
       1,
       250,
     );
-    var _query = '';
-    _query = '?${[
-      if (deviceType != null) _s.toQueryParam('deviceType', deviceType),
-      if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
-      if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (deviceType != null) 'deviceType': [deviceType],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/devices$_query',
+      requestUri: '/devices',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListDevicesResponse.fromJson(response);
@@ -354,7 +347,7 @@ class IoT1ClickDevicesService {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsForResourceResponse.fromJson(response);
@@ -394,7 +387,7 @@ class IoT1ClickDevicesService {
     await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -411,12 +404,10 @@ class IoT1ClickDevicesService {
     @_s.required String deviceId,
   }) async {
     ArgumentError.checkNotNull(deviceId, 'deviceId');
-    final $payload = <String, dynamic>{};
     final response = await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'PUT',
-      requestUri:
-          '/devices/${Uri.encodeComponent(deviceId.toString())}/unclaim',
+      requestUri: '/devices/${Uri.encodeComponent(deviceId)}/unclaim',
       exceptionFnMap: _exceptionFns,
     );
     return UnclaimDeviceResponse.fromJson(response);
@@ -441,15 +432,14 @@ class IoT1ClickDevicesService {
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
-    var _query = '';
-    _query = '?${[
-      if (tagKeys != null) _s.toQueryParam('tagKeys', tagKeys),
-    ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $query = <String, List<String>>{
+      if (tagKeys != null) 'tagKeys': tagKeys,
+    };
     await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$_query',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -478,7 +468,7 @@ class IoT1ClickDevicesService {
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
-      requestUri: '/devices/${Uri.encodeComponent(deviceId.toString())}/state',
+      requestUri: '/devices/${Uri.encodeComponent(deviceId)}/state',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateDeviceStateResponse.fromJson(response);

@@ -42,14 +42,14 @@ class QuerystringListOfStrings {
   Future<void> operationName0({
     List<String> items,
   }) async {
-    var _query = '';
-    _query = '?${[
-      if (items != null) _s.toQueryParam('item', items),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (items != null) 'item': items,
+    };
     await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/path$_query',
+      requestUri: '/path',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
   }

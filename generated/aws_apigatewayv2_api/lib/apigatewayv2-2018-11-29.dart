@@ -188,7 +188,7 @@ class ApiGatewayV2 {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/v2/domainnames/${Uri.encodeComponent(domainName.toString())}/apimappings',
+          '/v2/domainnames/${Uri.encodeComponent(domainName)}/apimappings',
       exceptionFnMap: _exceptionFns,
     );
     return CreateApiMappingResponse.fromJson(response);
@@ -300,8 +300,7 @@ class ApiGatewayV2 {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri:
-          '/v2/apis/${Uri.encodeComponent(apiId.toString())}/authorizers',
+      requestUri: '/v2/apis/${Uri.encodeComponent(apiId)}/authorizers',
       exceptionFnMap: _exceptionFns,
     );
     return CreateAuthorizerResponse.fromJson(response);
@@ -335,8 +334,7 @@ class ApiGatewayV2 {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri:
-          '/v2/apis/${Uri.encodeComponent(apiId.toString())}/deployments',
+      requestUri: '/v2/apis/${Uri.encodeComponent(apiId)}/deployments',
       exceptionFnMap: _exceptionFns,
     );
     return CreateDeploymentResponse.fromJson(response);
@@ -573,8 +571,7 @@ class ApiGatewayV2 {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri:
-          '/v2/apis/${Uri.encodeComponent(apiId.toString())}/integrations',
+      requestUri: '/v2/apis/${Uri.encodeComponent(apiId)}/integrations',
       exceptionFnMap: _exceptionFns,
     );
     return CreateIntegrationResult.fromJson(response);
@@ -659,7 +656,7 @@ class ApiGatewayV2 {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/v2/apis/${Uri.encodeComponent(apiId.toString())}/integrations/${Uri.encodeComponent(integrationId.toString())}/integrationresponses',
+          '/v2/apis/${Uri.encodeComponent(apiId)}/integrations/${Uri.encodeComponent(integrationId)}/integrationresponses',
       exceptionFnMap: _exceptionFns,
     );
     return CreateIntegrationResponseResponse.fromJson(response);
@@ -706,7 +703,7 @@ class ApiGatewayV2 {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/v2/apis/${Uri.encodeComponent(apiId.toString())}/models',
+      requestUri: '/v2/apis/${Uri.encodeComponent(apiId)}/models',
       exceptionFnMap: _exceptionFns,
     );
     return CreateModelResponse.fromJson(response);
@@ -798,7 +795,7 @@ class ApiGatewayV2 {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/v2/apis/${Uri.encodeComponent(apiId.toString())}/routes',
+      requestUri: '/v2/apis/${Uri.encodeComponent(apiId)}/routes',
       exceptionFnMap: _exceptionFns,
     );
     return CreateRouteResult.fromJson(response);
@@ -851,7 +848,7 @@ class ApiGatewayV2 {
       payload: $payload,
       method: 'POST',
       requestUri:
-          '/v2/apis/${Uri.encodeComponent(apiId.toString())}/routes/${Uri.encodeComponent(routeId.toString())}/routeresponses',
+          '/v2/apis/${Uri.encodeComponent(apiId)}/routes/${Uri.encodeComponent(routeId)}/routeresponses',
       exceptionFnMap: _exceptionFns,
     );
     return CreateRouteResponseResponse.fromJson(response);
@@ -933,7 +930,7 @@ class ApiGatewayV2 {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/v2/apis/${Uri.encodeComponent(apiId.toString())}/stages',
+      requestUri: '/v2/apis/${Uri.encodeComponent(apiId)}/stages',
       exceptionFnMap: _exceptionFns,
     );
     return CreateStageResponse.fromJson(response);
@@ -996,12 +993,11 @@ class ApiGatewayV2 {
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(stageName, 'stageName');
-    final $payload = <String, dynamic>{};
     await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
       requestUri:
-          '/v2/apis/${Uri.encodeComponent(apiId.toString())}/stages/${Uri.encodeComponent(stageName.toString())}/accesslogsettings',
+          '/v2/apis/${Uri.encodeComponent(apiId)}/stages/${Uri.encodeComponent(stageName)}/accesslogsettings',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1017,11 +1013,10 @@ class ApiGatewayV2 {
     @_s.required String apiId,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
-    final $payload = <String, dynamic>{};
     await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri: '/v2/apis/${Uri.encodeComponent(apiId.toString())}',
+      requestUri: '/v2/apis/${Uri.encodeComponent(apiId)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1043,12 +1038,11 @@ class ApiGatewayV2 {
   }) async {
     ArgumentError.checkNotNull(apiMappingId, 'apiMappingId');
     ArgumentError.checkNotNull(domainName, 'domainName');
-    final $payload = <String, dynamic>{};
     await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
       requestUri:
-          '/v2/domainnames/${Uri.encodeComponent(domainName.toString())}/apimappings/${Uri.encodeComponent(apiMappingId.toString())}',
+          '/v2/domainnames/${Uri.encodeComponent(domainName)}/apimappings/${Uri.encodeComponent(apiMappingId)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1069,12 +1063,11 @@ class ApiGatewayV2 {
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(authorizerId, 'authorizerId');
-    final $payload = <String, dynamic>{};
     await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
       requestUri:
-          '/v2/apis/${Uri.encodeComponent(apiId.toString())}/authorizers/${Uri.encodeComponent(authorizerId.toString())}',
+          '/v2/apis/${Uri.encodeComponent(apiId)}/authorizers/${Uri.encodeComponent(authorizerId)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1090,11 +1083,10 @@ class ApiGatewayV2 {
     @_s.required String apiId,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
-    final $payload = <String, dynamic>{};
     await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri: '/v2/apis/${Uri.encodeComponent(apiId.toString())}/cors',
+      requestUri: '/v2/apis/${Uri.encodeComponent(apiId)}/cors',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1115,12 +1107,11 @@ class ApiGatewayV2 {
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(deploymentId, 'deploymentId');
-    final $payload = <String, dynamic>{};
     await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
       requestUri:
-          '/v2/apis/${Uri.encodeComponent(apiId.toString())}/deployments/${Uri.encodeComponent(deploymentId.toString())}',
+          '/v2/apis/${Uri.encodeComponent(apiId)}/deployments/${Uri.encodeComponent(deploymentId)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1136,12 +1127,10 @@ class ApiGatewayV2 {
     @_s.required String domainName,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
-    final $payload = <String, dynamic>{};
     await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri:
-          '/v2/domainnames/${Uri.encodeComponent(domainName.toString())}',
+      requestUri: '/v2/domainnames/${Uri.encodeComponent(domainName)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1162,12 +1151,11 @@ class ApiGatewayV2 {
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(integrationId, 'integrationId');
-    final $payload = <String, dynamic>{};
     await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
       requestUri:
-          '/v2/apis/${Uri.encodeComponent(apiId.toString())}/integrations/${Uri.encodeComponent(integrationId.toString())}',
+          '/v2/apis/${Uri.encodeComponent(apiId)}/integrations/${Uri.encodeComponent(integrationId)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1193,12 +1181,11 @@ class ApiGatewayV2 {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(integrationId, 'integrationId');
     ArgumentError.checkNotNull(integrationResponseId, 'integrationResponseId');
-    final $payload = <String, dynamic>{};
     await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
       requestUri:
-          '/v2/apis/${Uri.encodeComponent(apiId.toString())}/integrations/${Uri.encodeComponent(integrationId.toString())}/integrationresponses/${Uri.encodeComponent(integrationResponseId.toString())}',
+          '/v2/apis/${Uri.encodeComponent(apiId)}/integrations/${Uri.encodeComponent(integrationId)}/integrationresponses/${Uri.encodeComponent(integrationResponseId)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1219,12 +1206,11 @@ class ApiGatewayV2 {
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(modelId, 'modelId');
-    final $payload = <String, dynamic>{};
     await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
       requestUri:
-          '/v2/apis/${Uri.encodeComponent(apiId.toString())}/models/${Uri.encodeComponent(modelId.toString())}',
+          '/v2/apis/${Uri.encodeComponent(apiId)}/models/${Uri.encodeComponent(modelId)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1245,12 +1231,11 @@ class ApiGatewayV2 {
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(routeId, 'routeId');
-    final $payload = <String, dynamic>{};
     await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
       requestUri:
-          '/v2/apis/${Uri.encodeComponent(apiId.toString())}/routes/${Uri.encodeComponent(routeId.toString())}',
+          '/v2/apis/${Uri.encodeComponent(apiId)}/routes/${Uri.encodeComponent(routeId)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1276,12 +1261,11 @@ class ApiGatewayV2 {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(requestParameterKey, 'requestParameterKey');
     ArgumentError.checkNotNull(routeId, 'routeId');
-    final $payload = <String, dynamic>{};
     await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
       requestUri:
-          '/v2/apis/${Uri.encodeComponent(apiId.toString())}/routes/${Uri.encodeComponent(routeId.toString())}/requestparameters/${Uri.encodeComponent(requestParameterKey.toString())}',
+          '/v2/apis/${Uri.encodeComponent(apiId)}/routes/${Uri.encodeComponent(routeId)}/requestparameters/${Uri.encodeComponent(requestParameterKey)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1307,12 +1291,11 @@ class ApiGatewayV2 {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(routeId, 'routeId');
     ArgumentError.checkNotNull(routeResponseId, 'routeResponseId');
-    final $payload = <String, dynamic>{};
     await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
       requestUri:
-          '/v2/apis/${Uri.encodeComponent(apiId.toString())}/routes/${Uri.encodeComponent(routeId.toString())}/routeresponses/${Uri.encodeComponent(routeResponseId.toString())}',
+          '/v2/apis/${Uri.encodeComponent(apiId)}/routes/${Uri.encodeComponent(routeId)}/routeresponses/${Uri.encodeComponent(routeResponseId)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1339,12 +1322,11 @@ class ApiGatewayV2 {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(routeKey, 'routeKey');
     ArgumentError.checkNotNull(stageName, 'stageName');
-    final $payload = <String, dynamic>{};
     await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
       requestUri:
-          '/v2/apis/${Uri.encodeComponent(apiId.toString())}/stages/${Uri.encodeComponent(stageName.toString())}/routesettings/${Uri.encodeComponent(routeKey.toString())}',
+          '/v2/apis/${Uri.encodeComponent(apiId)}/stages/${Uri.encodeComponent(stageName)}/routesettings/${Uri.encodeComponent(routeKey)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1366,12 +1348,11 @@ class ApiGatewayV2 {
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(stageName, 'stageName');
-    final $payload = <String, dynamic>{};
     await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
       requestUri:
-          '/v2/apis/${Uri.encodeComponent(apiId.toString())}/stages/${Uri.encodeComponent(stageName.toString())}',
+          '/v2/apis/${Uri.encodeComponent(apiId)}/stages/${Uri.encodeComponent(stageName)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1387,11 +1368,10 @@ class ApiGatewayV2 {
     @_s.required String vpcLinkId,
   }) async {
     ArgumentError.checkNotNull(vpcLinkId, 'vpcLinkId');
-    final $payload = <String, dynamic>{};
     final response = await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri: '/v2/vpclinks/${Uri.encodeComponent(vpcLinkId.toString())}',
+      requestUri: '/v2/vpclinks/${Uri.encodeComponent(vpcLinkId)}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteVpcLinkResponse.fromJson(response);
@@ -1437,20 +1417,19 @@ class ApiGatewayV2 {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(outputType, 'outputType');
     ArgumentError.checkNotNull(specification, 'specification');
-    var _query = '';
-    _query = '?${[
-      if (outputType != null) _s.toQueryParam('outputType', outputType),
-      if (exportVersion != null)
-        _s.toQueryParam('exportVersion', exportVersion),
+    final $query = <String, List<String>>{
+      if (outputType != null) 'outputType': [outputType],
+      if (exportVersion != null) 'exportVersion': [exportVersion],
       if (includeExtensions != null)
-        _s.toQueryParam('includeExtensions', includeExtensions),
-      if (stageName != null) _s.toQueryParam('stageName', stageName),
-    ].where((e) => e != null).join('&')}';
+        'includeExtensions': [includeExtensions.toString()],
+      if (stageName != null) 'stageName': [stageName],
+    };
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri:
-          '/v2/apis/${Uri.encodeComponent(apiId.toString())}/exports/${Uri.encodeComponent(specification.toString())}$_query',
+          '/v2/apis/${Uri.encodeComponent(apiId)}/exports/${Uri.encodeComponent(specification)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ExportApiResponse(
@@ -1472,7 +1451,7 @@ class ApiGatewayV2 {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/v2/apis/${Uri.encodeComponent(apiId.toString())}',
+      requestUri: '/v2/apis/${Uri.encodeComponent(apiId)}',
       exceptionFnMap: _exceptionFns,
     );
     return GetApiResponse.fromJson(response);
@@ -1499,7 +1478,7 @@ class ApiGatewayV2 {
       payload: null,
       method: 'GET',
       requestUri:
-          '/v2/domainnames/${Uri.encodeComponent(domainName.toString())}/apimappings/${Uri.encodeComponent(apiMappingId.toString())}',
+          '/v2/domainnames/${Uri.encodeComponent(domainName)}/apimappings/${Uri.encodeComponent(apiMappingId)}',
       exceptionFnMap: _exceptionFns,
     );
     return GetApiMappingResponse.fromJson(response);
@@ -1526,16 +1505,16 @@ class ApiGatewayV2 {
     String nextToken,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
-    var _query = '';
-    _query = '?${[
-      if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
-      if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/v2/domainnames/${Uri.encodeComponent(domainName.toString())}/apimappings$_query',
+          '/v2/domainnames/${Uri.encodeComponent(domainName)}/apimappings',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return GetApiMappingsResponse.fromJson(response);
@@ -1557,15 +1536,15 @@ class ApiGatewayV2 {
     String maxResults,
     String nextToken,
   }) async {
-    var _query = '';
-    _query = '?${[
-      if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
-      if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/v2/apis$_query',
+      requestUri: '/v2/apis',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return GetApisResponse.fromJson(response);
@@ -1591,7 +1570,7 @@ class ApiGatewayV2 {
       payload: null,
       method: 'GET',
       requestUri:
-          '/v2/apis/${Uri.encodeComponent(apiId.toString())}/authorizers/${Uri.encodeComponent(authorizerId.toString())}',
+          '/v2/apis/${Uri.encodeComponent(apiId)}/authorizers/${Uri.encodeComponent(authorizerId)}',
       exceptionFnMap: _exceptionFns,
     );
     return GetAuthorizerResponse.fromJson(response);
@@ -1618,16 +1597,15 @@ class ApiGatewayV2 {
     String nextToken,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
-    var _query = '';
-    _query = '?${[
-      if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
-      if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/v2/apis/${Uri.encodeComponent(apiId.toString())}/authorizers$_query',
+      requestUri: '/v2/apis/${Uri.encodeComponent(apiId)}/authorizers',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return GetAuthorizersResponse.fromJson(response);
@@ -1653,7 +1631,7 @@ class ApiGatewayV2 {
       payload: null,
       method: 'GET',
       requestUri:
-          '/v2/apis/${Uri.encodeComponent(apiId.toString())}/deployments/${Uri.encodeComponent(deploymentId.toString())}',
+          '/v2/apis/${Uri.encodeComponent(apiId)}/deployments/${Uri.encodeComponent(deploymentId)}',
       exceptionFnMap: _exceptionFns,
     );
     return GetDeploymentResponse.fromJson(response);
@@ -1680,16 +1658,15 @@ class ApiGatewayV2 {
     String nextToken,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
-    var _query = '';
-    _query = '?${[
-      if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
-      if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/v2/apis/${Uri.encodeComponent(apiId.toString())}/deployments$_query',
+      requestUri: '/v2/apis/${Uri.encodeComponent(apiId)}/deployments',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return GetDeploymentsResponse.fromJson(response);
@@ -1709,8 +1686,7 @@ class ApiGatewayV2 {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/v2/domainnames/${Uri.encodeComponent(domainName.toString())}',
+      requestUri: '/v2/domainnames/${Uri.encodeComponent(domainName)}',
       exceptionFnMap: _exceptionFns,
     );
     return GetDomainNameResponse.fromJson(response);
@@ -1732,15 +1708,15 @@ class ApiGatewayV2 {
     String maxResults,
     String nextToken,
   }) async {
-    var _query = '';
-    _query = '?${[
-      if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
-      if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/v2/domainnames$_query',
+      requestUri: '/v2/domainnames',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return GetDomainNamesResponse.fromJson(response);
@@ -1766,7 +1742,7 @@ class ApiGatewayV2 {
       payload: null,
       method: 'GET',
       requestUri:
-          '/v2/apis/${Uri.encodeComponent(apiId.toString())}/integrations/${Uri.encodeComponent(integrationId.toString())}',
+          '/v2/apis/${Uri.encodeComponent(apiId)}/integrations/${Uri.encodeComponent(integrationId)}',
       exceptionFnMap: _exceptionFns,
     );
     return GetIntegrationResult.fromJson(response);
@@ -1797,7 +1773,7 @@ class ApiGatewayV2 {
       payload: null,
       method: 'GET',
       requestUri:
-          '/v2/apis/${Uri.encodeComponent(apiId.toString())}/integrations/${Uri.encodeComponent(integrationId.toString())}/integrationresponses/${Uri.encodeComponent(integrationResponseId.toString())}',
+          '/v2/apis/${Uri.encodeComponent(apiId)}/integrations/${Uri.encodeComponent(integrationId)}/integrationresponses/${Uri.encodeComponent(integrationResponseId)}',
       exceptionFnMap: _exceptionFns,
     );
     return GetIntegrationResponseResponse.fromJson(response);
@@ -1829,16 +1805,16 @@ class ApiGatewayV2 {
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(integrationId, 'integrationId');
-    var _query = '';
-    _query = '?${[
-      if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
-      if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/v2/apis/${Uri.encodeComponent(apiId.toString())}/integrations/${Uri.encodeComponent(integrationId.toString())}/integrationresponses$_query',
+          '/v2/apis/${Uri.encodeComponent(apiId)}/integrations/${Uri.encodeComponent(integrationId)}/integrationresponses',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return GetIntegrationResponsesResponse.fromJson(response);
@@ -1865,16 +1841,15 @@ class ApiGatewayV2 {
     String nextToken,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
-    var _query = '';
-    _query = '?${[
-      if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
-      if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/v2/apis/${Uri.encodeComponent(apiId.toString())}/integrations$_query',
+      requestUri: '/v2/apis/${Uri.encodeComponent(apiId)}/integrations',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return GetIntegrationsResponse.fromJson(response);
@@ -1900,7 +1875,7 @@ class ApiGatewayV2 {
       payload: null,
       method: 'GET',
       requestUri:
-          '/v2/apis/${Uri.encodeComponent(apiId.toString())}/models/${Uri.encodeComponent(modelId.toString())}',
+          '/v2/apis/${Uri.encodeComponent(apiId)}/models/${Uri.encodeComponent(modelId)}',
       exceptionFnMap: _exceptionFns,
     );
     return GetModelResponse.fromJson(response);
@@ -1926,7 +1901,7 @@ class ApiGatewayV2 {
       payload: null,
       method: 'GET',
       requestUri:
-          '/v2/apis/${Uri.encodeComponent(apiId.toString())}/models/${Uri.encodeComponent(modelId.toString())}/template',
+          '/v2/apis/${Uri.encodeComponent(apiId)}/models/${Uri.encodeComponent(modelId)}/template',
       exceptionFnMap: _exceptionFns,
     );
     return GetModelTemplateResponse.fromJson(response);
@@ -1953,16 +1928,15 @@ class ApiGatewayV2 {
     String nextToken,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
-    var _query = '';
-    _query = '?${[
-      if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
-      if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/v2/apis/${Uri.encodeComponent(apiId.toString())}/models$_query',
+      requestUri: '/v2/apis/${Uri.encodeComponent(apiId)}/models',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return GetModelsResponse.fromJson(response);
@@ -1988,7 +1962,7 @@ class ApiGatewayV2 {
       payload: null,
       method: 'GET',
       requestUri:
-          '/v2/apis/${Uri.encodeComponent(apiId.toString())}/routes/${Uri.encodeComponent(routeId.toString())}',
+          '/v2/apis/${Uri.encodeComponent(apiId)}/routes/${Uri.encodeComponent(routeId)}',
       exceptionFnMap: _exceptionFns,
     );
     return GetRouteResult.fromJson(response);
@@ -2019,7 +1993,7 @@ class ApiGatewayV2 {
       payload: null,
       method: 'GET',
       requestUri:
-          '/v2/apis/${Uri.encodeComponent(apiId.toString())}/routes/${Uri.encodeComponent(routeId.toString())}/routeresponses/${Uri.encodeComponent(routeResponseId.toString())}',
+          '/v2/apis/${Uri.encodeComponent(apiId)}/routes/${Uri.encodeComponent(routeId)}/routeresponses/${Uri.encodeComponent(routeResponseId)}',
       exceptionFnMap: _exceptionFns,
     );
     return GetRouteResponseResponse.fromJson(response);
@@ -2051,16 +2025,16 @@ class ApiGatewayV2 {
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(routeId, 'routeId');
-    var _query = '';
-    _query = '?${[
-      if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
-      if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/v2/apis/${Uri.encodeComponent(apiId.toString())}/routes/${Uri.encodeComponent(routeId.toString())}/routeresponses$_query',
+          '/v2/apis/${Uri.encodeComponent(apiId)}/routes/${Uri.encodeComponent(routeId)}/routeresponses',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return GetRouteResponsesResponse.fromJson(response);
@@ -2087,16 +2061,15 @@ class ApiGatewayV2 {
     String nextToken,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
-    var _query = '';
-    _query = '?${[
-      if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
-      if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/v2/apis/${Uri.encodeComponent(apiId.toString())}/routes$_query',
+      requestUri: '/v2/apis/${Uri.encodeComponent(apiId)}/routes',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return GetRoutesResponse.fromJson(response);
@@ -2123,7 +2096,7 @@ class ApiGatewayV2 {
       payload: null,
       method: 'GET',
       requestUri:
-          '/v2/apis/${Uri.encodeComponent(apiId.toString())}/stages/${Uri.encodeComponent(stageName.toString())}',
+          '/v2/apis/${Uri.encodeComponent(apiId)}/stages/${Uri.encodeComponent(stageName)}',
       exceptionFnMap: _exceptionFns,
     );
     return GetStageResponse.fromJson(response);
@@ -2150,16 +2123,15 @@ class ApiGatewayV2 {
     String nextToken,
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
-    var _query = '';
-    _query = '?${[
-      if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
-      if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/v2/apis/${Uri.encodeComponent(apiId.toString())}/stages$_query',
+      requestUri: '/v2/apis/${Uri.encodeComponent(apiId)}/stages',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return GetStagesResponse.fromJson(response);
@@ -2181,7 +2153,7 @@ class ApiGatewayV2 {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/v2/tags/${Uri.encodeComponent(resourceArn.toString())}',
+      requestUri: '/v2/tags/${Uri.encodeComponent(resourceArn)}',
       exceptionFnMap: _exceptionFns,
     );
     return GetTagsResponse.fromJson(response);
@@ -2201,7 +2173,7 @@ class ApiGatewayV2 {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/v2/vpclinks/${Uri.encodeComponent(vpcLinkId.toString())}',
+      requestUri: '/v2/vpclinks/${Uri.encodeComponent(vpcLinkId)}',
       exceptionFnMap: _exceptionFns,
     );
     return GetVpcLinkResponse.fromJson(response);
@@ -2222,15 +2194,15 @@ class ApiGatewayV2 {
     String maxResults,
     String nextToken,
   }) async {
-    var _query = '';
-    _query = '?${[
-      if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
-      if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/v2/vpclinks$_query',
+      requestUri: '/v2/vpclinks',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return GetVpcLinksResponse.fromJson(response);
@@ -2263,19 +2235,18 @@ class ApiGatewayV2 {
     bool failOnWarnings,
   }) async {
     ArgumentError.checkNotNull(body, 'body');
-    var _query = '';
-    _query = '?${[
-      if (basepath != null) _s.toQueryParam('basepath', basepath),
-      if (failOnWarnings != null)
-        _s.toQueryParam('failOnWarnings', failOnWarnings),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (basepath != null) 'basepath': [basepath],
+      if (failOnWarnings != null) 'failOnWarnings': [failOnWarnings.toString()],
+    };
     final $payload = <String, dynamic>{
       'body': body,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
-      requestUri: '/v2/apis$_query',
+      requestUri: '/v2/apis',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ImportApiResponse.fromJson(response);
@@ -2313,19 +2284,18 @@ class ApiGatewayV2 {
   }) async {
     ArgumentError.checkNotNull(apiId, 'apiId');
     ArgumentError.checkNotNull(body, 'body');
-    var _query = '';
-    _query = '?${[
-      if (basepath != null) _s.toQueryParam('basepath', basepath),
-      if (failOnWarnings != null)
-        _s.toQueryParam('failOnWarnings', failOnWarnings),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (basepath != null) 'basepath': [basepath],
+      if (failOnWarnings != null) 'failOnWarnings': [failOnWarnings.toString()],
+    };
     final $payload = <String, dynamic>{
       'body': body,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
-      requestUri: '/v2/apis/${Uri.encodeComponent(apiId.toString())}$_query',
+      requestUri: '/v2/apis/${Uri.encodeComponent(apiId)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ReimportApiResponse.fromJson(response);
@@ -2355,7 +2325,7 @@ class ApiGatewayV2 {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/v2/tags/${Uri.encodeComponent(resourceArn.toString())}',
+      requestUri: '/v2/tags/${Uri.encodeComponent(resourceArn)}',
       exceptionFnMap: _exceptionFns,
     );
     return TagResourceResponse.fromJson(response);
@@ -2379,16 +2349,14 @@ class ApiGatewayV2 {
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
-    var _query = '';
-    _query = '?${[
-      if (tagKeys != null) _s.toQueryParam('tagKeys', tagKeys),
-    ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $query = <String, List<String>>{
+      if (tagKeys != null) 'tagKeys': tagKeys,
+    };
     await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri:
-          '/v2/tags/${Uri.encodeComponent(resourceArn.toString())}$_query',
+      requestUri: '/v2/tags/${Uri.encodeComponent(resourceArn)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -2486,7 +2454,7 @@ class ApiGatewayV2 {
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
-      requestUri: '/v2/apis/${Uri.encodeComponent(apiId.toString())}',
+      requestUri: '/v2/apis/${Uri.encodeComponent(apiId)}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateApiResponse.fromJson(response);
@@ -2532,7 +2500,7 @@ class ApiGatewayV2 {
       payload: $payload,
       method: 'PATCH',
       requestUri:
-          '/v2/domainnames/${Uri.encodeComponent(domainName.toString())}/apimappings/${Uri.encodeComponent(apiMappingId.toString())}',
+          '/v2/domainnames/${Uri.encodeComponent(domainName)}/apimappings/${Uri.encodeComponent(apiMappingId)}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateApiMappingResponse.fromJson(response);
@@ -2646,7 +2614,7 @@ class ApiGatewayV2 {
       payload: $payload,
       method: 'PATCH',
       requestUri:
-          '/v2/apis/${Uri.encodeComponent(apiId.toString())}/authorizers/${Uri.encodeComponent(authorizerId.toString())}',
+          '/v2/apis/${Uri.encodeComponent(apiId)}/authorizers/${Uri.encodeComponent(authorizerId)}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateAuthorizerResponse.fromJson(response);
@@ -2681,7 +2649,7 @@ class ApiGatewayV2 {
       payload: $payload,
       method: 'PATCH',
       requestUri:
-          '/v2/apis/${Uri.encodeComponent(apiId.toString())}/deployments/${Uri.encodeComponent(deploymentId.toString())}',
+          '/v2/apis/${Uri.encodeComponent(apiId)}/deployments/${Uri.encodeComponent(deploymentId)}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateDeploymentResponse.fromJson(response);
@@ -2711,8 +2679,7 @@ class ApiGatewayV2 {
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
-      requestUri:
-          '/v2/domainnames/${Uri.encodeComponent(domainName.toString())}',
+      requestUri: '/v2/domainnames/${Uri.encodeComponent(domainName)}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateDomainNameResponse.fromJson(response);
@@ -2917,7 +2884,7 @@ class ApiGatewayV2 {
       payload: $payload,
       method: 'PATCH',
       requestUri:
-          '/v2/apis/${Uri.encodeComponent(apiId.toString())}/integrations/${Uri.encodeComponent(integrationId.toString())}',
+          '/v2/apis/${Uri.encodeComponent(apiId)}/integrations/${Uri.encodeComponent(integrationId)}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateIntegrationResult.fromJson(response);
@@ -3010,7 +2977,7 @@ class ApiGatewayV2 {
       payload: $payload,
       method: 'PATCH',
       requestUri:
-          '/v2/apis/${Uri.encodeComponent(apiId.toString())}/integrations/${Uri.encodeComponent(integrationId.toString())}/integrationresponses/${Uri.encodeComponent(integrationResponseId.toString())}',
+          '/v2/apis/${Uri.encodeComponent(apiId)}/integrations/${Uri.encodeComponent(integrationId)}/integrationresponses/${Uri.encodeComponent(integrationResponseId)}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateIntegrationResponseResponse.fromJson(response);
@@ -3061,7 +3028,7 @@ class ApiGatewayV2 {
       payload: $payload,
       method: 'PATCH',
       requestUri:
-          '/v2/apis/${Uri.encodeComponent(apiId.toString())}/models/${Uri.encodeComponent(modelId.toString())}',
+          '/v2/apis/${Uri.encodeComponent(apiId)}/models/${Uri.encodeComponent(modelId)}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateModelResponse.fromJson(response);
@@ -3158,7 +3125,7 @@ class ApiGatewayV2 {
       payload: $payload,
       method: 'PATCH',
       requestUri:
-          '/v2/apis/${Uri.encodeComponent(apiId.toString())}/routes/${Uri.encodeComponent(routeId.toString())}',
+          '/v2/apis/${Uri.encodeComponent(apiId)}/routes/${Uri.encodeComponent(routeId)}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateRouteResult.fromJson(response);
@@ -3215,7 +3182,7 @@ class ApiGatewayV2 {
       payload: $payload,
       method: 'PATCH',
       requestUri:
-          '/v2/apis/${Uri.encodeComponent(apiId.toString())}/routes/${Uri.encodeComponent(routeId.toString())}/routeresponses/${Uri.encodeComponent(routeResponseId.toString())}',
+          '/v2/apis/${Uri.encodeComponent(apiId)}/routes/${Uri.encodeComponent(routeId)}/routeresponses/${Uri.encodeComponent(routeResponseId)}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateRouteResponseResponse.fromJson(response);
@@ -3292,7 +3259,7 @@ class ApiGatewayV2 {
       payload: $payload,
       method: 'PATCH',
       requestUri:
-          '/v2/apis/${Uri.encodeComponent(apiId.toString())}/stages/${Uri.encodeComponent(stageName.toString())}',
+          '/v2/apis/${Uri.encodeComponent(apiId)}/stages/${Uri.encodeComponent(stageName)}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateStageResponse.fromJson(response);
@@ -3320,7 +3287,7 @@ class ApiGatewayV2 {
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
-      requestUri: '/v2/vpclinks/${Uri.encodeComponent(vpcLinkId.toString())}',
+      requestUri: '/v2/vpclinks/${Uri.encodeComponent(vpcLinkId)}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateVpcLinkResponse.fromJson(response);

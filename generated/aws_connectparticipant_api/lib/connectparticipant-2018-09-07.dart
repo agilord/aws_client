@@ -100,9 +100,9 @@ class ConnectParticipant {
     };
     final response = await _protocol.send(
       payload: $payload,
-      headers: headers,
       method: 'POST',
       requestUri: '/participant/connection',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return CreateParticipantConnectionResponse.fromJson(response);
@@ -147,9 +147,9 @@ class ConnectParticipant {
     };
     final response = await _protocol.send(
       payload: $payload,
-      headers: headers,
       method: 'POST',
       requestUri: '/participant/disconnect',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return DisconnectParticipantResponse.fromJson(response);
@@ -233,9 +233,9 @@ class ConnectParticipant {
     };
     final response = await _protocol.send(
       payload: $payload,
-      headers: headers,
       method: 'POST',
       requestUri: '/participant/transcript',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return GetTranscriptResponse.fromJson(response);
@@ -314,9 +314,9 @@ class ConnectParticipant {
     };
     final response = await _protocol.send(
       payload: $payload,
-      headers: headers,
       method: 'POST',
       requestUri: '/participant/event',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return SendEventResponse.fromJson(response);
@@ -387,9 +387,9 @@ class ConnectParticipant {
     };
     final response = await _protocol.send(
       payload: $payload,
-      headers: headers,
       method: 'POST',
       requestUri: '/participant/message',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return SendMessageResponse.fromJson(response);

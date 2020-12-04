@@ -15,7 +15,7 @@ void main() {
           request.body,
           equalsQuery(
               r'''Action=OperationName&Version=2014-01-01&ScalarArg=foo&ListArg.1=a&ListArg.2=b&ListArg.3=c'''));
-      expect(pathAndQuery(request.url), '/');
+      expect(request.url, equalsPathAndQuery('/'));
       return Response('<Response></Response>', 200, headers: {});
     });
 
@@ -44,7 +44,7 @@ void main() {
     final client = MockClient((request) async {
       expect(request.body,
           equalsQuery(r'''Action=OperationName&Version=2014-01-01&Foo.1=a'''));
-      expect(pathAndQuery(request.url), '/');
+      expect(request.url, equalsPathAndQuery('/'));
       return Response('<Response></Response>', 200, headers: {});
     });
 

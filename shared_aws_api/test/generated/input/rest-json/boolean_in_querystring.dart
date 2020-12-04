@@ -42,14 +42,14 @@ class BooleanInQuerystring {
   Future<void> operationName0({
     bool boolQuery,
   }) async {
-    var _query = '';
-    _query = '?${[
-      if (boolQuery != null) _s.toQueryParam('bool-query', boolQuery),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (boolQuery != null) 'bool-query': [boolQuery.toString()],
+    };
     await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/path$_query',
+      requestUri: '/path',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -57,14 +57,14 @@ class BooleanInQuerystring {
   Future<void> operationName1({
     bool boolQuery,
   }) async {
-    var _query = '';
-    _query = '?${[
-      if (boolQuery != null) _s.toQueryParam('bool-query', boolQuery),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (boolQuery != null) 'bool-query': [boolQuery.toString()],
+    };
     await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/path$_query',
+      requestUri: '/path',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
   }

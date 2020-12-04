@@ -18,8 +18,10 @@ void main() {
       expect(request.headers['x-amz-timearg'], 'Sun, 25 Jan 2015 08:00:00 GMT');
       expect(request.headers['x-amz-timecustom-header'], '1422172800');
       expect(request.headers['x-amz-timeformat-header'], '1422172800');
-      expect(pathAndQuery(request.url),
-          '/2014-01-01/hostedzone?TimeQuery=2015-01-25T08%3A00%3A00Z&TimeCustomQuery=1422172800&TimeFormatQuery=1422172800');
+      expect(
+          request.url,
+          equalsPathAndQuery(
+              '/2014-01-01/hostedzone?TimeQuery=2015-01-25T08%3A00%3A00Z&TimeCustomQuery=1422172800&TimeFormatQuery=1422172800'));
       expect(request.method, equalsIgnoringCase('POST'));
       return Response('<Response></Response>', 200, headers: {});
     });

@@ -46,7 +46,7 @@ class URIParameterOnlyWithNoLocationName {
       payload: null,
       method: 'GET',
       requestUri:
-          '/2014-01-01/jobsByPipeline/${Uri.encodeComponent(pipelineId.toString())}',
+          '/2014-01-01/jobsByPipeline/${Uri.encodeComponent(pipelineId)}',
       exceptionFnMap: _exceptionFns,
     );
   }

@@ -13,7 +13,7 @@ void main() {
     final client = MockClient((request) async {
       expect(request.body,
           equalsXml(r'''<InputShape><Token>abc123</Token></InputShape>'''));
-      expect(pathAndQuery(request.url), '/path');
+      expect(request.url, equalsPathAndQuery('/path'));
       return Response('<Response></Response>', 200, headers: {});
     });
 
@@ -38,7 +38,7 @@ void main() {
           request.body,
           equalsXml(
               r'''<InputShape><Token>00000000-0000-4000-8000-000000000000</Token></InputShape>'''));
-      expect(pathAndQuery(request.url), '/path');
+      expect(request.url, equalsPathAndQuery('/path'));
       return Response('<Response></Response>', 200, headers: {});
     });
 

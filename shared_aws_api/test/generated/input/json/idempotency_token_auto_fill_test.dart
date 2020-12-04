@@ -12,7 +12,7 @@ void main() {
   test('Idempotency token auto fill 0', () async {
     final client = MockClient((request) async {
       expect(request.body, equalsJson(r'''{"Token": "abc123"}'''));
-      expect(pathAndQuery(request.url), '/');
+      expect(request.url, equalsPathAndQuery('/'));
       return Response('{}', 200, headers: {});
     });
 
@@ -35,7 +35,7 @@ void main() {
     final client = MockClient((request) async {
       expect(request.body,
           equalsJson(r'''{"Token": "00000000-0000-4000-8000-000000000000"}'''));
-      expect(pathAndQuery(request.url), '/');
+      expect(request.url, equalsPathAndQuery('/'));
       return Response('{}', 200, headers: {});
     });
 

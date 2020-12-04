@@ -126,7 +126,7 @@ class IoT1ClickProjects {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/projects/${Uri.encodeComponent(projectName.toString())}/placements/${Uri.encodeComponent(placementName.toString())}/devices/${Uri.encodeComponent(deviceTemplateName.toString())}',
+          '/projects/${Uri.encodeComponent(projectName)}/placements/${Uri.encodeComponent(placementName)}/devices/${Uri.encodeComponent(deviceTemplateName)}',
       exceptionFnMap: _exceptionFns,
     );
     return AssociateDeviceWithPlacementResponse.fromJson(response);
@@ -188,8 +188,7 @@ class IoT1ClickProjects {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri:
-          '/projects/${Uri.encodeComponent(projectName.toString())}/placements',
+      requestUri: '/projects/${Uri.encodeComponent(projectName)}/placements',
       exceptionFnMap: _exceptionFns,
     );
     return CreatePlacementResponse.fromJson(response);
@@ -311,12 +310,11 @@ class IoT1ClickProjects {
       r'''^[0-9A-Za-z_-]+$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
     final response = await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
       requestUri:
-          '/projects/${Uri.encodeComponent(projectName.toString())}/placements/${Uri.encodeComponent(placementName.toString())}',
+          '/projects/${Uri.encodeComponent(projectName)}/placements/${Uri.encodeComponent(placementName)}',
       exceptionFnMap: _exceptionFns,
     );
     return DeletePlacementResponse.fromJson(response);
@@ -352,11 +350,10 @@ class IoT1ClickProjects {
       r'''^[0-9A-Za-z_-]+$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
     final response = await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri: '/projects/${Uri.encodeComponent(projectName.toString())}',
+      requestUri: '/projects/${Uri.encodeComponent(projectName)}',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteProjectResponse.fromJson(response);
@@ -409,7 +406,7 @@ class IoT1ClickProjects {
       payload: null,
       method: 'GET',
       requestUri:
-          '/projects/${Uri.encodeComponent(projectName.toString())}/placements/${Uri.encodeComponent(placementName.toString())}',
+          '/projects/${Uri.encodeComponent(projectName)}/placements/${Uri.encodeComponent(placementName)}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribePlacementResponse.fromJson(response);
@@ -443,7 +440,7 @@ class IoT1ClickProjects {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/projects/${Uri.encodeComponent(projectName.toString())}',
+      requestUri: '/projects/${Uri.encodeComponent(projectName)}',
       exceptionFnMap: _exceptionFns,
     );
     return DescribeProjectResponse.fromJson(response);
@@ -511,12 +508,11 @@ class IoT1ClickProjects {
       r'''^[0-9A-Za-z_-]+$''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
     final response = await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
       requestUri:
-          '/projects/${Uri.encodeComponent(projectName.toString())}/placements/${Uri.encodeComponent(placementName.toString())}/devices/${Uri.encodeComponent(deviceTemplateName.toString())}',
+          '/projects/${Uri.encodeComponent(projectName)}/placements/${Uri.encodeComponent(placementName)}/devices/${Uri.encodeComponent(deviceTemplateName)}',
       exceptionFnMap: _exceptionFns,
     );
     return DisassociateDeviceFromPlacementResponse.fromJson(response);
@@ -569,7 +565,7 @@ class IoT1ClickProjects {
       payload: null,
       method: 'GET',
       requestUri:
-          '/projects/${Uri.encodeComponent(projectName.toString())}/placements/${Uri.encodeComponent(placementName.toString())}/devices',
+          '/projects/${Uri.encodeComponent(projectName)}/placements/${Uri.encodeComponent(placementName)}/devices',
       exceptionFnMap: _exceptionFns,
     );
     return GetDevicesInPlacementResponse.fromJson(response);
@@ -621,16 +617,15 @@ class IoT1ClickProjects {
       1,
       1024,
     );
-    var _query = '';
-    _query = '?${[
-      if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
-      if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/projects/${Uri.encodeComponent(projectName.toString())}/placements$_query',
+      requestUri: '/projects/${Uri.encodeComponent(projectName)}/placements',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListPlacementsResponse.fromJson(response);
@@ -664,15 +659,15 @@ class IoT1ClickProjects {
       1,
       1024,
     );
-    var _query = '';
-    _query = '?${[
-      if (maxResults != null) _s.toQueryParam('maxResults', maxResults),
-      if (nextToken != null) _s.toQueryParam('nextToken', nextToken),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/projects$_query',
+      requestUri: '/projects',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListProjectsResponse.fromJson(response);
@@ -700,7 +695,7 @@ class IoT1ClickProjects {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsForResourceResponse.fromJson(response);
@@ -742,7 +737,7 @@ class IoT1ClickProjects {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
       exceptionFnMap: _exceptionFns,
     );
     return TagResourceResponse.fromJson(response);
@@ -771,15 +766,14 @@ class IoT1ClickProjects {
       isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
-    var _query = '';
-    _query = '?${[
-      if (tagKeys != null) _s.toQueryParam('tagKeys', tagKeys),
-    ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $query = <String, List<String>>{
+      if (tagKeys != null) 'tagKeys': tagKeys,
+    };
     final response = await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$_query',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return UntagResourceResponse.fromJson(response);
@@ -842,7 +836,7 @@ class IoT1ClickProjects {
       payload: $payload,
       method: 'PUT',
       requestUri:
-          '/projects/${Uri.encodeComponent(projectName.toString())}/placements/${Uri.encodeComponent(placementName.toString())}',
+          '/projects/${Uri.encodeComponent(projectName)}/placements/${Uri.encodeComponent(placementName)}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdatePlacementResponse.fromJson(response);
@@ -902,7 +896,7 @@ class IoT1ClickProjects {
     final response = await _protocol.send(
       payload: $payload,
       method: 'PUT',
-      requestUri: '/projects/${Uri.encodeComponent(projectName.toString())}',
+      requestUri: '/projects/${Uri.encodeComponent(projectName)}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateProjectResponse.fromJson(response);

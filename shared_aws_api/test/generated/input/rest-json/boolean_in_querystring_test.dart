@@ -12,7 +12,7 @@ void main() {
   test('Boolean in querystring 0', () async {
     final client = MockClient((request) async {
       expect(request.body, equalsJson(r''''''));
-      expect(pathAndQuery(request.url), '/path?bool-query=true');
+      expect(request.url, equalsPathAndQuery('/path?bool-query=true'));
       return Response('{}', 200, headers: {});
     });
 
@@ -34,7 +34,7 @@ void main() {
   test('Boolean in querystring 1', () async {
     final client = MockClient((request) async {
       expect(request.body, equalsJson(r''''''));
-      expect(pathAndQuery(request.url), '/path?bool-query=false');
+      expect(request.url, equalsPathAndQuery('/path?bool-query=false'));
       return Response('{}', 200, headers: {});
     });
 

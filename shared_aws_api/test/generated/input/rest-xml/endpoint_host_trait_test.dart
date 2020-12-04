@@ -15,7 +15,7 @@ void main() {
           request.body,
           equalsXml(
               r'''<StaticOpRequest><Name>myname</Name></StaticOpRequest>'''));
-      expect(pathAndQuery(request.url), '/path');
+      expect(request.url, equalsPathAndQuery('/path'));
       //expect(request.url.host, 'data-service.region.amazonaws.com');
       return Response('<Response></Response>', 200, headers: {});
     });
@@ -41,7 +41,7 @@ void main() {
           request.body,
           equalsXml(
               r'''<MemberRefOpRequest><Name>myname</Name></MemberRefOpRequest>'''));
-      expect(pathAndQuery(request.url), '/path');
+      expect(request.url, equalsPathAndQuery('/path'));
       //expect(request.url.host, 'foo-myname.service.region.amazonaws.com');
       return Response('<Response></Response>', 200, headers: {});
     });

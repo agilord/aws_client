@@ -13,7 +13,8 @@ void main() {
     final client = MockClient((request) async {
       expect(request.body, equalsJson(r'''contents'''));
       expect(request.headers['x-amz-sha256-tree-hash'], 'foo');
-      expect(pathAndQuery(request.url), '/2014-01-01/vaults/name/archives');
+      expect(
+          request.url, equalsPathAndQuery('/2014-01-01/vaults/name/archives'));
       return Response('{}', 200, headers: {});
     });
 

@@ -42,15 +42,14 @@ class OmitsNullQueryParamsButSerializesEmptyStrings {
   Future<void> operationName0({
     String foo,
   }) async {
-    var _query = '';
-    _query = '?${[
-      if (foo != null) _s.toQueryParam('param-name', foo),
-    ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $query = <String, List<String>>{
+      if (foo != null) 'param-name': [foo],
+    };
     await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'POST',
-      requestUri: '/path$_query',
+      requestUri: '/path',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -58,15 +57,14 @@ class OmitsNullQueryParamsButSerializesEmptyStrings {
   Future<void> operationName1({
     String foo,
   }) async {
-    var _query = '';
-    _query = '&${[
-      if (foo != null) _s.toQueryParam('param-name', foo),
-    ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $query = <String, List<String>>{
+      if (foo != null) 'param-name': [foo],
+    };
     await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'POST',
-      requestUri: '/path?abc=mno$_query',
+      requestUri: '/path?abc=mno',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
   }

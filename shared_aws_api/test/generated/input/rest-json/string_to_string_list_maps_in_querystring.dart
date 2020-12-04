@@ -43,15 +43,16 @@ class StringToStringListMapsInQuerystring {
     String pipelineId,
     Map<String, List<String>> queryDoc,
   }) async {
-    var _query = '';
-    _query = '?${[
-      if (queryDoc != null) _s.toQueryParam(null, queryDoc),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (queryDoc != null)
+        for (var e in queryDoc.entries) e.key: e.value,
+    };
     await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/2014-01-01/jobsByPipeline/${Uri.encodeComponent(pipelineId.toString())}$_query',
+          '/2014-01-01/jobsByPipeline/${Uri.encodeComponent(pipelineId)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
   }

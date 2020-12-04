@@ -82,8 +82,7 @@ class S3Control {
     accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
     await _protocol.send(
       method: 'PUT',
-      requestUri:
-          '/v20180820/accesspoint/${Uri.encodeComponent(name.toString())}',
+      requestUri: '/v20180820/accesspoint/${Uri.encodeComponent(name)}',
       headers: headers,
       payload: CreateAccessPointRequest(
               accountId: accountId,
@@ -263,8 +262,7 @@ class S3Control {
     accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
     await _protocol.send(
       method: 'DELETE',
-      requestUri:
-          '/v20180820/accesspoint/${Uri.encodeComponent(name.toString())}',
+      requestUri: '/v20180820/accesspoint/${Uri.encodeComponent(name)}',
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
@@ -301,8 +299,7 @@ class S3Control {
     accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
     await _protocol.send(
       method: 'DELETE',
-      requestUri:
-          '/v20180820/accesspoint/${Uri.encodeComponent(name.toString())}/policy',
+      requestUri: '/v20180820/accesspoint/${Uri.encodeComponent(name)}/policy',
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
@@ -344,8 +341,7 @@ class S3Control {
     accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
     await _protocol.send(
       method: 'DELETE',
-      requestUri:
-          '/v20180820/jobs/${Uri.encodeComponent(jobId.toString())}/tagging',
+      requestUri: '/v20180820/jobs/${Uri.encodeComponent(jobId)}/tagging',
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
@@ -415,7 +411,7 @@ class S3Control {
     accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri: '/v20180820/jobs/${Uri.encodeComponent(jobId.toString())}',
+      requestUri: '/v20180820/jobs/${Uri.encodeComponent(jobId)}',
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
@@ -454,8 +450,7 @@ class S3Control {
     accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri:
-          '/v20180820/accesspoint/${Uri.encodeComponent(name.toString())}',
+      requestUri: '/v20180820/accesspoint/${Uri.encodeComponent(name)}',
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
@@ -494,8 +489,7 @@ class S3Control {
     accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri:
-          '/v20180820/accesspoint/${Uri.encodeComponent(name.toString())}/policy',
+      requestUri: '/v20180820/accesspoint/${Uri.encodeComponent(name)}/policy',
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
@@ -539,7 +533,7 @@ class S3Control {
     final $result = await _protocol.send(
       method: 'GET',
       requestUri:
-          '/v20180820/accesspoint/${Uri.encodeComponent(name.toString())}/policyStatus',
+          '/v20180820/accesspoint/${Uri.encodeComponent(name)}/policyStatus',
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
@@ -582,8 +576,7 @@ class S3Control {
     accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
     final $result = await _protocol.send(
       method: 'GET',
-      requestUri:
-          '/v20180820/jobs/${Uri.encodeComponent(jobId.toString())}/tagging',
+      requestUri: '/v20180820/jobs/${Uri.encodeComponent(jobId)}/tagging',
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
@@ -684,14 +677,15 @@ class S3Control {
     );
     final headers = <String, String>{};
     accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
-    final queryParams = <String, String>{};
-    bucket?.let((v) => queryParams['bucket'] = v.toString());
-    maxResults?.let((v) => queryParams['maxResults'] = v.toString());
-    nextToken?.let((v) => queryParams['nextToken'] = v.toString());
+    final $query = <String, List<String>>{
+      if (bucket != null) 'bucket': [bucket],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
     final $result = await _protocol.send(
       method: 'GET',
       requestUri: '/v20180820/accesspoint',
-      queryParams: queryParams,
+      queryParams: $query,
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
@@ -751,14 +745,16 @@ class S3Control {
     );
     final headers = <String, String>{};
     accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
-    final queryParams = <String, String>{};
-    jobStatuses?.let((v) => queryParams['jobStatuses'] = v.toString());
-    maxResults?.let((v) => queryParams['maxResults'] = v.toString());
-    nextToken?.let((v) => queryParams['nextToken'] = v.toString());
+    final $query = <String, List<String>>{
+      if (jobStatuses != null)
+        'jobStatuses': jobStatuses.map((e) => e?.toValue() ?? '').toList(),
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
     final $result = await _protocol.send(
       method: 'GET',
       requestUri: '/v20180820/jobs',
-      queryParams: queryParams,
+      queryParams: $query,
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
@@ -809,8 +805,7 @@ class S3Control {
     accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
     await _protocol.send(
       method: 'PUT',
-      requestUri:
-          '/v20180820/accesspoint/${Uri.encodeComponent(name.toString())}/policy',
+      requestUri: '/v20180820/accesspoint/${Uri.encodeComponent(name)}/policy',
       headers: headers,
       payload: PutAccessPointPolicyRequest(
               accountId: accountId, name: name, policy: policy)
@@ -867,8 +862,7 @@ class S3Control {
     accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
     await _protocol.send(
       method: 'PUT',
-      requestUri:
-          '/v20180820/jobs/${Uri.encodeComponent(jobId.toString())}/tagging',
+      requestUri: '/v20180820/jobs/${Uri.encodeComponent(jobId)}/tagging',
       headers: headers,
       payload:
           PutJobTaggingRequest(accountId: accountId, jobId: jobId, tags: tags)
@@ -965,13 +959,13 @@ class S3Control {
     );
     final headers = <String, String>{};
     accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
-    final queryParams = <String, String>{};
-    priority?.let((v) => queryParams['priority'] = v.toString());
+    final $query = <String, List<String>>{
+      if (priority != null) 'priority': [priority.toString()],
+    };
     final $result = await _protocol.send(
       method: 'POST',
-      requestUri:
-          '/v20180820/jobs/${Uri.encodeComponent(jobId.toString())}/priority',
-      queryParams: queryParams,
+      requestUri: '/v20180820/jobs/${Uri.encodeComponent(jobId)}/priority',
+      queryParams: $query,
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );
@@ -1030,16 +1024,16 @@ class S3Control {
     );
     final headers = <String, String>{};
     accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
-    final queryParams = <String, String>{};
-    requestedJobStatus
-        ?.let((v) => queryParams['requestedJobStatus'] = v.toValue());
-    statusUpdateReason
-        ?.let((v) => queryParams['statusUpdateReason'] = v.toString());
+    final $query = <String, List<String>>{
+      if (requestedJobStatus != null)
+        'requestedJobStatus': [requestedJobStatus.toValue()],
+      if (statusUpdateReason != null)
+        'statusUpdateReason': [statusUpdateReason],
+    };
     final $result = await _protocol.send(
       method: 'POST',
-      requestUri:
-          '/v20180820/jobs/${Uri.encodeComponent(jobId.toString())}/status',
-      queryParams: queryParams,
+      requestUri: '/v20180820/jobs/${Uri.encodeComponent(jobId)}/status',
+      queryParams: $query,
       headers: headers,
       exceptionFnMap: _exceptionFns,
     );

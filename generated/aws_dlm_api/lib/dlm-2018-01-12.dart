@@ -146,11 +146,10 @@ class DLM {
       r'''policy-[A-Za-z0-9]+''',
       isRequired: true,
     );
-    final $payload = <String, dynamic>{};
     final response = await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri: '/policies/${Uri.encodeComponent(policyId.toString())}/',
+      requestUri: '/policies/${Uri.encodeComponent(policyId)}/',
       exceptionFnMap: _exceptionFns,
     );
     return DeleteLifecyclePolicyResponse.fromJson(response);
@@ -194,20 +193,19 @@ class DLM {
     List<String> tagsToAdd,
     List<String> targetTags,
   }) async {
-    var _query = '';
-    _query = '?${[
-      if (policyIds != null) _s.toQueryParam('policyIds', policyIds),
+    final $query = <String, List<String>>{
+      if (policyIds != null) 'policyIds': policyIds,
       if (resourceTypes != null)
-        _s.toQueryParam('resourceTypes',
-            resourceTypes.map((e) => e?.toValue() ?? '').toList()),
-      if (state != null) _s.toQueryParam('state', state.toValue()),
-      if (tagsToAdd != null) _s.toQueryParam('tagsToAdd', tagsToAdd),
-      if (targetTags != null) _s.toQueryParam('targetTags', targetTags),
-    ].where((e) => e != null).join('&')}';
+        'resourceTypes': resourceTypes.map((e) => e?.toValue() ?? '').toList(),
+      if (state != null) 'state': [state.toValue()],
+      if (tagsToAdd != null) 'tagsToAdd': tagsToAdd,
+      if (targetTags != null) 'targetTags': targetTags,
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/policies$_query',
+      requestUri: '/policies',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return GetLifecyclePoliciesResponse.fromJson(response);
@@ -241,7 +239,7 @@ class DLM {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/policies/${Uri.encodeComponent(policyId.toString())}/',
+      requestUri: '/policies/${Uri.encodeComponent(policyId)}/',
       exceptionFnMap: _exceptionFns,
     );
     return GetLifecyclePolicyResponse.fromJson(response);
@@ -275,7 +273,7 @@ class DLM {
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsForResourceResponse.fromJson(response);
@@ -317,7 +315,7 @@ class DLM {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
       exceptionFnMap: _exceptionFns,
     );
     return TagResourceResponse.fromJson(response);
@@ -353,15 +351,14 @@ class DLM {
       isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
-    var _query = '';
-    _query = '?${[
-      if (tagKeys != null) _s.toQueryParam('tagKeys', tagKeys),
-    ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $query = <String, List<String>>{
+      if (tagKeys != null) 'tagKeys': tagKeys,
+    };
     final response = await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri: '/tags/${Uri.encodeComponent(resourceArn.toString())}$_query',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return UntagResourceResponse.fromJson(response);
@@ -442,7 +439,7 @@ class DLM {
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
-      requestUri: '/policies/${Uri.encodeComponent(policyId.toString())}',
+      requestUri: '/policies/${Uri.encodeComponent(policyId)}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateLifecyclePolicyResponse.fromJson(response);

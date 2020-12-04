@@ -49,10 +49,10 @@ class StreamingPayload {
     checksum?.let((v) => headers['x-amz-sha256-tree-hash'] = v.toString());
     await _protocol.send(
       payload: body,
-      headers: headers,
       method: 'POST',
       requestUri:
-          '/2014-01-01/vaults/${Uri.encodeComponent(vaultName.toString())}/archives',
+          '/2014-01-01/vaults/${Uri.encodeComponent(vaultName)}/archives',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
   }

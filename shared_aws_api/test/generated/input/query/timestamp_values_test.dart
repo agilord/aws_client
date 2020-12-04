@@ -15,7 +15,7 @@ void main() {
           request.body,
           equalsQuery(
               r'''Action=OperationName&Version=2014-01-01&TimeArg=2015-01-25T08%3A00%3A00Z&TimeCustom=1422172800&TimeFormat=1422172800'''));
-      expect(pathAndQuery(request.url), '/');
+      expect(request.url, equalsPathAndQuery('/'));
       return Response('<Response></Response>', 200, headers: {});
     });
 

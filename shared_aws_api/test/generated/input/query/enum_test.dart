@@ -15,7 +15,7 @@ void main() {
           request.body,
           equalsQuery(
               r'''Action=OperationName&Version=2014-01-01&FooEnum=foo&ListEnums.member.1=foo&ListEnums.member.2=&ListEnums.member.3=bar'''));
-      expect(pathAndQuery(request.url), '/');
+      expect(request.url, equalsPathAndQuery('/'));
       return Response('<Response></Response>', 200, headers: {});
     });
 
@@ -46,7 +46,7 @@ void main() {
           request.body,
           equalsQuery(
               r'''Action=OperationName&Version=2014-01-01&FooEnum=foo'''));
-      expect(pathAndQuery(request.url), '/');
+      expect(request.url, equalsPathAndQuery('/'));
       return Response('<Response></Response>', 200, headers: {});
     });
 
@@ -69,7 +69,7 @@ void main() {
     final client = MockClient((request) async {
       expect(request.body,
           equalsQuery(r'''Action=OperationName&Version=2014-01-01'''));
-      expect(pathAndQuery(request.url), '/');
+      expect(request.url, equalsPathAndQuery('/'));
       return Response('<Response></Response>', 200, headers: {});
     });
 

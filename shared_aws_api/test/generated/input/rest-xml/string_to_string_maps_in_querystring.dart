@@ -35,13 +35,15 @@ class StringToStringMapsInQuerystring {
     String pipelineId,
     Map<String, String> queryDoc,
   }) async {
-    final queryParams = <String, String>{};
-    queryDoc?.let((v) => queryParams['QueryDoc'] = v.toString());
+    final $query = <String, List<String>>{
+      if (queryDoc != null)
+        for (var e in queryDoc.entries) e.key: [e.value],
+    };
     await _protocol.send(
       method: 'GET',
       requestUri:
-          '/2014-01-01/jobsByPipeline/${Uri.encodeComponent(pipelineId.toString())}',
-      queryParams: queryParams,
+          '/2014-01-01/jobsByPipeline/${Uri.encodeComponent(pipelineId)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
   }

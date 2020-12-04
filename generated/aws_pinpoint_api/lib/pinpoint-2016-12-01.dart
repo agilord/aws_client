@@ -91,8 +91,7 @@ class Pinpoint {
     final response = await _protocol.sendRaw(
       payload: writeCampaignRequest,
       method: 'POST',
-      requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/campaigns',
+      requestUri: '/v1/apps/${Uri.encodeComponent(applicationId)}/campaigns',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -124,8 +123,7 @@ class Pinpoint {
     final response = await _protocol.sendRaw(
       payload: emailTemplateRequest,
       method: 'POST',
-      requestUri:
-          '/v1/templates/${Uri.encodeComponent(templateName.toString())}/email',
+      requestUri: '/v1/templates/${Uri.encodeComponent(templateName)}/email',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -156,8 +154,7 @@ class Pinpoint {
     final response = await _protocol.sendRaw(
       payload: exportJobRequest,
       method: 'POST',
-      requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/jobs/export',
+      requestUri: '/v1/apps/${Uri.encodeComponent(applicationId)}/jobs/export',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -188,8 +185,7 @@ class Pinpoint {
     final response = await _protocol.sendRaw(
       payload: importJobRequest,
       method: 'POST',
-      requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/jobs/import',
+      requestUri: '/v1/apps/${Uri.encodeComponent(applicationId)}/jobs/import',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -220,8 +216,7 @@ class Pinpoint {
     final response = await _protocol.sendRaw(
       payload: writeJourneyRequest,
       method: 'POST',
-      requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/journeys',
+      requestUri: '/v1/apps/${Uri.encodeComponent(applicationId)}/journeys',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -255,8 +250,7 @@ class Pinpoint {
     final response = await _protocol.sendRaw(
       payload: pushNotificationTemplateRequest,
       method: 'POST',
-      requestUri:
-          '/v1/templates/${Uri.encodeComponent(templateName.toString())}/push',
+      requestUri: '/v1/templates/${Uri.encodeComponent(templateName)}/push',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -317,8 +311,7 @@ class Pinpoint {
     final response = await _protocol.sendRaw(
       payload: writeSegmentRequest,
       method: 'POST',
-      requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/segments',
+      requestUri: '/v1/apps/${Uri.encodeComponent(applicationId)}/segments',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -350,8 +343,7 @@ class Pinpoint {
     final response = await _protocol.sendRaw(
       payload: sMSTemplateRequest,
       method: 'POST',
-      requestUri:
-          '/v1/templates/${Uri.encodeComponent(templateName.toString())}/sms',
+      requestUri: '/v1/templates/${Uri.encodeComponent(templateName)}/sms',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -383,8 +375,7 @@ class Pinpoint {
     final response = await _protocol.sendRaw(
       payload: voiceTemplateRequest,
       method: 'POST',
-      requestUri:
-          '/v1/templates/${Uri.encodeComponent(templateName.toString())}/voice',
+      requestUri: '/v1/templates/${Uri.encodeComponent(templateName)}/voice',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -411,12 +402,10 @@ class Pinpoint {
     @_s.required String applicationId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    final $payload = <String, dynamic>{};
     final response = await _protocol.sendRaw(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/adm',
+      requestUri: '/v1/apps/${Uri.encodeComponent(applicationId)}/channels/adm',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -443,12 +432,11 @@ class Pinpoint {
     @_s.required String applicationId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    final $payload = <String, dynamic>{};
     final response = await _protocol.sendRaw(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/apns',
+          '/v1/apps/${Uri.encodeComponent(applicationId)}/channels/apns',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -475,12 +463,11 @@ class Pinpoint {
     @_s.required String applicationId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    final $payload = <String, dynamic>{};
     final response = await _protocol.sendRaw(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/apns_sandbox',
+          '/v1/apps/${Uri.encodeComponent(applicationId)}/channels/apns_sandbox',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -507,12 +494,11 @@ class Pinpoint {
     @_s.required String applicationId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    final $payload = <String, dynamic>{};
     final response = await _protocol.sendRaw(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/apns_voip',
+          '/v1/apps/${Uri.encodeComponent(applicationId)}/channels/apns_voip',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -539,12 +525,11 @@ class Pinpoint {
     @_s.required String applicationId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    final $payload = <String, dynamic>{};
     final response = await _protocol.sendRaw(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/apns_voip_sandbox',
+          '/v1/apps/${Uri.encodeComponent(applicationId)}/channels/apns_voip_sandbox',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -571,11 +556,10 @@ class Pinpoint {
     @_s.required String applicationId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    final $payload = <String, dynamic>{};
     final response = await _protocol.sendRaw(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri: '/v1/apps/${Uri.encodeComponent(applicationId.toString())}',
+      requestUri: '/v1/apps/${Uri.encodeComponent(applicationId)}',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -602,12 +586,11 @@ class Pinpoint {
     @_s.required String applicationId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    final $payload = <String, dynamic>{};
     final response = await _protocol.sendRaw(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/baidu',
+          '/v1/apps/${Uri.encodeComponent(applicationId)}/channels/baidu',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -638,12 +621,11 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(campaignId, 'campaignId');
-    final $payload = <String, dynamic>{};
     final response = await _protocol.sendRaw(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/campaigns/${Uri.encodeComponent(campaignId.toString())}',
+          '/v1/apps/${Uri.encodeComponent(applicationId)}/campaigns/${Uri.encodeComponent(campaignId)}',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -670,12 +652,11 @@ class Pinpoint {
     @_s.required String applicationId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    final $payload = <String, dynamic>{};
     final response = await _protocol.sendRaw(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/email',
+          '/v1/apps/${Uri.encodeComponent(applicationId)}/channels/email',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -736,16 +717,14 @@ class Pinpoint {
     String version,
   }) async {
     ArgumentError.checkNotNull(templateName, 'templateName');
-    var _query = '';
-    _query = '?${[
-      if (version != null) _s.toQueryParam('version', version),
-    ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $query = <String, List<String>>{
+      if (version != null) 'version': [version],
+    };
     final response = await _protocol.sendRaw(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri:
-          '/v1/templates/${Uri.encodeComponent(templateName.toString())}/email$_query',
+      requestUri: '/v1/templates/${Uri.encodeComponent(templateName)}/email',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -776,12 +755,11 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(endpointId, 'endpointId');
-    final $payload = <String, dynamic>{};
     final response = await _protocol.sendRaw(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/endpoints/${Uri.encodeComponent(endpointId.toString())}',
+          '/v1/apps/${Uri.encodeComponent(applicationId)}/endpoints/${Uri.encodeComponent(endpointId)}',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -807,12 +785,10 @@ class Pinpoint {
     @_s.required String applicationId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    final $payload = <String, dynamic>{};
     final response = await _protocol.sendRaw(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/eventstream',
+      requestUri: '/v1/apps/${Uri.encodeComponent(applicationId)}/eventstream',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -839,12 +815,10 @@ class Pinpoint {
     @_s.required String applicationId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    final $payload = <String, dynamic>{};
     final response = await _protocol.sendRaw(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/gcm',
+      requestUri: '/v1/apps/${Uri.encodeComponent(applicationId)}/channels/gcm',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -875,12 +849,11 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(journeyId, 'journeyId');
-    final $payload = <String, dynamic>{};
     final response = await _protocol.sendRaw(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/journeys/${Uri.encodeComponent(journeyId.toString())}',
+          '/v1/apps/${Uri.encodeComponent(applicationId)}/journeys/${Uri.encodeComponent(journeyId)}',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -941,16 +914,14 @@ class Pinpoint {
     String version,
   }) async {
     ArgumentError.checkNotNull(templateName, 'templateName');
-    var _query = '';
-    _query = '?${[
-      if (version != null) _s.toQueryParam('version', version),
-    ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $query = <String, List<String>>{
+      if (version != null) 'version': [version],
+    };
     final response = await _protocol.sendRaw(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri:
-          '/v1/templates/${Uri.encodeComponent(templateName.toString())}/push$_query',
+      requestUri: '/v1/templates/${Uri.encodeComponent(templateName)}/push',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -978,12 +949,10 @@ class Pinpoint {
     @_s.required String recommenderId,
   }) async {
     ArgumentError.checkNotNull(recommenderId, 'recommenderId');
-    final $payload = <String, dynamic>{};
     final response = await _protocol.sendRaw(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri:
-          '/v1/recommenders/${Uri.encodeComponent(recommenderId.toString())}',
+      requestUri: '/v1/recommenders/${Uri.encodeComponent(recommenderId)}',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -1015,12 +984,11 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(segmentId, 'segmentId');
-    final $payload = <String, dynamic>{};
     final response = await _protocol.sendRaw(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/segments/${Uri.encodeComponent(segmentId.toString())}',
+          '/v1/apps/${Uri.encodeComponent(applicationId)}/segments/${Uri.encodeComponent(segmentId)}',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -1047,12 +1015,10 @@ class Pinpoint {
     @_s.required String applicationId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    final $payload = <String, dynamic>{};
     final response = await _protocol.sendRaw(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/sms',
+      requestUri: '/v1/apps/${Uri.encodeComponent(applicationId)}/channels/sms',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -1113,16 +1079,14 @@ class Pinpoint {
     String version,
   }) async {
     ArgumentError.checkNotNull(templateName, 'templateName');
-    var _query = '';
-    _query = '?${[
-      if (version != null) _s.toQueryParam('version', version),
-    ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $query = <String, List<String>>{
+      if (version != null) 'version': [version],
+    };
     final response = await _protocol.sendRaw(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri:
-          '/v1/templates/${Uri.encodeComponent(templateName.toString())}/sms$_query',
+      requestUri: '/v1/templates/${Uri.encodeComponent(templateName)}/sms',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -1153,12 +1117,11 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(userId, 'userId');
-    final $payload = <String, dynamic>{};
     final response = await _protocol.sendRaw(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/users/${Uri.encodeComponent(userId.toString())}',
+          '/v1/apps/${Uri.encodeComponent(applicationId)}/users/${Uri.encodeComponent(userId)}',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -1185,12 +1148,11 @@ class Pinpoint {
     @_s.required String applicationId,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    final $payload = <String, dynamic>{};
     final response = await _protocol.sendRaw(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/voice',
+          '/v1/apps/${Uri.encodeComponent(applicationId)}/channels/voice',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -1251,16 +1213,14 @@ class Pinpoint {
     String version,
   }) async {
     ArgumentError.checkNotNull(templateName, 'templateName');
-    var _query = '';
-    _query = '?${[
-      if (version != null) _s.toQueryParam('version', version),
-    ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $query = <String, List<String>>{
+      if (version != null) 'version': [version],
+    };
     final response = await _protocol.sendRaw(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri:
-          '/v1/templates/${Uri.encodeComponent(templateName.toString())}/voice$_query',
+      requestUri: '/v1/templates/${Uri.encodeComponent(templateName)}/voice',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -1290,8 +1250,7 @@ class Pinpoint {
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/adm',
+      requestUri: '/v1/apps/${Uri.encodeComponent(applicationId)}/channels/adm',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -1322,7 +1281,7 @@ class Pinpoint {
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/apns',
+          '/v1/apps/${Uri.encodeComponent(applicationId)}/channels/apns',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -1353,7 +1312,7 @@ class Pinpoint {
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/apns_sandbox',
+          '/v1/apps/${Uri.encodeComponent(applicationId)}/channels/apns_sandbox',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -1384,7 +1343,7 @@ class Pinpoint {
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/apns_voip',
+          '/v1/apps/${Uri.encodeComponent(applicationId)}/channels/apns_voip',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -1415,7 +1374,7 @@ class Pinpoint {
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/apns_voip_sandbox',
+          '/v1/apps/${Uri.encodeComponent(applicationId)}/channels/apns_voip_sandbox',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -1445,7 +1404,7 @@ class Pinpoint {
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
-      requestUri: '/v1/apps/${Uri.encodeComponent(applicationId.toString())}',
+      requestUri: '/v1/apps/${Uri.encodeComponent(applicationId)}',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -1511,20 +1470,19 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(kpiName, 'kpiName');
-    var _query = '';
-    _query = '?${[
-      if (endTime != null)
-        _s.toQueryParam('end-time', _s.iso8601ToJson(endTime)),
-      if (nextToken != null) _s.toQueryParam('next-token', nextToken),
-      if (pageSize != null) _s.toQueryParam('page-size', pageSize),
+    final $query = <String, List<String>>{
+      if (endTime != null) 'end-time': [_s.iso8601ToJson(endTime).toString()],
+      if (nextToken != null) 'next-token': [nextToken],
+      if (pageSize != null) 'page-size': [pageSize],
       if (startTime != null)
-        _s.toQueryParam('start-time', _s.iso8601ToJson(startTime)),
-    ].where((e) => e != null).join('&')}';
+        'start-time': [_s.iso8601ToJson(startTime).toString()],
+    };
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/kpis/daterange/${Uri.encodeComponent(kpiName.toString())}$_query',
+          '/v1/apps/${Uri.encodeComponent(applicationId)}/kpis/daterange/${Uri.encodeComponent(kpiName)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -1554,8 +1512,7 @@ class Pinpoint {
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/settings',
+      requestUri: '/v1/apps/${Uri.encodeComponent(applicationId)}/settings',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -1587,15 +1544,15 @@ class Pinpoint {
     String pageSize,
     String token,
   }) async {
-    var _query = '';
-    _query = '?${[
-      if (pageSize != null) _s.toQueryParam('page-size', pageSize),
-      if (token != null) _s.toQueryParam('token', token),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (pageSize != null) 'page-size': [pageSize],
+      if (token != null) 'token': [token],
+    };
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
-      requestUri: '/v1/apps$_query',
+      requestUri: '/v1/apps',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -1626,7 +1583,7 @@ class Pinpoint {
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/baidu',
+          '/v1/apps/${Uri.encodeComponent(applicationId)}/channels/baidu',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -1662,7 +1619,7 @@ class Pinpoint {
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/campaigns/${Uri.encodeComponent(campaignId.toString())}',
+          '/v1/apps/${Uri.encodeComponent(applicationId)}/campaigns/${Uri.encodeComponent(campaignId)}',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -1704,16 +1661,16 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(campaignId, 'campaignId');
-    var _query = '';
-    _query = '?${[
-      if (pageSize != null) _s.toQueryParam('page-size', pageSize),
-      if (token != null) _s.toQueryParam('token', token),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (pageSize != null) 'page-size': [pageSize],
+      if (token != null) 'token': [token],
+    };
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/campaigns/${Uri.encodeComponent(campaignId.toString())}/activities$_query',
+          '/v1/apps/${Uri.encodeComponent(applicationId)}/campaigns/${Uri.encodeComponent(campaignId)}/activities',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -1784,20 +1741,19 @@ class Pinpoint {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(campaignId, 'campaignId');
     ArgumentError.checkNotNull(kpiName, 'kpiName');
-    var _query = '';
-    _query = '?${[
-      if (endTime != null)
-        _s.toQueryParam('end-time', _s.iso8601ToJson(endTime)),
-      if (nextToken != null) _s.toQueryParam('next-token', nextToken),
-      if (pageSize != null) _s.toQueryParam('page-size', pageSize),
+    final $query = <String, List<String>>{
+      if (endTime != null) 'end-time': [_s.iso8601ToJson(endTime).toString()],
+      if (nextToken != null) 'next-token': [nextToken],
+      if (pageSize != null) 'page-size': [pageSize],
       if (startTime != null)
-        _s.toQueryParam('start-time', _s.iso8601ToJson(startTime)),
-    ].where((e) => e != null).join('&')}';
+        'start-time': [_s.iso8601ToJson(startTime).toString()],
+    };
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/campaigns/${Uri.encodeComponent(campaignId.toString())}/kpis/daterange/${Uri.encodeComponent(kpiName.toString())}$_query',
+          '/v1/apps/${Uri.encodeComponent(applicationId)}/campaigns/${Uri.encodeComponent(campaignId)}/kpis/daterange/${Uri.encodeComponent(kpiName)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -1839,7 +1795,7 @@ class Pinpoint {
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/campaigns/${Uri.encodeComponent(campaignId.toString())}/versions/${Uri.encodeComponent(version.toString())}',
+          '/v1/apps/${Uri.encodeComponent(applicationId)}/campaigns/${Uri.encodeComponent(campaignId)}/versions/${Uri.encodeComponent(version)}',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -1882,16 +1838,16 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(campaignId, 'campaignId');
-    var _query = '';
-    _query = '?${[
-      if (pageSize != null) _s.toQueryParam('page-size', pageSize),
-      if (token != null) _s.toQueryParam('token', token),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (pageSize != null) 'page-size': [pageSize],
+      if (token != null) 'token': [token],
+    };
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/campaigns/${Uri.encodeComponent(campaignId.toString())}/versions$_query',
+          '/v1/apps/${Uri.encodeComponent(applicationId)}/campaigns/${Uri.encodeComponent(campaignId)}/versions',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -1929,16 +1885,15 @@ class Pinpoint {
     String token,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    var _query = '';
-    _query = '?${[
-      if (pageSize != null) _s.toQueryParam('page-size', pageSize),
-      if (token != null) _s.toQueryParam('token', token),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (pageSize != null) 'page-size': [pageSize],
+      if (token != null) 'token': [token],
+    };
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/campaigns$_query',
+      requestUri: '/v1/apps/${Uri.encodeComponent(applicationId)}/campaigns',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -1968,8 +1923,7 @@ class Pinpoint {
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels',
+      requestUri: '/v1/apps/${Uri.encodeComponent(applicationId)}/channels',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -2000,7 +1954,7 @@ class Pinpoint {
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/email',
+          '/v1/apps/${Uri.encodeComponent(applicationId)}/channels/email',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -2061,15 +2015,14 @@ class Pinpoint {
     String version,
   }) async {
     ArgumentError.checkNotNull(templateName, 'templateName');
-    var _query = '';
-    _query = '?${[
-      if (version != null) _s.toQueryParam('version', version),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (version != null) 'version': [version],
+    };
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/v1/templates/${Uri.encodeComponent(templateName.toString())}/email$_query',
+      requestUri: '/v1/templates/${Uri.encodeComponent(templateName)}/email',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -2105,7 +2058,7 @@ class Pinpoint {
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/endpoints/${Uri.encodeComponent(endpointId.toString())}',
+          '/v1/apps/${Uri.encodeComponent(applicationId)}/endpoints/${Uri.encodeComponent(endpointId)}',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -2134,8 +2087,7 @@ class Pinpoint {
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/eventstream',
+      requestUri: '/v1/apps/${Uri.encodeComponent(applicationId)}/eventstream',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -2171,7 +2123,7 @@ class Pinpoint {
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/jobs/export/${Uri.encodeComponent(jobId.toString())}',
+          '/v1/apps/${Uri.encodeComponent(applicationId)}/jobs/export/${Uri.encodeComponent(jobId)}',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -2209,16 +2161,15 @@ class Pinpoint {
     String token,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    var _query = '';
-    _query = '?${[
-      if (pageSize != null) _s.toQueryParam('page-size', pageSize),
-      if (token != null) _s.toQueryParam('token', token),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (pageSize != null) 'page-size': [pageSize],
+      if (token != null) 'token': [token],
+    };
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/jobs/export$_query',
+      requestUri: '/v1/apps/${Uri.encodeComponent(applicationId)}/jobs/export',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -2248,8 +2199,7 @@ class Pinpoint {
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/gcm',
+      requestUri: '/v1/apps/${Uri.encodeComponent(applicationId)}/channels/gcm',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -2285,7 +2235,7 @@ class Pinpoint {
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/jobs/import/${Uri.encodeComponent(jobId.toString())}',
+          '/v1/apps/${Uri.encodeComponent(applicationId)}/jobs/import/${Uri.encodeComponent(jobId)}',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -2323,16 +2273,15 @@ class Pinpoint {
     String token,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    var _query = '';
-    _query = '?${[
-      if (pageSize != null) _s.toQueryParam('page-size', pageSize),
-      if (token != null) _s.toQueryParam('token', token),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (pageSize != null) 'page-size': [pageSize],
+      if (token != null) 'token': [token],
+    };
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/jobs/import$_query',
+      requestUri: '/v1/apps/${Uri.encodeComponent(applicationId)}/jobs/import',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -2368,7 +2317,7 @@ class Pinpoint {
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/journeys/${Uri.encodeComponent(journeyId.toString())}',
+          '/v1/apps/${Uri.encodeComponent(applicationId)}/journeys/${Uri.encodeComponent(journeyId)}',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -2439,20 +2388,19 @@ class Pinpoint {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(journeyId, 'journeyId');
     ArgumentError.checkNotNull(kpiName, 'kpiName');
-    var _query = '';
-    _query = '?${[
-      if (endTime != null)
-        _s.toQueryParam('end-time', _s.iso8601ToJson(endTime)),
-      if (nextToken != null) _s.toQueryParam('next-token', nextToken),
-      if (pageSize != null) _s.toQueryParam('page-size', pageSize),
+    final $query = <String, List<String>>{
+      if (endTime != null) 'end-time': [_s.iso8601ToJson(endTime).toString()],
+      if (nextToken != null) 'next-token': [nextToken],
+      if (pageSize != null) 'page-size': [pageSize],
       if (startTime != null)
-        _s.toQueryParam('start-time', _s.iso8601ToJson(startTime)),
-    ].where((e) => e != null).join('&')}';
+        'start-time': [_s.iso8601ToJson(startTime).toString()],
+    };
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/journeys/${Uri.encodeComponent(journeyId.toString())}/kpis/daterange/${Uri.encodeComponent(kpiName.toString())}$_query',
+          '/v1/apps/${Uri.encodeComponent(applicationId)}/journeys/${Uri.encodeComponent(journeyId)}/kpis/daterange/${Uri.encodeComponent(kpiName)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -2502,16 +2450,16 @@ class Pinpoint {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(journeyActivityId, 'journeyActivityId');
     ArgumentError.checkNotNull(journeyId, 'journeyId');
-    var _query = '';
-    _query = '?${[
-      if (nextToken != null) _s.toQueryParam('next-token', nextToken),
-      if (pageSize != null) _s.toQueryParam('page-size', pageSize),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (nextToken != null) 'next-token': [nextToken],
+      if (pageSize != null) 'page-size': [pageSize],
+    };
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/journeys/${Uri.encodeComponent(journeyId.toString())}/activities/${Uri.encodeComponent(journeyActivityId.toString())}/execution-metrics$_query',
+          '/v1/apps/${Uri.encodeComponent(applicationId)}/journeys/${Uri.encodeComponent(journeyId)}/activities/${Uri.encodeComponent(journeyActivityId)}/execution-metrics',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -2556,16 +2504,16 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(journeyId, 'journeyId');
-    var _query = '';
-    _query = '?${[
-      if (nextToken != null) _s.toQueryParam('next-token', nextToken),
-      if (pageSize != null) _s.toQueryParam('page-size', pageSize),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (nextToken != null) 'next-token': [nextToken],
+      if (pageSize != null) 'page-size': [pageSize],
+    };
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/journeys/${Uri.encodeComponent(journeyId.toString())}/execution-metrics$_query',
+          '/v1/apps/${Uri.encodeComponent(applicationId)}/journeys/${Uri.encodeComponent(journeyId)}/execution-metrics',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -2627,15 +2575,14 @@ class Pinpoint {
     String version,
   }) async {
     ArgumentError.checkNotNull(templateName, 'templateName');
-    var _query = '';
-    _query = '?${[
-      if (version != null) _s.toQueryParam('version', version),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (version != null) 'version': [version],
+    };
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/v1/templates/${Uri.encodeComponent(templateName.toString())}/push$_query',
+      requestUri: '/v1/templates/${Uri.encodeComponent(templateName)}/push',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -2667,8 +2614,7 @@ class Pinpoint {
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/v1/recommenders/${Uri.encodeComponent(recommenderId.toString())}',
+      requestUri: '/v1/recommenders/${Uri.encodeComponent(recommenderId)}',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -2701,15 +2647,15 @@ class Pinpoint {
     String pageSize,
     String token,
   }) async {
-    var _query = '';
-    _query = '?${[
-      if (pageSize != null) _s.toQueryParam('page-size', pageSize),
-      if (token != null) _s.toQueryParam('token', token),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (pageSize != null) 'page-size': [pageSize],
+      if (token != null) 'token': [token],
+    };
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
-      requestUri: '/v1/recommenders$_query',
+      requestUri: '/v1/recommenders',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -2746,7 +2692,7 @@ class Pinpoint {
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/segments/${Uri.encodeComponent(segmentId.toString())}',
+          '/v1/apps/${Uri.encodeComponent(applicationId)}/segments/${Uri.encodeComponent(segmentId)}',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -2789,16 +2735,16 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(segmentId, 'segmentId');
-    var _query = '';
-    _query = '?${[
-      if (pageSize != null) _s.toQueryParam('page-size', pageSize),
-      if (token != null) _s.toQueryParam('token', token),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (pageSize != null) 'page-size': [pageSize],
+      if (token != null) 'token': [token],
+    };
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/segments/${Uri.encodeComponent(segmentId.toString())}/jobs/export$_query',
+          '/v1/apps/${Uri.encodeComponent(applicationId)}/segments/${Uri.encodeComponent(segmentId)}/jobs/export',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -2841,16 +2787,16 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(segmentId, 'segmentId');
-    var _query = '';
-    _query = '?${[
-      if (pageSize != null) _s.toQueryParam('page-size', pageSize),
-      if (token != null) _s.toQueryParam('token', token),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (pageSize != null) 'page-size': [pageSize],
+      if (token != null) 'token': [token],
+    };
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/segments/${Uri.encodeComponent(segmentId.toString())}/jobs/import$_query',
+          '/v1/apps/${Uri.encodeComponent(applicationId)}/segments/${Uri.encodeComponent(segmentId)}/jobs/import',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -2892,7 +2838,7 @@ class Pinpoint {
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/segments/${Uri.encodeComponent(segmentId.toString())}/versions/${Uri.encodeComponent(version.toString())}',
+          '/v1/apps/${Uri.encodeComponent(applicationId)}/segments/${Uri.encodeComponent(segmentId)}/versions/${Uri.encodeComponent(version)}',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -2936,16 +2882,16 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
     ArgumentError.checkNotNull(segmentId, 'segmentId');
-    var _query = '';
-    _query = '?${[
-      if (pageSize != null) _s.toQueryParam('page-size', pageSize),
-      if (token != null) _s.toQueryParam('token', token),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (pageSize != null) 'page-size': [pageSize],
+      if (token != null) 'token': [token],
+    };
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/segments/${Uri.encodeComponent(segmentId.toString())}/versions$_query',
+          '/v1/apps/${Uri.encodeComponent(applicationId)}/segments/${Uri.encodeComponent(segmentId)}/versions',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -2983,16 +2929,15 @@ class Pinpoint {
     String token,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    var _query = '';
-    _query = '?${[
-      if (pageSize != null) _s.toQueryParam('page-size', pageSize),
-      if (token != null) _s.toQueryParam('token', token),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (pageSize != null) 'page-size': [pageSize],
+      if (token != null) 'token': [token],
+    };
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/segments$_query',
+      requestUri: '/v1/apps/${Uri.encodeComponent(applicationId)}/segments',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -3022,8 +2967,7 @@ class Pinpoint {
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/sms',
+      requestUri: '/v1/apps/${Uri.encodeComponent(applicationId)}/channels/sms',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -3084,15 +3028,14 @@ class Pinpoint {
     String version,
   }) async {
     ArgumentError.checkNotNull(templateName, 'templateName');
-    var _query = '';
-    _query = '?${[
-      if (version != null) _s.toQueryParam('version', version),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (version != null) 'version': [version],
+    };
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/v1/templates/${Uri.encodeComponent(templateName.toString())}/sms$_query',
+      requestUri: '/v1/templates/${Uri.encodeComponent(templateName)}/sms',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -3128,7 +3071,7 @@ class Pinpoint {
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/users/${Uri.encodeComponent(userId.toString())}',
+          '/v1/apps/${Uri.encodeComponent(applicationId)}/users/${Uri.encodeComponent(userId)}',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -3159,7 +3102,7 @@ class Pinpoint {
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/voice',
+          '/v1/apps/${Uri.encodeComponent(applicationId)}/channels/voice',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -3220,15 +3163,14 @@ class Pinpoint {
     String version,
   }) async {
     ArgumentError.checkNotNull(templateName, 'templateName');
-    var _query = '';
-    _query = '?${[
-      if (version != null) _s.toQueryParam('version', version),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (version != null) 'version': [version],
+    };
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/v1/templates/${Uri.encodeComponent(templateName.toString())}/voice$_query',
+      requestUri: '/v1/templates/${Uri.encodeComponent(templateName)}/voice',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -3266,16 +3208,15 @@ class Pinpoint {
     String token,
   }) async {
     ArgumentError.checkNotNull(applicationId, 'applicationId');
-    var _query = '';
-    _query = '?${[
-      if (pageSize != null) _s.toQueryParam('page-size', pageSize),
-      if (token != null) _s.toQueryParam('token', token),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (pageSize != null) 'page-size': [pageSize],
+      if (token != null) 'token': [token],
+    };
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/journeys$_query',
+      requestUri: '/v1/apps/${Uri.encodeComponent(applicationId)}/journeys',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -3296,7 +3237,7 @@ class Pinpoint {
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
-      requestUri: '/v1/tags/${Uri.encodeComponent(resourceArn.toString())}',
+      requestUri: '/v1/tags/${Uri.encodeComponent(resourceArn)}',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -3343,16 +3284,16 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(templateName, 'templateName');
     ArgumentError.checkNotNull(templateType, 'templateType');
-    var _query = '';
-    _query = '?${[
-      if (nextToken != null) _s.toQueryParam('next-token', nextToken),
-      if (pageSize != null) _s.toQueryParam('page-size', pageSize),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (nextToken != null) 'next-token': [nextToken],
+      if (pageSize != null) 'page-size': [pageSize],
+    };
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
       requestUri:
-          '/v1/templates/${Uri.encodeComponent(templateName.toString())}/${Uri.encodeComponent(templateType.toString())}/versions$_query',
+          '/v1/templates/${Uri.encodeComponent(templateName)}/${Uri.encodeComponent(templateType)}/versions',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -3395,17 +3336,17 @@ class Pinpoint {
     String prefix,
     String templateType,
   }) async {
-    var _query = '';
-    _query = '?${[
-      if (nextToken != null) _s.toQueryParam('next-token', nextToken),
-      if (pageSize != null) _s.toQueryParam('page-size', pageSize),
-      if (prefix != null) _s.toQueryParam('prefix', prefix),
-      if (templateType != null) _s.toQueryParam('template-type', templateType),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (nextToken != null) 'next-token': [nextToken],
+      if (pageSize != null) 'page-size': [pageSize],
+      if (prefix != null) 'prefix': [prefix],
+      if (templateType != null) 'template-type': [templateType],
+    };
     final response = await _protocol.sendRaw(
       payload: null,
       method: 'GET',
-      requestUri: '/v1/templates$_query',
+      requestUri: '/v1/templates',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -3462,8 +3403,7 @@ class Pinpoint {
     final response = await _protocol.sendRaw(
       payload: writeEventStream,
       method: 'POST',
-      requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/eventstream',
+      requestUri: '/v1/apps/${Uri.encodeComponent(applicationId)}/eventstream',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -3495,8 +3435,7 @@ class Pinpoint {
     final response = await _protocol.sendRaw(
       payload: eventsRequest,
       method: 'POST',
-      requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/events',
+      requestUri: '/v1/apps/${Uri.encodeComponent(applicationId)}/events',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -3552,7 +3491,7 @@ class Pinpoint {
       payload: updateAttributesRequest,
       method: 'PUT',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/attributes/${Uri.encodeComponent(attributeType.toString())}',
+          '/v1/apps/${Uri.encodeComponent(applicationId)}/attributes/${Uri.encodeComponent(attributeType)}',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -3583,8 +3522,7 @@ class Pinpoint {
     final response = await _protocol.sendRaw(
       payload: messageRequest,
       method: 'POST',
-      requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/messages',
+      requestUri: '/v1/apps/${Uri.encodeComponent(applicationId)}/messages',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -3617,7 +3555,7 @@ class Pinpoint {
       payload: sendUsersMessageRequest,
       method: 'POST',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/users-messages',
+          '/v1/apps/${Uri.encodeComponent(applicationId)}/users-messages',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -3640,7 +3578,7 @@ class Pinpoint {
     await _protocol.send(
       payload: tagsModel,
       method: 'POST',
-      requestUri: '/v1/tags/${Uri.encodeComponent(resourceArn.toString())}',
+      requestUri: '/v1/tags/${Uri.encodeComponent(resourceArn)}',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -3661,16 +3599,14 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
-    var _query = '';
-    _query = '?${[
-      if (tagKeys != null) _s.toQueryParam('tagKeys', tagKeys),
-    ].where((e) => e != null).join('&')}';
-    final $payload = <String, dynamic>{};
+    final $query = <String, List<String>>{
+      if (tagKeys != null) 'tagKeys': tagKeys,
+    };
     await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
-      requestUri:
-          '/v1/tags/${Uri.encodeComponent(resourceArn.toString())}$_query',
+      requestUri: '/v1/tags/${Uri.encodeComponent(resourceArn)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -3698,8 +3634,7 @@ class Pinpoint {
     final response = await _protocol.sendRaw(
       payload: aDMChannelRequest,
       method: 'PUT',
-      requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/adm',
+      requestUri: '/v1/apps/${Uri.encodeComponent(applicationId)}/channels/adm',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -3732,7 +3667,7 @@ class Pinpoint {
       payload: aPNSChannelRequest,
       method: 'PUT',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/apns',
+          '/v1/apps/${Uri.encodeComponent(applicationId)}/channels/apns',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -3766,7 +3701,7 @@ class Pinpoint {
       payload: aPNSSandboxChannelRequest,
       method: 'PUT',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/apns_sandbox',
+          '/v1/apps/${Uri.encodeComponent(applicationId)}/channels/apns_sandbox',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -3800,7 +3735,7 @@ class Pinpoint {
       payload: aPNSVoipChannelRequest,
       method: 'PUT',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/apns_voip',
+          '/v1/apps/${Uri.encodeComponent(applicationId)}/channels/apns_voip',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -3834,7 +3769,7 @@ class Pinpoint {
       payload: aPNSVoipSandboxChannelRequest,
       method: 'PUT',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/apns_voip_sandbox',
+          '/v1/apps/${Uri.encodeComponent(applicationId)}/channels/apns_voip_sandbox',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -3868,8 +3803,7 @@ class Pinpoint {
     final response = await _protocol.sendRaw(
       payload: writeApplicationSettingsRequest,
       method: 'PUT',
-      requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/settings',
+      requestUri: '/v1/apps/${Uri.encodeComponent(applicationId)}/settings',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -3902,7 +3836,7 @@ class Pinpoint {
       payload: baiduChannelRequest,
       method: 'PUT',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/baidu',
+          '/v1/apps/${Uri.encodeComponent(applicationId)}/channels/baidu',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -3939,7 +3873,7 @@ class Pinpoint {
       payload: writeCampaignRequest,
       method: 'PUT',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/campaigns/${Uri.encodeComponent(campaignId.toString())}',
+          '/v1/apps/${Uri.encodeComponent(applicationId)}/campaigns/${Uri.encodeComponent(campaignId)}',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -3972,7 +3906,7 @@ class Pinpoint {
       payload: emailChannelRequest,
       method: 'PUT',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/email',
+          '/v1/apps/${Uri.encodeComponent(applicationId)}/channels/email',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -4047,17 +3981,16 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(emailTemplateRequest, 'emailTemplateRequest');
     ArgumentError.checkNotNull(templateName, 'templateName');
-    var _query = '';
-    _query = '?${[
+    final $query = <String, List<String>>{
       if (createNewVersion != null)
-        _s.toQueryParam('create-new-version', createNewVersion),
-      if (version != null) _s.toQueryParam('version', version),
-    ].where((e) => e != null).join('&')}';
+        'create-new-version': [createNewVersion.toString()],
+      if (version != null) 'version': [version],
+    };
     final response = await _protocol.sendRaw(
       payload: emailTemplateRequest,
       method: 'PUT',
-      requestUri:
-          '/v1/templates/${Uri.encodeComponent(templateName.toString())}/email$_query',
+      requestUri: '/v1/templates/${Uri.encodeComponent(templateName)}/email',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -4097,7 +4030,7 @@ class Pinpoint {
       payload: endpointRequest,
       method: 'PUT',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/endpoints/${Uri.encodeComponent(endpointId.toString())}',
+          '/v1/apps/${Uri.encodeComponent(applicationId)}/endpoints/${Uri.encodeComponent(endpointId)}',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -4132,8 +4065,7 @@ class Pinpoint {
     final response = await _protocol.sendRaw(
       payload: endpointBatchRequest,
       method: 'PUT',
-      requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/endpoints',
+      requestUri: '/v1/apps/${Uri.encodeComponent(applicationId)}/endpoints',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -4165,8 +4097,7 @@ class Pinpoint {
     final response = await _protocol.sendRaw(
       payload: gCMChannelRequest,
       method: 'PUT',
-      requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/gcm',
+      requestUri: '/v1/apps/${Uri.encodeComponent(applicationId)}/channels/gcm',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -4203,7 +4134,7 @@ class Pinpoint {
       payload: writeJourneyRequest,
       method: 'PUT',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/journeys/${Uri.encodeComponent(journeyId.toString())}',
+          '/v1/apps/${Uri.encodeComponent(applicationId)}/journeys/${Uri.encodeComponent(journeyId)}',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -4240,7 +4171,7 @@ class Pinpoint {
       payload: journeyStateRequest,
       method: 'PUT',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/journeys/${Uri.encodeComponent(journeyId.toString())}/state',
+          '/v1/apps/${Uri.encodeComponent(applicationId)}/journeys/${Uri.encodeComponent(journeyId)}/state',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -4317,17 +4248,16 @@ class Pinpoint {
     ArgumentError.checkNotNull(
         pushNotificationTemplateRequest, 'pushNotificationTemplateRequest');
     ArgumentError.checkNotNull(templateName, 'templateName');
-    var _query = '';
-    _query = '?${[
+    final $query = <String, List<String>>{
       if (createNewVersion != null)
-        _s.toQueryParam('create-new-version', createNewVersion),
-      if (version != null) _s.toQueryParam('version', version),
-    ].where((e) => e != null).join('&')}';
+        'create-new-version': [createNewVersion.toString()],
+      if (version != null) 'version': [version],
+    };
     final response = await _protocol.sendRaw(
       payload: pushNotificationTemplateRequest,
       method: 'PUT',
-      requestUri:
-          '/v1/templates/${Uri.encodeComponent(templateName.toString())}/push$_query',
+      requestUri: '/v1/templates/${Uri.encodeComponent(templateName)}/push',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -4361,8 +4291,7 @@ class Pinpoint {
     final response = await _protocol.sendRaw(
       payload: updateRecommenderConfiguration,
       method: 'PUT',
-      requestUri:
-          '/v1/recommenders/${Uri.encodeComponent(recommenderId.toString())}',
+      requestUri: '/v1/recommenders/${Uri.encodeComponent(recommenderId)}',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -4402,7 +4331,7 @@ class Pinpoint {
       payload: writeSegmentRequest,
       method: 'PUT',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/segments/${Uri.encodeComponent(segmentId.toString())}',
+          '/v1/apps/${Uri.encodeComponent(applicationId)}/segments/${Uri.encodeComponent(segmentId)}',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -4434,8 +4363,7 @@ class Pinpoint {
     final response = await _protocol.sendRaw(
       payload: sMSChannelRequest,
       method: 'PUT',
-      requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/sms',
+      requestUri: '/v1/apps/${Uri.encodeComponent(applicationId)}/channels/sms',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -4510,17 +4438,16 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(sMSTemplateRequest, 'sMSTemplateRequest');
     ArgumentError.checkNotNull(templateName, 'templateName');
-    var _query = '';
-    _query = '?${[
+    final $query = <String, List<String>>{
       if (createNewVersion != null)
-        _s.toQueryParam('create-new-version', createNewVersion),
-      if (version != null) _s.toQueryParam('version', version),
-    ].where((e) => e != null).join('&')}';
+        'create-new-version': [createNewVersion.toString()],
+      if (version != null) 'version': [version],
+    };
     final response = await _protocol.sendRaw(
       payload: sMSTemplateRequest,
       method: 'PUT',
-      requestUri:
-          '/v1/templates/${Uri.encodeComponent(templateName.toString())}/sms$_query',
+      requestUri: '/v1/templates/${Uri.encodeComponent(templateName)}/sms',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -4562,7 +4489,7 @@ class Pinpoint {
       payload: templateActiveVersionRequest,
       method: 'PUT',
       requestUri:
-          '/v1/templates/${Uri.encodeComponent(templateName.toString())}/${Uri.encodeComponent(templateType.toString())}/active-version',
+          '/v1/templates/${Uri.encodeComponent(templateName)}/${Uri.encodeComponent(templateType)}/active-version',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -4595,7 +4522,7 @@ class Pinpoint {
       payload: voiceChannelRequest,
       method: 'PUT',
       requestUri:
-          '/v1/apps/${Uri.encodeComponent(applicationId.toString())}/channels/voice',
+          '/v1/apps/${Uri.encodeComponent(applicationId)}/channels/voice',
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);
@@ -4670,17 +4597,16 @@ class Pinpoint {
   }) async {
     ArgumentError.checkNotNull(templateName, 'templateName');
     ArgumentError.checkNotNull(voiceTemplateRequest, 'voiceTemplateRequest');
-    var _query = '';
-    _query = '?${[
+    final $query = <String, List<String>>{
       if (createNewVersion != null)
-        _s.toQueryParam('create-new-version', createNewVersion),
-      if (version != null) _s.toQueryParam('version', version),
-    ].where((e) => e != null).join('&')}';
+        'create-new-version': [createNewVersion.toString()],
+      if (version != null) 'version': [version],
+    };
     final response = await _protocol.sendRaw(
       payload: voiceTemplateRequest,
       method: 'PUT',
-      requestUri:
-          '/v1/templates/${Uri.encodeComponent(templateName.toString())}/voice$_query',
+      requestUri: '/v1/templates/${Uri.encodeComponent(templateName)}/voice',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     final $json = await _s.jsonFromResponse(response);

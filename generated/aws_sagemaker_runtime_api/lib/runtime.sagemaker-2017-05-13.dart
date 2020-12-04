@@ -189,10 +189,9 @@ class SageMakerRuntime {
         ?.let((v) => headers['X-Amzn-SageMaker-Target-Model'] = v.toString());
     final response = await _protocol.sendRaw(
       payload: body,
-      headers: headers,
       method: 'POST',
-      requestUri:
-          '/endpoints/${Uri.encodeComponent(endpointName.toString())}/invocations',
+      requestUri: '/endpoints/${Uri.encodeComponent(endpointName)}/invocations',
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
     return InvokeEndpointOutput(

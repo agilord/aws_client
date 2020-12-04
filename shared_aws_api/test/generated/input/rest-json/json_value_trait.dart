@@ -48,15 +48,15 @@ class JSONValueTrait {
   }) async {
     final headers = <String, String>{};
     headerField?.let((v) => headers['X-Amz-Foo'] = v.toString());
-    var _query = '';
-    _query = '?${[
-      if (queryField != null) _s.toQueryParam('Bar', queryField),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (queryField != null) 'Bar': [queryField],
+    };
     await _protocol.send(
       payload: body,
-      headers: headers,
       method: 'POST',
-      requestUri: '/$_query',
+      requestUri: '/',
+      queryParams: $query,
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -68,15 +68,15 @@ class JSONValueTrait {
   }) async {
     final headers = <String, String>{};
     headerField?.let((v) => headers['X-Amz-Foo'] = v.toString());
-    var _query = '';
-    _query = '?${[
-      if (queryField != null) _s.toQueryParam('Bar', queryField),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (queryField != null) 'Bar': [queryField],
+    };
     await _protocol.send(
       payload: body,
-      headers: headers,
       method: 'POST',
-      requestUri: '/$_query',
+      requestUri: '/',
+      queryParams: $query,
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -88,15 +88,15 @@ class JSONValueTrait {
   }) async {
     final headers = <String, String>{};
     headerField?.let((v) => headers['X-Amz-Foo'] = v.toString());
-    var _query = '';
-    _query = '?${[
-      if (queryField != null) _s.toQueryParam('Bar', queryField),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (queryField != null) 'Bar': [queryField],
+    };
     await _protocol.send(
       payload: body,
-      headers: headers,
       method: 'POST',
-      requestUri: '/$_query',
+      requestUri: '/',
+      queryParams: $query,
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
   }

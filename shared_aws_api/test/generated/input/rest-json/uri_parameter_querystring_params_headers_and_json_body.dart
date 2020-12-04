@@ -50,20 +50,20 @@ class URIParameterQuerystringParamsHeadersAndJSONBody {
   }) async {
     final headers = <String, String>{};
     checksum?.let((v) => headers['x-amz-checksum'] = v.toString());
-    var _query = '';
-    _query = '?${[
-      if (ascending != null) _s.toQueryParam('Ascending', ascending),
-      if (pageToken != null) _s.toQueryParam('PageToken', pageToken),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (ascending != null) 'Ascending': [ascending],
+      if (pageToken != null) 'PageToken': [pageToken],
+    };
     final $payload = <String, dynamic>{
       if (config != null) 'Config': config,
     };
     await _protocol.send(
       payload: $payload,
-      headers: headers,
       method: 'POST',
       requestUri:
-          '/2014-01-01/jobsByPipeline/${Uri.encodeComponent(pipelineId.toString())}$_query',
+          '/2014-01-01/jobsByPipeline/${Uri.encodeComponent(pipelineId)}',
+      queryParams: $query,
+      headers: headers,
       exceptionFnMap: _exceptionFns,
     );
   }

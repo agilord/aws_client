@@ -12,7 +12,7 @@ void main() {
   test('Blob payload 0', () async {
     final client = MockClient((request) async {
       expect(request.body, equalsXml(r'''bar'''));
-      expect(pathAndQuery(request.url), '/');
+      expect(request.url, equalsPathAndQuery('/'));
       expect(request.method, equalsIgnoringCase('POST'));
       return Response('<Response></Response>', 200, headers: {});
     });
@@ -35,7 +35,7 @@ void main() {
   test('Blob payload 1', () async {
     final client = MockClient((request) async {
       expect(request.body, equalsXml(r''''''));
-      expect(pathAndQuery(request.url), '/');
+      expect(request.url, equalsPathAndQuery('/'));
       expect(request.method, equalsIgnoringCase('POST'));
       return Response('<Response></Response>', 200, headers: {});
     });

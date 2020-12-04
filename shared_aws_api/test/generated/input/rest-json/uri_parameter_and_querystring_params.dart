@@ -44,16 +44,16 @@ class URIParameterAndQuerystringParams {
     String pageToken,
     String pipelineId,
   }) async {
-    var _query = '';
-    _query = '?${[
-      if (ascending != null) _s.toQueryParam('Ascending', ascending),
-      if (pageToken != null) _s.toQueryParam('PageToken', pageToken),
-    ].where((e) => e != null).join('&')}';
+    final $query = <String, List<String>>{
+      if (ascending != null) 'Ascending': [ascending],
+      if (pageToken != null) 'PageToken': [pageToken],
+    };
     await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/2014-01-01/jobsByPipeline/${Uri.encodeComponent(pipelineId.toString())}$_query',
+          '/2014-01-01/jobsByPipeline/${Uri.encodeComponent(pipelineId)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
   }

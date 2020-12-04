@@ -13,7 +13,7 @@ void main() {
     final client = MockClient((request) async {
       expect(request.body,
           equalsJson(r'''{"RecursiveStruct": {"NoRecurse": "foo"}}'''));
-      expect(pathAndQuery(request.url), '/path');
+      expect(request.url, equalsPathAndQuery('/path'));
       return Response('{}', 200, headers: {});
     });
 
@@ -42,7 +42,7 @@ void main() {
           request.body,
           equalsJson(
               r'''{"RecursiveStruct": {"RecursiveStruct": {"NoRecurse": "foo"}}}'''));
-      expect(pathAndQuery(request.url), '/path');
+      expect(request.url, equalsPathAndQuery('/path'));
       return Response('{}', 200, headers: {});
     });
 
@@ -75,7 +75,7 @@ void main() {
           request.body,
           equalsJson(
               r'''{"RecursiveStruct": {"RecursiveStruct": {"RecursiveStruct": {"RecursiveStruct": {"NoRecurse": "foo"}}}}}'''));
-      expect(pathAndQuery(request.url), '/path');
+      expect(request.url, equalsPathAndQuery('/path'));
       return Response('{}', 200, headers: {});
     });
 
@@ -116,7 +116,7 @@ void main() {
           request.body,
           equalsJson(
               r'''{"RecursiveStruct": {"RecursiveList": [{"NoRecurse": "foo"}, {"NoRecurse": "bar"}]}}'''));
-      expect(pathAndQuery(request.url), '/path');
+      expect(request.url, equalsPathAndQuery('/path'));
       return Response('{}', 200, headers: {});
     });
 
@@ -159,7 +159,7 @@ void main() {
           request.body,
           equalsJson(
               r'''{"RecursiveStruct": {"RecursiveList": [{"NoRecurse": "foo"}, {"RecursiveStruct": {"NoRecurse": "bar"}}]}}'''));
-      expect(pathAndQuery(request.url), '/path');
+      expect(request.url, equalsPathAndQuery('/path'));
       return Response('{}', 200, headers: {});
     });
 
@@ -206,7 +206,7 @@ void main() {
           request.body,
           equalsJson(
               r'''{"RecursiveStruct": {"RecursiveMap": {"foo": {"NoRecurse": "foo"}, "bar": {"NoRecurse": "bar"}}}}'''));
-      expect(pathAndQuery(request.url), '/path');
+      expect(request.url, equalsPathAndQuery('/path'));
       return Response('{}', 200, headers: {});
     });
 
