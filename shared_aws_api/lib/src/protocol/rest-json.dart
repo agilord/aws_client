@@ -60,6 +60,7 @@ class RestJsonProtocol {
         rq.body = json.encode(payload);
       }
     }
+    rq.headers['accept'] = 'application/json';
     if (headers != null) {
       rq.headers.addAll(headers);
     }
