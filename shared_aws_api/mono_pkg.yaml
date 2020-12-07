@@ -8,4 +8,4 @@ stages:
         - dartfmt
         - dartanalyzer: --fatal-infos --fatal-warnings .
   - unit_test:
-    - test: -j 1 --run-skipped
+    - test: -j 1

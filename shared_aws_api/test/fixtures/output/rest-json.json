@@ -402,6 +402,7 @@
   },
   {
     "description": "Complex Map Values",
+    "skip": "No api actually uses this, only this test",
     "metadata": {
       "protocol": "rest-json"
     },

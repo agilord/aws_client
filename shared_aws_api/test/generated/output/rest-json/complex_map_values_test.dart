@@ -32,5 +32,5 @@ void main() {
   }
 }
 */
-  });
+  }, skip: r'''No api actually uses this, only this test''');
 }
