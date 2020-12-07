@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -3591,9 +3589,7 @@ class CreateImageBuilderResult {
 class CreateImageBuilderStreamingURLResult {
   /// The elapsed time, in seconds after the Unix epoch, when this URL expires.
   @_s.JsonKey(
-      name: 'Expires',
-      fromJson: unixTimestampFromJson,
-      toJson: unixTimestampToJson)
+      name: 'Expires', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
   final DateTime expires;
 
   /// The URL to start the AppStream 2.0 streaming session.
@@ -3634,9 +3630,7 @@ class CreateStackResult {
 class CreateStreamingURLResult {
   /// The elapsed time, in seconds after the Unix epoch, when this URL expires.
   @_s.JsonKey(
-      name: 'Expires',
-      fromJson: unixTimestampFromJson,
-      toJson: unixTimestampToJson)
+      name: 'Expires', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
   final DateTime expires;
 
   /// The URL to start the AppStream 2.0 streaming session.
@@ -4048,7 +4042,7 @@ class DirectoryConfig {
   /// The time the directory configuration was created.
   @_s.JsonKey(
       name: 'CreatedTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdTime;
 
@@ -4235,7 +4229,7 @@ class Fleet {
   /// The time the fleet was created.
   @_s.JsonKey(
       name: 'CreatedTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdTime;
 
@@ -4541,7 +4535,7 @@ class Image {
   /// The time the image was created.
   @_s.JsonKey(
       name: 'CreatedTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdTime;
 
@@ -4575,7 +4569,7 @@ class Image {
   /// the release date of the base image from which the image was created.
   @_s.JsonKey(
       name: 'PublicBaseImageReleasedDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime publicBaseImageReleasedDate;
 
@@ -4643,7 +4637,7 @@ class ImageBuilder {
   /// The time stamp when the image builder was created.
   @_s.JsonKey(
       name: 'CreatedTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdTime;
 
@@ -5086,7 +5080,7 @@ class ResourceError {
   /// The time the error occurred.
   @_s.JsonKey(
       name: 'ErrorTimestamp',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime errorTimestamp;
 
@@ -5175,7 +5169,7 @@ class Session {
   /// terminated and the streaming session ends.
   @_s.JsonKey(
       name: 'MaxExpirationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime maxExpirationTime;
 
@@ -5186,7 +5180,7 @@ class Session {
   /// The time when a streaming instance is dedicated for the user.
   @_s.JsonKey(
       name: 'StartTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime startTime;
 
@@ -5274,7 +5268,7 @@ class Stack {
   /// The time the stack was created.
   @_s.JsonKey(
       name: 'CreatedTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdTime;
 
@@ -5621,7 +5615,7 @@ class UsageReportSubscription {
   /// The time when the last usage report was generated.
   @_s.JsonKey(
       name: 'LastGeneratedReportDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastGeneratedReportDate;
 
@@ -5673,7 +5667,7 @@ class User {
   /// The date and time the user was created in the user pool.
   @_s.JsonKey(
       name: 'CreatedTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdTime;
 

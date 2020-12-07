@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -1731,7 +1729,7 @@ class Credentials {
   /// The date at which these credentials will expire.
   @_s.JsonKey(
       name: 'Expiration',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime expiration;
 
@@ -1915,7 +1913,7 @@ class IdentityDescription {
   /// Date on which the identity was created.
   @_s.JsonKey(
       name: 'CreationDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDate;
 
@@ -1926,7 +1924,7 @@ class IdentityDescription {
   /// Date on which the identity was last modified.
   @_s.JsonKey(
       name: 'LastModifiedDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastModifiedDate;
 

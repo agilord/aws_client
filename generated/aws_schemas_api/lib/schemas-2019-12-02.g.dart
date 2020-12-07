@@ -72,7 +72,7 @@ CreateRegistryResponse _$CreateRegistryResponseFromJson(
 CreateSchemaResponse _$CreateSchemaResponseFromJson(Map<String, dynamic> json) {
   return CreateSchemaResponse(
     description: json['Description'] as String,
-    lastModified: iso8601FromJson(json['LastModified'] as String),
+    lastModified: timeStampFromJson(json['LastModified']),
     schemaArn: json['SchemaArn'] as String,
     schemaName: json['SchemaName'] as String,
     schemaVersion: json['SchemaVersion'] as String,
@@ -80,15 +80,15 @@ CreateSchemaResponse _$CreateSchemaResponseFromJson(Map<String, dynamic> json) {
       (k, e) => MapEntry(k, e as String),
     ),
     type: json['Type'] as String,
-    versionCreatedDate: iso8601FromJson(json['VersionCreatedDate'] as String),
+    versionCreatedDate: timeStampFromJson(json['VersionCreatedDate']),
   );
 }
 
 DescribeCodeBindingResponse _$DescribeCodeBindingResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeCodeBindingResponse(
-    creationDate: iso8601FromJson(json['CreationDate'] as String),
-    lastModified: iso8601FromJson(json['LastModified'] as String),
+    creationDate: timeStampFromJson(json['CreationDate']),
+    lastModified: timeStampFromJson(json['LastModified']),
     schemaVersion: json['SchemaVersion'] as String,
     status: _$enumDecodeNullable(_$CodeGenerationStatusEnumMap, json['Status']),
   );
@@ -131,7 +131,7 @@ DescribeSchemaResponse _$DescribeSchemaResponseFromJson(
   return DescribeSchemaResponse(
     content: json['Content'] as String,
     description: json['Description'] as String,
-    lastModified: iso8601FromJson(json['LastModified'] as String),
+    lastModified: timeStampFromJson(json['LastModified']),
     schemaArn: json['SchemaArn'] as String,
     schemaName: json['SchemaName'] as String,
     schemaVersion: json['SchemaVersion'] as String,
@@ -139,7 +139,7 @@ DescribeSchemaResponse _$DescribeSchemaResponseFromJson(
       (k, e) => MapEntry(k, e as String),
     ),
     type: json['Type'] as String,
-    versionCreatedDate: iso8601FromJson(json['VersionCreatedDate'] as String),
+    versionCreatedDate: timeStampFromJson(json['VersionCreatedDate']),
   );
 }
 
@@ -241,8 +241,8 @@ LockServiceLinkedRoleResponse _$LockServiceLinkedRoleResponseFromJson(
 PutCodeBindingResponse _$PutCodeBindingResponseFromJson(
     Map<String, dynamic> json) {
   return PutCodeBindingResponse(
-    creationDate: iso8601FromJson(json['CreationDate'] as String),
-    lastModified: iso8601FromJson(json['LastModified'] as String),
+    creationDate: timeStampFromJson(json['CreationDate']),
+    lastModified: timeStampFromJson(json['LastModified']),
     schemaVersion: json['SchemaVersion'] as String,
     status: _$enumDecodeNullable(_$CodeGenerationStatusEnumMap, json['Status']),
   );
@@ -260,7 +260,7 @@ RegistrySummary _$RegistrySummaryFromJson(Map<String, dynamic> json) {
 
 SchemaSummary _$SchemaSummaryFromJson(Map<String, dynamic> json) {
   return SchemaSummary(
-    lastModified: iso8601FromJson(json['LastModified'] as String),
+    lastModified: timeStampFromJson(json['LastModified']),
     schemaArn: json['SchemaArn'] as String,
     schemaName: json['SchemaName'] as String,
     tags: (json['tags'] as Map<String, dynamic>)?.map(
@@ -294,7 +294,7 @@ SearchSchemaSummary _$SearchSchemaSummaryFromJson(Map<String, dynamic> json) {
 SearchSchemaVersionSummary _$SearchSchemaVersionSummaryFromJson(
     Map<String, dynamic> json) {
   return SearchSchemaVersionSummary(
-    createdDate: iso8601FromJson(json['CreatedDate'] as String),
+    createdDate: timeStampFromJson(json['CreatedDate']),
     schemaVersion: json['SchemaVersion'] as String,
   );
 }
@@ -361,7 +361,7 @@ UpdateRegistryResponse _$UpdateRegistryResponseFromJson(
 UpdateSchemaResponse _$UpdateSchemaResponseFromJson(Map<String, dynamic> json) {
   return UpdateSchemaResponse(
     description: json['Description'] as String,
-    lastModified: iso8601FromJson(json['LastModified'] as String),
+    lastModified: timeStampFromJson(json['LastModified']),
     schemaArn: json['SchemaArn'] as String,
     schemaName: json['SchemaName'] as String,
     schemaVersion: json['SchemaVersion'] as String,
@@ -369,6 +369,6 @@ UpdateSchemaResponse _$UpdateSchemaResponseFromJson(Map<String, dynamic> json) {
       (k, e) => MapEntry(k, e as String),
     ),
     type: json['Type'] as String,
-    versionCreatedDate: iso8601FromJson(json['VersionCreatedDate'] as String),
+    versionCreatedDate: timeStampFromJson(json['VersionCreatedDate']),
   );
 }

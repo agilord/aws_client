@@ -9,7 +9,7 @@ part of 'dynamodb-2012-08-10.dart';
 ArchivalSummary _$ArchivalSummaryFromJson(Map<String, dynamic> json) {
   return ArchivalSummary(
     archivalBackupArn: json['ArchivalBackupArn'] as String,
-    archivalDateTime: unixTimestampFromJson(json['ArchivalDateTime']),
+    archivalDateTime: timeStampFromJson(json['ArchivalDateTime']),
     archivalReason: json['ArchivalReason'] as String,
   );
 }
@@ -253,13 +253,12 @@ BackupDescription _$BackupDescriptionFromJson(Map<String, dynamic> json) {
 BackupDetails _$BackupDetailsFromJson(Map<String, dynamic> json) {
   return BackupDetails(
     backupArn: json['BackupArn'] as String,
-    backupCreationDateTime:
-        unixTimestampFromJson(json['BackupCreationDateTime']),
+    backupCreationDateTime: timeStampFromJson(json['BackupCreationDateTime']),
     backupName: json['BackupName'] as String,
     backupStatus:
         _$enumDecodeNullable(_$BackupStatusEnumMap, json['BackupStatus']),
     backupType: _$enumDecodeNullable(_$BackupTypeEnumMap, json['BackupType']),
-    backupExpiryDateTime: unixTimestampFromJson(json['BackupExpiryDateTime']),
+    backupExpiryDateTime: timeStampFromJson(json['BackupExpiryDateTime']),
     backupSizeBytes: json['BackupSizeBytes'] as int,
   );
 }
@@ -279,9 +278,8 @@ const _$BackupTypeEnumMap = {
 BackupSummary _$BackupSummaryFromJson(Map<String, dynamic> json) {
   return BackupSummary(
     backupArn: json['BackupArn'] as String,
-    backupCreationDateTime:
-        unixTimestampFromJson(json['BackupCreationDateTime']),
-    backupExpiryDateTime: unixTimestampFromJson(json['BackupExpiryDateTime']),
+    backupCreationDateTime: timeStampFromJson(json['BackupCreationDateTime']),
+    backupExpiryDateTime: timeStampFromJson(json['BackupExpiryDateTime']),
     backupName: json['BackupName'] as String,
     backupSizeBytes: json['BackupSizeBytes'] as int,
     backupStatus:
@@ -358,7 +356,7 @@ BillingModeSummary _$BillingModeSummaryFromJson(Map<String, dynamic> json) {
     billingMode:
         _$enumDecodeNullable(_$BillingModeEnumMap, json['BillingMode']),
     lastUpdateToPayPerRequestDateTime:
-        unixTimestampFromJson(json['LastUpdateToPayPerRequestDateTime']),
+        timeStampFromJson(json['LastUpdateToPayPerRequestDateTime']),
   );
 }
 
@@ -732,7 +730,7 @@ DescribeContributorInsightsOutput _$DescribeContributorInsightsOutputFromJson(
         : FailureException.fromJson(
             json['FailureException'] as Map<String, dynamic>),
     indexName: json['IndexName'] as String,
-    lastUpdateDateTime: unixTimestampFromJson(json['LastUpdateDateTime']),
+    lastUpdateDateTime: timeStampFromJson(json['LastUpdateDateTime']),
     tableName: json['TableName'] as String,
   );
 }
@@ -986,7 +984,7 @@ GlobalTable _$GlobalTableFromJson(Map<String, dynamic> json) {
 GlobalTableDescription _$GlobalTableDescriptionFromJson(
     Map<String, dynamic> json) {
   return GlobalTableDescription(
-    creationDateTime: unixTimestampFromJson(json['CreationDateTime']),
+    creationDateTime: timeStampFromJson(json['CreationDateTime']),
     globalTableArn: json['GlobalTableArn'] as String,
     globalTableName: json['GlobalTableName'] as String,
     globalTableStatus: _$enumDecodeNullable(
@@ -1226,9 +1224,9 @@ PointInTimeRecoveryDescription _$PointInTimeRecoveryDescriptionFromJson(
     Map<String, dynamic> json) {
   return PointInTimeRecoveryDescription(
     earliestRestorableDateTime:
-        unixTimestampFromJson(json['EarliestRestorableDateTime']),
+        timeStampFromJson(json['EarliestRestorableDateTime']),
     latestRestorableDateTime:
-        unixTimestampFromJson(json['LatestRestorableDateTime']),
+        timeStampFromJson(json['LatestRestorableDateTime']),
     pointInTimeRecoveryStatus: _$enumDecodeNullable(
         _$PointInTimeRecoveryStatusEnumMap, json['PointInTimeRecoveryStatus']),
   );
@@ -1310,8 +1308,8 @@ Map<String, dynamic> _$ProvisionedThroughputToJson(
 ProvisionedThroughputDescription _$ProvisionedThroughputDescriptionFromJson(
     Map<String, dynamic> json) {
   return ProvisionedThroughputDescription(
-    lastDecreaseDateTime: unixTimestampFromJson(json['LastDecreaseDateTime']),
-    lastIncreaseDateTime: unixTimestampFromJson(json['LastIncreaseDateTime']),
+    lastDecreaseDateTime: timeStampFromJson(json['LastDecreaseDateTime']),
+    lastIncreaseDateTime: timeStampFromJson(json['LastIncreaseDateTime']),
     numberOfDecreasesToday: json['NumberOfDecreasesToday'] as int,
     readCapacityUnits: json['ReadCapacityUnits'] as int,
     writeCapacityUnits: json['WriteCapacityUnits'] as int,
@@ -1733,7 +1731,7 @@ Map<String, dynamic> _$ReplicationGroupUpdateToJson(
 
 RestoreSummary _$RestoreSummaryFromJson(Map<String, dynamic> json) {
   return RestoreSummary(
-    restoreDateTime: unixTimestampFromJson(json['RestoreDateTime']),
+    restoreDateTime: timeStampFromJson(json['RestoreDateTime']),
     restoreInProgress: json['RestoreInProgress'] as bool,
     sourceBackupArn: json['SourceBackupArn'] as String,
     sourceTableArn: json['SourceTableArn'] as String,
@@ -1763,7 +1761,7 @@ RestoreTableToPointInTimeOutput _$RestoreTableToPointInTimeOutputFromJson(
 SSEDescription _$SSEDescriptionFromJson(Map<String, dynamic> json) {
   return SSEDescription(
     inaccessibleEncryptionDateTime:
-        unixTimestampFromJson(json['InaccessibleEncryptionDateTime']),
+        timeStampFromJson(json['InaccessibleEncryptionDateTime']),
     kMSMasterKeyArn: json['KMSMasterKeyArn'] as String,
     sSEType: _$enumDecodeNullable(_$SSETypeEnumMap, json['SSEType']),
     status: _$enumDecodeNullable(_$SSEStatusEnumMap, json['Status']),
@@ -1836,7 +1834,7 @@ SourceTableDetails _$SourceTableDetailsFromJson(Map<String, dynamic> json) {
         ? null
         : ProvisionedThroughput.fromJson(
             json['ProvisionedThroughput'] as Map<String, dynamic>),
-    tableCreationDateTime: unixTimestampFromJson(json['TableCreationDateTime']),
+    tableCreationDateTime: timeStampFromJson(json['TableCreationDateTime']),
     tableId: json['TableId'] as String,
     tableName: json['TableName'] as String,
     billingMode:
@@ -1945,7 +1943,7 @@ TableDescription _$TableDescriptionFromJson(Map<String, dynamic> json) {
         ? null
         : BillingModeSummary.fromJson(
             json['BillingModeSummary'] as Map<String, dynamic>),
-    creationDateTime: unixTimestampFromJson(json['CreationDateTime']),
+    creationDateTime: timeStampFromJson(json['CreationDateTime']),
     globalSecondaryIndexes: (json['GlobalSecondaryIndexes'] as List)
         ?.map((e) => e == null
             ? null

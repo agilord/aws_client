@@ -76,7 +76,7 @@ ListChangedBlocksResponse _$ListChangedBlocksResponseFromJson(
         ?.map((e) =>
             e == null ? null : ChangedBlock.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    expiryTime: unixTimestampFromJson(json['ExpiryTime']),
+    expiryTime: timeStampFromJson(json['ExpiryTime']),
     nextToken: json['NextToken'] as String,
     volumeSize: json['VolumeSize'] as int,
   );
@@ -90,7 +90,7 @@ ListSnapshotBlocksResponse _$ListSnapshotBlocksResponseFromJson(
         ?.map(
             (e) => e == null ? null : Block.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    expiryTime: unixTimestampFromJson(json['ExpiryTime']),
+    expiryTime: timeStampFromJson(json['ExpiryTime']),
     nextToken: json['NextToken'] as String,
     volumeSize: json['VolumeSize'] as int,
   );

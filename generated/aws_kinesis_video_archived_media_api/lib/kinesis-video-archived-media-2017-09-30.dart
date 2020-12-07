@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -1302,7 +1300,7 @@ class DASHTimestampRange {
   /// </note>
   @_s.JsonKey(
       name: 'EndTimestamp',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime endTimestamp;
 
@@ -1319,7 +1317,7 @@ class DASHTimestampRange {
   /// </note>
   @_s.JsonKey(
       name: 'StartTimestamp',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime startTimestamp;
 
@@ -1354,14 +1352,14 @@ class Fragment {
   /// The timestamp from the producer corresponding to the fragment.
   @_s.JsonKey(
       name: 'ProducerTimestamp',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime producerTimestamp;
 
   /// The timestamp from the AWS server corresponding to the fragment.
   @_s.JsonKey(
       name: 'ServerTimestamp',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime serverTimestamp;
 
@@ -1683,7 +1681,7 @@ class HLSTimestampRange {
   /// </note>
   @_s.JsonKey(
       name: 'EndTimestamp',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime endTimestamp;
 
@@ -1700,7 +1698,7 @@ class HLSTimestampRange {
   /// </note>
   @_s.JsonKey(
       name: 'StartTimestamp',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime startTimestamp;
 
@@ -1747,7 +1745,7 @@ class TimestampRange {
   /// fragments.
   @_s.JsonKey(
       name: 'EndTimestamp',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime endTimestamp;
 
@@ -1755,7 +1753,7 @@ class TimestampRange {
   /// fragments.
   @_s.JsonKey(
       name: 'StartTimestamp',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime startTimestamp;
 

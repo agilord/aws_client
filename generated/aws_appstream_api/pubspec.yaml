@@ -1,6 +1,6 @@
 name: aws_appstream_api
 description: AWS API client for Amazon AppStream (generated from SDK API specification).
-version: 0.1.1
+version: 0.0.1
 homepage: https://github.com/agilord/aws_client/tree/master/generated/aws_appstream_api
 
 

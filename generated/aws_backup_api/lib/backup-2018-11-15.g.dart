@@ -13,20 +13,19 @@ BackupJob _$BackupJobFromJson(Map<String, dynamic> json) {
     backupVaultArn: json['BackupVaultArn'] as String,
     backupVaultName: json['BackupVaultName'] as String,
     bytesTransferred: json['BytesTransferred'] as int,
-    completionDate: unixTimestampFromJson(json['CompletionDate']),
+    completionDate: timeStampFromJson(json['CompletionDate']),
     createdBy: json['CreatedBy'] == null
         ? null
         : RecoveryPointCreator.fromJson(
             json['CreatedBy'] as Map<String, dynamic>),
-    creationDate: unixTimestampFromJson(json['CreationDate']),
-    expectedCompletionDate:
-        unixTimestampFromJson(json['ExpectedCompletionDate']),
+    creationDate: timeStampFromJson(json['CreationDate']),
+    expectedCompletionDate: timeStampFromJson(json['ExpectedCompletionDate']),
     iamRoleArn: json['IamRoleArn'] as String,
     percentDone: json['PercentDone'] as String,
     recoveryPointArn: json['RecoveryPointArn'] as String,
     resourceArn: json['ResourceArn'] as String,
     resourceType: json['ResourceType'] as String,
-    startBy: unixTimestampFromJson(json['StartBy']),
+    startBy: timeStampFromJson(json['StartBy']),
     state: _$enumDecodeNullable(_$BackupJobStateEnumMap, json['State']),
     statusMessage: json['StatusMessage'] as String,
   );
@@ -113,10 +112,10 @@ BackupPlansListMember _$BackupPlansListMemberFromJson(
     backupPlanArn: json['BackupPlanArn'] as String,
     backupPlanId: json['BackupPlanId'] as String,
     backupPlanName: json['BackupPlanName'] as String,
-    creationDate: unixTimestampFromJson(json['CreationDate']),
+    creationDate: timeStampFromJson(json['CreationDate']),
     creatorRequestId: json['CreatorRequestId'] as String,
-    deletionDate: unixTimestampFromJson(json['DeletionDate']),
-    lastExecutionDate: unixTimestampFromJson(json['LastExecutionDate']),
+    deletionDate: timeStampFromJson(json['DeletionDate']),
+    lastExecutionDate: timeStampFromJson(json['LastExecutionDate']),
     versionId: json['VersionId'] as String,
   );
 }
@@ -196,7 +195,7 @@ BackupSelectionsListMember _$BackupSelectionsListMemberFromJson(
     Map<String, dynamic> json) {
   return BackupSelectionsListMember(
     backupPlanId: json['BackupPlanId'] as String,
-    creationDate: unixTimestampFromJson(json['CreationDate']),
+    creationDate: timeStampFromJson(json['CreationDate']),
     creatorRequestId: json['CreatorRequestId'] as String,
     iamRoleArn: json['IamRoleArn'] as String,
     selectionId: json['SelectionId'] as String,
@@ -209,7 +208,7 @@ BackupVaultListMember _$BackupVaultListMemberFromJson(
   return BackupVaultListMember(
     backupVaultArn: json['BackupVaultArn'] as String,
     backupVaultName: json['BackupVaultName'] as String,
-    creationDate: unixTimestampFromJson(json['CreationDate']),
+    creationDate: timeStampFromJson(json['CreationDate']),
     creatorRequestId: json['CreatorRequestId'] as String,
     encryptionKeyArn: json['EncryptionKeyArn'] as String,
     numberOfRecoveryPoints: json['NumberOfRecoveryPoints'] as int,
@@ -218,8 +217,8 @@ BackupVaultListMember _$BackupVaultListMemberFromJson(
 
 CalculatedLifecycle _$CalculatedLifecycleFromJson(Map<String, dynamic> json) {
   return CalculatedLifecycle(
-    deleteAt: unixTimestampFromJson(json['DeleteAt']),
-    moveToColdStorageAt: unixTimestampFromJson(json['MoveToColdStorageAt']),
+    deleteAt: timeStampFromJson(json['DeleteAt']),
+    moveToColdStorageAt: timeStampFromJson(json['MoveToColdStorageAt']),
   );
 }
 
@@ -277,13 +276,13 @@ Map<String, dynamic> _$CopyActionToJson(CopyAction instance) {
 CopyJob _$CopyJobFromJson(Map<String, dynamic> json) {
   return CopyJob(
     backupSizeInBytes: json['BackupSizeInBytes'] as int,
-    completionDate: unixTimestampFromJson(json['CompletionDate']),
+    completionDate: timeStampFromJson(json['CompletionDate']),
     copyJobId: json['CopyJobId'] as String,
     createdBy: json['CreatedBy'] == null
         ? null
         : RecoveryPointCreator.fromJson(
             json['CreatedBy'] as Map<String, dynamic>),
-    creationDate: unixTimestampFromJson(json['CreationDate']),
+    creationDate: timeStampFromJson(json['CreationDate']),
     destinationBackupVaultArn: json['DestinationBackupVaultArn'] as String,
     destinationRecoveryPointArn: json['DestinationRecoveryPointArn'] as String,
     iamRoleArn: json['IamRoleArn'] as String,
@@ -308,7 +307,7 @@ CreateBackupPlanOutput _$CreateBackupPlanOutputFromJson(
   return CreateBackupPlanOutput(
     backupPlanArn: json['BackupPlanArn'] as String,
     backupPlanId: json['BackupPlanId'] as String,
-    creationDate: unixTimestampFromJson(json['CreationDate']),
+    creationDate: timeStampFromJson(json['CreationDate']),
     versionId: json['VersionId'] as String,
   );
 }
@@ -317,7 +316,7 @@ CreateBackupSelectionOutput _$CreateBackupSelectionOutputFromJson(
     Map<String, dynamic> json) {
   return CreateBackupSelectionOutput(
     backupPlanId: json['BackupPlanId'] as String,
-    creationDate: unixTimestampFromJson(json['CreationDate']),
+    creationDate: timeStampFromJson(json['CreationDate']),
     selectionId: json['SelectionId'] as String,
   );
 }
@@ -327,7 +326,7 @@ CreateBackupVaultOutput _$CreateBackupVaultOutputFromJson(
   return CreateBackupVaultOutput(
     backupVaultArn: json['BackupVaultArn'] as String,
     backupVaultName: json['BackupVaultName'] as String,
-    creationDate: unixTimestampFromJson(json['CreationDate']),
+    creationDate: timeStampFromJson(json['CreationDate']),
   );
 }
 
@@ -336,7 +335,7 @@ DeleteBackupPlanOutput _$DeleteBackupPlanOutputFromJson(
   return DeleteBackupPlanOutput(
     backupPlanArn: json['BackupPlanArn'] as String,
     backupPlanId: json['BackupPlanId'] as String,
-    deletionDate: unixTimestampFromJson(json['DeletionDate']),
+    deletionDate: timeStampFromJson(json['DeletionDate']),
     versionId: json['VersionId'] as String,
   );
 }
@@ -349,20 +348,19 @@ DescribeBackupJobOutput _$DescribeBackupJobOutputFromJson(
     backupVaultArn: json['BackupVaultArn'] as String,
     backupVaultName: json['BackupVaultName'] as String,
     bytesTransferred: json['BytesTransferred'] as int,
-    completionDate: unixTimestampFromJson(json['CompletionDate']),
+    completionDate: timeStampFromJson(json['CompletionDate']),
     createdBy: json['CreatedBy'] == null
         ? null
         : RecoveryPointCreator.fromJson(
             json['CreatedBy'] as Map<String, dynamic>),
-    creationDate: unixTimestampFromJson(json['CreationDate']),
-    expectedCompletionDate:
-        unixTimestampFromJson(json['ExpectedCompletionDate']),
+    creationDate: timeStampFromJson(json['CreationDate']),
+    expectedCompletionDate: timeStampFromJson(json['ExpectedCompletionDate']),
     iamRoleArn: json['IamRoleArn'] as String,
     percentDone: json['PercentDone'] as String,
     recoveryPointArn: json['RecoveryPointArn'] as String,
     resourceArn: json['ResourceArn'] as String,
     resourceType: json['ResourceType'] as String,
-    startBy: unixTimestampFromJson(json['StartBy']),
+    startBy: timeStampFromJson(json['StartBy']),
     state: _$enumDecodeNullable(_$BackupJobStateEnumMap, json['State']),
     statusMessage: json['StatusMessage'] as String,
   );
@@ -373,7 +371,7 @@ DescribeBackupVaultOutput _$DescribeBackupVaultOutputFromJson(
   return DescribeBackupVaultOutput(
     backupVaultArn: json['BackupVaultArn'] as String,
     backupVaultName: json['BackupVaultName'] as String,
-    creationDate: unixTimestampFromJson(json['CreationDate']),
+    creationDate: timeStampFromJson(json['CreationDate']),
     creatorRequestId: json['CreatorRequestId'] as String,
     encryptionKeyArn: json['EncryptionKeyArn'] as String,
     numberOfRecoveryPoints: json['NumberOfRecoveryPoints'] as int,
@@ -392,7 +390,7 @@ DescribeCopyJobOutput _$DescribeCopyJobOutputFromJson(
 DescribeProtectedResourceOutput _$DescribeProtectedResourceOutputFromJson(
     Map<String, dynamic> json) {
   return DescribeProtectedResourceOutput(
-    lastBackupTime: unixTimestampFromJson(json['LastBackupTime']),
+    lastBackupTime: timeStampFromJson(json['LastBackupTime']),
     resourceArn: json['ResourceArn'] as String,
     resourceType: json['ResourceType'] as String,
   );
@@ -408,16 +406,16 @@ DescribeRecoveryPointOutput _$DescribeRecoveryPointOutputFromJson(
         ? null
         : CalculatedLifecycle.fromJson(
             json['CalculatedLifecycle'] as Map<String, dynamic>),
-    completionDate: unixTimestampFromJson(json['CompletionDate']),
+    completionDate: timeStampFromJson(json['CompletionDate']),
     createdBy: json['CreatedBy'] == null
         ? null
         : RecoveryPointCreator.fromJson(
             json['CreatedBy'] as Map<String, dynamic>),
-    creationDate: unixTimestampFromJson(json['CreationDate']),
+    creationDate: timeStampFromJson(json['CreationDate']),
     encryptionKeyArn: json['EncryptionKeyArn'] as String,
     iamRoleArn: json['IamRoleArn'] as String,
     isEncrypted: json['IsEncrypted'] as bool,
-    lastRestoreTime: unixTimestampFromJson(json['LastRestoreTime']),
+    lastRestoreTime: timeStampFromJson(json['LastRestoreTime']),
     lifecycle: json['Lifecycle'] == null
         ? null
         : Lifecycle.fromJson(json['Lifecycle'] as Map<String, dynamic>),
@@ -447,9 +445,9 @@ DescribeRestoreJobOutput _$DescribeRestoreJobOutputFromJson(
     Map<String, dynamic> json) {
   return DescribeRestoreJobOutput(
     backupSizeInBytes: json['BackupSizeInBytes'] as int,
-    completionDate: unixTimestampFromJson(json['CompletionDate']),
+    completionDate: timeStampFromJson(json['CompletionDate']),
     createdResourceArn: json['CreatedResourceArn'] as String,
-    creationDate: unixTimestampFromJson(json['CreationDate']),
+    creationDate: timeStampFromJson(json['CreationDate']),
     expectedCompletionTimeMinutes: json['ExpectedCompletionTimeMinutes'] as int,
     iamRoleArn: json['IamRoleArn'] as String,
     percentDone: json['PercentDone'] as String,
@@ -501,10 +499,10 @@ GetBackupPlanOutput _$GetBackupPlanOutputFromJson(Map<String, dynamic> json) {
         : BackupPlan.fromJson(json['BackupPlan'] as Map<String, dynamic>),
     backupPlanArn: json['BackupPlanArn'] as String,
     backupPlanId: json['BackupPlanId'] as String,
-    creationDate: unixTimestampFromJson(json['CreationDate']),
+    creationDate: timeStampFromJson(json['CreationDate']),
     creatorRequestId: json['CreatorRequestId'] as String,
-    deletionDate: unixTimestampFromJson(json['DeletionDate']),
-    lastExecutionDate: unixTimestampFromJson(json['LastExecutionDate']),
+    deletionDate: timeStampFromJson(json['DeletionDate']),
+    lastExecutionDate: timeStampFromJson(json['LastExecutionDate']),
     versionId: json['VersionId'] as String,
   );
 }
@@ -517,7 +515,7 @@ GetBackupSelectionOutput _$GetBackupSelectionOutputFromJson(
         ? null
         : BackupSelection.fromJson(
             json['BackupSelection'] as Map<String, dynamic>),
-    creationDate: unixTimestampFromJson(json['CreationDate']),
+    creationDate: timeStampFromJson(json['CreationDate']),
     creatorRequestId: json['CreatorRequestId'] as String,
     selectionId: json['SelectionId'] as String,
   );
@@ -742,7 +740,7 @@ ListTagsOutput _$ListTagsOutputFromJson(Map<String, dynamic> json) {
 
 ProtectedResource _$ProtectedResourceFromJson(Map<String, dynamic> json) {
   return ProtectedResource(
-    lastBackupTime: unixTimestampFromJson(json['LastBackupTime']),
+    lastBackupTime: timeStampFromJson(json['LastBackupTime']),
     resourceArn: json['ResourceArn'] as String,
     resourceType: json['ResourceType'] as String,
   );
@@ -758,16 +756,16 @@ RecoveryPointByBackupVault _$RecoveryPointByBackupVaultFromJson(
         ? null
         : CalculatedLifecycle.fromJson(
             json['CalculatedLifecycle'] as Map<String, dynamic>),
-    completionDate: unixTimestampFromJson(json['CompletionDate']),
+    completionDate: timeStampFromJson(json['CompletionDate']),
     createdBy: json['CreatedBy'] == null
         ? null
         : RecoveryPointCreator.fromJson(
             json['CreatedBy'] as Map<String, dynamic>),
-    creationDate: unixTimestampFromJson(json['CreationDate']),
+    creationDate: timeStampFromJson(json['CreationDate']),
     encryptionKeyArn: json['EncryptionKeyArn'] as String,
     iamRoleArn: json['IamRoleArn'] as String,
     isEncrypted: json['IsEncrypted'] as bool,
-    lastRestoreTime: unixTimestampFromJson(json['LastRestoreTime']),
+    lastRestoreTime: timeStampFromJson(json['LastRestoreTime']),
     lifecycle: json['Lifecycle'] == null
         ? null
         : Lifecycle.fromJson(json['Lifecycle'] as Map<String, dynamic>),
@@ -783,7 +781,7 @@ RecoveryPointByResource _$RecoveryPointByResourceFromJson(
   return RecoveryPointByResource(
     backupSizeBytes: json['BackupSizeBytes'] as int,
     backupVaultName: json['BackupVaultName'] as String,
-    creationDate: unixTimestampFromJson(json['CreationDate']),
+    creationDate: timeStampFromJson(json['CreationDate']),
     encryptionKeyArn: json['EncryptionKeyArn'] as String,
     recoveryPointArn: json['RecoveryPointArn'] as String,
     status: _$enumDecodeNullable(_$RecoveryPointStatusEnumMap, json['Status']),
@@ -803,9 +801,9 @@ RestoreJobsListMember _$RestoreJobsListMemberFromJson(
     Map<String, dynamic> json) {
   return RestoreJobsListMember(
     backupSizeInBytes: json['BackupSizeInBytes'] as int,
-    completionDate: unixTimestampFromJson(json['CompletionDate']),
+    completionDate: timeStampFromJson(json['CompletionDate']),
     createdResourceArn: json['CreatedResourceArn'] as String,
-    creationDate: unixTimestampFromJson(json['CreationDate']),
+    creationDate: timeStampFromJson(json['CreationDate']),
     expectedCompletionTimeMinutes: json['ExpectedCompletionTimeMinutes'] as int,
     iamRoleArn: json['IamRoleArn'] as String,
     percentDone: json['PercentDone'] as String,
@@ -819,7 +817,7 @@ RestoreJobsListMember _$RestoreJobsListMemberFromJson(
 StartBackupJobOutput _$StartBackupJobOutputFromJson(Map<String, dynamic> json) {
   return StartBackupJobOutput(
     backupJobId: json['BackupJobId'] as String,
-    creationDate: unixTimestampFromJson(json['CreationDate']),
+    creationDate: timeStampFromJson(json['CreationDate']),
     recoveryPointArn: json['RecoveryPointArn'] as String,
   );
 }
@@ -827,7 +825,7 @@ StartBackupJobOutput _$StartBackupJobOutputFromJson(Map<String, dynamic> json) {
 StartCopyJobOutput _$StartCopyJobOutputFromJson(Map<String, dynamic> json) {
   return StartCopyJobOutput(
     copyJobId: json['CopyJobId'] as String,
-    creationDate: unixTimestampFromJson(json['CreationDate']),
+    creationDate: timeStampFromJson(json['CreationDate']),
   );
 }
 
@@ -843,7 +841,7 @@ UpdateBackupPlanOutput _$UpdateBackupPlanOutputFromJson(
   return UpdateBackupPlanOutput(
     backupPlanArn: json['BackupPlanArn'] as String,
     backupPlanId: json['BackupPlanId'] as String,
-    creationDate: unixTimestampFromJson(json['CreationDate']),
+    creationDate: timeStampFromJson(json['CreationDate']),
     versionId: json['VersionId'] as String,
   );
 }

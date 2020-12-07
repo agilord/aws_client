@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -1537,7 +1535,7 @@ class BillingRecord {
   /// The date that the operation was billed, in Unix format.
   @_s.JsonKey(
       name: 'BillDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime billDate;
 
@@ -2360,9 +2358,7 @@ class DomainSummary {
 
   /// Expiration date of the domain in Coordinated Universal Time (UTC).
   @_s.JsonKey(
-      name: 'Expiry',
-      fromJson: unixTimestampFromJson,
-      toJson: unixTimestampToJson)
+      name: 'Expiry', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
   final DateTime expiry;
 
   /// Indicates whether a domain is locked from unauthorized transfer to another
@@ -2659,7 +2655,7 @@ class GetDomainDetailResponse {
   /// query. The date and time is in Coordinated Universal time (UTC).
   @_s.JsonKey(
       name: 'CreationDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDate;
 
@@ -2671,7 +2667,7 @@ class GetDomainDetailResponse {
   /// time is in Coordinated Universal time (UTC).
   @_s.JsonKey(
       name: 'ExpirationDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime expirationDate;
 
@@ -2735,7 +2731,7 @@ class GetDomainDetailResponse {
   /// query. The date and time is in Coordinated Universal time (UTC).
   @_s.JsonKey(
       name: 'UpdatedDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime updatedDate;
 
@@ -2816,7 +2812,7 @@ class GetOperationDetailResponse {
   /// The date when the request was submitted.
   @_s.JsonKey(
       name: 'SubmittedDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime submittedDate;
 
@@ -3011,7 +3007,7 @@ class OperationSummary {
   /// The date when the request was submitted.
   @_s.JsonKey(
       name: 'SubmittedDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime submittedDate;
 

@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -787,7 +785,7 @@ class Graph {
   /// milliseconds since the epoch.
   @_s.JsonKey(
       name: 'CreatedTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdTime;
 
@@ -916,7 +914,7 @@ class MemberDetail {
   /// The value is in milliseconds since the epoch.
   @_s.JsonKey(
       name: 'InvitedTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime invitedTime;
 
@@ -939,7 +937,7 @@ class MemberDetail {
   /// The date and time when the graph utilization percentage was last updated.
   @_s.JsonKey(
       name: 'PercentOfGraphUtilizationUpdatedTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime percentOfGraphUtilizationUpdatedTime;
 
@@ -983,7 +981,7 @@ class MemberDetail {
   /// milliseconds since the epoch.
   @_s.JsonKey(
       name: 'UpdatedTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime updatedTime;
 

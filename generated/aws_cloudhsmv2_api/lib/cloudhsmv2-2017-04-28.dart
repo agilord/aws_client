@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -886,21 +884,21 @@ class Backup {
   /// The date and time when the backup was copied from a source backup.
   @_s.JsonKey(
       name: 'CopyTimestamp',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime copyTimestamp;
 
   /// The date and time when the backup was created.
   @_s.JsonKey(
       name: 'CreateTimestamp',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createTimestamp;
 
   /// The date and time when the backup will be permanently deleted.
   @_s.JsonKey(
       name: 'DeleteTimestamp',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime deleteTimestamp;
 
@@ -1014,7 +1012,7 @@ class Cluster {
   /// The date and time when the cluster was created.
   @_s.JsonKey(
       name: 'CreateTimestamp',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createTimestamp;
 
@@ -1268,7 +1266,7 @@ class DestinationBackup {
   /// The date and time when both the source backup was created.
   @_s.JsonKey(
       name: 'CreateTimestamp',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createTimestamp;
 

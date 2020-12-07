@@ -1317,7 +1317,7 @@ SampledHTTPRequest _$SampledHTTPRequestFromJson(Map<String, dynamic> json) {
     weight: json['Weight'] as int,
     action: json['Action'] as String,
     ruleNameWithinRuleGroup: json['RuleNameWithinRuleGroup'] as String,
-    timestamp: unixTimestampFromJson(json['Timestamp']),
+    timestamp: timeStampFromJson(json['Timestamp']),
   );
 }
 
@@ -1584,8 +1584,8 @@ const _$TextTransformationTypeEnumMap = {
 
 TimeWindow _$TimeWindowFromJson(Map<String, dynamic> json) {
   return TimeWindow(
-    endTime: unixTimestampFromJson(json['EndTime']),
-    startTime: unixTimestampFromJson(json['StartTime']),
+    endTime: timeStampFromJson(json['EndTime']),
+    startTime: timeStampFromJson(json['StartTime']),
   );
 }
 

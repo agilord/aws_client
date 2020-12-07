@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -2312,7 +2310,7 @@ class DatasetGroupSummary {
   /// When the dataset group was created.
   @_s.JsonKey(
       name: 'CreationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationTime;
 
@@ -2330,7 +2328,7 @@ class DatasetGroupSummary {
   /// <code>ListDatasetGroups</code> call.
   @_s.JsonKey(
       name: 'LastModificationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastModificationTime;
 
@@ -2357,7 +2355,7 @@ class DatasetImportJobSummary {
   /// When the dataset import job was created.
   @_s.JsonKey(
       name: 'CreationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationTime;
 
@@ -2395,7 +2393,7 @@ class DatasetImportJobSummary {
   /// </ul>
   @_s.JsonKey(
       name: 'LastModificationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastModificationTime;
 
@@ -2449,7 +2447,7 @@ class DatasetSummary {
   /// When the dataset was created.
   @_s.JsonKey(
       name: 'CreationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationTime;
 
@@ -2477,7 +2475,7 @@ class DatasetSummary {
   /// job completed or failed.
   @_s.JsonKey(
       name: 'LastModificationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastModificationTime;
 
@@ -2525,7 +2523,7 @@ class DescribeDatasetGroupResponse {
   /// When the dataset group was created.
   @_s.JsonKey(
       name: 'CreationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationTime;
 
@@ -2552,7 +2550,7 @@ class DescribeDatasetGroupResponse {
   /// <code>DescribeDatasetGroup</code> call.
   @_s.JsonKey(
       name: 'LastModificationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastModificationTime;
 
@@ -2606,7 +2604,7 @@ class DescribeDatasetImportJobResponse {
   /// When the dataset import job was created.
   @_s.JsonKey(
       name: 'CreationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationTime;
 
@@ -2656,7 +2654,7 @@ class DescribeDatasetImportJobResponse {
   /// </ul>
   @_s.JsonKey(
       name: 'LastModificationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastModificationTime;
 
@@ -2732,7 +2730,7 @@ class DescribeDatasetResponse {
   /// When the dataset was created.
   @_s.JsonKey(
       name: 'CreationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationTime;
 
@@ -2774,7 +2772,7 @@ class DescribeDatasetResponse {
   /// job completed or failed.
   @_s.JsonKey(
       name: 'LastModificationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastModificationTime;
 
@@ -2840,7 +2838,7 @@ class DescribeForecastExportJobResponse {
   /// When the forecast export job was created.
   @_s.JsonKey(
       name: 'CreationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationTime;
 
@@ -2864,7 +2862,7 @@ class DescribeForecastExportJobResponse {
   /// When the last successful export job finished.
   @_s.JsonKey(
       name: 'LastModificationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastModificationTime;
 
@@ -2917,7 +2915,7 @@ class DescribeForecastResponse {
   /// When the forecast creation task was created.
   @_s.JsonKey(
       name: 'CreationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationTime;
 
@@ -2945,7 +2943,7 @@ class DescribeForecastResponse {
   /// (status changed to <code>CREATE_FAILED</code>).
   @_s.JsonKey(
       name: 'LastModificationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastModificationTime;
 
@@ -3011,7 +3009,7 @@ class DescribePredictorResponse {
   /// When the model training task was created.
   @_s.JsonKey(
       name: 'CreationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationTime;
 
@@ -3057,7 +3055,7 @@ class DescribePredictorResponse {
   /// fails (when the status changes to <code>CREATE_FAILED</code>).
   @_s.JsonKey(
       name: 'LastModificationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastModificationTime;
 
@@ -3519,7 +3517,7 @@ class ForecastExportJobSummary {
   /// When the forecast export job was created.
   @_s.JsonKey(
       name: 'CreationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationTime;
 
@@ -3539,7 +3537,7 @@ class ForecastExportJobSummary {
   /// When the last successful export job finished.
   @_s.JsonKey(
       name: 'LastModificationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastModificationTime;
 
@@ -3594,7 +3592,7 @@ class ForecastSummary {
   /// When the forecast creation task was created.
   @_s.JsonKey(
       name: 'CreationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationTime;
 
@@ -3618,7 +3616,7 @@ class ForecastSummary {
   /// (status changed to <code>CREATE_FAILED</code>).
   @_s.JsonKey(
       name: 'LastModificationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastModificationTime;
 
@@ -4059,7 +4057,7 @@ class PredictorSummary {
   /// When the model training task was created.
   @_s.JsonKey(
       name: 'CreationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationTime;
 
@@ -4075,7 +4073,7 @@ class PredictorSummary {
   /// <code>CREATE_FAILED</code>).
   @_s.JsonKey(
       name: 'LastModificationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastModificationTime;
 
@@ -4365,14 +4363,14 @@ class TestWindowSummary {
   /// The time at which the test ended.
   @_s.JsonKey(
       name: 'TestWindowEnd',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime testWindowEnd;
 
   /// The time at which the test began.
   @_s.JsonKey(
       name: 'TestWindowStart',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime testWindowStart;
 
@@ -4460,14 +4458,14 @@ class WindowSummary {
   /// The timestamp that defines the end of the window.
   @_s.JsonKey(
       name: 'TestWindowEnd',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime testWindowEnd;
 
   /// The timestamp that defines the start of the window.
   @_s.JsonKey(
       name: 'TestWindowStart',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime testWindowStart;
 

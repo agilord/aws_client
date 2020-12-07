@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -2189,7 +2187,7 @@ class AuthorizationData {
   /// expires. Authorization tokens are valid for 12 hours.
   @_s.JsonKey(
       name: 'expiresAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime expiresAt;
 
@@ -2336,7 +2334,7 @@ class DeleteLifecyclePolicyResponse {
   /// The time stamp of the last time that the lifecycle policy was run.
   @_s.JsonKey(
       name: 'lastEvaluatedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastEvaluatedAt;
 
@@ -2640,7 +2638,7 @@ class GetLifecyclePolicyResponse {
   /// The time stamp of the last time that the lifecycle policy was run.
   @_s.JsonKey(
       name: 'lastEvaluatedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastEvaluatedAt;
 
@@ -2747,7 +2745,7 @@ class ImageDetail {
   /// the current image was pushed to the repository.
   @_s.JsonKey(
       name: 'imagePushedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime imagePushedAt;
 
@@ -2917,14 +2915,14 @@ class ImageScanFindings {
   /// The time of the last completed image scan.
   @_s.JsonKey(
       name: 'imageScanCompletedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime imageScanCompletedAt;
 
   /// The time when the vulnerability data was last scanned.
   @_s.JsonKey(
       name: 'vulnerabilitySourceUpdatedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime vulnerabilitySourceUpdatedAt;
 
@@ -2952,14 +2950,14 @@ class ImageScanFindingsSummary {
   /// The time of the last completed image scan.
   @_s.JsonKey(
       name: 'imageScanCompletedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime imageScanCompletedAt;
 
   /// The time when the vulnerability data was last scanned.
   @_s.JsonKey(
       name: 'vulnerabilitySourceUpdatedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime vulnerabilitySourceUpdatedAt;
 
@@ -3177,7 +3175,7 @@ class LifecyclePolicyPreviewResult {
   /// the current image was pushed to the repository.
   @_s.JsonKey(
       name: 'imagePushedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime imagePushedAt;
 
@@ -3415,7 +3413,7 @@ class Repository {
   /// created.
   @_s.JsonKey(
       name: 'createdAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdAt;
   @_s.JsonKey(name: 'imageScanningConfiguration')

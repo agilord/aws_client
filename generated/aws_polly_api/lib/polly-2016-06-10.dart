@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -890,7 +888,7 @@ class LexiconAttributes {
   /// Date lexicon was last modified (a timestamp value).
   @_s.JsonKey(
       name: 'LastModified',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastModified;
 
@@ -1084,7 +1082,7 @@ class SynthesisTask {
   /// Timestamp for the time the synthesis task was started.
   @_s.JsonKey(
       name: 'CreationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationTime;
 

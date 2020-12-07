@@ -200,9 +200,9 @@ ActivityTypeInfo _$ActivityTypeInfoFromJson(Map<String, dynamic> json) {
     activityType: json['activityType'] == null
         ? null
         : ActivityType.fromJson(json['activityType'] as Map<String, dynamic>),
-    creationDate: unixTimestampFromJson(json['creationDate']),
+    creationDate: timeStampFromJson(json['creationDate']),
     status: _$enumDecodeNullable(_$RegistrationStatusEnumMap, json['status']),
-    deprecationDate: unixTimestampFromJson(json['deprecationDate']),
+    deprecationDate: timeStampFromJson(json['deprecationDate']),
     description: json['description'] as String,
   );
 }
@@ -742,7 +742,7 @@ History _$HistoryFromJson(Map<String, dynamic> json) {
 HistoryEvent _$HistoryEventFromJson(Map<String, dynamic> json) {
   return HistoryEvent(
     eventId: json['eventId'] as int,
-    eventTimestamp: unixTimestampFromJson(json['eventTimestamp']),
+    eventTimestamp: timeStampFromJson(json['eventTimestamp']),
     eventType: _$enumDecodeNullable(_$EventTypeEnumMap, json['eventType']),
     activityTaskCancelRequestedEventAttributes:
         json['activityTaskCancelRequestedEventAttributes'] == null
@@ -1831,7 +1831,7 @@ WorkflowExecutionDetail _$WorkflowExecutionDetailFromJson(
         : WorkflowExecutionOpenCounts.fromJson(
             json['openCounts'] as Map<String, dynamic>),
     latestActivityTaskTimestamp:
-        unixTimestampFromJson(json['latestActivityTaskTimestamp']),
+        timeStampFromJson(json['latestActivityTaskTimestamp']),
     latestExecutionContext: json['latestExecutionContext'] as String,
   );
 }
@@ -1868,14 +1868,14 @@ WorkflowExecutionInfo _$WorkflowExecutionInfoFromJson(
         : WorkflowExecution.fromJson(json['execution'] as Map<String, dynamic>),
     executionStatus:
         _$enumDecodeNullable(_$ExecutionStatusEnumMap, json['executionStatus']),
-    startTimestamp: unixTimestampFromJson(json['startTimestamp']),
+    startTimestamp: timeStampFromJson(json['startTimestamp']),
     workflowType: json['workflowType'] == null
         ? null
         : WorkflowType.fromJson(json['workflowType'] as Map<String, dynamic>),
     cancelRequested: json['cancelRequested'] as bool,
     closeStatus:
         _$enumDecodeNullable(_$CloseStatusEnumMap, json['closeStatus']),
-    closeTimestamp: unixTimestampFromJson(json['closeTimestamp']),
+    closeTimestamp: timeStampFromJson(json['closeTimestamp']),
     parent: json['parent'] == null
         ? null
         : WorkflowExecution.fromJson(json['parent'] as Map<String, dynamic>),
@@ -2049,12 +2049,12 @@ Map<String, dynamic> _$WorkflowTypeFilterToJson(WorkflowTypeFilter instance) {
 
 WorkflowTypeInfo _$WorkflowTypeInfoFromJson(Map<String, dynamic> json) {
   return WorkflowTypeInfo(
-    creationDate: unixTimestampFromJson(json['creationDate']),
+    creationDate: timeStampFromJson(json['creationDate']),
     status: _$enumDecodeNullable(_$RegistrationStatusEnumMap, json['status']),
     workflowType: json['workflowType'] == null
         ? null
         : WorkflowType.fromJson(json['workflowType'] as Map<String, dynamic>),
-    deprecationDate: unixTimestampFromJson(json['deprecationDate']),
+    deprecationDate: timeStampFromJson(json['deprecationDate']),
     description: json['description'] as String,
   );
 }

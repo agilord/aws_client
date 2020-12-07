@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -3090,7 +3088,7 @@ class Certificate {
   /// The date that the certificate was created.
   @_s.JsonKey(
       name: 'CertificateCreationDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime certificateCreationDate;
 
@@ -3125,14 +3123,14 @@ class Certificate {
   /// The beginning date that the certificate is valid.
   @_s.JsonKey(
       name: 'ValidFromDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime validFromDate;
 
   /// The final date that the certificate is valid.
   @_s.JsonKey(
       name: 'ValidToDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime validToDate;
 
@@ -4237,9 +4235,7 @@ class Endpoint {
 class Event {
   /// The date of the event.
   @_s.JsonKey(
-      name: 'Date',
-      fromJson: unixTimestampFromJson,
-      toJson: unixTimestampToJson)
+      name: 'Date', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
   final DateTime date;
 
   /// The event categories available for the specified source type.
@@ -4868,7 +4864,7 @@ class PendingMaintenanceAction {
   /// <code>next-maintenance</code> opt-in requests are ignored.
   @_s.JsonKey(
       name: 'AutoAppliedAfterDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime autoAppliedAfterDate;
 
@@ -4881,7 +4877,7 @@ class PendingMaintenanceAction {
   /// <code>ForcedApplyDate</code>.
   @_s.JsonKey(
       name: 'CurrentApplyDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime currentApplyDate;
 
@@ -4895,7 +4891,7 @@ class PendingMaintenanceAction {
   /// <code>immediate</code> opt-in requests are ignored.
   @_s.JsonKey(
       name: 'ForcedApplyDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime forcedApplyDate;
 
@@ -5165,7 +5161,7 @@ class RefreshSchemasStatus {
   /// The date the schema was last refreshed.
   @_s.JsonKey(
       name: 'LastRefreshDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastRefreshDate;
 
@@ -5302,14 +5298,14 @@ class ReplicationInstance {
   /// Free DMS program.
   @_s.JsonKey(
       name: 'FreeUntil',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime freeUntil;
 
   /// The time the replication instance was created.
   @_s.JsonKey(
       name: 'InstanceCreateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime instanceCreateTime;
 
@@ -5608,7 +5604,7 @@ class ReplicationTask {
   /// The date the replication task was created.
   @_s.JsonKey(
       name: 'ReplicationTaskCreationDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime replicationTaskCreationDate;
 
@@ -5637,7 +5633,7 @@ class ReplicationTask {
   /// The date the replication task is scheduled to start.
   @_s.JsonKey(
       name: 'ReplicationTaskStartDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime replicationTaskStartDate;
 
@@ -5720,7 +5716,7 @@ class ReplicationTaskAssessmentResult {
   /// The date the task assessment was completed.
   @_s.JsonKey(
       name: 'ReplicationTaskLastAssessmentDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime replicationTaskLastAssessmentDate;
 
@@ -5758,14 +5754,14 @@ class ReplicationTaskStats {
   /// target reload.
   @_s.JsonKey(
       name: 'FreshStartDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime freshStartDate;
 
   /// The date the replication task full load was completed.
   @_s.JsonKey(
       name: 'FullLoadFinishDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime fullLoadFinishDate;
 
@@ -5776,7 +5772,7 @@ class ReplicationTaskStats {
   /// The date the replication task full load was started.
   @_s.JsonKey(
       name: 'FullLoadStartDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime fullLoadStartDate;
 
@@ -5785,14 +5781,14 @@ class ReplicationTaskStats {
   /// href="https://docs.aws.amazon.com/dms/latest/APIReference/API_StartReplicationTask.html#DMS-StartReplicationTask-request-StartReplicationTaskType">StartReplicationTaskType</a>.
   @_s.JsonKey(
       name: 'StartDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime startDate;
 
   /// The date the replication task was stopped.
   @_s.JsonKey(
       name: 'StopDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime stopDate;
 
@@ -6395,7 +6391,7 @@ class TableStatistics {
   /// The time when the full load operation completed.
   @_s.JsonKey(
       name: 'FullLoadEndTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime fullLoadEndTime;
 
@@ -6416,7 +6412,7 @@ class TableStatistics {
   /// The time when the full load operation started.
   @_s.JsonKey(
       name: 'FullLoadStartTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime fullLoadStartTime;
 
@@ -6427,7 +6423,7 @@ class TableStatistics {
   /// The last time a table was updated.
   @_s.JsonKey(
       name: 'LastUpdateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdateTime;
 

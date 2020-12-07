@@ -27,12 +27,12 @@ Account _$AccountFromJson(Map<String, dynamic> json) {
 
 ApiKey _$ApiKeyFromJson(Map<String, dynamic> json) {
   return ApiKey(
-    createdDate: unixTimestampFromJson(json['createdDate']),
+    createdDate: timeStampFromJson(json['createdDate']),
     customerId: json['customerId'] as String,
     description: json['description'] as String,
     enabled: json['enabled'] as bool,
     id: json['id'] as String,
-    lastUpdatedDate: unixTimestampFromJson(json['lastUpdatedDate']),
+    lastUpdatedDate: timeStampFromJson(json['lastUpdatedDate']),
     name: json['name'] as String,
     stageKeys: (json['stageKeys'] as List)?.map((e) => e as String)?.toList(),
     tags: (json['tags'] as Map<String, dynamic>)?.map(
@@ -205,9 +205,9 @@ Map<String, dynamic> _$CanarySettingsToJson(CanarySettings instance) {
 ClientCertificate _$ClientCertificateFromJson(Map<String, dynamic> json) {
   return ClientCertificate(
     clientCertificateId: json['clientCertificateId'] as String,
-    createdDate: unixTimestampFromJson(json['createdDate']),
+    createdDate: timeStampFromJson(json['createdDate']),
     description: json['description'] as String,
-    expirationDate: unixTimestampFromJson(json['expirationDate']),
+    expirationDate: timeStampFromJson(json['expirationDate']),
     pemEncodedCertificate: json['pemEncodedCertificate'] as String,
     tags: (json['tags'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k, e as String),
@@ -239,7 +239,7 @@ Deployment _$DeploymentFromJson(Map<String, dynamic> json) {
                     : MethodSnapshot.fromJson(e as Map<String, dynamic>)),
           )),
     ),
-    createdDate: unixTimestampFromJson(json['createdDate']),
+    createdDate: timeStampFromJson(json['createdDate']),
     description: json['description'] as String,
     id: json['id'] as String,
   );
@@ -346,7 +346,7 @@ DocumentationParts _$DocumentationPartsFromJson(Map<String, dynamic> json) {
 
 DocumentationVersion _$DocumentationVersionFromJson(Map<String, dynamic> json) {
   return DocumentationVersion(
-    createdDate: unixTimestampFromJson(json['createdDate']),
+    createdDate: timeStampFromJson(json['createdDate']),
     description: json['description'] as String,
     version: json['version'] as String,
   );
@@ -368,7 +368,7 @@ DomainName _$DomainNameFromJson(Map<String, dynamic> json) {
   return DomainName(
     certificateArn: json['certificateArn'] as String,
     certificateName: json['certificateName'] as String,
-    certificateUploadDate: unixTimestampFromJson(json['certificateUploadDate']),
+    certificateUploadDate: timeStampFromJson(json['certificateUploadDate']),
     distributionDomainName: json['distributionDomainName'] as String,
     distributionHostedZoneId: json['distributionHostedZoneId'] as String,
     domainName: json['domainName'] as String,
@@ -772,7 +772,7 @@ RestApi _$RestApiFromJson(Map<String, dynamic> json) {
         _$enumDecodeNullable(_$ApiKeySourceTypeEnumMap, json['apiKeySource']),
     binaryMediaTypes:
         (json['binaryMediaTypes'] as List)?.map((e) => e as String)?.toList(),
-    createdDate: unixTimestampFromJson(json['createdDate']),
+    createdDate: timeStampFromJson(json['createdDate']),
     description: json['description'] as String,
     endpointConfiguration: json['endpointConfiguration'] == null
         ? null
@@ -863,11 +863,11 @@ Stage _$StageFromJson(Map<String, dynamic> json) {
         : CanarySettings.fromJson(
             json['canarySettings'] as Map<String, dynamic>),
     clientCertificateId: json['clientCertificateId'] as String,
-    createdDate: unixTimestampFromJson(json['createdDate']),
+    createdDate: timeStampFromJson(json['createdDate']),
     deploymentId: json['deploymentId'] as String,
     description: json['description'] as String,
     documentationVersion: json['documentationVersion'] as String,
-    lastUpdatedDate: unixTimestampFromJson(json['lastUpdatedDate']),
+    lastUpdatedDate: timeStampFromJson(json['lastUpdatedDate']),
     methodSettings: (json['methodSettings'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k,
           e == null ? null : MethodSetting.fromJson(e as Map<String, dynamic>)),

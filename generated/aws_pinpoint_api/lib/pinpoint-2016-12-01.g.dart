@@ -473,12 +473,12 @@ ApplicationDateRangeKpiResponse _$ApplicationDateRangeKpiResponseFromJson(
     Map<String, dynamic> json) {
   return ApplicationDateRangeKpiResponse(
     applicationId: json['ApplicationId'] as String,
-    endTime: iso8601FromJson(json['EndTime'] as String),
+    endTime: timeStampFromJson(json['EndTime']),
     kpiName: json['KpiName'] as String,
     kpiResult: json['KpiResult'] == null
         ? null
         : BaseKpiResult.fromJson(json['KpiResult'] as Map<String, dynamic>),
-    startTime: iso8601FromJson(json['StartTime'] as String),
+    startTime: timeStampFromJson(json['StartTime']),
     nextToken: json['NextToken'] as String,
   );
 }
@@ -628,12 +628,12 @@ CampaignDateRangeKpiResponse _$CampaignDateRangeKpiResponseFromJson(
   return CampaignDateRangeKpiResponse(
     applicationId: json['ApplicationId'] as String,
     campaignId: json['CampaignId'] as String,
-    endTime: iso8601FromJson(json['EndTime'] as String),
+    endTime: timeStampFromJson(json['EndTime']),
     kpiName: json['KpiName'] as String,
     kpiResult: json['KpiResult'] == null
         ? null
         : BaseKpiResult.fromJson(json['KpiResult'] as Map<String, dynamic>),
-    startTime: iso8601FromJson(json['StartTime'] as String),
+    startTime: timeStampFromJson(json['StartTime']),
     nextToken: json['NextToken'] as String,
   );
 }
@@ -2639,13 +2639,13 @@ JourneyDateRangeKpiResponse _$JourneyDateRangeKpiResponseFromJson(
     Map<String, dynamic> json) {
   return JourneyDateRangeKpiResponse(
     applicationId: json['ApplicationId'] as String,
-    endTime: iso8601FromJson(json['EndTime'] as String),
+    endTime: timeStampFromJson(json['EndTime']),
     journeyId: json['JourneyId'] as String,
     kpiName: json['KpiName'] as String,
     kpiResult: json['KpiResult'] == null
         ? null
         : BaseKpiResult.fromJson(json['KpiResult'] as Map<String, dynamic>),
-    startTime: iso8601FromJson(json['StartTime'] as String),
+    startTime: timeStampFromJson(json['StartTime']),
     nextToken: json['NextToken'] as String,
   );
 }
@@ -2763,8 +2763,8 @@ const _$StateEnumMap = {
 
 JourneySchedule _$JourneyScheduleFromJson(Map<String, dynamic> json) {
   return JourneySchedule(
-    endTime: iso8601FromJson(json['EndTime'] as String),
-    startTime: iso8601FromJson(json['StartTime'] as String),
+    endTime: timeStampFromJson(json['EndTime']),
+    startTime: timeStampFromJson(json['StartTime']),
     timezone: json['Timezone'] as String,
   );
 }

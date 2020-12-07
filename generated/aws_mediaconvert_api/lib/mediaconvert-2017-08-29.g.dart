@@ -4223,7 +4223,7 @@ Job _$JobFromJson(Map<String, dynamic> json) {
     arn: json['arn'] as String,
     billingTagsSource: _$enumDecodeNullable(
         _$BillingTagsSourceEnumMap, json['billingTagsSource']),
-    createdAt: unixTimestampFromJson(json['createdAt']),
+    createdAt: timeStampFromJson(json['createdAt']),
     currentPhase: _$enumDecodeNullable(_$JobPhaseEnumMap, json['currentPhase']),
     errorCode: json['errorCode'] as int,
     errorMessage: json['errorMessage'] as String,
@@ -4395,14 +4395,14 @@ JobTemplate _$JobTemplateFromJson(Map<String, dynamic> json) {
             json['accelerationSettings'] as Map<String, dynamic>),
     arn: json['arn'] as String,
     category: json['category'] as String,
-    createdAt: unixTimestampFromJson(json['createdAt']),
+    createdAt: timeStampFromJson(json['createdAt']),
     description: json['description'] as String,
     hopDestinations: (json['hopDestinations'] as List)
         ?.map((e) => e == null
             ? null
             : HopDestination.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    lastUpdated: unixTimestampFromJson(json['lastUpdated']),
+    lastUpdated: timeStampFromJson(json['lastUpdated']),
     priority: json['priority'] as int,
     queue: json['queue'] as String,
     statusUpdateInterval: _$enumDecodeNullable(
@@ -5767,9 +5767,9 @@ Preset _$PresetFromJson(Map<String, dynamic> json) {
         : PresetSettings.fromJson(json['settings'] as Map<String, dynamic>),
     arn: json['arn'] as String,
     category: json['category'] as String,
-    createdAt: unixTimestampFromJson(json['createdAt']),
+    createdAt: timeStampFromJson(json['createdAt']),
     description: json['description'] as String,
-    lastUpdated: unixTimestampFromJson(json['lastUpdated']),
+    lastUpdated: timeStampFromJson(json['lastUpdated']),
     type: _$enumDecodeNullable(_$TypeEnumMap, json['type']),
   );
 }
@@ -5910,9 +5910,9 @@ Queue _$QueueFromJson(Map<String, dynamic> json) {
   return Queue(
     name: json['name'] as String,
     arn: json['arn'] as String,
-    createdAt: unixTimestampFromJson(json['createdAt']),
+    createdAt: timeStampFromJson(json['createdAt']),
     description: json['description'] as String,
-    lastUpdated: unixTimestampFromJson(json['lastUpdated']),
+    lastUpdated: timeStampFromJson(json['lastUpdated']),
     pricingPlan:
         _$enumDecodeNullable(_$PricingPlanEnumMap, json['pricingPlan']),
     progressingJobsCount: json['progressingJobsCount'] as int,
@@ -5940,7 +5940,7 @@ QueueTransition _$QueueTransitionFromJson(Map<String, dynamic> json) {
   return QueueTransition(
     destinationQueue: json['destinationQueue'] as String,
     sourceQueue: json['sourceQueue'] as String,
-    timestamp: unixTimestampFromJson(json['timestamp']),
+    timestamp: timeStampFromJson(json['timestamp']),
   );
 }
 
@@ -5998,8 +5998,8 @@ Map<String, dynamic> _$RemixSettingsToJson(RemixSettings instance) {
 ReservationPlan _$ReservationPlanFromJson(Map<String, dynamic> json) {
   return ReservationPlan(
     commitment: _$enumDecodeNullable(_$CommitmentEnumMap, json['commitment']),
-    expiresAt: unixTimestampFromJson(json['expiresAt']),
-    purchasedAt: unixTimestampFromJson(json['purchasedAt']),
+    expiresAt: timeStampFromJson(json['expiresAt']),
+    purchasedAt: timeStampFromJson(json['purchasedAt']),
     renewalType:
         _$enumDecodeNullable(_$RenewalTypeEnumMap, json['renewalType']),
     reservedSlots: json['reservedSlots'] as int,
@@ -6404,9 +6404,9 @@ Map<String, dynamic> _$TimedMetadataInsertionToJson(
 
 Timing _$TimingFromJson(Map<String, dynamic> json) {
   return Timing(
-    finishTime: unixTimestampFromJson(json['finishTime']),
-    startTime: unixTimestampFromJson(json['startTime']),
-    submitTime: unixTimestampFromJson(json['submitTime']),
+    finishTime: timeStampFromJson(json['finishTime']),
+    startTime: timeStampFromJson(json['startTime']),
+    submitTime: timeStampFromJson(json['submitTime']),
   );
 }
 

@@ -15,10 +15,7 @@ String extractJsonCode(Shape shape, String variable, {Member member}) {
     shape.isTopLevelOutputEnum = true;
     return '($variable as String)?.to${shape.className}()';
   } else if (shape.type == 'timestamp') {
-    final timestampFormat =
-        member?.timestampFormat ?? shape.timestampFormat ?? 'unixTimestamp';
-    final sourceType = timestampFormat == 'unixTimestamp' ? 'int' : 'String';
-    return '${timestampFormat}FromJson($variable as $sourceType)';
+    return 'timeStampFromJson($variable)';
   } else if (shape.type == 'blob') {
     return 'const Uint8ListConverter().fromJson($variable as String)';
   } else {

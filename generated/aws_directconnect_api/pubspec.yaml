@@ -1,6 +1,6 @@
 name: aws_directconnect_api
 description: AWS API client for AWS Direct Connect (generated from SDK API specification).
-version: 0.1.1
+version: 0.0.1
 homepage: https://github.com/agilord/aws_client/tree/master/generated/aws_directconnect_api
 
 

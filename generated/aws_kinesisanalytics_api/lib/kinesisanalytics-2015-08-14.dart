@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -1916,7 +1914,7 @@ class ApplicationDetail {
   /// Time stamp when the application version was created.
   @_s.JsonKey(
       name: 'CreateTimestamp',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createTimestamp;
 
@@ -1929,7 +1927,7 @@ class ApplicationDetail {
   /// Time stamp when the application was last updated.
   @_s.JsonKey(
       name: 'LastUpdateTimestamp',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdateTimestamp;
 

@@ -9,10 +9,10 @@ part of 'sms-2016-10-24.dart';
 AppSummary _$AppSummaryFromJson(Map<String, dynamic> json) {
   return AppSummary(
     appId: json['appId'] as String,
-    creationTime: unixTimestampFromJson(json['creationTime']),
+    creationTime: timeStampFromJson(json['creationTime']),
     description: json['description'] as String,
-    lastModified: unixTimestampFromJson(json['lastModified']),
-    latestReplicationTime: unixTimestampFromJson(json['latestReplicationTime']),
+    lastModified: timeStampFromJson(json['lastModified']),
+    latestReplicationTime: timeStampFromJson(json['latestReplicationTime']),
     launchDetails: json['launchDetails'] == null
         ? null
         : LaunchDetails.fromJson(json['launchDetails'] as Map<String, dynamic>),
@@ -110,7 +110,7 @@ const _$AppStatusEnumMap = {
 
 Connector _$ConnectorFromJson(Map<String, dynamic> json) {
   return Connector(
-    associatedOn: unixTimestampFromJson(json['associatedOn']),
+    associatedOn: timeStampFromJson(json['associatedOn']),
     capabilityList: (json['capabilityList'] as List)
         ?.map((e) => _$enumDecodeNullable(_$ConnectorCapabilityEnumMap, e))
         ?.toList(),
@@ -299,7 +299,7 @@ GetReplicationRunsResponse _$GetReplicationRunsResponseFromJson(
 
 GetServersResponse _$GetServersResponseFromJson(Map<String, dynamic> json) {
   return GetServersResponse(
-    lastModifiedOn: unixTimestampFromJson(json['lastModifiedOn']),
+    lastModifiedOn: timeStampFromJson(json['lastModifiedOn']),
     nextToken: json['nextToken'] as String,
     serverCatalogStatus: _$enumDecodeNullable(
         _$ServerCatalogStatusEnumMap, json['serverCatalogStatus']),
@@ -329,7 +329,7 @@ LaunchAppResponse _$LaunchAppResponseFromJson(Map<String, dynamic> json) {
 
 LaunchDetails _$LaunchDetailsFromJson(Map<String, dynamic> json) {
   return LaunchDetails(
-    latestLaunchTime: unixTimestampFromJson(json['latestLaunchTime']),
+    latestLaunchTime: timeStampFromJson(json['latestLaunchTime']),
     stackId: json['stackId'] as String,
     stackName: json['stackName'] as String,
   );
@@ -366,7 +366,7 @@ ReplicationJob _$ReplicationJobFromJson(Map<String, dynamic> json) {
     licenseType:
         _$enumDecodeNullable(_$LicenseTypeEnumMap, json['licenseType']),
     nextReplicationRunStartTime:
-        unixTimestampFromJson(json['nextReplicationRunStartTime']),
+        timeStampFromJson(json['nextReplicationRunStartTime']),
     numberOfRecentAmisToKeep: json['numberOfRecentAmisToKeep'] as int,
     replicationJobId: json['replicationJobId'] as String,
     replicationRunList: (json['replicationRunList'] as List)
@@ -376,7 +376,7 @@ ReplicationJob _$ReplicationJobFromJson(Map<String, dynamic> json) {
         ?.toList(),
     roleName: json['roleName'] as String,
     runOnce: json['runOnce'] as bool,
-    seedReplicationTime: unixTimestampFromJson(json['seedReplicationTime']),
+    seedReplicationTime: timeStampFromJson(json['seedReplicationTime']),
     serverId: json['serverId'] as String,
     serverType: _$enumDecodeNullable(_$ServerTypeEnumMap, json['serverType']),
     state: _$enumDecodeNullable(_$ReplicationJobStateEnumMap, json['state']),
@@ -410,12 +410,12 @@ const _$ReplicationJobStateEnumMap = {
 ReplicationRun _$ReplicationRunFromJson(Map<String, dynamic> json) {
   return ReplicationRun(
     amiId: json['amiId'] as String,
-    completedTime: unixTimestampFromJson(json['completedTime']),
+    completedTime: timeStampFromJson(json['completedTime']),
     description: json['description'] as String,
     encrypted: json['encrypted'] as bool,
     kmsKeyId: json['kmsKeyId'] as String,
     replicationRunId: json['replicationRunId'] as String,
-    scheduledStartTime: unixTimestampFromJson(json['scheduledStartTime']),
+    scheduledStartTime: timeStampFromJson(json['scheduledStartTime']),
     stageDetails: json['stageDetails'] == null
         ? null
         : ReplicationRunStageDetails.fromJson(
@@ -669,7 +669,7 @@ ServerReplicationParameters _$ServerReplicationParametersFromJson(
         _$enumDecodeNullable(_$LicenseTypeEnumMap, json['licenseType']),
     numberOfRecentAmisToKeep: json['numberOfRecentAmisToKeep'] as int,
     runOnce: json['runOnce'] as bool,
-    seedTime: unixTimestampFromJson(json['seedTime']),
+    seedTime: timeStampFromJson(json['seedTime']),
   );
 }
 

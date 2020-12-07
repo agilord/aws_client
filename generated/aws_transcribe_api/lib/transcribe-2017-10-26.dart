@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -1492,7 +1490,7 @@ class CreateVocabularyFilterResponse {
   /// The date and time that the vocabulary filter was modified.
   @_s.JsonKey(
       name: 'LastModifiedTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastModifiedTime;
 
@@ -1527,7 +1525,7 @@ class CreateVocabularyResponse {
   /// The date and time that the vocabulary was created.
   @_s.JsonKey(
       name: 'LastModifiedTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastModifiedTime;
 
@@ -1606,7 +1604,7 @@ class GetVocabularyFilterResponse {
   /// The date and time that the contents of the vocabulary filter were updated.
   @_s.JsonKey(
       name: 'LastModifiedTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastModifiedTime;
 
@@ -1647,7 +1645,7 @@ class GetVocabularyResponse {
   /// The date and time that the vocabulary was last modified.
   @_s.JsonKey(
       name: 'LastModifiedTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastModifiedTime;
 
@@ -2068,14 +2066,14 @@ class MedicalTranscriptionJob {
   /// A timestamp that shows when the job was completed.
   @_s.JsonKey(
       name: 'CompletionTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime completionTime;
 
   /// A timestamp that shows when the job was created.
   @_s.JsonKey(
       name: 'CreationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationTime;
 
@@ -2176,7 +2174,7 @@ class MedicalTranscriptionJob {
   /// A timestamp that shows when the job started processing.
   @_s.JsonKey(
       name: 'StartTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime startTime;
 
@@ -2226,14 +2224,14 @@ class MedicalTranscriptionJobSummary {
   /// A timestamp that shows when the job was completed.
   @_s.JsonKey(
       name: 'CompletionTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime completionTime;
 
   /// A timestamp that shows when the medical transcription job was created.
   @_s.JsonKey(
       name: 'CreationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationTime;
 
@@ -2265,7 +2263,7 @@ class MedicalTranscriptionJobSummary {
   /// A timestamp that shows when the job began processing.
   @_s.JsonKey(
       name: 'StartTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime startTime;
 
@@ -2565,7 +2563,7 @@ class TranscriptionJob {
   /// A timestamp that shows when the job was completed.
   @_s.JsonKey(
       name: 'CompletionTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime completionTime;
 
@@ -2577,7 +2575,7 @@ class TranscriptionJob {
   /// A timestamp that shows when the job was created.
   @_s.JsonKey(
       name: 'CreationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationTime;
 
@@ -2660,7 +2658,7 @@ class TranscriptionJob {
   /// A timestamp that shows with the job was started processing.
   @_s.JsonKey(
       name: 'StartTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime startTime;
 
@@ -2733,7 +2731,7 @@ class TranscriptionJobSummary {
   /// A timestamp that shows when the job was completed.
   @_s.JsonKey(
       name: 'CompletionTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime completionTime;
 
@@ -2744,7 +2742,7 @@ class TranscriptionJobSummary {
   /// A timestamp that shows when the job was created.
   @_s.JsonKey(
       name: 'CreationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationTime;
 
@@ -2774,7 +2772,7 @@ class TranscriptionJobSummary {
   /// A timestamp that shows when the job started processing.
   @_s.JsonKey(
       name: 'StartTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime startTime;
 
@@ -2835,7 +2833,7 @@ class UpdateVocabularyFilterResponse {
   /// The date and time that the vocabulary filter was updated.
   @_s.JsonKey(
       name: 'LastModifiedTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastModifiedTime;
 
@@ -2865,7 +2863,7 @@ class UpdateVocabularyResponse {
   /// The date and time that the vocabulary was updated.
   @_s.JsonKey(
       name: 'LastModifiedTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastModifiedTime;
 
@@ -2904,7 +2902,7 @@ class VocabularyFilterInfo {
   /// The date and time that the vocabulary was last updated.
   @_s.JsonKey(
       name: 'LastModifiedTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastModifiedTime;
 
@@ -2943,7 +2941,7 @@ class VocabularyInfo {
   /// The date and time that the vocabulary was last modified.
   @_s.JsonKey(
       name: 'LastModifiedTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastModifiedTime;
 

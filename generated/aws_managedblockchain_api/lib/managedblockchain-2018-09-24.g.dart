@@ -137,8 +137,8 @@ GetProposalOutput _$GetProposalOutputFromJson(Map<String, dynamic> json) {
 
 Invitation _$InvitationFromJson(Map<String, dynamic> json) {
   return Invitation(
-    creationDate: iso8601FromJson(json['CreationDate'] as String),
-    expirationDate: iso8601FromJson(json['ExpirationDate'] as String),
+    creationDate: timeStampFromJson(json['CreationDate']),
+    expirationDate: timeStampFromJson(json['ExpirationDate']),
     invitationId: json['InvitationId'] as String,
     networkSummary: json['NetworkSummary'] == null
         ? null
@@ -282,7 +282,7 @@ Map<String, dynamic> _$LogConfigurationsToJson(LogConfigurations instance) {
 
 Member _$MemberFromJson(Map<String, dynamic> json) {
   return Member(
-    creationDate: iso8601FromJson(json['CreationDate'] as String),
+    creationDate: timeStampFromJson(json['CreationDate']),
     description: json['Description'] as String,
     frameworkAttributes: json['FrameworkAttributes'] == null
         ? null
@@ -423,7 +423,7 @@ Map<String, dynamic> _$MemberLogPublishingConfigurationToJson(
 
 MemberSummary _$MemberSummaryFromJson(Map<String, dynamic> json) {
   return MemberSummary(
-    creationDate: iso8601FromJson(json['CreationDate'] as String),
+    creationDate: timeStampFromJson(json['CreationDate']),
     description: json['Description'] as String,
     id: json['Id'] as String,
     isOwned: json['IsOwned'] as bool,
@@ -434,7 +434,7 @@ MemberSummary _$MemberSummaryFromJson(Map<String, dynamic> json) {
 
 Network _$NetworkFromJson(Map<String, dynamic> json) {
   return Network(
-    creationDate: iso8601FromJson(json['CreationDate'] as String),
+    creationDate: timeStampFromJson(json['CreationDate']),
     description: json['Description'] as String,
     framework: _$enumDecodeNullable(_$FrameworkEnumMap, json['Framework']),
     frameworkAttributes: json['FrameworkAttributes'] == null
@@ -517,7 +517,7 @@ Map<String, dynamic> _$NetworkFrameworkConfigurationToJson(
 
 NetworkSummary _$NetworkSummaryFromJson(Map<String, dynamic> json) {
   return NetworkSummary(
-    creationDate: iso8601FromJson(json['CreationDate'] as String),
+    creationDate: timeStampFromJson(json['CreationDate']),
     description: json['Description'] as String,
     framework: _$enumDecodeNullable(_$FrameworkEnumMap, json['Framework']),
     frameworkVersion: json['FrameworkVersion'] as String,
@@ -530,7 +530,7 @@ NetworkSummary _$NetworkSummaryFromJson(Map<String, dynamic> json) {
 Node _$NodeFromJson(Map<String, dynamic> json) {
   return Node(
     availabilityZone: json['AvailabilityZone'] as String,
-    creationDate: iso8601FromJson(json['CreationDate'] as String),
+    creationDate: timeStampFromJson(json['CreationDate']),
     frameworkAttributes: json['FrameworkAttributes'] == null
         ? null
         : NodeFrameworkAttributes.fromJson(
@@ -644,7 +644,7 @@ Map<String, dynamic> _$NodeLogPublishingConfigurationToJson(
 NodeSummary _$NodeSummaryFromJson(Map<String, dynamic> json) {
   return NodeSummary(
     availabilityZone: json['AvailabilityZone'] as String,
-    creationDate: iso8601FromJson(json['CreationDate'] as String),
+    creationDate: timeStampFromJson(json['CreationDate']),
     id: json['Id'] as String,
     instanceType: json['InstanceType'] as String,
     status: _$enumDecodeNullable(_$NodeStatusEnumMap, json['Status']),
@@ -656,9 +656,9 @@ Proposal _$ProposalFromJson(Map<String, dynamic> json) {
     actions: json['Actions'] == null
         ? null
         : ProposalActions.fromJson(json['Actions'] as Map<String, dynamic>),
-    creationDate: iso8601FromJson(json['CreationDate'] as String),
+    creationDate: timeStampFromJson(json['CreationDate']),
     description: json['Description'] as String,
-    expirationDate: iso8601FromJson(json['ExpirationDate'] as String),
+    expirationDate: timeStampFromJson(json['ExpirationDate']),
     networkId: json['NetworkId'] as String,
     noVoteCount: json['NoVoteCount'] as int,
     outstandingVoteCount: json['OutstandingVoteCount'] as int,
@@ -709,9 +709,9 @@ Map<String, dynamic> _$ProposalActionsToJson(ProposalActions instance) {
 
 ProposalSummary _$ProposalSummaryFromJson(Map<String, dynamic> json) {
   return ProposalSummary(
-    creationDate: iso8601FromJson(json['CreationDate'] as String),
+    creationDate: timeStampFromJson(json['CreationDate']),
     description: json['Description'] as String,
-    expirationDate: iso8601FromJson(json['ExpirationDate'] as String),
+    expirationDate: timeStampFromJson(json['ExpirationDate']),
     proposalId: json['ProposalId'] as String,
     proposedByMemberId: json['ProposedByMemberId'] as String,
     proposedByMemberName: json['ProposedByMemberName'] as String,

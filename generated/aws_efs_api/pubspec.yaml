@@ -1,6 +1,6 @@
 name: aws_efs_api
 description: AWS API client for Amazon Elastic File System (generated from SDK API specification).
-version: 0.0.2
+version: 0.0.1
 homepage: https://github.com/agilord/aws_client/tree/master/generated/aws_efs_api
 
 

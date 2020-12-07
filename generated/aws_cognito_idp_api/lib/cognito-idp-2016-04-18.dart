@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -10085,14 +10083,14 @@ class AdminGetUserResponse {
   /// The date the user was created.
   @_s.JsonKey(
       name: 'UserCreateDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime userCreateDate;
 
   /// The date the user was last modified.
   @_s.JsonKey(
       name: 'UserLastModifiedDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime userLastModifiedDate;
 
@@ -10646,7 +10644,7 @@ class AuthEventType {
   /// The creation date
   @_s.JsonKey(
       name: 'CreationDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDate;
 
@@ -11446,7 +11444,7 @@ class DeviceType {
   /// The creation date of the device.
   @_s.JsonKey(
       name: 'DeviceCreateDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime deviceCreateDate;
 
@@ -11457,14 +11455,14 @@ class DeviceType {
   /// The date in which the device was last authenticated.
   @_s.JsonKey(
       name: 'DeviceLastAuthenticatedDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime deviceLastAuthenticatedDate;
 
   /// The last modified date of the device.
   @_s.JsonKey(
       name: 'DeviceLastModifiedDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime deviceLastModifiedDate;
 
@@ -11723,7 +11721,7 @@ class EventFeedbackType {
   /// The event feedback date.
   @_s.JsonKey(
       name: 'FeedbackDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime feedbackDate;
 
@@ -12114,7 +12112,7 @@ class GroupType {
   /// The date the group was created.
   @_s.JsonKey(
       name: 'CreationDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDate;
 
@@ -12129,7 +12127,7 @@ class GroupType {
   /// The date the group was last modified.
   @_s.JsonKey(
       name: 'LastModifiedDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastModifiedDate;
 
@@ -12210,7 +12208,7 @@ class IdentityProviderType {
   /// The date the identity provider was created.
   @_s.JsonKey(
       name: 'CreationDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDate;
 
@@ -12221,7 +12219,7 @@ class IdentityProviderType {
   /// The date the identity provider was last modified.
   @_s.JsonKey(
       name: 'LastModifiedDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastModifiedDate;
 
@@ -13077,14 +13075,14 @@ class ProviderDescription {
   /// The date the provider was added to the user pool.
   @_s.JsonKey(
       name: 'CreationDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDate;
 
   /// The date the provider was last modified.
   @_s.JsonKey(
       name: 'LastModifiedDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastModifiedDate;
 
@@ -13313,7 +13311,7 @@ class RiskConfigurationType {
   /// The last modified date.
   @_s.JsonKey(
       name: 'LastModifiedDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastModifiedDate;
 
@@ -13814,7 +13812,7 @@ class UICustomizationType {
   /// The creation date for the UI customization.
   @_s.JsonKey(
       name: 'CreationDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDate;
 
@@ -13825,7 +13823,7 @@ class UICustomizationType {
   /// The last-modified date for the UI customization.
   @_s.JsonKey(
       name: 'LastModifiedDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastModifiedDate;
 
@@ -14059,7 +14057,7 @@ class UserImportJobType {
   /// The date when the user import job was completed.
   @_s.JsonKey(
       name: 'CompletionDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime completionDate;
 
@@ -14070,7 +14068,7 @@ class UserImportJobType {
   /// The date the user import job was created.
   @_s.JsonKey(
       name: 'CreationDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDate;
 
@@ -14101,7 +14099,7 @@ class UserImportJobType {
   /// The date when the user import job was started.
   @_s.JsonKey(
       name: 'StartDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime startDate;
 
@@ -14297,7 +14295,7 @@ class UserPoolClientType {
   /// The date the user pool client was created.
   @_s.JsonKey(
       name: 'CreationDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDate;
 
@@ -14364,7 +14362,7 @@ class UserPoolClientType {
   /// The date the user pool client was last modified.
   @_s.JsonKey(
       name: 'LastModifiedDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastModifiedDate;
 
@@ -14485,7 +14483,7 @@ class UserPoolDescriptionType {
   /// The date the user pool description was created.
   @_s.JsonKey(
       name: 'CreationDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDate;
 
@@ -14500,7 +14498,7 @@ class UserPoolDescriptionType {
   /// The date the user pool description was last modified.
   @_s.JsonKey(
       name: 'LastModifiedDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastModifiedDate;
 
@@ -14603,7 +14601,7 @@ class UserPoolType {
   /// The date the user pool was created.
   @_s.JsonKey(
       name: 'CreationDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDate;
 
@@ -14657,7 +14655,7 @@ class UserPoolType {
   /// The date the user pool was last modified.
   @_s.JsonKey(
       name: 'LastModifiedDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastModifiedDate;
 
@@ -14815,14 +14813,14 @@ class UserType {
   /// The creation date of the user.
   @_s.JsonKey(
       name: 'UserCreateDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime userCreateDate;
 
   /// The last modified date of the user.
   @_s.JsonKey(
       name: 'UserLastModifiedDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime userLastModifiedDate;
 

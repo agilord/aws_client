@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -2440,7 +2438,7 @@ class CreateDeploymentJobResponse {
   /// The time, in milliseconds since the epoch, when the fleet was created.
   @_s.JsonKey(
       name: 'createdAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdAt;
 
@@ -2535,7 +2533,7 @@ class CreateFleetResponse {
   /// The time, in milliseconds since the epoch, when the fleet was created.
   @_s.JsonKey(
       name: 'createdAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdAt;
 
@@ -2571,7 +2569,7 @@ class CreateRobotApplicationResponse {
   /// last updated.
   @_s.JsonKey(
       name: 'lastUpdatedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedAt;
 
@@ -2627,7 +2625,7 @@ class CreateRobotApplicationVersionResponse {
   /// last updated.
   @_s.JsonKey(
       name: 'lastUpdatedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedAt;
 
@@ -2682,7 +2680,7 @@ class CreateRobotResponse {
   /// The time, in milliseconds since the epoch, when the robot was created.
   @_s.JsonKey(
       name: 'createdAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdAt;
 
@@ -2725,7 +2723,7 @@ class CreateSimulationApplicationResponse {
   /// was last updated.
   @_s.JsonKey(
       name: 'lastUpdatedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedAt;
 
@@ -2792,7 +2790,7 @@ class CreateSimulationApplicationVersionResponse {
   /// was last updated.
   @_s.JsonKey(
       name: 'lastUpdatedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedAt;
 
@@ -2911,7 +2909,7 @@ class CreateSimulationJobResponse {
   /// started.
   @_s.JsonKey(
       name: 'lastStartedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastStartedAt;
 
@@ -2919,7 +2917,7 @@ class CreateSimulationJobResponse {
   /// updated.
   @_s.JsonKey(
       name: 'lastUpdatedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedAt;
 
@@ -3167,7 +3165,7 @@ class DeploymentJob {
   /// created.
   @_s.JsonKey(
       name: 'createdAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdAt;
 
@@ -3346,7 +3344,7 @@ class DescribeDeploymentJobResponse {
   /// created.
   @_s.JsonKey(
       name: 'createdAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdAt;
 
@@ -3411,7 +3409,7 @@ class DescribeFleetResponse {
   /// The time, in milliseconds since the epoch, when the fleet was created.
   @_s.JsonKey(
       name: 'createdAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdAt;
 
@@ -3426,7 +3424,7 @@ class DescribeFleetResponse {
   /// The time of the last deployment.
   @_s.JsonKey(
       name: 'lastDeploymentTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastDeploymentTime;
 
@@ -3470,7 +3468,7 @@ class DescribeRobotApplicationResponse {
   /// last updated.
   @_s.JsonKey(
       name: 'lastUpdatedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedAt;
 
@@ -3530,7 +3528,7 @@ class DescribeRobotResponse {
   /// The time, in milliseconds since the epoch, when the robot was created.
   @_s.JsonKey(
       name: 'createdAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdAt;
 
@@ -3549,7 +3547,7 @@ class DescribeRobotResponse {
   /// The time of the last deployment job.
   @_s.JsonKey(
       name: 'lastDeploymentTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastDeploymentTime;
 
@@ -3595,7 +3593,7 @@ class DescribeSimulationApplicationResponse {
   /// was last updated.
   @_s.JsonKey(
       name: 'lastUpdatedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedAt;
 
@@ -3671,7 +3669,7 @@ class DescribeSimulationJobBatchResponse {
   /// created.
   @_s.JsonKey(
       name: 'createdAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdAt;
 
@@ -3697,7 +3695,7 @@ class DescribeSimulationJobBatchResponse {
   /// last updated.
   @_s.JsonKey(
       name: 'lastUpdatedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedAt;
 
@@ -3842,7 +3840,7 @@ class DescribeSimulationJobResponse {
   /// started.
   @_s.JsonKey(
       name: 'lastStartedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastStartedAt;
 
@@ -3850,7 +3848,7 @@ class DescribeSimulationJobResponse {
   /// updated.
   @_s.JsonKey(
       name: 'lastUpdatedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedAt;
 
@@ -3937,7 +3935,7 @@ class FailedCreateSimulationJobRequest {
   /// failed.
   @_s.JsonKey(
       name: 'failedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime failedAt;
 
@@ -4019,7 +4017,7 @@ class Fleet {
   /// The time, in milliseconds since the epoch, when the fleet was created.
   @_s.JsonKey(
       name: 'createdAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdAt;
 
@@ -4034,7 +4032,7 @@ class Fleet {
   /// The time of the last deployment.
   @_s.JsonKey(
       name: 'lastDeploymentTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastDeploymentTime;
 
@@ -4556,7 +4554,7 @@ class Robot {
   /// The time, in milliseconds since the epoch, when the robot was created.
   @_s.JsonKey(
       name: 'createdAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdAt;
 
@@ -4575,7 +4573,7 @@ class Robot {
   /// The time of the last deployment.
   @_s.JsonKey(
       name: 'lastDeploymentTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastDeploymentTime;
 
@@ -4646,7 +4644,7 @@ class RobotApplicationSummary {
   /// last updated.
   @_s.JsonKey(
       name: 'lastUpdatedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedAt;
 
@@ -4687,14 +4685,14 @@ class RobotDeployment {
   /// The time, in milliseconds since the epoch, when the deployment finished.
   @_s.JsonKey(
       name: 'deploymentFinishTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime deploymentFinishTime;
 
   /// The time, in milliseconds since the epoch, when the deployment was started.
   @_s.JsonKey(
       name: 'deploymentStartTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime deploymentStartTime;
 
@@ -4900,7 +4898,7 @@ class SimulationApplicationSummary {
   /// was last updated.
   @_s.JsonKey(
       name: 'lastUpdatedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedAt;
 
@@ -4982,7 +4980,7 @@ class SimulationJob {
   /// started.
   @_s.JsonKey(
       name: 'lastStartedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastStartedAt;
 
@@ -4990,7 +4988,7 @@ class SimulationJob {
   /// updated.
   @_s.JsonKey(
       name: 'lastUpdatedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedAt;
 
@@ -5108,7 +5106,7 @@ class SimulationJobBatchSummary {
   /// created.
   @_s.JsonKey(
       name: 'createdAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdAt;
 
@@ -5124,7 +5122,7 @@ class SimulationJobBatchSummary {
   /// last updated.
   @_s.JsonKey(
       name: 'lastUpdatedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedAt;
 
@@ -5363,7 +5361,7 @@ class SimulationJobSummary {
   /// updated.
   @_s.JsonKey(
       name: 'lastUpdatedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedAt;
 
@@ -5511,7 +5509,7 @@ class StartSimulationJobBatchResponse {
   /// created.
   @_s.JsonKey(
       name: 'createdAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdAt;
 
@@ -5607,7 +5605,7 @@ class SyncDeploymentJobResponse {
   /// The time, in milliseconds since the epoch, when the fleet was created.
   @_s.JsonKey(
       name: 'createdAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdAt;
 
@@ -5716,7 +5714,7 @@ class UpdateRobotApplicationResponse {
   /// last updated.
   @_s.JsonKey(
       name: 'lastUpdatedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedAt;
 
@@ -5767,7 +5765,7 @@ class UpdateSimulationApplicationResponse {
   /// was last updated.
   @_s.JsonKey(
       name: 'lastUpdatedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedAt;
 

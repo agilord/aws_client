@@ -182,8 +182,8 @@ DescribeEventSourceResponse _$DescribeEventSourceResponseFromJson(
   return DescribeEventSourceResponse(
     arn: json['Arn'] as String,
     createdBy: json['CreatedBy'] as String,
-    creationTime: unixTimestampFromJson(json['CreationTime']),
-    expirationTime: unixTimestampFromJson(json['ExpirationTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
+    expirationTime: timeStampFromJson(json['ExpirationTime']),
     name: json['Name'] as String,
     state: _$enumDecodeNullable(_$EventSourceStateEnumMap, json['State']),
   );
@@ -271,8 +271,8 @@ EventSource _$EventSourceFromJson(Map<String, dynamic> json) {
   return EventSource(
     arn: json['Arn'] as String,
     createdBy: json['CreatedBy'] as String,
-    creationTime: unixTimestampFromJson(json['CreationTime']),
-    expirationTime: unixTimestampFromJson(json['ExpirationTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
+    expirationTime: timeStampFromJson(json['ExpirationTime']),
     name: json['Name'] as String,
     state: _$enumDecodeNullable(_$EventSourceStateEnumMap, json['State']),
   );
@@ -439,8 +439,8 @@ PartnerEventSourceAccount _$PartnerEventSourceAccountFromJson(
     Map<String, dynamic> json) {
   return PartnerEventSourceAccount(
     account: json['Account'] as String,
-    creationTime: unixTimestampFromJson(json['CreationTime']),
-    expirationTime: unixTimestampFromJson(json['ExpirationTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
+    expirationTime: timeStampFromJson(json['ExpirationTime']),
     state: _$enumDecodeNullable(_$EventSourceStateEnumMap, json['State']),
   );
 }

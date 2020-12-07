@@ -244,12 +244,12 @@ TerminologyProperties _$TerminologyPropertiesFromJson(
     Map<String, dynamic> json) {
   return TerminologyProperties(
     arn: json['Arn'] as String,
-    createdAt: unixTimestampFromJson(json['CreatedAt']),
+    createdAt: timeStampFromJson(json['CreatedAt']),
     description: json['Description'] as String,
     encryptionKey: json['EncryptionKey'] == null
         ? null
         : EncryptionKey.fromJson(json['EncryptionKey'] as Map<String, dynamic>),
-    lastUpdatedAt: unixTimestampFromJson(json['LastUpdatedAt']),
+    lastUpdatedAt: timeStampFromJson(json['LastUpdatedAt']),
     name: json['Name'] as String,
     sizeBytes: json['SizeBytes'] as int,
     sourceLanguageCode: json['SourceLanguageCode'] as String,
@@ -283,7 +283,7 @@ TextTranslationJobProperties _$TextTranslationJobPropertiesFromJson(
     Map<String, dynamic> json) {
   return TextTranslationJobProperties(
     dataAccessRoleArn: json['DataAccessRoleArn'] as String,
-    endTime: unixTimestampFromJson(json['EndTime']),
+    endTime: timeStampFromJson(json['EndTime']),
     inputDataConfig: json['InputDataConfig'] == null
         ? null
         : InputDataConfig.fromJson(
@@ -300,7 +300,7 @@ TextTranslationJobProperties _$TextTranslationJobPropertiesFromJson(
         : OutputDataConfig.fromJson(
             json['OutputDataConfig'] as Map<String, dynamic>),
     sourceLanguageCode: json['SourceLanguageCode'] as String,
-    submittedTime: unixTimestampFromJson(json['SubmittedTime']),
+    submittedTime: timeStampFromJson(json['SubmittedTime']),
     targetLanguageCodes: (json['TargetLanguageCodes'] as List)
         ?.map((e) => e as String)
         ?.toList(),

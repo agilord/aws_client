@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -915,7 +913,7 @@ class ComprehendMedicalAsyncJobFilter {
   /// returned in descending order, newest to oldest.
   @_s.JsonKey(
       name: 'SubmitTimeAfter',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime submitTimeAfter;
 
@@ -924,7 +922,7 @@ class ComprehendMedicalAsyncJobFilter {
   /// returned in ascending order, oldest to newest.
   @_s.JsonKey(
       name: 'SubmitTimeBefore',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime submitTimeBefore;
 
@@ -952,9 +950,7 @@ class ComprehendMedicalAsyncJobProperties {
 
   /// The time that the detection job completed.
   @_s.JsonKey(
-      name: 'EndTime',
-      fromJson: unixTimestampFromJson,
-      toJson: unixTimestampToJson)
+      name: 'EndTime', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
   final DateTime endTime;
 
   /// The date and time that job metadata is deleted from the server. Output files
@@ -964,7 +960,7 @@ class ComprehendMedicalAsyncJobProperties {
   /// <code>ListPHIDetectionJobs</code> operation.
   @_s.JsonKey(
       name: 'ExpirationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime expirationTime;
 
@@ -1018,7 +1014,7 @@ class ComprehendMedicalAsyncJobProperties {
   /// The time that the detection job was submitted for processing.
   @_s.JsonKey(
       name: 'SubmitTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime submitTime;
 

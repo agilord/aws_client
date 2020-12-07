@@ -39,7 +39,7 @@ Api _$ApiFromJson(Map<String, dynamic> json) {
     corsConfiguration: json['corsConfiguration'] == null
         ? null
         : Cors.fromJson(json['corsConfiguration'] as Map<String, dynamic>),
-    createdDate: iso8601FromJson(json['createdDate'] as String),
+    createdDate: timeStampFromJson(json['createdDate']),
     description: json['description'] as String,
     disableSchemaValidation: json['disableSchemaValidation'] as bool,
     importInfo: (json['importInfo'] as List)?.map((e) => e as String)?.toList(),
@@ -173,7 +173,7 @@ CreateApiResponse _$CreateApiResponseFromJson(Map<String, dynamic> json) {
     corsConfiguration: json['corsConfiguration'] == null
         ? null
         : Cors.fromJson(json['corsConfiguration'] as Map<String, dynamic>),
-    createdDate: iso8601FromJson(json['createdDate'] as String),
+    createdDate: timeStampFromJson(json['createdDate']),
     description: json['description'] as String,
     disableSchemaValidation: json['disableSchemaValidation'] as bool,
     importInfo: (json['importInfo'] as List)?.map((e) => e as String)?.toList(),
@@ -214,7 +214,7 @@ CreateDeploymentResponse _$CreateDeploymentResponseFromJson(
     Map<String, dynamic> json) {
   return CreateDeploymentResponse(
     autoDeployed: json['autoDeployed'] as bool,
-    createdDate: iso8601FromJson(json['createdDate'] as String),
+    createdDate: timeStampFromJson(json['createdDate']),
     deploymentId: json['deploymentId'] as String,
     deploymentStatus: _$enumDecodeNullable(
         _$DeploymentStatusEnumMap, json['deploymentStatus']),
@@ -399,7 +399,7 @@ CreateStageResponse _$CreateStageResponseFromJson(Map<String, dynamic> json) {
     apiGatewayManaged: json['apiGatewayManaged'] as bool,
     autoDeploy: json['autoDeploy'] as bool,
     clientCertificateId: json['clientCertificateId'] as String,
-    createdDate: iso8601FromJson(json['createdDate'] as String),
+    createdDate: timeStampFromJson(json['createdDate']),
     defaultRouteSettings: json['defaultRouteSettings'] == null
         ? null
         : RouteSettings.fromJson(
@@ -407,7 +407,7 @@ CreateStageResponse _$CreateStageResponseFromJson(Map<String, dynamic> json) {
     deploymentId: json['deploymentId'] as String,
     description: json['description'] as String,
     lastDeploymentStatusMessage: json['lastDeploymentStatusMessage'] as String,
-    lastUpdatedDate: iso8601FromJson(json['lastUpdatedDate'] as String),
+    lastUpdatedDate: timeStampFromJson(json['lastUpdatedDate']),
     routeSettings: (json['routeSettings'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k,
           e == null ? null : RouteSettings.fromJson(e as Map<String, dynamic>)),
@@ -425,7 +425,7 @@ CreateStageResponse _$CreateStageResponseFromJson(Map<String, dynamic> json) {
 CreateVpcLinkResponse _$CreateVpcLinkResponseFromJson(
     Map<String, dynamic> json) {
   return CreateVpcLinkResponse(
-    createdDate: iso8601FromJson(json['createdDate'] as String),
+    createdDate: timeStampFromJson(json['createdDate']),
     name: json['name'] as String,
     securityGroupIds:
         (json['securityGroupIds'] as List)?.map((e) => e as String)?.toList(),
@@ -462,7 +462,7 @@ DeleteVpcLinkResponse _$DeleteVpcLinkResponseFromJson(
 Deployment _$DeploymentFromJson(Map<String, dynamic> json) {
   return Deployment(
     autoDeployed: json['autoDeployed'] as bool,
-    createdDate: iso8601FromJson(json['createdDate'] as String),
+    createdDate: timeStampFromJson(json['createdDate']),
     deploymentId: json['deploymentId'] as String,
     deploymentStatus: _$enumDecodeNullable(
         _$DeploymentStatusEnumMap, json['deploymentStatus']),
@@ -493,8 +493,7 @@ DomainNameConfiguration _$DomainNameConfigurationFromJson(
     apiGatewayDomainName: json['apiGatewayDomainName'] as String,
     certificateArn: json['certificateArn'] as String,
     certificateName: json['certificateName'] as String,
-    certificateUploadDate:
-        iso8601FromJson(json['certificateUploadDate'] as String),
+    certificateUploadDate: timeStampFromJson(json['certificateUploadDate']),
     domainNameStatus: _$enumDecodeNullable(
         _$DomainNameStatusEnumMap, json['domainNameStatus']),
     domainNameStatusMessage: json['domainNameStatusMessage'] as String,
@@ -581,7 +580,7 @@ GetApiResponse _$GetApiResponseFromJson(Map<String, dynamic> json) {
     corsConfiguration: json['corsConfiguration'] == null
         ? null
         : Cors.fromJson(json['corsConfiguration'] as Map<String, dynamic>),
-    createdDate: iso8601FromJson(json['createdDate'] as String),
+    createdDate: timeStampFromJson(json['createdDate']),
     description: json['description'] as String,
     disableSchemaValidation: json['disableSchemaValidation'] as bool,
     importInfo: (json['importInfo'] as List)?.map((e) => e as String)?.toList(),
@@ -642,7 +641,7 @@ GetDeploymentResponse _$GetDeploymentResponseFromJson(
     Map<String, dynamic> json) {
   return GetDeploymentResponse(
     autoDeployed: json['autoDeployed'] as bool,
-    createdDate: iso8601FromJson(json['createdDate'] as String),
+    createdDate: timeStampFromJson(json['createdDate']),
     deploymentId: json['deploymentId'] as String,
     deploymentStatus: _$enumDecodeNullable(
         _$DeploymentStatusEnumMap, json['deploymentStatus']),
@@ -873,7 +872,7 @@ GetStageResponse _$GetStageResponseFromJson(Map<String, dynamic> json) {
     apiGatewayManaged: json['apiGatewayManaged'] as bool,
     autoDeploy: json['autoDeploy'] as bool,
     clientCertificateId: json['clientCertificateId'] as String,
-    createdDate: iso8601FromJson(json['createdDate'] as String),
+    createdDate: timeStampFromJson(json['createdDate']),
     defaultRouteSettings: json['defaultRouteSettings'] == null
         ? null
         : RouteSettings.fromJson(
@@ -881,7 +880,7 @@ GetStageResponse _$GetStageResponseFromJson(Map<String, dynamic> json) {
     deploymentId: json['deploymentId'] as String,
     description: json['description'] as String,
     lastDeploymentStatusMessage: json['lastDeploymentStatusMessage'] as String,
-    lastUpdatedDate: iso8601FromJson(json['lastUpdatedDate'] as String),
+    lastUpdatedDate: timeStampFromJson(json['lastUpdatedDate']),
     routeSettings: (json['routeSettings'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k,
           e == null ? null : RouteSettings.fromJson(e as Map<String, dynamic>)),
@@ -916,7 +915,7 @@ GetTagsResponse _$GetTagsResponseFromJson(Map<String, dynamic> json) {
 
 GetVpcLinkResponse _$GetVpcLinkResponseFromJson(Map<String, dynamic> json) {
   return GetVpcLinkResponse(
-    createdDate: iso8601FromJson(json['createdDate'] as String),
+    createdDate: timeStampFromJson(json['createdDate']),
     name: json['name'] as String,
     securityGroupIds:
         (json['securityGroupIds'] as List)?.map((e) => e as String)?.toList(),
@@ -951,7 +950,7 @@ ImportApiResponse _$ImportApiResponseFromJson(Map<String, dynamic> json) {
     corsConfiguration: json['corsConfiguration'] == null
         ? null
         : Cors.fromJson(json['corsConfiguration'] as Map<String, dynamic>),
-    createdDate: iso8601FromJson(json['createdDate'] as String),
+    createdDate: timeStampFromJson(json['createdDate']),
     description: json['description'] as String,
     disableSchemaValidation: json['disableSchemaValidation'] as bool,
     importInfo: (json['importInfo'] as List)?.map((e) => e as String)?.toList(),
@@ -1077,7 +1076,7 @@ ReimportApiResponse _$ReimportApiResponseFromJson(Map<String, dynamic> json) {
     corsConfiguration: json['corsConfiguration'] == null
         ? null
         : Cors.fromJson(json['corsConfiguration'] as Map<String, dynamic>),
-    createdDate: iso8601FromJson(json['createdDate'] as String),
+    createdDate: timeStampFromJson(json['createdDate']),
     description: json['description'] as String,
     disableSchemaValidation: json['disableSchemaValidation'] as bool,
     importInfo: (json['importInfo'] as List)?.map((e) => e as String)?.toList(),
@@ -1186,7 +1185,7 @@ Stage _$StageFromJson(Map<String, dynamic> json) {
     apiGatewayManaged: json['apiGatewayManaged'] as bool,
     autoDeploy: json['autoDeploy'] as bool,
     clientCertificateId: json['clientCertificateId'] as String,
-    createdDate: iso8601FromJson(json['createdDate'] as String),
+    createdDate: timeStampFromJson(json['createdDate']),
     defaultRouteSettings: json['defaultRouteSettings'] == null
         ? null
         : RouteSettings.fromJson(
@@ -1194,7 +1193,7 @@ Stage _$StageFromJson(Map<String, dynamic> json) {
     deploymentId: json['deploymentId'] as String,
     description: json['description'] as String,
     lastDeploymentStatusMessage: json['lastDeploymentStatusMessage'] as String,
-    lastUpdatedDate: iso8601FromJson(json['lastUpdatedDate'] as String),
+    lastUpdatedDate: timeStampFromJson(json['lastUpdatedDate']),
     routeSettings: (json['routeSettings'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k,
           e == null ? null : RouteSettings.fromJson(e as Map<String, dynamic>)),
@@ -1249,7 +1248,7 @@ UpdateApiResponse _$UpdateApiResponseFromJson(Map<String, dynamic> json) {
     corsConfiguration: json['corsConfiguration'] == null
         ? null
         : Cors.fromJson(json['corsConfiguration'] as Map<String, dynamic>),
-    createdDate: iso8601FromJson(json['createdDate'] as String),
+    createdDate: timeStampFromJson(json['createdDate']),
     description: json['description'] as String,
     disableSchemaValidation: json['disableSchemaValidation'] as bool,
     importInfo: (json['importInfo'] as List)?.map((e) => e as String)?.toList(),
@@ -1290,7 +1289,7 @@ UpdateDeploymentResponse _$UpdateDeploymentResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateDeploymentResponse(
     autoDeployed: json['autoDeployed'] as bool,
-    createdDate: iso8601FromJson(json['createdDate'] as String),
+    createdDate: timeStampFromJson(json['createdDate']),
     deploymentId: json['deploymentId'] as String,
     deploymentStatus: _$enumDecodeNullable(
         _$DeploymentStatusEnumMap, json['deploymentStatus']),
@@ -1438,7 +1437,7 @@ UpdateStageResponse _$UpdateStageResponseFromJson(Map<String, dynamic> json) {
     apiGatewayManaged: json['apiGatewayManaged'] as bool,
     autoDeploy: json['autoDeploy'] as bool,
     clientCertificateId: json['clientCertificateId'] as String,
-    createdDate: iso8601FromJson(json['createdDate'] as String),
+    createdDate: timeStampFromJson(json['createdDate']),
     defaultRouteSettings: json['defaultRouteSettings'] == null
         ? null
         : RouteSettings.fromJson(
@@ -1446,7 +1445,7 @@ UpdateStageResponse _$UpdateStageResponseFromJson(Map<String, dynamic> json) {
     deploymentId: json['deploymentId'] as String,
     description: json['description'] as String,
     lastDeploymentStatusMessage: json['lastDeploymentStatusMessage'] as String,
-    lastUpdatedDate: iso8601FromJson(json['lastUpdatedDate'] as String),
+    lastUpdatedDate: timeStampFromJson(json['lastUpdatedDate']),
     routeSettings: (json['routeSettings'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k,
           e == null ? null : RouteSettings.fromJson(e as Map<String, dynamic>)),
@@ -1464,7 +1463,7 @@ UpdateStageResponse _$UpdateStageResponseFromJson(Map<String, dynamic> json) {
 UpdateVpcLinkResponse _$UpdateVpcLinkResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateVpcLinkResponse(
-    createdDate: iso8601FromJson(json['createdDate'] as String),
+    createdDate: timeStampFromJson(json['createdDate']),
     name: json['name'] as String,
     securityGroupIds:
         (json['securityGroupIds'] as List)?.map((e) => e as String)?.toList(),
@@ -1488,7 +1487,7 @@ VpcLink _$VpcLinkFromJson(Map<String, dynamic> json) {
         (json['securityGroupIds'] as List)?.map((e) => e as String)?.toList(),
     subnetIds: (json['subnetIds'] as List)?.map((e) => e as String)?.toList(),
     vpcLinkId: json['vpcLinkId'] as String,
-    createdDate: iso8601FromJson(json['createdDate'] as String),
+    createdDate: timeStampFromJson(json['createdDate']),
     tags: (json['tags'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k, e as String),
     ),

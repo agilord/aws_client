@@ -10,7 +10,7 @@ Consumer _$ConsumerFromJson(Map<String, dynamic> json) {
   return Consumer(
     consumerARN: json['ConsumerARN'] as String,
     consumerCreationTimestamp:
-        unixTimestampFromJson(json['ConsumerCreationTimestamp']),
+        timeStampFromJson(json['ConsumerCreationTimestamp']),
     consumerName: json['ConsumerName'] as String,
     consumerStatus:
         _$enumDecodeNullable(_$ConsumerStatusEnumMap, json['ConsumerStatus']),
@@ -59,7 +59,7 @@ ConsumerDescription _$ConsumerDescriptionFromJson(Map<String, dynamic> json) {
   return ConsumerDescription(
     consumerARN: json['ConsumerARN'] as String,
     consumerCreationTimestamp:
-        unixTimestampFromJson(json['ConsumerCreationTimestamp']),
+        timeStampFromJson(json['ConsumerCreationTimestamp']),
     consumerName: json['ConsumerName'] as String,
     consumerStatus:
         _$enumDecodeNullable(_$ConsumerStatusEnumMap, json['ConsumerStatus']),
@@ -342,7 +342,7 @@ Record _$RecordFromJson(Map<String, dynamic> json) {
     partitionKey: json['PartitionKey'] as String,
     sequenceNumber: json['SequenceNumber'] as String,
     approximateArrivalTimestamp:
-        unixTimestampFromJson(json['ApproximateArrivalTimestamp']),
+        timeStampFromJson(json['ApproximateArrivalTimestamp']),
     encryptionType:
         _$enumDecodeNullable(_$EncryptionTypeEnumMap, json['EncryptionType']),
   );
@@ -407,8 +407,7 @@ StreamDescription _$StreamDescriptionFromJson(Map<String, dynamic> json) {
             (e) => e == null ? null : Shard.fromJson(e as Map<String, dynamic>))
         ?.toList(),
     streamARN: json['StreamARN'] as String,
-    streamCreationTimestamp:
-        unixTimestampFromJson(json['StreamCreationTimestamp']),
+    streamCreationTimestamp: timeStampFromJson(json['StreamCreationTimestamp']),
     streamName: json['StreamName'] as String,
     streamStatus:
         _$enumDecodeNullable(_$StreamStatusEnumMap, json['StreamStatus']),
@@ -436,8 +435,7 @@ StreamDescriptionSummary _$StreamDescriptionSummaryFromJson(
     openShardCount: json['OpenShardCount'] as int,
     retentionPeriodHours: json['RetentionPeriodHours'] as int,
     streamARN: json['StreamARN'] as String,
-    streamCreationTimestamp:
-        unixTimestampFromJson(json['StreamCreationTimestamp']),
+    streamCreationTimestamp: timeStampFromJson(json['StreamCreationTimestamp']),
     streamName: json['StreamName'] as String,
     streamStatus:
         _$enumDecodeNullable(_$StreamStatusEnumMap, json['StreamStatus']),

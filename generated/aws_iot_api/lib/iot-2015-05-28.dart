@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -11052,7 +11050,7 @@ class ActiveViolation {
   /// The time the most recent violation occurred.
   @_s.JsonKey(
       name: 'lastViolationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastViolationTime;
 
@@ -11076,7 +11074,7 @@ class ActiveViolation {
   /// The time the violation started.
   @_s.JsonKey(
       name: 'violationStartTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime violationStartTime;
 
@@ -11491,7 +11489,7 @@ class AuditFinding {
   /// The time the result (finding) was discovered.
   @_s.JsonKey(
       name: 'findingTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime findingTime;
 
@@ -11522,7 +11520,7 @@ class AuditFinding {
   /// The time the audit started.
   @_s.JsonKey(
       name: 'taskStartTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime taskStartTime;
 
@@ -11599,9 +11597,7 @@ class AuditMitigationActionExecutionMetadata {
   /// The date and time when the task was completed or canceled. Blank if the task
   /// is still running.
   @_s.JsonKey(
-      name: 'endTime',
-      fromJson: unixTimestampFromJson,
-      toJson: unixTimestampToJson)
+      name: 'endTime', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
   final DateTime endTime;
 
   /// If an error occurred, the code that indicates which type of error occurred.
@@ -11620,7 +11616,7 @@ class AuditMitigationActionExecutionMetadata {
   /// The date and time when the task was started.
   @_s.JsonKey(
       name: 'startTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime startTime;
 
@@ -11694,7 +11690,7 @@ class AuditMitigationActionsTaskMetadata {
   /// The time at which the audit mitigation actions task was started.
   @_s.JsonKey(
       name: 'startTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime startTime;
 
@@ -12026,14 +12022,14 @@ class AuthorizerDescription {
   /// The UNIX timestamp of when the authorizer was created.
   @_s.JsonKey(
       name: 'creationDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDate;
 
   /// The UNIX timestamp of when the authorizer was last updated.
   @_s.JsonKey(
       name: 'lastModifiedDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastModifiedDate;
 
@@ -12281,7 +12277,7 @@ class BillingGroupMetadata {
   /// The date the billing group was created.
   @_s.JsonKey(
       name: 'creationDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDate;
 
@@ -12330,7 +12326,7 @@ class CACertificate {
   /// The date the CA certificate was created.
   @_s.JsonKey(
       name: 'creationDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDate;
 
@@ -12377,7 +12373,7 @@ class CACertificateDescription {
   /// The date the CA certificate was created.
   @_s.JsonKey(
       name: 'creationDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDate;
 
@@ -12392,7 +12388,7 @@ class CACertificateDescription {
   /// The date the CA certificate was last modified.
   @_s.JsonKey(
       name: 'lastModifiedDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastModifiedDate;
 
@@ -12537,7 +12533,7 @@ class Certificate {
   /// The date and time the certificate was created.
   @_s.JsonKey(
       name: 'creationDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDate;
 
@@ -12583,7 +12579,7 @@ class CertificateDescription {
   /// The date and time the certificate was created.
   @_s.JsonKey(
       name: 'creationDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDate;
 
@@ -12598,7 +12594,7 @@ class CertificateDescription {
   /// The date and time the certificate was last modified.
   @_s.JsonKey(
       name: 'lastModifiedDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastModifiedDate;
 
@@ -12686,14 +12682,14 @@ class CertificateValidity {
   /// The certificate is not valid after this date.
   @_s.JsonKey(
       name: 'notAfter',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime notAfter;
 
   /// The certificate is not valid before this date.
   @_s.JsonKey(
       name: 'notBefore',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime notBefore;
 
@@ -13325,7 +13321,7 @@ class CreateProvisioningClaimResponse {
   /// The provisioning claim expiration time.
   @_s.JsonKey(
       name: 'expiration',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime expiration;
 
@@ -14007,15 +14003,13 @@ class DescribeAuditMitigationActionsTaskResponse {
 
   /// The date and time when the task was completed or canceled.
   @_s.JsonKey(
-      name: 'endTime',
-      fromJson: unixTimestampFromJson,
-      toJson: unixTimestampToJson)
+      name: 'endTime', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
   final DateTime endTime;
 
   /// The date and time when the task was started.
   @_s.JsonKey(
       name: 'startTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime startTime;
 
@@ -14064,7 +14058,7 @@ class DescribeAuditTaskResponse {
   /// The time the audit started.
   @_s.JsonKey(
       name: 'taskStartTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime taskStartTime;
 
@@ -14224,14 +14218,14 @@ class DescribeDimensionResponse {
   /// The date the dimension was created.
   @_s.JsonKey(
       name: 'creationDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDate;
 
   /// The date the dimension was last modified.
   @_s.JsonKey(
       name: 'lastModifiedDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastModifiedDate;
 
@@ -14343,7 +14337,7 @@ class DescribeEventConfigurationsResponse {
   /// The creation date of the event configuration.
   @_s.JsonKey(
       name: 'creationDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDate;
 
@@ -14354,7 +14348,7 @@ class DescribeEventConfigurationsResponse {
   /// The date the event configurations were last modified.
   @_s.JsonKey(
       name: 'lastModifiedDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastModifiedDate;
 
@@ -14483,14 +14477,14 @@ class DescribeMitigationActionResponse {
   /// The date and time when the mitigation action was added to your AWS account.
   @_s.JsonKey(
       name: 'creationDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDate;
 
   /// The date and time when the mitigation action was last changed.
   @_s.JsonKey(
       name: 'lastModifiedDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastModifiedDate;
 
@@ -14522,7 +14516,7 @@ class DescribeProvisioningTemplateResponse {
   /// The date when the fleet provisioning template was created.
   @_s.JsonKey(
       name: 'creationDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDate;
 
@@ -14541,7 +14535,7 @@ class DescribeProvisioningTemplateResponse {
   /// The date when the fleet provisioning template was last modified.
   @_s.JsonKey(
       name: 'lastModifiedDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastModifiedDate;
 
@@ -14587,7 +14581,7 @@ class DescribeProvisioningTemplateVersionResponse {
   /// The date when the fleet provisioning template version was created.
   @_s.JsonKey(
       name: 'creationDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDate;
 
@@ -14716,14 +14710,14 @@ class DescribeSecurityProfileResponse {
   /// The time the security profile was created.
   @_s.JsonKey(
       name: 'creationDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDate;
 
   /// The time the security profile was last modified.
   @_s.JsonKey(
       name: 'lastModifiedDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastModifiedDate;
 
@@ -14849,7 +14843,7 @@ class DescribeThingRegistrationTaskResponse {
   /// The task creation date.
   @_s.JsonKey(
       name: 'creationDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDate;
 
@@ -14868,7 +14862,7 @@ class DescribeThingRegistrationTaskResponse {
   /// The date when the task was last modified.
   @_s.JsonKey(
       name: 'lastModifiedDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastModifiedDate;
 
@@ -15757,7 +15751,7 @@ class GetPolicyResponse {
   /// The date the policy was created.
   @_s.JsonKey(
       name: 'creationDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDate;
 
@@ -15772,7 +15766,7 @@ class GetPolicyResponse {
   /// The date the policy was last modified.
   @_s.JsonKey(
       name: 'lastModifiedDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastModifiedDate;
 
@@ -15811,7 +15805,7 @@ class GetPolicyVersionResponse {
   /// The date the policy was created.
   @_s.JsonKey(
       name: 'creationDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDate;
 
@@ -15826,7 +15820,7 @@ class GetPolicyVersionResponse {
   /// The date the policy was last modified.
   @_s.JsonKey(
       name: 'lastModifiedDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastModifiedDate;
 
@@ -16294,14 +16288,14 @@ class Job {
   /// The time, in seconds since the epoch, when the job was completed.
   @_s.JsonKey(
       name: 'completedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime completedAt;
 
   /// The time, in seconds since the epoch, when the job was created.
   @_s.JsonKey(
       name: 'createdAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdAt;
 
@@ -16334,7 +16328,7 @@ class Job {
   /// The time, in seconds since the epoch, when the job was last updated.
   @_s.JsonKey(
       name: 'lastUpdatedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedAt;
 
@@ -16431,21 +16425,21 @@ class JobExecution {
   /// updated.
   @_s.JsonKey(
       name: 'lastUpdatedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedAt;
 
   /// The time, in seconds since the epoch, when the job execution was queued.
   @_s.JsonKey(
       name: 'queuedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime queuedAt;
 
   /// The time, in seconds since the epoch, when the job execution started.
   @_s.JsonKey(
       name: 'startedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime startedAt;
 
@@ -16574,21 +16568,21 @@ class JobExecutionSummary {
   /// updated.
   @_s.JsonKey(
       name: 'lastUpdatedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedAt;
 
   /// The time, in seconds since the epoch, when the job execution was queued.
   @_s.JsonKey(
       name: 'queuedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime queuedAt;
 
   /// The time, in seconds since the epoch, when the job execution started.
   @_s.JsonKey(
       name: 'startedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime startedAt;
 
@@ -16779,14 +16773,14 @@ class JobSummary {
   /// The time, in seconds since the epoch, when the job completed.
   @_s.JsonKey(
       name: 'completedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime completedAt;
 
   /// The time, in seconds since the epoch, when the job was created.
   @_s.JsonKey(
       name: 'createdAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdAt;
 
@@ -16801,7 +16795,7 @@ class JobSummary {
   /// The time, in seconds since the epoch, when the job was last updated.
   @_s.JsonKey(
       name: 'lastUpdatedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedAt;
 
@@ -18291,7 +18285,7 @@ class MitigationActionIdentifier {
   /// The date when this mitigation action was created.
   @_s.JsonKey(
       name: 'creationDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDate;
 
@@ -18521,7 +18515,7 @@ class OTAUpdateInfo {
   /// The date when the OTA update was created.
   @_s.JsonKey(
       name: 'creationDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDate;
 
@@ -18536,7 +18530,7 @@ class OTAUpdateInfo {
   /// The date when the OTA update was last updated.
   @_s.JsonKey(
       name: 'lastModifiedDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastModifiedDate;
 
@@ -18634,7 +18628,7 @@ class OTAUpdateSummary {
   /// The date when the OTA update was created.
   @_s.JsonKey(
       name: 'creationDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDate;
 
@@ -18673,14 +18667,14 @@ class OutgoingCertificate {
   /// The certificate creation date.
   @_s.JsonKey(
       name: 'creationDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDate;
 
   /// The date the transfer was initiated.
   @_s.JsonKey(
       name: 'transferDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime transferDate;
 
@@ -18764,7 +18758,7 @@ class PolicyVersion {
   /// The date and time the policy was created.
   @_s.JsonKey(
       name: 'createDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createDate;
 
@@ -18868,7 +18862,7 @@ class ProvisioningTemplateSummary {
   /// The date when the fleet provisioning template summary was created.
   @_s.JsonKey(
       name: 'creationDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDate;
 
@@ -18883,7 +18877,7 @@ class ProvisioningTemplateSummary {
   /// The date when the fleet provisioning template summary was last modified.
   @_s.JsonKey(
       name: 'lastModifiedDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastModifiedDate;
 
@@ -18917,7 +18911,7 @@ class ProvisioningTemplateVersionSummary {
   /// The date when the fleet provisioning template version was created
   @_s.JsonKey(
       name: 'creationDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDate;
 
@@ -19363,7 +19357,7 @@ class RoleAliasDescription {
   /// The UNIX timestamp of when the role alias was created.
   @_s.JsonKey(
       name: 'creationDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDate;
 
@@ -19374,7 +19368,7 @@ class RoleAliasDescription {
   /// The UNIX timestamp of when the role alias was last modified.
   @_s.JsonKey(
       name: 'lastModifiedDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastModifiedDate;
 
@@ -20175,7 +20169,7 @@ class StreamInfo {
   /// The date when the stream was created.
   @_s.JsonKey(
       name: 'createdAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdAt;
 
@@ -20190,7 +20184,7 @@ class StreamInfo {
   /// The date when the stream was last updated.
   @_s.JsonKey(
       name: 'lastUpdatedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedAt;
 
@@ -20668,7 +20662,7 @@ class ThingGroupMetadata {
   /// The UNIX timestamp of when the thing group was created.
   @_s.JsonKey(
       name: 'creationDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDate;
 
@@ -20830,7 +20824,7 @@ class ThingTypeMetadata {
   /// The date and time when the thing type was created.
   @_s.JsonKey(
       name: 'creationDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDate;
 
@@ -20842,7 +20836,7 @@ class ThingTypeMetadata {
   /// The date and time when the thing type was deprecated.
   @_s.JsonKey(
       name: 'deprecationDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime deprecationDate;
 
@@ -20946,7 +20940,7 @@ class TopicRule {
   /// The date and time the rule was created.
   @_s.JsonKey(
       name: 'createdAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdAt;
 
@@ -21151,7 +21145,7 @@ class TopicRuleListItem {
   /// The date and time the rule was created.
   @_s.JsonKey(
       name: 'createdAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdAt;
 
@@ -21254,14 +21248,14 @@ class TransferData {
   /// The date the transfer was accepted.
   @_s.JsonKey(
       name: 'acceptDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime acceptDate;
 
   /// The date the transfer was rejected.
   @_s.JsonKey(
       name: 'rejectDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime rejectDate;
 
@@ -21272,7 +21266,7 @@ class TransferData {
   /// The date the transfer took place.
   @_s.JsonKey(
       name: 'transferDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime transferDate;
 
@@ -21411,7 +21405,7 @@ class UpdateDimensionResponse {
   /// initially created.
   @_s.JsonKey(
       name: 'creationDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDate;
 
@@ -21419,7 +21413,7 @@ class UpdateDimensionResponse {
   /// recently updated.
   @_s.JsonKey(
       name: 'lastModifiedDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastModifiedDate;
 
@@ -21619,14 +21613,14 @@ class UpdateSecurityProfileResponse {
   /// The time the security profile was created.
   @_s.JsonKey(
       name: 'creationDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDate;
 
   /// The time the security profile was last modified.
   @_s.JsonKey(
       name: 'lastModifiedDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastModifiedDate;
 
@@ -21814,7 +21808,7 @@ class ViolationEvent {
   /// The time the violation event occurred.
   @_s.JsonKey(
       name: 'violationEventTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime violationEventTime;
 

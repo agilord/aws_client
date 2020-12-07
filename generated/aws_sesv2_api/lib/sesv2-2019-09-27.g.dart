@@ -9,7 +9,7 @@ part of 'sesv2-2019-09-27.dart';
 BlacklistEntry _$BlacklistEntryFromJson(Map<String, dynamic> json) {
   return BlacklistEntry(
     description: json['Description'] as String,
-    listingTime: unixTimestampFromJson(json['ListingTime']),
+    listingTime: timeStampFromJson(json['ListingTime']),
     rblName: json['RblName'] as String,
   );
 }
@@ -191,7 +191,7 @@ DailyVolume _$DailyVolumeFromJson(Map<String, dynamic> json) {
             ? null
             : DomainIspPlacement.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    startDate: unixTimestampFromJson(json['StartDate']),
+    startDate: timeStampFromJson(json['StartDate']),
     volumeStatistics: json['VolumeStatistics'] == null
         ? null
         : VolumeStatistics.fromJson(
@@ -243,7 +243,7 @@ DeleteSuppressedDestinationResponse
 DeliverabilityTestReport _$DeliverabilityTestReportFromJson(
     Map<String, dynamic> json) {
   return DeliverabilityTestReport(
-    createDate: unixTimestampFromJson(json['CreateDate']),
+    createDate: timeStampFromJson(json['CreateDate']),
     deliverabilityTestStatus: _$enumDecodeNullable(
         _$DeliverabilityTestStatusEnumMap, json['DeliverabilityTestStatus']),
     fromEmailAddress: json['FromEmailAddress'] as String,
@@ -338,11 +338,11 @@ DomainDeliverabilityCampaign _$DomainDeliverabilityCampaignFromJson(
     campaignId: json['CampaignId'] as String,
     deleteRate: (json['DeleteRate'] as num)?.toDouble(),
     esps: (json['Esps'] as List)?.map((e) => e as String)?.toList(),
-    firstSeenDateTime: unixTimestampFromJson(json['FirstSeenDateTime']),
+    firstSeenDateTime: timeStampFromJson(json['FirstSeenDateTime']),
     fromAddress: json['FromAddress'] as String,
     imageUrl: json['ImageUrl'] as String,
     inboxCount: json['InboxCount'] as int,
-    lastSeenDateTime: unixTimestampFromJson(json['LastSeenDateTime']),
+    lastSeenDateTime: timeStampFromJson(json['LastSeenDateTime']),
     projectedVolume: json['ProjectedVolume'] as int,
     readDeleteRate: (json['ReadDeleteRate'] as num)?.toDouble(),
     readRate: (json['ReadRate'] as num)?.toDouble(),
@@ -360,7 +360,7 @@ DomainDeliverabilityTrackingOption _$DomainDeliverabilityTrackingOptionFromJson(
         ? null
         : InboxPlacementTrackingOption.fromJson(
             json['InboxPlacementTrackingOption'] as Map<String, dynamic>),
-    subscriptionStartDate: unixTimestampFromJson(json['SubscriptionStartDate']),
+    subscriptionStartDate: timeStampFromJson(json['SubscriptionStartDate']),
   );
 }
 
@@ -579,8 +579,7 @@ GetDeliverabilityDashboardOptionsResponse
                 : DomainDeliverabilityTrackingOption.fromJson(
                     e as Map<String, dynamic>))
             ?.toList(),
-    subscriptionExpiryDate:
-        unixTimestampFromJson(json['SubscriptionExpiryDate']),
+    subscriptionExpiryDate: timeStampFromJson(json['SubscriptionExpiryDate']),
   );
 }
 
@@ -1015,7 +1014,7 @@ Map<String, dynamic> _$RawMessageToJson(RawMessage instance) {
 
 ReputationOptions _$ReputationOptionsFromJson(Map<String, dynamic> json) {
   return ReputationOptions(
-    lastFreshStart: unixTimestampFromJson(json['LastFreshStart']),
+    lastFreshStart: timeStampFromJson(json['LastFreshStart']),
     reputationMetricsEnabled: json['ReputationMetricsEnabled'] as bool,
   );
 }
@@ -1090,7 +1089,7 @@ SuppressedDestination _$SuppressedDestinationFromJson(
     Map<String, dynamic> json) {
   return SuppressedDestination(
     emailAddress: json['EmailAddress'] as String,
-    lastUpdateTime: unixTimestampFromJson(json['LastUpdateTime']),
+    lastUpdateTime: timeStampFromJson(json['LastUpdateTime']),
     reason:
         _$enumDecodeNullable(_$SuppressionListReasonEnumMap, json['Reason']),
     attributes: json['Attributes'] == null
@@ -1117,7 +1116,7 @@ SuppressedDestinationSummary _$SuppressedDestinationSummaryFromJson(
     Map<String, dynamic> json) {
   return SuppressedDestinationSummary(
     emailAddress: json['EmailAddress'] as String,
-    lastUpdateTime: unixTimestampFromJson(json['LastUpdateTime']),
+    lastUpdateTime: timeStampFromJson(json['LastUpdateTime']),
     reason:
         _$enumDecodeNullable(_$SuppressionListReasonEnumMap, json['Reason']),
   );

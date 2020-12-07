@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -3559,7 +3557,7 @@ class Activity {
   /// The timestamp when the action was performed.
   @_s.JsonKey(
       name: 'TimeStamp',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime timeStamp;
 
@@ -3705,7 +3703,7 @@ class Comment {
   /// The time that the comment was created.
   @_s.JsonKey(
       name: 'CreatedTimestamp',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdTimestamp;
 
@@ -3774,7 +3772,7 @@ class CommentMetadata {
   /// The timestamp that the comment was created.
   @_s.JsonKey(
       name: 'CreatedTimestamp',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdTimestamp;
 
@@ -4162,7 +4160,7 @@ class DocumentMetadata {
   /// The time when the document was created.
   @_s.JsonKey(
       name: 'CreatedTimestamp',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdTimestamp;
 
@@ -4185,7 +4183,7 @@ class DocumentMetadata {
   /// The time when the document was updated.
   @_s.JsonKey(
       name: 'ModifiedTimestamp',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime modifiedTimestamp;
 
@@ -4244,14 +4242,14 @@ class DocumentVersionMetadata {
   /// The timestamp when the content of the document was originally created.
   @_s.JsonKey(
       name: 'ContentCreatedTimestamp',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime contentCreatedTimestamp;
 
   /// The timestamp when the content of the document was modified.
   @_s.JsonKey(
       name: 'ContentModifiedTimestamp',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime contentModifiedTimestamp;
 
@@ -4262,7 +4260,7 @@ class DocumentVersionMetadata {
   /// The timestamp when the document was first uploaded.
   @_s.JsonKey(
       name: 'CreatedTimestamp',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdTimestamp;
 
@@ -4277,7 +4275,7 @@ class DocumentVersionMetadata {
   /// The timestamp when the document was last uploaded.
   @_s.JsonKey(
       name: 'ModifiedTimestamp',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime modifiedTimestamp;
 
@@ -4372,7 +4370,7 @@ class FolderMetadata {
   /// The time when the folder was created.
   @_s.JsonKey(
       name: 'CreatedTimestamp',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdTimestamp;
 
@@ -4395,7 +4393,7 @@ class FolderMetadata {
   /// The time when the folder was updated.
   @_s.JsonKey(
       name: 'ModifiedTimestamp',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime modifiedTimestamp;
 
@@ -5223,7 +5221,7 @@ class User {
   /// The time when the user was created.
   @_s.JsonKey(
       name: 'CreatedTimestamp',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdTimestamp;
 
@@ -5246,7 +5244,7 @@ class User {
   /// The time when the user was modified.
   @_s.JsonKey(
       name: 'ModifiedTimestamp',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime modifiedTimestamp;
 

@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -2121,7 +2119,7 @@ class AccountModification {
   /// The timestamp when the modification of the BYOL configuration was started.
   @_s.JsonKey(
       name: 'StartTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime startTime;
 
@@ -3210,7 +3208,7 @@ class Snapshot {
   /// The time when the snapshot was created.
   @_s.JsonKey(
       name: 'SnapshotTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime snapshotTime;
 
@@ -3596,7 +3594,7 @@ class WorkspaceBundle {
   /// The last time that the bundle was updated.
   @_s.JsonKey(
       name: 'LastUpdatedTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedTime;
 
@@ -3647,14 +3645,14 @@ class WorkspaceConnectionStatus {
   /// The timestamp of the connection status check.
   @_s.JsonKey(
       name: 'ConnectionStateCheckTimestamp',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime connectionStateCheckTimestamp;
 
   /// The timestamp of the last known user connection.
   @_s.JsonKey(
       name: 'LastKnownUserConnectionTimestamp',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastKnownUserConnectionTimestamp;
 

@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -352,7 +350,7 @@ class Detector {
   /// The time the detector (instance) was created.
   @_s.JsonKey(
       name: 'creationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationTime;
 
@@ -372,7 +370,7 @@ class Detector {
   /// The time the detector (instance) was last updated.
   @_s.JsonKey(
       name: 'lastUpdateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdateTime;
 
@@ -478,7 +476,7 @@ class DetectorSummary {
   /// The time the detector (instance) was created.
   @_s.JsonKey(
       name: 'creationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationTime;
 
@@ -498,7 +496,7 @@ class DetectorSummary {
   /// The time the detector (instance) was last updated.
   @_s.JsonKey(
       name: 'lastUpdateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdateTime;
 
@@ -598,7 +596,7 @@ class Timer {
   /// The number of seconds which have elapsed on the timer.
   @_s.JsonKey(
       name: 'timestamp',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime timestamp;
 

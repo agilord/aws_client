@@ -16,7 +16,7 @@ Attribute _$AttributeFromJson(Map<String, dynamic> json) {
 AuthorizationData _$AuthorizationDataFromJson(Map<String, dynamic> json) {
   return AuthorizationData(
     authorizationToken: json['authorizationToken'] as String,
-    expiresAt: unixTimestampFromJson(json['expiresAt']),
+    expiresAt: timeStampFromJson(json['expiresAt']),
     proxyEndpoint: json['proxyEndpoint'] as String,
   );
 }
@@ -86,7 +86,7 @@ CreateRepositoryResponse _$CreateRepositoryResponseFromJson(
 DeleteLifecyclePolicyResponse _$DeleteLifecyclePolicyResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteLifecyclePolicyResponse(
-    lastEvaluatedAt: unixTimestampFromJson(json['lastEvaluatedAt']),
+    lastEvaluatedAt: timeStampFromJson(json['lastEvaluatedAt']),
     lifecyclePolicyText: json['lifecyclePolicyText'] as String,
     registryId: json['registryId'] as String,
     repositoryName: json['repositoryName'] as String,
@@ -255,7 +255,7 @@ const _$LifecyclePolicyPreviewStatusEnumMap = {
 GetLifecyclePolicyResponse _$GetLifecyclePolicyResponseFromJson(
     Map<String, dynamic> json) {
   return GetLifecyclePolicyResponse(
-    lastEvaluatedAt: unixTimestampFromJson(json['lastEvaluatedAt']),
+    lastEvaluatedAt: timeStampFromJson(json['lastEvaluatedAt']),
     lifecyclePolicyText: json['lifecyclePolicyText'] as String,
     registryId: json['registryId'] as String,
     repositoryName: json['repositoryName'] as String,
@@ -285,7 +285,7 @@ Image _$ImageFromJson(Map<String, dynamic> json) {
 ImageDetail _$ImageDetailFromJson(Map<String, dynamic> json) {
   return ImageDetail(
     imageDigest: json['imageDigest'] as String,
-    imagePushedAt: unixTimestampFromJson(json['imagePushedAt']),
+    imagePushedAt: timeStampFromJson(json['imagePushedAt']),
     imageScanFindingsSummary: json['imageScanFindingsSummary'] == null
         ? null
         : ImageScanFindingsSummary.fromJson(
@@ -375,9 +375,9 @@ ImageScanFindings _$ImageScanFindingsFromJson(Map<String, dynamic> json) {
             ? null
             : ImageScanFinding.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    imageScanCompletedAt: unixTimestampFromJson(json['imageScanCompletedAt']),
+    imageScanCompletedAt: timeStampFromJson(json['imageScanCompletedAt']),
     vulnerabilitySourceUpdatedAt:
-        unixTimestampFromJson(json['vulnerabilitySourceUpdatedAt']),
+        timeStampFromJson(json['vulnerabilitySourceUpdatedAt']),
   );
 }
 
@@ -389,9 +389,9 @@ ImageScanFindingsSummary _$ImageScanFindingsSummaryFromJson(
       (k, e) =>
           MapEntry(_$enumDecodeNullable(_$FindingSeverityEnumMap, k), e as int),
     ),
-    imageScanCompletedAt: unixTimestampFromJson(json['imageScanCompletedAt']),
+    imageScanCompletedAt: timeStampFromJson(json['imageScanCompletedAt']),
     vulnerabilitySourceUpdatedAt:
-        unixTimestampFromJson(json['vulnerabilitySourceUpdatedAt']),
+        timeStampFromJson(json['vulnerabilitySourceUpdatedAt']),
   );
 }
 
@@ -489,7 +489,7 @@ LifecyclePolicyPreviewResult _$LifecyclePolicyPreviewResultFromJson(
             json['action'] as Map<String, dynamic>),
     appliedRulePriority: json['appliedRulePriority'] as int,
     imageDigest: json['imageDigest'] as String,
-    imagePushedAt: unixTimestampFromJson(json['imagePushedAt']),
+    imagePushedAt: timeStampFromJson(json['imagePushedAt']),
     imageTags: (json['imageTags'] as List)?.map((e) => e as String)?.toList(),
   );
 }
@@ -591,7 +591,7 @@ PutLifecyclePolicyResponse _$PutLifecyclePolicyResponseFromJson(
 
 Repository _$RepositoryFromJson(Map<String, dynamic> json) {
   return Repository(
-    createdAt: unixTimestampFromJson(json['createdAt']),
+    createdAt: timeStampFromJson(json['createdAt']),
     imageScanningConfiguration: json['imageScanningConfiguration'] == null
         ? null
         : ImageScanningConfiguration.fromJson(

@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -2942,7 +2940,7 @@ class Assignment {
   /// The date and time the Worker accepted the assignment.
   @_s.JsonKey(
       name: 'AcceptTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime acceptTime;
 
@@ -2959,7 +2957,7 @@ class Assignment {
   /// yet approved the results.
   @_s.JsonKey(
       name: 'ApprovalTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime approvalTime;
 
@@ -2979,7 +2977,7 @@ class Assignment {
   /// Worker has not yet submitted results.
   @_s.JsonKey(
       name: 'AutoApprovalTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime autoApprovalTime;
 
@@ -2988,7 +2986,7 @@ class Assignment {
   /// accepted the HIT.
   @_s.JsonKey(
       name: 'Deadline',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime deadline;
 
@@ -3001,7 +2999,7 @@ class Assignment {
   /// results.
   @_s.JsonKey(
       name: 'RejectionTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime rejectionTime;
 
@@ -3016,7 +3014,7 @@ class Assignment {
   /// Worker has not yet submitted results.
   @_s.JsonKey(
       name: 'SubmitTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime submitTime;
 
@@ -3093,7 +3091,7 @@ class BonusPayment {
   /// The date and time of when the bonus was granted.
   @_s.JsonKey(
       name: 'GrantTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime grantTime;
 
@@ -3474,7 +3472,7 @@ class HIT {
   /// The date and time the HIT was created.
   @_s.JsonKey(
       name: 'CreationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationTime;
 
@@ -3485,7 +3483,7 @@ class HIT {
   /// The date and time the HIT expires.
   @_s.JsonKey(
       name: 'Expiration',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime expiration;
 
@@ -4152,7 +4150,7 @@ class Qualification {
   /// the AcceptQualificationRequest operation.
   @_s.JsonKey(
       name: 'GrantTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime grantTime;
 
@@ -4218,7 +4216,7 @@ class QualificationRequest {
   /// does not have a test.
   @_s.JsonKey(
       name: 'SubmitTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime submitTime;
 
@@ -4387,7 +4385,7 @@ class QualificationType {
   /// The date and time the Qualification type was created.
   @_s.JsonKey(
       name: 'CreationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationTime;
 
@@ -4551,7 +4549,7 @@ class ReviewActionDetail {
   /// The date when the action was completed.
   @_s.JsonKey(
       name: 'CompleteTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime completeTime;
 

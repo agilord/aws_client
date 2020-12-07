@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -1994,7 +1992,7 @@ class BlacklistEntry {
   /// The time when the blacklisting event occurred, shown in Unix time format.
   @_s.JsonKey(
       name: 'ListingTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime listingTime;
 
@@ -2270,7 +2268,7 @@ class DailyVolume {
   /// The date that the DailyVolume metrics apply to, in Unix time.
   @_s.JsonKey(
       name: 'StartDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime startDate;
 
@@ -2432,7 +2430,7 @@ class DeliverabilityTestReport {
   /// Unix time format.
   @_s.JsonKey(
       name: 'CreateDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createDate;
 
@@ -2781,7 +2779,7 @@ class DomainDeliverabilityCampaign {
   /// for a campaign to deliver an email message.
   @_s.JsonKey(
       name: 'FirstSeenDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime firstSeenDateTime;
 
@@ -2803,7 +2801,7 @@ class DomainDeliverabilityCampaign {
   /// for a campaign to deliver an email message.
   @_s.JsonKey(
       name: 'LastSeenDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastSeenDateTime;
 
@@ -2882,7 +2880,7 @@ class DomainDeliverabilityTrackingOption {
   /// for the domain.
   @_s.JsonKey(
       name: 'SubscriptionStartDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime subscriptionStartDate;
 
@@ -3412,7 +3410,7 @@ class GetDeliverabilityDashboardOptionsResponse {
   /// of the month.
   @_s.JsonKey(
       name: 'SubscriptionExpiryDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime subscriptionExpiryDate;
 
@@ -4544,7 +4542,7 @@ class ReputationOptions {
   /// metrics are calculated starting from the date of the fresh start.
   @_s.JsonKey(
       name: 'LastFreshStart',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastFreshStart;
 
@@ -4685,7 +4683,7 @@ class SuppressedDestination {
   /// Unix time format.
   @_s.JsonKey(
       name: 'LastUpdateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdateTime;
 
@@ -4750,7 +4748,7 @@ class SuppressedDestinationSummary {
   /// Unix time format.
   @_s.JsonKey(
       name: 'LastUpdateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdateTime;
 

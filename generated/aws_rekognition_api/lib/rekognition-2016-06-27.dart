@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -4856,7 +4854,7 @@ class DescribeCollectionResponse {
   /// (UTC), Thursday, 1 January 1970.
   @_s.JsonKey(
       name: 'CreationTimestamp',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationTimestamp;
 
@@ -4944,7 +4942,7 @@ class DescribeStreamProcessorResponse {
   /// Date and time the stream processor was created
   @_s.JsonKey(
       name: 'CreationTimestamp',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationTimestamp;
 
@@ -4957,7 +4955,7 @@ class DescribeStreamProcessorResponse {
   /// state, or when the user starts or stops the stream processor.
   @_s.JsonKey(
       name: 'LastUpdateTimestamp',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdateTimestamp;
 
@@ -6971,7 +6969,7 @@ class ProjectDescription {
   /// The Unix timestamp for the date and time that the project was created.
   @_s.JsonKey(
       name: 'CreationTimestamp',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationTimestamp;
 
@@ -7017,7 +7015,7 @@ class ProjectVersionDescription {
   /// The Unix datetime for the date and time that training started.
   @_s.JsonKey(
       name: 'CreationTimestamp',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationTimestamp;
 
@@ -7058,7 +7056,7 @@ class ProjectVersionDescription {
   /// The Unix date and time that training of the model ended.
   @_s.JsonKey(
       name: 'TrainingEndTimestamp',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime trainingEndTimestamp;
 

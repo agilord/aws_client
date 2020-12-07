@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -2580,9 +2578,7 @@ class Build {
 
   /// When the build process ended, expressed in Unix time format.
   @_s.JsonKey(
-      name: 'endTime',
-      fromJson: unixTimestampFromJson,
-      toJson: unixTimestampToJson)
+      name: 'endTime', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
   final DateTime endTime;
 
   /// Information about the build environment for this build.
@@ -2723,7 +2719,7 @@ class Build {
   /// When the build process started, expressed in Unix time format.
   @_s.JsonKey(
       name: 'startTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime startTime;
 
@@ -2877,9 +2873,7 @@ class BuildPhase {
 
   /// When the build phase ended, expressed in Unix time format.
   @_s.JsonKey(
-      name: 'endTime',
-      fromJson: unixTimestampFromJson,
-      toJson: unixTimestampToJson)
+      name: 'endTime', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
   final DateTime endTime;
 
   /// The current status of the build phase. Valid values include:
@@ -2962,7 +2956,7 @@ class BuildPhase {
   /// When the build phase started, expressed in Unix time format.
   @_s.JsonKey(
       name: 'startTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime startTime;
 
@@ -4001,9 +3995,7 @@ class Project {
 
   /// When the build project was created, expressed in Unix time format.
   @_s.JsonKey(
-      name: 'created',
-      fromJson: unixTimestampFromJson,
-      toJson: unixTimestampToJson)
+      name: 'created', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
   final DateTime created;
 
   /// A description that makes the build project easy to identify.
@@ -4038,7 +4030,7 @@ class Project {
   /// format.
   @_s.JsonKey(
       name: 'lastModified',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastModified;
 
@@ -5087,9 +5079,7 @@ class Report {
 
   /// The date and time this report run occurred.
   @_s.JsonKey(
-      name: 'created',
-      fromJson: unixTimestampFromJson,
-      toJson: unixTimestampToJson)
+      name: 'created', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
   final DateTime created;
 
   /// The ARN of the build run that generated this report.
@@ -5099,9 +5089,7 @@ class Report {
   /// The date and time a report expires. A report expires 30 days after it is
   /// created. An expired report is not available to view in CodeBuild.
   @_s.JsonKey(
-      name: 'expired',
-      fromJson: unixTimestampFromJson,
-      toJson: unixTimestampToJson)
+      name: 'expired', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
   final DateTime expired;
 
   /// Information about where the raw data used to generate this report was
@@ -5227,9 +5215,7 @@ class ReportGroup {
 
   /// The date and time this <code>ReportGroup</code> was created.
   @_s.JsonKey(
-      name: 'created',
-      fromJson: unixTimestampFromJson,
-      toJson: unixTimestampToJson)
+      name: 'created', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
   final DateTime created;
 
   /// Information about the destination where the raw data of this
@@ -5240,7 +5226,7 @@ class ReportGroup {
   /// The date and time this <code>ReportGroup</code> was last modified.
   @_s.JsonKey(
       name: 'lastModified',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastModified;
 
@@ -5678,9 +5664,7 @@ class TestCase {
   /// The date and time a test case expires. A test case expires 30 days after it
   /// is created. An expired test case is not available to view in CodeBuild.
   @_s.JsonKey(
-      name: 'expired',
-      fromJson: unixTimestampFromJson,
-      toJson: unixTimestampToJson)
+      name: 'expired', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
   final DateTime expired;
 
   /// A message associated with a test case. For example, an error message or
@@ -5892,7 +5876,7 @@ class Webhook {
   /// modified.
   @_s.JsonKey(
       name: 'lastModifiedSecret',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastModifiedSecret;
 

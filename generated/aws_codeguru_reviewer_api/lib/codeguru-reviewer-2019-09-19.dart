@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -422,7 +420,7 @@ class RepositoryAssociation {
   /// was created.
   @_s.JsonKey(
       name: 'CreatedTimeStamp',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdTimeStamp;
 
@@ -430,7 +428,7 @@ class RepositoryAssociation {
   /// was last updated.
   @_s.JsonKey(
       name: 'LastUpdatedTimeStamp',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedTimeStamp;
 
@@ -515,7 +513,7 @@ class RepositoryAssociationSummary {
   /// was last updated.
   @_s.JsonKey(
       name: 'LastUpdatedTimeStamp',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedTimeStamp;
 

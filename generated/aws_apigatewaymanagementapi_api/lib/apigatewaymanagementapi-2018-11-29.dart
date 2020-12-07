@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -117,14 +115,14 @@ class ApiGatewayManagementApi {
 class GetConnectionResponse {
   /// The time in ISO 8601 format for when the connection was established.
   @_s.JsonKey(
-      name: 'connectedAt', fromJson: iso8601FromJson, toJson: iso8601ToJson)
+      name: 'connectedAt', fromJson: timeStampFromJson, toJson: iso8601ToJson)
   final DateTime connectedAt;
   @_s.JsonKey(name: 'identity')
   final Identity identity;
 
   /// The time in ISO 8601 format for when the connection was last active.
   @_s.JsonKey(
-      name: 'lastActiveAt', fromJson: iso8601FromJson, toJson: iso8601ToJson)
+      name: 'lastActiveAt', fromJson: timeStampFromJson, toJson: iso8601ToJson)
   final DateTime lastActiveAt;
 
   GetConnectionResponse({

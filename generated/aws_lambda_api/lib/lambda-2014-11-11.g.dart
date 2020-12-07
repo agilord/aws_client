@@ -13,7 +13,7 @@ EventSourceConfiguration _$EventSourceConfigurationFromJson(
     eventSource: json['EventSource'] as String,
     functionName: json['FunctionName'] as String,
     isActive: json['IsActive'] as bool,
-    lastModified: unixTimestampFromJson(json['LastModified']),
+    lastModified: timeStampFromJson(json['LastModified']),
     parameters: (json['Parameters'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
@@ -39,7 +39,7 @@ FunctionConfiguration _$FunctionConfigurationFromJson(
     functionARN: json['FunctionARN'] as String,
     functionName: json['FunctionName'] as String,
     handler: json['Handler'] as String,
-    lastModified: unixTimestampFromJson(json['LastModified']),
+    lastModified: timeStampFromJson(json['LastModified']),
     memorySize: json['MemorySize'] as int,
     mode: _$enumDecodeNullable(_$ModeEnumMap, json['Mode']),
     role: json['Role'] as String,

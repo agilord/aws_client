@@ -67,8 +67,8 @@ DescribeDevicePolicyConfigurationResponse
 DescribeDeviceResponse _$DescribeDeviceResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeDeviceResponse(
-    firstAccessedTime: unixTimestampFromJson(json['FirstAccessedTime']),
-    lastAccessedTime: unixTimestampFromJson(json['LastAccessedTime']),
+    firstAccessedTime: timeStampFromJson(json['FirstAccessedTime']),
+    lastAccessedTime: timeStampFromJson(json['LastAccessedTime']),
     manufacturer: json['Manufacturer'] as String,
     model: json['Model'] as String,
     operatingSystem: json['OperatingSystem'] as String,
@@ -120,7 +120,7 @@ DescribeDomainResponse _$DescribeDomainResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeDomainResponse(
     acmCertificateArn: json['AcmCertificateArn'] as String,
-    createdTime: unixTimestampFromJson(json['CreatedTime']),
+    createdTime: timeStampFromJson(json['CreatedTime']),
     displayName: json['DisplayName'] as String,
     domainName: json['DomainName'] as String,
     domainStatus:
@@ -143,12 +143,12 @@ DescribeFleetMetadataResponse _$DescribeFleetMetadataResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeFleetMetadataResponse(
     companyCode: json['CompanyCode'] as String,
-    createdTime: unixTimestampFromJson(json['CreatedTime']),
+    createdTime: timeStampFromJson(json['CreatedTime']),
     displayName: json['DisplayName'] as String,
     fleetName: json['FleetName'] as String,
     fleetStatus:
         _$enumDecodeNullable(_$FleetStatusEnumMap, json['FleetStatus']),
-    lastUpdatedTime: unixTimestampFromJson(json['LastUpdatedTime']),
+    lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
     optimizeForEndUserLocation: json['OptimizeForEndUserLocation'] as bool,
   );
 }
@@ -183,7 +183,7 @@ DescribeWebsiteCertificateAuthorityResponse
         Map<String, dynamic> json) {
   return DescribeWebsiteCertificateAuthorityResponse(
     certificate: json['Certificate'] as String,
-    createdTime: unixTimestampFromJson(json['CreatedTime']),
+    createdTime: timeStampFromJson(json['CreatedTime']),
     displayName: json['DisplayName'] as String,
   );
 }
@@ -215,7 +215,7 @@ DisassociateWebsiteCertificateAuthorityResponse
 
 DomainSummary _$DomainSummaryFromJson(Map<String, dynamic> json) {
   return DomainSummary(
-    createdTime: unixTimestampFromJson(json['CreatedTime']),
+    createdTime: timeStampFromJson(json['CreatedTime']),
     domainName: json['DomainName'] as String,
     domainStatus:
         _$enumDecodeNullable(_$DomainStatusEnumMap, json['DomainStatus']),
@@ -226,13 +226,13 @@ DomainSummary _$DomainSummaryFromJson(Map<String, dynamic> json) {
 FleetSummary _$FleetSummaryFromJson(Map<String, dynamic> json) {
   return FleetSummary(
     companyCode: json['CompanyCode'] as String,
-    createdTime: unixTimestampFromJson(json['CreatedTime']),
+    createdTime: timeStampFromJson(json['CreatedTime']),
     displayName: json['DisplayName'] as String,
     fleetArn: json['FleetArn'] as String,
     fleetName: json['FleetName'] as String,
     fleetStatus:
         _$enumDecodeNullable(_$FleetStatusEnumMap, json['FleetStatus']),
-    lastUpdatedTime: unixTimestampFromJson(json['LastUpdatedTime']),
+    lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
   );
 }
 
@@ -351,7 +351,7 @@ WebsiteAuthorizationProviderSummary
     authorizationProviderType: _$enumDecodeNullable(
         _$AuthorizationProviderTypeEnumMap, json['AuthorizationProviderType']),
     authorizationProviderId: json['AuthorizationProviderId'] as String,
-    createdTime: unixTimestampFromJson(json['CreatedTime']),
+    createdTime: timeStampFromJson(json['CreatedTime']),
     domainName: json['DomainName'] as String,
   );
 }
@@ -362,7 +362,7 @@ const _$AuthorizationProviderTypeEnumMap = {
 
 WebsiteCaSummary _$WebsiteCaSummaryFromJson(Map<String, dynamic> json) {
   return WebsiteCaSummary(
-    createdTime: unixTimestampFromJson(json['CreatedTime']),
+    createdTime: timeStampFromJson(json['CreatedTime']),
     displayName: json['DisplayName'] as String,
     websiteCaId: json['WebsiteCaId'] as String,
   );

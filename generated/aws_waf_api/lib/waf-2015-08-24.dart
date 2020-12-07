@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -9674,7 +9672,7 @@ class SampledHTTPRequest {
   /// Unix time format (in seconds).
   @_s.JsonKey(
       name: 'Timestamp',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime timestamp;
 
@@ -10333,9 +10331,7 @@ class TimeWindow {
   /// <code>"2016-09-27T14:50Z"</code>. You can specify any time range in the
   /// previous three hours.
   @_s.JsonKey(
-      name: 'EndTime',
-      fromJson: unixTimestampFromJson,
-      toJson: unixTimestampToJson)
+      name: 'EndTime', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
   final DateTime endTime;
 
   /// The beginning of the time range from which you want
@@ -10345,7 +10341,7 @@ class TimeWindow {
   /// previous three hours.
   @_s.JsonKey(
       name: 'StartTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime startTime;
 

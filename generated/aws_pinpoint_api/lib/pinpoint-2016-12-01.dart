@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -6059,7 +6057,8 @@ class ApplicationDateRangeKpiResponse {
 
   /// The last date and time of the date range that was used to filter the query
   /// results, in extended ISO 8601 format. The date range is inclusive.
-  @_s.JsonKey(name: 'EndTime', fromJson: iso8601FromJson, toJson: iso8601ToJson)
+  @_s.JsonKey(
+      name: 'EndTime', fromJson: timeStampFromJson, toJson: iso8601ToJson)
   final DateTime endTime;
 
   /// The name of the metric, also referred to as a <i>key performance indicator
@@ -6080,7 +6079,7 @@ class ApplicationDateRangeKpiResponse {
   /// The first date and time of the date range that was used to filter the query
   /// results, in extended ISO 8601 format. The date range is inclusive.
   @_s.JsonKey(
-      name: 'StartTime', fromJson: iso8601FromJson, toJson: iso8601ToJson)
+      name: 'StartTime', fromJson: timeStampFromJson, toJson: iso8601ToJson)
   final DateTime startTime;
 
   /// The string to use in a subsequent request to get the next page of results in
@@ -6564,7 +6563,8 @@ class CampaignDateRangeKpiResponse {
 
   /// The last date and time of the date range that was used to filter the query
   /// results, in extended ISO 8601 format. The date range is inclusive.
-  @_s.JsonKey(name: 'EndTime', fromJson: iso8601FromJson, toJson: iso8601ToJson)
+  @_s.JsonKey(
+      name: 'EndTime', fromJson: timeStampFromJson, toJson: iso8601ToJson)
   final DateTime endTime;
 
   /// The name of the metric, also referred to as a <i>key performance indicator
@@ -6585,7 +6585,7 @@ class CampaignDateRangeKpiResponse {
   /// The first date and time of the date range that was used to filter the query
   /// results, in extended ISO 8601 format. The date range is inclusive.
   @_s.JsonKey(
-      name: 'StartTime', fromJson: iso8601FromJson, toJson: iso8601ToJson)
+      name: 'StartTime', fromJson: timeStampFromJson, toJson: iso8601ToJson)
   final DateTime startTime;
 
   /// The string to use in a subsequent request to get the next page of results in
@@ -11120,7 +11120,8 @@ class JourneyDateRangeKpiResponse {
 
   /// The last date and time of the date range that was used to filter the query
   /// results, in extended ISO 8601 format. The date range is inclusive.
-  @_s.JsonKey(name: 'EndTime', fromJson: iso8601FromJson, toJson: iso8601ToJson)
+  @_s.JsonKey(
+      name: 'EndTime', fromJson: timeStampFromJson, toJson: iso8601ToJson)
   final DateTime endTime;
 
   /// The unique identifier for the journey that the metric applies to.
@@ -11145,7 +11146,7 @@ class JourneyDateRangeKpiResponse {
   /// The first date and time of the date range that was used to filter the query
   /// results, in extended ISO 8601 format. The date range is inclusive.
   @_s.JsonKey(
-      name: 'StartTime', fromJson: iso8601FromJson, toJson: iso8601ToJson)
+      name: 'StartTime', fromJson: timeStampFromJson, toJson: iso8601ToJson)
   final DateTime startTime;
 
   /// The string to use in a subsequent request to get the next page of results in
@@ -11495,13 +11496,14 @@ class JourneyResponse {
     createToJson: true)
 class JourneySchedule {
   /// The scheduled time, in ISO 8601 format, when the journey ended or will end.
-  @_s.JsonKey(name: 'EndTime', fromJson: iso8601FromJson, toJson: iso8601ToJson)
+  @_s.JsonKey(
+      name: 'EndTime', fromJson: timeStampFromJson, toJson: iso8601ToJson)
   final DateTime endTime;
 
   /// The scheduled time, in ISO 8601 format, when the journey began or will
   /// begin.
   @_s.JsonKey(
-      name: 'StartTime', fromJson: iso8601FromJson, toJson: iso8601ToJson)
+      name: 'StartTime', fromJson: timeStampFromJson, toJson: iso8601ToJson)
   final DateTime startTime;
 
   /// The starting UTC offset for the journey schedule, if the value of the

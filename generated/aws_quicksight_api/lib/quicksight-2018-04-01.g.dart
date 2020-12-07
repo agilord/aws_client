@@ -526,10 +526,10 @@ Map<String, dynamic> _$CustomSqlToJson(CustomSql instance) {
 Dashboard _$DashboardFromJson(Map<String, dynamic> json) {
   return Dashboard(
     arn: json['Arn'] as String,
-    createdTime: unixTimestampFromJson(json['CreatedTime']),
+    createdTime: timeStampFromJson(json['CreatedTime']),
     dashboardId: json['DashboardId'] as String,
-    lastPublishedTime: unixTimestampFromJson(json['LastPublishedTime']),
-    lastUpdatedTime: unixTimestampFromJson(json['LastUpdatedTime']),
+    lastPublishedTime: timeStampFromJson(json['LastPublishedTime']),
+    lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
     name: json['Name'] as String,
     version: json['Version'] == null
         ? null
@@ -629,10 +629,10 @@ Map<String, dynamic> _$DashboardSourceTemplateToJson(
 DashboardSummary _$DashboardSummaryFromJson(Map<String, dynamic> json) {
   return DashboardSummary(
     arn: json['Arn'] as String,
-    createdTime: unixTimestampFromJson(json['CreatedTime']),
+    createdTime: timeStampFromJson(json['CreatedTime']),
     dashboardId: json['DashboardId'] as String,
-    lastPublishedTime: unixTimestampFromJson(json['LastPublishedTime']),
-    lastUpdatedTime: unixTimestampFromJson(json['LastUpdatedTime']),
+    lastPublishedTime: timeStampFromJson(json['LastPublishedTime']),
+    lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
     name: json['Name'] as String,
     publishedVersionNumber: json['PublishedVersionNumber'] as int,
   );
@@ -641,7 +641,7 @@ DashboardSummary _$DashboardSummaryFromJson(Map<String, dynamic> json) {
 DashboardVersion _$DashboardVersionFromJson(Map<String, dynamic> json) {
   return DashboardVersion(
     arn: json['Arn'] as String,
-    createdTime: unixTimestampFromJson(json['CreatedTime']),
+    createdTime: timeStampFromJson(json['CreatedTime']),
     description: json['Description'] as String,
     errors: (json['Errors'] as List)
         ?.map((e) => e == null
@@ -658,7 +658,7 @@ DashboardVersionSummary _$DashboardVersionSummaryFromJson(
     Map<String, dynamic> json) {
   return DashboardVersionSummary(
     arn: json['Arn'] as String,
-    createdTime: unixTimestampFromJson(json['CreatedTime']),
+    createdTime: timeStampFromJson(json['CreatedTime']),
     description: json['Description'] as String,
     sourceEntityArn: json['SourceEntityArn'] as String,
     status: _$enumDecodeNullable(_$ResourceStatusEnumMap, json['Status']),
@@ -674,11 +674,11 @@ DataSet _$DataSetFromJson(Map<String, dynamic> json) {
             e == null ? null : ColumnGroup.fromJson(e as Map<String, dynamic>))
         ?.toList(),
     consumedSpiceCapacityInBytes: json['ConsumedSpiceCapacityInBytes'] as int,
-    createdTime: unixTimestampFromJson(json['CreatedTime']),
+    createdTime: timeStampFromJson(json['CreatedTime']),
     dataSetId: json['DataSetId'] as String,
     importMode:
         _$enumDecodeNullable(_$DataSetImportModeEnumMap, json['ImportMode']),
-    lastUpdatedTime: unixTimestampFromJson(json['LastUpdatedTime']),
+    lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
     logicalTableMap: (json['LogicalTableMap'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k,
           e == null ? null : LogicalTable.fromJson(e as Map<String, dynamic>)),
@@ -744,11 +744,11 @@ DataSetSchema _$DataSetSchemaFromJson(Map<String, dynamic> json) {
 DataSetSummary _$DataSetSummaryFromJson(Map<String, dynamic> json) {
   return DataSetSummary(
     arn: json['Arn'] as String,
-    createdTime: unixTimestampFromJson(json['CreatedTime']),
+    createdTime: timeStampFromJson(json['CreatedTime']),
     dataSetId: json['DataSetId'] as String,
     importMode:
         _$enumDecodeNullable(_$DataSetImportModeEnumMap, json['ImportMode']),
-    lastUpdatedTime: unixTimestampFromJson(json['LastUpdatedTime']),
+    lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
     name: json['Name'] as String,
     rowLevelPermissionDataSet: json['RowLevelPermissionDataSet'] == null
         ? null
@@ -760,7 +760,7 @@ DataSetSummary _$DataSetSummaryFromJson(Map<String, dynamic> json) {
 DataSource _$DataSourceFromJson(Map<String, dynamic> json) {
   return DataSource(
     arn: json['Arn'] as String,
-    createdTime: unixTimestampFromJson(json['CreatedTime']),
+    createdTime: timeStampFromJson(json['CreatedTime']),
     dataSourceId: json['DataSourceId'] as String,
     dataSourceParameters: json['DataSourceParameters'] == null
         ? null
@@ -770,7 +770,7 @@ DataSource _$DataSourceFromJson(Map<String, dynamic> json) {
         ? null
         : DataSourceErrorInfo.fromJson(
             json['ErrorInfo'] as Map<String, dynamic>),
-    lastUpdatedTime: unixTimestampFromJson(json['LastUpdatedTime']),
+    lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
     name: json['Name'] as String,
     sslProperties: json['SslProperties'] == null
         ? null
@@ -1401,7 +1401,7 @@ IAMPolicyAssignmentSummary _$IAMPolicyAssignmentSummaryFromJson(
 Ingestion _$IngestionFromJson(Map<String, dynamic> json) {
   return Ingestion(
     arn: json['Arn'] as String,
-    createdTime: unixTimestampFromJson(json['CreatedTime']),
+    createdTime: timeStampFromJson(json['CreatedTime']),
     ingestionStatus:
         _$enumDecodeNullable(_$IngestionStatusEnumMap, json['IngestionStatus']),
     errorInfo: json['ErrorInfo'] == null
@@ -2410,8 +2410,8 @@ TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
 Template _$TemplateFromJson(Map<String, dynamic> json) {
   return Template(
     arn: json['Arn'] as String,
-    createdTime: unixTimestampFromJson(json['CreatedTime']),
-    lastUpdatedTime: unixTimestampFromJson(json['LastUpdatedTime']),
+    createdTime: timeStampFromJson(json['CreatedTime']),
+    lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
     name: json['Name'] as String,
     templateId: json['TemplateId'] as String,
     version: json['Version'] == null
@@ -2488,8 +2488,8 @@ Map<String, dynamic> _$TemplateSourceTemplateToJson(
 TemplateSummary _$TemplateSummaryFromJson(Map<String, dynamic> json) {
   return TemplateSummary(
     arn: json['Arn'] as String,
-    createdTime: unixTimestampFromJson(json['CreatedTime']),
-    lastUpdatedTime: unixTimestampFromJson(json['LastUpdatedTime']),
+    createdTime: timeStampFromJson(json['CreatedTime']),
+    lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
     latestVersionNumber: json['LatestVersionNumber'] as int,
     name: json['Name'] as String,
     templateId: json['TemplateId'] as String,
@@ -2498,7 +2498,7 @@ TemplateSummary _$TemplateSummaryFromJson(Map<String, dynamic> json) {
 
 TemplateVersion _$TemplateVersionFromJson(Map<String, dynamic> json) {
   return TemplateVersion(
-    createdTime: unixTimestampFromJson(json['CreatedTime']),
+    createdTime: timeStampFromJson(json['CreatedTime']),
     dataSetConfigurations: (json['DataSetConfigurations'] as List)
         ?.map((e) => e == null
             ? null
@@ -2520,7 +2520,7 @@ TemplateVersionSummary _$TemplateVersionSummaryFromJson(
     Map<String, dynamic> json) {
   return TemplateVersionSummary(
     arn: json['Arn'] as String,
-    createdTime: unixTimestampFromJson(json['CreatedTime']),
+    createdTime: timeStampFromJson(json['CreatedTime']),
     description: json['Description'] as String,
     status: _$enumDecodeNullable(_$ResourceStatusEnumMap, json['Status']),
     versionNumber: json['VersionNumber'] as int,

@@ -464,7 +464,7 @@ Map<String, dynamic> _$ResourceToJson(Resource instance) {
 
 ResourceInfo _$ResourceInfoFromJson(Map<String, dynamic> json) {
   return ResourceInfo(
-    lastModified: unixTimestampFromJson(json['LastModified']),
+    lastModified: timeStampFromJson(json['LastModified']),
     resourceArn: json['ResourceArn'] as String,
     roleArn: json['RoleArn'] as String,
   );

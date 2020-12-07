@@ -1,6 +1,6 @@
 name: aws_shield_api
 description: AWS API client for AWS Shield (generated from SDK API specification).
-version: 0.1.1
+version: 0.0.1
 homepage: https://github.com/agilord/aws_client/tree/master/generated/aws_shield_api
 
 

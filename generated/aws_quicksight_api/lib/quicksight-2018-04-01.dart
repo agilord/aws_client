@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -6102,7 +6100,7 @@ class Dashboard {
   /// The time that this dataset was created.
   @_s.JsonKey(
       name: 'CreatedTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdTime;
 
@@ -6113,14 +6111,14 @@ class Dashboard {
   /// The last time that this dataset was published.
   @_s.JsonKey(
       name: 'LastPublishedTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastPublishedTime;
 
   /// The last time that this dataset was updated.
   @_s.JsonKey(
       name: 'LastUpdatedTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedTime;
 
@@ -6310,7 +6308,7 @@ class DashboardSummary {
   /// The time that this dashboard was created.
   @_s.JsonKey(
       name: 'CreatedTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdTime;
 
@@ -6321,14 +6319,14 @@ class DashboardSummary {
   /// The last time that this dashboard was published.
   @_s.JsonKey(
       name: 'LastPublishedTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastPublishedTime;
 
   /// The last time that this dashboard was updated.
   @_s.JsonKey(
       name: 'LastUpdatedTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedTime;
 
@@ -6374,7 +6372,7 @@ class DashboardVersion {
   /// The time that this dashboard version was created.
   @_s.JsonKey(
       name: 'CreatedTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdTime;
 
@@ -6425,7 +6423,7 @@ class DashboardVersionSummary {
   /// The time that this dashboard version was created.
   @_s.JsonKey(
       name: 'CreatedTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdTime;
 
@@ -6481,7 +6479,7 @@ class DataSet {
   /// The time that this dataset was created.
   @_s.JsonKey(
       name: 'CreatedTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdTime;
 
@@ -6496,7 +6494,7 @@ class DataSet {
   /// The last time that this dataset was updated.
   @_s.JsonKey(
       name: 'LastUpdatedTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedTime;
 
@@ -6642,7 +6640,7 @@ class DataSetSummary {
   /// The time that this dataset was created.
   @_s.JsonKey(
       name: 'CreatedTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdTime;
 
@@ -6657,7 +6655,7 @@ class DataSetSummary {
   /// The last time that this dataset was updated.
   @_s.JsonKey(
       name: 'LastUpdatedTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedTime;
 
@@ -6696,7 +6694,7 @@ class DataSource {
   /// The time that this data source was created.
   @_s.JsonKey(
       name: 'CreatedTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdTime;
 
@@ -6718,7 +6716,7 @@ class DataSource {
   /// The last time that this data source was updated.
   @_s.JsonKey(
       name: 'LastUpdatedTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedTime;
 
@@ -8066,7 +8064,7 @@ class Ingestion {
   /// The time that this ingestion started.
   @_s.JsonKey(
       name: 'CreatedTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdTime;
 
@@ -9786,14 +9784,14 @@ class Template {
   /// Time when this was created.
   @_s.JsonKey(
       name: 'CreatedTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdTime;
 
   /// Time when this was last updated.
   @_s.JsonKey(
       name: 'LastUpdatedTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedTime;
 
@@ -9955,14 +9953,14 @@ class TemplateSummary {
   /// The last time that this template was created.
   @_s.JsonKey(
       name: 'CreatedTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdTime;
 
   /// The last time that this template was updated.
   @_s.JsonKey(
       name: 'LastUpdatedTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedTime;
 
@@ -10001,7 +9999,7 @@ class TemplateVersion {
   /// The time that this template version was created.
   @_s.JsonKey(
       name: 'CreatedTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdTime;
 
@@ -10059,7 +10057,7 @@ class TemplateVersionSummary {
   /// The time that this template version was created.
   @_s.JsonKey(
       name: 'CreatedTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdTime;
 

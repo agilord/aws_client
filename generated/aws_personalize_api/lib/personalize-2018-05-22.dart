@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -2750,7 +2748,7 @@ class Algorithm {
   /// The date and time (in Unix time) that the algorithm was created.
   @_s.JsonKey(
       name: 'creationDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDateTime;
 
@@ -2772,7 +2770,7 @@ class Algorithm {
   /// The date and time (in Unix time) that the algorithm was last updated.
   @_s.JsonKey(
       name: 'lastUpdatedDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedDateTime;
 
@@ -2889,7 +2887,7 @@ class BatchInferenceJob {
   /// The time at which the batch inference job was created.
   @_s.JsonKey(
       name: 'creationDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDateTime;
 
@@ -2914,7 +2912,7 @@ class BatchInferenceJob {
   /// The time at which the batch inference job was last updated.
   @_s.JsonKey(
       name: 'lastUpdatedDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedDateTime;
 
@@ -3028,7 +3026,7 @@ class BatchInferenceJobSummary {
   /// The time at which the batch inference job was created.
   @_s.JsonKey(
       name: 'creationDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDateTime;
 
@@ -3043,7 +3041,7 @@ class BatchInferenceJobSummary {
   /// The time at which the batch inference job was last updated.
   @_s.JsonKey(
       name: 'lastUpdatedDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedDateTime;
 
@@ -3099,7 +3097,7 @@ class Campaign {
   /// The date and time (in Unix format) that the campaign was created.
   @_s.JsonKey(
       name: 'creationDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDateTime;
 
@@ -3110,7 +3108,7 @@ class Campaign {
   /// The date and time (in Unix format) that the campaign was last updated.
   @_s.JsonKey(
       name: 'lastUpdatedDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedDateTime;
   @_s.JsonKey(name: 'latestCampaignUpdate')
@@ -3174,7 +3172,7 @@ class CampaignSummary {
   /// The date and time (in Unix time) that the campaign was created.
   @_s.JsonKey(
       name: 'creationDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDateTime;
 
@@ -3185,7 +3183,7 @@ class CampaignSummary {
   /// The date and time (in Unix time) that the campaign was last updated.
   @_s.JsonKey(
       name: 'lastUpdatedDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedDateTime;
 
@@ -3231,7 +3229,7 @@ class CampaignUpdateSummary {
   /// The date and time (in Unix time) that the campaign update was created.
   @_s.JsonKey(
       name: 'creationDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDateTime;
 
@@ -3242,7 +3240,7 @@ class CampaignUpdateSummary {
   /// The date and time (in Unix time) that the campaign update was last updated.
   @_s.JsonKey(
       name: 'lastUpdatedDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedDateTime;
 
@@ -3530,7 +3528,7 @@ class Dataset {
   /// The creation date and time (in Unix time) of the dataset.
   @_s.JsonKey(
       name: 'creationDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDateTime;
 
@@ -3561,7 +3559,7 @@ class Dataset {
   /// A time stamp that shows when the dataset was updated.
   @_s.JsonKey(
       name: 'lastUpdatedDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedDateTime;
 
@@ -3620,7 +3618,7 @@ class DatasetGroup {
   /// The creation date and time (in Unix time) of the dataset group.
   @_s.JsonKey(
       name: 'creationDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDateTime;
 
@@ -3639,7 +3637,7 @@ class DatasetGroup {
   /// The last update date and time (in Unix time) of the dataset group.
   @_s.JsonKey(
       name: 'lastUpdatedDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedDateTime;
 
@@ -3691,7 +3689,7 @@ class DatasetGroupSummary {
   /// The date and time (in Unix time) that the dataset group was created.
   @_s.JsonKey(
       name: 'creationDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDateTime;
 
@@ -3706,7 +3704,7 @@ class DatasetGroupSummary {
   /// The date and time (in Unix time) that the dataset group was last updated.
   @_s.JsonKey(
       name: 'lastUpdatedDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedDateTime;
 
@@ -3761,7 +3759,7 @@ class DatasetImportJob {
   /// The creation date and time (in Unix time) of the dataset import job.
   @_s.JsonKey(
       name: 'creationDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDateTime;
 
@@ -3789,7 +3787,7 @@ class DatasetImportJob {
   /// The date and time (in Unix time) the dataset was last updated.
   @_s.JsonKey(
       name: 'lastUpdatedDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedDateTime;
 
@@ -3836,7 +3834,7 @@ class DatasetImportJobSummary {
   /// The date and time (in Unix time) that the dataset import job was created.
   @_s.JsonKey(
       name: 'creationDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDateTime;
 
@@ -3855,7 +3853,7 @@ class DatasetImportJobSummary {
   /// The date and time (in Unix time) that the dataset was last updated.
   @_s.JsonKey(
       name: 'lastUpdatedDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedDateTime;
 
@@ -3894,14 +3892,14 @@ class DatasetSchema {
   /// The date and time (in Unix time) that the schema was created.
   @_s.JsonKey(
       name: 'creationDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDateTime;
 
   /// The date and time (in Unix time) that the schema was last updated.
   @_s.JsonKey(
       name: 'lastUpdatedDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedDateTime;
 
@@ -3939,14 +3937,14 @@ class DatasetSchemaSummary {
   /// The date and time (in Unix time) that the schema was created.
   @_s.JsonKey(
       name: 'creationDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDateTime;
 
   /// The date and time (in Unix time) that the schema was last updated.
   @_s.JsonKey(
       name: 'lastUpdatedDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedDateTime;
 
@@ -3979,7 +3977,7 @@ class DatasetSummary {
   /// The date and time (in Unix time) that the dataset was created.
   @_s.JsonKey(
       name: 'creationDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDateTime;
 
@@ -4009,7 +4007,7 @@ class DatasetSummary {
   /// The date and time (in Unix time) that the dataset was last updated.
   @_s.JsonKey(
       name: 'lastUpdatedDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedDateTime;
 
@@ -4416,7 +4414,7 @@ class EventTracker {
   /// The date and time (in Unix format) that the event tracker was created.
   @_s.JsonKey(
       name: 'creationDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDateTime;
 
@@ -4432,7 +4430,7 @@ class EventTracker {
   /// The date and time (in Unix time) that the event tracker was last updated.
   @_s.JsonKey(
       name: 'lastUpdatedDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedDateTime;
 
@@ -4486,7 +4484,7 @@ class EventTrackerSummary {
   /// The date and time (in Unix time) that the event tracker was created.
   @_s.JsonKey(
       name: 'creationDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDateTime;
 
@@ -4497,7 +4495,7 @@ class EventTrackerSummary {
   /// The date and time (in Unix time) that the event tracker was last updated.
   @_s.JsonKey(
       name: 'lastUpdatedDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedDateTime;
 
@@ -4543,7 +4541,7 @@ class FeatureTransformation {
   /// The creation date and time (in Unix time) of the feature transformation.
   @_s.JsonKey(
       name: 'creationDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDateTime;
 
@@ -4558,7 +4556,7 @@ class FeatureTransformation {
   /// The last update date and time (in Unix time) of the feature transformation.
   @_s.JsonKey(
       name: 'lastUpdatedDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedDateTime;
 
@@ -5003,7 +5001,7 @@ class Recipe {
   /// The date and time (in Unix format) that the recipe was created.
   @_s.JsonKey(
       name: 'creationDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDateTime;
 
@@ -5018,7 +5016,7 @@ class Recipe {
   /// The date and time (in Unix format) that the recipe was last updated.
   @_s.JsonKey(
       name: 'lastUpdatedDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedDateTime;
 
@@ -5090,14 +5088,14 @@ class RecipeSummary {
   /// The date and time (in Unix time) that the recipe was created.
   @_s.JsonKey(
       name: 'creationDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDateTime;
 
   /// The date and time (in Unix time) that the recipe was last updated.
   @_s.JsonKey(
       name: 'lastUpdatedDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedDateTime;
 
@@ -5166,7 +5164,7 @@ class Solution {
   /// The creation date and time (in Unix time) of the solution.
   @_s.JsonKey(
       name: 'creationDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDateTime;
 
@@ -5183,7 +5181,7 @@ class Solution {
   /// The date and time (in Unix time) that the solution was last updated.
   @_s.JsonKey(
       name: 'lastUpdatedDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedDateTime;
 
@@ -5307,14 +5305,14 @@ class SolutionSummary {
   /// The date and time (in Unix time) that the solution was created.
   @_s.JsonKey(
       name: 'creationDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDateTime;
 
   /// The date and time (in Unix time) that the solution was last updated.
   @_s.JsonKey(
       name: 'lastUpdatedDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedDateTime;
 
@@ -5364,7 +5362,7 @@ class SolutionVersion {
   /// created.
   @_s.JsonKey(
       name: 'creationDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDateTime;
 
@@ -5385,7 +5383,7 @@ class SolutionVersion {
   /// The date and time (in Unix time) that the solution was last updated.
   @_s.JsonKey(
       name: 'lastUpdatedDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedDateTime;
 
@@ -5495,7 +5493,7 @@ class SolutionVersionSummary {
   /// created.
   @_s.JsonKey(
       name: 'creationDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDateTime;
 
@@ -5506,7 +5504,7 @@ class SolutionVersionSummary {
   /// The date and time (in Unix time) that the solution version was last updated.
   @_s.JsonKey(
       name: 'lastUpdatedDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedDateTime;
 

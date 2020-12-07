@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -741,7 +739,7 @@ class EventSourceConfiguration {
   /// The UTC time string indicating the last time the event mapping was updated.
   @_s.JsonKey(
       name: 'LastModified',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastModified;
 
@@ -840,7 +838,7 @@ class FunctionConfiguration {
   /// The timestamp of the last time you updated the function.
   @_s.JsonKey(
       name: 'LastModified',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastModified;
 

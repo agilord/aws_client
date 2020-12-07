@@ -24,7 +24,7 @@ Budget _$BudgetFromJson(Map<String, dynamic> json) {
     costTypes: json['CostTypes'] == null
         ? null
         : CostTypes.fromJson(json['CostTypes'] as Map<String, dynamic>),
-    lastUpdatedTime: unixTimestampFromJson(json['LastUpdatedTime']),
+    lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
     plannedBudgetLimits:
         (json['PlannedBudgetLimits'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(
@@ -413,8 +413,8 @@ const _$SubscriptionTypeEnumMap = {
 
 TimePeriod _$TimePeriodFromJson(Map<String, dynamic> json) {
   return TimePeriod(
-    end: unixTimestampFromJson(json['End']),
-    start: unixTimestampFromJson(json['Start']),
+    end: timeStampFromJson(json['End']),
+    start: timeStampFromJson(json['Start']),
   );
 }
 

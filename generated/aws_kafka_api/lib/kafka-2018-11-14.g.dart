@@ -204,7 +204,7 @@ ClusterInfo _$ClusterInfoFromJson(Map<String, dynamic> json) {
             json['clientAuthentication'] as Map<String, dynamic>),
     clusterArn: json['clusterArn'] as String,
     clusterName: json['clusterName'] as String,
-    creationTime: iso8601FromJson(json['creationTime'] as String),
+    creationTime: timeStampFromJson(json['creationTime']),
     currentBrokerSoftwareInfo: json['currentBrokerSoftwareInfo'] == null
         ? null
         : BrokerSoftwareInfo.fromJson(
@@ -253,8 +253,8 @@ ClusterOperationInfo _$ClusterOperationInfoFromJson(Map<String, dynamic> json) {
   return ClusterOperationInfo(
     clientRequestId: json['clientRequestId'] as String,
     clusterArn: json['clusterArn'] as String,
-    creationTime: iso8601FromJson(json['creationTime'] as String),
-    endTime: iso8601FromJson(json['endTime'] as String),
+    creationTime: timeStampFromJson(json['creationTime']),
+    endTime: timeStampFromJson(json['endTime']),
     errorInfo: json['errorInfo'] == null
         ? null
         : ErrorInfo.fromJson(json['errorInfo'] as Map<String, dynamic>),
@@ -275,7 +275,7 @@ ClusterOperationInfo _$ClusterOperationInfoFromJson(Map<String, dynamic> json) {
 Configuration _$ConfigurationFromJson(Map<String, dynamic> json) {
   return Configuration(
     arn: json['arn'] as String,
-    creationTime: iso8601FromJson(json['creationTime'] as String),
+    creationTime: timeStampFromJson(json['creationTime']),
     description: json['description'] as String,
     kafkaVersions:
         (json['kafkaVersions'] as List)?.map((e) => e as String)?.toList(),
@@ -311,7 +311,7 @@ Map<String, dynamic> _$ConfigurationInfoToJson(ConfigurationInfo instance) {
 ConfigurationRevision _$ConfigurationRevisionFromJson(
     Map<String, dynamic> json) {
   return ConfigurationRevision(
-    creationTime: iso8601FromJson(json['creationTime'] as String),
+    creationTime: timeStampFromJson(json['creationTime']),
     revision: json['revision'] as int,
     description: json['description'] as String,
   );
@@ -330,7 +330,7 @@ CreateConfigurationResponse _$CreateConfigurationResponseFromJson(
     Map<String, dynamic> json) {
   return CreateConfigurationResponse(
     arn: json['arn'] as String,
-    creationTime: iso8601FromJson(json['creationTime'] as String),
+    creationTime: timeStampFromJson(json['creationTime']),
     latestRevision: json['latestRevision'] == null
         ? null
         : ConfigurationRevision.fromJson(
@@ -370,7 +370,7 @@ DescribeConfigurationResponse _$DescribeConfigurationResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeConfigurationResponse(
     arn: json['arn'] as String,
-    creationTime: iso8601FromJson(json['creationTime'] as String),
+    creationTime: timeStampFromJson(json['creationTime']),
     description: json['description'] as String,
     kafkaVersions:
         (json['kafkaVersions'] as List)?.map((e) => e as String)?.toList(),
@@ -386,7 +386,7 @@ DescribeConfigurationRevisionResponse
     _$DescribeConfigurationRevisionResponseFromJson(Map<String, dynamic> json) {
   return DescribeConfigurationRevisionResponse(
     arn: json['arn'] as String,
-    creationTime: iso8601FromJson(json['creationTime'] as String),
+    creationTime: timeStampFromJson(json['creationTime']),
     description: json['description'] as String,
     revision: json['revision'] as int,
     serverProperties:

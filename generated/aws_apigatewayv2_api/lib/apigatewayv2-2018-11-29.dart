@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -3364,7 +3362,7 @@ class Api {
 
   /// The timestamp when the API was created.
   @_s.JsonKey(
-      name: 'createdDate', fromJson: iso8601FromJson, toJson: iso8601ToJson)
+      name: 'createdDate', fromJson: timeStampFromJson, toJson: iso8601ToJson)
   final DateTime createdDate;
 
   /// The description of the API.
@@ -3742,7 +3740,7 @@ class CreateApiResponse {
 
   /// The timestamp when the API was created.
   @_s.JsonKey(
-      name: 'createdDate', fromJson: iso8601FromJson, toJson: iso8601ToJson)
+      name: 'createdDate', fromJson: timeStampFromJson, toJson: iso8601ToJson)
   final DateTime createdDate;
 
   /// The description of the API.
@@ -3911,7 +3909,7 @@ class CreateDeploymentResponse {
 
   /// The date and time when the Deployment resource was created.
   @_s.JsonKey(
-      name: 'createdDate', fromJson: iso8601FromJson, toJson: iso8601ToJson)
+      name: 'createdDate', fromJson: timeStampFromJson, toJson: iso8601ToJson)
   final DateTime createdDate;
 
   /// The identifier for the deployment.
@@ -4436,7 +4434,7 @@ class CreateStageResponse {
 
   /// The timestamp when the stage was created.
   @_s.JsonKey(
-      name: 'createdDate', fromJson: iso8601FromJson, toJson: iso8601ToJson)
+      name: 'createdDate', fromJson: timeStampFromJson, toJson: iso8601ToJson)
   final DateTime createdDate;
 
   /// Default route settings for the stage.
@@ -4459,7 +4457,9 @@ class CreateStageResponse {
 
   /// The timestamp when the stage was last updated.
   @_s.JsonKey(
-      name: 'lastUpdatedDate', fromJson: iso8601FromJson, toJson: iso8601ToJson)
+      name: 'lastUpdatedDate',
+      fromJson: timeStampFromJson,
+      toJson: iso8601ToJson)
   final DateTime lastUpdatedDate;
 
   /// Route settings for the stage, by routeKey.
@@ -4509,7 +4509,7 @@ class CreateStageResponse {
 class CreateVpcLinkResponse {
   /// The timestamp when the VPC link was created.
   @_s.JsonKey(
-      name: 'createdDate', fromJson: iso8601FromJson, toJson: iso8601ToJson)
+      name: 'createdDate', fromJson: timeStampFromJson, toJson: iso8601ToJson)
   final DateTime createdDate;
 
   /// The name of the VPC link.
@@ -4585,7 +4585,7 @@ class Deployment {
 
   /// The date and time when the Deployment resource was created.
   @_s.JsonKey(
-      name: 'createdDate', fromJson: iso8601FromJson, toJson: iso8601ToJson)
+      name: 'createdDate', fromJson: timeStampFromJson, toJson: iso8601ToJson)
   final DateTime createdDate;
 
   /// The identifier for the deployment.
@@ -4684,7 +4684,7 @@ class DomainNameConfiguration {
   /// for this domain name was uploaded.
   @_s.JsonKey(
       name: 'certificateUploadDate',
-      fromJson: iso8601FromJson,
+      fromJson: timeStampFromJson,
       toJson: iso8601ToJson)
   final DateTime certificateUploadDate;
 
@@ -4849,7 +4849,7 @@ class GetApiResponse {
 
   /// The timestamp when the API was created.
   @_s.JsonKey(
-      name: 'createdDate', fromJson: iso8601FromJson, toJson: iso8601ToJson)
+      name: 'createdDate', fromJson: timeStampFromJson, toJson: iso8601ToJson)
   final DateTime createdDate;
 
   /// The description of the API.
@@ -5064,7 +5064,7 @@ class GetDeploymentResponse {
 
   /// The date and time when the Deployment resource was created.
   @_s.JsonKey(
-      name: 'createdDate', fromJson: iso8601FromJson, toJson: iso8601ToJson)
+      name: 'createdDate', fromJson: timeStampFromJson, toJson: iso8601ToJson)
   final DateTime createdDate;
 
   /// The identifier for the deployment.
@@ -5766,7 +5766,7 @@ class GetStageResponse {
 
   /// The timestamp when the stage was created.
   @_s.JsonKey(
-      name: 'createdDate', fromJson: iso8601FromJson, toJson: iso8601ToJson)
+      name: 'createdDate', fromJson: timeStampFromJson, toJson: iso8601ToJson)
   final DateTime createdDate;
 
   /// Default route settings for the stage.
@@ -5789,7 +5789,9 @@ class GetStageResponse {
 
   /// The timestamp when the stage was last updated.
   @_s.JsonKey(
-      name: 'lastUpdatedDate', fromJson: iso8601FromJson, toJson: iso8601ToJson)
+      name: 'lastUpdatedDate',
+      fromJson: timeStampFromJson,
+      toJson: iso8601ToJson)
   final DateTime lastUpdatedDate;
 
   /// Route settings for the stage, by routeKey.
@@ -5878,7 +5880,7 @@ class GetTagsResponse {
 class GetVpcLinkResponse {
   /// The timestamp when the VPC link was created.
   @_s.JsonKey(
-      name: 'createdDate', fromJson: iso8601FromJson, toJson: iso8601ToJson)
+      name: 'createdDate', fromJson: timeStampFromJson, toJson: iso8601ToJson)
   final DateTime createdDate;
 
   /// The name of the VPC link.
@@ -5979,7 +5981,7 @@ class ImportApiResponse {
 
   /// The timestamp when the API was created.
   @_s.JsonKey(
-      name: 'createdDate', fromJson: iso8601FromJson, toJson: iso8601ToJson)
+      name: 'createdDate', fromJson: timeStampFromJson, toJson: iso8601ToJson)
   final DateTime createdDate;
 
   /// The description of the API.
@@ -6519,7 +6521,7 @@ class ReimportApiResponse {
 
   /// The timestamp when the API was created.
   @_s.JsonKey(
-      name: 'createdDate', fromJson: iso8601FromJson, toJson: iso8601ToJson)
+      name: 'createdDate', fromJson: timeStampFromJson, toJson: iso8601ToJson)
   final DateTime createdDate;
 
   /// The description of the API.
@@ -6804,7 +6806,7 @@ class Stage {
 
   /// The timestamp when the stage was created.
   @_s.JsonKey(
-      name: 'createdDate', fromJson: iso8601FromJson, toJson: iso8601ToJson)
+      name: 'createdDate', fromJson: timeStampFromJson, toJson: iso8601ToJson)
   final DateTime createdDate;
 
   /// Default route settings for the stage.
@@ -6827,7 +6829,9 @@ class Stage {
 
   /// The timestamp when the stage was last updated.
   @_s.JsonKey(
-      name: 'lastUpdatedDate', fromJson: iso8601FromJson, toJson: iso8601ToJson)
+      name: 'lastUpdatedDate',
+      fromJson: timeStampFromJson,
+      toJson: iso8601ToJson)
   final DateTime lastUpdatedDate;
 
   /// Route settings for the stage, by routeKey.
@@ -6978,7 +6982,7 @@ class UpdateApiResponse {
 
   /// The timestamp when the API was created.
   @_s.JsonKey(
-      name: 'createdDate', fromJson: iso8601FromJson, toJson: iso8601ToJson)
+      name: 'createdDate', fromJson: timeStampFromJson, toJson: iso8601ToJson)
   final DateTime createdDate;
 
   /// The description of the API.
@@ -7147,7 +7151,7 @@ class UpdateDeploymentResponse {
 
   /// The date and time when the Deployment resource was created.
   @_s.JsonKey(
-      name: 'createdDate', fromJson: iso8601FromJson, toJson: iso8601ToJson)
+      name: 'createdDate', fromJson: timeStampFromJson, toJson: iso8601ToJson)
   final DateTime createdDate;
 
   /// The identifier for the deployment.
@@ -7672,7 +7676,7 @@ class UpdateStageResponse {
 
   /// The timestamp when the stage was created.
   @_s.JsonKey(
-      name: 'createdDate', fromJson: iso8601FromJson, toJson: iso8601ToJson)
+      name: 'createdDate', fromJson: timeStampFromJson, toJson: iso8601ToJson)
   final DateTime createdDate;
 
   /// Default route settings for the stage.
@@ -7695,7 +7699,9 @@ class UpdateStageResponse {
 
   /// The timestamp when the stage was last updated.
   @_s.JsonKey(
-      name: 'lastUpdatedDate', fromJson: iso8601FromJson, toJson: iso8601ToJson)
+      name: 'lastUpdatedDate',
+      fromJson: timeStampFromJson,
+      toJson: iso8601ToJson)
   final DateTime lastUpdatedDate;
 
   /// Route settings for the stage, by routeKey.
@@ -7745,7 +7751,7 @@ class UpdateStageResponse {
 class UpdateVpcLinkResponse {
   /// The timestamp when the VPC link was created.
   @_s.JsonKey(
-      name: 'createdDate', fromJson: iso8601FromJson, toJson: iso8601ToJson)
+      name: 'createdDate', fromJson: timeStampFromJson, toJson: iso8601ToJson)
   final DateTime createdDate;
 
   /// The name of the VPC link.
@@ -7820,7 +7826,7 @@ class VpcLink {
 
   /// The timestamp when the VPC link was created.
   @_s.JsonKey(
-      name: 'createdDate', fromJson: iso8601FromJson, toJson: iso8601ToJson)
+      name: 'createdDate', fromJson: timeStampFromJson, toJson: iso8601ToJson)
   final DateTime createdDate;
 
   /// Tags for the VPC link.

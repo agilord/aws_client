@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -2011,7 +2009,7 @@ class AssessmentRun {
   /// The time when <a>StartAssessmentRun</a> was called.
   @_s.JsonKey(
       name: 'createdAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdAt;
 
@@ -2048,7 +2046,7 @@ class AssessmentRun {
   /// The last time when the assessment run's state changed.
   @_s.JsonKey(
       name: 'stateChangedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime stateChangedAt;
 
@@ -2064,14 +2062,14 @@ class AssessmentRun {
   /// evaluation completion time or failure.
   @_s.JsonKey(
       name: 'completedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime completedAt;
 
   /// The time when <a>StartAssessmentRun</a> was called.
   @_s.JsonKey(
       name: 'startedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime startedAt;
 
@@ -2221,9 +2219,7 @@ class AssessmentRunFilter {
 class AssessmentRunNotification {
   /// The date of the notification.
   @_s.JsonKey(
-      name: 'date',
-      fromJson: unixTimestampFromJson,
-      toJson: unixTimestampToJson)
+      name: 'date', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
   final DateTime date;
 
   /// The Boolean value that specifies whether the notification represents an
@@ -2313,7 +2309,7 @@ class AssessmentRunStateChange {
   /// The last time the assessment run state changed.
   @_s.JsonKey(
       name: 'stateChangedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime stateChangedAt;
 
@@ -2341,7 +2337,7 @@ class AssessmentTarget {
   /// The time at which the assessment target is created.
   @_s.JsonKey(
       name: 'createdAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdAt;
 
@@ -2352,7 +2348,7 @@ class AssessmentTarget {
   /// The time at which <a>UpdateAssessmentTarget</a> is called.
   @_s.JsonKey(
       name: 'updatedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime updatedAt;
 
@@ -2418,7 +2414,7 @@ class AssessmentTemplate {
   /// The time at which the assessment template is created.
   @_s.JsonKey(
       name: 'createdAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdAt;
 
@@ -2736,7 +2732,7 @@ class DescribeCrossAccountAccessRoleResponse {
   /// The date when the cross-account access role was registered.
   @_s.JsonKey(
       name: 'registeredAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime registeredAt;
 
@@ -2890,7 +2886,7 @@ class EventSubscription {
   /// The time at which <a>SubscribeToEvent</a> is called.
   @_s.JsonKey(
       name: 'subscribedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime subscribedAt;
 
@@ -3042,14 +3038,14 @@ class Finding {
   /// The time when the finding was generated.
   @_s.JsonKey(
       name: 'createdAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdAt;
 
   /// The time when <a>AddAttributesToFindings</a> is called.
   @_s.JsonKey(
       name: 'updatedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime updatedAt;
 
@@ -3772,7 +3768,7 @@ class ResourceGroup {
   /// The time at which resource group is created.
   @_s.JsonKey(
       name: 'createdAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdAt;
 
@@ -4057,15 +4053,13 @@ class TimestampRange {
   /// The minimum value of the timestamp range.
   @_s.JsonKey(
       name: 'beginDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime beginDate;
 
   /// The maximum value of the timestamp range.
   @_s.JsonKey(
-      name: 'endDate',
-      fromJson: unixTimestampFromJson,
-      toJson: unixTimestampToJson)
+      name: 'endDate', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
   final DateTime endDate;
 
   TimestampRange({

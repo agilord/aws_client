@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -1367,7 +1365,7 @@ class Cluster {
   /// The Unix epoch timestamp in seconds for when the cluster was created.
   @_s.JsonKey(
       name: 'createdAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdAt;
 
@@ -1758,7 +1756,7 @@ class FargateProfile {
   /// created.
   @_s.JsonKey(
       name: 'createdAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdAt;
 
@@ -2174,7 +2172,7 @@ class Nodegroup {
   /// created.
   @_s.JsonKey(
       name: 'createdAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdAt;
 
@@ -2204,7 +2202,7 @@ class Nodegroup {
   /// modified.
   @_s.JsonKey(
       name: 'modifiedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime modifiedAt;
 
@@ -2540,7 +2538,7 @@ class Update {
   /// The Unix epoch timestamp in seconds for when the update was created.
   @_s.JsonKey(
       name: 'createdAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdAt;
 

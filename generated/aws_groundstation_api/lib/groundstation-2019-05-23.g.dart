@@ -207,18 +207,18 @@ ContactData _$ContactDataFromJson(Map<String, dynamic> json) {
     contactId: json['contactId'] as String,
     contactStatus:
         _$enumDecodeNullable(_$ContactStatusEnumMap, json['contactStatus']),
-    endTime: unixTimestampFromJson(json['endTime']),
+    endTime: timeStampFromJson(json['endTime']),
     errorMessage: json['errorMessage'] as String,
     groundStation: json['groundStation'] as String,
     maximumElevation: json['maximumElevation'] == null
         ? null
         : Elevation.fromJson(json['maximumElevation'] as Map<String, dynamic>),
     missionProfileArn: json['missionProfileArn'] as String,
-    postPassEndTime: unixTimestampFromJson(json['postPassEndTime']),
-    prePassStartTime: unixTimestampFromJson(json['prePassStartTime']),
+    postPassEndTime: timeStampFromJson(json['postPassEndTime']),
+    prePassStartTime: timeStampFromJson(json['prePassStartTime']),
     region: json['region'] as String,
     satelliteArn: json['satelliteArn'] as String,
-    startTime: unixTimestampFromJson(json['startTime']),
+    startTime: timeStampFromJson(json['startTime']),
     tags: (json['tags'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
@@ -361,18 +361,18 @@ DescribeContactResponse _$DescribeContactResponseFromJson(
     contactId: json['contactId'] as String,
     contactStatus:
         _$enumDecodeNullable(_$ContactStatusEnumMap, json['contactStatus']),
-    endTime: unixTimestampFromJson(json['endTime']),
+    endTime: timeStampFromJson(json['endTime']),
     errorMessage: json['errorMessage'] as String,
     groundStation: json['groundStation'] as String,
     maximumElevation: json['maximumElevation'] == null
         ? null
         : Elevation.fromJson(json['maximumElevation'] as Map<String, dynamic>),
     missionProfileArn: json['missionProfileArn'] as String,
-    postPassEndTime: unixTimestampFromJson(json['postPassEndTime']),
-    prePassStartTime: unixTimestampFromJson(json['prePassStartTime']),
+    postPassEndTime: timeStampFromJson(json['postPassEndTime']),
+    prePassStartTime: timeStampFromJson(json['prePassStartTime']),
     region: json['region'] as String,
     satelliteArn: json['satelliteArn'] as String,
-    startTime: unixTimestampFromJson(json['startTime']),
+    startTime: timeStampFromJson(json['startTime']),
     tags: (json['tags'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k, e as String),
     ),

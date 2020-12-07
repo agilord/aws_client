@@ -125,19 +125,19 @@ PlacementDescription _$PlacementDescriptionFromJson(Map<String, dynamic> json) {
     attributes: (json['attributes'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    createdDate: unixTimestampFromJson(json['createdDate']),
+    createdDate: timeStampFromJson(json['createdDate']),
     placementName: json['placementName'] as String,
     projectName: json['projectName'] as String,
-    updatedDate: unixTimestampFromJson(json['updatedDate']),
+    updatedDate: timeStampFromJson(json['updatedDate']),
   );
 }
 
 PlacementSummary _$PlacementSummaryFromJson(Map<String, dynamic> json) {
   return PlacementSummary(
-    createdDate: unixTimestampFromJson(json['createdDate']),
+    createdDate: timeStampFromJson(json['createdDate']),
     placementName: json['placementName'] as String,
     projectName: json['projectName'] as String,
-    updatedDate: unixTimestampFromJson(json['updatedDate']),
+    updatedDate: timeStampFromJson(json['updatedDate']),
   );
 }
 
@@ -173,9 +173,9 @@ Map<String, dynamic> _$PlacementTemplateToJson(PlacementTemplate instance) {
 
 ProjectDescription _$ProjectDescriptionFromJson(Map<String, dynamic> json) {
   return ProjectDescription(
-    createdDate: unixTimestampFromJson(json['createdDate']),
+    createdDate: timeStampFromJson(json['createdDate']),
     projectName: json['projectName'] as String,
-    updatedDate: unixTimestampFromJson(json['updatedDate']),
+    updatedDate: timeStampFromJson(json['updatedDate']),
     arn: json['arn'] as String,
     description: json['description'] as String,
     placementTemplate: json['placementTemplate'] == null
@@ -190,9 +190,9 @@ ProjectDescription _$ProjectDescriptionFromJson(Map<String, dynamic> json) {
 
 ProjectSummary _$ProjectSummaryFromJson(Map<String, dynamic> json) {
   return ProjectSummary(
-    createdDate: unixTimestampFromJson(json['createdDate']),
+    createdDate: timeStampFromJson(json['createdDate']),
     projectName: json['projectName'] as String,
-    updatedDate: unixTimestampFromJson(json['updatedDate']),
+    updatedDate: timeStampFromJson(json['updatedDate']),
     arn: json['arn'] as String,
     tags: (json['tags'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k, e as String),

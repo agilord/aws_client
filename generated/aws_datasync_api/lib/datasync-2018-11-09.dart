@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -2307,7 +2305,7 @@ class DescribeAgentResponse {
   /// The time that the agent was activated (that is, created in your account).
   @_s.JsonKey(
       name: 'CreationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationTime;
 
@@ -2319,7 +2317,7 @@ class DescribeAgentResponse {
   /// The time that the agent last connected to DataSyc.
   @_s.JsonKey(
       name: 'LastConnectionTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastConnectionTime;
 
@@ -2363,7 +2361,7 @@ class DescribeLocationEfsResponse {
   /// The time that the EFS location was created.
   @_s.JsonKey(
       name: 'CreationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationTime;
   @_s.JsonKey(name: 'Ec2Config')
@@ -2396,7 +2394,7 @@ class DescribeLocationFsxWindowsResponse {
   /// The time that the FSx for Windows location was created.
   @_s.JsonKey(
       name: 'CreationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationTime;
 
@@ -2446,7 +2444,7 @@ class DescribeLocationNfsResponse {
   /// The time that the NFS location was created.
   @_s.JsonKey(
       name: 'CreationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationTime;
 
@@ -2485,7 +2483,7 @@ class DescribeLocationS3Response {
   /// The time that the Amazon S3 bucket location was created.
   @_s.JsonKey(
       name: 'CreationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationTime;
 
@@ -2535,7 +2533,7 @@ class DescribeLocationSmbResponse {
   /// The time that the SMB location was created.
   @_s.JsonKey(
       name: 'CreationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationTime;
 
@@ -2642,7 +2640,7 @@ class DescribeTaskExecutionResponse {
   /// The time that the task execution was started.
   @_s.JsonKey(
       name: 'StartTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime startTime;
 
@@ -2700,7 +2698,7 @@ class DescribeTaskResponse {
   /// The time that the task was created.
   @_s.JsonKey(
       name: 'CreationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationTime;
 

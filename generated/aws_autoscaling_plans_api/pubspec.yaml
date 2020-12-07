@@ -1,6 +1,6 @@
 name: aws_autoscaling_plans_api
 description: AWS API client for AWS Auto Scaling Plans (generated from SDK API specification).
-version: 0.1.1
+version: 0.0.1
 homepage: https://github.com/agilord/aws_client/tree/master/generated/aws_autoscaling_plans_api
 
 

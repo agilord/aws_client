@@ -463,7 +463,7 @@ DocumentClassificationJobProperties
   return DocumentClassificationJobProperties(
     dataAccessRoleArn: json['DataAccessRoleArn'] as String,
     documentClassifierArn: json['DocumentClassifierArn'] as String,
-    endTime: unixTimestampFromJson(json['EndTime']),
+    endTime: timeStampFromJson(json['EndTime']),
     inputDataConfig: json['InputDataConfig'] == null
         ? null
         : InputDataConfig.fromJson(
@@ -476,7 +476,7 @@ DocumentClassificationJobProperties
         ? null
         : OutputDataConfig.fromJson(
             json['OutputDataConfig'] as Map<String, dynamic>),
-    submitTime: unixTimestampFromJson(json['SubmitTime']),
+    submitTime: timeStampFromJson(json['SubmitTime']),
     volumeKmsKeyId: json['VolumeKmsKeyId'] as String,
     vpcConfig: json['VpcConfig'] == null
         ? null
@@ -567,7 +567,7 @@ DocumentClassifierProperties _$DocumentClassifierPropertiesFromJson(
             json['ClassifierMetadata'] as Map<String, dynamic>),
     dataAccessRoleArn: json['DataAccessRoleArn'] as String,
     documentClassifierArn: json['DocumentClassifierArn'] as String,
-    endTime: unixTimestampFromJson(json['EndTime']),
+    endTime: timeStampFromJson(json['EndTime']),
     inputDataConfig: json['InputDataConfig'] == null
         ? null
         : DocumentClassifierInputDataConfig.fromJson(
@@ -581,9 +581,9 @@ DocumentClassifierProperties _$DocumentClassifierPropertiesFromJson(
         : DocumentClassifierOutputDataConfig.fromJson(
             json['OutputDataConfig'] as Map<String, dynamic>),
     status: _$enumDecodeNullable(_$ModelStatusEnumMap, json['Status']),
-    submitTime: unixTimestampFromJson(json['SubmitTime']),
-    trainingEndTime: unixTimestampFromJson(json['TrainingEndTime']),
-    trainingStartTime: unixTimestampFromJson(json['TrainingStartTime']),
+    submitTime: timeStampFromJson(json['SubmitTime']),
+    trainingEndTime: timeStampFromJson(json['TrainingEndTime']),
+    trainingStartTime: timeStampFromJson(json['TrainingStartTime']),
     volumeKmsKeyId: json['VolumeKmsKeyId'] as String,
     vpcConfig: json['VpcConfig'] == null
         ? null
@@ -649,7 +649,7 @@ DominantLanguageDetectionJobProperties
         Map<String, dynamic> json) {
   return DominantLanguageDetectionJobProperties(
     dataAccessRoleArn: json['DataAccessRoleArn'] as String,
-    endTime: unixTimestampFromJson(json['EndTime']),
+    endTime: timeStampFromJson(json['EndTime']),
     inputDataConfig: json['InputDataConfig'] == null
         ? null
         : InputDataConfig.fromJson(
@@ -662,7 +662,7 @@ DominantLanguageDetectionJobProperties
         ? null
         : OutputDataConfig.fromJson(
             json['OutputDataConfig'] as Map<String, dynamic>),
-    submitTime: unixTimestampFromJson(json['SubmitTime']),
+    submitTime: timeStampFromJson(json['SubmitTime']),
     volumeKmsKeyId: json['VolumeKmsKeyId'] as String,
     vpcConfig: json['VpcConfig'] == null
         ? null
@@ -698,11 +698,11 @@ const _$EndpointStatusEnumMap = {
 
 EndpointProperties _$EndpointPropertiesFromJson(Map<String, dynamic> json) {
   return EndpointProperties(
-    creationTime: unixTimestampFromJson(json['CreationTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
     currentInferenceUnits: json['CurrentInferenceUnits'] as int,
     desiredInferenceUnits: json['DesiredInferenceUnits'] as int,
     endpointArn: json['EndpointArn'] as String,
-    lastModifiedTime: unixTimestampFromJson(json['LastModifiedTime']),
+    lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
     message: json['Message'] as String,
     modelArn: json['ModelArn'] as String,
     status: _$enumDecodeNullable(_$EndpointStatusEnumMap, json['Status']),
@@ -732,7 +732,7 @@ EntitiesDetectionJobProperties _$EntitiesDetectionJobPropertiesFromJson(
     Map<String, dynamic> json) {
   return EntitiesDetectionJobProperties(
     dataAccessRoleArn: json['DataAccessRoleArn'] as String,
-    endTime: unixTimestampFromJson(json['EndTime']),
+    endTime: timeStampFromJson(json['EndTime']),
     entityRecognizerArn: json['EntityRecognizerArn'] as String,
     inputDataConfig: json['InputDataConfig'] == null
         ? null
@@ -748,7 +748,7 @@ EntitiesDetectionJobProperties _$EntitiesDetectionJobPropertiesFromJson(
         ? null
         : OutputDataConfig.fromJson(
             json['OutputDataConfig'] as Map<String, dynamic>),
-    submitTime: unixTimestampFromJson(json['SubmitTime']),
+    submitTime: timeStampFromJson(json['SubmitTime']),
     volumeKmsKeyId: json['VolumeKmsKeyId'] as String,
     vpcConfig: json['VpcConfig'] == null
         ? null
@@ -944,7 +944,7 @@ EntityRecognizerProperties _$EntityRecognizerPropertiesFromJson(
     Map<String, dynamic> json) {
   return EntityRecognizerProperties(
     dataAccessRoleArn: json['DataAccessRoleArn'] as String,
-    endTime: unixTimestampFromJson(json['EndTime']),
+    endTime: timeStampFromJson(json['EndTime']),
     entityRecognizerArn: json['EntityRecognizerArn'] as String,
     inputDataConfig: json['InputDataConfig'] == null
         ? null
@@ -958,9 +958,9 @@ EntityRecognizerProperties _$EntityRecognizerPropertiesFromJson(
         : EntityRecognizerMetadata.fromJson(
             json['RecognizerMetadata'] as Map<String, dynamic>),
     status: _$enumDecodeNullable(_$ModelStatusEnumMap, json['Status']),
-    submitTime: unixTimestampFromJson(json['SubmitTime']),
-    trainingEndTime: unixTimestampFromJson(json['TrainingEndTime']),
-    trainingStartTime: unixTimestampFromJson(json['TrainingStartTime']),
+    submitTime: timeStampFromJson(json['SubmitTime']),
+    trainingEndTime: timeStampFromJson(json['TrainingEndTime']),
+    trainingStartTime: timeStampFromJson(json['TrainingStartTime']),
     volumeKmsKeyId: json['VolumeKmsKeyId'] as String,
     vpcConfig: json['VpcConfig'] == null
         ? null
@@ -1055,7 +1055,7 @@ KeyPhrasesDetectionJobProperties _$KeyPhrasesDetectionJobPropertiesFromJson(
     Map<String, dynamic> json) {
   return KeyPhrasesDetectionJobProperties(
     dataAccessRoleArn: json['DataAccessRoleArn'] as String,
-    endTime: unixTimestampFromJson(json['EndTime']),
+    endTime: timeStampFromJson(json['EndTime']),
     inputDataConfig: json['InputDataConfig'] == null
         ? null
         : InputDataConfig.fromJson(
@@ -1070,7 +1070,7 @@ KeyPhrasesDetectionJobProperties _$KeyPhrasesDetectionJobPropertiesFromJson(
         ? null
         : OutputDataConfig.fromJson(
             json['OutputDataConfig'] as Map<String, dynamic>),
-    submitTime: unixTimestampFromJson(json['SubmitTime']),
+    submitTime: timeStampFromJson(json['SubmitTime']),
     volumeKmsKeyId: json['VolumeKmsKeyId'] as String,
     vpcConfig: json['VpcConfig'] == null
         ? null
@@ -1283,7 +1283,7 @@ SentimentDetectionJobProperties _$SentimentDetectionJobPropertiesFromJson(
     Map<String, dynamic> json) {
   return SentimentDetectionJobProperties(
     dataAccessRoleArn: json['DataAccessRoleArn'] as String,
-    endTime: unixTimestampFromJson(json['EndTime']),
+    endTime: timeStampFromJson(json['EndTime']),
     inputDataConfig: json['InputDataConfig'] == null
         ? null
         : InputDataConfig.fromJson(
@@ -1298,7 +1298,7 @@ SentimentDetectionJobProperties _$SentimentDetectionJobPropertiesFromJson(
         ? null
         : OutputDataConfig.fromJson(
             json['OutputDataConfig'] as Map<String, dynamic>),
-    submitTime: unixTimestampFromJson(json['SubmitTime']),
+    submitTime: timeStampFromJson(json['SubmitTime']),
     volumeKmsKeyId: json['VolumeKmsKeyId'] as String,
     vpcConfig: json['VpcConfig'] == null
         ? null
@@ -1470,7 +1470,7 @@ TopicsDetectionJobProperties _$TopicsDetectionJobPropertiesFromJson(
     Map<String, dynamic> json) {
   return TopicsDetectionJobProperties(
     dataAccessRoleArn: json['DataAccessRoleArn'] as String,
-    endTime: unixTimestampFromJson(json['EndTime']),
+    endTime: timeStampFromJson(json['EndTime']),
     inputDataConfig: json['InputDataConfig'] == null
         ? null
         : InputDataConfig.fromJson(
@@ -1484,7 +1484,7 @@ TopicsDetectionJobProperties _$TopicsDetectionJobPropertiesFromJson(
         ? null
         : OutputDataConfig.fromJson(
             json['OutputDataConfig'] as Map<String, dynamic>),
-    submitTime: unixTimestampFromJson(json['SubmitTime']),
+    submitTime: timeStampFromJson(json['SubmitTime']),
     volumeKmsKeyId: json['VolumeKmsKeyId'] as String,
     vpcConfig: json['VpcConfig'] == null
         ? null

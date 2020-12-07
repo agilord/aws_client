@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -2533,7 +2531,7 @@ class DescribeEventSourceResponse {
   /// The date and time that the event source was created.
   @_s.JsonKey(
       name: 'CreationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationTime;
 
@@ -2541,7 +2539,7 @@ class DescribeEventSourceResponse {
   /// matching event bus.
   @_s.JsonKey(
       name: 'ExpirationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime expirationTime;
 
@@ -2778,7 +2776,7 @@ class EventSource {
   /// The date and time the event source was created.
   @_s.JsonKey(
       name: 'CreationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationTime;
 
@@ -2786,7 +2784,7 @@ class EventSource {
   /// doesn't create a matching event bus for it.
   @_s.JsonKey(
       name: 'ExpirationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime expirationTime;
 
@@ -3175,7 +3173,7 @@ class PartnerEventSourceAccount {
   /// The date and time the event source was created.
   @_s.JsonKey(
       name: 'CreationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationTime;
 
@@ -3183,7 +3181,7 @@ class PartnerEventSourceAccount {
   /// doesn't create a matching event bus for it.
   @_s.JsonKey(
       name: 'ExpirationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime expirationTime;
 
@@ -3239,9 +3237,7 @@ class PutEventsRequestEntry {
   /// href="https://www.rfc-editor.org/rfc/rfc3339.txt">RFC3339</a>. If no time
   /// stamp is provided, the time stamp of the <a>PutEvents</a> call is used.
   @_s.JsonKey(
-      name: 'Time',
-      fromJson: unixTimestampFromJson,
-      toJson: unixTimestampToJson)
+      name: 'Time', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
   final DateTime time;
 
   PutEventsRequestEntry({
@@ -3335,9 +3331,7 @@ class PutPartnerEventsRequestEntry {
 
   /// The date and time of the event.
   @_s.JsonKey(
-      name: 'Time',
-      fromJson: unixTimestampFromJson,
-      toJson: unixTimestampToJson)
+      name: 'Time', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
   final DateTime time;
 
   PutPartnerEventsRequestEntry({

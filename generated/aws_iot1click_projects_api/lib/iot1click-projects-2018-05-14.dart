@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -1127,7 +1125,7 @@ class PlacementDescription {
   /// format.
   @_s.JsonKey(
       name: 'createdDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdDate;
 
@@ -1144,7 +1142,7 @@ class PlacementDescription {
   /// <code>updatedDate</code> are the same.
   @_s.JsonKey(
       name: 'updatedDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime updatedDate;
 
@@ -1170,7 +1168,7 @@ class PlacementSummary {
   /// format.
   @_s.JsonKey(
       name: 'createdDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdDate;
 
@@ -1187,7 +1185,7 @@ class PlacementSummary {
   /// <code>updatedDate</code> are the same.
   @_s.JsonKey(
       name: 'updatedDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime updatedDate;
 
@@ -1239,7 +1237,7 @@ class ProjectDescription {
   /// The date when the project was originally created, in UNIX epoch time format.
   @_s.JsonKey(
       name: 'createdDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdDate;
 
@@ -1252,7 +1250,7 @@ class ProjectDescription {
   /// <code>updatedDate</code> are the same.
   @_s.JsonKey(
       name: 'updatedDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime updatedDate;
 
@@ -1296,7 +1294,7 @@ class ProjectSummary {
   /// The date when the project was originally created, in UNIX epoch time format.
   @_s.JsonKey(
       name: 'createdDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdDate;
 
@@ -1309,7 +1307,7 @@ class ProjectSummary {
   /// <code>updatedDate</code> are the same.
   @_s.JsonKey(
       name: 'updatedDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime updatedDate;
 

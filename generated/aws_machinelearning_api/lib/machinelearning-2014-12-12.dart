@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -2975,7 +2973,7 @@ class BatchPrediction {
   /// expressed in epoch time.
   @_s.JsonKey(
       name: 'CreatedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdAt;
 
@@ -2986,7 +2984,7 @@ class BatchPrediction {
   final String createdByIamUser;
   @_s.JsonKey(
       name: 'FinishedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime finishedAt;
 
@@ -3001,7 +2999,7 @@ class BatchPrediction {
   /// time is expressed in epoch time.
   @_s.JsonKey(
       name: 'LastUpdatedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedAt;
 
@@ -3026,7 +3024,7 @@ class BatchPrediction {
   final String outputUri;
   @_s.JsonKey(
       name: 'StartedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime startedAt;
 
@@ -3343,7 +3341,7 @@ class DataSource {
   /// in epoch time.
   @_s.JsonKey(
       name: 'CreatedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdAt;
 
@@ -3373,7 +3371,7 @@ class DataSource {
   final String dataSourceId;
   @_s.JsonKey(
       name: 'FinishedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime finishedAt;
 
@@ -3381,7 +3379,7 @@ class DataSource {
   /// time is expressed in epoch time.
   @_s.JsonKey(
       name: 'LastUpdatedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedAt;
 
@@ -3405,7 +3403,7 @@ class DataSource {
   final String roleARN;
   @_s.JsonKey(
       name: 'StartedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime startedAt;
 
@@ -3828,7 +3826,7 @@ class Evaluation {
   /// in epoch time.
   @_s.JsonKey(
       name: 'CreatedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdAt;
 
@@ -3848,7 +3846,7 @@ class Evaluation {
   final String evaluationId;
   @_s.JsonKey(
       name: 'FinishedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime finishedAt;
 
@@ -3861,7 +3859,7 @@ class Evaluation {
   /// expressed in epoch time.
   @_s.JsonKey(
       name: 'LastUpdatedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedAt;
 
@@ -3904,7 +3902,7 @@ class Evaluation {
   final PerformanceMetrics performanceMetrics;
   @_s.JsonKey(
       name: 'StartedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime startedAt;
 
@@ -4038,7 +4036,7 @@ class GetBatchPredictionOutput {
   /// expressed in epoch time.
   @_s.JsonKey(
       name: 'CreatedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdAt;
 
@@ -4055,7 +4053,7 @@ class GetBatchPredictionOutput {
   /// <code>FAILED</code> state.
   @_s.JsonKey(
       name: 'FinishedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime finishedAt;
 
@@ -4073,7 +4071,7 @@ class GetBatchPredictionOutput {
   /// is expressed in epoch time.
   @_s.JsonKey(
       name: 'LastUpdatedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedAt;
 
@@ -4107,7 +4105,7 @@ class GetBatchPredictionOutput {
   /// is in the <code>PENDING</code> state.
   @_s.JsonKey(
       name: 'StartedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime startedAt;
 
@@ -4181,7 +4179,7 @@ class GetDataSourceOutput {
   /// in epoch time.
   @_s.JsonKey(
       name: 'CreatedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdAt;
 
@@ -4224,7 +4222,7 @@ class GetDataSourceOutput {
   /// is in the <code>COMPLETED</code> or <code>FAILED</code> state.
   @_s.JsonKey(
       name: 'FinishedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime finishedAt;
 
@@ -4232,7 +4230,7 @@ class GetDataSourceOutput {
   /// expressed in epoch time.
   @_s.JsonKey(
       name: 'LastUpdatedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedAt;
 
@@ -4266,7 +4264,7 @@ class GetDataSourceOutput {
   /// <code>PENDING</code> state.
   @_s.JsonKey(
       name: 'StartedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime startedAt;
 
@@ -4332,7 +4330,7 @@ class GetEvaluationOutput {
   /// in epoch time.
   @_s.JsonKey(
       name: 'CreatedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdAt;
 
@@ -4357,7 +4355,7 @@ class GetEvaluationOutput {
   /// is in the <code>COMPLETED</code> or <code>FAILED</code> state.
   @_s.JsonKey(
       name: 'FinishedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime finishedAt;
 
@@ -4370,7 +4368,7 @@ class GetEvaluationOutput {
   /// expressed in epoch time.
   @_s.JsonKey(
       name: 'LastUpdatedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedAt;
 
@@ -4423,7 +4421,7 @@ class GetEvaluationOutput {
   /// <code>PENDING</code> state.
   @_s.JsonKey(
       name: 'StartedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime startedAt;
 
@@ -4484,7 +4482,7 @@ class GetMLModelOutput {
   /// epoch time.
   @_s.JsonKey(
       name: 'CreatedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdAt;
 
@@ -4504,7 +4502,7 @@ class GetMLModelOutput {
   /// <code>COMPLETED</code> or <code>FAILED</code> state.
   @_s.JsonKey(
       name: 'FinishedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime finishedAt;
 
@@ -4517,7 +4515,7 @@ class GetMLModelOutput {
   /// expressed in epoch time.
   @_s.JsonKey(
       name: 'LastUpdatedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedAt;
 
@@ -4589,7 +4587,7 @@ class GetMLModelOutput {
   /// time is expressed in epoch time.
   @_s.JsonKey(
       name: 'ScoreThresholdLastUpdatedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime scoreThresholdLastUpdatedAt;
   @_s.JsonKey(name: 'SizeInBytes')
@@ -4600,7 +4598,7 @@ class GetMLModelOutput {
   /// <code>MLModel</code> is in the <code>PENDING</code> state.
   @_s.JsonKey(
       name: 'StartedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime startedAt;
 
@@ -4832,7 +4830,7 @@ class MLModel {
   /// epoch time.
   @_s.JsonKey(
       name: 'CreatedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdAt;
 
@@ -4847,7 +4845,7 @@ class MLModel {
   final RealtimeEndpointInfo endpointInfo;
   @_s.JsonKey(
       name: 'FinishedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime finishedAt;
 
@@ -4860,7 +4858,7 @@ class MLModel {
   /// expressed in epoch time.
   @_s.JsonKey(
       name: 'LastUpdatedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedAt;
 
@@ -4900,14 +4898,14 @@ class MLModel {
   /// time is expressed in epoch time.
   @_s.JsonKey(
       name: 'ScoreThresholdLastUpdatedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime scoreThresholdLastUpdatedAt;
   @_s.JsonKey(name: 'SizeInBytes')
   final int sizeInBytes;
   @_s.JsonKey(
       name: 'StartedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime startedAt;
 
@@ -5530,7 +5528,7 @@ class RealtimeEndpointInfo {
   /// <code>MLModel</code> was received. The time is expressed in epoch time.
   @_s.JsonKey(
       name: 'CreatedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdAt;
 

@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -1437,7 +1435,7 @@ class Backup {
   /// The time when a particular backup was created.
   @_s.JsonKey(
       name: 'CreationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationTime;
 
@@ -1970,7 +1968,7 @@ class DataRepositoryConfiguration {
 class DataRepositoryTask {
   @_s.JsonKey(
       name: 'CreationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationTime;
   @_s.JsonKey(name: 'FileSystemId')
@@ -2025,9 +2023,7 @@ class DataRepositoryTask {
   /// The time that Amazon FSx completed processing the task, populated after the
   /// task is complete.
   @_s.JsonKey(
-      name: 'EndTime',
-      fromJson: unixTimestampFromJson,
-      toJson: unixTimestampToJson)
+      name: 'EndTime', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
   final DateTime endTime;
 
   /// Failure message describing why the task failed, it is populated only when
@@ -2052,7 +2048,7 @@ class DataRepositoryTask {
   /// The time that Amazon FSx began processing the task.
   @_s.JsonKey(
       name: 'StartTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime startTime;
 
@@ -2179,7 +2175,7 @@ class DataRepositoryTaskStatus {
   /// The time at which the task status was last updated.
   @_s.JsonKey(
       name: 'LastUpdatedTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedTime;
 
@@ -2404,7 +2400,7 @@ class FileSystem {
   /// 1970-01-01T00:00:00Z), also known as Unix time.
   @_s.JsonKey(
       name: 'CreationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationTime;
 

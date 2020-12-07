@@ -8,7 +8,7 @@ part of 'route53domains-2014-05-15.dart';
 
 BillingRecord _$BillingRecordFromJson(Map<String, dynamic> json) {
   return BillingRecord(
-    billDate: unixTimestampFromJson(json['BillDate']),
+    billDate: timeStampFromJson(json['BillDate']),
     domainName: json['DomainName'] as String,
     invoiceId: json['InvoiceId'] as String,
     operation: _$enumDecodeNullable(_$OperationTypeEnumMap, json['Operation']),
@@ -421,7 +421,7 @@ DomainSummary _$DomainSummaryFromJson(Map<String, dynamic> json) {
   return DomainSummary(
     domainName: json['DomainName'] as String,
     autoRenew: json['AutoRenew'] as bool,
-    expiry: unixTimestampFromJson(json['Expiry']),
+    expiry: timeStampFromJson(json['Expiry']),
     transferLock: json['TransferLock'] as bool,
   );
 }
@@ -544,9 +544,9 @@ GetDomainDetailResponse _$GetDomainDetailResponseFromJson(
     abuseContactPhone: json['AbuseContactPhone'] as String,
     adminPrivacy: json['AdminPrivacy'] as bool,
     autoRenew: json['AutoRenew'] as bool,
-    creationDate: unixTimestampFromJson(json['CreationDate']),
+    creationDate: timeStampFromJson(json['CreationDate']),
     dnsSec: json['DnsSec'] as String,
-    expirationDate: unixTimestampFromJson(json['ExpirationDate']),
+    expirationDate: timeStampFromJson(json['ExpirationDate']),
     registrantPrivacy: json['RegistrantPrivacy'] as bool,
     registrarName: json['RegistrarName'] as String,
     registrarUrl: json['RegistrarUrl'] as String,
@@ -554,7 +554,7 @@ GetDomainDetailResponse _$GetDomainDetailResponseFromJson(
     reseller: json['Reseller'] as String,
     statusList: (json['StatusList'] as List)?.map((e) => e as String)?.toList(),
     techPrivacy: json['TechPrivacy'] as bool,
-    updatedDate: unixTimestampFromJson(json['UpdatedDate']),
+    updatedDate: timeStampFromJson(json['UpdatedDate']),
     whoIsServer: json['WhoIsServer'] as String,
   );
 }
@@ -577,7 +577,7 @@ GetOperationDetailResponse _$GetOperationDetailResponseFromJson(
     message: json['Message'] as String,
     operationId: json['OperationId'] as String,
     status: _$enumDecodeNullable(_$OperationStatusEnumMap, json['Status']),
-    submittedDate: unixTimestampFromJson(json['SubmittedDate']),
+    submittedDate: timeStampFromJson(json['SubmittedDate']),
     type: _$enumDecodeNullable(_$OperationTypeEnumMap, json['Type']),
   );
 }
@@ -660,7 +660,7 @@ OperationSummary _$OperationSummaryFromJson(Map<String, dynamic> json) {
   return OperationSummary(
     operationId: json['OperationId'] as String,
     status: _$enumDecodeNullable(_$OperationStatusEnumMap, json['Status']),
-    submittedDate: unixTimestampFromJson(json['SubmittedDate']),
+    submittedDate: timeStampFromJson(json['SubmittedDate']),
     type: _$enumDecodeNullable(_$OperationTypeEnumMap, json['Type']),
   );
 }

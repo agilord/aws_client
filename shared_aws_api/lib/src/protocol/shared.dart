@@ -10,33 +10,44 @@ final _rfc822Parser = DateFormat('EEE, dd MMM yyyy HH:mm:ss Z', 'en_US');
 final _rfc822Formatter = DateFormat("EEE, dd MMM yyyy HH:mm:ss 'GMT'", 'en_US');
 final _iso8601Formatter = DateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", 'en_US');
 
-DateTime rfc822FromJson(String date) =>
-    date == null ? null : _rfc822Parser.parseUtc(date);
+final unixRegex = RegExp(r'^\d+$');
+final isoRegex = RegExp(r'^\d{4}');
+final rfcRegex = RegExp(r'^\w{3},');
 
 String rfc822ToJson(DateTime date) =>
     date == null ? null : _rfc822Formatter.format(date.toUtc());
 
-DateTime iso8601FromJson(String date) =>
-    date == null ? null : _iso8601Formatter.parseUtc(date);
-
 String iso8601ToJson(DateTime date) =>
     date == null ? null : _iso8601Formatter.format(date.toUtc());
 
-DateTime unixTimestampFromJson(dynamic date) {
+int unixTimestampToJson(DateTime date) =>
+    date == null ? null : date.millisecondsSinceEpoch ~/ 1000;
+
+DateTime timeStampFromJson(dynamic date) {
   if (date == null) return null;
-  if (date is String) {
-    return DateTime.fromMillisecondsSinceEpoch(int.parse(date) * 1000,
-        isUtc: true);
-  } else if (date is num) {
+
+  if (date is num) {
+    // unix timestamp (number)
     return DateTime.fromMillisecondsSinceEpoch(date.toInt() * 1000,
         isUtc: true);
   }
 
+  if (date is String) {
+    if (unixRegex.hasMatch(date)) {
+      // unix timestamp
+      return DateTime.fromMillisecondsSinceEpoch(int.parse(date) * 1000,
+          isUtc: true);
+    } else if (isoRegex.hasMatch(date)) {
+      // iso8601
+      return _iso8601Formatter.parseUtc(date);
+    } else if (rfcRegex.hasMatch(date)) {
+      // rfc822
+      return _rfc822Parser.parseUtc(date);
+    }
+  }
+
   throw ArgumentError.value(date, 'date', 'Unknown date type, can not convert');
 }
-
-int unixTimestampToJson(DateTime date) =>
-    date == null ? null : date.millisecondsSinceEpoch ~/ 1000;
 
 class Uint8ListConverter implements JsonConverter<Uint8List, String> {
   const Uint8ListConverter();

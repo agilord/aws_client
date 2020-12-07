@@ -56,8 +56,8 @@ ApprovalRule _$ApprovalRuleFromJson(Map<String, dynamic> json) {
     approvalRuleContent: json['approvalRuleContent'] as String,
     approvalRuleId: json['approvalRuleId'] as String,
     approvalRuleName: json['approvalRuleName'] as String,
-    creationDate: unixTimestampFromJson(json['creationDate']),
-    lastModifiedDate: unixTimestampFromJson(json['lastModifiedDate']),
+    creationDate: timeStampFromJson(json['creationDate']),
+    lastModifiedDate: timeStampFromJson(json['lastModifiedDate']),
     lastModifiedUser: json['lastModifiedUser'] as String,
     originApprovalRuleTemplate: json['originApprovalRuleTemplate'] == null
         ? null
@@ -97,8 +97,8 @@ ApprovalRuleTemplate _$ApprovalRuleTemplateFromJson(Map<String, dynamic> json) {
         json['approvalRuleTemplateDescription'] as String,
     approvalRuleTemplateId: json['approvalRuleTemplateId'] as String,
     approvalRuleTemplateName: json['approvalRuleTemplateName'] as String,
-    creationDate: unixTimestampFromJson(json['creationDate']),
-    lastModifiedDate: unixTimestampFromJson(json['lastModifiedDate']),
+    creationDate: timeStampFromJson(json['creationDate']),
+    lastModifiedDate: timeStampFromJson(json['lastModifiedDate']),
     lastModifiedUser: json['lastModifiedUser'] as String,
     ruleContentSha256: json['ruleContentSha256'] as String,
   );
@@ -252,10 +252,10 @@ Comment _$CommentFromJson(Map<String, dynamic> json) {
     clientRequestToken: json['clientRequestToken'] as String,
     commentId: json['commentId'] as String,
     content: json['content'] as String,
-    creationDate: unixTimestampFromJson(json['creationDate']),
+    creationDate: timeStampFromJson(json['creationDate']),
     deleted: json['deleted'] as bool,
     inReplyTo: json['inReplyTo'] as String,
-    lastModifiedDate: unixTimestampFromJson(json['lastModifiedDate']),
+    lastModifiedDate: timeStampFromJson(json['lastModifiedDate']),
   );
 }
 
@@ -1090,9 +1090,9 @@ PullRequest _$PullRequestFromJson(Map<String, dynamic> json) {
         ?.toList(),
     authorArn: json['authorArn'] as String,
     clientRequestToken: json['clientRequestToken'] as String,
-    creationDate: unixTimestampFromJson(json['creationDate']),
+    creationDate: timeStampFromJson(json['creationDate']),
     description: json['description'] as String,
-    lastActivityDate: unixTimestampFromJson(json['lastActivityDate']),
+    lastActivityDate: timeStampFromJson(json['lastActivityDate']),
     pullRequestId: json['pullRequestId'] as String,
     pullRequestStatus: _$enumDecodeNullable(
         _$PullRequestStatusEnumEnumMap, json['pullRequestStatus']),
@@ -1140,7 +1140,7 @@ PullRequestEvent _$PullRequestEventFromJson(Map<String, dynamic> json) {
             : ApprovalStateChangedEventMetadata.fromJson(
                 json['approvalStateChangedEventMetadata']
                     as Map<String, dynamic>),
-    eventDate: unixTimestampFromJson(json['eventDate']),
+    eventDate: timeStampFromJson(json['eventDate']),
     pullRequestCreatedEventMetadata: json['pullRequestCreatedEventMetadata'] ==
             null
         ? null
@@ -1296,9 +1296,9 @@ RepositoryMetadata _$RepositoryMetadataFromJson(Map<String, dynamic> json) {
     accountId: json['accountId'] as String,
     cloneUrlHttp: json['cloneUrlHttp'] as String,
     cloneUrlSsh: json['cloneUrlSsh'] as String,
-    creationDate: unixTimestampFromJson(json['creationDate']),
+    creationDate: timeStampFromJson(json['creationDate']),
     defaultBranch: json['defaultBranch'] as String,
-    lastModifiedDate: unixTimestampFromJson(json['lastModifiedDate']),
+    lastModifiedDate: timeStampFromJson(json['lastModifiedDate']),
     repositoryDescription: json['repositoryDescription'] as String,
     repositoryId: json['repositoryId'] as String,
     repositoryName: json['repositoryName'] as String,

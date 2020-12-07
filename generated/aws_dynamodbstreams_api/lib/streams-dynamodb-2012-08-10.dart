@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -907,7 +905,7 @@ class StreamDescription {
   /// The date and time when the request to create this stream was issued.
   @_s.JsonKey(
       name: 'CreationRequestDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationRequestDateTime;
 
@@ -1034,7 +1032,7 @@ class StreamRecord {
   /// href="http://www.epochconverter.com/">UNIX epoch time</a> format.
   @_s.JsonKey(
       name: 'ApproximateCreationDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime approximateCreationDateTime;
 

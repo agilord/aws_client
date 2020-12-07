@@ -8,7 +8,7 @@ part of 'pi-2018-02-27.dart';
 
 DataPoint _$DataPointFromJson(Map<String, dynamic> json) {
   return DataPoint(
-    timestamp: unixTimestampFromJson(json['Timestamp']),
+    timestamp: timeStampFromJson(json['Timestamp']),
     value: (json['Value'] as num)?.toDouble(),
   );
 }
@@ -16,8 +16,8 @@ DataPoint _$DataPointFromJson(Map<String, dynamic> json) {
 DescribeDimensionKeysResponse _$DescribeDimensionKeysResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeDimensionKeysResponse(
-    alignedEndTime: unixTimestampFromJson(json['AlignedEndTime']),
-    alignedStartTime: unixTimestampFromJson(json['AlignedStartTime']),
+    alignedEndTime: timeStampFromJson(json['AlignedEndTime']),
+    alignedStartTime: timeStampFromJson(json['AlignedStartTime']),
     keys: (json['Keys'] as List)
         ?.map((e) => e == null
             ? null
@@ -63,8 +63,8 @@ DimensionKeyDescription _$DimensionKeyDescriptionFromJson(
 GetResourceMetricsResponse _$GetResourceMetricsResponseFromJson(
     Map<String, dynamic> json) {
   return GetResourceMetricsResponse(
-    alignedEndTime: unixTimestampFromJson(json['AlignedEndTime']),
-    alignedStartTime: unixTimestampFromJson(json['AlignedStartTime']),
+    alignedEndTime: timeStampFromJson(json['AlignedEndTime']),
+    alignedStartTime: timeStampFromJson(json['AlignedStartTime']),
     identifier: json['Identifier'] as String,
     metricList: (json['MetricList'] as List)
         ?.map((e) => e == null

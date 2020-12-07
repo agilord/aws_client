@@ -47,12 +47,12 @@ AssetEntry _$AssetEntryFromJson(Map<String, dynamic> json) {
         ? null
         : AssetDetails.fromJson(json['AssetDetails'] as Map<String, dynamic>),
     assetType: _$enumDecodeNullable(_$AssetTypeEnumMap, json['AssetType']),
-    createdAt: iso8601FromJson(json['CreatedAt'] as String),
+    createdAt: timeStampFromJson(json['CreatedAt']),
     dataSetId: json['DataSetId'] as String,
     id: json['Id'] as String,
     name: json['Name'] as String,
     revisionId: json['RevisionId'] as String,
-    updatedAt: iso8601FromJson(json['UpdatedAt'] as String),
+    updatedAt: timeStampFromJson(json['UpdatedAt']),
     sourceId: json['SourceId'] as String,
   );
 }
@@ -119,7 +119,7 @@ CreateDataSetResponse _$CreateDataSetResponseFromJson(
   return CreateDataSetResponse(
     arn: json['Arn'] as String,
     assetType: _$enumDecodeNullable(_$AssetTypeEnumMap, json['AssetType']),
-    createdAt: iso8601FromJson(json['CreatedAt'] as String),
+    createdAt: timeStampFromJson(json['CreatedAt']),
     description: json['Description'] as String,
     id: json['Id'] as String,
     name: json['Name'] as String,
@@ -131,7 +131,7 @@ CreateDataSetResponse _$CreateDataSetResponseFromJson(
     tags: (json['Tags'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    updatedAt: iso8601FromJson(json['UpdatedAt'] as String),
+    updatedAt: timeStampFromJson(json['UpdatedAt']),
   );
 }
 
@@ -143,7 +143,7 @@ const _$OriginEnumMap = {
 CreateJobResponse _$CreateJobResponseFromJson(Map<String, dynamic> json) {
   return CreateJobResponse(
     arn: json['Arn'] as String,
-    createdAt: iso8601FromJson(json['CreatedAt'] as String),
+    createdAt: timeStampFromJson(json['CreatedAt']),
     details: json['Details'] == null
         ? null
         : ResponseDetails.fromJson(json['Details'] as Map<String, dynamic>),
@@ -154,7 +154,7 @@ CreateJobResponse _$CreateJobResponseFromJson(Map<String, dynamic> json) {
     id: json['Id'] as String,
     state: _$enumDecodeNullable(_$StateEnumMap, json['State']),
     type: _$enumDecodeNullable(_$TypeEnumMap, json['Type']),
-    updatedAt: iso8601FromJson(json['UpdatedAt'] as String),
+    updatedAt: timeStampFromJson(json['UpdatedAt']),
   );
 }
 
@@ -179,7 +179,7 @@ CreateRevisionResponse _$CreateRevisionResponseFromJson(
   return CreateRevisionResponse(
     arn: json['Arn'] as String,
     comment: json['Comment'] as String,
-    createdAt: iso8601FromJson(json['CreatedAt'] as String),
+    createdAt: timeStampFromJson(json['CreatedAt']),
     dataSetId: json['DataSetId'] as String,
     finalized: json['Finalized'] as bool,
     id: json['Id'] as String,
@@ -187,7 +187,7 @@ CreateRevisionResponse _$CreateRevisionResponseFromJson(
     tags: (json['Tags'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    updatedAt: iso8601FromJson(json['UpdatedAt'] as String),
+    updatedAt: timeStampFromJson(json['UpdatedAt']),
   );
 }
 
@@ -195,12 +195,12 @@ DataSetEntry _$DataSetEntryFromJson(Map<String, dynamic> json) {
   return DataSetEntry(
     arn: json['Arn'] as String,
     assetType: _$enumDecodeNullable(_$AssetTypeEnumMap, json['AssetType']),
-    createdAt: iso8601FromJson(json['CreatedAt'] as String),
+    createdAt: timeStampFromJson(json['CreatedAt']),
     description: json['Description'] as String,
     id: json['Id'] as String,
     name: json['Name'] as String,
     origin: _$enumDecodeNullable(_$OriginEnumMap, json['Origin']),
-    updatedAt: iso8601FromJson(json['UpdatedAt'] as String),
+    updatedAt: timeStampFromJson(json['UpdatedAt']),
     originDetails: json['OriginDetails'] == null
         ? null
         : OriginDetails.fromJson(json['OriginDetails'] as Map<String, dynamic>),
@@ -248,7 +248,7 @@ ExportAssetToSignedUrlResponseDetails
     dataSetId: json['DataSetId'] as String,
     revisionId: json['RevisionId'] as String,
     signedUrl: json['SignedUrl'] as String,
-    signedUrlExpiresAt: iso8601FromJson(json['SignedUrlExpiresAt'] as String),
+    signedUrlExpiresAt: timeStampFromJson(json['SignedUrlExpiresAt']),
   );
 }
 
@@ -289,13 +289,13 @@ GetAssetResponse _$GetAssetResponseFromJson(Map<String, dynamic> json) {
         ? null
         : AssetDetails.fromJson(json['AssetDetails'] as Map<String, dynamic>),
     assetType: _$enumDecodeNullable(_$AssetTypeEnumMap, json['AssetType']),
-    createdAt: iso8601FromJson(json['CreatedAt'] as String),
+    createdAt: timeStampFromJson(json['CreatedAt']),
     dataSetId: json['DataSetId'] as String,
     id: json['Id'] as String,
     name: json['Name'] as String,
     revisionId: json['RevisionId'] as String,
     sourceId: json['SourceId'] as String,
-    updatedAt: iso8601FromJson(json['UpdatedAt'] as String),
+    updatedAt: timeStampFromJson(json['UpdatedAt']),
   );
 }
 
@@ -303,7 +303,7 @@ GetDataSetResponse _$GetDataSetResponseFromJson(Map<String, dynamic> json) {
   return GetDataSetResponse(
     arn: json['Arn'] as String,
     assetType: _$enumDecodeNullable(_$AssetTypeEnumMap, json['AssetType']),
-    createdAt: iso8601FromJson(json['CreatedAt'] as String),
+    createdAt: timeStampFromJson(json['CreatedAt']),
     description: json['Description'] as String,
     id: json['Id'] as String,
     name: json['Name'] as String,
@@ -315,14 +315,14 @@ GetDataSetResponse _$GetDataSetResponseFromJson(Map<String, dynamic> json) {
     tags: (json['Tags'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    updatedAt: iso8601FromJson(json['UpdatedAt'] as String),
+    updatedAt: timeStampFromJson(json['UpdatedAt']),
   );
 }
 
 GetJobResponse _$GetJobResponseFromJson(Map<String, dynamic> json) {
   return GetJobResponse(
     arn: json['Arn'] as String,
-    createdAt: iso8601FromJson(json['CreatedAt'] as String),
+    createdAt: timeStampFromJson(json['CreatedAt']),
     details: json['Details'] == null
         ? null
         : ResponseDetails.fromJson(json['Details'] as Map<String, dynamic>),
@@ -333,7 +333,7 @@ GetJobResponse _$GetJobResponseFromJson(Map<String, dynamic> json) {
     id: json['Id'] as String,
     state: _$enumDecodeNullable(_$StateEnumMap, json['State']),
     type: _$enumDecodeNullable(_$TypeEnumMap, json['Type']),
-    updatedAt: iso8601FromJson(json['UpdatedAt'] as String),
+    updatedAt: timeStampFromJson(json['UpdatedAt']),
   );
 }
 
@@ -341,7 +341,7 @@ GetRevisionResponse _$GetRevisionResponseFromJson(Map<String, dynamic> json) {
   return GetRevisionResponse(
     arn: json['Arn'] as String,
     comment: json['Comment'] as String,
-    createdAt: iso8601FromJson(json['CreatedAt'] as String),
+    createdAt: timeStampFromJson(json['CreatedAt']),
     dataSetId: json['DataSetId'] as String,
     finalized: json['Finalized'] as bool,
     id: json['Id'] as String,
@@ -349,7 +349,7 @@ GetRevisionResponse _$GetRevisionResponseFromJson(Map<String, dynamic> json) {
     tags: (json['Tags'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    updatedAt: iso8601FromJson(json['UpdatedAt'] as String),
+    updatedAt: timeStampFromJson(json['UpdatedAt']),
   );
 }
 
@@ -387,7 +387,7 @@ ImportAssetFromSignedUrlResponseDetails
     revisionId: json['RevisionId'] as String,
     md5Hash: json['Md5Hash'] as String,
     signedUrl: json['SignedUrl'] as String,
-    signedUrlExpiresAt: iso8601FromJson(json['SignedUrlExpiresAt'] as String),
+    signedUrlExpiresAt: timeStampFromJson(json['SignedUrlExpiresAt']),
   );
 }
 
@@ -424,14 +424,14 @@ ImportAssetsFromS3ResponseDetails _$ImportAssetsFromS3ResponseDetailsFromJson(
 JobEntry _$JobEntryFromJson(Map<String, dynamic> json) {
   return JobEntry(
     arn: json['Arn'] as String,
-    createdAt: iso8601FromJson(json['CreatedAt'] as String),
+    createdAt: timeStampFromJson(json['CreatedAt']),
     details: json['Details'] == null
         ? null
         : ResponseDetails.fromJson(json['Details'] as Map<String, dynamic>),
     id: json['Id'] as String,
     state: _$enumDecodeNullable(_$StateEnumMap, json['State']),
     type: _$enumDecodeNullable(_$TypeEnumMap, json['Type']),
-    updatedAt: iso8601FromJson(json['UpdatedAt'] as String),
+    updatedAt: timeStampFromJson(json['UpdatedAt']),
     errors: (json['Errors'] as List)
         ?.map((e) =>
             e == null ? null : JobError.fromJson(e as Map<String, dynamic>))
@@ -575,10 +575,10 @@ ResponseDetails _$ResponseDetailsFromJson(Map<String, dynamic> json) {
 RevisionEntry _$RevisionEntryFromJson(Map<String, dynamic> json) {
   return RevisionEntry(
     arn: json['Arn'] as String,
-    createdAt: iso8601FromJson(json['CreatedAt'] as String),
+    createdAt: timeStampFromJson(json['CreatedAt']),
     dataSetId: json['DataSetId'] as String,
     id: json['Id'] as String,
-    updatedAt: iso8601FromJson(json['UpdatedAt'] as String),
+    updatedAt: timeStampFromJson(json['UpdatedAt']),
     comment: json['Comment'] as String,
     finalized: json['Finalized'] as bool,
     sourceId: json['SourceId'] as String,
@@ -602,13 +602,13 @@ UpdateAssetResponse _$UpdateAssetResponseFromJson(Map<String, dynamic> json) {
         ? null
         : AssetDetails.fromJson(json['AssetDetails'] as Map<String, dynamic>),
     assetType: _$enumDecodeNullable(_$AssetTypeEnumMap, json['AssetType']),
-    createdAt: iso8601FromJson(json['CreatedAt'] as String),
+    createdAt: timeStampFromJson(json['CreatedAt']),
     dataSetId: json['DataSetId'] as String,
     id: json['Id'] as String,
     name: json['Name'] as String,
     revisionId: json['RevisionId'] as String,
     sourceId: json['SourceId'] as String,
-    updatedAt: iso8601FromJson(json['UpdatedAt'] as String),
+    updatedAt: timeStampFromJson(json['UpdatedAt']),
   );
 }
 
@@ -617,7 +617,7 @@ UpdateDataSetResponse _$UpdateDataSetResponseFromJson(
   return UpdateDataSetResponse(
     arn: json['Arn'] as String,
     assetType: _$enumDecodeNullable(_$AssetTypeEnumMap, json['AssetType']),
-    createdAt: iso8601FromJson(json['CreatedAt'] as String),
+    createdAt: timeStampFromJson(json['CreatedAt']),
     description: json['Description'] as String,
     id: json['Id'] as String,
     name: json['Name'] as String,
@@ -626,7 +626,7 @@ UpdateDataSetResponse _$UpdateDataSetResponseFromJson(
         ? null
         : OriginDetails.fromJson(json['OriginDetails'] as Map<String, dynamic>),
     sourceId: json['SourceId'] as String,
-    updatedAt: iso8601FromJson(json['UpdatedAt'] as String),
+    updatedAt: timeStampFromJson(json['UpdatedAt']),
   );
 }
 
@@ -635,11 +635,11 @@ UpdateRevisionResponse _$UpdateRevisionResponseFromJson(
   return UpdateRevisionResponse(
     arn: json['Arn'] as String,
     comment: json['Comment'] as String,
-    createdAt: iso8601FromJson(json['CreatedAt'] as String),
+    createdAt: timeStampFromJson(json['CreatedAt']),
     dataSetId: json['DataSetId'] as String,
     finalized: json['Finalized'] as bool,
     id: json['Id'] as String,
     sourceId: json['SourceId'] as String,
-    updatedAt: iso8601FromJson(json['UpdatedAt'] as String),
+    updatedAt: timeStampFromJson(json['UpdatedAt']),
   );
 }

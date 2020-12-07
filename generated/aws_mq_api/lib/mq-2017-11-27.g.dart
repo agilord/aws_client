@@ -104,7 +104,7 @@ BrokerSummary _$BrokerSummaryFromJson(Map<String, dynamic> json) {
     brokerName: json['brokerName'] as String,
     brokerState:
         _$enumDecodeNullable(_$BrokerStateEnumMap, json['brokerState']),
-    created: iso8601FromJson(json['created'] as String),
+    created: timeStampFromJson(json['created']),
     deploymentMode:
         _$enumDecodeNullable(_$DeploymentModeEnumMap, json['deploymentMode']),
     hostInstanceType: json['hostInstanceType'] as String,
@@ -122,7 +122,7 @@ const _$BrokerStateEnumMap = {
 Configuration _$ConfigurationFromJson(Map<String, dynamic> json) {
   return Configuration(
     arn: json['arn'] as String,
-    created: iso8601FromJson(json['created'] as String),
+    created: timeStampFromJson(json['created']),
     description: json['description'] as String,
     engineType: _$enumDecodeNullable(_$EngineTypeEnumMap, json['engineType']),
     engineVersion: json['engineVersion'] as String,
@@ -162,7 +162,7 @@ Map<String, dynamic> _$ConfigurationIdToJson(ConfigurationId instance) {
 ConfigurationRevision _$ConfigurationRevisionFromJson(
     Map<String, dynamic> json) {
   return ConfigurationRevision(
-    created: iso8601FromJson(json['created'] as String),
+    created: timeStampFromJson(json['created']),
     description: json['description'] as String,
     revision: json['revision'] as int,
   );
@@ -195,7 +195,7 @@ CreateConfigurationResponse _$CreateConfigurationResponseFromJson(
     Map<String, dynamic> json) {
   return CreateConfigurationResponse(
     arn: json['arn'] as String,
-    created: iso8601FromJson(json['created'] as String),
+    created: timeStampFromJson(json['created']),
     id: json['id'] as String,
     latestRevision: json['latestRevision'] == null
         ? null
@@ -263,7 +263,7 @@ DescribeBrokerResponse _$DescribeBrokerResponseFromJson(
         ? null
         : Configurations.fromJson(
             json['configurations'] as Map<String, dynamic>),
-    created: iso8601FromJson(json['created'] as String),
+    created: timeStampFromJson(json['created']),
     deploymentMode:
         _$enumDecodeNullable(_$DeploymentModeEnumMap, json['deploymentMode']),
     encryptionOptions: json['encryptionOptions'] == null
@@ -305,7 +305,7 @@ DescribeConfigurationResponse _$DescribeConfigurationResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeConfigurationResponse(
     arn: json['arn'] as String,
-    created: iso8601FromJson(json['created'] as String),
+    created: timeStampFromJson(json['created']),
     description: json['description'] as String,
     engineType: _$enumDecodeNullable(_$EngineTypeEnumMap, json['engineType']),
     engineVersion: json['engineVersion'] as String,
@@ -325,7 +325,7 @@ DescribeConfigurationRevisionResponse
     _$DescribeConfigurationRevisionResponseFromJson(Map<String, dynamic> json) {
   return DescribeConfigurationRevisionResponse(
     configurationId: json['configurationId'] as String,
-    created: iso8601FromJson(json['created'] as String),
+    created: timeStampFromJson(json['created']),
     data: json['data'] as String,
     description: json['description'] as String,
   );
@@ -512,7 +512,7 @@ UpdateConfigurationResponse _$UpdateConfigurationResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateConfigurationResponse(
     arn: json['arn'] as String,
-    created: iso8601FromJson(json['created'] as String),
+    created: timeStampFromJson(json['created']),
     id: json['id'] as String,
     latestRevision: json['latestRevision'] == null
         ? null

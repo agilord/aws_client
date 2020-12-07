@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -1687,7 +1685,7 @@ class QueryExecutionStatus {
   /// The date and time that the query completed.
   @_s.JsonKey(
       name: 'CompletionDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime completionDateTime;
 
@@ -1708,7 +1706,7 @@ class QueryExecutionStatus {
   /// The date and time that the query was submitted.
   @_s.JsonKey(
       name: 'SubmissionDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime submissionDateTime;
 
@@ -2087,7 +2085,7 @@ class WorkGroup {
   /// The date and time the workgroup was created.
   @_s.JsonKey(
       name: 'CreationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationTime;
 
@@ -2273,7 +2271,7 @@ class WorkGroupSummary {
   /// The workgroup creation date and time.
   @_s.JsonKey(
       name: 'CreationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationTime;
 

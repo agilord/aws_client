@@ -170,8 +170,8 @@ ListVirtualRoutersOutput _$ListVirtualRoutersOutputFromJson(
 ResourceMetadata _$ResourceMetadataFromJson(Map<String, dynamic> json) {
   return ResourceMetadata(
     arn: json['arn'] as String,
-    createdAt: unixTimestampFromJson(json['createdAt']),
-    lastUpdatedAt: unixTimestampFromJson(json['lastUpdatedAt']),
+    createdAt: timeStampFromJson(json['createdAt']),
+    lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
     meshOwner: json['meshOwner'] as String,
     resourceOwner: json['resourceOwner'] as String,
     uid: json['uid'] as String,

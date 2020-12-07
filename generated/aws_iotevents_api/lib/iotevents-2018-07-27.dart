@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -1317,7 +1315,7 @@ class DetectorModelConfiguration {
   /// The time the detector model was created.
   @_s.JsonKey(
       name: 'creationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationTime;
 
@@ -1357,7 +1355,7 @@ class DetectorModelConfiguration {
   /// The time the detector model was last updated.
   @_s.JsonKey(
       name: 'lastUpdateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdateTime;
 
@@ -1421,7 +1419,7 @@ class DetectorModelSummary {
   /// The time the detector model was created.
   @_s.JsonKey(
       name: 'creationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationTime;
 
@@ -1469,7 +1467,7 @@ class DetectorModelVersionSummary {
   /// The time the detector model version was created.
   @_s.JsonKey(
       name: 'creationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationTime;
 
@@ -1493,7 +1491,7 @@ class DetectorModelVersionSummary {
   /// The last time the detector model version was updated.
   @_s.JsonKey(
       name: 'lastUpdateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdateTime;
 
@@ -1814,7 +1812,7 @@ class InputConfiguration {
   /// The time the input was created.
   @_s.JsonKey(
       name: 'creationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationTime;
 
@@ -1829,7 +1827,7 @@ class InputConfiguration {
   /// The last time the input was updated.
   @_s.JsonKey(
       name: 'lastUpdateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdateTime;
 
@@ -1899,7 +1897,7 @@ class InputSummary {
   /// The time the input was created.
   @_s.JsonKey(
       name: 'creationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationTime;
 
@@ -1918,7 +1916,7 @@ class InputSummary {
   /// The last time the input was updated.
   @_s.JsonKey(
       name: 'lastUpdateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdateTime;
 

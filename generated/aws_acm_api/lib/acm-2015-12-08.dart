@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -1124,7 +1122,7 @@ class CertificateDetail {
   /// the certificate type is <code>AMAZON_ISSUED</code>.
   @_s.JsonKey(
       name: 'CreatedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdAt;
 
@@ -1156,7 +1154,7 @@ class CertificateDetail {
   /// only when the certificate type is <code>IMPORTED</code>.
   @_s.JsonKey(
       name: 'ImportedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime importedAt;
 
@@ -1169,7 +1167,7 @@ class CertificateDetail {
   /// the certificate type is <code>AMAZON_ISSUED</code>.
   @_s.JsonKey(
       name: 'IssuedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime issuedAt;
 
@@ -1192,14 +1190,14 @@ class CertificateDetail {
   /// The time after which the certificate is not valid.
   @_s.JsonKey(
       name: 'NotAfter',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime notAfter;
 
   /// The time before which the certificate is not valid.
   @_s.JsonKey(
       name: 'NotBefore',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime notBefore;
 
@@ -1233,7 +1231,7 @@ class CertificateDetail {
   /// the certificate status is <code>REVOKED</code>.
   @_s.JsonKey(
       name: 'RevokedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime revokedAt;
 
@@ -1939,7 +1937,7 @@ class RenewalSummary {
   /// The time at which the renewal summary was last updated.
   @_s.JsonKey(
       name: 'UpdatedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime updatedAt;
 

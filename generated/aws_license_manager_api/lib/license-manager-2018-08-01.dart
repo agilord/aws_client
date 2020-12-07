@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -885,7 +883,7 @@ class AutomatedDiscoveryInformation {
   /// Time that automated discovery last ran.
   @_s.JsonKey(
       name: 'LastRunTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastRunTime;
 
@@ -1246,7 +1244,7 @@ class LicenseConfigurationAssociation {
   /// Time when the license configuration was associated with the resource.
   @_s.JsonKey(
       name: 'AssociationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime associationTime;
 
@@ -1303,7 +1301,7 @@ class LicenseConfigurationUsage {
   /// resource.
   @_s.JsonKey(
       name: 'AssociationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime associationTime;
 
@@ -1380,7 +1378,7 @@ class LicenseOperationFailure {
   /// Failure time.
   @_s.JsonKey(
       name: 'FailureTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime failureTime;
 

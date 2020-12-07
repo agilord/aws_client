@@ -3573,7 +3573,7 @@ class S3 {
           ?.toObjectLockMode(),
       objectLockRetainUntilDate: _s.extractHeaderDateTimeValue(
           $result.headers, 'x-amz-object-lock-retain-until-date',
-          parser: _s.iso8601FromJson),
+          parser: _s.timeStampFromJson),
       partsCount:
           _s.extractHeaderIntValue($result.headers, 'x-amz-mp-parts-count'),
       replicationStatus: _s
@@ -4294,7 +4294,7 @@ class S3 {
           ?.toObjectLockMode(),
       objectLockRetainUntilDate: _s.extractHeaderDateTimeValue(
           $result.headers, 'x-amz-object-lock-retain-until-date',
-          parser: _s.iso8601FromJson),
+          parser: _s.timeStampFromJson),
       partsCount:
           _s.extractHeaderIntValue($result.headers, 'x-amz-mp-parts-count'),
       replicationStatus: _s
@@ -14424,8 +14424,8 @@ class LifecycleExpiration {
   });
   factory LifecycleExpiration.fromXml(_s.XmlElement elem) {
     return LifecycleExpiration(
-      date:
-          _s.extractXmlDateTimeValue(elem, 'Date', parser: _s.iso8601FromJson),
+      date: _s.extractXmlDateTimeValue(elem, 'Date',
+          parser: _s.timeStampFromJson),
       days: _s.extractXmlIntValue(elem, 'Days'),
       expiredObjectDeleteMarker:
           _s.extractXmlBoolValue(elem, 'ExpiredObjectDeleteMarker'),
@@ -16217,7 +16217,7 @@ class ObjectLockRetention {
     return ObjectLockRetention(
       mode: _s.extractXmlStringValue(elem, 'Mode')?.toObjectLockRetentionMode(),
       retainUntilDate: _s.extractXmlDateTimeValue(elem, 'RetainUntilDate',
-          parser: _s.iso8601FromJson),
+          parser: _s.timeStampFromJson),
     );
   }
 
@@ -19077,8 +19077,8 @@ class Transition {
   });
   factory Transition.fromXml(_s.XmlElement elem) {
     return Transition(
-      date:
-          _s.extractXmlDateTimeValue(elem, 'Date', parser: _s.iso8601FromJson),
+      date: _s.extractXmlDateTimeValue(elem, 'Date',
+          parser: _s.timeStampFromJson),
       days: _s.extractXmlIntValue(elem, 'Days'),
       storageClass: _s
           .extractXmlStringValue(elem, 'StorageClass')

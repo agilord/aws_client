@@ -61,13 +61,13 @@ CertificateAuthority _$CertificateAuthorityFromJson(Map<String, dynamic> json) {
             : CertificateAuthorityConfiguration.fromJson(
                 json['CertificateAuthorityConfiguration']
                     as Map<String, dynamic>),
-    createdAt: unixTimestampFromJson(json['CreatedAt']),
+    createdAt: timeStampFromJson(json['CreatedAt']),
     failureReason:
         _$enumDecodeNullable(_$FailureReasonEnumMap, json['FailureReason']),
-    lastStateChangeAt: unixTimestampFromJson(json['LastStateChangeAt']),
-    notAfter: unixTimestampFromJson(json['NotAfter']),
-    notBefore: unixTimestampFromJson(json['NotBefore']),
-    restorableUntil: unixTimestampFromJson(json['RestorableUntil']),
+    lastStateChangeAt: timeStampFromJson(json['LastStateChangeAt']),
+    notAfter: timeStampFromJson(json['NotAfter']),
+    notBefore: timeStampFromJson(json['NotBefore']),
+    restorableUntil: timeStampFromJson(json['RestorableUntil']),
     revocationConfiguration: json['RevocationConfiguration'] == null
         ? null
         : RevocationConfiguration.fromJson(
@@ -225,7 +225,7 @@ DescribeCertificateAuthorityAuditReportResponse
   return DescribeCertificateAuthorityAuditReportResponse(
     auditReportStatus: _$enumDecodeNullable(
         _$AuditReportStatusEnumMap, json['AuditReportStatus']),
-    createdAt: unixTimestampFromJson(json['CreatedAt']),
+    createdAt: timeStampFromJson(json['CreatedAt']),
     s3BucketName: json['S3BucketName'] as String,
     s3Key: json['S3Key'] as String,
   );
@@ -316,7 +316,7 @@ Permission _$PermissionFromJson(Map<String, dynamic> json) {
         ?.map((e) => _$enumDecodeNullable(_$ActionTypeEnumMap, e))
         ?.toList(),
     certificateAuthorityArn: json['CertificateAuthorityArn'] as String,
-    createdAt: unixTimestampFromJson(json['CreatedAt']),
+    createdAt: timeStampFromJson(json['CreatedAt']),
     policy: json['Policy'] as String,
     principal: json['Principal'] as String,
     sourceAccount: json['SourceAccount'] as String,

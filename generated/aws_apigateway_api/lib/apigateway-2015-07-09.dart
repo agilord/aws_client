@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -5316,7 +5314,7 @@ class ApiKey {
   /// The timestamp when the API Key was created.
   @_s.JsonKey(
       name: 'createdDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdDate;
 
@@ -5340,7 +5338,7 @@ class ApiKey {
   /// The timestamp when the API Key was last updated.
   @_s.JsonKey(
       name: 'lastUpdatedDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedDate;
 
@@ -5851,7 +5849,7 @@ class ClientCertificate {
   /// The timestamp when the client certificate was created.
   @_s.JsonKey(
       name: 'createdDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdDate;
 
@@ -5862,7 +5860,7 @@ class ClientCertificate {
   /// The timestamp when the client certificate will expire.
   @_s.JsonKey(
       name: 'expirationDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime expirationDate;
 
@@ -5975,7 +5973,7 @@ class Deployment {
   /// The date and time that the deployment resource was created.
   @_s.JsonKey(
       name: 'createdDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdDate;
 
@@ -6327,7 +6325,7 @@ class DocumentationVersion {
   /// The date when the API documentation snapshot is created.
   @_s.JsonKey(
       name: 'createdDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdDate;
 
@@ -6413,7 +6411,7 @@ class DomainName {
   /// for this domain name was uploaded.
   @_s.JsonKey(
       name: 'certificateUploadDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime certificateUploadDate;
 
@@ -8376,7 +8374,7 @@ class RestApi {
   /// The timestamp when the API was created.
   @_s.JsonKey(
       name: 'createdDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdDate;
 
@@ -8648,7 +8646,7 @@ class Stage {
   /// The timestamp when the stage was created.
   @_s.JsonKey(
       name: 'createdDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdDate;
 
@@ -8667,7 +8665,7 @@ class Stage {
   /// The timestamp when the stage last updated.
   @_s.JsonKey(
       name: 'lastUpdatedDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedDate;
 

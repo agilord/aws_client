@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -1486,7 +1484,7 @@ class CreateUserProfileResult {
   /// The date the user profile was created, in timestamp format.
   @_s.JsonKey(
       name: 'createdTimestamp',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdTimestamp;
 
@@ -1503,7 +1501,7 @@ class CreateUserProfileResult {
   /// The date the user profile was last modified, in timestamp format.
   @_s.JsonKey(
       name: 'lastModifiedTimestamp',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastModifiedTimestamp;
 
@@ -1584,7 +1582,7 @@ class DescribeProjectResult {
   /// The date and time the project was created, in timestamp format.
   @_s.JsonKey(
       name: 'createdTimeStamp',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdTimeStamp;
 
@@ -1638,7 +1636,7 @@ class DescribeUserProfileResult {
   /// timestamp format.
   @_s.JsonKey(
       name: 'createdTimestamp',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdTimestamp;
 
@@ -1646,7 +1644,7 @@ class DescribeUserProfileResult {
   /// format.
   @_s.JsonKey(
       name: 'lastModifiedTimestamp',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastModifiedTimestamp;
 
@@ -2124,7 +2122,7 @@ class UpdateUserProfileResult {
   /// The date the user profile was created, in timestamp format.
   @_s.JsonKey(
       name: 'createdTimestamp',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdTimestamp;
 
@@ -2141,7 +2139,7 @@ class UpdateUserProfileResult {
   /// The date the user profile was last modified, in timestamp format.
   @_s.JsonKey(
       name: 'lastModifiedTimestamp',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastModifiedTimestamp;
 

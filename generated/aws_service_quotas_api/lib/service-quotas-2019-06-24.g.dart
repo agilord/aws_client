@@ -255,11 +255,11 @@ RequestedServiceQuotaChange _$RequestedServiceQuotaChangeFromJson(
     Map<String, dynamic> json) {
   return RequestedServiceQuotaChange(
     caseId: json['CaseId'] as String,
-    created: unixTimestampFromJson(json['Created']),
+    created: timeStampFromJson(json['Created']),
     desiredValue: (json['DesiredValue'] as num)?.toDouble(),
     globalQuota: json['GlobalQuota'] as bool,
     id: json['Id'] as String,
-    lastUpdated: unixTimestampFromJson(json['LastUpdated']),
+    lastUpdated: timeStampFromJson(json['LastUpdated']),
     quotaArn: json['QuotaArn'] as String,
     quotaCode: json['QuotaCode'] as String,
     quotaName: json['QuotaName'] as String,

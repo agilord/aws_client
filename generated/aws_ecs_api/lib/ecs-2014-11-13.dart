@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -6367,7 +6365,7 @@ class ContainerInstance {
   /// The Unix timestamp for when the container instance was registered.
   @_s.JsonKey(
       name: 'registeredAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime registeredAt;
 
@@ -6842,7 +6840,7 @@ class Deployment {
   /// The Unix timestamp for when the service deployment was created.
   @_s.JsonKey(
       name: 'createdAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdAt;
 
@@ -6909,7 +6907,7 @@ class Deployment {
   /// The Unix timestamp for when the service deployment was last updated.
   @_s.JsonKey(
       name: 'updatedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime updatedAt;
 
@@ -9532,7 +9530,7 @@ class Service {
   /// The Unix timestamp for when the service was created.
   @_s.JsonKey(
       name: 'createdAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdAt;
 
@@ -9789,7 +9787,7 @@ class ServiceEvent {
   /// The Unix timestamp for when the event was triggered.
   @_s.JsonKey(
       name: 'createdAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdAt;
 
@@ -10236,7 +10234,7 @@ class Task {
   /// status.
   @_s.JsonKey(
       name: 'connectivityAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime connectivityAt;
 
@@ -10292,7 +10290,7 @@ class Task {
   /// <code>PENDING</code> state).
   @_s.JsonKey(
       name: 'createdAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdAt;
 
@@ -10305,7 +10303,7 @@ class Task {
   /// The Unix timestamp for when the task execution stopped.
   @_s.JsonKey(
       name: 'executionStoppedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime executionStoppedAt;
 
@@ -10401,14 +10399,14 @@ class Task {
   /// The Unix timestamp for when the container image pull began.
   @_s.JsonKey(
       name: 'pullStartedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime pullStartedAt;
 
   /// The Unix timestamp for when the container image pull completed.
   @_s.JsonKey(
       name: 'pullStoppedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime pullStoppedAt;
 
@@ -10416,7 +10414,7 @@ class Task {
   /// <code>PENDING</code> state to the <code>RUNNING</code> state).
   @_s.JsonKey(
       name: 'startedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime startedAt;
 
@@ -10435,7 +10433,7 @@ class Task {
   /// the <code>RUNNING</code> state to the <code>STOPPED</code> state).
   @_s.JsonKey(
       name: 'stoppedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime stoppedAt;
 
@@ -10447,7 +10445,7 @@ class Task {
   /// <code>RUNNING</code> state to <code>STOPPED</code>).
   @_s.JsonKey(
       name: 'stoppingAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime stoppingAt;
 
@@ -11064,7 +11062,7 @@ class TaskSet {
   /// The Unix timestamp for when the task set was created.
   @_s.JsonKey(
       name: 'createdAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdAt;
 
@@ -11168,7 +11166,7 @@ class TaskSet {
   /// The Unix timestamp for when the task set stability status was retrieved.
   @_s.JsonKey(
       name: 'stabilityStatusAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime stabilityStatusAt;
 
@@ -11241,7 +11239,7 @@ class TaskSet {
   /// The Unix timestamp for when the task set was last updated.
   @_s.JsonKey(
       name: 'updatedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime updatedAt;
 

@@ -156,8 +156,8 @@ ComprehendMedicalAsyncJobProperties
     _$ComprehendMedicalAsyncJobPropertiesFromJson(Map<String, dynamic> json) {
   return ComprehendMedicalAsyncJobProperties(
     dataAccessRoleArn: json['DataAccessRoleArn'] as String,
-    endTime: unixTimestampFromJson(json['EndTime']),
-    expirationTime: unixTimestampFromJson(json['ExpirationTime']),
+    endTime: timeStampFromJson(json['EndTime']),
+    expirationTime: timeStampFromJson(json['ExpirationTime']),
     inputDataConfig: json['InputDataConfig'] == null
         ? null
         : InputDataConfig.fromJson(
@@ -175,7 +175,7 @@ ComprehendMedicalAsyncJobProperties
         ? null
         : OutputDataConfig.fromJson(
             json['OutputDataConfig'] as Map<String, dynamic>),
-    submitTime: unixTimestampFromJson(json['SubmitTime']),
+    submitTime: timeStampFromJson(json['SubmitTime']),
   );
 }
 

@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -5183,7 +5181,7 @@ class Account {
   /// The Amazon Chime account creation timestamp, in ISO 8601 format.
   @_s.JsonKey(
       name: 'CreatedTimestamp',
-      fromJson: iso8601FromJson,
+      fromJson: timeStampFromJson,
       toJson: iso8601ToJson)
   final DateTime createdTimestamp;
 
@@ -5546,7 +5544,7 @@ class Bot {
   /// The bot creation timestamp, in ISO 8601 format.
   @_s.JsonKey(
       name: 'CreatedTimestamp',
-      fromJson: iso8601FromJson,
+      fromJson: timeStampFromJson,
       toJson: iso8601ToJson)
   final DateTime createdTimestamp;
 
@@ -5566,7 +5564,7 @@ class Bot {
   /// The updated bot timestamp, in ISO 8601 format.
   @_s.JsonKey(
       name: 'UpdatedTimestamp',
-      fromJson: iso8601FromJson,
+      fromJson: timeStampFromJson,
       toJson: iso8601ToJson)
   final DateTime updatedTimestamp;
 
@@ -6272,7 +6270,7 @@ class GetPhoneNumberSettingsResponse {
   /// The updated outbound calling name timestamp, in ISO 8601 format.
   @_s.JsonKey(
       name: 'CallingNameUpdatedTimestamp',
-      fromJson: iso8601FromJson,
+      fromJson: timeStampFromJson,
       toJson: iso8601ToJson)
   final DateTime callingNameUpdatedTimestamp;
 
@@ -7336,14 +7334,14 @@ class PhoneNumber {
   /// The phone number creation timestamp, in ISO 8601 format.
   @_s.JsonKey(
       name: 'CreatedTimestamp',
-      fromJson: iso8601FromJson,
+      fromJson: timeStampFromJson,
       toJson: iso8601ToJson)
   final DateTime createdTimestamp;
 
   /// The deleted phone number timestamp, in ISO 8601 format.
   @_s.JsonKey(
       name: 'DeletionTimestamp',
-      fromJson: iso8601FromJson,
+      fromJson: timeStampFromJson,
       toJson: iso8601ToJson)
   final DateTime deletionTimestamp;
 
@@ -7370,7 +7368,7 @@ class PhoneNumber {
   /// The updated phone number timestamp, in ISO 8601 format.
   @_s.JsonKey(
       name: 'UpdatedTimestamp',
-      fromJson: iso8601FromJson,
+      fromJson: timeStampFromJson,
       toJson: iso8601ToJson)
   final DateTime updatedTimestamp;
 
@@ -7404,7 +7402,7 @@ class PhoneNumberAssociation {
   /// The timestamp of the phone number association, in ISO 8601 format.
   @_s.JsonKey(
       name: 'AssociatedTimestamp',
-      fromJson: iso8601FromJson,
+      fromJson: timeStampFromJson,
       toJson: iso8601ToJson)
   final DateTime associatedTimestamp;
 
@@ -7537,7 +7535,7 @@ class PhoneNumberOrder {
   /// The phone number order creation timestamp, in ISO 8601 format.
   @_s.JsonKey(
       name: 'CreatedTimestamp',
-      fromJson: iso8601FromJson,
+      fromJson: timeStampFromJson,
       toJson: iso8601ToJson)
   final DateTime createdTimestamp;
 
@@ -7561,7 +7559,7 @@ class PhoneNumberOrder {
   /// The updated phone number order timestamp, in ISO 8601 format.
   @_s.JsonKey(
       name: 'UpdatedTimestamp',
-      fromJson: iso8601FromJson,
+      fromJson: timeStampFromJson,
       toJson: iso8601ToJson)
   final DateTime updatedTimestamp;
 
@@ -7704,13 +7702,15 @@ class ProxySession {
   /// The created timestamp, in ISO 8601 format.
   @_s.JsonKey(
       name: 'CreatedTimestamp',
-      fromJson: iso8601FromJson,
+      fromJson: timeStampFromJson,
       toJson: iso8601ToJson)
   final DateTime createdTimestamp;
 
   /// The ended timestamp, in ISO 8601 format.
   @_s.JsonKey(
-      name: 'EndedTimestamp', fromJson: iso8601FromJson, toJson: iso8601ToJson)
+      name: 'EndedTimestamp',
+      fromJson: timeStampFromJson,
+      toJson: iso8601ToJson)
   final DateTime endedTimestamp;
 
   /// The number of minutes allowed for the proxy session.
@@ -7750,7 +7750,7 @@ class ProxySession {
   /// The updated timestamp, in ISO 8601 format.
   @_s.JsonKey(
       name: 'UpdatedTimestamp',
-      fromJson: iso8601FromJson,
+      fromJson: timeStampFromJson,
       toJson: iso8601ToJson)
   final DateTime updatedTimestamp;
 
@@ -7982,7 +7982,7 @@ class Room {
   /// The room creation timestamp, in ISO 8601 format.
   @_s.JsonKey(
       name: 'CreatedTimestamp',
-      fromJson: iso8601FromJson,
+      fromJson: timeStampFromJson,
       toJson: iso8601ToJson)
   final DateTime createdTimestamp;
 
@@ -7997,7 +7997,7 @@ class Room {
   /// The room update timestamp, in ISO 8601 format.
   @_s.JsonKey(
       name: 'UpdatedTimestamp',
-      fromJson: iso8601FromJson,
+      fromJson: timeStampFromJson,
       toJson: iso8601ToJson)
   final DateTime updatedTimestamp;
 
@@ -8036,7 +8036,7 @@ class RoomMembership {
   /// The room membership update timestamp, in ISO 8601 format.
   @_s.JsonKey(
       name: 'UpdatedTimestamp',
-      fromJson: iso8601FromJson,
+      fromJson: timeStampFromJson,
       toJson: iso8601ToJson)
   final DateTime updatedTimestamp;
 
@@ -8249,7 +8249,7 @@ class TerminationHealth {
 
   /// The timestamp, in ISO 8601 format.
   @_s.JsonKey(
-      name: 'Timestamp', fromJson: iso8601FromJson, toJson: iso8601ToJson)
+      name: 'Timestamp', fromJson: timeStampFromJson, toJson: iso8601ToJson)
   final DateTime timestamp;
 
   TerminationHealth({
@@ -8512,7 +8512,7 @@ class User {
   /// Date and time when the user is invited to the Amazon Chime account, in ISO
   /// 8601 format.
   @_s.JsonKey(
-      name: 'InvitedOn', fromJson: iso8601FromJson, toJson: iso8601ToJson)
+      name: 'InvitedOn', fromJson: timeStampFromJson, toJson: iso8601ToJson)
   final DateTime invitedOn;
 
   /// The license type for the user.
@@ -8533,7 +8533,7 @@ class User {
 
   /// Date and time when the user is registered, in ISO 8601 format.
   @_s.JsonKey(
-      name: 'RegisteredOn', fromJson: iso8601FromJson, toJson: iso8601ToJson)
+      name: 'RegisteredOn', fromJson: timeStampFromJson, toJson: iso8601ToJson)
   final DateTime registeredOn;
 
   /// The user invite status.
@@ -8653,7 +8653,7 @@ class VoiceConnector {
   /// The Amazon Chime Voice Connector creation timestamp, in ISO 8601 format.
   @_s.JsonKey(
       name: 'CreatedTimestamp',
-      fromJson: iso8601FromJson,
+      fromJson: timeStampFromJson,
       toJson: iso8601ToJson)
   final DateTime createdTimestamp;
 
@@ -8673,7 +8673,7 @@ class VoiceConnector {
   /// The updated Amazon Chime Voice Connector timestamp, in ISO 8601 format.
   @_s.JsonKey(
       name: 'UpdatedTimestamp',
-      fromJson: iso8601FromJson,
+      fromJson: timeStampFromJson,
       toJson: iso8601ToJson)
   final DateTime updatedTimestamp;
 
@@ -8727,7 +8727,7 @@ class VoiceConnectorGroup {
   /// format.
   @_s.JsonKey(
       name: 'CreatedTimestamp',
-      fromJson: iso8601FromJson,
+      fromJson: timeStampFromJson,
       toJson: iso8601ToJson)
   final DateTime createdTimestamp;
 
@@ -8739,7 +8739,7 @@ class VoiceConnectorGroup {
   /// format.
   @_s.JsonKey(
       name: 'UpdatedTimestamp',
-      fromJson: iso8601FromJson,
+      fromJson: timeStampFromJson,
       toJson: iso8601ToJson)
   final DateTime updatedTimestamp;
 
