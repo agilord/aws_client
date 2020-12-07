@@ -48,7 +48,7 @@ import 'dart:typed_data';
 
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
-  show Uint8ListConverter, Uint8ListListConverter ${api.generateJson ? ', rfc822FromJson, rfc822ToJson, iso8601FromJson, iso8601ToJson, unixTimestampFromJson, unixTimestampToJson' : ''};
+  show Uint8ListConverter, Uint8ListListConverter ${api.generateJson ? ', rfc822ToJson, iso8601ToJson, unixTimestampToJson, timeStampFromJson' : ''};
 """);
   buf.writeln(builder.imports());
   buf.writeln(
@@ -263,7 +263,7 @@ ${builder.constructor()}
             }
 
             dateTimeConversion =
-                ', fromJson: ${timeStampFormat}FromJson, toJson: ${timeStampFormat}ToJson';
+                ', fromJson: timeStampFromJson, toJson: ${timeStampFormat}ToJson';
           }
           writeln(
               "  @_s.JsonKey(name: '${member.locationName ?? member.name}'$dateTimeConversion)");
@@ -414,7 +414,7 @@ String extractXmlCode(
     var extraParameters = '';
     if (shapeRef.timestampFormat != null || member?.timestampFormat != null) {
       extraParameters =
-          ', parser: _s.${shapeRef.timestampFormat ?? member.timestampFormat}FromJson';
+          ', parser: _s.timeStampFromJson';
     }
     var functionSuffix = 'Value';
     if (member?.xmlAttribute == true) {
@@ -505,7 +505,7 @@ String extractHeaderCode(Member member, String variable) {
     if (member.timestampFormat != null ||
         member.shapeClass.timestampFormat != null) {
       extraParameters =
-          ', parser: _s.${member.timestampFormat ?? member.shapeClass.timestampFormat}FromJson';
+          ', parser: _s.timeStampFromJson';
     }
     return '_s.extractHeader${uppercaseName(member.dartType)}Value($variable, \'${member.locationName ?? member.name}\'$extraParameters)';
   }
