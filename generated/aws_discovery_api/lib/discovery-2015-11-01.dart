@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -1541,7 +1539,7 @@ class ConfigurationTag {
   /// (UTC).
   @_s.JsonKey(
       name: 'timeOfCreation',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime timeOfCreation;
 
@@ -1595,7 +1593,7 @@ class ContinuousExportDescription {
   /// The timestamp representing when the continuous export was started.
   @_s.JsonKey(
       name: 'startTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime startTime;
 
@@ -1690,7 +1688,7 @@ class ContinuousExportDescription {
   /// The timestamp that represents when this continuous export was stopped.
   @_s.JsonKey(
       name: 'stopTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime stopTime;
 
@@ -2141,7 +2139,7 @@ class ExportInfo {
   /// The time that the data export was initiated.
   @_s.JsonKey(
       name: 'exportRequestTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime exportRequestTime;
 
@@ -2170,7 +2168,7 @@ class ExportInfo {
   /// <code>ExportInfo</code>.
   @_s.JsonKey(
       name: 'requestedEndTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime requestedEndTime;
 
@@ -2179,7 +2177,7 @@ class ExportInfo {
   /// requested, this result does not appear in <code>ExportInfo</code>.
   @_s.JsonKey(
       name: 'requestedStartTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime requestedStartTime;
 
@@ -2358,7 +2356,7 @@ class ImportTask {
   /// stamp format.
   @_s.JsonKey(
       name: 'importCompletionTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime importCompletionTime;
 
@@ -2366,7 +2364,7 @@ class ImportTask {
   /// time stamp format.
   @_s.JsonKey(
       name: 'importDeletedTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime importDeletedTime;
 
@@ -2374,7 +2372,7 @@ class ImportTask {
   /// stamp format.
   @_s.JsonKey(
       name: 'importRequestTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime importRequestTime;
 
@@ -2620,7 +2618,7 @@ class StartContinuousExportResponse {
   /// The timestamp representing when the continuous export was started.
   @_s.JsonKey(
       name: 'startTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime startTime;
 
@@ -2702,14 +2700,14 @@ class StopContinuousExportResponse {
   /// data.
   @_s.JsonKey(
       name: 'startTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime startTime;
 
   /// Timestamp that represents when this continuous export was stopped.
   @_s.JsonKey(
       name: 'stopTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime stopTime;
 

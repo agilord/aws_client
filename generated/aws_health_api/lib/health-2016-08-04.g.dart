@@ -13,7 +13,7 @@ AffectedEntity _$AffectedEntityFromJson(Map<String, dynamic> json) {
     entityUrl: json['entityUrl'] as String,
     entityValue: json['entityValue'] as String,
     eventArn: json['eventArn'] as String,
-    lastUpdatedTime: unixTimestampFromJson(json['lastUpdatedTime']),
+    lastUpdatedTime: timeStampFromJson(json['lastUpdatedTime']),
     statusCode:
         _$enumDecodeNullable(_$EntityStatusCodeEnumMap, json['statusCode']),
     tags: (json['tags'] as Map<String, dynamic>)?.map(
@@ -245,14 +245,14 @@ Event _$EventFromJson(Map<String, dynamic> json) {
   return Event(
     arn: json['arn'] as String,
     availabilityZone: json['availabilityZone'] as String,
-    endTime: unixTimestampFromJson(json['endTime']),
+    endTime: timeStampFromJson(json['endTime']),
     eventTypeCategory: _$enumDecodeNullable(
         _$EventTypeCategoryEnumMap, json['eventTypeCategory']),
     eventTypeCode: json['eventTypeCode'] as String,
-    lastUpdatedTime: unixTimestampFromJson(json['lastUpdatedTime']),
+    lastUpdatedTime: timeStampFromJson(json['lastUpdatedTime']),
     region: json['region'] as String,
     service: json['service'] as String,
-    startTime: unixTimestampFromJson(json['startTime']),
+    startTime: timeStampFromJson(json['startTime']),
     statusCode:
         _$enumDecodeNullable(_$EventStatusCodeEnumMap, json['statusCode']),
   );
@@ -399,14 +399,14 @@ OrganizationAffectedEntitiesErrorItem
 OrganizationEvent _$OrganizationEventFromJson(Map<String, dynamic> json) {
   return OrganizationEvent(
     arn: json['arn'] as String,
-    endTime: unixTimestampFromJson(json['endTime']),
+    endTime: timeStampFromJson(json['endTime']),
     eventTypeCategory: _$enumDecodeNullable(
         _$EventTypeCategoryEnumMap, json['eventTypeCategory']),
     eventTypeCode: json['eventTypeCode'] as String,
-    lastUpdatedTime: unixTimestampFromJson(json['lastUpdatedTime']),
+    lastUpdatedTime: timeStampFromJson(json['lastUpdatedTime']),
     region: json['region'] as String,
     service: json['service'] as String,
-    startTime: unixTimestampFromJson(json['startTime']),
+    startTime: timeStampFromJson(json['startTime']),
     statusCode:
         _$enumDecodeNullable(_$EventStatusCodeEnumMap, json['statusCode']),
   );

@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -1246,9 +1244,7 @@ class ContactData {
 
   /// End time of a contact.
   @_s.JsonKey(
-      name: 'endTime',
-      fromJson: unixTimestampFromJson,
-      toJson: unixTimestampToJson)
+      name: 'endTime', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
   final DateTime endTime;
 
   /// Error message of a contact.
@@ -1271,7 +1267,7 @@ class ContactData {
   /// event indicating the pass has finished.
   @_s.JsonKey(
       name: 'postPassEndTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime postPassEndTime;
 
@@ -1279,7 +1275,7 @@ class ContactData {
   /// event indicating an upcoming pass.
   @_s.JsonKey(
       name: 'prePassStartTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime prePassStartTime;
 
@@ -1294,7 +1290,7 @@ class ContactData {
   /// Start time of a contact.
   @_s.JsonKey(
       name: 'startTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime startTime;
 
@@ -1560,9 +1556,7 @@ class DescribeContactResponse {
 
   /// End time of a contact.
   @_s.JsonKey(
-      name: 'endTime',
-      fromJson: unixTimestampFromJson,
-      toJson: unixTimestampToJson)
+      name: 'endTime', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
   final DateTime endTime;
 
   /// Error message for a contact.
@@ -1585,7 +1579,7 @@ class DescribeContactResponse {
   /// event indicating the pass has finished.
   @_s.JsonKey(
       name: 'postPassEndTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime postPassEndTime;
 
@@ -1593,7 +1587,7 @@ class DescribeContactResponse {
   /// event indicating an upcoming pass.
   @_s.JsonKey(
       name: 'prePassStartTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime prePassStartTime;
 
@@ -1608,7 +1602,7 @@ class DescribeContactResponse {
   /// Start time of a contact.
   @_s.JsonKey(
       name: 'startTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime startTime;
 

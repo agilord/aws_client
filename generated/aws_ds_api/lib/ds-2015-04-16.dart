@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -3610,14 +3608,14 @@ class Certificate {
   /// The date and time when the certificate will expire.
   @_s.JsonKey(
       name: 'ExpiryDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime expiryDateTime;
 
   /// The date and time that the certificate was registered.
   @_s.JsonKey(
       name: 'RegisteredDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime registeredDateTime;
 
@@ -3659,7 +3657,7 @@ class CertificateInfo {
   /// The date and time when the certificate will expire.
   @_s.JsonKey(
       name: 'ExpiryDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime expiryDateTime;
 
@@ -4376,7 +4374,7 @@ class DirectoryDescription {
   /// Specifies when the directory was created.
   @_s.JsonKey(
       name: 'LaunchTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime launchTime;
 
@@ -4436,7 +4434,7 @@ class DirectoryDescription {
   /// The date and time that the stage was last updated.
   @_s.JsonKey(
       name: 'StageLastUpdatedDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime stageLastUpdatedDateTime;
 
@@ -4736,7 +4734,7 @@ class DomainController {
   /// Specifies when the domain controller was created.
   @_s.JsonKey(
       name: 'LaunchTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime launchTime;
 
@@ -4747,7 +4745,7 @@ class DomainController {
   /// The date and time that the status was last updated.
   @_s.JsonKey(
       name: 'StatusLastUpdatedDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime statusLastUpdatedDateTime;
 
@@ -4842,7 +4840,7 @@ class EventTopic {
   /// The date and time of when you associated your directory with the SNS topic.
   @_s.JsonKey(
       name: 'CreatedDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdDateTime;
 
@@ -4949,7 +4947,7 @@ class IpRouteInfo {
   /// The date and time the address block was added to the directory.
   @_s.JsonKey(
       name: 'AddedDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime addedDateTime;
 
@@ -5018,7 +5016,7 @@ class LDAPSSettingInfo {
   /// The date and time when the LDAPS settings were last updated.
   @_s.JsonKey(
       name: 'LastUpdatedDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedDateTime;
 
@@ -5193,7 +5191,7 @@ class LogSubscription {
   /// The date and time that the log subscription was created.
   @_s.JsonKey(
       name: 'SubscriptionCreatedDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime subscriptionCreatedDateTime;
 
@@ -5446,7 +5444,7 @@ class SchemaExtensionInfo {
   /// The date and time that the schema extension was completed.
   @_s.JsonKey(
       name: 'EndDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime endDateTime;
 
@@ -5466,7 +5464,7 @@ class SchemaExtensionInfo {
   /// directory.
   @_s.JsonKey(
       name: 'StartDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime startDateTime;
 
@@ -5614,14 +5612,14 @@ class SharedDirectory {
   /// The date and time that the shared directory was created.
   @_s.JsonKey(
       name: 'CreatedDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdDateTime;
 
   /// The date and time that the shared directory was last updated.
   @_s.JsonKey(
       name: 'LastUpdatedDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedDateTime;
 
@@ -5699,7 +5697,7 @@ class Snapshot {
   /// The date and time that the snapshot was taken.
   @_s.JsonKey(
       name: 'StartTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime startTime;
 
@@ -5841,7 +5839,7 @@ class Trust {
   /// The date and time that the trust relationship was created.
   @_s.JsonKey(
       name: 'CreatedDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdDateTime;
 
@@ -5852,7 +5850,7 @@ class Trust {
   /// The date and time that the trust relationship was last updated.
   @_s.JsonKey(
       name: 'LastUpdatedDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedDateTime;
 
@@ -5868,7 +5866,7 @@ class Trust {
   /// The date and time that the TrustState was last updated.
   @_s.JsonKey(
       name: 'StateLastUpdatedDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime stateLastUpdatedDateTime;
 

@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -2392,7 +2390,7 @@ class App {
   /// Create date / time for the Amplify App.
   @_s.JsonKey(
       name: 'createTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createTime;
 
@@ -2431,7 +2429,7 @@ class App {
   /// Update date / time for the Amplify App.
   @_s.JsonKey(
       name: 'updateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime updateTime;
 
@@ -2594,7 +2592,7 @@ class BackendEnvironment {
   /// Creation date and time for a backend environment, part of an Amplify App.
   @_s.JsonKey(
       name: 'createTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createTime;
 
@@ -2606,7 +2604,7 @@ class BackendEnvironment {
   /// App.
   @_s.JsonKey(
       name: 'updateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime updateTime;
 
@@ -2652,7 +2650,7 @@ class Branch {
   /// Creation date and time for a branch, part of an Amplify App.
   @_s.JsonKey(
       name: 'createTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createTime;
 
@@ -2707,7 +2705,7 @@ class Branch {
   /// Last updated date and time for a branch, part of an Amplify App.
   @_s.JsonKey(
       name: 'updateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime updateTime;
 
@@ -3304,7 +3302,7 @@ class JobSummary {
   /// Commit date / time for the Job.
   @_s.JsonKey(
       name: 'commitTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime commitTime;
 
@@ -3325,7 +3323,7 @@ class JobSummary {
   /// Start date / time for the Job.
   @_s.JsonKey(
       name: 'startTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime startTime;
 
@@ -3335,9 +3333,7 @@ class JobSummary {
 
   /// End date / time for the Job.
   @_s.JsonKey(
-      name: 'endTime',
-      fromJson: unixTimestampFromJson,
-      toJson: unixTimestampToJson)
+      name: 'endTime', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
   final DateTime endTime;
 
   JobSummary({
@@ -3598,7 +3594,7 @@ class ProductionBranch {
   /// Last Deploy Time of Production Branch.
   @_s.JsonKey(
       name: 'lastDeployTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastDeployTime;
 
@@ -3696,15 +3692,13 @@ class StartJobResult {
 class Step {
   /// End date/ time of the execution step.
   @_s.JsonKey(
-      name: 'endTime',
-      fromJson: unixTimestampFromJson,
-      toJson: unixTimestampToJson)
+      name: 'endTime', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
   final DateTime endTime;
 
   /// Start date/ time of the execution step.
   @_s.JsonKey(
       name: 'startTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime startTime;
 
@@ -3941,7 +3935,7 @@ class Webhook {
   /// Create date / time for a webhook.
   @_s.JsonKey(
       name: 'createTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createTime;
 
@@ -3952,7 +3946,7 @@ class Webhook {
   /// Update date / time for a webhook.
   @_s.JsonKey(
       name: 'updateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime updateTime;
 

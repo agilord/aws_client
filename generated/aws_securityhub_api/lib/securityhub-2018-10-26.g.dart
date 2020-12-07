@@ -2839,7 +2839,7 @@ Invitation _$InvitationFromJson(Map<String, dynamic> json) {
   return Invitation(
     accountId: json['AccountId'] as String,
     invitationId: json['InvitationId'] as String,
-    invitedAt: iso8601FromJson(json['InvitedAt'] as String),
+    invitedAt: timeStampFromJson(json['InvitedAt']),
     memberStatus: json['MemberStatus'] as String,
   );
 }
@@ -3034,10 +3034,10 @@ Member _$MemberFromJson(Map<String, dynamic> json) {
   return Member(
     accountId: json['AccountId'] as String,
     email: json['Email'] as String,
-    invitedAt: iso8601FromJson(json['InvitedAt'] as String),
+    invitedAt: timeStampFromJson(json['InvitedAt']),
     masterId: json['MasterId'] as String,
     memberStatus: json['MemberStatus'] as String,
-    updatedAt: iso8601FromJson(json['UpdatedAt'] as String),
+    updatedAt: timeStampFromJson(json['UpdatedAt']),
   );
 }
 
@@ -3505,8 +3505,7 @@ StandardsControl _$StandardsControlFromJson(Map<String, dynamic> json) {
     controlId: json['ControlId'] as String,
     controlStatus:
         _$enumDecodeNullable(_$ControlStatusEnumMap, json['ControlStatus']),
-    controlStatusUpdatedAt:
-        iso8601FromJson(json['ControlStatusUpdatedAt'] as String),
+    controlStatusUpdatedAt: timeStampFromJson(json['ControlStatusUpdatedAt']),
     description: json['Description'] as String,
     disabledReason: json['DisabledReason'] as String,
     relatedRequirements: (json['RelatedRequirements'] as List)

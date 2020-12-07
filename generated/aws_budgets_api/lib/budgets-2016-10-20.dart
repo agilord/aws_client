@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -1300,7 +1298,7 @@ class Budget {
   /// The last time that you updated this budget.
   @_s.JsonKey(
       name: 'LastUpdatedTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedTime;
 
@@ -2029,7 +2027,7 @@ class TimePeriod {
   /// and subscribers. You can change your end date with the
   /// <code>UpdateBudget</code> operation.
   @_s.JsonKey(
-      name: 'End', fromJson: unixTimestampFromJson, toJson: unixTimestampToJson)
+      name: 'End', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
   final DateTime end;
 
   /// The start date for a budget. If you created your budget and didn't specify a
@@ -2043,9 +2041,7 @@ class TimePeriod {
   ///
   /// You can change your start date with the <code>UpdateBudget</code> operation.
   @_s.JsonKey(
-      name: 'Start',
-      fromJson: unixTimestampFromJson,
-      toJson: unixTimestampToJson)
+      name: 'Start', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
   final DateTime start;
 
   TimePeriod({

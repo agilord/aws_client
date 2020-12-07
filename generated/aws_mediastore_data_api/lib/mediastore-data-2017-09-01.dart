@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -440,7 +438,7 @@ class DescribeObjectResponse {
 
   /// The date and time that the object was last modified.
   @_s.JsonKey(
-      name: 'Last-Modified', fromJson: rfc822FromJson, toJson: rfc822ToJson)
+      name: 'Last-Modified', fromJson: timeStampFromJson, toJson: rfc822ToJson)
   final DateTime lastModified;
 
   DescribeObjectResponse({
@@ -498,7 +496,7 @@ class GetObjectResponse {
 
   /// The date and time that the object was last modified.
   @_s.JsonKey(
-      name: 'Last-Modified', fromJson: rfc822FromJson, toJson: rfc822ToJson)
+      name: 'Last-Modified', fromJson: timeStampFromJson, toJson: rfc822ToJson)
   final DateTime lastModified;
 
   GetObjectResponse({
@@ -537,7 +535,7 @@ class Item {
   /// The date and time that the item was last modified.
   @_s.JsonKey(
       name: 'LastModified',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastModified;
 

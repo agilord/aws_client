@@ -127,7 +127,7 @@ AlgorithmSummary _$AlgorithmSummaryFromJson(Map<String, dynamic> json) {
     algorithmName: json['AlgorithmName'] as String,
     algorithmStatus:
         _$enumDecodeNullable(_$AlgorithmStatusEnumMap, json['AlgorithmStatus']),
-    creationTime: unixTimestampFromJson(json['CreationTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
     algorithmDescription: json['AlgorithmDescription'] as String,
   );
 }
@@ -228,7 +228,7 @@ AppDetails _$AppDetailsFromJson(Map<String, dynamic> json) {
   return AppDetails(
     appName: json['AppName'] as String,
     appType: _$enumDecodeNullable(_$AppTypeEnumMap, json['AppType']),
-    creationTime: unixTimestampFromJson(json['CreationTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
     domainId: json['DomainId'] as String,
     status: _$enumDecodeNullable(_$AppStatusEnumMap, json['Status']),
     userProfileName: json['UserProfileName'] as String,
@@ -293,11 +293,11 @@ AutoMLCandidate _$AutoMLCandidateFromJson(Map<String, dynamic> json) {
             ? null
             : AutoMLCandidateStep.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    creationTime: unixTimestampFromJson(json['CreationTime']),
-    lastModifiedTime: unixTimestampFromJson(json['LastModifiedTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
+    lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
     objectiveStatus:
         _$enumDecodeNullable(_$ObjectiveStatusEnumMap, json['ObjectiveStatus']),
-    endTime: unixTimestampFromJson(json['EndTime']),
+    endTime: timeStampFromJson(json['EndTime']),
     failureReason: json['FailureReason'] as String,
     finalAutoMLJobObjectiveMetric: json['FinalAutoMLJobObjectiveMetric'] == null
         ? null
@@ -504,9 +504,9 @@ AutoMLJobSummary _$AutoMLJobSummaryFromJson(Map<String, dynamic> json) {
         _$AutoMLJobSecondaryStatusEnumMap, json['AutoMLJobSecondaryStatus']),
     autoMLJobStatus:
         _$enumDecodeNullable(_$AutoMLJobStatusEnumMap, json['AutoMLJobStatus']),
-    creationTime: unixTimestampFromJson(json['CreationTime']),
-    lastModifiedTime: unixTimestampFromJson(json['LastModifiedTime']),
-    endTime: unixTimestampFromJson(json['EndTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
+    lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+    endTime: timeStampFromJson(json['EndTime']),
     failureReason: json['FailureReason'] as String,
   );
 }
@@ -822,8 +822,8 @@ CodeRepositorySummary _$CodeRepositorySummaryFromJson(
   return CodeRepositorySummary(
     codeRepositoryArn: json['CodeRepositoryArn'] as String,
     codeRepositoryName: json['CodeRepositoryName'] as String,
-    creationTime: unixTimestampFromJson(json['CreationTime']),
-    lastModifiedTime: unixTimestampFromJson(json['LastModifiedTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
+    lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
     gitConfig: json['GitConfig'] == null
         ? null
         : GitConfig.fromJson(json['GitConfig'] as Map<String, dynamic>),
@@ -890,10 +890,10 @@ CompilationJobSummary _$CompilationJobSummaryFromJson(
         _$CompilationJobStatusEnumMap, json['CompilationJobStatus']),
     compilationTargetDevice: _$enumDecodeNullable(
         _$TargetDeviceEnumMap, json['CompilationTargetDevice']),
-    creationTime: unixTimestampFromJson(json['CreationTime']),
-    compilationEndTime: unixTimestampFromJson(json['CompilationEndTime']),
-    compilationStartTime: unixTimestampFromJson(json['CompilationStartTime']),
-    lastModifiedTime: unixTimestampFromJson(json['LastModifiedTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
+    compilationEndTime: timeStampFromJson(json['CompilationEndTime']),
+    compilationStartTime: timeStampFromJson(json['CompilationStartTime']),
+    lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
   );
 }
 
@@ -1437,7 +1437,7 @@ const _$ProcessingInstanceTypeEnumMap = {
 DebugRuleEvaluationStatus _$DebugRuleEvaluationStatusFromJson(
     Map<String, dynamic> json) {
   return DebugRuleEvaluationStatus(
-    lastModifiedTime: unixTimestampFromJson(json['LastModifiedTime']),
+    lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
     ruleConfigurationName: json['RuleConfigurationName'] as String,
     ruleEvaluationJobArn: json['RuleEvaluationJobArn'] as String,
     ruleEvaluationStatus: _$enumDecodeNullable(
@@ -1493,7 +1493,7 @@ DeleteWorkteamResponse _$DeleteWorkteamResponseFromJson(
 
 DeployedImage _$DeployedImageFromJson(Map<String, dynamic> json) {
   return DeployedImage(
-    resolutionTime: unixTimestampFromJson(json['ResolutionTime']),
+    resolutionTime: timeStampFromJson(json['ResolutionTime']),
     resolvedImage: json['ResolvedImage'] as String,
     specifiedImage: json['SpecifiedImage'] as String,
   );
@@ -1510,7 +1510,7 @@ DescribeAlgorithmOutput _$DescribeAlgorithmOutputFromJson(
         ? null
         : AlgorithmStatusDetails.fromJson(
             json['AlgorithmStatusDetails'] as Map<String, dynamic>),
-    creationTime: unixTimestampFromJson(json['CreationTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
     trainingSpecification: json['TrainingSpecification'] == null
         ? null
         : TrainingSpecification.fromJson(
@@ -1534,13 +1534,13 @@ DescribeAppResponse _$DescribeAppResponseFromJson(Map<String, dynamic> json) {
     appArn: json['AppArn'] as String,
     appName: json['AppName'] as String,
     appType: _$enumDecodeNullable(_$AppTypeEnumMap, json['AppType']),
-    creationTime: unixTimestampFromJson(json['CreationTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
     domainId: json['DomainId'] as String,
     failureReason: json['FailureReason'] as String,
     lastHealthCheckTimestamp:
-        unixTimestampFromJson(json['LastHealthCheckTimestamp']),
+        timeStampFromJson(json['LastHealthCheckTimestamp']),
     lastUserActivityTimestamp:
-        unixTimestampFromJson(json['LastUserActivityTimestamp']),
+        timeStampFromJson(json['LastUserActivityTimestamp']),
     resourceSpec: json['ResourceSpec'] == null
         ? null
         : ResourceSpec.fromJson(json['ResourceSpec'] as Map<String, dynamic>),
@@ -1558,13 +1558,13 @@ DescribeAutoMLJobResponse _$DescribeAutoMLJobResponseFromJson(
         _$AutoMLJobSecondaryStatusEnumMap, json['AutoMLJobSecondaryStatus']),
     autoMLJobStatus:
         _$enumDecodeNullable(_$AutoMLJobStatusEnumMap, json['AutoMLJobStatus']),
-    creationTime: unixTimestampFromJson(json['CreationTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
     inputDataConfig: (json['InputDataConfig'] as List)
         ?.map((e) => e == null
             ? null
             : AutoMLChannel.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    lastModifiedTime: unixTimestampFromJson(json['LastModifiedTime']),
+    lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
     outputDataConfig: json['OutputDataConfig'] == null
         ? null
         : AutoMLOutputDataConfig.fromJson(
@@ -1586,7 +1586,7 @@ DescribeAutoMLJobResponse _$DescribeAutoMLJobResponseFromJson(
         ? null
         : AutoMLCandidate.fromJson(
             json['BestCandidate'] as Map<String, dynamic>),
-    endTime: unixTimestampFromJson(json['EndTime']),
+    endTime: timeStampFromJson(json['EndTime']),
     failureReason: json['FailureReason'] as String,
     generateCandidateDefinitionsOnly:
         json['GenerateCandidateDefinitionsOnly'] as bool,
@@ -1610,8 +1610,8 @@ DescribeCodeRepositoryOutput _$DescribeCodeRepositoryOutputFromJson(
   return DescribeCodeRepositoryOutput(
     codeRepositoryArn: json['CodeRepositoryArn'] as String,
     codeRepositoryName: json['CodeRepositoryName'] as String,
-    creationTime: unixTimestampFromJson(json['CreationTime']),
-    lastModifiedTime: unixTimestampFromJson(json['LastModifiedTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
+    lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
     gitConfig: json['GitConfig'] == null
         ? null
         : GitConfig.fromJson(json['GitConfig'] as Map<String, dynamic>),
@@ -1625,12 +1625,12 @@ DescribeCompilationJobResponse _$DescribeCompilationJobResponseFromJson(
     compilationJobName: json['CompilationJobName'] as String,
     compilationJobStatus: _$enumDecodeNullable(
         _$CompilationJobStatusEnumMap, json['CompilationJobStatus']),
-    creationTime: unixTimestampFromJson(json['CreationTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
     failureReason: json['FailureReason'] as String,
     inputConfig: json['InputConfig'] == null
         ? null
         : InputConfig.fromJson(json['InputConfig'] as Map<String, dynamic>),
-    lastModifiedTime: unixTimestampFromJson(json['LastModifiedTime']),
+    lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
     modelArtifacts: json['ModelArtifacts'] == null
         ? null
         : ModelArtifacts.fromJson(
@@ -1643,8 +1643,8 @@ DescribeCompilationJobResponse _$DescribeCompilationJobResponseFromJson(
         ? null
         : StoppingCondition.fromJson(
             json['StoppingCondition'] as Map<String, dynamic>),
-    compilationEndTime: unixTimestampFromJson(json['CompilationEndTime']),
-    compilationStartTime: unixTimestampFromJson(json['CompilationStartTime']),
+    compilationEndTime: timeStampFromJson(json['CompilationEndTime']),
+    compilationStartTime: timeStampFromJson(json['CompilationStartTime']),
   );
 }
 
@@ -1652,7 +1652,7 @@ DescribeDomainResponse _$DescribeDomainResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeDomainResponse(
     authMode: _$enumDecodeNullable(_$AuthModeEnumMap, json['AuthMode']),
-    creationTime: unixTimestampFromJson(json['CreationTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
     defaultUserSettings: json['DefaultUserSettings'] == null
         ? null
         : UserSettings.fromJson(
@@ -1663,7 +1663,7 @@ DescribeDomainResponse _$DescribeDomainResponseFromJson(
     failureReason: json['FailureReason'] as String,
     homeEfsFileSystemId: json['HomeEfsFileSystemId'] as String,
     homeEfsFileSystemKmsKeyId: json['HomeEfsFileSystemKmsKeyId'] as String,
-    lastModifiedTime: unixTimestampFromJson(json['LastModifiedTime']),
+    lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
     singleSignOnManagedApplicationInstanceId:
         json['SingleSignOnManagedApplicationInstanceId'] as String,
     status: _$enumDecodeNullable(_$DomainStatusEnumMap, json['Status']),
@@ -1688,7 +1688,7 @@ const _$DomainStatusEnumMap = {
 DescribeEndpointConfigOutput _$DescribeEndpointConfigOutputFromJson(
     Map<String, dynamic> json) {
   return DescribeEndpointConfigOutput(
-    creationTime: unixTimestampFromJson(json['CreationTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
     endpointConfigArn: json['EndpointConfigArn'] as String,
     endpointConfigName: json['EndpointConfigName'] as String,
     productionVariants: (json['ProductionVariants'] as List)
@@ -1707,13 +1707,13 @@ DescribeEndpointConfigOutput _$DescribeEndpointConfigOutputFromJson(
 DescribeEndpointOutput _$DescribeEndpointOutputFromJson(
     Map<String, dynamic> json) {
   return DescribeEndpointOutput(
-    creationTime: unixTimestampFromJson(json['CreationTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
     endpointArn: json['EndpointArn'] as String,
     endpointConfigName: json['EndpointConfigName'] as String,
     endpointName: json['EndpointName'] as String,
     endpointStatus:
         _$enumDecodeNullable(_$EndpointStatusEnumMap, json['EndpointStatus']),
-    lastModifiedTime: unixTimestampFromJson(json['LastModifiedTime']),
+    lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
     dataCaptureConfig: json['DataCaptureConfig'] == null
         ? null
         : DataCaptureConfigSummary.fromJson(
@@ -1744,7 +1744,7 @@ DescribeExperimentResponse _$DescribeExperimentResponseFromJson(
     createdBy: json['CreatedBy'] == null
         ? null
         : UserContext.fromJson(json['CreatedBy'] as Map<String, dynamic>),
-    creationTime: unixTimestampFromJson(json['CreationTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
     description: json['Description'] as String,
     displayName: json['DisplayName'] as String,
     experimentArn: json['ExperimentArn'] as String,
@@ -1752,7 +1752,7 @@ DescribeExperimentResponse _$DescribeExperimentResponseFromJson(
     lastModifiedBy: json['LastModifiedBy'] == null
         ? null
         : UserContext.fromJson(json['LastModifiedBy'] as Map<String, dynamic>),
-    lastModifiedTime: unixTimestampFromJson(json['LastModifiedTime']),
+    lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
     source: json['Source'] == null
         ? null
         : ExperimentSource.fromJson(json['Source'] as Map<String, dynamic>),
@@ -1762,7 +1762,7 @@ DescribeExperimentResponse _$DescribeExperimentResponseFromJson(
 DescribeFlowDefinitionResponse _$DescribeFlowDefinitionResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeFlowDefinitionResponse(
-    creationTime: unixTimestampFromJson(json['CreationTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
     flowDefinitionArn: json['FlowDefinitionArn'] as String,
     flowDefinitionName: json['FlowDefinitionName'] as String,
     flowDefinitionStatus: _$enumDecodeNullable(
@@ -1798,7 +1798,7 @@ const _$FlowDefinitionStatusEnumMap = {
 DescribeHumanTaskUiResponse _$DescribeHumanTaskUiResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeHumanTaskUiResponse(
-    creationTime: unixTimestampFromJson(json['CreationTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
     humanTaskUiArn: json['HumanTaskUiArn'] as String,
     humanTaskUiName: json['HumanTaskUiName'] as String,
     uiTemplate: json['UiTemplate'] == null
@@ -1811,7 +1811,7 @@ DescribeHyperParameterTuningJobResponse
     _$DescribeHyperParameterTuningJobResponseFromJson(
         Map<String, dynamic> json) {
   return DescribeHyperParameterTuningJobResponse(
-    creationTime: unixTimestampFromJson(json['CreationTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
     hyperParameterTuningJobArn: json['HyperParameterTuningJobArn'] as String,
     hyperParameterTuningJobConfig: json['HyperParameterTuningJobConfig'] == null
         ? null
@@ -1835,8 +1835,8 @@ DescribeHyperParameterTuningJobResponse
             json['BestTrainingJob'] as Map<String, dynamic>),
     failureReason: json['FailureReason'] as String,
     hyperParameterTuningEndTime:
-        unixTimestampFromJson(json['HyperParameterTuningEndTime']),
-    lastModifiedTime: unixTimestampFromJson(json['LastModifiedTime']),
+        timeStampFromJson(json['HyperParameterTuningEndTime']),
+    lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
     overallBestTrainingJob: json['OverallBestTrainingJob'] == null
         ? null
         : HyperParameterTrainingJobSummary.fromJson(
@@ -1869,7 +1869,7 @@ const _$HyperParameterTuningJobStatusEnumMap = {
 DescribeLabelingJobResponse _$DescribeLabelingJobResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeLabelingJobResponse(
-    creationTime: unixTimestampFromJson(json['CreationTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
     humanTaskConfig: json['HumanTaskConfig'] == null
         ? null
         : HumanTaskConfig.fromJson(
@@ -1886,7 +1886,7 @@ DescribeLabelingJobResponse _$DescribeLabelingJobResponseFromJson(
     labelingJobName: json['LabelingJobName'] as String,
     labelingJobStatus: _$enumDecodeNullable(
         _$LabelingJobStatusEnumMap, json['LabelingJobStatus']),
-    lastModifiedTime: unixTimestampFromJson(json['LastModifiedTime']),
+    lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
     outputConfig: json['OutputConfig'] == null
         ? null
         : LabelingJobOutputConfig.fromJson(
@@ -1923,7 +1923,7 @@ const _$LabelingJobStatusEnumMap = {
 
 DescribeModelOutput _$DescribeModelOutputFromJson(Map<String, dynamic> json) {
   return DescribeModelOutput(
-    creationTime: unixTimestampFromJson(json['CreationTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
     executionRoleArn: json['ExecutionRoleArn'] as String,
     modelArn: json['ModelArn'] as String,
     modelName: json['ModelName'] as String,
@@ -1946,7 +1946,7 @@ DescribeModelOutput _$DescribeModelOutputFromJson(Map<String, dynamic> json) {
 DescribeModelPackageOutput _$DescribeModelPackageOutputFromJson(
     Map<String, dynamic> json) {
   return DescribeModelPackageOutput(
-    creationTime: unixTimestampFromJson(json['CreationTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
     modelPackageArn: json['ModelPackageArn'] as String,
     modelPackageName: json['ModelPackageName'] as String,
     modelPackageStatus: _$enumDecodeNullable(
@@ -1983,8 +1983,8 @@ const _$ModelPackageStatusEnumMap = {
 DescribeMonitoringScheduleResponse _$DescribeMonitoringScheduleResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeMonitoringScheduleResponse(
-    creationTime: unixTimestampFromJson(json['CreationTime']),
-    lastModifiedTime: unixTimestampFromJson(json['LastModifiedTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
+    lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
     monitoringScheduleArn: json['MonitoringScheduleArn'] as String,
     monitoringScheduleConfig: json['MonitoringScheduleConfig'] == null
         ? null
@@ -2014,8 +2014,8 @@ DescribeNotebookInstanceLifecycleConfigOutput
     _$DescribeNotebookInstanceLifecycleConfigOutputFromJson(
         Map<String, dynamic> json) {
   return DescribeNotebookInstanceLifecycleConfigOutput(
-    creationTime: unixTimestampFromJson(json['CreationTime']),
-    lastModifiedTime: unixTimestampFromJson(json['LastModifiedTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
+    lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
     notebookInstanceLifecycleConfigArn:
         json['NotebookInstanceLifecycleConfigArn'] as String,
     notebookInstanceLifecycleConfigName:
@@ -2043,7 +2043,7 @@ DescribeNotebookInstanceOutput _$DescribeNotebookInstanceOutputFromJson(
     additionalCodeRepositories: (json['AdditionalCodeRepositories'] as List)
         ?.map((e) => e as String)
         ?.toList(),
-    creationTime: unixTimestampFromJson(json['CreationTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
     defaultCodeRepository: json['DefaultCodeRepository'] as String,
     directInternetAccess: _$enumDecodeNullable(
         _$DirectInternetAccessEnumMap, json['DirectInternetAccess']),
@@ -2051,7 +2051,7 @@ DescribeNotebookInstanceOutput _$DescribeNotebookInstanceOutputFromJson(
     instanceType:
         _$enumDecodeNullable(_$InstanceTypeEnumMap, json['InstanceType']),
     kmsKeyId: json['KmsKeyId'] as String,
-    lastModifiedTime: unixTimestampFromJson(json['LastModifiedTime']),
+    lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
     networkInterfaceId: json['NetworkInterfaceId'] as String,
     notebookInstanceArn: json['NotebookInstanceArn'] as String,
     notebookInstanceLifecycleConfigName:
@@ -2146,7 +2146,7 @@ DescribeProcessingJobResponse _$DescribeProcessingJobResponseFromJson(
         ? null
         : AppSpecification.fromJson(
             json['AppSpecification'] as Map<String, dynamic>),
-    creationTime: unixTimestampFromJson(json['CreationTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
     processingJobArn: json['ProcessingJobArn'] as String,
     processingJobName: json['ProcessingJobName'] as String,
     processingJobStatus: _$enumDecodeNullable(
@@ -2165,12 +2165,12 @@ DescribeProcessingJobResponse _$DescribeProcessingJobResponseFromJson(
         : ExperimentConfig.fromJson(
             json['ExperimentConfig'] as Map<String, dynamic>),
     failureReason: json['FailureReason'] as String,
-    lastModifiedTime: unixTimestampFromJson(json['LastModifiedTime']),
+    lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
     monitoringScheduleArn: json['MonitoringScheduleArn'] as String,
     networkConfig: json['NetworkConfig'] == null
         ? null
         : NetworkConfig.fromJson(json['NetworkConfig'] as Map<String, dynamic>),
-    processingEndTime: unixTimestampFromJson(json['ProcessingEndTime']),
+    processingEndTime: timeStampFromJson(json['ProcessingEndTime']),
     processingInputs: (json['ProcessingInputs'] as List)
         ?.map((e) => e == null
             ? null
@@ -2180,7 +2180,7 @@ DescribeProcessingJobResponse _$DescribeProcessingJobResponseFromJson(
         ? null
         : ProcessingOutputConfig.fromJson(
             json['ProcessingOutputConfig'] as Map<String, dynamic>),
-    processingStartTime: unixTimestampFromJson(json['ProcessingStartTime']),
+    processingStartTime: timeStampFromJson(json['ProcessingStartTime']),
     roleArn: json['RoleArn'] as String,
     stoppingCondition: json['StoppingCondition'] == null
         ? null
@@ -2215,7 +2215,7 @@ DescribeTrainingJobResponse _$DescribeTrainingJobResponseFromJson(
         ? null
         : AlgorithmSpecification.fromJson(
             json['AlgorithmSpecification'] as Map<String, dynamic>),
-    creationTime: unixTimestampFromJson(json['CreationTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
     modelArtifacts: json['ModelArtifacts'] == null
         ? null
         : ModelArtifacts.fromJson(
@@ -2275,7 +2275,7 @@ DescribeTrainingJobResponse _$DescribeTrainingJobResponseFromJson(
             e == null ? null : Channel.fromJson(e as Map<String, dynamic>))
         ?.toList(),
     labelingJobArn: json['LabelingJobArn'] as String,
-    lastModifiedTime: unixTimestampFromJson(json['LastModifiedTime']),
+    lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
     outputDataConfig: json['OutputDataConfig'] == null
         ? null
         : OutputDataConfig.fromJson(
@@ -2290,8 +2290,8 @@ DescribeTrainingJobResponse _$DescribeTrainingJobResponseFromJson(
         ? null
         : TensorBoardOutputConfig.fromJson(
             json['TensorBoardOutputConfig'] as Map<String, dynamic>),
-    trainingEndTime: unixTimestampFromJson(json['TrainingEndTime']),
-    trainingStartTime: unixTimestampFromJson(json['TrainingStartTime']),
+    trainingEndTime: timeStampFromJson(json['TrainingEndTime']),
+    trainingStartTime: timeStampFromJson(json['TrainingStartTime']),
     trainingTimeInSeconds: json['TrainingTimeInSeconds'] as int,
     tuningJobArn: json['TuningJobArn'] as String,
     vpcConfig: json['VpcConfig'] == null
@@ -2328,7 +2328,7 @@ const _$TrainingJobStatusEnumMap = {
 DescribeTransformJobResponse _$DescribeTransformJobResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeTransformJobResponse(
-    creationTime: unixTimestampFromJson(json['CreationTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
     modelName: json['ModelName'] as String,
     transformInput: json['TransformInput'] == null
         ? null
@@ -2360,12 +2360,12 @@ DescribeTransformJobResponse _$DescribeTransformJobResponseFromJson(
     labelingJobArn: json['LabelingJobArn'] as String,
     maxConcurrentTransforms: json['MaxConcurrentTransforms'] as int,
     maxPayloadInMB: json['MaxPayloadInMB'] as int,
-    transformEndTime: unixTimestampFromJson(json['TransformEndTime']),
+    transformEndTime: timeStampFromJson(json['TransformEndTime']),
     transformOutput: json['TransformOutput'] == null
         ? null
         : TransformOutput.fromJson(
             json['TransformOutput'] as Map<String, dynamic>),
-    transformStartTime: unixTimestampFromJson(json['TransformStartTime']),
+    transformStartTime: timeStampFromJson(json['TransformStartTime']),
   );
 }
 
@@ -2388,9 +2388,9 @@ DescribeTrialComponentResponse _$DescribeTrialComponentResponseFromJson(
     createdBy: json['CreatedBy'] == null
         ? null
         : UserContext.fromJson(json['CreatedBy'] as Map<String, dynamic>),
-    creationTime: unixTimestampFromJson(json['CreationTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
     displayName: json['DisplayName'] as String,
-    endTime: unixTimestampFromJson(json['EndTime']),
+    endTime: timeStampFromJson(json['EndTime']),
     inputArtifacts: (json['InputArtifacts'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(
           k,
@@ -2401,7 +2401,7 @@ DescribeTrialComponentResponse _$DescribeTrialComponentResponseFromJson(
     lastModifiedBy: json['LastModifiedBy'] == null
         ? null
         : UserContext.fromJson(json['LastModifiedBy'] as Map<String, dynamic>),
-    lastModifiedTime: unixTimestampFromJson(json['LastModifiedTime']),
+    lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
     metrics: (json['Metrics'] as List)
         ?.map((e) => e == null
             ? null
@@ -2425,7 +2425,7 @@ DescribeTrialComponentResponse _$DescribeTrialComponentResponseFromJson(
     source: json['Source'] == null
         ? null
         : TrialComponentSource.fromJson(json['Source'] as Map<String, dynamic>),
-    startTime: unixTimestampFromJson(json['StartTime']),
+    startTime: timeStampFromJson(json['StartTime']),
     status: json['Status'] == null
         ? null
         : TrialComponentStatus.fromJson(json['Status'] as Map<String, dynamic>),
@@ -2440,13 +2440,13 @@ DescribeTrialResponse _$DescribeTrialResponseFromJson(
     createdBy: json['CreatedBy'] == null
         ? null
         : UserContext.fromJson(json['CreatedBy'] as Map<String, dynamic>),
-    creationTime: unixTimestampFromJson(json['CreationTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
     displayName: json['DisplayName'] as String,
     experimentName: json['ExperimentName'] as String,
     lastModifiedBy: json['LastModifiedBy'] == null
         ? null
         : UserContext.fromJson(json['LastModifiedBy'] as Map<String, dynamic>),
-    lastModifiedTime: unixTimestampFromJson(json['LastModifiedTime']),
+    lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
     source: json['Source'] == null
         ? null
         : TrialSource.fromJson(json['Source'] as Map<String, dynamic>),
@@ -2458,11 +2458,11 @@ DescribeTrialResponse _$DescribeTrialResponseFromJson(
 DescribeUserProfileResponse _$DescribeUserProfileResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeUserProfileResponse(
-    creationTime: unixTimestampFromJson(json['CreationTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
     domainId: json['DomainId'] as String,
     failureReason: json['FailureReason'] as String,
     homeEfsFileSystemUid: json['HomeEfsFileSystemUid'] as String,
-    lastModifiedTime: unixTimestampFromJson(json['LastModifiedTime']),
+    lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
     singleSignOnUserIdentifier: json['SingleSignOnUserIdentifier'] as String,
     singleSignOnUserValue: json['SingleSignOnUserValue'] as String,
     status: _$enumDecodeNullable(_$UserProfileStatusEnumMap, json['Status']),
@@ -2525,11 +2525,11 @@ DisassociateTrialComponentResponse _$DisassociateTrialComponentResponseFromJson(
 
 DomainDetails _$DomainDetailsFromJson(Map<String, dynamic> json) {
   return DomainDetails(
-    creationTime: unixTimestampFromJson(json['CreationTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
     domainArn: json['DomainArn'] as String,
     domainId: json['DomainId'] as String,
     domainName: json['DomainName'] as String,
-    lastModifiedTime: unixTimestampFromJson(json['LastModifiedTime']),
+    lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
     status: _$enumDecodeNullable(_$DomainStatusEnumMap, json['Status']),
     url: json['Url'] as String,
   );
@@ -2538,7 +2538,7 @@ DomainDetails _$DomainDetailsFromJson(Map<String, dynamic> json) {
 EndpointConfigSummary _$EndpointConfigSummaryFromJson(
     Map<String, dynamic> json) {
   return EndpointConfigSummary(
-    creationTime: unixTimestampFromJson(json['CreationTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
     endpointConfigArn: json['EndpointConfigArn'] as String,
     endpointConfigName: json['EndpointConfigName'] as String,
   );
@@ -2588,12 +2588,12 @@ const _$ProcessingS3InputModeEnumMap = {
 
 EndpointSummary _$EndpointSummaryFromJson(Map<String, dynamic> json) {
   return EndpointSummary(
-    creationTime: unixTimestampFromJson(json['CreationTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
     endpointArn: json['EndpointArn'] as String,
     endpointName: json['EndpointName'] as String,
     endpointStatus:
         _$enumDecodeNullable(_$EndpointStatusEnumMap, json['EndpointStatus']),
-    lastModifiedTime: unixTimestampFromJson(json['LastModifiedTime']),
+    lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
   );
 }
 
@@ -2602,7 +2602,7 @@ Experiment _$ExperimentFromJson(Map<String, dynamic> json) {
     createdBy: json['CreatedBy'] == null
         ? null
         : UserContext.fromJson(json['CreatedBy'] as Map<String, dynamic>),
-    creationTime: unixTimestampFromJson(json['CreationTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
     description: json['Description'] as String,
     displayName: json['DisplayName'] as String,
     experimentArn: json['ExperimentArn'] as String,
@@ -2610,7 +2610,7 @@ Experiment _$ExperimentFromJson(Map<String, dynamic> json) {
     lastModifiedBy: json['LastModifiedBy'] == null
         ? null
         : UserContext.fromJson(json['LastModifiedBy'] as Map<String, dynamic>),
-    lastModifiedTime: unixTimestampFromJson(json['LastModifiedTime']),
+    lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
     source: json['Source'] == null
         ? null
         : ExperimentSource.fromJson(json['Source'] as Map<String, dynamic>),
@@ -2652,7 +2652,7 @@ ExperimentSource _$ExperimentSourceFromJson(Map<String, dynamic> json) {
 
 ExperimentSummary _$ExperimentSummaryFromJson(Map<String, dynamic> json) {
   return ExperimentSummary(
-    creationTime: unixTimestampFromJson(json['CreationTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
     displayName: json['DisplayName'] as String,
     experimentArn: json['ExperimentArn'] as String,
     experimentName: json['ExperimentName'] as String,
@@ -2660,7 +2660,7 @@ ExperimentSummary _$ExperimentSummaryFromJson(Map<String, dynamic> json) {
         ? null
         : ExperimentSource.fromJson(
             json['ExperimentSource'] as Map<String, dynamic>),
-    lastModifiedTime: unixTimestampFromJson(json['LastModifiedTime']),
+    lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
   );
 }
 
@@ -2789,7 +2789,7 @@ Map<String, dynamic> _$FlowDefinitionOutputConfigToJson(
 FlowDefinitionSummary _$FlowDefinitionSummaryFromJson(
     Map<String, dynamic> json) {
   return FlowDefinitionSummary(
-    creationTime: unixTimestampFromJson(json['CreationTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
     flowDefinitionArn: json['FlowDefinitionArn'] as String,
     flowDefinitionName: json['FlowDefinitionName'] as String,
     flowDefinitionStatus: _$enumDecodeNullable(
@@ -3028,7 +3028,7 @@ Map<String, dynamic> _$HumanTaskConfigToJson(HumanTaskConfig instance) {
 
 HumanTaskUiSummary _$HumanTaskUiSummaryFromJson(Map<String, dynamic> json) {
   return HumanTaskUiSummary(
-    creationTime: unixTimestampFromJson(json['CreationTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
     humanTaskUiArn: json['HumanTaskUiArn'] as String,
     humanTaskUiName: json['HumanTaskUiName'] as String,
   );
@@ -3195,7 +3195,7 @@ Map<String, dynamic> _$HyperParameterTrainingJobDefinitionToJson(
 HyperParameterTrainingJobSummary _$HyperParameterTrainingJobSummaryFromJson(
     Map<String, dynamic> json) {
   return HyperParameterTrainingJobSummary(
-    creationTime: unixTimestampFromJson(json['CreationTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
     trainingJobArn: json['TrainingJobArn'] as String,
     trainingJobName: json['TrainingJobName'] as String,
     trainingJobStatus: _$enumDecodeNullable(
@@ -3213,9 +3213,9 @@ HyperParameterTrainingJobSummary _$HyperParameterTrainingJobSummaryFromJson(
                     as Map<String, dynamic>),
     objectiveStatus:
         _$enumDecodeNullable(_$ObjectiveStatusEnumMap, json['ObjectiveStatus']),
-    trainingEndTime: unixTimestampFromJson(json['TrainingEndTime']),
+    trainingEndTime: timeStampFromJson(json['TrainingEndTime']),
     trainingJobDefinitionName: json['TrainingJobDefinitionName'] as String,
-    trainingStartTime: unixTimestampFromJson(json['TrainingStartTime']),
+    trainingStartTime: timeStampFromJson(json['TrainingStartTime']),
     tuningJobName: json['TuningJobName'] as String,
   );
 }
@@ -3312,7 +3312,7 @@ Map<String, dynamic> _$HyperParameterTuningJobObjectiveToJson(
 HyperParameterTuningJobSummary _$HyperParameterTuningJobSummaryFromJson(
     Map<String, dynamic> json) {
   return HyperParameterTuningJobSummary(
-    creationTime: unixTimestampFromJson(json['CreationTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
     hyperParameterTuningJobArn: json['HyperParameterTuningJobArn'] as String,
     hyperParameterTuningJobName: json['HyperParameterTuningJobName'] as String,
     hyperParameterTuningJobStatus: _$enumDecodeNullable(
@@ -3329,8 +3329,8 @@ HyperParameterTuningJobSummary _$HyperParameterTuningJobSummaryFromJson(
         : TrainingJobStatusCounters.fromJson(
             json['TrainingJobStatusCounters'] as Map<String, dynamic>),
     hyperParameterTuningEndTime:
-        unixTimestampFromJson(json['HyperParameterTuningEndTime']),
-    lastModifiedTime: unixTimestampFromJson(json['LastModifiedTime']),
+        timeStampFromJson(json['HyperParameterTuningEndTime']),
+    lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
     resourceLimits: json['ResourceLimits'] == null
         ? null
         : ResourceLimits.fromJson(
@@ -3777,7 +3777,7 @@ Map<String, dynamic> _$LabelingJobDataSourceToJson(
 LabelingJobForWorkteamSummary _$LabelingJobForWorkteamSummaryFromJson(
     Map<String, dynamic> json) {
   return LabelingJobForWorkteamSummary(
-    creationTime: unixTimestampFromJson(json['CreationTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
     jobReferenceCode: json['JobReferenceCode'] as String,
     workRequesterAccountId: json['WorkRequesterAccountId'] as String,
     labelCounters: json['LabelCounters'] == null
@@ -3919,7 +3919,7 @@ Map<String, dynamic> _$LabelingJobStoppingConditionsToJson(
 
 LabelingJobSummary _$LabelingJobSummaryFromJson(Map<String, dynamic> json) {
   return LabelingJobSummary(
-    creationTime: unixTimestampFromJson(json['CreationTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
     labelCounters: json['LabelCounters'] == null
         ? null
         : LabelCounters.fromJson(json['LabelCounters'] as Map<String, dynamic>),
@@ -3927,7 +3927,7 @@ LabelingJobSummary _$LabelingJobSummaryFromJson(Map<String, dynamic> json) {
     labelingJobName: json['LabelingJobName'] as String,
     labelingJobStatus: _$enumDecodeNullable(
         _$LabelingJobStatusEnumMap, json['LabelingJobStatus']),
-    lastModifiedTime: unixTimestampFromJson(json['LastModifiedTime']),
+    lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
     preHumanTaskLambdaArn: json['PreHumanTaskLambdaArn'] as String,
     workteamArn: json['WorkteamArn'] as String,
     annotationConsolidationLambdaArn:
@@ -4336,7 +4336,7 @@ Map<String, dynamic> _$MemberDefinitionToJson(MemberDefinition instance) {
 MetricData _$MetricDataFromJson(Map<String, dynamic> json) {
   return MetricData(
     metricName: json['MetricName'] as String,
-    timestamp: unixTimestampFromJson(json['Timestamp']),
+    timestamp: timeStampFromJson(json['Timestamp']),
     value: (json['Value'] as num)?.toDouble(),
   );
 }
@@ -4432,7 +4432,7 @@ const _$DetailedModelPackageStatusEnumMap = {
 
 ModelPackageSummary _$ModelPackageSummaryFromJson(Map<String, dynamic> json) {
   return ModelPackageSummary(
-    creationTime: unixTimestampFromJson(json['CreationTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
     modelPackageArn: json['ModelPackageArn'] as String,
     modelPackageName: json['ModelPackageName'] as String,
     modelPackageStatus: _$enumDecodeNullable(
@@ -4498,7 +4498,7 @@ Map<String, dynamic> _$ModelPackageValidationSpecificationToJson(
 
 ModelSummary _$ModelSummaryFromJson(Map<String, dynamic> json) {
   return ModelSummary(
-    creationTime: unixTimestampFromJson(json['CreationTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
     modelArn: json['ModelArn'] as String,
     modelName: json['ModelName'] as String,
   );
@@ -4621,12 +4621,12 @@ Map<String, dynamic> _$MonitoringConstraintsResourceToJson(
 MonitoringExecutionSummary _$MonitoringExecutionSummaryFromJson(
     Map<String, dynamic> json) {
   return MonitoringExecutionSummary(
-    creationTime: unixTimestampFromJson(json['CreationTime']),
-    lastModifiedTime: unixTimestampFromJson(json['LastModifiedTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
+    lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
     monitoringExecutionStatus: _$enumDecodeNullable(
         _$ExecutionStatusEnumMap, json['MonitoringExecutionStatus']),
     monitoringScheduleName: json['MonitoringScheduleName'] as String,
-    scheduledTime: unixTimestampFromJson(json['ScheduledTime']),
+    scheduledTime: timeStampFromJson(json['ScheduledTime']),
     endpointName: json['EndpointName'] as String,
     failureReason: json['FailureReason'] as String,
     processingJobArn: json['ProcessingJobArn'] as String,
@@ -4861,8 +4861,8 @@ Map<String, dynamic> _$MonitoringScheduleConfigToJson(
 MonitoringScheduleSummary _$MonitoringScheduleSummaryFromJson(
     Map<String, dynamic> json) {
   return MonitoringScheduleSummary(
-    creationTime: unixTimestampFromJson(json['CreationTime']),
-    lastModifiedTime: unixTimestampFromJson(json['LastModifiedTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
+    lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
     monitoringScheduleArn: json['MonitoringScheduleArn'] as String,
     monitoringScheduleName: json['MonitoringScheduleName'] as String,
     monitoringScheduleStatus: _$enumDecodeNullable(
@@ -4958,8 +4958,8 @@ NotebookInstanceLifecycleConfigSummary
         json['NotebookInstanceLifecycleConfigArn'] as String,
     notebookInstanceLifecycleConfigName:
         json['NotebookInstanceLifecycleConfigName'] as String,
-    creationTime: unixTimestampFromJson(json['CreationTime']),
-    lastModifiedTime: unixTimestampFromJson(json['LastModifiedTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
+    lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
   );
 }
 
@@ -4992,11 +4992,11 @@ NotebookInstanceSummary _$NotebookInstanceSummaryFromJson(
     additionalCodeRepositories: (json['AdditionalCodeRepositories'] as List)
         ?.map((e) => e as String)
         ?.toList(),
-    creationTime: unixTimestampFromJson(json['CreationTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
     defaultCodeRepository: json['DefaultCodeRepository'] as String,
     instanceType:
         _$enumDecodeNullable(_$InstanceTypeEnumMap, json['InstanceType']),
-    lastModifiedTime: unixTimestampFromJson(json['LastModifiedTime']),
+    lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
     notebookInstanceLifecycleConfigName:
         json['NotebookInstanceLifecycleConfigName'] as String,
     notebookInstanceStatus: _$enumDecodeNullable(
@@ -5245,7 +5245,7 @@ ProcessingJob _$ProcessingJobFromJson(Map<String, dynamic> json) {
         : AppSpecification.fromJson(
             json['AppSpecification'] as Map<String, dynamic>),
     autoMLJobArn: json['AutoMLJobArn'] as String,
-    creationTime: unixTimestampFromJson(json['CreationTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
     environment: (json['Environment'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
@@ -5255,12 +5255,12 @@ ProcessingJob _$ProcessingJobFromJson(Map<String, dynamic> json) {
         : ExperimentConfig.fromJson(
             json['ExperimentConfig'] as Map<String, dynamic>),
     failureReason: json['FailureReason'] as String,
-    lastModifiedTime: unixTimestampFromJson(json['LastModifiedTime']),
+    lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
     monitoringScheduleArn: json['MonitoringScheduleArn'] as String,
     networkConfig: json['NetworkConfig'] == null
         ? null
         : NetworkConfig.fromJson(json['NetworkConfig'] as Map<String, dynamic>),
-    processingEndTime: unixTimestampFromJson(json['ProcessingEndTime']),
+    processingEndTime: timeStampFromJson(json['ProcessingEndTime']),
     processingInputs: (json['ProcessingInputs'] as List)
         ?.map((e) => e == null
             ? null
@@ -5278,7 +5278,7 @@ ProcessingJob _$ProcessingJobFromJson(Map<String, dynamic> json) {
         ? null
         : ProcessingResources.fromJson(
             json['ProcessingResources'] as Map<String, dynamic>),
-    processingStartTime: unixTimestampFromJson(json['ProcessingStartTime']),
+    processingStartTime: timeStampFromJson(json['ProcessingStartTime']),
     roleArn: json['RoleArn'] as String,
     stoppingCondition: json['StoppingCondition'] == null
         ? null
@@ -5293,15 +5293,15 @@ ProcessingJob _$ProcessingJobFromJson(Map<String, dynamic> json) {
 
 ProcessingJobSummary _$ProcessingJobSummaryFromJson(Map<String, dynamic> json) {
   return ProcessingJobSummary(
-    creationTime: unixTimestampFromJson(json['CreationTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
     processingJobArn: json['ProcessingJobArn'] as String,
     processingJobName: json['ProcessingJobName'] as String,
     processingJobStatus: _$enumDecodeNullable(
         _$ProcessingJobStatusEnumMap, json['ProcessingJobStatus']),
     exitMessage: json['ExitMessage'] as String,
     failureReason: json['FailureReason'] as String,
-    lastModifiedTime: unixTimestampFromJson(json['LastModifiedTime']),
-    processingEndTime: unixTimestampFromJson(json['ProcessingEndTime']),
+    lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+    processingEndTime: timeStampFromJson(json['ProcessingEndTime']),
   );
 }
 
@@ -5898,9 +5898,9 @@ SearchResponse _$SearchResponseFromJson(Map<String, dynamic> json) {
 SecondaryStatusTransition _$SecondaryStatusTransitionFromJson(
     Map<String, dynamic> json) {
   return SecondaryStatusTransition(
-    startTime: unixTimestampFromJson(json['StartTime']),
+    startTime: timeStampFromJson(json['StartTime']),
     status: _$enumDecodeNullable(_$SecondaryStatusEnumMap, json['Status']),
-    endTime: unixTimestampFromJson(json['EndTime']),
+    endTime: timeStampFromJson(json['EndTime']),
     statusMessage: json['StatusMessage'] as String,
   );
 }
@@ -6144,7 +6144,7 @@ TrainingJob _$TrainingJobFromJson(Map<String, dynamic> json) {
         ? null
         : CheckpointConfig.fromJson(
             json['CheckpointConfig'] as Map<String, dynamic>),
-    creationTime: unixTimestampFromJson(json['CreationTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
     debugHookConfig: json['DebugHookConfig'] == null
         ? null
         : DebugHookConfig.fromJson(
@@ -6180,7 +6180,7 @@ TrainingJob _$TrainingJobFromJson(Map<String, dynamic> json) {
             e == null ? null : Channel.fromJson(e as Map<String, dynamic>))
         ?.toList(),
     labelingJobArn: json['LabelingJobArn'] as String,
-    lastModifiedTime: unixTimestampFromJson(json['LastModifiedTime']),
+    lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
     modelArtifacts: json['ModelArtifacts'] == null
         ? null
         : ModelArtifacts.fromJson(
@@ -6212,12 +6212,12 @@ TrainingJob _$TrainingJobFromJson(Map<String, dynamic> json) {
         ? null
         : TensorBoardOutputConfig.fromJson(
             json['TensorBoardOutputConfig'] as Map<String, dynamic>),
-    trainingEndTime: unixTimestampFromJson(json['TrainingEndTime']),
+    trainingEndTime: timeStampFromJson(json['TrainingEndTime']),
     trainingJobArn: json['TrainingJobArn'] as String,
     trainingJobName: json['TrainingJobName'] as String,
     trainingJobStatus: _$enumDecodeNullable(
         _$TrainingJobStatusEnumMap, json['TrainingJobStatus']),
-    trainingStartTime: unixTimestampFromJson(json['TrainingStartTime']),
+    trainingStartTime: timeStampFromJson(json['TrainingStartTime']),
     trainingTimeInSeconds: json['TrainingTimeInSeconds'] as int,
     tuningJobArn: json['TuningJobArn'] as String,
     vpcConfig: json['VpcConfig'] == null
@@ -6287,13 +6287,13 @@ TrainingJobStatusCounters _$TrainingJobStatusCountersFromJson(
 
 TrainingJobSummary _$TrainingJobSummaryFromJson(Map<String, dynamic> json) {
   return TrainingJobSummary(
-    creationTime: unixTimestampFromJson(json['CreationTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
     trainingJobArn: json['TrainingJobArn'] as String,
     trainingJobName: json['TrainingJobName'] as String,
     trainingJobStatus: _$enumDecodeNullable(
         _$TrainingJobStatusEnumMap, json['TrainingJobStatus']),
-    lastModifiedTime: unixTimestampFromJson(json['LastModifiedTime']),
-    trainingEndTime: unixTimestampFromJson(json['TrainingEndTime']),
+    lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+    trainingEndTime: timeStampFromJson(json['TrainingEndTime']),
   );
 }
 
@@ -6471,14 +6471,14 @@ Map<String, dynamic> _$TransformJobDefinitionToJson(
 
 TransformJobSummary _$TransformJobSummaryFromJson(Map<String, dynamic> json) {
   return TransformJobSummary(
-    creationTime: unixTimestampFromJson(json['CreationTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
     transformJobArn: json['TransformJobArn'] as String,
     transformJobName: json['TransformJobName'] as String,
     transformJobStatus: _$enumDecodeNullable(
         _$TransformJobStatusEnumMap, json['TransformJobStatus']),
     failureReason: json['FailureReason'] as String,
-    lastModifiedTime: unixTimestampFromJson(json['LastModifiedTime']),
-    transformEndTime: unixTimestampFromJson(json['TransformEndTime']),
+    lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+    transformEndTime: timeStampFromJson(json['TransformEndTime']),
   );
 }
 
@@ -6566,13 +6566,13 @@ Trial _$TrialFromJson(Map<String, dynamic> json) {
     createdBy: json['CreatedBy'] == null
         ? null
         : UserContext.fromJson(json['CreatedBy'] as Map<String, dynamic>),
-    creationTime: unixTimestampFromJson(json['CreationTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
     displayName: json['DisplayName'] as String,
     experimentName: json['ExperimentName'] as String,
     lastModifiedBy: json['LastModifiedBy'] == null
         ? null
         : UserContext.fromJson(json['LastModifiedBy'] as Map<String, dynamic>),
-    lastModifiedTime: unixTimestampFromJson(json['LastModifiedTime']),
+    lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
     source: json['Source'] == null
         ? null
         : TrialSource.fromJson(json['Source'] as Map<String, dynamic>),
@@ -6594,9 +6594,9 @@ TrialComponent _$TrialComponentFromJson(Map<String, dynamic> json) {
     createdBy: json['CreatedBy'] == null
         ? null
         : UserContext.fromJson(json['CreatedBy'] as Map<String, dynamic>),
-    creationTime: unixTimestampFromJson(json['CreationTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
     displayName: json['DisplayName'] as String,
-    endTime: unixTimestampFromJson(json['EndTime']),
+    endTime: timeStampFromJson(json['EndTime']),
     inputArtifacts: (json['InputArtifacts'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(
           k,
@@ -6607,7 +6607,7 @@ TrialComponent _$TrialComponentFromJson(Map<String, dynamic> json) {
     lastModifiedBy: json['LastModifiedBy'] == null
         ? null
         : UserContext.fromJson(json['LastModifiedBy'] as Map<String, dynamic>),
-    lastModifiedTime: unixTimestampFromJson(json['LastModifiedTime']),
+    lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
     metrics: (json['Metrics'] as List)
         ?.map((e) => e == null
             ? null
@@ -6639,7 +6639,7 @@ TrialComponent _$TrialComponentFromJson(Map<String, dynamic> json) {
         ? null
         : TrialComponentSourceDetail.fromJson(
             json['SourceDetail'] as Map<String, dynamic>),
-    startTime: unixTimestampFromJson(json['StartTime']),
+    startTime: timeStampFromJson(json['StartTime']),
     status: json['Status'] == null
         ? null
         : TrialComponentStatus.fromJson(json['Status'] as Map<String, dynamic>),
@@ -6685,7 +6685,7 @@ TrialComponentMetricSummary _$TrialComponentMetricSummaryFromJson(
     min: (json['Min'] as num)?.toDouble(),
     sourceArn: json['SourceArn'] as String,
     stdDev: (json['StdDev'] as num)?.toDouble(),
-    timeStamp: unixTimestampFromJson(json['TimeStamp']),
+    timeStamp: timeStampFromJson(json['TimeStamp']),
   );
 }
 
@@ -6718,7 +6718,7 @@ TrialComponentSimpleSummary _$TrialComponentSimpleSummaryFromJson(
     createdBy: json['CreatedBy'] == null
         ? null
         : UserContext.fromJson(json['CreatedBy'] as Map<String, dynamic>),
-    creationTime: unixTimestampFromJson(json['CreationTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
     trialComponentArn: json['TrialComponentArn'] as String,
     trialComponentName: json['TrialComponentName'] as String,
     trialComponentSource: json['TrialComponentSource'] == null
@@ -6786,14 +6786,14 @@ TrialComponentSummary _$TrialComponentSummaryFromJson(
     createdBy: json['CreatedBy'] == null
         ? null
         : UserContext.fromJson(json['CreatedBy'] as Map<String, dynamic>),
-    creationTime: unixTimestampFromJson(json['CreationTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
     displayName: json['DisplayName'] as String,
-    endTime: unixTimestampFromJson(json['EndTime']),
+    endTime: timeStampFromJson(json['EndTime']),
     lastModifiedBy: json['LastModifiedBy'] == null
         ? null
         : UserContext.fromJson(json['LastModifiedBy'] as Map<String, dynamic>),
-    lastModifiedTime: unixTimestampFromJson(json['LastModifiedTime']),
-    startTime: unixTimestampFromJson(json['StartTime']),
+    lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+    startTime: timeStampFromJson(json['StartTime']),
     status: json['Status'] == null
         ? null
         : TrialComponentStatus.fromJson(json['Status'] as Map<String, dynamic>),
@@ -6815,9 +6815,9 @@ TrialSource _$TrialSourceFromJson(Map<String, dynamic> json) {
 
 TrialSummary _$TrialSummaryFromJson(Map<String, dynamic> json) {
   return TrialSummary(
-    creationTime: unixTimestampFromJson(json['CreationTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
     displayName: json['DisplayName'] as String,
-    lastModifiedTime: unixTimestampFromJson(json['LastModifiedTime']),
+    lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
     trialArn: json['TrialArn'] as String,
     trialName: json['TrialName'] as String,
     trialSource: json['TrialSource'] == null
@@ -7011,9 +7011,9 @@ UserContext _$UserContextFromJson(Map<String, dynamic> json) {
 
 UserProfileDetails _$UserProfileDetailsFromJson(Map<String, dynamic> json) {
   return UserProfileDetails(
-    creationTime: unixTimestampFromJson(json['CreationTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
     domainId: json['DomainId'] as String,
-    lastModifiedTime: unixTimestampFromJson(json['LastModifiedTime']),
+    lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
     status: _$enumDecodeNullable(_$UserProfileStatusEnumMap, json['Status']),
     userProfileName: json['UserProfileName'] as String,
   );
@@ -7110,7 +7110,7 @@ Workforce _$WorkforceFromJson(Map<String, dynamic> json) {
   return Workforce(
     workforceArn: json['WorkforceArn'] as String,
     workforceName: json['WorkforceName'] as String,
-    lastUpdatedDate: unixTimestampFromJson(json['LastUpdatedDate']),
+    lastUpdatedDate: timeStampFromJson(json['LastUpdatedDate']),
     sourceIpConfig: json['SourceIpConfig'] == null
         ? null
         : SourceIpConfig.fromJson(
@@ -7128,8 +7128,8 @@ Workteam _$WorkteamFromJson(Map<String, dynamic> json) {
         ?.toList(),
     workteamArn: json['WorkteamArn'] as String,
     workteamName: json['WorkteamName'] as String,
-    createDate: unixTimestampFromJson(json['CreateDate']),
-    lastUpdatedDate: unixTimestampFromJson(json['LastUpdatedDate']),
+    createDate: timeStampFromJson(json['CreateDate']),
+    lastUpdatedDate: timeStampFromJson(json['LastUpdatedDate']),
     notificationConfiguration: json['NotificationConfiguration'] == null
         ? null
         : NotificationConfiguration.fromJson(

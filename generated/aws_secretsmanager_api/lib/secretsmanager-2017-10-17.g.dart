@@ -34,7 +34,7 @@ DeleteResourcePolicyResponse _$DeleteResourcePolicyResponseFromJson(
 DeleteSecretResponse _$DeleteSecretResponseFromJson(Map<String, dynamic> json) {
   return DeleteSecretResponse(
     arn: json['ARN'] as String,
-    deletionDate: unixTimestampFromJson(json['DeletionDate']),
+    deletionDate: timeStampFromJson(json['DeletionDate']),
     name: json['Name'] as String,
   );
 }
@@ -43,12 +43,12 @@ DescribeSecretResponse _$DescribeSecretResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeSecretResponse(
     arn: json['ARN'] as String,
-    deletedDate: unixTimestampFromJson(json['DeletedDate']),
+    deletedDate: timeStampFromJson(json['DeletedDate']),
     description: json['Description'] as String,
     kmsKeyId: json['KmsKeyId'] as String,
-    lastAccessedDate: unixTimestampFromJson(json['LastAccessedDate']),
-    lastChangedDate: unixTimestampFromJson(json['LastChangedDate']),
-    lastRotatedDate: unixTimestampFromJson(json['LastRotatedDate']),
+    lastAccessedDate: timeStampFromJson(json['LastAccessedDate']),
+    lastChangedDate: timeStampFromJson(json['LastChangedDate']),
+    lastRotatedDate: timeStampFromJson(json['LastRotatedDate']),
     name: json['Name'] as String,
     owningService: json['OwningService'] as String,
     rotationEnabled: json['RotationEnabled'] as bool,
@@ -87,7 +87,7 @@ GetSecretValueResponse _$GetSecretValueResponseFromJson(
     Map<String, dynamic> json) {
   return GetSecretValueResponse(
     arn: json['ARN'] as String,
-    createdDate: unixTimestampFromJson(json['CreatedDate']),
+    createdDate: timeStampFromJson(json['CreatedDate']),
     name: json['Name'] as String,
     secretBinary:
         const Uint8ListConverter().fromJson(json['SecretBinary'] as String),
@@ -180,12 +180,12 @@ Map<String, dynamic> _$RotationRulesTypeToJson(RotationRulesType instance) {
 SecretListEntry _$SecretListEntryFromJson(Map<String, dynamic> json) {
   return SecretListEntry(
     arn: json['ARN'] as String,
-    deletedDate: unixTimestampFromJson(json['DeletedDate']),
+    deletedDate: timeStampFromJson(json['DeletedDate']),
     description: json['Description'] as String,
     kmsKeyId: json['KmsKeyId'] as String,
-    lastAccessedDate: unixTimestampFromJson(json['LastAccessedDate']),
-    lastChangedDate: unixTimestampFromJson(json['LastChangedDate']),
-    lastRotatedDate: unixTimestampFromJson(json['LastRotatedDate']),
+    lastAccessedDate: timeStampFromJson(json['LastAccessedDate']),
+    lastChangedDate: timeStampFromJson(json['LastChangedDate']),
+    lastRotatedDate: timeStampFromJson(json['LastRotatedDate']),
     name: json['Name'] as String,
     owningService: json['OwningService'] as String,
     rotationEnabled: json['RotationEnabled'] as bool,
@@ -207,8 +207,8 @@ SecretListEntry _$SecretListEntryFromJson(Map<String, dynamic> json) {
 SecretVersionsListEntry _$SecretVersionsListEntryFromJson(
     Map<String, dynamic> json) {
   return SecretVersionsListEntry(
-    createdDate: unixTimestampFromJson(json['CreatedDate']),
-    lastAccessedDate: unixTimestampFromJson(json['LastAccessedDate']),
+    createdDate: timeStampFromJson(json['CreatedDate']),
+    lastAccessedDate: timeStampFromJson(json['LastAccessedDate']),
     versionId: json['VersionId'] as String,
     versionStages:
         (json['VersionStages'] as List)?.map((e) => e as String)?.toList(),

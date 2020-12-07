@@ -99,14 +99,14 @@ Edge _$EdgeFromJson(Map<String, dynamic> json) {
         ?.map(
             (e) => e == null ? null : Alias.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    endTime: unixTimestampFromJson(json['EndTime']),
+    endTime: timeStampFromJson(json['EndTime']),
     referenceId: json['ReferenceId'] as int,
     responseTimeHistogram: (json['ResponseTimeHistogram'] as List)
         ?.map((e) => e == null
             ? null
             : HistogramEntry.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    startTime: unixTimestampFromJson(json['StartTime']),
+    startTime: timeStampFromJson(json['StartTime']),
     summaryStatistics: json['SummaryStatistics'] == null
         ? null
         : EdgeStatistics.fromJson(
@@ -328,7 +328,7 @@ GetSamplingStatisticSummariesResult
 GetSamplingTargetsResult _$GetSamplingTargetsResultFromJson(
     Map<String, dynamic> json) {
   return GetSamplingTargetsResult(
-    lastRuleModification: unixTimestampFromJson(json['LastRuleModification']),
+    lastRuleModification: timeStampFromJson(json['LastRuleModification']),
     samplingTargetDocuments: (json['SamplingTargetDocuments'] as List)
         ?.map((e) => e == null
             ? null
@@ -346,13 +346,13 @@ GetServiceGraphResult _$GetServiceGraphResultFromJson(
     Map<String, dynamic> json) {
   return GetServiceGraphResult(
     containsOldGroupVersions: json['ContainsOldGroupVersions'] as bool,
-    endTime: unixTimestampFromJson(json['EndTime']),
+    endTime: timeStampFromJson(json['EndTime']),
     nextToken: json['NextToken'] as String,
     services: (json['Services'] as List)
         ?.map((e) =>
             e == null ? null : Service.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    startTime: unixTimestampFromJson(json['StartTime']),
+    startTime: timeStampFromJson(json['StartTime']),
   );
 }
 
@@ -382,7 +382,7 @@ GetTraceGraphResult _$GetTraceGraphResultFromJson(Map<String, dynamic> json) {
 GetTraceSummariesResult _$GetTraceSummariesResultFromJson(
     Map<String, dynamic> json) {
   return GetTraceSummariesResult(
-    approximateTime: unixTimestampFromJson(json['ApproximateTime']),
+    approximateTime: timeStampFromJson(json['ApproximateTime']),
     nextToken: json['NextToken'] as String,
     traceSummaries: (json['TraceSummaries'] as List)
         ?.map((e) =>
@@ -554,8 +554,8 @@ Map<String, dynamic> _$SamplingRuleToJson(SamplingRule instance) {
 
 SamplingRuleRecord _$SamplingRuleRecordFromJson(Map<String, dynamic> json) {
   return SamplingRuleRecord(
-    createdAt: unixTimestampFromJson(json['CreatedAt']),
-    modifiedAt: unixTimestampFromJson(json['ModifiedAt']),
+    createdAt: timeStampFromJson(json['CreatedAt']),
+    modifiedAt: timeStampFromJson(json['ModifiedAt']),
     samplingRule: json['SamplingRule'] == null
         ? null
         : SamplingRule.fromJson(json['SamplingRule'] as Map<String, dynamic>),
@@ -593,7 +593,7 @@ SamplingStatisticSummary _$SamplingStatisticSummaryFromJson(
     requestCount: json['RequestCount'] as int,
     ruleName: json['RuleName'] as String,
     sampledCount: json['SampledCount'] as int,
-    timestamp: unixTimestampFromJson(json['Timestamp']),
+    timestamp: timeStampFromJson(json['Timestamp']),
   );
 }
 
@@ -641,7 +641,7 @@ SamplingTargetDocument _$SamplingTargetDocumentFromJson(
     fixedRate: (json['FixedRate'] as num)?.toDouble(),
     interval: json['Interval'] as int,
     reservoirQuota: json['ReservoirQuota'] as int,
-    reservoirQuotaTTL: unixTimestampFromJson(json['ReservoirQuotaTTL']),
+    reservoirQuotaTTL: timeStampFromJson(json['ReservoirQuotaTTL']),
     ruleName: json['RuleName'] as String,
   );
 }
@@ -665,7 +665,7 @@ Service _$ServiceFromJson(Map<String, dynamic> json) {
         ?.map(
             (e) => e == null ? null : Edge.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    endTime: unixTimestampFromJson(json['EndTime']),
+    endTime: timeStampFromJson(json['EndTime']),
     name: json['Name'] as String,
     names: (json['Names'] as List)?.map((e) => e as String)?.toList(),
     referenceId: json['ReferenceId'] as int,
@@ -675,7 +675,7 @@ Service _$ServiceFromJson(Map<String, dynamic> json) {
             : HistogramEntry.fromJson(e as Map<String, dynamic>))
         ?.toList(),
     root: json['Root'] as bool,
-    startTime: unixTimestampFromJson(json['StartTime']),
+    startTime: timeStampFromJson(json['StartTime']),
     state: json['State'] as String,
     summaryStatistics: json['SummaryStatistics'] == null
         ? null
@@ -745,7 +745,7 @@ TimeSeriesServiceStatistics _$TimeSeriesServiceStatisticsFromJson(
         ? null
         : ServiceStatistics.fromJson(
             json['ServiceSummaryStatistics'] as Map<String, dynamic>),
-    timestamp: unixTimestampFromJson(json['Timestamp']),
+    timestamp: timeStampFromJson(json['Timestamp']),
   );
 }
 
@@ -803,7 +803,7 @@ TraceSummary _$TraceSummaryFromJson(Map<String, dynamic> json) {
             : InstanceIdDetail.fromJson(e as Map<String, dynamic>))
         ?.toList(),
     isPartial: json['IsPartial'] as bool,
-    matchedEventTime: unixTimestampFromJson(json['MatchedEventTime']),
+    matchedEventTime: timeStampFromJson(json['MatchedEventTime']),
     resourceARNs: (json['ResourceARNs'] as List)
         ?.map((e) => e == null
             ? null

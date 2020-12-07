@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -2750,7 +2748,7 @@ class Namespace {
   /// represents Friday, January 26, 2018 12:11:30.087 AM.
   @_s.JsonKey(
       name: 'CreateDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createDate;
 
@@ -2894,7 +2892,7 @@ class NamespaceSummary {
   /// The date and time that the namespace was created.
   @_s.JsonKey(
       name: 'CreateDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createDate;
 
@@ -2959,7 +2957,7 @@ class Operation {
   /// AM.
   @_s.JsonKey(
       name: 'CreateDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createDate;
 
@@ -3052,7 +3050,7 @@ class Operation {
   /// 26, 2018 12:11:30.087 AM.
   @_s.JsonKey(
       name: 'UpdateDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime updateDate;
 
@@ -3306,7 +3304,7 @@ class Service {
   /// represents Friday, January 26, 2018 12:11:30.087 AM.
   @_s.JsonKey(
       name: 'CreateDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createDate;
 
@@ -3474,7 +3472,7 @@ class ServiceSummary {
   /// The date and time that the service was created.
   @_s.JsonKey(
       name: 'CreateDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createDate;
 

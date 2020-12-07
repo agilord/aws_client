@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -5860,7 +5858,7 @@ class Invitation {
 
   /// The timestamp of when the invitation was sent.
   @_s.JsonKey(
-      name: 'InvitedAt', fromJson: iso8601FromJson, toJson: iso8601ToJson)
+      name: 'InvitedAt', fromJson: timeStampFromJson, toJson: iso8601ToJson)
   final DateTime invitedAt;
 
   /// The current status of the association between the member and master
@@ -6182,7 +6180,7 @@ class Member {
   /// A timestamp for the date and time when the invitation was sent to the member
   /// account.
   @_s.JsonKey(
-      name: 'InvitedAt', fromJson: iso8601FromJson, toJson: iso8601ToJson)
+      name: 'InvitedAt', fromJson: timeStampFromJson, toJson: iso8601ToJson)
   final DateTime invitedAt;
 
   /// The AWS account ID of the Security Hub master account associated with this
@@ -6197,7 +6195,7 @@ class Member {
 
   /// The timestamp for the date and time when the member account was updated.
   @_s.JsonKey(
-      name: 'UpdatedAt', fromJson: iso8601FromJson, toJson: iso8601ToJson)
+      name: 'UpdatedAt', fromJson: timeStampFromJson, toJson: iso8601ToJson)
   final DateTime updatedAt;
 
   Member({
@@ -7057,7 +7055,7 @@ class StandardsControl {
   /// recently updated.
   @_s.JsonKey(
       name: 'ControlStatusUpdatedAt',
-      fromJson: iso8601FromJson,
+      fromJson: timeStampFromJson,
       toJson: iso8601ToJson)
   final DateTime controlStatusUpdatedAt;
 

@@ -46,8 +46,8 @@ Fragment _$FragmentFromJson(Map<String, dynamic> json) {
     fragmentLengthInMilliseconds: json['FragmentLengthInMilliseconds'] as int,
     fragmentNumber: json['FragmentNumber'] as String,
     fragmentSizeInBytes: json['FragmentSizeInBytes'] as int,
-    producerTimestamp: unixTimestampFromJson(json['ProducerTimestamp']),
-    serverTimestamp: unixTimestampFromJson(json['ServerTimestamp']),
+    producerTimestamp: timeStampFromJson(json['ProducerTimestamp']),
+    serverTimestamp: timeStampFromJson(json['ServerTimestamp']),
   );
 }
 

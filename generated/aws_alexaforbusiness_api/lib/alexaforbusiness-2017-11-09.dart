@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -5470,7 +5468,7 @@ class BusinessReport {
   /// The time of report delivery.
   @_s.JsonKey(
       name: 'DeliveryTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime deliveryTime;
 
@@ -6504,7 +6502,7 @@ class DeviceData {
   /// The time (in epoch) when the device data was created.
   @_s.JsonKey(
       name: 'CreatedTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdTime;
 
@@ -6585,7 +6583,7 @@ class DeviceEvent {
   /// The time (in epoch) when the event occurred.
   @_s.JsonKey(
       name: 'Timestamp',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime timestamp;
 
@@ -6639,7 +6637,7 @@ class DeviceNetworkProfileInfo {
   /// The time (in epoch) when the certificate expires.
   @_s.JsonKey(
       name: 'CertificateExpirationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime certificateExpirationTime;
 
@@ -6739,7 +6737,7 @@ class DeviceStatusInfo {
   /// The time (in epoch) when the device connection status changed.
   @_s.JsonKey(
       name: 'ConnectionStatusUpdatedTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime connectionStatusUpdatedTime;
 

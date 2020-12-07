@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -5888,7 +5886,7 @@ class CustomKeyStoresListEntry {
   /// The date and time when the custom key store was created.
   @_s.JsonKey(
       name: 'CreationDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDate;
 
@@ -6433,7 +6431,7 @@ class GetParametersForImportResponse {
   /// new ones.
   @_s.JsonKey(
       name: 'ParametersValidTo',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime parametersValidTo;
 
@@ -6610,7 +6608,7 @@ class GrantListEntry {
   /// The date and time when the grant was created.
   @_s.JsonKey(
       name: 'CreationDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDate;
 
@@ -6805,7 +6803,7 @@ class KeyMetadata {
   /// The date and time when the CMK was created.
   @_s.JsonKey(
       name: 'CreationDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDate;
 
@@ -6824,7 +6822,7 @@ class KeyMetadata {
   /// only when <code>KeyState</code> is <code>PendingDeletion</code>.
   @_s.JsonKey(
       name: 'DeletionDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime deletionDate;
 
@@ -6894,9 +6892,7 @@ class KeyMetadata {
   /// <code>EXTERNAL</code> and whose <code>ExpirationModel</code> is
   /// <code>KEY_MATERIAL_EXPIRES</code>, otherwise this value is omitted.
   @_s.JsonKey(
-      name: 'ValidTo',
-      fromJson: unixTimestampFromJson,
-      toJson: unixTimestampToJson)
+      name: 'ValidTo', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
   final DateTime validTo;
 
   KeyMetadata({
@@ -7208,7 +7204,7 @@ class ScheduleKeyDeletionResponse {
   /// The date and time after which AWS KMS deletes the customer master key (CMK).
   @_s.JsonKey(
       name: 'DeletionDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime deletionDate;
 

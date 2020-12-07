@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -1577,7 +1575,7 @@ class Principal {
   /// The time when the principal was associated with the resource share.
   @_s.JsonKey(
       name: 'creationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationTime;
 
@@ -1593,7 +1591,7 @@ class Principal {
   /// The time when the association was last updated.
   @_s.JsonKey(
       name: 'lastUpdatedTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedTime;
 
@@ -1668,14 +1666,14 @@ class Resource {
   /// The time when the resource was associated with the resource share.
   @_s.JsonKey(
       name: 'creationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationTime;
 
   /// The time when the association was last updated.
   @_s.JsonKey(
       name: 'lastUpdatedTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedTime;
 
@@ -1748,7 +1746,7 @@ class ResourceShare {
   /// The time when the resource share was created.
   @_s.JsonKey(
       name: 'creationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationTime;
 
@@ -1778,7 +1776,7 @@ class ResourceShare {
   /// The time when the resource share was last updated.
   @_s.JsonKey(
       name: 'lastUpdatedTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedTime;
 
@@ -1842,7 +1840,7 @@ class ResourceShareAssociation {
   /// The time when the association was created.
   @_s.JsonKey(
       name: 'creationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationTime;
 
@@ -1854,7 +1852,7 @@ class ResourceShareAssociation {
   /// The time when the association was last updated.
   @_s.JsonKey(
       name: 'lastUpdatedTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedTime;
 
@@ -1958,7 +1956,7 @@ class ResourceShareInvitation {
   /// The date and time when the invitation was sent.
   @_s.JsonKey(
       name: 'invitationTimestamp',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime invitationTimestamp;
 
@@ -2032,7 +2030,7 @@ class ResourceSharePermissionDetail {
   /// The date and time when the permission was created.
   @_s.JsonKey(
       name: 'creationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationTime;
 
@@ -2044,7 +2042,7 @@ class ResourceSharePermissionDetail {
   /// The date and time when the permission was last updated.
   @_s.JsonKey(
       name: 'lastUpdatedTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedTime;
 
@@ -2095,7 +2093,7 @@ class ResourceSharePermissionSummary {
   /// The date and time when the permission was created.
   @_s.JsonKey(
       name: 'creationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationTime;
 
@@ -2107,7 +2105,7 @@ class ResourceSharePermissionSummary {
   /// The date and time when the permission was last updated.
   @_s.JsonKey(
       name: 'lastUpdatedTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedTime;
 

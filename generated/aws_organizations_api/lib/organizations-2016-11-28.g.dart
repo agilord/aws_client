@@ -22,7 +22,7 @@ Account _$AccountFromJson(Map<String, dynamic> json) {
     id: json['Id'] as String,
     joinedMethod: _$enumDecodeNullable(
         _$AccountJoinedMethodEnumMap, json['JoinedMethod']),
-    joinedTimestamp: unixTimestampFromJson(json['JoinedTimestamp']),
+    joinedTimestamp: timeStampFromJson(json['JoinedTimestamp']),
     name: json['Name'] as String,
     status: _$enumDecodeNullable(_$AccountStatusEnumMap, json['Status']),
   );
@@ -105,12 +105,12 @@ CreateAccountStatus _$CreateAccountStatusFromJson(Map<String, dynamic> json) {
   return CreateAccountStatus(
     accountId: json['AccountId'] as String,
     accountName: json['AccountName'] as String,
-    completedTimestamp: unixTimestampFromJson(json['CompletedTimestamp']),
+    completedTimestamp: timeStampFromJson(json['CompletedTimestamp']),
     failureReason: _$enumDecodeNullable(
         _$CreateAccountFailureReasonEnumMap, json['FailureReason']),
     govCloudAccountId: json['GovCloudAccountId'] as String,
     id: json['Id'] as String,
-    requestedTimestamp: unixTimestampFromJson(json['RequestedTimestamp']),
+    requestedTimestamp: timeStampFromJson(json['RequestedTimestamp']),
     state: _$enumDecodeNullable(_$CreateAccountStateEnumMap, json['State']),
   );
 }
@@ -183,12 +183,12 @@ DelegatedAdministrator _$DelegatedAdministratorFromJson(
     Map<String, dynamic> json) {
   return DelegatedAdministrator(
     arn: json['Arn'] as String,
-    delegationEnabledDate: unixTimestampFromJson(json['DelegationEnabledDate']),
+    delegationEnabledDate: timeStampFromJson(json['DelegationEnabledDate']),
     email: json['Email'] as String,
     id: json['Id'] as String,
     joinedMethod: _$enumDecodeNullable(
         _$AccountJoinedMethodEnumMap, json['JoinedMethod']),
-    joinedTimestamp: unixTimestampFromJson(json['JoinedTimestamp']),
+    joinedTimestamp: timeStampFromJson(json['JoinedTimestamp']),
     name: json['Name'] as String,
     status: _$enumDecodeNullable(_$AccountStatusEnumMap, json['Status']),
   );
@@ -196,7 +196,7 @@ DelegatedAdministrator _$DelegatedAdministratorFromJson(
 
 DelegatedService _$DelegatedServiceFromJson(Map<String, dynamic> json) {
   return DelegatedService(
-    delegationEnabledDate: unixTimestampFromJson(json['DelegationEnabledDate']),
+    delegationEnabledDate: timeStampFromJson(json['DelegationEnabledDate']),
     servicePrincipal: json['ServicePrincipal'] as String,
   );
 }
@@ -278,7 +278,7 @@ DisablePolicyTypeResponse _$DisablePolicyTypeResponseFromJson(
 
 EffectivePolicy _$EffectivePolicyFromJson(Map<String, dynamic> json) {
   return EffectivePolicy(
-    lastUpdatedTimestamp: unixTimestampFromJson(json['LastUpdatedTimestamp']),
+    lastUpdatedTimestamp: timeStampFromJson(json['LastUpdatedTimestamp']),
     policyContent: json['PolicyContent'] as String,
     policyType:
         _$enumDecodeNullable(_$EffectivePolicyTypeEnumMap, json['PolicyType']),
@@ -311,7 +311,7 @@ EnablePolicyTypeResponse _$EnablePolicyTypeResponseFromJson(
 EnabledServicePrincipal _$EnabledServicePrincipalFromJson(
     Map<String, dynamic> json) {
   return EnabledServicePrincipal(
-    dateEnabled: unixTimestampFromJson(json['DateEnabled']),
+    dateEnabled: timeStampFromJson(json['DateEnabled']),
     servicePrincipal: json['ServicePrincipal'] as String,
   );
 }
@@ -320,14 +320,14 @@ Handshake _$HandshakeFromJson(Map<String, dynamic> json) {
   return Handshake(
     action: _$enumDecodeNullable(_$ActionTypeEnumMap, json['Action']),
     arn: json['Arn'] as String,
-    expirationTimestamp: unixTimestampFromJson(json['ExpirationTimestamp']),
+    expirationTimestamp: timeStampFromJson(json['ExpirationTimestamp']),
     id: json['Id'] as String,
     parties: (json['Parties'] as List)
         ?.map((e) => e == null
             ? null
             : HandshakeParty.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    requestedTimestamp: unixTimestampFromJson(json['RequestedTimestamp']),
+    requestedTimestamp: timeStampFromJson(json['RequestedTimestamp']),
     resources: (json['Resources'] as List)
         ?.map((e) => e == null
             ? null

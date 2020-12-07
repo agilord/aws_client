@@ -90,12 +90,12 @@ ConcurrentModificationException _$ConcurrentModificationExceptionFromJson(
 
 Dataset _$DatasetFromJson(Map<String, dynamic> json) {
   return Dataset(
-    creationDate: unixTimestampFromJson(json['CreationDate']),
+    creationDate: timeStampFromJson(json['CreationDate']),
     dataStorage: json['DataStorage'] as int,
     datasetName: json['DatasetName'] as String,
     identityId: json['IdentityId'] as String,
     lastModifiedBy: json['LastModifiedBy'] as String,
-    lastModifiedDate: unixTimestampFromJson(json['LastModifiedDate']),
+    lastModifiedDate: timeStampFromJson(json['LastModifiedDate']),
     numRecords: json['NumRecords'] as int,
   );
 }
@@ -147,9 +147,8 @@ DuplicateRequestException _$DuplicateRequestExceptionFromJson(
 GetBulkPublishDetailsResponse _$GetBulkPublishDetailsResponseFromJson(
     Map<String, dynamic> json) {
   return GetBulkPublishDetailsResponse(
-    bulkPublishCompleteTime:
-        unixTimestampFromJson(json['BulkPublishCompleteTime']),
-    bulkPublishStartTime: unixTimestampFromJson(json['BulkPublishStartTime']),
+    bulkPublishCompleteTime: timeStampFromJson(json['BulkPublishCompleteTime']),
+    bulkPublishStartTime: timeStampFromJson(json['BulkPublishStartTime']),
     bulkPublishStatus: _$enumDecodeNullable(
         _$BulkPublishStatusEnumMap, json['BulkPublishStatus']),
     failureMessage: json['FailureMessage'] as String,
@@ -191,7 +190,7 @@ IdentityPoolUsage _$IdentityPoolUsageFromJson(Map<String, dynamic> json) {
   return IdentityPoolUsage(
     dataStorage: json['DataStorage'] as int,
     identityPoolId: json['IdentityPoolId'] as String,
-    lastModifiedDate: unixTimestampFromJson(json['LastModifiedDate']),
+    lastModifiedDate: timeStampFromJson(json['LastModifiedDate']),
     syncSessionsCount: json['SyncSessionsCount'] as int,
   );
 }
@@ -202,7 +201,7 @@ IdentityUsage _$IdentityUsageFromJson(Map<String, dynamic> json) {
     datasetCount: json['DatasetCount'] as int,
     identityId: json['IdentityId'] as String,
     identityPoolId: json['IdentityPoolId'] as String,
-    lastModifiedDate: unixTimestampFromJson(json['LastModifiedDate']),
+    lastModifiedDate: timeStampFromJson(json['LastModifiedDate']),
   );
 }
 
@@ -323,11 +322,10 @@ Map<String, dynamic> _$PushSyncToJson(PushSync instance) {
 
 Record _$RecordFromJson(Map<String, dynamic> json) {
   return Record(
-    deviceLastModifiedDate:
-        unixTimestampFromJson(json['DeviceLastModifiedDate']),
+    deviceLastModifiedDate: timeStampFromJson(json['DeviceLastModifiedDate']),
     key: json['Key'] as String,
     lastModifiedBy: json['LastModifiedBy'] as String,
-    lastModifiedDate: unixTimestampFromJson(json['LastModifiedDate']),
+    lastModifiedDate: timeStampFromJson(json['LastModifiedDate']),
     syncCount: json['SyncCount'] as int,
     value: json['Value'] as String,
   );

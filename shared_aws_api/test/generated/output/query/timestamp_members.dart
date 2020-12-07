@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 import 'timestamp_members.meta.dart';
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
@@ -76,9 +74,9 @@ class OutputShape {
           ?.let((e) => TimeContainer.fromXml(e)),
       timeArg: _s.extractXmlDateTimeValue(elem, 'TimeArg'),
       timeCustom: _s.extractXmlDateTimeValue(elem, 'TimeCustom',
-          parser: _s.rfc822FromJson),
+          parser: _s.timeStampFromJson),
       timeFormat: _s.extractXmlDateTimeValue(elem, 'TimeFormat',
-          parser: _s.unixTimestampFromJson),
+          parser: _s.timeStampFromJson),
     );
   }
 }
@@ -93,8 +91,8 @@ class TimeContainer {
   });
   factory TimeContainer.fromXml(_s.XmlElement elem) {
     return TimeContainer(
-      bar: _s.extractXmlDateTimeValue(elem, 'bar',
-          parser: _s.unixTimestampFromJson),
+      bar:
+          _s.extractXmlDateTimeValue(elem, 'bar', parser: _s.timeStampFromJson),
       foo: _s.extractXmlDateTimeValue(elem, 'foo'),
     );
   }

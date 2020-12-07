@@ -30,7 +30,7 @@ MeterUsageResult _$MeterUsageResultFromJson(Map<String, dynamic> json) {
 RegisterUsageResult _$RegisterUsageResultFromJson(Map<String, dynamic> json) {
   return RegisterUsageResult(
     publicKeyRotationTimestamp:
-        unixTimestampFromJson(json['PublicKeyRotationTimestamp']),
+        timeStampFromJson(json['PublicKeyRotationTimestamp']),
     signature: json['Signature'] as String,
   );
 }
@@ -47,7 +47,7 @@ UsageRecord _$UsageRecordFromJson(Map<String, dynamic> json) {
   return UsageRecord(
     customerIdentifier: json['CustomerIdentifier'] as String,
     dimension: json['Dimension'] as String,
-    timestamp: unixTimestampFromJson(json['Timestamp']),
+    timestamp: timeStampFromJson(json['Timestamp']),
     quantity: json['Quantity'] as int,
   );
 }

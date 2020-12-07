@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -8567,7 +8565,7 @@ class Job {
   /// The time, in Unix epoch format in seconds, when the job got created.
   @_s.JsonKey(
       name: 'createdAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdAt;
 
@@ -8883,7 +8881,7 @@ class JobTemplate {
   /// The timestamp in epoch seconds for Job template creation.
   @_s.JsonKey(
       name: 'createdAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdAt;
 
@@ -8898,7 +8896,7 @@ class JobTemplate {
   /// The timestamp in epoch seconds when the Job template was last updated.
   @_s.JsonKey(
       name: 'lastUpdated',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdated;
 
@@ -11761,7 +11759,7 @@ class Preset {
   /// The timestamp in epoch seconds for preset creation.
   @_s.JsonKey(
       name: 'createdAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdAt;
 
@@ -11772,7 +11770,7 @@ class Preset {
   /// The timestamp in epoch seconds when the preset was last updated.
   @_s.JsonKey(
       name: 'lastUpdated',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdated;
 
@@ -12114,7 +12112,7 @@ class Queue {
   /// The timestamp in epoch seconds for when you created the queue.
   @_s.JsonKey(
       name: 'createdAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdAt;
 
@@ -12125,7 +12123,7 @@ class Queue {
   /// The timestamp in epoch seconds for when you most recently updated the queue.
   @_s.JsonKey(
       name: 'lastUpdated',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdated;
 
@@ -12242,7 +12240,7 @@ class QueueTransition {
   /// the destination queue.
   @_s.JsonKey(
       name: 'timestamp',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime timestamp;
 
@@ -12356,7 +12354,7 @@ class ReservationPlan {
   /// this reserved queue expires.
   @_s.JsonKey(
       name: 'expiresAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime expiresAt;
 
@@ -12364,7 +12362,7 @@ class ReservationPlan {
   /// for this reserved queue.
   @_s.JsonKey(
       name: 'purchasedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime purchasedAt;
 
@@ -13175,21 +13173,21 @@ class Timing {
   /// The time, in Unix epoch format, that the transcoding job finished
   @_s.JsonKey(
       name: 'finishTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime finishTime;
 
   /// The time, in Unix epoch format, that transcoding for the job began.
   @_s.JsonKey(
       name: 'startTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime startTime;
 
   /// The time, in Unix epoch format, that you submitted the job.
   @_s.JsonKey(
       name: 'submitTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime submitTime;
 

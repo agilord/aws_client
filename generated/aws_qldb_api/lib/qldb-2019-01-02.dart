@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -883,7 +881,7 @@ class CreateLedgerResponse {
   /// 1970 UTC.)
   @_s.JsonKey(
       name: 'CreationDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDateTime;
 
@@ -951,7 +949,7 @@ class DescribeLedgerResponse {
   /// 1970 UTC.)
   @_s.JsonKey(
       name: 'CreationDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDateTime;
 
@@ -1103,7 +1101,7 @@ class JournalS3ExportDescription {
   /// specified in the original export request.
   @_s.JsonKey(
       name: 'ExclusiveEndTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime exclusiveEndTime;
 
@@ -1112,7 +1110,7 @@ class JournalS3ExportDescription {
   /// January 1, 1970 UTC.)
   @_s.JsonKey(
       name: 'ExportCreationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime exportCreationTime;
 
@@ -1124,7 +1122,7 @@ class JournalS3ExportDescription {
   /// specified in the original export request.
   @_s.JsonKey(
       name: 'InclusiveStartTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime inclusiveStartTime;
 
@@ -1191,7 +1189,7 @@ class LedgerSummary {
   /// 1970 UTC.)
   @_s.JsonKey(
       name: 'CreationDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDateTime;
 
@@ -1491,7 +1489,7 @@ class UpdateLedgerResponse {
   /// 1970 UTC.)
   @_s.JsonKey(
       name: 'CreationDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDateTime;
 

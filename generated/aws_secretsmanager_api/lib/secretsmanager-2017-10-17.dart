@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -2694,7 +2692,7 @@ class DeleteSecretResponse {
   /// <code>RecoveryWindowInDays</code>.
   @_s.JsonKey(
       name: 'DeletionDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime deletionDate;
 
@@ -2730,7 +2728,7 @@ class DescribeSecretResponse {
   /// deletion and restore access, use <a>RestoreSecret</a>.
   @_s.JsonKey(
       name: 'DeletedDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime deletedDate;
 
@@ -2750,14 +2748,14 @@ class DescribeSecretResponse {
   /// midnight of the date and therefore shows only the date, not the time.
   @_s.JsonKey(
       name: 'LastAccessedDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastAccessedDate;
 
   /// The last date and time that this secret was modified in any way.
   @_s.JsonKey(
       name: 'LastChangedDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastChangedDate;
 
@@ -2765,7 +2763,7 @@ class DescribeSecretResponse {
   /// successfully completed. This value is null if the secret has never rotated.
   @_s.JsonKey(
       name: 'LastRotatedDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastRotatedDate;
 
@@ -2898,7 +2896,7 @@ class GetSecretValueResponse {
   /// The date and time that this version of the secret was created.
   @_s.JsonKey(
       name: 'CreatedDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdDate;
 
@@ -3198,7 +3196,7 @@ class SecretListEntry {
   /// operation.
   @_s.JsonKey(
       name: 'DeletedDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime deletedDate;
 
@@ -3218,14 +3216,14 @@ class SecretListEntry {
   /// midnight of the date and therefore shows only the date, not the time.
   @_s.JsonKey(
       name: 'LastAccessedDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastAccessedDate;
 
   /// The last date and time that this secret was modified in any way.
   @_s.JsonKey(
       name: 'LastChangedDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastChangedDate;
 
@@ -3233,7 +3231,7 @@ class SecretListEntry {
   /// invoked.
   @_s.JsonKey(
       name: 'LastRotatedDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastRotatedDate;
 
@@ -3311,7 +3309,7 @@ class SecretVersionsListEntry {
   /// The date and time this version of the secret was created.
   @_s.JsonKey(
       name: 'CreatedDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdDate;
 
@@ -3319,7 +3317,7 @@ class SecretVersionsListEntry {
   /// resolution of this field is at the date level and does not include the time.
   @_s.JsonKey(
       name: 'LastAccessedDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastAccessedDate;
 

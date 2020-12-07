@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -1949,7 +1947,7 @@ class Deployment {
 
   /// The time the deployment completed.
   @_s.JsonKey(
-      name: 'CompletedAt', fromJson: iso8601FromJson, toJson: iso8601ToJson)
+      name: 'CompletedAt', fromJson: timeStampFromJson, toJson: iso8601ToJson)
   final DateTime completedAt;
 
   /// Information about the source location of the configuration.
@@ -2013,7 +2011,7 @@ class Deployment {
 
   /// The time the deployment started.
   @_s.JsonKey(
-      name: 'StartedAt', fromJson: iso8601FromJson, toJson: iso8601ToJson)
+      name: 'StartedAt', fromJson: timeStampFromJson, toJson: iso8601ToJson)
   final DateTime startedAt;
 
   /// The state of the deployment.
@@ -2066,7 +2064,7 @@ class DeploymentEvent {
 
   /// The date and time the event occurred.
   @_s.JsonKey(
-      name: 'OccurredAt', fromJson: iso8601FromJson, toJson: iso8601ToJson)
+      name: 'OccurredAt', fromJson: timeStampFromJson, toJson: iso8601ToJson)
   final DateTime occurredAt;
 
   /// The entity that triggered the deployment event. Events can be triggered by a
@@ -2200,7 +2198,7 @@ class DeploymentStrategy {
 class DeploymentSummary {
   /// Time the deployment completed.
   @_s.JsonKey(
-      name: 'CompletedAt', fromJson: iso8601FromJson, toJson: iso8601ToJson)
+      name: 'CompletedAt', fromJson: timeStampFromJson, toJson: iso8601ToJson)
   final DateTime completedAt;
 
   /// The name of the configuration.
@@ -2239,7 +2237,7 @@ class DeploymentSummary {
 
   /// Time the deployment started.
   @_s.JsonKey(
-      name: 'StartedAt', fromJson: iso8601FromJson, toJson: iso8601ToJson)
+      name: 'StartedAt', fromJson: timeStampFromJson, toJson: iso8601ToJson)
   final DateTime startedAt;
 
   /// The state of the deployment.

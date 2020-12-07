@@ -13,7 +13,7 @@ Account _$AccountFromJson(Map<String, dynamic> json) {
     name: json['Name'] as String,
     accountType:
         _$enumDecodeNullable(_$AccountTypeEnumMap, json['AccountType']),
-    createdTimestamp: iso8601FromJson(json['CreatedTimestamp'] as String),
+    createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
     defaultLicense:
         _$enumDecodeNullable(_$LicenseEnumMap, json['DefaultLicense']),
     signinDelegateGroups: (json['SigninDelegateGroups'] as List)
@@ -242,11 +242,11 @@ Bot _$BotFromJson(Map<String, dynamic> json) {
     botEmail: json['BotEmail'] as String,
     botId: json['BotId'] as String,
     botType: _$enumDecodeNullable(_$BotTypeEnumMap, json['BotType']),
-    createdTimestamp: iso8601FromJson(json['CreatedTimestamp'] as String),
+    createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
     disabled: json['Disabled'] as bool,
     displayName: json['DisplayName'] as String,
     securityToken: json['SecurityToken'] as String,
-    updatedTimestamp: iso8601FromJson(json['UpdatedTimestamp'] as String),
+    updatedTimestamp: timeStampFromJson(json['UpdatedTimestamp']),
     userId: json['UserId'] as String,
   );
 }
@@ -573,7 +573,7 @@ GetPhoneNumberSettingsResponse _$GetPhoneNumberSettingsResponseFromJson(
   return GetPhoneNumberSettingsResponse(
     callingName: json['CallingName'] as String,
     callingNameUpdatedTimestamp:
-        iso8601FromJson(json['CallingNameUpdatedTimestamp'] as String),
+        timeStampFromJson(json['CallingNameUpdatedTimestamp']),
   );
 }
 
@@ -1105,15 +1105,15 @@ PhoneNumber _$PhoneNumberFromJson(Map<String, dynamic> json) {
         ? null
         : PhoneNumberCapabilities.fromJson(
             json['Capabilities'] as Map<String, dynamic>),
-    createdTimestamp: iso8601FromJson(json['CreatedTimestamp'] as String),
-    deletionTimestamp: iso8601FromJson(json['DeletionTimestamp'] as String),
+    createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+    deletionTimestamp: timeStampFromJson(json['DeletionTimestamp']),
     e164PhoneNumber: json['E164PhoneNumber'] as String,
     phoneNumberId: json['PhoneNumberId'] as String,
     productType: _$enumDecodeNullable(
         _$PhoneNumberProductTypeEnumMap, json['ProductType']),
     status: _$enumDecodeNullable(_$PhoneNumberStatusEnumMap, json['Status']),
     type: _$enumDecodeNullable(_$PhoneNumberTypeEnumMap, json['Type']),
-    updatedTimestamp: iso8601FromJson(json['UpdatedTimestamp'] as String),
+    updatedTimestamp: timeStampFromJson(json['UpdatedTimestamp']),
   );
 }
 
@@ -1148,7 +1148,7 @@ const _$PhoneNumberTypeEnumMap = {
 PhoneNumberAssociation _$PhoneNumberAssociationFromJson(
     Map<String, dynamic> json) {
   return PhoneNumberAssociation(
-    associatedTimestamp: iso8601FromJson(json['AssociatedTimestamp'] as String),
+    associatedTimestamp: timeStampFromJson(json['AssociatedTimestamp']),
     name:
         _$enumDecodeNullable(_$PhoneNumberAssociationNameEnumMap, json['Name']),
     value: json['Value'] as String,
@@ -1184,7 +1184,7 @@ PhoneNumberError _$PhoneNumberErrorFromJson(Map<String, dynamic> json) {
 
 PhoneNumberOrder _$PhoneNumberOrderFromJson(Map<String, dynamic> json) {
   return PhoneNumberOrder(
-    createdTimestamp: iso8601FromJson(json['CreatedTimestamp'] as String),
+    createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
     orderedPhoneNumbers: (json['OrderedPhoneNumbers'] as List)
         ?.map((e) => e == null
             ? null
@@ -1195,7 +1195,7 @@ PhoneNumberOrder _$PhoneNumberOrderFromJson(Map<String, dynamic> json) {
         _$PhoneNumberProductTypeEnumMap, json['ProductType']),
     status:
         _$enumDecodeNullable(_$PhoneNumberOrderStatusEnumMap, json['Status']),
-    updatedTimestamp: iso8601FromJson(json['UpdatedTimestamp'] as String),
+    updatedTimestamp: timeStampFromJson(json['UpdatedTimestamp']),
   );
 }
 
@@ -1222,8 +1222,8 @@ ProxySession _$ProxySessionFromJson(Map<String, dynamic> json) {
     capabilities: (json['Capabilities'] as List)
         ?.map((e) => _$enumDecodeNullable(_$CapabilityEnumMap, e))
         ?.toList(),
-    createdTimestamp: iso8601FromJson(json['CreatedTimestamp'] as String),
-    endedTimestamp: iso8601FromJson(json['EndedTimestamp'] as String),
+    createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+    endedTimestamp: timeStampFromJson(json['EndedTimestamp']),
     expiryMinutes: json['ExpiryMinutes'] as int,
     geoMatchLevel:
         _$enumDecodeNullable(_$GeoMatchLevelEnumMap, json['GeoMatchLevel']),
@@ -1240,7 +1240,7 @@ ProxySession _$ProxySessionFromJson(Map<String, dynamic> json) {
         ?.toList(),
     proxySessionId: json['ProxySessionId'] as String,
     status: _$enumDecodeNullable(_$ProxySessionStatusEnumMap, json['Status']),
-    updatedTimestamp: iso8601FromJson(json['UpdatedTimestamp'] as String),
+    updatedTimestamp: timeStampFromJson(json['UpdatedTimestamp']),
     voiceConnectorId: json['VoiceConnectorId'] as String,
   );
 }
@@ -1356,10 +1356,10 @@ Room _$RoomFromJson(Map<String, dynamic> json) {
   return Room(
     accountId: json['AccountId'] as String,
     createdBy: json['CreatedBy'] as String,
-    createdTimestamp: iso8601FromJson(json['CreatedTimestamp'] as String),
+    createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
     name: json['Name'] as String,
     roomId: json['RoomId'] as String,
-    updatedTimestamp: iso8601FromJson(json['UpdatedTimestamp'] as String),
+    updatedTimestamp: timeStampFromJson(json['UpdatedTimestamp']),
   );
 }
 
@@ -1371,7 +1371,7 @@ RoomMembership _$RoomMembershipFromJson(Map<String, dynamic> json) {
         : Member.fromJson(json['Member'] as Map<String, dynamic>),
     role: _$enumDecodeNullable(_$RoomMembershipRoleEnumMap, json['Role']),
     roomId: json['RoomId'] as String,
-    updatedTimestamp: iso8601FromJson(json['UpdatedTimestamp'] as String),
+    updatedTimestamp: timeStampFromJson(json['UpdatedTimestamp']),
   );
 }
 
@@ -1501,7 +1501,7 @@ Map<String, dynamic> _$TerminationToJson(Termination instance) {
 TerminationHealth _$TerminationHealthFromJson(Map<String, dynamic> json) {
   return TerminationHealth(
     source: json['Source'] as String,
-    timestamp: iso8601FromJson(json['Timestamp'] as String),
+    timestamp: timeStampFromJson(json['Timestamp']),
   );
 }
 
@@ -1640,12 +1640,12 @@ User _$UserFromJson(Map<String, dynamic> json) {
         : AlexaForBusinessMetadata.fromJson(
             json['AlexaForBusinessMetadata'] as Map<String, dynamic>),
     displayName: json['DisplayName'] as String,
-    invitedOn: iso8601FromJson(json['InvitedOn'] as String),
+    invitedOn: timeStampFromJson(json['InvitedOn']),
     licenseType: _$enumDecodeNullable(_$LicenseEnumMap, json['LicenseType']),
     personalPIN: json['PersonalPIN'] as String,
     primaryEmail: json['PrimaryEmail'] as String,
     primaryProvisionedNumber: json['PrimaryProvisionedNumber'] as String,
-    registeredOn: iso8601FromJson(json['RegisteredOn'] as String),
+    registeredOn: timeStampFromJson(json['RegisteredOn']),
     userInvitationStatus: _$enumDecodeNullable(
         _$InviteStatusEnumMap, json['UserInvitationStatus']),
     userRegistrationStatus: _$enumDecodeNullable(
@@ -1693,11 +1693,11 @@ VoiceConnector _$VoiceConnectorFromJson(Map<String, dynamic> json) {
   return VoiceConnector(
     awsRegion: _$enumDecodeNullable(
         _$VoiceConnectorAwsRegionEnumMap, json['AwsRegion']),
-    createdTimestamp: iso8601FromJson(json['CreatedTimestamp'] as String),
+    createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
     name: json['Name'] as String,
     outboundHostName: json['OutboundHostName'] as String,
     requireEncryption: json['RequireEncryption'] as bool,
-    updatedTimestamp: iso8601FromJson(json['UpdatedTimestamp'] as String),
+    updatedTimestamp: timeStampFromJson(json['UpdatedTimestamp']),
     voiceConnectorId: json['VoiceConnectorId'] as String,
   );
 }
@@ -1709,9 +1709,9 @@ const _$VoiceConnectorAwsRegionEnumMap = {
 
 VoiceConnectorGroup _$VoiceConnectorGroupFromJson(Map<String, dynamic> json) {
   return VoiceConnectorGroup(
-    createdTimestamp: iso8601FromJson(json['CreatedTimestamp'] as String),
+    createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
     name: json['Name'] as String,
-    updatedTimestamp: iso8601FromJson(json['UpdatedTimestamp'] as String),
+    updatedTimestamp: timeStampFromJson(json['UpdatedTimestamp']),
     voiceConnectorGroupId: json['VoiceConnectorGroupId'] as String,
     voiceConnectorItems: (json['VoiceConnectorItems'] as List)
         ?.map((e) => e == null

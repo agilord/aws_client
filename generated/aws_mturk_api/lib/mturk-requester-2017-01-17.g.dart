@@ -18,18 +18,18 @@ ApproveAssignmentResponse _$ApproveAssignmentResponseFromJson(
 
 Assignment _$AssignmentFromJson(Map<String, dynamic> json) {
   return Assignment(
-    acceptTime: unixTimestampFromJson(json['AcceptTime']),
+    acceptTime: timeStampFromJson(json['AcceptTime']),
     answer: json['Answer'] as String,
-    approvalTime: unixTimestampFromJson(json['ApprovalTime']),
+    approvalTime: timeStampFromJson(json['ApprovalTime']),
     assignmentId: json['AssignmentId'] as String,
     assignmentStatus: _$enumDecodeNullable(
         _$AssignmentStatusEnumMap, json['AssignmentStatus']),
-    autoApprovalTime: unixTimestampFromJson(json['AutoApprovalTime']),
-    deadline: unixTimestampFromJson(json['Deadline']),
+    autoApprovalTime: timeStampFromJson(json['AutoApprovalTime']),
+    deadline: timeStampFromJson(json['Deadline']),
     hITId: json['HITId'] as String,
-    rejectionTime: unixTimestampFromJson(json['RejectionTime']),
+    rejectionTime: timeStampFromJson(json['RejectionTime']),
     requesterFeedback: json['RequesterFeedback'] as String,
-    submitTime: unixTimestampFromJson(json['SubmitTime']),
+    submitTime: timeStampFromJson(json['SubmitTime']),
     workerId: json['WorkerId'] as String,
   );
 }
@@ -82,7 +82,7 @@ BonusPayment _$BonusPaymentFromJson(Map<String, dynamic> json) {
   return BonusPayment(
     assignmentId: json['AssignmentId'] as String,
     bonusAmount: json['BonusAmount'] as String,
-    grantTime: unixTimestampFromJson(json['GrantTime']),
+    grantTime: timeStampFromJson(json['GrantTime']),
     reason: json['Reason'] as String,
     workerId: json['WorkerId'] as String,
   );
@@ -211,9 +211,9 @@ HIT _$HITFromJson(Map<String, dynamic> json) {
   return HIT(
     assignmentDurationInSeconds: json['AssignmentDurationInSeconds'] as int,
     autoApprovalDelayInSeconds: json['AutoApprovalDelayInSeconds'] as int,
-    creationTime: unixTimestampFromJson(json['CreationTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
     description: json['Description'] as String,
-    expiration: unixTimestampFromJson(json['Expiration']),
+    expiration: timeStampFromJson(json['Expiration']),
     hITGroupId: json['HITGroupId'] as String,
     hITId: json['HITId'] as String,
     hITLayoutId: json['HITLayoutId'] as String,
@@ -536,7 +536,7 @@ Map<String, dynamic> _$PolicyParameterToJson(PolicyParameter instance) {
 
 Qualification _$QualificationFromJson(Map<String, dynamic> json) {
   return Qualification(
-    grantTime: unixTimestampFromJson(json['GrantTime']),
+    grantTime: timeStampFromJson(json['GrantTime']),
     integerValue: json['IntegerValue'] as int,
     localeValue: json['LocaleValue'] == null
         ? null
@@ -557,7 +557,7 @@ QualificationRequest _$QualificationRequestFromJson(Map<String, dynamic> json) {
     answer: json['Answer'] as String,
     qualificationRequestId: json['QualificationRequestId'] as String,
     qualificationTypeId: json['QualificationTypeId'] as String,
-    submitTime: unixTimestampFromJson(json['SubmitTime']),
+    submitTime: timeStampFromJson(json['SubmitTime']),
     test: json['Test'] as String,
     workerId: json['WorkerId'] as String,
   );
@@ -625,7 +625,7 @@ QualificationType _$QualificationTypeFromJson(Map<String, dynamic> json) {
     answerKey: json['AnswerKey'] as String,
     autoGranted: json['AutoGranted'] as bool,
     autoGrantedValue: json['AutoGrantedValue'] as int,
-    creationTime: unixTimestampFromJson(json['CreationTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
     description: json['Description'] as String,
     isRequestable: json['IsRequestable'] as bool,
     keywords: json['Keywords'] as String,
@@ -665,7 +665,7 @@ ReviewActionDetail _$ReviewActionDetailFromJson(Map<String, dynamic> json) {
   return ReviewActionDetail(
     actionId: json['ActionId'] as String,
     actionName: json['ActionName'] as String,
-    completeTime: unixTimestampFromJson(json['CompleteTime']),
+    completeTime: timeStampFromJson(json['CompleteTime']),
     errorCode: json['ErrorCode'] as String,
     result: json['Result'] as String,
     status: _$enumDecodeNullable(_$ReviewActionStatusEnumMap, json['Status']),

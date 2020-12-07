@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -358,7 +356,7 @@ class DataPoint {
   /// The time, in epoch format, associated with a particular <code>Value</code>.
   @_s.JsonKey(
       name: 'Timestamp',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime timestamp;
 
@@ -386,7 +384,7 @@ class DescribeDimensionKeysResponse {
   /// the user-specified <code>Endtime</code>.
   @_s.JsonKey(
       name: 'AlignedEndTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime alignedEndTime;
 
@@ -396,7 +394,7 @@ class DescribeDimensionKeysResponse {
   /// user-specified <code>StartTime</code>.
   @_s.JsonKey(
       name: 'AlignedStartTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime alignedStartTime;
 
@@ -570,7 +568,7 @@ class GetResourceMetricsResponse {
   /// the user-specified <code>Endtime</code>.
   @_s.JsonKey(
       name: 'AlignedEndTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime alignedEndTime;
 
@@ -580,7 +578,7 @@ class GetResourceMetricsResponse {
   /// user-specified <code>StartTime</code>.
   @_s.JsonKey(
       name: 'AlignedStartTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime alignedStartTime;
 

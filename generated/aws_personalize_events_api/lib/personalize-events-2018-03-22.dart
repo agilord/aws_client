@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -141,9 +139,7 @@ class Event {
 
   /// The timestamp on the client side when the event occurred.
   @_s.JsonKey(
-      name: 'sentAt',
-      fromJson: unixTimestampFromJson,
-      toJson: unixTimestampToJson)
+      name: 'sentAt', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
   final DateTime sentAt;
 
   /// An ID associated with the event. If an event ID is not provided, Amazon

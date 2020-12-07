@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -1082,9 +1080,7 @@ class Edge {
 
   /// The end time of the last segment on the edge.
   @_s.JsonKey(
-      name: 'EndTime',
-      fromJson: unixTimestampFromJson,
-      toJson: unixTimestampToJson)
+      name: 'EndTime', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
   final DateTime endTime;
 
   /// Identifier of the edge. Unique within a service map.
@@ -1098,7 +1094,7 @@ class Edge {
   /// The start time of the first segment on the edge.
   @_s.JsonKey(
       name: 'StartTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime startTime;
 
@@ -1572,7 +1568,7 @@ class GetSamplingTargetsResult {
   /// service should call <a>GetSamplingRules</a> to get the latest version.
   @_s.JsonKey(
       name: 'LastRuleModification',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastRuleModification;
 
@@ -1608,9 +1604,7 @@ class GetServiceGraphResult {
 
   /// The end of the time frame for which the graph was generated.
   @_s.JsonKey(
-      name: 'EndTime',
-      fromJson: unixTimestampFromJson,
-      toJson: unixTimestampToJson)
+      name: 'EndTime', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
   final DateTime endTime;
 
   /// Pagination token.
@@ -1625,7 +1619,7 @@ class GetServiceGraphResult {
   /// The start of the time frame for which the graph was generated.
   @_s.JsonKey(
       name: 'StartTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime startTime;
 
@@ -1701,7 +1695,7 @@ class GetTraceSummariesResult {
   /// The start time of this page of results.
   @_s.JsonKey(
       name: 'ApproximateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime approximateTime;
 
@@ -2147,14 +2141,14 @@ class SamplingRuleRecord {
   /// When the rule was created.
   @_s.JsonKey(
       name: 'CreatedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdAt;
 
   /// When the rule was last modified.
   @_s.JsonKey(
       name: 'ModifiedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime modifiedAt;
 
@@ -2277,7 +2271,7 @@ class SamplingStatisticSummary {
   /// The start time of the reporting window.
   @_s.JsonKey(
       name: 'Timestamp',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime timestamp;
 
@@ -2320,7 +2314,7 @@ class SamplingStatisticsDocument {
   /// The current time.
   @_s.JsonKey(
       name: 'Timestamp',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime timestamp;
 
@@ -2395,7 +2389,7 @@ class SamplingTargetDocument {
   /// When the reservoir quota expires.
   @_s.JsonKey(
       name: 'ReservoirQuotaTTL',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime reservoirQuotaTTL;
 
@@ -2468,9 +2462,7 @@ class Service {
 
   /// The end time of the last segment that the service generated.
   @_s.JsonKey(
-      name: 'EndTime',
-      fromJson: unixTimestampFromJson,
-      toJson: unixTimestampToJson)
+      name: 'EndTime', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
   final DateTime endTime;
 
   /// The canonical name of the service.
@@ -2496,7 +2488,7 @@ class Service {
   /// The start time of the first segment that the service generated.
   @_s.JsonKey(
       name: 'StartTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime startTime;
 
@@ -2633,7 +2625,7 @@ class TelemetryRecord {
   /// <p/>
   @_s.JsonKey(
       name: 'Timestamp',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime timestamp;
 
@@ -2706,7 +2698,7 @@ class TimeSeriesServiceStatistics {
   /// Timestamp of the window for which statistics are aggregated.
   @_s.JsonKey(
       name: 'Timestamp',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime timestamp;
 
@@ -2817,7 +2809,7 @@ class TraceSummary {
   /// The matched time stamp of a defined event.
   @_s.JsonKey(
       name: 'MatchedEventTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime matchedEventTime;
 

@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -4757,7 +4755,7 @@ class ActivityTypeInfo {
   /// <a>RegisterActivityType</a>.
   @_s.JsonKey(
       name: 'creationDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDate;
 
@@ -4768,7 +4766,7 @@ class ActivityTypeInfo {
   /// If DEPRECATED, the date and time <a>DeprecateActivityType</a> was called.
   @_s.JsonKey(
       name: 'deprecationDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime deprecationDate;
 
@@ -6455,14 +6453,14 @@ class ExecutionTimeFilter {
   /// Specifies the oldest start or close date and time to return.
   @_s.JsonKey(
       name: 'oldestDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime oldestDate;
 
   /// Specifies the latest start or close date and time to return.
   @_s.JsonKey(
       name: 'latestDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime latestDate;
 
@@ -6875,7 +6873,7 @@ class HistoryEvent {
   /// The date and time when the event occurred.
   @_s.JsonKey(
       name: 'eventTimestamp',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime eventTimestamp;
 
@@ -9603,7 +9601,7 @@ class WorkflowExecutionDetail {
   /// corrective action.
   @_s.JsonKey(
       name: 'latestActivityTaskTimestamp',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime latestActivityTaskTimestamp;
 
@@ -9693,7 +9691,7 @@ class WorkflowExecutionInfo {
   /// The time when the execution was started.
   @_s.JsonKey(
       name: 'startTimestamp',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime startTimestamp;
 
@@ -9739,7 +9737,7 @@ class WorkflowExecutionInfo {
   /// status is CLOSED.
   @_s.JsonKey(
       name: 'closeTimestamp',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime closeTimestamp;
 
@@ -10318,7 +10316,7 @@ class WorkflowTypeInfo {
   /// The date when this type was registered.
   @_s.JsonKey(
       name: 'creationDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDate;
 
@@ -10334,7 +10332,7 @@ class WorkflowTypeInfo {
   /// was deprecated.
   @_s.JsonKey(
       name: 'deprecationDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime deprecationDate;
 

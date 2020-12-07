@@ -152,7 +152,7 @@ DescribeTagsResponse _$DescribeTagsResponseFromJson(Map<String, dynamic> json) {
 FileSystemDescription _$FileSystemDescriptionFromJson(
     Map<String, dynamic> json) {
   return FileSystemDescription(
-    creationTime: unixTimestampFromJson(json['CreationTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
     creationToken: json['CreationToken'] as String,
     fileSystemId: json['FileSystemId'] as String,
     lifeCycleState:
@@ -198,7 +198,7 @@ FileSystemPolicyDescription _$FileSystemPolicyDescriptionFromJson(
 FileSystemSize _$FileSystemSizeFromJson(Map<String, dynamic> json) {
   return FileSystemSize(
     value: json['Value'] as int,
-    timestamp: unixTimestampFromJson(json['Timestamp']),
+    timestamp: timeStampFromJson(json['Timestamp']),
     valueInIA: json['ValueInIA'] as int,
     valueInStandard: json['ValueInStandard'] as int,
   );

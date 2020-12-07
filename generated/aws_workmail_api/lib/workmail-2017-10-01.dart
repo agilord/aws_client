@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -2664,14 +2662,14 @@ class AccessControlRule {
   /// The date that the rule was created.
   @_s.JsonKey(
       name: 'DateCreated',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime dateCreated;
 
   /// The date that the rule was modified.
   @_s.JsonKey(
       name: 'DateModified',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime dateModified;
 
@@ -2975,7 +2973,7 @@ class DescribeGroupResponse {
   /// time format.
   @_s.JsonKey(
       name: 'DisabledDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime disabledDate;
 
@@ -2987,7 +2985,7 @@ class DescribeGroupResponse {
   /// format.
   @_s.JsonKey(
       name: 'EnabledDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime enabledDate;
 
@@ -3034,7 +3032,7 @@ class DescribeOrganizationResponse {
   /// UNIX epoch time format.
   @_s.JsonKey(
       name: 'CompletedDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime completedDate;
 
@@ -3093,7 +3091,7 @@ class DescribeResourceResponse {
   /// time format.
   @_s.JsonKey(
       name: 'DisabledDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime disabledDate;
 
@@ -3105,7 +3103,7 @@ class DescribeResourceResponse {
   /// time format.
   @_s.JsonKey(
       name: 'EnabledDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime enabledDate;
 
@@ -3150,7 +3148,7 @@ class DescribeUserResponse {
   /// in UNIX epoch time format.
   @_s.JsonKey(
       name: 'DisabledDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime disabledDate;
 
@@ -3166,7 +3164,7 @@ class DescribeUserResponse {
   /// in UNIX epoch time format.
   @_s.JsonKey(
       name: 'EnabledDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime enabledDate;
 
@@ -3293,7 +3291,7 @@ class Group {
   /// The date indicating when the group was disabled from Amazon WorkMail use.
   @_s.JsonKey(
       name: 'DisabledDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime disabledDate;
 
@@ -3304,7 +3302,7 @@ class Group {
   /// The date indicating when the group was enabled for Amazon WorkMail use.
   @_s.JsonKey(
       name: 'EnabledDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime enabledDate;
 
@@ -3562,14 +3560,14 @@ class Member {
   /// The date indicating when the member was disabled from Amazon WorkMail use.
   @_s.JsonKey(
       name: 'DisabledDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime disabledDate;
 
   /// The date indicating when the member was enabled for Amazon WorkMail use.
   @_s.JsonKey(
       name: 'EnabledDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime enabledDate;
 
@@ -3754,7 +3752,7 @@ class Resource {
   /// The date indicating when the resource was disabled from Amazon WorkMail use.
   @_s.JsonKey(
       name: 'DisabledDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime disabledDate;
 
@@ -3765,7 +3763,7 @@ class Resource {
   /// The date indicating when the resource was enabled for Amazon WorkMail use.
   @_s.JsonKey(
       name: 'EnabledDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime enabledDate;
 
@@ -3907,7 +3905,7 @@ class User {
   /// The date indicating when the user was disabled from Amazon WorkMail use.
   @_s.JsonKey(
       name: 'DisabledDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime disabledDate;
 
@@ -3922,7 +3920,7 @@ class User {
   /// The date indicating when the user was enabled for Amazon WorkMail use.
   @_s.JsonKey(
       name: 'EnabledDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime enabledDate;
 

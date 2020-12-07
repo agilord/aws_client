@@ -195,8 +195,7 @@ Stream _$StreamFromJson(Map<String, dynamic> json) {
 
 StreamDescription _$StreamDescriptionFromJson(Map<String, dynamic> json) {
   return StreamDescription(
-    creationRequestDateTime:
-        unixTimestampFromJson(json['CreationRequestDateTime']),
+    creationRequestDateTime: timeStampFromJson(json['CreationRequestDateTime']),
     keySchema: (json['KeySchema'] as List)
         ?.map((e) => e == null
             ? null
@@ -234,7 +233,7 @@ const _$StreamViewTypeEnumMap = {
 StreamRecord _$StreamRecordFromJson(Map<String, dynamic> json) {
   return StreamRecord(
     approximateCreationDateTime:
-        unixTimestampFromJson(json['ApproximateCreationDateTime']),
+        timeStampFromJson(json['ApproximateCreationDateTime']),
     keys: (json['Keys'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(
           k,

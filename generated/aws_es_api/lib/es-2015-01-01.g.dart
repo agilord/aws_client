@@ -383,7 +383,7 @@ DomainPackageDetails _$DomainPackageDetailsFromJson(Map<String, dynamic> json) {
     errorDetails: json['ErrorDetails'] == null
         ? null
         : ErrorDetails.fromJson(json['ErrorDetails'] as Map<String, dynamic>),
-    lastUpdated: unixTimestampFromJson(json['LastUpdated']),
+    lastUpdated: timeStampFromJson(json['LastUpdated']),
     packageID: json['PackageID'] as String,
     packageName: json['PackageName'] as String,
     packageType:
@@ -995,9 +995,9 @@ NodeToNodeEncryptionOptionsStatus _$NodeToNodeEncryptionOptionsStatusFromJson(
 
 OptionStatus _$OptionStatusFromJson(Map<String, dynamic> json) {
   return OptionStatus(
-    creationDate: unixTimestampFromJson(json['CreationDate']),
+    creationDate: timeStampFromJson(json['CreationDate']),
     state: _$enumDecodeNullable(_$OptionStateEnumMap, json['State']),
-    updateDate: unixTimestampFromJson(json['UpdateDate']),
+    updateDate: timeStampFromJson(json['UpdateDate']),
     pendingDeletion: json['PendingDeletion'] as bool,
     updateVersion: json['UpdateVersion'] as int,
   );
@@ -1011,7 +1011,7 @@ const _$OptionStateEnumMap = {
 
 PackageDetails _$PackageDetailsFromJson(Map<String, dynamic> json) {
   return PackageDetails(
-    createdAt: unixTimestampFromJson(json['CreatedAt']),
+    createdAt: timeStampFromJson(json['CreatedAt']),
     errorDetails: json['ErrorDetails'] == null
         ? null
         : ErrorDetails.fromJson(json['ErrorDetails'] as Map<String, dynamic>),
@@ -1089,7 +1089,7 @@ ReservedElasticsearchInstance _$ReservedElasticsearchInstanceFromJson(
         json['ReservedElasticsearchInstanceId'] as String,
     reservedElasticsearchInstanceOfferingId:
         json['ReservedElasticsearchInstanceOfferingId'] as String,
-    startTime: unixTimestampFromJson(json['StartTime']),
+    startTime: timeStampFromJson(json['StartTime']),
     state: json['State'] as String,
     usagePrice: (json['UsagePrice'] as num)?.toDouble(),
   );
@@ -1126,7 +1126,7 @@ ReservedElasticsearchInstanceOffering
 ServiceSoftwareOptions _$ServiceSoftwareOptionsFromJson(
     Map<String, dynamic> json) {
   return ServiceSoftwareOptions(
-    automatedUpdateDate: unixTimestampFromJson(json['AutomatedUpdateDate']),
+    automatedUpdateDate: timeStampFromJson(json['AutomatedUpdateDate']),
     cancellable: json['Cancellable'] as bool,
     currentVersion: json['CurrentVersion'] as String,
     description: json['Description'] as String,
@@ -1251,7 +1251,7 @@ UpgradeElasticsearchDomainResponse _$UpgradeElasticsearchDomainResponseFromJson(
 
 UpgradeHistory _$UpgradeHistoryFromJson(Map<String, dynamic> json) {
   return UpgradeHistory(
-    startTimestamp: unixTimestampFromJson(json['StartTimestamp']),
+    startTimestamp: timeStampFromJson(json['StartTimestamp']),
     stepsList: (json['StepsList'] as List)
         ?.map((e) => e == null
             ? null

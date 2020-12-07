@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -4292,7 +4290,7 @@ class DocumentClassificationJobFilter {
   /// returned in descending order, newest to oldest.
   @_s.JsonKey(
       name: 'SubmitTimeAfter',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime submitTimeAfter;
 
@@ -4301,7 +4299,7 @@ class DocumentClassificationJobFilter {
   /// returned in ascending order, oldest to newest.
   @_s.JsonKey(
       name: 'SubmitTimeBefore',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime submitTimeBefore;
 
@@ -4333,9 +4331,7 @@ class DocumentClassificationJobProperties {
 
   /// The time that the document classification job completed.
   @_s.JsonKey(
-      name: 'EndTime',
-      fromJson: unixTimestampFromJson,
-      toJson: unixTimestampToJson)
+      name: 'EndTime', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
   final DateTime endTime;
 
   /// The input data configuration that you supplied when you created the document
@@ -4369,7 +4365,7 @@ class DocumentClassificationJobProperties {
   /// The time that the document classification job was submitted for processing.
   @_s.JsonKey(
       name: 'SubmitTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime submitTime;
 
@@ -4436,7 +4432,7 @@ class DocumentClassifierFilter {
   /// oldest.
   @_s.JsonKey(
       name: 'SubmitTimeAfter',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime submitTimeAfter;
 
@@ -4446,7 +4442,7 @@ class DocumentClassifierFilter {
   /// newest.
   @_s.JsonKey(
       name: 'SubmitTimeBefore',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime submitTimeBefore;
 
@@ -4600,9 +4596,7 @@ class DocumentClassifierProperties {
 
   /// The time that training the document classifier completed.
   @_s.JsonKey(
-      name: 'EndTime',
-      fromJson: unixTimestampFromJson,
-      toJson: unixTimestampToJson)
+      name: 'EndTime', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
   final DateTime endTime;
 
   /// The input data configuration that you supplied when you created the document
@@ -4640,7 +4634,7 @@ class DocumentClassifierProperties {
   /// The time that the document classifier was submitted for training.
   @_s.JsonKey(
       name: 'SubmitTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime submitTime;
 
@@ -4650,7 +4644,7 @@ class DocumentClassifierProperties {
   /// TrainingStartTime.
   @_s.JsonKey(
       name: 'TrainingEndTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime trainingEndTime;
 
@@ -4659,7 +4653,7 @@ class DocumentClassifierProperties {
   /// TrainingEndTime.
   @_s.JsonKey(
       name: 'TrainingStartTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime trainingStartTime;
 
@@ -4783,7 +4777,7 @@ class DominantLanguageDetectionJobFilter {
   /// returned in descending order, newest to oldest.
   @_s.JsonKey(
       name: 'SubmitTimeAfter',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime submitTimeAfter;
 
@@ -4792,7 +4786,7 @@ class DominantLanguageDetectionJobFilter {
   /// returned in ascending order, oldest to newest.
   @_s.JsonKey(
       name: 'SubmitTimeBefore',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime submitTimeBefore;
 
@@ -4820,9 +4814,7 @@ class DominantLanguageDetectionJobProperties {
 
   /// The time that the dominant language detection job completed.
   @_s.JsonKey(
-      name: 'EndTime',
-      fromJson: unixTimestampFromJson,
-      toJson: unixTimestampToJson)
+      name: 'EndTime', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
   final DateTime endTime;
 
   /// The input data configuration that you supplied when you created the dominant
@@ -4857,7 +4849,7 @@ class DominantLanguageDetectionJobProperties {
   /// processing.
   @_s.JsonKey(
       name: 'SubmitTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime submitTime;
 
@@ -4917,7 +4909,7 @@ class EndpointFilter {
   /// created.
   @_s.JsonKey(
       name: 'CreationTimeAfter',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationTimeAfter;
 
@@ -4925,7 +4917,7 @@ class EndpointFilter {
   /// created.
   @_s.JsonKey(
       name: 'CreationTimeBefore',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationTimeBefore;
 
@@ -4958,7 +4950,7 @@ class EndpointProperties {
   /// The creation date and time of the endpoint.
   @_s.JsonKey(
       name: 'CreationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationTime;
 
@@ -4980,7 +4972,7 @@ class EndpointProperties {
   /// The date and time that the endpoint was last modified.
   @_s.JsonKey(
       name: 'LastModifiedTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastModifiedTime;
 
@@ -5048,7 +5040,7 @@ class EntitiesDetectionJobFilter {
   /// returned in descending order, newest to oldest.
   @_s.JsonKey(
       name: 'SubmitTimeAfter',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime submitTimeAfter;
 
@@ -5057,7 +5049,7 @@ class EntitiesDetectionJobFilter {
   /// returned in ascending order, oldest to newest.
   @_s.JsonKey(
       name: 'SubmitTimeBefore',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime submitTimeBefore;
 
@@ -5084,9 +5076,7 @@ class EntitiesDetectionJobProperties {
 
   /// The time that the entities detection job completed
   @_s.JsonKey(
-      name: 'EndTime',
-      fromJson: unixTimestampFromJson,
-      toJson: unixTimestampToJson)
+      name: 'EndTime', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
   final DateTime endTime;
 
   /// The Amazon Resource Name (ARN) that identifies the entity recognizer.
@@ -5128,7 +5118,7 @@ class EntitiesDetectionJobProperties {
   /// The time that the entities detection job was submitted for processing.
   @_s.JsonKey(
       name: 'SubmitTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime submitTime;
 
@@ -5342,7 +5332,7 @@ class EntityRecognizerFilter {
   /// are returned in ascending order, oldest to newest.
   @_s.JsonKey(
       name: 'SubmitTimeAfter',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime submitTimeAfter;
 
@@ -5351,7 +5341,7 @@ class EntityRecognizerFilter {
   /// are returned in descending order, newest to oldest.
   @_s.JsonKey(
       name: 'SubmitTimeBefore',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime submitTimeBefore;
 
@@ -5482,9 +5472,7 @@ class EntityRecognizerProperties {
 
   /// The time that the recognizer creation completed.
   @_s.JsonKey(
-      name: 'EndTime',
-      fromJson: unixTimestampFromJson,
-      toJson: unixTimestampToJson)
+      name: 'EndTime', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
   final DateTime endTime;
 
   /// The Amazon Resource Name (ARN) that identifies the entity recognizer.
@@ -5515,21 +5503,21 @@ class EntityRecognizerProperties {
   /// The time that the recognizer was submitted for processing.
   @_s.JsonKey(
       name: 'SubmitTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime submitTime;
 
   /// The time that training of the entity recognizer was completed.
   @_s.JsonKey(
       name: 'TrainingEndTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime trainingEndTime;
 
   /// The time that training of the entity recognizer started.
   @_s.JsonKey(
       name: 'TrainingStartTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime trainingStartTime;
 
@@ -5785,7 +5773,7 @@ class KeyPhrasesDetectionJobFilter {
   /// returned in descending order, newest to oldest.
   @_s.JsonKey(
       name: 'SubmitTimeAfter',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime submitTimeAfter;
 
@@ -5794,7 +5782,7 @@ class KeyPhrasesDetectionJobFilter {
   /// returned in ascending order, oldest to newest.
   @_s.JsonKey(
       name: 'SubmitTimeBefore',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime submitTimeBefore;
 
@@ -5821,9 +5809,7 @@ class KeyPhrasesDetectionJobProperties {
 
   /// The time that the key phrases detection job completed.
   @_s.JsonKey(
-      name: 'EndTime',
-      fromJson: unixTimestampFromJson,
-      toJson: unixTimestampToJson)
+      name: 'EndTime', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
   final DateTime endTime;
 
   /// The input data configuration that you supplied when you created the key
@@ -5861,7 +5847,7 @@ class KeyPhrasesDetectionJobProperties {
   /// The time that the key phrases detection job was submitted for processing.
   @_s.JsonKey(
       name: 'SubmitTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime submitTime;
 
@@ -6361,7 +6347,7 @@ class SentimentDetectionJobFilter {
   /// returned in descending order, newest to oldest.
   @_s.JsonKey(
       name: 'SubmitTimeAfter',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime submitTimeAfter;
 
@@ -6370,7 +6356,7 @@ class SentimentDetectionJobFilter {
   /// returned in ascending order, oldest to newest.
   @_s.JsonKey(
       name: 'SubmitTimeBefore',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime submitTimeBefore;
 
@@ -6397,9 +6383,7 @@ class SentimentDetectionJobProperties {
 
   /// The time that the sentiment detection job ended.
   @_s.JsonKey(
-      name: 'EndTime',
-      fromJson: unixTimestampFromJson,
-      toJson: unixTimestampToJson)
+      name: 'EndTime', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
   final DateTime endTime;
 
   /// The input data configuration that you supplied when you created the
@@ -6437,7 +6421,7 @@ class SentimentDetectionJobProperties {
   /// The time that the sentiment detection job was submitted for processing.
   @_s.JsonKey(
       name: 'SubmitTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime submitTime;
 
@@ -7050,7 +7034,7 @@ class TopicsDetectionJobFilter {
   /// returned in ascending order, oldest to newest.
   @_s.JsonKey(
       name: 'SubmitTimeAfter',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime submitTimeAfter;
 
@@ -7059,7 +7043,7 @@ class TopicsDetectionJobFilter {
   /// returned in descending order, newest to oldest.
   @_s.JsonKey(
       name: 'SubmitTimeBefore',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime submitTimeBefore;
 
@@ -7086,9 +7070,7 @@ class TopicsDetectionJobProperties {
 
   /// The time that the topic detection job was completed.
   @_s.JsonKey(
-      name: 'EndTime',
-      fromJson: unixTimestampFromJson,
-      toJson: unixTimestampToJson)
+      name: 'EndTime', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
   final DateTime endTime;
 
   /// The input data configuration supplied when you created the topic detection
@@ -7127,7 +7109,7 @@ class TopicsDetectionJobProperties {
   /// The time that the topic detection job was submitted for processing.
   @_s.JsonKey(
       name: 'SubmitTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime submitTime;
 

@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -5723,14 +5721,14 @@ class ApprovalRule {
   /// The date the approval rule was created, in timestamp format.
   @_s.JsonKey(
       name: 'creationDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDate;
 
   /// The date the approval rule was most recently changed, in timestamp format.
   @_s.JsonKey(
       name: 'lastModifiedDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastModifiedDate;
 
@@ -5840,7 +5838,7 @@ class ApprovalRuleTemplate {
   /// The date the approval rule template was created, in timestamp format.
   @_s.JsonKey(
       name: 'creationDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDate;
 
@@ -5848,7 +5846,7 @@ class ApprovalRuleTemplate {
   /// format.
   @_s.JsonKey(
       name: 'lastModifiedDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastModifiedDate;
 
@@ -6295,7 +6293,7 @@ class Comment {
   /// The date and time the comment was created, in timestamp format.
   @_s.JsonKey(
       name: 'creationDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDate;
 
@@ -6311,7 +6309,7 @@ class Comment {
   /// format.
   @_s.JsonKey(
       name: 'lastModifiedDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastModifiedDate;
 
@@ -8511,7 +8509,7 @@ class PullRequest {
   /// format.
   @_s.JsonKey(
       name: 'creationDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDate;
 
@@ -8524,7 +8522,7 @@ class PullRequest {
   /// timestamp format.
   @_s.JsonKey(
       name: 'lastActivityDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastActivityDate;
 
@@ -8632,7 +8630,7 @@ class PullRequestEvent {
   /// The day and time of the pull request event, in timestamp format.
   @_s.JsonKey(
       name: 'eventDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime eventDate;
 
@@ -9052,7 +9050,7 @@ class RepositoryMetadata {
   /// The date and time the repository was created, in timestamp format.
   @_s.JsonKey(
       name: 'creationDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDate;
 
@@ -9063,7 +9061,7 @@ class RepositoryMetadata {
   /// The date and time the repository was last modified, in timestamp format.
   @_s.JsonKey(
       name: 'lastModifiedDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastModifiedDate;
 

@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -1883,7 +1881,7 @@ class ConfigurationEvent {
   /// The timestamp of the event.
   @_s.JsonKey(
       name: 'EventTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime eventTime;
 
@@ -2463,9 +2461,7 @@ class Observation {
 
   /// The time when the observation ended, in epoch seconds.
   @_s.JsonKey(
-      name: 'EndTime',
-      fromJson: unixTimestampFromJson,
-      toJson: unixTimestampToJson)
+      name: 'EndTime', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
   final DateTime endTime;
 
   /// The Amazon Resource Name (ARN) of the AWS Health Event-based observation.
@@ -2498,7 +2494,7 @@ class Observation {
   /// occurred.
   @_s.JsonKey(
       name: 'LineTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lineTime;
 
@@ -2533,7 +2529,7 @@ class Observation {
   /// The time when the observation was first detected, in epoch seconds.
   @_s.JsonKey(
       name: 'StartTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime startTime;
 
@@ -2626,9 +2622,7 @@ class Problem {
 
   /// The time when the problem ended, in epoch seconds.
   @_s.JsonKey(
-      name: 'EndTime',
-      fromJson: unixTimestampFromJson,
-      toJson: unixTimestampToJson)
+      name: 'EndTime', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
   final DateTime endTime;
 
   /// Feedback provided by the user about the problem.
@@ -2654,7 +2648,7 @@ class Problem {
   /// The time when the problem started, in epoch seconds.
   @_s.JsonKey(
       name: 'StartTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime startTime;
 

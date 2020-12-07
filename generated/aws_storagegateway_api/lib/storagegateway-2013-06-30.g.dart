@@ -55,7 +55,7 @@ AttachVolumeOutput _$AttachVolumeOutputFromJson(Map<String, dynamic> json) {
 
 CachediSCSIVolume _$CachediSCSIVolumeFromJson(Map<String, dynamic> json) {
   return CachediSCSIVolume(
-    createdDate: unixTimestampFromJson(json['CreatedDate']),
+    createdDate: timeStampFromJson(json['CreatedDate']),
     kMSKey: json['KMSKey'] as String,
     sourceSnapshotId: json['SourceSnapshotId'] as String,
     targetName: json['TargetName'] as String,
@@ -216,7 +216,7 @@ DescribeAvailabilityMonitorTestOutput
     _$DescribeAvailabilityMonitorTestOutputFromJson(Map<String, dynamic> json) {
   return DescribeAvailabilityMonitorTestOutput(
     gatewayARN: json['GatewayARN'] as String,
-    startTime: unixTimestampFromJson(json['StartTime']),
+    startTime: timeStampFromJson(json['StartTime']),
     status: _$enumDecodeNullable(
         _$AvailabilityMonitorTestStatusEnumMap, json['Status']),
   );
@@ -831,7 +831,7 @@ StartGatewayOutput _$StartGatewayOutputFromJson(Map<String, dynamic> json) {
 
 StorediSCSIVolume _$StorediSCSIVolumeFromJson(Map<String, dynamic> json) {
   return StorediSCSIVolume(
-    createdDate: unixTimestampFromJson(json['CreatedDate']),
+    createdDate: timeStampFromJson(json['CreatedDate']),
     kMSKey: json['KMSKey'] as String,
     preservedExistingData: json['PreservedExistingData'] as bool,
     sourceSnapshotId: json['SourceSnapshotId'] as String,
@@ -880,7 +880,7 @@ Tape _$TapeFromJson(Map<String, dynamic> json) {
     progress: (json['Progress'] as num)?.toDouble(),
     tapeARN: json['TapeARN'] as String,
     tapeBarcode: json['TapeBarcode'] as String,
-    tapeCreatedDate: unixTimestampFromJson(json['TapeCreatedDate']),
+    tapeCreatedDate: timeStampFromJson(json['TapeCreatedDate']),
     tapeSizeInBytes: json['TapeSizeInBytes'] as int,
     tapeStatus: json['TapeStatus'] as String,
     tapeUsedInBytes: json['TapeUsedInBytes'] as int,
@@ -890,13 +890,13 @@ Tape _$TapeFromJson(Map<String, dynamic> json) {
 
 TapeArchive _$TapeArchiveFromJson(Map<String, dynamic> json) {
   return TapeArchive(
-    completionTime: unixTimestampFromJson(json['CompletionTime']),
+    completionTime: timeStampFromJson(json['CompletionTime']),
     kMSKey: json['KMSKey'] as String,
     poolId: json['PoolId'] as String,
     retrievedTo: json['RetrievedTo'] as String,
     tapeARN: json['TapeARN'] as String,
     tapeBarcode: json['TapeBarcode'] as String,
-    tapeCreatedDate: unixTimestampFromJson(json['TapeCreatedDate']),
+    tapeCreatedDate: timeStampFromJson(json['TapeCreatedDate']),
     tapeSizeInBytes: json['TapeSizeInBytes'] as int,
     tapeStatus: json['TapeStatus'] as String,
     tapeUsedInBytes: json['TapeUsedInBytes'] as int,
@@ -918,7 +918,7 @@ TapeRecoveryPointInfo _$TapeRecoveryPointInfoFromJson(
     Map<String, dynamic> json) {
   return TapeRecoveryPointInfo(
     tapeARN: json['TapeARN'] as String,
-    tapeRecoveryPointTime: unixTimestampFromJson(json['TapeRecoveryPointTime']),
+    tapeRecoveryPointTime: timeStampFromJson(json['TapeRecoveryPointTime']),
     tapeSizeInBytes: json['TapeSizeInBytes'] as int,
     tapeStatus: json['TapeStatus'] as String,
   );

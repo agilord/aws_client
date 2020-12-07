@@ -103,7 +103,7 @@ AssessmentRun _$AssessmentRunFromJson(Map<String, dynamic> json) {
   return AssessmentRun(
     arn: json['arn'] as String,
     assessmentTemplateArn: json['assessmentTemplateArn'] as String,
-    createdAt: unixTimestampFromJson(json['createdAt']),
+    createdAt: timeStampFromJson(json['createdAt']),
     dataCollected: json['dataCollected'] as bool,
     durationInSeconds: json['durationInSeconds'] as int,
     findingCounts: (json['findingCounts'] as Map<String, dynamic>)?.map(
@@ -118,7 +118,7 @@ AssessmentRun _$AssessmentRunFromJson(Map<String, dynamic> json) {
     rulesPackageArns:
         (json['rulesPackageArns'] as List)?.map((e) => e as String)?.toList(),
     state: _$enumDecodeNullable(_$AssessmentRunStateEnumMap, json['state']),
-    stateChangedAt: unixTimestampFromJson(json['stateChangedAt']),
+    stateChangedAt: timeStampFromJson(json['stateChangedAt']),
     stateChanges: (json['stateChanges'] as List)
         ?.map((e) => e == null
             ? null
@@ -128,8 +128,8 @@ AssessmentRun _$AssessmentRunFromJson(Map<String, dynamic> json) {
         ?.map((e) =>
             e == null ? null : Attribute.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    completedAt: unixTimestampFromJson(json['completedAt']),
-    startedAt: unixTimestampFromJson(json['startedAt']),
+    completedAt: timeStampFromJson(json['completedAt']),
+    startedAt: timeStampFromJson(json['startedAt']),
   );
 }
 
@@ -201,7 +201,7 @@ Map<String, dynamic> _$AssessmentRunFilterToJson(AssessmentRunFilter instance) {
 AssessmentRunNotification _$AssessmentRunNotificationFromJson(
     Map<String, dynamic> json) {
   return AssessmentRunNotification(
-    date: unixTimestampFromJson(json['date']),
+    date: timeStampFromJson(json['date']),
     error: json['error'] as bool,
     event: _$enumDecodeNullable(_$InspectorEventEnumMap, json['event']),
     message: json['message'] as String,
@@ -232,16 +232,16 @@ AssessmentRunStateChange _$AssessmentRunStateChangeFromJson(
     Map<String, dynamic> json) {
   return AssessmentRunStateChange(
     state: _$enumDecodeNullable(_$AssessmentRunStateEnumMap, json['state']),
-    stateChangedAt: unixTimestampFromJson(json['stateChangedAt']),
+    stateChangedAt: timeStampFromJson(json['stateChangedAt']),
   );
 }
 
 AssessmentTarget _$AssessmentTargetFromJson(Map<String, dynamic> json) {
   return AssessmentTarget(
     arn: json['arn'] as String,
-    createdAt: unixTimestampFromJson(json['createdAt']),
+    createdAt: timeStampFromJson(json['createdAt']),
     name: json['name'] as String,
-    updatedAt: unixTimestampFromJson(json['updatedAt']),
+    updatedAt: timeStampFromJson(json['updatedAt']),
     resourceGroupArn: json['resourceGroupArn'] as String,
   );
 }
@@ -266,7 +266,7 @@ AssessmentTemplate _$AssessmentTemplateFromJson(Map<String, dynamic> json) {
     arn: json['arn'] as String,
     assessmentRunCount: json['assessmentRunCount'] as int,
     assessmentTargetArn: json['assessmentTargetArn'] as String,
-    createdAt: unixTimestampFromJson(json['createdAt']),
+    createdAt: timeStampFromJson(json['createdAt']),
     durationInSeconds: json['durationInSeconds'] as int,
     name: json['name'] as String,
     rulesPackageArns:
@@ -422,7 +422,7 @@ DescribeCrossAccountAccessRoleResponse
     _$DescribeCrossAccountAccessRoleResponseFromJson(
         Map<String, dynamic> json) {
   return DescribeCrossAccountAccessRoleResponse(
-    registeredAt: unixTimestampFromJson(json['registeredAt']),
+    registeredAt: timeStampFromJson(json['registeredAt']),
     roleArn: json['roleArn'] as String,
     valid: json['valid'] as bool,
   );
@@ -514,7 +514,7 @@ Map<String, dynamic> _$DurationRangeToJson(DurationRange instance) {
 EventSubscription _$EventSubscriptionFromJson(Map<String, dynamic> json) {
   return EventSubscription(
     event: _$enumDecodeNullable(_$InspectorEventEnumMap, json['event']),
-    subscribedAt: unixTimestampFromJson(json['subscribedAt']),
+    subscribedAt: timeStampFromJson(json['subscribedAt']),
   );
 }
 
@@ -575,8 +575,8 @@ Finding _$FindingFromJson(Map<String, dynamic> json) {
         ?.map((e) =>
             e == null ? null : Attribute.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    createdAt: unixTimestampFromJson(json['createdAt']),
-    updatedAt: unixTimestampFromJson(json['updatedAt']),
+    createdAt: timeStampFromJson(json['createdAt']),
+    updatedAt: timeStampFromJson(json['updatedAt']),
     userAttributes: (json['userAttributes'] as List)
         ?.map((e) =>
             e == null ? null : Attribute.fromJson(e as Map<String, dynamic>))
@@ -827,7 +827,7 @@ RemoveAttributesFromFindingsResponse
 ResourceGroup _$ResourceGroupFromJson(Map<String, dynamic> json) {
   return ResourceGroup(
     arn: json['arn'] as String,
-    createdAt: unixTimestampFromJson(json['createdAt']),
+    createdAt: timeStampFromJson(json['createdAt']),
     tags: (json['tags'] as List)
         ?.map((e) => e == null
             ? null

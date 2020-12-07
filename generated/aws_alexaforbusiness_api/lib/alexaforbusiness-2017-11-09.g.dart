@@ -78,7 +78,7 @@ const _$LocaleEnumMap = {
 
 BusinessReport _$BusinessReportFromJson(Map<String, dynamic> json) {
   return BusinessReport(
-    deliveryTime: unixTimestampFromJson(json['DeliveryTime']),
+    deliveryTime: timeStampFromJson(json['DeliveryTime']),
     downloadUrl: json['DownloadUrl'] as String,
     failureCode: _$enumDecodeNullable(
         _$BusinessReportFailureCodeEnumMap, json['FailureCode']),
@@ -582,7 +582,7 @@ const _$DeviceStatusEnumMap = {
 
 DeviceData _$DeviceDataFromJson(Map<String, dynamic> json) {
   return DeviceData(
-    createdTime: unixTimestampFromJson(json['CreatedTime']),
+    createdTime: timeStampFromJson(json['CreatedTime']),
     deviceArn: json['DeviceArn'] as String,
     deviceName: json['DeviceName'] as String,
     deviceSerialNumber: json['DeviceSerialNumber'] as String,
@@ -604,7 +604,7 @@ DeviceData _$DeviceDataFromJson(Map<String, dynamic> json) {
 
 DeviceEvent _$DeviceEventFromJson(Map<String, dynamic> json) {
   return DeviceEvent(
-    timestamp: unixTimestampFromJson(json['Timestamp']),
+    timestamp: timeStampFromJson(json['Timestamp']),
     type: _$enumDecodeNullable(_$DeviceEventTypeEnumMap, json['Type']),
     value: json['Value'] as String,
   );
@@ -620,7 +620,7 @@ DeviceNetworkProfileInfo _$DeviceNetworkProfileInfoFromJson(
   return DeviceNetworkProfileInfo(
     certificateArn: json['CertificateArn'] as String,
     certificateExpirationTime:
-        unixTimestampFromJson(json['CertificateExpirationTime']),
+        timeStampFromJson(json['CertificateExpirationTime']),
     networkProfileArn: json['NetworkProfileArn'] as String,
   );
 }
@@ -669,7 +669,7 @@ DeviceStatusInfo _$DeviceStatusInfoFromJson(Map<String, dynamic> json) {
     connectionStatus: _$enumDecodeNullable(
         _$ConnectionStatusEnumMap, json['ConnectionStatus']),
     connectionStatusUpdatedTime:
-        unixTimestampFromJson(json['ConnectionStatusUpdatedTime']),
+        timeStampFromJson(json['ConnectionStatusUpdatedTime']),
     deviceStatusDetails: (json['DeviceStatusDetails'] as List)
         ?.map((e) => e == null
             ? null

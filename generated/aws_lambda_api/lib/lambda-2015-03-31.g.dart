@@ -169,7 +169,7 @@ EventSourceMappingConfiguration _$EventSourceMappingConfigurationFromJson(
             json['DestinationConfig'] as Map<String, dynamic>),
     eventSourceArn: json['EventSourceArn'] as String,
     functionArn: json['FunctionArn'] as String,
-    lastModified: unixTimestampFromJson(json['LastModified']),
+    lastModified: timeStampFromJson(json['LastModified']),
     lastProcessingResult: json['LastProcessingResult'] as String,
     maximumBatchingWindowInSeconds:
         json['MaximumBatchingWindowInSeconds'] as int,
@@ -356,7 +356,7 @@ FunctionEventInvokeConfig _$FunctionEventInvokeConfigFromJson(
         : DestinationConfig.fromJson(
             json['DestinationConfig'] as Map<String, dynamic>),
     functionArn: json['FunctionArn'] as String,
-    lastModified: unixTimestampFromJson(json['LastModified']),
+    lastModified: timeStampFromJson(json['LastModified']),
     maximumEventAgeInSeconds: json['MaximumEventAgeInSeconds'] as int,
     maximumRetryAttempts: json['MaximumRetryAttempts'] as int,
   );

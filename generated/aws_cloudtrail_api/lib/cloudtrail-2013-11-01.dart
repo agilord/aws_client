@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -1647,7 +1645,7 @@ class Event {
   /// The date and time of the event returned.
   @_s.JsonKey(
       name: 'EventTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime eventTime;
 
@@ -1846,7 +1844,7 @@ class GetTrailStatusResponse {
   /// CloudWatch Logs.
   @_s.JsonKey(
       name: 'LatestCloudWatchLogsDeliveryTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime latestCloudWatchLogsDeliveryTime;
 
@@ -1876,7 +1874,7 @@ class GetTrailStatusResponse {
   /// account's Amazon S3 bucket.
   @_s.JsonKey(
       name: 'LatestDeliveryTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime latestDeliveryTime;
 
@@ -1898,7 +1896,7 @@ class GetTrailStatusResponse {
   /// an account's Amazon S3 bucket.
   @_s.JsonKey(
       name: 'LatestDigestDeliveryTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime latestDigestDeliveryTime;
 
@@ -1921,7 +1919,7 @@ class GetTrailStatusResponse {
   /// CloudTrail has written a new log file to an account's Amazon S3 bucket.
   @_s.JsonKey(
       name: 'LatestNotificationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime latestNotificationTime;
 
@@ -1929,7 +1927,7 @@ class GetTrailStatusResponse {
   /// API calls for an AWS account.
   @_s.JsonKey(
       name: 'StartLoggingTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime startLoggingTime;
 
@@ -1937,7 +1935,7 @@ class GetTrailStatusResponse {
   /// API calls for an AWS account.
   @_s.JsonKey(
       name: 'StopLoggingTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime stopLoggingTime;
 
@@ -2162,14 +2160,14 @@ class PublicKey {
   /// The ending time of validity of the public key.
   @_s.JsonKey(
       name: 'ValidityEndTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime validityEndTime;
 
   /// The starting time of validity of the public key.
   @_s.JsonKey(
       name: 'ValidityStartTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime validityStartTime;
 

@@ -182,23 +182,23 @@ Map<String, dynamic> _$DataSourceToJson(DataSource instance) {
 
 DatasetGroupSummary _$DatasetGroupSummaryFromJson(Map<String, dynamic> json) {
   return DatasetGroupSummary(
-    creationTime: unixTimestampFromJson(json['CreationTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
     datasetGroupArn: json['DatasetGroupArn'] as String,
     datasetGroupName: json['DatasetGroupName'] as String,
-    lastModificationTime: unixTimestampFromJson(json['LastModificationTime']),
+    lastModificationTime: timeStampFromJson(json['LastModificationTime']),
   );
 }
 
 DatasetImportJobSummary _$DatasetImportJobSummaryFromJson(
     Map<String, dynamic> json) {
   return DatasetImportJobSummary(
-    creationTime: unixTimestampFromJson(json['CreationTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
     dataSource: json['DataSource'] == null
         ? null
         : DataSource.fromJson(json['DataSource'] as Map<String, dynamic>),
     datasetImportJobArn: json['DatasetImportJobArn'] as String,
     datasetImportJobName: json['DatasetImportJobName'] as String,
-    lastModificationTime: unixTimestampFromJson(json['LastModificationTime']),
+    lastModificationTime: timeStampFromJson(json['LastModificationTime']),
     message: json['Message'] as String,
     status: json['Status'] as String,
   );
@@ -206,13 +206,13 @@ DatasetImportJobSummary _$DatasetImportJobSummaryFromJson(
 
 DatasetSummary _$DatasetSummaryFromJson(Map<String, dynamic> json) {
   return DatasetSummary(
-    creationTime: unixTimestampFromJson(json['CreationTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
     datasetArn: json['DatasetArn'] as String,
     datasetName: json['DatasetName'] as String,
     datasetType:
         _$enumDecodeNullable(_$DatasetTypeEnumMap, json['DatasetType']),
     domain: _$enumDecodeNullable(_$DomainEnumMap, json['Domain']),
-    lastModificationTime: unixTimestampFromJson(json['LastModificationTime']),
+    lastModificationTime: timeStampFromJson(json['LastModificationTime']),
   );
 }
 
@@ -235,13 +235,13 @@ const _$DomainEnumMap = {
 DescribeDatasetGroupResponse _$DescribeDatasetGroupResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeDatasetGroupResponse(
-    creationTime: unixTimestampFromJson(json['CreationTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
     datasetArns:
         (json['DatasetArns'] as List)?.map((e) => e as String)?.toList(),
     datasetGroupArn: json['DatasetGroupArn'] as String,
     datasetGroupName: json['DatasetGroupName'] as String,
     domain: _$enumDecodeNullable(_$DomainEnumMap, json['Domain']),
-    lastModificationTime: unixTimestampFromJson(json['LastModificationTime']),
+    lastModificationTime: timeStampFromJson(json['LastModificationTime']),
     status: json['Status'] as String,
   );
 }
@@ -249,7 +249,7 @@ DescribeDatasetGroupResponse _$DescribeDatasetGroupResponseFromJson(
 DescribeDatasetImportJobResponse _$DescribeDatasetImportJobResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeDatasetImportJobResponse(
-    creationTime: unixTimestampFromJson(json['CreationTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
     dataSize: (json['DataSize'] as num)?.toDouble(),
     dataSource: json['DataSource'] == null
         ? null
@@ -261,7 +261,7 @@ DescribeDatasetImportJobResponse _$DescribeDatasetImportJobResponseFromJson(
       (k, e) => MapEntry(
           k, e == null ? null : Statistics.fromJson(e as Map<String, dynamic>)),
     ),
-    lastModificationTime: unixTimestampFromJson(json['LastModificationTime']),
+    lastModificationTime: timeStampFromJson(json['LastModificationTime']),
     message: json['Message'] as String,
     status: json['Status'] as String,
     timestampFormat: json['TimestampFormat'] as String,
@@ -271,7 +271,7 @@ DescribeDatasetImportJobResponse _$DescribeDatasetImportJobResponseFromJson(
 DescribeDatasetResponse _$DescribeDatasetResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeDatasetResponse(
-    creationTime: unixTimestampFromJson(json['CreationTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
     dataFrequency: json['DataFrequency'] as String,
     datasetArn: json['DatasetArn'] as String,
     datasetName: json['DatasetName'] as String,
@@ -282,7 +282,7 @@ DescribeDatasetResponse _$DescribeDatasetResponseFromJson(
         ? null
         : EncryptionConfig.fromJson(
             json['EncryptionConfig'] as Map<String, dynamic>),
-    lastModificationTime: unixTimestampFromJson(json['LastModificationTime']),
+    lastModificationTime: timeStampFromJson(json['LastModificationTime']),
     schema: json['Schema'] == null
         ? null
         : Schema.fromJson(json['Schema'] as Map<String, dynamic>),
@@ -293,14 +293,14 @@ DescribeDatasetResponse _$DescribeDatasetResponseFromJson(
 DescribeForecastExportJobResponse _$DescribeForecastExportJobResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeForecastExportJobResponse(
-    creationTime: unixTimestampFromJson(json['CreationTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
     destination: json['Destination'] == null
         ? null
         : DataDestination.fromJson(json['Destination'] as Map<String, dynamic>),
     forecastArn: json['ForecastArn'] as String,
     forecastExportJobArn: json['ForecastExportJobArn'] as String,
     forecastExportJobName: json['ForecastExportJobName'] as String,
-    lastModificationTime: unixTimestampFromJson(json['LastModificationTime']),
+    lastModificationTime: timeStampFromJson(json['LastModificationTime']),
     message: json['Message'] as String,
     status: json['Status'] as String,
   );
@@ -309,13 +309,13 @@ DescribeForecastExportJobResponse _$DescribeForecastExportJobResponseFromJson(
 DescribeForecastResponse _$DescribeForecastResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeForecastResponse(
-    creationTime: unixTimestampFromJson(json['CreationTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
     datasetGroupArn: json['DatasetGroupArn'] as String,
     forecastArn: json['ForecastArn'] as String,
     forecastName: json['ForecastName'] as String,
     forecastTypes:
         (json['ForecastTypes'] as List)?.map((e) => e as String)?.toList(),
-    lastModificationTime: unixTimestampFromJson(json['LastModificationTime']),
+    lastModificationTime: timeStampFromJson(json['LastModificationTime']),
     message: json['Message'] as String,
     predictorArn: json['PredictorArn'] as String,
     status: json['Status'] as String,
@@ -329,7 +329,7 @@ DescribePredictorResponse _$DescribePredictorResponseFromJson(
     autoMLAlgorithmArns: (json['AutoMLAlgorithmArns'] as List)
         ?.map((e) => e as String)
         ?.toList(),
-    creationTime: unixTimestampFromJson(json['CreationTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
     datasetImportJobArns: (json['DatasetImportJobArns'] as List)
         ?.map((e) => e as String)
         ?.toList(),
@@ -354,7 +354,7 @@ DescribePredictorResponse _$DescribePredictorResponseFromJson(
         ? null
         : InputDataConfig.fromJson(
             json['InputDataConfig'] as Map<String, dynamic>),
-    lastModificationTime: unixTimestampFromJson(json['LastModificationTime']),
+    lastModificationTime: timeStampFromJson(json['LastModificationTime']),
     message: json['Message'] as String,
     performAutoML: json['PerformAutoML'] as bool,
     performHPO: json['PerformHPO'] as bool,
@@ -535,13 +535,13 @@ const _$FilterConditionStringEnumMap = {
 ForecastExportJobSummary _$ForecastExportJobSummaryFromJson(
     Map<String, dynamic> json) {
   return ForecastExportJobSummary(
-    creationTime: unixTimestampFromJson(json['CreationTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
     destination: json['Destination'] == null
         ? null
         : DataDestination.fromJson(json['Destination'] as Map<String, dynamic>),
     forecastExportJobArn: json['ForecastExportJobArn'] as String,
     forecastExportJobName: json['ForecastExportJobName'] as String,
-    lastModificationTime: unixTimestampFromJson(json['LastModificationTime']),
+    lastModificationTime: timeStampFromJson(json['LastModificationTime']),
     message: json['Message'] as String,
     status: json['Status'] as String,
   );
@@ -549,11 +549,11 @@ ForecastExportJobSummary _$ForecastExportJobSummaryFromJson(
 
 ForecastSummary _$ForecastSummaryFromJson(Map<String, dynamic> json) {
   return ForecastSummary(
-    creationTime: unixTimestampFromJson(json['CreationTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
     datasetGroupArn: json['DatasetGroupArn'] as String,
     forecastArn: json['ForecastArn'] as String,
     forecastName: json['ForecastName'] as String,
-    lastModificationTime: unixTimestampFromJson(json['LastModificationTime']),
+    lastModificationTime: timeStampFromJson(json['LastModificationTime']),
     message: json['Message'] as String,
     predictorArn: json['PredictorArn'] as String,
     status: json['Status'] as String,
@@ -793,9 +793,9 @@ PredictorExecutionDetails _$PredictorExecutionDetailsFromJson(
 
 PredictorSummary _$PredictorSummaryFromJson(Map<String, dynamic> json) {
   return PredictorSummary(
-    creationTime: unixTimestampFromJson(json['CreationTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
     datasetGroupArn: json['DatasetGroupArn'] as String,
-    lastModificationTime: unixTimestampFromJson(json['LastModificationTime']),
+    lastModificationTime: timeStampFromJson(json['LastModificationTime']),
     message: json['Message'] as String,
     predictorArn: json['PredictorArn'] as String,
     predictorName: json['PredictorName'] as String,
@@ -918,8 +918,8 @@ TestWindowSummary _$TestWindowSummaryFromJson(Map<String, dynamic> json) {
   return TestWindowSummary(
     message: json['Message'] as String,
     status: json['Status'] as String,
-    testWindowEnd: unixTimestampFromJson(json['TestWindowEnd']),
-    testWindowStart: unixTimestampFromJson(json['TestWindowStart']),
+    testWindowEnd: timeStampFromJson(json['TestWindowEnd']),
+    testWindowStart: timeStampFromJson(json['TestWindowStart']),
   );
 }
 
@@ -943,8 +943,8 @@ WindowSummary _$WindowSummaryFromJson(Map<String, dynamic> json) {
     metrics: json['Metrics'] == null
         ? null
         : Metrics.fromJson(json['Metrics'] as Map<String, dynamic>),
-    testWindowEnd: unixTimestampFromJson(json['TestWindowEnd']),
-    testWindowStart: unixTimestampFromJson(json['TestWindowStart']),
+    testWindowEnd: timeStampFromJson(json['TestWindowEnd']),
+    testWindowStart: timeStampFromJson(json['TestWindowStart']),
   );
 }
 

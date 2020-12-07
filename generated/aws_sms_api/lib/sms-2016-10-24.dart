@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -1324,7 +1322,7 @@ class AppSummary {
   /// Time of creation of this application.
   @_s.JsonKey(
       name: 'creationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationTime;
 
@@ -1335,14 +1333,14 @@ class AppSummary {
   /// Timestamp of the application's creation.
   @_s.JsonKey(
       name: 'lastModified',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastModified;
 
   /// Timestamp of the application's most recent successful replication.
   @_s.JsonKey(
       name: 'latestReplicationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime latestReplicationTime;
 
@@ -1422,7 +1420,7 @@ class Connector {
   /// The time the connector was associated.
   @_s.JsonKey(
       name: 'associatedOn',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime associatedOn;
 
@@ -1801,7 +1799,7 @@ class GetServersResponse {
   /// The time when the server was last modified.
   @_s.JsonKey(
       name: 'lastModifiedOn',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastModifiedOn;
 
@@ -1860,7 +1858,7 @@ class LaunchDetails {
   /// Latest time this application was launched successfully.
   @_s.JsonKey(
       name: 'latestLaunchTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime latestLaunchTime;
 
@@ -2020,7 +2018,7 @@ class ReplicationJob {
   /// The start time of the next replication run.
   @_s.JsonKey(
       name: 'nextReplicationRunStartTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime nextReplicationRunStartTime;
 
@@ -2048,7 +2046,7 @@ class ReplicationJob {
   /// The seed replication time.
   @_s.JsonKey(
       name: 'seedReplicationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime seedReplicationTime;
 
@@ -2129,7 +2127,7 @@ class ReplicationRun {
   /// The completion time of the last replication run.
   @_s.JsonKey(
       name: 'completedTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime completedTime;
 
@@ -2171,7 +2169,7 @@ class ReplicationRun {
   /// The start time of the next replication run.
   @_s.JsonKey(
       name: 'scheduledStartTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime scheduledStartTime;
 
@@ -2561,7 +2559,7 @@ class ServerReplicationParameters {
   /// Seed time for creating a replication job for the server.
   @_s.JsonKey(
       name: 'seedTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime seedTime;
 

@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -2088,7 +2086,7 @@ class BackupJob {
   /// value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
   @_s.JsonKey(
       name: 'CompletionDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime completionDate;
 
@@ -2105,7 +2103,7 @@ class BackupJob {
   /// January 26, 2018 12:11:30.087 AM.
   @_s.JsonKey(
       name: 'CreationDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDate;
 
@@ -2116,7 +2114,7 @@ class BackupJob {
   /// 12:11:30.087 AM.
   @_s.JsonKey(
       name: 'ExpectedCompletionDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime expectedCompletionDate;
 
@@ -2154,9 +2152,7 @@ class BackupJob {
   /// accurate to milliseconds. For example, the value 1516925490.087 represents
   /// Friday, January 26, 2018 12:11:30.087 AM.
   @_s.JsonKey(
-      name: 'StartBy',
-      fromJson: unixTimestampFromJson,
-      toJson: unixTimestampToJson)
+      name: 'StartBy', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
   final DateTime startBy;
 
   /// The current state of a resource recovery point.
@@ -2336,7 +2332,7 @@ class BackupPlansListMember {
   /// Friday, January 26, 2018 12:11:30.087 AM.
   @_s.JsonKey(
       name: 'CreationDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDate;
 
@@ -2351,7 +2347,7 @@ class BackupPlansListMember {
   /// January 26, 2018 12:11:30.087 AM.
   @_s.JsonKey(
       name: 'DeletionDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime deletionDate;
 
@@ -2361,7 +2357,7 @@ class BackupPlansListMember {
   /// value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
   @_s.JsonKey(
       name: 'LastExecutionDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastExecutionDate;
 
@@ -2581,7 +2577,7 @@ class BackupSelectionsListMember {
   /// January 26, 2018 12:11:30.087 AM.
   @_s.JsonKey(
       name: 'CreationDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDate;
 
@@ -2713,7 +2709,7 @@ class BackupVaultListMember {
   /// Friday, January 26, 2018 12:11:30.087 AM.
   @_s.JsonKey(
       name: 'CreationDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDate;
 
@@ -2765,7 +2761,7 @@ class CalculatedLifecycle {
   /// A timestamp that specifies when to delete a recovery point.
   @_s.JsonKey(
       name: 'DeleteAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime deleteAt;
 
@@ -2773,7 +2769,7 @@ class CalculatedLifecycle {
   /// storage.
   @_s.JsonKey(
       name: 'MoveToColdStorageAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime moveToColdStorageAt;
 
@@ -2869,7 +2865,7 @@ class CopyJob {
   /// Friday, January 26, 2018 12:11:30.087 AM.
   @_s.JsonKey(
       name: 'CompletionDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime completionDate;
 
@@ -2885,7 +2881,7 @@ class CopyJob {
   /// 12:11:30.087 AM.
   @_s.JsonKey(
       name: 'CreationDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDate;
 
@@ -3004,7 +3000,7 @@ class CreateBackupPlanOutput {
   /// Friday, January 26, 2018 12:11:30.087 AM.
   @_s.JsonKey(
       name: 'CreationDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDate;
 
@@ -3039,7 +3035,7 @@ class CreateBackupSelectionOutput {
   /// Friday, January 26, 2018 12:11:30.087 AM.
   @_s.JsonKey(
       name: 'CreationDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDate;
 
@@ -3082,7 +3078,7 @@ class CreateBackupVaultOutput {
   /// January 26, 2018 12:11:30.087 AM.
   @_s.JsonKey(
       name: 'CreationDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDate;
 
@@ -3117,7 +3113,7 @@ class DeleteBackupPlanOutput {
   /// January 26, 2018 12:11:30.087 AM.
   @_s.JsonKey(
       name: 'DeletionDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime deletionDate;
 
@@ -3174,7 +3170,7 @@ class DescribeBackupJobOutput {
   /// value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
   @_s.JsonKey(
       name: 'CompletionDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime completionDate;
 
@@ -3191,7 +3187,7 @@ class DescribeBackupJobOutput {
   /// Friday, January 26, 2018 12:11:30.087 AM.
   @_s.JsonKey(
       name: 'CreationDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDate;
 
@@ -3202,7 +3198,7 @@ class DescribeBackupJobOutput {
   /// 12:11:30.087 AM.
   @_s.JsonKey(
       name: 'ExpectedCompletionDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime expectedCompletionDate;
 
@@ -3240,9 +3236,7 @@ class DescribeBackupJobOutput {
   /// accurate to milliseconds. For example, the value 1516925490.087 represents
   /// Friday, January 26, 2018 12:11:30.087 AM.
   @_s.JsonKey(
-      name: 'StartBy',
-      fromJson: unixTimestampFromJson,
-      toJson: unixTimestampToJson)
+      name: 'StartBy', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
   final DateTime startBy;
 
   /// The current state of a resource recovery point.
@@ -3301,7 +3295,7 @@ class DescribeBackupVaultOutput {
   /// Friday, January 26, 2018 12:11:30.087 AM.
   @_s.JsonKey(
       name: 'CreationDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDate;
 
@@ -3361,7 +3355,7 @@ class DescribeProtectedResourceOutput {
   /// represents Friday, January 26, 2018 12:11:30.087 AM.
   @_s.JsonKey(
       name: 'LastBackupTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastBackupTime;
 
@@ -3417,7 +3411,7 @@ class DescribeRecoveryPointOutput {
   /// value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
   @_s.JsonKey(
       name: 'CompletionDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime completionDate;
 
@@ -3434,7 +3428,7 @@ class DescribeRecoveryPointOutput {
   /// Friday, January 26, 2018 12:11:30.087 AM.
   @_s.JsonKey(
       name: 'CreationDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDate;
 
@@ -3460,7 +3454,7 @@ class DescribeRecoveryPointOutput {
   /// value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
   @_s.JsonKey(
       name: 'LastRestoreTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastRestoreTime;
 
@@ -3544,7 +3538,7 @@ class DescribeRestoreJobOutput {
   /// value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
   @_s.JsonKey(
       name: 'CompletionDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime completionDate;
 
@@ -3560,7 +3554,7 @@ class DescribeRestoreJobOutput {
   /// Friday, January 26, 2018 12:11:30.087 AM.
   @_s.JsonKey(
       name: 'CreationDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDate;
 
@@ -3699,7 +3693,7 @@ class GetBackupPlanOutput {
   /// Friday, January 26, 2018 12:11:30.087 AM.
   @_s.JsonKey(
       name: 'CreationDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDate;
 
@@ -3714,7 +3708,7 @@ class GetBackupPlanOutput {
   /// Friday, January 26, 2018 12:11:30.087 AM.
   @_s.JsonKey(
       name: 'DeletionDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime deletionDate;
 
@@ -3725,7 +3719,7 @@ class GetBackupPlanOutput {
   /// 12:11:30.087 AM.
   @_s.JsonKey(
       name: 'LastExecutionDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastExecutionDate;
 
@@ -3769,7 +3763,7 @@ class GetBackupSelectionOutput {
   /// Friday, January 26, 2018 12:11:30.087 AM.
   @_s.JsonKey(
       name: 'CreationDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDate;
 
@@ -4299,7 +4293,7 @@ class ProtectedResource {
   /// represents Friday, January 26, 2018 12:11:30.087 AM.
   @_s.JsonKey(
       name: 'LastBackupTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastBackupTime;
 
@@ -4357,7 +4351,7 @@ class RecoveryPointByBackupVault {
   /// value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
   @_s.JsonKey(
       name: 'CompletionDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime completionDate;
 
@@ -4374,7 +4368,7 @@ class RecoveryPointByBackupVault {
   /// Friday, January 26, 2018 12:11:30.087 AM.
   @_s.JsonKey(
       name: 'CreationDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDate;
 
@@ -4401,7 +4395,7 @@ class RecoveryPointByBackupVault {
   /// represents Friday, January 26, 2018 12:11:30.087 AM.
   @_s.JsonKey(
       name: 'LastRestoreTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastRestoreTime;
 
@@ -4484,7 +4478,7 @@ class RecoveryPointByResource {
   /// Friday, January 26, 2018 12:11:30.087 AM.
   @_s.JsonKey(
       name: 'CreationDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDate;
 
@@ -4595,7 +4589,7 @@ class RestoreJobsListMember {
   /// value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
   @_s.JsonKey(
       name: 'CompletionDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime completionDate;
 
@@ -4610,7 +4604,7 @@ class RestoreJobsListMember {
   /// January 26, 2018 12:11:30.087 AM.
   @_s.JsonKey(
       name: 'CreationDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDate;
 
@@ -4681,7 +4675,7 @@ class StartBackupJobOutput {
   /// Friday, January 26, 2018 12:11:30.087 AM.
   @_s.JsonKey(
       name: 'CreationDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDate;
 
@@ -4715,7 +4709,7 @@ class StartCopyJobOutput {
   /// January 26, 2018 12:11:30.087 AM. &gt;
   @_s.JsonKey(
       name: 'CreationDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDate;
 
@@ -4775,7 +4769,7 @@ class UpdateBackupPlanOutput {
   /// January 26, 2018 12:11:30.087 AM.
   @_s.JsonKey(
       name: 'CreationDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDate;
 

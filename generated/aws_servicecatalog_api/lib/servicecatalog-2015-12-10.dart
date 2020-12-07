@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -9435,7 +9433,7 @@ class PortfolioDetail {
   /// The UTC time stamp of the creation time.
   @_s.JsonKey(
       name: 'CreatedTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdTime;
 
@@ -9596,7 +9594,7 @@ class ProductViewDetail {
   /// The UTC time stamp of the creation time.
   @_s.JsonKey(
       name: 'CreatedTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdTime;
 
@@ -9807,7 +9805,7 @@ class ProvisionedProductAttribute {
   /// The UTC time stamp of the creation time.
   @_s.JsonKey(
       name: 'CreatedTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdTime;
 
@@ -9933,7 +9931,7 @@ class ProvisionedProductDetail {
   /// The UTC time stamp of the creation time.
   @_s.JsonKey(
       name: 'CreatedTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdTime;
 
@@ -10035,7 +10033,7 @@ class ProvisionedProductPlanDetails {
   /// The UTC time stamp of the creation time.
   @_s.JsonKey(
       name: 'CreatedTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdTime;
 
@@ -10098,7 +10096,7 @@ class ProvisionedProductPlanDetails {
   /// The time when the plan was last updated.
   @_s.JsonKey(
       name: 'UpdatedTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime updatedTime;
 
@@ -10235,7 +10233,7 @@ class ProvisioningArtifact {
   /// The UTC time stamp of the creation time.
   @_s.JsonKey(
       name: 'CreatedTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdTime;
 
@@ -10282,7 +10280,7 @@ class ProvisioningArtifactDetail {
   /// The UTC time stamp of the creation time.
   @_s.JsonKey(
       name: 'CreatedTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdTime;
 
@@ -10519,7 +10517,7 @@ class ProvisioningArtifactSummary {
   /// The UTC time stamp of the creation time.
   @_s.JsonKey(
       name: 'CreatedTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdTime;
 
@@ -10732,7 +10730,7 @@ class RecordDetail {
   /// The UTC time stamp of the creation time.
   @_s.JsonKey(
       name: 'CreatedTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdTime;
 
@@ -10818,7 +10816,7 @@ class RecordDetail {
   /// The time when the record was last updated.
   @_s.JsonKey(
       name: 'UpdatedTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime updatedTime;
 
@@ -11067,7 +11065,7 @@ class ResourceDetail {
   /// The creation time of the resource.
   @_s.JsonKey(
       name: 'CreatedTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdTime;
 

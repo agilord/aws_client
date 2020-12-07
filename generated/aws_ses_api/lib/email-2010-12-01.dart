@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 import 'email-2010-12-01.meta.dart';
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
@@ -5778,7 +5776,7 @@ class MessageDsn {
   /// When the message was received by the reporting mail transfer agent (MTA), in
   /// <a href="https://www.ietf.org/rfc/rfc0822.txt">RFC 822</a> date-time format.
   @_s.JsonKey(
-      name: 'ArrivalDate', fromJson: iso8601FromJson, toJson: iso8601ToJson)
+      name: 'ArrivalDate', fromJson: timeStampFromJson, toJson: iso8601ToJson)
   final DateTime arrivalDate;
 
   /// Additional X-headers to include in the DSN.
@@ -6311,7 +6309,9 @@ class RecipientDsnFields {
   /// The time the final delivery attempt was made, in <a
   /// href="https://www.ietf.org/rfc/rfc0822.txt">RFC 822</a> date-time format.
   @_s.JsonKey(
-      name: 'LastAttemptDate', fromJson: iso8601FromJson, toJson: iso8601ToJson)
+      name: 'LastAttemptDate',
+      fromJson: timeStampFromJson,
+      toJson: iso8601ToJson)
   final DateTime lastAttemptDate;
 
   /// The MTA to which the remote MTA attempted to deliver the message, formatted

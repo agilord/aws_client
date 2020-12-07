@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -1858,7 +1856,7 @@ class CertificateAuthority {
   /// Date and time at which your private CA was created.
   @_s.JsonKey(
       name: 'CreatedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdAt;
 
@@ -1869,21 +1867,21 @@ class CertificateAuthority {
   /// Date and time at which your private CA was last updated.
   @_s.JsonKey(
       name: 'LastStateChangeAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastStateChangeAt;
 
   /// Date and time after which your private CA certificate is not valid.
   @_s.JsonKey(
       name: 'NotAfter',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime notAfter;
 
   /// Date and time before which your private CA certificate is not valid.
   @_s.JsonKey(
       name: 'NotBefore',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime notBefore;
 
@@ -1892,7 +1890,7 @@ class CertificateAuthority {
   /// <a>DeleteCertificateAuthorityRequest</a> action.
   @_s.JsonKey(
       name: 'RestorableUntil',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime restorableUntil;
 
@@ -2215,7 +2213,7 @@ class DescribeCertificateAuthorityAuditReportResponse {
   /// The date and time at which the report was created.
   @_s.JsonKey(
       name: 'CreatedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdAt;
 
@@ -2464,7 +2462,7 @@ class Permission {
   /// The time at which the permission was created.
   @_s.JsonKey(
       name: 'CreatedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdAt;
 

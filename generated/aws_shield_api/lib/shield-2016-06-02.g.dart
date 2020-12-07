@@ -34,13 +34,13 @@ AttackDetail _$AttackDetailFromJson(Map<String, dynamic> json) {
             ? null
             : AttackProperty.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    endTime: unixTimestampFromJson(json['EndTime']),
+    endTime: timeStampFromJson(json['EndTime']),
     mitigations: (json['Mitigations'] as List)
         ?.map((e) =>
             e == null ? null : Mitigation.fromJson(e as Map<String, dynamic>))
         ?.toList(),
     resourceArn: json['ResourceArn'] as String,
-    startTime: unixTimestampFromJson(json['StartTime']),
+    startTime: timeStampFromJson(json['StartTime']),
     subResources: (json['SubResources'] as List)
         ?.map((e) => e == null
             ? null
@@ -128,9 +128,9 @@ AttackSummary _$AttackSummaryFromJson(Map<String, dynamic> json) {
             ? null
             : AttackVectorDescription.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    endTime: unixTimestampFromJson(json['EndTime']),
+    endTime: timeStampFromJson(json['EndTime']),
     resourceArn: json['ResourceArn'] as String,
-    startTime: unixTimestampFromJson(json['StartTime']),
+    startTime: timeStampFromJson(json['StartTime']),
   );
 }
 
@@ -335,12 +335,12 @@ const _$SubResourceTypeEnumMap = {
 Subscription _$SubscriptionFromJson(Map<String, dynamic> json) {
   return Subscription(
     autoRenew: _$enumDecodeNullable(_$AutoRenewEnumMap, json['AutoRenew']),
-    endTime: unixTimestampFromJson(json['EndTime']),
+    endTime: timeStampFromJson(json['EndTime']),
     limits: (json['Limits'] as List)
         ?.map(
             (e) => e == null ? null : Limit.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    startTime: unixTimestampFromJson(json['StartTime']),
+    startTime: timeStampFromJson(json['StartTime']),
     timeCommitmentInSeconds: json['TimeCommitmentInSeconds'] as int,
   );
 }

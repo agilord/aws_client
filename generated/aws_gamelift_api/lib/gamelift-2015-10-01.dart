@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -10951,7 +10949,7 @@ class Alias {
   /// "1469498468.057").
   @_s.JsonKey(
       name: 'CreationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationTime;
 
@@ -10963,7 +10961,7 @@ class Alias {
   /// expressed in Unix time as milliseconds (for example "1469498468.057").
   @_s.JsonKey(
       name: 'LastUpdatedTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedTime;
 
@@ -11143,7 +11141,7 @@ class Build {
   /// expressed in Unix time as milliseconds (for example "1469498468.057").
   @_s.JsonKey(
       name: 'CreationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationTime;
 
@@ -12696,7 +12694,7 @@ class Event {
   /// in Unix time as milliseconds (for example "1469498468.057").
   @_s.JsonKey(
       name: 'EventTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime eventTime;
 
@@ -12857,7 +12855,7 @@ class FleetAttributes {
   /// expressed in Unix time as milliseconds (for example "1469498468.057").
   @_s.JsonKey(
       name: 'CreationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationTime;
 
@@ -13018,7 +13016,7 @@ class FleetAttributes {
   /// "1469498468.057").
   @_s.JsonKey(
       name: 'TerminationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime terminationTime;
 
@@ -13311,7 +13309,7 @@ class GameServer {
   /// when the game server's claim status.
   @_s.JsonKey(
       name: 'LastClaimTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastClaimTime;
 
@@ -13322,7 +13320,7 @@ class GameServer {
   /// update specifies a health check value.
   @_s.JsonKey(
       name: 'LastHealthCheckTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastHealthCheckTime;
 
@@ -13331,7 +13329,7 @@ class GameServer {
   /// as milliseconds (for example "1469498468.057").
   @_s.JsonKey(
       name: 'RegistrationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime registrationTime;
 
@@ -13423,7 +13421,7 @@ class GameServerGroup {
   /// "1469498468.057").
   @_s.JsonKey(
       name: 'CreationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationTime;
 
@@ -13455,7 +13453,7 @@ class GameServerGroup {
   /// A time stamp indicating when this game server group was last updated.
   @_s.JsonKey(
       name: 'LastUpdatedTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedTime;
 
@@ -13813,7 +13811,7 @@ class GameSession {
   /// expressed in Unix time as milliseconds (for example "1469498468.057").
   @_s.JsonKey(
       name: 'CreationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationTime;
 
@@ -13935,7 +13933,7 @@ class GameSession {
   /// "1469498468.057").
   @_s.JsonKey(
       name: 'TerminationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime terminationTime;
 
@@ -14109,9 +14107,7 @@ class GameSessionPlacement {
   /// Time stamp indicating when this request was completed, canceled, or timed
   /// out.
   @_s.JsonKey(
-      name: 'EndTime',
-      fromJson: unixTimestampFromJson,
-      toJson: unixTimestampToJson)
+      name: 'EndTime', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
   final DateTime endTime;
 
   /// Set of custom properties for a game session, formatted as key:value pairs.
@@ -14211,7 +14207,7 @@ class GameSessionPlacement {
   /// "1469498468.057").
   @_s.JsonKey(
       name: 'StartTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime startTime;
 
@@ -14478,7 +14474,7 @@ class Instance {
   /// expressed in Unix time as milliseconds (for example "1469498468.057").
   @_s.JsonKey(
       name: 'CreationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationTime;
 
@@ -15002,7 +14998,7 @@ class MatchmakingConfiguration {
   /// "1469498468.057").
   @_s.JsonKey(
       name: 'CreationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationTime;
 
@@ -15168,7 +15164,7 @@ class MatchmakingRuleSet {
   /// "1469498468.057").
   @_s.JsonKey(
       name: 'CreationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationTime;
 
@@ -15221,9 +15217,7 @@ class MatchmakingTicket {
   /// due to success, failure, or cancellation. Format is a number expressed in
   /// Unix time as milliseconds (for example "1469498468.057").
   @_s.JsonKey(
-      name: 'EndTime',
-      fromJson: unixTimestampFromJson,
-      toJson: unixTimestampToJson)
+      name: 'EndTime', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
   final DateTime endTime;
 
   /// Average amount of time (in seconds) that players are currently waiting for a
@@ -15250,7 +15244,7 @@ class MatchmakingTicket {
   /// "1469498468.057").
   @_s.JsonKey(
       name: 'StartTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime startTime;
 
@@ -15639,7 +15633,7 @@ class PlayerSession {
   /// expressed in Unix time as milliseconds (for example "1469498468.057").
   @_s.JsonKey(
       name: 'CreationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationTime;
 
@@ -15734,7 +15728,7 @@ class PlayerSession {
   /// "1469498468.057").
   @_s.JsonKey(
       name: 'TerminationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime terminationTime;
 
@@ -16475,7 +16469,7 @@ class Script {
   /// "1469498468.057").
   @_s.JsonKey(
       name: 'CreationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationTime;
 
@@ -17186,7 +17180,7 @@ class VpcPeeringAuthorization {
   /// expressed in Unix time as milliseconds (for example "1469498468.057").
   @_s.JsonKey(
       name: 'CreationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationTime;
 
@@ -17195,7 +17189,7 @@ class VpcPeeringAuthorization {
   /// example "1469498468.057").
   @_s.JsonKey(
       name: 'ExpirationTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime expirationTime;
 

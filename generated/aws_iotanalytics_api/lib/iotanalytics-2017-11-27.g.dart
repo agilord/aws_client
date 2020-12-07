@@ -61,8 +61,8 @@ CancelPipelineReprocessingResponse _$CancelPipelineReprocessingResponseFromJson(
 Channel _$ChannelFromJson(Map<String, dynamic> json) {
   return Channel(
     arn: json['arn'] as String,
-    creationTime: unixTimestampFromJson(json['creationTime']),
-    lastUpdateTime: unixTimestampFromJson(json['lastUpdateTime']),
+    creationTime: timeStampFromJson(json['creationTime']),
+    lastUpdateTime: timeStampFromJson(json['lastUpdateTime']),
     name: json['name'] as String,
     retentionPeriod: json['retentionPeriod'] == null
         ? null
@@ -192,8 +192,8 @@ ChannelSummary _$ChannelSummaryFromJson(Map<String, dynamic> json) {
         ? null
         : ChannelStorageSummary.fromJson(
             json['channelStorage'] as Map<String, dynamic>),
-    creationTime: unixTimestampFromJson(json['creationTime']),
-    lastUpdateTime: unixTimestampFromJson(json['lastUpdateTime']),
+    creationTime: timeStampFromJson(json['creationTime']),
+    lastUpdateTime: timeStampFromJson(json['lastUpdateTime']),
     status: _$enumDecodeNullable(_$ChannelStatusEnumMap, json['status']),
   );
 }
@@ -367,8 +367,8 @@ Dataset _$DatasetFromJson(Map<String, dynamic> json) {
             ? null
             : DatasetContentDeliveryRule.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    creationTime: unixTimestampFromJson(json['creationTime']),
-    lastUpdateTime: unixTimestampFromJson(json['lastUpdateTime']),
+    creationTime: timeStampFromJson(json['creationTime']),
+    lastUpdateTime: timeStampFromJson(json['lastUpdateTime']),
     name: json['name'] as String,
     retentionPeriod: json['retentionPeriod'] == null
         ? null
@@ -510,9 +510,9 @@ const _$DatasetContentStateEnumMap = {
 DatasetContentSummary _$DatasetContentSummaryFromJson(
     Map<String, dynamic> json) {
   return DatasetContentSummary(
-    completionTime: unixTimestampFromJson(json['completionTime']),
-    creationTime: unixTimestampFromJson(json['creationTime']),
-    scheduleTime: unixTimestampFromJson(json['scheduleTime']),
+    completionTime: timeStampFromJson(json['completionTime']),
+    creationTime: timeStampFromJson(json['creationTime']),
+    scheduleTime: timeStampFromJson(json['scheduleTime']),
     status: json['status'] == null
         ? null
         : DatasetContentStatus.fromJson(json['status'] as Map<String, dynamic>),
@@ -555,9 +555,9 @@ DatasetSummary _$DatasetSummaryFromJson(Map<String, dynamic> json) {
             ? null
             : DatasetActionSummary.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    creationTime: unixTimestampFromJson(json['creationTime']),
+    creationTime: timeStampFromJson(json['creationTime']),
     datasetName: json['datasetName'] as String,
-    lastUpdateTime: unixTimestampFromJson(json['lastUpdateTime']),
+    lastUpdateTime: timeStampFromJson(json['lastUpdateTime']),
     status: _$enumDecodeNullable(_$DatasetStatusEnumMap, json['status']),
     triggers: (json['triggers'] as List)
         ?.map((e) => e == null
@@ -595,8 +595,8 @@ Map<String, dynamic> _$DatasetTriggerToJson(DatasetTrigger instance) {
 Datastore _$DatastoreFromJson(Map<String, dynamic> json) {
   return Datastore(
     arn: json['arn'] as String,
-    creationTime: unixTimestampFromJson(json['creationTime']),
-    lastUpdateTime: unixTimestampFromJson(json['lastUpdateTime']),
+    creationTime: timeStampFromJson(json['creationTime']),
+    lastUpdateTime: timeStampFromJson(json['lastUpdateTime']),
     name: json['name'] as String,
     retentionPeriod: json['retentionPeriod'] == null
         ? null
@@ -687,13 +687,13 @@ DatastoreStorageSummary _$DatastoreStorageSummaryFromJson(
 
 DatastoreSummary _$DatastoreSummaryFromJson(Map<String, dynamic> json) {
   return DatastoreSummary(
-    creationTime: unixTimestampFromJson(json['creationTime']),
+    creationTime: timeStampFromJson(json['creationTime']),
     datastoreName: json['datastoreName'] as String,
     datastoreStorage: json['datastoreStorage'] == null
         ? null
         : DatastoreStorageSummary.fromJson(
             json['datastoreStorage'] as Map<String, dynamic>),
-    lastUpdateTime: unixTimestampFromJson(json['lastUpdateTime']),
+    lastUpdateTime: timeStampFromJson(json['lastUpdateTime']),
     status: _$enumDecodeNullable(_$DatastoreStatusEnumMap, json['status']),
   );
 }
@@ -834,7 +834,7 @@ Map<String, dynamic> _$DeviceShadowEnrichActivityToJson(
 EstimatedResourceSize _$EstimatedResourceSizeFromJson(
     Map<String, dynamic> json) {
   return EstimatedResourceSize(
-    estimatedOn: unixTimestampFromJson(json['estimatedOn']),
+    estimatedOn: timeStampFromJson(json['estimatedOn']),
     estimatedSizeInBytes: (json['estimatedSizeInBytes'] as num)?.toDouble(),
   );
 }
@@ -872,7 +872,7 @@ GetDatasetContentResponse _$GetDatasetContentResponseFromJson(
     status: json['status'] == null
         ? null
         : DatasetContentStatus.fromJson(json['status'] as Map<String, dynamic>),
-    timestamp: unixTimestampFromJson(json['timestamp']),
+    timestamp: timeStampFromJson(json['timestamp']),
   );
 }
 
@@ -1105,8 +1105,8 @@ Pipeline _$PipelineFromJson(Map<String, dynamic> json) {
             : PipelineActivity.fromJson(e as Map<String, dynamic>))
         ?.toList(),
     arn: json['arn'] as String,
-    creationTime: unixTimestampFromJson(json['creationTime']),
-    lastUpdateTime: unixTimestampFromJson(json['lastUpdateTime']),
+    creationTime: timeStampFromJson(json['creationTime']),
+    lastUpdateTime: timeStampFromJson(json['lastUpdateTime']),
     name: json['name'] as String,
     reprocessingSummaries: (json['reprocessingSummaries'] as List)
         ?.map((e) => e == null
@@ -1180,8 +1180,8 @@ Map<String, dynamic> _$PipelineActivityToJson(PipelineActivity instance) {
 
 PipelineSummary _$PipelineSummaryFromJson(Map<String, dynamic> json) {
   return PipelineSummary(
-    creationTime: unixTimestampFromJson(json['creationTime']),
-    lastUpdateTime: unixTimestampFromJson(json['lastUpdateTime']),
+    creationTime: timeStampFromJson(json['creationTime']),
+    lastUpdateTime: timeStampFromJson(json['lastUpdateTime']),
     pipelineName: json['pipelineName'] as String,
     reprocessingSummaries: (json['reprocessingSummaries'] as List)
         ?.map((e) => e == null
@@ -1239,7 +1239,7 @@ Map<String, dynamic> _$RemoveAttributesActivityToJson(
 
 ReprocessingSummary _$ReprocessingSummaryFromJson(Map<String, dynamic> json) {
   return ReprocessingSummary(
-    creationTime: unixTimestampFromJson(json['creationTime']),
+    creationTime: timeStampFromJson(json['creationTime']),
     id: json['id'] as String,
     status: _$enumDecodeNullable(_$ReprocessingStatusEnumMap, json['status']),
   );

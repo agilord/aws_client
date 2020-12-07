@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -1329,7 +1327,7 @@ class Dataset {
   /// Date on which the dataset was created.
   @_s.JsonKey(
       name: 'CreationDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDate;
 
@@ -1355,7 +1353,7 @@ class Dataset {
   /// Date when the dataset was last modified.
   @_s.JsonKey(
       name: 'LastModifiedDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastModifiedDate;
 
@@ -1487,14 +1485,14 @@ class GetBulkPublishDetailsResponse {
   /// completed.
   @_s.JsonKey(
       name: 'BulkPublishCompleteTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime bulkPublishCompleteTime;
 
   /// The date/time at which the last bulk publish was initiated.
   @_s.JsonKey(
       name: 'BulkPublishStartTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime bulkPublishStartTime;
 
@@ -1601,7 +1599,7 @@ class IdentityPoolUsage {
   /// Date on which the identity pool was last modified.
   @_s.JsonKey(
       name: 'LastModifiedDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastModifiedDate;
 
@@ -1649,7 +1647,7 @@ class IdentityUsage {
   /// Date on which the identity was last modified.
   @_s.JsonKey(
       name: 'LastModifiedDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastModifiedDate;
 
@@ -1980,7 +1978,7 @@ class Record {
   /// The last modified date of the client device.
   @_s.JsonKey(
       name: 'DeviceLastModifiedDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime deviceLastModifiedDate;
 
@@ -1995,7 +1993,7 @@ class Record {
   /// The date on which the record was last modified.
   @_s.JsonKey(
       name: 'LastModifiedDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastModifiedDate;
 
@@ -2040,7 +2038,7 @@ class RecordPatch {
   /// The last modified date of the client device.
   @_s.JsonKey(
       name: 'DeviceLastModifiedDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime deviceLastModifiedDate;
 

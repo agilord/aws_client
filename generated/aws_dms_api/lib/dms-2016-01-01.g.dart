@@ -40,8 +40,7 @@ AvailabilityZone _$AvailabilityZoneFromJson(Map<String, dynamic> json) {
 Certificate _$CertificateFromJson(Map<String, dynamic> json) {
   return Certificate(
     certificateArn: json['CertificateArn'] as String,
-    certificateCreationDate:
-        unixTimestampFromJson(json['CertificateCreationDate']),
+    certificateCreationDate: timeStampFromJson(json['CertificateCreationDate']),
     certificateIdentifier: json['CertificateIdentifier'] as String,
     certificateOwner: json['CertificateOwner'] as String,
     certificatePem: json['CertificatePem'] as String,
@@ -49,8 +48,8 @@ Certificate _$CertificateFromJson(Map<String, dynamic> json) {
         .fromJson(json['CertificateWallet'] as String),
     keyLength: json['KeyLength'] as int,
     signingAlgorithm: json['SigningAlgorithm'] as String,
-    validFromDate: unixTimestampFromJson(json['ValidFromDate']),
-    validToDate: unixTimestampFromJson(json['ValidToDate']),
+    validFromDate: timeStampFromJson(json['ValidFromDate']),
+    validToDate: timeStampFromJson(json['ValidToDate']),
   );
 }
 
@@ -559,7 +558,7 @@ const _$DmsSslModeValueEnumMap = {
 
 Event _$EventFromJson(Map<String, dynamic> json) {
   return Event(
-    date: unixTimestampFromJson(json['Date']),
+    date: timeStampFromJson(json['Date']),
     eventCategories:
         (json['EventCategories'] as List)?.map((e) => e as String)?.toList(),
     message: json['Message'] as String,
@@ -827,10 +826,10 @@ PendingMaintenanceAction _$PendingMaintenanceActionFromJson(
     Map<String, dynamic> json) {
   return PendingMaintenanceAction(
     action: json['Action'] as String,
-    autoAppliedAfterDate: unixTimestampFromJson(json['AutoAppliedAfterDate']),
-    currentApplyDate: unixTimestampFromJson(json['CurrentApplyDate']),
+    autoAppliedAfterDate: timeStampFromJson(json['AutoAppliedAfterDate']),
+    currentApplyDate: timeStampFromJson(json['CurrentApplyDate']),
     description: json['Description'] as String,
-    forcedApplyDate: unixTimestampFromJson(json['ForcedApplyDate']),
+    forcedApplyDate: timeStampFromJson(json['ForcedApplyDate']),
     optInStatus: json['OptInStatus'] as String,
   );
 }
@@ -935,7 +934,7 @@ RefreshSchemasStatus _$RefreshSchemasStatusFromJson(Map<String, dynamic> json) {
   return RefreshSchemasStatus(
     endpointArn: json['EndpointArn'] as String,
     lastFailureMessage: json['LastFailureMessage'] as String,
-    lastRefreshDate: unixTimestampFromJson(json['LastRefreshDate']),
+    lastRefreshDate: timeStampFromJson(json['LastRefreshDate']),
     replicationInstanceArn: json['ReplicationInstanceArn'] as String,
     status: _$enumDecodeNullable(
         _$RefreshSchemasStatusTypeValueEnumMap, json['Status']),
@@ -966,8 +965,8 @@ ReplicationInstance _$ReplicationInstanceFromJson(Map<String, dynamic> json) {
     availabilityZone: json['AvailabilityZone'] as String,
     dnsNameServers: json['DnsNameServers'] as String,
     engineVersion: json['EngineVersion'] as String,
-    freeUntil: unixTimestampFromJson(json['FreeUntil']),
-    instanceCreateTime: unixTimestampFromJson(json['InstanceCreateTime']),
+    freeUntil: timeStampFromJson(json['FreeUntil']),
+    instanceCreateTime: timeStampFromJson(json['InstanceCreateTime']),
     kmsKeyId: json['KmsKeyId'] as String,
     multiAZ: json['MultiAZ'] as bool,
     pendingModifiedValues: json['PendingModifiedValues'] == null
@@ -1053,11 +1052,11 @@ ReplicationTask _$ReplicationTaskFromJson(Map<String, dynamic> json) {
     replicationInstanceArn: json['ReplicationInstanceArn'] as String,
     replicationTaskArn: json['ReplicationTaskArn'] as String,
     replicationTaskCreationDate:
-        unixTimestampFromJson(json['ReplicationTaskCreationDate']),
+        timeStampFromJson(json['ReplicationTaskCreationDate']),
     replicationTaskIdentifier: json['ReplicationTaskIdentifier'] as String,
     replicationTaskSettings: json['ReplicationTaskSettings'] as String,
     replicationTaskStartDate:
-        unixTimestampFromJson(json['ReplicationTaskStartDate']),
+        timeStampFromJson(json['ReplicationTaskStartDate']),
     replicationTaskStats: json['ReplicationTaskStats'] == null
         ? null
         : ReplicationTaskStats.fromJson(
@@ -1085,7 +1084,7 @@ ReplicationTaskAssessmentResult _$ReplicationTaskAssessmentResultFromJson(
     replicationTaskArn: json['ReplicationTaskArn'] as String,
     replicationTaskIdentifier: json['ReplicationTaskIdentifier'] as String,
     replicationTaskLastAssessmentDate:
-        unixTimestampFromJson(json['ReplicationTaskLastAssessmentDate']),
+        timeStampFromJson(json['ReplicationTaskLastAssessmentDate']),
     s3ObjectUrl: json['S3ObjectUrl'] as String,
   );
 }
@@ -1093,12 +1092,12 @@ ReplicationTaskAssessmentResult _$ReplicationTaskAssessmentResultFromJson(
 ReplicationTaskStats _$ReplicationTaskStatsFromJson(Map<String, dynamic> json) {
   return ReplicationTaskStats(
     elapsedTimeMillis: json['ElapsedTimeMillis'] as int,
-    freshStartDate: unixTimestampFromJson(json['FreshStartDate']),
-    fullLoadFinishDate: unixTimestampFromJson(json['FullLoadFinishDate']),
+    freshStartDate: timeStampFromJson(json['FreshStartDate']),
+    fullLoadFinishDate: timeStampFromJson(json['FullLoadFinishDate']),
     fullLoadProgressPercent: json['FullLoadProgressPercent'] as int,
-    fullLoadStartDate: unixTimestampFromJson(json['FullLoadStartDate']),
-    startDate: unixTimestampFromJson(json['StartDate']),
-    stopDate: unixTimestampFromJson(json['StopDate']),
+    fullLoadStartDate: timeStampFromJson(json['FullLoadStartDate']),
+    startDate: timeStampFromJson(json['StartDate']),
+    stopDate: timeStampFromJson(json['StopDate']),
     tablesErrored: json['TablesErrored'] as int,
     tablesLoaded: json['TablesLoaded'] as int,
     tablesLoading: json['TablesLoading'] as int,
@@ -1270,13 +1269,13 @@ TableStatistics _$TableStatisticsFromJson(Map<String, dynamic> json) {
     ddls: json['Ddls'] as int,
     deletes: json['Deletes'] as int,
     fullLoadCondtnlChkFailedRows: json['FullLoadCondtnlChkFailedRows'] as int,
-    fullLoadEndTime: unixTimestampFromJson(json['FullLoadEndTime']),
+    fullLoadEndTime: timeStampFromJson(json['FullLoadEndTime']),
     fullLoadErrorRows: json['FullLoadErrorRows'] as int,
     fullLoadReloaded: json['FullLoadReloaded'] as bool,
     fullLoadRows: json['FullLoadRows'] as int,
-    fullLoadStartTime: unixTimestampFromJson(json['FullLoadStartTime']),
+    fullLoadStartTime: timeStampFromJson(json['FullLoadStartTime']),
     inserts: json['Inserts'] as int,
-    lastUpdateTime: unixTimestampFromJson(json['LastUpdateTime']),
+    lastUpdateTime: timeStampFromJson(json['LastUpdateTime']),
     schemaName: json['SchemaName'] as String,
     tableName: json['TableName'] as String,
     tableState: json['TableState'] as String,

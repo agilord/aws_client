@@ -15,9 +15,9 @@ BotAliasMetadata _$BotAliasMetadataFromJson(Map<String, dynamic> json) {
         ? null
         : ConversationLogsResponse.fromJson(
             json['conversationLogs'] as Map<String, dynamic>),
-    createdDate: unixTimestampFromJson(json['createdDate']),
+    createdDate: timeStampFromJson(json['createdDate']),
     description: json['description'] as String,
-    lastUpdatedDate: unixTimestampFromJson(json['lastUpdatedDate']),
+    lastUpdatedDate: timeStampFromJson(json['lastUpdatedDate']),
     name: json['name'] as String,
   );
 }
@@ -30,7 +30,7 @@ BotChannelAssociation _$BotChannelAssociationFromJson(
       (k, e) => MapEntry(k, e as String),
     ),
     botName: json['botName'] as String,
-    createdDate: unixTimestampFromJson(json['createdDate']),
+    createdDate: timeStampFromJson(json['createdDate']),
     description: json['description'] as String,
     failureReason: json['failureReason'] as String,
     name: json['name'] as String,
@@ -86,9 +86,9 @@ const _$ChannelTypeEnumMap = {
 
 BotMetadata _$BotMetadataFromJson(Map<String, dynamic> json) {
   return BotMetadata(
-    createdDate: unixTimestampFromJson(json['createdDate']),
+    createdDate: timeStampFromJson(json['createdDate']),
     description: json['description'] as String,
-    lastUpdatedDate: unixTimestampFromJson(json['lastUpdatedDate']),
+    lastUpdatedDate: timeStampFromJson(json['lastUpdatedDate']),
     name: json['name'] as String,
     status: _$enumDecodeNullable(_$StatusEnumMap, json['status']),
     version: json['version'] as String,
@@ -195,7 +195,7 @@ CreateBotVersionResponse _$CreateBotVersionResponseFromJson(
     clarificationPrompt: json['clarificationPrompt'] == null
         ? null
         : Prompt.fromJson(json['clarificationPrompt'] as Map<String, dynamic>),
-    createdDate: unixTimestampFromJson(json['createdDate']),
+    createdDate: timeStampFromJson(json['createdDate']),
     description: json['description'] as String,
     detectSentiment: json['detectSentiment'] as bool,
     failureReason: json['failureReason'] as String,
@@ -204,7 +204,7 @@ CreateBotVersionResponse _$CreateBotVersionResponseFromJson(
         ?.map((e) =>
             e == null ? null : Intent.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    lastUpdatedDate: unixTimestampFromJson(json['lastUpdatedDate']),
+    lastUpdatedDate: timeStampFromJson(json['lastUpdatedDate']),
     locale: _$enumDecodeNullable(_$LocaleEnumMap, json['locale']),
     name: json['name'] as String,
     status: _$enumDecodeNullable(_$StatusEnumMap, json['status']),
@@ -224,7 +224,7 @@ CreateIntentVersionResponse _$CreateIntentVersionResponseFromJson(
     confirmationPrompt: json['confirmationPrompt'] == null
         ? null
         : Prompt.fromJson(json['confirmationPrompt'] as Map<String, dynamic>),
-    createdDate: unixTimestampFromJson(json['createdDate']),
+    createdDate: timeStampFromJson(json['createdDate']),
     description: json['description'] as String,
     dialogCodeHook: json['dialogCodeHook'] == null
         ? null
@@ -237,7 +237,7 @@ CreateIntentVersionResponse _$CreateIntentVersionResponseFromJson(
         ? null
         : FulfillmentActivity.fromJson(
             json['fulfillmentActivity'] as Map<String, dynamic>),
-    lastUpdatedDate: unixTimestampFromJson(json['lastUpdatedDate']),
+    lastUpdatedDate: timeStampFromJson(json['lastUpdatedDate']),
     name: json['name'] as String,
     parentIntentSignature: json['parentIntentSignature'] as String,
     rejectionStatement: json['rejectionStatement'] == null
@@ -258,14 +258,14 @@ CreateSlotTypeVersionResponse _$CreateSlotTypeVersionResponseFromJson(
     Map<String, dynamic> json) {
   return CreateSlotTypeVersionResponse(
     checksum: json['checksum'] as String,
-    createdDate: unixTimestampFromJson(json['createdDate']),
+    createdDate: timeStampFromJson(json['createdDate']),
     description: json['description'] as String,
     enumerationValues: (json['enumerationValues'] as List)
         ?.map((e) => e == null
             ? null
             : EnumerationValue.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    lastUpdatedDate: unixTimestampFromJson(json['lastUpdatedDate']),
+    lastUpdatedDate: timeStampFromJson(json['lastUpdatedDate']),
     name: json['name'] as String,
     parentSlotTypeSignature: json['parentSlotTypeSignature'] as String,
     slotTypeConfigurations: (json['slotTypeConfigurations'] as List)
@@ -368,9 +368,9 @@ GetBotAliasResponse _$GetBotAliasResponseFromJson(Map<String, dynamic> json) {
         ? null
         : ConversationLogsResponse.fromJson(
             json['conversationLogs'] as Map<String, dynamic>),
-    createdDate: unixTimestampFromJson(json['createdDate']),
+    createdDate: timeStampFromJson(json['createdDate']),
     description: json['description'] as String,
-    lastUpdatedDate: unixTimestampFromJson(json['lastUpdatedDate']),
+    lastUpdatedDate: timeStampFromJson(json['lastUpdatedDate']),
     name: json['name'] as String,
   );
 }
@@ -395,7 +395,7 @@ GetBotChannelAssociationResponse _$GetBotChannelAssociationResponseFromJson(
       (k, e) => MapEntry(k, e as String),
     ),
     botName: json['botName'] as String,
-    createdDate: unixTimestampFromJson(json['createdDate']),
+    createdDate: timeStampFromJson(json['createdDate']),
     description: json['description'] as String,
     failureReason: json['failureReason'] as String,
     name: json['name'] as String,
@@ -426,7 +426,7 @@ GetBotResponse _$GetBotResponseFromJson(Map<String, dynamic> json) {
     clarificationPrompt: json['clarificationPrompt'] == null
         ? null
         : Prompt.fromJson(json['clarificationPrompt'] as Map<String, dynamic>),
-    createdDate: unixTimestampFromJson(json['createdDate']),
+    createdDate: timeStampFromJson(json['createdDate']),
     description: json['description'] as String,
     detectSentiment: json['detectSentiment'] as bool,
     failureReason: json['failureReason'] as String,
@@ -435,7 +435,7 @@ GetBotResponse _$GetBotResponseFromJson(Map<String, dynamic> json) {
         ?.map((e) =>
             e == null ? null : Intent.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    lastUpdatedDate: unixTimestampFromJson(json['lastUpdatedDate']),
+    lastUpdatedDate: timeStampFromJson(json['lastUpdatedDate']),
     locale: _$enumDecodeNullable(_$LocaleEnumMap, json['locale']),
     name: json['name'] as String,
     status: _$enumDecodeNullable(_$StatusEnumMap, json['status']),
@@ -537,7 +537,7 @@ const _$ResourceTypeEnumMap = {
 
 GetImportResponse _$GetImportResponseFromJson(Map<String, dynamic> json) {
   return GetImportResponse(
-    createdDate: unixTimestampFromJson(json['createdDate']),
+    createdDate: timeStampFromJson(json['createdDate']),
     failureReason:
         (json['failureReason'] as List)?.map((e) => e as String)?.toList(),
     importId: json['importId'] as String,
@@ -572,7 +572,7 @@ GetIntentResponse _$GetIntentResponseFromJson(Map<String, dynamic> json) {
     confirmationPrompt: json['confirmationPrompt'] == null
         ? null
         : Prompt.fromJson(json['confirmationPrompt'] as Map<String, dynamic>),
-    createdDate: unixTimestampFromJson(json['createdDate']),
+    createdDate: timeStampFromJson(json['createdDate']),
     description: json['description'] as String,
     dialogCodeHook: json['dialogCodeHook'] == null
         ? null
@@ -585,7 +585,7 @@ GetIntentResponse _$GetIntentResponseFromJson(Map<String, dynamic> json) {
         ? null
         : FulfillmentActivity.fromJson(
             json['fulfillmentActivity'] as Map<String, dynamic>),
-    lastUpdatedDate: unixTimestampFromJson(json['lastUpdatedDate']),
+    lastUpdatedDate: timeStampFromJson(json['lastUpdatedDate']),
     name: json['name'] as String,
     parentIntentSignature: json['parentIntentSignature'] as String,
     rejectionStatement: json['rejectionStatement'] == null
@@ -628,14 +628,14 @@ GetIntentsResponse _$GetIntentsResponseFromJson(Map<String, dynamic> json) {
 GetSlotTypeResponse _$GetSlotTypeResponseFromJson(Map<String, dynamic> json) {
   return GetSlotTypeResponse(
     checksum: json['checksum'] as String,
-    createdDate: unixTimestampFromJson(json['createdDate']),
+    createdDate: timeStampFromJson(json['createdDate']),
     description: json['description'] as String,
     enumerationValues: (json['enumerationValues'] as List)
         ?.map((e) => e == null
             ? null
             : EnumerationValue.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    lastUpdatedDate: unixTimestampFromJson(json['lastUpdatedDate']),
+    lastUpdatedDate: timeStampFromJson(json['lastUpdatedDate']),
     name: json['name'] as String,
     parentSlotTypeSignature: json['parentSlotTypeSignature'] as String,
     slotTypeConfigurations: (json['slotTypeConfigurations'] as List)
@@ -707,9 +707,9 @@ Map<String, dynamic> _$IntentToJson(Intent instance) {
 
 IntentMetadata _$IntentMetadataFromJson(Map<String, dynamic> json) {
   return IntentMetadata(
-    createdDate: unixTimestampFromJson(json['createdDate']),
+    createdDate: timeStampFromJson(json['createdDate']),
     description: json['description'] as String,
-    lastUpdatedDate: unixTimestampFromJson(json['lastUpdatedDate']),
+    lastUpdatedDate: timeStampFromJson(json['lastUpdatedDate']),
     name: json['name'] as String,
     version: json['version'] as String,
   );
@@ -827,9 +827,9 @@ PutBotAliasResponse _$PutBotAliasResponseFromJson(Map<String, dynamic> json) {
         ? null
         : ConversationLogsResponse.fromJson(
             json['conversationLogs'] as Map<String, dynamic>),
-    createdDate: unixTimestampFromJson(json['createdDate']),
+    createdDate: timeStampFromJson(json['createdDate']),
     description: json['description'] as String,
-    lastUpdatedDate: unixTimestampFromJson(json['lastUpdatedDate']),
+    lastUpdatedDate: timeStampFromJson(json['lastUpdatedDate']),
     name: json['name'] as String,
     tags: (json['tags'] as List)
         ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
@@ -848,7 +848,7 @@ PutBotResponse _$PutBotResponseFromJson(Map<String, dynamic> json) {
         ? null
         : Prompt.fromJson(json['clarificationPrompt'] as Map<String, dynamic>),
     createVersion: json['createVersion'] as bool,
-    createdDate: unixTimestampFromJson(json['createdDate']),
+    createdDate: timeStampFromJson(json['createdDate']),
     description: json['description'] as String,
     detectSentiment: json['detectSentiment'] as bool,
     failureReason: json['failureReason'] as String,
@@ -857,7 +857,7 @@ PutBotResponse _$PutBotResponseFromJson(Map<String, dynamic> json) {
         ?.map((e) =>
             e == null ? null : Intent.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    lastUpdatedDate: unixTimestampFromJson(json['lastUpdatedDate']),
+    lastUpdatedDate: timeStampFromJson(json['lastUpdatedDate']),
     locale: _$enumDecodeNullable(_$LocaleEnumMap, json['locale']),
     name: json['name'] as String,
     status: _$enumDecodeNullable(_$StatusEnumMap, json['status']),
@@ -880,7 +880,7 @@ PutIntentResponse _$PutIntentResponseFromJson(Map<String, dynamic> json) {
         ? null
         : Prompt.fromJson(json['confirmationPrompt'] as Map<String, dynamic>),
     createVersion: json['createVersion'] as bool,
-    createdDate: unixTimestampFromJson(json['createdDate']),
+    createdDate: timeStampFromJson(json['createdDate']),
     description: json['description'] as String,
     dialogCodeHook: json['dialogCodeHook'] == null
         ? null
@@ -893,7 +893,7 @@ PutIntentResponse _$PutIntentResponseFromJson(Map<String, dynamic> json) {
         ? null
         : FulfillmentActivity.fromJson(
             json['fulfillmentActivity'] as Map<String, dynamic>),
-    lastUpdatedDate: unixTimestampFromJson(json['lastUpdatedDate']),
+    lastUpdatedDate: timeStampFromJson(json['lastUpdatedDate']),
     name: json['name'] as String,
     parentIntentSignature: json['parentIntentSignature'] as String,
     rejectionStatement: json['rejectionStatement'] == null
@@ -914,14 +914,14 @@ PutSlotTypeResponse _$PutSlotTypeResponseFromJson(Map<String, dynamic> json) {
   return PutSlotTypeResponse(
     checksum: json['checksum'] as String,
     createVersion: json['createVersion'] as bool,
-    createdDate: unixTimestampFromJson(json['createdDate']),
+    createdDate: timeStampFromJson(json['createdDate']),
     description: json['description'] as String,
     enumerationValues: (json['enumerationValues'] as List)
         ?.map((e) => e == null
             ? null
             : EnumerationValue.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    lastUpdatedDate: unixTimestampFromJson(json['lastUpdatedDate']),
+    lastUpdatedDate: timeStampFromJson(json['lastUpdatedDate']),
     name: json['name'] as String,
     parentSlotTypeSignature: json['parentSlotTypeSignature'] as String,
     slotTypeConfigurations: (json['slotTypeConfigurations'] as List)
@@ -1017,9 +1017,9 @@ Map<String, dynamic> _$SlotTypeConfigurationToJson(
 
 SlotTypeMetadata _$SlotTypeMetadataFromJson(Map<String, dynamic> json) {
   return SlotTypeMetadata(
-    createdDate: unixTimestampFromJson(json['createdDate']),
+    createdDate: timeStampFromJson(json['createdDate']),
     description: json['description'] as String,
-    lastUpdatedDate: unixTimestampFromJson(json['lastUpdatedDate']),
+    lastUpdatedDate: timeStampFromJson(json['lastUpdatedDate']),
     name: json['name'] as String,
     version: json['version'] as String,
   );
@@ -1048,7 +1048,7 @@ Map<String, dynamic> _$SlotTypeRegexConfigurationToJson(
 
 StartImportResponse _$StartImportResponseFromJson(Map<String, dynamic> json) {
   return StartImportResponse(
-    createdDate: unixTimestampFromJson(json['createdDate']),
+    createdDate: timeStampFromJson(json['createdDate']),
     importId: json['importId'] as String,
     importStatus:
         _$enumDecodeNullable(_$ImportStatusEnumMap, json['importStatus']),
@@ -1122,8 +1122,8 @@ UtteranceData _$UtteranceDataFromJson(Map<String, dynamic> json) {
   return UtteranceData(
     count: json['count'] as int,
     distinctUsers: json['distinctUsers'] as int,
-    firstUtteredDate: unixTimestampFromJson(json['firstUtteredDate']),
-    lastUtteredDate: unixTimestampFromJson(json['lastUtteredDate']),
+    firstUtteredDate: timeStampFromJson(json['firstUtteredDate']),
+    lastUtteredDate: timeStampFromJson(json['lastUtteredDate']),
     utteranceString: json['utteranceString'] as String,
   );
 }

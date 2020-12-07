@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -2159,7 +2157,7 @@ class DomainPackageDetails {
   /// Timestamp of the most-recent update to the association status.
   @_s.JsonKey(
       name: 'LastUpdated',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdated;
 
@@ -3440,7 +3438,7 @@ class OptionStatus {
   /// Timestamp which tells the creation date for the entity.
   @_s.JsonKey(
       name: 'CreationDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDate;
 
@@ -3451,7 +3449,7 @@ class OptionStatus {
   /// Timestamp which tells the last updated time for the entity.
   @_s.JsonKey(
       name: 'UpdateDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime updateDate;
 
@@ -3484,7 +3482,7 @@ class PackageDetails {
   /// Timestamp which tells creation date of the package.
   @_s.JsonKey(
       name: 'CreatedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdAt;
 
@@ -3686,7 +3684,7 @@ class ReservedElasticsearchInstance {
   /// The time the reservation started.
   @_s.JsonKey(
       name: 'StartTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime startTime;
 
@@ -3797,7 +3795,7 @@ class ServiceSoftwareOptions {
   /// software.
   @_s.JsonKey(
       name: 'AutomatedUpdateDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime automatedUpdateDate;
 
@@ -4067,7 +4065,7 @@ class UpgradeHistory {
   /// "yyyy-MM-ddTHH:mm:ssZ" format.
   @_s.JsonKey(
       name: 'StartTimestamp',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime startTimestamp;
 

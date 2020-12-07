@@ -1193,7 +1193,7 @@ DetachPolicyResponse _$DetachPolicyResponseFromJson(Map<String, dynamic> json) {
 
 Directory _$DirectoryFromJson(Map<String, dynamic> json) {
   return Directory(
-    creationDateTime: unixTimestampFromJson(json['CreationDateTime']),
+    creationDateTime: timeStampFromJson(json['CreationDateTime']),
     directoryArn: json['DirectoryArn'] as String,
     name: json['Name'] as String,
     state: _$enumDecodeNullable(_$DirectoryStateEnumMap, json['State']),
@@ -1898,7 +1898,7 @@ TypedAttributeValue _$TypedAttributeValueFromJson(Map<String, dynamic> json) {
     binaryValue:
         const Uint8ListConverter().fromJson(json['BinaryValue'] as String),
     booleanValue: json['BooleanValue'] as bool,
-    datetimeValue: unixTimestampFromJson(json['DatetimeValue']),
+    datetimeValue: timeStampFromJson(json['DatetimeValue']),
     numberValue: json['NumberValue'] as String,
     stringValue: json['StringValue'] as String,
   );

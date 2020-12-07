@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -886,7 +884,7 @@ class AffectedEntity {
   /// The most recent time that the entity was updated.
   @_s.JsonKey(
       name: 'lastUpdatedTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedTime;
 
@@ -931,14 +929,12 @@ class AffectedEntity {
 class DateTimeRange {
   /// The starting date and time of a time range.
   @_s.JsonKey(
-      name: 'from',
-      fromJson: unixTimestampFromJson,
-      toJson: unixTimestampToJson)
+      name: 'from', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
   final DateTime from;
 
   /// The ending date and time of a time range.
   @_s.JsonKey(
-      name: 'to', fromJson: unixTimestampFromJson, toJson: unixTimestampToJson)
+      name: 'to', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
   final DateTime to;
 
   DateTimeRange({
@@ -1327,9 +1323,7 @@ class Event {
 
   /// The date and time that the event ended.
   @_s.JsonKey(
-      name: 'endTime',
-      fromJson: unixTimestampFromJson,
-      toJson: unixTimestampToJson)
+      name: 'endTime', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
   final DateTime endTime;
 
   /// The category of the event. Possible values are <code>issue</code>,
@@ -1346,7 +1340,7 @@ class Event {
   /// The most recent date and time that the event was updated.
   @_s.JsonKey(
       name: 'lastUpdatedTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedTime;
 
@@ -1362,7 +1356,7 @@ class Event {
   /// The date and time that the event began.
   @_s.JsonKey(
       name: 'startTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime startTime;
 
@@ -1725,9 +1719,7 @@ class OrganizationEvent {
 
   /// The date and time that the event ended.
   @_s.JsonKey(
-      name: 'endTime',
-      fromJson: unixTimestampFromJson,
-      toJson: unixTimestampToJson)
+      name: 'endTime', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
   final DateTime endTime;
 
   /// The category of the event type.
@@ -1743,7 +1735,7 @@ class OrganizationEvent {
   /// The most recent date and time that the event was updated.
   @_s.JsonKey(
       name: 'lastUpdatedTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedTime;
 
@@ -1758,7 +1750,7 @@ class OrganizationEvent {
   /// The date and time that the event began.
   @_s.JsonKey(
       name: 'startTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime startTime;
 

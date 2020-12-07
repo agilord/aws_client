@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -5100,7 +5098,7 @@ class ArchivalSummary {
   /// epoch time format.
   @_s.JsonKey(
       name: 'ArchivalDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime archivalDateTime;
 
@@ -5672,7 +5670,7 @@ class BackupDetails {
   /// backup.
   @_s.JsonKey(
       name: 'BackupCreationDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime backupCreationDateTime;
 
@@ -5711,7 +5709,7 @@ class BackupDetails {
   /// days after its creation.
   @_s.JsonKey(
       name: 'BackupExpiryDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime backupExpiryDateTime;
 
@@ -5755,7 +5753,7 @@ class BackupSummary {
   /// Time at which the backup was created.
   @_s.JsonKey(
       name: 'BackupCreationDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime backupCreationDateTime;
 
@@ -5764,7 +5762,7 @@ class BackupSummary {
   /// days after its creation.
   @_s.JsonKey(
       name: 'BackupExpiryDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime backupExpiryDateTime;
 
@@ -6087,7 +6085,7 @@ class BillingModeSummary {
   /// read/write capacity mode.
   @_s.JsonKey(
       name: 'LastUpdateToPayPerRequestDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdateToPayPerRequestDateTime;
 
@@ -7046,7 +7044,7 @@ class DescribeContributorInsightsOutput {
   /// Timestamp of the last time the status was changed.
   @_s.JsonKey(
       name: 'LastUpdateDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdateDateTime;
 
@@ -7967,7 +7965,7 @@ class GlobalTableDescription {
   /// The creation time of the global table.
   @_s.JsonKey(
       name: 'CreationDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDateTime;
 
@@ -8614,7 +8612,7 @@ class PointInTimeRecoveryDescription {
   /// restore your table to any point in time during the last 35 days.
   @_s.JsonKey(
       name: 'EarliestRestorableDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime earliestRestorableDateTime;
 
@@ -8622,7 +8620,7 @@ class PointInTimeRecoveryDescription {
   /// current time.
   @_s.JsonKey(
       name: 'LatestRestorableDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime latestRestorableDateTime;
 
@@ -8794,7 +8792,7 @@ class ProvisionedThroughputDescription {
   /// table.
   @_s.JsonKey(
       name: 'LastDecreaseDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastDecreaseDateTime;
 
@@ -8802,7 +8800,7 @@ class ProvisionedThroughputDescription {
   /// table.
   @_s.JsonKey(
       name: 'LastIncreaseDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastIncreaseDateTime;
 
@@ -9676,7 +9674,7 @@ class RestoreSummary {
   /// Point in time or source backup time.
   @_s.JsonKey(
       name: 'RestoreDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime restoreDateTime;
 
@@ -9855,7 +9853,7 @@ class SSEDescription {
   /// KMS key remains inaccessible for more than seven days from this date.
   @_s.JsonKey(
       name: 'InaccessibleEncryptionDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime inaccessibleEncryptionDateTime;
 
@@ -10088,7 +10086,7 @@ class SourceTableDetails {
   /// Time when the source table was created.
   @_s.JsonKey(
       name: 'TableCreationDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime tableCreationDateTime;
 
@@ -10325,7 +10323,7 @@ class TableDescription {
   /// href="http://www.epochconverter.com/">UNIX epoch time</a> format.
   @_s.JsonKey(
       name: 'CreationDateTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime creationDateTime;
 

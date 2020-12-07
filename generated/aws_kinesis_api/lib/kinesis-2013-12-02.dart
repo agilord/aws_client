@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -2624,7 +2622,7 @@ class Consumer {
   /// <p/>
   @_s.JsonKey(
       name: 'ConsumerCreationTimestamp',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime consumerCreationTimestamp;
 
@@ -2668,7 +2666,7 @@ class ConsumerDescription {
   /// <p/>
   @_s.JsonKey(
       name: 'ConsumerCreationTimestamp',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime consumerCreationTimestamp;
 
@@ -3562,7 +3560,7 @@ class Record {
   /// The approximate time that the record was inserted into the stream.
   @_s.JsonKey(
       name: 'ApproximateArrivalTimestamp',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime approximateArrivalTimestamp;
 
@@ -3787,7 +3785,7 @@ class StreamDescription {
   /// The approximate time that the stream was created.
   @_s.JsonKey(
       name: 'StreamCreationTimestamp',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime streamCreationTimestamp;
 
@@ -3909,7 +3907,7 @@ class StreamDescriptionSummary {
   /// The approximate time that the stream was created.
   @_s.JsonKey(
       name: 'StreamCreationTimestamp',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime streamCreationTimestamp;
 

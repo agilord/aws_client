@@ -150,7 +150,7 @@ Map<String, dynamic> _$CustomizedScalingMetricSpecificationToJson(
 
 Datapoint _$DatapointFromJson(Map<String, dynamic> json) {
   return Datapoint(
-    timestamp: unixTimestampFromJson(json['Timestamp']),
+    timestamp: timeStampFromJson(json['Timestamp']),
     value: (json['Value'] as num)?.toDouble(),
   );
 }
@@ -437,9 +437,9 @@ ScalingPlan _$ScalingPlanFromJson(Map<String, dynamic> json) {
     scalingPlanVersion: json['ScalingPlanVersion'] as int,
     statusCode: _$enumDecodeNullable(
         _$ScalingPlanStatusCodeEnumMap, json['StatusCode']),
-    creationTime: unixTimestampFromJson(json['CreationTime']),
+    creationTime: timeStampFromJson(json['CreationTime']),
     statusMessage: json['StatusMessage'] as String,
-    statusStartTime: unixTimestampFromJson(json['StatusStartTime']),
+    statusStartTime: timeStampFromJson(json['StatusStartTime']),
   );
 }
 

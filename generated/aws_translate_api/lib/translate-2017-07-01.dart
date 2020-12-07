@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -1136,7 +1134,7 @@ class TerminologyProperties {
   /// timestamp.
   @_s.JsonKey(
       name: 'CreatedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdAt;
 
@@ -1152,7 +1150,7 @@ class TerminologyProperties {
   /// timestamp.
   @_s.JsonKey(
       name: 'LastUpdatedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedAt;
 
@@ -1215,7 +1213,7 @@ class TextTranslationJobFilter {
   /// Jobs are returned in descending order, newest to oldest.
   @_s.JsonKey(
       name: 'SubmittedAfterTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime submittedAfterTime;
 
@@ -1224,7 +1222,7 @@ class TextTranslationJobFilter {
   /// Jobs are returned in ascending order, oldest to newest.
   @_s.JsonKey(
       name: 'SubmittedBeforeTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime submittedBeforeTime;
 
@@ -1252,9 +1250,7 @@ class TextTranslationJobProperties {
 
   /// The time at which the translation job ended.
   @_s.JsonKey(
-      name: 'EndTime',
-      fromJson: unixTimestampFromJson,
-      toJson: unixTimestampToJson)
+      name: 'EndTime', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
   final DateTime endTime;
 
   /// The input configuration properties that were specified when the job was
@@ -1297,7 +1293,7 @@ class TextTranslationJobProperties {
   /// The time at which the translation job was submitted.
   @_s.JsonKey(
       name: 'SubmittedTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime submittedTime;
 

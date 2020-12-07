@@ -413,8 +413,7 @@ String extractXmlCode(
     final dartType = type.getDartType(api);
     var extraParameters = '';
     if (shapeRef.timestampFormat != null || member?.timestampFormat != null) {
-      extraParameters =
-          ', parser: _s.timeStampFromJson';
+      extraParameters = ', parser: _s.timeStampFromJson';
     }
     var functionSuffix = 'Value';
     if (member?.xmlAttribute == true) {
@@ -504,8 +503,7 @@ String extractHeaderCode(Member member, String variable) {
     var extraParameters = '';
     if (member.timestampFormat != null ||
         member.shapeClass.timestampFormat != null) {
-      extraParameters =
-          ', parser: _s.timeStampFromJson';
+      extraParameters = ', parser: _s.timeStampFromJson';
     }
     return '_s.extractHeader${uppercaseName(member.dartType)}Value($variable, \'${member.locationName ?? member.name}\'$extraParameters)';
   }

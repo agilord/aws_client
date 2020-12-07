@@ -168,7 +168,7 @@ DissociateEntityFromThingResponse _$DissociateEntityFromThingResponseFromJson(
 EntityDescription _$EntityDescriptionFromJson(Map<String, dynamic> json) {
   return EntityDescription(
     arn: json['arn'] as String,
-    createdAt: unixTimestampFromJson(json['createdAt']),
+    createdAt: timeStampFromJson(json['createdAt']),
     definition: json['definition'] == null
         ? null
         : DefinitionDocument.fromJson(
@@ -218,7 +218,7 @@ FlowExecutionMessage _$FlowExecutionMessageFromJson(Map<String, dynamic> json) {
         _$FlowExecutionEventTypeEnumMap, json['eventType']),
     messageId: json['messageId'] as String,
     payload: json['payload'] as String,
-    timestamp: unixTimestampFromJson(json['timestamp']),
+    timestamp: timeStampFromJson(json['timestamp']),
   );
 }
 
@@ -246,12 +246,12 @@ const _$FlowExecutionEventTypeEnumMap = {
 
 FlowExecutionSummary _$FlowExecutionSummaryFromJson(Map<String, dynamic> json) {
   return FlowExecutionSummary(
-    createdAt: unixTimestampFromJson(json['createdAt']),
+    createdAt: timeStampFromJson(json['createdAt']),
     flowExecutionId: json['flowExecutionId'] as String,
     flowTemplateId: json['flowTemplateId'] as String,
     status: _$enumDecodeNullable(_$FlowExecutionStatusEnumMap, json['status']),
     systemInstanceId: json['systemInstanceId'] as String,
-    updatedAt: unixTimestampFromJson(json['updatedAt']),
+    updatedAt: timeStampFromJson(json['updatedAt']),
   );
 }
 
@@ -297,7 +297,7 @@ const _$FlowTemplateFilterNameEnumMap = {
 FlowTemplateSummary _$FlowTemplateSummaryFromJson(Map<String, dynamic> json) {
   return FlowTemplateSummary(
     arn: json['arn'] as String,
-    createdAt: unixTimestampFromJson(json['createdAt']),
+    createdAt: timeStampFromJson(json['createdAt']),
     id: json['id'] as String,
     revisionNumber: json['revisionNumber'] as int,
   );
@@ -393,7 +393,7 @@ GetSystemTemplateRevisionsResponse _$GetSystemTemplateRevisionsResponseFromJson(
 GetUploadStatusResponse _$GetUploadStatusResponseFromJson(
     Map<String, dynamic> json) {
   return GetUploadStatusResponse(
-    createdDate: unixTimestampFromJson(json['createdDate']),
+    createdDate: timeStampFromJson(json['createdDate']),
     uploadId: json['uploadId'] as String,
     uploadStatus:
         _$enumDecodeNullable(_$UploadStatusEnumMap, json['uploadStatus']),
@@ -576,7 +576,7 @@ SystemInstanceSummary _$SystemInstanceSummaryFromJson(
     Map<String, dynamic> json) {
   return SystemInstanceSummary(
     arn: json['arn'] as String,
-    createdAt: unixTimestampFromJson(json['createdAt']),
+    createdAt: timeStampFromJson(json['createdAt']),
     greengrassGroupId: json['greengrassGroupId'] as String,
     greengrassGroupName: json['greengrassGroupName'] as String,
     greengrassGroupVersionId: json['greengrassGroupVersionId'] as String,
@@ -584,7 +584,7 @@ SystemInstanceSummary _$SystemInstanceSummaryFromJson(
     status: _$enumDecodeNullable(
         _$SystemInstanceDeploymentStatusEnumMap, json['status']),
     target: _$enumDecodeNullable(_$DeploymentTargetEnumMap, json['target']),
-    updatedAt: unixTimestampFromJson(json['updatedAt']),
+    updatedAt: timeStampFromJson(json['updatedAt']),
   );
 }
 
@@ -642,7 +642,7 @@ SystemTemplateSummary _$SystemTemplateSummaryFromJson(
     Map<String, dynamic> json) {
   return SystemTemplateSummary(
     arn: json['arn'] as String,
-    createdAt: unixTimestampFromJson(json['createdAt']),
+    createdAt: timeStampFromJson(json['createdAt']),
     id: json['id'] as String,
     revisionNumber: json['revisionNumber'] as int,
   );

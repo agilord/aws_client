@@ -44,17 +44,17 @@ class TimestampMembers {
           ?.let((e) => TimeContainer.fromXml(e)),
       timeArg: _s.extractXmlDateTimeValue($elem, 'TimeArg'),
       timeCustom: _s.extractXmlDateTimeValue($elem, 'TimeCustom',
-          parser: _s.rfc822FromJson),
+          parser: _s.timeStampFromJson),
       timeFormat: _s.extractXmlDateTimeValue($elem, 'TimeFormat',
-          parser: _s.unixTimestampFromJson),
+          parser: _s.timeStampFromJson),
       timeArgInHeader:
           _s.extractHeaderDateTimeValue($result.headers, 'x-amz-timearg'),
       timeCustomInHeader: _s.extractHeaderDateTimeValue(
           $result.headers, 'x-amz-timecustom',
-          parser: _s.unixTimestampFromJson),
+          parser: _s.timeStampFromJson),
       timeFormatInHeader: _s.extractHeaderDateTimeValue(
           $result.headers, 'x-amz-timeformat',
-          parser: _s.unixTimestampFromJson),
+          parser: _s.timeStampFromJson),
     );
   }
 }
@@ -89,8 +89,8 @@ class TimeContainer {
   });
   factory TimeContainer.fromXml(_s.XmlElement elem) {
     return TimeContainer(
-      bar: _s.extractXmlDateTimeValue(elem, 'bar',
-          parser: _s.unixTimestampFromJson),
+      bar:
+          _s.extractXmlDateTimeValue(elem, 'bar', parser: _s.timeStampFromJson),
       foo: _s.extractXmlDateTimeValue(elem, 'foo'),
     );
   }

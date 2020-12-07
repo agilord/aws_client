@@ -12,9 +12,9 @@ Backup _$BackupFromJson(Map<String, dynamic> json) {
     backupState:
         _$enumDecodeNullable(_$BackupStateEnumMap, json['BackupState']),
     clusterId: json['ClusterId'] as String,
-    copyTimestamp: unixTimestampFromJson(json['CopyTimestamp']),
-    createTimestamp: unixTimestampFromJson(json['CreateTimestamp']),
-    deleteTimestamp: unixTimestampFromJson(json['DeleteTimestamp']),
+    copyTimestamp: timeStampFromJson(json['CopyTimestamp']),
+    createTimestamp: timeStampFromJson(json['CreateTimestamp']),
+    deleteTimestamp: timeStampFromJson(json['DeleteTimestamp']),
     sourceBackup: json['SourceBackup'] as String,
     sourceCluster: json['SourceCluster'] as String,
     sourceRegion: json['SourceRegion'] as String,
@@ -82,7 +82,7 @@ Cluster _$ClusterFromJson(Map<String, dynamic> json) {
         ? null
         : Certificates.fromJson(json['Certificates'] as Map<String, dynamic>),
     clusterId: json['ClusterId'] as String,
-    createTimestamp: unixTimestampFromJson(json['CreateTimestamp']),
+    createTimestamp: timeStampFromJson(json['CreateTimestamp']),
     hsmType: json['HsmType'] as String,
     hsms: (json['Hsms'] as List)
         ?.map((e) => e == null ? null : Hsm.fromJson(e as Map<String, dynamic>))
@@ -192,7 +192,7 @@ DescribeClustersResponse _$DescribeClustersResponseFromJson(
 
 DestinationBackup _$DestinationBackupFromJson(Map<String, dynamic> json) {
   return DestinationBackup(
-    createTimestamp: unixTimestampFromJson(json['CreateTimestamp']),
+    createTimestamp: timeStampFromJson(json['CreateTimestamp']),
     sourceBackup: json['SourceBackup'] as String,
     sourceCluster: json['SourceCluster'] as String,
     sourceRegion: json['SourceRegion'] as String,

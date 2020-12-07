@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -4183,7 +4181,7 @@ class Account {
   /// The date the account became a part of the organization.
   @_s.JsonKey(
       name: 'JoinedTimestamp',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime joinedTimestamp;
 
@@ -4400,7 +4398,7 @@ class CreateAccountStatus {
   /// The date and time that the account was created and the request completed.
   @_s.JsonKey(
       name: 'CompletedTimestamp',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime completedTimestamp;
 
@@ -4454,7 +4452,7 @@ class CreateAccountStatus {
   /// The date and time that the request was made for the account creation.
   @_s.JsonKey(
       name: 'RequestedTimestamp',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime requestedTimestamp;
 
@@ -4576,7 +4574,7 @@ class DelegatedAdministrator {
   /// The date when the account was made a delegated administrator.
   @_s.JsonKey(
       name: 'DelegationEnabledDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime delegationEnabledDate;
 
@@ -4598,7 +4596,7 @@ class DelegatedAdministrator {
   /// organization.
   @_s.JsonKey(
       name: 'JoinedTimestamp',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime joinedTimestamp;
 
@@ -4635,7 +4633,7 @@ class DelegatedService {
   /// The date that the account became a delegated administrator for this service.
   @_s.JsonKey(
       name: 'DelegationEnabledDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime delegationEnabledDate;
 
@@ -4804,7 +4802,7 @@ class EffectivePolicy {
   /// The time of the last update to this policy.
   @_s.JsonKey(
       name: 'LastUpdatedTimestamp',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime lastUpdatedTimestamp;
 
@@ -4893,7 +4891,7 @@ class EnabledServicePrincipal {
   /// Organizations.
   @_s.JsonKey(
       name: 'DateEnabled',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime dateEnabled;
 
@@ -4967,7 +4965,7 @@ class Handshake {
   /// handshake becomes inactive and is no longer valid.
   @_s.JsonKey(
       name: 'ExpirationTimestamp',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime expirationTimestamp;
 
@@ -4987,7 +4985,7 @@ class Handshake {
   /// The date and time that the handshake request was made.
   @_s.JsonKey(
       name: 'RequestedTimestamp',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime requestedTimestamp;
 

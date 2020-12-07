@@ -191,8 +191,8 @@ GetLifecyclePolicyResponse _$GetLifecyclePolicyResponseFromJson(
 
 LifecyclePolicy _$LifecyclePolicyFromJson(Map<String, dynamic> json) {
   return LifecyclePolicy(
-    dateCreated: iso8601FromJson(json['DateCreated'] as String),
-    dateModified: iso8601FromJson(json['DateModified'] as String),
+    dateCreated: timeStampFromJson(json['DateCreated']),
+    dateModified: timeStampFromJson(json['DateModified']),
     description: json['Description'] as String,
     executionRoleArn: json['ExecutionRoleArn'] as String,
     policyArn: json['PolicyArn'] as String,

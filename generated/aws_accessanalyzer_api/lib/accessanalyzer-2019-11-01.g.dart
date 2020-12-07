@@ -8,14 +8,14 @@ part of 'accessanalyzer-2019-11-01.dart';
 
 AnalyzedResource _$AnalyzedResourceFromJson(Map<String, dynamic> json) {
   return AnalyzedResource(
-    analyzedAt: iso8601FromJson(json['analyzedAt'] as String),
-    createdAt: iso8601FromJson(json['createdAt'] as String),
+    analyzedAt: timeStampFromJson(json['analyzedAt']),
+    createdAt: timeStampFromJson(json['createdAt']),
     isPublic: json['isPublic'] as bool,
     resourceArn: json['resourceArn'] as String,
     resourceOwnerAccount: json['resourceOwnerAccount'] as String,
     resourceType:
         _$enumDecodeNullable(_$ResourceTypeEnumMap, json['resourceType']),
-    updatedAt: iso8601FromJson(json['updatedAt'] as String),
+    updatedAt: timeStampFromJson(json['updatedAt']),
     actions: (json['actions'] as List)?.map((e) => e as String)?.toList(),
     error: json['error'] as String,
     sharedVia: (json['sharedVia'] as List)?.map((e) => e as String)?.toList(),
@@ -83,13 +83,12 @@ AnalyzedResourceSummary _$AnalyzedResourceSummaryFromJson(
 AnalyzerSummary _$AnalyzerSummaryFromJson(Map<String, dynamic> json) {
   return AnalyzerSummary(
     arn: json['arn'] as String,
-    createdAt: iso8601FromJson(json['createdAt'] as String),
+    createdAt: timeStampFromJson(json['createdAt']),
     name: json['name'] as String,
     status: _$enumDecodeNullable(_$AnalyzerStatusEnumMap, json['status']),
     type: _$enumDecodeNullable(_$TypeEnumMap, json['type']),
     lastResourceAnalyzed: json['lastResourceAnalyzed'] as String,
-    lastResourceAnalyzedAt:
-        iso8601FromJson(json['lastResourceAnalyzedAt'] as String),
+    lastResourceAnalyzedAt: timeStampFromJson(json['lastResourceAnalyzedAt']),
     statusReason: json['statusReason'] == null
         ? null
         : StatusReason.fromJson(json['statusReason'] as Map<String, dynamic>),
@@ -113,13 +112,13 @@ const _$TypeEnumMap = {
 
 ArchiveRuleSummary _$ArchiveRuleSummaryFromJson(Map<String, dynamic> json) {
   return ArchiveRuleSummary(
-    createdAt: iso8601FromJson(json['createdAt'] as String),
+    createdAt: timeStampFromJson(json['createdAt']),
     filter: (json['filter'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(
           k, e == null ? null : Criterion.fromJson(e as Map<String, dynamic>)),
     ),
     ruleName: json['ruleName'] as String,
-    updatedAt: iso8601FromJson(json['updatedAt'] as String),
+    updatedAt: timeStampFromJson(json['updatedAt']),
   );
 }
 
@@ -157,17 +156,17 @@ Map<String, dynamic> _$CriterionToJson(Criterion instance) {
 
 Finding _$FindingFromJson(Map<String, dynamic> json) {
   return Finding(
-    analyzedAt: iso8601FromJson(json['analyzedAt'] as String),
+    analyzedAt: timeStampFromJson(json['analyzedAt']),
     condition: (json['condition'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    createdAt: iso8601FromJson(json['createdAt'] as String),
+    createdAt: timeStampFromJson(json['createdAt']),
     id: json['id'] as String,
     resourceOwnerAccount: json['resourceOwnerAccount'] as String,
     resourceType:
         _$enumDecodeNullable(_$ResourceTypeEnumMap, json['resourceType']),
     status: _$enumDecodeNullable(_$FindingStatusEnumMap, json['status']),
-    updatedAt: iso8601FromJson(json['updatedAt'] as String),
+    updatedAt: timeStampFromJson(json['updatedAt']),
     action: (json['action'] as List)?.map((e) => e as String)?.toList(),
     error: json['error'] as String,
     isPublic: json['isPublic'] as bool,
@@ -180,17 +179,17 @@ Finding _$FindingFromJson(Map<String, dynamic> json) {
 
 FindingSummary _$FindingSummaryFromJson(Map<String, dynamic> json) {
   return FindingSummary(
-    analyzedAt: iso8601FromJson(json['analyzedAt'] as String),
+    analyzedAt: timeStampFromJson(json['analyzedAt']),
     condition: (json['condition'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    createdAt: iso8601FromJson(json['createdAt'] as String),
+    createdAt: timeStampFromJson(json['createdAt']),
     id: json['id'] as String,
     resourceOwnerAccount: json['resourceOwnerAccount'] as String,
     resourceType:
         _$enumDecodeNullable(_$ResourceTypeEnumMap, json['resourceType']),
     status: _$enumDecodeNullable(_$FindingStatusEnumMap, json['status']),
-    updatedAt: iso8601FromJson(json['updatedAt'] as String),
+    updatedAt: timeStampFromJson(json['updatedAt']),
     action: (json['action'] as List)?.map((e) => e as String)?.toList(),
     error: json['error'] as String,
     isPublic: json['isPublic'] as bool,

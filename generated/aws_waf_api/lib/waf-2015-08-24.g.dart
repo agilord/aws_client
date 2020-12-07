@@ -1435,7 +1435,7 @@ SampledHTTPRequest _$SampledHTTPRequestFromJson(Map<String, dynamic> json) {
     weight: json['Weight'] as int,
     action: json['Action'] as String,
     ruleWithinRuleGroup: json['RuleWithinRuleGroup'] as String,
-    timestamp: unixTimestampFromJson(json['Timestamp']),
+    timestamp: timeStampFromJson(json['Timestamp']),
   );
 }
 
@@ -1622,8 +1622,8 @@ TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
 
 TimeWindow _$TimeWindowFromJson(Map<String, dynamic> json) {
   return TimeWindow(
-    endTime: unixTimestampFromJson(json['EndTime']),
-    startTime: unixTimestampFromJson(json['StartTime']),
+    endTime: timeStampFromJson(json['EndTime']),
+    startTime: timeStampFromJson(json['StartTime']),
   );
 }
 

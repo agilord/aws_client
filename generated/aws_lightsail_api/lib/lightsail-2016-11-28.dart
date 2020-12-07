@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -7618,7 +7616,7 @@ class Alarm {
   /// The timestamp when the alarm was created.
   @_s.JsonKey(
       name: 'createdAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdAt;
 
@@ -8010,7 +8008,7 @@ class AutoSnapshotDetails {
   /// The timestamp when the automatic snapshot was created.
   @_s.JsonKey(
       name: 'createdAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdAt;
 
@@ -8276,7 +8274,7 @@ class CloudFormationStackRecord {
   /// The date when the CloudFormation stack record was created.
   @_s.JsonKey(
       name: 'createdAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdAt;
 
@@ -8408,7 +8406,7 @@ class ContactMethod {
   /// The timestamp when the contact method was created.
   @_s.JsonKey(
       name: 'createdAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdAt;
   @_s.JsonKey(name: 'location')
@@ -9272,7 +9270,7 @@ class Disk {
   /// The date when the disk was created.
   @_s.JsonKey(
       name: 'createdAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdAt;
 
@@ -9427,7 +9425,7 @@ class DiskSnapshot {
   /// The date when the disk snapshot was created.
   @_s.JsonKey(
       name: 'createdAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdAt;
 
@@ -9570,7 +9568,7 @@ class Domain {
   /// The date when the domain recordset was created.
   @_s.JsonKey(
       name: 'createdAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdAt;
 
@@ -9757,7 +9755,7 @@ class ExportSnapshotRecord {
   /// The date when the export snapshot record was created.
   @_s.JsonKey(
       name: 'createdAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdAt;
 
@@ -9814,7 +9812,7 @@ class ExportSnapshotRecordSourceInfo {
   /// The date when the source instance or disk snapshot was created.
   @_s.JsonKey(
       name: 'createdAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdAt;
 
@@ -10900,7 +10898,7 @@ class GetRelationalDatabaseMasterUserPasswordResult {
   /// created.
   @_s.JsonKey(
       name: 'createdAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdAt;
 
@@ -11165,7 +11163,7 @@ class HostKeyAttributes {
   /// This value is listed only for RDP certificates.
   @_s.JsonKey(
       name: 'notValidAfter',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime notValidAfter;
 
@@ -11174,7 +11172,7 @@ class HostKeyAttributes {
   /// This value is listed only for RDP certificates.
   @_s.JsonKey(
       name: 'notValidBefore',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime notValidBefore;
 
@@ -11185,7 +11183,7 @@ class HostKeyAttributes {
   /// The time that the SSH host key or RDP certificate was recorded by Lightsail.
   @_s.JsonKey(
       name: 'witnessedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime witnessedAt;
 
@@ -11253,7 +11251,7 @@ class Instance {
   /// <code>1479734909.17</code>).
   @_s.JsonKey(
       name: 'createdAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdAt;
 
@@ -11365,7 +11363,7 @@ class InstanceAccessDetails {
   /// For SSH access, the date on which the temporary keys expire.
   @_s.JsonKey(
       name: 'expiresAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime expiresAt;
 
@@ -11903,7 +11901,7 @@ class InstanceSnapshot {
   /// <code>1479907467.024</code>).
   @_s.JsonKey(
       name: 'createdAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdAt;
 
@@ -12095,7 +12093,7 @@ class KeyPair {
   /// <code>1479816991.349</code>).
   @_s.JsonKey(
       name: 'createdAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdAt;
 
@@ -12161,7 +12159,7 @@ class LoadBalancer {
   /// The date when your load balancer was created.
   @_s.JsonKey(
       name: 'createdAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdAt;
 
@@ -12375,7 +12373,7 @@ class LoadBalancerTlsCertificate {
   /// The time when you created your SSL/TLS certificate.
   @_s.JsonKey(
       name: 'createdAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdAt;
 
@@ -12401,7 +12399,7 @@ class LoadBalancerTlsCertificate {
   /// The time when the SSL/TLS certificate was issued.
   @_s.JsonKey(
       name: 'issuedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime issuedAt;
 
@@ -12429,14 +12427,14 @@ class LoadBalancerTlsCertificate {
   /// The timestamp when the SSL/TLS certificate expires.
   @_s.JsonKey(
       name: 'notAfter',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime notAfter;
 
   /// The timestamp when the SSL/TLS certificate is first valid.
   @_s.JsonKey(
       name: 'notBefore',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime notBefore;
 
@@ -12492,7 +12490,7 @@ class LoadBalancerTlsCertificate {
   /// The timestamp when the SSL/TLS certificate was revoked.
   @_s.JsonKey(
       name: 'revokedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime revokedAt;
 
@@ -12774,7 +12772,7 @@ class LogEvent {
   /// The timestamp when the database log event was created.
   @_s.JsonKey(
       name: 'createdAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdAt;
 
@@ -12820,7 +12818,7 @@ class MetricDatapoint {
   /// The timestamp (e.g., <code>1479816991.349</code>).
   @_s.JsonKey(
       name: 'timestamp',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime timestamp;
 
@@ -13188,7 +13186,7 @@ class Operation {
   /// <code>1479816991.349</code>).
   @_s.JsonKey(
       name: 'createdAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdAt;
 
@@ -13236,7 +13234,7 @@ class Operation {
   /// <code>1479816991.349</code>).
   @_s.JsonKey(
       name: 'statusChangedAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime statusChangedAt;
 
@@ -13462,7 +13460,7 @@ class PendingMaintenanceAction {
   /// The effective date of the pending database maintenance action.
   @_s.JsonKey(
       name: 'currentApplyDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime currentApplyDate;
 
@@ -13781,7 +13779,7 @@ class RelationalDatabase {
   /// The timestamp when the database was created. Formatted in Unix time.
   @_s.JsonKey(
       name: 'createdAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdAt;
 
@@ -13801,7 +13799,7 @@ class RelationalDatabase {
   /// Unix time.
   @_s.JsonKey(
       name: 'latestRestorableTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime latestRestorableTime;
 
@@ -14071,7 +14069,7 @@ class RelationalDatabaseEvent {
   /// The timestamp when the database event was created.
   @_s.JsonKey(
       name: 'createdAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdAt;
 
@@ -14254,7 +14252,7 @@ class RelationalDatabaseSnapshot {
   /// The timestamp when the database snapshot was created.
   @_s.JsonKey(
       name: 'createdAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdAt;
 
@@ -14500,7 +14498,7 @@ class StaticIp {
   /// <code>1479735304.222</code>).
   @_s.JsonKey(
       name: 'createdAt',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdAt;
 

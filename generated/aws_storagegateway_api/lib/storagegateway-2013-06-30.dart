@@ -12,12 +12,10 @@ import 'package:shared_aws_api/shared.dart'
     show
         Uint8ListConverter,
         Uint8ListListConverter,
-        rfc822FromJson,
         rfc822ToJson,
-        iso8601FromJson,
         iso8601ToJson,
-        unixTimestampFromJson,
-        unixTimestampToJson;
+        unixTimestampToJson,
+        timeStampFromJson;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -5548,7 +5546,7 @@ class CachediSCSIVolume {
   /// don’t have this time stamp.
   @_s.JsonKey(
       name: 'CreatedDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdDate;
   @_s.JsonKey(name: 'KMSKey')
@@ -6065,7 +6063,7 @@ class DescribeAvailabilityMonitorTestOutput {
   /// been performed, the value of this field is null.
   @_s.JsonKey(
       name: 'StartTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime startTime;
 
@@ -7922,7 +7920,7 @@ class StorediSCSIVolume {
   /// don’t have this time stamp.
   @_s.JsonKey(
       name: 'CreatedDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime createdDate;
   @_s.JsonKey(name: 'KMSKey')
@@ -8095,7 +8093,7 @@ class Tape {
   /// The date the virtual tape was created.
   @_s.JsonKey(
       name: 'TapeCreatedDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime tapeCreatedDate;
 
@@ -8147,7 +8145,7 @@ class TapeArchive {
   /// YYYY-MM-DD'T'HH:MM:SS'Z' format.
   @_s.JsonKey(
       name: 'CompletionTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime completionTime;
   @_s.JsonKey(name: 'KMSKey')
@@ -8178,7 +8176,7 @@ class TapeArchive {
   /// The date the virtual tape was created.
   @_s.JsonKey(
       name: 'TapeCreatedDate',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime tapeCreatedDate;
 
@@ -8281,7 +8279,7 @@ class TapeRecoveryPointInfo {
   /// ISO8601 extended YYYY-MM-DD'T'HH:MM:SS'Z' format.
   @_s.JsonKey(
       name: 'TapeRecoveryPointTime',
-      fromJson: unixTimestampFromJson,
+      fromJson: timeStampFromJson,
       toJson: unixTimestampToJson)
   final DateTime tapeRecoveryPointTime;
 
