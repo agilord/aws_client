@@ -105,7 +105,7 @@ import 'output/query/not_all_members_in_response_test.dart' as _i94;
 import 'output/query/scalar_members_test.dart' as _i95;
 import 'output/query/timestamp_members_test.dart' as _i96;
 import 'output/rest-json/blob_members_test.dart' as _i97;
-import 'output/rest-json/complex_map_values_test.dart' as _i98;
+import 'output/rest-json/complex_list_values_test.dart' as _i98;
 import 'output/rest-json/enum_test.dart' as _i99;
 import 'output/rest-json/ignores_extra_data_test.dart' as _i100;
 import 'output/rest-json/ignores_undefined_output_test.dart' as _i101;
@@ -244,7 +244,7 @@ void main() {
   group('output/query/scalar_members_test', _i95.main);
   group('output/query/timestamp_members_test', _i96.main);
   group('output/rest-json/blob_members_test', _i97.main);
-  group('output/rest-json/complex_map_values_test', _i98.main);
+  group('output/rest-json/complex_list_values_test', _i98.main);
   group('output/rest-json/enum_test', _i99.main);
   group('output/rest-json/ignores_extra_data_test', _i100.main);
   group('output/rest-json/ignores_undefined_output_test', _i101.main);

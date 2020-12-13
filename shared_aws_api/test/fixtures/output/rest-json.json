@@ -401,8 +401,7 @@
     ]
   },
   {
-    "description": "Complex Map Values",
-    "skip": "No api actually uses this, only this test",
+    "description": "Complex List Values",
     "metadata": {
       "protocol": "rest-json"
     },
@@ -410,25 +409,19 @@
       "OutputShape": {
         "type": "structure",
         "members": {
-          "MapMember": {
-            "shape": "MapType"
+          "ListMember": {
+            "shape": "ListType"
           }
         }
       },
-      "MapType": {
-        "type": "map",
-        "key": {
-          "shape": "StringType"
-        },
-        "value": {
+      "ListType": {
+        "type": "list",
+        "member": {
           "shape": "TimeType"
         }
       },
       "TimeType": {
         "type": "timestamp"
-      },
-      "StringType": {
-        "type": "string"
       }
     },
     "cases": [
@@ -440,15 +433,15 @@
           "name": "OperationName"
         },
         "result": {
-          "MapMember": {
-            "a": 1398796238,
-            "b": 1398796238
-          }
+          "ListMember": [
+            1398796238,
+            1398796238
+          ]
         },
         "response": {
           "status_code": 200,
           "headers": {},
-          "body": "{\"MapMember\": {\"a\": 1398796238, \"b\": 1398796238}}"
+          "body": "{\"ListMember\": [1398796238, 1398796238]}"
         }
       }
     ]
