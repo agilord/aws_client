@@ -249,6 +249,8 @@ ${builder.constructor()}
               prefix = 'Iso';
             } else if (ret.startsWith('unix')) {
               prefix = 'Unix';
+            } else {
+              throw Exception('Unknown time format "$ret"');
             }
             write('@${prefix}DateTimeConverter()');
           }
@@ -406,7 +408,7 @@ String calculateDateTimeToJson(Member member) {
         break;
     }
   }
-  return '${timeStampFormat}ToJson';
+  return timeStampFormat;
 }
 
 String extractXmlCode(
