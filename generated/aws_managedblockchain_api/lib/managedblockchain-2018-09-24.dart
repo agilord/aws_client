@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -1493,8 +1496,8 @@ class GetProposalOutput {
     createToJson: false)
 class Invitation {
   /// The date and time that the invitation was created.
-  @_s.JsonKey(
-      name: 'CreationDate', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'CreationDate')
   final DateTime creationDate;
 
   /// The date and time that the invitation expires. This is the
@@ -1502,10 +1505,8 @@ class Invitation {
   /// is specified in the <code>ProposalThresholdPolicy</code>. After this date
   /// and time, the invitee can no longer create a member and join the network
   /// using this <code>InvitationId</code>.
-  @_s.JsonKey(
-      name: 'ExpirationDate',
-      fromJson: timeStampFromJson,
-      toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'ExpirationDate')
   final DateTime expirationDate;
 
   /// The unique identifier for the invitation.
@@ -1769,8 +1770,8 @@ class LogConfigurations {
     createToJson: false)
 class Member {
   /// The date and time that the member was created.
-  @_s.JsonKey(
-      name: 'CreationDate', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'CreationDate')
   final DateTime creationDate;
 
   /// An optional description for the member.
@@ -2056,8 +2057,8 @@ extension on MemberStatus {
     createToJson: false)
 class MemberSummary {
   /// The date and time that the member was created.
-  @_s.JsonKey(
-      name: 'CreationDate', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'CreationDate')
   final DateTime creationDate;
 
   /// An optional description of the member.
@@ -2128,8 +2129,8 @@ class MemberSummary {
     createToJson: false)
 class Network {
   /// The date and time that the network was created.
-  @_s.JsonKey(
-      name: 'CreationDate', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'CreationDate')
   final DateTime creationDate;
 
   /// Attributes of the blockchain framework for the network.
@@ -2310,8 +2311,8 @@ extension on NetworkStatus {
     createToJson: false)
 class NetworkSummary {
   /// The date and time that the network was created.
-  @_s.JsonKey(
-      name: 'CreationDate', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'CreationDate')
   final DateTime creationDate;
 
   /// An optional description of the network.
@@ -2363,8 +2364,8 @@ class Node {
   final String availabilityZone;
 
   /// The date and time that the node was created.
-  @_s.JsonKey(
-      name: 'CreationDate', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'CreationDate')
   final DateTime creationDate;
 
   /// Attributes of the blockchain framework being used.
@@ -2591,8 +2592,8 @@ class NodeSummary {
   final String availabilityZone;
 
   /// The date and time that the node was created.
-  @_s.JsonKey(
-      name: 'CreationDate', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'CreationDate')
   final DateTime creationDate;
 
   /// The unique identifier of the node.
@@ -2631,8 +2632,8 @@ class Proposal {
   final ProposalActions actions;
 
   /// The date and time that the proposal was created.
-  @_s.JsonKey(
-      name: 'CreationDate', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'CreationDate')
   final DateTime creationDate;
 
   /// The description of the proposal.
@@ -2645,10 +2646,8 @@ class Proposal {
   /// and time, if members have not cast enough votes to determine the outcome
   /// according to the voting policy, the proposal is <code>EXPIRED</code> and
   /// <code>Actions</code> are not carried out.
-  @_s.JsonKey(
-      name: 'ExpirationDate',
-      fromJson: timeStampFromJson,
-      toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'ExpirationDate')
   final DateTime expirationDate;
 
   /// The unique identifier of the network for which the proposal is made.
@@ -2782,8 +2781,8 @@ enum ProposalStatus {
     createToJson: false)
 class ProposalSummary {
   /// The date and time that the proposal was created.
-  @_s.JsonKey(
-      name: 'CreationDate', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'CreationDate')
   final DateTime creationDate;
 
   /// The description of the proposal.
@@ -2796,10 +2795,8 @@ class ProposalSummary {
   /// and time, if members have not cast enough votes to determine the outcome
   /// according to the voting policy, the proposal is <code>EXPIRED</code> and
   /// <code>Actions</code> are not carried out.
-  @_s.JsonKey(
-      name: 'ExpirationDate',
-      fromJson: timeStampFromJson,
-      toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'ExpirationDate')
   final DateTime expirationDate;
 
   /// The unique identifier of the proposal.

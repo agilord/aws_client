@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -903,10 +906,8 @@ class Stream {
     createToJson: false)
 class StreamDescription {
   /// The date and time when the request to create this stream was issued.
-  @_s.JsonKey(
-      name: 'CreationRequestDateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationRequestDateTime')
   final DateTime creationRequestDateTime;
 
   /// The key attribute(s) of the stream's DynamoDB table.
@@ -1030,10 +1031,8 @@ class StreamDescription {
 class StreamRecord {
   /// The approximate date and time when the stream record was created, in <a
   /// href="http://www.epochconverter.com/">UNIX epoch time</a> format.
-  @_s.JsonKey(
-      name: 'ApproximateCreationDateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ApproximateCreationDateTime')
   final DateTime approximateCreationDateTime;
 
   /// The primary key attribute(s) for the DynamoDB item that was modified.

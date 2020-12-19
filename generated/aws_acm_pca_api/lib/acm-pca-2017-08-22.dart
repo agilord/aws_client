@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -1854,10 +1857,8 @@ class CertificateAuthority {
   final CertificateAuthorityConfiguration certificateAuthorityConfiguration;
 
   /// Date and time at which your private CA was created.
-  @_s.JsonKey(
-      name: 'CreatedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedAt')
   final DateTime createdAt;
 
   /// Reason the request to create your private CA failed.
@@ -1865,33 +1866,25 @@ class CertificateAuthority {
   final FailureReason failureReason;
 
   /// Date and time at which your private CA was last updated.
-  @_s.JsonKey(
-      name: 'LastStateChangeAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastStateChangeAt')
   final DateTime lastStateChangeAt;
 
   /// Date and time after which your private CA certificate is not valid.
-  @_s.JsonKey(
-      name: 'NotAfter',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'NotAfter')
   final DateTime notAfter;
 
   /// Date and time before which your private CA certificate is not valid.
-  @_s.JsonKey(
-      name: 'NotBefore',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'NotBefore')
   final DateTime notBefore;
 
   /// The period during which a deleted CA can be restored. For more information,
   /// see the <code>PermanentDeletionTimeInDays</code> parameter of the
   /// <a>DeleteCertificateAuthorityRequest</a> action.
-  @_s.JsonKey(
-      name: 'RestorableUntil',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'RestorableUntil')
   final DateTime restorableUntil;
 
   /// Information about the certificate revocation list (CRL) created and
@@ -2211,10 +2204,8 @@ class DescribeCertificateAuthorityAuditReportResponse {
   final AuditReportStatus auditReportStatus;
 
   /// The date and time at which the report was created.
-  @_s.JsonKey(
-      name: 'CreatedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedAt')
   final DateTime createdAt;
 
   /// Name of the S3 bucket that contains the report.
@@ -2460,10 +2451,8 @@ class Permission {
   final String certificateAuthorityArn;
 
   /// The time at which the permission was created.
-  @_s.JsonKey(
-      name: 'CreatedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedAt')
   final DateTime createdAt;
 
   /// The name of the policy that is associated with the permission.

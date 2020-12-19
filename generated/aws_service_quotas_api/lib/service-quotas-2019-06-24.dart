@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -1802,8 +1805,8 @@ class RequestedServiceQuotaChange {
 
   /// The date and time when the service quota increase request was received and
   /// the case Id was created.
-  @_s.JsonKey(
-      name: 'Created', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'Created')
   final DateTime created;
 
   /// New increased value for the service quota.
@@ -1820,10 +1823,8 @@ class RequestedServiceQuotaChange {
 
   /// The date and time of the most recent change in the service quota increase
   /// request.
-  @_s.JsonKey(
-      name: 'LastUpdated',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastUpdated')
   final DateTime lastUpdated;
 
   /// The Amazon Resource Name (ARN) of the service quota.

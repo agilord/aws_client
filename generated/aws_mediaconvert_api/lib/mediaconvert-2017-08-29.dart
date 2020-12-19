@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -8563,10 +8566,8 @@ class Job {
   final BillingTagsSource billingTagsSource;
 
   /// The time, in Unix epoch format in seconds, when the job got created.
-  @_s.JsonKey(
-      name: 'createdAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdAt')
   final DateTime createdAt;
 
   /// A job's phase can be PROBING, TRANSCODING OR UPLOADING
@@ -8879,10 +8880,8 @@ class JobTemplate {
   final String category;
 
   /// The timestamp in epoch seconds for Job template creation.
-  @_s.JsonKey(
-      name: 'createdAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdAt')
   final DateTime createdAt;
 
   /// An optional description you create for each job template.
@@ -8894,10 +8893,8 @@ class JobTemplate {
   final List<HopDestination> hopDestinations;
 
   /// The timestamp in epoch seconds when the Job template was last updated.
-  @_s.JsonKey(
-      name: 'lastUpdated',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastUpdated')
   final DateTime lastUpdated;
 
   /// Relative priority on the job.
@@ -11757,10 +11754,8 @@ class Preset {
   final String category;
 
   /// The timestamp in epoch seconds for preset creation.
-  @_s.JsonKey(
-      name: 'createdAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdAt')
   final DateTime createdAt;
 
   /// An optional description you create for each preset.
@@ -11768,10 +11763,8 @@ class Preset {
   final String description;
 
   /// The timestamp in epoch seconds when the preset was last updated.
-  @_s.JsonKey(
-      name: 'lastUpdated',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastUpdated')
   final DateTime lastUpdated;
 
   /// A preset can be of two types: system or custom. System or built-in preset
@@ -12110,10 +12103,8 @@ class Queue {
   final String arn;
 
   /// The timestamp in epoch seconds for when you created the queue.
-  @_s.JsonKey(
-      name: 'createdAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdAt')
   final DateTime createdAt;
 
   /// An optional description that you create for each queue.
@@ -12121,10 +12112,8 @@ class Queue {
   final String description;
 
   /// The timestamp in epoch seconds for when you most recently updated the queue.
-  @_s.JsonKey(
-      name: 'lastUpdated',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastUpdated')
   final DateTime lastUpdated;
 
   /// Specifies whether the pricing plan for the queue is on-demand or reserved.
@@ -12238,10 +12227,8 @@ class QueueTransition {
 
   /// The time, in Unix epoch format, that the job moved from the source queue to
   /// the destination queue.
-  @_s.JsonKey(
-      name: 'timestamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'timestamp')
   final DateTime timestamp;
 
   QueueTransition({
@@ -12352,18 +12339,14 @@ class ReservationPlan {
 
   /// The timestamp in epoch seconds for when the current pricing plan term for
   /// this reserved queue expires.
-  @_s.JsonKey(
-      name: 'expiresAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'expiresAt')
   final DateTime expiresAt;
 
   /// The timestamp in epoch seconds for when you set up the current pricing plan
   /// for this reserved queue.
-  @_s.JsonKey(
-      name: 'purchasedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'purchasedAt')
   final DateTime purchasedAt;
 
   /// Specifies whether the term of your reserved queue pricing plan is
@@ -13171,24 +13154,18 @@ class TimedMetadataInsertion {
     createToJson: false)
 class Timing {
   /// The time, in Unix epoch format, that the transcoding job finished
-  @_s.JsonKey(
-      name: 'finishTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'finishTime')
   final DateTime finishTime;
 
   /// The time, in Unix epoch format, that transcoding for the job began.
-  @_s.JsonKey(
-      name: 'startTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'startTime')
   final DateTime startTime;
 
   /// The time, in Unix epoch format, that you submitted the job.
-  @_s.JsonKey(
-      name: 'submitTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'submitTime')
   final DateTime submitTime;
 
   Timing({

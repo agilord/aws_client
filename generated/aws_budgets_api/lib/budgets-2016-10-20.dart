@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -1296,10 +1299,8 @@ class Budget {
   final CostTypes costTypes;
 
   /// The last time that you updated this budget.
-  @_s.JsonKey(
-      name: 'LastUpdatedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastUpdatedTime')
   final DateTime lastUpdatedTime;
 
   /// A map containing multiple <code>BudgetLimit</code>, including current or
@@ -2026,8 +2027,8 @@ class TimePeriod {
   /// After the end date, AWS deletes the budget and all associated notifications
   /// and subscribers. You can change your end date with the
   /// <code>UpdateBudget</code> operation.
-  @_s.JsonKey(
-      name: 'End', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'End')
   final DateTime end;
 
   /// The start date for a budget. If you created your budget and didn't specify a
@@ -2040,8 +2041,8 @@ class TimePeriod {
   /// Management console and the API.
   ///
   /// You can change your start date with the <code>UpdateBudget</code> operation.
-  @_s.JsonKey(
-      name: 'Start', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'Start')
   final DateTime start;
 
   TimePeriod({

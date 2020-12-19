@@ -78,7 +78,7 @@ const _$LocaleEnumMap = {
 
 BusinessReport _$BusinessReportFromJson(Map<String, dynamic> json) {
   return BusinessReport(
-    deliveryTime: timeStampFromJson(json['DeliveryTime']),
+    deliveryTime: const UnixDateTimeConverter().fromJson(json['DeliveryTime']),
     downloadUrl: json['DownloadUrl'] as String,
     failureCode: _$enumDecodeNullable(
         _$BusinessReportFailureCodeEnumMap, json['FailureCode']),
@@ -582,7 +582,7 @@ const _$DeviceStatusEnumMap = {
 
 DeviceData _$DeviceDataFromJson(Map<String, dynamic> json) {
   return DeviceData(
-    createdTime: timeStampFromJson(json['CreatedTime']),
+    createdTime: const UnixDateTimeConverter().fromJson(json['CreatedTime']),
     deviceArn: json['DeviceArn'] as String,
     deviceName: json['DeviceName'] as String,
     deviceSerialNumber: json['DeviceSerialNumber'] as String,
@@ -604,7 +604,7 @@ DeviceData _$DeviceDataFromJson(Map<String, dynamic> json) {
 
 DeviceEvent _$DeviceEventFromJson(Map<String, dynamic> json) {
   return DeviceEvent(
-    timestamp: timeStampFromJson(json['Timestamp']),
+    timestamp: const UnixDateTimeConverter().fromJson(json['Timestamp']),
     type: _$enumDecodeNullable(_$DeviceEventTypeEnumMap, json['Type']),
     value: json['Value'] as String,
   );
@@ -619,8 +619,8 @@ DeviceNetworkProfileInfo _$DeviceNetworkProfileInfoFromJson(
     Map<String, dynamic> json) {
   return DeviceNetworkProfileInfo(
     certificateArn: json['CertificateArn'] as String,
-    certificateExpirationTime:
-        timeStampFromJson(json['CertificateExpirationTime']),
+    certificateExpirationTime: const UnixDateTimeConverter()
+        .fromJson(json['CertificateExpirationTime']),
     networkProfileArn: json['NetworkProfileArn'] as String,
   );
 }
@@ -668,8 +668,8 @@ DeviceStatusInfo _$DeviceStatusInfoFromJson(Map<String, dynamic> json) {
   return DeviceStatusInfo(
     connectionStatus: _$enumDecodeNullable(
         _$ConnectionStatusEnumMap, json['ConnectionStatus']),
-    connectionStatusUpdatedTime:
-        timeStampFromJson(json['ConnectionStatusUpdatedTime']),
+    connectionStatusUpdatedTime: const UnixDateTimeConverter()
+        .fromJson(json['ConnectionStatusUpdatedTime']),
     deviceStatusDetails: (json['DeviceStatusDetails'] as List)
         ?.map((e) => e == null
             ? null

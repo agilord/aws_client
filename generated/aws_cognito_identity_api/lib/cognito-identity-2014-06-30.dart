@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -1727,10 +1730,8 @@ class Credentials {
   final String accessKeyId;
 
   /// The date at which these credentials will expire.
-  @_s.JsonKey(
-      name: 'Expiration',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'Expiration')
   final DateTime expiration;
 
   /// The Secret Access Key portion of the credentials
@@ -1911,10 +1912,8 @@ class GetOpenIdTokenResponse {
     createToJson: false)
 class IdentityDescription {
   /// Date on which the identity was created.
-  @_s.JsonKey(
-      name: 'CreationDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationDate')
   final DateTime creationDate;
 
   /// A unique identifier in the format REGION:GUID.
@@ -1922,10 +1921,8 @@ class IdentityDescription {
   final String identityId;
 
   /// Date on which the identity was last modified.
-  @_s.JsonKey(
-      name: 'LastModifiedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastModifiedDate')
   final DateTime lastModifiedDate;
 
   /// The provider names.

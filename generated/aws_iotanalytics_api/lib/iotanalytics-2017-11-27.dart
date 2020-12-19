@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -1785,17 +1788,13 @@ class Channel {
   final String arn;
 
   /// When the channel was created.
-  @_s.JsonKey(
-      name: 'creationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'creationTime')
   final DateTime creationTime;
 
   /// When the channel was last updated.
-  @_s.JsonKey(
-      name: 'lastUpdateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastUpdateTime')
   final DateTime lastUpdateTime;
 
   /// The name of the channel.
@@ -1958,17 +1957,13 @@ class ChannelSummary {
   final ChannelStorageSummary channelStorage;
 
   /// When the channel was created.
-  @_s.JsonKey(
-      name: 'creationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'creationTime')
   final DateTime creationTime;
 
   /// The last time the channel was updated.
-  @_s.JsonKey(
-      name: 'lastUpdateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastUpdateTime')
   final DateTime lastUpdateTime;
 
   /// The status of the channel.
@@ -2321,17 +2316,13 @@ class Dataset {
   final List<DatasetContentDeliveryRule> contentDeliveryRules;
 
   /// When the data set was created.
-  @_s.JsonKey(
-      name: 'creationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'creationTime')
   final DateTime creationTime;
 
   /// The last time the data set was updated.
-  @_s.JsonKey(
-      name: 'lastUpdateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastUpdateTime')
   final DateTime lastUpdateTime;
 
   /// The name of the data set.
@@ -2537,24 +2528,18 @@ class DatasetContentStatus {
     createToJson: false)
 class DatasetContentSummary {
   /// The time the dataset content status was updated to SUCCEEDED or FAILED.
-  @_s.JsonKey(
-      name: 'completionTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'completionTime')
   final DateTime completionTime;
 
   /// The actual time the creation of the data set contents was started.
-  @_s.JsonKey(
-      name: 'creationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'creationTime')
   final DateTime creationTime;
 
   /// The time the creation of the data set contents was scheduled to start.
-  @_s.JsonKey(
-      name: 'scheduleTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'scheduleTime')
   final DateTime scheduleTime;
 
   /// The status of the data set contents.
@@ -2642,10 +2627,8 @@ class DatasetSummary {
   final List<DatasetActionSummary> actions;
 
   /// The time the data set was created.
-  @_s.JsonKey(
-      name: 'creationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'creationTime')
   final DateTime creationTime;
 
   /// The name of the data set.
@@ -2653,10 +2636,8 @@ class DatasetSummary {
   final String datasetName;
 
   /// The last time the data set was updated.
-  @_s.JsonKey(
-      name: 'lastUpdateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastUpdateTime')
   final DateTime lastUpdateTime;
 
   /// The status of the data set.
@@ -2720,17 +2701,13 @@ class Datastore {
   final String arn;
 
   /// When the data store was created.
-  @_s.JsonKey(
-      name: 'creationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'creationTime')
   final DateTime creationTime;
 
   /// The last time the data store was updated.
-  @_s.JsonKey(
-      name: 'lastUpdateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastUpdateTime')
   final DateTime lastUpdateTime;
 
   /// The name of the data store.
@@ -2888,10 +2865,8 @@ class DatastoreStorageSummary {
     createToJson: false)
 class DatastoreSummary {
   /// When the data store was created.
-  @_s.JsonKey(
-      name: 'creationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'creationTime')
   final DateTime creationTime;
 
   /// The name of the data store.
@@ -2903,10 +2878,8 @@ class DatastoreSummary {
   final DatastoreStorageSummary datastoreStorage;
 
   /// The last time the data store was updated.
-  @_s.JsonKey(
-      name: 'lastUpdateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastUpdateTime')
   final DateTime lastUpdateTime;
 
   /// The status of the data store.
@@ -3147,10 +3120,8 @@ class DeviceShadowEnrichActivity {
     createToJson: false)
 class EstimatedResourceSize {
   /// The time when the estimate of the size of the resource was made.
-  @_s.JsonKey(
-      name: 'estimatedOn',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'estimatedOn')
   final DateTime estimatedOn;
 
   /// The estimated size of the resource in bytes.
@@ -3211,10 +3182,8 @@ class GetDatasetContentResponse {
   final DatasetContentStatus status;
 
   /// The time when the request was made.
-  @_s.JsonKey(
-      name: 'timestamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'timestamp')
   final DateTime timestamp;
 
   GetDatasetContentResponse({
@@ -3592,17 +3561,13 @@ class Pipeline {
   final String arn;
 
   /// When the pipeline was created.
-  @_s.JsonKey(
-      name: 'creationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'creationTime')
   final DateTime creationTime;
 
   /// The last time the pipeline was updated.
-  @_s.JsonKey(
-      name: 'lastUpdateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastUpdateTime')
   final DateTime lastUpdateTime;
 
   /// The name of the pipeline.
@@ -3700,17 +3665,13 @@ class PipelineActivity {
     createToJson: false)
 class PipelineSummary {
   /// When the pipeline was created.
-  @_s.JsonKey(
-      name: 'creationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'creationTime')
   final DateTime creationTime;
 
   /// When the pipeline was last updated.
-  @_s.JsonKey(
-      name: 'lastUpdateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastUpdateTime')
   final DateTime lastUpdateTime;
 
   /// The name of the pipeline.
@@ -3802,10 +3763,8 @@ enum ReprocessingStatus {
     createToJson: false)
 class ReprocessingSummary {
   /// The time the pipeline reprocessing was created.
-  @_s.JsonKey(
-      name: 'creationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'creationTime')
   final DateTime creationTime;
 
   /// The 'reprocessingId' returned by "StartPipelineReprocessing".

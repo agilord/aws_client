@@ -9,7 +9,8 @@ part of 'qldb-2019-01-02.dart';
 CreateLedgerResponse _$CreateLedgerResponseFromJson(Map<String, dynamic> json) {
   return CreateLedgerResponse(
     arn: json['Arn'] as String,
-    creationDateTime: timeStampFromJson(json['CreationDateTime']),
+    creationDateTime:
+        const UnixDateTimeConverter().fromJson(json['CreationDateTime']),
     deletionProtection: json['DeletionProtection'] as bool,
     name: json['Name'] as String,
     state: _$enumDecodeNullable(_$LedgerStateEnumMap, json['State']),
@@ -69,7 +70,8 @@ DescribeLedgerResponse _$DescribeLedgerResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeLedgerResponse(
     arn: json['Arn'] as String,
-    creationDateTime: timeStampFromJson(json['CreationDateTime']),
+    creationDateTime:
+        const UnixDateTimeConverter().fromJson(json['CreationDateTime']),
     deletionProtection: json['DeletionProtection'] as bool,
     name: json['Name'] as String,
     state: _$enumDecodeNullable(_$LedgerStateEnumMap, json['State']),
@@ -118,10 +120,13 @@ GetRevisionResponse _$GetRevisionResponseFromJson(Map<String, dynamic> json) {
 JournalS3ExportDescription _$JournalS3ExportDescriptionFromJson(
     Map<String, dynamic> json) {
   return JournalS3ExportDescription(
-    exclusiveEndTime: timeStampFromJson(json['ExclusiveEndTime']),
-    exportCreationTime: timeStampFromJson(json['ExportCreationTime']),
+    exclusiveEndTime:
+        const UnixDateTimeConverter().fromJson(json['ExclusiveEndTime']),
+    exportCreationTime:
+        const UnixDateTimeConverter().fromJson(json['ExportCreationTime']),
     exportId: json['ExportId'] as String,
-    inclusiveStartTime: timeStampFromJson(json['InclusiveStartTime']),
+    inclusiveStartTime:
+        const UnixDateTimeConverter().fromJson(json['InclusiveStartTime']),
     ledgerName: json['LedgerName'] as String,
     roleArn: json['RoleArn'] as String,
     s3ExportConfiguration: json['S3ExportConfiguration'] == null
@@ -140,7 +145,8 @@ const _$ExportStatusEnumMap = {
 
 LedgerSummary _$LedgerSummaryFromJson(Map<String, dynamic> json) {
   return LedgerSummary(
-    creationDateTime: timeStampFromJson(json['CreationDateTime']),
+    creationDateTime:
+        const UnixDateTimeConverter().fromJson(json['CreationDateTime']),
     name: json['Name'] as String,
     state: _$enumDecodeNullable(_$LedgerStateEnumMap, json['State']),
   );
@@ -262,7 +268,8 @@ UntagResourceResponse _$UntagResourceResponseFromJson(
 UpdateLedgerResponse _$UpdateLedgerResponseFromJson(Map<String, dynamic> json) {
   return UpdateLedgerResponse(
     arn: json['Arn'] as String,
-    creationDateTime: timeStampFromJson(json['CreationDateTime']),
+    creationDateTime:
+        const UnixDateTimeConverter().fromJson(json['CreationDateTime']),
     deletionProtection: json['DeletionProtection'] as bool,
     name: json['Name'] as String,
     state: _$enumDecodeNullable(_$LedgerStateEnumMap, json['State']),

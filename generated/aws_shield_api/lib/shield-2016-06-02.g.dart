@@ -34,13 +34,13 @@ AttackDetail _$AttackDetailFromJson(Map<String, dynamic> json) {
             ? null
             : AttackProperty.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    endTime: timeStampFromJson(json['EndTime']),
+    endTime: const UnixDateTimeConverter().fromJson(json['EndTime']),
     mitigations: (json['Mitigations'] as List)
         ?.map((e) =>
             e == null ? null : Mitigation.fromJson(e as Map<String, dynamic>))
         ?.toList(),
     resourceArn: json['ResourceArn'] as String,
-    startTime: timeStampFromJson(json['StartTime']),
+    startTime: const UnixDateTimeConverter().fromJson(json['StartTime']),
     subResources: (json['SubResources'] as List)
         ?.map((e) => e == null
             ? null
@@ -128,9 +128,9 @@ AttackSummary _$AttackSummaryFromJson(Map<String, dynamic> json) {
             ? null
             : AttackVectorDescription.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    endTime: timeStampFromJson(json['EndTime']),
+    endTime: const UnixDateTimeConverter().fromJson(json['EndTime']),
     resourceArn: json['ResourceArn'] as String,
-    startTime: timeStampFromJson(json['StartTime']),
+    startTime: const UnixDateTimeConverter().fromJson(json['StartTime']),
   );
 }
 
@@ -335,12 +335,12 @@ const _$SubResourceTypeEnumMap = {
 Subscription _$SubscriptionFromJson(Map<String, dynamic> json) {
   return Subscription(
     autoRenew: _$enumDecodeNullable(_$AutoRenewEnumMap, json['AutoRenew']),
-    endTime: timeStampFromJson(json['EndTime']),
+    endTime: const UnixDateTimeConverter().fromJson(json['EndTime']),
     limits: (json['Limits'] as List)
         ?.map(
             (e) => e == null ? null : Limit.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    startTime: timeStampFromJson(json['StartTime']),
+    startTime: const UnixDateTimeConverter().fromJson(json['StartTime']),
     timeCommitmentInSeconds: json['TimeCommitmentInSeconds'] as int,
   );
 }
@@ -382,8 +382,10 @@ Map<String, dynamic> _$TimeRangeToJson(TimeRange instance) {
     }
   }
 
-  writeNotNull('FromInclusive', unixTimestampToJson(instance.fromInclusive));
-  writeNotNull('ToExclusive', unixTimestampToJson(instance.toExclusive));
+  writeNotNull('FromInclusive',
+      const UnixDateTimeConverter().toJson(instance.fromInclusive));
+  writeNotNull('ToExclusive',
+      const UnixDateTimeConverter().toJson(instance.toExclusive));
   return val;
 }
 

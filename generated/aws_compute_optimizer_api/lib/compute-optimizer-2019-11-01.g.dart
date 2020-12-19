@@ -27,7 +27,8 @@ AutoScalingGroupRecommendation _$AutoScalingGroupRecommendationFromJson(
         : AutoScalingGroupConfiguration.fromJson(
             json['currentConfiguration'] as Map<String, dynamic>),
     finding: _$enumDecodeNullable(_$FindingEnumMap, json['finding']),
-    lastRefreshTimestamp: timeStampFromJson(json['lastRefreshTimestamp']),
+    lastRefreshTimestamp:
+        const UnixDateTimeConverter().fromJson(json['lastRefreshTimestamp']),
     lookBackPeriodInDays: (json['lookBackPeriodInDays'] as num)?.toDouble(),
     recommendationOptions: (json['recommendationOptions'] as List)
         ?.map((e) => e == null
@@ -214,7 +215,8 @@ InstanceRecommendation _$InstanceRecommendationFromJson(
     finding: _$enumDecodeNullable(_$FindingEnumMap, json['finding']),
     instanceArn: json['instanceArn'] as String,
     instanceName: json['instanceName'] as String,
-    lastRefreshTimestamp: timeStampFromJson(json['lastRefreshTimestamp']),
+    lastRefreshTimestamp:
+        const UnixDateTimeConverter().fromJson(json['lastRefreshTimestamp']),
     lookBackPeriodInDays: (json['lookBackPeriodInDays'] as num)?.toDouble(),
     recommendationOptions: (json['recommendationOptions'] as List)
         ?.map((e) => e == null
@@ -252,7 +254,7 @@ ProjectedMetric _$ProjectedMetricFromJson(Map<String, dynamic> json) {
   return ProjectedMetric(
     name: _$enumDecodeNullable(_$MetricNameEnumMap, json['name']),
     timestamps: (json['timestamps'] as List)
-        ?.map((e) => e == null ? null : DateTime.parse(e as String))
+        ?.map(const UnixDateTimeConverter().fromJson)
         ?.toList(),
     values:
         (json['values'] as List)?.map((e) => (e as num)?.toDouble())?.toList(),

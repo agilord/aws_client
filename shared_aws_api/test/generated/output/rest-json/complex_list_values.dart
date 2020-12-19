@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -56,6 +59,7 @@ class ComplexListValues {
     createFactory: true,
     createToJson: false)
 class OutputShape {
+  @UnixDateTimeConverter()
   @_s.JsonKey(name: 'ListMember')
   final List<DateTime> listMember;
 

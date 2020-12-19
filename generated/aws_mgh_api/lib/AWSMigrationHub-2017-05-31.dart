@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -1540,10 +1543,8 @@ class ApplicationState {
   final ApplicationStatus applicationStatus;
 
   /// The timestamp when the application status was last updated.
-  @_s.JsonKey(
-      name: 'LastUpdatedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastUpdatedTime')
   final DateTime lastUpdatedTime;
 
   ApplicationState({
@@ -1663,10 +1664,8 @@ class DescribeApplicationStateResult {
   final ApplicationStatus applicationStatus;
 
   /// The timestamp when the application status was last updated.
-  @_s.JsonKey(
-      name: 'LastUpdatedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastUpdatedTime')
   final DateTime lastUpdatedTime;
 
   DescribeApplicationStateResult({
@@ -1905,10 +1904,8 @@ class MigrationTask {
   final Task task;
 
   /// The timestamp when the task was gathered.
-  @_s.JsonKey(
-      name: 'UpdateDateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'UpdateDateTime')
   final DateTime updateDateTime;
 
   MigrationTask({
@@ -1954,10 +1951,8 @@ class MigrationTaskSummary {
   final String statusDetail;
 
   /// The timestamp when the task was gathered.
-  @_s.JsonKey(
-      name: 'UpdateDateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'UpdateDateTime')
   final DateTime updateDateTime;
 
   MigrationTaskSummary({

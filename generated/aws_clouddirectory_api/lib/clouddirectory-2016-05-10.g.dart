@@ -1211,7 +1211,8 @@ DetachPolicyResponse _$DetachPolicyResponseFromJson(Map<String, dynamic> json) {
 
 Directory _$DirectoryFromJson(Map<String, dynamic> json) {
   return Directory(
-    creationDateTime: timeStampFromJson(json['CreationDateTime']),
+    creationDateTime:
+        const UnixDateTimeConverter().fromJson(json['CreationDateTime']),
     directoryArn: json['DirectoryArn'] as String,
     name: json['Name'] as String,
     state: _$enumDecodeNullable(_$DirectoryStateEnumMap, json['State']),
@@ -2091,7 +2092,8 @@ TypedAttributeValue _$TypedAttributeValueFromJson(Map<String, dynamic> json) {
     binaryValue:
         const Uint8ListConverter().fromJson(json['BinaryValue'] as String),
     booleanValue: json['BooleanValue'] as bool,
-    datetimeValue: timeStampFromJson(json['DatetimeValue']),
+    datetimeValue:
+        const UnixDateTimeConverter().fromJson(json['DatetimeValue']),
     numberValue: json['NumberValue'] as String,
     stringValue: json['StringValue'] as String,
   );
@@ -2109,7 +2111,8 @@ Map<String, dynamic> _$TypedAttributeValueToJson(TypedAttributeValue instance) {
   writeNotNull(
       'BinaryValue', const Uint8ListConverter().toJson(instance.binaryValue));
   writeNotNull('BooleanValue', instance.booleanValue);
-  writeNotNull('DatetimeValue', unixTimestampToJson(instance.datetimeValue));
+  writeNotNull('DatetimeValue',
+      const UnixDateTimeConverter().toJson(instance.datetimeValue));
   writeNotNull('NumberValue', instance.numberValue);
   writeNotNull('StringValue', instance.stringValue);
   return val;

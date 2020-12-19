@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -4753,10 +4756,8 @@ class ActivityTypeInfo {
 
   /// The date and time this activity type was created through
   /// <a>RegisterActivityType</a>.
-  @_s.JsonKey(
-      name: 'creationDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'creationDate')
   final DateTime creationDate;
 
   /// The current status of the activity type.
@@ -4764,10 +4765,8 @@ class ActivityTypeInfo {
   final RegistrationStatus status;
 
   /// If DEPRECATED, the date and time <a>DeprecateActivityType</a> was called.
-  @_s.JsonKey(
-      name: 'deprecationDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'deprecationDate')
   final DateTime deprecationDate;
 
   /// The description of the activity type provided in
@@ -6451,17 +6450,13 @@ enum ExecutionStatus {
     createToJson: true)
 class ExecutionTimeFilter {
   /// Specifies the oldest start or close date and time to return.
-  @_s.JsonKey(
-      name: 'oldestDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'oldestDate')
   final DateTime oldestDate;
 
   /// Specifies the latest start or close date and time to return.
-  @_s.JsonKey(
-      name: 'latestDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'latestDate')
   final DateTime latestDate;
 
   ExecutionTimeFilter({
@@ -6871,10 +6866,8 @@ class HistoryEvent {
   final int eventId;
 
   /// The date and time when the event occurred.
-  @_s.JsonKey(
-      name: 'eventTimestamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'eventTimestamp')
   final DateTime eventTimestamp;
 
   /// The type of the history event.
@@ -9599,10 +9592,8 @@ class WorkflowExecutionDetail {
   /// execution. You can use this information to determine if the workflow has not
   /// made progress for an unusually long period of time and might require a
   /// corrective action.
-  @_s.JsonKey(
-      name: 'latestActivityTaskTimestamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'latestActivityTaskTimestamp')
   final DateTime latestActivityTaskTimestamp;
 
   /// The latest executionContext provided by the decider for this workflow
@@ -9689,10 +9680,8 @@ class WorkflowExecutionInfo {
   final ExecutionStatus executionStatus;
 
   /// The time when the execution was started.
-  @_s.JsonKey(
-      name: 'startTimestamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'startTimestamp')
   final DateTime startTimestamp;
 
   /// The type of the workflow execution.
@@ -9735,10 +9724,8 @@ class WorkflowExecutionInfo {
 
   /// The time when the workflow execution was closed. Set only if the execution
   /// status is CLOSED.
-  @_s.JsonKey(
-      name: 'closeTimestamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'closeTimestamp')
   final DateTime closeTimestamp;
 
   /// If this workflow execution is a child of another execution then contains the
@@ -10314,10 +10301,8 @@ class WorkflowTypeFilter {
     createToJson: false)
 class WorkflowTypeInfo {
   /// The date when this type was registered.
-  @_s.JsonKey(
-      name: 'creationDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'creationDate')
   final DateTime creationDate;
 
   /// The current status of the workflow type.
@@ -10330,10 +10315,8 @@ class WorkflowTypeInfo {
 
   /// If the type is in deprecated state, then it is set to the date when the type
   /// was deprecated.
-  @_s.JsonKey(
-      name: 'deprecationDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'deprecationDate')
   final DateTime deprecationDate;
 
   /// The description of the type registered through <a>RegisterWorkflowType</a>.

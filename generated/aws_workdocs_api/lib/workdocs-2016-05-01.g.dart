@@ -36,7 +36,7 @@ Activity _$ActivityFromJson(Map<String, dynamic> json) {
         ? null
         : ResourceMetadata.fromJson(
             json['ResourceMetadata'] as Map<String, dynamic>),
-    timeStamp: timeStampFromJson(json['TimeStamp']),
+    timeStamp: const UnixDateTimeConverter().fromJson(json['TimeStamp']),
     type: _$enumDecodeNullable(_$ActivityTypeEnumMap, json['Type']),
   );
 }
@@ -128,7 +128,8 @@ Comment _$CommentFromJson(Map<String, dynamic> json) {
     contributor: json['Contributor'] == null
         ? null
         : User.fromJson(json['Contributor'] as Map<String, dynamic>),
-    createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+    createdTimestamp:
+        const UnixDateTimeConverter().fromJson(json['CreatedTimestamp']),
     parentId: json['ParentId'] as String,
     recipientId: json['RecipientId'] as String,
     status: _$enumDecodeNullable(_$CommentStatusTypeEnumMap, json['Status']),
@@ -158,7 +159,8 @@ CommentMetadata _$CommentMetadataFromJson(Map<String, dynamic> json) {
     contributor: json['Contributor'] == null
         ? null
         : User.fromJson(json['Contributor'] as Map<String, dynamic>),
-    createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+    createdTimestamp:
+        const UnixDateTimeConverter().fromJson(json['CreatedTimestamp']),
     recipientId: json['RecipientId'] as String,
   );
 }
@@ -328,7 +330,8 @@ DescribeUsersResponse _$DescribeUsersResponseFromJson(
 
 DocumentMetadata _$DocumentMetadataFromJson(Map<String, dynamic> json) {
   return DocumentMetadata(
-    createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+    createdTimestamp:
+        const UnixDateTimeConverter().fromJson(json['CreatedTimestamp']),
     creatorId: json['CreatorId'] as String,
     id: json['Id'] as String,
     labels: (json['Labels'] as List)?.map((e) => e as String)?.toList(),
@@ -336,7 +339,8 @@ DocumentMetadata _$DocumentMetadataFromJson(Map<String, dynamic> json) {
         ? null
         : DocumentVersionMetadata.fromJson(
             json['LatestVersionMetadata'] as Map<String, dynamic>),
-    modifiedTimestamp: timeStampFromJson(json['ModifiedTimestamp']),
+    modifiedTimestamp:
+        const UnixDateTimeConverter().fromJson(json['ModifiedTimestamp']),
     parentFolderId: json['ParentFolderId'] as String,
     resourceState:
         _$enumDecodeNullable(_$ResourceStateTypeEnumMap, json['ResourceState']),
@@ -353,14 +357,17 @@ const _$ResourceStateTypeEnumMap = {
 DocumentVersionMetadata _$DocumentVersionMetadataFromJson(
     Map<String, dynamic> json) {
   return DocumentVersionMetadata(
-    contentCreatedTimestamp: timeStampFromJson(json['ContentCreatedTimestamp']),
-    contentModifiedTimestamp:
-        timeStampFromJson(json['ContentModifiedTimestamp']),
+    contentCreatedTimestamp:
+        const UnixDateTimeConverter().fromJson(json['ContentCreatedTimestamp']),
+    contentModifiedTimestamp: const UnixDateTimeConverter()
+        .fromJson(json['ContentModifiedTimestamp']),
     contentType: json['ContentType'] as String,
-    createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+    createdTimestamp:
+        const UnixDateTimeConverter().fromJson(json['CreatedTimestamp']),
     creatorId: json['CreatorId'] as String,
     id: json['Id'] as String,
-    modifiedTimestamp: timeStampFromJson(json['ModifiedTimestamp']),
+    modifiedTimestamp:
+        const UnixDateTimeConverter().fromJson(json['ModifiedTimestamp']),
     name: json['Name'] as String,
     signature: json['Signature'] as String,
     size: json['Size'] as int,
@@ -394,12 +401,14 @@ const _$DocumentThumbnailTypeEnumMap = {
 
 FolderMetadata _$FolderMetadataFromJson(Map<String, dynamic> json) {
   return FolderMetadata(
-    createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+    createdTimestamp:
+        const UnixDateTimeConverter().fromJson(json['CreatedTimestamp']),
     creatorId: json['CreatorId'] as String,
     id: json['Id'] as String,
     labels: (json['Labels'] as List)?.map((e) => e as String)?.toList(),
     latestVersionSize: json['LatestVersionSize'] as int,
-    modifiedTimestamp: timeStampFromJson(json['ModifiedTimestamp']),
+    modifiedTimestamp:
+        const UnixDateTimeConverter().fromJson(json['ModifiedTimestamp']),
     name: json['Name'] as String,
     parentFolderId: json['ParentFolderId'] as String,
     resourceState:
@@ -701,12 +710,14 @@ UploadMetadata _$UploadMetadataFromJson(Map<String, dynamic> json) {
 
 User _$UserFromJson(Map<String, dynamic> json) {
   return User(
-    createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+    createdTimestamp:
+        const UnixDateTimeConverter().fromJson(json['CreatedTimestamp']),
     emailAddress: json['EmailAddress'] as String,
     givenName: json['GivenName'] as String,
     id: json['Id'] as String,
     locale: _$enumDecodeNullable(_$LocaleTypeEnumMap, json['Locale']),
-    modifiedTimestamp: timeStampFromJson(json['ModifiedTimestamp']),
+    modifiedTimestamp:
+        const UnixDateTimeConverter().fromJson(json['ModifiedTimestamp']),
     organizationId: json['OrganizationId'] as String,
     recycleBinFolderId: json['RecycleBinFolderId'] as String,
     rootFolderId: json['RootFolderId'] as String,

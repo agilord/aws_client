@@ -81,7 +81,7 @@ Build _$BuildFromJson(Map<String, dynamic> json) {
         : ProjectCache.fromJson(json['cache'] as Map<String, dynamic>),
     currentPhase: json['currentPhase'] as String,
     encryptionKey: json['encryptionKey'] as String,
-    endTime: timeStampFromJson(json['endTime']),
+    endTime: const UnixDateTimeConverter().fromJson(json['endTime']),
     environment: json['environment'] == null
         ? null
         : ProjectEnvironment.fromJson(
@@ -133,7 +133,7 @@ Build _$BuildFromJson(Map<String, dynamic> json) {
         ? null
         : ProjectSource.fromJson(json['source'] as Map<String, dynamic>),
     sourceVersion: json['sourceVersion'] as String,
-    startTime: timeStampFromJson(json['startTime']),
+    startTime: const UnixDateTimeConverter().fromJson(json['startTime']),
     timeoutInMinutes: json['timeoutInMinutes'] as int,
     vpcConfig: json['vpcConfig'] == null
         ? null
@@ -207,10 +207,10 @@ BuildPhase _$BuildPhaseFromJson(Map<String, dynamic> json) {
             e == null ? null : PhaseContext.fromJson(e as Map<String, dynamic>))
         ?.toList(),
     durationInSeconds: json['durationInSeconds'] as int,
-    endTime: timeStampFromJson(json['endTime']),
+    endTime: const UnixDateTimeConverter().fromJson(json['endTime']),
     phaseStatus: _$enumDecodeNullable(_$StatusTypeEnumMap, json['phaseStatus']),
     phaseType: _$enumDecodeNullable(_$BuildPhaseTypeEnumMap, json['phaseType']),
-    startTime: timeStampFromJson(json['startTime']),
+    startTime: const UnixDateTimeConverter().fromJson(json['startTime']),
   );
 }
 
@@ -602,7 +602,7 @@ Project _$ProjectFromJson(Map<String, dynamic> json) {
     cache: json['cache'] == null
         ? null
         : ProjectCache.fromJson(json['cache'] as Map<String, dynamic>),
-    created: timeStampFromJson(json['created']),
+    created: const UnixDateTimeConverter().fromJson(json['created']),
     description: json['description'] as String,
     encryptionKey: json['encryptionKey'] as String,
     environment: json['environment'] == null
@@ -614,7 +614,7 @@ Project _$ProjectFromJson(Map<String, dynamic> json) {
             ? null
             : ProjectFileSystemLocation.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    lastModified: timeStampFromJson(json['lastModified']),
+    lastModified: const UnixDateTimeConverter().fromJson(json['lastModified']),
     logsConfig: json['logsConfig'] == null
         ? null
         : LogsConfig.fromJson(json['logsConfig'] as Map<String, dynamic>),
@@ -957,9 +957,9 @@ const _$CredentialProviderTypeEnumMap = {
 Report _$ReportFromJson(Map<String, dynamic> json) {
   return Report(
     arn: json['arn'] as String,
-    created: timeStampFromJson(json['created']),
+    created: const UnixDateTimeConverter().fromJson(json['created']),
     executionId: json['executionId'] as String,
-    expired: timeStampFromJson(json['expired']),
+    expired: const UnixDateTimeConverter().fromJson(json['expired']),
     exportConfig: json['exportConfig'] == null
         ? null
         : ReportExportConfig.fromJson(
@@ -1035,12 +1035,12 @@ Map<String, dynamic> _$ReportFilterToJson(ReportFilter instance) {
 ReportGroup _$ReportGroupFromJson(Map<String, dynamic> json) {
   return ReportGroup(
     arn: json['arn'] as String,
-    created: timeStampFromJson(json['created']),
+    created: const UnixDateTimeConverter().fromJson(json['created']),
     exportConfig: json['exportConfig'] == null
         ? null
         : ReportExportConfig.fromJson(
             json['exportConfig'] as Map<String, dynamic>),
-    lastModified: timeStampFromJson(json['lastModified']),
+    lastModified: const UnixDateTimeConverter().fromJson(json['lastModified']),
     name: json['name'] as String,
     type: _$enumDecodeNullable(_$ReportTypeEnumMap, json['type']),
   );
@@ -1189,7 +1189,7 @@ Map<String, dynamic> _$TagToJson(Tag instance) {
 TestCase _$TestCaseFromJson(Map<String, dynamic> json) {
   return TestCase(
     durationInNanoSeconds: json['durationInNanoSeconds'] as int,
-    expired: timeStampFromJson(json['expired']),
+    expired: const UnixDateTimeConverter().fromJson(json['expired']),
     message: json['message'] as String,
     name: json['name'] as String,
     prefix: json['prefix'] as String,
@@ -1281,7 +1281,8 @@ Webhook _$WebhookFromJson(Map<String, dynamic> json) {
                 : WebhookFilter.fromJson(e as Map<String, dynamic>))
             ?.toList())
         ?.toList(),
-    lastModifiedSecret: timeStampFromJson(json['lastModifiedSecret']),
+    lastModifiedSecret:
+        const UnixDateTimeConverter().fromJson(json['lastModifiedSecret']),
     payloadUrl: json['payloadUrl'] as String,
     secret: json['secret'] as String,
     url: json['url'] as String,

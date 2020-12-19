@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -381,10 +384,8 @@ class DeleteHumanLoopResponse {
     createToJson: false)
 class DescribeHumanLoopResponse {
   /// The creation time when Amazon Augmented AI created the human loop.
-  @_s.JsonKey(
-      name: 'CreationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationTime')
   final DateTime creationTime;
 
   /// The Amazon Resource Name (ARN) of the flow definition.
@@ -512,10 +513,8 @@ enum HumanLoopStatus {
     createToJson: false)
 class HumanLoopSummary {
   /// When Amazon Augmented AI created the human loop.
-  @_s.JsonKey(
-      name: 'CreationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationTime')
   final DateTime creationTime;
 
   /// The reason why the human loop failed. A failure reason is returned when the

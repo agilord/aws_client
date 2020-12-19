@@ -40,7 +40,8 @@ AvailabilityZone _$AvailabilityZoneFromJson(Map<String, dynamic> json) {
 Certificate _$CertificateFromJson(Map<String, dynamic> json) {
   return Certificate(
     certificateArn: json['CertificateArn'] as String,
-    certificateCreationDate: timeStampFromJson(json['CertificateCreationDate']),
+    certificateCreationDate:
+        const UnixDateTimeConverter().fromJson(json['CertificateCreationDate']),
     certificateIdentifier: json['CertificateIdentifier'] as String,
     certificateOwner: json['CertificateOwner'] as String,
     certificatePem: json['CertificatePem'] as String,
@@ -48,8 +49,9 @@ Certificate _$CertificateFromJson(Map<String, dynamic> json) {
         .fromJson(json['CertificateWallet'] as String),
     keyLength: json['KeyLength'] as int,
     signingAlgorithm: json['SigningAlgorithm'] as String,
-    validFromDate: timeStampFromJson(json['ValidFromDate']),
-    validToDate: timeStampFromJson(json['ValidToDate']),
+    validFromDate:
+        const UnixDateTimeConverter().fromJson(json['ValidFromDate']),
+    validToDate: const UnixDateTimeConverter().fromJson(json['ValidToDate']),
   );
 }
 
@@ -558,7 +560,7 @@ const _$DmsSslModeValueEnumMap = {
 
 Event _$EventFromJson(Map<String, dynamic> json) {
   return Event(
-    date: timeStampFromJson(json['Date']),
+    date: const UnixDateTimeConverter().fromJson(json['Date']),
     eventCategories:
         (json['EventCategories'] as List)?.map((e) => e as String)?.toList(),
     message: json['Message'] as String,
@@ -826,10 +828,13 @@ PendingMaintenanceAction _$PendingMaintenanceActionFromJson(
     Map<String, dynamic> json) {
   return PendingMaintenanceAction(
     action: json['Action'] as String,
-    autoAppliedAfterDate: timeStampFromJson(json['AutoAppliedAfterDate']),
-    currentApplyDate: timeStampFromJson(json['CurrentApplyDate']),
+    autoAppliedAfterDate:
+        const UnixDateTimeConverter().fromJson(json['AutoAppliedAfterDate']),
+    currentApplyDate:
+        const UnixDateTimeConverter().fromJson(json['CurrentApplyDate']),
     description: json['Description'] as String,
-    forcedApplyDate: timeStampFromJson(json['ForcedApplyDate']),
+    forcedApplyDate:
+        const UnixDateTimeConverter().fromJson(json['ForcedApplyDate']),
     optInStatus: json['OptInStatus'] as String,
   );
 }
@@ -934,7 +939,8 @@ RefreshSchemasStatus _$RefreshSchemasStatusFromJson(Map<String, dynamic> json) {
   return RefreshSchemasStatus(
     endpointArn: json['EndpointArn'] as String,
     lastFailureMessage: json['LastFailureMessage'] as String,
-    lastRefreshDate: timeStampFromJson(json['LastRefreshDate']),
+    lastRefreshDate:
+        const UnixDateTimeConverter().fromJson(json['LastRefreshDate']),
     replicationInstanceArn: json['ReplicationInstanceArn'] as String,
     status: _$enumDecodeNullable(
         _$RefreshSchemasStatusTypeValueEnumMap, json['Status']),
@@ -965,8 +971,9 @@ ReplicationInstance _$ReplicationInstanceFromJson(Map<String, dynamic> json) {
     availabilityZone: json['AvailabilityZone'] as String,
     dnsNameServers: json['DnsNameServers'] as String,
     engineVersion: json['EngineVersion'] as String,
-    freeUntil: timeStampFromJson(json['FreeUntil']),
-    instanceCreateTime: timeStampFromJson(json['InstanceCreateTime']),
+    freeUntil: const UnixDateTimeConverter().fromJson(json['FreeUntil']),
+    instanceCreateTime:
+        const UnixDateTimeConverter().fromJson(json['InstanceCreateTime']),
     kmsKeyId: json['KmsKeyId'] as String,
     multiAZ: json['MultiAZ'] as bool,
     pendingModifiedValues: json['PendingModifiedValues'] == null
@@ -1051,12 +1058,12 @@ ReplicationTask _$ReplicationTaskFromJson(Map<String, dynamic> json) {
     recoveryCheckpoint: json['RecoveryCheckpoint'] as String,
     replicationInstanceArn: json['ReplicationInstanceArn'] as String,
     replicationTaskArn: json['ReplicationTaskArn'] as String,
-    replicationTaskCreationDate:
-        timeStampFromJson(json['ReplicationTaskCreationDate']),
+    replicationTaskCreationDate: const UnixDateTimeConverter()
+        .fromJson(json['ReplicationTaskCreationDate']),
     replicationTaskIdentifier: json['ReplicationTaskIdentifier'] as String,
     replicationTaskSettings: json['ReplicationTaskSettings'] as String,
-    replicationTaskStartDate:
-        timeStampFromJson(json['ReplicationTaskStartDate']),
+    replicationTaskStartDate: const UnixDateTimeConverter()
+        .fromJson(json['ReplicationTaskStartDate']),
     replicationTaskStats: json['ReplicationTaskStats'] == null
         ? null
         : ReplicationTaskStats.fromJson(
@@ -1083,8 +1090,8 @@ ReplicationTaskAssessmentResult _$ReplicationTaskAssessmentResultFromJson(
     assessmentStatus: json['AssessmentStatus'] as String,
     replicationTaskArn: json['ReplicationTaskArn'] as String,
     replicationTaskIdentifier: json['ReplicationTaskIdentifier'] as String,
-    replicationTaskLastAssessmentDate:
-        timeStampFromJson(json['ReplicationTaskLastAssessmentDate']),
+    replicationTaskLastAssessmentDate: const UnixDateTimeConverter()
+        .fromJson(json['ReplicationTaskLastAssessmentDate']),
     s3ObjectUrl: json['S3ObjectUrl'] as String,
   );
 }
@@ -1092,12 +1099,15 @@ ReplicationTaskAssessmentResult _$ReplicationTaskAssessmentResultFromJson(
 ReplicationTaskStats _$ReplicationTaskStatsFromJson(Map<String, dynamic> json) {
   return ReplicationTaskStats(
     elapsedTimeMillis: json['ElapsedTimeMillis'] as int,
-    freshStartDate: timeStampFromJson(json['FreshStartDate']),
-    fullLoadFinishDate: timeStampFromJson(json['FullLoadFinishDate']),
+    freshStartDate:
+        const UnixDateTimeConverter().fromJson(json['FreshStartDate']),
+    fullLoadFinishDate:
+        const UnixDateTimeConverter().fromJson(json['FullLoadFinishDate']),
     fullLoadProgressPercent: json['FullLoadProgressPercent'] as int,
-    fullLoadStartDate: timeStampFromJson(json['FullLoadStartDate']),
-    startDate: timeStampFromJson(json['StartDate']),
-    stopDate: timeStampFromJson(json['StopDate']),
+    fullLoadStartDate:
+        const UnixDateTimeConverter().fromJson(json['FullLoadStartDate']),
+    startDate: const UnixDateTimeConverter().fromJson(json['StartDate']),
+    stopDate: const UnixDateTimeConverter().fromJson(json['StopDate']),
     tablesErrored: json['TablesErrored'] as int,
     tablesLoaded: json['TablesLoaded'] as int,
     tablesLoading: json['TablesLoading'] as int,
@@ -1269,13 +1279,16 @@ TableStatistics _$TableStatisticsFromJson(Map<String, dynamic> json) {
     ddls: json['Ddls'] as int,
     deletes: json['Deletes'] as int,
     fullLoadCondtnlChkFailedRows: json['FullLoadCondtnlChkFailedRows'] as int,
-    fullLoadEndTime: timeStampFromJson(json['FullLoadEndTime']),
+    fullLoadEndTime:
+        const UnixDateTimeConverter().fromJson(json['FullLoadEndTime']),
     fullLoadErrorRows: json['FullLoadErrorRows'] as int,
     fullLoadReloaded: json['FullLoadReloaded'] as bool,
     fullLoadRows: json['FullLoadRows'] as int,
-    fullLoadStartTime: timeStampFromJson(json['FullLoadStartTime']),
+    fullLoadStartTime:
+        const UnixDateTimeConverter().fromJson(json['FullLoadStartTime']),
     inserts: json['Inserts'] as int,
-    lastUpdateTime: timeStampFromJson(json['LastUpdateTime']),
+    lastUpdateTime:
+        const UnixDateTimeConverter().fromJson(json['LastUpdateTime']),
     schemaName: json['SchemaName'] as String,
     tableName: json['TableName'] as String,
     tableState: json['TableState'] as String,

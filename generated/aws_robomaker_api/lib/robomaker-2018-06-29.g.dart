@@ -84,7 +84,7 @@ CreateDeploymentJobResponse _$CreateDeploymentJobResponseFromJson(
     Map<String, dynamic> json) {
   return CreateDeploymentJobResponse(
     arn: json['arn'] as String,
-    createdAt: timeStampFromJson(json['createdAt']),
+    createdAt: const UnixDateTimeConverter().fromJson(json['createdAt']),
     deploymentApplicationConfigs: (json['deploymentApplicationConfigs'] as List)
         ?.map((e) => e == null
             ? null
@@ -177,7 +177,7 @@ const _$DeploymentStatusEnumMap = {
 CreateFleetResponse _$CreateFleetResponseFromJson(Map<String, dynamic> json) {
   return CreateFleetResponse(
     arn: json['arn'] as String,
-    createdAt: timeStampFromJson(json['createdAt']),
+    createdAt: const UnixDateTimeConverter().fromJson(json['createdAt']),
     name: json['name'] as String,
     tags: (json['tags'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k, e as String),
@@ -189,7 +189,8 @@ CreateRobotApplicationResponse _$CreateRobotApplicationResponseFromJson(
     Map<String, dynamic> json) {
   return CreateRobotApplicationResponse(
     arn: json['arn'] as String,
-    lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
+    lastUpdatedAt:
+        const UnixDateTimeConverter().fromJson(json['lastUpdatedAt']),
     name: json['name'] as String,
     revisionId: json['revisionId'] as String,
     robotSoftwareSuite: json['robotSoftwareSuite'] == null
@@ -211,7 +212,8 @@ CreateRobotApplicationVersionResponse
     _$CreateRobotApplicationVersionResponseFromJson(Map<String, dynamic> json) {
   return CreateRobotApplicationVersionResponse(
     arn: json['arn'] as String,
-    lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
+    lastUpdatedAt:
+        const UnixDateTimeConverter().fromJson(json['lastUpdatedAt']),
     name: json['name'] as String,
     revisionId: json['revisionId'] as String,
     robotSoftwareSuite: json['robotSoftwareSuite'] == null
@@ -231,7 +233,7 @@ CreateRobotResponse _$CreateRobotResponseFromJson(Map<String, dynamic> json) {
     architecture:
         _$enumDecodeNullable(_$ArchitectureEnumMap, json['architecture']),
     arn: json['arn'] as String,
-    createdAt: timeStampFromJson(json['createdAt']),
+    createdAt: const UnixDateTimeConverter().fromJson(json['createdAt']),
     greengrassGroupId: json['greengrassGroupId'] as String,
     name: json['name'] as String,
     tags: (json['tags'] as Map<String, dynamic>)?.map(
@@ -250,7 +252,8 @@ CreateSimulationApplicationResponse
     _$CreateSimulationApplicationResponseFromJson(Map<String, dynamic> json) {
   return CreateSimulationApplicationResponse(
     arn: json['arn'] as String,
-    lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
+    lastUpdatedAt:
+        const UnixDateTimeConverter().fromJson(json['lastUpdatedAt']),
     name: json['name'] as String,
     renderingEngine: json['renderingEngine'] == null
         ? null
@@ -281,7 +284,8 @@ CreateSimulationApplicationVersionResponse
         Map<String, dynamic> json) {
   return CreateSimulationApplicationVersionResponse(
     arn: json['arn'] as String,
-    lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
+    lastUpdatedAt:
+        const UnixDateTimeConverter().fromJson(json['lastUpdatedAt']),
     name: json['name'] as String,
     renderingEngine: json['renderingEngine'] == null
         ? null
@@ -321,8 +325,10 @@ CreateSimulationJobResponse _$CreateSimulationJobResponseFromJson(
     failureCode: _$enumDecodeNullable(
         _$SimulationJobErrorCodeEnumMap, json['failureCode']),
     iamRole: json['iamRole'] as String,
-    lastStartedAt: timeStampFromJson(json['lastStartedAt']),
-    lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
+    lastStartedAt:
+        const UnixDateTimeConverter().fromJson(json['lastStartedAt']),
+    lastUpdatedAt:
+        const UnixDateTimeConverter().fromJson(json['lastUpdatedAt']),
     loggingConfig: json['loggingConfig'] == null
         ? null
         : LoggingConfig.fromJson(json['loggingConfig'] as Map<String, dynamic>),
@@ -528,7 +534,7 @@ Map<String, dynamic> _$DeploymentConfigToJson(DeploymentConfig instance) {
 DeploymentJob _$DeploymentJobFromJson(Map<String, dynamic> json) {
   return DeploymentJob(
     arn: json['arn'] as String,
-    createdAt: timeStampFromJson(json['createdAt']),
+    createdAt: const UnixDateTimeConverter().fromJson(json['createdAt']),
     deploymentApplicationConfigs: (json['deploymentApplicationConfigs'] as List)
         ?.map((e) => e == null
             ? null
@@ -590,7 +596,7 @@ DescribeDeploymentJobResponse _$DescribeDeploymentJobResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeDeploymentJobResponse(
     arn: json['arn'] as String,
-    createdAt: timeStampFromJson(json['createdAt']),
+    createdAt: const UnixDateTimeConverter().fromJson(json['createdAt']),
     deploymentApplicationConfigs: (json['deploymentApplicationConfigs'] as List)
         ?.map((e) => e == null
             ? null
@@ -620,11 +626,12 @@ DescribeFleetResponse _$DescribeFleetResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeFleetResponse(
     arn: json['arn'] as String,
-    createdAt: timeStampFromJson(json['createdAt']),
+    createdAt: const UnixDateTimeConverter().fromJson(json['createdAt']),
     lastDeploymentJob: json['lastDeploymentJob'] as String,
     lastDeploymentStatus: _$enumDecodeNullable(
         _$DeploymentStatusEnumMap, json['lastDeploymentStatus']),
-    lastDeploymentTime: timeStampFromJson(json['lastDeploymentTime']),
+    lastDeploymentTime:
+        const UnixDateTimeConverter().fromJson(json['lastDeploymentTime']),
     name: json['name'] as String,
     robots: (json['robots'] as List)
         ?.map(
@@ -640,7 +647,8 @@ DescribeRobotApplicationResponse _$DescribeRobotApplicationResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeRobotApplicationResponse(
     arn: json['arn'] as String,
-    lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
+    lastUpdatedAt:
+        const UnixDateTimeConverter().fromJson(json['lastUpdatedAt']),
     name: json['name'] as String,
     revisionId: json['revisionId'] as String,
     robotSoftwareSuite: json['robotSoftwareSuite'] == null
@@ -664,11 +672,12 @@ DescribeRobotResponse _$DescribeRobotResponseFromJson(
     architecture:
         _$enumDecodeNullable(_$ArchitectureEnumMap, json['architecture']),
     arn: json['arn'] as String,
-    createdAt: timeStampFromJson(json['createdAt']),
+    createdAt: const UnixDateTimeConverter().fromJson(json['createdAt']),
     fleetArn: json['fleetArn'] as String,
     greengrassGroupId: json['greengrassGroupId'] as String,
     lastDeploymentJob: json['lastDeploymentJob'] as String,
-    lastDeploymentTime: timeStampFromJson(json['lastDeploymentTime']),
+    lastDeploymentTime:
+        const UnixDateTimeConverter().fromJson(json['lastDeploymentTime']),
     name: json['name'] as String,
     status: _$enumDecodeNullable(_$RobotStatusEnumMap, json['status']),
     tags: (json['tags'] as Map<String, dynamic>)?.map(
@@ -691,7 +700,8 @@ DescribeSimulationApplicationResponse
     _$DescribeSimulationApplicationResponseFromJson(Map<String, dynamic> json) {
   return DescribeSimulationApplicationResponse(
     arn: json['arn'] as String,
-    lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
+    lastUpdatedAt:
+        const UnixDateTimeConverter().fromJson(json['lastUpdatedAt']),
     name: json['name'] as String,
     renderingEngine: json['renderingEngine'] == null
         ? null
@@ -725,7 +735,7 @@ DescribeSimulationJobBatchResponse _$DescribeSimulationJobBatchResponseFromJson(
         ? null
         : BatchPolicy.fromJson(json['batchPolicy'] as Map<String, dynamic>),
     clientRequestToken: json['clientRequestToken'] as String,
-    createdAt: timeStampFromJson(json['createdAt']),
+    createdAt: const UnixDateTimeConverter().fromJson(json['createdAt']),
     createdRequests: (json['createdRequests'] as List)
         ?.map((e) => e == null
             ? null
@@ -740,7 +750,8 @@ DescribeSimulationJobBatchResponse _$DescribeSimulationJobBatchResponseFromJson(
     failureCode: _$enumDecodeNullable(
         _$SimulationJobBatchErrorCodeEnumMap, json['failureCode']),
     failureReason: json['failureReason'] as String,
-    lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
+    lastUpdatedAt:
+        const UnixDateTimeConverter().fromJson(json['lastUpdatedAt']),
     pendingRequests: (json['pendingRequests'] as List)
         ?.map((e) => e == null
             ? null
@@ -788,8 +799,10 @@ DescribeSimulationJobResponse _$DescribeSimulationJobResponseFromJson(
         _$SimulationJobErrorCodeEnumMap, json['failureCode']),
     failureReason: json['failureReason'] as String,
     iamRole: json['iamRole'] as String,
-    lastStartedAt: timeStampFromJson(json['lastStartedAt']),
-    lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
+    lastStartedAt:
+        const UnixDateTimeConverter().fromJson(json['lastStartedAt']),
+    lastUpdatedAt:
+        const UnixDateTimeConverter().fromJson(json['lastUpdatedAt']),
     loggingConfig: json['loggingConfig'] == null
         ? null
         : LoggingConfig.fromJson(json['loggingConfig'] as Map<String, dynamic>),
@@ -827,7 +840,7 @@ DescribeSimulationJobResponse _$DescribeSimulationJobResponseFromJson(
 FailedCreateSimulationJobRequest _$FailedCreateSimulationJobRequestFromJson(
     Map<String, dynamic> json) {
   return FailedCreateSimulationJobRequest(
-    failedAt: timeStampFromJson(json['failedAt']),
+    failedAt: const UnixDateTimeConverter().fromJson(json['failedAt']),
     failureCode: _$enumDecodeNullable(
         _$SimulationJobErrorCodeEnumMap, json['failureCode']),
     failureReason: json['failureReason'] as String,
@@ -855,11 +868,12 @@ Map<String, dynamic> _$FilterToJson(Filter instance) {
 Fleet _$FleetFromJson(Map<String, dynamic> json) {
   return Fleet(
     arn: json['arn'] as String,
-    createdAt: timeStampFromJson(json['createdAt']),
+    createdAt: const UnixDateTimeConverter().fromJson(json['createdAt']),
     lastDeploymentJob: json['lastDeploymentJob'] as String,
     lastDeploymentStatus: _$enumDecodeNullable(
         _$DeploymentStatusEnumMap, json['lastDeploymentStatus']),
-    lastDeploymentTime: timeStampFromJson(json['lastDeploymentTime']),
+    lastDeploymentTime:
+        const UnixDateTimeConverter().fromJson(json['lastDeploymentTime']),
     name: json['name'] as String,
   );
 }
@@ -1145,11 +1159,12 @@ Robot _$RobotFromJson(Map<String, dynamic> json) {
     architecture:
         _$enumDecodeNullable(_$ArchitectureEnumMap, json['architecture']),
     arn: json['arn'] as String,
-    createdAt: timeStampFromJson(json['createdAt']),
+    createdAt: const UnixDateTimeConverter().fromJson(json['createdAt']),
     fleetArn: json['fleetArn'] as String,
     greenGrassGroupId: json['greenGrassGroupId'] as String,
     lastDeploymentJob: json['lastDeploymentJob'] as String,
-    lastDeploymentTime: timeStampFromJson(json['lastDeploymentTime']),
+    lastDeploymentTime:
+        const UnixDateTimeConverter().fromJson(json['lastDeploymentTime']),
     name: json['name'] as String,
     status: _$enumDecodeNullable(_$RobotStatusEnumMap, json['status']),
   );
@@ -1186,7 +1201,8 @@ RobotApplicationSummary _$RobotApplicationSummaryFromJson(
     Map<String, dynamic> json) {
   return RobotApplicationSummary(
     arn: json['arn'] as String,
-    lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
+    lastUpdatedAt:
+        const UnixDateTimeConverter().fromJson(json['lastUpdatedAt']),
     name: json['name'] as String,
     robotSoftwareSuite: json['robotSoftwareSuite'] == null
         ? null
@@ -1199,8 +1215,10 @@ RobotApplicationSummary _$RobotApplicationSummaryFromJson(
 RobotDeployment _$RobotDeploymentFromJson(Map<String, dynamic> json) {
   return RobotDeployment(
     arn: json['arn'] as String,
-    deploymentFinishTime: timeStampFromJson(json['deploymentFinishTime']),
-    deploymentStartTime: timeStampFromJson(json['deploymentStartTime']),
+    deploymentFinishTime:
+        const UnixDateTimeConverter().fromJson(json['deploymentFinishTime']),
+    deploymentStartTime:
+        const UnixDateTimeConverter().fromJson(json['deploymentStartTime']),
     failureCode: _$enumDecodeNullable(
         _$DeploymentJobErrorCodeEnumMap, json['failureCode']),
     failureReason: json['failureReason'] as String,
@@ -1307,7 +1325,8 @@ SimulationApplicationSummary _$SimulationApplicationSummaryFromJson(
     Map<String, dynamic> json) {
   return SimulationApplicationSummary(
     arn: json['arn'] as String,
-    lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
+    lastUpdatedAt:
+        const UnixDateTimeConverter().fromJson(json['lastUpdatedAt']),
     name: json['name'] as String,
     robotSoftwareSuite: json['robotSoftwareSuite'] == null
         ? null
@@ -1338,8 +1357,10 @@ SimulationJob _$SimulationJobFromJson(Map<String, dynamic> json) {
         _$SimulationJobErrorCodeEnumMap, json['failureCode']),
     failureReason: json['failureReason'] as String,
     iamRole: json['iamRole'] as String,
-    lastStartedAt: timeStampFromJson(json['lastStartedAt']),
-    lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
+    lastStartedAt:
+        const UnixDateTimeConverter().fromJson(json['lastStartedAt']),
+    lastUpdatedAt:
+        const UnixDateTimeConverter().fromJson(json['lastUpdatedAt']),
     loggingConfig: json['loggingConfig'] == null
         ? null
         : LoggingConfig.fromJson(json['loggingConfig'] as Map<String, dynamic>),
@@ -1378,10 +1399,11 @@ SimulationJobBatchSummary _$SimulationJobBatchSummaryFromJson(
     Map<String, dynamic> json) {
   return SimulationJobBatchSummary(
     arn: json['arn'] as String,
-    createdAt: timeStampFromJson(json['createdAt']),
+    createdAt: const UnixDateTimeConverter().fromJson(json['createdAt']),
     createdRequestCount: json['createdRequestCount'] as int,
     failedRequestCount: json['failedRequestCount'] as int,
-    lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
+    lastUpdatedAt:
+        const UnixDateTimeConverter().fromJson(json['lastUpdatedAt']),
     pendingRequestCount: json['pendingRequestCount'] as int,
     status:
         _$enumDecodeNullable(_$SimulationJobBatchStatusEnumMap, json['status']),
@@ -1463,7 +1485,8 @@ SimulationJobSummary _$SimulationJobSummaryFromJson(Map<String, dynamic> json) {
     arn: json['arn'] as String,
     dataSourceNames:
         (json['dataSourceNames'] as List)?.map((e) => e as String)?.toList(),
-    lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
+    lastUpdatedAt:
+        const UnixDateTimeConverter().fromJson(json['lastUpdatedAt']),
     name: json['name'] as String,
     robotApplicationNames: (json['robotApplicationNames'] as List)
         ?.map((e) => e as String)
@@ -1537,7 +1560,7 @@ StartSimulationJobBatchResponse _$StartSimulationJobBatchResponseFromJson(
         ? null
         : BatchPolicy.fromJson(json['batchPolicy'] as Map<String, dynamic>),
     clientRequestToken: json['clientRequestToken'] as String,
-    createdAt: timeStampFromJson(json['createdAt']),
+    createdAt: const UnixDateTimeConverter().fromJson(json['createdAt']),
     createdRequests: (json['createdRequests'] as List)
         ?.map((e) => e == null
             ? null
@@ -1569,7 +1592,7 @@ SyncDeploymentJobResponse _$SyncDeploymentJobResponseFromJson(
     Map<String, dynamic> json) {
   return SyncDeploymentJobResponse(
     arn: json['arn'] as String,
-    createdAt: timeStampFromJson(json['createdAt']),
+    createdAt: const UnixDateTimeConverter().fromJson(json['createdAt']),
     deploymentApplicationConfigs: (json['deploymentApplicationConfigs'] as List)
         ?.map((e) => e == null
             ? null
@@ -1600,7 +1623,8 @@ UpdateRobotApplicationResponse _$UpdateRobotApplicationResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateRobotApplicationResponse(
     arn: json['arn'] as String,
-    lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
+    lastUpdatedAt:
+        const UnixDateTimeConverter().fromJson(json['lastUpdatedAt']),
     name: json['name'] as String,
     revisionId: json['revisionId'] as String,
     robotSoftwareSuite: json['robotSoftwareSuite'] == null
@@ -1619,7 +1643,8 @@ UpdateSimulationApplicationResponse
     _$UpdateSimulationApplicationResponseFromJson(Map<String, dynamic> json) {
   return UpdateSimulationApplicationResponse(
     arn: json['arn'] as String,
-    lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
+    lastUpdatedAt:
+        const UnixDateTimeConverter().fromJson(json['lastUpdatedAt']),
     name: json['name'] as String,
     renderingEngine: json['renderingEngine'] == null
         ? null

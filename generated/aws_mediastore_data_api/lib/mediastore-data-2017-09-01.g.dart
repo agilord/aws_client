@@ -17,7 +17,7 @@ DescribeObjectResponse _$DescribeObjectResponseFromJson(
     contentLength: json['Content-Length'] as int,
     contentType: json['Content-Type'] as String,
     eTag: json['ETag'] as String,
-    lastModified: timeStampFromJson(json['Last-Modified']),
+    lastModified: const RfcDateTimeConverter().fromJson(json['Last-Modified']),
   );
 }
 
@@ -30,7 +30,7 @@ GetObjectResponse _$GetObjectResponseFromJson(Map<String, dynamic> json) {
     contentRange: json['Content-Range'] as String,
     contentType: json['Content-Type'] as String,
     eTag: json['ETag'] as String,
-    lastModified: timeStampFromJson(json['Last-Modified']),
+    lastModified: const RfcDateTimeConverter().fromJson(json['Last-Modified']),
   );
 }
 
@@ -39,7 +39,7 @@ Item _$ItemFromJson(Map<String, dynamic> json) {
     contentLength: json['ContentLength'] as int,
     contentType: json['ContentType'] as String,
     eTag: json['ETag'] as String,
-    lastModified: timeStampFromJson(json['LastModified']),
+    lastModified: const UnixDateTimeConverter().fromJson(json['LastModified']),
     name: json['Name'] as String,
     type: _$enumDecodeNullable(_$ItemTypeEnumMap, json['Type']),
   );

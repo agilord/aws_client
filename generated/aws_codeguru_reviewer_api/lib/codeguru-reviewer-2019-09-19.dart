@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -418,18 +421,14 @@ class RepositoryAssociation {
 
   /// The time, in milliseconds since the epoch, when the repository association
   /// was created.
-  @_s.JsonKey(
-      name: 'CreatedTimeStamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedTimeStamp')
   final DateTime createdTimeStamp;
 
   /// The time, in milliseconds since the epoch, when the repository association
   /// was last updated.
-  @_s.JsonKey(
-      name: 'LastUpdatedTimeStamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastUpdatedTimeStamp')
   final DateTime lastUpdatedTimeStamp;
 
   /// The name of the repository.
@@ -511,10 +510,8 @@ class RepositoryAssociationSummary {
 
   /// The time, in milliseconds since the epoch, since the repository association
   /// was last updated.
-  @_s.JsonKey(
-      name: 'LastUpdatedTimeStamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastUpdatedTimeStamp')
   final DateTime lastUpdatedTimeStamp;
 
   /// The name of the repository association.

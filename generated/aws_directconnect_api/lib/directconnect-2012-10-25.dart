@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -3055,10 +3058,8 @@ class Connection {
   final String lagId;
 
   /// The time of the most recent call to <a>DescribeLoa</a> for this connection.
-  @_s.JsonKey(
-      name: 'loaIssueTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'loaIssueTime')
   final DateTime loaIssueTime;
 
   /// The location of the connection.
@@ -3986,10 +3987,8 @@ class Interconnect {
   final String lagId;
 
   /// The time of the most recent call to <a>DescribeLoa</a> for this connection.
-  @_s.JsonKey(
-      name: 'loaIssueTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'loaIssueTime')
   final DateTime loaIssueTime;
 
   /// The location of the connection.

@@ -10,7 +10,7 @@ App _$AppFromJson(Map<String, dynamic> json) {
   return App(
     appArn: json['appArn'] as String,
     appId: json['appId'] as String,
-    createTime: timeStampFromJson(json['createTime']),
+    createTime: const UnixDateTimeConverter().fromJson(json['createTime']),
     defaultDomain: json['defaultDomain'] as String,
     description: json['description'] as String,
     enableBasicAuth: json['enableBasicAuth'] as bool,
@@ -22,7 +22,7 @@ App _$AppFromJson(Map<String, dynamic> json) {
     name: json['name'] as String,
     platform: _$enumDecodeNullable(_$PlatformEnumMap, json['platform']),
     repository: json['repository'] as String,
-    updateTime: timeStampFromJson(json['updateTime']),
+    updateTime: const UnixDateTimeConverter().fromJson(json['updateTime']),
     autoBranchCreationConfig: json['autoBranchCreationConfig'] == null
         ? null
         : AutoBranchCreationConfig.fromJson(
@@ -143,9 +143,9 @@ const _$StageEnumMap = {
 BackendEnvironment _$BackendEnvironmentFromJson(Map<String, dynamic> json) {
   return BackendEnvironment(
     backendEnvironmentArn: json['backendEnvironmentArn'] as String,
-    createTime: timeStampFromJson(json['createTime']),
+    createTime: const UnixDateTimeConverter().fromJson(json['createTime']),
     environmentName: json['environmentName'] as String,
-    updateTime: timeStampFromJson(json['updateTime']),
+    updateTime: const UnixDateTimeConverter().fromJson(json['updateTime']),
     deploymentArtifacts: json['deploymentArtifacts'] as String,
     stackName: json['stackName'] as String,
   );
@@ -156,7 +156,7 @@ Branch _$BranchFromJson(Map<String, dynamic> json) {
     activeJobId: json['activeJobId'] as String,
     branchArn: json['branchArn'] as String,
     branchName: json['branchName'] as String,
-    createTime: timeStampFromJson(json['createTime']),
+    createTime: const UnixDateTimeConverter().fromJson(json['createTime']),
     customDomains:
         (json['customDomains'] as List)?.map((e) => e as String)?.toList(),
     description: json['description'] as String,
@@ -173,7 +173,7 @@ Branch _$BranchFromJson(Map<String, dynamic> json) {
     stage: _$enumDecodeNullable(_$StageEnumMap, json['stage']),
     totalNumberOfJobs: json['totalNumberOfJobs'] as String,
     ttl: json['ttl'] as String,
-    updateTime: timeStampFromJson(json['updateTime']),
+    updateTime: const UnixDateTimeConverter().fromJson(json['updateTime']),
     associatedResources: (json['associatedResources'] as List)
         ?.map((e) => e as String)
         ?.toList(),
@@ -432,13 +432,13 @@ JobSummary _$JobSummaryFromJson(Map<String, dynamic> json) {
   return JobSummary(
     commitId: json['commitId'] as String,
     commitMessage: json['commitMessage'] as String,
-    commitTime: timeStampFromJson(json['commitTime']),
+    commitTime: const UnixDateTimeConverter().fromJson(json['commitTime']),
     jobArn: json['jobArn'] as String,
     jobId: json['jobId'] as String,
     jobType: _$enumDecodeNullable(_$JobTypeEnumMap, json['jobType']),
-    startTime: timeStampFromJson(json['startTime']),
+    startTime: const UnixDateTimeConverter().fromJson(json['startTime']),
     status: _$enumDecodeNullable(_$JobStatusEnumMap, json['status']),
-    endTime: timeStampFromJson(json['endTime']),
+    endTime: const UnixDateTimeConverter().fromJson(json['endTime']),
   );
 }
 
@@ -544,7 +544,8 @@ ListWebhooksResult _$ListWebhooksResultFromJson(Map<String, dynamic> json) {
 ProductionBranch _$ProductionBranchFromJson(Map<String, dynamic> json) {
   return ProductionBranch(
     branchName: json['branchName'] as String,
-    lastDeployTime: timeStampFromJson(json['lastDeployTime']),
+    lastDeployTime:
+        const UnixDateTimeConverter().fromJson(json['lastDeployTime']),
     status: json['status'] as String,
     thumbnailUrl: json['thumbnailUrl'] as String,
   );
@@ -569,8 +570,8 @@ StartJobResult _$StartJobResultFromJson(Map<String, dynamic> json) {
 
 Step _$StepFromJson(Map<String, dynamic> json) {
   return Step(
-    endTime: timeStampFromJson(json['endTime']),
-    startTime: timeStampFromJson(json['startTime']),
+    endTime: const UnixDateTimeConverter().fromJson(json['endTime']),
+    startTime: const UnixDateTimeConverter().fromJson(json['startTime']),
     status: _$enumDecodeNullable(_$JobStatusEnumMap, json['status']),
     stepName: json['stepName'] as String,
     artifactsUrl: json['artifactsUrl'] as String,
@@ -671,9 +672,9 @@ UpdateWebhookResult _$UpdateWebhookResultFromJson(Map<String, dynamic> json) {
 Webhook _$WebhookFromJson(Map<String, dynamic> json) {
   return Webhook(
     branchName: json['branchName'] as String,
-    createTime: timeStampFromJson(json['createTime']),
+    createTime: const UnixDateTimeConverter().fromJson(json['createTime']),
     description: json['description'] as String,
-    updateTime: timeStampFromJson(json['updateTime']),
+    updateTime: const UnixDateTimeConverter().fromJson(json['updateTime']),
     webhookArn: json['webhookArn'] as String,
     webhookId: json['webhookId'] as String,
     webhookUrl: json['webhookUrl'] as String,

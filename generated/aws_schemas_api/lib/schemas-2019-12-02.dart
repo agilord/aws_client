@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -1025,8 +1028,8 @@ class CreateSchemaResponse {
   final String description;
 
   /// The date and time that schema was modified.
-  @_s.JsonKey(
-      name: 'LastModified', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'LastModified')
   final DateTime lastModified;
 
   /// The ARN of the schema.
@@ -1048,10 +1051,8 @@ class CreateSchemaResponse {
   final String type;
 
   /// The date the schema version was created.
-  @_s.JsonKey(
-      name: 'VersionCreatedDate',
-      fromJson: timeStampFromJson,
-      toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'VersionCreatedDate')
   final DateTime versionCreatedDate;
 
   CreateSchemaResponse({
@@ -1075,13 +1076,13 @@ class CreateSchemaResponse {
     createToJson: false)
 class DescribeCodeBindingResponse {
   /// The time and date that the code binding was created.
-  @_s.JsonKey(
-      name: 'CreationDate', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'CreationDate')
   final DateTime creationDate;
 
   /// The date and time that code bindings were modified.
-  @_s.JsonKey(
-      name: 'LastModified', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'LastModified')
   final DateTime lastModified;
 
   /// The version number of the schema.
@@ -1190,8 +1191,8 @@ class DescribeSchemaResponse {
   final String description;
 
   /// The date and time that schema was modified.
-  @_s.JsonKey(
-      name: 'LastModified', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'LastModified')
   final DateTime lastModified;
 
   /// The ARN of the schema.
@@ -1215,10 +1216,8 @@ class DescribeSchemaResponse {
   final String type;
 
   /// The date the schema version was created.
-  @_s.JsonKey(
-      name: 'VersionCreatedDate',
-      fromJson: timeStampFromJson,
-      toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'VersionCreatedDate')
   final DateTime versionCreatedDate;
 
   DescribeSchemaResponse({
@@ -1452,13 +1451,13 @@ class LockServiceLinkedRoleResponse {
     createToJson: false)
 class PutCodeBindingResponse {
   /// The time and date that the code binding was created.
-  @_s.JsonKey(
-      name: 'CreationDate', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'CreationDate')
   final DateTime creationDate;
 
   /// The date and time that code bindings were modified.
-  @_s.JsonKey(
-      name: 'LastModified', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'LastModified')
   final DateTime lastModified;
 
   /// The version number of the schema.
@@ -1514,8 +1513,8 @@ class RegistrySummary {
     createToJson: false)
 class SchemaSummary {
   /// The date and time that schema was modified.
-  @_s.JsonKey(
-      name: 'LastModified', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'LastModified')
   final DateTime lastModified;
 
   /// The ARN of the schema.
@@ -1610,8 +1609,8 @@ class SearchSchemaSummary {
     createFactory: true,
     createToJson: false)
 class SearchSchemaVersionSummary {
-  @_s.JsonKey(
-      name: 'CreatedDate', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedDate')
   final DateTime createdDate;
 
   /// The version number of the schema
@@ -1805,8 +1804,8 @@ class UpdateSchemaResponse {
   final String description;
 
   /// The date and time that schema was modified.
-  @_s.JsonKey(
-      name: 'LastModified', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'LastModified')
   final DateTime lastModified;
 
   /// The ARN of the schema.
@@ -1828,10 +1827,8 @@ class UpdateSchemaResponse {
   final String type;
 
   /// The date the schema version was created.
-  @_s.JsonKey(
-      name: 'VersionCreatedDate',
-      fromJson: timeStampFromJson,
-      toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'VersionCreatedDate')
   final DateTime versionCreatedDate;
 
   UpdateSchemaResponse({

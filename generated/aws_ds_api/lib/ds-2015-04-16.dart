@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -3606,17 +3609,13 @@ class Certificate {
   final String commonName;
 
   /// The date and time when the certificate will expire.
-  @_s.JsonKey(
-      name: 'ExpiryDateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ExpiryDateTime')
   final DateTime expiryDateTime;
 
   /// The date and time that the certificate was registered.
-  @_s.JsonKey(
-      name: 'RegisteredDateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'RegisteredDateTime')
   final DateTime registeredDateTime;
 
   /// The state of the certificate.
@@ -3655,10 +3654,8 @@ class CertificateInfo {
   final String commonName;
 
   /// The date and time when the certificate will expire.
-  @_s.JsonKey(
-      name: 'ExpiryDateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ExpiryDateTime')
   final DateTime expiryDateTime;
 
   /// The state of the certificate.
@@ -4372,10 +4369,8 @@ class DirectoryDescription {
   final DirectoryEdition edition;
 
   /// Specifies when the directory was created.
-  @_s.JsonKey(
-      name: 'LaunchTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LaunchTime')
   final DateTime launchTime;
 
   /// The fully qualified name of the directory.
@@ -4432,10 +4427,8 @@ class DirectoryDescription {
   final DirectoryStage stage;
 
   /// The date and time that the stage was last updated.
-  @_s.JsonKey(
-      name: 'StageLastUpdatedDateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'StageLastUpdatedDateTime')
   final DateTime stageLastUpdatedDateTime;
 
   /// Additional information about the directory stage.
@@ -4732,10 +4725,8 @@ class DomainController {
   final String domainControllerId;
 
   /// Specifies when the domain controller was created.
-  @_s.JsonKey(
-      name: 'LaunchTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LaunchTime')
   final DateTime launchTime;
 
   /// The status of the domain controller.
@@ -4743,10 +4734,8 @@ class DomainController {
   final DomainControllerStatus status;
 
   /// The date and time that the status was last updated.
-  @_s.JsonKey(
-      name: 'StatusLastUpdatedDateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'StatusLastUpdatedDateTime')
   final DateTime statusLastUpdatedDateTime;
 
   /// A description of the domain controller state.
@@ -4838,10 +4827,8 @@ class EnableSsoResult {
     createToJson: false)
 class EventTopic {
   /// The date and time of when you associated your directory with the SNS topic.
-  @_s.JsonKey(
-      name: 'CreatedDateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedDateTime')
   final DateTime createdDateTime;
 
   /// The Directory ID of an AWS Directory Service directory that will publish
@@ -4945,10 +4932,8 @@ class IpRoute {
     createToJson: false)
 class IpRouteInfo {
   /// The date and time the address block was added to the directory.
-  @_s.JsonKey(
-      name: 'AddedDateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'AddedDateTime')
   final DateTime addedDateTime;
 
   /// IP address block in the <a>IpRoute</a>.
@@ -5014,10 +4999,8 @@ class LDAPSSettingInfo {
   final String lDAPSStatusReason;
 
   /// The date and time when the LDAPS settings were last updated.
-  @_s.JsonKey(
-      name: 'LastUpdatedDateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastUpdatedDateTime')
   final DateTime lastUpdatedDateTime;
 
   LDAPSSettingInfo({
@@ -5189,10 +5172,8 @@ class LogSubscription {
   final String logGroupName;
 
   /// The date and time that the log subscription was created.
-  @_s.JsonKey(
-      name: 'SubscriptionCreatedDateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'SubscriptionCreatedDateTime')
   final DateTime subscriptionCreatedDateTime;
 
   LogSubscription({
@@ -5442,10 +5423,8 @@ class SchemaExtensionInfo {
   final String directoryId;
 
   /// The date and time that the schema extension was completed.
-  @_s.JsonKey(
-      name: 'EndDateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'EndDateTime')
   final DateTime endDateTime;
 
   /// The identifier of the schema extension.
@@ -5462,10 +5441,8 @@ class SchemaExtensionInfo {
 
   /// The date and time that the schema extension started being applied to the
   /// directory.
-  @_s.JsonKey(
-      name: 'StartDateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'StartDateTime')
   final DateTime startDateTime;
 
   SchemaExtensionInfo({
@@ -5610,17 +5587,13 @@ class ShareTarget {
     createToJson: false)
 class SharedDirectory {
   /// The date and time that the shared directory was created.
-  @_s.JsonKey(
-      name: 'CreatedDateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedDateTime')
   final DateTime createdDateTime;
 
   /// The date and time that the shared directory was last updated.
-  @_s.JsonKey(
-      name: 'LastUpdatedDateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastUpdatedDateTime')
   final DateTime lastUpdatedDateTime;
 
   /// Identifier of the directory owner account, which contains the directory that
@@ -5695,10 +5668,8 @@ class Snapshot {
   final String snapshotId;
 
   /// The date and time that the snapshot was taken.
-  @_s.JsonKey(
-      name: 'StartTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'StartTime')
   final DateTime startTime;
 
   /// The snapshot status.
@@ -5837,10 +5808,8 @@ enum TopicStatus {
     createToJson: false)
 class Trust {
   /// The date and time that the trust relationship was created.
-  @_s.JsonKey(
-      name: 'CreatedDateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedDateTime')
   final DateTime createdDateTime;
 
   /// The Directory ID of the AWS directory involved in the trust relationship.
@@ -5848,10 +5817,8 @@ class Trust {
   final String directoryId;
 
   /// The date and time that the trust relationship was last updated.
-  @_s.JsonKey(
-      name: 'LastUpdatedDateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastUpdatedDateTime')
   final DateTime lastUpdatedDateTime;
 
   /// The Fully Qualified Domain Name (FQDN) of the external domain involved in
@@ -5864,10 +5831,8 @@ class Trust {
   final SelectiveAuth selectiveAuth;
 
   /// The date and time that the TrustState was last updated.
-  @_s.JsonKey(
-      name: 'StateLastUpdatedDateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'StateLastUpdatedDateTime')
   final DateTime stateLastUpdatedDateTime;
 
   /// The trust relationship direction.

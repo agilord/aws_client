@@ -10,7 +10,8 @@ Entitlement _$EntitlementFromJson(Map<String, dynamic> json) {
   return Entitlement(
     customerIdentifier: json['CustomerIdentifier'] as String,
     dimension: json['Dimension'] as String,
-    expirationDate: timeStampFromJson(json['ExpirationDate']),
+    expirationDate:
+        const UnixDateTimeConverter().fromJson(json['ExpirationDate']),
     productCode: json['ProductCode'] as String,
     value: json['Value'] == null
         ? null

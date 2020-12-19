@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -5096,10 +5099,8 @@ class ArchivalSummary {
 
   /// The date and time when table archival was initiated by DynamoDB, in UNIX
   /// epoch time format.
-  @_s.JsonKey(
-      name: 'ArchivalDateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ArchivalDateTime')
   final DateTime archivalDateTime;
 
   /// The reason DynamoDB archived the table. Currently, the only possible value
@@ -5668,10 +5669,8 @@ class BackupDetails {
 
   /// Time at which the backup was created. This is the request time of the
   /// backup.
-  @_s.JsonKey(
-      name: 'BackupCreationDateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'BackupCreationDateTime')
   final DateTime backupCreationDateTime;
 
   /// Name of the requested backup.
@@ -5707,10 +5706,8 @@ class BackupDetails {
   /// Time at which the automatic on-demand backup created by DynamoDB will
   /// expire. This <code>SYSTEM</code> on-demand backup expires automatically 35
   /// days after its creation.
-  @_s.JsonKey(
-      name: 'BackupExpiryDateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'BackupExpiryDateTime')
   final DateTime backupExpiryDateTime;
 
   /// Size of the backup in bytes.
@@ -5751,19 +5748,15 @@ class BackupSummary {
   final String backupArn;
 
   /// Time at which the backup was created.
-  @_s.JsonKey(
-      name: 'BackupCreationDateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'BackupCreationDateTime')
   final DateTime backupCreationDateTime;
 
   /// Time at which the automatic on-demand backup created by DynamoDB will
   /// expire. This <code>SYSTEM</code> on-demand backup expires automatically 35
   /// days after its creation.
-  @_s.JsonKey(
-      name: 'BackupExpiryDateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'BackupExpiryDateTime')
   final DateTime backupExpiryDateTime;
 
   /// Name of the specified backup.
@@ -6083,10 +6076,8 @@ class BillingModeSummary {
 
   /// Represents the time when <code>PAY_PER_REQUEST</code> was last set as the
   /// read/write capacity mode.
-  @_s.JsonKey(
-      name: 'LastUpdateToPayPerRequestDateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastUpdateToPayPerRequestDateTime')
   final DateTime lastUpdateToPayPerRequestDateTime;
 
   BillingModeSummary({
@@ -7042,10 +7033,8 @@ class DescribeContributorInsightsOutput {
   final String indexName;
 
   /// Timestamp of the last time the status was changed.
-  @_s.JsonKey(
-      name: 'LastUpdateDateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastUpdateDateTime')
   final DateTime lastUpdateDateTime;
 
   /// The name of the table being described.
@@ -7963,10 +7952,8 @@ class GlobalTable {
     createToJson: false)
 class GlobalTableDescription {
   /// The creation time of the global table.
-  @_s.JsonKey(
-      name: 'CreationDateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationDateTime')
   final DateTime creationDateTime;
 
   /// The unique identifier of the global table.
@@ -8610,18 +8597,14 @@ class LocalSecondaryIndexInfo {
 class PointInTimeRecoveryDescription {
   /// Specifies the earliest point in time you can restore your table to. You can
   /// restore your table to any point in time during the last 35 days.
-  @_s.JsonKey(
-      name: 'EarliestRestorableDateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'EarliestRestorableDateTime')
   final DateTime earliestRestorableDateTime;
 
   /// <code>LatestRestorableDateTime</code> is typically 5 minutes before the
   /// current time.
-  @_s.JsonKey(
-      name: 'LatestRestorableDateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LatestRestorableDateTime')
   final DateTime latestRestorableDateTime;
 
   /// The current state of point in time recovery:
@@ -8790,18 +8773,14 @@ class ProvisionedThroughput {
 class ProvisionedThroughputDescription {
   /// The date and time of the last provisioned throughput decrease for this
   /// table.
-  @_s.JsonKey(
-      name: 'LastDecreaseDateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastDecreaseDateTime')
   final DateTime lastDecreaseDateTime;
 
   /// The date and time of the last provisioned throughput increase for this
   /// table.
-  @_s.JsonKey(
-      name: 'LastIncreaseDateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastIncreaseDateTime')
   final DateTime lastIncreaseDateTime;
 
   /// The number of provisioned throughput decreases for this table during this
@@ -9672,10 +9651,8 @@ class ReplicationGroupUpdate {
     createToJson: false)
 class RestoreSummary {
   /// Point in time or source backup time.
-  @_s.JsonKey(
-      name: 'RestoreDateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'RestoreDateTime')
   final DateTime restoreDateTime;
 
   /// Indicates if a restore is in progress or not.
@@ -9851,10 +9828,8 @@ class SSEDescription {
   /// be cleared when DynamoDB detects that the table's AWS KMS key is accessible
   /// again. DynamoDB will initiate the table archival process when table's AWS
   /// KMS key remains inaccessible for more than seven days from this date.
-  @_s.JsonKey(
-      name: 'InaccessibleEncryptionDateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'InaccessibleEncryptionDateTime')
   final DateTime inaccessibleEncryptionDateTime;
 
   /// The AWS KMS customer master key (CMK) ARN used for the AWS KMS encryption.
@@ -10084,10 +10059,8 @@ class SourceTableDetails {
   final ProvisionedThroughput provisionedThroughput;
 
   /// Time when the source table was created.
-  @_s.JsonKey(
-      name: 'TableCreationDateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'TableCreationDateTime')
   final DateTime tableCreationDateTime;
 
   /// Unique identifier for the table for which the backup was created.
@@ -10321,10 +10294,8 @@ class TableDescription {
 
   /// The date and time when the table was created, in <a
   /// href="http://www.epochconverter.com/">UNIX epoch time</a> format.
-  @_s.JsonKey(
-      name: 'CreationDateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationDateTime')
   final DateTime creationDateTime;
 
   /// The global secondary indexes, if any, on the table. Each index is scoped to

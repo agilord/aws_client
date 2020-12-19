@@ -205,7 +205,8 @@ ActiveViolation _$ActiveViolationFromJson(Map<String, dynamic> json) {
     behavior: json['behavior'] == null
         ? null
         : Behavior.fromJson(json['behavior'] as Map<String, dynamic>),
-    lastViolationTime: timeStampFromJson(json['lastViolationTime']),
+    lastViolationTime:
+        const UnixDateTimeConverter().fromJson(json['lastViolationTime']),
     lastViolationValue: json['lastViolationValue'] == null
         ? null
         : MetricValue.fromJson(
@@ -213,7 +214,8 @@ ActiveViolation _$ActiveViolationFromJson(Map<String, dynamic> json) {
     securityProfileName: json['securityProfileName'] as String,
     thingName: json['thingName'] as String,
     violationId: json['violationId'] as String,
-    violationStartTime: timeStampFromJson(json['violationStartTime']),
+    violationStartTime:
+        const UnixDateTimeConverter().fromJson(json['violationStartTime']),
   );
 }
 
@@ -446,7 +448,7 @@ AuditFinding _$AuditFindingFromJson(Map<String, dynamic> json) {
   return AuditFinding(
     checkName: json['checkName'] as String,
     findingId: json['findingId'] as String,
-    findingTime: timeStampFromJson(json['findingTime']),
+    findingTime: const UnixDateTimeConverter().fromJson(json['findingTime']),
     nonCompliantResource: json['nonCompliantResource'] == null
         ? null
         : NonCompliantResource.fromJson(
@@ -461,7 +463,8 @@ AuditFinding _$AuditFindingFromJson(Map<String, dynamic> json) {
     severity:
         _$enumDecodeNullable(_$AuditFindingSeverityEnumMap, json['severity']),
     taskId: json['taskId'] as String,
-    taskStartTime: timeStampFromJson(json['taskStartTime']),
+    taskStartTime:
+        const UnixDateTimeConverter().fromJson(json['taskStartTime']),
   );
 }
 
@@ -478,11 +481,11 @@ AuditMitigationActionExecutionMetadata
   return AuditMitigationActionExecutionMetadata(
     actionId: json['actionId'] as String,
     actionName: json['actionName'] as String,
-    endTime: timeStampFromJson(json['endTime']),
+    endTime: const UnixDateTimeConverter().fromJson(json['endTime']),
     errorCode: json['errorCode'] as String,
     findingId: json['findingId'] as String,
     message: json['message'] as String,
-    startTime: timeStampFromJson(json['startTime']),
+    startTime: const UnixDateTimeConverter().fromJson(json['startTime']),
     status: _$enumDecodeNullable(
         _$AuditMitigationActionsExecutionStatusEnumMap, json['status']),
     taskId: json['taskId'] as String,
@@ -501,7 +504,7 @@ const _$AuditMitigationActionsExecutionStatusEnumMap = {
 AuditMitigationActionsTaskMetadata _$AuditMitigationActionsTaskMetadataFromJson(
     Map<String, dynamic> json) {
   return AuditMitigationActionsTaskMetadata(
-    startTime: timeStampFromJson(json['startTime']),
+    startTime: const UnixDateTimeConverter().fromJson(json['startTime']),
     taskId: json['taskId'] as String,
     taskStatus: _$enumDecodeNullable(
         _$AuditMitigationActionsTaskStatusEnumMap, json['taskStatus']),
@@ -670,8 +673,9 @@ AuthorizerDescription _$AuthorizerDescriptionFromJson(
     authorizerArn: json['authorizerArn'] as String,
     authorizerFunctionArn: json['authorizerFunctionArn'] as String,
     authorizerName: json['authorizerName'] as String,
-    creationDate: timeStampFromJson(json['creationDate']),
-    lastModifiedDate: timeStampFromJson(json['lastModifiedDate']),
+    creationDate: const UnixDateTimeConverter().fromJson(json['creationDate']),
+    lastModifiedDate:
+        const UnixDateTimeConverter().fromJson(json['lastModifiedDate']),
     signingDisabled: json['signingDisabled'] as bool,
     status: _$enumDecodeNullable(_$AuthorizerStatusEnumMap, json['status']),
     tokenKeyName: json['tokenKeyName'] as String,
@@ -817,7 +821,7 @@ const _$ComparisonOperatorEnumMap = {
 
 BillingGroupMetadata _$BillingGroupMetadataFromJson(Map<String, dynamic> json) {
   return BillingGroupMetadata(
-    creationDate: timeStampFromJson(json['creationDate']),
+    creationDate: const UnixDateTimeConverter().fromJson(json['creationDate']),
   );
 }
 
@@ -846,7 +850,7 @@ CACertificate _$CACertificateFromJson(Map<String, dynamic> json) {
   return CACertificate(
     certificateArn: json['certificateArn'] as String,
     certificateId: json['certificateId'] as String,
-    creationDate: timeStampFromJson(json['creationDate']),
+    creationDate: const UnixDateTimeConverter().fromJson(json['creationDate']),
     status: _$enumDecodeNullable(_$CACertificateStatusEnumMap, json['status']),
   );
 }
@@ -864,10 +868,11 @@ CACertificateDescription _$CACertificateDescriptionFromJson(
     certificateArn: json['certificateArn'] as String,
     certificateId: json['certificateId'] as String,
     certificatePem: json['certificatePem'] as String,
-    creationDate: timeStampFromJson(json['creationDate']),
+    creationDate: const UnixDateTimeConverter().fromJson(json['creationDate']),
     customerVersion: json['customerVersion'] as int,
     generationId: json['generationId'] as String,
-    lastModifiedDate: timeStampFromJson(json['lastModifiedDate']),
+    lastModifiedDate:
+        const UnixDateTimeConverter().fromJson(json['lastModifiedDate']),
     ownedBy: json['ownedBy'] as String,
     status: _$enumDecodeNullable(_$CACertificateStatusEnumMap, json['status']),
     validity: json['validity'] == null
@@ -905,7 +910,7 @@ Certificate _$CertificateFromJson(Map<String, dynamic> json) {
   return Certificate(
     certificateArn: json['certificateArn'] as String,
     certificateId: json['certificateId'] as String,
-    creationDate: timeStampFromJson(json['creationDate']),
+    creationDate: const UnixDateTimeConverter().fromJson(json['creationDate']),
     status: _$enumDecodeNullable(_$CertificateStatusEnumMap, json['status']),
   );
 }
@@ -926,10 +931,11 @@ CertificateDescription _$CertificateDescriptionFromJson(
     certificateArn: json['certificateArn'] as String,
     certificateId: json['certificateId'] as String,
     certificatePem: json['certificatePem'] as String,
-    creationDate: timeStampFromJson(json['creationDate']),
+    creationDate: const UnixDateTimeConverter().fromJson(json['creationDate']),
     customerVersion: json['customerVersion'] as int,
     generationId: json['generationId'] as String,
-    lastModifiedDate: timeStampFromJson(json['lastModifiedDate']),
+    lastModifiedDate:
+        const UnixDateTimeConverter().fromJson(json['lastModifiedDate']),
     ownedBy: json['ownedBy'] as String,
     previousOwnedBy: json['previousOwnedBy'] as String,
     status: _$enumDecodeNullable(_$CertificateStatusEnumMap, json['status']),
@@ -945,8 +951,8 @@ CertificateDescription _$CertificateDescriptionFromJson(
 
 CertificateValidity _$CertificateValidityFromJson(Map<String, dynamic> json) {
   return CertificateValidity(
-    notAfter: timeStampFromJson(json['notAfter']),
-    notBefore: timeStampFromJson(json['notBefore']),
+    notAfter: const UnixDateTimeConverter().fromJson(json['notAfter']),
+    notBefore: const UnixDateTimeConverter().fromJson(json['notBefore']),
   );
 }
 
@@ -1259,7 +1265,7 @@ CreateProvisioningClaimResponse _$CreateProvisioningClaimResponseFromJson(
   return CreateProvisioningClaimResponse(
     certificateId: json['certificateId'] as String,
     certificatePem: json['certificatePem'] as String,
-    expiration: timeStampFromJson(json['expiration']),
+    expiration: const UnixDateTimeConverter().fromJson(json['expiration']),
     keyPair: json['keyPair'] == null
         ? null
         : KeyPair.fromJson(json['keyPair'] as Map<String, dynamic>),
@@ -1552,8 +1558,8 @@ DescribeAuditMitigationActionsTaskResponse
         (json['auditCheckToActionsMapping'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k, (e as List)?.map((e) => e as String)?.toList()),
     ),
-    endTime: timeStampFromJson(json['endTime']),
-    startTime: timeStampFromJson(json['startTime']),
+    endTime: const UnixDateTimeConverter().fromJson(json['endTime']),
+    startTime: const UnixDateTimeConverter().fromJson(json['startTime']),
     target: json['target'] == null
         ? null
         : AuditMitigationActionsTaskTarget.fromJson(
@@ -1582,7 +1588,8 @@ DescribeAuditTaskResponse _$DescribeAuditTaskResponseFromJson(
               : AuditCheckDetails.fromJson(e as Map<String, dynamic>)),
     ),
     scheduledAuditName: json['scheduledAuditName'] as String,
-    taskStartTime: timeStampFromJson(json['taskStartTime']),
+    taskStartTime:
+        const UnixDateTimeConverter().fromJson(json['taskStartTime']),
     taskStatistics: json['taskStatistics'] == null
         ? null
         : TaskStatistics.fromJson(
@@ -1659,8 +1666,9 @@ DescribeDimensionResponse _$DescribeDimensionResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeDimensionResponse(
     arn: json['arn'] as String,
-    creationDate: timeStampFromJson(json['creationDate']),
-    lastModifiedDate: timeStampFromJson(json['lastModifiedDate']),
+    creationDate: const UnixDateTimeConverter().fromJson(json['creationDate']),
+    lastModifiedDate:
+        const UnixDateTimeConverter().fromJson(json['lastModifiedDate']),
     name: json['name'] as String,
     stringValues:
         (json['stringValues'] as List)?.map((e) => e as String)?.toList(),
@@ -1722,13 +1730,14 @@ DescribeEndpointResponse _$DescribeEndpointResponseFromJson(
 DescribeEventConfigurationsResponse
     _$DescribeEventConfigurationsResponseFromJson(Map<String, dynamic> json) {
   return DescribeEventConfigurationsResponse(
-    creationDate: timeStampFromJson(json['creationDate']),
+    creationDate: const UnixDateTimeConverter().fromJson(json['creationDate']),
     eventConfigurations:
         (json['eventConfigurations'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(_$enumDecodeNullable(_$EventTypeEnumMap, k),
           e == null ? null : Configuration.fromJson(e as Map<String, dynamic>)),
     ),
-    lastModifiedDate: timeStampFromJson(json['lastModifiedDate']),
+    lastModifiedDate:
+        const UnixDateTimeConverter().fromJson(json['lastModifiedDate']),
   );
 }
 
@@ -1792,8 +1801,9 @@ DescribeMitigationActionResponse _$DescribeMitigationActionResponseFromJson(
             json['actionParams'] as Map<String, dynamic>),
     actionType:
         _$enumDecodeNullable(_$MitigationActionTypeEnumMap, json['actionType']),
-    creationDate: timeStampFromJson(json['creationDate']),
-    lastModifiedDate: timeStampFromJson(json['lastModifiedDate']),
+    creationDate: const UnixDateTimeConverter().fromJson(json['creationDate']),
+    lastModifiedDate:
+        const UnixDateTimeConverter().fromJson(json['lastModifiedDate']),
     roleArn: json['roleArn'] as String,
   );
 }
@@ -1811,11 +1821,12 @@ const _$MitigationActionTypeEnumMap = {
 DescribeProvisioningTemplateResponse
     _$DescribeProvisioningTemplateResponseFromJson(Map<String, dynamic> json) {
   return DescribeProvisioningTemplateResponse(
-    creationDate: timeStampFromJson(json['creationDate']),
+    creationDate: const UnixDateTimeConverter().fromJson(json['creationDate']),
     defaultVersionId: json['defaultVersionId'] as int,
     description: json['description'] as String,
     enabled: json['enabled'] as bool,
-    lastModifiedDate: timeStampFromJson(json['lastModifiedDate']),
+    lastModifiedDate:
+        const UnixDateTimeConverter().fromJson(json['lastModifiedDate']),
     provisioningRoleArn: json['provisioningRoleArn'] as String,
     templateArn: json['templateArn'] as String,
     templateBody: json['templateBody'] as String,
@@ -1827,7 +1838,7 @@ DescribeProvisioningTemplateVersionResponse
     _$DescribeProvisioningTemplateVersionResponseFromJson(
         Map<String, dynamic> json) {
   return DescribeProvisioningTemplateVersionResponse(
-    creationDate: timeStampFromJson(json['creationDate']),
+    creationDate: const UnixDateTimeConverter().fromJson(json['creationDate']),
     isDefaultVersion: json['isDefaultVersion'] as bool,
     templateBody: json['templateBody'] as String,
     versionId: json['versionId'] as int,
@@ -1893,8 +1904,9 @@ DescribeSecurityProfileResponse _$DescribeSecurityProfileResponseFromJson(
         ?.map((e) =>
             e == null ? null : Behavior.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    creationDate: timeStampFromJson(json['creationDate']),
-    lastModifiedDate: timeStampFromJson(json['lastModifiedDate']),
+    creationDate: const UnixDateTimeConverter().fromJson(json['creationDate']),
+    lastModifiedDate:
+        const UnixDateTimeConverter().fromJson(json['lastModifiedDate']),
     securityProfileArn: json['securityProfileArn'] as String,
     securityProfileDescription: json['securityProfileDescription'] as String,
     securityProfileName: json['securityProfileName'] as String,
@@ -1946,11 +1958,12 @@ const _$DynamicGroupStatusEnumMap = {
 DescribeThingRegistrationTaskResponse
     _$DescribeThingRegistrationTaskResponseFromJson(Map<String, dynamic> json) {
   return DescribeThingRegistrationTaskResponse(
-    creationDate: timeStampFromJson(json['creationDate']),
+    creationDate: const UnixDateTimeConverter().fromJson(json['creationDate']),
     failureCount: json['failureCount'] as int,
     inputFileBucket: json['inputFileBucket'] as String,
     inputFileKey: json['inputFileKey'] as String,
-    lastModifiedDate: timeStampFromJson(json['lastModifiedDate']),
+    lastModifiedDate:
+        const UnixDateTimeConverter().fromJson(json['lastModifiedDate']),
     message: json['message'] as String,
     percentageProgress: json['percentageProgress'] as int,
     roleArn: json['roleArn'] as String,
@@ -2363,10 +2376,11 @@ GetPercentilesResponse _$GetPercentilesResponseFromJson(
 
 GetPolicyResponse _$GetPolicyResponseFromJson(Map<String, dynamic> json) {
   return GetPolicyResponse(
-    creationDate: timeStampFromJson(json['creationDate']),
+    creationDate: const UnixDateTimeConverter().fromJson(json['creationDate']),
     defaultVersionId: json['defaultVersionId'] as String,
     generationId: json['generationId'] as String,
-    lastModifiedDate: timeStampFromJson(json['lastModifiedDate']),
+    lastModifiedDate:
+        const UnixDateTimeConverter().fromJson(json['lastModifiedDate']),
     policyArn: json['policyArn'] as String,
     policyDocument: json['policyDocument'] as String,
     policyName: json['policyName'] as String,
@@ -2376,10 +2390,11 @@ GetPolicyResponse _$GetPolicyResponseFromJson(Map<String, dynamic> json) {
 GetPolicyVersionResponse _$GetPolicyVersionResponseFromJson(
     Map<String, dynamic> json) {
   return GetPolicyVersionResponse(
-    creationDate: timeStampFromJson(json['creationDate']),
+    creationDate: const UnixDateTimeConverter().fromJson(json['creationDate']),
     generationId: json['generationId'] as String,
     isDefaultVersion: json['isDefaultVersion'] as bool,
-    lastModifiedDate: timeStampFromJson(json['lastModifiedDate']),
+    lastModifiedDate:
+        const UnixDateTimeConverter().fromJson(json['lastModifiedDate']),
     policyArn: json['policyArn'] as String,
     policyDocument: json['policyDocument'] as String,
     policyName: json['policyName'] as String,
@@ -2641,8 +2656,8 @@ Job _$JobFromJson(Map<String, dynamic> json) {
         ? null
         : AbortConfig.fromJson(json['abortConfig'] as Map<String, dynamic>),
     comment: json['comment'] as String,
-    completedAt: timeStampFromJson(json['completedAt']),
-    createdAt: timeStampFromJson(json['createdAt']),
+    completedAt: const UnixDateTimeConverter().fromJson(json['completedAt']),
+    createdAt: const UnixDateTimeConverter().fromJson(json['createdAt']),
     description: json['description'] as String,
     forceCanceled: json['forceCanceled'] as bool,
     jobArn: json['jobArn'] as String,
@@ -2655,7 +2670,8 @@ Job _$JobFromJson(Map<String, dynamic> json) {
         ? null
         : JobProcessDetails.fromJson(
             json['jobProcessDetails'] as Map<String, dynamic>),
-    lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
+    lastUpdatedAt:
+        const UnixDateTimeConverter().fromJson(json['lastUpdatedAt']),
     presignedUrlConfig: json['presignedUrlConfig'] == null
         ? null
         : PresignedUrlConfig.fromJson(
@@ -2690,9 +2706,10 @@ JobExecution _$JobExecutionFromJson(Map<String, dynamic> json) {
     executionNumber: json['executionNumber'] as int,
     forceCanceled: json['forceCanceled'] as bool,
     jobId: json['jobId'] as String,
-    lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
-    queuedAt: timeStampFromJson(json['queuedAt']),
-    startedAt: timeStampFromJson(json['startedAt']),
+    lastUpdatedAt:
+        const UnixDateTimeConverter().fromJson(json['lastUpdatedAt']),
+    queuedAt: const UnixDateTimeConverter().fromJson(json['queuedAt']),
+    startedAt: const UnixDateTimeConverter().fromJson(json['startedAt']),
     status: _$enumDecodeNullable(_$JobExecutionStatusEnumMap, json['status']),
     statusDetails: json['statusDetails'] == null
         ? null
@@ -2726,9 +2743,10 @@ JobExecutionStatusDetails _$JobExecutionStatusDetailsFromJson(
 JobExecutionSummary _$JobExecutionSummaryFromJson(Map<String, dynamic> json) {
   return JobExecutionSummary(
     executionNumber: json['executionNumber'] as int,
-    lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
-    queuedAt: timeStampFromJson(json['queuedAt']),
-    startedAt: timeStampFromJson(json['startedAt']),
+    lastUpdatedAt:
+        const UnixDateTimeConverter().fromJson(json['lastUpdatedAt']),
+    queuedAt: const UnixDateTimeConverter().fromJson(json['queuedAt']),
+    startedAt: const UnixDateTimeConverter().fromJson(json['startedAt']),
     status: _$enumDecodeNullable(_$JobExecutionStatusEnumMap, json['status']),
   );
 }
@@ -2798,11 +2816,12 @@ JobProcessDetails _$JobProcessDetailsFromJson(Map<String, dynamic> json) {
 
 JobSummary _$JobSummaryFromJson(Map<String, dynamic> json) {
   return JobSummary(
-    completedAt: timeStampFromJson(json['completedAt']),
-    createdAt: timeStampFromJson(json['createdAt']),
+    completedAt: const UnixDateTimeConverter().fromJson(json['completedAt']),
+    createdAt: const UnixDateTimeConverter().fromJson(json['createdAt']),
     jobArn: json['jobArn'] as String,
     jobId: json['jobId'] as String,
-    lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
+    lastUpdatedAt:
+        const UnixDateTimeConverter().fromJson(json['lastUpdatedAt']),
     status: _$enumDecodeNullable(_$JobStatusEnumMap, json['status']),
     targetSelection:
         _$enumDecodeNullable(_$TargetSelectionEnumMap, json['targetSelection']),
@@ -3535,7 +3554,7 @@ MitigationActionIdentifier _$MitigationActionIdentifierFromJson(
   return MitigationActionIdentifier(
     actionArn: json['actionArn'] as String,
     actionName: json['actionName'] as String,
-    creationDate: timeStampFromJson(json['creationDate']),
+    creationDate: const UnixDateTimeConverter().fromJson(json['creationDate']),
   );
 }
 
@@ -3686,12 +3705,13 @@ OTAUpdateInfo _$OTAUpdateInfoFromJson(Map<String, dynamic> json) {
         ? null
         : AwsJobPresignedUrlConfig.fromJson(
             json['awsJobPresignedUrlConfig'] as Map<String, dynamic>),
-    creationDate: timeStampFromJson(json['creationDate']),
+    creationDate: const UnixDateTimeConverter().fromJson(json['creationDate']),
     description: json['description'] as String,
     errorInfo: json['errorInfo'] == null
         ? null
         : ErrorInfo.fromJson(json['errorInfo'] as Map<String, dynamic>),
-    lastModifiedDate: timeStampFromJson(json['lastModifiedDate']),
+    lastModifiedDate:
+        const UnixDateTimeConverter().fromJson(json['lastModifiedDate']),
     otaUpdateArn: json['otaUpdateArn'] as String,
     otaUpdateFiles: (json['otaUpdateFiles'] as List)
         ?.map((e) => e == null
@@ -3717,7 +3737,7 @@ const _$ProtocolEnumMap = {
 
 OTAUpdateSummary _$OTAUpdateSummaryFromJson(Map<String, dynamic> json) {
   return OTAUpdateSummary(
-    creationDate: timeStampFromJson(json['creationDate']),
+    creationDate: const UnixDateTimeConverter().fromJson(json['creationDate']),
     otaUpdateArn: json['otaUpdateArn'] as String,
     otaUpdateId: json['otaUpdateId'] as String,
   );
@@ -3727,8 +3747,8 @@ OutgoingCertificate _$OutgoingCertificateFromJson(Map<String, dynamic> json) {
   return OutgoingCertificate(
     certificateArn: json['certificateArn'] as String,
     certificateId: json['certificateId'] as String,
-    creationDate: timeStampFromJson(json['creationDate']),
-    transferDate: timeStampFromJson(json['transferDate']),
+    creationDate: const UnixDateTimeConverter().fromJson(json['creationDate']),
+    transferDate: const UnixDateTimeConverter().fromJson(json['transferDate']),
     transferMessage: json['transferMessage'] as String,
     transferredTo: json['transferredTo'] as String,
   );
@@ -3750,7 +3770,7 @@ Policy _$PolicyFromJson(Map<String, dynamic> json) {
 
 PolicyVersion _$PolicyVersionFromJson(Map<String, dynamic> json) {
   return PolicyVersion(
-    createDate: timeStampFromJson(json['createDate']),
+    createDate: const UnixDateTimeConverter().fromJson(json['createDate']),
     isDefaultVersion: json['isDefaultVersion'] as bool,
     versionId: json['versionId'] as String,
   );
@@ -3803,10 +3823,11 @@ Map<String, dynamic> _$PresignedUrlConfigToJson(PresignedUrlConfig instance) {
 ProvisioningTemplateSummary _$ProvisioningTemplateSummaryFromJson(
     Map<String, dynamic> json) {
   return ProvisioningTemplateSummary(
-    creationDate: timeStampFromJson(json['creationDate']),
+    creationDate: const UnixDateTimeConverter().fromJson(json['creationDate']),
     description: json['description'] as String,
     enabled: json['enabled'] as bool,
-    lastModifiedDate: timeStampFromJson(json['lastModifiedDate']),
+    lastModifiedDate:
+        const UnixDateTimeConverter().fromJson(json['lastModifiedDate']),
     templateArn: json['templateArn'] as String,
     templateName: json['templateName'] as String,
   );
@@ -3815,7 +3836,7 @@ ProvisioningTemplateSummary _$ProvisioningTemplateSummaryFromJson(
 ProvisioningTemplateVersionSummary _$ProvisioningTemplateVersionSummaryFromJson(
     Map<String, dynamic> json) {
   return ProvisioningTemplateVersionSummary(
-    creationDate: timeStampFromJson(json['creationDate']),
+    creationDate: const UnixDateTimeConverter().fromJson(json['creationDate']),
     isDefaultVersion: json['isDefaultVersion'] as bool,
     versionId: json['versionId'] as int,
   );
@@ -4077,9 +4098,10 @@ Map<String, dynamic> _$ResourceIdentifierToJson(ResourceIdentifier instance) {
 
 RoleAliasDescription _$RoleAliasDescriptionFromJson(Map<String, dynamic> json) {
   return RoleAliasDescription(
-    creationDate: timeStampFromJson(json['creationDate']),
+    creationDate: const UnixDateTimeConverter().fromJson(json['creationDate']),
     credentialDurationSeconds: json['credentialDurationSeconds'] as int,
-    lastModifiedDate: timeStampFromJson(json['lastModifiedDate']),
+    lastModifiedDate:
+        const UnixDateTimeConverter().fromJson(json['lastModifiedDate']),
     owner: json['owner'] as String,
     roleAlias: json['roleAlias'] as String,
     roleAliasArn: json['roleAliasArn'] as String,
@@ -4530,13 +4552,14 @@ Map<String, dynamic> _$StreamFileToJson(StreamFile instance) {
 
 StreamInfo _$StreamInfoFromJson(Map<String, dynamic> json) {
   return StreamInfo(
-    createdAt: timeStampFromJson(json['createdAt']),
+    createdAt: const UnixDateTimeConverter().fromJson(json['createdAt']),
     description: json['description'] as String,
     files: (json['files'] as List)
         ?.map((e) =>
             e == null ? null : StreamFile.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
+    lastUpdatedAt:
+        const UnixDateTimeConverter().fromJson(json['lastUpdatedAt']),
     roleArn: json['roleArn'] as String,
     streamArn: json['streamArn'] as String,
     streamId: json['streamId'] as String,
@@ -4716,7 +4739,7 @@ const _$ThingGroupIndexingModeEnumMap = {
 
 ThingGroupMetadata _$ThingGroupMetadataFromJson(Map<String, dynamic> json) {
   return ThingGroupMetadata(
-    creationDate: timeStampFromJson(json['creationDate']),
+    creationDate: const UnixDateTimeConverter().fromJson(json['creationDate']),
     parentGroupName: json['parentGroupName'] as String,
     rootToParentThingGroups: (json['rootToParentThingGroups'] as List)
         ?.map((e) => e == null
@@ -4821,9 +4844,10 @@ ThingTypeDefinition _$ThingTypeDefinitionFromJson(Map<String, dynamic> json) {
 
 ThingTypeMetadata _$ThingTypeMetadataFromJson(Map<String, dynamic> json) {
   return ThingTypeMetadata(
-    creationDate: timeStampFromJson(json['creationDate']),
+    creationDate: const UnixDateTimeConverter().fromJson(json['creationDate']),
     deprecated: json['deprecated'] as bool,
-    deprecationDate: timeStampFromJson(json['deprecationDate']),
+    deprecationDate:
+        const UnixDateTimeConverter().fromJson(json['deprecationDate']),
   );
 }
 
@@ -4890,7 +4914,7 @@ TopicRule _$TopicRuleFromJson(Map<String, dynamic> json) {
             e == null ? null : Action.fromJson(e as Map<String, dynamic>))
         ?.toList(),
     awsIotSqlVersion: json['awsIotSqlVersion'] as String,
-    createdAt: timeStampFromJson(json['createdAt']),
+    createdAt: const UnixDateTimeConverter().fromJson(json['createdAt']),
     description: json['description'] as String,
     errorAction: json['errorAction'] == null
         ? null
@@ -4951,7 +4975,7 @@ TopicRuleDestinationSummary _$TopicRuleDestinationSummaryFromJson(
 
 TopicRuleListItem _$TopicRuleListItemFromJson(Map<String, dynamic> json) {
   return TopicRuleListItem(
-    createdAt: timeStampFromJson(json['createdAt']),
+    createdAt: const UnixDateTimeConverter().fromJson(json['createdAt']),
     ruleArn: json['ruleArn'] as String,
     ruleDisabled: json['ruleDisabled'] as bool,
     ruleName: json['ruleName'] as String,
@@ -4986,10 +5010,10 @@ TransferCertificateResponse _$TransferCertificateResponseFromJson(
 
 TransferData _$TransferDataFromJson(Map<String, dynamic> json) {
   return TransferData(
-    acceptDate: timeStampFromJson(json['acceptDate']),
-    rejectDate: timeStampFromJson(json['rejectDate']),
+    acceptDate: const UnixDateTimeConverter().fromJson(json['acceptDate']),
+    rejectDate: const UnixDateTimeConverter().fromJson(json['rejectDate']),
     rejectReason: json['rejectReason'] as String,
-    transferDate: timeStampFromJson(json['transferDate']),
+    transferDate: const UnixDateTimeConverter().fromJson(json['transferDate']),
     transferMessage: json['transferMessage'] as String,
   );
 }
@@ -5077,8 +5101,9 @@ UpdateDimensionResponse _$UpdateDimensionResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateDimensionResponse(
     arn: json['arn'] as String,
-    creationDate: timeStampFromJson(json['creationDate']),
-    lastModifiedDate: timeStampFromJson(json['lastModifiedDate']),
+    creationDate: const UnixDateTimeConverter().fromJson(json['creationDate']),
+    lastModifiedDate:
+        const UnixDateTimeConverter().fromJson(json['lastModifiedDate']),
     name: json['name'] as String,
     stringValues:
         (json['stringValues'] as List)?.map((e) => e as String)?.toList(),
@@ -5158,8 +5183,9 @@ UpdateSecurityProfileResponse _$UpdateSecurityProfileResponseFromJson(
         ?.map((e) =>
             e == null ? null : Behavior.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    creationDate: timeStampFromJson(json['creationDate']),
-    lastModifiedDate: timeStampFromJson(json['lastModifiedDate']),
+    creationDate: const UnixDateTimeConverter().fromJson(json['creationDate']),
+    lastModifiedDate:
+        const UnixDateTimeConverter().fromJson(json['lastModifiedDate']),
     securityProfileArn: json['securityProfileArn'] as String,
     securityProfileDescription: json['securityProfileDescription'] as String,
     securityProfileName: json['securityProfileName'] as String,
@@ -5226,7 +5252,8 @@ ViolationEvent _$ViolationEventFromJson(Map<String, dynamic> json) {
         : MetricValue.fromJson(json['metricValue'] as Map<String, dynamic>),
     securityProfileName: json['securityProfileName'] as String,
     thingName: json['thingName'] as String,
-    violationEventTime: timeStampFromJson(json['violationEventTime']),
+    violationEventTime:
+        const UnixDateTimeConverter().fromJson(json['violationEventTime']),
     violationEventType: _$enumDecodeNullable(
         _$ViolationEventTypeEnumMap, json['violationEventType']),
     violationId: json['violationId'] as String,

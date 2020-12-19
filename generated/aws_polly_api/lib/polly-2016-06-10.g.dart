@@ -53,7 +53,7 @@ LexiconAttributes _$LexiconAttributesFromJson(Map<String, dynamic> json) {
     alphabet: json['Alphabet'] as String,
     languageCode:
         _$enumDecodeNullable(_$LanguageCodeEnumMap, json['LanguageCode']),
-    lastModified: timeStampFromJson(json['LastModified']),
+    lastModified: const UnixDateTimeConverter().fromJson(json['LastModified']),
     lexemesCount: json['LexemesCount'] as int,
     lexiconArn: json['LexiconArn'] as String,
     size: json['Size'] as int,
@@ -172,7 +172,7 @@ StartSpeechSynthesisTaskOutput _$StartSpeechSynthesisTaskOutputFromJson(
 
 SynthesisTask _$SynthesisTaskFromJson(Map<String, dynamic> json) {
   return SynthesisTask(
-    creationTime: timeStampFromJson(json['CreationTime']),
+    creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
     engine: _$enumDecodeNullable(_$EngineEnumMap, json['Engine']),
     languageCode:
         _$enumDecodeNullable(_$LanguageCodeEnumMap, json['LanguageCode']),

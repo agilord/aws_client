@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -1879,10 +1882,8 @@ class ConfigurationEvent {
   final ConfigurationEventStatus eventStatus;
 
   /// The timestamp of the event.
-  @_s.JsonKey(
-      name: 'EventTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'EventTime')
   final DateTime eventTime;
 
   /// The resource monitored by Application Insights.
@@ -2460,8 +2461,8 @@ class Observation {
   final String ec2State;
 
   /// The time when the observation ended, in epoch seconds.
-  @_s.JsonKey(
-      name: 'EndTime', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'EndTime')
   final DateTime endTime;
 
   /// The Amazon Resource Name (ARN) of the AWS Health Event-based observation.
@@ -2492,10 +2493,8 @@ class Observation {
 
   /// The timestamp in the CloudWatch Logs that specifies when the matched line
   /// occurred.
-  @_s.JsonKey(
-      name: 'LineTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LineTime')
   final DateTime lineTime;
 
   /// The log filter of the observation.
@@ -2527,10 +2526,8 @@ class Observation {
   final String sourceType;
 
   /// The time when the observation was first detected, in epoch seconds.
-  @_s.JsonKey(
-      name: 'StartTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'StartTime')
   final DateTime startTime;
 
   /// The unit of the source observation metric.
@@ -2621,8 +2618,8 @@ class Problem {
   final String affectedResource;
 
   /// The time when the problem ended, in epoch seconds.
-  @_s.JsonKey(
-      name: 'EndTime', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'EndTime')
   final DateTime endTime;
 
   /// Feedback provided by the user about the problem.
@@ -2646,10 +2643,8 @@ class Problem {
   final SeverityLevel severityLevel;
 
   /// The time when the problem started, in epoch seconds.
-  @_s.JsonKey(
-      name: 'StartTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'StartTime')
   final DateTime startTime;
 
   /// The status of the problem.

@@ -207,18 +207,20 @@ ContactData _$ContactDataFromJson(Map<String, dynamic> json) {
     contactId: json['contactId'] as String,
     contactStatus:
         _$enumDecodeNullable(_$ContactStatusEnumMap, json['contactStatus']),
-    endTime: timeStampFromJson(json['endTime']),
+    endTime: const UnixDateTimeConverter().fromJson(json['endTime']),
     errorMessage: json['errorMessage'] as String,
     groundStation: json['groundStation'] as String,
     maximumElevation: json['maximumElevation'] == null
         ? null
         : Elevation.fromJson(json['maximumElevation'] as Map<String, dynamic>),
     missionProfileArn: json['missionProfileArn'] as String,
-    postPassEndTime: timeStampFromJson(json['postPassEndTime']),
-    prePassStartTime: timeStampFromJson(json['prePassStartTime']),
+    postPassEndTime:
+        const UnixDateTimeConverter().fromJson(json['postPassEndTime']),
+    prePassStartTime:
+        const UnixDateTimeConverter().fromJson(json['prePassStartTime']),
     region: json['region'] as String,
     satelliteArn: json['satelliteArn'] as String,
-    startTime: timeStampFromJson(json['startTime']),
+    startTime: const UnixDateTimeConverter().fromJson(json['startTime']),
     tags: (json['tags'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
@@ -361,18 +363,20 @@ DescribeContactResponse _$DescribeContactResponseFromJson(
     contactId: json['contactId'] as String,
     contactStatus:
         _$enumDecodeNullable(_$ContactStatusEnumMap, json['contactStatus']),
-    endTime: timeStampFromJson(json['endTime']),
+    endTime: const UnixDateTimeConverter().fromJson(json['endTime']),
     errorMessage: json['errorMessage'] as String,
     groundStation: json['groundStation'] as String,
     maximumElevation: json['maximumElevation'] == null
         ? null
         : Elevation.fromJson(json['maximumElevation'] as Map<String, dynamic>),
     missionProfileArn: json['missionProfileArn'] as String,
-    postPassEndTime: timeStampFromJson(json['postPassEndTime']),
-    prePassStartTime: timeStampFromJson(json['prePassStartTime']),
+    postPassEndTime:
+        const UnixDateTimeConverter().fromJson(json['postPassEndTime']),
+    prePassStartTime:
+        const UnixDateTimeConverter().fromJson(json['prePassStartTime']),
     region: json['region'] as String,
     satelliteArn: json['satelliteArn'] as String,
-    startTime: timeStampFromJson(json['startTime']),
+    startTime: const UnixDateTimeConverter().fromJson(json['startTime']),
     tags: (json['tags'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k, e as String),
     ),

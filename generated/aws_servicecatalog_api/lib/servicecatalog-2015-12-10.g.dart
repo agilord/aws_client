@@ -942,7 +942,7 @@ ParameterConstraints _$ParameterConstraintsFromJson(Map<String, dynamic> json) {
 PortfolioDetail _$PortfolioDetailFromJson(Map<String, dynamic> json) {
   return PortfolioDetail(
     arn: json['ARN'] as String,
-    createdTime: timeStampFromJson(json['CreatedTime']),
+    createdTime: const UnixDateTimeConverter().fromJson(json['CreatedTime']),
     description: json['Description'] as String,
     displayName: json['DisplayName'] as String,
     id: json['Id'] as String,
@@ -972,7 +972,7 @@ ProductViewAggregationValue _$ProductViewAggregationValueFromJson(
 
 ProductViewDetail _$ProductViewDetailFromJson(Map<String, dynamic> json) {
   return ProductViewDetail(
-    createdTime: timeStampFromJson(json['CreatedTime']),
+    createdTime: const UnixDateTimeConverter().fromJson(json['CreatedTime']),
     productARN: json['ProductARN'] as String,
     productViewSummary: json['ProductViewSummary'] == null
         ? null
@@ -1016,7 +1016,7 @@ ProvisionedProductAttribute _$ProvisionedProductAttributeFromJson(
     Map<String, dynamic> json) {
   return ProvisionedProductAttribute(
     arn: json['Arn'] as String,
-    createdTime: timeStampFromJson(json['CreatedTime']),
+    createdTime: const UnixDateTimeConverter().fromJson(json['CreatedTime']),
     id: json['Id'] as String,
     idempotencyToken: json['IdempotencyToken'] as String,
     lastRecordId: json['LastRecordId'] as String,
@@ -1048,7 +1048,7 @@ ProvisionedProductDetail _$ProvisionedProductDetailFromJson(
     Map<String, dynamic> json) {
   return ProvisionedProductDetail(
     arn: json['Arn'] as String,
-    createdTime: timeStampFromJson(json['CreatedTime']),
+    createdTime: const UnixDateTimeConverter().fromJson(json['CreatedTime']),
     id: json['Id'] as String,
     idempotencyToken: json['IdempotencyToken'] as String,
     lastRecordId: json['LastRecordId'] as String,
@@ -1065,7 +1065,7 @@ ProvisionedProductDetail _$ProvisionedProductDetailFromJson(
 ProvisionedProductPlanDetails _$ProvisionedProductPlanDetailsFromJson(
     Map<String, dynamic> json) {
   return ProvisionedProductPlanDetails(
-    createdTime: timeStampFromJson(json['CreatedTime']),
+    createdTime: const UnixDateTimeConverter().fromJson(json['CreatedTime']),
     notificationArns:
         (json['NotificationArns'] as List)?.map((e) => e as String)?.toList(),
     pathId: json['PathId'] as String,
@@ -1088,7 +1088,7 @@ ProvisionedProductPlanDetails _$ProvisionedProductPlanDetailsFromJson(
     tags: (json['Tags'] as List)
         ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    updatedTime: timeStampFromJson(json['UpdatedTime']),
+    updatedTime: const UnixDateTimeConverter().fromJson(json['UpdatedTime']),
   );
 }
 
@@ -1120,7 +1120,7 @@ ProvisionedProductPlanSummary _$ProvisionedProductPlanSummaryFromJson(
 
 ProvisioningArtifact _$ProvisioningArtifactFromJson(Map<String, dynamic> json) {
   return ProvisioningArtifact(
-    createdTime: timeStampFromJson(json['CreatedTime']),
+    createdTime: const UnixDateTimeConverter().fromJson(json['CreatedTime']),
     description: json['Description'] as String,
     guidance: _$enumDecodeNullable(
         _$ProvisioningArtifactGuidanceEnumMap, json['Guidance']),
@@ -1138,7 +1138,7 @@ ProvisioningArtifactDetail _$ProvisioningArtifactDetailFromJson(
     Map<String, dynamic> json) {
   return ProvisioningArtifactDetail(
     active: json['Active'] as bool,
-    createdTime: timeStampFromJson(json['CreatedTime']),
+    createdTime: const UnixDateTimeConverter().fromJson(json['CreatedTime']),
     description: json['Description'] as String,
     guidance: _$enumDecodeNullable(
         _$ProvisioningArtifactGuidanceEnumMap, json['Guidance']),
@@ -1200,7 +1200,7 @@ Map<String, dynamic> _$ProvisioningArtifactPropertiesToJson(
 ProvisioningArtifactSummary _$ProvisioningArtifactSummaryFromJson(
     Map<String, dynamic> json) {
   return ProvisioningArtifactSummary(
-    createdTime: timeStampFromJson(json['CreatedTime']),
+    createdTime: const UnixDateTimeConverter().fromJson(json['CreatedTime']),
     description: json['Description'] as String,
     id: json['Id'] as String,
     name: json['Name'] as String,
@@ -1265,7 +1265,7 @@ Map<String, dynamic> _$ProvisioningPreferencesToJson(
 
 RecordDetail _$RecordDetailFromJson(Map<String, dynamic> json) {
   return RecordDetail(
-    createdTime: timeStampFromJson(json['CreatedTime']),
+    createdTime: const UnixDateTimeConverter().fromJson(json['CreatedTime']),
     pathId: json['PathId'] as String,
     productId: json['ProductId'] as String,
     provisionedProductId: json['ProvisionedProductId'] as String,
@@ -1283,7 +1283,7 @@ RecordDetail _$RecordDetailFromJson(Map<String, dynamic> json) {
         ?.toList(),
     recordType: json['RecordType'] as String,
     status: _$enumDecodeNullable(_$RecordStatusEnumMap, json['Status']),
-    updatedTime: timeStampFromJson(json['UpdatedTime']),
+    updatedTime: const UnixDateTimeConverter().fromJson(json['UpdatedTime']),
   );
 }
 
@@ -1382,7 +1382,7 @@ const _$EvaluationTypeEnumMap = {
 ResourceDetail _$ResourceDetailFromJson(Map<String, dynamic> json) {
   return ResourceDetail(
     arn: json['ARN'] as String,
-    createdTime: timeStampFromJson(json['CreatedTime']),
+    createdTime: const UnixDateTimeConverter().fromJson(json['CreatedTime']),
     description: json['Description'] as String,
     id: json['Id'] as String,
     name: json['Name'] as String,

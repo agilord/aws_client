@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -1471,10 +1474,8 @@ class DeliveryStreamDescription {
   final String versionId;
 
   /// The date and time that the delivery stream was created.
-  @_s.JsonKey(
-      name: 'CreateTimestamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreateTimestamp')
   final DateTime createTimestamp;
 
   /// Indicates the server-side encryption (SSE) status for the delivery stream.
@@ -1490,10 +1491,8 @@ class DeliveryStreamDescription {
   final FailureDescription failureDescription;
 
   /// The date and time that the delivery stream was last updated.
-  @_s.JsonKey(
-      name: 'LastUpdateTimestamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastUpdateTimestamp')
   final DateTime lastUpdateTimestamp;
 
   /// If the <code>DeliveryStreamType</code> parameter is
@@ -2600,10 +2599,8 @@ class KinesisStreamSourceConfiguration {
 class KinesisStreamSourceDescription {
   /// Kinesis Data Firehose starts retrieving records from the Kinesis data stream
   /// starting with this timestamp.
-  @_s.JsonKey(
-      name: 'DeliveryStartTimestamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'DeliveryStartTimestamp')
   final DateTime deliveryStartTimestamp;
 
   /// The Amazon Resource Name (ARN) of the source Kinesis data stream. For more

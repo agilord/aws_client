@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -2155,10 +2158,8 @@ class DomainPackageDetails {
   final ErrorDetails errorDetails;
 
   /// Timestamp of the most-recent update to the association status.
-  @_s.JsonKey(
-      name: 'LastUpdated',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastUpdated')
   final DateTime lastUpdated;
 
   /// Internal ID of the package.
@@ -3436,10 +3437,8 @@ enum OptionState {
     createToJson: false)
 class OptionStatus {
   /// Timestamp which tells the creation date for the entity.
-  @_s.JsonKey(
-      name: 'CreationDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationDate')
   final DateTime creationDate;
 
   /// Provides the <code>OptionState</code> for the Elasticsearch domain.
@@ -3447,10 +3446,8 @@ class OptionStatus {
   final OptionState state;
 
   /// Timestamp which tells the last updated time for the entity.
-  @_s.JsonKey(
-      name: 'UpdateDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'UpdateDate')
   final DateTime updateDate;
 
   /// Indicates whether the Elasticsearch domain is being deleted.
@@ -3480,10 +3477,8 @@ class OptionStatus {
     createToJson: false)
 class PackageDetails {
   /// Timestamp which tells creation date of the package.
-  @_s.JsonKey(
-      name: 'CreatedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedAt')
   final DateTime createdAt;
 
   /// Additional information if the package is in an error state. Null otherwise.
@@ -3682,10 +3677,8 @@ class ReservedElasticsearchInstance {
   final String reservedElasticsearchInstanceOfferingId;
 
   /// The time the reservation started.
-  @_s.JsonKey(
-      name: 'StartTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'StartTime')
   final DateTime startTime;
 
   /// The state of the reserved Elasticsearch instance.
@@ -3793,10 +3786,8 @@ class ServiceSoftwareOptions {
   /// Timestamp, in Epoch time, until which you can manually request a service
   /// software update. After this date, we automatically update your service
   /// software.
-  @_s.JsonKey(
-      name: 'AutomatedUpdateDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'AutomatedUpdateDate')
   final DateTime automatedUpdateDate;
 
   /// <code>True</code> if you are able to cancel your service software version
@@ -4063,10 +4054,8 @@ class UpgradeElasticsearchDomainResponse {
 class UpgradeHistory {
   /// UTC Timestamp at which the Upgrade API call was made in
   /// "yyyy-MM-ddTHH:mm:ssZ" format.
-  @_s.JsonKey(
-      name: 'StartTimestamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'StartTimestamp')
   final DateTime startTimestamp;
 
   /// A list of <code> <a>UpgradeStepItem</a> </code> s representing information

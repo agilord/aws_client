@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -882,24 +885,18 @@ class Backup {
   final String clusterId;
 
   /// The date and time when the backup was copied from a source backup.
-  @_s.JsonKey(
-      name: 'CopyTimestamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CopyTimestamp')
   final DateTime copyTimestamp;
 
   /// The date and time when the backup was created.
-  @_s.JsonKey(
-      name: 'CreateTimestamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreateTimestamp')
   final DateTime createTimestamp;
 
   /// The date and time when the backup will be permanently deleted.
-  @_s.JsonKey(
-      name: 'DeleteTimestamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'DeleteTimestamp')
   final DateTime deleteTimestamp;
 
   /// The identifier (ID) of the source backup from which the new backup was
@@ -1010,10 +1007,8 @@ class Cluster {
   final String clusterId;
 
   /// The date and time when the cluster was created.
-  @_s.JsonKey(
-      name: 'CreateTimestamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreateTimestamp')
   final DateTime createTimestamp;
 
   /// The type of HSM that the cluster contains.
@@ -1264,10 +1259,8 @@ class DescribeClustersResponse {
     createToJson: false)
 class DestinationBackup {
   /// The date and time when both the source backup was created.
-  @_s.JsonKey(
-      name: 'CreateTimestamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreateTimestamp')
   final DateTime createTimestamp;
 
   /// The identifier (ID) of the source backup from which the new backup was

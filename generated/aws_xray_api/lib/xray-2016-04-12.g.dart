@@ -99,14 +99,14 @@ Edge _$EdgeFromJson(Map<String, dynamic> json) {
         ?.map(
             (e) => e == null ? null : Alias.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    endTime: timeStampFromJson(json['EndTime']),
+    endTime: const UnixDateTimeConverter().fromJson(json['EndTime']),
     referenceId: json['ReferenceId'] as int,
     responseTimeHistogram: (json['ResponseTimeHistogram'] as List)
         ?.map((e) => e == null
             ? null
             : HistogramEntry.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    startTime: timeStampFromJson(json['StartTime']),
+    startTime: const UnixDateTimeConverter().fromJson(json['StartTime']),
     summaryStatistics: json['SummaryStatistics'] == null
         ? null
         : EdgeStatistics.fromJson(
@@ -328,7 +328,8 @@ GetSamplingStatisticSummariesResult
 GetSamplingTargetsResult _$GetSamplingTargetsResultFromJson(
     Map<String, dynamic> json) {
   return GetSamplingTargetsResult(
-    lastRuleModification: timeStampFromJson(json['LastRuleModification']),
+    lastRuleModification:
+        const UnixDateTimeConverter().fromJson(json['LastRuleModification']),
     samplingTargetDocuments: (json['SamplingTargetDocuments'] as List)
         ?.map((e) => e == null
             ? null
@@ -346,13 +347,13 @@ GetServiceGraphResult _$GetServiceGraphResultFromJson(
     Map<String, dynamic> json) {
   return GetServiceGraphResult(
     containsOldGroupVersions: json['ContainsOldGroupVersions'] as bool,
-    endTime: timeStampFromJson(json['EndTime']),
+    endTime: const UnixDateTimeConverter().fromJson(json['EndTime']),
     nextToken: json['NextToken'] as String,
     services: (json['Services'] as List)
         ?.map((e) =>
             e == null ? null : Service.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    startTime: timeStampFromJson(json['StartTime']),
+    startTime: const UnixDateTimeConverter().fromJson(json['StartTime']),
   );
 }
 
@@ -382,7 +383,8 @@ GetTraceGraphResult _$GetTraceGraphResultFromJson(Map<String, dynamic> json) {
 GetTraceSummariesResult _$GetTraceSummariesResultFromJson(
     Map<String, dynamic> json) {
   return GetTraceSummariesResult(
-    approximateTime: timeStampFromJson(json['ApproximateTime']),
+    approximateTime:
+        const UnixDateTimeConverter().fromJson(json['ApproximateTime']),
     nextToken: json['NextToken'] as String,
     traceSummaries: (json['TraceSummaries'] as List)
         ?.map((e) =>
@@ -554,8 +556,8 @@ Map<String, dynamic> _$SamplingRuleToJson(SamplingRule instance) {
 
 SamplingRuleRecord _$SamplingRuleRecordFromJson(Map<String, dynamic> json) {
   return SamplingRuleRecord(
-    createdAt: timeStampFromJson(json['CreatedAt']),
-    modifiedAt: timeStampFromJson(json['ModifiedAt']),
+    createdAt: const UnixDateTimeConverter().fromJson(json['CreatedAt']),
+    modifiedAt: const UnixDateTimeConverter().fromJson(json['ModifiedAt']),
     samplingRule: json['SamplingRule'] == null
         ? null
         : SamplingRule.fromJson(json['SamplingRule'] as Map<String, dynamic>),
@@ -593,7 +595,7 @@ SamplingStatisticSummary _$SamplingStatisticSummaryFromJson(
     requestCount: json['RequestCount'] as int,
     ruleName: json['RuleName'] as String,
     sampledCount: json['SampledCount'] as int,
-    timestamp: timeStampFromJson(json['Timestamp']),
+    timestamp: const UnixDateTimeConverter().fromJson(json['Timestamp']),
   );
 }
 
@@ -611,7 +613,8 @@ Map<String, dynamic> _$SamplingStatisticsDocumentToJson(
   writeNotNull('RequestCount', instance.requestCount);
   writeNotNull('RuleName', instance.ruleName);
   writeNotNull('SampledCount', instance.sampledCount);
-  writeNotNull('Timestamp', unixTimestampToJson(instance.timestamp));
+  writeNotNull(
+      'Timestamp', const UnixDateTimeConverter().toJson(instance.timestamp));
   writeNotNull('BorrowCount', instance.borrowCount);
   return val;
 }
@@ -641,7 +644,8 @@ SamplingTargetDocument _$SamplingTargetDocumentFromJson(
     fixedRate: (json['FixedRate'] as num)?.toDouble(),
     interval: json['Interval'] as int,
     reservoirQuota: json['ReservoirQuota'] as int,
-    reservoirQuotaTTL: timeStampFromJson(json['ReservoirQuotaTTL']),
+    reservoirQuotaTTL:
+        const UnixDateTimeConverter().fromJson(json['ReservoirQuotaTTL']),
     ruleName: json['RuleName'] as String,
   );
 }
@@ -665,7 +669,7 @@ Service _$ServiceFromJson(Map<String, dynamic> json) {
         ?.map(
             (e) => e == null ? null : Edge.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    endTime: timeStampFromJson(json['EndTime']),
+    endTime: const UnixDateTimeConverter().fromJson(json['EndTime']),
     name: json['Name'] as String,
     names: (json['Names'] as List)?.map((e) => e as String)?.toList(),
     referenceId: json['ReferenceId'] as int,
@@ -675,7 +679,7 @@ Service _$ServiceFromJson(Map<String, dynamic> json) {
             : HistogramEntry.fromJson(e as Map<String, dynamic>))
         ?.toList(),
     root: json['Root'] as bool,
-    startTime: timeStampFromJson(json['StartTime']),
+    startTime: const UnixDateTimeConverter().fromJson(json['StartTime']),
     state: json['State'] as String,
     summaryStatistics: json['SummaryStatistics'] == null
         ? null
@@ -719,7 +723,8 @@ Map<String, dynamic> _$TelemetryRecordToJson(TelemetryRecord instance) {
     }
   }
 
-  writeNotNull('Timestamp', unixTimestampToJson(instance.timestamp));
+  writeNotNull(
+      'Timestamp', const UnixDateTimeConverter().toJson(instance.timestamp));
   writeNotNull(
       'BackendConnectionErrors', instance.backendConnectionErrors?.toJson());
   writeNotNull('SegmentsReceivedCount', instance.segmentsReceivedCount);
@@ -745,7 +750,7 @@ TimeSeriesServiceStatistics _$TimeSeriesServiceStatisticsFromJson(
         ? null
         : ServiceStatistics.fromJson(
             json['ServiceSummaryStatistics'] as Map<String, dynamic>),
-    timestamp: timeStampFromJson(json['Timestamp']),
+    timestamp: const UnixDateTimeConverter().fromJson(json['Timestamp']),
   );
 }
 
@@ -803,7 +808,8 @@ TraceSummary _$TraceSummaryFromJson(Map<String, dynamic> json) {
             : InstanceIdDetail.fromJson(e as Map<String, dynamic>))
         ?.toList(),
     isPartial: json['IsPartial'] as bool,
-    matchedEventTime: timeStampFromJson(json['MatchedEventTime']),
+    matchedEventTime:
+        const UnixDateTimeConverter().fromJson(json['MatchedEventTime']),
     resourceARNs: (json['ResourceARNs'] as List)
         ?.map((e) => e == null
             ? null

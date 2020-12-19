@@ -14,9 +14,10 @@ Alias _$AliasFromJson(Map<String, dynamic> json) {
   return Alias(
     aliasArn: json['AliasArn'] as String,
     aliasId: json['AliasId'] as String,
-    creationTime: timeStampFromJson(json['CreationTime']),
+    creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
     description: json['Description'] as String,
-    lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
+    lastUpdatedTime:
+        const UnixDateTimeConverter().fromJson(json['LastUpdatedTime']),
     name: json['Name'] as String,
     routingStrategy: json['RoutingStrategy'] == null
         ? null
@@ -64,7 +65,7 @@ Build _$BuildFromJson(Map<String, dynamic> json) {
   return Build(
     buildArn: json['BuildArn'] as String,
     buildId: json['BuildId'] as String,
-    creationTime: timeStampFromJson(json['CreationTime']),
+    creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
     name: json['Name'] as String,
     operatingSystem:
         _$enumDecodeNullable(_$OperatingSystemEnumMap, json['OperatingSystem']),
@@ -674,7 +675,7 @@ Event _$EventFromJson(Map<String, dynamic> json) {
   return Event(
     eventCode: _$enumDecodeNullable(_$EventCodeEnumMap, json['EventCode']),
     eventId: json['EventId'] as String,
-    eventTime: timeStampFromJson(json['EventTime']),
+    eventTime: const UnixDateTimeConverter().fromJson(json['EventTime']),
     message: json['Message'] as String,
     preSignedLogUrl: json['PreSignedLogUrl'] as String,
     resourceId: json['ResourceId'] as String,
@@ -734,7 +735,7 @@ FleetAttributes _$FleetAttributesFromJson(Map<String, dynamic> json) {
         ? null
         : CertificateConfiguration.fromJson(
             json['CertificateConfiguration'] as Map<String, dynamic>),
-    creationTime: timeStampFromJson(json['CreationTime']),
+    creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
     description: json['Description'] as String,
     fleetArn: json['FleetArn'] as String,
     fleetId: json['FleetId'] as String,
@@ -762,7 +763,8 @@ FleetAttributes _$FleetAttributesFromJson(Map<String, dynamic> json) {
     stoppedActions: (json['StoppedActions'] as List)
         ?.map((e) => _$enumDecodeNullable(_$FleetActionEnumMap, e))
         ?.toList(),
-    terminationTime: timeStampFromJson(json['TerminationTime']),
+    terminationTime:
+        const UnixDateTimeConverter().fromJson(json['TerminationTime']),
   );
 }
 
@@ -846,9 +848,12 @@ GameServer _$GameServerFromJson(Map<String, dynamic> json) {
     gameServerGroupName: json['GameServerGroupName'] as String,
     gameServerId: json['GameServerId'] as String,
     instanceId: json['InstanceId'] as String,
-    lastClaimTime: timeStampFromJson(json['LastClaimTime']),
-    lastHealthCheckTime: timeStampFromJson(json['LastHealthCheckTime']),
-    registrationTime: timeStampFromJson(json['RegistrationTime']),
+    lastClaimTime:
+        const UnixDateTimeConverter().fromJson(json['LastClaimTime']),
+    lastHealthCheckTime:
+        const UnixDateTimeConverter().fromJson(json['LastHealthCheckTime']),
+    registrationTime:
+        const UnixDateTimeConverter().fromJson(json['RegistrationTime']),
     utilizationStatus: _$enumDecodeNullable(
         _$GameServerUtilizationStatusEnumMap, json['UtilizationStatus']),
   );
@@ -868,7 +873,7 @@ GameServerGroup _$GameServerGroupFromJson(Map<String, dynamic> json) {
     autoScalingGroupArn: json['AutoScalingGroupArn'] as String,
     balancingStrategy: _$enumDecodeNullable(
         _$BalancingStrategyEnumMap, json['BalancingStrategy']),
-    creationTime: timeStampFromJson(json['CreationTime']),
+    creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
     gameServerGroupArn: json['GameServerGroupArn'] as String,
     gameServerGroupName: json['GameServerGroupName'] as String,
     gameServerProtectionPolicy: _$enumDecodeNullable(
@@ -879,7 +884,8 @@ GameServerGroup _$GameServerGroupFromJson(Map<String, dynamic> json) {
             ? null
             : InstanceDefinition.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
+    lastUpdatedTime:
+        const UnixDateTimeConverter().fromJson(json['LastUpdatedTime']),
     roleArn: json['RoleArn'] as String,
     status:
         _$enumDecodeNullable(_$GameServerGroupStatusEnumMap, json['Status']),
@@ -932,7 +938,7 @@ Map<String, dynamic> _$GameServerGroupAutoScalingPolicyToJson(
 
 GameSession _$GameSessionFromJson(Map<String, dynamic> json) {
   return GameSession(
-    creationTime: timeStampFromJson(json['CreationTime']),
+    creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
     creatorId: json['CreatorId'] as String,
     currentPlayerSessionCount: json['CurrentPlayerSessionCount'] as int,
     dnsName: json['DnsName'] as String,
@@ -955,7 +961,8 @@ GameSession _$GameSessionFromJson(Map<String, dynamic> json) {
     status: _$enumDecodeNullable(_$GameSessionStatusEnumMap, json['Status']),
     statusReason: _$enumDecodeNullable(
         _$GameSessionStatusReasonEnumMap, json['StatusReason']),
-    terminationTime: timeStampFromJson(json['TerminationTime']),
+    terminationTime:
+        const UnixDateTimeConverter().fromJson(json['TerminationTime']),
   );
 }
 
@@ -1004,7 +1011,7 @@ GameSessionDetail _$GameSessionDetailFromJson(Map<String, dynamic> json) {
 GameSessionPlacement _$GameSessionPlacementFromJson(Map<String, dynamic> json) {
   return GameSessionPlacement(
     dnsName: json['DnsName'] as String,
-    endTime: timeStampFromJson(json['EndTime']),
+    endTime: const UnixDateTimeConverter().fromJson(json['EndTime']),
     gameProperties: (json['GameProperties'] as List)
         ?.map((e) =>
             e == null ? null : GameProperty.fromJson(e as Map<String, dynamic>))
@@ -1030,7 +1037,7 @@ GameSessionPlacement _$GameSessionPlacementFromJson(Map<String, dynamic> json) {
             : PlayerLatency.fromJson(e as Map<String, dynamic>))
         ?.toList(),
     port: json['Port'] as int,
-    startTime: timeStampFromJson(json['StartTime']),
+    startTime: const UnixDateTimeConverter().fromJson(json['StartTime']),
     status: _$enumDecodeNullable(
         _$GameSessionPlacementStateEnumMap, json['Status']),
   );
@@ -1102,7 +1109,7 @@ GetInstanceAccessOutput _$GetInstanceAccessOutputFromJson(
 
 Instance _$InstanceFromJson(Map<String, dynamic> json) {
   return Instance(
-    creationTime: timeStampFromJson(json['CreationTime']),
+    creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
     dnsName: json['DnsName'] as String,
     fleetId: json['FleetId'] as String,
     instanceId: json['InstanceId'] as String,
@@ -1338,7 +1345,7 @@ MatchmakingConfiguration _$MatchmakingConfigurationFromJson(
     backfillMode:
         _$enumDecodeNullable(_$BackfillModeEnumMap, json['BackfillMode']),
     configurationArn: json['ConfigurationArn'] as String,
-    creationTime: timeStampFromJson(json['CreationTime']),
+    creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
     customEventData: json['CustomEventData'] as String,
     description: json['Description'] as String,
     gameProperties: (json['GameProperties'] as List)
@@ -1365,7 +1372,7 @@ const _$BackfillModeEnumMap = {
 MatchmakingRuleSet _$MatchmakingRuleSetFromJson(Map<String, dynamic> json) {
   return MatchmakingRuleSet(
     ruleSetBody: json['RuleSetBody'] as String,
-    creationTime: timeStampFromJson(json['CreationTime']),
+    creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
     ruleSetArn: json['RuleSetArn'] as String,
     ruleSetName: json['RuleSetName'] as String,
   );
@@ -1375,7 +1382,7 @@ MatchmakingTicket _$MatchmakingTicketFromJson(Map<String, dynamic> json) {
   return MatchmakingTicket(
     configurationArn: json['ConfigurationArn'] as String,
     configurationName: json['ConfigurationName'] as String,
-    endTime: timeStampFromJson(json['EndTime']),
+    endTime: const UnixDateTimeConverter().fromJson(json['EndTime']),
     estimatedWaitTime: json['EstimatedWaitTime'] as int,
     gameSessionConnectionInfo: json['GameSessionConnectionInfo'] == null
         ? null
@@ -1385,7 +1392,7 @@ MatchmakingTicket _$MatchmakingTicketFromJson(Map<String, dynamic> json) {
         ?.map((e) =>
             e == null ? null : Player.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    startTime: timeStampFromJson(json['StartTime']),
+    startTime: const UnixDateTimeConverter().fromJson(json['StartTime']),
     status: _$enumDecodeNullable(
         _$MatchmakingConfigurationStatusEnumMap, json['Status']),
     statusMessage: json['StatusMessage'] as String,
@@ -1494,7 +1501,7 @@ Map<String, dynamic> _$PlayerLatencyPolicyToJson(PlayerLatencyPolicy instance) {
 
 PlayerSession _$PlayerSessionFromJson(Map<String, dynamic> json) {
   return PlayerSession(
-    creationTime: timeStampFromJson(json['CreationTime']),
+    creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
     dnsName: json['DnsName'] as String,
     fleetArn: json['FleetArn'] as String,
     fleetId: json['FleetId'] as String,
@@ -1505,7 +1512,8 @@ PlayerSession _$PlayerSessionFromJson(Map<String, dynamic> json) {
     playerSessionId: json['PlayerSessionId'] as String,
     port: json['Port'] as int,
     status: _$enumDecodeNullable(_$PlayerSessionStatusEnumMap, json['Status']),
-    terminationTime: timeStampFromJson(json['TerminationTime']),
+    terminationTime:
+        const UnixDateTimeConverter().fromJson(json['TerminationTime']),
   );
 }
 
@@ -1738,7 +1746,7 @@ const _$ScalingStatusTypeEnumMap = {
 
 Script _$ScriptFromJson(Map<String, dynamic> json) {
   return Script(
-    creationTime: timeStampFromJson(json['CreationTime']),
+    creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
     name: json['Name'] as String,
     scriptArn: json['ScriptArn'] as String,
     scriptId: json['ScriptId'] as String,
@@ -2025,8 +2033,9 @@ ValidateMatchmakingRuleSetOutput _$ValidateMatchmakingRuleSetOutputFromJson(
 VpcPeeringAuthorization _$VpcPeeringAuthorizationFromJson(
     Map<String, dynamic> json) {
   return VpcPeeringAuthorization(
-    creationTime: timeStampFromJson(json['CreationTime']),
-    expirationTime: timeStampFromJson(json['ExpirationTime']),
+    creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
+    expirationTime:
+        const UnixDateTimeConverter().fromJson(json['ExpirationTime']),
     gameLiftAwsAccountId: json['GameLiftAwsAccountId'] as String,
     peerVpcAwsAccountId: json['PeerVpcAwsAccountId'] as String,
     peerVpcId: json['PeerVpcId'] as String,

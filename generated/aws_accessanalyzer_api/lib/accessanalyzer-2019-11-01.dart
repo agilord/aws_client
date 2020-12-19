@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -919,13 +922,13 @@ class AccessAnalyzer {
     createToJson: false)
 class AnalyzedResource {
   /// The time at which the resource was analyzed.
-  @_s.JsonKey(
-      name: 'analyzedAt', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'analyzedAt')
   final DateTime analyzedAt;
 
   /// The time at which the finding was created.
-  @_s.JsonKey(
-      name: 'createdAt', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'createdAt')
   final DateTime createdAt;
 
   /// Indicates whether the policy that generated the finding grants public access
@@ -946,8 +949,8 @@ class AnalyzedResource {
   final ResourceType resourceType;
 
   /// The time at which the finding was updated.
-  @_s.JsonKey(
-      name: 'updatedAt', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'updatedAt')
   final DateTime updatedAt;
 
   /// The actions that an external principal is granted permission to use by the
@@ -1035,8 +1038,8 @@ class AnalyzerSummary {
   final String arn;
 
   /// A timestamp for the time at which the analyzer was created.
-  @_s.JsonKey(
-      name: 'createdAt', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'createdAt')
   final DateTime createdAt;
 
   /// The name of the analyzer.
@@ -1063,10 +1066,8 @@ class AnalyzerSummary {
   final String lastResourceAnalyzed;
 
   /// The time at which the most recently analyzed resource was analyzed.
-  @_s.JsonKey(
-      name: 'lastResourceAnalyzedAt',
-      fromJson: timeStampFromJson,
-      toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'lastResourceAnalyzedAt')
   final DateTime lastResourceAnalyzedAt;
 
   /// The <code>statusReason</code> provides more details about the current status
@@ -1105,8 +1106,8 @@ class AnalyzerSummary {
     createToJson: false)
 class ArchiveRuleSummary {
   /// The time at which the archive rule was created.
-  @_s.JsonKey(
-      name: 'createdAt', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'createdAt')
   final DateTime createdAt;
 
   /// A filter used to define the archive rule.
@@ -1118,8 +1119,8 @@ class ArchiveRuleSummary {
   final String ruleName;
 
   /// The time at which the archive rule was last updated.
-  @_s.JsonKey(
-      name: 'updatedAt', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'updatedAt')
   final DateTime updatedAt;
 
   ArchiveRuleSummary({
@@ -1193,8 +1194,8 @@ class Criterion {
     createToJson: false)
 class Finding {
   /// The time at which the resource was analyzed.
-  @_s.JsonKey(
-      name: 'analyzedAt', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'analyzedAt')
   final DateTime analyzedAt;
 
   /// The condition in the analyzed policy statement that resulted in a finding.
@@ -1202,8 +1203,8 @@ class Finding {
   final Map<String, String> condition;
 
   /// The time at which the finding was generated.
-  @_s.JsonKey(
-      name: 'createdAt', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'createdAt')
   final DateTime createdAt;
 
   /// The ID of the finding.
@@ -1223,8 +1224,8 @@ class Finding {
   final FindingStatus status;
 
   /// The time at which the finding was updated.
-  @_s.JsonKey(
-      name: 'updatedAt', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'updatedAt')
   final DateTime updatedAt;
 
   /// The action in the analyzed policy statement that an external principal has
@@ -1305,8 +1306,8 @@ extension on FindingStatusUpdate {
 class FindingSummary {
   /// The time at which the resource-based policy that generated the finding was
   /// analyzed.
-  @_s.JsonKey(
-      name: 'analyzedAt', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'analyzedAt')
   final DateTime analyzedAt;
 
   /// The condition in the analyzed policy statement that resulted in a finding.
@@ -1314,8 +1315,8 @@ class FindingSummary {
   final Map<String, String> condition;
 
   /// The time at which the finding was created.
-  @_s.JsonKey(
-      name: 'createdAt', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'createdAt')
   final DateTime createdAt;
 
   /// The ID of the finding.
@@ -1335,8 +1336,8 @@ class FindingSummary {
   final FindingStatus status;
 
   /// The time at which the finding was most recently updated.
-  @_s.JsonKey(
-      name: 'updatedAt', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'updatedAt')
   final DateTime updatedAt;
 
   /// The action in the analyzed policy statement that an external principal has

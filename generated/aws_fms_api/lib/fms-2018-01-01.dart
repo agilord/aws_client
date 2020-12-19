@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -1452,10 +1455,8 @@ class PolicyComplianceDetail {
 
   /// A timestamp that indicates when the returned information should be
   /// considered out of date.
-  @_s.JsonKey(
-      name: 'ExpiredAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ExpiredAt')
   final DateTime expiredAt;
 
   /// Details about problems with dependent services, such as AWS WAF or AWS
@@ -1517,10 +1518,8 @@ class PolicyComplianceStatus {
   final Map<DependentServiceName, String> issueInfoMap;
 
   /// Timestamp of the last update to the <code>EvaluationResult</code> objects.
-  @_s.JsonKey(
-      name: 'LastUpdated',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastUpdated')
   final DateTime lastUpdated;
 
   /// The member account ID.

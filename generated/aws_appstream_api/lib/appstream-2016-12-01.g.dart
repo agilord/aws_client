@@ -187,7 +187,7 @@ CreateImageBuilderResult _$CreateImageBuilderResultFromJson(
 CreateImageBuilderStreamingURLResult
     _$CreateImageBuilderStreamingURLResultFromJson(Map<String, dynamic> json) {
   return CreateImageBuilderStreamingURLResult(
-    expires: timeStampFromJson(json['Expires']),
+    expires: const UnixDateTimeConverter().fromJson(json['Expires']),
     streamingURL: json['StreamingURL'] as String,
   );
 }
@@ -203,7 +203,7 @@ CreateStackResult _$CreateStackResultFromJson(Map<String, dynamic> json) {
 CreateStreamingURLResult _$CreateStreamingURLResultFromJson(
     Map<String, dynamic> json) {
   return CreateStreamingURLResult(
-    expires: timeStampFromJson(json['Expires']),
+    expires: const UnixDateTimeConverter().fromJson(json['Expires']),
     streamingURL: json['StreamingURL'] as String,
   );
 }
@@ -384,7 +384,7 @@ DescribeUsersResult _$DescribeUsersResultFromJson(Map<String, dynamic> json) {
 DirectoryConfig _$DirectoryConfigFromJson(Map<String, dynamic> json) {
   return DirectoryConfig(
     directoryName: json['DirectoryName'] as String,
-    createdTime: timeStampFromJson(json['CreatedTime']),
+    createdTime: const UnixDateTimeConverter().fromJson(json['CreatedTime']),
     organizationalUnitDistinguishedNames:
         (json['OrganizationalUnitDistinguishedNames'] as List)
             ?.map((e) => e as String)
@@ -446,7 +446,7 @@ Fleet _$FleetFromJson(Map<String, dynamic> json) {
     instanceType: json['InstanceType'] as String,
     name: json['Name'] as String,
     state: _$enumDecodeNullable(_$FleetStateEnumMap, json['State']),
-    createdTime: timeStampFromJson(json['CreatedTime']),
+    createdTime: const UnixDateTimeConverter().fromJson(json['CreatedTime']),
     description: json['Description'] as String,
     disconnectTimeoutInSeconds: json['DisconnectTimeoutInSeconds'] as int,
     displayName: json['DisplayName'] as String,
@@ -547,7 +547,7 @@ Image _$ImageFromJson(Map<String, dynamic> json) {
     appstreamAgentVersion: json['AppstreamAgentVersion'] as String,
     arn: json['Arn'] as String,
     baseImageArn: json['BaseImageArn'] as String,
-    createdTime: timeStampFromJson(json['CreatedTime']),
+    createdTime: const UnixDateTimeConverter().fromJson(json['CreatedTime']),
     description: json['Description'] as String,
     displayName: json['DisplayName'] as String,
     imageBuilderName: json['ImageBuilderName'] as String,
@@ -557,8 +557,8 @@ Image _$ImageFromJson(Map<String, dynamic> json) {
         : ImagePermissions.fromJson(
             json['ImagePermissions'] as Map<String, dynamic>),
     platform: _$enumDecodeNullable(_$PlatformTypeEnumMap, json['Platform']),
-    publicBaseImageReleasedDate:
-        timeStampFromJson(json['PublicBaseImageReleasedDate']),
+    publicBaseImageReleasedDate: const UnixDateTimeConverter()
+        .fromJson(json['PublicBaseImageReleasedDate']),
     state: _$enumDecodeNullable(_$ImageStateEnumMap, json['State']),
     stateChangeReason: json['StateChangeReason'] == null
         ? null
@@ -599,7 +599,7 @@ ImageBuilder _$ImageBuilderFromJson(Map<String, dynamic> json) {
         ?.toList(),
     appstreamAgentVersion: json['AppstreamAgentVersion'] as String,
     arn: json['Arn'] as String,
-    createdTime: timeStampFromJson(json['CreatedTime']),
+    createdTime: const UnixDateTimeConverter().fromJson(json['CreatedTime']),
     description: json['Description'] as String,
     displayName: json['DisplayName'] as String,
     domainJoinInfo: json['DomainJoinInfo'] == null
@@ -746,7 +746,8 @@ ResourceError _$ResourceErrorFromJson(Map<String, dynamic> json) {
   return ResourceError(
     errorCode: _$enumDecodeNullable(_$FleetErrorCodeEnumMap, json['ErrorCode']),
     errorMessage: json['ErrorMessage'] as String,
-    errorTimestamp: timeStampFromJson(json['ErrorTimestamp']),
+    errorTimestamp:
+        const UnixDateTimeConverter().fromJson(json['ErrorTimestamp']),
   );
 }
 
@@ -784,12 +785,13 @@ Session _$SessionFromJson(Map<String, dynamic> json) {
         _$AuthenticationTypeEnumMap, json['AuthenticationType']),
     connectionState: _$enumDecodeNullable(
         _$SessionConnectionStateEnumMap, json['ConnectionState']),
-    maxExpirationTime: timeStampFromJson(json['MaxExpirationTime']),
+    maxExpirationTime:
+        const UnixDateTimeConverter().fromJson(json['MaxExpirationTime']),
     networkAccessConfiguration: json['NetworkAccessConfiguration'] == null
         ? null
         : NetworkAccessConfiguration.fromJson(
             json['NetworkAccessConfiguration'] as Map<String, dynamic>),
-    startTime: timeStampFromJson(json['StartTime']),
+    startTime: const UnixDateTimeConverter().fromJson(json['StartTime']),
   );
 }
 
@@ -834,7 +836,7 @@ Stack _$StackFromJson(Map<String, dynamic> json) {
         : ApplicationSettingsResponse.fromJson(
             json['ApplicationSettings'] as Map<String, dynamic>),
     arn: json['Arn'] as String,
-    createdTime: timeStampFromJson(json['CreatedTime']),
+    createdTime: const UnixDateTimeConverter().fromJson(json['CreatedTime']),
     description: json['Description'] as String,
     displayName: json['DisplayName'] as String,
     embedHostDomains:
@@ -969,7 +971,8 @@ UpdateStackResult _$UpdateStackResultFromJson(Map<String, dynamic> json) {
 UsageReportSubscription _$UsageReportSubscriptionFromJson(
     Map<String, dynamic> json) {
   return UsageReportSubscription(
-    lastGeneratedReportDate: timeStampFromJson(json['LastGeneratedReportDate']),
+    lastGeneratedReportDate:
+        const UnixDateTimeConverter().fromJson(json['LastGeneratedReportDate']),
     s3BucketName: json['S3BucketName'] as String,
     schedule:
         _$enumDecodeNullable(_$UsageReportScheduleEnumMap, json['Schedule']),
@@ -987,7 +990,7 @@ User _$UserFromJson(Map<String, dynamic> json) {
     authenticationType: _$enumDecodeNullable(
         _$AuthenticationTypeEnumMap, json['AuthenticationType']),
     arn: json['Arn'] as String,
-    createdTime: timeStampFromJson(json['CreatedTime']),
+    createdTime: const UnixDateTimeConverter().fromJson(json['CreatedTime']),
     enabled: json['Enabled'] as bool,
     firstName: json['FirstName'] as String,
     lastName: json['LastName'] as String,

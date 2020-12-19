@@ -22,7 +22,8 @@ Account _$AccountFromJson(Map<String, dynamic> json) {
     id: json['Id'] as String,
     joinedMethod: _$enumDecodeNullable(
         _$AccountJoinedMethodEnumMap, json['JoinedMethod']),
-    joinedTimestamp: timeStampFromJson(json['JoinedTimestamp']),
+    joinedTimestamp:
+        const UnixDateTimeConverter().fromJson(json['JoinedTimestamp']),
     name: json['Name'] as String,
     status: _$enumDecodeNullable(_$AccountStatusEnumMap, json['Status']),
   );
@@ -105,12 +106,14 @@ CreateAccountStatus _$CreateAccountStatusFromJson(Map<String, dynamic> json) {
   return CreateAccountStatus(
     accountId: json['AccountId'] as String,
     accountName: json['AccountName'] as String,
-    completedTimestamp: timeStampFromJson(json['CompletedTimestamp']),
+    completedTimestamp:
+        const UnixDateTimeConverter().fromJson(json['CompletedTimestamp']),
     failureReason: _$enumDecodeNullable(
         _$CreateAccountFailureReasonEnumMap, json['FailureReason']),
     govCloudAccountId: json['GovCloudAccountId'] as String,
     id: json['Id'] as String,
-    requestedTimestamp: timeStampFromJson(json['RequestedTimestamp']),
+    requestedTimestamp:
+        const UnixDateTimeConverter().fromJson(json['RequestedTimestamp']),
     state: _$enumDecodeNullable(_$CreateAccountStateEnumMap, json['State']),
   );
 }
@@ -183,12 +186,14 @@ DelegatedAdministrator _$DelegatedAdministratorFromJson(
     Map<String, dynamic> json) {
   return DelegatedAdministrator(
     arn: json['Arn'] as String,
-    delegationEnabledDate: timeStampFromJson(json['DelegationEnabledDate']),
+    delegationEnabledDate:
+        const UnixDateTimeConverter().fromJson(json['DelegationEnabledDate']),
     email: json['Email'] as String,
     id: json['Id'] as String,
     joinedMethod: _$enumDecodeNullable(
         _$AccountJoinedMethodEnumMap, json['JoinedMethod']),
-    joinedTimestamp: timeStampFromJson(json['JoinedTimestamp']),
+    joinedTimestamp:
+        const UnixDateTimeConverter().fromJson(json['JoinedTimestamp']),
     name: json['Name'] as String,
     status: _$enumDecodeNullable(_$AccountStatusEnumMap, json['Status']),
   );
@@ -196,7 +201,8 @@ DelegatedAdministrator _$DelegatedAdministratorFromJson(
 
 DelegatedService _$DelegatedServiceFromJson(Map<String, dynamic> json) {
   return DelegatedService(
-    delegationEnabledDate: timeStampFromJson(json['DelegationEnabledDate']),
+    delegationEnabledDate:
+        const UnixDateTimeConverter().fromJson(json['DelegationEnabledDate']),
     servicePrincipal: json['ServicePrincipal'] as String,
   );
 }
@@ -278,7 +284,8 @@ DisablePolicyTypeResponse _$DisablePolicyTypeResponseFromJson(
 
 EffectivePolicy _$EffectivePolicyFromJson(Map<String, dynamic> json) {
   return EffectivePolicy(
-    lastUpdatedTimestamp: timeStampFromJson(json['LastUpdatedTimestamp']),
+    lastUpdatedTimestamp:
+        const UnixDateTimeConverter().fromJson(json['LastUpdatedTimestamp']),
     policyContent: json['PolicyContent'] as String,
     policyType:
         _$enumDecodeNullable(_$EffectivePolicyTypeEnumMap, json['PolicyType']),
@@ -311,7 +318,7 @@ EnablePolicyTypeResponse _$EnablePolicyTypeResponseFromJson(
 EnabledServicePrincipal _$EnabledServicePrincipalFromJson(
     Map<String, dynamic> json) {
   return EnabledServicePrincipal(
-    dateEnabled: timeStampFromJson(json['DateEnabled']),
+    dateEnabled: const UnixDateTimeConverter().fromJson(json['DateEnabled']),
     servicePrincipal: json['ServicePrincipal'] as String,
   );
 }
@@ -320,14 +327,16 @@ Handshake _$HandshakeFromJson(Map<String, dynamic> json) {
   return Handshake(
     action: _$enumDecodeNullable(_$ActionTypeEnumMap, json['Action']),
     arn: json['Arn'] as String,
-    expirationTimestamp: timeStampFromJson(json['ExpirationTimestamp']),
+    expirationTimestamp:
+        const UnixDateTimeConverter().fromJson(json['ExpirationTimestamp']),
     id: json['Id'] as String,
     parties: (json['Parties'] as List)
         ?.map((e) => e == null
             ? null
             : HandshakeParty.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    requestedTimestamp: timeStampFromJson(json['RequestedTimestamp']),
+    requestedTimestamp:
+        const UnixDateTimeConverter().fromJson(json['RequestedTimestamp']),
     resources: (json['Resources'] as List)
         ?.map((e) => e == null
             ? null

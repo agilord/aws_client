@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -4288,19 +4291,15 @@ class DocumentClassificationJobFilter {
   /// Filters the list of jobs based on the time that the job was submitted for
   /// processing. Returns only jobs submitted before the specified time. Jobs are
   /// returned in descending order, newest to oldest.
-  @_s.JsonKey(
-      name: 'SubmitTimeAfter',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'SubmitTimeAfter')
   final DateTime submitTimeAfter;
 
   /// Filters the list of jobs based on the time that the job was submitted for
   /// processing. Returns only jobs submitted after the specified time. Jobs are
   /// returned in ascending order, oldest to newest.
-  @_s.JsonKey(
-      name: 'SubmitTimeBefore',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'SubmitTimeBefore')
   final DateTime submitTimeBefore;
 
   DocumentClassificationJobFilter({
@@ -4330,8 +4329,8 @@ class DocumentClassificationJobProperties {
   final String documentClassifierArn;
 
   /// The time that the document classification job completed.
-  @_s.JsonKey(
-      name: 'EndTime', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'EndTime')
   final DateTime endTime;
 
   /// The input data configuration that you supplied when you created the document
@@ -4363,10 +4362,8 @@ class DocumentClassificationJobProperties {
   final OutputDataConfig outputDataConfig;
 
   /// The time that the document classification job was submitted for processing.
-  @_s.JsonKey(
-      name: 'SubmitTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'SubmitTime')
   final DateTime submitTime;
 
   /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses
@@ -4430,20 +4427,16 @@ class DocumentClassifierFilter {
   /// submitted for processing. Returns only classifiers submitted after the
   /// specified time. Classifiers are returned in descending order, newest to
   /// oldest.
-  @_s.JsonKey(
-      name: 'SubmitTimeAfter',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'SubmitTimeAfter')
   final DateTime submitTimeAfter;
 
   /// Filters the list of classifiers based on the time that the classifier was
   /// submitted for processing. Returns only classifiers submitted before the
   /// specified time. Classifiers are returned in ascending order, oldest to
   /// newest.
-  @_s.JsonKey(
-      name: 'SubmitTimeBefore',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'SubmitTimeBefore')
   final DateTime submitTimeBefore;
 
   DocumentClassifierFilter({
@@ -4595,8 +4588,8 @@ class DocumentClassifierProperties {
   final String documentClassifierArn;
 
   /// The time that training the document classifier completed.
-  @_s.JsonKey(
-      name: 'EndTime', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'EndTime')
   final DateTime endTime;
 
   /// The input data configuration that you supplied when you created the document
@@ -4632,29 +4625,23 @@ class DocumentClassifierProperties {
   final ModelStatus status;
 
   /// The time that the document classifier was submitted for training.
-  @_s.JsonKey(
-      name: 'SubmitTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'SubmitTime')
   final DateTime submitTime;
 
   /// The time that training of the document classifier was completed. Indicates
   /// the time when the training completes on documentation classifiers. You are
   /// billed for the time interval between this time and the value of
   /// TrainingStartTime.
-  @_s.JsonKey(
-      name: 'TrainingEndTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'TrainingEndTime')
   final DateTime trainingEndTime;
 
   /// Indicates the time when the training starts on documentation classifiers.
   /// You are billed for the time interval between this time and the value of
   /// TrainingEndTime.
-  @_s.JsonKey(
-      name: 'TrainingStartTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'TrainingStartTime')
   final DateTime trainingStartTime;
 
   /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses
@@ -4775,19 +4762,15 @@ class DominantLanguageDetectionJobFilter {
   /// Filters the list of jobs based on the time that the job was submitted for
   /// processing. Returns only jobs submitted after the specified time. Jobs are
   /// returned in descending order, newest to oldest.
-  @_s.JsonKey(
-      name: 'SubmitTimeAfter',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'SubmitTimeAfter')
   final DateTime submitTimeAfter;
 
   /// Filters the list of jobs based on the time that the job was submitted for
   /// processing. Returns only jobs submitted before the specified time. Jobs are
   /// returned in ascending order, oldest to newest.
-  @_s.JsonKey(
-      name: 'SubmitTimeBefore',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'SubmitTimeBefore')
   final DateTime submitTimeBefore;
 
   DominantLanguageDetectionJobFilter({
@@ -4813,8 +4796,8 @@ class DominantLanguageDetectionJobProperties {
   final String dataAccessRoleArn;
 
   /// The time that the dominant language detection job completed.
-  @_s.JsonKey(
-      name: 'EndTime', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'EndTime')
   final DateTime endTime;
 
   /// The input data configuration that you supplied when you created the dominant
@@ -4847,10 +4830,8 @@ class DominantLanguageDetectionJobProperties {
 
   /// The time that the dominant language detection job was submitted for
   /// processing.
-  @_s.JsonKey(
-      name: 'SubmitTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'SubmitTime')
   final DateTime submitTime;
 
   /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses
@@ -4907,18 +4888,14 @@ class DominantLanguageDetectionJobProperties {
 class EndpointFilter {
   /// Specifies a date after which the returned endpoint or endpoints were
   /// created.
-  @_s.JsonKey(
-      name: 'CreationTimeAfter',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationTimeAfter')
   final DateTime creationTimeAfter;
 
   /// Specifies a date before which the returned endpoint or endpoints were
   /// created.
-  @_s.JsonKey(
-      name: 'CreationTimeBefore',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationTimeBefore')
   final DateTime creationTimeBefore;
 
   /// The Amazon Resource Number (ARN) of the model to which the endpoint is
@@ -4948,10 +4925,8 @@ class EndpointFilter {
     createToJson: false)
 class EndpointProperties {
   /// The creation date and time of the endpoint.
-  @_s.JsonKey(
-      name: 'CreationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationTime')
   final DateTime creationTime;
 
   /// The number of inference units currently used by the model using this
@@ -4970,10 +4945,8 @@ class EndpointProperties {
   final String endpointArn;
 
   /// The date and time that the endpoint was last modified.
-  @_s.JsonKey(
-      name: 'LastModifiedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastModifiedTime')
   final DateTime lastModifiedTime;
 
   /// Specifies a reason for failure in cases of <code>Failed</code> status.
@@ -5038,19 +5011,15 @@ class EntitiesDetectionJobFilter {
   /// Filters the list of jobs based on the time that the job was submitted for
   /// processing. Returns only jobs submitted after the specified time. Jobs are
   /// returned in descending order, newest to oldest.
-  @_s.JsonKey(
-      name: 'SubmitTimeAfter',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'SubmitTimeAfter')
   final DateTime submitTimeAfter;
 
   /// Filters the list of jobs based on the time that the job was submitted for
   /// processing. Returns only jobs submitted before the specified time. Jobs are
   /// returned in ascending order, oldest to newest.
-  @_s.JsonKey(
-      name: 'SubmitTimeBefore',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'SubmitTimeBefore')
   final DateTime submitTimeBefore;
 
   EntitiesDetectionJobFilter({
@@ -5075,8 +5044,8 @@ class EntitiesDetectionJobProperties {
   final String dataAccessRoleArn;
 
   /// The time that the entities detection job completed
-  @_s.JsonKey(
-      name: 'EndTime', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'EndTime')
   final DateTime endTime;
 
   /// The Amazon Resource Name (ARN) that identifies the entity recognizer.
@@ -5116,10 +5085,8 @@ class EntitiesDetectionJobProperties {
   final OutputDataConfig outputDataConfig;
 
   /// The time that the entities detection job was submitted for processing.
-  @_s.JsonKey(
-      name: 'SubmitTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'SubmitTime')
   final DateTime submitTime;
 
   /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses
@@ -5330,19 +5297,15 @@ class EntityRecognizerFilter {
   /// Filters the list of entities based on the time that the list was submitted
   /// for processing. Returns only jobs submitted after the specified time. Jobs
   /// are returned in ascending order, oldest to newest.
-  @_s.JsonKey(
-      name: 'SubmitTimeAfter',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'SubmitTimeAfter')
   final DateTime submitTimeAfter;
 
   /// Filters the list of entities based on the time that the list was submitted
   /// for processing. Returns only jobs submitted before the specified time. Jobs
   /// are returned in descending order, newest to oldest.
-  @_s.JsonKey(
-      name: 'SubmitTimeBefore',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'SubmitTimeBefore')
   final DateTime submitTimeBefore;
 
   EntityRecognizerFilter({
@@ -5471,8 +5434,8 @@ class EntityRecognizerProperties {
   final String dataAccessRoleArn;
 
   /// The time that the recognizer creation completed.
-  @_s.JsonKey(
-      name: 'EndTime', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'EndTime')
   final DateTime endTime;
 
   /// The Amazon Resource Name (ARN) that identifies the entity recognizer.
@@ -5501,24 +5464,18 @@ class EntityRecognizerProperties {
   final ModelStatus status;
 
   /// The time that the recognizer was submitted for processing.
-  @_s.JsonKey(
-      name: 'SubmitTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'SubmitTime')
   final DateTime submitTime;
 
   /// The time that training of the entity recognizer was completed.
-  @_s.JsonKey(
-      name: 'TrainingEndTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'TrainingEndTime')
   final DateTime trainingEndTime;
 
   /// The time that training of the entity recognizer started.
-  @_s.JsonKey(
-      name: 'TrainingStartTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'TrainingStartTime')
   final DateTime trainingStartTime;
 
   /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses
@@ -5771,19 +5728,15 @@ class KeyPhrasesDetectionJobFilter {
   /// Filters the list of jobs based on the time that the job was submitted for
   /// processing. Returns only jobs submitted after the specified time. Jobs are
   /// returned in descending order, newest to oldest.
-  @_s.JsonKey(
-      name: 'SubmitTimeAfter',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'SubmitTimeAfter')
   final DateTime submitTimeAfter;
 
   /// Filters the list of jobs based on the time that the job was submitted for
   /// processing. Returns only jobs submitted before the specified time. Jobs are
   /// returned in ascending order, oldest to newest.
-  @_s.JsonKey(
-      name: 'SubmitTimeBefore',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'SubmitTimeBefore')
   final DateTime submitTimeBefore;
 
   KeyPhrasesDetectionJobFilter({
@@ -5808,8 +5761,8 @@ class KeyPhrasesDetectionJobProperties {
   final String dataAccessRoleArn;
 
   /// The time that the key phrases detection job completed.
-  @_s.JsonKey(
-      name: 'EndTime', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'EndTime')
   final DateTime endTime;
 
   /// The input data configuration that you supplied when you created the key
@@ -5845,10 +5798,8 @@ class KeyPhrasesDetectionJobProperties {
   final OutputDataConfig outputDataConfig;
 
   /// The time that the key phrases detection job was submitted for processing.
-  @_s.JsonKey(
-      name: 'SubmitTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'SubmitTime')
   final DateTime submitTime;
 
   /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses
@@ -6345,19 +6296,15 @@ class SentimentDetectionJobFilter {
   /// Filters the list of jobs based on the time that the job was submitted for
   /// processing. Returns only jobs submitted after the specified time. Jobs are
   /// returned in descending order, newest to oldest.
-  @_s.JsonKey(
-      name: 'SubmitTimeAfter',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'SubmitTimeAfter')
   final DateTime submitTimeAfter;
 
   /// Filters the list of jobs based on the time that the job was submitted for
   /// processing. Returns only jobs submitted before the specified time. Jobs are
   /// returned in ascending order, oldest to newest.
-  @_s.JsonKey(
-      name: 'SubmitTimeBefore',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'SubmitTimeBefore')
   final DateTime submitTimeBefore;
 
   SentimentDetectionJobFilter({
@@ -6382,8 +6329,8 @@ class SentimentDetectionJobProperties {
   final String dataAccessRoleArn;
 
   /// The time that the sentiment detection job ended.
-  @_s.JsonKey(
-      name: 'EndTime', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'EndTime')
   final DateTime endTime;
 
   /// The input data configuration that you supplied when you created the
@@ -6419,10 +6366,8 @@ class SentimentDetectionJobProperties {
   final OutputDataConfig outputDataConfig;
 
   /// The time that the sentiment detection job was submitted for processing.
-  @_s.JsonKey(
-      name: 'SubmitTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'SubmitTime')
   final DateTime submitTime;
 
   /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses
@@ -7032,19 +6977,15 @@ class TopicsDetectionJobFilter {
   /// Filters the list of jobs based on the time that the job was submitted for
   /// processing. Only returns jobs submitted after the specified time. Jobs are
   /// returned in ascending order, oldest to newest.
-  @_s.JsonKey(
-      name: 'SubmitTimeAfter',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'SubmitTimeAfter')
   final DateTime submitTimeAfter;
 
   /// Filters the list of jobs based on the time that the job was submitted for
   /// processing. Only returns jobs submitted before the specified time. Jobs are
   /// returned in descending order, newest to oldest.
-  @_s.JsonKey(
-      name: 'SubmitTimeBefore',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'SubmitTimeBefore')
   final DateTime submitTimeBefore;
 
   TopicsDetectionJobFilter({
@@ -7069,8 +7010,8 @@ class TopicsDetectionJobProperties {
   final String dataAccessRoleArn;
 
   /// The time that the topic detection job was completed.
-  @_s.JsonKey(
-      name: 'EndTime', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'EndTime')
   final DateTime endTime;
 
   /// The input data configuration supplied when you created the topic detection
@@ -7107,10 +7048,8 @@ class TopicsDetectionJobProperties {
   final OutputDataConfig outputDataConfig;
 
   /// The time that the topic detection job was submitted for processing.
-  @_s.JsonKey(
-      name: 'SubmitTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'SubmitTime')
   final DateTime submitTime;
 
   /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses

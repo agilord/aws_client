@@ -9,10 +9,11 @@ part of 'sms-2016-10-24.dart';
 AppSummary _$AppSummaryFromJson(Map<String, dynamic> json) {
   return AppSummary(
     appId: json['appId'] as String,
-    creationTime: timeStampFromJson(json['creationTime']),
+    creationTime: const UnixDateTimeConverter().fromJson(json['creationTime']),
     description: json['description'] as String,
-    lastModified: timeStampFromJson(json['lastModified']),
-    latestReplicationTime: timeStampFromJson(json['latestReplicationTime']),
+    lastModified: const UnixDateTimeConverter().fromJson(json['lastModified']),
+    latestReplicationTime:
+        const UnixDateTimeConverter().fromJson(json['latestReplicationTime']),
     launchDetails: json['launchDetails'] == null
         ? null
         : LaunchDetails.fromJson(json['launchDetails'] as Map<String, dynamic>),
@@ -110,7 +111,7 @@ const _$AppStatusEnumMap = {
 
 Connector _$ConnectorFromJson(Map<String, dynamic> json) {
   return Connector(
-    associatedOn: timeStampFromJson(json['associatedOn']),
+    associatedOn: const UnixDateTimeConverter().fromJson(json['associatedOn']),
     capabilityList: (json['capabilityList'] as List)
         ?.map((e) => _$enumDecodeNullable(_$ConnectorCapabilityEnumMap, e))
         ?.toList(),
@@ -299,7 +300,8 @@ GetReplicationRunsResponse _$GetReplicationRunsResponseFromJson(
 
 GetServersResponse _$GetServersResponseFromJson(Map<String, dynamic> json) {
   return GetServersResponse(
-    lastModifiedOn: timeStampFromJson(json['lastModifiedOn']),
+    lastModifiedOn:
+        const UnixDateTimeConverter().fromJson(json['lastModifiedOn']),
     nextToken: json['nextToken'] as String,
     serverCatalogStatus: _$enumDecodeNullable(
         _$ServerCatalogStatusEnumMap, json['serverCatalogStatus']),
@@ -329,7 +331,8 @@ LaunchAppResponse _$LaunchAppResponseFromJson(Map<String, dynamic> json) {
 
 LaunchDetails _$LaunchDetailsFromJson(Map<String, dynamic> json) {
   return LaunchDetails(
-    latestLaunchTime: timeStampFromJson(json['latestLaunchTime']),
+    latestLaunchTime:
+        const UnixDateTimeConverter().fromJson(json['latestLaunchTime']),
     stackId: json['stackId'] as String,
     stackName: json['stackName'] as String,
   );
@@ -365,8 +368,8 @@ ReplicationJob _$ReplicationJobFromJson(Map<String, dynamic> json) {
     latestAmiId: json['latestAmiId'] as String,
     licenseType:
         _$enumDecodeNullable(_$LicenseTypeEnumMap, json['licenseType']),
-    nextReplicationRunStartTime:
-        timeStampFromJson(json['nextReplicationRunStartTime']),
+    nextReplicationRunStartTime: const UnixDateTimeConverter()
+        .fromJson(json['nextReplicationRunStartTime']),
     numberOfRecentAmisToKeep: json['numberOfRecentAmisToKeep'] as int,
     replicationJobId: json['replicationJobId'] as String,
     replicationRunList: (json['replicationRunList'] as List)
@@ -376,7 +379,8 @@ ReplicationJob _$ReplicationJobFromJson(Map<String, dynamic> json) {
         ?.toList(),
     roleName: json['roleName'] as String,
     runOnce: json['runOnce'] as bool,
-    seedReplicationTime: timeStampFromJson(json['seedReplicationTime']),
+    seedReplicationTime:
+        const UnixDateTimeConverter().fromJson(json['seedReplicationTime']),
     serverId: json['serverId'] as String,
     serverType: _$enumDecodeNullable(_$ServerTypeEnumMap, json['serverType']),
     state: _$enumDecodeNullable(_$ReplicationJobStateEnumMap, json['state']),
@@ -410,12 +414,14 @@ const _$ReplicationJobStateEnumMap = {
 ReplicationRun _$ReplicationRunFromJson(Map<String, dynamic> json) {
   return ReplicationRun(
     amiId: json['amiId'] as String,
-    completedTime: timeStampFromJson(json['completedTime']),
+    completedTime:
+        const UnixDateTimeConverter().fromJson(json['completedTime']),
     description: json['description'] as String,
     encrypted: json['encrypted'] as bool,
     kmsKeyId: json['kmsKeyId'] as String,
     replicationRunId: json['replicationRunId'] as String,
-    scheduledStartTime: timeStampFromJson(json['scheduledStartTime']),
+    scheduledStartTime:
+        const UnixDateTimeConverter().fromJson(json['scheduledStartTime']),
     stageDetails: json['stageDetails'] == null
         ? null
         : ReplicationRunStageDetails.fromJson(
@@ -669,7 +675,7 @@ ServerReplicationParameters _$ServerReplicationParametersFromJson(
         _$enumDecodeNullable(_$LicenseTypeEnumMap, json['licenseType']),
     numberOfRecentAmisToKeep: json['numberOfRecentAmisToKeep'] as int,
     runOnce: json['runOnce'] as bool,
-    seedTime: timeStampFromJson(json['seedTime']),
+    seedTime: const UnixDateTimeConverter().fromJson(json['seedTime']),
   );
 }
 
@@ -689,7 +695,8 @@ Map<String, dynamic> _$ServerReplicationParametersToJson(
   writeNotNull('licenseType', _$LicenseTypeEnumMap[instance.licenseType]);
   writeNotNull('numberOfRecentAmisToKeep', instance.numberOfRecentAmisToKeep);
   writeNotNull('runOnce', instance.runOnce);
-  writeNotNull('seedTime', unixTimestampToJson(instance.seedTime));
+  writeNotNull(
+      'seedTime', const UnixDateTimeConverter().toJson(instance.seedTime));
   return val;
 }
 

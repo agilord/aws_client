@@ -13,7 +13,8 @@ AffectedEntity _$AffectedEntityFromJson(Map<String, dynamic> json) {
     entityUrl: json['entityUrl'] as String,
     entityValue: json['entityValue'] as String,
     eventArn: json['eventArn'] as String,
-    lastUpdatedTime: timeStampFromJson(json['lastUpdatedTime']),
+    lastUpdatedTime:
+        const UnixDateTimeConverter().fromJson(json['lastUpdatedTime']),
     statusCode:
         _$enumDecodeNullable(_$EntityStatusCodeEnumMap, json['statusCode']),
     tags: (json['tags'] as Map<String, dynamic>)?.map(
@@ -69,8 +70,8 @@ Map<String, dynamic> _$DateTimeRangeToJson(DateTimeRange instance) {
     }
   }
 
-  writeNotNull('from', unixTimestampToJson(instance.from));
-  writeNotNull('to', unixTimestampToJson(instance.to));
+  writeNotNull('from', const UnixDateTimeConverter().toJson(instance.from));
+  writeNotNull('to', const UnixDateTimeConverter().toJson(instance.to));
   return val;
 }
 
@@ -245,14 +246,15 @@ Event _$EventFromJson(Map<String, dynamic> json) {
   return Event(
     arn: json['arn'] as String,
     availabilityZone: json['availabilityZone'] as String,
-    endTime: timeStampFromJson(json['endTime']),
+    endTime: const UnixDateTimeConverter().fromJson(json['endTime']),
     eventTypeCategory: _$enumDecodeNullable(
         _$EventTypeCategoryEnumMap, json['eventTypeCategory']),
     eventTypeCode: json['eventTypeCode'] as String,
-    lastUpdatedTime: timeStampFromJson(json['lastUpdatedTime']),
+    lastUpdatedTime:
+        const UnixDateTimeConverter().fromJson(json['lastUpdatedTime']),
     region: json['region'] as String,
     service: json['service'] as String,
-    startTime: timeStampFromJson(json['startTime']),
+    startTime: const UnixDateTimeConverter().fromJson(json['startTime']),
     statusCode:
         _$enumDecodeNullable(_$EventStatusCodeEnumMap, json['statusCode']),
   );
@@ -399,14 +401,15 @@ OrganizationAffectedEntitiesErrorItem
 OrganizationEvent _$OrganizationEventFromJson(Map<String, dynamic> json) {
   return OrganizationEvent(
     arn: json['arn'] as String,
-    endTime: timeStampFromJson(json['endTime']),
+    endTime: const UnixDateTimeConverter().fromJson(json['endTime']),
     eventTypeCategory: _$enumDecodeNullable(
         _$EventTypeCategoryEnumMap, json['eventTypeCategory']),
     eventTypeCode: json['eventTypeCode'] as String,
-    lastUpdatedTime: timeStampFromJson(json['lastUpdatedTime']),
+    lastUpdatedTime:
+        const UnixDateTimeConverter().fromJson(json['lastUpdatedTime']),
     region: json['region'] as String,
     service: json['service'] as String,
-    startTime: timeStampFromJson(json['startTime']),
+    startTime: const UnixDateTimeConverter().fromJson(json['startTime']),
     statusCode:
         _$enumDecodeNullable(_$EventStatusCodeEnumMap, json['statusCode']),
   );

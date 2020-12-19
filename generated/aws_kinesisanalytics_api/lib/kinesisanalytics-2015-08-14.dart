@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -1912,10 +1915,8 @@ class ApplicationDetail {
       cloudWatchLoggingOptionDescriptions;
 
   /// Time stamp when the application version was created.
-  @_s.JsonKey(
-      name: 'CreateTimestamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreateTimestamp')
   final DateTime createTimestamp;
 
   /// Describes the application input configuration. For more information, see <a
@@ -1925,10 +1926,8 @@ class ApplicationDetail {
   final List<InputDescription> inputDescriptions;
 
   /// Time stamp when the application was last updated.
-  @_s.JsonKey(
-      name: 'LastUpdateTimestamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastUpdateTimestamp')
   final DateTime lastUpdateTimestamp;
 
   /// Describes the application output configuration. For more information, see <a

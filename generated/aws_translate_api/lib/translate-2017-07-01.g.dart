@@ -244,12 +244,13 @@ TerminologyProperties _$TerminologyPropertiesFromJson(
     Map<String, dynamic> json) {
   return TerminologyProperties(
     arn: json['Arn'] as String,
-    createdAt: timeStampFromJson(json['CreatedAt']),
+    createdAt: const UnixDateTimeConverter().fromJson(json['CreatedAt']),
     description: json['Description'] as String,
     encryptionKey: json['EncryptionKey'] == null
         ? null
         : EncryptionKey.fromJson(json['EncryptionKey'] as Map<String, dynamic>),
-    lastUpdatedAt: timeStampFromJson(json['LastUpdatedAt']),
+    lastUpdatedAt:
+        const UnixDateTimeConverter().fromJson(json['LastUpdatedAt']),
     name: json['Name'] as String,
     sizeBytes: json['SizeBytes'] as int,
     sourceLanguageCode: json['SourceLanguageCode'] as String,
@@ -272,10 +273,10 @@ Map<String, dynamic> _$TextTranslationJobFilterToJson(
 
   writeNotNull('JobName', instance.jobName);
   writeNotNull('JobStatus', _$JobStatusEnumMap[instance.jobStatus]);
-  writeNotNull(
-      'SubmittedAfterTime', unixTimestampToJson(instance.submittedAfterTime));
-  writeNotNull(
-      'SubmittedBeforeTime', unixTimestampToJson(instance.submittedBeforeTime));
+  writeNotNull('SubmittedAfterTime',
+      const UnixDateTimeConverter().toJson(instance.submittedAfterTime));
+  writeNotNull('SubmittedBeforeTime',
+      const UnixDateTimeConverter().toJson(instance.submittedBeforeTime));
   return val;
 }
 
@@ -283,7 +284,7 @@ TextTranslationJobProperties _$TextTranslationJobPropertiesFromJson(
     Map<String, dynamic> json) {
   return TextTranslationJobProperties(
     dataAccessRoleArn: json['DataAccessRoleArn'] as String,
-    endTime: timeStampFromJson(json['EndTime']),
+    endTime: const UnixDateTimeConverter().fromJson(json['EndTime']),
     inputDataConfig: json['InputDataConfig'] == null
         ? null
         : InputDataConfig.fromJson(
@@ -300,7 +301,8 @@ TextTranslationJobProperties _$TextTranslationJobPropertiesFromJson(
         : OutputDataConfig.fromJson(
             json['OutputDataConfig'] as Map<String, dynamic>),
     sourceLanguageCode: json['SourceLanguageCode'] as String,
-    submittedTime: timeStampFromJson(json['SubmittedTime']),
+    submittedTime:
+        const UnixDateTimeConverter().fromJson(json['SubmittedTime']),
     targetLanguageCodes: (json['TargetLanguageCodes'] as List)
         ?.map((e) => e as String)
         ?.toList(),

@@ -67,8 +67,10 @@ DescribeDevicePolicyConfigurationResponse
 DescribeDeviceResponse _$DescribeDeviceResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeDeviceResponse(
-    firstAccessedTime: timeStampFromJson(json['FirstAccessedTime']),
-    lastAccessedTime: timeStampFromJson(json['LastAccessedTime']),
+    firstAccessedTime:
+        const UnixDateTimeConverter().fromJson(json['FirstAccessedTime']),
+    lastAccessedTime:
+        const UnixDateTimeConverter().fromJson(json['LastAccessedTime']),
     manufacturer: json['Manufacturer'] as String,
     model: json['Model'] as String,
     operatingSystem: json['OperatingSystem'] as String,
@@ -120,7 +122,7 @@ DescribeDomainResponse _$DescribeDomainResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeDomainResponse(
     acmCertificateArn: json['AcmCertificateArn'] as String,
-    createdTime: timeStampFromJson(json['CreatedTime']),
+    createdTime: const UnixDateTimeConverter().fromJson(json['CreatedTime']),
     displayName: json['DisplayName'] as String,
     domainName: json['DomainName'] as String,
     domainStatus:
@@ -143,12 +145,13 @@ DescribeFleetMetadataResponse _$DescribeFleetMetadataResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeFleetMetadataResponse(
     companyCode: json['CompanyCode'] as String,
-    createdTime: timeStampFromJson(json['CreatedTime']),
+    createdTime: const UnixDateTimeConverter().fromJson(json['CreatedTime']),
     displayName: json['DisplayName'] as String,
     fleetName: json['FleetName'] as String,
     fleetStatus:
         _$enumDecodeNullable(_$FleetStatusEnumMap, json['FleetStatus']),
-    lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
+    lastUpdatedTime:
+        const UnixDateTimeConverter().fromJson(json['LastUpdatedTime']),
     optimizeForEndUserLocation: json['OptimizeForEndUserLocation'] as bool,
   );
 }
@@ -183,7 +186,7 @@ DescribeWebsiteCertificateAuthorityResponse
         Map<String, dynamic> json) {
   return DescribeWebsiteCertificateAuthorityResponse(
     certificate: json['Certificate'] as String,
-    createdTime: timeStampFromJson(json['CreatedTime']),
+    createdTime: const UnixDateTimeConverter().fromJson(json['CreatedTime']),
     displayName: json['DisplayName'] as String,
   );
 }
@@ -215,7 +218,7 @@ DisassociateWebsiteCertificateAuthorityResponse
 
 DomainSummary _$DomainSummaryFromJson(Map<String, dynamic> json) {
   return DomainSummary(
-    createdTime: timeStampFromJson(json['CreatedTime']),
+    createdTime: const UnixDateTimeConverter().fromJson(json['CreatedTime']),
     domainName: json['DomainName'] as String,
     domainStatus:
         _$enumDecodeNullable(_$DomainStatusEnumMap, json['DomainStatus']),
@@ -226,13 +229,14 @@ DomainSummary _$DomainSummaryFromJson(Map<String, dynamic> json) {
 FleetSummary _$FleetSummaryFromJson(Map<String, dynamic> json) {
   return FleetSummary(
     companyCode: json['CompanyCode'] as String,
-    createdTime: timeStampFromJson(json['CreatedTime']),
+    createdTime: const UnixDateTimeConverter().fromJson(json['CreatedTime']),
     displayName: json['DisplayName'] as String,
     fleetArn: json['FleetArn'] as String,
     fleetName: json['FleetName'] as String,
     fleetStatus:
         _$enumDecodeNullable(_$FleetStatusEnumMap, json['FleetStatus']),
-    lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
+    lastUpdatedTime:
+        const UnixDateTimeConverter().fromJson(json['LastUpdatedTime']),
   );
 }
 
@@ -351,7 +355,7 @@ WebsiteAuthorizationProviderSummary
     authorizationProviderType: _$enumDecodeNullable(
         _$AuthorizationProviderTypeEnumMap, json['AuthorizationProviderType']),
     authorizationProviderId: json['AuthorizationProviderId'] as String,
-    createdTime: timeStampFromJson(json['CreatedTime']),
+    createdTime: const UnixDateTimeConverter().fromJson(json['CreatedTime']),
     domainName: json['DomainName'] as String,
   );
 }
@@ -362,7 +366,7 @@ const _$AuthorizationProviderTypeEnumMap = {
 
 WebsiteCaSummary _$WebsiteCaSummaryFromJson(Map<String, dynamic> json) {
   return WebsiteCaSummary(
-    createdTime: timeStampFromJson(json['CreatedTime']),
+    createdTime: const UnixDateTimeConverter().fromJson(json['CreatedTime']),
     displayName: json['DisplayName'] as String,
     websiteCaId: json['WebsiteCaId'] as String,
   );

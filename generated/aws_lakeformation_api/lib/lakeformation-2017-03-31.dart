@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -1412,10 +1415,8 @@ class Resource {
     createToJson: false)
 class ResourceInfo {
   /// The date and time the resource was last modified.
-  @_s.JsonKey(
-      name: 'LastModified',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastModified')
   final DateTime lastModified;
 
   /// The Amazon Resource Name (ARN) of the resource.

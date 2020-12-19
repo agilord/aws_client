@@ -81,10 +81,12 @@ CreateUserProfileResult _$CreateUserProfileResultFromJson(
     Map<String, dynamic> json) {
   return CreateUserProfileResult(
     userArn: json['userArn'] as String,
-    createdTimestamp: timeStampFromJson(json['createdTimestamp']),
+    createdTimestamp:
+        const UnixDateTimeConverter().fromJson(json['createdTimestamp']),
     displayName: json['displayName'] as String,
     emailAddress: json['emailAddress'] as String,
-    lastModifiedTimestamp: timeStampFromJson(json['lastModifiedTimestamp']),
+    lastModifiedTimestamp:
+        const UnixDateTimeConverter().fromJson(json['lastModifiedTimestamp']),
     sshPublicKey: json['sshPublicKey'] as String,
   );
 }
@@ -108,7 +110,8 @@ DescribeProjectResult _$DescribeProjectResultFromJson(
   return DescribeProjectResult(
     arn: json['arn'] as String,
     clientRequestToken: json['clientRequestToken'] as String,
-    createdTimeStamp: timeStampFromJson(json['createdTimeStamp']),
+    createdTimeStamp:
+        const UnixDateTimeConverter().fromJson(json['createdTimeStamp']),
     description: json['description'] as String,
     id: json['id'] as String,
     name: json['name'] as String,
@@ -123,8 +126,10 @@ DescribeProjectResult _$DescribeProjectResultFromJson(
 DescribeUserProfileResult _$DescribeUserProfileResultFromJson(
     Map<String, dynamic> json) {
   return DescribeUserProfileResult(
-    createdTimestamp: timeStampFromJson(json['createdTimestamp']),
-    lastModifiedTimestamp: timeStampFromJson(json['lastModifiedTimestamp']),
+    createdTimestamp:
+        const UnixDateTimeConverter().fromJson(json['createdTimestamp']),
+    lastModifiedTimestamp:
+        const UnixDateTimeConverter().fromJson(json['lastModifiedTimestamp']),
     userArn: json['userArn'] as String,
     displayName: json['displayName'] as String,
     emailAddress: json['emailAddress'] as String,
@@ -310,10 +315,12 @@ UpdateUserProfileResult _$UpdateUserProfileResultFromJson(
     Map<String, dynamic> json) {
   return UpdateUserProfileResult(
     userArn: json['userArn'] as String,
-    createdTimestamp: timeStampFromJson(json['createdTimestamp']),
+    createdTimestamp:
+        const UnixDateTimeConverter().fromJson(json['createdTimestamp']),
     displayName: json['displayName'] as String,
     emailAddress: json['emailAddress'] as String,
-    lastModifiedTimestamp: timeStampFromJson(json['lastModifiedTimestamp']),
+    lastModifiedTimestamp:
+        const UnixDateTimeConverter().fromJson(json['lastModifiedTimestamp']),
     sshPublicKey: json['sshPublicKey'] as String,
   );
 }

@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -1363,10 +1366,8 @@ class Cluster {
   final String clientRequestToken;
 
   /// The Unix epoch timestamp in seconds for when the cluster was created.
-  @_s.JsonKey(
-      name: 'createdAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdAt')
   final DateTime createdAt;
 
   /// The encryption configuration for the cluster.
@@ -1754,10 +1755,8 @@ class FargateProfile {
 
   /// The Unix epoch timestamp in seconds for when the Fargate profile was
   /// created.
-  @_s.JsonKey(
-      name: 'createdAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdAt')
   final DateTime createdAt;
 
   /// The full Amazon Resource Name (ARN) of the Fargate profile.
@@ -2170,10 +2169,8 @@ class Nodegroup {
 
   /// The Unix epoch timestamp in seconds for when the managed node group was
   /// created.
-  @_s.JsonKey(
-      name: 'createdAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdAt')
   final DateTime createdAt;
 
   /// The root device disk size (in GiB) for your node group instances. The
@@ -2200,10 +2197,8 @@ class Nodegroup {
 
   /// The Unix epoch timestamp in seconds for when the managed node group was last
   /// modified.
-  @_s.JsonKey(
-      name: 'modifiedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'modifiedAt')
   final DateTime modifiedAt;
 
   /// The IAM role associated with your node group. The Amazon EKS worker node
@@ -2536,10 +2531,8 @@ class UntagResourceResponse {
     createToJson: false)
 class Update {
   /// The Unix epoch timestamp in seconds for when the update was created.
-  @_s.JsonKey(
-      name: 'createdAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdAt')
   final DateTime createdAt;
 
   /// Any errors associated with a <code>Failed</code> update.

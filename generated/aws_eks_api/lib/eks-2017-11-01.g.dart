@@ -26,7 +26,7 @@ Cluster _$ClusterFromJson(Map<String, dynamic> json) {
         : Certificate.fromJson(
             json['certificateAuthority'] as Map<String, dynamic>),
     clientRequestToken: json['clientRequestToken'] as String,
-    createdAt: timeStampFromJson(json['createdAt']),
+    createdAt: const UnixDateTimeConverter().fromJson(json['createdAt']),
     encryptionConfig: (json['encryptionConfig'] as List)
         ?.map((e) => e == null
             ? null
@@ -236,7 +236,7 @@ const _$ErrorCodeEnumMap = {
 FargateProfile _$FargateProfileFromJson(Map<String, dynamic> json) {
   return FargateProfile(
     clusterName: json['clusterName'] as String,
-    createdAt: timeStampFromJson(json['createdAt']),
+    createdAt: const UnixDateTimeConverter().fromJson(json['createdAt']),
     fargateProfileArn: json['fargateProfileArn'] as String,
     fargateProfileName: json['fargateProfileName'] as String,
     podExecutionRoleArn: json['podExecutionRoleArn'] as String,
@@ -427,7 +427,7 @@ Nodegroup _$NodegroupFromJson(Map<String, dynamic> json) {
   return Nodegroup(
     amiType: _$enumDecodeNullable(_$AMITypesEnumMap, json['amiType']),
     clusterName: json['clusterName'] as String,
-    createdAt: timeStampFromJson(json['createdAt']),
+    createdAt: const UnixDateTimeConverter().fromJson(json['createdAt']),
     diskSize: json['diskSize'] as int,
     health: json['health'] == null
         ? null
@@ -437,7 +437,7 @@ Nodegroup _$NodegroupFromJson(Map<String, dynamic> json) {
     labels: (json['labels'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    modifiedAt: timeStampFromJson(json['modifiedAt']),
+    modifiedAt: const UnixDateTimeConverter().fromJson(json['modifiedAt']),
     nodeRole: json['nodeRole'] as String,
     nodegroupArn: json['nodegroupArn'] as String,
     nodegroupName: json['nodegroupName'] as String,
@@ -582,7 +582,7 @@ UntagResourceResponse _$UntagResourceResponseFromJson(
 
 Update _$UpdateFromJson(Map<String, dynamic> json) {
   return Update(
-    createdAt: timeStampFromJson(json['createdAt']),
+    createdAt: const UnixDateTimeConverter().fromJson(json['createdAt']),
     errors: (json['errors'] as List)
         ?.map((e) =>
             e == null ? null : ErrorDetail.fromJson(e as Map<String, dynamic>))

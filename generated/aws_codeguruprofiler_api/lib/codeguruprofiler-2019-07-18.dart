@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -870,7 +873,8 @@ class AggregatedProfileTime {
   final AggregationPeriod period;
 
   /// The start time.
-  @_s.JsonKey(name: 'start', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'start')
   final DateTime start;
 
   AggregatedProfileTime({
@@ -1123,7 +1127,8 @@ class PostAgentProfileResponse {
     createToJson: false)
 class ProfileTime {
   /// The start time of the profile.
-  @_s.JsonKey(name: 'start', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'start')
   final DateTime start;
 
   ProfileTime({
@@ -1150,8 +1155,8 @@ class ProfilingGroupDescription {
 
   /// The time, in milliseconds since the epoch, when the profiling group was
   /// created.
-  @_s.JsonKey(
-      name: 'createdAt', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'createdAt')
   final DateTime createdAt;
 
   /// The name of the profiling group.
@@ -1164,8 +1169,8 @@ class ProfilingGroupDescription {
 
   /// The time, in milliseconds since the epoch, when the profiling group was last
   /// updated.
-  @_s.JsonKey(
-      name: 'updatedAt', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'updatedAt')
   final DateTime updatedAt;
 
   ProfilingGroupDescription({
@@ -1189,18 +1194,14 @@ class ProfilingGroupDescription {
 class ProfilingStatus {
   /// The time, in milliseconds since the epoch, when the latest agent was
   /// orchestrated.
-  @_s.JsonKey(
-      name: 'latestAgentOrchestratedAt',
-      fromJson: timeStampFromJson,
-      toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'latestAgentOrchestratedAt')
   final DateTime latestAgentOrchestratedAt;
 
   /// The time, in milliseconds since the epoch, when the latest agent was
   /// reported..
-  @_s.JsonKey(
-      name: 'latestAgentProfileReportedAt',
-      fromJson: timeStampFromJson,
-      toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'latestAgentProfileReportedAt')
   final DateTime latestAgentProfileReportedAt;
 
   /// The latest aggregated profile

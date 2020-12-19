@@ -9,7 +9,7 @@ part of 'sesv2-2019-09-27.dart';
 BlacklistEntry _$BlacklistEntryFromJson(Map<String, dynamic> json) {
   return BlacklistEntry(
     description: json['Description'] as String,
-    listingTime: timeStampFromJson(json['ListingTime']),
+    listingTime: const UnixDateTimeConverter().fromJson(json['ListingTime']),
     rblName: json['RblName'] as String,
   );
 }
@@ -191,7 +191,7 @@ DailyVolume _$DailyVolumeFromJson(Map<String, dynamic> json) {
             ? null
             : DomainIspPlacement.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    startDate: timeStampFromJson(json['StartDate']),
+    startDate: const UnixDateTimeConverter().fromJson(json['StartDate']),
     volumeStatistics: json['VolumeStatistics'] == null
         ? null
         : VolumeStatistics.fromJson(
@@ -243,7 +243,7 @@ DeleteSuppressedDestinationResponse
 DeliverabilityTestReport _$DeliverabilityTestReportFromJson(
     Map<String, dynamic> json) {
   return DeliverabilityTestReport(
-    createDate: timeStampFromJson(json['CreateDate']),
+    createDate: const UnixDateTimeConverter().fromJson(json['CreateDate']),
     deliverabilityTestStatus: _$enumDecodeNullable(
         _$DeliverabilityTestStatusEnumMap, json['DeliverabilityTestStatus']),
     fromEmailAddress: json['FromEmailAddress'] as String,
@@ -338,11 +338,13 @@ DomainDeliverabilityCampaign _$DomainDeliverabilityCampaignFromJson(
     campaignId: json['CampaignId'] as String,
     deleteRate: (json['DeleteRate'] as num)?.toDouble(),
     esps: (json['Esps'] as List)?.map((e) => e as String)?.toList(),
-    firstSeenDateTime: timeStampFromJson(json['FirstSeenDateTime']),
+    firstSeenDateTime:
+        const UnixDateTimeConverter().fromJson(json['FirstSeenDateTime']),
     fromAddress: json['FromAddress'] as String,
     imageUrl: json['ImageUrl'] as String,
     inboxCount: json['InboxCount'] as int,
-    lastSeenDateTime: timeStampFromJson(json['LastSeenDateTime']),
+    lastSeenDateTime:
+        const UnixDateTimeConverter().fromJson(json['LastSeenDateTime']),
     projectedVolume: json['ProjectedVolume'] as int,
     readDeleteRate: (json['ReadDeleteRate'] as num)?.toDouble(),
     readRate: (json['ReadRate'] as num)?.toDouble(),
@@ -360,7 +362,8 @@ DomainDeliverabilityTrackingOption _$DomainDeliverabilityTrackingOptionFromJson(
         ? null
         : InboxPlacementTrackingOption.fromJson(
             json['InboxPlacementTrackingOption'] as Map<String, dynamic>),
-    subscriptionStartDate: timeStampFromJson(json['SubscriptionStartDate']),
+    subscriptionStartDate:
+        const UnixDateTimeConverter().fromJson(json['SubscriptionStartDate']),
   );
 }
 
@@ -378,7 +381,7 @@ Map<String, dynamic> _$DomainDeliverabilityTrackingOptionToJson(
   writeNotNull('InboxPlacementTrackingOption',
       instance.inboxPlacementTrackingOption?.toJson());
   writeNotNull('SubscriptionStartDate',
-      unixTimestampToJson(instance.subscriptionStartDate));
+      const UnixDateTimeConverter().toJson(instance.subscriptionStartDate));
   return val;
 }
 
@@ -579,7 +582,8 @@ GetDeliverabilityDashboardOptionsResponse
                 : DomainDeliverabilityTrackingOption.fromJson(
                     e as Map<String, dynamic>))
             ?.toList(),
-    subscriptionExpiryDate: timeStampFromJson(json['SubscriptionExpiryDate']),
+    subscriptionExpiryDate:
+        const UnixDateTimeConverter().fromJson(json['SubscriptionExpiryDate']),
   );
 }
 
@@ -1014,7 +1018,8 @@ Map<String, dynamic> _$RawMessageToJson(RawMessage instance) {
 
 ReputationOptions _$ReputationOptionsFromJson(Map<String, dynamic> json) {
   return ReputationOptions(
-    lastFreshStart: timeStampFromJson(json['LastFreshStart']),
+    lastFreshStart:
+        const UnixDateTimeConverter().fromJson(json['LastFreshStart']),
     reputationMetricsEnabled: json['ReputationMetricsEnabled'] as bool,
   );
 }
@@ -1028,7 +1033,8 @@ Map<String, dynamic> _$ReputationOptionsToJson(ReputationOptions instance) {
     }
   }
 
-  writeNotNull('LastFreshStart', unixTimestampToJson(instance.lastFreshStart));
+  writeNotNull('LastFreshStart',
+      const UnixDateTimeConverter().toJson(instance.lastFreshStart));
   writeNotNull('ReputationMetricsEnabled', instance.reputationMetricsEnabled);
   return val;
 }
@@ -1089,7 +1095,8 @@ SuppressedDestination _$SuppressedDestinationFromJson(
     Map<String, dynamic> json) {
   return SuppressedDestination(
     emailAddress: json['EmailAddress'] as String,
-    lastUpdateTime: timeStampFromJson(json['LastUpdateTime']),
+    lastUpdateTime:
+        const UnixDateTimeConverter().fromJson(json['LastUpdateTime']),
     reason:
         _$enumDecodeNullable(_$SuppressionListReasonEnumMap, json['Reason']),
     attributes: json['Attributes'] == null
@@ -1116,7 +1123,8 @@ SuppressedDestinationSummary _$SuppressedDestinationSummaryFromJson(
     Map<String, dynamic> json) {
   return SuppressedDestinationSummary(
     emailAddress: json['EmailAddress'] as String,
-    lastUpdateTime: timeStampFromJson(json['LastUpdateTime']),
+    lastUpdateTime:
+        const UnixDateTimeConverter().fromJson(json['LastUpdateTime']),
     reason:
         _$enumDecodeNullable(_$SuppressionListReasonEnumMap, json['Reason']),
   );

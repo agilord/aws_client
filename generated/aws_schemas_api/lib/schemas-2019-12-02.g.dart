@@ -72,7 +72,7 @@ CreateRegistryResponse _$CreateRegistryResponseFromJson(
 CreateSchemaResponse _$CreateSchemaResponseFromJson(Map<String, dynamic> json) {
   return CreateSchemaResponse(
     description: json['Description'] as String,
-    lastModified: timeStampFromJson(json['LastModified']),
+    lastModified: const IsoDateTimeConverter().fromJson(json['LastModified']),
     schemaArn: json['SchemaArn'] as String,
     schemaName: json['SchemaName'] as String,
     schemaVersion: json['SchemaVersion'] as String,
@@ -80,15 +80,16 @@ CreateSchemaResponse _$CreateSchemaResponseFromJson(Map<String, dynamic> json) {
       (k, e) => MapEntry(k, e as String),
     ),
     type: json['Type'] as String,
-    versionCreatedDate: timeStampFromJson(json['VersionCreatedDate']),
+    versionCreatedDate:
+        const IsoDateTimeConverter().fromJson(json['VersionCreatedDate']),
   );
 }
 
 DescribeCodeBindingResponse _$DescribeCodeBindingResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeCodeBindingResponse(
-    creationDate: timeStampFromJson(json['CreationDate']),
-    lastModified: timeStampFromJson(json['LastModified']),
+    creationDate: const IsoDateTimeConverter().fromJson(json['CreationDate']),
+    lastModified: const IsoDateTimeConverter().fromJson(json['LastModified']),
     schemaVersion: json['SchemaVersion'] as String,
     status: _$enumDecodeNullable(_$CodeGenerationStatusEnumMap, json['Status']),
   );
@@ -131,7 +132,7 @@ DescribeSchemaResponse _$DescribeSchemaResponseFromJson(
   return DescribeSchemaResponse(
     content: json['Content'] as String,
     description: json['Description'] as String,
-    lastModified: timeStampFromJson(json['LastModified']),
+    lastModified: const IsoDateTimeConverter().fromJson(json['LastModified']),
     schemaArn: json['SchemaArn'] as String,
     schemaName: json['SchemaName'] as String,
     schemaVersion: json['SchemaVersion'] as String,
@@ -139,7 +140,8 @@ DescribeSchemaResponse _$DescribeSchemaResponseFromJson(
       (k, e) => MapEntry(k, e as String),
     ),
     type: json['Type'] as String,
-    versionCreatedDate: timeStampFromJson(json['VersionCreatedDate']),
+    versionCreatedDate:
+        const IsoDateTimeConverter().fromJson(json['VersionCreatedDate']),
   );
 }
 
@@ -241,8 +243,8 @@ LockServiceLinkedRoleResponse _$LockServiceLinkedRoleResponseFromJson(
 PutCodeBindingResponse _$PutCodeBindingResponseFromJson(
     Map<String, dynamic> json) {
   return PutCodeBindingResponse(
-    creationDate: timeStampFromJson(json['CreationDate']),
-    lastModified: timeStampFromJson(json['LastModified']),
+    creationDate: const IsoDateTimeConverter().fromJson(json['CreationDate']),
+    lastModified: const IsoDateTimeConverter().fromJson(json['LastModified']),
     schemaVersion: json['SchemaVersion'] as String,
     status: _$enumDecodeNullable(_$CodeGenerationStatusEnumMap, json['Status']),
   );
@@ -260,7 +262,7 @@ RegistrySummary _$RegistrySummaryFromJson(Map<String, dynamic> json) {
 
 SchemaSummary _$SchemaSummaryFromJson(Map<String, dynamic> json) {
   return SchemaSummary(
-    lastModified: timeStampFromJson(json['LastModified']),
+    lastModified: const IsoDateTimeConverter().fromJson(json['LastModified']),
     schemaArn: json['SchemaArn'] as String,
     schemaName: json['SchemaName'] as String,
     tags: (json['tags'] as Map<String, dynamic>)?.map(
@@ -294,7 +296,7 @@ SearchSchemaSummary _$SearchSchemaSummaryFromJson(Map<String, dynamic> json) {
 SearchSchemaVersionSummary _$SearchSchemaVersionSummaryFromJson(
     Map<String, dynamic> json) {
   return SearchSchemaVersionSummary(
-    createdDate: timeStampFromJson(json['CreatedDate']),
+    createdDate: const IsoDateTimeConverter().fromJson(json['CreatedDate']),
     schemaVersion: json['SchemaVersion'] as String,
   );
 }
@@ -361,7 +363,7 @@ UpdateRegistryResponse _$UpdateRegistryResponseFromJson(
 UpdateSchemaResponse _$UpdateSchemaResponseFromJson(Map<String, dynamic> json) {
   return UpdateSchemaResponse(
     description: json['Description'] as String,
-    lastModified: timeStampFromJson(json['LastModified']),
+    lastModified: const IsoDateTimeConverter().fromJson(json['LastModified']),
     schemaArn: json['SchemaArn'] as String,
     schemaName: json['SchemaName'] as String,
     schemaVersion: json['SchemaVersion'] as String,
@@ -369,6 +371,7 @@ UpdateSchemaResponse _$UpdateSchemaResponseFromJson(Map<String, dynamic> json) {
       (k, e) => MapEntry(k, e as String),
     ),
     type: json['Type'] as String,
-    versionCreatedDate: timeStampFromJson(json['VersionCreatedDate']),
+    versionCreatedDate:
+        const IsoDateTimeConverter().fromJson(json['VersionCreatedDate']),
   );
 }

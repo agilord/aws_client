@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -2308,10 +2311,8 @@ class DataSource {
     createToJson: false)
 class DatasetGroupSummary {
   /// When the dataset group was created.
-  @_s.JsonKey(
-      name: 'CreationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationTime')
   final DateTime creationTime;
 
   /// The Amazon Resource Name (ARN) of the dataset group.
@@ -2326,10 +2327,8 @@ class DatasetGroupSummary {
   /// <a>UpdateDatasetGroup</a> operation. While the dataset group is being
   /// updated, <code>LastModificationTime</code> is the current time of the
   /// <code>ListDatasetGroups</code> call.
-  @_s.JsonKey(
-      name: 'LastModificationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastModificationTime')
   final DateTime lastModificationTime;
 
   DatasetGroupSummary({
@@ -2353,10 +2352,8 @@ class DatasetGroupSummary {
     createToJson: false)
 class DatasetImportJobSummary {
   /// When the dataset import job was created.
-  @_s.JsonKey(
-      name: 'CreationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationTime')
   final DateTime creationTime;
 
   /// The location of the training data to import and an AWS Identity and Access
@@ -2391,10 +2388,8 @@ class DatasetImportJobSummary {
   /// failed.
   /// </li>
   /// </ul>
-  @_s.JsonKey(
-      name: 'LastModificationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastModificationTime')
   final DateTime lastModificationTime;
 
   /// If an error occurred, an informational message about the error.
@@ -2445,10 +2440,8 @@ class DatasetImportJobSummary {
     createToJson: false)
 class DatasetSummary {
   /// When the dataset was created.
-  @_s.JsonKey(
-      name: 'CreationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationTime')
   final DateTime creationTime;
 
   /// The Amazon Resource Name (ARN) of the dataset.
@@ -2473,10 +2466,8 @@ class DatasetSummary {
   /// <code>ListDatasets</code> call. After a <a>CreateDatasetImportJob</a>
   /// operation has finished, <code>LastModificationTime</code> is when the import
   /// job completed or failed.
-  @_s.JsonKey(
-      name: 'LastModificationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastModificationTime')
   final DateTime lastModificationTime;
 
   DatasetSummary({
@@ -2521,10 +2512,8 @@ extension on DatasetType {
     createToJson: false)
 class DescribeDatasetGroupResponse {
   /// When the dataset group was created.
-  @_s.JsonKey(
-      name: 'CreationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationTime')
   final DateTime creationTime;
 
   /// An array of Amazon Resource Names (ARNs) of the datasets contained in the
@@ -2548,10 +2537,8 @@ class DescribeDatasetGroupResponse {
   /// <a>UpdateDatasetGroup</a> operation. While the dataset group is being
   /// updated, <code>LastModificationTime</code> is the current time of the
   /// <code>DescribeDatasetGroup</code> call.
-  @_s.JsonKey(
-      name: 'LastModificationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastModificationTime')
   final DateTime lastModificationTime;
 
   /// The status of the dataset group. States include:
@@ -2602,10 +2589,8 @@ class DescribeDatasetGroupResponse {
     createToJson: false)
 class DescribeDatasetImportJobResponse {
   /// When the dataset import job was created.
-  @_s.JsonKey(
-      name: 'CreationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationTime')
   final DateTime creationTime;
 
   /// The size of the dataset in gigabytes (GB) after the import job has finished.
@@ -2652,10 +2637,8 @@ class DescribeDatasetImportJobResponse {
   /// failed.
   /// </li>
   /// </ul>
-  @_s.JsonKey(
-      name: 'LastModificationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastModificationTime')
   final DateTime lastModificationTime;
 
   /// If an error occurred, an informational message about the error.
@@ -2728,10 +2711,8 @@ class DescribeDatasetImportJobResponse {
     createToJson: false)
 class DescribeDatasetResponse {
   /// When the dataset was created.
-  @_s.JsonKey(
-      name: 'CreationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationTime')
   final DateTime creationTime;
 
   /// The frequency of data collection.
@@ -2770,10 +2751,8 @@ class DescribeDatasetResponse {
   /// <code>DescribeDataset</code> call. After a <a>CreateDatasetImportJob</a>
   /// operation has finished, <code>LastModificationTime</code> is when the import
   /// job completed or failed.
-  @_s.JsonKey(
-      name: 'LastModificationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastModificationTime')
   final DateTime lastModificationTime;
 
   /// An array of <code>SchemaAttribute</code> objects that specify the dataset
@@ -2836,10 +2815,8 @@ class DescribeDatasetResponse {
     createToJson: false)
 class DescribeForecastExportJobResponse {
   /// When the forecast export job was created.
-  @_s.JsonKey(
-      name: 'CreationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationTime')
   final DateTime creationTime;
 
   /// The path to the Amazon Simple Storage Service (Amazon S3) bucket where the
@@ -2860,10 +2837,8 @@ class DescribeForecastExportJobResponse {
   final String forecastExportJobName;
 
   /// When the last successful export job finished.
-  @_s.JsonKey(
-      name: 'LastModificationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastModificationTime')
   final DateTime lastModificationTime;
 
   /// If an error occurred, an informational message about the error.
@@ -2913,10 +2888,8 @@ class DescribeForecastExportJobResponse {
     createToJson: false)
 class DescribeForecastResponse {
   /// When the forecast creation task was created.
-  @_s.JsonKey(
-      name: 'CreationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationTime')
   final DateTime creationTime;
 
   /// The ARN of the dataset group that provided the data used to train the
@@ -2941,10 +2914,8 @@ class DescribeForecastResponse {
   /// starts (status changed to <code>CREATE_IN_PROGRESS</code>), and when
   /// inference is complete (status changed to <code>ACTIVE</code>) or fails
   /// (status changed to <code>CREATE_FAILED</code>).
-  @_s.JsonKey(
-      name: 'LastModificationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastModificationTime')
   final DateTime lastModificationTime;
 
   /// If an error occurred, an informational message about the error.
@@ -3007,10 +2978,8 @@ class DescribePredictorResponse {
   final List<String> autoMLAlgorithmArns;
 
   /// When the model training task was created.
-  @_s.JsonKey(
-      name: 'CreationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationTime')
   final DateTime creationTime;
 
   /// An array of the ARNs of the dataset import jobs used to import training data
@@ -3053,10 +3022,8 @@ class DescribePredictorResponse {
   /// (when the status changes to <code>CREATE_IN_PROGRESS</code>), and when
   /// training has completed (when the status changes to <code>ACTIVE</code>) or
   /// fails (when the status changes to <code>CREATE_FAILED</code>).
-  @_s.JsonKey(
-      name: 'LastModificationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastModificationTime')
   final DateTime lastModificationTime;
 
   /// If an error occurred, an informational message about the error.
@@ -3515,10 +3482,8 @@ enum FilterConditionString {
     createToJson: false)
 class ForecastExportJobSummary {
   /// When the forecast export job was created.
-  @_s.JsonKey(
-      name: 'CreationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationTime')
   final DateTime creationTime;
 
   /// The path to the Amazon Simple Storage Service (Amazon S3) bucket where the
@@ -3535,10 +3500,8 @@ class ForecastExportJobSummary {
   final String forecastExportJobName;
 
   /// When the last successful export job finished.
-  @_s.JsonKey(
-      name: 'LastModificationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastModificationTime')
   final DateTime lastModificationTime;
 
   /// If an error occurred, an informational message about the error.
@@ -3590,10 +3553,8 @@ class ForecastExportJobSummary {
     createToJson: false)
 class ForecastSummary {
   /// When the forecast creation task was created.
-  @_s.JsonKey(
-      name: 'CreationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationTime')
   final DateTime creationTime;
 
   /// The Amazon Resource Name (ARN) of the dataset group that provided the data
@@ -3614,10 +3575,8 @@ class ForecastSummary {
   /// starts (status changed to <code>CREATE_IN_PROGRESS</code>), and when
   /// inference is complete (status changed to <code>ACTIVE</code>) or fails
   /// (status changed to <code>CREATE_FAILED</code>).
-  @_s.JsonKey(
-      name: 'LastModificationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastModificationTime')
   final DateTime lastModificationTime;
 
   /// If an error occurred, an informational message about the error.
@@ -4055,10 +4014,8 @@ class PredictorExecutionDetails {
     createToJson: false)
 class PredictorSummary {
   /// When the model training task was created.
-  @_s.JsonKey(
-      name: 'CreationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationTime')
   final DateTime creationTime;
 
   /// The Amazon Resource Name (ARN) of the dataset group that contains the data
@@ -4071,10 +4028,8 @@ class PredictorSummary {
   /// to <code>CREATE_IN_PROGRESS</code>), and when training is complete (status
   /// changed to <code>ACTIVE</code>) or fails (status changed to
   /// <code>CREATE_FAILED</code>).
-  @_s.JsonKey(
-      name: 'LastModificationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastModificationTime')
   final DateTime lastModificationTime;
 
   /// If an error occurred, an informational message about the error.
@@ -4361,17 +4316,13 @@ class TestWindowSummary {
   final String status;
 
   /// The time at which the test ended.
-  @_s.JsonKey(
-      name: 'TestWindowEnd',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'TestWindowEnd')
   final DateTime testWindowEnd;
 
   /// The time at which the test began.
-  @_s.JsonKey(
-      name: 'TestWindowStart',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'TestWindowStart')
   final DateTime testWindowStart;
 
   TestWindowSummary({
@@ -4456,17 +4407,13 @@ class WindowSummary {
   final Metrics metrics;
 
   /// The timestamp that defines the end of the window.
-  @_s.JsonKey(
-      name: 'TestWindowEnd',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'TestWindowEnd')
   final DateTime testWindowEnd;
 
   /// The timestamp that defines the start of the window.
-  @_s.JsonKey(
-      name: 'TestWindowStart',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'TestWindowStart')
   final DateTime testWindowStart;
 
   WindowSummary({

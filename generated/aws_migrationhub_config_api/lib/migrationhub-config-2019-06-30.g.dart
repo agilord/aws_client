@@ -38,7 +38,8 @@ HomeRegionControl _$HomeRegionControlFromJson(Map<String, dynamic> json) {
   return HomeRegionControl(
     controlId: json['ControlId'] as String,
     homeRegion: json['HomeRegion'] as String,
-    requestedTime: timeStampFromJson(json['RequestedTime']),
+    requestedTime:
+        const UnixDateTimeConverter().fromJson(json['RequestedTime']),
     target: json['Target'] == null
         ? null
         : Target.fromJson(json['Target'] as Map<String, dynamic>),

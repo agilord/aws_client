@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -2436,10 +2439,8 @@ class CreateDeploymentJobResponse {
   final String arn;
 
   /// The time, in milliseconds since the epoch, when the fleet was created.
-  @_s.JsonKey(
-      name: 'createdAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdAt')
   final DateTime createdAt;
 
   /// The deployment application configuration.
@@ -2531,10 +2532,8 @@ class CreateFleetResponse {
   final String arn;
 
   /// The time, in milliseconds since the epoch, when the fleet was created.
-  @_s.JsonKey(
-      name: 'createdAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdAt')
   final DateTime createdAt;
 
   /// The name of the fleet.
@@ -2567,10 +2566,8 @@ class CreateRobotApplicationResponse {
 
   /// The time, in milliseconds since the epoch, when the robot application was
   /// last updated.
-  @_s.JsonKey(
-      name: 'lastUpdatedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastUpdatedAt')
   final DateTime lastUpdatedAt;
 
   /// The name of the robot application.
@@ -2623,10 +2620,8 @@ class CreateRobotApplicationVersionResponse {
 
   /// The time, in milliseconds since the epoch, when the robot application was
   /// last updated.
-  @_s.JsonKey(
-      name: 'lastUpdatedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastUpdatedAt')
   final DateTime lastUpdatedAt;
 
   /// The name of the robot application.
@@ -2678,10 +2673,8 @@ class CreateRobotResponse {
   final String arn;
 
   /// The time, in milliseconds since the epoch, when the robot was created.
-  @_s.JsonKey(
-      name: 'createdAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdAt')
   final DateTime createdAt;
 
   /// The Amazon Resource Name (ARN) of the Greengrass group associated with the
@@ -2721,10 +2714,8 @@ class CreateSimulationApplicationResponse {
 
   /// The time, in milliseconds since the epoch, when the simulation application
   /// was last updated.
-  @_s.JsonKey(
-      name: 'lastUpdatedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastUpdatedAt')
   final DateTime lastUpdatedAt;
 
   /// The name of the simulation application.
@@ -2788,10 +2779,8 @@ class CreateSimulationApplicationVersionResponse {
 
   /// The time, in milliseconds since the epoch, when the simulation application
   /// was last updated.
-  @_s.JsonKey(
-      name: 'lastUpdatedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastUpdatedAt')
   final DateTime lastUpdatedAt;
 
   /// The name of the simulation application.
@@ -2907,18 +2896,14 @@ class CreateSimulationJobResponse {
 
   /// The time, in milliseconds since the epoch, when the simulation job was last
   /// started.
-  @_s.JsonKey(
-      name: 'lastStartedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastStartedAt')
   final DateTime lastStartedAt;
 
   /// The time, in milliseconds since the epoch, when the simulation job was last
   /// updated.
-  @_s.JsonKey(
-      name: 'lastUpdatedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastUpdatedAt')
   final DateTime lastUpdatedAt;
 
   /// The logging configuration.
@@ -3163,10 +3148,8 @@ class DeploymentJob {
 
   /// The time, in milliseconds since the epoch, when the deployment job was
   /// created.
-  @_s.JsonKey(
-      name: 'createdAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdAt')
   final DateTime createdAt;
 
   /// The deployment application configuration.
@@ -3342,10 +3325,8 @@ class DescribeDeploymentJobResponse {
 
   /// The time, in milliseconds since the epoch, when the deployment job was
   /// created.
-  @_s.JsonKey(
-      name: 'createdAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdAt')
   final DateTime createdAt;
 
   /// The deployment application configuration.
@@ -3407,10 +3388,8 @@ class DescribeFleetResponse {
   final String arn;
 
   /// The time, in milliseconds since the epoch, when the fleet was created.
-  @_s.JsonKey(
-      name: 'createdAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdAt')
   final DateTime createdAt;
 
   /// The Amazon Resource Name (ARN) of the last deployment job.
@@ -3422,10 +3401,8 @@ class DescribeFleetResponse {
   final DeploymentStatus lastDeploymentStatus;
 
   /// The time of the last deployment.
-  @_s.JsonKey(
-      name: 'lastDeploymentTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastDeploymentTime')
   final DateTime lastDeploymentTime;
 
   /// The name of the fleet.
@@ -3466,10 +3443,8 @@ class DescribeRobotApplicationResponse {
 
   /// The time, in milliseconds since the epoch, when the robot application was
   /// last updated.
-  @_s.JsonKey(
-      name: 'lastUpdatedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastUpdatedAt')
   final DateTime lastUpdatedAt;
 
   /// The name of the robot application.
@@ -3526,10 +3501,8 @@ class DescribeRobotResponse {
   final String arn;
 
   /// The time, in milliseconds since the epoch, when the robot was created.
-  @_s.JsonKey(
-      name: 'createdAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdAt')
   final DateTime createdAt;
 
   /// The Amazon Resource Name (ARN) of the fleet.
@@ -3545,10 +3518,8 @@ class DescribeRobotResponse {
   final String lastDeploymentJob;
 
   /// The time of the last deployment job.
-  @_s.JsonKey(
-      name: 'lastDeploymentTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastDeploymentTime')
   final DateTime lastDeploymentTime;
 
   /// The name of the robot.
@@ -3591,10 +3562,8 @@ class DescribeSimulationApplicationResponse {
 
   /// The time, in milliseconds since the epoch, when the simulation application
   /// was last updated.
-  @_s.JsonKey(
-      name: 'lastUpdatedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastUpdatedAt')
   final DateTime lastUpdatedAt;
 
   /// The name of the simulation application.
@@ -3667,10 +3636,8 @@ class DescribeSimulationJobBatchResponse {
 
   /// The time, in milliseconds since the epoch, when the simulation job batch was
   /// created.
-  @_s.JsonKey(
-      name: 'createdAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdAt')
   final DateTime createdAt;
 
   /// A list of created simulation job summaries.
@@ -3693,10 +3660,8 @@ class DescribeSimulationJobBatchResponse {
 
   /// The time, in milliseconds since the epoch, when the simulation job batch was
   /// last updated.
-  @_s.JsonKey(
-      name: 'lastUpdatedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastUpdatedAt')
   final DateTime lastUpdatedAt;
 
   /// A list of pending simulation job requests. These requests have not yet been
@@ -3838,18 +3803,14 @@ class DescribeSimulationJobResponse {
 
   /// The time, in milliseconds since the epoch, when the simulation job was last
   /// started.
-  @_s.JsonKey(
-      name: 'lastStartedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastStartedAt')
   final DateTime lastStartedAt;
 
   /// The time, in milliseconds since the epoch, when the simulation job was last
   /// updated.
-  @_s.JsonKey(
-      name: 'lastUpdatedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastUpdatedAt')
   final DateTime lastUpdatedAt;
 
   /// The logging configuration.
@@ -3933,10 +3894,8 @@ class DescribeSimulationJobResponse {
 class FailedCreateSimulationJobRequest {
   /// The time, in milliseconds since the epoch, when the simulation job batch
   /// failed.
-  @_s.JsonKey(
-      name: 'failedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'failedAt')
   final DateTime failedAt;
 
   /// The failure code.
@@ -4015,10 +3974,8 @@ class Fleet {
   final String arn;
 
   /// The time, in milliseconds since the epoch, when the fleet was created.
-  @_s.JsonKey(
-      name: 'createdAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdAt')
   final DateTime createdAt;
 
   /// The Amazon Resource Name (ARN) of the last deployment job.
@@ -4030,10 +3987,8 @@ class Fleet {
   final DeploymentStatus lastDeploymentStatus;
 
   /// The time of the last deployment.
-  @_s.JsonKey(
-      name: 'lastDeploymentTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastDeploymentTime')
   final DateTime lastDeploymentTime;
 
   /// The name of the fleet.
@@ -4552,10 +4507,8 @@ class Robot {
   final String arn;
 
   /// The time, in milliseconds since the epoch, when the robot was created.
-  @_s.JsonKey(
-      name: 'createdAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdAt')
   final DateTime createdAt;
 
   /// The Amazon Resource Name (ARN) of the fleet.
@@ -4571,10 +4524,8 @@ class Robot {
   final String lastDeploymentJob;
 
   /// The time of the last deployment.
-  @_s.JsonKey(
-      name: 'lastDeploymentTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastDeploymentTime')
   final DateTime lastDeploymentTime;
 
   /// The name of the robot.
@@ -4642,10 +4593,8 @@ class RobotApplicationSummary {
 
   /// The time, in milliseconds since the epoch, when the robot application was
   /// last updated.
-  @_s.JsonKey(
-      name: 'lastUpdatedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastUpdatedAt')
   final DateTime lastUpdatedAt;
 
   /// The name of the robot application.
@@ -4683,17 +4632,13 @@ class RobotDeployment {
   final String arn;
 
   /// The time, in milliseconds since the epoch, when the deployment finished.
-  @_s.JsonKey(
-      name: 'deploymentFinishTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'deploymentFinishTime')
   final DateTime deploymentFinishTime;
 
   /// The time, in milliseconds since the epoch, when the deployment was started.
-  @_s.JsonKey(
-      name: 'deploymentStartTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'deploymentStartTime')
   final DateTime deploymentStartTime;
 
   /// The robot deployment failure code.
@@ -4896,10 +4841,8 @@ class SimulationApplicationSummary {
 
   /// The time, in milliseconds since the epoch, when the simulation application
   /// was last updated.
-  @_s.JsonKey(
-      name: 'lastUpdatedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastUpdatedAt')
   final DateTime lastUpdatedAt;
 
   /// The name of the simulation application.
@@ -4978,18 +4921,14 @@ class SimulationJob {
 
   /// The time, in milliseconds since the epoch, when the simulation job was last
   /// started.
-  @_s.JsonKey(
-      name: 'lastStartedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastStartedAt')
   final DateTime lastStartedAt;
 
   /// The time, in milliseconds since the epoch, when the simulation job was last
   /// updated.
-  @_s.JsonKey(
-      name: 'lastUpdatedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastUpdatedAt')
   final DateTime lastUpdatedAt;
 
   /// The logging configuration.
@@ -5104,10 +5043,8 @@ class SimulationJobBatchSummary {
 
   /// The time, in milliseconds since the epoch, when the simulation job batch was
   /// created.
-  @_s.JsonKey(
-      name: 'createdAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdAt')
   final DateTime createdAt;
 
   /// The number of created simulation job requests.
@@ -5120,10 +5057,8 @@ class SimulationJobBatchSummary {
 
   /// The time, in milliseconds since the epoch, when the simulation job batch was
   /// last updated.
-  @_s.JsonKey(
-      name: 'lastUpdatedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastUpdatedAt')
   final DateTime lastUpdatedAt;
 
   /// The number of pending simulation job requests.
@@ -5359,10 +5294,8 @@ class SimulationJobSummary {
 
   /// The time, in milliseconds since the epoch, when the simulation job was last
   /// updated.
-  @_s.JsonKey(
-      name: 'lastUpdatedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastUpdatedAt')
   final DateTime lastUpdatedAt;
 
   /// The name of the simulation job.
@@ -5507,10 +5440,8 @@ class StartSimulationJobBatchResponse {
 
   /// The time, in milliseconds since the epoch, when the simulation job batch was
   /// created.
-  @_s.JsonKey(
-      name: 'createdAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdAt')
   final DateTime createdAt;
 
   /// A list of created simulation job request summaries.
@@ -5603,10 +5534,8 @@ class SyncDeploymentJobResponse {
   final String arn;
 
   /// The time, in milliseconds since the epoch, when the fleet was created.
-  @_s.JsonKey(
-      name: 'createdAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdAt')
   final DateTime createdAt;
 
   /// Information about the deployment application configurations.
@@ -5712,10 +5641,8 @@ class UpdateRobotApplicationResponse {
 
   /// The time, in milliseconds since the epoch, when the robot application was
   /// last updated.
-  @_s.JsonKey(
-      name: 'lastUpdatedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastUpdatedAt')
   final DateTime lastUpdatedAt;
 
   /// The name of the robot application.
@@ -5763,10 +5690,8 @@ class UpdateSimulationApplicationResponse {
 
   /// The time, in milliseconds since the epoch, when the simulation application
   /// was last updated.
-  @_s.JsonKey(
-      name: 'lastUpdatedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastUpdatedAt')
   final DateTime lastUpdatedAt;
 
   /// The name of the simulation application.

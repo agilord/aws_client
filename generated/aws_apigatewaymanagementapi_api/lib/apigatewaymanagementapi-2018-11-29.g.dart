@@ -9,11 +9,11 @@ part of 'apigatewaymanagementapi-2018-11-29.dart';
 GetConnectionResponse _$GetConnectionResponseFromJson(
     Map<String, dynamic> json) {
   return GetConnectionResponse(
-    connectedAt: timeStampFromJson(json['connectedAt']),
+    connectedAt: const IsoDateTimeConverter().fromJson(json['connectedAt']),
     identity: json['identity'] == null
         ? null
         : Identity.fromJson(json['identity'] as Map<String, dynamic>),
-    lastActiveAt: timeStampFromJson(json['lastActiveAt']),
+    lastActiveAt: const IsoDateTimeConverter().fromJson(json['lastActiveAt']),
   );
 }
 

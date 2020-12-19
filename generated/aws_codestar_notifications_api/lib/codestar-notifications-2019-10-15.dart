@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -814,10 +817,8 @@ class DescribeNotificationRuleResult {
   final String createdBy;
 
   /// The date and time the notification rule was created, in timestamp format.
-  @_s.JsonKey(
-      name: 'CreatedTimestamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedTimestamp')
   final DateTime createdTimestamp;
 
   /// The level of detail included in the notifications for this resource. BASIC
@@ -834,10 +835,8 @@ class DescribeNotificationRuleResult {
 
   /// The date and time the notification rule was most recently updated, in
   /// timestamp format.
-  @_s.JsonKey(
-      name: 'LastModifiedTimestamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastModifiedTimestamp')
   final DateTime lastModifiedTimestamp;
 
   /// The name of the notification rule.

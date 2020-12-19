@@ -61,13 +61,15 @@ CertificateAuthority _$CertificateAuthorityFromJson(Map<String, dynamic> json) {
             : CertificateAuthorityConfiguration.fromJson(
                 json['CertificateAuthorityConfiguration']
                     as Map<String, dynamic>),
-    createdAt: timeStampFromJson(json['CreatedAt']),
+    createdAt: const UnixDateTimeConverter().fromJson(json['CreatedAt']),
     failureReason:
         _$enumDecodeNullable(_$FailureReasonEnumMap, json['FailureReason']),
-    lastStateChangeAt: timeStampFromJson(json['LastStateChangeAt']),
-    notAfter: timeStampFromJson(json['NotAfter']),
-    notBefore: timeStampFromJson(json['NotBefore']),
-    restorableUntil: timeStampFromJson(json['RestorableUntil']),
+    lastStateChangeAt:
+        const UnixDateTimeConverter().fromJson(json['LastStateChangeAt']),
+    notAfter: const UnixDateTimeConverter().fromJson(json['NotAfter']),
+    notBefore: const UnixDateTimeConverter().fromJson(json['NotBefore']),
+    restorableUntil:
+        const UnixDateTimeConverter().fromJson(json['RestorableUntil']),
     revocationConfiguration: json['RevocationConfiguration'] == null
         ? null
         : RevocationConfiguration.fromJson(
@@ -225,7 +227,7 @@ DescribeCertificateAuthorityAuditReportResponse
   return DescribeCertificateAuthorityAuditReportResponse(
     auditReportStatus: _$enumDecodeNullable(
         _$AuditReportStatusEnumMap, json['AuditReportStatus']),
-    createdAt: timeStampFromJson(json['CreatedAt']),
+    createdAt: const UnixDateTimeConverter().fromJson(json['CreatedAt']),
     s3BucketName: json['S3BucketName'] as String,
     s3Key: json['S3Key'] as String,
   );
@@ -316,7 +318,7 @@ Permission _$PermissionFromJson(Map<String, dynamic> json) {
         ?.map((e) => _$enumDecodeNullable(_$ActionTypeEnumMap, e))
         ?.toList(),
     certificateAuthorityArn: json['CertificateAuthorityArn'] as String,
-    createdAt: timeStampFromJson(json['CreatedAt']),
+    createdAt: const UnixDateTimeConverter().fromJson(json['CreatedAt']),
     policy: json['Policy'] as String,
     principal: json['Principal'] as String,
     sourceAccount: json['SourceAccount'] as String,

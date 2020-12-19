@@ -11,15 +11,15 @@ OutputShape _$OutputShapeFromJson(Map<String, dynamic> json) {
     structMember: json['StructMember'] == null
         ? null
         : TimeContainer.fromJson(json['StructMember'] as Map<String, dynamic>),
-    timeArg: timeStampFromJson(json['TimeArg']),
-    timeCustom: timeStampFromJson(json['TimeCustom']),
-    timeFormat: timeStampFromJson(json['TimeFormat']),
+    timeArg: const UnixDateTimeConverter().fromJson(json['TimeArg']),
+    timeCustom: const RfcDateTimeConverter().fromJson(json['TimeCustom']),
+    timeFormat: const IsoDateTimeConverter().fromJson(json['TimeFormat']),
   );
 }
 
 TimeContainer _$TimeContainerFromJson(Map<String, dynamic> json) {
   return TimeContainer(
-    bar: timeStampFromJson(json['bar']),
-    foo: timeStampFromJson(json['foo']),
+    bar: const IsoDateTimeConverter().fromJson(json['bar']),
+    foo: const UnixDateTimeConverter().fromJson(json['foo']),
   );
 }

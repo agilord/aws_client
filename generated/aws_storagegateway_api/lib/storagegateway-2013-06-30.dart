@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -5544,10 +5547,8 @@ enum AvailabilityMonitorTestStatus {
 class CachediSCSIVolume {
   /// The date the volume was created. Volumes created prior to March 28, 2017
   /// don’t have this time stamp.
-  @_s.JsonKey(
-      name: 'CreatedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedDate')
   final DateTime createdDate;
   @_s.JsonKey(name: 'KMSKey')
   final String kMSKey;
@@ -6061,10 +6062,8 @@ class DescribeAvailabilityMonitorTestOutput {
 
   /// The time the High Availability monitoring test was started. If a test hasn't
   /// been performed, the value of this field is null.
-  @_s.JsonKey(
-      name: 'StartTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'StartTime')
   final DateTime startTime;
 
   /// The status of the High Availability monitoring test. If a test hasn't been
@@ -7918,10 +7917,8 @@ class StartGatewayOutput {
 class StorediSCSIVolume {
   /// The date the volume was created. Volumes created prior to March 28, 2017
   /// don’t have this time stamp.
-  @_s.JsonKey(
-      name: 'CreatedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedDate')
   final DateTime createdDate;
   @_s.JsonKey(name: 'KMSKey')
   final String kMSKey;
@@ -8091,10 +8088,8 @@ class Tape {
   final String tapeBarcode;
 
   /// The date the virtual tape was created.
-  @_s.JsonKey(
-      name: 'TapeCreatedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'TapeCreatedDate')
   final DateTime tapeCreatedDate;
 
   /// The size, in bytes, of the virtual tape capacity.
@@ -8143,10 +8138,8 @@ class TapeArchive {
   ///
   /// The default time stamp format is in the ISO8601 extended
   /// YYYY-MM-DD'T'HH:MM:SS'Z' format.
-  @_s.JsonKey(
-      name: 'CompletionTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CompletionTime')
   final DateTime completionTime;
   @_s.JsonKey(name: 'KMSKey')
   final String kMSKey;
@@ -8174,10 +8167,8 @@ class TapeArchive {
   final String tapeBarcode;
 
   /// The date the virtual tape was created.
-  @_s.JsonKey(
-      name: 'TapeCreatedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'TapeCreatedDate')
   final DateTime tapeCreatedDate;
 
   /// The size, in bytes, of the archived virtual tape.
@@ -8277,10 +8268,8 @@ class TapeRecoveryPointInfo {
   ///
   /// The default time stamp format of the tape recovery point time is in the
   /// ISO8601 extended YYYY-MM-DD'T'HH:MM:SS'Z' format.
-  @_s.JsonKey(
-      name: 'TapeRecoveryPointTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'TapeRecoveryPointTime')
   final DateTime tapeRecoveryPointTime;
 
   /// The size, in bytes, of the virtual tapes to recover.

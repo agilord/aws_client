@@ -310,7 +310,8 @@ DescribeCollectionResponse _$DescribeCollectionResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeCollectionResponse(
     collectionARN: json['CollectionARN'] as String,
-    creationTimestamp: timeStampFromJson(json['CreationTimestamp']),
+    creationTimestamp:
+        const UnixDateTimeConverter().fromJson(json['CreationTimestamp']),
     faceCount: json['FaceCount'] as int,
     faceModelVersion: json['FaceModelVersion'] as String,
   );
@@ -343,11 +344,13 @@ DescribeProjectsResponse _$DescribeProjectsResponseFromJson(
 DescribeStreamProcessorResponse _$DescribeStreamProcessorResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeStreamProcessorResponse(
-    creationTimestamp: timeStampFromJson(json['CreationTimestamp']),
+    creationTimestamp:
+        const UnixDateTimeConverter().fromJson(json['CreationTimestamp']),
     input: json['Input'] == null
         ? null
         : StreamProcessorInput.fromJson(json['Input'] as Map<String, dynamic>),
-    lastUpdateTimestamp: timeStampFromJson(json['LastUpdateTimestamp']),
+    lastUpdateTimestamp:
+        const UnixDateTimeConverter().fromJson(json['LastUpdateTimestamp']),
     name: json['Name'] as String,
     output: json['Output'] == null
         ? null
@@ -1146,7 +1149,8 @@ Pose _$PoseFromJson(Map<String, dynamic> json) {
 
 ProjectDescription _$ProjectDescriptionFromJson(Map<String, dynamic> json) {
   return ProjectDescription(
-    creationTimestamp: timeStampFromJson(json['CreationTimestamp']),
+    creationTimestamp:
+        const UnixDateTimeConverter().fromJson(json['CreationTimestamp']),
     projectArn: json['ProjectArn'] as String,
     status: _$enumDecodeNullable(_$ProjectStatusEnumMap, json['Status']),
   );
@@ -1156,7 +1160,8 @@ ProjectVersionDescription _$ProjectVersionDescriptionFromJson(
     Map<String, dynamic> json) {
   return ProjectVersionDescription(
     billableTrainingTimeInSeconds: json['BillableTrainingTimeInSeconds'] as int,
-    creationTimestamp: timeStampFromJson(json['CreationTimestamp']),
+    creationTimestamp:
+        const UnixDateTimeConverter().fromJson(json['CreationTimestamp']),
     evaluationResult: json['EvaluationResult'] == null
         ? null
         : EvaluationResult.fromJson(
@@ -1176,7 +1181,8 @@ ProjectVersionDescription _$ProjectVersionDescriptionFromJson(
         ? null
         : TrainingDataResult.fromJson(
             json['TrainingDataResult'] as Map<String, dynamic>),
-    trainingEndTimestamp: timeStampFromJson(json['TrainingEndTimestamp']),
+    trainingEndTimestamp:
+        const UnixDateTimeConverter().fromJson(json['TrainingEndTimestamp']),
   );
 }
 

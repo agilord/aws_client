@@ -112,7 +112,7 @@ ConfigurationProfiles _$ConfigurationProfilesFromJson(
 Deployment _$DeploymentFromJson(Map<String, dynamic> json) {
   return Deployment(
     applicationId: json['ApplicationId'] as String,
-    completedAt: timeStampFromJson(json['CompletedAt']),
+    completedAt: const IsoDateTimeConverter().fromJson(json['CompletedAt']),
     configurationLocationUri: json['ConfigurationLocationUri'] as String,
     configurationName: json['ConfigurationName'] as String,
     configurationProfileId: json['ConfigurationProfileId'] as String,
@@ -131,7 +131,7 @@ Deployment _$DeploymentFromJson(Map<String, dynamic> json) {
     growthFactor: (json['GrowthFactor'] as num)?.toDouble(),
     growthType: _$enumDecodeNullable(_$GrowthTypeEnumMap, json['GrowthType']),
     percentageComplete: (json['PercentageComplete'] as num)?.toDouble(),
-    startedAt: timeStampFromJson(json['StartedAt']),
+    startedAt: const IsoDateTimeConverter().fromJson(json['StartedAt']),
     state: _$enumDecodeNullable(_$DeploymentStateEnumMap, json['State']),
   );
 }
@@ -155,7 +155,7 @@ DeploymentEvent _$DeploymentEventFromJson(Map<String, dynamic> json) {
     description: json['Description'] as String,
     eventType:
         _$enumDecodeNullable(_$DeploymentEventTypeEnumMap, json['EventType']),
-    occurredAt: timeStampFromJson(json['OccurredAt']),
+    occurredAt: const IsoDateTimeConverter().fromJson(json['OccurredAt']),
     triggeredBy:
         _$enumDecodeNullable(_$TriggeredByEnumMap, json['TriggeredBy']),
   );
@@ -209,7 +209,7 @@ const _$ReplicateToEnumMap = {
 
 DeploymentSummary _$DeploymentSummaryFromJson(Map<String, dynamic> json) {
   return DeploymentSummary(
-    completedAt: timeStampFromJson(json['CompletedAt']),
+    completedAt: const IsoDateTimeConverter().fromJson(json['CompletedAt']),
     configurationName: json['ConfigurationName'] as String,
     configurationVersion: json['ConfigurationVersion'] as String,
     deploymentDurationInMinutes: json['DeploymentDurationInMinutes'] as int,
@@ -218,7 +218,7 @@ DeploymentSummary _$DeploymentSummaryFromJson(Map<String, dynamic> json) {
     growthFactor: (json['GrowthFactor'] as num)?.toDouble(),
     growthType: _$enumDecodeNullable(_$GrowthTypeEnumMap, json['GrowthType']),
     percentageComplete: (json['PercentageComplete'] as num)?.toDouble(),
-    startedAt: timeStampFromJson(json['StartedAt']),
+    startedAt: const IsoDateTimeConverter().fromJson(json['StartedAt']),
     state: _$enumDecodeNullable(_$DeploymentStateEnumMap, json['State']),
   );
 }

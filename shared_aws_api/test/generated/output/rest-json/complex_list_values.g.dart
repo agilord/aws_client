@@ -9,7 +9,7 @@ part of 'complex_list_values.dart';
 OutputShape _$OutputShapeFromJson(Map<String, dynamic> json) {
   return OutputShape(
     listMember: (json['ListMember'] as List)
-        ?.map((e) => e == null ? null : DateTime.parse(e as String))
+        ?.map(const UnixDateTimeConverter().fromJson)
         ?.toList(),
   );
 }

@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -1243,8 +1246,8 @@ class ContactData {
   final ContactStatus contactStatus;
 
   /// End time of a contact.
-  @_s.JsonKey(
-      name: 'endTime', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'endTime')
   final DateTime endTime;
 
   /// Error message of a contact.
@@ -1265,18 +1268,14 @@ class ContactData {
 
   /// Amount of time after a contact ends that you’d like to receive a CloudWatch
   /// event indicating the pass has finished.
-  @_s.JsonKey(
-      name: 'postPassEndTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'postPassEndTime')
   final DateTime postPassEndTime;
 
   /// Amount of time prior to contact start you’d like to receive a CloudWatch
   /// event indicating an upcoming pass.
-  @_s.JsonKey(
-      name: 'prePassStartTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'prePassStartTime')
   final DateTime prePassStartTime;
 
   /// Region of a contact.
@@ -1288,10 +1287,8 @@ class ContactData {
   final String satelliteArn;
 
   /// Start time of a contact.
-  @_s.JsonKey(
-      name: 'startTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'startTime')
   final DateTime startTime;
 
   /// Tags assigned to a contact.
@@ -1555,8 +1552,8 @@ class DescribeContactResponse {
   final ContactStatus contactStatus;
 
   /// End time of a contact.
-  @_s.JsonKey(
-      name: 'endTime', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'endTime')
   final DateTime endTime;
 
   /// Error message for a contact.
@@ -1577,18 +1574,14 @@ class DescribeContactResponse {
 
   /// Amount of time after a contact ends that you’d like to receive a CloudWatch
   /// event indicating the pass has finished.
-  @_s.JsonKey(
-      name: 'postPassEndTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'postPassEndTime')
   final DateTime postPassEndTime;
 
   /// Amount of time prior to contact start you’d like to receive a CloudWatch
   /// event indicating an upcoming pass.
-  @_s.JsonKey(
-      name: 'prePassStartTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'prePassStartTime')
   final DateTime prePassStartTime;
 
   /// Region of a contact.
@@ -1600,10 +1593,8 @@ class DescribeContactResponse {
   final String satelliteArn;
 
   /// Start time of a contact.
-  @_s.JsonKey(
-      name: 'startTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'startTime')
   final DateTime startTime;
 
   /// Tags assigned to a contact.

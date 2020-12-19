@@ -246,7 +246,7 @@ RegisterScalableTargetResponse _$RegisterScalableTargetResponseFromJson(
 
 ScalableTarget _$ScalableTargetFromJson(Map<String, dynamic> json) {
   return ScalableTarget(
-    creationTime: timeStampFromJson(json['CreationTime']),
+    creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
     maxCapacity: json['MaxCapacity'] as int,
     minCapacity: json['MinCapacity'] as int,
     resourceId: json['ResourceId'] as String,
@@ -334,11 +334,11 @@ ScalingActivity _$ScalingActivityFromJson(Map<String, dynamic> json) {
         _$ScalableDimensionEnumMap, json['ScalableDimension']),
     serviceNamespace: _$enumDecodeNullable(
         _$ServiceNamespaceEnumMap, json['ServiceNamespace']),
-    startTime: timeStampFromJson(json['StartTime']),
+    startTime: const UnixDateTimeConverter().fromJson(json['StartTime']),
     statusCode: _$enumDecodeNullable(
         _$ScalingActivityStatusCodeEnumMap, json['StatusCode']),
     details: json['Details'] as String,
-    endTime: timeStampFromJson(json['EndTime']),
+    endTime: const UnixDateTimeConverter().fromJson(json['EndTime']),
     statusMessage: json['StatusMessage'] as String,
   );
 }
@@ -354,7 +354,7 @@ const _$ScalingActivityStatusCodeEnumMap = {
 
 ScalingPolicy _$ScalingPolicyFromJson(Map<String, dynamic> json) {
   return ScalingPolicy(
-    creationTime: timeStampFromJson(json['CreationTime']),
+    creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
     policyARN: json['PolicyARN'] as String,
     policyName: json['PolicyName'] as String,
     policyType: _$enumDecodeNullable(_$PolicyTypeEnumMap, json['PolicyType']),
@@ -388,21 +388,21 @@ const _$PolicyTypeEnumMap = {
 
 ScheduledAction _$ScheduledActionFromJson(Map<String, dynamic> json) {
   return ScheduledAction(
-    creationTime: timeStampFromJson(json['CreationTime']),
+    creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
     resourceId: json['ResourceId'] as String,
     schedule: json['Schedule'] as String,
     scheduledActionARN: json['ScheduledActionARN'] as String,
     scheduledActionName: json['ScheduledActionName'] as String,
     serviceNamespace: _$enumDecodeNullable(
         _$ServiceNamespaceEnumMap, json['ServiceNamespace']),
-    endTime: timeStampFromJson(json['EndTime']),
+    endTime: const UnixDateTimeConverter().fromJson(json['EndTime']),
     scalableDimension: _$enumDecodeNullable(
         _$ScalableDimensionEnumMap, json['ScalableDimension']),
     scalableTargetAction: json['ScalableTargetAction'] == null
         ? null
         : ScalableTargetAction.fromJson(
             json['ScalableTargetAction'] as Map<String, dynamic>),
-    startTime: timeStampFromJson(json['StartTime']),
+    startTime: const UnixDateTimeConverter().fromJson(json['StartTime']),
   );
 }
 

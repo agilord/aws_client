@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -327,10 +330,8 @@ class StartSelector {
   /// PRODUCER_TIMESTAMP or the SERVER_TIMESTAMP as the
   /// <code>startSelectorType</code>. The <code>GetMedia</code> API then starts
   /// with the chunk containing the fragment that has the specified timestamp.
-  @_s.JsonKey(
-      name: 'StartTimestamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'StartTimestamp')
   final DateTime startTimestamp;
 
   StartSelector({

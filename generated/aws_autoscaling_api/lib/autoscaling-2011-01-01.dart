@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 import 'autoscaling-2011-01-01.meta.dart';
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
@@ -7213,8 +7216,8 @@ class ScheduledUpdateGroupActionRequest {
 
   /// The date and time for the recurring schedule to end. Amazon EC2 Auto Scaling
   /// does not perform the action after this time.
-  @_s.JsonKey(
-      name: 'EndTime', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'EndTime')
   final DateTime endTime;
 
   /// The maximum number of instances in the Auto Scaling group.
@@ -7247,8 +7250,8 @@ class ScheduledUpdateGroupActionRequest {
   ///
   /// If you try to schedule the action in the past, Amazon EC2 Auto Scaling
   /// returns an error message.
-  @_s.JsonKey(
-      name: 'StartTime', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'StartTime')
   final DateTime startTime;
 
   ScheduledUpdateGroupActionRequest({

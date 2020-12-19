@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -1102,10 +1105,8 @@ class EnvironmentMember {
 
   /// The time, expressed in epoch time format, when the environment member last
   /// opened the environment.
-  @_s.JsonKey(
-      name: 'lastAccess',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastAccess')
   final DateTime lastAccess;
 
   /// The type of environment member permissions associated with this environment

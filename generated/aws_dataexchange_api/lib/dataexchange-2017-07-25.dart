@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -875,8 +878,8 @@ class AssetEntry {
   final AssetType assetType;
 
   /// The date and time that the asset was created, in ISO 8601 format.
-  @_s.JsonKey(
-      name: 'CreatedAt', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedAt')
   final DateTime createdAt;
 
   /// The unique identifier for the data set associated with this asset.
@@ -898,8 +901,8 @@ class AssetEntry {
   final String revisionId;
 
   /// The date and time that the asset was last updated, in ISO 8601 format.
-  @_s.JsonKey(
-      name: 'UpdatedAt', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'UpdatedAt')
   final DateTime updatedAt;
 
   /// The asset ID of the owned asset corresponding to the entitled asset being
@@ -999,8 +1002,8 @@ class CreateDataSetResponse {
   final AssetType assetType;
 
   /// The date and time that the data set was created, in ISO 8601 format.
-  @_s.JsonKey(
-      name: 'CreatedAt', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedAt')
   final DateTime createdAt;
 
   /// The description for the data set.
@@ -1036,8 +1039,8 @@ class CreateDataSetResponse {
   final Map<String, String> tags;
 
   /// The date and time that the data set was last updated, in ISO 8601 format.
-  @_s.JsonKey(
-      name: 'UpdatedAt', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'UpdatedAt')
   final DateTime updatedAt;
 
   CreateDataSetResponse({
@@ -1068,8 +1071,8 @@ class CreateJobResponse {
   final String arn;
 
   /// The date and time that the job was created, in ISO 8601 format.
-  @_s.JsonKey(
-      name: 'CreatedAt', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedAt')
   final DateTime createdAt;
 
   /// Details about the job.
@@ -1093,8 +1096,8 @@ class CreateJobResponse {
   final Type type;
 
   /// The date and time that the job was last updated, in ISO 8601 format.
-  @_s.JsonKey(
-      name: 'UpdatedAt', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'UpdatedAt')
   final DateTime updatedAt;
 
   CreateJobResponse({
@@ -1126,8 +1129,8 @@ class CreateRevisionResponse {
   final String comment;
 
   /// The date and time that the revision was created, in ISO 8601 format.
-  @_s.JsonKey(
-      name: 'CreatedAt', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedAt')
   final DateTime createdAt;
 
   /// The unique identifier for the data set associated with this revision.
@@ -1161,8 +1164,8 @@ class CreateRevisionResponse {
   final Map<String, String> tags;
 
   /// The date and time that the revision was last updated, in ISO 8601 format.
-  @_s.JsonKey(
-      name: 'UpdatedAt', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'UpdatedAt')
   final DateTime updatedAt;
 
   CreateRevisionResponse({
@@ -1197,8 +1200,8 @@ class DataSetEntry {
   final AssetType assetType;
 
   /// The date and time that the data set was created, in ISO 8601 format.
-  @_s.JsonKey(
-      name: 'CreatedAt', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedAt')
   final DateTime createdAt;
 
   /// The description for the data set.
@@ -1219,8 +1222,8 @@ class DataSetEntry {
   final Origin origin;
 
   /// The date and time that the data set was last updated, in ISO 8601 format.
-  @_s.JsonKey(
-      name: 'UpdatedAt', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'UpdatedAt')
   final DateTime updatedAt;
 
   /// If the origin of this data set is ENTITLED, includes the details for the
@@ -1322,10 +1325,8 @@ class ExportAssetToSignedUrlResponseDetails {
   final String signedUrl;
 
   /// The date and time that the signed URL expires, in ISO 8601 format.
-  @_s.JsonKey(
-      name: 'SignedUrlExpiresAt',
-      fromJson: timeStampFromJson,
-      toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'SignedUrlExpiresAt')
   final DateTime signedUrlExpiresAt;
 
   ExportAssetToSignedUrlResponseDetails({
@@ -1415,8 +1416,8 @@ class GetAssetResponse {
   final AssetType assetType;
 
   /// The date and time that the asset was created, in ISO 8601 format.
-  @_s.JsonKey(
-      name: 'CreatedAt', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedAt')
   final DateTime createdAt;
 
   /// The unique identifier for the data set associated with this asset.
@@ -1444,8 +1445,8 @@ class GetAssetResponse {
   final String sourceId;
 
   /// The date and time that the asset was last updated, in ISO 8601 format.
-  @_s.JsonKey(
-      name: 'UpdatedAt', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'UpdatedAt')
   final DateTime updatedAt;
 
   GetAssetResponse({
@@ -1480,8 +1481,8 @@ class GetDataSetResponse {
   final AssetType assetType;
 
   /// The date and time that the data set was created, in ISO 8601 format.
-  @_s.JsonKey(
-      name: 'CreatedAt', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedAt')
   final DateTime createdAt;
 
   /// The description for the data set.
@@ -1517,8 +1518,8 @@ class GetDataSetResponse {
   final Map<String, String> tags;
 
   /// The date and time that the data set was last updated, in ISO 8601 format.
-  @_s.JsonKey(
-      name: 'UpdatedAt', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'UpdatedAt')
   final DateTime updatedAt;
 
   GetDataSetResponse({
@@ -1549,8 +1550,8 @@ class GetJobResponse {
   final String arn;
 
   /// The date and time that the job was created, in ISO 8601 format.
-  @_s.JsonKey(
-      name: 'CreatedAt', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedAt')
   final DateTime createdAt;
 
   /// Details about the job.
@@ -1574,8 +1575,8 @@ class GetJobResponse {
   final Type type;
 
   /// The date and time that the job was last updated, in ISO 8601 format.
-  @_s.JsonKey(
-      name: 'UpdatedAt', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'UpdatedAt')
   final DateTime updatedAt;
 
   GetJobResponse({
@@ -1607,8 +1608,8 @@ class GetRevisionResponse {
   final String comment;
 
   /// The date and time that the revision was created, in ISO 8601 format.
-  @_s.JsonKey(
-      name: 'CreatedAt', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedAt')
   final DateTime createdAt;
 
   /// The unique identifier for the data set associated with this revision.
@@ -1642,8 +1643,8 @@ class GetRevisionResponse {
   final Map<String, String> tags;
 
   /// The date and time that the revision was last updated, in ISO 8601 format.
-  @_s.JsonKey(
-      name: 'UpdatedAt', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'UpdatedAt')
   final DateTime updatedAt;
 
   GetRevisionResponse({
@@ -1743,10 +1744,8 @@ class ImportAssetFromSignedUrlResponseDetails {
   final String signedUrl;
 
   /// The time and date at which the signed URL expires, in ISO 8601 format.
-  @_s.JsonKey(
-      name: 'SignedUrlExpiresAt',
-      fromJson: timeStampFromJson,
-      toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'SignedUrlExpiresAt')
   final DateTime signedUrlExpiresAt;
 
   ImportAssetFromSignedUrlResponseDetails({
@@ -1834,8 +1833,8 @@ class JobEntry {
   final String arn;
 
   /// The date and time that the job was created, in ISO 8601 format.
-  @_s.JsonKey(
-      name: 'CreatedAt', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedAt')
   final DateTime createdAt;
 
   /// Details of the operation to be performed by the job, such as export
@@ -1856,8 +1855,8 @@ class JobEntry {
   final Type type;
 
   /// The date and time that the job was last updated, in ISO 8601 format.
-  @_s.JsonKey(
-      name: 'UpdatedAt', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'UpdatedAt')
   final DateTime updatedAt;
 
   /// Errors for jobs.
@@ -2153,8 +2152,8 @@ class RevisionEntry {
   final String arn;
 
   /// The date and time that the revision was created, in ISO 8601 format.
-  @_s.JsonKey(
-      name: 'CreatedAt', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedAt')
   final DateTime createdAt;
 
   /// The unique identifier for the data set associated with this revision.
@@ -2166,8 +2165,8 @@ class RevisionEntry {
   final String id;
 
   /// The date and time that the revision was last updated, in ISO 8601 format.
-  @_s.JsonKey(
-      name: 'UpdatedAt', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'UpdatedAt')
   final DateTime updatedAt;
 
   /// An optional comment about the revision.
@@ -2297,8 +2296,8 @@ class UpdateAssetResponse {
   final AssetType assetType;
 
   /// The date and time that the asset was created, in ISO 8601 format.
-  @_s.JsonKey(
-      name: 'CreatedAt', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedAt')
   final DateTime createdAt;
 
   /// The unique identifier for the data set associated with this asset.
@@ -2326,8 +2325,8 @@ class UpdateAssetResponse {
   final String sourceId;
 
   /// The date and time that the asset was last updated, in ISO 8601 format.
-  @_s.JsonKey(
-      name: 'UpdatedAt', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'UpdatedAt')
   final DateTime updatedAt;
 
   UpdateAssetResponse({
@@ -2362,8 +2361,8 @@ class UpdateDataSetResponse {
   final AssetType assetType;
 
   /// The date and time that the data set was created, in ISO 8601 format.
-  @_s.JsonKey(
-      name: 'CreatedAt', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedAt')
   final DateTime createdAt;
 
   /// The description for the data set.
@@ -2395,8 +2394,8 @@ class UpdateDataSetResponse {
   final String sourceId;
 
   /// The date and time that the data set was last updated, in ISO 8601 format.
-  @_s.JsonKey(
-      name: 'UpdatedAt', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'UpdatedAt')
   final DateTime updatedAt;
 
   UpdateDataSetResponse({
@@ -2430,8 +2429,8 @@ class UpdateRevisionResponse {
   final String comment;
 
   /// The date and time that the revision was created, in ISO 8601 format.
-  @_s.JsonKey(
-      name: 'CreatedAt', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedAt')
   final DateTime createdAt;
 
   /// The unique identifier for the data set associated with this revision.
@@ -2461,8 +2460,8 @@ class UpdateRevisionResponse {
   final String sourceId;
 
   /// The date and time that the revision was last updated, in ISO 8601 format.
-  @_s.JsonKey(
-      name: 'UpdatedAt', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'UpdatedAt')
   final DateTime updatedAt;
 
   UpdateRevisionResponse({

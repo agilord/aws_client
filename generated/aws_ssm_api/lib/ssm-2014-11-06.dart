@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -9719,10 +9722,8 @@ class Activation {
   final String activationId;
 
   /// The date the activation was created.
-  @_s.JsonKey(
-      name: 'CreatedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedDate')
   final DateTime createdDate;
 
   /// A name for the managed instance when it is created.
@@ -9735,10 +9736,8 @@ class Activation {
 
   /// The date when this activation can no longer be used to register managed
   /// instances.
-  @_s.JsonKey(
-      name: 'ExpirationDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ExpirationDate')
   final DateTime expirationDate;
 
   /// Whether or not the activation is expired.
@@ -9819,10 +9818,8 @@ class Association {
   final String instanceId;
 
   /// The date on which the association was last run.
-  @_s.JsonKey(
-      name: 'LastExecutionDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastExecutionDate')
   final DateTime lastExecutionDate;
 
   /// The name of the Systems Manager document.
@@ -9918,8 +9915,8 @@ class AssociationDescription {
   final AssociationComplianceSeverity complianceSeverity;
 
   /// The date when the association was made.
-  @_s.JsonKey(
-      name: 'Date', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'Date')
   final DateTime date;
 
   /// The document version.
@@ -9931,24 +9928,18 @@ class AssociationDescription {
   final String instanceId;
 
   /// The date on which the association was last run.
-  @_s.JsonKey(
-      name: 'LastExecutionDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastExecutionDate')
   final DateTime lastExecutionDate;
 
   /// The last date on which the association was successfully run.
-  @_s.JsonKey(
-      name: 'LastSuccessfulExecutionDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastSuccessfulExecutionDate')
   final DateTime lastSuccessfulExecutionDate;
 
   /// The date when the association was last updated.
-  @_s.JsonKey(
-      name: 'LastUpdateAssociationDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastUpdateAssociationDate')
   final DateTime lastUpdateAssociationDate;
 
   /// The maximum number of targets allowed to run the association at the same
@@ -10051,10 +10042,8 @@ class AssociationExecution {
   final String associationVersion;
 
   /// The time the execution started.
-  @_s.JsonKey(
-      name: 'CreatedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedTime')
   final DateTime createdTime;
 
   /// Detailed status information about the execution.
@@ -10066,10 +10055,8 @@ class AssociationExecution {
   final String executionId;
 
   /// The date of the last execution.
-  @_s.JsonKey(
-      name: 'LastExecutionDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastExecutionDate')
   final DateTime lastExecutionDate;
 
   /// An aggregate status of the resources in the execution based on the status
@@ -10155,10 +10142,8 @@ class AssociationExecutionTarget {
   final String executionId;
 
   /// The date of the last execution.
-  @_s.JsonKey(
-      name: 'LastExecutionDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastExecutionDate')
   final DateTime lastExecutionDate;
 
   /// The location where the association details are saved.
@@ -10310,8 +10295,8 @@ class AssociationOverview {
     createToJson: true)
 class AssociationStatus {
   /// The date when the status changed.
-  @_s.JsonKey(
-      name: 'Date', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'Date')
   final DateTime date;
 
   /// The reason for the status.
@@ -10372,10 +10357,8 @@ class AssociationVersionInfo {
   final AssociationComplianceSeverity complianceSeverity;
 
   /// The date the association version was created.
-  @_s.JsonKey(
-      name: 'CreatedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedDate')
   final DateTime createdDate;
 
   /// The version of a Systems Manager document used when the association version
@@ -10624,17 +10607,13 @@ class AutomationExecution {
   final String executedBy;
 
   /// The time the execution finished.
-  @_s.JsonKey(
-      name: 'ExecutionEndTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ExecutionEndTime')
   final DateTime executionEndTime;
 
   /// The time the execution started.
-  @_s.JsonKey(
-      name: 'ExecutionStartTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ExecutionStartTime')
   final DateTime executionStartTime;
 
   /// A message describing why an execution has failed, if the status is set to
@@ -10834,17 +10813,13 @@ class AutomationExecutionMetadata {
 
   /// The time the execution finished. This is not populated if the execution is
   /// still in progress.
-  @_s.JsonKey(
-      name: 'ExecutionEndTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ExecutionEndTime')
   final DateTime executionEndTime;
 
   /// The time the execution started.
-  @_s.JsonKey(
-      name: 'ExecutionStartTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ExecutionStartTime')
   final DateTime executionStartTime;
 
   /// The list of execution outputs as defined in the Automation document.
@@ -11061,10 +11036,8 @@ class Command {
   /// If this time is reached and the command has not already started running, it
   /// will not run. Calculated based on the ExpiresAfter user input provided as
   /// part of the SendCommand API.
-  @_s.JsonKey(
-      name: 'ExpiresAfter',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ExpiresAfter')
   final DateTime expiresAfter;
 
   /// The instance IDs against which this command was requested.
@@ -11117,10 +11090,8 @@ class Command {
   final Map<String, List<String>> parameters;
 
   /// The date and time the command was requested.
-  @_s.JsonKey(
-      name: 'RequestedDateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'RequestedDateTime')
   final DateTime requestedDateTime;
 
   /// The IAM service role that Run Command uses to act on your behalf when
@@ -11367,10 +11338,8 @@ class CommandInvocation {
   final NotificationConfig notificationConfig;
 
   /// The time and date the request was sent to this instance.
-  @_s.JsonKey(
-      name: 'RequestedDateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'RequestedDateTime')
   final DateTime requestedDateTime;
 
   /// The IAM service role that Run Command uses to act on your behalf when
@@ -11561,17 +11530,13 @@ class CommandPlugin {
 
   /// The time the plugin stopped running. Could stop prematurely if, for example,
   /// a cancel command was sent.
-  @_s.JsonKey(
-      name: 'ResponseFinishDateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ResponseFinishDateTime')
   final DateTime responseFinishDateTime;
 
   /// The time the plugin started running.
-  @_s.JsonKey(
-      name: 'ResponseStartDateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ResponseStartDateTime')
   final DateTime responseStartDateTime;
 
   /// The URL for the complete text written by the plugin to stderr. If execution
@@ -11709,10 +11674,8 @@ enum CommandStatus {
 class ComplianceExecutionSummary {
   /// The time the execution ran as a datetime object that is saved in the
   /// following format: yyyy-MM-dd'T'HH:mm:ss'Z'.
-  @_s.JsonKey(
-      name: 'ExecutionTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ExecutionTime')
   final DateTime executionTime;
 
   /// An ID created by the system when <code>PutComplianceItems</code> was called.
@@ -13346,10 +13309,8 @@ class DocumentDescription {
   final List<AttachmentInformation> attachmentsInformation;
 
   /// The date when the document was created.
-  @_s.JsonKey(
-      name: 'CreatedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedDate')
   final DateTime createdDate;
 
   /// The default version.
@@ -13831,10 +13792,8 @@ extension on DocumentType {
     createToJson: false)
 class DocumentVersionInfo {
   /// The date the document was created.
-  @_s.JsonKey(
-      name: 'CreatedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedDate')
   final DateTime createdDate;
 
   /// The document format, either JSON or YAML.
@@ -14444,15 +14403,13 @@ class GetInventorySchemaResult {
     createToJson: false)
 class GetMaintenanceWindowExecutionResult {
   /// The time the maintenance window finished running.
-  @_s.JsonKey(
-      name: 'EndTime', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'EndTime')
   final DateTime endTime;
 
   /// The time the maintenance window started running.
-  @_s.JsonKey(
-      name: 'StartTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'StartTime')
   final DateTime startTime;
 
   /// The status of the maintenance window execution.
@@ -14491,8 +14448,8 @@ class GetMaintenanceWindowExecutionResult {
     createToJson: false)
 class GetMaintenanceWindowExecutionTaskInvocationResult {
   /// The time that the task finished running on the target.
-  @_s.JsonKey(
-      name: 'EndTime', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'EndTime')
   final DateTime endTime;
 
   /// The execution ID.
@@ -14513,10 +14470,8 @@ class GetMaintenanceWindowExecutionTaskInvocationResult {
   final String parameters;
 
   /// The time that the task started running on the target.
-  @_s.JsonKey(
-      name: 'StartTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'StartTime')
   final DateTime startTime;
 
   /// The task status for an invocation.
@@ -14571,8 +14526,8 @@ class GetMaintenanceWindowExecutionTaskInvocationResult {
     createToJson: false)
 class GetMaintenanceWindowExecutionTaskResult {
   /// The time the task execution completed.
-  @_s.JsonKey(
-      name: 'EndTime', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'EndTime')
   final DateTime endTime;
 
   /// The defined maximum number of task executions that could be run in parallel.
@@ -14593,10 +14548,8 @@ class GetMaintenanceWindowExecutionTaskResult {
   final String serviceRole;
 
   /// The time the task execution started.
-  @_s.JsonKey(
-      name: 'StartTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'StartTime')
   final DateTime startTime;
 
   /// The status of the task.
@@ -14674,10 +14627,8 @@ class GetMaintenanceWindowResult {
   final bool allowUnassociatedTargets;
 
   /// The date the maintenance window was created.
-  @_s.JsonKey(
-      name: 'CreatedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedDate')
   final DateTime createdDate;
 
   /// The number of hours before the end of the maintenance window that Systems
@@ -14704,10 +14655,8 @@ class GetMaintenanceWindowResult {
   final String endDate;
 
   /// The date the maintenance window was last modified.
-  @_s.JsonKey(
-      name: 'ModifiedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ModifiedDate')
   final DateTime modifiedDate;
 
   /// The name of the maintenance window.
@@ -15051,10 +15000,8 @@ class GetPatchBaselineResult {
   final String baselineId;
 
   /// The date the patch baseline was created.
-  @_s.JsonKey(
-      name: 'CreatedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedDate')
   final DateTime createdDate;
 
   /// A description of the patch baseline.
@@ -15066,10 +15013,8 @@ class GetPatchBaselineResult {
   final PatchFilterGroup globalFilters;
 
   /// The date the patch baseline was last modified.
-  @_s.JsonKey(
-      name: 'ModifiedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ModifiedDate')
   final DateTime modifiedDate;
 
   /// The name of the patch baseline.
@@ -15270,10 +15215,8 @@ class InstanceAssociationStatusInfo {
   final String errorCode;
 
   /// The date the instance association ran.
-  @_s.JsonKey(
-      name: 'ExecutionDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ExecutionDate')
   final DateTime executionDate;
 
   /// Summary information about association execution.
@@ -15366,24 +15309,18 @@ class InstanceInformation {
   final bool isLatestVersion;
 
   /// The date the association was last run.
-  @_s.JsonKey(
-      name: 'LastAssociationExecutionDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastAssociationExecutionDate')
   final DateTime lastAssociationExecutionDate;
 
   /// The date and time when agent last pinged Systems Manager service.
-  @_s.JsonKey(
-      name: 'LastPingDateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastPingDateTime')
   final DateTime lastPingDateTime;
 
   /// The last date the association was successfully run.
-  @_s.JsonKey(
-      name: 'LastSuccessfulAssociationExecutionDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastSuccessfulAssociationExecutionDate')
   final DateTime lastSuccessfulAssociationExecutionDate;
 
   /// The name of the managed instance.
@@ -15407,10 +15344,8 @@ class InstanceInformation {
   final String platformVersion;
 
   /// The date the server or VM was registered with AWS as a managed instance.
-  @_s.JsonKey(
-      name: 'RegistrationDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'RegistrationDate')
   final DateTime registrationDate;
 
   /// The type of instance. Instances are either EC2 instances or managed
@@ -15542,17 +15477,13 @@ class InstancePatchState {
   final PatchOperationType operation;
 
   /// The time the most recent patching operation completed on the instance.
-  @_s.JsonKey(
-      name: 'OperationEndTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'OperationEndTime')
   final DateTime operationEndTime;
 
   /// The time the most recent patching operation was started on the instance.
-  @_s.JsonKey(
-      name: 'OperationStartTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'OperationStartTime')
   final DateTime operationStartTime;
 
   /// The name of the patch group the managed instance belongs to.
@@ -15605,10 +15536,8 @@ class InstancePatchState {
 
   /// The time of the last attempt to patch the instance with
   /// <code>NoReboot</code> specified as the reboot option.
-  @_s.JsonKey(
-      name: 'LastNoRebootInstallOperationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastNoRebootInstallOperationTime')
   final DateTime lastNoRebootInstallOperationTime;
 
   /// The number of patches from the patch baseline that are applicable for the
@@ -15781,10 +15710,8 @@ class InventoryDeletionStatusItem {
   final String deletionId;
 
   /// The UTC timestamp when the delete operation started.
-  @_s.JsonKey(
-      name: 'DeletionStartTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'DeletionStartTime')
   final DateTime deletionStartTime;
 
   /// Information about the delete operation. For more information about this
@@ -15804,10 +15731,8 @@ class InventoryDeletionStatusItem {
   final String lastStatusMessage;
 
   /// The UTC timestamp of when the last status report.
-  @_s.JsonKey(
-      name: 'LastStatusUpdateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastStatusUpdateTime')
   final DateTime lastStatusUpdateTime;
 
   /// The name of the inventory data type.
@@ -16584,15 +16509,13 @@ class MaintenanceWindowAutomationParameters {
     createToJson: false)
 class MaintenanceWindowExecution {
   /// The time the execution finished.
-  @_s.JsonKey(
-      name: 'EndTime', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'EndTime')
   final DateTime endTime;
 
   /// The time the execution started.
-  @_s.JsonKey(
-      name: 'StartTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'StartTime')
   final DateTime startTime;
 
   /// The status of the execution.
@@ -16651,15 +16574,13 @@ enum MaintenanceWindowExecutionStatus {
     createToJson: false)
 class MaintenanceWindowExecutionTaskIdentity {
   /// The time the task execution finished.
-  @_s.JsonKey(
-      name: 'EndTime', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'EndTime')
   final DateTime endTime;
 
   /// The time the task execution started.
-  @_s.JsonKey(
-      name: 'StartTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'StartTime')
   final DateTime startTime;
 
   /// The status of the task execution.
@@ -16712,8 +16633,8 @@ class MaintenanceWindowExecutionTaskIdentity {
     createToJson: false)
 class MaintenanceWindowExecutionTaskInvocationIdentity {
   /// The time the invocation finished.
-  @_s.JsonKey(
-      name: 'EndTime', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'EndTime')
   final DateTime endTime;
 
   /// The ID of the action performed in the service that actually handled the task
@@ -16736,10 +16657,8 @@ class MaintenanceWindowExecutionTaskInvocationIdentity {
   final String parameters;
 
   /// The time the invocation started.
-  @_s.JsonKey(
-      name: 'StartTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'StartTime')
   final DateTime startTime;
 
   /// The status of the task invocation.
@@ -17680,10 +17599,8 @@ class OpsItem {
   final String createdBy;
 
   /// The date and time the OpsItem was created.
-  @_s.JsonKey(
-      name: 'CreatedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedTime')
   final DateTime createdTime;
 
   /// The OpsItem description.
@@ -17695,10 +17612,8 @@ class OpsItem {
   final String lastModifiedBy;
 
   /// The date and time the OpsItem was last updated.
-  @_s.JsonKey(
-      name: 'LastModifiedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastModifiedTime')
   final DateTime lastModifiedTime;
 
   /// The Amazon Resource Name (ARN) of an SNS topic where notifications are sent
@@ -17959,10 +17874,8 @@ class OpsItemSummary {
   final String createdBy;
 
   /// The date and time the OpsItem was created.
-  @_s.JsonKey(
-      name: 'CreatedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedTime')
   final DateTime createdTime;
 
   /// The Amazon Resource Name (ARN) of the IAM entity that created the OpsItem.
@@ -17970,10 +17883,8 @@ class OpsItemSummary {
   final String lastModifiedBy;
 
   /// The date and time the OpsItem was last updated.
-  @_s.JsonKey(
-      name: 'LastModifiedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastModifiedTime')
   final DateTime lastModifiedTime;
 
   /// Operational data is custom data that provides useful reference details about
@@ -18081,10 +17992,8 @@ class Parameter {
 
   /// Date the parameter was last changed or updated and the parameter version was
   /// created.
-  @_s.JsonKey(
-      name: 'LastModifiedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastModifiedDate')
   final DateTime lastModifiedDate;
 
   /// The name of the parameter.
@@ -18158,10 +18067,8 @@ class ParameterHistory {
   final List<String> labels;
 
   /// Date the parameter was last changed or updated.
-  @_s.JsonKey(
-      name: 'LastModifiedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastModifiedDate')
   final DateTime lastModifiedDate;
 
   /// Amazon Resource Name (ARN) of the AWS user who last changed the parameter.
@@ -18269,10 +18176,8 @@ class ParameterMetadata {
   final String keyId;
 
   /// Date the parameter was last changed or updated.
-  @_s.JsonKey(
-      name: 'LastModifiedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastModifiedDate')
   final DateTime lastModifiedDate;
 
   /// Amazon Resource Name (ARN) of the AWS user who last changed the parameter.
@@ -18499,10 +18404,8 @@ class Patch {
   final String productFamily;
 
   /// The date the patch was released.
-  @_s.JsonKey(
-      name: 'ReleaseDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ReleaseDate')
   final DateTime releaseDate;
 
   /// The title of the patch.
@@ -18606,10 +18509,8 @@ class PatchComplianceData {
 
   /// The date/time the patch was installed on the instance. Note that not all
   /// operating systems provide this level of information.
-  @_s.JsonKey(
-      name: 'InstalledTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'InstalledTime')
   final DateTime installedTime;
 
   /// The operating system-specific ID of the patch.
@@ -19019,10 +18920,8 @@ class PatchSource {
 class PatchStatus {
   /// The date the patch was approved (or will be approved if the status is
   /// PENDING_APPROVAL).
-  @_s.JsonKey(
-      name: 'ApprovalDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ApprovalDate')
   final DateTime approvalDate;
 
   /// The compliance severity level for a patch.
@@ -19444,10 +19343,8 @@ class ResourceDataSyncItem {
 
   /// The last time the sync operations returned a status of
   /// <code>SUCCESSFUL</code> (UTC).
-  @_s.JsonKey(
-      name: 'LastSuccessfulSyncTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastSuccessfulSyncTime')
   final DateTime lastSuccessfulSyncTime;
 
   /// The status message details reported by the last sync.
@@ -19455,10 +19352,8 @@ class ResourceDataSyncItem {
   final String lastSyncStatusMessage;
 
   /// The last time the configuration attempted to sync (UTC).
-  @_s.JsonKey(
-      name: 'LastSyncTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastSyncTime')
   final DateTime lastSyncTime;
 
   /// Configuration information for the target Amazon S3 bucket.
@@ -19466,17 +19361,13 @@ class ResourceDataSyncItem {
   final ResourceDataSyncS3Destination s3Destination;
 
   /// The date and time the configuration was created (UTC).
-  @_s.JsonKey(
-      name: 'SyncCreatedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'SyncCreatedTime')
   final DateTime syncCreatedTime;
 
   /// The date and time the resource data sync was changed.
-  @_s.JsonKey(
-      name: 'SyncLastModifiedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'SyncLastModifiedTime')
   final DateTime syncLastModifiedTime;
 
   /// The name of the Resource Data Sync.
@@ -19930,10 +19821,8 @@ class ServiceSetting {
   final String arn;
 
   /// The last time the service setting was modified.
-  @_s.JsonKey(
-      name: 'LastModifiedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastModifiedDate')
   final DateTime lastModifiedDate;
 
   /// The ARN of the last modified user. This field is populated only if the
@@ -20000,8 +19889,8 @@ class Session {
 
   /// The date and time, in ISO-8601 Extended format, when the session was
   /// terminated.
-  @_s.JsonKey(
-      name: 'EndDate', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'EndDate')
   final DateTime endDate;
 
   /// Reserved for future use.
@@ -20017,10 +19906,8 @@ class Session {
   final String sessionId;
 
   /// The date and time, in ISO-8601 Extended format, when the session began.
-  @_s.JsonKey(
-      name: 'StartDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'StartDate')
   final DateTime startDate;
 
   /// The status of the session. For example, "Connected" or "Terminated".
@@ -20351,18 +20238,14 @@ class StepExecution {
 
   /// If a step has finished execution, this contains the time the execution
   /// ended. If the step has not yet concluded, this field is not populated.
-  @_s.JsonKey(
-      name: 'ExecutionEndTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ExecutionEndTime')
   final DateTime executionEndTime;
 
   /// If a step has begun execution, this contains the time the step started. If
   /// the step is in Pending status, this field is not populated.
-  @_s.JsonKey(
-      name: 'ExecutionStartTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ExecutionStartTime')
   final DateTime executionStartTime;
 
   /// Information about the Automation failure.
@@ -21068,10 +20951,8 @@ class UpdatePatchBaselineResult {
   final String baselineId;
 
   /// The date when the patch baseline was created.
-  @_s.JsonKey(
-      name: 'CreatedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedDate')
   final DateTime createdDate;
 
   /// A description of the Patch Baseline.
@@ -21083,10 +20964,8 @@ class UpdatePatchBaselineResult {
   final PatchFilterGroup globalFilters;
 
   /// The date when the patch baseline was last modified.
-  @_s.JsonKey(
-      name: 'ModifiedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ModifiedDate')
   final DateTime modifiedDate;
 
   /// The name of the patch baseline.

@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -5719,17 +5722,13 @@ class ApprovalRule {
   final String approvalRuleName;
 
   /// The date the approval rule was created, in timestamp format.
-  @_s.JsonKey(
-      name: 'creationDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'creationDate')
   final DateTime creationDate;
 
   /// The date the approval rule was most recently changed, in timestamp format.
-  @_s.JsonKey(
-      name: 'lastModifiedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastModifiedDate')
   final DateTime lastModifiedDate;
 
   /// The Amazon Resource Name (ARN) of the user who made the most recent changes
@@ -5836,18 +5835,14 @@ class ApprovalRuleTemplate {
   final String approvalRuleTemplateName;
 
   /// The date the approval rule template was created, in timestamp format.
-  @_s.JsonKey(
-      name: 'creationDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'creationDate')
   final DateTime creationDate;
 
   /// The date the approval rule template was most recently changed, in timestamp
   /// format.
-  @_s.JsonKey(
-      name: 'lastModifiedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastModifiedDate')
   final DateTime lastModifiedDate;
 
   /// The Amazon Resource Name (ARN) of the user who made the most recent changes
@@ -6291,10 +6286,8 @@ class Comment {
   final String content;
 
   /// The date and time the comment was created, in timestamp format.
-  @_s.JsonKey(
-      name: 'creationDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'creationDate')
   final DateTime creationDate;
 
   /// A Boolean value indicating whether the comment has been deleted.
@@ -6307,10 +6300,8 @@ class Comment {
 
   /// The date and time the comment was most recently modified, in timestamp
   /// format.
-  @_s.JsonKey(
-      name: 'lastModifiedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastModifiedDate')
   final DateTime lastModifiedDate;
 
   Comment({
@@ -8507,10 +8498,8 @@ class PullRequest {
 
   /// The date and time the pull request was originally created, in timestamp
   /// format.
-  @_s.JsonKey(
-      name: 'creationDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'creationDate')
   final DateTime creationDate;
 
   /// The user-defined description of the pull request. This description can be
@@ -8520,10 +8509,8 @@ class PullRequest {
 
   /// The day and time of the last user or system activity on the pull request, in
   /// timestamp format.
-  @_s.JsonKey(
-      name: 'lastActivityDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastActivityDate')
   final DateTime lastActivityDate;
 
   /// The system-generated ID of the pull request.
@@ -8628,10 +8615,8 @@ class PullRequestEvent {
   final ApprovalStateChangedEventMetadata approvalStateChangedEventMetadata;
 
   /// The day and time of the pull request event, in timestamp format.
-  @_s.JsonKey(
-      name: 'eventDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'eventDate')
   final DateTime eventDate;
 
   /// Information about the source and destination branches for the pull request.
@@ -9048,10 +9033,8 @@ class RepositoryMetadata {
   final String cloneUrlSsh;
 
   /// The date and time the repository was created, in timestamp format.
-  @_s.JsonKey(
-      name: 'creationDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'creationDate')
   final DateTime creationDate;
 
   /// The repository's default branch name.
@@ -9059,10 +9042,8 @@ class RepositoryMetadata {
   final String defaultBranch;
 
   /// The date and time the repository was last modified, in timestamp format.
-  @_s.JsonKey(
-      name: 'lastModifiedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastModifiedDate')
   final DateTime lastModifiedDate;
 
   /// A comment or description about the repository.

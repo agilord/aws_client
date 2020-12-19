@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -1325,10 +1328,8 @@ class ConcurrentModificationException implements _s.AwsException {
     createToJson: false)
 class Dataset {
   /// Date on which the dataset was created.
-  @_s.JsonKey(
-      name: 'CreationDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationDate')
   final DateTime creationDate;
 
   /// Total size in bytes of the records in this dataset.
@@ -1351,10 +1352,8 @@ class Dataset {
   final String lastModifiedBy;
 
   /// Date when the dataset was last modified.
-  @_s.JsonKey(
-      name: 'LastModifiedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastModifiedDate')
   final DateTime lastModifiedDate;
 
   /// Number of records in this dataset.
@@ -1483,17 +1482,13 @@ class DuplicateRequestException implements _s.AwsException {
 class GetBulkPublishDetailsResponse {
   /// If BulkPublishStatus is SUCCEEDED, the time the last bulk publish operation
   /// completed.
-  @_s.JsonKey(
-      name: 'BulkPublishCompleteTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'BulkPublishCompleteTime')
   final DateTime bulkPublishCompleteTime;
 
   /// The date/time at which the last bulk publish was initiated.
-  @_s.JsonKey(
-      name: 'BulkPublishStartTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'BulkPublishStartTime')
   final DateTime bulkPublishStartTime;
 
   /// Status of the last bulk publish operation, valid values are:
@@ -1597,10 +1592,8 @@ class IdentityPoolUsage {
   final String identityPoolId;
 
   /// Date on which the identity pool was last modified.
-  @_s.JsonKey(
-      name: 'LastModifiedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastModifiedDate')
   final DateTime lastModifiedDate;
 
   /// Number of sync sessions for the identity pool.
@@ -1645,10 +1638,8 @@ class IdentityUsage {
   final String identityPoolId;
 
   /// Date on which the identity was last modified.
-  @_s.JsonKey(
-      name: 'LastModifiedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastModifiedDate')
   final DateTime lastModifiedDate;
 
   IdentityUsage({
@@ -1976,10 +1967,8 @@ class PushSync {
     createToJson: false)
 class Record {
   /// The last modified date of the client device.
-  @_s.JsonKey(
-      name: 'DeviceLastModifiedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'DeviceLastModifiedDate')
   final DateTime deviceLastModifiedDate;
 
   /// The key for the record.
@@ -1991,10 +1980,8 @@ class Record {
   final String lastModifiedBy;
 
   /// The date on which the record was last modified.
-  @_s.JsonKey(
-      name: 'LastModifiedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastModifiedDate')
   final DateTime lastModifiedDate;
 
   /// The server sync count for this record.
@@ -2036,10 +2023,8 @@ class RecordPatch {
   final int syncCount;
 
   /// The last modified date of the client device.
-  @_s.JsonKey(
-      name: 'DeviceLastModifiedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'DeviceLastModifiedDate')
   final DateTime deviceLastModifiedDate;
 
   /// The value associated with the record patch.

@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -348,10 +351,8 @@ class DescribeDetectorResponse {
     createToJson: false)
 class Detector {
   /// The time the detector (instance) was created.
-  @_s.JsonKey(
-      name: 'creationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'creationTime')
   final DateTime creationTime;
 
   /// The name of the detector model that created this detector (instance).
@@ -368,10 +369,8 @@ class Detector {
   final String keyValue;
 
   /// The time the detector (instance) was last updated.
-  @_s.JsonKey(
-      name: 'lastUpdateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastUpdateTime')
   final DateTime lastUpdateTime;
 
   /// The current state of the detector (instance).
@@ -474,10 +473,8 @@ class DetectorStateSummary {
     createToJson: false)
 class DetectorSummary {
   /// The time the detector (instance) was created.
-  @_s.JsonKey(
-      name: 'creationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'creationTime')
   final DateTime creationTime;
 
   /// The name of the detector model that created this detector (instance).
@@ -494,10 +491,8 @@ class DetectorSummary {
   final String keyValue;
 
   /// The time the detector (instance) was last updated.
-  @_s.JsonKey(
-      name: 'lastUpdateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastUpdateTime')
   final DateTime lastUpdateTime;
 
   /// The current state of the detector (instance).
@@ -594,10 +589,8 @@ class Timer {
   final String name;
 
   /// The number of seconds which have elapsed on the timer.
-  @_s.JsonKey(
-      name: 'timestamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'timestamp')
   final DateTime timestamp;
 
   Timer({

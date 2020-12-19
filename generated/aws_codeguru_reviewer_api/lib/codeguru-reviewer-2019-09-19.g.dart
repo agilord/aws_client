@@ -81,8 +81,10 @@ RepositoryAssociation _$RepositoryAssociationFromJson(
   return RepositoryAssociation(
     associationArn: json['AssociationArn'] as String,
     associationId: json['AssociationId'] as String,
-    createdTimeStamp: timeStampFromJson(json['CreatedTimeStamp']),
-    lastUpdatedTimeStamp: timeStampFromJson(json['LastUpdatedTimeStamp']),
+    createdTimeStamp:
+        const UnixDateTimeConverter().fromJson(json['CreatedTimeStamp']),
+    lastUpdatedTimeStamp:
+        const UnixDateTimeConverter().fromJson(json['LastUpdatedTimeStamp']),
     name: json['Name'] as String,
     owner: json['Owner'] as String,
     providerType:
@@ -142,7 +144,8 @@ RepositoryAssociationSummary _$RepositoryAssociationSummaryFromJson(
   return RepositoryAssociationSummary(
     associationArn: json['AssociationArn'] as String,
     associationId: json['AssociationId'] as String,
-    lastUpdatedTimeStamp: timeStampFromJson(json['LastUpdatedTimeStamp']),
+    lastUpdatedTimeStamp:
+        const UnixDateTimeConverter().fromJson(json['LastUpdatedTimeStamp']),
     name: json['Name'] as String,
     owner: json['Owner'] as String,
     providerType:

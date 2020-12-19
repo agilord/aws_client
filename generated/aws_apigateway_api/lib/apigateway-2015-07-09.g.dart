@@ -27,12 +27,13 @@ Account _$AccountFromJson(Map<String, dynamic> json) {
 
 ApiKey _$ApiKeyFromJson(Map<String, dynamic> json) {
   return ApiKey(
-    createdDate: timeStampFromJson(json['createdDate']),
+    createdDate: const UnixDateTimeConverter().fromJson(json['createdDate']),
     customerId: json['customerId'] as String,
     description: json['description'] as String,
     enabled: json['enabled'] as bool,
     id: json['id'] as String,
-    lastUpdatedDate: timeStampFromJson(json['lastUpdatedDate']),
+    lastUpdatedDate:
+        const UnixDateTimeConverter().fromJson(json['lastUpdatedDate']),
     name: json['name'] as String,
     stageKeys: (json['stageKeys'] as List)?.map((e) => e as String)?.toList(),
     tags: (json['tags'] as Map<String, dynamic>)?.map(
@@ -205,9 +206,10 @@ Map<String, dynamic> _$CanarySettingsToJson(CanarySettings instance) {
 ClientCertificate _$ClientCertificateFromJson(Map<String, dynamic> json) {
   return ClientCertificate(
     clientCertificateId: json['clientCertificateId'] as String,
-    createdDate: timeStampFromJson(json['createdDate']),
+    createdDate: const UnixDateTimeConverter().fromJson(json['createdDate']),
     description: json['description'] as String,
-    expirationDate: timeStampFromJson(json['expirationDate']),
+    expirationDate:
+        const UnixDateTimeConverter().fromJson(json['expirationDate']),
     pemEncodedCertificate: json['pemEncodedCertificate'] as String,
     tags: (json['tags'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k, e as String),
@@ -239,7 +241,7 @@ Deployment _$DeploymentFromJson(Map<String, dynamic> json) {
                     : MethodSnapshot.fromJson(e as Map<String, dynamic>)),
           )),
     ),
-    createdDate: timeStampFromJson(json['createdDate']),
+    createdDate: const UnixDateTimeConverter().fromJson(json['createdDate']),
     description: json['description'] as String,
     id: json['id'] as String,
   );
@@ -346,7 +348,7 @@ DocumentationParts _$DocumentationPartsFromJson(Map<String, dynamic> json) {
 
 DocumentationVersion _$DocumentationVersionFromJson(Map<String, dynamic> json) {
   return DocumentationVersion(
-    createdDate: timeStampFromJson(json['createdDate']),
+    createdDate: const UnixDateTimeConverter().fromJson(json['createdDate']),
     description: json['description'] as String,
     version: json['version'] as String,
   );
@@ -368,7 +370,8 @@ DomainName _$DomainNameFromJson(Map<String, dynamic> json) {
   return DomainName(
     certificateArn: json['certificateArn'] as String,
     certificateName: json['certificateName'] as String,
-    certificateUploadDate: timeStampFromJson(json['certificateUploadDate']),
+    certificateUploadDate:
+        const UnixDateTimeConverter().fromJson(json['certificateUploadDate']),
     distributionDomainName: json['distributionDomainName'] as String,
     distributionHostedZoneId: json['distributionHostedZoneId'] as String,
     domainName: json['domainName'] as String,
@@ -772,7 +775,7 @@ RestApi _$RestApiFromJson(Map<String, dynamic> json) {
         _$enumDecodeNullable(_$ApiKeySourceTypeEnumMap, json['apiKeySource']),
     binaryMediaTypes:
         (json['binaryMediaTypes'] as List)?.map((e) => e as String)?.toList(),
-    createdDate: timeStampFromJson(json['createdDate']),
+    createdDate: const UnixDateTimeConverter().fromJson(json['createdDate']),
     description: json['description'] as String,
     endpointConfiguration: json['endpointConfiguration'] == null
         ? null
@@ -863,11 +866,12 @@ Stage _$StageFromJson(Map<String, dynamic> json) {
         : CanarySettings.fromJson(
             json['canarySettings'] as Map<String, dynamic>),
     clientCertificateId: json['clientCertificateId'] as String,
-    createdDate: timeStampFromJson(json['createdDate']),
+    createdDate: const UnixDateTimeConverter().fromJson(json['createdDate']),
     deploymentId: json['deploymentId'] as String,
     description: json['description'] as String,
     documentationVersion: json['documentationVersion'] as String,
-    lastUpdatedDate: timeStampFromJson(json['lastUpdatedDate']),
+    lastUpdatedDate:
+        const UnixDateTimeConverter().fromJson(json['lastUpdatedDate']),
     methodSettings: (json['methodSettings'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k,
           e == null ? null : MethodSetting.fromJson(e as Map<String, dynamic>)),

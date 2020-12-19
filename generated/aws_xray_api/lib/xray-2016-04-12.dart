@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -1079,8 +1082,8 @@ class Edge {
   final List<Alias> aliases;
 
   /// The end time of the last segment on the edge.
-  @_s.JsonKey(
-      name: 'EndTime', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'EndTime')
   final DateTime endTime;
 
   /// Identifier of the edge. Unique within a service map.
@@ -1092,10 +1095,8 @@ class Edge {
   final List<HistogramEntry> responseTimeHistogram;
 
   /// The start time of the first segment on the edge.
-  @_s.JsonKey(
-      name: 'StartTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'StartTime')
   final DateTime startTime;
 
   /// Response statistics for segments on the edge.
@@ -1566,10 +1567,8 @@ class GetSamplingTargetsResult {
   /// The last time a user changed the sampling rule configuration. If the
   /// sampling rule configuration changed since the service last retrieved it, the
   /// service should call <a>GetSamplingRules</a> to get the latest version.
-  @_s.JsonKey(
-      name: 'LastRuleModification',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastRuleModification')
   final DateTime lastRuleModification;
 
   /// Updated rules that the service should use to sample requests.
@@ -1603,8 +1602,8 @@ class GetServiceGraphResult {
   final bool containsOldGroupVersions;
 
   /// The end of the time frame for which the graph was generated.
-  @_s.JsonKey(
-      name: 'EndTime', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'EndTime')
   final DateTime endTime;
 
   /// Pagination token.
@@ -1617,10 +1616,8 @@ class GetServiceGraphResult {
   final List<Service> services;
 
   /// The start of the time frame for which the graph was generated.
-  @_s.JsonKey(
-      name: 'StartTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'StartTime')
   final DateTime startTime;
 
   GetServiceGraphResult({
@@ -1693,10 +1690,8 @@ class GetTraceGraphResult {
     createToJson: false)
 class GetTraceSummariesResult {
   /// The start time of this page of results.
-  @_s.JsonKey(
-      name: 'ApproximateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ApproximateTime')
   final DateTime approximateTime;
 
   /// If the requested time frame contained more than one page of results, you can
@@ -2139,17 +2134,13 @@ class SamplingRule {
     createToJson: false)
 class SamplingRuleRecord {
   /// When the rule was created.
-  @_s.JsonKey(
-      name: 'CreatedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedAt')
   final DateTime createdAt;
 
   /// When the rule was last modified.
-  @_s.JsonKey(
-      name: 'ModifiedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ModifiedAt')
   final DateTime modifiedAt;
 
   /// The sampling rule.
@@ -2269,10 +2260,8 @@ class SamplingStatisticSummary {
   final int sampledCount;
 
   /// The start time of the reporting window.
-  @_s.JsonKey(
-      name: 'Timestamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'Timestamp')
   final DateTime timestamp;
 
   SamplingStatisticSummary({
@@ -2312,10 +2301,8 @@ class SamplingStatisticsDocument {
   final int sampledCount;
 
   /// The current time.
-  @_s.JsonKey(
-      name: 'Timestamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'Timestamp')
   final DateTime timestamp;
 
   /// The number of requests recorded with borrowed reservoir quota.
@@ -2387,10 +2374,8 @@ class SamplingTargetDocument {
   final int reservoirQuota;
 
   /// When the reservoir quota expires.
-  @_s.JsonKey(
-      name: 'ReservoirQuotaTTL',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ReservoirQuotaTTL')
   final DateTime reservoirQuotaTTL;
 
   /// The name of the sampling rule.
@@ -2461,8 +2446,8 @@ class Service {
   final List<Edge> edges;
 
   /// The end time of the last segment that the service generated.
-  @_s.JsonKey(
-      name: 'EndTime', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'EndTime')
   final DateTime endTime;
 
   /// The canonical name of the service.
@@ -2486,10 +2471,8 @@ class Service {
   final bool root;
 
   /// The start time of the first segment that the service generated.
-  @_s.JsonKey(
-      name: 'StartTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'StartTime')
   final DateTime startTime;
 
   /// The service's state.
@@ -2623,10 +2606,8 @@ class ServiceStatistics {
     createToJson: true)
 class TelemetryRecord {
   /// <p/>
-  @_s.JsonKey(
-      name: 'Timestamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'Timestamp')
   final DateTime timestamp;
 
   /// <p/>
@@ -2696,10 +2677,8 @@ class TimeSeriesServiceStatistics {
   final ServiceStatistics serviceSummaryStatistics;
 
   /// Timestamp of the window for which statistics are aggregated.
-  @_s.JsonKey(
-      name: 'Timestamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'Timestamp')
   final DateTime timestamp;
 
   TimeSeriesServiceStatistics({
@@ -2807,10 +2786,8 @@ class TraceSummary {
   final bool isPartial;
 
   /// The matched time stamp of a defined event.
-  @_s.JsonKey(
-      name: 'MatchedEventTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'MatchedEventTime')
   final DateTime matchedEventTime;
 
   /// A list of resource ARNs for any resource corresponding to the trace

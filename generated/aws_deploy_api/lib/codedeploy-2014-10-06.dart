@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -2832,10 +2835,8 @@ class ApplicationInfo {
   final ComputePlatform computePlatform;
 
   /// The time at which the application was created.
-  @_s.JsonKey(
-      name: 'createTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createTime')
   final DateTime createTime;
 
   /// The name for a connection to a GitHub account.
@@ -3350,10 +3351,8 @@ class DeploymentConfigInfo {
   final ComputePlatform computePlatform;
 
   /// The time at which the deployment configuration was created.
-  @_s.JsonKey(
-      name: 'createTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createTime')
   final DateTime createTime;
 
   /// The deployment configuration ID.
@@ -3558,10 +3557,8 @@ class DeploymentInfo {
   final BlueGreenDeploymentConfiguration blueGreenDeploymentConfiguration;
 
   /// A timestamp that indicates when the deployment was complete.
-  @_s.JsonKey(
-      name: 'completeTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'completeTime')
   final DateTime completeTime;
 
   /// The destination platform type for the deployment (<code>Lambda</code>,
@@ -3570,10 +3567,8 @@ class DeploymentInfo {
   final ComputePlatform computePlatform;
 
   /// A timestamp that indicates when the deployment was created.
-  @_s.JsonKey(
-      name: 'createTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createTime')
   final DateTime createTime;
 
   /// The means by which the deployment was created:
@@ -3707,10 +3702,8 @@ class DeploymentInfo {
   /// In some cases, the reported value of the start time might be later than the
   /// complete time. This is due to differences in the clock settings of backend
   /// servers that participate in the deployment process.
-  @_s.JsonKey(
-      name: 'startTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'startTime')
   final DateTime startTime;
 
   /// The current state of the deployment as a whole.
@@ -4170,10 +4163,8 @@ class ECSTarget {
 
   /// The date and time when the target Amazon ECS application was updated by a
   /// deployment.
-  @_s.JsonKey(
-      name: 'lastUpdatedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastUpdatedAt')
   final DateTime lastUpdatedAt;
 
   /// The lifecycle events of the deployment to this target Amazon ECS
@@ -4511,24 +4502,18 @@ class GenericRevisionInfo {
   final String description;
 
   /// When the revision was first used by AWS CodeDeploy.
-  @_s.JsonKey(
-      name: 'firstUsedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'firstUsedTime')
   final DateTime firstUsedTime;
 
   /// When the revision was last used by AWS CodeDeploy.
-  @_s.JsonKey(
-      name: 'lastUsedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastUsedTime')
   final DateTime lastUsedTime;
 
   /// When the revision was registered with AWS CodeDeploy.
-  @_s.JsonKey(
-      name: 'registerTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'registerTime')
   final DateTime registerTime;
 
   GenericRevisionInfo({
@@ -4783,10 +4768,8 @@ enum InstanceAction {
 class InstanceInfo {
   /// If the on-premises instance was deregistered, the time at which the
   /// on-premises instance was deregistered.
-  @_s.JsonKey(
-      name: 'deregisterTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'deregisterTime')
   final DateTime deregisterTime;
 
   /// The ARN of the IAM session associated with the on-premises instance.
@@ -4806,10 +4789,8 @@ class InstanceInfo {
   final String instanceName;
 
   /// The time at which the on-premises instance was registered.
-  @_s.JsonKey(
-      name: 'registerTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'registerTime')
   final DateTime registerTime;
 
   /// The tags currently associated with the on-premises instance.
@@ -4900,10 +4881,8 @@ class InstanceSummary {
   final InstanceType instanceType;
 
   /// A timestamp that indicaties when the instance information was last updated.
-  @_s.JsonKey(
-      name: 'lastUpdatedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastUpdatedAt')
   final DateTime lastUpdatedAt;
 
   /// A list of lifecycle events for this instance.
@@ -4965,10 +4944,8 @@ class InstanceTarget {
   final TargetLabel instanceLabel;
 
   /// The date and time when the target instance was updated by a deployment.
-  @_s.JsonKey(
-      name: 'lastUpdatedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastUpdatedAt')
   final DateTime lastUpdatedAt;
 
   /// The lifecycle events of the deployment to this target instance.
@@ -5081,10 +5058,8 @@ class LambdaTarget {
 
   /// The date and time when the target Lambda function was updated by a
   /// deployment.
-  @_s.JsonKey(
-      name: 'lastUpdatedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastUpdatedAt')
   final DateTime lastUpdatedAt;
 
   /// The lifecycle events of the deployment to this target Lambda function.
@@ -5127,10 +5102,8 @@ class LambdaTarget {
 class LastDeploymentInfo {
   /// A timestamp that indicates when the most recent deployment to the deployment
   /// group started.
-  @_s.JsonKey(
-      name: 'createTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createTime')
   final DateTime createTime;
 
   /// The unique ID of a deployment.
@@ -5139,8 +5112,8 @@ class LastDeploymentInfo {
 
   /// A timestamp that indicates when the most recent deployment to the deployment
   /// group was complete.
-  @_s.JsonKey(
-      name: 'endTime', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'endTime')
   final DateTime endTime;
 
   /// The status of the most recent deployment.
@@ -5184,8 +5157,8 @@ class LifecycleEvent {
   final Diagnostics diagnostics;
 
   /// A timestamp that indicates when the deployment lifecycle event ended.
-  @_s.JsonKey(
-      name: 'endTime', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'endTime')
   final DateTime endTime;
 
   /// The deployment lifecycle event name, such as ApplicationStop, BeforeInstall,
@@ -5194,10 +5167,8 @@ class LifecycleEvent {
   final String lifecycleEventName;
 
   /// A timestamp that indicates when the deployment lifecycle event started.
-  @_s.JsonKey(
-      name: 'startTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'startTime')
   final DateTime startTime;
 
   /// The deployment lifecycle event status:
@@ -6285,16 +6256,16 @@ class TimeRange {
   /// <note>
   /// Specify null to leave the end time open-ended.
   /// </note>
-  @_s.JsonKey(
-      name: 'end', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'end')
   final DateTime end;
 
   /// The start time of the time range.
   /// <note>
   /// Specify null to leave the start time open-ended.
   /// </note>
-  @_s.JsonKey(
-      name: 'start', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'start')
   final DateTime start;
 
   TimeRange({

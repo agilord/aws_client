@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -2388,10 +2391,8 @@ class App {
   final String appId;
 
   /// Create date / time for the Amplify App.
-  @_s.JsonKey(
-      name: 'createTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createTime')
   final DateTime createTime;
 
   /// Default domain for the Amplify App.
@@ -2427,10 +2428,8 @@ class App {
   final String repository;
 
   /// Update date / time for the Amplify App.
-  @_s.JsonKey(
-      name: 'updateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'updateTime')
   final DateTime updateTime;
 
   /// Automated branch creation config for the Amplify App.
@@ -2590,10 +2589,8 @@ class BackendEnvironment {
   final String backendEnvironmentArn;
 
   /// Creation date and time for a backend environment, part of an Amplify App.
-  @_s.JsonKey(
-      name: 'createTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createTime')
   final DateTime createTime;
 
   /// Name for a backend environment, part of an Amplify App.
@@ -2602,10 +2599,8 @@ class BackendEnvironment {
 
   /// Last updated date and time for a backend environment, part of an Amplify
   /// App.
-  @_s.JsonKey(
-      name: 'updateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'updateTime')
   final DateTime updateTime;
 
   /// Name of deployment artifacts.
@@ -2648,10 +2643,8 @@ class Branch {
   final String branchName;
 
   /// Creation date and time for a branch, part of an Amplify App.
-  @_s.JsonKey(
-      name: 'createTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createTime')
   final DateTime createTime;
 
   /// Custom domains for a branch, part of an Amplify App.
@@ -2703,10 +2696,8 @@ class Branch {
   final String ttl;
 
   /// Last updated date and time for a branch, part of an Amplify App.
-  @_s.JsonKey(
-      name: 'updateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'updateTime')
   final DateTime updateTime;
 
   /// List of custom resources that are linked to this branch.
@@ -3300,10 +3291,8 @@ class JobSummary {
   final String commitMessage;
 
   /// Commit date / time for the Job.
-  @_s.JsonKey(
-      name: 'commitTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'commitTime')
   final DateTime commitTime;
 
   /// Arn for the Job.
@@ -3321,10 +3310,8 @@ class JobSummary {
   final JobType jobType;
 
   /// Start date / time for the Job.
-  @_s.JsonKey(
-      name: 'startTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'startTime')
   final DateTime startTime;
 
   /// Status for the Job.
@@ -3332,8 +3319,8 @@ class JobSummary {
   final JobStatus status;
 
   /// End date / time for the Job.
-  @_s.JsonKey(
-      name: 'endTime', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'endTime')
   final DateTime endTime;
 
   JobSummary({
@@ -3592,10 +3579,8 @@ class ProductionBranch {
   final String branchName;
 
   /// Last Deploy Time of Production Branch.
-  @_s.JsonKey(
-      name: 'lastDeployTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastDeployTime')
   final DateTime lastDeployTime;
 
   /// Status of Production Branch.
@@ -3691,15 +3676,13 @@ class StartJobResult {
     createToJson: false)
 class Step {
   /// End date/ time of the execution step.
-  @_s.JsonKey(
-      name: 'endTime', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'endTime')
   final DateTime endTime;
 
   /// Start date/ time of the execution step.
-  @_s.JsonKey(
-      name: 'startTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'startTime')
   final DateTime startTime;
 
   /// Status of the execution step.
@@ -3933,10 +3916,8 @@ class Webhook {
   final String branchName;
 
   /// Create date / time for a webhook.
-  @_s.JsonKey(
-      name: 'createTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createTime')
   final DateTime createTime;
 
   /// Description for a webhook.
@@ -3944,10 +3925,8 @@ class Webhook {
   final String description;
 
   /// Update date / time for a webhook.
-  @_s.JsonKey(
-      name: 'updateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'updateTime')
   final DateTime updateTime;
 
   /// ARN for the webhook.

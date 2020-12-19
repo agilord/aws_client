@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -2270,10 +2273,8 @@ class EntityDescription {
   final String arn;
 
   /// The time at which the entity was created.
-  @_s.JsonKey(
-      name: 'createdAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdAt')
   final DateTime createdAt;
 
   /// The definition document of the entity.
@@ -2448,10 +2449,8 @@ class FlowExecutionMessage {
   final String payload;
 
   /// The date and time when the message was last updated.
-  @_s.JsonKey(
-      name: 'timestamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'timestamp')
   final DateTime timestamp;
 
   FlowExecutionMessage({
@@ -2483,10 +2482,8 @@ enum FlowExecutionStatus {
     createToJson: false)
 class FlowExecutionSummary {
   /// The date and time when the flow execution summary was created.
-  @_s.JsonKey(
-      name: 'createdAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdAt')
   final DateTime createdAt;
 
   /// The ID of the flow execution.
@@ -2506,10 +2503,8 @@ class FlowExecutionSummary {
   final String systemInstanceId;
 
   /// The date and time when the flow execution summary was last updated.
-  @_s.JsonKey(
-      name: 'updatedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'updatedAt')
   final DateTime updatedAt;
 
   FlowExecutionSummary({
@@ -2593,10 +2588,8 @@ class FlowTemplateSummary {
   final String arn;
 
   /// The date when the workflow was created.
-  @_s.JsonKey(
-      name: 'createdAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdAt')
   final DateTime createdAt;
 
   /// The ID of the workflow.
@@ -2779,10 +2772,8 @@ class GetSystemTemplateRevisionsResponse {
     createToJson: false)
 class GetUploadStatusResponse {
   /// The date at which the upload was created.
-  @_s.JsonKey(
-      name: 'createdDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdDate')
   final DateTime createdDate;
 
   /// The ID of the upload.
@@ -3171,10 +3162,8 @@ class SystemInstanceSummary {
   final String arn;
 
   /// The date when the system instance was created.
-  @_s.JsonKey(
-      name: 'createdAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdAt')
   final DateTime createdAt;
 
   /// The ID of the Greengrass group where the system instance is deployed.
@@ -3202,10 +3191,8 @@ class SystemInstanceSummary {
   final DeploymentTarget target;
 
   /// The date and time when the system instance was last updated.
-  @_s.JsonKey(
-      name: 'updatedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'updatedAt')
   final DateTime updatedAt;
 
   SystemInstanceSummary({
@@ -3293,10 +3280,8 @@ class SystemTemplateSummary {
   final String arn;
 
   /// The date when the system was created.
-  @_s.JsonKey(
-      name: 'createdAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdAt')
   final DateTime createdAt;
 
   /// The ID of the system.

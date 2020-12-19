@@ -18,7 +18,7 @@ AccountModification _$AccountModificationFromJson(Map<String, dynamic> json) {
     modificationState: _$enumDecodeNullable(
         _$DedicatedTenancyModificationStateEnumEnumMap,
         json['ModificationState']),
-    startTime: timeStampFromJson(json['StartTime']),
+    startTime: const UnixDateTimeConverter().fromJson(json['StartTime']),
   );
 }
 
@@ -566,7 +566,7 @@ Map<String, dynamic> _$SelfservicePermissionsToJson(
 
 Snapshot _$SnapshotFromJson(Map<String, dynamic> json) {
   return Snapshot(
-    snapshotTime: timeStampFromJson(json['SnapshotTime']),
+    snapshotTime: const UnixDateTimeConverter().fromJson(json['SnapshotTime']),
   );
 }
 
@@ -780,7 +780,8 @@ WorkspaceBundle _$WorkspaceBundleFromJson(Map<String, dynamic> json) {
         : ComputeType.fromJson(json['ComputeType'] as Map<String, dynamic>),
     description: json['Description'] as String,
     imageId: json['ImageId'] as String,
-    lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
+    lastUpdatedTime:
+        const UnixDateTimeConverter().fromJson(json['LastUpdatedTime']),
     name: json['Name'] as String,
     owner: json['Owner'] as String,
     rootStorage: json['RootStorage'] == null
@@ -797,10 +798,10 @@ WorkspaceConnectionStatus _$WorkspaceConnectionStatusFromJson(
   return WorkspaceConnectionStatus(
     connectionState:
         _$enumDecodeNullable(_$ConnectionStateEnumMap, json['ConnectionState']),
-    connectionStateCheckTimestamp:
-        timeStampFromJson(json['ConnectionStateCheckTimestamp']),
-    lastKnownUserConnectionTimestamp:
-        timeStampFromJson(json['LastKnownUserConnectionTimestamp']),
+    connectionStateCheckTimestamp: const UnixDateTimeConverter()
+        .fromJson(json['ConnectionStateCheckTimestamp']),
+    lastKnownUserConnectionTimestamp: const UnixDateTimeConverter()
+        .fromJson(json['LastKnownUserConnectionTimestamp']),
     workspaceId: json['WorkspaceId'] as String,
   );
 }

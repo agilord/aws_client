@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -335,10 +338,8 @@ class HomeRegionControl {
   /// A timestamp representing the time when the customer called
   /// <code>CreateHomeregionControl</code> and set the home region for the
   /// account.
-  @_s.JsonKey(
-      name: 'RequestedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'RequestedTime')
   final DateTime requestedTime;
 
   /// The target parameter specifies the identifier to which the home region is

@@ -16,7 +16,7 @@ Attribute _$AttributeFromJson(Map<String, dynamic> json) {
 AuthorizationData _$AuthorizationDataFromJson(Map<String, dynamic> json) {
   return AuthorizationData(
     authorizationToken: json['authorizationToken'] as String,
-    expiresAt: timeStampFromJson(json['expiresAt']),
+    expiresAt: const UnixDateTimeConverter().fromJson(json['expiresAt']),
     proxyEndpoint: json['proxyEndpoint'] as String,
   );
 }
@@ -86,7 +86,8 @@ CreateRepositoryResponse _$CreateRepositoryResponseFromJson(
 DeleteLifecyclePolicyResponse _$DeleteLifecyclePolicyResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteLifecyclePolicyResponse(
-    lastEvaluatedAt: timeStampFromJson(json['lastEvaluatedAt']),
+    lastEvaluatedAt:
+        const UnixDateTimeConverter().fromJson(json['lastEvaluatedAt']),
     lifecyclePolicyText: json['lifecyclePolicyText'] as String,
     registryId: json['registryId'] as String,
     repositoryName: json['repositoryName'] as String,
@@ -255,7 +256,8 @@ const _$LifecyclePolicyPreviewStatusEnumMap = {
 GetLifecyclePolicyResponse _$GetLifecyclePolicyResponseFromJson(
     Map<String, dynamic> json) {
   return GetLifecyclePolicyResponse(
-    lastEvaluatedAt: timeStampFromJson(json['lastEvaluatedAt']),
+    lastEvaluatedAt:
+        const UnixDateTimeConverter().fromJson(json['lastEvaluatedAt']),
     lifecyclePolicyText: json['lifecyclePolicyText'] as String,
     registryId: json['registryId'] as String,
     repositoryName: json['repositoryName'] as String,
@@ -285,7 +287,8 @@ Image _$ImageFromJson(Map<String, dynamic> json) {
 ImageDetail _$ImageDetailFromJson(Map<String, dynamic> json) {
   return ImageDetail(
     imageDigest: json['imageDigest'] as String,
-    imagePushedAt: timeStampFromJson(json['imagePushedAt']),
+    imagePushedAt:
+        const UnixDateTimeConverter().fromJson(json['imagePushedAt']),
     imageScanFindingsSummary: json['imageScanFindingsSummary'] == null
         ? null
         : ImageScanFindingsSummary.fromJson(
@@ -375,9 +378,10 @@ ImageScanFindings _$ImageScanFindingsFromJson(Map<String, dynamic> json) {
             ? null
             : ImageScanFinding.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    imageScanCompletedAt: timeStampFromJson(json['imageScanCompletedAt']),
-    vulnerabilitySourceUpdatedAt:
-        timeStampFromJson(json['vulnerabilitySourceUpdatedAt']),
+    imageScanCompletedAt:
+        const UnixDateTimeConverter().fromJson(json['imageScanCompletedAt']),
+    vulnerabilitySourceUpdatedAt: const UnixDateTimeConverter()
+        .fromJson(json['vulnerabilitySourceUpdatedAt']),
   );
 }
 
@@ -389,9 +393,10 @@ ImageScanFindingsSummary _$ImageScanFindingsSummaryFromJson(
       (k, e) =>
           MapEntry(_$enumDecodeNullable(_$FindingSeverityEnumMap, k), e as int),
     ),
-    imageScanCompletedAt: timeStampFromJson(json['imageScanCompletedAt']),
-    vulnerabilitySourceUpdatedAt:
-        timeStampFromJson(json['vulnerabilitySourceUpdatedAt']),
+    imageScanCompletedAt:
+        const UnixDateTimeConverter().fromJson(json['imageScanCompletedAt']),
+    vulnerabilitySourceUpdatedAt: const UnixDateTimeConverter()
+        .fromJson(json['vulnerabilitySourceUpdatedAt']),
   );
 }
 
@@ -489,7 +494,8 @@ LifecyclePolicyPreviewResult _$LifecyclePolicyPreviewResultFromJson(
             json['action'] as Map<String, dynamic>),
     appliedRulePriority: json['appliedRulePriority'] as int,
     imageDigest: json['imageDigest'] as String,
-    imagePushedAt: timeStampFromJson(json['imagePushedAt']),
+    imagePushedAt:
+        const UnixDateTimeConverter().fromJson(json['imagePushedAt']),
     imageTags: (json['imageTags'] as List)?.map((e) => e as String)?.toList(),
   );
 }
@@ -591,7 +597,7 @@ PutLifecyclePolicyResponse _$PutLifecyclePolicyResponseFromJson(
 
 Repository _$RepositoryFromJson(Map<String, dynamic> json) {
   return Repository(
-    createdAt: timeStampFromJson(json['createdAt']),
+    createdAt: const UnixDateTimeConverter().fromJson(json['createdAt']),
     imageScanningConfiguration: json['imageScanningConfiguration'] == null
         ? null
         : ImageScanningConfiguration.fromJson(

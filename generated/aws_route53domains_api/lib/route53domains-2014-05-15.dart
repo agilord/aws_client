@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -1533,10 +1536,8 @@ class Route53Domains {
     createToJson: false)
 class BillingRecord {
   /// The date that the operation was billed, in Unix format.
-  @_s.JsonKey(
-      name: 'BillDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'BillDate')
   final DateTime billDate;
 
   /// The name of the domain that the billing record applies to. If the domain
@@ -2357,8 +2358,8 @@ class DomainSummary {
   final bool autoRenew;
 
   /// Expiration date of the domain in Coordinated Universal Time (UTC).
-  @_s.JsonKey(
-      name: 'Expiry', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'Expiry')
   final DateTime expiry;
 
   /// Indicates whether a domain is locked from unauthorized transfer to another
@@ -2653,10 +2654,8 @@ class GetDomainDetailResponse {
 
   /// The date when the domain was created as found in the response to a WHOIS
   /// query. The date and time is in Coordinated Universal time (UTC).
-  @_s.JsonKey(
-      name: 'CreationDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationDate')
   final DateTime creationDate;
 
   /// Reserved for future use.
@@ -2665,10 +2664,8 @@ class GetDomainDetailResponse {
 
   /// The date when the registration for the domain is set to expire. The date and
   /// time is in Coordinated Universal time (UTC).
-  @_s.JsonKey(
-      name: 'ExpirationDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ExpirationDate')
   final DateTime expirationDate;
 
   /// Specifies whether contact information is concealed from WHOIS queries. If
@@ -2729,10 +2726,8 @@ class GetDomainDetailResponse {
 
   /// The last updated date of the domain as found in the response to a WHOIS
   /// query. The date and time is in Coordinated Universal time (UTC).
-  @_s.JsonKey(
-      name: 'UpdatedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'UpdatedDate')
   final DateTime updatedDate;
 
   /// The fully qualified name of the WHOIS server that can answer the WHOIS query
@@ -2810,10 +2805,8 @@ class GetOperationDetailResponse {
   final OperationStatus status;
 
   /// The date when the request was submitted.
-  @_s.JsonKey(
-      name: 'SubmittedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'SubmittedDate')
   final DateTime submittedDate;
 
   /// The type of operation that was requested.
@@ -3005,10 +2998,8 @@ class OperationSummary {
   final OperationStatus status;
 
   /// The date when the request was submitted.
-  @_s.JsonKey(
-      name: 'SubmittedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'SubmittedDate')
   final DateTime submittedDate;
 
   /// Type of the action requested.

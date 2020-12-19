@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -479,10 +482,8 @@ class AutoScalingGroupRecommendation {
 
   /// The time stamp of when the Auto Scaling group recommendation was last
   /// refreshed.
-  @_s.JsonKey(
-      name: 'lastRefreshTimestamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastRefreshTimestamp')
   final DateTime lastRefreshTimestamp;
 
   /// The number of days for which utilization metrics were analyzed for the Auto
@@ -854,10 +855,8 @@ class InstanceRecommendation {
   final String instanceName;
 
   /// The time stamp of when the instance recommendation was last refreshed.
-  @_s.JsonKey(
-      name: 'lastRefreshTimestamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastRefreshTimestamp')
   final DateTime lastRefreshTimestamp;
 
   /// The number of days for which utilization metrics were analyzed for the
@@ -981,6 +980,7 @@ class ProjectedMetric {
   final MetricName name;
 
   /// The time stamps of the projected utilization metric.
+  @UnixDateTimeConverter()
   @_s.JsonKey(name: 'timestamps')
   final List<DateTime> timestamps;
 

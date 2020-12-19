@@ -38,7 +38,7 @@ AggregatedProfileTime _$AggregatedProfileTimeFromJson(
     Map<String, dynamic> json) {
   return AggregatedProfileTime(
     period: _$enumDecodeNullable(_$AggregationPeriodEnumMap, json['period']),
-    start: timeStampFromJson(json['start']),
+    start: const IsoDateTimeConverter().fromJson(json['start']),
   );
 }
 
@@ -163,7 +163,7 @@ PostAgentProfileResponse _$PostAgentProfileResponseFromJson(
 
 ProfileTime _$ProfileTimeFromJson(Map<String, dynamic> json) {
   return ProfileTime(
-    start: timeStampFromJson(json['start']),
+    start: const IsoDateTimeConverter().fromJson(json['start']),
   );
 }
 
@@ -175,22 +175,22 @@ ProfilingGroupDescription _$ProfilingGroupDescriptionFromJson(
         : AgentOrchestrationConfig.fromJson(
             json['agentOrchestrationConfig'] as Map<String, dynamic>),
     arn: json['arn'] as String,
-    createdAt: timeStampFromJson(json['createdAt']),
+    createdAt: const IsoDateTimeConverter().fromJson(json['createdAt']),
     name: json['name'] as String,
     profilingStatus: json['profilingStatus'] == null
         ? null
         : ProfilingStatus.fromJson(
             json['profilingStatus'] as Map<String, dynamic>),
-    updatedAt: timeStampFromJson(json['updatedAt']),
+    updatedAt: const IsoDateTimeConverter().fromJson(json['updatedAt']),
   );
 }
 
 ProfilingStatus _$ProfilingStatusFromJson(Map<String, dynamic> json) {
   return ProfilingStatus(
-    latestAgentOrchestratedAt:
-        timeStampFromJson(json['latestAgentOrchestratedAt']),
-    latestAgentProfileReportedAt:
-        timeStampFromJson(json['latestAgentProfileReportedAt']),
+    latestAgentOrchestratedAt: const IsoDateTimeConverter()
+        .fromJson(json['latestAgentOrchestratedAt']),
+    latestAgentProfileReportedAt: const IsoDateTimeConverter()
+        .fromJson(json['latestAgentProfileReportedAt']),
     latestAggregatedProfile: json['latestAggregatedProfile'] == null
         ? null
         : AggregatedProfileTime.fromJson(

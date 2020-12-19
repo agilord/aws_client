@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -882,10 +885,8 @@ class AffectedEntity {
   final String eventArn;
 
   /// The most recent time that the entity was updated.
-  @_s.JsonKey(
-      name: 'lastUpdatedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastUpdatedTime')
   final DateTime lastUpdatedTime;
 
   /// The most recent status of the entity affected by the event. The possible
@@ -928,13 +929,13 @@ class AffectedEntity {
     createToJson: true)
 class DateTimeRange {
   /// The starting date and time of a time range.
-  @_s.JsonKey(
-      name: 'from', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'from')
   final DateTime from;
 
   /// The ending date and time of a time range.
-  @_s.JsonKey(
-      name: 'to', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'to')
   final DateTime to;
 
   DateTimeRange({
@@ -1322,8 +1323,8 @@ class Event {
   final String availabilityZone;
 
   /// The date and time that the event ended.
-  @_s.JsonKey(
-      name: 'endTime', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'endTime')
   final DateTime endTime;
 
   /// The category of the event. Possible values are <code>issue</code>,
@@ -1338,10 +1339,8 @@ class Event {
   final String eventTypeCode;
 
   /// The most recent date and time that the event was updated.
-  @_s.JsonKey(
-      name: 'lastUpdatedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastUpdatedTime')
   final DateTime lastUpdatedTime;
 
   /// The AWS region name of the event.
@@ -1354,10 +1353,8 @@ class Event {
   final String service;
 
   /// The date and time that the event began.
-  @_s.JsonKey(
-      name: 'startTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'startTime')
   final DateTime startTime;
 
   /// The most recent status of the event. Possible values are <code>open</code>,
@@ -1718,8 +1715,8 @@ class OrganizationEvent {
   final String arn;
 
   /// The date and time that the event ended.
-  @_s.JsonKey(
-      name: 'endTime', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'endTime')
   final DateTime endTime;
 
   /// The category of the event type.
@@ -1733,10 +1730,8 @@ class OrganizationEvent {
   final String eventTypeCode;
 
   /// The most recent date and time that the event was updated.
-  @_s.JsonKey(
-      name: 'lastUpdatedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastUpdatedTime')
   final DateTime lastUpdatedTime;
 
   /// The AWS Region name of the event.
@@ -1748,10 +1743,8 @@ class OrganizationEvent {
   final String service;
 
   /// The date and time that the event began.
-  @_s.JsonKey(
-      name: 'startTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'startTime')
   final DateTime startTime;
 
   /// The most recent status of the event. Possible values are <code>open</code>,

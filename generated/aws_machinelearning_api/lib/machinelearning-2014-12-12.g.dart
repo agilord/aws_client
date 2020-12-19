@@ -58,17 +58,18 @@ BatchPrediction _$BatchPredictionFromJson(Map<String, dynamic> json) {
     batchPredictionDataSourceId: json['BatchPredictionDataSourceId'] as String,
     batchPredictionId: json['BatchPredictionId'] as String,
     computeTime: json['ComputeTime'] as int,
-    createdAt: timeStampFromJson(json['CreatedAt']),
+    createdAt: const UnixDateTimeConverter().fromJson(json['CreatedAt']),
     createdByIamUser: json['CreatedByIamUser'] as String,
-    finishedAt: timeStampFromJson(json['FinishedAt']),
+    finishedAt: const UnixDateTimeConverter().fromJson(json['FinishedAt']),
     inputDataLocationS3: json['InputDataLocationS3'] as String,
     invalidRecordCount: json['InvalidRecordCount'] as int,
-    lastUpdatedAt: timeStampFromJson(json['LastUpdatedAt']),
+    lastUpdatedAt:
+        const UnixDateTimeConverter().fromJson(json['LastUpdatedAt']),
     mLModelId: json['MLModelId'] as String,
     message: json['Message'] as String,
     name: json['Name'] as String,
     outputUri: json['OutputUri'] as String,
-    startedAt: timeStampFromJson(json['StartedAt']),
+    startedAt: const UnixDateTimeConverter().fromJson(json['StartedAt']),
     status: _$enumDecodeNullable(_$EntityStatusEnumMap, json['Status']),
     totalRecordCount: json['TotalRecordCount'] as int,
   );
@@ -138,14 +139,15 @@ DataSource _$DataSourceFromJson(Map<String, dynamic> json) {
   return DataSource(
     computeStatistics: json['ComputeStatistics'] as bool,
     computeTime: json['ComputeTime'] as int,
-    createdAt: timeStampFromJson(json['CreatedAt']),
+    createdAt: const UnixDateTimeConverter().fromJson(json['CreatedAt']),
     createdByIamUser: json['CreatedByIamUser'] as String,
     dataLocationS3: json['DataLocationS3'] as String,
     dataRearrangement: json['DataRearrangement'] as String,
     dataSizeInBytes: json['DataSizeInBytes'] as int,
     dataSourceId: json['DataSourceId'] as String,
-    finishedAt: timeStampFromJson(json['FinishedAt']),
-    lastUpdatedAt: timeStampFromJson(json['LastUpdatedAt']),
+    finishedAt: const UnixDateTimeConverter().fromJson(json['FinishedAt']),
+    lastUpdatedAt:
+        const UnixDateTimeConverter().fromJson(json['LastUpdatedAt']),
     message: json['Message'] as String,
     name: json['Name'] as String,
     numberOfFiles: json['NumberOfFiles'] as int,
@@ -157,7 +159,7 @@ DataSource _$DataSourceFromJson(Map<String, dynamic> json) {
         : RedshiftMetadata.fromJson(
             json['RedshiftMetadata'] as Map<String, dynamic>),
     roleARN: json['RoleARN'] as String,
-    startedAt: timeStampFromJson(json['StartedAt']),
+    startedAt: const UnixDateTimeConverter().fromJson(json['StartedAt']),
     status: _$enumDecodeNullable(_$EntityStatusEnumMap, json['Status']),
   );
 }
@@ -267,13 +269,14 @@ DescribeTagsOutput _$DescribeTagsOutputFromJson(Map<String, dynamic> json) {
 Evaluation _$EvaluationFromJson(Map<String, dynamic> json) {
   return Evaluation(
     computeTime: json['ComputeTime'] as int,
-    createdAt: timeStampFromJson(json['CreatedAt']),
+    createdAt: const UnixDateTimeConverter().fromJson(json['CreatedAt']),
     createdByIamUser: json['CreatedByIamUser'] as String,
     evaluationDataSourceId: json['EvaluationDataSourceId'] as String,
     evaluationId: json['EvaluationId'] as String,
-    finishedAt: timeStampFromJson(json['FinishedAt']),
+    finishedAt: const UnixDateTimeConverter().fromJson(json['FinishedAt']),
     inputDataLocationS3: json['InputDataLocationS3'] as String,
-    lastUpdatedAt: timeStampFromJson(json['LastUpdatedAt']),
+    lastUpdatedAt:
+        const UnixDateTimeConverter().fromJson(json['LastUpdatedAt']),
     mLModelId: json['MLModelId'] as String,
     message: json['Message'] as String,
     name: json['Name'] as String,
@@ -281,7 +284,7 @@ Evaluation _$EvaluationFromJson(Map<String, dynamic> json) {
         ? null
         : PerformanceMetrics.fromJson(
             json['PerformanceMetrics'] as Map<String, dynamic>),
-    startedAt: timeStampFromJson(json['StartedAt']),
+    startedAt: const UnixDateTimeConverter().fromJson(json['StartedAt']),
     status: _$enumDecodeNullable(_$EntityStatusEnumMap, json['Status']),
   );
 }
@@ -292,18 +295,19 @@ GetBatchPredictionOutput _$GetBatchPredictionOutputFromJson(
     batchPredictionDataSourceId: json['BatchPredictionDataSourceId'] as String,
     batchPredictionId: json['BatchPredictionId'] as String,
     computeTime: json['ComputeTime'] as int,
-    createdAt: timeStampFromJson(json['CreatedAt']),
+    createdAt: const UnixDateTimeConverter().fromJson(json['CreatedAt']),
     createdByIamUser: json['CreatedByIamUser'] as String,
-    finishedAt: timeStampFromJson(json['FinishedAt']),
+    finishedAt: const UnixDateTimeConverter().fromJson(json['FinishedAt']),
     inputDataLocationS3: json['InputDataLocationS3'] as String,
     invalidRecordCount: json['InvalidRecordCount'] as int,
-    lastUpdatedAt: timeStampFromJson(json['LastUpdatedAt']),
+    lastUpdatedAt:
+        const UnixDateTimeConverter().fromJson(json['LastUpdatedAt']),
     logUri: json['LogUri'] as String,
     mLModelId: json['MLModelId'] as String,
     message: json['Message'] as String,
     name: json['Name'] as String,
     outputUri: json['OutputUri'] as String,
-    startedAt: timeStampFromJson(json['StartedAt']),
+    startedAt: const UnixDateTimeConverter().fromJson(json['StartedAt']),
     status: _$enumDecodeNullable(_$EntityStatusEnumMap, json['Status']),
     totalRecordCount: json['TotalRecordCount'] as int,
   );
@@ -313,15 +317,16 @@ GetDataSourceOutput _$GetDataSourceOutputFromJson(Map<String, dynamic> json) {
   return GetDataSourceOutput(
     computeStatistics: json['ComputeStatistics'] as bool,
     computeTime: json['ComputeTime'] as int,
-    createdAt: timeStampFromJson(json['CreatedAt']),
+    createdAt: const UnixDateTimeConverter().fromJson(json['CreatedAt']),
     createdByIamUser: json['CreatedByIamUser'] as String,
     dataLocationS3: json['DataLocationS3'] as String,
     dataRearrangement: json['DataRearrangement'] as String,
     dataSizeInBytes: json['DataSizeInBytes'] as int,
     dataSourceId: json['DataSourceId'] as String,
     dataSourceSchema: json['DataSourceSchema'] as String,
-    finishedAt: timeStampFromJson(json['FinishedAt']),
-    lastUpdatedAt: timeStampFromJson(json['LastUpdatedAt']),
+    finishedAt: const UnixDateTimeConverter().fromJson(json['FinishedAt']),
+    lastUpdatedAt:
+        const UnixDateTimeConverter().fromJson(json['LastUpdatedAt']),
     logUri: json['LogUri'] as String,
     message: json['Message'] as String,
     name: json['Name'] as String,
@@ -334,7 +339,7 @@ GetDataSourceOutput _$GetDataSourceOutputFromJson(Map<String, dynamic> json) {
         : RedshiftMetadata.fromJson(
             json['RedshiftMetadata'] as Map<String, dynamic>),
     roleARN: json['RoleARN'] as String,
-    startedAt: timeStampFromJson(json['StartedAt']),
+    startedAt: const UnixDateTimeConverter().fromJson(json['StartedAt']),
     status: _$enumDecodeNullable(_$EntityStatusEnumMap, json['Status']),
   );
 }
@@ -342,13 +347,14 @@ GetDataSourceOutput _$GetDataSourceOutputFromJson(Map<String, dynamic> json) {
 GetEvaluationOutput _$GetEvaluationOutputFromJson(Map<String, dynamic> json) {
   return GetEvaluationOutput(
     computeTime: json['ComputeTime'] as int,
-    createdAt: timeStampFromJson(json['CreatedAt']),
+    createdAt: const UnixDateTimeConverter().fromJson(json['CreatedAt']),
     createdByIamUser: json['CreatedByIamUser'] as String,
     evaluationDataSourceId: json['EvaluationDataSourceId'] as String,
     evaluationId: json['EvaluationId'] as String,
-    finishedAt: timeStampFromJson(json['FinishedAt']),
+    finishedAt: const UnixDateTimeConverter().fromJson(json['FinishedAt']),
     inputDataLocationS3: json['InputDataLocationS3'] as String,
-    lastUpdatedAt: timeStampFromJson(json['LastUpdatedAt']),
+    lastUpdatedAt:
+        const UnixDateTimeConverter().fromJson(json['LastUpdatedAt']),
     logUri: json['LogUri'] as String,
     mLModelId: json['MLModelId'] as String,
     message: json['Message'] as String,
@@ -357,7 +363,7 @@ GetEvaluationOutput _$GetEvaluationOutputFromJson(Map<String, dynamic> json) {
         ? null
         : PerformanceMetrics.fromJson(
             json['PerformanceMetrics'] as Map<String, dynamic>),
-    startedAt: timeStampFromJson(json['StartedAt']),
+    startedAt: const UnixDateTimeConverter().fromJson(json['StartedAt']),
     status: _$enumDecodeNullable(_$EntityStatusEnumMap, json['Status']),
   );
 }
@@ -365,15 +371,16 @@ GetEvaluationOutput _$GetEvaluationOutputFromJson(Map<String, dynamic> json) {
 GetMLModelOutput _$GetMLModelOutputFromJson(Map<String, dynamic> json) {
   return GetMLModelOutput(
     computeTime: json['ComputeTime'] as int,
-    createdAt: timeStampFromJson(json['CreatedAt']),
+    createdAt: const UnixDateTimeConverter().fromJson(json['CreatedAt']),
     createdByIamUser: json['CreatedByIamUser'] as String,
     endpointInfo: json['EndpointInfo'] == null
         ? null
         : RealtimeEndpointInfo.fromJson(
             json['EndpointInfo'] as Map<String, dynamic>),
-    finishedAt: timeStampFromJson(json['FinishedAt']),
+    finishedAt: const UnixDateTimeConverter().fromJson(json['FinishedAt']),
     inputDataLocationS3: json['InputDataLocationS3'] as String,
-    lastUpdatedAt: timeStampFromJson(json['LastUpdatedAt']),
+    lastUpdatedAt:
+        const UnixDateTimeConverter().fromJson(json['LastUpdatedAt']),
     logUri: json['LogUri'] as String,
     mLModelId: json['MLModelId'] as String,
     mLModelType:
@@ -383,10 +390,10 @@ GetMLModelOutput _$GetMLModelOutputFromJson(Map<String, dynamic> json) {
     recipe: json['Recipe'] as String,
     schema: json['Schema'] as String,
     scoreThreshold: (json['ScoreThreshold'] as num)?.toDouble(),
-    scoreThresholdLastUpdatedAt:
-        timeStampFromJson(json['ScoreThresholdLastUpdatedAt']),
+    scoreThresholdLastUpdatedAt: const UnixDateTimeConverter()
+        .fromJson(json['ScoreThresholdLastUpdatedAt']),
     sizeInBytes: json['SizeInBytes'] as int,
-    startedAt: timeStampFromJson(json['StartedAt']),
+    startedAt: const UnixDateTimeConverter().fromJson(json['StartedAt']),
     status: _$enumDecodeNullable(_$EntityStatusEnumMap, json['Status']),
     trainingDataSourceId: json['TrainingDataSourceId'] as String,
     trainingParameters:
@@ -444,25 +451,26 @@ MLModel _$MLModelFromJson(Map<String, dynamic> json) {
   return MLModel(
     algorithm: _$enumDecodeNullable(_$AlgorithmEnumMap, json['Algorithm']),
     computeTime: json['ComputeTime'] as int,
-    createdAt: timeStampFromJson(json['CreatedAt']),
+    createdAt: const UnixDateTimeConverter().fromJson(json['CreatedAt']),
     createdByIamUser: json['CreatedByIamUser'] as String,
     endpointInfo: json['EndpointInfo'] == null
         ? null
         : RealtimeEndpointInfo.fromJson(
             json['EndpointInfo'] as Map<String, dynamic>),
-    finishedAt: timeStampFromJson(json['FinishedAt']),
+    finishedAt: const UnixDateTimeConverter().fromJson(json['FinishedAt']),
     inputDataLocationS3: json['InputDataLocationS3'] as String,
-    lastUpdatedAt: timeStampFromJson(json['LastUpdatedAt']),
+    lastUpdatedAt:
+        const UnixDateTimeConverter().fromJson(json['LastUpdatedAt']),
     mLModelId: json['MLModelId'] as String,
     mLModelType:
         _$enumDecodeNullable(_$MLModelTypeEnumMap, json['MLModelType']),
     message: json['Message'] as String,
     name: json['Name'] as String,
     scoreThreshold: (json['ScoreThreshold'] as num)?.toDouble(),
-    scoreThresholdLastUpdatedAt:
-        timeStampFromJson(json['ScoreThresholdLastUpdatedAt']),
+    scoreThresholdLastUpdatedAt: const UnixDateTimeConverter()
+        .fromJson(json['ScoreThresholdLastUpdatedAt']),
     sizeInBytes: json['SizeInBytes'] as int,
-    startedAt: timeStampFromJson(json['StartedAt']),
+    startedAt: const UnixDateTimeConverter().fromJson(json['StartedAt']),
     status: _$enumDecodeNullable(_$EntityStatusEnumMap, json['Status']),
     trainingDataSourceId: json['TrainingDataSourceId'] as String,
     trainingParameters:
@@ -592,7 +600,7 @@ RDSMetadata _$RDSMetadataFromJson(Map<String, dynamic> json) {
 
 RealtimeEndpointInfo _$RealtimeEndpointInfoFromJson(Map<String, dynamic> json) {
   return RealtimeEndpointInfo(
-    createdAt: timeStampFromJson(json['CreatedAt']),
+    createdAt: const UnixDateTimeConverter().fromJson(json['CreatedAt']),
     endpointStatus: _$enumDecodeNullable(
         _$RealtimeEndpointStatusEnumMap, json['EndpointStatus']),
     endpointUrl: json['EndpointUrl'] as String,

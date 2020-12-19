@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -2971,10 +2974,8 @@ class BatchPrediction {
 
   /// The time that the <code>BatchPrediction</code> was created. The time is
   /// expressed in epoch time.
-  @_s.JsonKey(
-      name: 'CreatedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedAt')
   final DateTime createdAt;
 
   /// The AWS user account that invoked the <code>BatchPrediction</code>. The
@@ -2982,10 +2983,8 @@ class BatchPrediction {
   /// Management (IAM) user account.
   @_s.JsonKey(name: 'CreatedByIamUser')
   final String createdByIamUser;
-  @_s.JsonKey(
-      name: 'FinishedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'FinishedAt')
   final DateTime finishedAt;
 
   /// The location of the data file or directory in Amazon Simple Storage Service
@@ -2997,10 +2996,8 @@ class BatchPrediction {
 
   /// The time of the most recent edit to the <code>BatchPrediction</code>. The
   /// time is expressed in epoch time.
-  @_s.JsonKey(
-      name: 'LastUpdatedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastUpdatedAt')
   final DateTime lastUpdatedAt;
 
   /// The ID of the <code>MLModel</code> that generated predictions for the
@@ -3022,10 +3019,8 @@ class BatchPrediction {
   /// portion of the <code>outputURI</code> field: ':', '//', '/./', '/../'.
   @_s.JsonKey(name: 'OutputUri')
   final String outputUri;
-  @_s.JsonKey(
-      name: 'StartedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'StartedAt')
   final DateTime startedAt;
 
   /// The status of the <code>BatchPrediction</code>. This element can have one of
@@ -3339,10 +3334,8 @@ class DataSource {
 
   /// The time that the <code>DataSource</code> was created. The time is expressed
   /// in epoch time.
-  @_s.JsonKey(
-      name: 'CreatedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedAt')
   final DateTime createdAt;
 
   /// The AWS user account from which the <code>DataSource</code> was created. The
@@ -3369,18 +3362,14 @@ class DataSource {
   /// The ID that is assigned to the <code>DataSource</code> during creation.
   @_s.JsonKey(name: 'DataSourceId')
   final String dataSourceId;
-  @_s.JsonKey(
-      name: 'FinishedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'FinishedAt')
   final DateTime finishedAt;
 
   /// The time of the most recent edit to the <code>BatchPrediction</code>. The
   /// time is expressed in epoch time.
-  @_s.JsonKey(
-      name: 'LastUpdatedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastUpdatedAt')
   final DateTime lastUpdatedAt;
 
   /// A description of the most recent details about creating the
@@ -3401,10 +3390,8 @@ class DataSource {
   final RedshiftMetadata redshiftMetadata;
   @_s.JsonKey(name: 'RoleARN')
   final String roleARN;
-  @_s.JsonKey(
-      name: 'StartedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'StartedAt')
   final DateTime startedAt;
 
   /// The current status of the <code>DataSource</code>. This element can have one
@@ -3824,10 +3811,8 @@ class Evaluation {
 
   /// The time that the <code>Evaluation</code> was created. The time is expressed
   /// in epoch time.
-  @_s.JsonKey(
-      name: 'CreatedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedAt')
   final DateTime createdAt;
 
   /// The AWS user account that invoked the evaluation. The account type can be
@@ -3844,10 +3829,8 @@ class Evaluation {
   /// The ID that is assigned to the <code>Evaluation</code> at creation.
   @_s.JsonKey(name: 'EvaluationId')
   final String evaluationId;
-  @_s.JsonKey(
-      name: 'FinishedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'FinishedAt')
   final DateTime finishedAt;
 
   /// The location and name of the data in Amazon Simple Storage Server (Amazon
@@ -3857,10 +3840,8 @@ class Evaluation {
 
   /// The time of the most recent edit to the <code>Evaluation</code>. The time is
   /// expressed in epoch time.
-  @_s.JsonKey(
-      name: 'LastUpdatedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastUpdatedAt')
   final DateTime lastUpdatedAt;
 
   /// The ID of the <code>MLModel</code> that is the focus of the evaluation.
@@ -3900,10 +3881,8 @@ class Evaluation {
   /// Learning Developer Guide</a>.
   @_s.JsonKey(name: 'PerformanceMetrics')
   final PerformanceMetrics performanceMetrics;
-  @_s.JsonKey(
-      name: 'StartedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'StartedAt')
   final DateTime startedAt;
 
   /// The status of the evaluation. This element can have one of the following
@@ -4034,10 +4013,8 @@ class GetBatchPredictionOutput {
 
   /// The time when the <code>BatchPrediction</code> was created. The time is
   /// expressed in epoch time.
-  @_s.JsonKey(
-      name: 'CreatedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedAt')
   final DateTime createdAt;
 
   /// The AWS user account that invoked the <code>BatchPrediction</code>. The
@@ -4051,10 +4028,8 @@ class GetBatchPredictionOutput {
   /// <code>FAILED</code>. <code>FinishedAt</code> is only available when the
   /// <code>BatchPrediction</code> is in the <code>COMPLETED</code> or
   /// <code>FAILED</code> state.
-  @_s.JsonKey(
-      name: 'FinishedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'FinishedAt')
   final DateTime finishedAt;
 
   /// The location of the data file or directory in Amazon Simple Storage Service
@@ -4069,10 +4044,8 @@ class GetBatchPredictionOutput {
 
   /// The time of the most recent edit to <code>BatchPrediction</code>. The time
   /// is expressed in epoch time.
-  @_s.JsonKey(
-      name: 'LastUpdatedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastUpdatedAt')
   final DateTime lastUpdatedAt;
 
   /// A link to the file that contains logs of the
@@ -4103,10 +4076,8 @@ class GetBatchPredictionOutput {
   /// <code>BatchPrediction</code> as <code>INPROGRESS</code>.
   /// <code>StartedAt</code> isn't available if the <code>BatchPrediction</code>
   /// is in the <code>PENDING</code> state.
-  @_s.JsonKey(
-      name: 'StartedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'StartedAt')
   final DateTime startedAt;
 
   /// The status of the <code>BatchPrediction</code>, which can be one of the
@@ -4177,10 +4148,8 @@ class GetDataSourceOutput {
 
   /// The time that the <code>DataSource</code> was created. The time is expressed
   /// in epoch time.
-  @_s.JsonKey(
-      name: 'CreatedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedAt')
   final DateTime createdAt;
 
   /// The AWS user account from which the <code>DataSource</code> was created. The
@@ -4220,18 +4189,14 @@ class GetDataSourceOutput {
   /// <code>DataSource</code> as <code>COMPLETED</code> or <code>FAILED</code>.
   /// <code>FinishedAt</code> is only available when the <code>DataSource</code>
   /// is in the <code>COMPLETED</code> or <code>FAILED</code> state.
-  @_s.JsonKey(
-      name: 'FinishedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'FinishedAt')
   final DateTime finishedAt;
 
   /// The time of the most recent edit to the <code>DataSource</code>. The time is
   /// expressed in epoch time.
-  @_s.JsonKey(
-      name: 'LastUpdatedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastUpdatedAt')
   final DateTime lastUpdatedAt;
 
   /// A link to the file containing logs of <code>CreateDataSourceFrom*</code>
@@ -4262,10 +4227,8 @@ class GetDataSourceOutput {
   /// <code>DataSource</code> as <code>INPROGRESS</code>. <code>StartedAt</code>
   /// isn't available if the <code>DataSource</code> is in the
   /// <code>PENDING</code> state.
-  @_s.JsonKey(
-      name: 'StartedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'StartedAt')
   final DateTime startedAt;
 
   /// The current status of the <code>DataSource</code>. This element can have one
@@ -4328,10 +4291,8 @@ class GetEvaluationOutput {
 
   /// The time that the <code>Evaluation</code> was created. The time is expressed
   /// in epoch time.
-  @_s.JsonKey(
-      name: 'CreatedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedAt')
   final DateTime createdAt;
 
   /// The AWS user account that invoked the evaluation. The account type can be
@@ -4353,10 +4314,8 @@ class GetEvaluationOutput {
   /// <code>Evaluation</code> as <code>COMPLETED</code> or <code>FAILED</code>.
   /// <code>FinishedAt</code> is only available when the <code>Evaluation</code>
   /// is in the <code>COMPLETED</code> or <code>FAILED</code> state.
-  @_s.JsonKey(
-      name: 'FinishedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'FinishedAt')
   final DateTime finishedAt;
 
   /// The location of the data file or directory in Amazon Simple Storage Service
@@ -4366,10 +4325,8 @@ class GetEvaluationOutput {
 
   /// The time of the most recent edit to the <code>Evaluation</code>. The time is
   /// expressed in epoch time.
-  @_s.JsonKey(
-      name: 'LastUpdatedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastUpdatedAt')
   final DateTime lastUpdatedAt;
 
   /// A link to the file that contains logs of the <code>CreateEvaluation</code>
@@ -4419,10 +4376,8 @@ class GetEvaluationOutput {
   /// <code>Evaluation</code> as <code>INPROGRESS</code>. <code>StartedAt</code>
   /// isn't available if the <code>Evaluation</code> is in the
   /// <code>PENDING</code> state.
-  @_s.JsonKey(
-      name: 'StartedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'StartedAt')
   final DateTime startedAt;
 
   /// The status of the evaluation. This element can have one of the following
@@ -4480,10 +4435,8 @@ class GetMLModelOutput {
 
   /// The time that the <code>MLModel</code> was created. The time is expressed in
   /// epoch time.
-  @_s.JsonKey(
-      name: 'CreatedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedAt')
   final DateTime createdAt;
 
   /// The AWS user account from which the <code>MLModel</code> was created. The
@@ -4500,10 +4453,8 @@ class GetMLModelOutput {
   /// as <code>COMPLETED</code> or <code>FAILED</code>. <code>FinishedAt</code> is
   /// only available when the <code>MLModel</code> is in the
   /// <code>COMPLETED</code> or <code>FAILED</code> state.
-  @_s.JsonKey(
-      name: 'FinishedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'FinishedAt')
   final DateTime finishedAt;
 
   /// The location of the data file or directory in Amazon Simple Storage Service
@@ -4513,10 +4464,8 @@ class GetMLModelOutput {
 
   /// The time of the most recent edit to the <code>MLModel</code>. The time is
   /// expressed in epoch time.
-  @_s.JsonKey(
-      name: 'LastUpdatedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastUpdatedAt')
   final DateTime lastUpdatedAt;
 
   /// A link to the file that contains logs of the <code>CreateMLModel</code>
@@ -4585,10 +4534,8 @@ class GetMLModelOutput {
 
   /// The time of the most recent edit to the <code>ScoreThreshold</code>. The
   /// time is expressed in epoch time.
-  @_s.JsonKey(
-      name: 'ScoreThresholdLastUpdatedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ScoreThresholdLastUpdatedAt')
   final DateTime scoreThresholdLastUpdatedAt;
   @_s.JsonKey(name: 'SizeInBytes')
   final int sizeInBytes;
@@ -4596,10 +4543,8 @@ class GetMLModelOutput {
   /// The epoch time when Amazon Machine Learning marked the <code>MLModel</code>
   /// as <code>INPROGRESS</code>. <code>StartedAt</code> isn't available if the
   /// <code>MLModel</code> is in the <code>PENDING</code> state.
-  @_s.JsonKey(
-      name: 'StartedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'StartedAt')
   final DateTime startedAt;
 
   /// The current status of the <code>MLModel</code>. This element can have one of
@@ -4828,10 +4773,8 @@ class MLModel {
 
   /// The time that the <code>MLModel</code> was created. The time is expressed in
   /// epoch time.
-  @_s.JsonKey(
-      name: 'CreatedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedAt')
   final DateTime createdAt;
 
   /// The AWS user account from which the <code>MLModel</code> was created. The
@@ -4843,10 +4786,8 @@ class MLModel {
   /// The current endpoint of the <code>MLModel</code>.
   @_s.JsonKey(name: 'EndpointInfo')
   final RealtimeEndpointInfo endpointInfo;
-  @_s.JsonKey(
-      name: 'FinishedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'FinishedAt')
   final DateTime finishedAt;
 
   /// The location of the data file or directory in Amazon Simple Storage Service
@@ -4856,10 +4797,8 @@ class MLModel {
 
   /// The time of the most recent edit to the <code>MLModel</code>. The time is
   /// expressed in epoch time.
-  @_s.JsonKey(
-      name: 'LastUpdatedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastUpdatedAt')
   final DateTime lastUpdatedAt;
 
   /// The ID assigned to the <code>MLModel</code> at creation.
@@ -4896,17 +4835,13 @@ class MLModel {
 
   /// The time of the most recent edit to the <code>ScoreThreshold</code>. The
   /// time is expressed in epoch time.
-  @_s.JsonKey(
-      name: 'ScoreThresholdLastUpdatedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ScoreThresholdLastUpdatedAt')
   final DateTime scoreThresholdLastUpdatedAt;
   @_s.JsonKey(name: 'SizeInBytes')
   final int sizeInBytes;
-  @_s.JsonKey(
-      name: 'StartedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'StartedAt')
   final DateTime startedAt;
 
   /// The current status of an <code>MLModel</code>. This element can have one of
@@ -5526,10 +5461,8 @@ class RDSMetadata {
 class RealtimeEndpointInfo {
   /// The time that the request to create the real-time endpoint for the
   /// <code>MLModel</code> was received. The time is expressed in epoch time.
-  @_s.JsonKey(
-      name: 'CreatedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedAt')
   final DateTime createdAt;
 
   /// The current status of the real-time endpoint for the <code>MLModel</code>.

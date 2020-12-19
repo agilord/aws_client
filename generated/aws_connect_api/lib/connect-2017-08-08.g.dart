@@ -84,9 +84,11 @@ CreateUserResponse _$CreateUserResponseFromJson(Map<String, dynamic> json) {
 Credentials _$CredentialsFromJson(Map<String, dynamic> json) {
   return Credentials(
     accessToken: json['AccessToken'] as String,
-    accessTokenExpiration: timeStampFromJson(json['AccessTokenExpiration']),
+    accessTokenExpiration:
+        const UnixDateTimeConverter().fromJson(json['AccessTokenExpiration']),
     refreshToken: json['RefreshToken'] as String,
-    refreshTokenExpiration: timeStampFromJson(json['RefreshTokenExpiration']),
+    refreshTokenExpiration:
+        const UnixDateTimeConverter().fromJson(json['RefreshTokenExpiration']),
   );
 }
 
@@ -225,7 +227,8 @@ GetContactAttributesResponse _$GetContactAttributesResponseFromJson(
 GetCurrentMetricDataResponse _$GetCurrentMetricDataResponseFromJson(
     Map<String, dynamic> json) {
   return GetCurrentMetricDataResponse(
-    dataSnapshotTime: timeStampFromJson(json['DataSnapshotTime']),
+    dataSnapshotTime:
+        const UnixDateTimeConverter().fromJson(json['DataSnapshotTime']),
     metricResults: (json['MetricResults'] as List)
         ?.map((e) => e == null
             ? null

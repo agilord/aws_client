@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -1433,10 +1436,8 @@ class Backup {
   final String backupId;
 
   /// The time when a particular backup was created.
-  @_s.JsonKey(
-      name: 'CreationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationTime')
   final DateTime creationTime;
 
   /// Metadata of the file system associated with the backup. This metadata is
@@ -1966,10 +1967,8 @@ class DataRepositoryConfiguration {
     createFactory: true,
     createToJson: false)
 class DataRepositoryTask {
-  @_s.JsonKey(
-      name: 'CreationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationTime')
   final DateTime creationTime;
   @_s.JsonKey(name: 'FileSystemId')
   final String fileSystemId;
@@ -2022,8 +2021,8 @@ class DataRepositoryTask {
 
   /// The time that Amazon FSx completed processing the task, populated after the
   /// task is complete.
-  @_s.JsonKey(
-      name: 'EndTime', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'EndTime')
   final DateTime endTime;
 
   /// Failure message describing why the task failed, it is populated only when
@@ -2046,10 +2045,8 @@ class DataRepositoryTask {
   final String resourceARN;
 
   /// The time that Amazon FSx began processing the task.
-  @_s.JsonKey(
-      name: 'StartTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'StartTime')
   final DateTime startTime;
 
   /// Provides the status of the number of files that the task has processed
@@ -2173,10 +2170,8 @@ class DataRepositoryTaskStatus {
   final int failedCount;
 
   /// The time at which the task status was last updated.
-  @_s.JsonKey(
-      name: 'LastUpdatedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastUpdatedTime')
   final DateTime lastUpdatedTime;
 
   /// A running total of the number of files that the task has successfully
@@ -2398,10 +2393,8 @@ class DescribeFileSystemsResponse {
 class FileSystem {
   /// The time that the file system was created, in seconds (since
   /// 1970-01-01T00:00:00Z), also known as Unix time.
-  @_s.JsonKey(
-      name: 'CreationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationTime')
   final DateTime creationTime;
 
   /// The DNS name for the file system.
