@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -879,10 +882,8 @@ class CreateLedgerResponse {
   /// The date and time, in epoch time format, when the ledger was created. (Epoch
   /// time format is the number of seconds elapsed since 12:00:00 AM January 1,
   /// 1970 UTC.)
-  @_s.JsonKey(
-      name: 'CreationDateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationDateTime')
   final DateTime creationDateTime;
 
   /// The flag that prevents a ledger from being deleted by any user. If not
@@ -947,10 +948,8 @@ class DescribeLedgerResponse {
   /// The date and time, in epoch time format, when the ledger was created. (Epoch
   /// time format is the number of seconds elapsed since 12:00:00 AM January 1,
   /// 1970 UTC.)
-  @_s.JsonKey(
-      name: 'CreationDateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationDateTime')
   final DateTime creationDateTime;
 
   /// The flag that prevents a ledger from being deleted by any user. If not
@@ -1099,19 +1098,15 @@ class GetRevisionResponse {
 class JournalS3ExportDescription {
   /// The exclusive end date and time for the range of journal contents that are
   /// specified in the original export request.
-  @_s.JsonKey(
-      name: 'ExclusiveEndTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ExclusiveEndTime')
   final DateTime exclusiveEndTime;
 
   /// The date and time, in epoch time format, when the export job was created.
   /// (Epoch time format is the number of seconds elapsed since 12:00:00 AM
   /// January 1, 1970 UTC.)
-  @_s.JsonKey(
-      name: 'ExportCreationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ExportCreationTime')
   final DateTime exportCreationTime;
 
   /// The unique ID of the journal export job.
@@ -1120,10 +1115,8 @@ class JournalS3ExportDescription {
 
   /// The inclusive start date and time for the range of journal contents that are
   /// specified in the original export request.
-  @_s.JsonKey(
-      name: 'InclusiveStartTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'InclusiveStartTime')
   final DateTime inclusiveStartTime;
 
   /// The name of the ledger.
@@ -1187,10 +1180,8 @@ class LedgerSummary {
   /// The date and time, in epoch time format, when the ledger was created. (Epoch
   /// time format is the number of seconds elapsed since 12:00:00 AM January 1,
   /// 1970 UTC.)
-  @_s.JsonKey(
-      name: 'CreationDateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationDateTime')
   final DateTime creationDateTime;
 
   /// The name of the ledger.
@@ -1487,10 +1478,8 @@ class UpdateLedgerResponse {
   /// The date and time, in epoch time format, when the ledger was created. (Epoch
   /// time format is the number of seconds elapsed since 12:00:00 AM January 1,
   /// 1970 UTC.)
-  @_s.JsonKey(
-      name: 'CreationDateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationDateTime')
   final DateTime creationDateTime;
 
   /// The flag that prevents a ledger from being deleted by any user. If not

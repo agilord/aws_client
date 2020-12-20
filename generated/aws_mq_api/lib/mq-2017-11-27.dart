@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -1113,8 +1116,8 @@ class BrokerSummary {
   final BrokerState brokerState;
 
   /// The time when the broker was created.
-  @_s.JsonKey(
-      name: 'created', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'created')
   final DateTime created;
 
   /// Required. The deployment mode of the broker.
@@ -1160,8 +1163,8 @@ class Configuration {
   final String arn;
 
   /// Required. The date and time of the configuration revision.
-  @_s.JsonKey(
-      name: 'created', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'created')
   final DateTime created;
 
   /// Required. The description of the configuration.
@@ -1245,8 +1248,8 @@ class ConfigurationId {
     createToJson: false)
 class ConfigurationRevision {
   /// Required. The date and time of the configuration revision.
-  @_s.JsonKey(
-      name: 'created', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'created')
   final DateTime created;
 
   /// The description of the configuration revision.
@@ -1327,8 +1330,8 @@ class CreateConfigurationResponse {
   final String arn;
 
   /// Required. The date and time of the configuration.
-  @_s.JsonKey(
-      name: 'created', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'created')
   final DateTime created;
 
   /// Required. The unique ID that Amazon MQ generates for the configuration.
@@ -1532,8 +1535,8 @@ class DescribeBrokerResponse {
   final Configurations configurations;
 
   /// The time when the broker was created.
-  @_s.JsonKey(
-      name: 'created', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'created')
   final DateTime created;
 
   /// Required. The deployment mode of the broker.
@@ -1654,8 +1657,8 @@ class DescribeConfigurationResponse {
   final String arn;
 
   /// Required. The date and time of the configuration revision.
-  @_s.JsonKey(
-      name: 'created', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'created')
   final DateTime created;
 
   /// Required. The description of the configuration.
@@ -1717,8 +1720,8 @@ class DescribeConfigurationRevisionResponse {
   final String configurationId;
 
   /// Required. The date and time of the configuration.
-  @_s.JsonKey(
-      name: 'created', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'created')
   final DateTime created;
 
   /// Required. The base64-encoded XML configuration.
@@ -2185,8 +2188,8 @@ class UpdateConfigurationResponse {
   final String arn;
 
   /// Required. The date and time of the configuration.
-  @_s.JsonKey(
-      name: 'created', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'created')
   final DateTime created;
 
   /// Required. The unique ID that Amazon MQ generates for the configuration.

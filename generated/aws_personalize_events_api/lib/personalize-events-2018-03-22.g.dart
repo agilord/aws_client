@@ -17,7 +17,7 @@ Map<String, dynamic> _$EventToJson(Event instance) {
 
   writeNotNull('eventType', instance.eventType);
   writeNotNull('properties', instance.properties);
-  writeNotNull('sentAt', unixTimestampToJson(instance.sentAt));
+  writeNotNull('sentAt', const UnixDateTimeConverter().toJson(instance.sentAt));
   writeNotNull('eventId', instance.eventId);
   return val;
 }

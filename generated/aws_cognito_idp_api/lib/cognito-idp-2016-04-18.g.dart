@@ -251,8 +251,10 @@ AdminGetUserResponse _$AdminGetUserResponseFromJson(Map<String, dynamic> json) {
             ? null
             : AttributeType.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    userCreateDate: timeStampFromJson(json['UserCreateDate']),
-    userLastModifiedDate: timeStampFromJson(json['UserLastModifiedDate']),
+    userCreateDate:
+        const UnixDateTimeConverter().fromJson(json['UserCreateDate']),
+    userLastModifiedDate:
+        const UnixDateTimeConverter().fromJson(json['UserLastModifiedDate']),
     userMFASettingList:
         (json['UserMFASettingList'] as List)?.map((e) => e as String)?.toList(),
     userStatus:
@@ -473,7 +475,7 @@ AuthEventType _$AuthEventTypeFromJson(Map<String, dynamic> json) {
             ? null
             : ChallengeResponseType.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    creationDate: timeStampFromJson(json['CreationDate']),
+    creationDate: const UnixDateTimeConverter().fromJson(json['CreationDate']),
     eventContextData: json['EventContextData'] == null
         ? null
         : EventContextDataType.fromJson(
@@ -869,11 +871,13 @@ DeviceType _$DeviceTypeFromJson(Map<String, dynamic> json) {
             ? null
             : AttributeType.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    deviceCreateDate: timeStampFromJson(json['DeviceCreateDate']),
+    deviceCreateDate:
+        const UnixDateTimeConverter().fromJson(json['DeviceCreateDate']),
     deviceKey: json['DeviceKey'] as String,
-    deviceLastAuthenticatedDate:
-        timeStampFromJson(json['DeviceLastAuthenticatedDate']),
-    deviceLastModifiedDate: timeStampFromJson(json['DeviceLastModifiedDate']),
+    deviceLastAuthenticatedDate: const UnixDateTimeConverter()
+        .fromJson(json['DeviceLastAuthenticatedDate']),
+    deviceLastModifiedDate:
+        const UnixDateTimeConverter().fromJson(json['DeviceLastModifiedDate']),
   );
 }
 
@@ -953,7 +957,7 @@ EventFeedbackType _$EventFeedbackTypeFromJson(Map<String, dynamic> json) {
     feedbackValue:
         _$enumDecodeNullable(_$FeedbackValueTypeEnumMap, json['FeedbackValue']),
     provider: json['Provider'] as String,
-    feedbackDate: timeStampFromJson(json['FeedbackDate']),
+    feedbackDate: const UnixDateTimeConverter().fromJson(json['FeedbackDate']),
   );
 }
 
@@ -1104,10 +1108,11 @@ GlobalSignOutResponse _$GlobalSignOutResponseFromJson(
 
 GroupType _$GroupTypeFromJson(Map<String, dynamic> json) {
   return GroupType(
-    creationDate: timeStampFromJson(json['CreationDate']),
+    creationDate: const UnixDateTimeConverter().fromJson(json['CreationDate']),
     description: json['Description'] as String,
     groupName: json['GroupName'] as String,
-    lastModifiedDate: timeStampFromJson(json['LastModifiedDate']),
+    lastModifiedDate:
+        const UnixDateTimeConverter().fromJson(json['LastModifiedDate']),
     precedence: json['Precedence'] as int,
     roleArn: json['RoleArn'] as String,
     userPoolId: json['UserPoolId'] as String,
@@ -1133,10 +1138,11 @@ IdentityProviderType _$IdentityProviderTypeFromJson(Map<String, dynamic> json) {
     attributeMapping: (json['AttributeMapping'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    creationDate: timeStampFromJson(json['CreationDate']),
+    creationDate: const UnixDateTimeConverter().fromJson(json['CreationDate']),
     idpIdentifiers:
         (json['IdpIdentifiers'] as List)?.map((e) => e as String)?.toList(),
-    lastModifiedDate: timeStampFromJson(json['LastModifiedDate']),
+    lastModifiedDate:
+        const UnixDateTimeConverter().fromJson(json['LastModifiedDate']),
     providerDetails: (json['ProviderDetails'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
@@ -1490,8 +1496,9 @@ Map<String, dynamic> _$PasswordPolicyTypeToJson(PasswordPolicyType instance) {
 
 ProviderDescription _$ProviderDescriptionFromJson(Map<String, dynamic> json) {
   return ProviderDescription(
-    creationDate: timeStampFromJson(json['CreationDate']),
-    lastModifiedDate: timeStampFromJson(json['LastModifiedDate']),
+    creationDate: const UnixDateTimeConverter().fromJson(json['CreationDate']),
+    lastModifiedDate:
+        const UnixDateTimeConverter().fromJson(json['LastModifiedDate']),
     providerName: json['ProviderName'] as String,
     providerType: _$enumDecodeNullable(
         _$IdentityProviderTypeTypeEnumMap, json['ProviderType']),
@@ -1620,7 +1627,8 @@ RiskConfigurationType _$RiskConfigurationTypeFromJson(
             : CompromisedCredentialsRiskConfigurationType.fromJson(
                 json['CompromisedCredentialsRiskConfiguration']
                     as Map<String, dynamic>),
-    lastModifiedDate: timeStampFromJson(json['LastModifiedDate']),
+    lastModifiedDate:
+        const UnixDateTimeConverter().fromJson(json['LastModifiedDate']),
     riskExceptionConfiguration: json['RiskExceptionConfiguration'] == null
         ? null
         : RiskExceptionConfigurationType.fromJson(
@@ -1907,9 +1915,10 @@ UICustomizationType _$UICustomizationTypeFromJson(Map<String, dynamic> json) {
     css: json['CSS'] as String,
     cSSVersion: json['CSSVersion'] as String,
     clientId: json['ClientId'] as String,
-    creationDate: timeStampFromJson(json['CreationDate']),
+    creationDate: const UnixDateTimeConverter().fromJson(json['CreationDate']),
     imageUrl: json['ImageUrl'] as String,
-    lastModifiedDate: timeStampFromJson(json['LastModifiedDate']),
+    lastModifiedDate:
+        const UnixDateTimeConverter().fromJson(json['LastModifiedDate']),
     userPoolId: json['UserPoolId'] as String,
   );
 }
@@ -2006,16 +2015,17 @@ Map<String, dynamic> _$UserContextDataTypeToJson(UserContextDataType instance) {
 UserImportJobType _$UserImportJobTypeFromJson(Map<String, dynamic> json) {
   return UserImportJobType(
     cloudWatchLogsRoleArn: json['CloudWatchLogsRoleArn'] as String,
-    completionDate: timeStampFromJson(json['CompletionDate']),
+    completionDate:
+        const UnixDateTimeConverter().fromJson(json['CompletionDate']),
     completionMessage: json['CompletionMessage'] as String,
-    creationDate: timeStampFromJson(json['CreationDate']),
+    creationDate: const UnixDateTimeConverter().fromJson(json['CreationDate']),
     failedUsers: json['FailedUsers'] as int,
     importedUsers: json['ImportedUsers'] as int,
     jobId: json['JobId'] as String,
     jobName: json['JobName'] as String,
     preSignedUrl: json['PreSignedUrl'] as String,
     skippedUsers: json['SkippedUsers'] as int,
-    startDate: timeStampFromJson(json['StartDate']),
+    startDate: const UnixDateTimeConverter().fromJson(json['StartDate']),
     status:
         _$enumDecodeNullable(_$UserImportJobStatusTypeEnumMap, json['Status']),
     userPoolId: json['UserPoolId'] as String,
@@ -2087,12 +2097,13 @@ UserPoolClientType _$UserPoolClientTypeFromJson(Map<String, dynamic> json) {
     clientId: json['ClientId'] as String,
     clientName: json['ClientName'] as String,
     clientSecret: json['ClientSecret'] as String,
-    creationDate: timeStampFromJson(json['CreationDate']),
+    creationDate: const UnixDateTimeConverter().fromJson(json['CreationDate']),
     defaultRedirectURI: json['DefaultRedirectURI'] as String,
     explicitAuthFlows: (json['ExplicitAuthFlows'] as List)
         ?.map((e) => _$enumDecodeNullable(_$ExplicitAuthFlowsTypeEnumMap, e))
         ?.toList(),
-    lastModifiedDate: timeStampFromJson(json['LastModifiedDate']),
+    lastModifiedDate:
+        const UnixDateTimeConverter().fromJson(json['LastModifiedDate']),
     logoutURLs: (json['LogoutURLs'] as List)?.map((e) => e as String)?.toList(),
     preventUserExistenceErrors: _$enumDecodeNullable(
         _$PreventUserExistenceErrorTypesEnumMap,
@@ -2135,13 +2146,14 @@ const _$PreventUserExistenceErrorTypesEnumMap = {
 UserPoolDescriptionType _$UserPoolDescriptionTypeFromJson(
     Map<String, dynamic> json) {
   return UserPoolDescriptionType(
-    creationDate: timeStampFromJson(json['CreationDate']),
+    creationDate: const UnixDateTimeConverter().fromJson(json['CreationDate']),
     id: json['Id'] as String,
     lambdaConfig: json['LambdaConfig'] == null
         ? null
         : LambdaConfigType.fromJson(
             json['LambdaConfig'] as Map<String, dynamic>),
-    lastModifiedDate: timeStampFromJson(json['LastModifiedDate']),
+    lastModifiedDate:
+        const UnixDateTimeConverter().fromJson(json['LastModifiedDate']),
     name: json['Name'] as String,
     status: _$enumDecodeNullable(_$StatusTypeEnumMap, json['Status']),
   );
@@ -2191,7 +2203,7 @@ UserPoolType _$UserPoolTypeFromJson(Map<String, dynamic> json) {
     autoVerifiedAttributes: (json['AutoVerifiedAttributes'] as List)
         ?.map((e) => _$enumDecodeNullable(_$VerifiedAttributeTypeEnumMap, e))
         ?.toList(),
-    creationDate: timeStampFromJson(json['CreationDate']),
+    creationDate: const UnixDateTimeConverter().fromJson(json['CreationDate']),
     customDomain: json['CustomDomain'] as String,
     deviceConfiguration: json['DeviceConfiguration'] == null
         ? null
@@ -2211,7 +2223,8 @@ UserPoolType _$UserPoolTypeFromJson(Map<String, dynamic> json) {
         ? null
         : LambdaConfigType.fromJson(
             json['LambdaConfig'] as Map<String, dynamic>),
-    lastModifiedDate: timeStampFromJson(json['LastModifiedDate']),
+    lastModifiedDate:
+        const UnixDateTimeConverter().fromJson(json['LastModifiedDate']),
     mfaConfiguration: _$enumDecodeNullable(
         _$UserPoolMfaTypeEnumMap, json['MfaConfiguration']),
     name: json['Name'] as String,
@@ -2281,8 +2294,10 @@ UserType _$UserTypeFromJson(Map<String, dynamic> json) {
             ? null
             : MFAOptionType.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    userCreateDate: timeStampFromJson(json['UserCreateDate']),
-    userLastModifiedDate: timeStampFromJson(json['UserLastModifiedDate']),
+    userCreateDate:
+        const UnixDateTimeConverter().fromJson(json['UserCreateDate']),
+    userLastModifiedDate:
+        const UnixDateTimeConverter().fromJson(json['UserLastModifiedDate']),
     userStatus:
         _$enumDecodeNullable(_$UserStatusTypeEnumMap, json['UserStatus']),
     username: json['Username'] as String,

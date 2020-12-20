@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -6098,10 +6101,8 @@ class Dashboard {
   final String arn;
 
   /// The time that this dataset was created.
-  @_s.JsonKey(
-      name: 'CreatedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedTime')
   final DateTime createdTime;
 
   /// Dashboard ID.
@@ -6109,17 +6110,13 @@ class Dashboard {
   final String dashboardId;
 
   /// The last time that this dataset was published.
-  @_s.JsonKey(
-      name: 'LastPublishedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastPublishedTime')
   final DateTime lastPublishedTime;
 
   /// The last time that this dataset was updated.
-  @_s.JsonKey(
-      name: 'LastUpdatedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastUpdatedTime')
   final DateTime lastUpdatedTime;
 
   /// A display name for the dataset.
@@ -6306,10 +6303,8 @@ class DashboardSummary {
   final String arn;
 
   /// The time that this dashboard was created.
-  @_s.JsonKey(
-      name: 'CreatedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedTime')
   final DateTime createdTime;
 
   /// Dashboard ID.
@@ -6317,17 +6312,13 @@ class DashboardSummary {
   final String dashboardId;
 
   /// The last time that this dashboard was published.
-  @_s.JsonKey(
-      name: 'LastPublishedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastPublishedTime')
   final DateTime lastPublishedTime;
 
   /// The last time that this dashboard was updated.
-  @_s.JsonKey(
-      name: 'LastUpdatedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastUpdatedTime')
   final DateTime lastUpdatedTime;
 
   /// A display name for the dashboard.
@@ -6370,10 +6361,8 @@ class DashboardVersion {
   final String arn;
 
   /// The time that this dashboard version was created.
-  @_s.JsonKey(
-      name: 'CreatedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedTime')
   final DateTime createdTime;
 
   /// Description.
@@ -6421,10 +6410,8 @@ class DashboardVersionSummary {
   final String arn;
 
   /// The time that this dashboard version was created.
-  @_s.JsonKey(
-      name: 'CreatedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedTime')
   final DateTime createdTime;
 
   /// Description.
@@ -6477,10 +6464,8 @@ class DataSet {
   final int consumedSpiceCapacityInBytes;
 
   /// The time that this dataset was created.
-  @_s.JsonKey(
-      name: 'CreatedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedTime')
   final DateTime createdTime;
 
   /// The ID of the dataset.
@@ -6492,10 +6477,8 @@ class DataSet {
   final DataSetImportMode importMode;
 
   /// The last time that this dataset was updated.
-  @_s.JsonKey(
-      name: 'LastUpdatedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastUpdatedTime')
   final DateTime lastUpdatedTime;
 
   /// Configures the combination and transformation of the data from the physical
@@ -6638,10 +6621,8 @@ class DataSetSummary {
   final String arn;
 
   /// The time that this dataset was created.
-  @_s.JsonKey(
-      name: 'CreatedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedTime')
   final DateTime createdTime;
 
   /// The ID of the dataset.
@@ -6653,10 +6634,8 @@ class DataSetSummary {
   final DataSetImportMode importMode;
 
   /// The last time that this dataset was updated.
-  @_s.JsonKey(
-      name: 'LastUpdatedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastUpdatedTime')
   final DateTime lastUpdatedTime;
 
   /// A display name for the dataset.
@@ -6692,10 +6671,8 @@ class DataSource {
   final String arn;
 
   /// The time that this data source was created.
-  @_s.JsonKey(
-      name: 'CreatedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedTime')
   final DateTime createdTime;
 
   /// The ID of the data source. This ID is unique per AWS Region for each AWS
@@ -6714,10 +6691,8 @@ class DataSource {
   final DataSourceErrorInfo errorInfo;
 
   /// The last time that this data source was updated.
-  @_s.JsonKey(
-      name: 'LastUpdatedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastUpdatedTime')
   final DateTime lastUpdatedTime;
 
   /// A display name for the data source.
@@ -7035,6 +7010,7 @@ class DateTimeParameter {
   final String name;
 
   /// Values.
+  @UnixDateTimeConverter()
   @_s.JsonKey(name: 'Values')
   final List<DateTime> values;
 
@@ -8062,10 +8038,8 @@ class Ingestion {
   final String arn;
 
   /// The time that this ingestion started.
-  @_s.JsonKey(
-      name: 'CreatedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedTime')
   final DateTime createdTime;
 
   /// Ingestion status.
@@ -9782,17 +9756,13 @@ class Template {
   final String arn;
 
   /// Time when this was created.
-  @_s.JsonKey(
-      name: 'CreatedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedTime')
   final DateTime createdTime;
 
   /// Time when this was last updated.
-  @_s.JsonKey(
-      name: 'LastUpdatedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastUpdatedTime')
   final DateTime lastUpdatedTime;
 
   /// The display name of the template.
@@ -9951,17 +9921,13 @@ class TemplateSummary {
   final String arn;
 
   /// The last time that this template was created.
-  @_s.JsonKey(
-      name: 'CreatedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedTime')
   final DateTime createdTime;
 
   /// The last time that this template was updated.
-  @_s.JsonKey(
-      name: 'LastUpdatedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastUpdatedTime')
   final DateTime lastUpdatedTime;
 
   /// A structure containing a list of version numbers for the template summary.
@@ -9997,10 +9963,8 @@ class TemplateSummary {
     createToJson: false)
 class TemplateVersion {
   /// The time that this template version was created.
-  @_s.JsonKey(
-      name: 'CreatedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedTime')
   final DateTime createdTime;
 
   /// Schema of the dataset identified by the placeholder. The idea is that any
@@ -10055,10 +10019,8 @@ class TemplateVersionSummary {
   final String arn;
 
   /// The time that this template version was created.
-  @_s.JsonKey(
-      name: 'CreatedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedTime')
   final DateTime createdTime;
 
   /// The description of the template version.

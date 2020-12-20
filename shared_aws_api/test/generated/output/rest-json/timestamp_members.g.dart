@@ -11,18 +11,21 @@ OutputShape _$OutputShapeFromJson(Map<String, dynamic> json) {
     structMember: json['StructMember'] == null
         ? null
         : TimeContainer.fromJson(json['StructMember'] as Map<String, dynamic>),
-    timeArg: timeStampFromJson(json['TimeArg']),
-    timeArgInHeader: timeStampFromJson(json['x-amz-timearg']),
-    timeCustom: timeStampFromJson(json['TimeCustom']),
-    timeCustomInHeader: timeStampFromJson(json['x-amz-timecustom']),
-    timeFormat: timeStampFromJson(json['TimeFormat']),
-    timeFormatInHeader: timeStampFromJson(json['x-amz-timeformat']),
+    timeArg: const UnixDateTimeConverter().fromJson(json['TimeArg']),
+    timeArgInHeader:
+        const RfcDateTimeConverter().fromJson(json['x-amz-timearg']),
+    timeCustom: const RfcDateTimeConverter().fromJson(json['TimeCustom']),
+    timeCustomInHeader:
+        const UnixDateTimeConverter().fromJson(json['x-amz-timecustom']),
+    timeFormat: const IsoDateTimeConverter().fromJson(json['TimeFormat']),
+    timeFormatInHeader:
+        const IsoDateTimeConverter().fromJson(json['x-amz-timeformat']),
   );
 }
 
 TimeContainer _$TimeContainerFromJson(Map<String, dynamic> json) {
   return TimeContainer(
-    bar: timeStampFromJson(json['bar']),
-    foo: timeStampFromJson(json['foo']),
+    bar: const IsoDateTimeConverter().fromJson(json['bar']),
+    foo: const UnixDateTimeConverter().fromJson(json['foo']),
   );
 }

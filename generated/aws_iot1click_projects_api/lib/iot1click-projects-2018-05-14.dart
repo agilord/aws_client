@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -1123,10 +1126,8 @@ class PlacementDescription {
 
   /// The date when the placement was initially created, in UNIX epoch time
   /// format.
-  @_s.JsonKey(
-      name: 'createdDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdDate')
   final DateTime createdDate;
 
   /// The name of the placement.
@@ -1140,10 +1141,8 @@ class PlacementDescription {
   /// The date when the placement was last updated, in UNIX epoch time format. If
   /// the placement was not updated, then <code>createdDate</code> and
   /// <code>updatedDate</code> are the same.
-  @_s.JsonKey(
-      name: 'updatedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'updatedDate')
   final DateTime updatedDate;
 
   PlacementDescription({
@@ -1166,10 +1165,8 @@ class PlacementDescription {
 class PlacementSummary {
   /// The date when the placement was originally created, in UNIX epoch time
   /// format.
-  @_s.JsonKey(
-      name: 'createdDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdDate')
   final DateTime createdDate;
 
   /// The name of the placement being summarized.
@@ -1183,10 +1180,8 @@ class PlacementSummary {
   /// The date when the placement was last updated, in UNIX epoch time format. If
   /// the placement was not updated, then <code>createdDate</code> and
   /// <code>updatedDate</code> are the same.
-  @_s.JsonKey(
-      name: 'updatedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'updatedDate')
   final DateTime updatedDate;
 
   PlacementSummary({
@@ -1235,10 +1230,8 @@ class PlacementTemplate {
     createToJson: false)
 class ProjectDescription {
   /// The date when the project was originally created, in UNIX epoch time format.
-  @_s.JsonKey(
-      name: 'createdDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdDate')
   final DateTime createdDate;
 
   /// The name of the project for which to obtain information from.
@@ -1248,10 +1241,8 @@ class ProjectDescription {
   /// The date when the project was last updated, in UNIX epoch time format. If
   /// the project was not updated, then <code>createdDate</code> and
   /// <code>updatedDate</code> are the same.
-  @_s.JsonKey(
-      name: 'updatedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'updatedDate')
   final DateTime updatedDate;
 
   /// The ARN of the project.
@@ -1292,10 +1283,8 @@ class ProjectDescription {
     createToJson: false)
 class ProjectSummary {
   /// The date when the project was originally created, in UNIX epoch time format.
-  @_s.JsonKey(
-      name: 'createdDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdDate')
   final DateTime createdDate;
 
   /// The name of the project being summarized.
@@ -1305,10 +1294,8 @@ class ProjectSummary {
   /// The date when the project was last updated, in UNIX epoch time format. If
   /// the project was not updated, then <code>createdDate</code> and
   /// <code>updatedDate</code> are the same.
-  @_s.JsonKey(
-      name: 'updatedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'updatedDate')
   final DateTime updatedDate;
 
   /// The ARN of the project.

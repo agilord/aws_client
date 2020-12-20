@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -886,10 +889,8 @@ class LexiconAttributes {
   final LanguageCode languageCode;
 
   /// Date lexicon was last modified (a timestamp value).
-  @_s.JsonKey(
-      name: 'LastModified',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastModified')
   final DateTime lastModified;
 
   /// Number of lexemes in the lexicon.
@@ -1080,10 +1081,8 @@ class StartSpeechSynthesisTaskOutput {
     createToJson: false)
 class SynthesisTask {
   /// Timestamp for the time the synthesis task was started.
-  @_s.JsonKey(
-      name: 'CreationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationTime')
   final DateTime creationTime;
 
   /// Specifies the engine (<code>standard</code> or <code>neural</code>) for

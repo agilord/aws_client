@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 import 'elasticache-2015-02-02.meta.dart';
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
@@ -9328,13 +9331,13 @@ class TestFailoverResult {
     createToJson: true)
 class TimeRangeFilter {
   /// The end time of the time range filter
-  @_s.JsonKey(
-      name: 'EndTime', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'EndTime')
   final DateTime endTime;
 
   /// The start time of the time range filter
-  @_s.JsonKey(
-      name: 'StartTime', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'StartTime')
   final DateTime startTime;
 
   TimeRangeFilter({

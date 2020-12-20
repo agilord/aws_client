@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -1113,8 +1116,8 @@ class AttackDetail {
   /// The time the attack ended, in Unix time in seconds. For more information see
   /// <a
   /// href="http://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#parameter-types">timestamp</a>.
-  @_s.JsonKey(
-      name: 'EndTime', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'EndTime')
   final DateTime endTime;
 
   /// List of mitigation actions taken for the attack.
@@ -1128,10 +1131,8 @@ class AttackDetail {
   /// The time the attack started, in Unix time in seconds. For more information
   /// see <a
   /// href="http://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#parameter-types">timestamp</a>.
-  @_s.JsonKey(
-      name: 'StartTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'StartTime')
   final DateTime startTime;
 
   /// If applicable, additional detail about the resource being attacked, for
@@ -1242,8 +1243,8 @@ class AttackSummary {
   /// The end time of the attack, in Unix time in seconds. For more information
   /// see <a
   /// href="http://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#parameter-types">timestamp</a>.
-  @_s.JsonKey(
-      name: 'EndTime', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'EndTime')
   final DateTime endTime;
 
   /// The ARN (Amazon Resource Name) of the resource that was attacked.
@@ -1253,10 +1254,8 @@ class AttackSummary {
   /// The start time of the attack, in Unix time in seconds. For more information
   /// see <a
   /// href="http://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#parameter-types">timestamp</a>.
-  @_s.JsonKey(
-      name: 'StartTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'StartTime')
   final DateTime startTime;
 
   AttackSummary({
@@ -1806,8 +1805,8 @@ class Subscription {
   final AutoRenew autoRenew;
 
   /// The date and time your subscription will end.
-  @_s.JsonKey(
-      name: 'EndTime', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'EndTime')
   final DateTime endTime;
 
   /// Specifies how many protections of a given type you can create.
@@ -1817,10 +1816,8 @@ class Subscription {
   /// The start time of the subscription, in Unix time in seconds. For more
   /// information see <a
   /// href="http://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#parameter-types">timestamp</a>.
-  @_s.JsonKey(
-      name: 'StartTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'StartTime')
   final DateTime startTime;
 
   /// The length, in seconds, of the AWS Shield Advanced subscription for the
@@ -1921,18 +1918,14 @@ class SummarizedCounter {
 class TimeRange {
   /// The start time, in Unix time in seconds. For more information see <a
   /// href="http://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#parameter-types">timestamp</a>.
-  @_s.JsonKey(
-      name: 'FromInclusive',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'FromInclusive')
   final DateTime fromInclusive;
 
   /// The end time, in Unix time in seconds. For more information see <a
   /// href="http://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#parameter-types">timestamp</a>.
-  @_s.JsonKey(
-      name: 'ToExclusive',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ToExclusive')
   final DateTime toExclusive;
 
   TimeRange({

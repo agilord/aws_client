@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -5857,8 +5860,8 @@ class Invitation {
   final String invitationId;
 
   /// The timestamp of when the invitation was sent.
-  @_s.JsonKey(
-      name: 'InvitedAt', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'InvitedAt')
   final DateTime invitedAt;
 
   /// The current status of the association between the member and master
@@ -6179,8 +6182,8 @@ class Member {
 
   /// A timestamp for the date and time when the invitation was sent to the member
   /// account.
-  @_s.JsonKey(
-      name: 'InvitedAt', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'InvitedAt')
   final DateTime invitedAt;
 
   /// The AWS account ID of the Security Hub master account associated with this
@@ -6194,8 +6197,8 @@ class Member {
   final String memberStatus;
 
   /// The timestamp for the date and time when the member account was updated.
-  @_s.JsonKey(
-      name: 'UpdatedAt', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'UpdatedAt')
   final DateTime updatedAt;
 
   Member({
@@ -7053,10 +7056,8 @@ class StandardsControl {
 
   /// The date and time that the status of the security standard control was most
   /// recently updated.
-  @_s.JsonKey(
-      name: 'ControlStatusUpdatedAt',
-      fromJson: timeStampFromJson,
-      toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'ControlStatusUpdatedAt')
   final DateTime controlStatusUpdatedAt;
 
   /// The longer description of the security standard control. Provides

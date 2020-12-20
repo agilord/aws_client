@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -683,13 +686,13 @@ enum IntervalUnitValues {
     createToJson: false)
 class LifecyclePolicy {
   /// The local date and time when the lifecycle policy was created.
-  @_s.JsonKey(
-      name: 'DateCreated', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'DateCreated')
   final DateTime dateCreated;
 
   /// The local date and time when the lifecycle policy was last modified.
-  @_s.JsonKey(
-      name: 'DateModified', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'DateModified')
   final DateTime dateModified;
 
   /// The description of the lifecycle policy.

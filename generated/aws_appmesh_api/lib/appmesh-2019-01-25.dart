@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -2413,17 +2416,13 @@ class ResourceMetadata {
   final String arn;
 
   /// The Unix epoch timestamp in seconds for when the resource was created.
-  @_s.JsonKey(
-      name: 'createdAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdAt')
   final DateTime createdAt;
 
   /// The Unix epoch timestamp in seconds for when the resource was last updated.
-  @_s.JsonKey(
-      name: 'lastUpdatedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastUpdatedAt')
   final DateTime lastUpdatedAt;
 
   /// The AWS IAM account ID of the service mesh owner. If the account ID is not

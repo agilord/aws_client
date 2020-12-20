@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -426,10 +429,8 @@ class ListChangedBlocksResponse {
   final List<ChangedBlock> changedBlocks;
 
   /// The time when the <code>BlockToken</code> expires.
-  @_s.JsonKey(
-      name: 'ExpiryTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ExpiryTime')
   final DateTime expiryTime;
 
   /// The token to use to retrieve the next page of results. This value is null
@@ -467,10 +468,8 @@ class ListSnapshotBlocksResponse {
   final List<Block> blocks;
 
   /// The time when the <code>BlockToken</code> expires.
-  @_s.JsonKey(
-      name: 'ExpiryTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ExpiryTime')
   final DateTime expiryTime;
 
   /// The token to use to retrieve the next page of results. This value is null

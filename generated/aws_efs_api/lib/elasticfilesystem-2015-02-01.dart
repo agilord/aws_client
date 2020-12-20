@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -1705,10 +1708,8 @@ class DescribeTagsResponse {
 class FileSystemDescription {
   /// The time that the file system was created, in seconds (since
   /// 1970-01-01T00:00:00Z).
-  @_s.JsonKey(
-      name: 'CreationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationTime')
   final DateTime creationTime;
 
   /// The opaque string specified in the request.
@@ -1855,10 +1856,8 @@ class FileSystemSize {
   /// The time at which the size of data, returned in the <code>Value</code>
   /// field, was determined. The value is the integer number of seconds since
   /// 1970-01-01T00:00:00Z.
-  @_s.JsonKey(
-      name: 'Timestamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'Timestamp')
   final DateTime timestamp;
 
   /// The latest known metered size (in bytes) of data stored in the Infrequent

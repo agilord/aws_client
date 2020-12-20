@@ -121,7 +121,8 @@ ConfigurationTag _$ConfigurationTagFromJson(Map<String, dynamic> json) {
     configurationType: _$enumDecodeNullable(
         _$ConfigurationItemTypeEnumMap, json['configurationType']),
     key: json['key'] as String,
-    timeOfCreation: timeStampFromJson(json['timeOfCreation']),
+    timeOfCreation:
+        const UnixDateTimeConverter().fromJson(json['timeOfCreation']),
     value: json['value'] as String,
   );
 }
@@ -143,11 +144,11 @@ ContinuousExportDescription _$ContinuousExportDescriptionFromJson(
         (json['schemaStorageConfig'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    startTime: timeStampFromJson(json['startTime']),
+    startTime: const UnixDateTimeConverter().fromJson(json['startTime']),
     status:
         _$enumDecodeNullable(_$ContinuousExportStatusEnumMap, json['status']),
     statusDetail: json['statusDetail'] as String,
-    stopTime: timeStampFromJson(json['stopTime']),
+    stopTime: const UnixDateTimeConverter().fromJson(json['stopTime']),
   );
 }
 
@@ -319,14 +320,17 @@ Map<String, dynamic> _$ExportFilterToJson(ExportFilter instance) {
 ExportInfo _$ExportInfoFromJson(Map<String, dynamic> json) {
   return ExportInfo(
     exportId: json['exportId'] as String,
-    exportRequestTime: timeStampFromJson(json['exportRequestTime']),
+    exportRequestTime:
+        const UnixDateTimeConverter().fromJson(json['exportRequestTime']),
     exportStatus:
         _$enumDecodeNullable(_$ExportStatusEnumMap, json['exportStatus']),
     statusMessage: json['statusMessage'] as String,
     configurationsDownloadUrl: json['configurationsDownloadUrl'] as String,
     isTruncated: json['isTruncated'] as bool,
-    requestedEndTime: timeStampFromJson(json['requestedEndTime']),
-    requestedStartTime: timeStampFromJson(json['requestedStartTime']),
+    requestedEndTime:
+        const UnixDateTimeConverter().fromJson(json['requestedEndTime']),
+    requestedStartTime:
+        const UnixDateTimeConverter().fromJson(json['requestedStartTime']),
   );
 }
 
@@ -375,9 +379,12 @@ ImportTask _$ImportTaskFromJson(Map<String, dynamic> json) {
     applicationImportSuccess: json['applicationImportSuccess'] as int,
     clientRequestToken: json['clientRequestToken'] as String,
     errorsAndFailedEntriesZip: json['errorsAndFailedEntriesZip'] as String,
-    importCompletionTime: timeStampFromJson(json['importCompletionTime']),
-    importDeletedTime: timeStampFromJson(json['importDeletedTime']),
-    importRequestTime: timeStampFromJson(json['importRequestTime']),
+    importCompletionTime:
+        const UnixDateTimeConverter().fromJson(json['importCompletionTime']),
+    importDeletedTime:
+        const UnixDateTimeConverter().fromJson(json['importDeletedTime']),
+    importRequestTime:
+        const UnixDateTimeConverter().fromJson(json['importRequestTime']),
     importTaskId: json['importTaskId'] as String,
     importUrl: json['importUrl'] as String,
     name: json['name'] as String,
@@ -488,7 +495,7 @@ StartContinuousExportResponse _$StartContinuousExportResponseFromJson(
         (json['schemaStorageConfig'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    startTime: timeStampFromJson(json['startTime']),
+    startTime: const UnixDateTimeConverter().fromJson(json['startTime']),
   );
 }
 
@@ -522,8 +529,8 @@ StartImportTaskResponse _$StartImportTaskResponseFromJson(
 StopContinuousExportResponse _$StopContinuousExportResponseFromJson(
     Map<String, dynamic> json) {
   return StopContinuousExportResponse(
-    startTime: timeStampFromJson(json['startTime']),
-    stopTime: timeStampFromJson(json['stopTime']),
+    startTime: const UnixDateTimeConverter().fromJson(json['startTime']),
+    stopTime: const UnixDateTimeConverter().fromJson(json['stopTime']),
   );
 }
 

@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -2690,10 +2693,8 @@ class DeleteSecretResponse {
   /// and can no longer be restored. This value is the date and time of the delete
   /// request plus the number of days specified in
   /// <code>RecoveryWindowInDays</code>.
-  @_s.JsonKey(
-      name: 'DeletionDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'DeletionDate')
   final DateTime deletionDate;
 
   /// The friendly name of the secret that is now scheduled for deletion.
@@ -2726,10 +2727,8 @@ class DescribeSecretResponse {
   /// If a secret is scheduled for deletion, then its details, including the
   /// encrypted secret information, is not accessible. To cancel a scheduled
   /// deletion and restore access, use <a>RestoreSecret</a>.
-  @_s.JsonKey(
-      name: 'DeletedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'DeletedDate')
   final DateTime deletedDate;
 
   /// The user-provided description of the secret.
@@ -2746,25 +2745,19 @@ class DescribeSecretResponse {
 
   /// The last date that this secret was accessed. This value is truncated to
   /// midnight of the date and therefore shows only the date, not the time.
-  @_s.JsonKey(
-      name: 'LastAccessedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastAccessedDate')
   final DateTime lastAccessedDate;
 
   /// The last date and time that this secret was modified in any way.
-  @_s.JsonKey(
-      name: 'LastChangedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastChangedDate')
   final DateTime lastChangedDate;
 
   /// The most recent date and time that the Secrets Manager rotation process was
   /// successfully completed. This value is null if the secret has never rotated.
-  @_s.JsonKey(
-      name: 'LastRotatedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastRotatedDate')
   final DateTime lastRotatedDate;
 
   /// The user-provided friendly name of the secret.
@@ -2894,10 +2887,8 @@ class GetSecretValueResponse {
   final String arn;
 
   /// The date and time that this version of the secret was created.
-  @_s.JsonKey(
-      name: 'CreatedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedDate')
   final DateTime createdDate;
 
   /// The friendly name of the secret.
@@ -3194,10 +3185,8 @@ class SecretListEntry {
   /// recovery window has passed, as specified in the
   /// <code>RecoveryWindowInDays</code> parameter of the <a>DeleteSecret</a>
   /// operation.
-  @_s.JsonKey(
-      name: 'DeletedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'DeletedDate')
   final DateTime deletedDate;
 
   /// The user-provided description of the secret.
@@ -3214,25 +3203,19 @@ class SecretListEntry {
 
   /// The last date that this secret was accessed. This value is truncated to
   /// midnight of the date and therefore shows only the date, not the time.
-  @_s.JsonKey(
-      name: 'LastAccessedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastAccessedDate')
   final DateTime lastAccessedDate;
 
   /// The last date and time that this secret was modified in any way.
-  @_s.JsonKey(
-      name: 'LastChangedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastChangedDate')
   final DateTime lastChangedDate;
 
   /// The last date and time that the rotation process for this secret was
   /// invoked.
-  @_s.JsonKey(
-      name: 'LastRotatedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastRotatedDate')
   final DateTime lastRotatedDate;
 
   /// The friendly name of the secret. You can use forward slashes in the name to
@@ -3307,18 +3290,14 @@ class SecretListEntry {
     createToJson: false)
 class SecretVersionsListEntry {
   /// The date and time this version of the secret was created.
-  @_s.JsonKey(
-      name: 'CreatedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedDate')
   final DateTime createdDate;
 
   /// The date that this version of the secret was last accessed. Note that the
   /// resolution of this field is at the date level and does not include the time.
-  @_s.JsonKey(
-      name: 'LastAccessedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastAccessedDate')
   final DateTime lastAccessedDate;
 
   /// The unique version identifier of this version of the secret.

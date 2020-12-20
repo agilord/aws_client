@@ -15,16 +15,19 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
-part 'complex_map_values.g.dart';
+part 'complex_list_values.g.dart';
 
-/// Complex Map Values
-class ComplexMapValues {
+/// Complex List Values
+class ComplexListValues {
   final _s.RestJsonProtocol _protocol;
-  ComplexMapValues({
+  ComplexListValues({
     @_s.required String region,
     _s.AwsClientCredentials credentials,
     _s.Client client,
@@ -32,7 +35,7 @@ class ComplexMapValues {
   }) : _protocol = _s.RestJsonProtocol(
           client: client,
           service: _s.ServiceMetadata(
-            endpointPrefix: 'ComplexMapValues',
+            endpointPrefix: 'ComplexListValues',
           ),
           region: region,
           credentials: credentials,
@@ -56,11 +59,12 @@ class ComplexMapValues {
     createFactory: true,
     createToJson: false)
 class OutputShape {
-  @_s.JsonKey(name: 'MapMember')
-  final Map<String, DateTime> mapMember;
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ListMember')
+  final List<DateTime> listMember;
 
   OutputShape({
-    this.mapMember,
+    this.listMember,
   });
   factory OutputShape.fromJson(Map<String, dynamic> json) =>
       _$OutputShapeFromJson(json);

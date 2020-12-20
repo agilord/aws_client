@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -783,10 +786,8 @@ class Graph {
 
   /// The date and time that the behavior graph was created. The value is in
   /// milliseconds since the epoch.
-  @_s.JsonKey(
-      name: 'CreatedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedTime')
   final DateTime createdTime;
 
   Graph({
@@ -912,10 +913,8 @@ class MemberDetail {
 
   /// The date and time that Detective sent the invitation to the member account.
   /// The value is in milliseconds since the epoch.
-  @_s.JsonKey(
-      name: 'InvitedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'InvitedTime')
   final DateTime invitedTime;
 
   /// The AWS account identifier of the master account for the behavior graph.
@@ -935,10 +934,8 @@ class MemberDetail {
   final double percentOfGraphUtilization;
 
   /// The date and time when the graph utilization percentage was last updated.
-  @_s.JsonKey(
-      name: 'PercentOfGraphUtilizationUpdatedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'PercentOfGraphUtilizationUpdatedTime')
   final DateTime percentOfGraphUtilizationUpdatedTime;
 
   /// The current membership status of the member account. The status can have one
@@ -979,10 +976,8 @@ class MemberDetail {
 
   /// The date and time that the member account was last updated. The value is in
   /// milliseconds since the epoch.
-  @_s.JsonKey(
-      name: 'UpdatedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'UpdatedTime')
   final DateTime updatedTime;
 
   MemberDetail({

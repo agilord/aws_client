@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -6057,8 +6060,8 @@ class ApplicationDateRangeKpiResponse {
 
   /// The last date and time of the date range that was used to filter the query
   /// results, in extended ISO 8601 format. The date range is inclusive.
-  @_s.JsonKey(
-      name: 'EndTime', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'EndTime')
   final DateTime endTime;
 
   /// The name of the metric, also referred to as a <i>key performance indicator
@@ -6078,8 +6081,8 @@ class ApplicationDateRangeKpiResponse {
 
   /// The first date and time of the date range that was used to filter the query
   /// results, in extended ISO 8601 format. The date range is inclusive.
-  @_s.JsonKey(
-      name: 'StartTime', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'StartTime')
   final DateTime startTime;
 
   /// The string to use in a subsequent request to get the next page of results in
@@ -6563,8 +6566,8 @@ class CampaignDateRangeKpiResponse {
 
   /// The last date and time of the date range that was used to filter the query
   /// results, in extended ISO 8601 format. The date range is inclusive.
-  @_s.JsonKey(
-      name: 'EndTime', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'EndTime')
   final DateTime endTime;
 
   /// The name of the metric, also referred to as a <i>key performance indicator
@@ -6584,8 +6587,8 @@ class CampaignDateRangeKpiResponse {
 
   /// The first date and time of the date range that was used to filter the query
   /// results, in extended ISO 8601 format. The date range is inclusive.
-  @_s.JsonKey(
-      name: 'StartTime', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'StartTime')
   final DateTime startTime;
 
   /// The string to use in a subsequent request to get the next page of results in
@@ -11120,8 +11123,8 @@ class JourneyDateRangeKpiResponse {
 
   /// The last date and time of the date range that was used to filter the query
   /// results, in extended ISO 8601 format. The date range is inclusive.
-  @_s.JsonKey(
-      name: 'EndTime', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'EndTime')
   final DateTime endTime;
 
   /// The unique identifier for the journey that the metric applies to.
@@ -11145,8 +11148,8 @@ class JourneyDateRangeKpiResponse {
 
   /// The first date and time of the date range that was used to filter the query
   /// results, in extended ISO 8601 format. The date range is inclusive.
-  @_s.JsonKey(
-      name: 'StartTime', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'StartTime')
   final DateTime startTime;
 
   /// The string to use in a subsequent request to get the next page of results in
@@ -11496,14 +11499,14 @@ class JourneyResponse {
     createToJson: true)
 class JourneySchedule {
   /// The scheduled time, in ISO 8601 format, when the journey ended or will end.
-  @_s.JsonKey(
-      name: 'EndTime', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'EndTime')
   final DateTime endTime;
 
   /// The scheduled time, in ISO 8601 format, when the journey began or will
   /// begin.
-  @_s.JsonKey(
-      name: 'StartTime', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'StartTime')
   final DateTime startTime;
 
   /// The starting UTC offset for the journey schedule, if the value of the

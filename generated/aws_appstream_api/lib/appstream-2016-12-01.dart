@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -3588,8 +3591,8 @@ class CreateImageBuilderResult {
     createToJson: false)
 class CreateImageBuilderStreamingURLResult {
   /// The elapsed time, in seconds after the Unix epoch, when this URL expires.
-  @_s.JsonKey(
-      name: 'Expires', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'Expires')
   final DateTime expires;
 
   /// The URL to start the AppStream 2.0 streaming session.
@@ -3629,8 +3632,8 @@ class CreateStackResult {
     createToJson: false)
 class CreateStreamingURLResult {
   /// The elapsed time, in seconds after the Unix epoch, when this URL expires.
-  @_s.JsonKey(
-      name: 'Expires', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'Expires')
   final DateTime expires;
 
   /// The URL to start the AppStream 2.0 streaming session.
@@ -4040,10 +4043,8 @@ class DirectoryConfig {
   final String directoryName;
 
   /// The time the directory configuration was created.
-  @_s.JsonKey(
-      name: 'CreatedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedTime')
   final DateTime createdTime;
 
   /// The distinguished names of the organizational units for computer accounts.
@@ -4227,10 +4228,8 @@ class Fleet {
   final FleetState state;
 
   /// The time the fleet was created.
-  @_s.JsonKey(
-      name: 'CreatedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedTime')
   final DateTime createdTime;
 
   /// The description to display.
@@ -4533,10 +4532,8 @@ class Image {
   final String baseImageArn;
 
   /// The time the image was created.
-  @_s.JsonKey(
-      name: 'CreatedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedTime')
   final DateTime createdTime;
 
   /// The description to display.
@@ -4567,10 +4564,8 @@ class Image {
 
   /// The release date of the public base image. For private images, this date is
   /// the release date of the base image from which the image was created.
-  @_s.JsonKey(
-      name: 'PublicBaseImageReleasedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'PublicBaseImageReleasedDate')
   final DateTime publicBaseImageReleasedDate;
 
   /// The image starts in the <code>PENDING</code> state. If image creation
@@ -4635,10 +4630,8 @@ class ImageBuilder {
   final String arn;
 
   /// The time stamp when the image builder was created.
-  @_s.JsonKey(
-      name: 'CreatedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedTime')
   final DateTime createdTime;
 
   /// The description to display.
@@ -5078,10 +5071,8 @@ class ResourceError {
   final String errorMessage;
 
   /// The time the error occurred.
-  @_s.JsonKey(
-      name: 'ErrorTimestamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ErrorTimestamp')
   final DateTime errorTimestamp;
 
   ResourceError({
@@ -5167,10 +5158,8 @@ class Session {
   /// his or her session. If the <code>DisconnectTimeOutInSeconds</code> elapses,
   /// or the user chooses to end his or her session, the streaming instance is
   /// terminated and the streaming session ends.
-  @_s.JsonKey(
-      name: 'MaxExpirationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'MaxExpirationTime')
   final DateTime maxExpirationTime;
 
   /// The network details for the streaming session.
@@ -5178,10 +5167,8 @@ class Session {
   final NetworkAccessConfiguration networkAccessConfiguration;
 
   /// The time when a streaming instance is dedicated for the user.
-  @_s.JsonKey(
-      name: 'StartTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'StartTime')
   final DateTime startTime;
 
   Session({
@@ -5266,10 +5253,8 @@ class Stack {
   final String arn;
 
   /// The time the stack was created.
-  @_s.JsonKey(
-      name: 'CreatedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedTime')
   final DateTime createdTime;
 
   /// The description to display.
@@ -5613,10 +5598,8 @@ enum UsageReportSchedule {
     createToJson: false)
 class UsageReportSubscription {
   /// The time when the last usage report was generated.
-  @_s.JsonKey(
-      name: 'LastGeneratedReportDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastGeneratedReportDate')
   final DateTime lastGeneratedReportDate;
 
   /// The Amazon S3 bucket where generated reports are stored.
@@ -5665,10 +5648,8 @@ class User {
   final String arn;
 
   /// The date and time the user was created in the user pool.
-  @_s.JsonKey(
-      name: 'CreatedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedTime')
   final DateTime createdTime;
 
   /// Specifies whether the user in the user pool is enabled.

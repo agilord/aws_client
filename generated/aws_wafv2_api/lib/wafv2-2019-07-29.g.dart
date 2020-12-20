@@ -1317,7 +1317,7 @@ SampledHTTPRequest _$SampledHTTPRequestFromJson(Map<String, dynamic> json) {
     weight: json['Weight'] as int,
     action: json['Action'] as String,
     ruleNameWithinRuleGroup: json['RuleNameWithinRuleGroup'] as String,
-    timestamp: timeStampFromJson(json['Timestamp']),
+    timestamp: const UnixDateTimeConverter().fromJson(json['Timestamp']),
   );
 }
 
@@ -1584,8 +1584,8 @@ const _$TextTransformationTypeEnumMap = {
 
 TimeWindow _$TimeWindowFromJson(Map<String, dynamic> json) {
   return TimeWindow(
-    endTime: timeStampFromJson(json['EndTime']),
-    startTime: timeStampFromJson(json['StartTime']),
+    endTime: const UnixDateTimeConverter().fromJson(json['EndTime']),
+    startTime: const UnixDateTimeConverter().fromJson(json['StartTime']),
   );
 }
 
@@ -1598,8 +1598,10 @@ Map<String, dynamic> _$TimeWindowToJson(TimeWindow instance) {
     }
   }
 
-  writeNotNull('EndTime', unixTimestampToJson(instance.endTime));
-  writeNotNull('StartTime', unixTimestampToJson(instance.startTime));
+  writeNotNull(
+      'EndTime', const UnixDateTimeConverter().toJson(instance.endTime));
+  writeNotNull(
+      'StartTime', const UnixDateTimeConverter().toJson(instance.startTime));
   return val;
 }
 

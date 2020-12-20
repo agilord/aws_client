@@ -201,7 +201,8 @@ BlockPublicAccessConfigurationMetadata
         Map<String, dynamic> json) {
   return BlockPublicAccessConfigurationMetadata(
     createdByArn: json['CreatedByArn'] as String,
-    creationDateTime: timeStampFromJson(json['CreationDateTime']),
+    creationDateTime:
+        const UnixDateTimeConverter().fromJson(json['CreationDateTime']),
   );
 }
 
@@ -481,9 +482,11 @@ ClusterSummary _$ClusterSummaryFromJson(Map<String, dynamic> json) {
 
 ClusterTimeline _$ClusterTimelineFromJson(Map<String, dynamic> json) {
   return ClusterTimeline(
-    creationDateTime: timeStampFromJson(json['CreationDateTime']),
-    endDateTime: timeStampFromJson(json['EndDateTime']),
-    readyDateTime: timeStampFromJson(json['ReadyDateTime']),
+    creationDateTime:
+        const UnixDateTimeConverter().fromJson(json['CreationDateTime']),
+    endDateTime: const UnixDateTimeConverter().fromJson(json['EndDateTime']),
+    readyDateTime:
+        const UnixDateTimeConverter().fromJson(json['ReadyDateTime']),
   );
 }
 
@@ -528,7 +531,8 @@ Map<String, dynamic> _$ConfigurationToJson(Configuration instance) {
 CreateSecurityConfigurationOutput _$CreateSecurityConfigurationOutputFromJson(
     Map<String, dynamic> json) {
   return CreateSecurityConfigurationOutput(
-    creationDateTime: timeStampFromJson(json['CreationDateTime']),
+    creationDateTime:
+        const UnixDateTimeConverter().fromJson(json['CreationDateTime']),
     name: json['Name'] as String,
   );
 }
@@ -561,7 +565,8 @@ DescribeJobFlowsOutput _$DescribeJobFlowsOutputFromJson(
 DescribeSecurityConfigurationOutput
     _$DescribeSecurityConfigurationOutputFromJson(Map<String, dynamic> json) {
   return DescribeSecurityConfigurationOutput(
-    creationDateTime: timeStampFromJson(json['CreationDateTime']),
+    creationDateTime:
+        const UnixDateTimeConverter().fromJson(json['CreationDateTime']),
     name: json['Name'] as String,
     securityConfiguration: json['SecurityConfiguration'] as String,
   );
@@ -880,9 +885,11 @@ const _$InstanceFleetStateEnumMap = {
 InstanceFleetTimeline _$InstanceFleetTimelineFromJson(
     Map<String, dynamic> json) {
   return InstanceFleetTimeline(
-    creationDateTime: timeStampFromJson(json['CreationDateTime']),
-    endDateTime: timeStampFromJson(json['EndDateTime']),
-    readyDateTime: timeStampFromJson(json['ReadyDateTime']),
+    creationDateTime:
+        const UnixDateTimeConverter().fromJson(json['CreationDateTime']),
+    endDateTime: const UnixDateTimeConverter().fromJson(json['EndDateTime']),
+    readyDateTime:
+        const UnixDateTimeConverter().fromJson(json['ReadyDateTime']),
   );
 }
 
@@ -967,7 +974,8 @@ const _$InstanceRoleTypeEnumMap = {
 
 InstanceGroupDetail _$InstanceGroupDetailFromJson(Map<String, dynamic> json) {
   return InstanceGroupDetail(
-    creationDateTime: timeStampFromJson(json['CreationDateTime']),
+    creationDateTime:
+        const UnixDateTimeConverter().fromJson(json['CreationDateTime']),
     instanceRequestCount: json['InstanceRequestCount'] as int,
     instanceRole:
         _$enumDecodeNullable(_$InstanceRoleTypeEnumMap, json['InstanceRole']),
@@ -976,12 +984,14 @@ InstanceGroupDetail _$InstanceGroupDetailFromJson(Map<String, dynamic> json) {
     market: _$enumDecodeNullable(_$MarketTypeEnumMap, json['Market']),
     state: _$enumDecodeNullable(_$InstanceGroupStateEnumMap, json['State']),
     bidPrice: json['BidPrice'] as String,
-    endDateTime: timeStampFromJson(json['EndDateTime']),
+    endDateTime: const UnixDateTimeConverter().fromJson(json['EndDateTime']),
     instanceGroupId: json['InstanceGroupId'] as String,
     lastStateChangeReason: json['LastStateChangeReason'] as String,
     name: json['Name'] as String,
-    readyDateTime: timeStampFromJson(json['ReadyDateTime']),
-    startDateTime: timeStampFromJson(json['StartDateTime']),
+    readyDateTime:
+        const UnixDateTimeConverter().fromJson(json['ReadyDateTime']),
+    startDateTime:
+        const UnixDateTimeConverter().fromJson(json['StartDateTime']),
   );
 }
 
@@ -1051,9 +1061,11 @@ InstanceGroupStatus _$InstanceGroupStatusFromJson(Map<String, dynamic> json) {
 InstanceGroupTimeline _$InstanceGroupTimelineFromJson(
     Map<String, dynamic> json) {
   return InstanceGroupTimeline(
-    creationDateTime: timeStampFromJson(json['CreationDateTime']),
-    endDateTime: timeStampFromJson(json['EndDateTime']),
-    readyDateTime: timeStampFromJson(json['ReadyDateTime']),
+    creationDateTime:
+        const UnixDateTimeConverter().fromJson(json['CreationDateTime']),
+    endDateTime: const UnixDateTimeConverter().fromJson(json['EndDateTime']),
+    readyDateTime:
+        const UnixDateTimeConverter().fromJson(json['ReadyDateTime']),
   );
 }
 
@@ -1125,9 +1137,11 @@ const _$InstanceStateEnumMap = {
 
 InstanceTimeline _$InstanceTimelineFromJson(Map<String, dynamic> json) {
   return InstanceTimeline(
-    creationDateTime: timeStampFromJson(json['CreationDateTime']),
-    endDateTime: timeStampFromJson(json['EndDateTime']),
-    readyDateTime: timeStampFromJson(json['ReadyDateTime']),
+    creationDateTime:
+        const UnixDateTimeConverter().fromJson(json['CreationDateTime']),
+    endDateTime: const UnixDateTimeConverter().fromJson(json['EndDateTime']),
+    readyDateTime:
+        const UnixDateTimeConverter().fromJson(json['ReadyDateTime']),
   );
 }
 
@@ -1210,12 +1224,15 @@ JobFlowDetail _$JobFlowDetailFromJson(Map<String, dynamic> json) {
 JobFlowExecutionStatusDetail _$JobFlowExecutionStatusDetailFromJson(
     Map<String, dynamic> json) {
   return JobFlowExecutionStatusDetail(
-    creationDateTime: timeStampFromJson(json['CreationDateTime']),
+    creationDateTime:
+        const UnixDateTimeConverter().fromJson(json['CreationDateTime']),
     state: _$enumDecodeNullable(_$JobFlowExecutionStateEnumMap, json['State']),
-    endDateTime: timeStampFromJson(json['EndDateTime']),
+    endDateTime: const UnixDateTimeConverter().fromJson(json['EndDateTime']),
     lastStateChangeReason: json['LastStateChangeReason'] as String,
-    readyDateTime: timeStampFromJson(json['ReadyDateTime']),
-    startDateTime: timeStampFromJson(json['StartDateTime']),
+    readyDateTime:
+        const UnixDateTimeConverter().fromJson(json['ReadyDateTime']),
+    startDateTime:
+        const UnixDateTimeConverter().fromJson(json['StartDateTime']),
   );
 }
 
@@ -1652,7 +1669,8 @@ Map<String, dynamic> _$ScriptBootstrapActionConfigToJson(
 SecurityConfigurationSummary _$SecurityConfigurationSummaryFromJson(
     Map<String, dynamic> json) {
   return SecurityConfigurationSummary(
-    creationDateTime: timeStampFromJson(json['CreationDateTime']),
+    creationDateTime:
+        const UnixDateTimeConverter().fromJson(json['CreationDateTime']),
     name: json['Name'] as String,
   );
 }
@@ -1811,11 +1829,13 @@ StepDetail _$StepDetailFromJson(Map<String, dynamic> json) {
 StepExecutionStatusDetail _$StepExecutionStatusDetailFromJson(
     Map<String, dynamic> json) {
   return StepExecutionStatusDetail(
-    creationDateTime: timeStampFromJson(json['CreationDateTime']),
+    creationDateTime:
+        const UnixDateTimeConverter().fromJson(json['CreationDateTime']),
     state: _$enumDecodeNullable(_$StepExecutionStateEnumMap, json['State']),
-    endDateTime: timeStampFromJson(json['EndDateTime']),
+    endDateTime: const UnixDateTimeConverter().fromJson(json['EndDateTime']),
     lastStateChangeReason: json['LastStateChangeReason'] as String,
-    startDateTime: timeStampFromJson(json['StartDateTime']),
+    startDateTime:
+        const UnixDateTimeConverter().fromJson(json['StartDateTime']),
   );
 }
 
@@ -1886,9 +1906,11 @@ StepSummary _$StepSummaryFromJson(Map<String, dynamic> json) {
 
 StepTimeline _$StepTimelineFromJson(Map<String, dynamic> json) {
   return StepTimeline(
-    creationDateTime: timeStampFromJson(json['CreationDateTime']),
-    endDateTime: timeStampFromJson(json['EndDateTime']),
-    startDateTime: timeStampFromJson(json['StartDateTime']),
+    creationDateTime:
+        const UnixDateTimeConverter().fromJson(json['CreationDateTime']),
+    endDateTime: const UnixDateTimeConverter().fromJson(json['EndDateTime']),
+    startDateTime:
+        const UnixDateTimeConverter().fromJson(json['StartDateTime']),
   );
 }
 

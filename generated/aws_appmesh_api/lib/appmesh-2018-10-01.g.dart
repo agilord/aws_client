@@ -446,8 +446,9 @@ DeleteVirtualRouterOutput _$DeleteVirtualRouterOutputFromJson(
 ResourceMetadata _$ResourceMetadataFromJson(Map<String, dynamic> json) {
   return ResourceMetadata(
     arn: json['arn'] as String,
-    createdAt: timeStampFromJson(json['createdAt']),
-    lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
+    createdAt: const UnixDateTimeConverter().fromJson(json['createdAt']),
+    lastUpdatedAt:
+        const UnixDateTimeConverter().fromJson(json['lastUpdatedAt']),
     uid: json['uid'] as String,
     version: json['version'] as int,
   );

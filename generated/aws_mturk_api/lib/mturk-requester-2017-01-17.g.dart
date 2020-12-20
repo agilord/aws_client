@@ -18,18 +18,20 @@ ApproveAssignmentResponse _$ApproveAssignmentResponseFromJson(
 
 Assignment _$AssignmentFromJson(Map<String, dynamic> json) {
   return Assignment(
-    acceptTime: timeStampFromJson(json['AcceptTime']),
+    acceptTime: const UnixDateTimeConverter().fromJson(json['AcceptTime']),
     answer: json['Answer'] as String,
-    approvalTime: timeStampFromJson(json['ApprovalTime']),
+    approvalTime: const UnixDateTimeConverter().fromJson(json['ApprovalTime']),
     assignmentId: json['AssignmentId'] as String,
     assignmentStatus: _$enumDecodeNullable(
         _$AssignmentStatusEnumMap, json['AssignmentStatus']),
-    autoApprovalTime: timeStampFromJson(json['AutoApprovalTime']),
-    deadline: timeStampFromJson(json['Deadline']),
+    autoApprovalTime:
+        const UnixDateTimeConverter().fromJson(json['AutoApprovalTime']),
+    deadline: const UnixDateTimeConverter().fromJson(json['Deadline']),
     hITId: json['HITId'] as String,
-    rejectionTime: timeStampFromJson(json['RejectionTime']),
+    rejectionTime:
+        const UnixDateTimeConverter().fromJson(json['RejectionTime']),
     requesterFeedback: json['RequesterFeedback'] as String,
-    submitTime: timeStampFromJson(json['SubmitTime']),
+    submitTime: const UnixDateTimeConverter().fromJson(json['SubmitTime']),
     workerId: json['WorkerId'] as String,
   );
 }
@@ -82,7 +84,7 @@ BonusPayment _$BonusPaymentFromJson(Map<String, dynamic> json) {
   return BonusPayment(
     assignmentId: json['AssignmentId'] as String,
     bonusAmount: json['BonusAmount'] as String,
-    grantTime: timeStampFromJson(json['GrantTime']),
+    grantTime: const UnixDateTimeConverter().fromJson(json['GrantTime']),
     reason: json['Reason'] as String,
     workerId: json['WorkerId'] as String,
   );
@@ -211,9 +213,9 @@ HIT _$HITFromJson(Map<String, dynamic> json) {
   return HIT(
     assignmentDurationInSeconds: json['AssignmentDurationInSeconds'] as int,
     autoApprovalDelayInSeconds: json['AutoApprovalDelayInSeconds'] as int,
-    creationTime: timeStampFromJson(json['CreationTime']),
+    creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
     description: json['Description'] as String,
-    expiration: timeStampFromJson(json['Expiration']),
+    expiration: const UnixDateTimeConverter().fromJson(json['Expiration']),
     hITGroupId: json['HITGroupId'] as String,
     hITId: json['HITId'] as String,
     hITLayoutId: json['HITLayoutId'] as String,
@@ -536,7 +538,7 @@ Map<String, dynamic> _$PolicyParameterToJson(PolicyParameter instance) {
 
 Qualification _$QualificationFromJson(Map<String, dynamic> json) {
   return Qualification(
-    grantTime: timeStampFromJson(json['GrantTime']),
+    grantTime: const UnixDateTimeConverter().fromJson(json['GrantTime']),
     integerValue: json['IntegerValue'] as int,
     localeValue: json['LocaleValue'] == null
         ? null
@@ -557,7 +559,7 @@ QualificationRequest _$QualificationRequestFromJson(Map<String, dynamic> json) {
     answer: json['Answer'] as String,
     qualificationRequestId: json['QualificationRequestId'] as String,
     qualificationTypeId: json['QualificationTypeId'] as String,
-    submitTime: timeStampFromJson(json['SubmitTime']),
+    submitTime: const UnixDateTimeConverter().fromJson(json['SubmitTime']),
     test: json['Test'] as String,
     workerId: json['WorkerId'] as String,
   );
@@ -625,7 +627,7 @@ QualificationType _$QualificationTypeFromJson(Map<String, dynamic> json) {
     answerKey: json['AnswerKey'] as String,
     autoGranted: json['AutoGranted'] as bool,
     autoGrantedValue: json['AutoGrantedValue'] as int,
-    creationTime: timeStampFromJson(json['CreationTime']),
+    creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
     description: json['Description'] as String,
     isRequestable: json['IsRequestable'] as bool,
     keywords: json['Keywords'] as String,
@@ -665,7 +667,7 @@ ReviewActionDetail _$ReviewActionDetailFromJson(Map<String, dynamic> json) {
   return ReviewActionDetail(
     actionId: json['ActionId'] as String,
     actionName: json['ActionName'] as String,
-    completeTime: timeStampFromJson(json['CompleteTime']),
+    completeTime: const UnixDateTimeConverter().fromJson(json['CompleteTime']),
     errorCode: json['ErrorCode'] as String,
     result: json['Result'] as String,
     status: _$enumDecodeNullable(_$ReviewActionStatusEnumMap, json['Status']),

@@ -76,7 +76,8 @@ CreateVocabularyFilterResponse _$CreateVocabularyFilterResponseFromJson(
   return CreateVocabularyFilterResponse(
     languageCode:
         _$enumDecodeNullable(_$LanguageCodeEnumMap, json['LanguageCode']),
-    lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+    lastModifiedTime:
+        const UnixDateTimeConverter().fromJson(json['LastModifiedTime']),
     vocabularyFilterName: json['VocabularyFilterName'] as String,
   );
 }
@@ -121,7 +122,8 @@ CreateVocabularyResponse _$CreateVocabularyResponseFromJson(
     failureReason: json['FailureReason'] as String,
     languageCode:
         _$enumDecodeNullable(_$LanguageCodeEnumMap, json['LanguageCode']),
-    lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+    lastModifiedTime:
+        const UnixDateTimeConverter().fromJson(json['LastModifiedTime']),
     vocabularyName: json['VocabularyName'] as String,
     vocabularyState:
         _$enumDecodeNullable(_$VocabularyStateEnumMap, json['VocabularyState']),
@@ -160,7 +162,8 @@ GetVocabularyFilterResponse _$GetVocabularyFilterResponseFromJson(
     downloadUri: json['DownloadUri'] as String,
     languageCode:
         _$enumDecodeNullable(_$LanguageCodeEnumMap, json['LanguageCode']),
-    lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+    lastModifiedTime:
+        const UnixDateTimeConverter().fromJson(json['LastModifiedTime']),
     vocabularyFilterName: json['VocabularyFilterName'] as String,
   );
 }
@@ -172,7 +175,8 @@ GetVocabularyResponse _$GetVocabularyResponseFromJson(
     failureReason: json['FailureReason'] as String,
     languageCode:
         _$enumDecodeNullable(_$LanguageCodeEnumMap, json['LanguageCode']),
-    lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+    lastModifiedTime:
+        const UnixDateTimeConverter().fromJson(json['LastModifiedTime']),
     vocabularyName: json['VocabularyName'] as String,
     vocabularyState:
         _$enumDecodeNullable(_$VocabularyStateEnumMap, json['VocabularyState']),
@@ -292,8 +296,9 @@ MedicalTranscript _$MedicalTranscriptFromJson(Map<String, dynamic> json) {
 MedicalTranscriptionJob _$MedicalTranscriptionJobFromJson(
     Map<String, dynamic> json) {
   return MedicalTranscriptionJob(
-    completionTime: timeStampFromJson(json['CompletionTime']),
-    creationTime: timeStampFromJson(json['CreationTime']),
+    completionTime:
+        const UnixDateTimeConverter().fromJson(json['CompletionTime']),
+    creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
     failureReason: json['FailureReason'] as String,
     languageCode:
         _$enumDecodeNullable(_$LanguageCodeEnumMap, json['LanguageCode']),
@@ -309,7 +314,7 @@ MedicalTranscriptionJob _$MedicalTranscriptionJobFromJson(
         : MedicalTranscriptionSetting.fromJson(
             json['Settings'] as Map<String, dynamic>),
     specialty: _$enumDecodeNullable(_$SpecialtyEnumMap, json['Specialty']),
-    startTime: timeStampFromJson(json['StartTime']),
+    startTime: const UnixDateTimeConverter().fromJson(json['StartTime']),
     transcript: json['Transcript'] == null
         ? null
         : MedicalTranscript.fromJson(
@@ -339,8 +344,9 @@ const _$TypeEnumMap = {
 MedicalTranscriptionJobSummary _$MedicalTranscriptionJobSummaryFromJson(
     Map<String, dynamic> json) {
   return MedicalTranscriptionJobSummary(
-    completionTime: timeStampFromJson(json['CompletionTime']),
-    creationTime: timeStampFromJson(json['CreationTime']),
+    completionTime:
+        const UnixDateTimeConverter().fromJson(json['CompletionTime']),
+    creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
     failureReason: json['FailureReason'] as String,
     languageCode:
         _$enumDecodeNullable(_$LanguageCodeEnumMap, json['LanguageCode']),
@@ -348,7 +354,7 @@ MedicalTranscriptionJobSummary _$MedicalTranscriptionJobSummaryFromJson(
     outputLocationType: _$enumDecodeNullable(
         _$OutputLocationTypeEnumMap, json['OutputLocationType']),
     specialty: _$enumDecodeNullable(_$SpecialtyEnumMap, json['Specialty']),
-    startTime: timeStampFromJson(json['StartTime']),
+    startTime: const UnixDateTimeConverter().fromJson(json['StartTime']),
     transcriptionJobStatus: _$enumDecodeNullable(
         _$TranscriptionJobStatusEnumMap, json['TranscriptionJobStatus']),
     type: _$enumDecodeNullable(_$TypeEnumMap, json['Type']),
@@ -458,12 +464,13 @@ Transcript _$TranscriptFromJson(Map<String, dynamic> json) {
 
 TranscriptionJob _$TranscriptionJobFromJson(Map<String, dynamic> json) {
   return TranscriptionJob(
-    completionTime: timeStampFromJson(json['CompletionTime']),
+    completionTime:
+        const UnixDateTimeConverter().fromJson(json['CompletionTime']),
     contentRedaction: json['ContentRedaction'] == null
         ? null
         : ContentRedaction.fromJson(
             json['ContentRedaction'] as Map<String, dynamic>),
-    creationTime: timeStampFromJson(json['CreationTime']),
+    creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
     failureReason: json['FailureReason'] as String,
     jobExecutionSettings: json['JobExecutionSettings'] == null
         ? null
@@ -480,7 +487,7 @@ TranscriptionJob _$TranscriptionJobFromJson(Map<String, dynamic> json) {
     settings: json['Settings'] == null
         ? null
         : Settings.fromJson(json['Settings'] as Map<String, dynamic>),
-    startTime: timeStampFromJson(json['StartTime']),
+    startTime: const UnixDateTimeConverter().fromJson(json['StartTime']),
     transcript: json['Transcript'] == null
         ? null
         : Transcript.fromJson(json['Transcript'] as Map<String, dynamic>),
@@ -493,18 +500,19 @@ TranscriptionJob _$TranscriptionJobFromJson(Map<String, dynamic> json) {
 TranscriptionJobSummary _$TranscriptionJobSummaryFromJson(
     Map<String, dynamic> json) {
   return TranscriptionJobSummary(
-    completionTime: timeStampFromJson(json['CompletionTime']),
+    completionTime:
+        const UnixDateTimeConverter().fromJson(json['CompletionTime']),
     contentRedaction: json['ContentRedaction'] == null
         ? null
         : ContentRedaction.fromJson(
             json['ContentRedaction'] as Map<String, dynamic>),
-    creationTime: timeStampFromJson(json['CreationTime']),
+    creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
     failureReason: json['FailureReason'] as String,
     languageCode:
         _$enumDecodeNullable(_$LanguageCodeEnumMap, json['LanguageCode']),
     outputLocationType: _$enumDecodeNullable(
         _$OutputLocationTypeEnumMap, json['OutputLocationType']),
-    startTime: timeStampFromJson(json['StartTime']),
+    startTime: const UnixDateTimeConverter().fromJson(json['StartTime']),
     transcriptionJobName: json['TranscriptionJobName'] as String,
     transcriptionJobStatus: _$enumDecodeNullable(
         _$TranscriptionJobStatusEnumMap, json['TranscriptionJobStatus']),
@@ -516,7 +524,8 @@ UpdateVocabularyFilterResponse _$UpdateVocabularyFilterResponseFromJson(
   return UpdateVocabularyFilterResponse(
     languageCode:
         _$enumDecodeNullable(_$LanguageCodeEnumMap, json['LanguageCode']),
-    lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+    lastModifiedTime:
+        const UnixDateTimeConverter().fromJson(json['LastModifiedTime']),
     vocabularyFilterName: json['VocabularyFilterName'] as String,
   );
 }
@@ -526,7 +535,8 @@ UpdateVocabularyResponse _$UpdateVocabularyResponseFromJson(
   return UpdateVocabularyResponse(
     languageCode:
         _$enumDecodeNullable(_$LanguageCodeEnumMap, json['LanguageCode']),
-    lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+    lastModifiedTime:
+        const UnixDateTimeConverter().fromJson(json['LastModifiedTime']),
     vocabularyName: json['VocabularyName'] as String,
     vocabularyState:
         _$enumDecodeNullable(_$VocabularyStateEnumMap, json['VocabularyState']),
@@ -537,7 +547,8 @@ VocabularyFilterInfo _$VocabularyFilterInfoFromJson(Map<String, dynamic> json) {
   return VocabularyFilterInfo(
     languageCode:
         _$enumDecodeNullable(_$LanguageCodeEnumMap, json['LanguageCode']),
-    lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+    lastModifiedTime:
+        const UnixDateTimeConverter().fromJson(json['LastModifiedTime']),
     vocabularyFilterName: json['VocabularyFilterName'] as String,
   );
 }
@@ -546,7 +557,8 @@ VocabularyInfo _$VocabularyInfoFromJson(Map<String, dynamic> json) {
   return VocabularyInfo(
     languageCode:
         _$enumDecodeNullable(_$LanguageCodeEnumMap, json['LanguageCode']),
-    lastModifiedTime: timeStampFromJson(json['LastModifiedTime']),
+    lastModifiedTime:
+        const UnixDateTimeConverter().fromJson(json['LastModifiedTime']),
     vocabularyName: json['VocabularyName'] as String,
     vocabularyState:
         _$enumDecodeNullable(_$VocabularyStateEnumMap, json['VocabularyState']),

@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -1682,10 +1685,8 @@ class BlacklistEntry {
   final String description;
 
   /// The time when the blacklisting event occurred, shown in Unix time format.
-  @_s.JsonKey(
-      name: 'ListingTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ListingTime')
   final DateTime listingTime;
 
   /// The name of the blacklist that the IP address appears on.
@@ -1960,10 +1961,8 @@ class DailyVolume {
   final List<DomainIspPlacement> domainIspPlacements;
 
   /// The date that the DailyVolume metrics apply to, in Unix time.
-  @_s.JsonKey(
-      name: 'StartDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'StartDate')
   final DateTime startDate;
 
   /// An object that contains inbox placement metrics for a specific day in the
@@ -2104,10 +2103,8 @@ enum DeliverabilityDashboardAccountStatus {
 class DeliverabilityTestReport {
   /// The date and time when the predictive inbox placement test was created, in
   /// Unix time format.
-  @_s.JsonKey(
-      name: 'CreateDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreateDate')
   final DateTime createDate;
 
   /// The status of the predictive inbox placement test. If the status is
@@ -2375,10 +2372,8 @@ class DomainDeliverabilityCampaign {
   /// The first time, in Unix time format, when the email message was delivered to
   /// any recipient's inbox. This value can help you determine how long it took
   /// for a campaign to deliver an email message.
-  @_s.JsonKey(
-      name: 'FirstSeenDateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'FirstSeenDateTime')
   final DateTime firstSeenDateTime;
 
   /// The verified email address that the email message was sent from.
@@ -2397,10 +2392,8 @@ class DomainDeliverabilityCampaign {
   /// The last time, in Unix time format, when the email message was delivered to
   /// any recipient's inbox. This value can help you determine how long it took
   /// for a campaign to deliver an email message.
-  @_s.JsonKey(
-      name: 'LastSeenDateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastSeenDateTime')
   final DateTime lastSeenDateTime;
 
   /// The projected number of recipients that the email message was sent to.
@@ -2476,10 +2469,8 @@ class DomainDeliverabilityTrackingOption {
 
   /// The date, in Unix time format, when you enabled the Deliverability dashboard
   /// for the domain.
-  @_s.JsonKey(
-      name: 'SubscriptionStartDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'SubscriptionStartDate')
   final DateTime subscriptionStartDate;
 
   DomainDeliverabilityTrackingOption({
@@ -2993,10 +2984,8 @@ class GetDeliverabilityDashboardOptionsResponse {
   /// scheduled to expire at the end of the current calendar month. This value is
   /// null if you have an active subscription that isn’t due to expire at the end
   /// of the month.
-  @_s.JsonKey(
-      name: 'SubscriptionExpiryDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'SubscriptionExpiryDate')
   final DateTime subscriptionExpiryDate;
 
   GetDeliverabilityDashboardOptionsResponse({
@@ -3965,10 +3954,8 @@ class ReputationOptions {
   /// The date and time (in Unix time) when the reputation metrics were last given
   /// a fresh start. When your account is given a fresh start, your reputation
   /// metrics are calculated starting from the date of the fresh start.
-  @_s.JsonKey(
-      name: 'LastFreshStart',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastFreshStart')
   final DateTime lastFreshStart;
 
   /// If <code>true</code>, tracking of reputation metrics is enabled for the

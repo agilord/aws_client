@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -1573,10 +1576,8 @@ class ListResourcesResponse {
     createToJson: false)
 class Principal {
   /// The time when the principal was associated with the resource share.
-  @_s.JsonKey(
-      name: 'creationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'creationTime')
   final DateTime creationTime;
 
   /// Indicates whether the principal belongs to the same AWS organization as the
@@ -1589,10 +1590,8 @@ class Principal {
   final String id;
 
   /// The time when the association was last updated.
-  @_s.JsonKey(
-      name: 'lastUpdatedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastUpdatedTime')
   final DateTime lastUpdatedTime;
 
   /// The Amazon Resource Name (ARN) of the resource share.
@@ -1664,17 +1663,13 @@ class Resource {
   final String arn;
 
   /// The time when the resource was associated with the resource share.
-  @_s.JsonKey(
-      name: 'creationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'creationTime')
   final DateTime creationTime;
 
   /// The time when the association was last updated.
-  @_s.JsonKey(
-      name: 'lastUpdatedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastUpdatedTime')
   final DateTime lastUpdatedTime;
 
   /// The ARN of the resource group. This value is returned only if the resource
@@ -1744,10 +1739,8 @@ class ResourceShare {
   final bool allowExternalPrincipals;
 
   /// The time when the resource share was created.
-  @_s.JsonKey(
-      name: 'creationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'creationTime')
   final DateTime creationTime;
 
   /// Indicates how the resource share was created. Possible values include:
@@ -1774,10 +1767,8 @@ class ResourceShare {
   final ResourceShareFeatureSet featureSet;
 
   /// The time when the resource share was last updated.
-  @_s.JsonKey(
-      name: 'lastUpdatedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastUpdatedTime')
   final DateTime lastUpdatedTime;
 
   /// The name of the resource share.
@@ -1838,10 +1829,8 @@ class ResourceShareAssociation {
   final ResourceShareAssociationType associationType;
 
   /// The time when the association was created.
-  @_s.JsonKey(
-      name: 'creationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'creationTime')
   final DateTime creationTime;
 
   /// Indicates whether the principal belongs to the same AWS organization as the
@@ -1850,10 +1839,8 @@ class ResourceShareAssociation {
   final bool external;
 
   /// The time when the association was last updated.
-  @_s.JsonKey(
-      name: 'lastUpdatedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastUpdatedTime')
   final DateTime lastUpdatedTime;
 
   /// The Amazon Resource Name (ARN) of the resource share.
@@ -1954,10 +1941,8 @@ enum ResourceShareFeatureSet {
     createToJson: false)
 class ResourceShareInvitation {
   /// The date and time when the invitation was sent.
-  @_s.JsonKey(
-      name: 'invitationTimestamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'invitationTimestamp')
   final DateTime invitationTimestamp;
 
   /// The ID of the AWS account that received the invitation.
@@ -2028,10 +2013,8 @@ class ResourceSharePermissionDetail {
   final String arn;
 
   /// The date and time when the permission was created.
-  @_s.JsonKey(
-      name: 'creationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'creationTime')
   final DateTime creationTime;
 
   /// The identifier for the version of the permission that is set as the default
@@ -2040,10 +2023,8 @@ class ResourceSharePermissionDetail {
   final bool defaultVersion;
 
   /// The date and time when the permission was last updated.
-  @_s.JsonKey(
-      name: 'lastUpdatedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastUpdatedTime')
   final DateTime lastUpdatedTime;
 
   /// The name of the permission.
@@ -2091,10 +2072,8 @@ class ResourceSharePermissionSummary {
   final String arn;
 
   /// The date and time when the permission was created.
-  @_s.JsonKey(
-      name: 'creationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'creationTime')
   final DateTime creationTime;
 
   /// The identifier for the version of the permission that is set as the default
@@ -2103,10 +2082,8 @@ class ResourceSharePermissionSummary {
   final bool defaultVersion;
 
   /// The date and time when the permission was last updated.
-  @_s.JsonKey(
-      name: 'lastUpdatedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastUpdatedTime')
   final DateTime lastUpdatedTime;
 
   /// The name of the permission.

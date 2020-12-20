@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -695,17 +698,13 @@ class ProjectDetails {
   final String consoleUrl;
 
   /// Date the project was created.
-  @_s.JsonKey(
-      name: 'createdDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdDate')
   final DateTime createdDate;
 
   /// Date of the last modification of the project.
-  @_s.JsonKey(
-      name: 'lastUpdatedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastUpdatedDate')
   final DateTime lastUpdatedDate;
   @_s.JsonKey(name: 'name')
   final String name;

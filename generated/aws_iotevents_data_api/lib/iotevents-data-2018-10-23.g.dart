@@ -98,11 +98,12 @@ DescribeDetectorResponse _$DescribeDetectorResponseFromJson(
 
 Detector _$DetectorFromJson(Map<String, dynamic> json) {
   return Detector(
-    creationTime: timeStampFromJson(json['creationTime']),
+    creationTime: const UnixDateTimeConverter().fromJson(json['creationTime']),
     detectorModelName: json['detectorModelName'] as String,
     detectorModelVersion: json['detectorModelVersion'] as String,
     keyValue: json['keyValue'] as String,
-    lastUpdateTime: timeStampFromJson(json['lastUpdateTime']),
+    lastUpdateTime:
+        const UnixDateTimeConverter().fromJson(json['lastUpdateTime']),
     state: json['state'] == null
         ? null
         : DetectorState.fromJson(json['state'] as Map<String, dynamic>),
@@ -148,11 +149,12 @@ DetectorStateSummary _$DetectorStateSummaryFromJson(Map<String, dynamic> json) {
 
 DetectorSummary _$DetectorSummaryFromJson(Map<String, dynamic> json) {
   return DetectorSummary(
-    creationTime: timeStampFromJson(json['creationTime']),
+    creationTime: const UnixDateTimeConverter().fromJson(json['creationTime']),
     detectorModelName: json['detectorModelName'] as String,
     detectorModelVersion: json['detectorModelVersion'] as String,
     keyValue: json['keyValue'] as String,
-    lastUpdateTime: timeStampFromJson(json['lastUpdateTime']),
+    lastUpdateTime:
+        const UnixDateTimeConverter().fromJson(json['lastUpdateTime']),
     state: json['state'] == null
         ? null
         : DetectorStateSummary.fromJson(json['state'] as Map<String, dynamic>),
@@ -189,7 +191,7 @@ Map<String, dynamic> _$MessageToJson(Message instance) {
 Timer _$TimerFromJson(Map<String, dynamic> json) {
   return Timer(
     name: json['name'] as String,
-    timestamp: timeStampFromJson(json['timestamp']),
+    timestamp: const UnixDateTimeConverter().fromJson(json['timestamp']),
   );
 }
 

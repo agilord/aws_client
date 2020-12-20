@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -361,10 +364,8 @@ class CloseTunnelResponse {
     createToJson: false)
 class ConnectionState {
   /// The last time the connection status was updated.
-  @_s.JsonKey(
-      name: 'lastUpdatedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastUpdatedAt')
   final DateTime lastUpdatedAt;
 
   /// The connection status of the tunnel. Valid values are <code>CONNECTED</code>
@@ -573,10 +574,8 @@ class TimeoutConfig {
     createToJson: false)
 class Tunnel {
   /// The time when the tunnel was created.
-  @_s.JsonKey(
-      name: 'createdAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdAt')
   final DateTime createdAt;
 
   /// A description of the tunnel.
@@ -594,10 +593,8 @@ class Tunnel {
   final ConnectionState destinationConnectionState;
 
   /// The last time the tunnel was updated.
-  @_s.JsonKey(
-      name: 'lastUpdatedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastUpdatedAt')
   final DateTime lastUpdatedAt;
 
   /// The connection state of the source application.
@@ -656,10 +653,8 @@ enum TunnelStatus {
     createToJson: false)
 class TunnelSummary {
   /// The time the tunnel was created.
-  @_s.JsonKey(
-      name: 'createdAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdAt')
   final DateTime createdAt;
 
   /// A description of the tunnel.
@@ -667,10 +662,8 @@ class TunnelSummary {
   final String description;
 
   /// The time the tunnel was last updated.
-  @_s.JsonKey(
-      name: 'lastUpdatedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastUpdatedAt')
   final DateTime lastUpdatedAt;
 
   /// The status of a tunnel. Valid values are: Open and Closed.

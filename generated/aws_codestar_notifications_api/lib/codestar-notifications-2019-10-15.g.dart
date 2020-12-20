@@ -29,14 +29,16 @@ DescribeNotificationRuleResult _$DescribeNotificationRuleResultFromJson(
   return DescribeNotificationRuleResult(
     arn: json['Arn'] as String,
     createdBy: json['CreatedBy'] as String,
-    createdTimestamp: timeStampFromJson(json['CreatedTimestamp']),
+    createdTimestamp:
+        const UnixDateTimeConverter().fromJson(json['CreatedTimestamp']),
     detailType: _$enumDecodeNullable(_$DetailTypeEnumMap, json['DetailType']),
     eventTypes: (json['EventTypes'] as List)
         ?.map((e) => e == null
             ? null
             : EventTypeSummary.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    lastModifiedTimestamp: timeStampFromJson(json['LastModifiedTimestamp']),
+    lastModifiedTimestamp:
+        const UnixDateTimeConverter().fromJson(json['LastModifiedTimestamp']),
     name: json['Name'] as String,
     resource: json['Resource'] as String,
     status:

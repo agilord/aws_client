@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -2885,10 +2888,8 @@ extension on ScalableDimension {
     createToJson: false)
 class ScalableTarget {
   /// The Unix timestamp for when the scalable target was created.
-  @_s.JsonKey(
-      name: 'CreationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationTime')
   final DateTime creationTime;
 
   /// The maximum value to scale to in response to a scale-out event.
@@ -3236,10 +3237,8 @@ class ScalingActivity {
   final ServiceNamespace serviceNamespace;
 
   /// The Unix timestamp for when the scaling activity began.
-  @_s.JsonKey(
-      name: 'StartTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'StartTime')
   final DateTime startTime;
 
   /// Indicates the status of the scaling activity.
@@ -3251,8 +3250,8 @@ class ScalingActivity {
   final String details;
 
   /// The Unix timestamp for when the scaling activity ended.
-  @_s.JsonKey(
-      name: 'EndTime', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'EndTime')
   final DateTime endTime;
 
   /// A simple message about the current status of the scaling activity.
@@ -3299,10 +3298,8 @@ enum ScalingActivityStatusCode {
     createToJson: false)
 class ScalingPolicy {
   /// The Unix timestamp for when the scaling policy was created.
-  @_s.JsonKey(
-      name: 'CreationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationTime')
   final DateTime creationTime;
 
   /// The Amazon Resource Name (ARN) of the scaling policy.
@@ -3489,10 +3486,8 @@ class ScalingPolicy {
     createToJson: false)
 class ScheduledAction {
   /// The date and time that the scheduled action was created.
-  @_s.JsonKey(
-      name: 'CreationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationTime')
   final DateTime creationTime;
 
   /// The identifier of the resource associated with the scaling policy. This
@@ -3603,8 +3598,8 @@ class ScheduledAction {
   final ServiceNamespace serviceNamespace;
 
   /// The date and time that the action is scheduled to end.
-  @_s.JsonKey(
-      name: 'EndTime', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'EndTime')
   final DateTime endTime;
 
   /// The scalable dimension. This string consists of the service namespace,
@@ -3678,10 +3673,8 @@ class ScheduledAction {
   final ScalableTargetAction scalableTargetAction;
 
   /// The date and time that the action is scheduled to begin.
-  @_s.JsonKey(
-      name: 'StartTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'StartTime')
   final DateTime startTime;
 
   ScheduledAction({

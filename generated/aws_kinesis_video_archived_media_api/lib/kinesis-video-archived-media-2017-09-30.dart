@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -1298,10 +1301,8 @@ class DASHTimestampRange {
   /// <code>EndTimestamp</code> value and continue past it are included in the
   /// session.
   /// </note>
-  @_s.JsonKey(
-      name: 'EndTimestamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'EndTimestamp')
   final DateTime endTimestamp;
 
   /// The start of the timestamp range for the requested media.
@@ -1315,10 +1316,8 @@ class DASHTimestampRange {
   /// <code>SERVER_TIMESTAMP</code>, the <code>StartTimestamp</code> must be later
   /// than the stream head.
   /// </note>
-  @_s.JsonKey(
-      name: 'StartTimestamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'StartTimestamp')
   final DateTime startTimestamp;
 
   DASHTimestampRange({
@@ -1350,17 +1349,13 @@ class Fragment {
   final int fragmentSizeInBytes;
 
   /// The timestamp from the producer corresponding to the fragment.
-  @_s.JsonKey(
-      name: 'ProducerTimestamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ProducerTimestamp')
   final DateTime producerTimestamp;
 
   /// The timestamp from the AWS server corresponding to the fragment.
-  @_s.JsonKey(
-      name: 'ServerTimestamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ServerTimestamp')
   final DateTime serverTimestamp;
 
   Fragment({
@@ -1679,10 +1674,8 @@ class HLSTimestampRange {
   /// <code>EndTimestamp</code> value and continue past it are included in the
   /// session.
   /// </note>
-  @_s.JsonKey(
-      name: 'EndTimestamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'EndTimestamp')
   final DateTime endTimestamp;
 
   /// The start of the timestamp range for the requested media.
@@ -1696,10 +1689,8 @@ class HLSTimestampRange {
   /// <code>SERVER_TIMESTAMP</code>, the <code>StartTimestamp</code> must be later
   /// than the stream head.
   /// </note>
-  @_s.JsonKey(
-      name: 'StartTimestamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'StartTimestamp')
   final DateTime startTimestamp;
 
   HLSTimestampRange({
@@ -1743,18 +1734,14 @@ class ListFragmentsOutput {
 class TimestampRange {
   /// The ending timestamp in the range of timestamps for which to return
   /// fragments.
-  @_s.JsonKey(
-      name: 'EndTimestamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'EndTimestamp')
   final DateTime endTimestamp;
 
   /// The starting timestamp in the range of timestamps for which to return
   /// fragments.
-  @_s.JsonKey(
-      name: 'StartTimestamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'StartTimestamp')
   final DateTime startTimestamp;
 
   TimestampRange({

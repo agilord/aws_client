@@ -253,7 +253,7 @@ PolicyComplianceDetail _$PolicyComplianceDetailFromJson(
     Map<String, dynamic> json) {
   return PolicyComplianceDetail(
     evaluationLimitExceeded: json['EvaluationLimitExceeded'] as bool,
-    expiredAt: timeStampFromJson(json['ExpiredAt']),
+    expiredAt: const UnixDateTimeConverter().fromJson(json['ExpiredAt']),
     issueInfoMap: (json['IssueInfoMap'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(
           _$enumDecodeNullable(_$DependentServiceNameEnumMap, k), e as String),
@@ -288,7 +288,7 @@ PolicyComplianceStatus _$PolicyComplianceStatusFromJson(
       (k, e) => MapEntry(
           _$enumDecodeNullable(_$DependentServiceNameEnumMap, k), e as String),
     ),
-    lastUpdated: timeStampFromJson(json['LastUpdated']),
+    lastUpdated: const UnixDateTimeConverter().fromJson(json['LastUpdated']),
     memberAccount: json['MemberAccount'] as String,
     policyId: json['PolicyId'] as String,
     policyName: json['PolicyName'] as String,

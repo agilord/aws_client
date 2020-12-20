@@ -13,7 +13,8 @@ Algorithm _$AlgorithmFromJson(Map<String, dynamic> json) {
         ? null
         : AlgorithmImage.fromJson(
             json['algorithmImage'] as Map<String, dynamic>),
-    creationDateTime: timeStampFromJson(json['creationDateTime']),
+    creationDateTime:
+        const UnixDateTimeConverter().fromJson(json['creationDateTime']),
     defaultHyperParameterRanges: json['defaultHyperParameterRanges'] == null
         ? null
         : DefaultHyperParameterRanges.fromJson(
@@ -26,7 +27,8 @@ Algorithm _$AlgorithmFromJson(Map<String, dynamic> json) {
         (json['defaultResourceConfig'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-    lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+    lastUpdatedDateTime:
+        const UnixDateTimeConverter().fromJson(json['lastUpdatedDateTime']),
     name: json['name'] as String,
     roleArn: json['roleArn'] as String,
     trainingInputMode: json['trainingInputMode'] as String,
@@ -70,7 +72,8 @@ AutoMLResult _$AutoMLResultFromJson(Map<String, dynamic> json) {
 BatchInferenceJob _$BatchInferenceJobFromJson(Map<String, dynamic> json) {
   return BatchInferenceJob(
     batchInferenceJobArn: json['batchInferenceJobArn'] as String,
-    creationDateTime: timeStampFromJson(json['creationDateTime']),
+    creationDateTime:
+        const UnixDateTimeConverter().fromJson(json['creationDateTime']),
     failureReason: json['failureReason'] as String,
     jobInput: json['jobInput'] == null
         ? null
@@ -81,7 +84,8 @@ BatchInferenceJob _$BatchInferenceJobFromJson(Map<String, dynamic> json) {
         ? null
         : BatchInferenceJobOutput.fromJson(
             json['jobOutput'] as Map<String, dynamic>),
-    lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+    lastUpdatedDateTime:
+        const UnixDateTimeConverter().fromJson(json['lastUpdatedDateTime']),
     numResults: json['numResults'] as int,
     roleArn: json['roleArn'] as String,
     solutionVersionArn: json['solutionVersionArn'] as String,
@@ -140,10 +144,12 @@ BatchInferenceJobSummary _$BatchInferenceJobSummaryFromJson(
     Map<String, dynamic> json) {
   return BatchInferenceJobSummary(
     batchInferenceJobArn: json['batchInferenceJobArn'] as String,
-    creationDateTime: timeStampFromJson(json['creationDateTime']),
+    creationDateTime:
+        const UnixDateTimeConverter().fromJson(json['creationDateTime']),
     failureReason: json['failureReason'] as String,
     jobName: json['jobName'] as String,
-    lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+    lastUpdatedDateTime:
+        const UnixDateTimeConverter().fromJson(json['lastUpdatedDateTime']),
     solutionVersionArn: json['solutionVersionArn'] as String,
     status: json['status'] as String,
   );
@@ -152,9 +158,11 @@ BatchInferenceJobSummary _$BatchInferenceJobSummaryFromJson(
 Campaign _$CampaignFromJson(Map<String, dynamic> json) {
   return Campaign(
     campaignArn: json['campaignArn'] as String,
-    creationDateTime: timeStampFromJson(json['creationDateTime']),
+    creationDateTime:
+        const UnixDateTimeConverter().fromJson(json['creationDateTime']),
     failureReason: json['failureReason'] as String,
-    lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+    lastUpdatedDateTime:
+        const UnixDateTimeConverter().fromJson(json['lastUpdatedDateTime']),
     latestCampaignUpdate: json['latestCampaignUpdate'] == null
         ? null
         : CampaignUpdateSummary.fromJson(
@@ -169,9 +177,11 @@ Campaign _$CampaignFromJson(Map<String, dynamic> json) {
 CampaignSummary _$CampaignSummaryFromJson(Map<String, dynamic> json) {
   return CampaignSummary(
     campaignArn: json['campaignArn'] as String,
-    creationDateTime: timeStampFromJson(json['creationDateTime']),
+    creationDateTime:
+        const UnixDateTimeConverter().fromJson(json['creationDateTime']),
     failureReason: json['failureReason'] as String,
-    lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+    lastUpdatedDateTime:
+        const UnixDateTimeConverter().fromJson(json['lastUpdatedDateTime']),
     name: json['name'] as String,
     status: json['status'] as String,
   );
@@ -180,9 +190,11 @@ CampaignSummary _$CampaignSummaryFromJson(Map<String, dynamic> json) {
 CampaignUpdateSummary _$CampaignUpdateSummaryFromJson(
     Map<String, dynamic> json) {
   return CampaignUpdateSummary(
-    creationDateTime: timeStampFromJson(json['creationDateTime']),
+    creationDateTime:
+        const UnixDateTimeConverter().fromJson(json['creationDateTime']),
     failureReason: json['failureReason'] as String,
-    lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+    lastUpdatedDateTime:
+        const UnixDateTimeConverter().fromJson(json['lastUpdatedDateTime']),
     minProvisionedTPS: json['minProvisionedTPS'] as int,
     solutionVersionArn: json['solutionVersionArn'] as String,
     status: json['status'] as String,
@@ -321,11 +333,13 @@ Map<String, dynamic> _$DataSourceToJson(DataSource instance) {
 
 Dataset _$DatasetFromJson(Map<String, dynamic> json) {
   return Dataset(
-    creationDateTime: timeStampFromJson(json['creationDateTime']),
+    creationDateTime:
+        const UnixDateTimeConverter().fromJson(json['creationDateTime']),
     datasetArn: json['datasetArn'] as String,
     datasetGroupArn: json['datasetGroupArn'] as String,
     datasetType: json['datasetType'] as String,
-    lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+    lastUpdatedDateTime:
+        const UnixDateTimeConverter().fromJson(json['lastUpdatedDateTime']),
     name: json['name'] as String,
     schemaArn: json['schemaArn'] as String,
     status: json['status'] as String,
@@ -334,11 +348,13 @@ Dataset _$DatasetFromJson(Map<String, dynamic> json) {
 
 DatasetGroup _$DatasetGroupFromJson(Map<String, dynamic> json) {
   return DatasetGroup(
-    creationDateTime: timeStampFromJson(json['creationDateTime']),
+    creationDateTime:
+        const UnixDateTimeConverter().fromJson(json['creationDateTime']),
     datasetGroupArn: json['datasetGroupArn'] as String,
     failureReason: json['failureReason'] as String,
     kmsKeyArn: json['kmsKeyArn'] as String,
-    lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+    lastUpdatedDateTime:
+        const UnixDateTimeConverter().fromJson(json['lastUpdatedDateTime']),
     name: json['name'] as String,
     roleArn: json['roleArn'] as String,
     status: json['status'] as String,
@@ -347,10 +363,12 @@ DatasetGroup _$DatasetGroupFromJson(Map<String, dynamic> json) {
 
 DatasetGroupSummary _$DatasetGroupSummaryFromJson(Map<String, dynamic> json) {
   return DatasetGroupSummary(
-    creationDateTime: timeStampFromJson(json['creationDateTime']),
+    creationDateTime:
+        const UnixDateTimeConverter().fromJson(json['creationDateTime']),
     datasetGroupArn: json['datasetGroupArn'] as String,
     failureReason: json['failureReason'] as String,
-    lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+    lastUpdatedDateTime:
+        const UnixDateTimeConverter().fromJson(json['lastUpdatedDateTime']),
     name: json['name'] as String,
     status: json['status'] as String,
   );
@@ -358,7 +376,8 @@ DatasetGroupSummary _$DatasetGroupSummaryFromJson(Map<String, dynamic> json) {
 
 DatasetImportJob _$DatasetImportJobFromJson(Map<String, dynamic> json) {
   return DatasetImportJob(
-    creationDateTime: timeStampFromJson(json['creationDateTime']),
+    creationDateTime:
+        const UnixDateTimeConverter().fromJson(json['creationDateTime']),
     dataSource: json['dataSource'] == null
         ? null
         : DataSource.fromJson(json['dataSource'] as Map<String, dynamic>),
@@ -366,7 +385,8 @@ DatasetImportJob _$DatasetImportJobFromJson(Map<String, dynamic> json) {
     datasetImportJobArn: json['datasetImportJobArn'] as String,
     failureReason: json['failureReason'] as String,
     jobName: json['jobName'] as String,
-    lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+    lastUpdatedDateTime:
+        const UnixDateTimeConverter().fromJson(json['lastUpdatedDateTime']),
     roleArn: json['roleArn'] as String,
     status: json['status'] as String,
   );
@@ -375,19 +395,23 @@ DatasetImportJob _$DatasetImportJobFromJson(Map<String, dynamic> json) {
 DatasetImportJobSummary _$DatasetImportJobSummaryFromJson(
     Map<String, dynamic> json) {
   return DatasetImportJobSummary(
-    creationDateTime: timeStampFromJson(json['creationDateTime']),
+    creationDateTime:
+        const UnixDateTimeConverter().fromJson(json['creationDateTime']),
     datasetImportJobArn: json['datasetImportJobArn'] as String,
     failureReason: json['failureReason'] as String,
     jobName: json['jobName'] as String,
-    lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+    lastUpdatedDateTime:
+        const UnixDateTimeConverter().fromJson(json['lastUpdatedDateTime']),
     status: json['status'] as String,
   );
 }
 
 DatasetSchema _$DatasetSchemaFromJson(Map<String, dynamic> json) {
   return DatasetSchema(
-    creationDateTime: timeStampFromJson(json['creationDateTime']),
-    lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+    creationDateTime:
+        const UnixDateTimeConverter().fromJson(json['creationDateTime']),
+    lastUpdatedDateTime:
+        const UnixDateTimeConverter().fromJson(json['lastUpdatedDateTime']),
     name: json['name'] as String,
     schema: json['schema'] as String,
     schemaArn: json['schemaArn'] as String,
@@ -396,8 +420,10 @@ DatasetSchema _$DatasetSchemaFromJson(Map<String, dynamic> json) {
 
 DatasetSchemaSummary _$DatasetSchemaSummaryFromJson(Map<String, dynamic> json) {
   return DatasetSchemaSummary(
-    creationDateTime: timeStampFromJson(json['creationDateTime']),
-    lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+    creationDateTime:
+        const UnixDateTimeConverter().fromJson(json['creationDateTime']),
+    lastUpdatedDateTime:
+        const UnixDateTimeConverter().fromJson(json['lastUpdatedDateTime']),
     name: json['name'] as String,
     schemaArn: json['schemaArn'] as String,
   );
@@ -405,10 +431,12 @@ DatasetSchemaSummary _$DatasetSchemaSummaryFromJson(Map<String, dynamic> json) {
 
 DatasetSummary _$DatasetSummaryFromJson(Map<String, dynamic> json) {
   return DatasetSummary(
-    creationDateTime: timeStampFromJson(json['creationDateTime']),
+    creationDateTime:
+        const UnixDateTimeConverter().fromJson(json['creationDateTime']),
     datasetArn: json['datasetArn'] as String,
     datasetType: json['datasetType'] as String,
-    lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+    lastUpdatedDateTime:
+        const UnixDateTimeConverter().fromJson(json['lastUpdatedDateTime']),
     name: json['name'] as String,
     status: json['status'] as String,
   );
@@ -584,10 +612,12 @@ DescribeSolutionVersionResponse _$DescribeSolutionVersionResponseFromJson(
 EventTracker _$EventTrackerFromJson(Map<String, dynamic> json) {
   return EventTracker(
     accountId: json['accountId'] as String,
-    creationDateTime: timeStampFromJson(json['creationDateTime']),
+    creationDateTime:
+        const UnixDateTimeConverter().fromJson(json['creationDateTime']),
     datasetGroupArn: json['datasetGroupArn'] as String,
     eventTrackerArn: json['eventTrackerArn'] as String,
-    lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+    lastUpdatedDateTime:
+        const UnixDateTimeConverter().fromJson(json['lastUpdatedDateTime']),
     name: json['name'] as String,
     status: json['status'] as String,
     trackingId: json['trackingId'] as String,
@@ -596,9 +626,11 @@ EventTracker _$EventTrackerFromJson(Map<String, dynamic> json) {
 
 EventTrackerSummary _$EventTrackerSummaryFromJson(Map<String, dynamic> json) {
   return EventTrackerSummary(
-    creationDateTime: timeStampFromJson(json['creationDateTime']),
+    creationDateTime:
+        const UnixDateTimeConverter().fromJson(json['creationDateTime']),
     eventTrackerArn: json['eventTrackerArn'] as String,
-    lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+    lastUpdatedDateTime:
+        const UnixDateTimeConverter().fromJson(json['lastUpdatedDateTime']),
     name: json['name'] as String,
     status: json['status'] as String,
   );
@@ -607,12 +639,14 @@ EventTrackerSummary _$EventTrackerSummaryFromJson(Map<String, dynamic> json) {
 FeatureTransformation _$FeatureTransformationFromJson(
     Map<String, dynamic> json) {
   return FeatureTransformation(
-    creationDateTime: timeStampFromJson(json['creationDateTime']),
+    creationDateTime:
+        const UnixDateTimeConverter().fromJson(json['creationDateTime']),
     defaultParameters: (json['defaultParameters'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
     featureTransformationArn: json['featureTransformationArn'] as String,
-    lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+    lastUpdatedDateTime:
+        const UnixDateTimeConverter().fromJson(json['lastUpdatedDateTime']),
     name: json['name'] as String,
     status: json['status'] as String,
   );
@@ -897,10 +931,12 @@ ListSolutionsResponse _$ListSolutionsResponseFromJson(
 Recipe _$RecipeFromJson(Map<String, dynamic> json) {
   return Recipe(
     algorithmArn: json['algorithmArn'] as String,
-    creationDateTime: timeStampFromJson(json['creationDateTime']),
+    creationDateTime:
+        const UnixDateTimeConverter().fromJson(json['creationDateTime']),
     description: json['description'] as String,
     featureTransformationArn: json['featureTransformationArn'] as String,
-    lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+    lastUpdatedDateTime:
+        const UnixDateTimeConverter().fromJson(json['lastUpdatedDateTime']),
     name: json['name'] as String,
     recipeArn: json['recipeArn'] as String,
     recipeType: json['recipeType'] as String,
@@ -910,8 +946,10 @@ Recipe _$RecipeFromJson(Map<String, dynamic> json) {
 
 RecipeSummary _$RecipeSummaryFromJson(Map<String, dynamic> json) {
   return RecipeSummary(
-    creationDateTime: timeStampFromJson(json['creationDateTime']),
-    lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+    creationDateTime:
+        const UnixDateTimeConverter().fromJson(json['creationDateTime']),
+    lastUpdatedDateTime:
+        const UnixDateTimeConverter().fromJson(json['lastUpdatedDateTime']),
     name: json['name'] as String,
     recipeArn: json['recipeArn'] as String,
     status: json['status'] as String,
@@ -944,10 +982,12 @@ Solution _$SolutionFromJson(Map<String, dynamic> json) {
     autoMLResult: json['autoMLResult'] == null
         ? null
         : AutoMLResult.fromJson(json['autoMLResult'] as Map<String, dynamic>),
-    creationDateTime: timeStampFromJson(json['creationDateTime']),
+    creationDateTime:
+        const UnixDateTimeConverter().fromJson(json['creationDateTime']),
     datasetGroupArn: json['datasetGroupArn'] as String,
     eventType: json['eventType'] as String,
-    lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+    lastUpdatedDateTime:
+        const UnixDateTimeConverter().fromJson(json['lastUpdatedDateTime']),
     latestSolutionVersion: json['latestSolutionVersion'] == null
         ? null
         : SolutionVersionSummary.fromJson(
@@ -1005,8 +1045,10 @@ Map<String, dynamic> _$SolutionConfigToJson(SolutionConfig instance) {
 
 SolutionSummary _$SolutionSummaryFromJson(Map<String, dynamic> json) {
   return SolutionSummary(
-    creationDateTime: timeStampFromJson(json['creationDateTime']),
-    lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+    creationDateTime:
+        const UnixDateTimeConverter().fromJson(json['creationDateTime']),
+    lastUpdatedDateTime:
+        const UnixDateTimeConverter().fromJson(json['lastUpdatedDateTime']),
     name: json['name'] as String,
     solutionArn: json['solutionArn'] as String,
     status: json['status'] as String,
@@ -1015,11 +1057,13 @@ SolutionSummary _$SolutionSummaryFromJson(Map<String, dynamic> json) {
 
 SolutionVersion _$SolutionVersionFromJson(Map<String, dynamic> json) {
   return SolutionVersion(
-    creationDateTime: timeStampFromJson(json['creationDateTime']),
+    creationDateTime:
+        const UnixDateTimeConverter().fromJson(json['creationDateTime']),
     datasetGroupArn: json['datasetGroupArn'] as String,
     eventType: json['eventType'] as String,
     failureReason: json['failureReason'] as String,
-    lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+    lastUpdatedDateTime:
+        const UnixDateTimeConverter().fromJson(json['lastUpdatedDateTime']),
     performAutoML: json['performAutoML'] as bool,
     performHPO: json['performHPO'] as bool,
     recipeArn: json['recipeArn'] as String,
@@ -1080,9 +1124,11 @@ const _$TrainingModeEnumMap = {
 SolutionVersionSummary _$SolutionVersionSummaryFromJson(
     Map<String, dynamic> json) {
   return SolutionVersionSummary(
-    creationDateTime: timeStampFromJson(json['creationDateTime']),
+    creationDateTime:
+        const UnixDateTimeConverter().fromJson(json['creationDateTime']),
     failureReason: json['failureReason'] as String,
-    lastUpdatedDateTime: timeStampFromJson(json['lastUpdatedDateTime']),
+    lastUpdatedDateTime:
+        const UnixDateTimeConverter().fromJson(json['lastUpdatedDateTime']),
     solutionVersionArn: json['solutionVersionArn'] as String,
     status: json['status'] as String,
   );

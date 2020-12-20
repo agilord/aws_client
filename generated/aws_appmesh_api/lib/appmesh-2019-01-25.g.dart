@@ -170,8 +170,9 @@ ListVirtualRoutersOutput _$ListVirtualRoutersOutputFromJson(
 ResourceMetadata _$ResourceMetadataFromJson(Map<String, dynamic> json) {
   return ResourceMetadata(
     arn: json['arn'] as String,
-    createdAt: timeStampFromJson(json['createdAt']),
-    lastUpdatedAt: timeStampFromJson(json['lastUpdatedAt']),
+    createdAt: const UnixDateTimeConverter().fromJson(json['createdAt']),
+    lastUpdatedAt:
+        const UnixDateTimeConverter().fromJson(json['lastUpdatedAt']),
     meshOwner: json['meshOwner'] as String,
     resourceOwner: json['resourceOwner'] as String,
     uid: json['uid'] as String,

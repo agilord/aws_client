@@ -201,10 +201,11 @@ ListResourcesResponse _$ListResourcesResponseFromJson(
 
 Principal _$PrincipalFromJson(Map<String, dynamic> json) {
   return Principal(
-    creationTime: timeStampFromJson(json['creationTime']),
+    creationTime: const UnixDateTimeConverter().fromJson(json['creationTime']),
     external: json['external'] as bool,
     id: json['id'] as String,
-    lastUpdatedTime: timeStampFromJson(json['lastUpdatedTime']),
+    lastUpdatedTime:
+        const UnixDateTimeConverter().fromJson(json['lastUpdatedTime']),
     resourceShareArn: json['resourceShareArn'] as String,
   );
 }
@@ -231,8 +232,9 @@ RejectResourceShareInvitationResponse
 Resource _$ResourceFromJson(Map<String, dynamic> json) {
   return Resource(
     arn: json['arn'] as String,
-    creationTime: timeStampFromJson(json['creationTime']),
-    lastUpdatedTime: timeStampFromJson(json['lastUpdatedTime']),
+    creationTime: const UnixDateTimeConverter().fromJson(json['creationTime']),
+    lastUpdatedTime:
+        const UnixDateTimeConverter().fromJson(json['lastUpdatedTime']),
     resourceGroupArn: json['resourceGroupArn'] as String,
     resourceShareArn: json['resourceShareArn'] as String,
     status: _$enumDecodeNullable(_$ResourceStatusEnumMap, json['status']),
@@ -284,10 +286,11 @@ const _$ResourceStatusEnumMap = {
 ResourceShare _$ResourceShareFromJson(Map<String, dynamic> json) {
   return ResourceShare(
     allowExternalPrincipals: json['allowExternalPrincipals'] as bool,
-    creationTime: timeStampFromJson(json['creationTime']),
+    creationTime: const UnixDateTimeConverter().fromJson(json['creationTime']),
     featureSet: _$enumDecodeNullable(
         _$ResourceShareFeatureSetEnumMap, json['featureSet']),
-    lastUpdatedTime: timeStampFromJson(json['lastUpdatedTime']),
+    lastUpdatedTime:
+        const UnixDateTimeConverter().fromJson(json['lastUpdatedTime']),
     name: json['name'] as String,
     owningAccountId: json['owningAccountId'] as String,
     resourceShareArn: json['resourceShareArn'] as String,
@@ -319,9 +322,10 @@ ResourceShareAssociation _$ResourceShareAssociationFromJson(
     associatedEntity: json['associatedEntity'] as String,
     associationType: _$enumDecodeNullable(
         _$ResourceShareAssociationTypeEnumMap, json['associationType']),
-    creationTime: timeStampFromJson(json['creationTime']),
+    creationTime: const UnixDateTimeConverter().fromJson(json['creationTime']),
     external: json['external'] as bool,
-    lastUpdatedTime: timeStampFromJson(json['lastUpdatedTime']),
+    lastUpdatedTime:
+        const UnixDateTimeConverter().fromJson(json['lastUpdatedTime']),
     resourceShareArn: json['resourceShareArn'] as String,
     resourceShareName: json['resourceShareName'] as String,
     status: _$enumDecodeNullable(
@@ -346,7 +350,8 @@ const _$ResourceShareAssociationStatusEnumMap = {
 ResourceShareInvitation _$ResourceShareInvitationFromJson(
     Map<String, dynamic> json) {
   return ResourceShareInvitation(
-    invitationTimestamp: timeStampFromJson(json['invitationTimestamp']),
+    invitationTimestamp:
+        const UnixDateTimeConverter().fromJson(json['invitationTimestamp']),
     receiverAccountId: json['receiverAccountId'] as String,
     resourceShareArn: json['resourceShareArn'] as String,
     resourceShareAssociations: (json['resourceShareAssociations'] as List)
@@ -373,9 +378,10 @@ ResourceSharePermissionDetail _$ResourceSharePermissionDetailFromJson(
     Map<String, dynamic> json) {
   return ResourceSharePermissionDetail(
     arn: json['arn'] as String,
-    creationTime: timeStampFromJson(json['creationTime']),
+    creationTime: const UnixDateTimeConverter().fromJson(json['creationTime']),
     defaultVersion: json['defaultVersion'] as bool,
-    lastUpdatedTime: timeStampFromJson(json['lastUpdatedTime']),
+    lastUpdatedTime:
+        const UnixDateTimeConverter().fromJson(json['lastUpdatedTime']),
     name: json['name'] as String,
     permission: json['permission'] as String,
     resourceType: json['resourceType'] as String,
@@ -387,9 +393,10 @@ ResourceSharePermissionSummary _$ResourceSharePermissionSummaryFromJson(
     Map<String, dynamic> json) {
   return ResourceSharePermissionSummary(
     arn: json['arn'] as String,
-    creationTime: timeStampFromJson(json['creationTime']),
+    creationTime: const UnixDateTimeConverter().fromJson(json['creationTime']),
     defaultVersion: json['defaultVersion'] as bool,
-    lastUpdatedTime: timeStampFromJson(json['lastUpdatedTime']),
+    lastUpdatedTime:
+        const UnixDateTimeConverter().fromJson(json['lastUpdatedTime']),
     name: json['name'] as String,
     resourceType: json['resourceType'] as String,
     status: json['status'] as String,

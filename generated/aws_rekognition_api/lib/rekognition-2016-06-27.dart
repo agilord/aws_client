@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -4852,10 +4855,8 @@ class DescribeCollectionResponse {
   /// The number of milliseconds since the Unix epoch time until the creation of
   /// the collection. The Unix epoch time is 00:00:00 Coordinated Universal Time
   /// (UTC), Thursday, 1 January 1970.
-  @_s.JsonKey(
-      name: 'CreationTimestamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationTimestamp')
   final DateTime creationTimestamp;
 
   /// The number of faces that are indexed into the collection. To index faces
@@ -4940,10 +4941,8 @@ class DescribeProjectsResponse {
     createToJson: false)
 class DescribeStreamProcessorResponse {
   /// Date and time the stream processor was created
-  @_s.JsonKey(
-      name: 'CreationTimestamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationTimestamp')
   final DateTime creationTimestamp;
 
   /// Kinesis video stream that provides the source streaming video.
@@ -4953,10 +4952,8 @@ class DescribeStreamProcessorResponse {
   /// The time, in Unix format, the stream processor was last updated. For
   /// example, when the stream processor moves from a running state to a failed
   /// state, or when the user starts or stops the stream processor.
-  @_s.JsonKey(
-      name: 'LastUpdateTimestamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastUpdateTimestamp')
   final DateTime lastUpdateTimestamp;
 
   /// Name of the stream processor.
@@ -6967,10 +6964,8 @@ class Pose {
     createToJson: false)
 class ProjectDescription {
   /// The Unix timestamp for the date and time that the project was created.
-  @_s.JsonKey(
-      name: 'CreationTimestamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationTimestamp')
   final DateTime creationTimestamp;
 
   /// The Amazon Resource Name (ARN) of the project.
@@ -7013,10 +7008,8 @@ class ProjectVersionDescription {
   final int billableTrainingTimeInSeconds;
 
   /// The Unix datetime for the date and time that training started.
-  @_s.JsonKey(
-      name: 'CreationTimestamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationTimestamp')
   final DateTime creationTimestamp;
 
   /// The training results. <code>EvaluationResult</code> is only returned if
@@ -7054,10 +7047,8 @@ class ProjectVersionDescription {
   final TrainingDataResult trainingDataResult;
 
   /// The Unix date and time that training of the model ended.
-  @_s.JsonKey(
-      name: 'TrainingEndTimestamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'TrainingEndTimestamp')
   final DateTime trainingEndTimestamp;
 
   ProjectVersionDescription({

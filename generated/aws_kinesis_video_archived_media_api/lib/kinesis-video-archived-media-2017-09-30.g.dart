@@ -36,8 +36,10 @@ Map<String, dynamic> _$DASHTimestampRangeToJson(DASHTimestampRange instance) {
     }
   }
 
-  writeNotNull('EndTimestamp', unixTimestampToJson(instance.endTimestamp));
-  writeNotNull('StartTimestamp', unixTimestampToJson(instance.startTimestamp));
+  writeNotNull('EndTimestamp',
+      const UnixDateTimeConverter().toJson(instance.endTimestamp));
+  writeNotNull('StartTimestamp',
+      const UnixDateTimeConverter().toJson(instance.startTimestamp));
   return val;
 }
 
@@ -46,8 +48,10 @@ Fragment _$FragmentFromJson(Map<String, dynamic> json) {
     fragmentLengthInMilliseconds: json['FragmentLengthInMilliseconds'] as int,
     fragmentNumber: json['FragmentNumber'] as String,
     fragmentSizeInBytes: json['FragmentSizeInBytes'] as int,
-    producerTimestamp: timeStampFromJson(json['ProducerTimestamp']),
-    serverTimestamp: timeStampFromJson(json['ServerTimestamp']),
+    producerTimestamp:
+        const UnixDateTimeConverter().fromJson(json['ProducerTimestamp']),
+    serverTimestamp:
+        const UnixDateTimeConverter().fromJson(json['ServerTimestamp']),
   );
 }
 
@@ -122,8 +126,10 @@ Map<String, dynamic> _$HLSTimestampRangeToJson(HLSTimestampRange instance) {
     }
   }
 
-  writeNotNull('EndTimestamp', unixTimestampToJson(instance.endTimestamp));
-  writeNotNull('StartTimestamp', unixTimestampToJson(instance.startTimestamp));
+  writeNotNull('EndTimestamp',
+      const UnixDateTimeConverter().toJson(instance.endTimestamp));
+  writeNotNull('StartTimestamp',
+      const UnixDateTimeConverter().toJson(instance.startTimestamp));
   return val;
 }
 
@@ -146,7 +152,9 @@ Map<String, dynamic> _$TimestampRangeToJson(TimestampRange instance) {
     }
   }
 
-  writeNotNull('EndTimestamp', unixTimestampToJson(instance.endTimestamp));
-  writeNotNull('StartTimestamp', unixTimestampToJson(instance.startTimestamp));
+  writeNotNull('EndTimestamp',
+      const UnixDateTimeConverter().toJson(instance.endTimestamp));
+  writeNotNull('StartTimestamp',
+      const UnixDateTimeConverter().toJson(instance.startTimestamp));
   return val;
 }

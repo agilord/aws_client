@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -9670,10 +9673,8 @@ class SampledHTTPRequest {
 
   /// The time at which AWS WAF received the request from your AWS resource, in
   /// Unix time format (in seconds).
-  @_s.JsonKey(
-      name: 'Timestamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'Timestamp')
   final DateTime timestamp;
 
   SampledHTTPRequest({
@@ -10330,8 +10331,8 @@ class TimeWindow {
   /// AWS resource received. Specify the date and time in the following format:
   /// <code>"2016-09-27T14:50Z"</code>. You can specify any time range in the
   /// previous three hours.
-  @_s.JsonKey(
-      name: 'EndTime', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'EndTime')
   final DateTime endTime;
 
   /// The beginning of the time range from which you want
@@ -10339,10 +10340,8 @@ class TimeWindow {
   /// AWS resource received. Specify the date and time in the following format:
   /// <code>"2016-09-27T14:50Z"</code>. You can specify any time range in the
   /// previous three hours.
-  @_s.JsonKey(
-      name: 'StartTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'StartTime')
   final DateTime startTime;
 
   TimeWindow({

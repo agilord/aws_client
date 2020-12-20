@@ -182,8 +182,9 @@ DescribeEventSourceResponse _$DescribeEventSourceResponseFromJson(
   return DescribeEventSourceResponse(
     arn: json['Arn'] as String,
     createdBy: json['CreatedBy'] as String,
-    creationTime: timeStampFromJson(json['CreationTime']),
-    expirationTime: timeStampFromJson(json['ExpirationTime']),
+    creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
+    expirationTime:
+        const UnixDateTimeConverter().fromJson(json['ExpirationTime']),
     name: json['Name'] as String,
     state: _$enumDecodeNullable(_$EventSourceStateEnumMap, json['State']),
   );
@@ -271,8 +272,9 @@ EventSource _$EventSourceFromJson(Map<String, dynamic> json) {
   return EventSource(
     arn: json['Arn'] as String,
     createdBy: json['CreatedBy'] as String,
-    creationTime: timeStampFromJson(json['CreationTime']),
-    expirationTime: timeStampFromJson(json['ExpirationTime']),
+    creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
+    expirationTime:
+        const UnixDateTimeConverter().fromJson(json['ExpirationTime']),
     name: json['Name'] as String,
     state: _$enumDecodeNullable(_$EventSourceStateEnumMap, json['State']),
   );
@@ -439,8 +441,9 @@ PartnerEventSourceAccount _$PartnerEventSourceAccountFromJson(
     Map<String, dynamic> json) {
   return PartnerEventSourceAccount(
     account: json['Account'] as String,
-    creationTime: timeStampFromJson(json['CreationTime']),
-    expirationTime: timeStampFromJson(json['ExpirationTime']),
+    creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
+    expirationTime:
+        const UnixDateTimeConverter().fromJson(json['ExpirationTime']),
     state: _$enumDecodeNullable(_$EventSourceStateEnumMap, json['State']),
   );
 }
@@ -460,7 +463,7 @@ Map<String, dynamic> _$PutEventsRequestEntryToJson(
   writeNotNull('EventBusName', instance.eventBusName);
   writeNotNull('Resources', instance.resources);
   writeNotNull('Source', instance.source);
-  writeNotNull('Time', unixTimestampToJson(instance.time));
+  writeNotNull('Time', const UnixDateTimeConverter().toJson(instance.time));
   return val;
 }
 
@@ -497,7 +500,7 @@ Map<String, dynamic> _$PutPartnerEventsRequestEntryToJson(
   writeNotNull('DetailType', instance.detailType);
   writeNotNull('Resources', instance.resources);
   writeNotNull('Source', instance.source);
-  writeNotNull('Time', unixTimestampToJson(instance.time));
+  writeNotNull('Time', const UnixDateTimeConverter().toJson(instance.time));
   return val;
 }
 

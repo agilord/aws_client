@@ -9,8 +9,8 @@ part of 'signer-2017-08-25.dart';
 DescribeSigningJobResponse _$DescribeSigningJobResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeSigningJobResponse(
-    completedAt: timeStampFromJson(json['completedAt']),
-    createdAt: timeStampFromJson(json['createdAt']),
+    completedAt: const UnixDateTimeConverter().fromJson(json['completedAt']),
+    createdAt: const UnixDateTimeConverter().fromJson(json['createdAt']),
     jobId: json['jobId'] as String,
     overrides: json['overrides'] == null
         ? null
@@ -332,7 +332,7 @@ const _$ImageFormatEnumMap = {
 
 SigningJob _$SigningJobFromJson(Map<String, dynamic> json) {
   return SigningJob(
-    createdAt: timeStampFromJson(json['createdAt']),
+    createdAt: const UnixDateTimeConverter().fromJson(json['createdAt']),
     jobId: json['jobId'] as String,
     signedObject: json['signedObject'] == null
         ? null

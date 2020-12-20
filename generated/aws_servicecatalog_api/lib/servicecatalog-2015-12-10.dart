@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -9431,10 +9434,8 @@ class PortfolioDetail {
   final String arn;
 
   /// The UTC time stamp of the creation time.
-  @_s.JsonKey(
-      name: 'CreatedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedTime')
   final DateTime createdTime;
 
   /// The description of the portfolio.
@@ -9592,10 +9593,8 @@ class ProductViewAggregationValue {
     createToJson: false)
 class ProductViewDetail {
   /// The UTC time stamp of the creation time.
-  @_s.JsonKey(
-      name: 'CreatedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedTime')
   final DateTime createdTime;
 
   /// The ARN of the product.
@@ -9803,10 +9802,8 @@ class ProvisionedProductAttribute {
   final String arn;
 
   /// The UTC time stamp of the creation time.
-  @_s.JsonKey(
-      name: 'CreatedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedTime')
   final DateTime createdTime;
 
   /// The identifier of the provisioned product.
@@ -9929,10 +9926,8 @@ class ProvisionedProductDetail {
   final String arn;
 
   /// The UTC time stamp of the creation time.
-  @_s.JsonKey(
-      name: 'CreatedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedTime')
   final DateTime createdTime;
 
   /// The identifier of the provisioned product.
@@ -10031,10 +10026,8 @@ class ProvisionedProductDetail {
     createToJson: false)
 class ProvisionedProductPlanDetails {
   /// The UTC time stamp of the creation time.
-  @_s.JsonKey(
-      name: 'CreatedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedTime')
   final DateTime createdTime;
 
   /// Passed to CloudFormation. The SNS topic ARNs to which to publish
@@ -10094,10 +10087,8 @@ class ProvisionedProductPlanDetails {
   final List<Tag> tags;
 
   /// The time when the plan was last updated.
-  @_s.JsonKey(
-      name: 'UpdatedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'UpdatedTime')
   final DateTime updatedTime;
 
   ProvisionedProductPlanDetails({
@@ -10231,10 +10222,8 @@ extension on ProvisionedProductViewFilterBy {
     createToJson: false)
 class ProvisioningArtifact {
   /// The UTC time stamp of the creation time.
-  @_s.JsonKey(
-      name: 'CreatedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedTime')
   final DateTime createdTime;
 
   /// The description of the provisioning artifact.
@@ -10278,10 +10267,8 @@ class ProvisioningArtifactDetail {
   final bool active;
 
   /// The UTC time stamp of the creation time.
-  @_s.JsonKey(
-      name: 'CreatedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedTime')
   final DateTime createdTime;
 
   /// The description of the provisioning artifact.
@@ -10515,10 +10502,8 @@ extension on ProvisioningArtifactPropertyName {
     createToJson: false)
 class ProvisioningArtifactSummary {
   /// The UTC time stamp of the creation time.
-  @_s.JsonKey(
-      name: 'CreatedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedTime')
   final DateTime createdTime;
 
   /// The description of the provisioning artifact.
@@ -10728,10 +10713,8 @@ class ProvisioningPreferences {
     createToJson: false)
 class RecordDetail {
   /// The UTC time stamp of the creation time.
-  @_s.JsonKey(
-      name: 'CreatedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedTime')
   final DateTime createdTime;
 
   /// The path identifier.
@@ -10814,10 +10797,8 @@ class RecordDetail {
   final RecordStatus status;
 
   /// The time when the record was last updated.
-  @_s.JsonKey(
-      name: 'UpdatedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'UpdatedTime')
   final DateTime updatedTime;
 
   RecordDetail({
@@ -11063,10 +11044,8 @@ class ResourceDetail {
   final String arn;
 
   /// The creation time of the resource.
-  @_s.JsonKey(
-      name: 'CreatedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedTime')
   final DateTime createdTime;
 
   /// The description of the resource.

@@ -49,6 +49,30 @@ DateTime timeStampFromJson(dynamic date) {
   throw ArgumentError.value(date, 'date', 'Unknown date type, can not convert');
 }
 
+abstract class DateTimeConverter implements JsonConverter<DateTime, dynamic> {
+  final dynamic Function(DateTime date) converter;
+
+  const DateTimeConverter(this.converter);
+
+  @override
+  DateTime fromJson(dynamic json) => timeStampFromJson(json);
+
+  @override
+  dynamic toJson(DateTime object) => converter(object);
+}
+
+class RfcDateTimeConverter extends DateTimeConverter {
+  const RfcDateTimeConverter() : super(rfc822ToJson);
+}
+
+class IsoDateTimeConverter extends DateTimeConverter {
+  const IsoDateTimeConverter() : super(iso8601ToJson);
+}
+
+class UnixDateTimeConverter extends DateTimeConverter {
+  const UnixDateTimeConverter() : super(unixTimestampToJson);
+}
+
 class Uint8ListConverter implements JsonConverter<Uint8List, String> {
   const Uint8ListConverter();
 

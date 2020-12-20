@@ -181,7 +181,8 @@ ActionExecution _$ActionExecutionFromJson(Map<String, dynamic> json) {
         : ErrorDetails.fromJson(json['errorDetails'] as Map<String, dynamic>),
     externalExecutionId: json['externalExecutionId'] as String,
     externalExecutionUrl: json['externalExecutionUrl'] as String,
-    lastStatusChange: timeStampFromJson(json['lastStatusChange']),
+    lastStatusChange:
+        const UnixDateTimeConverter().fromJson(json['lastStatusChange']),
     lastUpdatedBy: json['lastUpdatedBy'] as String,
     percentComplete: json['percentComplete'] as int,
     status:
@@ -206,7 +207,8 @@ ActionExecutionDetail _$ActionExecutionDetailFromJson(
     input: json['input'] == null
         ? null
         : ActionExecutionInput.fromJson(json['input'] as Map<String, dynamic>),
-    lastUpdateTime: timeStampFromJson(json['lastUpdateTime']),
+    lastUpdateTime:
+        const UnixDateTimeConverter().fromJson(json['lastUpdateTime']),
     output: json['output'] == null
         ? null
         : ActionExecutionOutput.fromJson(
@@ -214,7 +216,7 @@ ActionExecutionDetail _$ActionExecutionDetailFromJson(
     pipelineExecutionId: json['pipelineExecutionId'] as String,
     pipelineVersion: json['pipelineVersion'] as int,
     stageName: json['stageName'] as String,
-    startTime: timeStampFromJson(json['startTime']),
+    startTime: const UnixDateTimeConverter().fromJson(json['startTime']),
     status:
         _$enumDecodeNullable(_$ActionExecutionStatusEnumMap, json['status']),
   );
@@ -286,7 +288,7 @@ ActionExecutionResult _$ActionExecutionResultFromJson(
 
 ActionRevision _$ActionRevisionFromJson(Map<String, dynamic> json) {
   return ActionRevision(
-    created: timeStampFromJson(json['created']),
+    created: const UnixDateTimeConverter().fromJson(json['created']),
     revisionChangeId: json['revisionChangeId'] as String,
     revisionId: json['revisionId'] as String,
   );
@@ -301,7 +303,8 @@ Map<String, dynamic> _$ActionRevisionToJson(ActionRevision instance) {
     }
   }
 
-  writeNotNull('created', unixTimestampToJson(instance.created));
+  writeNotNull(
+      'created', const UnixDateTimeConverter().toJson(instance.created));
   writeNotNull('revisionChangeId', instance.revisionChangeId);
   writeNotNull('revisionId', instance.revisionId);
   return val;
@@ -489,7 +492,7 @@ const _$ArtifactLocationTypeEnumMap = {
 
 ArtifactRevision _$ArtifactRevisionFromJson(Map<String, dynamic> json) {
   return ArtifactRevision(
-    created: timeStampFromJson(json['created']),
+    created: const UnixDateTimeConverter().fromJson(json['created']),
     name: json['name'] as String,
     revisionChangeIdentifier: json['revisionChangeIdentifier'] as String,
     revisionId: json['revisionId'] as String,
@@ -587,7 +590,8 @@ Map<String, dynamic> _$CurrentRevisionToJson(CurrentRevision instance) {
 
   writeNotNull('changeIdentifier', instance.changeIdentifier);
   writeNotNull('revision', instance.revision);
-  writeNotNull('created', unixTimestampToJson(instance.created));
+  writeNotNull(
+      'created', const UnixDateTimeConverter().toJson(instance.created));
   writeNotNull('revisionSummary', instance.revisionSummary);
   return val;
 }
@@ -722,14 +726,14 @@ GetPipelineOutput _$GetPipelineOutputFromJson(Map<String, dynamic> json) {
 GetPipelineStateOutput _$GetPipelineStateOutputFromJson(
     Map<String, dynamic> json) {
   return GetPipelineStateOutput(
-    created: timeStampFromJson(json['created']),
+    created: const UnixDateTimeConverter().fromJson(json['created']),
     pipelineName: json['pipelineName'] as String,
     pipelineVersion: json['pipelineVersion'] as int,
     stageStates: (json['stageStates'] as List)
         ?.map((e) =>
             e == null ? null : StageState.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    updated: timeStampFromJson(json['updated']),
+    updated: const UnixDateTimeConverter().fromJson(json['updated']),
   );
 }
 
@@ -881,7 +885,8 @@ ListWebhookItem _$ListWebhookItemFromJson(Map<String, dynamic> json) {
     arn: json['arn'] as String,
     errorCode: json['errorCode'] as String,
     errorMessage: json['errorMessage'] as String,
-    lastTriggered: timeStampFromJson(json['lastTriggered']),
+    lastTriggered:
+        const UnixDateTimeConverter().fromJson(json['lastTriggered']),
     tags: (json['tags'] as List)
         ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
         ?.toList(),
@@ -998,14 +1003,15 @@ const _$PipelineExecutionStatusEnumMap = {
 PipelineExecutionSummary _$PipelineExecutionSummaryFromJson(
     Map<String, dynamic> json) {
   return PipelineExecutionSummary(
-    lastUpdateTime: timeStampFromJson(json['lastUpdateTime']),
+    lastUpdateTime:
+        const UnixDateTimeConverter().fromJson(json['lastUpdateTime']),
     pipelineExecutionId: json['pipelineExecutionId'] as String,
     sourceRevisions: (json['sourceRevisions'] as List)
         ?.map((e) => e == null
             ? null
             : SourceRevision.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    startTime: timeStampFromJson(json['startTime']),
+    startTime: const UnixDateTimeConverter().fromJson(json['startTime']),
     status:
         _$enumDecodeNullable(_$PipelineExecutionStatusEnumMap, json['status']),
     stopTrigger: json['stopTrigger'] == null
@@ -1020,17 +1026,17 @@ PipelineExecutionSummary _$PipelineExecutionSummaryFromJson(
 
 PipelineMetadata _$PipelineMetadataFromJson(Map<String, dynamic> json) {
   return PipelineMetadata(
-    created: timeStampFromJson(json['created']),
+    created: const UnixDateTimeConverter().fromJson(json['created']),
     pipelineArn: json['pipelineArn'] as String,
-    updated: timeStampFromJson(json['updated']),
+    updated: const UnixDateTimeConverter().fromJson(json['updated']),
   );
 }
 
 PipelineSummary _$PipelineSummaryFromJson(Map<String, dynamic> json) {
   return PipelineSummary(
-    created: timeStampFromJson(json['created']),
+    created: const UnixDateTimeConverter().fromJson(json['created']),
     name: json['name'] as String,
-    updated: timeStampFromJson(json['updated']),
+    updated: const UnixDateTimeConverter().fromJson(json['updated']),
     version: json['version'] as int,
   );
 }
@@ -1065,7 +1071,7 @@ PutActionRevisionOutput _$PutActionRevisionOutputFromJson(
 PutApprovalResultOutput _$PutApprovalResultOutputFromJson(
     Map<String, dynamic> json) {
   return PutApprovalResultOutput(
-    approvedAt: timeStampFromJson(json['approvedAt']),
+    approvedAt: const UnixDateTimeConverter().fromJson(json['approvedAt']),
   );
 }
 
@@ -1281,7 +1287,8 @@ TransitionState _$TransitionStateFromJson(Map<String, dynamic> json) {
   return TransitionState(
     disabledReason: json['disabledReason'] as String,
     enabled: json['enabled'] as bool,
-    lastChangedAt: timeStampFromJson(json['lastChangedAt']),
+    lastChangedAt:
+        const UnixDateTimeConverter().fromJson(json['lastChangedAt']),
     lastChangedBy: json['lastChangedBy'] as String,
   );
 }

@@ -48,7 +48,7 @@ import 'dart:typed_data';
 
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
-  show Uint8ListConverter, Uint8ListListConverter ${api.generateJson ? ', rfc822ToJson, iso8601ToJson, unixTimestampToJson, timeStampFromJson' : ''};
+  show Uint8ListConverter, Uint8ListListConverter ${api.generateJson ? ', rfc822ToJson, iso8601ToJson, unixTimestampToJson, timeStampFromJson, RfcDateTimeConverter, IsoDateTimeConverter, UnixDateTimeConverter' : ''};
 """);
   buf.writeln(builder.imports());
   buf.writeln(
@@ -231,42 +231,31 @@ ${builder.constructor()}
         }
 
         if (shape.requiresJson) {
-          var dateTimeConversion = '';
-
           if (member.dartType == 'Uint8List') {
             writeln('@Uint8ListConverter()');
           } else if (member.dartType == 'List<Uint8List>') {
             writeln('@Uint8ListListConverter()');
-          } else if (member.dartType == 'DateTime') {
-            var timeStampFormat = 'unixTimestamp';
+          } else if (member.dartType == 'DateTime' ||
+              (member.shapeClass.type == 'list' &&
+                  member.shapeClass.member.shapeClass.type == 'timestamp') ||
+              (member.shapeClass.type == 'map' &&
+                  member.shapeClass.value.shapeClass.type == 'timestamp')) {
+            var prefix = 'ThisShouldNotBeAPossibleValue';
+            final ret = calculateDateTimeToJson(member);
 
-            if (member.timestampFormat != null) {
-              timeStampFormat = member.timestampFormat;
-            } else if (member.shapeClass.timestampFormat != null) {
-              timeStampFormat = member.shapeClass.timestampFormat;
-            } else if (member.location == 'header') {
-              timeStampFormat = 'rfc822';
-            } else if (member.location == 'querystring') {
-              timeStampFormat = 'iso8601';
+            if (ret.startsWith('rfc')) {
+              prefix = 'Rfc';
+            } else if (ret.startsWith('iso')) {
+              prefix = 'Iso';
+            } else if (ret.startsWith('unix')) {
+              prefix = 'Unix';
             } else {
-              switch (member.api.metadata.protocol) {
-                case 'json':
-                case 'rest-json':
-                  timeStampFormat = 'unixTimestamp';
-                  break;
-                case 'rest-xml':
-                case 'query':
-                case 'ec2':
-                  timeStampFormat = 'iso8601';
-                  break;
-              }
+              throw Exception('Unknown time format "$ret"');
             }
-
-            dateTimeConversion =
-                ', fromJson: timeStampFromJson, toJson: ${timeStampFormat}ToJson';
+            write('@${prefix}DateTimeConverter()');
           }
           writeln(
-              "  @_s.JsonKey(name: '${member.locationName ?? member.name}'$dateTimeConversion)");
+              "  @_s.JsonKey(name: '${member.locationName ?? member.name}')");
         }
 
         writeln('  final ${member.dartType} ${member.fieldName};');
@@ -393,6 +382,33 @@ ${builder.constructor()}
     }
     writeln('};');
   }
+}
+
+String calculateDateTimeToJson(Member member) {
+  var timeStampFormat = 'unixTimestamp';
+
+  if (member.timestampFormat != null) {
+    timeStampFormat = member.timestampFormat;
+  } else if (member.shapeClass.timestampFormat != null) {
+    timeStampFormat = member.shapeClass.timestampFormat;
+  } else if (member.location == 'header') {
+    timeStampFormat = 'rfc822';
+  } else if (member.location == 'querystring') {
+    timeStampFormat = 'iso8601';
+  } else {
+    switch (member.api.metadata.protocol) {
+      case 'json':
+      case 'rest-json':
+        timeStampFormat = 'unixTimestamp';
+        break;
+      case 'rest-xml':
+      case 'query':
+      case 'ec2':
+        timeStampFormat = 'iso8601';
+        break;
+    }
+  }
+  return timeStampFormat;
 }
 
 String extractXmlCode(

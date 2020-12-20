@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -10081,17 +10084,13 @@ class AdminGetUserResponse {
   final List<AttributeType> userAttributes;
 
   /// The date the user was created.
-  @_s.JsonKey(
-      name: 'UserCreateDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'UserCreateDate')
   final DateTime userCreateDate;
 
   /// The date the user was last modified.
-  @_s.JsonKey(
-      name: 'UserLastModifiedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'UserLastModifiedDate')
   final DateTime userLastModifiedDate;
 
   /// The MFA options that are enabled for the user. The possible values in this
@@ -10642,10 +10641,8 @@ class AuthEventType {
   final List<ChallengeResponseType> challengeResponses;
 
   /// The creation date
-  @_s.JsonKey(
-      name: 'CreationDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationDate')
   final DateTime creationDate;
 
   /// The user context data captured at the time of an event request. It provides
@@ -11442,10 +11439,8 @@ class DeviceType {
   final List<AttributeType> deviceAttributes;
 
   /// The creation date of the device.
-  @_s.JsonKey(
-      name: 'DeviceCreateDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'DeviceCreateDate')
   final DateTime deviceCreateDate;
 
   /// The device key.
@@ -11453,17 +11448,13 @@ class DeviceType {
   final String deviceKey;
 
   /// The date in which the device was last authenticated.
-  @_s.JsonKey(
-      name: 'DeviceLastAuthenticatedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'DeviceLastAuthenticatedDate')
   final DateTime deviceLastAuthenticatedDate;
 
   /// The last modified date of the device.
-  @_s.JsonKey(
-      name: 'DeviceLastModifiedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'DeviceLastModifiedDate')
   final DateTime deviceLastModifiedDate;
 
   DeviceType({
@@ -11719,10 +11710,8 @@ class EventFeedbackType {
   final String provider;
 
   /// The event feedback date.
-  @_s.JsonKey(
-      name: 'FeedbackDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'FeedbackDate')
   final DateTime feedbackDate;
 
   EventFeedbackType({
@@ -12110,10 +12099,8 @@ class GlobalSignOutResponse {
     createToJson: false)
 class GroupType {
   /// The date the group was created.
-  @_s.JsonKey(
-      name: 'CreationDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationDate')
   final DateTime creationDate;
 
   /// A string containing the description of the group.
@@ -12125,10 +12112,8 @@ class GroupType {
   final String groupName;
 
   /// The date the group was last modified.
-  @_s.JsonKey(
-      name: 'LastModifiedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastModifiedDate')
   final DateTime lastModifiedDate;
 
   /// A nonnegative integer value that specifies the precedence of this group
@@ -12206,10 +12191,8 @@ class IdentityProviderType {
   final Map<String, String> attributeMapping;
 
   /// The date the identity provider was created.
-  @_s.JsonKey(
-      name: 'CreationDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationDate')
   final DateTime creationDate;
 
   /// A list of identity provider identifiers.
@@ -12217,10 +12200,8 @@ class IdentityProviderType {
   final List<String> idpIdentifiers;
 
   /// The date the identity provider was last modified.
-  @_s.JsonKey(
-      name: 'LastModifiedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastModifiedDate')
   final DateTime lastModifiedDate;
 
   /// The identity provider details. The following list describes the provider
@@ -13073,17 +13054,13 @@ extension on PreventUserExistenceErrorTypes {
     createToJson: false)
 class ProviderDescription {
   /// The date the provider was added to the user pool.
-  @_s.JsonKey(
-      name: 'CreationDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationDate')
   final DateTime creationDate;
 
   /// The date the provider was last modified.
-  @_s.JsonKey(
-      name: 'LastModifiedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastModifiedDate')
   final DateTime lastModifiedDate;
 
   /// The identity provider name.
@@ -13309,10 +13286,8 @@ class RiskConfigurationType {
       compromisedCredentialsRiskConfiguration;
 
   /// The last modified date.
-  @_s.JsonKey(
-      name: 'LastModifiedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastModifiedDate')
   final DateTime lastModifiedDate;
 
   /// The configuration to override the risk decision.
@@ -13810,10 +13785,8 @@ class UICustomizationType {
   final String clientId;
 
   /// The creation date for the UI customization.
-  @_s.JsonKey(
-      name: 'CreationDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationDate')
   final DateTime creationDate;
 
   /// The logo image for the UI customization.
@@ -13821,10 +13794,8 @@ class UICustomizationType {
   final String imageUrl;
 
   /// The last-modified date for the UI customization.
-  @_s.JsonKey(
-      name: 'LastModifiedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastModifiedDate')
   final DateTime lastModifiedDate;
 
   /// The user pool ID for the user pool.
@@ -14055,10 +14026,8 @@ class UserImportJobType {
   final String cloudWatchLogsRoleArn;
 
   /// The date when the user import job was completed.
-  @_s.JsonKey(
-      name: 'CompletionDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CompletionDate')
   final DateTime completionDate;
 
   /// The message returned when the user import job is completed.
@@ -14066,10 +14035,8 @@ class UserImportJobType {
   final String completionMessage;
 
   /// The date the user import job was created.
-  @_s.JsonKey(
-      name: 'CreationDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationDate')
   final DateTime creationDate;
 
   /// The number of users that could not be imported.
@@ -14097,10 +14064,8 @@ class UserImportJobType {
   final int skippedUsers;
 
   /// The date when the user import job was started.
-  @_s.JsonKey(
-      name: 'StartDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'StartDate')
   final DateTime startDate;
 
   /// The status of the user import job. One of the following:
@@ -14293,10 +14258,8 @@ class UserPoolClientType {
   final String clientSecret;
 
   /// The date the user pool client was created.
-  @_s.JsonKey(
-      name: 'CreationDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationDate')
   final DateTime creationDate;
 
   /// The default redirect URI. Must be in the <code>CallbackURLs</code> list.
@@ -14360,10 +14323,8 @@ class UserPoolClientType {
   final List<ExplicitAuthFlowsType> explicitAuthFlows;
 
   /// The date the user pool client was last modified.
-  @_s.JsonKey(
-      name: 'LastModifiedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastModifiedDate')
   final DateTime lastModifiedDate;
 
   /// A list of allowed logout URLs for the identity providers.
@@ -14481,10 +14442,8 @@ class UserPoolClientType {
     createToJson: false)
 class UserPoolDescriptionType {
   /// The date the user pool description was created.
-  @_s.JsonKey(
-      name: 'CreationDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationDate')
   final DateTime creationDate;
 
   /// The ID in a user pool description.
@@ -14496,10 +14455,8 @@ class UserPoolDescriptionType {
   final LambdaConfigType lambdaConfig;
 
   /// The date the user pool description was last modified.
-  @_s.JsonKey(
-      name: 'LastModifiedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastModifiedDate')
   final DateTime lastModifiedDate;
 
   /// The name in a user pool description.
@@ -14599,10 +14556,8 @@ class UserPoolType {
   final List<VerifiedAttributeType> autoVerifiedAttributes;
 
   /// The date the user pool was created.
-  @_s.JsonKey(
-      name: 'CreationDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationDate')
   final DateTime creationDate;
 
   /// A custom domain name that you provide to Amazon Cognito. This parameter
@@ -14653,10 +14608,8 @@ class UserPoolType {
   final LambdaConfigType lambdaConfig;
 
   /// The date the user pool was last modified.
-  @_s.JsonKey(
-      name: 'LastModifiedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastModifiedDate')
   final DateTime lastModifiedDate;
 
   /// Can be one of the following values:
@@ -14811,17 +14764,13 @@ class UserType {
   final List<MFAOptionType> mFAOptions;
 
   /// The creation date of the user.
-  @_s.JsonKey(
-      name: 'UserCreateDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'UserCreateDate')
   final DateTime userCreateDate;
 
   /// The last modified date of the user.
-  @_s.JsonKey(
-      name: 'UserLastModifiedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'UserLastModifiedDate')
   final DateTime userLastModifiedDate;
 
   /// The user status. Can be one of the following:

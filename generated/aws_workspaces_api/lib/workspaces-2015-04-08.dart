@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -2117,10 +2120,8 @@ class AccountModification {
   final DedicatedTenancyModificationStateEnum modificationState;
 
   /// The timestamp when the modification of the BYOL configuration was started.
-  @_s.JsonKey(
-      name: 'StartTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'StartTime')
   final DateTime startTime;
 
   AccountModification({
@@ -3206,10 +3207,8 @@ class SelfservicePermissions {
     createToJson: false)
 class Snapshot {
   /// The time when the snapshot was created.
-  @_s.JsonKey(
-      name: 'SnapshotTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'SnapshotTime')
   final DateTime snapshotTime;
 
   Snapshot({
@@ -3592,10 +3591,8 @@ class WorkspaceBundle {
   final String imageId;
 
   /// The last time that the bundle was updated.
-  @_s.JsonKey(
-      name: 'LastUpdatedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastUpdatedTime')
   final DateTime lastUpdatedTime;
 
   /// The name of the bundle.
@@ -3643,17 +3640,13 @@ class WorkspaceConnectionStatus {
   final ConnectionState connectionState;
 
   /// The timestamp of the connection status check.
-  @_s.JsonKey(
-      name: 'ConnectionStateCheckTimestamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ConnectionStateCheckTimestamp')
   final DateTime connectionStateCheckTimestamp;
 
   /// The timestamp of the last known user connection.
-  @_s.JsonKey(
-      name: 'LastKnownUserConnectionTimestamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastKnownUserConnectionTimestamp')
   final DateTime lastKnownUserConnectionTimestamp;
 
   /// The identifier of the WorkSpace.

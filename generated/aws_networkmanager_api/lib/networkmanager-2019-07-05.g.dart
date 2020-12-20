@@ -188,7 +188,7 @@ DescribeGlobalNetworksResponse _$DescribeGlobalNetworksResponseFromJson(
 
 Device _$DeviceFromJson(Map<String, dynamic> json) {
   return Device(
-    createdAt: timeStampFromJson(json['CreatedAt']),
+    createdAt: const UnixDateTimeConverter().fromJson(json['CreatedAt']),
     description: json['Description'] as String,
     deviceArn: json['DeviceArn'] as String,
     deviceId: json['DeviceId'] as String,
@@ -305,7 +305,7 @@ GetTransitGatewayRegistrationsResponse
 
 GlobalNetwork _$GlobalNetworkFromJson(Map<String, dynamic> json) {
   return GlobalNetwork(
-    createdAt: timeStampFromJson(json['CreatedAt']),
+    createdAt: const UnixDateTimeConverter().fromJson(json['CreatedAt']),
     description: json['Description'] as String,
     globalNetworkArn: json['GlobalNetworkArn'] as String,
     globalNetworkId: json['GlobalNetworkId'] as String,
@@ -328,7 +328,7 @@ Link _$LinkFromJson(Map<String, dynamic> json) {
     bandwidth: json['Bandwidth'] == null
         ? null
         : Bandwidth.fromJson(json['Bandwidth'] as Map<String, dynamic>),
-    createdAt: timeStampFromJson(json['CreatedAt']),
+    createdAt: const UnixDateTimeConverter().fromJson(json['CreatedAt']),
     description: json['Description'] as String,
     globalNetworkId: json['GlobalNetworkId'] as String,
     linkArn: json['LinkArn'] as String,
@@ -411,7 +411,7 @@ RegisterTransitGatewayResponse _$RegisterTransitGatewayResponseFromJson(
 
 Site _$SiteFromJson(Map<String, dynamic> json) {
   return Site(
-    createdAt: timeStampFromJson(json['CreatedAt']),
+    createdAt: const UnixDateTimeConverter().fromJson(json['CreatedAt']),
     description: json['Description'] as String,
     globalNetworkId: json['GlobalNetworkId'] as String,
     location: json['Location'] == null

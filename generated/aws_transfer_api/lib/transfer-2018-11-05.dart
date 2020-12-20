@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -2269,10 +2272,8 @@ class ListedUser {
     createToJson: false)
 class SshPublicKey {
   /// The date that the public key was added to the user account.
-  @_s.JsonKey(
-      name: 'DateImported',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'DateImported')
   final DateTime dateImported;
 
   /// The content of the SSH public key as specified by the

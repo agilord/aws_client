@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -5466,10 +5469,8 @@ class Audio {
     createToJson: false)
 class BusinessReport {
   /// The time of report delivery.
-  @_s.JsonKey(
-      name: 'DeliveryTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'DeliveryTime')
   final DateTime deliveryTime;
 
   /// The download link where a user can download the report.
@@ -6500,10 +6501,8 @@ class Device {
     createToJson: false)
 class DeviceData {
   /// The time (in epoch) when the device data was created.
-  @_s.JsonKey(
-      name: 'CreatedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedTime')
   final DateTime createdTime;
 
   /// The ARN of a device.
@@ -6581,10 +6580,8 @@ class DeviceData {
     createToJson: false)
 class DeviceEvent {
   /// The time (in epoch) when the event occurred.
-  @_s.JsonKey(
-      name: 'Timestamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'Timestamp')
   final DateTime timestamp;
 
   /// The type of device event.
@@ -6635,10 +6632,8 @@ class DeviceNetworkProfileInfo {
   final String certificateArn;
 
   /// The time (in epoch) when the certificate expires.
-  @_s.JsonKey(
-      name: 'CertificateExpirationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CertificateExpirationTime')
   final DateTime certificateExpirationTime;
 
   /// The ARN of the network profile associated with a device.
@@ -6735,10 +6730,8 @@ class DeviceStatusInfo {
   final ConnectionStatus connectionStatus;
 
   /// The time (in epoch) when the device connection status changed.
-  @_s.JsonKey(
-      name: 'ConnectionStatusUpdatedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ConnectionStatusUpdatedTime')
   final DateTime connectionStatusUpdatedTime;
 
   /// One or more device status detail descriptions.

@@ -26,7 +26,8 @@ Map<String, dynamic> _$StartSelectorToJson(StartSelector instance) {
       _$StartSelectorTypeEnumMap[instance.startSelectorType]);
   writeNotNull('AfterFragmentNumber', instance.afterFragmentNumber);
   writeNotNull('ContinuationToken', instance.continuationToken);
-  writeNotNull('StartTimestamp', unixTimestampToJson(instance.startTimestamp));
+  writeNotNull('StartTimestamp',
+      const UnixDateTimeConverter().toJson(instance.startTimestamp));
   return val;
 }
 

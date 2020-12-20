@@ -286,7 +286,7 @@ DetectorModel _$DetectorModelFromJson(Map<String, dynamic> json) {
 DetectorModelConfiguration _$DetectorModelConfigurationFromJson(
     Map<String, dynamic> json) {
   return DetectorModelConfiguration(
-    creationTime: timeStampFromJson(json['creationTime']),
+    creationTime: const UnixDateTimeConverter().fromJson(json['creationTime']),
     detectorModelArn: json['detectorModelArn'] as String,
     detectorModelDescription: json['detectorModelDescription'] as String,
     detectorModelName: json['detectorModelName'] as String,
@@ -294,7 +294,8 @@ DetectorModelConfiguration _$DetectorModelConfigurationFromJson(
     evaluationMethod: _$enumDecodeNullable(
         _$EvaluationMethodEnumMap, json['evaluationMethod']),
     key: json['key'] as String,
-    lastUpdateTime: timeStampFromJson(json['lastUpdateTime']),
+    lastUpdateTime:
+        const UnixDateTimeConverter().fromJson(json['lastUpdateTime']),
     roleArn: json['roleArn'] as String,
     status: _$enumDecodeNullable(
         _$DetectorModelVersionStatusEnumMap, json['status']),
@@ -376,7 +377,7 @@ Map<String, dynamic> _$DetectorModelDefinitionToJson(
 
 DetectorModelSummary _$DetectorModelSummaryFromJson(Map<String, dynamic> json) {
   return DetectorModelSummary(
-    creationTime: timeStampFromJson(json['creationTime']),
+    creationTime: const UnixDateTimeConverter().fromJson(json['creationTime']),
     detectorModelDescription: json['detectorModelDescription'] as String,
     detectorModelName: json['detectorModelName'] as String,
   );
@@ -385,13 +386,14 @@ DetectorModelSummary _$DetectorModelSummaryFromJson(Map<String, dynamic> json) {
 DetectorModelVersionSummary _$DetectorModelVersionSummaryFromJson(
     Map<String, dynamic> json) {
   return DetectorModelVersionSummary(
-    creationTime: timeStampFromJson(json['creationTime']),
+    creationTime: const UnixDateTimeConverter().fromJson(json['creationTime']),
     detectorModelArn: json['detectorModelArn'] as String,
     detectorModelName: json['detectorModelName'] as String,
     detectorModelVersion: json['detectorModelVersion'] as String,
     evaluationMethod: _$enumDecodeNullable(
         _$EvaluationMethodEnumMap, json['evaluationMethod']),
-    lastUpdateTime: timeStampFromJson(json['lastUpdateTime']),
+    lastUpdateTime:
+        const UnixDateTimeConverter().fromJson(json['lastUpdateTime']),
     roleArn: json['roleArn'] as String,
     status: _$enumDecodeNullable(
         _$DetectorModelVersionStatusEnumMap, json['status']),
@@ -526,10 +528,11 @@ Input _$InputFromJson(Map<String, dynamic> json) {
 
 InputConfiguration _$InputConfigurationFromJson(Map<String, dynamic> json) {
   return InputConfiguration(
-    creationTime: timeStampFromJson(json['creationTime']),
+    creationTime: const UnixDateTimeConverter().fromJson(json['creationTime']),
     inputArn: json['inputArn'] as String,
     inputName: json['inputName'] as String,
-    lastUpdateTime: timeStampFromJson(json['lastUpdateTime']),
+    lastUpdateTime:
+        const UnixDateTimeConverter().fromJson(json['lastUpdateTime']),
     status: _$enumDecodeNullable(_$InputStatusEnumMap, json['status']),
     inputDescription: json['inputDescription'] as String,
   );
@@ -567,11 +570,12 @@ Map<String, dynamic> _$InputDefinitionToJson(InputDefinition instance) {
 
 InputSummary _$InputSummaryFromJson(Map<String, dynamic> json) {
   return InputSummary(
-    creationTime: timeStampFromJson(json['creationTime']),
+    creationTime: const UnixDateTimeConverter().fromJson(json['creationTime']),
     inputArn: json['inputArn'] as String,
     inputDescription: json['inputDescription'] as String,
     inputName: json['inputName'] as String,
-    lastUpdateTime: timeStampFromJson(json['lastUpdateTime']),
+    lastUpdateTime:
+        const UnixDateTimeConverter().fromJson(json['lastUpdateTime']),
     status: _$enumDecodeNullable(_$InputStatusEnumMap, json['status']),
   );
 }

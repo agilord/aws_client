@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -1397,8 +1400,8 @@ class ClusterInfo {
   ///
   /// The time when the cluster was created.
   ///
-  @_s.JsonKey(
-      name: 'creationTime', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'creationTime')
   final DateTime creationTime;
 
   ///
@@ -1512,15 +1515,15 @@ class ClusterOperationInfo {
   ///
   /// The time that the operation was created.
   ///
-  @_s.JsonKey(
-      name: 'creationTime', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'creationTime')
   final DateTime creationTime;
 
   ///
   /// The time at which the operation finished.
   ///
-  @_s.JsonKey(
-      name: 'endTime', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'endTime')
   final DateTime endTime;
 
   ///
@@ -1609,8 +1612,8 @@ class Configuration {
   ///
   /// The time when the configuration was created.
   ///
-  @_s.JsonKey(
-      name: 'creationTime', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'creationTime')
   final DateTime creationTime;
 
   ///
@@ -1694,8 +1697,8 @@ class ConfigurationRevision {
   ///
   /// The time when the configuration revision was created.
   ///
-  @_s.JsonKey(
-      name: 'creationTime', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'creationTime')
   final DateTime creationTime;
 
   ///
@@ -1768,8 +1771,8 @@ class CreateConfigurationResponse {
   ///
   /// The time when the configuration was created.
   ///
-  @_s.JsonKey(
-      name: 'creationTime', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'creationTime')
   final DateTime creationTime;
 
   ///
@@ -1875,8 +1878,8 @@ class DescribeConfigurationResponse {
   ///
   /// The time when the configuration was created.
   ///
-  @_s.JsonKey(
-      name: 'creationTime', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'creationTime')
   final DateTime creationTime;
 
   ///
@@ -1930,8 +1933,8 @@ class DescribeConfigurationRevisionResponse {
   ///
   /// The time when the configuration was created.
   ///
-  @_s.JsonKey(
-      name: 'creationTime', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'creationTime')
   final DateTime creationTime;
 
   ///

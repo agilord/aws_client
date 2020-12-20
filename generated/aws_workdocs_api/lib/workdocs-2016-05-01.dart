@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -3555,10 +3558,8 @@ class Activity {
   final ResourceMetadata resourceMetadata;
 
   /// The timestamp when the action was performed.
-  @_s.JsonKey(
-      name: 'TimeStamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'TimeStamp')
   final DateTime timeStamp;
 
   /// The activity type.
@@ -3701,10 +3702,8 @@ class Comment {
   final User contributor;
 
   /// The time that the comment was created.
-  @_s.JsonKey(
-      name: 'CreatedTimestamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedTimestamp')
   final DateTime createdTimestamp;
 
   /// The ID of the parent comment.
@@ -3770,10 +3769,8 @@ class CommentMetadata {
   final User contributor;
 
   /// The timestamp that the comment was created.
-  @_s.JsonKey(
-      name: 'CreatedTimestamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedTimestamp')
   final DateTime createdTimestamp;
 
   /// The ID of the user being replied to.
@@ -4158,10 +4155,8 @@ class DescribeUsersResponse {
     createToJson: false)
 class DocumentMetadata {
   /// The time when the document was created.
-  @_s.JsonKey(
-      name: 'CreatedTimestamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedTimestamp')
   final DateTime createdTimestamp;
 
   /// The ID of the creator.
@@ -4181,10 +4176,8 @@ class DocumentMetadata {
   final DocumentVersionMetadata latestVersionMetadata;
 
   /// The time when the document was updated.
-  @_s.JsonKey(
-      name: 'ModifiedTimestamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ModifiedTimestamp')
   final DateTime modifiedTimestamp;
 
   /// The ID of the parent folder.
@@ -4240,17 +4233,13 @@ enum DocumentThumbnailType {
     createToJson: false)
 class DocumentVersionMetadata {
   /// The timestamp when the content of the document was originally created.
-  @_s.JsonKey(
-      name: 'ContentCreatedTimestamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ContentCreatedTimestamp')
   final DateTime contentCreatedTimestamp;
 
   /// The timestamp when the content of the document was modified.
-  @_s.JsonKey(
-      name: 'ContentModifiedTimestamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ContentModifiedTimestamp')
   final DateTime contentModifiedTimestamp;
 
   /// The content type of the document.
@@ -4258,10 +4247,8 @@ class DocumentVersionMetadata {
   final String contentType;
 
   /// The timestamp when the document was first uploaded.
-  @_s.JsonKey(
-      name: 'CreatedTimestamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedTimestamp')
   final DateTime createdTimestamp;
 
   /// The ID of the creator.
@@ -4273,10 +4260,8 @@ class DocumentVersionMetadata {
   final String id;
 
   /// The timestamp when the document was last uploaded.
-  @_s.JsonKey(
-      name: 'ModifiedTimestamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ModifiedTimestamp')
   final DateTime modifiedTimestamp;
 
   /// The name of the version.
@@ -4368,10 +4353,8 @@ extension on FolderContentType {
     createToJson: false)
 class FolderMetadata {
   /// The time when the folder was created.
-  @_s.JsonKey(
-      name: 'CreatedTimestamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedTimestamp')
   final DateTime createdTimestamp;
 
   /// The ID of the creator.
@@ -4391,10 +4374,8 @@ class FolderMetadata {
   final int latestVersionSize;
 
   /// The time when the folder was updated.
-  @_s.JsonKey(
-      name: 'ModifiedTimestamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ModifiedTimestamp')
   final DateTime modifiedTimestamp;
 
   /// The name of the folder.
@@ -5219,10 +5200,8 @@ class UploadMetadata {
     createToJson: false)
 class User {
   /// The time when the user was created.
-  @_s.JsonKey(
-      name: 'CreatedTimestamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedTimestamp')
   final DateTime createdTimestamp;
 
   /// The email address of the user.
@@ -5242,10 +5221,8 @@ class User {
   final LocaleType locale;
 
   /// The time when the user was modified.
-  @_s.JsonKey(
-      name: 'ModifiedTimestamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ModifiedTimestamp')
   final DateTime modifiedTimestamp;
 
   /// The ID of the organization.

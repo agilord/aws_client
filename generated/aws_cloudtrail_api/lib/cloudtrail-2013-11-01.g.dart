@@ -70,7 +70,7 @@ Event _$EventFromJson(Map<String, dynamic> json) {
     eventId: json['EventId'] as String,
     eventName: json['EventName'] as String,
     eventSource: json['EventSource'] as String,
-    eventTime: timeStampFromJson(json['EventTime']),
+    eventTime: const UnixDateTimeConverter().fromJson(json['EventTime']),
     readOnly: json['ReadOnly'] as String,
     resources: (json['Resources'] as List)
         ?.map((e) =>
@@ -190,24 +190,28 @@ GetTrailStatusResponse _$GetTrailStatusResponseFromJson(
     isLogging: json['IsLogging'] as bool,
     latestCloudWatchLogsDeliveryError:
         json['LatestCloudWatchLogsDeliveryError'] as String,
-    latestCloudWatchLogsDeliveryTime:
-        timeStampFromJson(json['LatestCloudWatchLogsDeliveryTime']),
+    latestCloudWatchLogsDeliveryTime: const UnixDateTimeConverter()
+        .fromJson(json['LatestCloudWatchLogsDeliveryTime']),
     latestDeliveryAttemptSucceeded:
         json['LatestDeliveryAttemptSucceeded'] as String,
     latestDeliveryAttemptTime: json['LatestDeliveryAttemptTime'] as String,
     latestDeliveryError: json['LatestDeliveryError'] as String,
-    latestDeliveryTime: timeStampFromJson(json['LatestDeliveryTime']),
+    latestDeliveryTime:
+        const UnixDateTimeConverter().fromJson(json['LatestDeliveryTime']),
     latestDigestDeliveryError: json['LatestDigestDeliveryError'] as String,
-    latestDigestDeliveryTime:
-        timeStampFromJson(json['LatestDigestDeliveryTime']),
+    latestDigestDeliveryTime: const UnixDateTimeConverter()
+        .fromJson(json['LatestDigestDeliveryTime']),
     latestNotificationAttemptSucceeded:
         json['LatestNotificationAttemptSucceeded'] as String,
     latestNotificationAttemptTime:
         json['LatestNotificationAttemptTime'] as String,
     latestNotificationError: json['LatestNotificationError'] as String,
-    latestNotificationTime: timeStampFromJson(json['LatestNotificationTime']),
-    startLoggingTime: timeStampFromJson(json['StartLoggingTime']),
-    stopLoggingTime: timeStampFromJson(json['StopLoggingTime']),
+    latestNotificationTime:
+        const UnixDateTimeConverter().fromJson(json['LatestNotificationTime']),
+    startLoggingTime:
+        const UnixDateTimeConverter().fromJson(json['StartLoggingTime']),
+    stopLoggingTime:
+        const UnixDateTimeConverter().fromJson(json['StopLoggingTime']),
     timeLoggingStarted: json['TimeLoggingStarted'] as String,
     timeLoggingStopped: json['TimeLoggingStopped'] as String,
   );
@@ -307,8 +311,10 @@ LookupEventsResponse _$LookupEventsResponseFromJson(Map<String, dynamic> json) {
 PublicKey _$PublicKeyFromJson(Map<String, dynamic> json) {
   return PublicKey(
     fingerprint: json['Fingerprint'] as String,
-    validityEndTime: timeStampFromJson(json['ValidityEndTime']),
-    validityStartTime: timeStampFromJson(json['ValidityStartTime']),
+    validityEndTime:
+        const UnixDateTimeConverter().fromJson(json['ValidityEndTime']),
+    validityStartTime:
+        const UnixDateTimeConverter().fromJson(json['ValidityStartTime']),
     value: const Uint8ListConverter().fromJson(json['Value'] as String),
   );
 }

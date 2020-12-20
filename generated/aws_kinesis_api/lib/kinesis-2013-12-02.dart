@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -2620,10 +2623,8 @@ class Consumer {
   final String consumerARN;
 
   /// <p/>
-  @_s.JsonKey(
-      name: 'ConsumerCreationTimestamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ConsumerCreationTimestamp')
   final DateTime consumerCreationTimestamp;
 
   /// The name of the consumer is something you choose when you register the
@@ -2664,10 +2665,8 @@ class ConsumerDescription {
   final String consumerARN;
 
   /// <p/>
-  @_s.JsonKey(
-      name: 'ConsumerCreationTimestamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ConsumerCreationTimestamp')
   final DateTime consumerCreationTimestamp;
 
   /// The name of the consumer is something you choose when you register the
@@ -3558,10 +3557,8 @@ class Record {
   final String sequenceNumber;
 
   /// The approximate time that the record was inserted into the stream.
-  @_s.JsonKey(
-      name: 'ApproximateArrivalTimestamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ApproximateArrivalTimestamp')
   final DateTime approximateArrivalTimestamp;
 
   /// The encryption type used on the record. This parameter can be one of the
@@ -3783,10 +3780,8 @@ class StreamDescription {
   final String streamARN;
 
   /// The approximate time that the stream was created.
-  @_s.JsonKey(
-      name: 'StreamCreationTimestamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'StreamCreationTimestamp')
   final DateTime streamCreationTimestamp;
 
   /// The name of the stream being described.
@@ -3905,10 +3900,8 @@ class StreamDescriptionSummary {
   final String streamARN;
 
   /// The approximate time that the stream was created.
-  @_s.JsonKey(
-      name: 'StreamCreationTimestamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'StreamCreationTimestamp')
   final DateTime streamCreationTimestamp;
 
   /// The name of the stream being described.

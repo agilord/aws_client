@@ -99,7 +99,8 @@ Map<String, dynamic> _$MetricDatumToJson(MetricDatum instance) {
       'Dimensions', instance.dimensions?.map((e) => e?.toJson())?.toList());
   writeNotNull('StatisticValues', instance.statisticValues?.toJson());
   writeNotNull('StorageResolution', instance.storageResolution);
-  writeNotNull('Timestamp', iso8601ToJson(instance.timestamp));
+  writeNotNull(
+      'Timestamp', const IsoDateTimeConverter().toJson(instance.timestamp));
   writeNotNull('Unit', _$StandardUnitEnumMap[instance.unit]);
   writeNotNull('Value', instance.value);
   writeNotNull('Values', instance.values);
@@ -161,8 +162,10 @@ Map<String, dynamic> _$RangeToJson(Range instance) {
     }
   }
 
-  writeNotNull('EndTime', iso8601ToJson(instance.endTime));
-  writeNotNull('StartTime', iso8601ToJson(instance.startTime));
+  writeNotNull(
+      'EndTime', const IsoDateTimeConverter().toJson(instance.endTime));
+  writeNotNull(
+      'StartTime', const IsoDateTimeConverter().toJson(instance.startTime));
   return val;
 }
 

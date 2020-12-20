@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -1401,15 +1404,11 @@ class ProvisionedThroughput {
     createFactory: true,
     createToJson: false)
 class ProvisionedThroughputDescription {
-  @_s.JsonKey(
-      name: 'LastDecreaseDateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastDecreaseDateTime')
   final DateTime lastDecreaseDateTime;
-  @_s.JsonKey(
-      name: 'LastIncreaseDateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastIncreaseDateTime')
   final DateTime lastIncreaseDateTime;
   @_s.JsonKey(name: 'NumberOfDecreasesToday')
   final int numberOfDecreasesToday;
@@ -1608,10 +1607,8 @@ class ScanOutput {
     createFactory: true,
     createToJson: false)
 class TableDescription {
-  @_s.JsonKey(
-      name: 'CreationDateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationDateTime')
   final DateTime creationDateTime;
   @_s.JsonKey(name: 'ItemCount')
   final int itemCount;

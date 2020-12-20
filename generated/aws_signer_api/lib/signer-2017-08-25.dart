@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -608,17 +611,13 @@ enum Category {
     createToJson: false)
 class DescribeSigningJobResponse {
   /// Date and time that the signing job was completed.
-  @_s.JsonKey(
-      name: 'completedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'completedAt')
   final DateTime completedAt;
 
   /// Date and time that the signing job was created.
-  @_s.JsonKey(
-      name: 'createdAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdAt')
   final DateTime createdAt;
 
   /// The ID of the signing job on output.
@@ -1162,10 +1161,8 @@ class SigningImageFormat {
     createToJson: false)
 class SigningJob {
   /// The date and time that the signing job was created.
-  @_s.JsonKey(
-      name: 'createdAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdAt')
   final DateTime createdAt;
 
   /// The ID of the signing job.

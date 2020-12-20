@@ -303,10 +303,12 @@ QueryExecutionStatistics _$QueryExecutionStatisticsFromJson(
 
 QueryExecutionStatus _$QueryExecutionStatusFromJson(Map<String, dynamic> json) {
   return QueryExecutionStatus(
-    completionDateTime: timeStampFromJson(json['CompletionDateTime']),
+    completionDateTime:
+        const UnixDateTimeConverter().fromJson(json['CompletionDateTime']),
     state: _$enumDecodeNullable(_$QueryExecutionStateEnumMap, json['State']),
     stateChangeReason: json['StateChangeReason'] as String,
-    submissionDateTime: timeStampFromJson(json['SubmissionDateTime']),
+    submissionDateTime:
+        const UnixDateTimeConverter().fromJson(json['SubmissionDateTime']),
   );
 }
 
@@ -463,7 +465,7 @@ WorkGroup _$WorkGroupFromJson(Map<String, dynamic> json) {
         ? null
         : WorkGroupConfiguration.fromJson(
             json['Configuration'] as Map<String, dynamic>),
-    creationTime: timeStampFromJson(json['CreationTime']),
+    creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
     description: json['Description'] as String,
     state: _$enumDecodeNullable(_$WorkGroupStateEnumMap, json['State']),
   );
@@ -537,7 +539,7 @@ Map<String, dynamic> _$WorkGroupConfigurationUpdatesToJson(
 
 WorkGroupSummary _$WorkGroupSummaryFromJson(Map<String, dynamic> json) {
   return WorkGroupSummary(
-    creationTime: timeStampFromJson(json['CreationTime']),
+    creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
     description: json['Description'] as String,
     name: json['Name'] as String,
     state: _$enumDecodeNullable(_$WorkGroupStateEnumMap, json['State']),

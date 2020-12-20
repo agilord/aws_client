@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -2007,10 +2010,8 @@ class AssessmentRun {
   final String assessmentTemplateArn;
 
   /// The time when <a>StartAssessmentRun</a> was called.
-  @_s.JsonKey(
-      name: 'createdAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdAt')
   final DateTime createdAt;
 
   /// A Boolean value (true or false) that specifies whether the process of
@@ -2044,10 +2045,8 @@ class AssessmentRun {
   final AssessmentRunState state;
 
   /// The last time when the assessment run's state changed.
-  @_s.JsonKey(
-      name: 'stateChangedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'stateChangedAt')
   final DateTime stateChangedAt;
 
   /// A list of the assessment run state changes.
@@ -2060,17 +2059,13 @@ class AssessmentRun {
 
   /// The assessment run completion time that corresponds to the rules packages
   /// evaluation completion time or failure.
-  @_s.JsonKey(
-      name: 'completedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'completedAt')
   final DateTime completedAt;
 
   /// The time when <a>StartAssessmentRun</a> was called.
-  @_s.JsonKey(
-      name: 'startedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'startedAt')
   final DateTime startedAt;
 
   AssessmentRun({
@@ -2218,8 +2213,8 @@ class AssessmentRunFilter {
     createToJson: false)
 class AssessmentRunNotification {
   /// The date of the notification.
-  @_s.JsonKey(
-      name: 'date', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'date')
   final DateTime date;
 
   /// The Boolean value that specifies whether the notification represents an
@@ -2307,10 +2302,8 @@ class AssessmentRunStateChange {
   final AssessmentRunState state;
 
   /// The last time the assessment run state changed.
-  @_s.JsonKey(
-      name: 'stateChangedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'stateChangedAt')
   final DateTime stateChangedAt;
 
   AssessmentRunStateChange({
@@ -2335,10 +2328,8 @@ class AssessmentTarget {
   final String arn;
 
   /// The time at which the assessment target is created.
-  @_s.JsonKey(
-      name: 'createdAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdAt')
   final DateTime createdAt;
 
   /// The name of the Amazon Inspector assessment target.
@@ -2346,10 +2337,8 @@ class AssessmentTarget {
   final String name;
 
   /// The time at which <a>UpdateAssessmentTarget</a> is called.
-  @_s.JsonKey(
-      name: 'updatedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'updatedAt')
   final DateTime updatedAt;
 
   /// The ARN that specifies the resource group that is associated with the
@@ -2412,10 +2401,8 @@ class AssessmentTemplate {
   final String assessmentTargetArn;
 
   /// The time at which the assessment template is created.
-  @_s.JsonKey(
-      name: 'createdAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdAt')
   final DateTime createdAt;
 
   /// The duration in seconds specified for this assessment template. The default
@@ -2730,10 +2717,8 @@ class DescribeAssessmentTemplatesResponse {
     createToJson: false)
 class DescribeCrossAccountAccessRoleResponse {
   /// The date when the cross-account access role was registered.
-  @_s.JsonKey(
-      name: 'registeredAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'registeredAt')
   final DateTime registeredAt;
 
   /// The ARN that specifies the IAM role that Amazon Inspector uses to access
@@ -2884,10 +2869,8 @@ class EventSubscription {
   final InspectorEvent event;
 
   /// The time at which <a>SubscribeToEvent</a> is called.
-  @_s.JsonKey(
-      name: 'subscribedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'subscribedAt')
   final DateTime subscribedAt;
 
   EventSubscription({
@@ -3036,17 +3019,13 @@ class Finding {
   final List<Attribute> attributes;
 
   /// The time when the finding was generated.
-  @_s.JsonKey(
-      name: 'createdAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdAt')
   final DateTime createdAt;
 
   /// The time when <a>AddAttributesToFindings</a> is called.
-  @_s.JsonKey(
-      name: 'updatedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'updatedAt')
   final DateTime updatedAt;
 
   /// The user-defined attributes that are assigned to the finding.
@@ -3766,10 +3745,8 @@ class ResourceGroup {
   final String arn;
 
   /// The time at which resource group is created.
-  @_s.JsonKey(
-      name: 'createdAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdAt')
   final DateTime createdAt;
 
   /// The tags (key and value pairs) of the resource group. This data type
@@ -4051,15 +4028,13 @@ class TelemetryMetadata {
     createToJson: true)
 class TimestampRange {
   /// The minimum value of the timestamp range.
-  @_s.JsonKey(
-      name: 'beginDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'beginDate')
   final DateTime beginDate;
 
   /// The maximum value of the timestamp range.
-  @_s.JsonKey(
-      name: 'endDate', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'endDate')
   final DateTime endDate;
 
   TimestampRange({

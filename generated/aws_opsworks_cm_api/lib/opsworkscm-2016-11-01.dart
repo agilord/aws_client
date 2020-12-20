@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -2074,10 +2077,8 @@ class Backup {
 
   /// The time stamp when the backup was created in the database. Example:
   /// <code>2016-07-29T13:38:47.520Z</code>
-  @_s.JsonKey(
-      name: 'CreatedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedAt')
   final DateTime createdAt;
 
   /// A user-provided description for a manual backup. This field is empty for
@@ -2570,10 +2571,8 @@ class Server {
   final String cloudFormationStackArn;
 
   /// Time stamp of server creation. Example <code>2016-07-29T13:38:47.520Z</code>
-  @_s.JsonKey(
-      name: 'CreatedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedAt')
   final DateTime createdAt;
 
   /// An optional public endpoint of a server, such as
@@ -2747,10 +2746,8 @@ class Server {
     createToJson: false)
 class ServerEvent {
   /// The time when the event occurred.
-  @_s.JsonKey(
-      name: 'CreatedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedAt')
   final DateTime createdAt;
 
   /// The Amazon S3 URL of the event's log file.

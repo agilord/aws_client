@@ -17,7 +17,7 @@ ActiveDirectoryBackupAttributes _$ActiveDirectoryBackupAttributesFromJson(
 Backup _$BackupFromJson(Map<String, dynamic> json) {
   return Backup(
     backupId: json['BackupId'] as String,
-    creationTime: timeStampFromJson(json['CreationTime']),
+    creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
     fileSystem: json['FileSystem'] == null
         ? null
         : FileSystem.fromJson(json['FileSystem'] as Map<String, dynamic>),
@@ -249,13 +249,13 @@ DataRepositoryConfiguration _$DataRepositoryConfigurationFromJson(
 
 DataRepositoryTask _$DataRepositoryTaskFromJson(Map<String, dynamic> json) {
   return DataRepositoryTask(
-    creationTime: timeStampFromJson(json['CreationTime']),
+    creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
     fileSystemId: json['FileSystemId'] as String,
     lifecycle: _$enumDecodeNullable(
         _$DataRepositoryTaskLifecycleEnumMap, json['Lifecycle']),
     taskId: json['TaskId'] as String,
     type: _$enumDecodeNullable(_$DataRepositoryTaskTypeEnumMap, json['Type']),
-    endTime: timeStampFromJson(json['EndTime']),
+    endTime: const UnixDateTimeConverter().fromJson(json['EndTime']),
     failureDetails: json['FailureDetails'] == null
         ? null
         : DataRepositoryTaskFailureDetails.fromJson(
@@ -265,7 +265,7 @@ DataRepositoryTask _$DataRepositoryTaskFromJson(Map<String, dynamic> json) {
         ? null
         : CompletionReport.fromJson(json['Report'] as Map<String, dynamic>),
     resourceARN: json['ResourceARN'] as String,
-    startTime: timeStampFromJson(json['StartTime']),
+    startTime: const UnixDateTimeConverter().fromJson(json['StartTime']),
     status: json['Status'] == null
         ? null
         : DataRepositoryTaskStatus.fromJson(
@@ -311,7 +311,8 @@ DataRepositoryTaskStatus _$DataRepositoryTaskStatusFromJson(
     Map<String, dynamic> json) {
   return DataRepositoryTaskStatus(
     failedCount: json['FailedCount'] as int,
-    lastUpdatedTime: timeStampFromJson(json['LastUpdatedTime']),
+    lastUpdatedTime:
+        const UnixDateTimeConverter().fromJson(json['LastUpdatedTime']),
     succeededCount: json['SucceededCount'] as int,
     totalCount: json['TotalCount'] as int,
   );
@@ -409,7 +410,7 @@ DescribeFileSystemsResponse _$DescribeFileSystemsResponseFromJson(
 
 FileSystem _$FileSystemFromJson(Map<String, dynamic> json) {
   return FileSystem(
-    creationTime: timeStampFromJson(json['CreationTime']),
+    creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
     dNSName: json['DNSName'] as String,
     failureDetails: json['FailureDetails'] == null
         ? null

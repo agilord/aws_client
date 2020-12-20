@@ -103,7 +103,7 @@ AssessmentRun _$AssessmentRunFromJson(Map<String, dynamic> json) {
   return AssessmentRun(
     arn: json['arn'] as String,
     assessmentTemplateArn: json['assessmentTemplateArn'] as String,
-    createdAt: timeStampFromJson(json['createdAt']),
+    createdAt: const UnixDateTimeConverter().fromJson(json['createdAt']),
     dataCollected: json['dataCollected'] as bool,
     durationInSeconds: json['durationInSeconds'] as int,
     findingCounts: (json['findingCounts'] as Map<String, dynamic>)?.map(
@@ -118,7 +118,8 @@ AssessmentRun _$AssessmentRunFromJson(Map<String, dynamic> json) {
     rulesPackageArns:
         (json['rulesPackageArns'] as List)?.map((e) => e as String)?.toList(),
     state: _$enumDecodeNullable(_$AssessmentRunStateEnumMap, json['state']),
-    stateChangedAt: timeStampFromJson(json['stateChangedAt']),
+    stateChangedAt:
+        const UnixDateTimeConverter().fromJson(json['stateChangedAt']),
     stateChanges: (json['stateChanges'] as List)
         ?.map((e) => e == null
             ? null
@@ -128,8 +129,8 @@ AssessmentRun _$AssessmentRunFromJson(Map<String, dynamic> json) {
         ?.map((e) =>
             e == null ? null : Attribute.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    completedAt: timeStampFromJson(json['completedAt']),
-    startedAt: timeStampFromJson(json['startedAt']),
+    completedAt: const UnixDateTimeConverter().fromJson(json['completedAt']),
+    startedAt: const UnixDateTimeConverter().fromJson(json['startedAt']),
   );
 }
 
@@ -201,7 +202,7 @@ Map<String, dynamic> _$AssessmentRunFilterToJson(AssessmentRunFilter instance) {
 AssessmentRunNotification _$AssessmentRunNotificationFromJson(
     Map<String, dynamic> json) {
   return AssessmentRunNotification(
-    date: timeStampFromJson(json['date']),
+    date: const UnixDateTimeConverter().fromJson(json['date']),
     error: json['error'] as bool,
     event: _$enumDecodeNullable(_$InspectorEventEnumMap, json['event']),
     message: json['message'] as String,
@@ -232,16 +233,17 @@ AssessmentRunStateChange _$AssessmentRunStateChangeFromJson(
     Map<String, dynamic> json) {
   return AssessmentRunStateChange(
     state: _$enumDecodeNullable(_$AssessmentRunStateEnumMap, json['state']),
-    stateChangedAt: timeStampFromJson(json['stateChangedAt']),
+    stateChangedAt:
+        const UnixDateTimeConverter().fromJson(json['stateChangedAt']),
   );
 }
 
 AssessmentTarget _$AssessmentTargetFromJson(Map<String, dynamic> json) {
   return AssessmentTarget(
     arn: json['arn'] as String,
-    createdAt: timeStampFromJson(json['createdAt']),
+    createdAt: const UnixDateTimeConverter().fromJson(json['createdAt']),
     name: json['name'] as String,
-    updatedAt: timeStampFromJson(json['updatedAt']),
+    updatedAt: const UnixDateTimeConverter().fromJson(json['updatedAt']),
     resourceGroupArn: json['resourceGroupArn'] as String,
   );
 }
@@ -266,7 +268,7 @@ AssessmentTemplate _$AssessmentTemplateFromJson(Map<String, dynamic> json) {
     arn: json['arn'] as String,
     assessmentRunCount: json['assessmentRunCount'] as int,
     assessmentTargetArn: json['assessmentTargetArn'] as String,
-    createdAt: timeStampFromJson(json['createdAt']),
+    createdAt: const UnixDateTimeConverter().fromJson(json['createdAt']),
     durationInSeconds: json['durationInSeconds'] as int,
     name: json['name'] as String,
     rulesPackageArns:
@@ -422,7 +424,7 @@ DescribeCrossAccountAccessRoleResponse
     _$DescribeCrossAccountAccessRoleResponseFromJson(
         Map<String, dynamic> json) {
   return DescribeCrossAccountAccessRoleResponse(
-    registeredAt: timeStampFromJson(json['registeredAt']),
+    registeredAt: const UnixDateTimeConverter().fromJson(json['registeredAt']),
     roleArn: json['roleArn'] as String,
     valid: json['valid'] as bool,
   );
@@ -514,7 +516,7 @@ Map<String, dynamic> _$DurationRangeToJson(DurationRange instance) {
 EventSubscription _$EventSubscriptionFromJson(Map<String, dynamic> json) {
   return EventSubscription(
     event: _$enumDecodeNullable(_$InspectorEventEnumMap, json['event']),
-    subscribedAt: timeStampFromJson(json['subscribedAt']),
+    subscribedAt: const UnixDateTimeConverter().fromJson(json['subscribedAt']),
   );
 }
 
@@ -575,8 +577,8 @@ Finding _$FindingFromJson(Map<String, dynamic> json) {
         ?.map((e) =>
             e == null ? null : Attribute.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-    createdAt: timeStampFromJson(json['createdAt']),
-    updatedAt: timeStampFromJson(json['updatedAt']),
+    createdAt: const UnixDateTimeConverter().fromJson(json['createdAt']),
+    updatedAt: const UnixDateTimeConverter().fromJson(json['updatedAt']),
     userAttributes: (json['userAttributes'] as List)
         ?.map((e) =>
             e == null ? null : Attribute.fromJson(e as Map<String, dynamic>))
@@ -827,7 +829,7 @@ RemoveAttributesFromFindingsResponse
 ResourceGroup _$ResourceGroupFromJson(Map<String, dynamic> json) {
   return ResourceGroup(
     arn: json['arn'] as String,
-    createdAt: timeStampFromJson(json['createdAt']),
+    createdAt: const UnixDateTimeConverter().fromJson(json['createdAt']),
     tags: (json['tags'] as List)
         ?.map((e) => e == null
             ? null
@@ -943,7 +945,9 @@ Map<String, dynamic> _$TimestampRangeToJson(TimestampRange instance) {
     }
   }
 
-  writeNotNull('beginDate', unixTimestampToJson(instance.beginDate));
-  writeNotNull('endDate', unixTimestampToJson(instance.endDate));
+  writeNotNull(
+      'beginDate', const UnixDateTimeConverter().toJson(instance.beginDate));
+  writeNotNull(
+      'endDate', const UnixDateTimeConverter().toJson(instance.endDate));
   return val;
 }

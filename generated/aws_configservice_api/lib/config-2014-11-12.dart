@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -5033,10 +5036,8 @@ class AggregateEvaluationResult {
   final ComplianceType complianceType;
 
   /// The time when the AWS Config rule evaluated the AWS resource.
-  @_s.JsonKey(
-      name: 'ConfigRuleInvokedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ConfigRuleInvokedTime')
   final DateTime configRuleInvokedTime;
 
   /// Uniquely identifies the evaluation result.
@@ -5044,10 +5045,8 @@ class AggregateEvaluationResult {
   final EvaluationResultIdentifier evaluationResultIdentifier;
 
   /// The time when AWS Config recorded the aggregate evaluation result.
-  @_s.JsonKey(
-      name: 'ResultRecordedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ResultRecordedTime')
   final DateTime resultRecordedTime;
 
   AggregateEvaluationResult({
@@ -5143,10 +5142,8 @@ class AggregatedSourceStatus {
   final AggregatedSourceStatusType lastUpdateStatus;
 
   /// The time of the last update.
-  @_s.JsonKey(
-      name: 'LastUpdateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastUpdateTime')
   final DateTime lastUpdateTime;
 
   /// The source account ID or an organization.
@@ -5221,10 +5218,8 @@ class AggregationAuthorization {
   final String authorizedAwsRegion;
 
   /// The time stamp when the aggregation authorization was created.
-  @_s.JsonKey(
-      name: 'CreationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationTime')
   final DateTime creationTime;
 
   AggregationAuthorization({
@@ -5265,10 +5260,8 @@ class BaseConfigurationItem {
   final String configuration;
 
   /// The time when the configuration recording was initiated.
-  @_s.JsonKey(
-      name: 'configurationItemCaptureTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'configurationItemCaptureTime')
   final DateTime configurationItemCaptureTime;
 
   /// The configuration item status.
@@ -5281,10 +5274,8 @@ class BaseConfigurationItem {
   final String configurationStateId;
 
   /// The time stamp when the resource was created.
-  @_s.JsonKey(
-      name: 'resourceCreationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'resourceCreationTime')
   final DateTime resourceCreationTime;
 
   /// The ID of the resource (for example., sg-xxxxxx).
@@ -5528,10 +5519,8 @@ class ComplianceContributorCount {
     createToJson: false)
 class ComplianceSummary {
   /// The time that AWS Config created the compliance summary.
-  @_s.JsonKey(
-      name: 'ComplianceSummaryTimestamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ComplianceSummaryTimestamp')
   final DateTime complianceSummaryTimestamp;
 
   /// The number of AWS Config rules or AWS resources that are compliant, up to a
@@ -5615,10 +5604,8 @@ extension on ComplianceType {
     createToJson: false)
 class ConfigExportDeliveryInfo {
   /// The time of the last attempted delivery.
-  @_s.JsonKey(
-      name: 'lastAttemptTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastAttemptTime')
   final DateTime lastAttemptTime;
 
   /// The error code from the last attempted delivery.
@@ -5634,17 +5621,13 @@ class ConfigExportDeliveryInfo {
   final DeliveryStatus lastStatus;
 
   /// The time of the last successful delivery.
-  @_s.JsonKey(
-      name: 'lastSuccessfulTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastSuccessfulTime')
   final DateTime lastSuccessfulTime;
 
   /// The time that the next delivery occurs.
-  @_s.JsonKey(
-      name: 'nextDeliveryTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'nextDeliveryTime')
   final DateTime nextDeliveryTime;
 
   ConfigExportDeliveryInfo({
@@ -5886,10 +5869,8 @@ class ConfigRuleEvaluationStatus {
   final String configRuleName;
 
   /// The time that you first activated the AWS Config rule.
-  @_s.JsonKey(
-      name: 'FirstActivatedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'FirstActivatedTime')
   final DateTime firstActivatedTime;
 
   /// Indicates whether AWS Config has evaluated your resources against the rule
@@ -5907,10 +5888,8 @@ class ConfigRuleEvaluationStatus {
   /// </ul>
   @_s.JsonKey(name: 'FirstEvaluationStarted')
   final bool firstEvaluationStarted;
-  @_s.JsonKey(
-      name: 'LastDeactivatedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastDeactivatedTime')
   final DateTime lastDeactivatedTime;
 
   /// The error code that AWS Config returned when the rule last failed.
@@ -5923,34 +5902,26 @@ class ConfigRuleEvaluationStatus {
 
   /// The time that AWS Config last failed to evaluate your AWS resources against
   /// the rule.
-  @_s.JsonKey(
-      name: 'LastFailedEvaluationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastFailedEvaluationTime')
   final DateTime lastFailedEvaluationTime;
 
   /// The time that AWS Config last failed to invoke the AWS Config rule to
   /// evaluate your AWS resources.
-  @_s.JsonKey(
-      name: 'LastFailedInvocationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastFailedInvocationTime')
   final DateTime lastFailedInvocationTime;
 
   /// The time that AWS Config last successfully evaluated your AWS resources
   /// against the rule.
-  @_s.JsonKey(
-      name: 'LastSuccessfulEvaluationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastSuccessfulEvaluationTime')
   final DateTime lastSuccessfulEvaluationTime;
 
   /// The time that AWS Config last successfully invoked the AWS Config rule to
   /// evaluate your AWS resources.
-  @_s.JsonKey(
-      name: 'LastSuccessfulInvocationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastSuccessfulInvocationTime')
   final DateTime lastSuccessfulInvocationTime;
 
   ConfigRuleEvaluationStatus({
@@ -6078,10 +6049,8 @@ class ConfigStreamDeliveryInfo {
   final DeliveryStatus lastStatus;
 
   /// The time from the last status change.
-  @_s.JsonKey(
-      name: 'lastStatusChangeTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastStatusChangeTime')
   final DateTime lastStatusChangeTime;
 
   ConfigStreamDeliveryInfo({
@@ -6115,17 +6084,13 @@ class ConfigurationAggregator {
   final String configurationAggregatorName;
 
   /// The time stamp when the configuration aggregator was created.
-  @_s.JsonKey(
-      name: 'CreationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationTime')
   final DateTime creationTime;
 
   /// The time of the last update.
-  @_s.JsonKey(
-      name: 'LastUpdatedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastUpdatedTime')
   final DateTime lastUpdatedTime;
 
   /// Provides an organization and list of regions to be aggregated.
@@ -6172,10 +6137,8 @@ class ConfigurationItem {
   final String configuration;
 
   /// The time when the configuration recording was initiated.
-  @_s.JsonKey(
-      name: 'configurationItemCaptureTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'configurationItemCaptureTime')
   final DateTime configurationItemCaptureTime;
 
   /// Unique MD5 hash that represents the configuration item's state.
@@ -6216,10 +6179,8 @@ class ConfigurationItem {
   final List<Relationship> relationships;
 
   /// The time stamp when the resource was created.
-  @_s.JsonKey(
-      name: 'resourceCreationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'resourceCreationTime')
   final DateTime resourceCreationTime;
 
   /// The ID of the resource (for example, <code>sg-xxxxxx</code>).
@@ -6336,10 +6297,8 @@ class ConfigurationRecorderStatus {
   final String lastErrorMessage;
 
   /// The time the recorder was last started.
-  @_s.JsonKey(
-      name: 'lastStartTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastStartTime')
   final DateTime lastStartTime;
 
   /// The last (previous) status of the recorder.
@@ -6347,17 +6306,13 @@ class ConfigurationRecorderStatus {
   final RecorderStatus lastStatus;
 
   /// The time when the status was last changed.
-  @_s.JsonKey(
-      name: 'lastStatusChangeTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastStatusChangeTime')
   final DateTime lastStatusChangeTime;
 
   /// The time the recorder was last stopped.
-  @_s.JsonKey(
-      name: 'lastStopTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastStopTime')
   final DateTime lastStopTime;
 
   /// The name of the configuration recorder.
@@ -6480,10 +6435,8 @@ class ConformancePackDetail {
   final String deliveryS3KeyPrefix;
 
   /// Last time when conformation pack update was requested.
-  @_s.JsonKey(
-      name: 'LastUpdateRequestedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastUpdateRequestedTime')
   final DateTime lastUpdateRequestedTime;
 
   ConformancePackDetail({
@@ -6557,19 +6510,15 @@ class ConformancePackEvaluationResult {
   final ConformancePackComplianceType complianceType;
 
   /// The time when AWS Config rule evaluated AWS resource.
-  @_s.JsonKey(
-      name: 'ConfigRuleInvokedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ConfigRuleInvokedTime')
   final DateTime configRuleInvokedTime;
   @_s.JsonKey(name: 'EvaluationResultIdentifier')
   final EvaluationResultIdentifier evaluationResultIdentifier;
 
   /// The time when AWS Config recorded the evaluation result.
-  @_s.JsonKey(
-      name: 'ResultRecordedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ResultRecordedTime')
   final DateTime resultRecordedTime;
 
   /// Supplementary information about how the evaluation determined the
@@ -6701,10 +6650,8 @@ class ConformancePackStatusDetail {
   final ConformancePackState conformancePackState;
 
   /// Last time when conformation pack creation and update was requested.
-  @_s.JsonKey(
-      name: 'LastUpdateRequestedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastUpdateRequestedTime')
   final DateTime lastUpdateRequestedTime;
 
   /// Amazon Resource Name (ARN) of AWS CloudFormation stack.
@@ -6716,10 +6663,8 @@ class ConformancePackStatusDetail {
   final String conformancePackStatusReason;
 
   /// Last time when conformation pack creation and update was successful.
-  @_s.JsonKey(
-      name: 'LastUpdateCompletedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastUpdateCompletedTime')
   final DateTime lastUpdateCompletedTime;
 
   ConformancePackStatusDetail({
@@ -7503,10 +7448,8 @@ class Evaluation {
   /// configuration item that triggered the evaluation. For periodic evaluations,
   /// the time indicates when AWS Config triggered the evaluation at the frequency
   /// that you specified (for example, every 24 hours).
-  @_s.JsonKey(
-      name: 'OrderingTimestamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'OrderingTimestamp')
   final DateTime orderingTimestamp;
 
   /// Supplementary information about how the evaluation determined the
@@ -7553,10 +7496,8 @@ class EvaluationResult {
   final ComplianceType complianceType;
 
   /// The time when the AWS Config rule evaluated the AWS resource.
-  @_s.JsonKey(
-      name: 'ConfigRuleInvokedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ConfigRuleInvokedTime')
   final DateTime configRuleInvokedTime;
 
   /// Uniquely identifies the evaluation result.
@@ -7564,10 +7505,8 @@ class EvaluationResult {
   final EvaluationResultIdentifier evaluationResultIdentifier;
 
   /// The time when AWS Config recorded the evaluation result.
-  @_s.JsonKey(
-      name: 'ResultRecordedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ResultRecordedTime')
   final DateTime resultRecordedTime;
 
   /// An encrypted token that associates an evaluation with an AWS Config rule.
@@ -7604,10 +7543,8 @@ class EvaluationResultIdentifier {
   /// The time can indicate when AWS Config delivered a configuration item change
   /// notification, or it can indicate when AWS Config delivered the configuration
   /// snapshot, depending on which event triggered the evaluation.
-  @_s.JsonKey(
-      name: 'OrderingTimestamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'OrderingTimestamp')
   final DateTime orderingTimestamp;
 
   EvaluationResultIdentifier({
@@ -8350,10 +8287,8 @@ class MemberAccountStatus {
   final String errorMessage;
 
   /// The timestamp of the last status update.
-  @_s.JsonKey(
-      name: 'LastUpdateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastUpdateTime')
   final DateTime lastUpdateTime;
 
   MemberAccountStatus({
@@ -8432,10 +8367,8 @@ class OrganizationConfigRule {
   final List<String> excludedAccounts;
 
   /// The timestamp of the last update.
-  @_s.JsonKey(
-      name: 'LastUpdateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastUpdateTime')
   final DateTime lastUpdateTime;
 
   /// An <code>OrganizationCustomRuleMetadata</code> object.
@@ -8533,10 +8466,8 @@ class OrganizationConfigRuleStatus {
   final String errorMessage;
 
   /// The timestamp of the last update.
-  @_s.JsonKey(
-      name: 'LastUpdateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastUpdateTime')
   final DateTime lastUpdateTime;
 
   OrganizationConfigRuleStatus({
@@ -8573,10 +8504,8 @@ class OrganizationConformancePack {
   final String deliveryS3Bucket;
 
   /// Last time when organization conformation pack was updated.
-  @_s.JsonKey(
-      name: 'LastUpdateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastUpdateTime')
   final DateTime lastUpdateTime;
 
   /// Amazon Resource Name (ARN) of organization conformance pack.
@@ -8694,10 +8623,8 @@ class OrganizationConformancePackDetailedStatus {
   final String errorMessage;
 
   /// The timestamp of the last status update.
-  @_s.JsonKey(
-      name: 'LastUpdateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastUpdateTime')
   final DateTime lastUpdateTime;
 
   OrganizationConformancePackDetailedStatus({
@@ -8788,10 +8715,8 @@ class OrganizationConformancePackStatus {
   final String errorMessage;
 
   /// The timestamp of the last update.
-  @_s.JsonKey(
-      name: 'LastUpdateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastUpdateTime')
   final DateTime lastUpdateTime;
 
   OrganizationConformancePackStatus({
@@ -9569,10 +9494,8 @@ class RemediationException {
   final String resourceType;
 
   /// The time when the remediation exception will be deleted.
-  @_s.JsonKey(
-      name: 'ExpirationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ExpirationTime')
   final DateTime expirationTime;
 
   /// An explanation of an remediation exception.
@@ -9637,17 +9560,13 @@ enum RemediationExecutionState {
     createToJson: false)
 class RemediationExecutionStatus {
   /// Start time when the remediation was executed.
-  @_s.JsonKey(
-      name: 'InvocationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'InvocationTime')
   final DateTime invocationTime;
 
   /// The time when the remediation execution was last updated.
-  @_s.JsonKey(
-      name: 'LastUpdatedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastUpdatedTime')
   final DateTime lastUpdatedTime;
   @_s.JsonKey(name: 'ResourceKey')
   final ResourceKey resourceKey;
@@ -9687,10 +9606,8 @@ class RemediationExecutionStep {
   final String name;
 
   /// The time when the step started.
-  @_s.JsonKey(
-      name: 'StartTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'StartTime')
   final DateTime startTime;
 
   /// The valid status of the step.
@@ -9698,10 +9615,8 @@ class RemediationExecutionStep {
   final RemediationExecutionStepState state;
 
   /// The time when the step stopped.
-  @_s.JsonKey(
-      name: 'StopTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'StopTime')
   final DateTime stopTime;
 
   RemediationExecutionStep({
@@ -9871,10 +9786,8 @@ class ResourceFilters {
     createToJson: false)
 class ResourceIdentifier {
   /// The time that the resource was deleted.
-  @_s.JsonKey(
-      name: 'resourceDeletionTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'resourceDeletionTime')
   final DateTime resourceDeletionTime;
 
   /// The ID of the resource (for example, <code>sg-xxxxxx</code>).

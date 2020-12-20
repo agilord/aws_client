@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -689,10 +692,8 @@ class CustomizedScalingMetricSpecification {
     createToJson: false)
 class Datapoint {
   /// The time stamp for the data point in UTC format.
-  @_s.JsonKey(
-      name: 'Timestamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'Timestamp')
   final DateTime timestamp;
 
   /// The value of the data point.
@@ -1364,10 +1365,8 @@ class ScalingPlan {
   final ScalingPlanStatusCode statusCode;
 
   /// The Unix time stamp when the scaling plan was created.
-  @_s.JsonKey(
-      name: 'CreationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationTime')
   final DateTime creationTime;
 
   /// A simple message about the current status of the scaling plan.
@@ -1375,10 +1374,8 @@ class ScalingPlan {
   final String statusMessage;
 
   /// The Unix time stamp when the scaling plan entered the current status.
-  @_s.JsonKey(
-      name: 'StatusStartTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'StatusStartTime')
   final DateTime statusStartTime;
 
   ScalingPlan({

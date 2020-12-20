@@ -13,7 +13,7 @@ ChannelInfo _$ChannelInfoFromJson(Map<String, dynamic> json) {
     channelStatus: _$enumDecodeNullable(_$StatusEnumMap, json['ChannelStatus']),
     channelType:
         _$enumDecodeNullable(_$ChannelTypeEnumMap, json['ChannelType']),
-    creationTime: timeStampFromJson(json['CreationTime']),
+    creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
     singleMasterConfiguration: json['SingleMasterConfiguration'] == null
         ? null
         : SingleMasterConfiguration.fromJson(
@@ -240,7 +240,7 @@ Map<String, dynamic> _$SingleMasterConfigurationToJson(
 
 StreamInfo _$StreamInfoFromJson(Map<String, dynamic> json) {
   return StreamInfo(
-    creationTime: timeStampFromJson(json['CreationTime']),
+    creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
     dataRetentionInHours: json['DataRetentionInHours'] as int,
     deviceName: json['DeviceName'] as String,
     kmsKeyId: json['KmsKeyId'] as String,

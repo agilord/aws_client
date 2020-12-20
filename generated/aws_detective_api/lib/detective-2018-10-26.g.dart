@@ -70,7 +70,7 @@ GetMembersResponse _$GetMembersResponseFromJson(Map<String, dynamic> json) {
 Graph _$GraphFromJson(Map<String, dynamic> json) {
   return Graph(
     arn: json['Arn'] as String,
-    createdTime: timeStampFromJson(json['CreatedTime']),
+    createdTime: const UnixDateTimeConverter().fromJson(json['CreatedTime']),
   );
 }
 
@@ -112,14 +112,14 @@ MemberDetail _$MemberDetailFromJson(Map<String, dynamic> json) {
         _$MemberDisabledReasonEnumMap, json['DisabledReason']),
     emailAddress: json['EmailAddress'] as String,
     graphArn: json['GraphArn'] as String,
-    invitedTime: timeStampFromJson(json['InvitedTime']),
+    invitedTime: const UnixDateTimeConverter().fromJson(json['InvitedTime']),
     masterId: json['MasterId'] as String,
     percentOfGraphUtilization:
         (json['PercentOfGraphUtilization'] as num)?.toDouble(),
-    percentOfGraphUtilizationUpdatedTime:
-        timeStampFromJson(json['PercentOfGraphUtilizationUpdatedTime']),
+    percentOfGraphUtilizationUpdatedTime: const UnixDateTimeConverter()
+        .fromJson(json['PercentOfGraphUtilizationUpdatedTime']),
     status: _$enumDecodeNullable(_$MemberStatusEnumMap, json['Status']),
-    updatedTime: timeStampFromJson(json['UpdatedTime']),
+    updatedTime: const UnixDateTimeConverter().fromJson(json['UpdatedTime']),
   );
 }
 

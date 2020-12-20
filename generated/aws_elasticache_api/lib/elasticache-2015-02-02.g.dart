@@ -125,7 +125,9 @@ Map<String, dynamic> _$TimeRangeFilterToJson(TimeRangeFilter instance) {
     }
   }
 
-  writeNotNull('EndTime', iso8601ToJson(instance.endTime));
-  writeNotNull('StartTime', iso8601ToJson(instance.startTime));
+  writeNotNull(
+      'EndTime', const IsoDateTimeConverter().toJson(instance.endTime));
+  writeNotNull(
+      'StartTime', const IsoDateTimeConverter().toJson(instance.startTime));
   return val;
 }

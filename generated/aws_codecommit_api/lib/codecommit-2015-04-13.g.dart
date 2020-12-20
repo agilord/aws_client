@@ -56,8 +56,9 @@ ApprovalRule _$ApprovalRuleFromJson(Map<String, dynamic> json) {
     approvalRuleContent: json['approvalRuleContent'] as String,
     approvalRuleId: json['approvalRuleId'] as String,
     approvalRuleName: json['approvalRuleName'] as String,
-    creationDate: timeStampFromJson(json['creationDate']),
-    lastModifiedDate: timeStampFromJson(json['lastModifiedDate']),
+    creationDate: const UnixDateTimeConverter().fromJson(json['creationDate']),
+    lastModifiedDate:
+        const UnixDateTimeConverter().fromJson(json['lastModifiedDate']),
     lastModifiedUser: json['lastModifiedUser'] as String,
     originApprovalRuleTemplate: json['originApprovalRuleTemplate'] == null
         ? null
@@ -97,8 +98,9 @@ ApprovalRuleTemplate _$ApprovalRuleTemplateFromJson(Map<String, dynamic> json) {
         json['approvalRuleTemplateDescription'] as String,
     approvalRuleTemplateId: json['approvalRuleTemplateId'] as String,
     approvalRuleTemplateName: json['approvalRuleTemplateName'] as String,
-    creationDate: timeStampFromJson(json['creationDate']),
-    lastModifiedDate: timeStampFromJson(json['lastModifiedDate']),
+    creationDate: const UnixDateTimeConverter().fromJson(json['creationDate']),
+    lastModifiedDate:
+        const UnixDateTimeConverter().fromJson(json['lastModifiedDate']),
     lastModifiedUser: json['lastModifiedUser'] as String,
     ruleContentSha256: json['ruleContentSha256'] as String,
   );
@@ -252,10 +254,11 @@ Comment _$CommentFromJson(Map<String, dynamic> json) {
     clientRequestToken: json['clientRequestToken'] as String,
     commentId: json['commentId'] as String,
     content: json['content'] as String,
-    creationDate: timeStampFromJson(json['creationDate']),
+    creationDate: const UnixDateTimeConverter().fromJson(json['creationDate']),
     deleted: json['deleted'] as bool,
     inReplyTo: json['inReplyTo'] as String,
-    lastModifiedDate: timeStampFromJson(json['lastModifiedDate']),
+    lastModifiedDate:
+        const UnixDateTimeConverter().fromJson(json['lastModifiedDate']),
   );
 }
 
@@ -1090,9 +1093,10 @@ PullRequest _$PullRequestFromJson(Map<String, dynamic> json) {
         ?.toList(),
     authorArn: json['authorArn'] as String,
     clientRequestToken: json['clientRequestToken'] as String,
-    creationDate: timeStampFromJson(json['creationDate']),
+    creationDate: const UnixDateTimeConverter().fromJson(json['creationDate']),
     description: json['description'] as String,
-    lastActivityDate: timeStampFromJson(json['lastActivityDate']),
+    lastActivityDate:
+        const UnixDateTimeConverter().fromJson(json['lastActivityDate']),
     pullRequestId: json['pullRequestId'] as String,
     pullRequestStatus: _$enumDecodeNullable(
         _$PullRequestStatusEnumEnumMap, json['pullRequestStatus']),
@@ -1140,7 +1144,7 @@ PullRequestEvent _$PullRequestEventFromJson(Map<String, dynamic> json) {
             : ApprovalStateChangedEventMetadata.fromJson(
                 json['approvalStateChangedEventMetadata']
                     as Map<String, dynamic>),
-    eventDate: timeStampFromJson(json['eventDate']),
+    eventDate: const UnixDateTimeConverter().fromJson(json['eventDate']),
     pullRequestCreatedEventMetadata: json['pullRequestCreatedEventMetadata'] ==
             null
         ? null
@@ -1296,9 +1300,10 @@ RepositoryMetadata _$RepositoryMetadataFromJson(Map<String, dynamic> json) {
     accountId: json['accountId'] as String,
     cloneUrlHttp: json['cloneUrlHttp'] as String,
     cloneUrlSsh: json['cloneUrlSsh'] as String,
-    creationDate: timeStampFromJson(json['creationDate']),
+    creationDate: const UnixDateTimeConverter().fromJson(json['creationDate']),
     defaultBranch: json['defaultBranch'] as String,
-    lastModifiedDate: timeStampFromJson(json['lastModifiedDate']),
+    lastModifiedDate:
+        const UnixDateTimeConverter().fromJson(json['lastModifiedDate']),
     repositoryDescription: json['repositoryDescription'] as String,
     repositoryId: json['repositoryId'] as String,
     repositoryName: json['repositoryName'] as String,

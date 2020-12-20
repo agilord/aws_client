@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -881,10 +884,8 @@ class LicenseManager {
     createToJson: false)
 class AutomatedDiscoveryInformation {
   /// Time that automated discovery last ran.
-  @_s.JsonKey(
-      name: 'LastRunTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastRunTime')
   final DateTime lastRunTime;
 
   AutomatedDiscoveryInformation({
@@ -1242,10 +1243,8 @@ class LicenseConfiguration {
     createToJson: false)
 class LicenseConfigurationAssociation {
   /// Time when the license configuration was associated with the resource.
-  @_s.JsonKey(
-      name: 'AssociationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'AssociationTime')
   final DateTime associationTime;
 
   /// Amazon Resource Name (ARN) of the resource.
@@ -1299,10 +1298,8 @@ extension on LicenseConfigurationStatus {
 class LicenseConfigurationUsage {
   /// Time when the license configuration was initially associated with the
   /// resource.
-  @_s.JsonKey(
-      name: 'AssociationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'AssociationTime')
   final DateTime associationTime;
 
   /// Number of licenses consumed by the resource.
@@ -1376,10 +1373,8 @@ class LicenseOperationFailure {
   final String errorMessage;
 
   /// Failure time.
-  @_s.JsonKey(
-      name: 'FailureTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'FailureTime')
   final DateTime failureTime;
 
   /// Reserved.

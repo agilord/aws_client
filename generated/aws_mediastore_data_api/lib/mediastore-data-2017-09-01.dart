@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -437,8 +440,8 @@ class DescribeObjectResponse {
   final String eTag;
 
   /// The date and time that the object was last modified.
-  @_s.JsonKey(
-      name: 'Last-Modified', fromJson: timeStampFromJson, toJson: rfc822ToJson)
+  @RfcDateTimeConverter()
+  @_s.JsonKey(name: 'Last-Modified')
   final DateTime lastModified;
 
   DescribeObjectResponse({
@@ -495,8 +498,8 @@ class GetObjectResponse {
   final String eTag;
 
   /// The date and time that the object was last modified.
-  @_s.JsonKey(
-      name: 'Last-Modified', fromJson: timeStampFromJson, toJson: rfc822ToJson)
+  @RfcDateTimeConverter()
+  @_s.JsonKey(name: 'Last-Modified')
   final DateTime lastModified;
 
   GetObjectResponse({
@@ -533,10 +536,8 @@ class Item {
   final String eTag;
 
   /// The date and time that the item was last modified.
-  @_s.JsonKey(
-      name: 'LastModified',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastModified')
   final DateTime lastModified;
 
   /// The name of the item.

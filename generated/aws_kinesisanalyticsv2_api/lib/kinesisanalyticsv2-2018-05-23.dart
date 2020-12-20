@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -2449,17 +2452,13 @@ class ApplicationDetail {
       cloudWatchLoggingOptionDescriptions;
 
   /// The current timestamp when the application was created.
-  @_s.JsonKey(
-      name: 'CreateTimestamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreateTimestamp')
   final DateTime createTimestamp;
 
   /// The current timestamp when the application was last updated.
-  @_s.JsonKey(
-      name: 'LastUpdateTimestamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastUpdateTimestamp')
   final DateTime lastUpdateTimestamp;
 
   /// Specifies the IAM role that the application uses to access external
@@ -5448,10 +5447,8 @@ class SnapshotDetails {
   final SnapshotStatus snapshotStatus;
 
   /// The timestamp of the application snapshot.
-  @_s.JsonKey(
-      name: 'SnapshotCreationTimestamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'SnapshotCreationTimestamp')
   final DateTime snapshotCreationTimestamp;
 
   SnapshotDetails({

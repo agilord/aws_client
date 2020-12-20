@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -1654,10 +1657,8 @@ class Accelerator {
   final String acceleratorArn;
 
   /// The date and time that the accelerator was created.
-  @_s.JsonKey(
-      name: 'CreatedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedTime')
   final DateTime createdTime;
 
   /// The Domain Name System (DNS) name that Global Accelerator creates that
@@ -1693,10 +1694,8 @@ class Accelerator {
   final List<IpSet> ipSets;
 
   /// The date and time that the accelerator was last modified.
-  @_s.JsonKey(
-      name: 'LastModifiedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastModifiedTime')
   final DateTime lastModifiedTime;
 
   /// The name of the accelerator. The name must contain only alphanumeric
@@ -1900,10 +1899,8 @@ class ByoipCidrEvent {
 
   /// A timestamp when you make a status change for an IP address range that you
   /// bring to AWS Global Accelerator through bring your own IP address (BYOIP).
-  @_s.JsonKey(
-      name: 'Timestamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'Timestamp')
   final DateTime timestamp;
 
   ByoipCidrEvent({

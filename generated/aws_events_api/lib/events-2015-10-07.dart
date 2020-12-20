@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -2529,18 +2532,14 @@ class DescribeEventSourceResponse {
   final String createdBy;
 
   /// The date and time that the event source was created.
-  @_s.JsonKey(
-      name: 'CreationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationTime')
   final DateTime creationTime;
 
   /// The date and time that the event source will expire if you do not create a
   /// matching event bus.
-  @_s.JsonKey(
-      name: 'ExpirationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ExpirationTime')
   final DateTime expirationTime;
 
   /// The name of the partner event source.
@@ -2774,18 +2773,14 @@ class EventSource {
   final String createdBy;
 
   /// The date and time the event source was created.
-  @_s.JsonKey(
-      name: 'CreationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationTime')
   final DateTime creationTime;
 
   /// The date and time that the event source will expire, if the AWS account
   /// doesn't create a matching event bus for it.
-  @_s.JsonKey(
-      name: 'ExpirationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ExpirationTime')
   final DateTime expirationTime;
 
   /// The name of the event source.
@@ -3171,18 +3166,14 @@ class PartnerEventSourceAccount {
   final String account;
 
   /// The date and time the event source was created.
-  @_s.JsonKey(
-      name: 'CreationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationTime')
   final DateTime creationTime;
 
   /// The date and time that the event source will expire, if the AWS account
   /// doesn't create a matching event bus for it.
-  @_s.JsonKey(
-      name: 'ExpirationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ExpirationTime')
   final DateTime expirationTime;
 
   /// The state of the event source. If it is ACTIVE, you have already created a
@@ -3236,8 +3227,8 @@ class PutEventsRequestEntry {
   /// The time stamp of the event, per <a
   /// href="https://www.rfc-editor.org/rfc/rfc3339.txt">RFC3339</a>. If no time
   /// stamp is provided, the time stamp of the <a>PutEvents</a> call is used.
-  @_s.JsonKey(
-      name: 'Time', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'Time')
   final DateTime time;
 
   PutEventsRequestEntry({
@@ -3330,8 +3321,8 @@ class PutPartnerEventsRequestEntry {
   final String source;
 
   /// The date and time of the event.
-  @_s.JsonKey(
-      name: 'Time', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'Time')
   final DateTime time;
 
   PutPartnerEventsRequestEntry({

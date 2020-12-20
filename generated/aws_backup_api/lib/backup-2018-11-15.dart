@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -2084,10 +2087,8 @@ class BackupJob {
   /// and Coordinated Universal Time (UTC). The value of
   /// <code>CompletionDate</code> is accurate to milliseconds. For example, the
   /// value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-  @_s.JsonKey(
-      name: 'CompletionDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CompletionDate')
   final DateTime completionDate;
 
   /// Contains identifying information about the creation of a backup job,
@@ -2101,10 +2102,8 @@ class BackupJob {
   /// Universal Time (UTC). The value of <code>CreationDate</code> is accurate to
   /// milliseconds. For example, the value 1516925490.087 represents Friday,
   /// January 26, 2018 12:11:30.087 AM.
-  @_s.JsonKey(
-      name: 'CreationDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationDate')
   final DateTime creationDate;
 
   /// The date and time a job to back up resources is expected to be completed, in
@@ -2112,10 +2111,8 @@ class BackupJob {
   /// <code>ExpectedCompletionDate</code> is accurate to milliseconds. For
   /// example, the value 1516925490.087 represents Friday, January 26, 2018
   /// 12:11:30.087 AM.
-  @_s.JsonKey(
-      name: 'ExpectedCompletionDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ExpectedCompletionDate')
   final DateTime expectedCompletionDate;
 
   /// Specifies the IAM role ARN used to create the target recovery point; for
@@ -2151,8 +2148,8 @@ class BackupJob {
   /// would be 8:00 PM on the date specified. The value of <code>StartBy</code> is
   /// accurate to milliseconds. For example, the value 1516925490.087 represents
   /// Friday, January 26, 2018 12:11:30.087 AM.
-  @_s.JsonKey(
-      name: 'StartBy', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'StartBy')
   final DateTime startBy;
 
   /// The current state of a resource recovery point.
@@ -2330,10 +2327,8 @@ class BackupPlansListMember {
   /// Coordinated Universal Time (UTC). The value of <code>CreationDate</code> is
   /// accurate to milliseconds. For example, the value 1516925490.087 represents
   /// Friday, January 26, 2018 12:11:30.087 AM.
-  @_s.JsonKey(
-      name: 'CreationDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationDate')
   final DateTime creationDate;
 
   /// A unique string that identifies the request and allows failed requests to be
@@ -2345,20 +2340,16 @@ class BackupPlansListMember {
   /// Universal Time (UTC). The value of <code>DeletionDate</code> is accurate to
   /// milliseconds. For example, the value 1516925490.087 represents Friday,
   /// January 26, 2018 12:11:30.087 AM.
-  @_s.JsonKey(
-      name: 'DeletionDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'DeletionDate')
   final DateTime deletionDate;
 
   /// The last time a job to back up resources was executed with this rule. A date
   /// and time, in Unix format and Coordinated Universal Time (UTC). The value of
   /// <code>LastExecutionDate</code> is accurate to milliseconds. For example, the
   /// value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-  @_s.JsonKey(
-      name: 'LastExecutionDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastExecutionDate')
   final DateTime lastExecutionDate;
 
   /// Unique, randomly generated, Unicode, UTF-8 encoded strings that are at most
@@ -2575,10 +2566,8 @@ class BackupSelectionsListMember {
   /// Universal Time (UTC). The value of <code>CreationDate</code> is accurate to
   /// milliseconds. For example, the value 1516925490.087 represents Friday,
   /// January 26, 2018 12:11:30.087 AM.
-  @_s.JsonKey(
-      name: 'CreationDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationDate')
   final DateTime creationDate;
 
   /// A unique string that identifies the request and allows failed requests to be
@@ -2707,10 +2696,8 @@ class BackupVaultListMember {
   /// Coordinated Universal Time (UTC). The value of <code>CreationDate</code> is
   /// accurate to milliseconds. For example, the value 1516925490.087 represents
   /// Friday, January 26, 2018 12:11:30.087 AM.
-  @_s.JsonKey(
-      name: 'CreationDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationDate')
   final DateTime creationDate;
 
   /// A unique string that identifies the request and allows failed requests to be
@@ -2759,18 +2746,14 @@ class BackupVaultListMember {
     createToJson: false)
 class CalculatedLifecycle {
   /// A timestamp that specifies when to delete a recovery point.
-  @_s.JsonKey(
-      name: 'DeleteAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'DeleteAt')
   final DateTime deleteAt;
 
   /// A timestamp that specifies when to transition a recovery point to cold
   /// storage.
-  @_s.JsonKey(
-      name: 'MoveToColdStorageAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'MoveToColdStorageAt')
   final DateTime moveToColdStorageAt;
 
   CalculatedLifecycle({
@@ -2863,10 +2846,8 @@ class CopyJob {
   /// and Coordinated Universal Time (UTC). The value of CompletionDate is
   /// accurate to milliseconds. For example, the value 1516925490.087 represents
   /// Friday, January 26, 2018 12:11:30.087 AM.
-  @_s.JsonKey(
-      name: 'CompletionDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CompletionDate')
   final DateTime completionDate;
 
   /// Uniquely identifies a request to AWS Backup to copy a resource.
@@ -2879,10 +2860,8 @@ class CopyJob {
   /// Universal Time (UTC). The value of CreationDate is accurate to milliseconds.
   /// For example, the value 1516925490.087 represents Friday, January 26, 2018
   /// 12:11:30.087 AM.
-  @_s.JsonKey(
-      name: 'CreationDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationDate')
   final DateTime creationDate;
 
   /// An Amazon Resource Name (ARN) that uniquely identifies a destination copy
@@ -2998,10 +2977,8 @@ class CreateBackupPlanOutput {
   /// Coordinated Universal Time (UTC). The value of <code>CreationDate</code> is
   /// accurate to milliseconds. For example, the value 1516925490.087 represents
   /// Friday, January 26, 2018 12:11:30.087 AM.
-  @_s.JsonKey(
-      name: 'CreationDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationDate')
   final DateTime creationDate;
 
   /// Unique, randomly generated, Unicode, UTF-8 encoded strings that are at most
@@ -3033,10 +3010,8 @@ class CreateBackupSelectionOutput {
   /// Coordinated Universal Time (UTC). The value of <code>CreationDate</code> is
   /// accurate to milliseconds. For example, the value 1516925490.087 represents
   /// Friday, January 26, 2018 12:11:30.087 AM.
-  @_s.JsonKey(
-      name: 'CreationDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationDate')
   final DateTime creationDate;
 
   /// Uniquely identifies the body of a request to assign a set of resources to a
@@ -3076,10 +3051,8 @@ class CreateBackupVaultOutput {
   /// Universal Time (UTC). The value of <code>CreationDate</code> is accurate to
   /// milliseconds. For example, the value 1516925490.087 represents Friday,
   /// January 26, 2018 12:11:30.087 AM.
-  @_s.JsonKey(
-      name: 'CreationDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationDate')
   final DateTime creationDate;
 
   CreateBackupVaultOutput({
@@ -3111,10 +3084,8 @@ class DeleteBackupPlanOutput {
   /// Universal Time (UTC). The value of <code>CreationDate</code> is accurate to
   /// milliseconds. For example, the value 1516925490.087 represents Friday,
   /// January 26, 2018 12:11:30.087 AM.
-  @_s.JsonKey(
-      name: 'DeletionDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'DeletionDate')
   final DateTime deletionDate;
 
   /// Unique, randomly generated, Unicode, UTF-8 encoded strings that are at most
@@ -3168,10 +3139,8 @@ class DescribeBackupJobOutput {
   /// format and Coordinated Universal Time (UTC). The value of
   /// <code>CreationDate</code> is accurate to milliseconds. For example, the
   /// value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-  @_s.JsonKey(
-      name: 'CompletionDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CompletionDate')
   final DateTime completionDate;
 
   /// Contains identifying information about the creation of a backup job,
@@ -3185,10 +3154,8 @@ class DescribeBackupJobOutput {
   /// Coordinated Universal Time (UTC). The value of <code>CreationDate</code> is
   /// accurate to milliseconds. For example, the value 1516925490.087 represents
   /// Friday, January 26, 2018 12:11:30.087 AM.
-  @_s.JsonKey(
-      name: 'CreationDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationDate')
   final DateTime creationDate;
 
   /// The date and time that a job to back up resources is expected to be
@@ -3196,10 +3163,8 @@ class DescribeBackupJobOutput {
   /// <code>ExpectedCompletionDate</code> is accurate to milliseconds. For
   /// example, the value 1516925490.087 represents Friday, January 26, 2018
   /// 12:11:30.087 AM.
-  @_s.JsonKey(
-      name: 'ExpectedCompletionDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ExpectedCompletionDate')
   final DateTime expectedCompletionDate;
 
   /// Specifies the IAM role ARN used to create the target recovery point; for
@@ -3235,8 +3200,8 @@ class DescribeBackupJobOutput {
   /// would be 8:00 PM on the date specified. The value of <code>StartBy</code> is
   /// accurate to milliseconds. For example, the value 1516925490.087 represents
   /// Friday, January 26, 2018 12:11:30.087 AM.
-  @_s.JsonKey(
-      name: 'StartBy', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'StartBy')
   final DateTime startBy;
 
   /// The current state of a resource recovery point.
@@ -3293,10 +3258,8 @@ class DescribeBackupVaultOutput {
   /// Coordinated Universal Time (UTC). The value of <code>CreationDate</code> is
   /// accurate to milliseconds. For example, the value 1516925490.087 represents
   /// Friday, January 26, 2018 12:11:30.087 AM.
-  @_s.JsonKey(
-      name: 'CreationDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationDate')
   final DateTime creationDate;
 
   /// A unique string that identifies the request and allows failed requests to be
@@ -3353,10 +3316,8 @@ class DescribeProtectedResourceOutput {
   /// Coordinated Universal Time (UTC). The value of <code>LastBackupTime</code>
   /// is accurate to milliseconds. For example, the value 1516925490.087
   /// represents Friday, January 26, 2018 12:11:30.087 AM.
-  @_s.JsonKey(
-      name: 'LastBackupTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastBackupTime')
   final DateTime lastBackupTime;
 
   /// An ARN that uniquely identifies a resource. The format of the ARN depends on
@@ -3409,10 +3370,8 @@ class DescribeRecoveryPointOutput {
   /// Unix format and Coordinated Universal Time (UTC). The value of
   /// <code>CompletionDate</code> is accurate to milliseconds. For example, the
   /// value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-  @_s.JsonKey(
-      name: 'CompletionDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CompletionDate')
   final DateTime completionDate;
 
   /// Contains identifying information about the creation of a recovery point,
@@ -3426,10 +3385,8 @@ class DescribeRecoveryPointOutput {
   /// Coordinated Universal Time (UTC). The value of <code>CreationDate</code> is
   /// accurate to milliseconds. For example, the value 1516925490.087 represents
   /// Friday, January 26, 2018 12:11:30.087 AM.
-  @_s.JsonKey(
-      name: 'CreationDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationDate')
   final DateTime creationDate;
 
   /// The server-side encryption key used to protect your backups; for example,
@@ -3452,10 +3409,8 @@ class DescribeRecoveryPointOutput {
   /// and Coordinated Universal Time (UTC). The value of
   /// <code>LastRestoreTime</code> is accurate to milliseconds. For example, the
   /// value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-  @_s.JsonKey(
-      name: 'LastRestoreTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastRestoreTime')
   final DateTime lastRestoreTime;
 
   /// The lifecycle defines when a protected resource is transitioned to cold
@@ -3536,10 +3491,8 @@ class DescribeRestoreJobOutput {
   /// Unix format and Coordinated Universal Time (UTC). The value of
   /// <code>CompletionDate</code> is accurate to milliseconds. For example, the
   /// value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-  @_s.JsonKey(
-      name: 'CompletionDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CompletionDate')
   final DateTime completionDate;
 
   /// An Amazon Resource Name (ARN) that uniquely identifies a resource whose
@@ -3552,10 +3505,8 @@ class DescribeRestoreJobOutput {
   /// Coordinated Universal Time (UTC). The value of <code>CreationDate</code> is
   /// accurate to milliseconds. For example, the value 1516925490.087 represents
   /// Friday, January 26, 2018 12:11:30.087 AM.
-  @_s.JsonKey(
-      name: 'CreationDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationDate')
   final DateTime creationDate;
 
   /// The amount of time in minutes that a job restoring a recovery point is
@@ -3691,10 +3642,8 @@ class GetBackupPlanOutput {
   /// Coordinated Universal Time (UTC). The value of <code>CreationDate</code> is
   /// accurate to milliseconds. For example, the value 1516925490.087 represents
   /// Friday, January 26, 2018 12:11:30.087 AM.
-  @_s.JsonKey(
-      name: 'CreationDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationDate')
   final DateTime creationDate;
 
   /// A unique string that identifies the request and allows failed requests to be
@@ -3706,10 +3655,8 @@ class GetBackupPlanOutput {
   /// Coordinated Universal Time (UTC). The value of <code>CreationDate</code> is
   /// accurate to milliseconds. For example, the value 1516925490.087 represents
   /// Friday, January 26, 2018 12:11:30.087 AM.
-  @_s.JsonKey(
-      name: 'DeletionDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'DeletionDate')
   final DateTime deletionDate;
 
   /// The last time a job to back up resources was executed with this backup plan.
@@ -3717,10 +3664,8 @@ class GetBackupPlanOutput {
   /// value of <code>LastExecutionDate</code> is accurate to milliseconds. For
   /// example, the value 1516925490.087 represents Friday, January 26, 2018
   /// 12:11:30.087 AM.
-  @_s.JsonKey(
-      name: 'LastExecutionDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastExecutionDate')
   final DateTime lastExecutionDate;
 
   /// Unique, randomly generated, Unicode, UTF-8 encoded strings that are at most
@@ -3761,10 +3706,8 @@ class GetBackupSelectionOutput {
   /// Coordinated Universal Time (UTC). The value of <code>CreationDate</code> is
   /// accurate to milliseconds. For example, the value 1516925490.087 represents
   /// Friday, January 26, 2018 12:11:30.087 AM.
-  @_s.JsonKey(
-      name: 'CreationDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationDate')
   final DateTime creationDate;
 
   /// A unique string that identifies the request and allows failed requests to be
@@ -4291,10 +4234,8 @@ class ProtectedResource {
   /// Coordinated Universal Time (UTC). The value of <code>LastBackupTime</code>
   /// is accurate to milliseconds. For example, the value 1516925490.087
   /// represents Friday, January 26, 2018 12:11:30.087 AM.
-  @_s.JsonKey(
-      name: 'LastBackupTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastBackupTime')
   final DateTime lastBackupTime;
 
   /// An Amazon Resource Name (ARN) that uniquely identifies a resource. The
@@ -4349,10 +4290,8 @@ class RecoveryPointByBackupVault {
   /// format and Coordinated Universal Time (UTC). The value of
   /// <code>CompletionDate</code> is accurate to milliseconds. For example, the
   /// value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-  @_s.JsonKey(
-      name: 'CompletionDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CompletionDate')
   final DateTime completionDate;
 
   /// Contains identifying information about the creation of a recovery point,
@@ -4366,10 +4305,8 @@ class RecoveryPointByBackupVault {
   /// Coordinated Universal Time (UTC). The value of <code>CreationDate</code> is
   /// accurate to milliseconds. For example, the value 1516925490.087 represents
   /// Friday, January 26, 2018 12:11:30.087 AM.
-  @_s.JsonKey(
-      name: 'CreationDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationDate')
   final DateTime creationDate;
 
   /// The server-side encryption key that is used to protect your backups; for
@@ -4393,10 +4330,8 @@ class RecoveryPointByBackupVault {
   /// Coordinated Universal Time (UTC). The value of <code>LastRestoreTime</code>
   /// is accurate to milliseconds. For example, the value 1516925490.087
   /// represents Friday, January 26, 2018 12:11:30.087 AM.
-  @_s.JsonKey(
-      name: 'LastRestoreTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastRestoreTime')
   final DateTime lastRestoreTime;
 
   /// The lifecycle defines when a protected resource is transitioned to cold
@@ -4476,10 +4411,8 @@ class RecoveryPointByResource {
   /// Coordinated Universal Time (UTC). The value of <code>CreationDate</code> is
   /// accurate to milliseconds. For example, the value 1516925490.087 represents
   /// Friday, January 26, 2018 12:11:30.087 AM.
-  @_s.JsonKey(
-      name: 'CreationDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationDate')
   final DateTime creationDate;
 
   /// The server-side encryption key that is used to protect your backups; for
@@ -4587,10 +4520,8 @@ class RestoreJobsListMember {
   /// format and Coordinated Universal Time (UTC). The value of
   /// <code>CompletionDate</code> is accurate to milliseconds. For example, the
   /// value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
-  @_s.JsonKey(
-      name: 'CompletionDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CompletionDate')
   final DateTime completionDate;
 
   /// An Amazon Resource Name (ARN) that uniquely identifies a resource. The
@@ -4602,10 +4533,8 @@ class RestoreJobsListMember {
   /// Universal Time (UTC). The value of <code>CreationDate</code> is accurate to
   /// milliseconds. For example, the value 1516925490.087 represents Friday,
   /// January 26, 2018 12:11:30.087 AM.
-  @_s.JsonKey(
-      name: 'CreationDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationDate')
   final DateTime creationDate;
 
   /// The amount of time in minutes that a job restoring a recovery point is
@@ -4673,10 +4602,8 @@ class StartBackupJobOutput {
   /// Coordinated Universal Time (UTC). The value of <code>CreationDate</code> is
   /// accurate to milliseconds. For example, the value 1516925490.087 represents
   /// Friday, January 26, 2018 12:11:30.087 AM.
-  @_s.JsonKey(
-      name: 'CreationDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationDate')
   final DateTime creationDate;
 
   /// An ARN that uniquely identifies a recovery point; for example,
@@ -4707,10 +4634,8 @@ class StartCopyJobOutput {
   /// Coordinated Universal Time (UTC). The value of CreationDate is accurate to
   /// milliseconds. For example, the value 1516925490.087 represents Friday,
   /// January 26, 2018 12:11:30.087 AM. &gt;
-  @_s.JsonKey(
-      name: 'CreationDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationDate')
   final DateTime creationDate;
 
   StartCopyJobOutput({
@@ -4767,10 +4692,8 @@ class UpdateBackupPlanOutput {
   /// Universal Time (UTC). The value of <code>CreationDate</code> is accurate to
   /// milliseconds. For example, the value 1516925490.087 represents Friday,
   /// January 26, 2018 12:11:30.087 AM.
-  @_s.JsonKey(
-      name: 'CreationDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationDate')
   final DateTime creationDate;
 
   /// Unique, randomly generated, Unicode, UTF-8 encoded strings that are at most

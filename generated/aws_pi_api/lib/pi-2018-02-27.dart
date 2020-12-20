@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -354,10 +357,8 @@ class PI {
     createToJson: false)
 class DataPoint {
   /// The time, in epoch format, associated with a particular <code>Value</code>.
-  @_s.JsonKey(
-      name: 'Timestamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'Timestamp')
   final DateTime timestamp;
 
   /// The actual value associated with a particular <code>Timestamp</code>.
@@ -382,20 +383,16 @@ class DescribeDimensionKeysResponse {
   /// boundary (as specified by <code>PeriodInSeconds</code>).
   /// <code>AlignedEndTime</code> will be greater than or equal to the value of
   /// the user-specified <code>Endtime</code>.
-  @_s.JsonKey(
-      name: 'AlignedEndTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'AlignedEndTime')
   final DateTime alignedEndTime;
 
   /// The start time for the returned dimension keys, after alignment to a
   /// granular boundary (as specified by <code>PeriodInSeconds</code>).
   /// <code>AlignedStartTime</code> will be less than or equal to the value of the
   /// user-specified <code>StartTime</code>.
-  @_s.JsonKey(
-      name: 'AlignedStartTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'AlignedStartTime')
   final DateTime alignedStartTime;
 
   /// The dimension keys that were requested.
@@ -566,20 +563,16 @@ class GetResourceMetricsResponse {
   /// boundary (as specified by <code>PeriodInSeconds</code>).
   /// <code>AlignedEndTime</code> will be greater than or equal to the value of
   /// the user-specified <code>Endtime</code>.
-  @_s.JsonKey(
-      name: 'AlignedEndTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'AlignedEndTime')
   final DateTime alignedEndTime;
 
   /// The start time for the returned metrics, after alignment to a granular
   /// boundary (as specified by <code>PeriodInSeconds</code>).
   /// <code>AlignedStartTime</code> will be less than or equal to the value of the
   /// user-specified <code>StartTime</code>.
-  @_s.JsonKey(
-      name: 'AlignedStartTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'AlignedStartTime')
   final DateTime alignedStartTime;
 
   /// An immutable, AWS Region-unique identifier for a data source. Performance

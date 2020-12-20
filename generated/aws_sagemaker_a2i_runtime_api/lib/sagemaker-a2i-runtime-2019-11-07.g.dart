@@ -14,7 +14,7 @@ DeleteHumanLoopResponse _$DeleteHumanLoopResponseFromJson(
 DescribeHumanLoopResponse _$DescribeHumanLoopResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeHumanLoopResponse(
-    creationTime: timeStampFromJson(json['CreationTime']),
+    creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
     flowDefinitionArn: json['FlowDefinitionArn'] as String,
     humanLoopArn: json['HumanLoopArn'] as String,
     humanLoopName: json['HumanLoopName'] as String,
@@ -114,7 +114,7 @@ HumanLoopOutput _$HumanLoopOutputFromJson(Map<String, dynamic> json) {
 
 HumanLoopSummary _$HumanLoopSummaryFromJson(Map<String, dynamic> json) {
   return HumanLoopSummary(
-    creationTime: timeStampFromJson(json['CreationTime']),
+    creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
     failureReason: json['FailureReason'] as String,
     flowDefinitionArn: json['FlowDefinitionArn'] as String,
     humanLoopName: json['HumanLoopName'] as String,

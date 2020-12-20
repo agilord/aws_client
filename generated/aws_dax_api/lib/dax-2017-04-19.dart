@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -1588,8 +1591,8 @@ class Endpoint {
     createToJson: false)
 class Event {
   /// The date and time when the event occurred.
-  @_s.JsonKey(
-      name: 'Date', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'Date')
   final DateTime date;
 
   /// A user-defined message associated with the event.
@@ -1685,10 +1688,8 @@ class Node {
   final Endpoint endpoint;
 
   /// The date and time (in UNIX epoch format) when the node was launched.
-  @_s.JsonKey(
-      name: 'NodeCreateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'NodeCreateTime')
   final DateTime nodeCreateTime;
 
   /// A system-generated identifier for the node.

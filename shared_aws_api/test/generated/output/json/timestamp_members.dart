@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -64,14 +67,14 @@ class TimestampMembers {
 class OutputShape {
   @_s.JsonKey(name: 'StructMember')
   final TimeContainer structMember;
-  @_s.JsonKey(
-      name: 'TimeArg', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'TimeArg')
   final DateTime timeArg;
-  @_s.JsonKey(
-      name: 'TimeCustom', fromJson: timeStampFromJson, toJson: rfc822ToJson)
+  @RfcDateTimeConverter()
+  @_s.JsonKey(name: 'TimeCustom')
   final DateTime timeCustom;
-  @_s.JsonKey(
-      name: 'TimeFormat', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'TimeFormat')
   final DateTime timeFormat;
 
   OutputShape({
@@ -90,10 +93,11 @@ class OutputShape {
     createFactory: true,
     createToJson: false)
 class TimeContainer {
-  @_s.JsonKey(name: 'bar', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'bar')
   final DateTime bar;
-  @_s.JsonKey(
-      name: 'foo', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'foo')
   final DateTime foo;
 
   TimeContainer({

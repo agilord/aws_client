@@ -135,10 +135,10 @@ Map<String, dynamic> _$ComprehendMedicalAsyncJobFilterToJson(
 
   writeNotNull('JobName', instance.jobName);
   writeNotNull('JobStatus', _$JobStatusEnumMap[instance.jobStatus]);
-  writeNotNull(
-      'SubmitTimeAfter', unixTimestampToJson(instance.submitTimeAfter));
-  writeNotNull(
-      'SubmitTimeBefore', unixTimestampToJson(instance.submitTimeBefore));
+  writeNotNull('SubmitTimeAfter',
+      const UnixDateTimeConverter().toJson(instance.submitTimeAfter));
+  writeNotNull('SubmitTimeBefore',
+      const UnixDateTimeConverter().toJson(instance.submitTimeBefore));
   return val;
 }
 
@@ -156,8 +156,9 @@ ComprehendMedicalAsyncJobProperties
     _$ComprehendMedicalAsyncJobPropertiesFromJson(Map<String, dynamic> json) {
   return ComprehendMedicalAsyncJobProperties(
     dataAccessRoleArn: json['DataAccessRoleArn'] as String,
-    endTime: timeStampFromJson(json['EndTime']),
-    expirationTime: timeStampFromJson(json['ExpirationTime']),
+    endTime: const UnixDateTimeConverter().fromJson(json['EndTime']),
+    expirationTime:
+        const UnixDateTimeConverter().fromJson(json['ExpirationTime']),
     inputDataConfig: json['InputDataConfig'] == null
         ? null
         : InputDataConfig.fromJson(
@@ -175,7 +176,7 @@ ComprehendMedicalAsyncJobProperties
         ? null
         : OutputDataConfig.fromJson(
             json['OutputDataConfig'] as Map<String, dynamic>),
-    submitTime: timeStampFromJson(json['SubmitTime']),
+    submitTime: const UnixDateTimeConverter().fromJson(json['SubmitTime']),
   );
 }
 

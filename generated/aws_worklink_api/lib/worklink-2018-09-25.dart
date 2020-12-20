@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -1735,17 +1738,13 @@ class DescribeDevicePolicyConfigurationResponse {
     createToJson: false)
 class DescribeDeviceResponse {
   /// The date that the device first signed in to Amazon WorkLink.
-  @_s.JsonKey(
-      name: 'FirstAccessedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'FirstAccessedTime')
   final DateTime firstAccessedTime;
 
   /// The date that the device last accessed Amazon WorkLink.
-  @_s.JsonKey(
-      name: 'LastAccessedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastAccessedTime')
   final DateTime lastAccessedTime;
 
   /// The manufacturer of the device.
@@ -1803,10 +1802,8 @@ class DescribeDomainResponse {
   final String acmCertificateArn;
 
   /// The time that the domain was added.
-  @_s.JsonKey(
-      name: 'CreatedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedTime')
   final DateTime createdTime;
 
   /// The name to display.
@@ -1843,10 +1840,8 @@ class DescribeFleetMetadataResponse {
   final String companyCode;
 
   /// The time that the fleet was created.
-  @_s.JsonKey(
-      name: 'CreatedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedTime')
   final DateTime createdTime;
 
   /// The name to display.
@@ -1862,10 +1857,8 @@ class DescribeFleetMetadataResponse {
   final FleetStatus fleetStatus;
 
   /// The time that the fleet was last updated.
-  @_s.JsonKey(
-      name: 'LastUpdatedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastUpdatedTime')
   final DateTime lastUpdatedTime;
 
   /// The option to optimize for better performance by routing traffic through the
@@ -1925,10 +1918,8 @@ class DescribeWebsiteCertificateAuthorityResponse {
   final String certificate;
 
   /// The time that the certificate authority was added.
-  @_s.JsonKey(
-      name: 'CreatedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedTime')
   final DateTime createdTime;
 
   /// The certificate name to display.
@@ -2037,10 +2028,8 @@ enum DomainStatus {
     createToJson: false)
 class DomainSummary {
   /// The time that the domain was created.
-  @_s.JsonKey(
-      name: 'CreatedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedTime')
   final DateTime createdTime;
 
   /// The name of the domain.
@@ -2092,10 +2081,8 @@ class FleetSummary {
   final String companyCode;
 
   /// The time when the fleet was created.
-  @_s.JsonKey(
-      name: 'CreatedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedTime')
   final DateTime createdTime;
 
   /// The name to display.
@@ -2115,10 +2102,8 @@ class FleetSummary {
   final FleetStatus fleetStatus;
 
   /// The time when the fleet was last updated.
-  @_s.JsonKey(
-      name: 'LastUpdatedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastUpdatedTime')
   final DateTime lastUpdatedTime;
 
   FleetSummary({
@@ -2385,10 +2370,8 @@ class WebsiteAuthorizationProviderSummary {
   final String authorizationProviderId;
 
   /// The time of creation.
-  @_s.JsonKey(
-      name: 'CreatedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedTime')
   final DateTime createdTime;
 
   /// The domain name of the authorization provider. This applies only to
@@ -2415,10 +2398,8 @@ class WebsiteAuthorizationProviderSummary {
     createToJson: false)
 class WebsiteCaSummary {
   /// The time when the CA was added.
-  @_s.JsonKey(
-      name: 'CreatedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedTime')
   final DateTime createdTime;
 
   /// The name to display.

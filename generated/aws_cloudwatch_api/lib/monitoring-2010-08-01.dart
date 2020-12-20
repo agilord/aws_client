@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 import 'monitoring-2010-08-01.meta.dart';
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
@@ -4494,8 +4497,8 @@ class MetricDatum {
 
   /// The time the metric data was received, expressed as the number of
   /// milliseconds since Jan 1, 1970 00:00:00 UTC.
-  @_s.JsonKey(
-      name: 'Timestamp', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'Timestamp')
   final DateTime timestamp;
 
   /// When you are using a <code>Put</code> operation, this defines what unit you
@@ -4708,15 +4711,15 @@ class Range {
   /// The end time of the range to exclude. The format is
   /// <code>yyyy-MM-dd'T'HH:mm:ss</code>. For example,
   /// <code>2019-07-01T23:59:59</code>.
-  @_s.JsonKey(
-      name: 'EndTime', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'EndTime')
   final DateTime endTime;
 
   /// The start time of the range to exclude. The format is
   /// <code>yyyy-MM-dd'T'HH:mm:ss</code>. For example,
   /// <code>2019-07-01T23:59:59</code>.
-  @_s.JsonKey(
-      name: 'StartTime', fromJson: timeStampFromJson, toJson: iso8601ToJson)
+  @IsoDateTimeConverter()
+  @_s.JsonKey(name: 'StartTime')
   final DateTime startTime;
 
   Range({

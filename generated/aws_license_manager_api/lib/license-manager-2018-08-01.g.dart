@@ -9,7 +9,7 @@ part of 'license-manager-2018-08-01.dart';
 AutomatedDiscoveryInformation _$AutomatedDiscoveryInformationFromJson(
     Map<String, dynamic> json) {
   return AutomatedDiscoveryInformation(
-    lastRunTime: timeStampFromJson(json['LastRunTime']),
+    lastRunTime: const UnixDateTimeConverter().fromJson(json['LastRunTime']),
   );
 }
 
@@ -215,7 +215,8 @@ LicenseConfiguration _$LicenseConfigurationFromJson(Map<String, dynamic> json) {
 LicenseConfigurationAssociation _$LicenseConfigurationAssociationFromJson(
     Map<String, dynamic> json) {
   return LicenseConfigurationAssociation(
-    associationTime: timeStampFromJson(json['AssociationTime']),
+    associationTime:
+        const UnixDateTimeConverter().fromJson(json['AssociationTime']),
     resourceArn: json['ResourceArn'] as String,
     resourceOwnerId: json['ResourceOwnerId'] as String,
     resourceType:
@@ -226,7 +227,8 @@ LicenseConfigurationAssociation _$LicenseConfigurationAssociationFromJson(
 LicenseConfigurationUsage _$LicenseConfigurationUsageFromJson(
     Map<String, dynamic> json) {
   return LicenseConfigurationUsage(
-    associationTime: timeStampFromJson(json['AssociationTime']),
+    associationTime:
+        const UnixDateTimeConverter().fromJson(json['AssociationTime']),
     consumedLicenses: json['ConsumedLicenses'] as int,
     resourceArn: json['ResourceArn'] as String,
     resourceOwnerId: json['ResourceOwnerId'] as String,
@@ -240,7 +242,7 @@ LicenseOperationFailure _$LicenseOperationFailureFromJson(
     Map<String, dynamic> json) {
   return LicenseOperationFailure(
     errorMessage: json['ErrorMessage'] as String,
-    failureTime: timeStampFromJson(json['FailureTime']),
+    failureTime: const UnixDateTimeConverter().fromJson(json['FailureTime']),
     metadataList: (json['MetadataList'] as List)
         ?.map((e) =>
             e == null ? null : Metadata.fromJson(e as Map<String, dynamic>))

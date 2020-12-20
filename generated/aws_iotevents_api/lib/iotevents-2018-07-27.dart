@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -1313,10 +1316,8 @@ class DetectorModel {
     createToJson: false)
 class DetectorModelConfiguration {
   /// The time the detector model was created.
-  @_s.JsonKey(
-      name: 'creationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'creationTime')
   final DateTime creationTime;
 
   /// The ARN of the detector model.
@@ -1353,10 +1354,8 @@ class DetectorModelConfiguration {
   final String key;
 
   /// The time the detector model was last updated.
-  @_s.JsonKey(
-      name: 'lastUpdateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastUpdateTime')
   final DateTime lastUpdateTime;
 
   /// The ARN of the role that grants permission to AWS IoT Events to perform its
@@ -1417,10 +1416,8 @@ class DetectorModelDefinition {
     createToJson: false)
 class DetectorModelSummary {
   /// The time the detector model was created.
-  @_s.JsonKey(
-      name: 'creationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'creationTime')
   final DateTime creationTime;
 
   /// A brief description of the detector model.
@@ -1465,10 +1462,8 @@ enum DetectorModelVersionStatus {
     createToJson: false)
 class DetectorModelVersionSummary {
   /// The time the detector model version was created.
-  @_s.JsonKey(
-      name: 'creationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'creationTime')
   final DateTime creationTime;
 
   /// The ARN of the detector model version.
@@ -1489,10 +1484,8 @@ class DetectorModelVersionSummary {
   final EvaluationMethod evaluationMethod;
 
   /// The last time the detector model version was updated.
-  @_s.JsonKey(
-      name: 'lastUpdateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastUpdateTime')
   final DateTime lastUpdateTime;
 
   /// The ARN of the role that grants the detector model permission to perform its
@@ -1810,10 +1803,8 @@ class Input {
     createToJson: false)
 class InputConfiguration {
   /// The time the input was created.
-  @_s.JsonKey(
-      name: 'creationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'creationTime')
   final DateTime creationTime;
 
   /// The ARN of the input.
@@ -1825,10 +1816,8 @@ class InputConfiguration {
   final String inputName;
 
   /// The last time the input was updated.
-  @_s.JsonKey(
-      name: 'lastUpdateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastUpdateTime')
   final DateTime lastUpdateTime;
 
   /// The status of the input.
@@ -1895,10 +1884,8 @@ enum InputStatus {
     createToJson: false)
 class InputSummary {
   /// The time the input was created.
-  @_s.JsonKey(
-      name: 'creationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'creationTime')
   final DateTime creationTime;
 
   /// The ARN of the input.
@@ -1914,10 +1901,8 @@ class InputSummary {
   final String inputName;
 
   /// The last time the input was updated.
-  @_s.JsonKey(
-      name: 'lastUpdateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastUpdateTime')
   final DateTime lastUpdateTime;
 
   /// The status of the input.

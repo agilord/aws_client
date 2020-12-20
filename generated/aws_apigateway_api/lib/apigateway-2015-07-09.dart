@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -5312,10 +5315,8 @@ class Account {
     createToJson: false)
 class ApiKey {
   /// The timestamp when the API Key was created.
-  @_s.JsonKey(
-      name: 'createdDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdDate')
   final DateTime createdDate;
 
   /// An AWS Marketplace customer identifier , when integrating with the AWS SaaS
@@ -5336,10 +5337,8 @@ class ApiKey {
   final String id;
 
   /// The timestamp when the API Key was last updated.
-  @_s.JsonKey(
-      name: 'lastUpdatedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastUpdatedDate')
   final DateTime lastUpdatedDate;
 
   /// The name of the API Key.
@@ -5847,10 +5846,8 @@ class ClientCertificate {
   final String clientCertificateId;
 
   /// The timestamp when the client certificate was created.
-  @_s.JsonKey(
-      name: 'createdDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdDate')
   final DateTime createdDate;
 
   /// The description of the client certificate.
@@ -5858,10 +5855,8 @@ class ClientCertificate {
   final String description;
 
   /// The timestamp when the client certificate will expire.
-  @_s.JsonKey(
-      name: 'expirationDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'expirationDate')
   final DateTime expirationDate;
 
   /// The PEM-encoded public key of the client certificate, which can be used to
@@ -5971,10 +5966,8 @@ class Deployment {
   final Map<String, Map<String, MethodSnapshot>> apiSummary;
 
   /// The date and time that the deployment resource was created.
-  @_s.JsonKey(
-      name: 'createdDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdDate')
   final DateTime createdDate;
 
   /// The description for the deployment resource.
@@ -6323,10 +6316,8 @@ class DocumentationParts {
     createToJson: false)
 class DocumentationVersion {
   /// The date when the API documentation snapshot is created.
-  @_s.JsonKey(
-      name: 'createdDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdDate')
   final DateTime createdDate;
 
   /// The description of the API documentation snapshot.
@@ -6409,10 +6400,8 @@ class DomainName {
 
   /// The timestamp when the certificate that was used by edge-optimized endpoint
   /// for this domain name was uploaded.
-  @_s.JsonKey(
-      name: 'certificateUploadDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'certificateUploadDate')
   final DateTime certificateUploadDate;
 
   /// The domain name of the Amazon CloudFront distribution associated with this
@@ -8372,10 +8361,8 @@ class RestApi {
   final List<String> binaryMediaTypes;
 
   /// The timestamp when the API was created.
-  @_s.JsonKey(
-      name: 'createdDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdDate')
   final DateTime createdDate;
 
   /// The API's description.
@@ -8644,10 +8631,8 @@ class Stage {
   final String clientCertificateId;
 
   /// The timestamp when the stage was created.
-  @_s.JsonKey(
-      name: 'createdDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdDate')
   final DateTime createdDate;
 
   /// The identifier of the <a>Deployment</a> that the stage points to.
@@ -8663,10 +8648,8 @@ class Stage {
   final String documentationVersion;
 
   /// The timestamp when the stage last updated.
-  @_s.JsonKey(
-      name: 'lastUpdatedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastUpdatedDate')
   final DateTime lastUpdatedDate;
 
   /// A map that defines the method settings for a <a>Stage</a> resource. Keys

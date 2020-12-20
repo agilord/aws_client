@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -395,10 +398,8 @@ class MeterUsageResult {
     createToJson: false)
 class RegisterUsageResult {
   /// (Optional) Only included when public key version has expired
-  @_s.JsonKey(
-      name: 'PublicKeyRotationTimestamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'PublicKeyRotationTimestamp')
   final DateTime publicKeyRotationTimestamp;
 
   /// JWT Token
@@ -467,10 +468,8 @@ class UsageRecord {
   ///
   /// Your application can meter usage for up to one hour in the past. Make sure
   /// the timestamp value is not before the start of the software usage.
-  @_s.JsonKey(
-      name: 'Timestamp',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'Timestamp')
   final DateTime timestamp;
 
   /// The quantity of usage consumed by the customer for the given dimension and

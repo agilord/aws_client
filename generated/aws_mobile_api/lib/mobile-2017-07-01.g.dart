@@ -172,8 +172,9 @@ NotFoundException _$NotFoundExceptionFromJson(Map<String, dynamic> json) {
 ProjectDetails _$ProjectDetailsFromJson(Map<String, dynamic> json) {
   return ProjectDetails(
     consoleUrl: json['consoleUrl'] as String,
-    createdDate: timeStampFromJson(json['createdDate']),
-    lastUpdatedDate: timeStampFromJson(json['lastUpdatedDate']),
+    createdDate: const UnixDateTimeConverter().fromJson(json['createdDate']),
+    lastUpdatedDate:
+        const UnixDateTimeConverter().fromJson(json['lastUpdatedDate']),
     name: json['name'] as String,
     projectId: json['projectId'] as String,
     region: json['region'] as String,

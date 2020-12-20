@@ -48,7 +48,7 @@ in the config file, from the downloaded models.''';
       )
       ..addFlag(
         'build',
-        help: 'Gets dependencies and runs build_runner in generated packages',
+        help: 'Gets dependencies and runs build_runner in all_apis',
         defaultsTo: true,
         negatable: true,
       )

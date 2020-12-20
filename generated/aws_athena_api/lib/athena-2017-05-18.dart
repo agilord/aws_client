@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -1683,10 +1686,8 @@ class QueryExecutionStatistics {
     createToJson: false)
 class QueryExecutionStatus {
   /// The date and time that the query completed.
-  @_s.JsonKey(
-      name: 'CompletionDateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CompletionDateTime')
   final DateTime completionDateTime;
 
   /// The state of query execution. <code>QUEUED</code> indicates that the query
@@ -1704,10 +1705,8 @@ class QueryExecutionStatus {
   final String stateChangeReason;
 
   /// The date and time that the query was submitted.
-  @_s.JsonKey(
-      name: 'SubmissionDateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'SubmissionDateTime')
   final DateTime submissionDateTime;
 
   QueryExecutionStatus({
@@ -2083,10 +2082,8 @@ class WorkGroup {
   final WorkGroupConfiguration configuration;
 
   /// The date and time the workgroup was created.
-  @_s.JsonKey(
-      name: 'CreationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationTime')
   final DateTime creationTime;
 
   /// The workgroup description.
@@ -2269,10 +2266,8 @@ extension on WorkGroupState {
     createToJson: false)
 class WorkGroupSummary {
   /// The workgroup creation date and time.
-  @_s.JsonKey(
-      name: 'CreationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationTime')
   final DateTime creationTime;
 
   /// The workgroup description.

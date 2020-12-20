@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -3030,10 +3033,8 @@ class BotAliasMetadata {
   final ConversationLogsResponse conversationLogs;
 
   /// The date that the bot alias was created.
-  @_s.JsonKey(
-      name: 'createdDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdDate')
   final DateTime createdDate;
 
   /// A description of the bot alias.
@@ -3042,10 +3043,8 @@ class BotAliasMetadata {
 
   /// The date that the bot alias was updated. When you create a resource, the
   /// creation date and last updated date are the same.
-  @_s.JsonKey(
-      name: 'lastUpdatedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastUpdatedDate')
   final DateTime lastUpdatedDate;
 
   /// The name of the bot alias.
@@ -3093,10 +3092,8 @@ class BotChannelAssociation {
 
   /// The date that the association between the Amazon Lex bot and the channel was
   /// created.
-  @_s.JsonKey(
-      name: 'createdDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdDate')
   final DateTime createdDate;
 
   /// A text description of the association you are creating.
@@ -3158,10 +3155,8 @@ class BotChannelAssociation {
     createToJson: false)
 class BotMetadata {
   /// The date that the bot was created.
-  @_s.JsonKey(
-      name: 'createdDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdDate')
   final DateTime createdDate;
 
   /// A description of the bot.
@@ -3170,10 +3165,8 @@ class BotMetadata {
 
   /// The date that the bot was updated. When you create a bot, the creation date
   /// and last updated date are the same.
-  @_s.JsonKey(
-      name: 'lastUpdatedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastUpdatedDate')
   final DateTime lastUpdatedDate;
 
   /// The name of the bot.
@@ -3429,10 +3422,8 @@ class CreateBotVersionResponse {
   final Prompt clarificationPrompt;
 
   /// The date when the bot version was created.
-  @_s.JsonKey(
-      name: 'createdDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdDate')
   final DateTime createdDate;
 
   /// A description of the bot.
@@ -3460,10 +3451,8 @@ class CreateBotVersionResponse {
   final List<Intent> intents;
 
   /// The date when the <code>$LATEST</code> version of this bot was updated.
-  @_s.JsonKey(
-      name: 'lastUpdatedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastUpdatedDate')
   final DateTime lastUpdatedDate;
 
   /// Specifies the target locale for the bot.
@@ -3535,10 +3524,8 @@ class CreateIntentVersionResponse {
   final Prompt confirmationPrompt;
 
   /// The date that the intent was created.
-  @_s.JsonKey(
-      name: 'createdDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdDate')
   final DateTime createdDate;
 
   /// A description of the intent.
@@ -3559,10 +3546,8 @@ class CreateIntentVersionResponse {
   final FulfillmentActivity fulfillmentActivity;
 
   /// The date that the intent was updated.
-  @_s.JsonKey(
-      name: 'lastUpdatedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastUpdatedDate')
   final DateTime lastUpdatedDate;
 
   /// The name of the intent.
@@ -3624,10 +3609,8 @@ class CreateSlotTypeVersionResponse {
   final String checksum;
 
   /// The date that the slot type was created.
-  @_s.JsonKey(
-      name: 'createdDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdDate')
   final DateTime createdDate;
 
   /// A description of the slot type.
@@ -3641,10 +3624,8 @@ class CreateSlotTypeVersionResponse {
 
   /// The date that the slot type was updated. When you create a resource, the
   /// creation date and last update date are the same.
-  @_s.JsonKey(
-      name: 'lastUpdatedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastUpdatedDate')
   final DateTime lastUpdatedDate;
 
   /// The name of the slot type.
@@ -3869,10 +3850,8 @@ class GetBotAliasResponse {
   final ConversationLogsResponse conversationLogs;
 
   /// The date that the bot alias was created.
-  @_s.JsonKey(
-      name: 'createdDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdDate')
   final DateTime createdDate;
 
   /// A description of the bot alias.
@@ -3881,10 +3860,8 @@ class GetBotAliasResponse {
 
   /// The date that the bot alias was updated. When you create a resource, the
   /// creation date and the last updated date are the same.
-  @_s.JsonKey(
-      name: 'lastUpdatedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastUpdatedDate')
   final DateTime lastUpdatedDate;
 
   /// The name of the bot alias.
@@ -3952,10 +3929,8 @@ class GetBotChannelAssociationResponse {
   final String botName;
 
   /// The date that the association between the bot and the channel was created.
-  @_s.JsonKey(
-      name: 'createdDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdDate')
   final DateTime createdDate;
 
   /// A description of the association between the bot and the channel.
@@ -4087,10 +4062,8 @@ class GetBotResponse {
   final Prompt clarificationPrompt;
 
   /// The date that the bot was created.
-  @_s.JsonKey(
-      name: 'createdDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdDate')
   final DateTime createdDate;
 
   /// A description of the bot.
@@ -4119,10 +4092,8 @@ class GetBotResponse {
 
   /// The date that the bot was updated. When you create a resource, the creation
   /// date and last updated date are the same.
-  @_s.JsonKey(
-      name: 'lastUpdatedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastUpdatedDate')
   final DateTime lastUpdatedDate;
 
   /// The target locale for the bot.
@@ -4379,10 +4350,8 @@ class GetExportResponse {
     createToJson: false)
 class GetImportResponse {
   /// A timestamp for the date and time that the import job was created.
-  @_s.JsonKey(
-      name: 'createdDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdDate')
   final DateTime createdDate;
 
   /// A string that describes why an import job failed to complete.
@@ -4445,10 +4414,8 @@ class GetIntentResponse {
   final Prompt confirmationPrompt;
 
   /// The date that the intent was created.
-  @_s.JsonKey(
-      name: 'createdDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdDate')
   final DateTime createdDate;
 
   /// A description of the intent.
@@ -4473,10 +4440,8 @@ class GetIntentResponse {
 
   /// The date that the intent was updated. When you create a resource, the
   /// creation date and the last updated date are the same.
-  @_s.JsonKey(
-      name: 'lastUpdatedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastUpdatedDate')
   final DateTime lastUpdatedDate;
 
   /// The name of the intent.
@@ -4587,10 +4552,8 @@ class GetSlotTypeResponse {
   final String checksum;
 
   /// The date that the slot type was created.
-  @_s.JsonKey(
-      name: 'createdDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdDate')
   final DateTime createdDate;
 
   /// A description of the slot type.
@@ -4604,10 +4567,8 @@ class GetSlotTypeResponse {
 
   /// The date that the slot type was updated. When you create a resource, the
   /// creation date and last update date are the same.
-  @_s.JsonKey(
-      name: 'lastUpdatedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastUpdatedDate')
   final DateTime lastUpdatedDate;
 
   /// The name of the slot type.
@@ -4764,10 +4725,8 @@ class Intent {
     createToJson: false)
 class IntentMetadata {
   /// The date that the intent was created.
-  @_s.JsonKey(
-      name: 'createdDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdDate')
   final DateTime createdDate;
 
   /// A description of the intent.
@@ -4776,10 +4735,8 @@ class IntentMetadata {
 
   /// The date that the intent was updated. When you create an intent, the
   /// creation date and last updated date are the same.
-  @_s.JsonKey(
-      name: 'lastUpdatedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastUpdatedDate')
   final DateTime lastUpdatedDate;
 
   /// The name of the intent.
@@ -5067,10 +5024,8 @@ class PutBotAliasResponse {
   final ConversationLogsResponse conversationLogs;
 
   /// The date that the bot alias was created.
-  @_s.JsonKey(
-      name: 'createdDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdDate')
   final DateTime createdDate;
 
   /// A description of the alias.
@@ -5079,10 +5034,8 @@ class PutBotAliasResponse {
 
   /// The date that the bot alias was updated. When you create a resource, the
   /// creation date and the last updated date are the same.
-  @_s.JsonKey(
-      name: 'lastUpdatedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastUpdatedDate')
   final DateTime lastUpdatedDate;
 
   /// The name of the alias.
@@ -5164,10 +5117,8 @@ class PutBotResponse {
   final bool createVersion;
 
   /// The date that the bot was created.
-  @_s.JsonKey(
-      name: 'createdDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdDate')
   final DateTime createdDate;
 
   /// A description of the bot.
@@ -5198,10 +5149,8 @@ class PutBotResponse {
 
   /// The date that the bot was updated. When you create a resource, the creation
   /// date and last updated date are the same.
-  @_s.JsonKey(
-      name: 'lastUpdatedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastUpdatedDate')
   final DateTime lastUpdatedDate;
 
   /// The target locale for the bot.
@@ -5299,10 +5248,8 @@ class PutIntentResponse {
   final bool createVersion;
 
   /// The date that the intent was created.
-  @_s.JsonKey(
-      name: 'createdDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdDate')
   final DateTime createdDate;
 
   /// A description of the intent.
@@ -5327,10 +5274,8 @@ class PutIntentResponse {
 
   /// The date that the intent was updated. When you create a resource, the
   /// creation date and last update dates are the same.
-  @_s.JsonKey(
-      name: 'lastUpdatedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastUpdatedDate')
   final DateTime lastUpdatedDate;
 
   /// The name of the intent.
@@ -5399,10 +5344,8 @@ class PutSlotTypeResponse {
   final bool createVersion;
 
   /// The date that the slot type was created.
-  @_s.JsonKey(
-      name: 'createdDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdDate')
   final DateTime createdDate;
 
   /// A description of the slot type.
@@ -5416,10 +5359,8 @@ class PutSlotTypeResponse {
 
   /// The date that the slot type was updated. When you create a slot type, the
   /// creation date and last update date are the same.
-  @_s.JsonKey(
-      name: 'lastUpdatedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastUpdatedDate')
   final DateTime lastUpdatedDate;
 
   /// The name of the slot type.
@@ -5599,10 +5540,8 @@ class SlotTypeConfiguration {
     createToJson: false)
 class SlotTypeMetadata {
   /// The date that the slot type was created.
-  @_s.JsonKey(
-      name: 'createdDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdDate')
   final DateTime createdDate;
 
   /// A description of the slot type.
@@ -5611,10 +5550,8 @@ class SlotTypeMetadata {
 
   /// The date that the slot type was updated. When you create a resource, the
   /// creation date and last updated date are the same.
-  @_s.JsonKey(
-      name: 'lastUpdatedDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastUpdatedDate')
   final DateTime lastUpdatedDate;
 
   /// The name of the slot type.
@@ -5710,10 +5647,8 @@ extension on SlotValueSelectionStrategy {
     createToJson: false)
 class StartImportResponse {
   /// A timestamp for the date and time that the import job was requested.
-  @_s.JsonKey(
-      name: 'createdDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdDate')
   final DateTime createdDate;
 
   /// The identifier for the specific import job.
@@ -5881,17 +5816,13 @@ class UtteranceData {
   final int distinctUsers;
 
   /// The date that the utterance was first recorded.
-  @_s.JsonKey(
-      name: 'firstUtteredDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'firstUtteredDate')
   final DateTime firstUtteredDate;
 
   /// The date that the utterance was last recorded.
-  @_s.JsonKey(
-      name: 'lastUtteredDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastUtteredDate')
   final DateTime lastUtteredDate;
 
   /// The text that was entered by the user or the text representation of an audio

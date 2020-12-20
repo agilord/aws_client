@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -911,19 +914,15 @@ class ComprehendMedicalAsyncJobFilter {
   /// Filters the list of jobs based on the time that the job was submitted for
   /// processing. Returns only jobs submitted after the specified time. Jobs are
   /// returned in descending order, newest to oldest.
-  @_s.JsonKey(
-      name: 'SubmitTimeAfter',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'SubmitTimeAfter')
   final DateTime submitTimeAfter;
 
   /// Filters the list of jobs based on the time that the job was submitted for
   /// processing. Returns only jobs submitted before the specified time. Jobs are
   /// returned in ascending order, oldest to newest.
-  @_s.JsonKey(
-      name: 'SubmitTimeBefore',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'SubmitTimeBefore')
   final DateTime submitTimeBefore;
 
   ComprehendMedicalAsyncJobFilter({
@@ -949,8 +948,8 @@ class ComprehendMedicalAsyncJobProperties {
   final String dataAccessRoleArn;
 
   /// The time that the detection job completed.
-  @_s.JsonKey(
-      name: 'EndTime', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'EndTime')
   final DateTime endTime;
 
   /// The date and time that job metadata is deleted from the server. Output files
@@ -958,10 +957,8 @@ class ComprehendMedicalAsyncJobProperties {
   /// job will no longer appear in the results of the
   /// <code>ListEntitiesDetectionV2Job</code> or the
   /// <code>ListPHIDetectionJobs</code> operation.
-  @_s.JsonKey(
-      name: 'ExpirationTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ExpirationTime')
   final DateTime expirationTime;
 
   /// The input data configuration that you supplied when you created the
@@ -1012,10 +1009,8 @@ class ComprehendMedicalAsyncJobProperties {
   final OutputDataConfig outputDataConfig;
 
   /// The time that the detection job was submitted for processing.
-  @_s.JsonKey(
-      name: 'SubmitTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'SubmitTime')
   final DateTime submitTime;
 
   ComprehendMedicalAsyncJobProperties({

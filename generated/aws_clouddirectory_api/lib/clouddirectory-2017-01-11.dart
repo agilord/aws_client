@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -5934,10 +5937,8 @@ class DetachPolicyResponse {
     createToJson: false)
 class Directory {
   /// The date and time when the directory was created.
-  @_s.JsonKey(
-      name: 'CreationDateTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationDateTime')
   final DateTime creationDateTime;
 
   /// The Amazon Resource Name (ARN) that is associated with the directory. For
@@ -7356,10 +7357,8 @@ class TypedAttributeValue {
   final bool booleanValue;
 
   /// A date and time value.
-  @_s.JsonKey(
-      name: 'DatetimeValue',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'DatetimeValue')
   final DateTime datetimeValue;
 
   /// A number data value.

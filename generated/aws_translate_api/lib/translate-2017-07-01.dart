@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -1132,10 +1135,8 @@ class TerminologyProperties {
 
   /// The time at which the custom terminology was created, based on the
   /// timestamp.
-  @_s.JsonKey(
-      name: 'CreatedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedAt')
   final DateTime createdAt;
 
   /// The description of the custom terminology properties.
@@ -1148,10 +1149,8 @@ class TerminologyProperties {
 
   /// The time at which the custom terminology was last update, based on the
   /// timestamp.
-  @_s.JsonKey(
-      name: 'LastUpdatedAt',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastUpdatedAt')
   final DateTime lastUpdatedAt;
 
   /// The name of the custom terminology.
@@ -1211,19 +1210,15 @@ class TextTranslationJobFilter {
   /// Filters the list of jobs based on the time that the job was submitted for
   /// processing and returns only the jobs submitted after the specified time.
   /// Jobs are returned in descending order, newest to oldest.
-  @_s.JsonKey(
-      name: 'SubmittedAfterTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'SubmittedAfterTime')
   final DateTime submittedAfterTime;
 
   /// Filters the list of jobs based on the time that the job was submitted for
   /// processing and returns only the jobs submitted before the specified time.
   /// Jobs are returned in ascending order, oldest to newest.
-  @_s.JsonKey(
-      name: 'SubmittedBeforeTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'SubmittedBeforeTime')
   final DateTime submittedBeforeTime;
 
   TextTranslationJobFilter({
@@ -1249,8 +1244,8 @@ class TextTranslationJobProperties {
   final String dataAccessRoleArn;
 
   /// The time at which the translation job ended.
-  @_s.JsonKey(
-      name: 'EndTime', fromJson: timeStampFromJson, toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'EndTime')
   final DateTime endTime;
 
   /// The input configuration properties that were specified when the job was
@@ -1291,10 +1286,8 @@ class TextTranslationJobProperties {
   final String sourceLanguageCode;
 
   /// The time at which the translation job was submitted.
-  @_s.JsonKey(
-      name: 'SubmittedTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'SubmittedTime')
   final DateTime submittedTime;
 
   /// The language code of the language of the target text. The language must be a

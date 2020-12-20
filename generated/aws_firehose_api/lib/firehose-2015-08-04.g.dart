@@ -141,7 +141,8 @@ DeliveryStreamDescription _$DeliveryStreamDescriptionFromJson(
         ?.toList(),
     hasMoreDestinations: json['HasMoreDestinations'] as bool,
     versionId: json['VersionId'] as String,
-    createTimestamp: timeStampFromJson(json['CreateTimestamp']),
+    createTimestamp:
+        const UnixDateTimeConverter().fromJson(json['CreateTimestamp']),
     deliveryStreamEncryptionConfiguration:
         json['DeliveryStreamEncryptionConfiguration'] == null
             ? null
@@ -152,7 +153,8 @@ DeliveryStreamDescription _$DeliveryStreamDescriptionFromJson(
         ? null
         : FailureDescription.fromJson(
             json['FailureDescription'] as Map<String, dynamic>),
-    lastUpdateTimestamp: timeStampFromJson(json['LastUpdateTimestamp']),
+    lastUpdateTimestamp:
+        const UnixDateTimeConverter().fromJson(json['LastUpdateTimestamp']),
     source: json['Source'] == null
         ? null
         : SourceDescription.fromJson(json['Source'] as Map<String, dynamic>),
@@ -707,7 +709,8 @@ Map<String, dynamic> _$KinesisStreamSourceConfigurationToJson(
 KinesisStreamSourceDescription _$KinesisStreamSourceDescriptionFromJson(
     Map<String, dynamic> json) {
   return KinesisStreamSourceDescription(
-    deliveryStartTimestamp: timeStampFromJson(json['DeliveryStartTimestamp']),
+    deliveryStartTimestamp:
+        const UnixDateTimeConverter().fromJson(json['DeliveryStartTimestamp']),
     kinesisStreamARN: json['KinesisStreamARN'] as String,
     roleARN: json['RoleARN'] as String,
   );

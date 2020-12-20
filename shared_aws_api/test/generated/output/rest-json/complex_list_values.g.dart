@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'complex_map_values.dart';
+part of 'complex_list_values.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
@@ -8,8 +8,8 @@ part of 'complex_map_values.dart';
 
 OutputShape _$OutputShapeFromJson(Map<String, dynamic> json) {
   return OutputShape(
-    mapMember: (json['MapMember'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(k, e == null ? null : DateTime.parse(e as String)),
-    ),
+    listMember: (json['ListMember'] as List)
+        ?.map(const UnixDateTimeConverter().fromJson)
+        ?.toList(),
   );
 }

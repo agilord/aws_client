@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -136,10 +139,8 @@ class Entitlement {
   /// AWS Marketplace, the expiration date is the date at which the customer will
   /// renew or cancel their contract. Customers who are opting to renew their
   /// contract will still have entitlements with an expiration date.
-  @_s.JsonKey(
-      name: 'ExpirationDate',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ExpirationDate')
   final DateTime expirationDate;
 
   /// The product code for which the given entitlement applies. Product codes are

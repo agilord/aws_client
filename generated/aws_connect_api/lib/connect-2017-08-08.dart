@@ -15,7 +15,10 @@ import 'package:shared_aws_api/shared.dart'
         rfc822ToJson,
         iso8601ToJson,
         unixTimestampToJson,
-        timeStampFromJson;
+        timeStampFromJson,
+        RfcDateTimeConverter,
+        IsoDateTimeConverter,
+        UnixDateTimeConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -1901,10 +1904,8 @@ class Credentials {
 
   /// A token generated with an expiration time for the session a user is logged
   /// in to Amazon Connect.
-  @_s.JsonKey(
-      name: 'AccessTokenExpiration',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'AccessTokenExpiration')
   final DateTime accessTokenExpiration;
 
   /// Renews a token generated for a user to access the Amazon Connect instance.
@@ -1912,10 +1913,8 @@ class Credentials {
   final String refreshToken;
 
   /// Renews the expiration timer for a generated token.
-  @_s.JsonKey(
-      name: 'RefreshTokenExpiration',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'RefreshTokenExpiration')
   final DateTime refreshTokenExpiration;
 
   Credentials({
@@ -2152,10 +2151,8 @@ class GetContactAttributesResponse {
     createToJson: false)
 class GetCurrentMetricDataResponse {
   /// The time at which the metrics were retrieved and cached for pagination.
-  @_s.JsonKey(
-      name: 'DataSnapshotTime',
-      fromJson: timeStampFromJson,
-      toJson: unixTimestampToJson)
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'DataSnapshotTime')
   final DateTime dataSnapshotTime;
 
   /// Information about the real-time metrics.
