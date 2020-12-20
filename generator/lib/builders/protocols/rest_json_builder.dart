@@ -40,7 +40,7 @@ class RestJsonServiceBuilder extends ServiceBuilder {
         if (inputShape.hasBodyMembers) {
           buf.writeln('final \$payload = <String, dynamic>{');
           for (var member in inputShape.members.where((m) => m.isBody)) {
-            if (!member.isRequired) {
+            if (!member.isRequired && !member.idempotencyToken) {
               buf.writeln('if (${member.fieldName} != null)');
             }
             final encodeCode = encodeJsonCode(
@@ -49,13 +49,18 @@ class RestJsonServiceBuilder extends ServiceBuilder {
             final location = member.locationName ??
                 member.shapeClass.locationName ??
                 member.name;
-            buf.writeln("'$location': $encodeCode,");
+            final idempotency = member.idempotencyToken
+                ? '?? _s.generateIdempotencyToken()'
+                : '';
+            buf.writeln("'$location': $encodeCode$idempotency,");
           }
           buf.writeln('};');
           payloadCode = 'payload: \$payload,';
         }
       } else {
-        payloadCode = 'payload: ${payload.fieldName},';
+        final idempotency =
+            payload.idempotencyToken ? '?? _s.generateIdempotencyToken()' : '';
+        payloadCode = 'payload: ${payload.fieldName}$idempotency,';
       }
     }
     var isBlobResponse = false;

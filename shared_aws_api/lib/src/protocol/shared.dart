@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:http/http.dart';
 import 'package:intl/intl.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:uuid/uuid.dart';
 import 'package:xml/xml.dart';
 
 final _rfc822Parser = DateFormat('EEE, dd MMM yyyy HH:mm:ss Z', 'en_US');
@@ -13,6 +14,13 @@ final _iso8601Formatter = DateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", 'en_US');
 final unixRegex = RegExp(r'^\d+$');
 final isoRegex = RegExp(r'^\d{4}');
 final rfcRegex = RegExp(r'^\w{3},');
+
+final _uuidV4 = Uuid().v4;
+
+String Function() idempotencyGeneratorOverride;
+
+String generateIdempotencyToken() =>
+    (idempotencyGeneratorOverride ?? _uuidV4)();
 
 String rfc822ToJson(DateTime date) =>
     date == null ? null : _rfc822Formatter.format(date.toUtc());

@@ -29,6 +29,13 @@ class RestXmlServiceBuilder extends ServiceBuilder {
     final buf = StringBuffer();
     final input = operation.input;
     final shapeClass = operation.input?.shapeClass;
+
+    shapeClass?.members?.forEach((m) {
+      if (m.idempotencyToken) {
+        buf.writeln('${m.fieldName} ??= _s.generateIdempotencyToken();');
+      }
+    });
+
     buildRequestHeaders(operation, buf);
     buildRequestQueryParams(operation, buf);
     String payloadArg;
