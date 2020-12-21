@@ -34,6 +34,7 @@ class IdempotencyTokenAutoFill {
   Future<void> operationName0({
     String token,
   }) async {
+    token ??= _s.generateIdempotencyToken();
     await _protocol.send(
       method: 'POST',
       requestUri: '/path',
@@ -45,6 +46,7 @@ class IdempotencyTokenAutoFill {
   Future<void> operationName1({
     String token,
   }) async {
+    token ??= _s.generateIdempotencyToken();
     await _protocol.send(
       method: 'POST',
       requestUri: '/path',

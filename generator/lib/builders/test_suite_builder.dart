@@ -15,11 +15,13 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'package:http/http.dart';
 import 'package:http/testing.dart';
+import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:test/test.dart';
 import '../../../utils.dart';
 import '${api.fileBasename}.dart';
 
-void main() {''');
+void main() {
+  _s.idempotencyGeneratorOverride = () => '00000000-0000-4000-8000-000000000000';''');
   for (var i = 0; i < testSuite.cases.length; i++) {
     code.writeln("test('${testSuite.description} $i', () async {");
 
@@ -95,7 +97,7 @@ void _writeTestCase(
     });
 
     final service = ${api.metadata.className}(client: client, region: 'us-east-1', 
-        credentials: AwsClientCredentials(accessKey:'', secretKey:''));
+        credentials: AwsClientCredentials(accessKey:'', secretKey:'',),);
 ''');
 
   final parameters = _buildParameters(

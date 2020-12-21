@@ -2093,8 +2093,8 @@ class CodePipeline {
       headers: headers,
       payload: {
         'name': name,
-        if (clientRequestToken != null)
-          'clientRequestToken': clientRequestToken,
+        'clientRequestToken':
+            clientRequestToken ?? _s.generateIdempotencyToken(),
       },
     );
 

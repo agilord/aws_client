@@ -4,11 +4,14 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'package:http/http.dart';
 import 'package:http/testing.dart';
+import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:test/test.dart';
 import '../../../utils.dart';
 import 'flattened_list_with_location_name.dart';
 
 void main() {
+  _s.idempotencyGeneratorOverride =
+      () => '00000000-0000-4000-8000-000000000000';
   test('Flattened list with location name 0', () async {
     final client = MockClient((request) async {
       return Response(
@@ -18,9 +21,13 @@ void main() {
     });
 
     final service = FlattenedListWithLocationName(
-        client: client,
-        region: 'us-east-1',
-        credentials: AwsClientCredentials(accessKey: '', secretKey: ''));
+      client: client,
+      region: 'us-east-1',
+      credentials: AwsClientCredentials(
+        accessKey: '',
+        secretKey: '',
+      ),
+    );
 
     final output = await service.operationName0();
     expect(output.list[0], "a");

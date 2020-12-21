@@ -4035,8 +4035,8 @@ class DynamoDB {
       headers: headers,
       payload: {
         'TransactItems': transactItems,
-        if (clientRequestToken != null)
-          'ClientRequestToken': clientRequestToken,
+        'ClientRequestToken':
+            clientRequestToken ?? _s.generateIdempotencyToken(),
         if (returnConsumedCapacity != null)
           'ReturnConsumedCapacity': returnConsumedCapacity.toValue(),
         if (returnItemCollectionMetrics != null)

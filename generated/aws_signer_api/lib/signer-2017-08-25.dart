@@ -521,7 +521,7 @@ class Signer {
       r'''^[a-zA-Z0-9_]{2,}''',
     );
     final $payload = <String, dynamic>{
-      'clientRequestToken': clientRequestToken,
+      'clientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
       'destination': destination,
       'source': source,
       if (profileName != null) 'profileName': profileName,

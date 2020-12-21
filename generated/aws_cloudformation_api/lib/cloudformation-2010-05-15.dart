@@ -1101,7 +1101,7 @@ class CloudFormation {
     $request['StackSetName'] = stackSetName;
     accounts?.also((arg) => $request['Accounts'] = arg);
     deploymentTargets?.also((arg) => $request['DeploymentTargets'] = arg);
-    operationId?.also((arg) => $request['OperationId'] = arg);
+    $request['OperationId'] = operationId ?? _s.generateIdempotencyToken();
     operationPreferences?.also((arg) => $request['OperationPreferences'] = arg);
     parameterOverrides?.also((arg) => $request['ParameterOverrides'] = arg);
     final $result = await _protocol.send(
@@ -1392,7 +1392,8 @@ class CloudFormation {
     autoDeployment?.also((arg) => $request['AutoDeployment'] = arg);
     capabilities?.also((arg) =>
         $request['Capabilities'] = arg.map((e) => e?.toValue() ?? '').toList());
-    clientRequestToken?.also((arg) => $request['ClientRequestToken'] = arg);
+    $request['ClientRequestToken'] =
+        clientRequestToken ?? _s.generateIdempotencyToken();
     description?.also((arg) => $request['Description'] = arg);
     executionRoleName?.also((arg) => $request['ExecutionRoleName'] = arg);
     parameters?.also((arg) => $request['Parameters'] = arg);
@@ -1647,7 +1648,7 @@ class CloudFormation {
     $request['StackSetName'] = stackSetName;
     accounts?.also((arg) => $request['Accounts'] = arg);
     deploymentTargets?.also((arg) => $request['DeploymentTargets'] = arg);
-    operationId?.also((arg) => $request['OperationId'] = arg);
+    $request['OperationId'] = operationId ?? _s.generateIdempotencyToken();
     operationPreferences?.also((arg) => $request['OperationPreferences'] = arg);
     final $result = await _protocol.send(
       $request,
@@ -2775,7 +2776,7 @@ class CloudFormation {
     );
     final $request = <String, dynamic>{};
     $request['StackSetName'] = stackSetName;
-    operationId?.also((arg) => $request['OperationId'] = arg);
+    $request['OperationId'] = operationId ?? _s.generateIdempotencyToken();
     operationPreferences?.also((arg) => $request['OperationPreferences'] = arg);
     final $result = await _protocol.send(
       $request,
@@ -5071,7 +5072,7 @@ class CloudFormation {
     $request['StackSetName'] = stackSetName;
     accounts?.also((arg) => $request['Accounts'] = arg);
     deploymentTargets?.also((arg) => $request['DeploymentTargets'] = arg);
-    operationId?.also((arg) => $request['OperationId'] = arg);
+    $request['OperationId'] = operationId ?? _s.generateIdempotencyToken();
     operationPreferences?.also((arg) => $request['OperationPreferences'] = arg);
     parameterOverrides?.also((arg) => $request['ParameterOverrides'] = arg);
     final $result = await _protocol.send(
@@ -5485,7 +5486,7 @@ class CloudFormation {
     deploymentTargets?.also((arg) => $request['DeploymentTargets'] = arg);
     description?.also((arg) => $request['Description'] = arg);
     executionRoleName?.also((arg) => $request['ExecutionRoleName'] = arg);
-    operationId?.also((arg) => $request['OperationId'] = arg);
+    $request['OperationId'] = operationId ?? _s.generateIdempotencyToken();
     operationPreferences?.also((arg) => $request['OperationPreferences'] = arg);
     parameters?.also((arg) => $request['Parameters'] = arg);
     permissionModel?.also((arg) => $request['PermissionModel'] = arg.toValue());

@@ -195,7 +195,7 @@ class EKS {
       'name': name,
       'resourcesVpcConfig': resourcesVpcConfig,
       'roleArn': roleArn,
-      if (clientRequestToken != null) 'clientRequestToken': clientRequestToken,
+      'clientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
       if (encryptionConfig != null) 'encryptionConfig': encryptionConfig,
       if (logging != null) 'logging': logging,
       if (tags != null) 'tags': tags,
@@ -307,7 +307,7 @@ class EKS {
     final $payload = <String, dynamic>{
       'fargateProfileName': fargateProfileName,
       'podExecutionRoleArn': podExecutionRoleArn,
-      if (clientRequestToken != null) 'clientRequestToken': clientRequestToken,
+      'clientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
       if (selectors != null) 'selectors': selectors,
       if (subnets != null) 'subnets': subnets,
       if (tags != null) 'tags': tags,
@@ -443,7 +443,7 @@ class EKS {
       'nodegroupName': nodegroupName,
       'subnets': subnets,
       if (amiType != null) 'amiType': amiType.toValue(),
-      if (clientRequestToken != null) 'clientRequestToken': clientRequestToken,
+      'clientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
       if (diskSize != null) 'diskSize': diskSize,
       if (instanceTypes != null) 'instanceTypes': instanceTypes,
       if (labels != null) 'labels': labels,
@@ -1084,7 +1084,7 @@ class EKS {
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     final $payload = <String, dynamic>{
-      if (clientRequestToken != null) 'clientRequestToken': clientRequestToken,
+      'clientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
       if (logging != null) 'logging': logging,
       if (resourcesVpcConfig != null) 'resourcesVpcConfig': resourcesVpcConfig,
     };
@@ -1137,7 +1137,7 @@ class EKS {
     ArgumentError.checkNotNull(version, 'version');
     final $payload = <String, dynamic>{
       'version': version,
-      if (clientRequestToken != null) 'clientRequestToken': clientRequestToken,
+      'clientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1188,7 +1188,7 @@ class EKS {
     ArgumentError.checkNotNull(clusterName, 'clusterName');
     ArgumentError.checkNotNull(nodegroupName, 'nodegroupName');
     final $payload = <String, dynamic>{
-      if (clientRequestToken != null) 'clientRequestToken': clientRequestToken,
+      'clientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
       if (labels != null) 'labels': labels,
       if (scalingConfig != null) 'scalingConfig': scalingConfig,
     };
@@ -1269,7 +1269,7 @@ class EKS {
     ArgumentError.checkNotNull(clusterName, 'clusterName');
     ArgumentError.checkNotNull(nodegroupName, 'nodegroupName');
     final $payload = <String, dynamic>{
-      if (clientRequestToken != null) 'clientRequestToken': clientRequestToken,
+      'clientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
       if (force != null) 'force': force,
       if (releaseVersion != null) 'releaseVersion': releaseVersion,
       if (version != null) 'version': version,

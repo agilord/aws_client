@@ -886,8 +886,8 @@ class CodeCommit {
       payload: {
         'targets': targets,
         'title': title,
-        if (clientRequestToken != null)
-          'clientRequestToken': clientRequestToken,
+        'clientRequestToken':
+            clientRequestToken ?? _s.generateIdempotencyToken(),
         if (description != null) 'description': description,
       },
     );
@@ -4407,8 +4407,8 @@ class CodeCommit {
         'content': content,
         'repositoryName': repositoryName,
         if (beforeCommitId != null) 'beforeCommitId': beforeCommitId,
-        if (clientRequestToken != null)
-          'clientRequestToken': clientRequestToken,
+        'clientRequestToken':
+            clientRequestToken ?? _s.generateIdempotencyToken(),
         if (location != null) 'location': location,
       },
     );
@@ -4521,8 +4521,8 @@ class CodeCommit {
         'content': content,
         'pullRequestId': pullRequestId,
         'repositoryName': repositoryName,
-        if (clientRequestToken != null)
-          'clientRequestToken': clientRequestToken,
+        'clientRequestToken':
+            clientRequestToken ?? _s.generateIdempotencyToken(),
         if (location != null) 'location': location,
       },
     );
@@ -4576,8 +4576,8 @@ class CodeCommit {
       payload: {
         'content': content,
         'inReplyTo': inReplyTo,
-        if (clientRequestToken != null)
-          'clientRequestToken': clientRequestToken,
+        'clientRequestToken':
+            clientRequestToken ?? _s.generateIdempotencyToken(),
       },
     );
 

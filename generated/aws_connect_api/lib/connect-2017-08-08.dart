@@ -1242,7 +1242,7 @@ class Connect {
       'InstanceId': instanceId,
       'ParticipantDetails': participantDetails,
       if (attributes != null) 'Attributes': attributes,
-      if (clientToken != null) 'ClientToken': clientToken,
+      'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (initialMessage != null) 'InitialMessage': initialMessage,
     };
     final response = await _protocol.send(
@@ -1339,7 +1339,7 @@ class Connect {
       'DestinationPhoneNumber': destinationPhoneNumber,
       'InstanceId': instanceId,
       if (attributes != null) 'Attributes': attributes,
-      if (clientToken != null) 'ClientToken': clientToken,
+      'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (queueId != null) 'QueueId': queueId,
       if (sourcePhoneNumber != null) 'SourcePhoneNumber': sourcePhoneNumber,
     };

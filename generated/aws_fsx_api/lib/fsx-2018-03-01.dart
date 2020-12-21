@@ -202,8 +202,8 @@ class FSx {
       headers: headers,
       payload: {
         'FileSystemId': fileSystemId,
-        if (clientRequestToken != null)
-          'ClientRequestToken': clientRequestToken,
+        'ClientRequestToken':
+            clientRequestToken ?? _s.generateIdempotencyToken(),
         if (tags != null) 'Tags': tags,
       },
     );
@@ -302,8 +302,8 @@ class FSx {
         'FileSystemId': fileSystemId,
         'Report': report,
         'Type': type?.toValue() ?? '',
-        if (clientRequestToken != null)
-          'ClientRequestToken': clientRequestToken,
+        'ClientRequestToken':
+            clientRequestToken ?? _s.generateIdempotencyToken(),
         if (paths != null) 'Paths': paths,
         if (tags != null) 'Tags': tags,
       },
@@ -499,8 +499,8 @@ class FSx {
         'FileSystemType': fileSystemType?.toValue() ?? '',
         'StorageCapacity': storageCapacity,
         'SubnetIds': subnetIds,
-        if (clientRequestToken != null)
-          'ClientRequestToken': clientRequestToken,
+        'ClientRequestToken':
+            clientRequestToken ?? _s.generateIdempotencyToken(),
         if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
         if (lustreConfiguration != null)
           'LustreConfiguration': lustreConfiguration,
@@ -667,8 +667,8 @@ class FSx {
       payload: {
         'BackupId': backupId,
         'SubnetIds': subnetIds,
-        if (clientRequestToken != null)
-          'ClientRequestToken': clientRequestToken,
+        'ClientRequestToken':
+            clientRequestToken ?? _s.generateIdempotencyToken(),
         if (securityGroupIds != null) 'SecurityGroupIds': securityGroupIds,
         if (storageType != null) 'StorageType': storageType.toValue(),
         if (tags != null) 'Tags': tags,
@@ -746,8 +746,8 @@ class FSx {
       headers: headers,
       payload: {
         'BackupId': backupId,
-        if (clientRequestToken != null)
-          'ClientRequestToken': clientRequestToken,
+        'ClientRequestToken':
+            clientRequestToken ?? _s.generateIdempotencyToken(),
       },
     );
 
@@ -833,8 +833,8 @@ class FSx {
       headers: headers,
       payload: {
         'FileSystemId': fileSystemId,
-        if (clientRequestToken != null)
-          'ClientRequestToken': clientRequestToken,
+        'ClientRequestToken':
+            clientRequestToken ?? _s.generateIdempotencyToken(),
         if (windowsConfiguration != null)
           'WindowsConfiguration': windowsConfiguration,
       },
@@ -1385,8 +1385,8 @@ class FSx {
       headers: headers,
       payload: {
         'FileSystemId': fileSystemId,
-        if (clientRequestToken != null)
-          'ClientRequestToken': clientRequestToken,
+        'ClientRequestToken':
+            clientRequestToken ?? _s.generateIdempotencyToken(),
         if (lustreConfiguration != null)
           'LustreConfiguration': lustreConfiguration,
         if (windowsConfiguration != null)

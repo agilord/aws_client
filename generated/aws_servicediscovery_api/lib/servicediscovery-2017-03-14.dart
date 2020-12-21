@@ -110,7 +110,7 @@ class ServiceDiscovery {
       headers: headers,
       payload: {
         'Name': name,
-        if (creatorRequestId != null) 'CreatorRequestId': creatorRequestId,
+        'CreatorRequestId': creatorRequestId ?? _s.generateIdempotencyToken(),
         if (description != null) 'Description': description,
       },
     );
@@ -196,7 +196,7 @@ class ServiceDiscovery {
       payload: {
         'Name': name,
         'Vpc': vpc,
-        if (creatorRequestId != null) 'CreatorRequestId': creatorRequestId,
+        'CreatorRequestId': creatorRequestId ?? _s.generateIdempotencyToken(),
         if (description != null) 'Description': description,
       },
     );
@@ -266,7 +266,7 @@ class ServiceDiscovery {
       headers: headers,
       payload: {
         'Name': name,
-        if (creatorRequestId != null) 'CreatorRequestId': creatorRequestId,
+        'CreatorRequestId': creatorRequestId ?? _s.generateIdempotencyToken(),
         if (description != null) 'Description': description,
       },
     );
@@ -403,7 +403,7 @@ class ServiceDiscovery {
       headers: headers,
       payload: {
         'Name': name,
-        if (creatorRequestId != null) 'CreatorRequestId': creatorRequestId,
+        'CreatorRequestId': creatorRequestId ?? _s.generateIdempotencyToken(),
         if (description != null) 'Description': description,
         if (dnsConfig != null) 'DnsConfig': dnsConfig,
         if (healthCheckConfig != null) 'HealthCheckConfig': healthCheckConfig,
@@ -1394,7 +1394,7 @@ class ServiceDiscovery {
         'Attributes': attributes,
         'InstanceId': instanceId,
         'ServiceId': serviceId,
-        if (creatorRequestId != null) 'CreatorRequestId': creatorRequestId,
+        'CreatorRequestId': creatorRequestId ?? _s.generateIdempotencyToken(),
       },
     );
 

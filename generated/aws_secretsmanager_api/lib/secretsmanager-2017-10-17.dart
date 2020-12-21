@@ -497,8 +497,8 @@ class SecretsManager {
       headers: headers,
       payload: {
         'Name': name,
-        if (clientRequestToken != null)
-          'ClientRequestToken': clientRequestToken,
+        'ClientRequestToken':
+            clientRequestToken ?? _s.generateIdempotencyToken(),
         if (description != null) 'Description': description,
         if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
         if (secretBinary != null) 'SecretBinary': base64Encode(secretBinary),
@@ -1689,8 +1689,8 @@ class SecretsManager {
       headers: headers,
       payload: {
         'SecretId': secretId,
-        if (clientRequestToken != null)
-          'ClientRequestToken': clientRequestToken,
+        'ClientRequestToken':
+            clientRequestToken ?? _s.generateIdempotencyToken(),
         if (secretBinary != null) 'SecretBinary': base64Encode(secretBinary),
         if (secretString != null) 'SecretString': secretString,
         if (versionStages != null) 'VersionStages': versionStages,
@@ -1935,8 +1935,8 @@ class SecretsManager {
       headers: headers,
       payload: {
         'SecretId': secretId,
-        if (clientRequestToken != null)
-          'ClientRequestToken': clientRequestToken,
+        'ClientRequestToken':
+            clientRequestToken ?? _s.generateIdempotencyToken(),
         if (rotationLambdaARN != null) 'RotationLambdaARN': rotationLambdaARN,
         if (rotationRules != null) 'RotationRules': rotationRules,
       },
@@ -2432,8 +2432,8 @@ class SecretsManager {
       headers: headers,
       payload: {
         'SecretId': secretId,
-        if (clientRequestToken != null)
-          'ClientRequestToken': clientRequestToken,
+        'ClientRequestToken':
+            clientRequestToken ?? _s.generateIdempotencyToken(),
         if (description != null) 'Description': description,
         if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
         if (secretBinary != null) 'SecretBinary': base64Encode(secretBinary),

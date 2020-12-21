@@ -918,7 +918,7 @@ class Schemas {
       256,
     );
     final $payload = <String, dynamic>{
-      if (clientTokenId != null) 'ClientTokenId': clientTokenId,
+      'ClientTokenId': clientTokenId ?? _s.generateIdempotencyToken(),
       if (content != null) 'Content': content,
       if (description != null) 'Description': description,
       if (type != null) 'Type': type.toValue(),

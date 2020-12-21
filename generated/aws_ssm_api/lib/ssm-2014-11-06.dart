@@ -954,7 +954,7 @@ class SSM {
         'Duration': duration,
         'Name': name,
         'Schedule': schedule,
-        if (clientToken != null) 'ClientToken': clientToken,
+        'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
         if (description != null) 'Description': description,
         if (endDate != null) 'EndDate': endDate,
         if (scheduleTimezone != null) 'ScheduleTimezone': scheduleTimezone,
@@ -1295,7 +1295,7 @@ class SSM {
               approvedPatchesComplianceLevel.toValue(),
         if (approvedPatchesEnableNonSecurity != null)
           'ApprovedPatchesEnableNonSecurity': approvedPatchesEnableNonSecurity,
-        if (clientToken != null) 'ClientToken': clientToken,
+        'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
         if (description != null) 'Description': description,
         if (globalFilters != null) 'GlobalFilters': globalFilters,
         if (operatingSystem != null)
@@ -1655,7 +1655,7 @@ class SSM {
       headers: headers,
       payload: {
         'TypeName': typeName,
-        if (clientToken != null) 'ClientToken': clientToken,
+        'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
         if (dryRun != null) 'DryRun': dryRun,
         if (schemaDeleteOption != null)
           'SchemaDeleteOption': schemaDeleteOption.toValue(),
@@ -7121,7 +7121,7 @@ class SSM {
         'ResourceType': resourceType?.toValue() ?? '',
         'Targets': targets,
         'WindowId': windowId,
-        if (clientToken != null) 'ClientToken': clientToken,
+        'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
         if (description != null) 'Description': description,
         if (name != null) 'Name': name,
         if (ownerInformation != null) 'OwnerInformation': ownerInformation,
@@ -7347,7 +7347,7 @@ class SSM {
         'TaskArn': taskArn,
         'TaskType': taskType?.toValue() ?? '',
         'WindowId': windowId,
-        if (clientToken != null) 'ClientToken': clientToken,
+        'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
         if (description != null) 'Description': description,
         if (loggingInfo != null) 'LoggingInfo': loggingInfo,
         if (name != null) 'Name': name,

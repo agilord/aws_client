@@ -593,8 +593,8 @@ class ComprehendMedical {
         'InputDataConfig': inputDataConfig,
         'LanguageCode': languageCode?.toValue() ?? '',
         'OutputDataConfig': outputDataConfig,
-        if (clientRequestToken != null)
-          'ClientRequestToken': clientRequestToken,
+        'ClientRequestToken':
+            clientRequestToken ?? _s.generateIdempotencyToken(),
         if (jobName != null) 'JobName': jobName,
         if (kMSKey != null) 'KMSKey': kMSKey,
       },
@@ -713,8 +713,8 @@ class ComprehendMedical {
         'InputDataConfig': inputDataConfig,
         'LanguageCode': languageCode?.toValue() ?? '',
         'OutputDataConfig': outputDataConfig,
-        if (clientRequestToken != null)
-          'ClientRequestToken': clientRequestToken,
+        'ClientRequestToken':
+            clientRequestToken ?? _s.generateIdempotencyToken(),
         if (jobName != null) 'JobName': jobName,
         if (kMSKey != null) 'KMSKey': kMSKey,
       },

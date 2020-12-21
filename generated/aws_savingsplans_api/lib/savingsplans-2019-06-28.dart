@@ -85,7 +85,7 @@ class SavingsPlans {
     final $payload = <String, dynamic>{
       'commitment': commitment,
       'savingsPlanOfferingId': savingsPlanOfferingId,
-      if (clientToken != null) 'clientToken': clientToken,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (tags != null) 'tags': tags,
       if (upfrontPaymentAmount != null)
         'upfrontPaymentAmount': upfrontPaymentAmount,

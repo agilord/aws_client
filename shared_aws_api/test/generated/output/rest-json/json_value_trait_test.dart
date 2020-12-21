@@ -4,11 +4,14 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'package:http/http.dart';
 import 'package:http/testing.dart';
+import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:test/test.dart';
 import '../../../utils.dart';
 import 'json_value_trait.dart';
 
 void main() {
+  _s.idempotencyGeneratorOverride =
+      () => '00000000-0000-4000-8000-000000000000';
   test('JSON value trait 0', () async {
     final client = MockClient((request) async {
       return Response(r'''{"BodyField":"{\"Foo\":\"Bar\"}"}''', 200,
@@ -16,9 +19,13 @@ void main() {
     });
 
     final service = JSONValueTrait(
-        client: client,
-        region: 'us-east-1',
-        credentials: AwsClientCredentials(accessKey: '', secretKey: ''));
+      client: client,
+      region: 'us-east-1',
+      credentials: AwsClientCredentials(
+        accessKey: '',
+        secretKey: '',
+      ),
+    );
 
     final output = await service.operationName0();
     expect(output.bodyField, {"Foo": "Bar"});
@@ -43,9 +50,13 @@ void main() {
     });
 
     final service = JSONValueTrait(
-        client: client,
-        region: 'us-east-1',
-        credentials: AwsClientCredentials(accessKey: '', secretKey: ''));
+      client: client,
+      region: 'us-east-1',
+      credentials: AwsClientCredentials(
+        accessKey: '',
+        secretKey: '',
+      ),
+    );
 
     final output = await service.operationName1();
     expect(output.bodyField, isNull);

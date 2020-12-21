@@ -1165,8 +1165,8 @@ class ApplicationDiscoveryService {
       payload: {
         'importUrl': importUrl,
         'name': name,
-        if (clientRequestToken != null)
-          'clientRequestToken': clientRequestToken,
+        'clientRequestToken':
+            clientRequestToken ?? _s.generateIdempotencyToken(),
       },
     );
 

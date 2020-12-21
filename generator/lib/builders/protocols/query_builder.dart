@@ -32,11 +32,13 @@ class QueryServiceBuilder extends ServiceBuilder {
     buf.writeln('    final \$request = <String, dynamic>{};');
     parameterShape?.members?.forEach((member) {
       member.shapeClass.markUsed(true);
+      final idempotency =
+          member.idempotencyToken ? '?? _s.generateIdempotencyToken()' : '';
 
-      if (member.isRequired) {
+      if (member.isRequired || member.idempotencyToken) {
         final code = _encodeQueryCode(member.shapeClass, member.fieldName,
             member: member, maybeNull: false);
-        buf.writeln("\$request['${member.name}'] = $code;");
+        buf.writeln("\$request['${member.name}'] = $code$idempotency;");
       } else {
         final code = _encodeQueryCode(member.shapeClass, 'arg',
             member: member, maybeNull: false);

@@ -103,7 +103,7 @@ class CodeGuruReviewer {
     );
     final $payload = <String, dynamic>{
       'Repository': repository,
-      if (clientRequestToken != null) 'ClientRequestToken': clientRequestToken,
+      'ClientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
     };
     final response = await _protocol.send(
       payload: $payload,

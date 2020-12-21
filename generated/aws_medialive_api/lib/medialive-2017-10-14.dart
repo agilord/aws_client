@@ -143,7 +143,7 @@ class MediaLive {
       if (inputSpecification != null) 'inputSpecification': inputSpecification,
       if (logLevel != null) 'logLevel': logLevel.toValue(),
       if (name != null) 'name': name,
-      if (requestId != null) 'requestId': requestId,
+      'requestId': requestId ?? _s.generateIdempotencyToken(),
       if (reserved != null) 'reserved': reserved,
       if (roleArn != null) 'roleArn': roleArn,
       if (tags != null) 'tags': tags,
@@ -216,7 +216,7 @@ class MediaLive {
         'inputSecurityGroups': inputSecurityGroups,
       if (mediaConnectFlows != null) 'mediaConnectFlows': mediaConnectFlows,
       if (name != null) 'name': name,
-      if (requestId != null) 'requestId': requestId,
+      'requestId': requestId ?? _s.generateIdempotencyToken(),
       if (roleArn != null) 'roleArn': roleArn,
       if (sources != null) 'sources': sources,
       if (tags != null) 'tags': tags,
@@ -305,7 +305,7 @@ class MediaLive {
       'availabilityZones': availabilityZones,
       'multiplexSettings': multiplexSettings,
       'name': name,
-      'requestId': requestId,
+      'requestId': requestId ?? _s.generateIdempotencyToken(),
       if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
@@ -354,7 +354,7 @@ class MediaLive {
     final $payload = <String, dynamic>{
       'multiplexProgramSettings': multiplexProgramSettings,
       'programName': programName,
-      'requestId': requestId,
+      'requestId': requestId ?? _s.generateIdempotencyToken(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1227,7 +1227,7 @@ class MediaLive {
     final $payload = <String, dynamic>{
       'count': count,
       if (name != null) 'name': name,
-      if (requestId != null) 'requestId': requestId,
+      'requestId': requestId ?? _s.generateIdempotencyToken(),
       if (start != null) 'start': start,
       if (tags != null) 'tags': tags,
     };
