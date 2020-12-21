@@ -233,8 +233,8 @@ class Athena {
         'Database': database,
         'Name': name,
         'QueryString': queryString,
-        if (clientRequestToken != null)
-          'ClientRequestToken': clientRequestToken,
+        'ClientRequestToken':
+            clientRequestToken ?? _s.generateIdempotencyToken(),
         if (description != null) 'Description': description,
         if (workGroup != null) 'WorkGroup': workGroup,
       },
@@ -334,7 +334,7 @@ class Athena {
       // TODO queryParams
       headers: headers,
       payload: {
-        'NamedQueryId': namedQueryId,
+        'NamedQueryId': namedQueryId ?? _s.generateIdempotencyToken(),
       },
     );
 
@@ -864,8 +864,8 @@ class Athena {
       headers: headers,
       payload: {
         'QueryString': queryString,
-        if (clientRequestToken != null)
-          'ClientRequestToken': clientRequestToken,
+        'ClientRequestToken':
+            clientRequestToken ?? _s.generateIdempotencyToken(),
         if (queryExecutionContext != null)
           'QueryExecutionContext': queryExecutionContext,
         if (resultConfiguration != null)
@@ -904,7 +904,7 @@ class Athena {
       // TODO queryParams
       headers: headers,
       payload: {
-        'QueryExecutionId': queryExecutionId,
+        'QueryExecutionId': queryExecutionId ?? _s.generateIdempotencyToken(),
       },
     );
 

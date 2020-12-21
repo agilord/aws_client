@@ -208,7 +208,7 @@ class MediaConvert {
         'accelerationSettings': accelerationSettings,
       if (billingTagsSource != null)
         'billingTagsSource': billingTagsSource.toValue(),
-      if (clientRequestToken != null) 'clientRequestToken': clientRequestToken,
+      'clientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
       if (hopDestinations != null) 'hopDestinations': hopDestinations,
       if (jobTemplate != null) 'jobTemplate': jobTemplate,
       if (priority != null) 'priority': priority,

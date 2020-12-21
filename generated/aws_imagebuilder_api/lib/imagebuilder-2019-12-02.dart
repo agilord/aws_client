@@ -84,7 +84,7 @@ class Imagebuilder {
       isRequired: true,
     );
     final $payload = <String, dynamic>{
-      'clientToken': clientToken,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       'imageBuildVersionArn': imageBuildVersionArn,
     };
     final response = await _protocol.send(
@@ -208,7 +208,7 @@ class Imagebuilder {
       1024,
     );
     final $payload = <String, dynamic>{
-      'clientToken': clientToken,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       'name': name,
       'platform': platform?.toValue() ?? '',
       'semanticVersion': semanticVersion,
@@ -287,7 +287,7 @@ class Imagebuilder {
       1024,
     );
     final $payload = <String, dynamic>{
-      'clientToken': clientToken,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       'distributions': distributions,
       'name': name,
       if (description != null) 'description': description,
@@ -379,7 +379,7 @@ class Imagebuilder {
       r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):distribution-configuration/[a-z0-9-_]+$''',
     );
     final $payload = <String, dynamic>{
-      'clientToken': clientToken,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       'imageRecipeArn': imageRecipeArn,
       'infrastructureConfigurationArn': infrastructureConfigurationArn,
       if (distributionConfigurationArn != null)
@@ -505,7 +505,7 @@ class Imagebuilder {
       r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):distribution-configuration/[a-z0-9-_]+$''',
     );
     final $payload = <String, dynamic>{
-      'clientToken': clientToken,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       'imageRecipeArn': imageRecipeArn,
       'infrastructureConfigurationArn': infrastructureConfigurationArn,
       'name': name,
@@ -623,7 +623,7 @@ class Imagebuilder {
       1024,
     );
     final $payload = <String, dynamic>{
-      'clientToken': clientToken,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       'components': components,
       'name': name,
       'parentImage': parentImage,
@@ -762,7 +762,7 @@ class Imagebuilder {
       1024,
     );
     final $payload = <String, dynamic>{
-      'clientToken': clientToken,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       'instanceProfileName': instanceProfileName,
       'name': name,
       if (description != null) 'description': description,
@@ -1450,7 +1450,7 @@ class Imagebuilder {
       1024,
     );
     final $payload = <String, dynamic>{
-      'clientToken': clientToken,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       'format': format?.toValue() ?? '',
       'name': name,
       'platform': platform?.toValue() ?? '',
@@ -2220,7 +2220,7 @@ class Imagebuilder {
       isRequired: true,
     );
     final $payload = <String, dynamic>{
-      'clientToken': clientToken,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       'imagePipelineArn': imagePipelineArn,
     };
     final response = await _protocol.send(
@@ -2359,7 +2359,7 @@ class Imagebuilder {
       1024,
     );
     final $payload = <String, dynamic>{
-      'clientToken': clientToken,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       'distributionConfigurationArn': distributionConfigurationArn,
       'distributions': distributions,
       if (description != null) 'description': description,
@@ -2475,7 +2475,7 @@ class Imagebuilder {
       r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):distribution-configuration/[a-z0-9-_]+$''',
     );
     final $payload = <String, dynamic>{
-      'clientToken': clientToken,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       'imagePipelineArn': imagePipelineArn,
       'imageRecipeArn': imageRecipeArn,
       'infrastructureConfigurationArn': infrastructureConfigurationArn,
@@ -2614,7 +2614,7 @@ class Imagebuilder {
       1024,
     );
     final $payload = <String, dynamic>{
-      'clientToken': clientToken,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       'infrastructureConfigurationArn': infrastructureConfigurationArn,
       'instanceProfileName': instanceProfileName,
       if (description != null) 'description': description,

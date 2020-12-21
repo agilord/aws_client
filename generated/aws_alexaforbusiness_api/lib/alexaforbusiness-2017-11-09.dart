@@ -423,8 +423,8 @@ class AlexaForBusiness {
       headers: headers,
       payload: {
         'Name': name,
-        if (clientRequestToken != null)
-          'ClientRequestToken': clientRequestToken,
+        'ClientRequestToken':
+            clientRequestToken ?? _s.generateIdempotencyToken(),
         if (description != null) 'Description': description,
       },
     );
@@ -523,8 +523,8 @@ class AlexaForBusiness {
       payload: {
         'ContentRange': contentRange,
         'Format': format?.toValue() ?? '',
-        if (clientRequestToken != null)
-          'ClientRequestToken': clientRequestToken,
+        'ClientRequestToken':
+            clientRequestToken ?? _s.generateIdempotencyToken(),
         if (recurrence != null) 'Recurrence': recurrence,
         if (s3BucketName != null) 'S3BucketName': s3BucketName,
         if (s3KeyPrefix != null) 'S3KeyPrefix': s3KeyPrefix,
@@ -607,8 +607,8 @@ class AlexaForBusiness {
         'ConferenceProviderName': conferenceProviderName,
         'ConferenceProviderType': conferenceProviderType?.toValue() ?? '',
         'MeetingSetting': meetingSetting,
-        if (clientRequestToken != null)
-          'ClientRequestToken': clientRequestToken,
+        'ClientRequestToken':
+            clientRequestToken ?? _s.generateIdempotencyToken(),
         if (iPDialIn != null) 'IPDialIn': iPDialIn,
         if (pSTNDialIn != null) 'PSTNDialIn': pSTNDialIn,
       },
@@ -727,8 +727,8 @@ class AlexaForBusiness {
       headers: headers,
       payload: {
         'FirstName': firstName,
-        if (clientRequestToken != null)
-          'ClientRequestToken': clientRequestToken,
+        'ClientRequestToken':
+            clientRequestToken ?? _s.generateIdempotencyToken(),
         if (displayName != null) 'DisplayName': displayName,
         if (lastName != null) 'LastName': lastName,
         if (phoneNumber != null) 'PhoneNumber': phoneNumber,
@@ -804,7 +804,8 @@ class AlexaForBusiness {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ClientRequestToken': clientRequestToken,
+        'ClientRequestToken':
+            clientRequestToken ?? _s.generateIdempotencyToken(),
         'Name': name,
         if (description != null) 'Description': description,
       },
@@ -959,7 +960,8 @@ class AlexaForBusiness {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ClientRequestToken': clientRequestToken,
+        'ClientRequestToken':
+            clientRequestToken ?? _s.generateIdempotencyToken(),
         'NetworkProfileName': networkProfileName,
         'SecurityType': securityType?.toValue() ?? '',
         'Ssid': ssid,
@@ -1099,8 +1101,8 @@ class AlexaForBusiness {
         'TemperatureUnit': temperatureUnit?.toValue() ?? '',
         'Timezone': timezone,
         'WakeWord': wakeWord?.toValue() ?? '',
-        if (clientRequestToken != null)
-          'ClientRequestToken': clientRequestToken,
+        'ClientRequestToken':
+            clientRequestToken ?? _s.generateIdempotencyToken(),
         if (locale != null) 'Locale': locale,
         if (maxVolumeLimit != null) 'MaxVolumeLimit': maxVolumeLimit,
         if (meetingRoomConfiguration != null)
@@ -1203,8 +1205,8 @@ class AlexaForBusiness {
       headers: headers,
       payload: {
         'RoomName': roomName,
-        if (clientRequestToken != null)
-          'ClientRequestToken': clientRequestToken,
+        'ClientRequestToken':
+            clientRequestToken ?? _s.generateIdempotencyToken(),
         if (description != null) 'Description': description,
         if (profileArn != null) 'ProfileArn': profileArn,
         if (providerCalendarId != null)
@@ -1284,8 +1286,8 @@ class AlexaForBusiness {
       headers: headers,
       payload: {
         'SkillGroupName': skillGroupName,
-        if (clientRequestToken != null)
-          'ClientRequestToken': clientRequestToken,
+        'ClientRequestToken':
+            clientRequestToken ?? _s.generateIdempotencyToken(),
         if (description != null) 'Description': description,
       },
     );
@@ -1395,8 +1397,8 @@ class AlexaForBusiness {
       headers: headers,
       payload: {
         'UserId': userId,
-        if (clientRequestToken != null)
-          'ClientRequestToken': clientRequestToken,
+        'ClientRequestToken':
+            clientRequestToken ?? _s.generateIdempotencyToken(),
         if (email != null) 'Email': email,
         if (firstName != null) 'FirstName': firstName,
         if (lastName != null) 'LastName': lastName,
@@ -4128,7 +4130,8 @@ class AlexaForBusiness {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ClientRequestToken': clientRequestToken,
+        'ClientRequestToken':
+            clientRequestToken ?? _s.generateIdempotencyToken(),
         'Content': content,
         'RoomFilters': roomFilters,
         if (timeToLiveInSeconds != null)

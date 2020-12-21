@@ -773,7 +773,7 @@ class ServiceCatalog {
       // TODO queryParams
       headers: headers,
       payload: {
-        'IdempotencyToken': idempotencyToken,
+        'IdempotencyToken': idempotencyToken ?? _s.generateIdempotencyToken(),
         'SourceProductArn': sourceProductArn,
         if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
         if (copyOptions != null)
@@ -993,7 +993,7 @@ class ServiceCatalog {
       // TODO queryParams
       headers: headers,
       payload: {
-        'IdempotencyToken': idempotencyToken,
+        'IdempotencyToken': idempotencyToken ?? _s.generateIdempotencyToken(),
         'Parameters': parameters,
         'PortfolioId': portfolioId,
         'ProductId': productId,
@@ -1105,7 +1105,7 @@ class ServiceCatalog {
       headers: headers,
       payload: {
         'DisplayName': displayName,
-        'IdempotencyToken': idempotencyToken,
+        'IdempotencyToken': idempotencyToken ?? _s.generateIdempotencyToken(),
         'ProviderName': providerName,
         if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
         if (description != null) 'Description': description,
@@ -1356,7 +1356,7 @@ class ServiceCatalog {
       // TODO queryParams
       headers: headers,
       payload: {
-        'IdempotencyToken': idempotencyToken,
+        'IdempotencyToken': idempotencyToken ?? _s.generateIdempotencyToken(),
         'Name': name,
         'Owner': owner,
         'ProductType': productType?.toValue() ?? '',
@@ -1549,7 +1549,7 @@ class ServiceCatalog {
       // TODO queryParams
       headers: headers,
       payload: {
-        'IdempotencyToken': idempotencyToken,
+        'IdempotencyToken': idempotencyToken ?? _s.generateIdempotencyToken(),
         'PlanName': planName,
         'PlanType': planType?.toValue() ?? '',
         'ProductId': productId,
@@ -1654,7 +1654,7 @@ class ServiceCatalog {
       // TODO queryParams
       headers: headers,
       payload: {
-        'IdempotencyToken': idempotencyToken,
+        'IdempotencyToken': idempotencyToken ?? _s.generateIdempotencyToken(),
         'Parameters': parameters,
         'ProductId': productId,
         if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
@@ -1783,7 +1783,7 @@ class ServiceCatalog {
       payload: {
         'Definition': definition?.map((k, e) => MapEntry(k.toValue(), e)),
         'DefinitionType': definitionType?.toValue() ?? '',
-        'IdempotencyToken': idempotencyToken,
+        'IdempotencyToken': idempotencyToken ?? _s.generateIdempotencyToken(),
         'Name': name,
         if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
         if (description != null) 'Description': description,
@@ -4007,7 +4007,7 @@ class ServiceCatalog {
       // TODO queryParams
       headers: headers,
       payload: {
-        'IdempotencyToken': idempotencyToken,
+        'IdempotencyToken': idempotencyToken ?? _s.generateIdempotencyToken(),
         'PlanId': planId,
         if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
       },
@@ -4122,7 +4122,7 @@ class ServiceCatalog {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ExecuteToken': executeToken,
+        'ExecuteToken': executeToken ?? _s.generateIdempotencyToken(),
         'ProvisionedProductId': provisionedProductId,
         'ServiceActionId': serviceActionId,
         if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
@@ -5970,7 +5970,7 @@ class ServiceCatalog {
       headers: headers,
       payload: {
         'ProductId': productId,
-        'ProvisionToken': provisionToken,
+        'ProvisionToken': provisionToken ?? _s.generateIdempotencyToken(),
         'ProvisionedProductName': provisionedProductName,
         'ProvisioningArtifactId': provisioningArtifactId,
         if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
@@ -6567,7 +6567,7 @@ class ServiceCatalog {
       // TODO queryParams
       headers: headers,
       payload: {
-        'TerminateToken': terminateToken,
+        'TerminateToken': terminateToken ?? _s.generateIdempotencyToken(),
         if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
         if (ignoreErrors != null) 'IgnoreErrors': ignoreErrors,
         if (provisionedProductId != null)
@@ -7147,7 +7147,7 @@ class ServiceCatalog {
       // TODO queryParams
       headers: headers,
       payload: {
-        'UpdateToken': updateToken,
+        'UpdateToken': updateToken ?? _s.generateIdempotencyToken(),
         if (acceptLanguage != null) 'AcceptLanguage': acceptLanguage,
         if (pathId != null) 'PathId': pathId,
         if (productId != null) 'ProductId': productId,
@@ -7273,7 +7273,7 @@ class ServiceCatalog {
       // TODO queryParams
       headers: headers,
       payload: {
-        'IdempotencyToken': idempotencyToken,
+        'IdempotencyToken': idempotencyToken ?? _s.generateIdempotencyToken(),
         'ProvisionedProductId': provisionedProductId,
         'ProvisionedProductProperties': provisionedProductProperties
             ?.map((k, e) => MapEntry(k.toValue(), e)),

@@ -220,7 +220,7 @@ class CodeStarNotifications {
       'Name': name,
       'Resource': resource,
       'Targets': targets,
-      if (clientRequestToken != null) 'ClientRequestToken': clientRequestToken,
+      'ClientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
       if (status != null) 'Status': status.toValue(),
       if (tags != null) 'Tags': tags,
     };

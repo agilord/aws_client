@@ -54,7 +54,7 @@ class IdempotencyTokenAutoFill {
       // TODO queryParams
       headers: headers,
       payload: {
-        if (token != null) 'Token': token,
+        'Token': token ?? _s.generateIdempotencyToken(),
       },
     );
   }
@@ -73,7 +73,7 @@ class IdempotencyTokenAutoFill {
       // TODO queryParams
       headers: headers,
       payload: {
-        if (token != null) 'Token': token,
+        'Token': token ?? _s.generateIdempotencyToken(),
       },
     );
   }

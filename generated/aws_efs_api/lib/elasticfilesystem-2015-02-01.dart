@@ -108,7 +108,7 @@ class EFS {
     );
     ArgumentError.checkNotNull(fileSystemId, 'fileSystemId');
     final $payload = <String, dynamic>{
-      'ClientToken': clientToken,
+      'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
       'FileSystemId': fileSystemId,
       if (posixUser != null) 'PosixUser': posixUser,
       if (rootDirectory != null) 'RootDirectory': rootDirectory,
@@ -295,7 +295,7 @@ class EFS {
       1152921504606846976,
     );
     final $payload = <String, dynamic>{
-      'CreationToken': creationToken,
+      'CreationToken': creationToken ?? _s.generateIdempotencyToken(),
       if (encrypted != null) 'Encrypted': encrypted,
       if (kmsKeyId != null) 'KmsKeyId': kmsKeyId,
       if (performanceMode != null) 'PerformanceMode': performanceMode.toValue(),

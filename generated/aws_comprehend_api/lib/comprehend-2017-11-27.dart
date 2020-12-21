@@ -469,8 +469,8 @@ class Comprehend {
         'DocumentClassifierName': documentClassifierName,
         'InputDataConfig': inputDataConfig,
         'LanguageCode': languageCode?.toValue() ?? '',
-        if (clientRequestToken != null)
-          'ClientRequestToken': clientRequestToken,
+        'ClientRequestToken':
+            clientRequestToken ?? _s.generateIdempotencyToken(),
         if (mode != null) 'Mode': mode.toValue(),
         if (outputDataConfig != null) 'OutputDataConfig': outputDataConfig,
         if (tags != null) 'Tags': tags,
@@ -586,8 +586,8 @@ class Comprehend {
         'DesiredInferenceUnits': desiredInferenceUnits,
         'EndpointName': endpointName,
         'ModelArn': modelArn,
-        if (clientRequestToken != null)
-          'ClientRequestToken': clientRequestToken,
+        'ClientRequestToken':
+            clientRequestToken ?? _s.generateIdempotencyToken(),
         if (tags != null) 'Tags': tags,
       },
     );
@@ -731,8 +731,8 @@ class Comprehend {
         'InputDataConfig': inputDataConfig,
         'LanguageCode': languageCode?.toValue() ?? '',
         'RecognizerName': recognizerName,
-        if (clientRequestToken != null)
-          'ClientRequestToken': clientRequestToken,
+        'ClientRequestToken':
+            clientRequestToken ?? _s.generateIdempotencyToken(),
         if (tags != null) 'Tags': tags,
         if (volumeKmsKeyId != null) 'VolumeKmsKeyId': volumeKmsKeyId,
         if (vpcConfig != null) 'VpcConfig': vpcConfig,
@@ -2225,8 +2225,8 @@ class Comprehend {
         'DocumentClassifierArn': documentClassifierArn,
         'InputDataConfig': inputDataConfig,
         'OutputDataConfig': outputDataConfig,
-        if (clientRequestToken != null)
-          'ClientRequestToken': clientRequestToken,
+        'ClientRequestToken':
+            clientRequestToken ?? _s.generateIdempotencyToken(),
         if (jobName != null) 'JobName': jobName,
         if (volumeKmsKeyId != null) 'VolumeKmsKeyId': volumeKmsKeyId,
         if (vpcConfig != null) 'VpcConfig': vpcConfig,
@@ -2353,8 +2353,8 @@ class Comprehend {
         'DataAccessRoleArn': dataAccessRoleArn,
         'InputDataConfig': inputDataConfig,
         'OutputDataConfig': outputDataConfig,
-        if (clientRequestToken != null)
-          'ClientRequestToken': clientRequestToken,
+        'ClientRequestToken':
+            clientRequestToken ?? _s.generateIdempotencyToken(),
         if (jobName != null) 'JobName': jobName,
         if (volumeKmsKeyId != null) 'VolumeKmsKeyId': volumeKmsKeyId,
         if (vpcConfig != null) 'VpcConfig': vpcConfig,
@@ -2514,8 +2514,8 @@ class Comprehend {
         'InputDataConfig': inputDataConfig,
         'LanguageCode': languageCode?.toValue() ?? '',
         'OutputDataConfig': outputDataConfig,
-        if (clientRequestToken != null)
-          'ClientRequestToken': clientRequestToken,
+        'ClientRequestToken':
+            clientRequestToken ?? _s.generateIdempotencyToken(),
         if (entityRecognizerArn != null)
           'EntityRecognizerArn': entityRecognizerArn,
         if (jobName != null) 'JobName': jobName,
@@ -2651,8 +2651,8 @@ class Comprehend {
         'InputDataConfig': inputDataConfig,
         'LanguageCode': languageCode?.toValue() ?? '',
         'OutputDataConfig': outputDataConfig,
-        if (clientRequestToken != null)
-          'ClientRequestToken': clientRequestToken,
+        'ClientRequestToken':
+            clientRequestToken ?? _s.generateIdempotencyToken(),
         if (jobName != null) 'JobName': jobName,
         if (volumeKmsKeyId != null) 'VolumeKmsKeyId': volumeKmsKeyId,
         if (vpcConfig != null) 'VpcConfig': vpcConfig,
@@ -2786,8 +2786,8 @@ class Comprehend {
         'InputDataConfig': inputDataConfig,
         'LanguageCode': languageCode?.toValue() ?? '',
         'OutputDataConfig': outputDataConfig,
-        if (clientRequestToken != null)
-          'ClientRequestToken': clientRequestToken,
+        'ClientRequestToken':
+            clientRequestToken ?? _s.generateIdempotencyToken(),
         if (jobName != null) 'JobName': jobName,
         if (volumeKmsKeyId != null) 'VolumeKmsKeyId': volumeKmsKeyId,
         if (vpcConfig != null) 'VpcConfig': vpcConfig,
@@ -2927,8 +2927,8 @@ class Comprehend {
         'DataAccessRoleArn': dataAccessRoleArn,
         'InputDataConfig': inputDataConfig,
         'OutputDataConfig': outputDataConfig,
-        if (clientRequestToken != null)
-          'ClientRequestToken': clientRequestToken,
+        'ClientRequestToken':
+            clientRequestToken ?? _s.generateIdempotencyToken(),
         if (jobName != null) 'JobName': jobName,
         if (numberOfTopics != null) 'NumberOfTopics': numberOfTopics,
         if (volumeKmsKeyId != null) 'VolumeKmsKeyId': volumeKmsKeyId,

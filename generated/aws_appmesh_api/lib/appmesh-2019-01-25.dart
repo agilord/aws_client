@@ -126,7 +126,7 @@ class AppMesh {
     );
     final $payload = <String, dynamic>{
       'meshName': meshName,
-      if (clientToken != null) 'clientToken': clientToken,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (spec != null) 'spec': spec,
       if (tags != null) 'tags': tags,
     };
@@ -253,7 +253,7 @@ class AppMesh {
     final $payload = <String, dynamic>{
       'routeName': routeName,
       'spec': spec,
-      if (clientToken != null) 'clientToken': clientToken,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (tags != null) 'tags': tags,
     };
     final response = await _protocol.sendRaw(
@@ -391,7 +391,7 @@ class AppMesh {
     final $payload = <String, dynamic>{
       'spec': spec,
       'virtualNodeName': virtualNodeName,
-      if (clientToken != null) 'clientToken': clientToken,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (tags != null) 'tags': tags,
     };
     final response = await _protocol.sendRaw(
@@ -505,7 +505,7 @@ class AppMesh {
     final $payload = <String, dynamic>{
       'spec': spec,
       'virtualRouterName': virtualRouterName,
-      if (clientToken != null) 'clientToken': clientToken,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (tags != null) 'tags': tags,
     };
     final response = await _protocol.sendRaw(
@@ -610,7 +610,7 @@ class AppMesh {
     final $payload = <String, dynamic>{
       'spec': spec,
       'virtualServiceName': virtualServiceName,
-      if (clientToken != null) 'clientToken': clientToken,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (tags != null) 'tags': tags,
     };
     final response = await _protocol.sendRaw(
@@ -1859,7 +1859,7 @@ class AppMesh {
       isRequired: true,
     );
     final $payload = <String, dynamic>{
-      if (clientToken != null) 'clientToken': clientToken,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (spec != null) 'spec': spec,
     };
     final response = await _protocol.sendRaw(
@@ -1953,7 +1953,7 @@ class AppMesh {
     };
     final $payload = <String, dynamic>{
       'spec': spec,
-      if (clientToken != null) 'clientToken': clientToken,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
     };
     final response = await _protocol.sendRaw(
       payload: $payload,
@@ -2037,7 +2037,7 @@ class AppMesh {
     };
     final $payload = <String, dynamic>{
       'spec': spec,
-      if (clientToken != null) 'clientToken': clientToken,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
     };
     final response = await _protocol.sendRaw(
       payload: $payload,
@@ -2121,7 +2121,7 @@ class AppMesh {
     };
     final $payload = <String, dynamic>{
       'spec': spec,
-      if (clientToken != null) 'clientToken': clientToken,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
     };
     final response = await _protocol.sendRaw(
       payload: $payload,
@@ -2199,7 +2199,7 @@ class AppMesh {
     };
     final $payload = <String, dynamic>{
       'spec': spec,
-      if (clientToken != null) 'clientToken': clientToken,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
     };
     final response = await _protocol.sendRaw(
       payload: $payload,

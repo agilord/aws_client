@@ -258,7 +258,7 @@ class RoboMaker {
       isRequired: true,
     );
     final $payload = <String, dynamic>{
-      'clientRequestToken': clientRequestToken,
+      'clientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
       'deploymentApplicationConfigs': deploymentApplicationConfigs,
       'fleet': fleet,
       if (deploymentConfig != null) 'deploymentConfig': deploymentConfig,
@@ -745,7 +745,7 @@ class RoboMaker {
     final $payload = <String, dynamic>{
       'iamRole': iamRole,
       'maxJobDurationInSeconds': maxJobDurationInSeconds,
-      if (clientRequestToken != null) 'clientRequestToken': clientRequestToken,
+      'clientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
       if (compute != null) 'compute': compute,
       if (dataSources != null) 'dataSources': dataSources,
       if (failureBehavior != null) 'failureBehavior': failureBehavior.toValue(),
@@ -1941,7 +1941,7 @@ class RoboMaker {
     final $payload = <String, dynamic>{
       'createSimulationJobRequests': createSimulationJobRequests,
       if (batchPolicy != null) 'batchPolicy': batchPolicy,
-      if (clientRequestToken != null) 'clientRequestToken': clientRequestToken,
+      'clientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
       if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
@@ -2003,7 +2003,7 @@ class RoboMaker {
       isRequired: true,
     );
     final $payload = <String, dynamic>{
-      'clientRequestToken': clientRequestToken,
+      'clientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
       'fleet': fleet,
     };
     final response = await _protocol.send(

@@ -44,7 +44,7 @@ class IdempotencyTokenAutoFill {
     String token,
   }) async {
     final $payload = <String, dynamic>{
-      if (token != null) 'Token': token,
+      'Token': token ?? _s.generateIdempotencyToken(),
     };
     await _protocol.send(
       payload: $payload,
@@ -58,7 +58,7 @@ class IdempotencyTokenAutoFill {
     String token,
   }) async {
     final $payload = <String, dynamic>{
-      if (token != null) 'Token': token,
+      'Token': token ?? _s.generateIdempotencyToken(),
     };
     await _protocol.send(
       payload: $payload,

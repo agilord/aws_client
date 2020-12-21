@@ -106,7 +106,7 @@ class AccessAnalyzer {
       'analyzerName': analyzerName,
       'type': type?.toValue() ?? '',
       if (archiveRules != null) 'archiveRules': archiveRules,
-      if (clientToken != null) 'clientToken': clientToken,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
@@ -179,7 +179,7 @@ class AccessAnalyzer {
     final $payload = <String, dynamic>{
       'filter': filter,
       'ruleName': ruleName,
-      if (clientToken != null) 'clientToken': clientToken,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
     };
     await _protocol.send(
       payload: $payload,
@@ -842,7 +842,7 @@ class AccessAnalyzer {
     );
     final $payload = <String, dynamic>{
       'filter': filter,
-      if (clientToken != null) 'clientToken': clientToken,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
     };
     await _protocol.send(
       payload: $payload,
@@ -901,7 +901,7 @@ class AccessAnalyzer {
     final $payload = <String, dynamic>{
       'analyzerArn': analyzerArn,
       'status': status?.toValue() ?? '',
-      if (clientToken != null) 'clientToken': clientToken,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (ids != null) 'ids': ids,
       if (resourceArn != null) 'resourceArn': resourceArn,
     };

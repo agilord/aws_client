@@ -4,11 +4,14 @@ import 'dart:convert';
 import 'dart:typed_data';
 import 'package:http/http.dart';
 import 'package:http/testing.dart';
+import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:test/test.dart';
 import '../../../utils.dart';
 import 'named_locations_in_json_body.dart';
 
 void main() {
+  _s.idempotencyGeneratorOverride =
+      () => '00000000-0000-4000-8000-000000000000';
   test('Named locations in JSON body 0', () async {
     final client = MockClient((request) async {
       expect(
@@ -18,9 +21,13 @@ void main() {
     });
 
     final service = NamedLocationsInJSONBody(
-        client: client,
-        region: 'us-east-1',
-        credentials: AwsClientCredentials(accessKey: '', secretKey: ''));
+      client: client,
+      region: 'us-east-1',
+      credentials: AwsClientCredentials(
+        accessKey: '',
+        secretKey: '',
+      ),
+    );
 
     await service.operationName0(
       timeArg: DateTime.fromMillisecondsSinceEpoch(1422172800 * 1000),

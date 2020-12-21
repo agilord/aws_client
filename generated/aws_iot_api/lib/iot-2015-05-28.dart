@@ -1143,7 +1143,7 @@ class IoT {
     ArgumentError.checkNotNull(stringValues, 'stringValues');
     ArgumentError.checkNotNull(type, 'type');
     final $payload = <String, dynamic>{
-      'clientRequestToken': clientRequestToken,
+      'clientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
       'stringValues': stringValues,
       'type': type?.toValue() ?? '',
       if (tags != null) 'tags': tags,
@@ -9017,7 +9017,7 @@ class IoT {
     );
     final $payload = <String, dynamic>{
       'auditCheckToActionsMapping': auditCheckToActionsMapping,
-      'clientRequestToken': clientRequestToken,
+      'clientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
       'target': target,
     };
     final response = await _protocol.send(

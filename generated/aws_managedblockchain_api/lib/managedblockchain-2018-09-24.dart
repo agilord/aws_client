@@ -108,7 +108,7 @@ class ManagedBlockchain {
       isRequired: true,
     );
     final $payload = <String, dynamic>{
-      'ClientRequestToken': clientRequestToken,
+      'ClientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
       'InvitationId': invitationId,
       'MemberConfiguration': memberConfiguration,
     };
@@ -209,7 +209,7 @@ class ManagedBlockchain {
       128,
     );
     final $payload = <String, dynamic>{
-      'ClientRequestToken': clientRequestToken,
+      'ClientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
       'Framework': framework?.toValue() ?? '',
       'FrameworkVersion': frameworkVersion,
       'MemberConfiguration': memberConfiguration,
@@ -286,7 +286,7 @@ class ManagedBlockchain {
     );
     ArgumentError.checkNotNull(nodeConfiguration, 'nodeConfiguration');
     final $payload = <String, dynamic>{
-      'ClientRequestToken': clientRequestToken,
+      'ClientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
       'NodeConfiguration': nodeConfiguration,
     };
     final response = await _protocol.send(
@@ -374,7 +374,7 @@ class ManagedBlockchain {
     );
     final $payload = <String, dynamic>{
       'Actions': actions,
-      'ClientRequestToken': clientRequestToken,
+      'ClientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
       'MemberId': memberId,
       if (description != null) 'Description': description,
     };

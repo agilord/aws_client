@@ -513,7 +513,7 @@ class Translate {
       // TODO queryParams
       headers: headers,
       payload: {
-        'ClientToken': clientToken,
+        'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
         'DataAccessRoleArn': dataAccessRoleArn,
         'InputDataConfig': inputDataConfig,
         'OutputDataConfig': outputDataConfig,

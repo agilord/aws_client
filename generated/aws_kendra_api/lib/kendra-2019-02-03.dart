@@ -539,7 +539,7 @@ class Kendra {
       payload: {
         'Name': name,
         'RoleArn': roleArn,
-        if (clientToken != null) 'ClientToken': clientToken,
+        'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
         if (description != null) 'Description': description,
         if (serverSideEncryptionConfiguration != null)
           'ServerSideEncryptionConfiguration':

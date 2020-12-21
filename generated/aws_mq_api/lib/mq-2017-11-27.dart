@@ -147,7 +147,7 @@ class MQ {
         'autoMinorVersionUpgrade': autoMinorVersionUpgrade,
       if (brokerName != null) 'brokerName': brokerName,
       if (configuration != null) 'configuration': configuration,
-      if (creatorRequestId != null) 'creatorRequestId': creatorRequestId,
+      'creatorRequestId': creatorRequestId ?? _s.generateIdempotencyToken(),
       if (deploymentMode != null) 'deploymentMode': deploymentMode.toValue(),
       if (encryptionOptions != null) 'encryptionOptions': encryptionOptions,
       if (engineType != null) 'engineType': engineType.toValue(),

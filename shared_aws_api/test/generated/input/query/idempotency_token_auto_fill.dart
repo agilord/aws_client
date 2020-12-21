@@ -47,7 +47,7 @@ class IdempotencyTokenAutoFill {
     String token,
   }) async {
     final $request = <String, dynamic>{};
-    token?.also((arg) => $request['Token'] = arg);
+    $request['Token'] = token ?? _s.generateIdempotencyToken();
     await _protocol.send(
       $request,
       action: 'OperationName',
@@ -64,7 +64,7 @@ class IdempotencyTokenAutoFill {
     String token,
   }) async {
     final $request = <String, dynamic>{};
-    token?.also((arg) => $request['Token'] = arg);
+    $request['Token'] = token ?? _s.generateIdempotencyToken();
     await _protocol.send(
       $request,
       action: 'OperationName',

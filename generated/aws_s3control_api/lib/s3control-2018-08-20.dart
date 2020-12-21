@@ -202,6 +202,7 @@ class S3Control {
       1,
       256,
     );
+    clientRequestToken ??= _s.generateIdempotencyToken();
     final headers = <String, String>{};
     accountId?.let((v) => headers['x-amz-account-id'] = v.toString());
     final $result = await _protocol.send(

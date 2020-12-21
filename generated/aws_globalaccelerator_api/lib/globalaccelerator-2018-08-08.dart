@@ -196,7 +196,7 @@ class GlobalAccelerator {
       // TODO queryParams
       headers: headers,
       payload: {
-        'IdempotencyToken': idempotencyToken,
+        'IdempotencyToken': idempotencyToken ?? _s.generateIdempotencyToken(),
         'Name': name,
         if (enabled != null) 'Enabled': enabled,
         if (ipAddressType != null) 'IpAddressType': ipAddressType.toValue(),
@@ -344,7 +344,7 @@ class GlobalAccelerator {
       headers: headers,
       payload: {
         'EndpointGroupRegion': endpointGroupRegion,
-        'IdempotencyToken': idempotencyToken,
+        'IdempotencyToken': idempotencyToken ?? _s.generateIdempotencyToken(),
         'ListenerArn': listenerArn,
         if (endpointConfigurations != null)
           'EndpointConfigurations': endpointConfigurations,
@@ -447,7 +447,7 @@ class GlobalAccelerator {
       headers: headers,
       payload: {
         'AcceleratorArn': acceleratorArn,
-        'IdempotencyToken': idempotencyToken,
+        'IdempotencyToken': idempotencyToken ?? _s.generateIdempotencyToken(),
         'PortRanges': portRanges,
         'Protocol': protocol?.toValue() ?? '',
         if (clientAffinity != null) 'ClientAffinity': clientAffinity.toValue(),

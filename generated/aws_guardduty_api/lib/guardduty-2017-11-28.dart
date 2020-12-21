@@ -177,7 +177,7 @@ class GuardDuty {
     );
     final $payload = <String, dynamic>{
       'enable': enable,
-      if (clientToken != null) 'clientToken': clientToken,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (findingPublishingFrequency != null)
         'findingPublishingFrequency': findingPublishingFrequency.toValue(),
       if (tags != null) 'tags': tags,
@@ -271,7 +271,7 @@ class GuardDuty {
       'findingCriteria': findingCriteria,
       'name': name,
       if (action != null) 'action': action.toValue(),
-      if (clientToken != null) 'clientToken': clientToken,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (description != null) 'description': description,
       if (rank != null) 'rank': rank,
       if (tags != null) 'tags': tags,
@@ -365,7 +365,7 @@ class GuardDuty {
       'format': format?.toValue() ?? '',
       'location': location,
       'name': name,
-      if (clientToken != null) 'clientToken': clientToken,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
@@ -461,7 +461,7 @@ class GuardDuty {
     final $payload = <String, dynamic>{
       'destinationProperties': destinationProperties,
       'destinationType': destinationType?.toValue() ?? '',
-      if (clientToken != null) 'clientToken': clientToken,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -588,7 +588,7 @@ class GuardDuty {
       'format': format?.toValue() ?? '',
       'location': location,
       'name': name,
-      if (clientToken != null) 'clientToken': clientToken,
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(

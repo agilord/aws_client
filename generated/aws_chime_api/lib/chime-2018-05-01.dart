@@ -820,7 +820,7 @@ class Chime {
       64,
     );
     final $payload = <String, dynamic>{
-      'ClientRequestToken': clientRequestToken,
+      'ClientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
       if (externalMeetingId != null) 'ExternalMeetingId': externalMeetingId,
       if (mediaRegion != null) 'MediaRegion': mediaRegion,
       if (meetingHostId != null) 'MeetingHostId': meetingHostId,
@@ -1014,7 +1014,7 @@ class Chime {
     );
     final $payload = <String, dynamic>{
       'Name': name,
-      if (clientRequestToken != null) 'ClientRequestToken': clientRequestToken,
+      'ClientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
     };
     final response = await _protocol.send(
       payload: $payload,

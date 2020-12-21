@@ -144,7 +144,7 @@ class ConnectParticipant {
     final headers = <String, String>{};
     connectionToken?.let((v) => headers['X-Amz-Bearer'] = v.toString());
     final $payload = <String, dynamic>{
-      if (clientToken != null) 'ClientToken': clientToken,
+      'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -310,7 +310,7 @@ class ConnectParticipant {
     connectionToken?.let((v) => headers['X-Amz-Bearer'] = v.toString());
     final $payload = <String, dynamic>{
       'ContentType': contentType,
-      if (clientToken != null) 'ClientToken': clientToken,
+      'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
       if (content != null) 'Content': content,
     };
     final response = await _protocol.send(
@@ -384,7 +384,7 @@ class ConnectParticipant {
     final $payload = <String, dynamic>{
       'Content': content,
       'ContentType': contentType,
-      if (clientToken != null) 'ClientToken': clientToken,
+      'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
     };
     final response = await _protocol.send(
       payload: $payload,
