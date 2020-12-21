@@ -322,13 +322,10 @@ const Map<String, Map<String, dynamic>> shapesJson = ${jsonEncode(thinApi.toJson
       }
       await pool.close();
     }
-
-    final monoPkgFile = File('mono_pkg.yaml');
     // Downloaded from: https://raw.githubusercontent.com/aws/aws-sdk-js/master/LICENSE.txt
     final licenseFile = File('aws-sdk-js-license.txt');
 
     for (final baseDir in touchedDirs) {
-      monoPkgFile.copySync('$baseDir/mono_pkg.yaml');
       licenseFile.copySync('$baseDir/LICENSE');
     }
 
