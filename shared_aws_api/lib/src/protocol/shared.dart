@@ -3,7 +3,6 @@ import 'dart:typed_data';
 
 import 'package:http/http.dart';
 import 'package:intl/intl.dart';
-import 'package:json_annotation/json_annotation.dart';
 import 'package:uuid/uuid.dart';
 import 'package:xml/xml.dart';
 
@@ -55,83 +54,6 @@ DateTime timeStampFromJson(dynamic date) {
   }
 
   throw ArgumentError.value(date, 'date', 'Unknown date type, can not convert');
-}
-
-abstract class DateTimeConverter implements JsonConverter<DateTime, dynamic> {
-  final dynamic Function(DateTime date) converter;
-
-  const DateTimeConverter(this.converter);
-
-  @override
-  DateTime fromJson(dynamic json) => timeStampFromJson(json);
-
-  @override
-  dynamic toJson(DateTime object) => converter(object);
-}
-
-class RfcDateTimeConverter extends DateTimeConverter {
-  const RfcDateTimeConverter() : super(rfc822ToJson);
-}
-
-class IsoDateTimeConverter extends DateTimeConverter {
-  const IsoDateTimeConverter() : super(iso8601ToJson);
-}
-
-class UnixDateTimeConverter extends DateTimeConverter {
-  const UnixDateTimeConverter() : super(unixTimestampToJson);
-}
-
-class Uint8ListConverter implements JsonConverter<Uint8List, String> {
-  const Uint8ListConverter();
-
-  @override
-  Uint8List fromJson(String json) {
-    if (json != null) {
-      return base64.decode(json);
-    }
-    return null;
-  }
-
-  @override
-  String toJson(Uint8List object) {
-    if (object != null) {
-      return base64.encode(object);
-    }
-    return null;
-  }
-}
-
-class Uint8ListListConverter
-    implements JsonConverter<List<Uint8List>, List<dynamic>> {
-  const Uint8ListListConverter();
-
-  @override
-  List<Uint8List> fromJson(List<dynamic> json) {
-    if (json == null) {
-      return null;
-    } else {
-      return json.map((x) {
-        if (x != null) {
-          return base64.decode(x as String);
-        }
-        return null;
-      }).toList(growable: false);
-    }
-  }
-
-  @override
-  List<String> toJson(List<Uint8List> list) {
-    if (list == null) {
-      return null;
-    } else {
-      return list.map((x) {
-        if (x != null) {
-          return base64.encode(x);
-        }
-        return null;
-      }).toList(growable: false);
-    }
-  }
 }
 
 abstract class AwsException implements Exception {}
@@ -277,6 +199,12 @@ XmlElement encodeXmlUint8ListValue(String name, Uint8List value) {
 String extractHeaderStringValue(Map<String, String> headers, String name) {
   if (headers == null) return null;
   return headers[name] ?? headers[name.toLowerCase()];
+}
+
+Object extractHeaderJsonValue(Map<String, String> headers, String name) {
+  final header = extractHeaderStringValue(headers, name);
+  if (header == null) return null;
+  return jsonDecode(utf8.decode(base64Decode(header))) as Object;
 }
 
 int extractHeaderIntValue(Map<String, String> headers, String name) {

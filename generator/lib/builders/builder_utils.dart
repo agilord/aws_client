@@ -5,7 +5,9 @@ import '../model/shape.dart';
 import '../utils/string_utils.dart';
 
 String extractJsonCode(Shape shape, String variable, {Member member}) {
-  if (shape.type == 'map') {
+  if (member?.jsonvalue == true) {
+    return '$variable == null ? null : jsonDecode($variable as String)';
+  } else if (shape.type == 'map') {
     return '($variable as Map<String, dynamic>)?.map((k, e) => MapEntry(k, ${extractJsonCode(shape.value.shapeClass, 'e')}))';
   } else if (shape.type == 'list') {
     return '($variable as List)?.map((e) => ${extractJsonCode(shape.member.shapeClass, 'e')})?.toList()';
@@ -26,7 +28,10 @@ String extractJsonCode(Shape shape, String variable, {Member member}) {
 String encodeJsonCode(Shape shape, String variable,
     {Member member, bool maybeNull}) {
   maybeNull ??= true;
-  if (shape.type == 'map') {
+
+  if (member?.jsonvalue == true) {
+    return '$variable == null ? null : jsonEncode($variable)';
+  } else if (shape.type == 'map') {
     final keyCode = encodeJsonCode(shape.key.shapeClass, 'k', maybeNull: false);
     final valueCode = encodeJsonCode(shape.value.shapeClass, 'e');
     if (keyCode != 'k' || valueCode != 'e') {
