@@ -18,7 +18,9 @@ import 'package:shared_aws_api/shared.dart'
         timeStampFromJson,
         RfcDateTimeConverter,
         IsoDateTimeConverter,
-        UnixDateTimeConverter;
+        UnixDateTimeConverter,
+        StringJsonConverter,
+        Base64JsonConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -1267,8 +1269,9 @@ class GetDocumentTextDetectionResponse {
 class HumanLoopActivationOutput {
   /// Shows the result of condition evaluations, including those conditions which
   /// activated a human review.
+  @StringJsonConverter()
   @_s.JsonKey(name: 'HumanLoopActivationConditionsEvaluationResults')
-  final String humanLoopActivationConditionsEvaluationResults;
+  final Object humanLoopActivationConditionsEvaluationResults;
 
   /// Shows if and why human review was needed.
   @_s.JsonKey(name: 'HumanLoopActivationReasons')

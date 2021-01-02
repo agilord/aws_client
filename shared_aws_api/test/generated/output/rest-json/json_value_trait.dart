@@ -18,7 +18,9 @@ import 'package:shared_aws_api/shared.dart'
         timeStampFromJson,
         RfcDateTimeConverter,
         IsoDateTimeConverter,
-        UnixDateTimeConverter;
+        UnixDateTimeConverter,
+        StringJsonConverter,
+        Base64JsonConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -51,10 +53,12 @@ class JSONValueTrait {
     );
     final $json = await _s.jsonFromResponse(response);
     return OutputShape(
-      bodyField: $json['BodyField'] as String,
+      bodyField: $json['BodyField'] == null
+          ? null
+          : jsonDecode($json['BodyField'] as String),
       bodyListField:
           ($json['BodyListField'] as List)?.map((e) => e as String)?.toList(),
-      headerField: _s.extractHeaderStringValue(response.headers, 'X-Amz-Foo'),
+      headerField: _s.extractHeaderJsonValue(response.headers, 'X-Amz-Foo'),
     );
   }
 
@@ -67,10 +71,12 @@ class JSONValueTrait {
     );
     final $json = await _s.jsonFromResponse(response);
     return OutputShape(
-      bodyField: $json['BodyField'] as String,
+      bodyField: $json['BodyField'] == null
+          ? null
+          : jsonDecode($json['BodyField'] as String),
       bodyListField:
           ($json['BodyListField'] as List)?.map((e) => e as String)?.toList(),
-      headerField: _s.extractHeaderStringValue(response.headers, 'X-Amz-Foo'),
+      headerField: _s.extractHeaderJsonValue(response.headers, 'X-Amz-Foo'),
     );
   }
 }
@@ -81,12 +87,14 @@ class JSONValueTrait {
     createFactory: true,
     createToJson: false)
 class OutputShape {
+  @StringJsonConverter()
   @_s.JsonKey(name: 'BodyField')
-  final String bodyField;
+  final Object bodyField;
   @_s.JsonKey(name: 'BodyListField')
   final List<String> bodyListField;
+  @Base64JsonConverter()
   @_s.JsonKey(name: 'X-Amz-Foo')
-  final String headerField;
+  final Object headerField;
 
   OutputShape({
     this.bodyField,

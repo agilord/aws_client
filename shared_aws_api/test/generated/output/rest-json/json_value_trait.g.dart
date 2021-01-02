@@ -8,9 +8,10 @@ part of 'json_value_trait.dart';
 
 OutputShape _$OutputShapeFromJson(Map<String, dynamic> json) {
   return OutputShape(
-    bodyField: json['BodyField'] as String,
+    bodyField: json['BodyField'],
     bodyListField:
         (json['BodyListField'] as List)?.map((e) => e as String)?.toList(),
-    headerField: json['X-Amz-Foo'] as String,
+    headerField:
+        const Base64JsonConverter().fromJson(json['X-Amz-Foo'] as String),
   );
 }

@@ -18,7 +18,9 @@ import 'package:shared_aws_api/shared.dart'
         timeStampFromJson,
         RfcDateTimeConverter,
         IsoDateTimeConverter,
-        UnixDateTimeConverter;
+        UnixDateTimeConverter,
+        StringJsonConverter,
+        Base64JsonConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -453,10 +455,10 @@ class LexRuntimeService {
     final headers = <String, String>{};
     contentType?.let((v) => headers['Content-Type'] = v.toString());
     accept?.let((v) => headers['Accept'] = v.toString());
-    requestAttributes
-        ?.let((v) => headers['x-amz-lex-request-attributes'] = v.toString());
-    sessionAttributes
-        ?.let((v) => headers['x-amz-lex-session-attributes'] = v.toString());
+    requestAttributes?.let((v) =>
+        headers['x-amz-lex-request-attributes'] = base64Encode(utf8.encode(v)));
+    sessionAttributes?.let((v) =>
+        headers['x-amz-lex-session-attributes'] = base64Encode(utf8.encode(v)));
     final response = await _protocol.sendRaw(
       payload: inputStream,
       method: 'POST',
@@ -484,13 +486,13 @@ class LexRuntimeService {
           ?.toMessageFormatType(),
       sentimentResponse:
           _s.extractHeaderStringValue(response.headers, 'x-amz-lex-sentiment'),
-      sessionAttributes: _s.extractHeaderStringValue(
+      sessionAttributes: _s.extractHeaderJsonValue(
           response.headers, 'x-amz-lex-session-attributes'),
       sessionId:
           _s.extractHeaderStringValue(response.headers, 'x-amz-lex-session-id'),
       slotToElicit: _s.extractHeaderStringValue(
           response.headers, 'x-amz-lex-slot-to-elicit'),
-      slots: _s.extractHeaderStringValue(response.headers, 'x-amz-lex-slots'),
+      slots: _s.extractHeaderJsonValue(response.headers, 'x-amz-lex-slots'),
     );
   }
 
@@ -841,13 +843,13 @@ class LexRuntimeService {
           .extractHeaderStringValue(
               response.headers, 'x-amz-lex-message-format')
           ?.toMessageFormatType(),
-      sessionAttributes: _s.extractHeaderStringValue(
+      sessionAttributes: _s.extractHeaderJsonValue(
           response.headers, 'x-amz-lex-session-attributes'),
       sessionId:
           _s.extractHeaderStringValue(response.headers, 'x-amz-lex-session-id'),
       slotToElicit: _s.extractHeaderStringValue(
           response.headers, 'x-amz-lex-slot-to-elicit'),
-      slots: _s.extractHeaderStringValue(response.headers, 'x-amz-lex-slots'),
+      slots: _s.extractHeaderJsonValue(response.headers, 'x-amz-lex-slots'),
     );
   }
 }
@@ -1456,8 +1458,9 @@ class PostContentResponse {
 
   /// Map of key/value pairs representing the session-specific context
   /// information.
+  @Base64JsonConverter()
   @_s.JsonKey(name: 'x-amz-lex-session-attributes')
-  final String sessionAttributes;
+  final Object sessionAttributes;
 
   /// The unique identifier for the session.
   @_s.JsonKey(name: 'x-amz-lex-session-id')
@@ -1482,8 +1485,9 @@ class PostContentResponse {
   /// resolution list, null. If you don't specify a
   /// <code>valueSelectionStrategy</code>, the default is
   /// <code>ORIGINAL_VALUE</code>.
+  @Base64JsonConverter()
   @_s.JsonKey(name: 'x-amz-lex-slots')
-  final String slots;
+  final Object slots;
 
   PostContentResponse({
     this.audioStream,
@@ -1749,8 +1753,9 @@ class PutSessionResponse {
   final MessageFormatType messageFormat;
 
   /// Map of key/value pairs representing session-specific context information.
+  @Base64JsonConverter()
   @_s.JsonKey(name: 'x-amz-lex-session-attributes')
-  final String sessionAttributes;
+  final Object sessionAttributes;
 
   /// A unique identifier for the session.
   @_s.JsonKey(name: 'x-amz-lex-session-id')
@@ -1775,8 +1780,9 @@ class PutSessionResponse {
   /// resolution list, null. If you don't specify a
   /// <code>valueSelectionStrategy</code> the default is
   /// <code>ORIGINAL_VALUE</code>.
+  @Base64JsonConverter()
   @_s.JsonKey(name: 'x-amz-lex-slots')
-  final String slots;
+  final Object slots;
 
   PutSessionResponse({
     this.audioStream,

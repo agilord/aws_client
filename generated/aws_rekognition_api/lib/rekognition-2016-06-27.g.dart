@@ -804,7 +804,7 @@ HumanLoopActivationOutput _$HumanLoopActivationOutputFromJson(
     Map<String, dynamic> json) {
   return HumanLoopActivationOutput(
     humanLoopActivationConditionsEvaluationResults:
-        json['HumanLoopActivationConditionsEvaluationResults'] as String,
+        json['HumanLoopActivationConditionsEvaluationResults'],
     humanLoopActivationReasons: (json['HumanLoopActivationReasons'] as List)
         ?.map((e) => e as String)
         ?.toList(),
