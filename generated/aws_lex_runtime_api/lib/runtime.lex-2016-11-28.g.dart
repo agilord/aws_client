@@ -201,10 +201,12 @@ PostContentResponse _$PostContentResponseFromJson(Map<String, dynamic> json) {
     messageFormat: _$enumDecodeNullable(
         _$MessageFormatTypeEnumMap, json['x-amz-lex-message-format']),
     sentimentResponse: json['x-amz-lex-sentiment'] as String,
-    sessionAttributes: json['x-amz-lex-session-attributes'] as String,
+    sessionAttributes: const Base64JsonConverter()
+        .fromJson(json['x-amz-lex-session-attributes'] as String),
     sessionId: json['x-amz-lex-session-id'] as String,
     slotToElicit: json['x-amz-lex-slot-to-elicit'] as String,
-    slots: json['x-amz-lex-slots'] as String,
+    slots:
+        const Base64JsonConverter().fromJson(json['x-amz-lex-slots'] as String),
   );
 }
 
@@ -254,10 +256,12 @@ PutSessionResponse _$PutSessionResponseFromJson(Map<String, dynamic> json) {
     message: json['x-amz-lex-message'] as String,
     messageFormat: _$enumDecodeNullable(
         _$MessageFormatTypeEnumMap, json['x-amz-lex-message-format']),
-    sessionAttributes: json['x-amz-lex-session-attributes'] as String,
+    sessionAttributes: const Base64JsonConverter()
+        .fromJson(json['x-amz-lex-session-attributes'] as String),
     sessionId: json['x-amz-lex-session-id'] as String,
     slotToElicit: json['x-amz-lex-slot-to-elicit'] as String,
-    slots: json['x-amz-lex-slots'] as String,
+    slots:
+        const Base64JsonConverter().fromJson(json['x-amz-lex-slots'] as String),
   );
 }
 

@@ -18,7 +18,9 @@ import 'package:shared_aws_api/shared.dart'
         timeStampFromJson,
         RfcDateTimeConverter,
         IsoDateTimeConverter,
-        UnixDateTimeConverter;
+        UnixDateTimeConverter,
+        StringJsonConverter,
+        Base64JsonConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -418,7 +420,7 @@ class GetProductsResponse {
   /// The list of products that match your filters. The list contains both the
   /// product metadata and the price information.
   @_s.JsonKey(name: 'PriceList')
-  final List<String> priceList;
+  final List<Object> priceList;
 
   GetProductsResponse({
     this.formatVersion,

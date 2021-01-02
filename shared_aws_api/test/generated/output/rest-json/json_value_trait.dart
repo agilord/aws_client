@@ -18,7 +18,9 @@ import 'package:shared_aws_api/shared.dart'
         timeStampFromJson,
         RfcDateTimeConverter,
         IsoDateTimeConverter,
-        UnixDateTimeConverter;
+        UnixDateTimeConverter,
+        StringJsonConverter,
+        Base64JsonConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -51,10 +53,16 @@ class JSONValueTrait {
     );
     final $json = await _s.jsonFromResponse(response);
     return OutputShape(
-      bodyField: $json['BodyField'] as String,
-      bodyListField:
-          ($json['BodyListField'] as List)?.map((e) => e as String)?.toList(),
-      headerField: _s.extractHeaderStringValue(response.headers, 'X-Amz-Foo'),
+      bodyField: $json['BodyField'] == null
+          ? null
+          : jsonDecode($json['BodyField'] as String),
+      bodyListField: $json['BodyListField'] == null
+          ? null
+          : ($json['BodyListField'] as List)
+              .map((v) => jsonDecode(v as String))
+              .toList()
+              .cast<Object>(),
+      headerField: _s.extractHeaderJsonValue(response.headers, 'X-Amz-Foo'),
     );
   }
 
@@ -67,10 +75,16 @@ class JSONValueTrait {
     );
     final $json = await _s.jsonFromResponse(response);
     return OutputShape(
-      bodyField: $json['BodyField'] as String,
-      bodyListField:
-          ($json['BodyListField'] as List)?.map((e) => e as String)?.toList(),
-      headerField: _s.extractHeaderStringValue(response.headers, 'X-Amz-Foo'),
+      bodyField: $json['BodyField'] == null
+          ? null
+          : jsonDecode($json['BodyField'] as String),
+      bodyListField: $json['BodyListField'] == null
+          ? null
+          : ($json['BodyListField'] as List)
+              .map((v) => jsonDecode(v as String))
+              .toList()
+              .cast<Object>(),
+      headerField: _s.extractHeaderJsonValue(response.headers, 'X-Amz-Foo'),
     );
   }
 }
@@ -82,11 +96,12 @@ class JSONValueTrait {
     createToJson: false)
 class OutputShape {
   @_s.JsonKey(name: 'BodyField')
-  final String bodyField;
+  final Object bodyField;
   @_s.JsonKey(name: 'BodyListField')
-  final List<String> bodyListField;
+  final List<Object> bodyListField;
+  @Base64JsonConverter()
   @_s.JsonKey(name: 'X-Amz-Foo')
-  final String headerField;
+  final Object headerField;
 
   OutputShape({
     this.bodyField,

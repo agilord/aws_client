@@ -18,7 +18,9 @@ import 'package:shared_aws_api/shared.dart'
         timeStampFromJson,
         RfcDateTimeConverter,
         IsoDateTimeConverter,
-        UnixDateTimeConverter;
+        UnixDateTimeConverter,
+        StringJsonConverter,
+        Base64JsonConverter;
 
 import 'list_of_structures.meta.dart';
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;

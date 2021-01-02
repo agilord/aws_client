@@ -18,7 +18,9 @@ import 'package:shared_aws_api/shared.dart'
         timeStampFromJson,
         RfcDateTimeConverter,
         IsoDateTimeConverter,
-        UnixDateTimeConverter;
+        UnixDateTimeConverter,
+        StringJsonConverter,
+        Base64JsonConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -48,7 +50,8 @@ class JSONValueTrait {
     String queryField,
   }) async {
     final headers = <String, String>{};
-    headerField?.let((v) => headers['X-Amz-Foo'] = v.toString());
+    headerField
+        ?.let((v) => headers['X-Amz-Foo'] = base64Encode(utf8.encode(v)));
     final $query = <String, List<String>>{
       if (queryField != null) 'Bar': [queryField],
     };
@@ -68,7 +71,8 @@ class JSONValueTrait {
     String queryField,
   }) async {
     final headers = <String, String>{};
-    headerField?.let((v) => headers['X-Amz-Foo'] = v.toString());
+    headerField
+        ?.let((v) => headers['X-Amz-Foo'] = base64Encode(utf8.encode(v)));
     final $query = <String, List<String>>{
       if (queryField != null) 'Bar': [queryField],
     };
@@ -88,7 +92,8 @@ class JSONValueTrait {
     String queryField,
   }) async {
     final headers = <String, String>{};
-    headerField?.let((v) => headers['X-Amz-Foo'] = v.toString());
+    headerField
+        ?.let((v) => headers['X-Amz-Foo'] = base64Encode(utf8.encode(v)));
     final $query = <String, List<String>>{
       if (queryField != null) 'Bar': [queryField],
     };
@@ -110,9 +115,9 @@ class JSONValueTrait {
     createToJson: true)
 class BodyStructure {
   @_s.JsonKey(name: 'BodyField')
-  final String bodyField;
+  final Object bodyField;
   @_s.JsonKey(name: 'BodyListField')
-  final List<String> bodyListField;
+  final List<Object> bodyListField;
 
   BodyStructure({
     this.bodyField,

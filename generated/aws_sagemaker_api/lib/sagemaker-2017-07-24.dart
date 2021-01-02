@@ -18,7 +18,9 @@ import 'package:shared_aws_api/shared.dart'
         timeStampFromJson,
         RfcDateTimeConverter,
         IsoDateTimeConverter,
-        UnixDateTimeConverter;
+        UnixDateTimeConverter,
+        StringJsonConverter,
+        Base64JsonConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -16806,7 +16808,7 @@ class HumanLoopActivationConditionsConfig {
   /// Schema for Human Loop Activation Conditions in Amazon Augmented AI</a> in
   /// the <i>Amazon SageMaker Developer Guide</i>.
   @_s.JsonKey(name: 'HumanLoopActivationConditions')
-  final String humanLoopActivationConditions;
+  final Object humanLoopActivationConditions;
 
   HumanLoopActivationConditionsConfig({
     @_s.required this.humanLoopActivationConditions,

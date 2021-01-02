@@ -66,7 +66,7 @@ GetProductsResponse _$GetProductsResponseFromJson(Map<String, dynamic> json) {
   return GetProductsResponse(
     formatVersion: json['FormatVersion'] as String,
     nextToken: json['NextToken'] as String,
-    priceList: (json['PriceList'] as List)?.map((e) => e as String)?.toList(),
+    priceList: json['PriceList'] as List,
   );
 }
 

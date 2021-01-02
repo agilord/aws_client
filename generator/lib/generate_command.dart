@@ -87,6 +87,12 @@ in the config file, from the downloaded models.''';
         defaultsTo: true,
         negatable: true,
       )
+      ..addFlag(
+        'test-suite-only',
+        help: 'Only generates the test suite in the package "shared_aws_api"',
+        defaultsTo: false,
+        negatable: true,
+      )
       ..addMultiOption(
         'packages',
         abbr: 'p',
@@ -122,7 +128,9 @@ in the config file, from the downloaded models.''';
         [Directory('./apis'), _configDataFile].any((e) => !e.existsSync())) {
       await DownloadCommand(config).run();
     }
-    await _generateClasses();
+    if (argResults['test-suite-only'] != true) {
+      await _generateClasses();
+    }
     await _generateConfigFiles();
     if (argResults['test-suite'] == true) {
       await _generateTestSuite();

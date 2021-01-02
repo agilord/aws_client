@@ -2884,8 +2884,7 @@ Map<String, dynamic> _$GitConfigForUpdateToJson(GitConfigForUpdate instance) {
 HumanLoopActivationConditionsConfig
     _$HumanLoopActivationConditionsConfigFromJson(Map<String, dynamic> json) {
   return HumanLoopActivationConditionsConfig(
-    humanLoopActivationConditions:
-        json['HumanLoopActivationConditions'] as String,
+    humanLoopActivationConditions: json['HumanLoopActivationConditions'],
   );
 }
 

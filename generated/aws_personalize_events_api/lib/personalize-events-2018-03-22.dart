@@ -18,7 +18,9 @@ import 'package:shared_aws_api/shared.dart'
         timeStampFromJson,
         RfcDateTimeConverter,
         IsoDateTimeConverter,
-        UnixDateTimeConverter;
+        UnixDateTimeConverter,
+        StringJsonConverter,
+        Base64JsonConverter;
 
 export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
@@ -138,7 +140,7 @@ class Event {
   /// would match the 'NUMBER_OF_RATINGS' field defined in the Interactions
   /// schema.
   @_s.JsonKey(name: 'properties')
-  final String properties;
+  final Object properties;
 
   /// The timestamp on the client side when the event occurred.
   @UnixDateTimeConverter()

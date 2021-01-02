@@ -29,6 +29,8 @@ abstract class ServiceBuilder {
           if (timestampFormat == 'unixTimestamp') {
             converter += '.toString()';
           }
+        } else if (m.jsonvalue) {
+          converter = 'base64Encode(utf8.encode(v))';
         }
         if (m.shapeClass.enumeration != null) {
           m.shapeClass.isTopLevelInputEnum = true;

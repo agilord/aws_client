@@ -48,7 +48,7 @@ import 'dart:typed_data';
 
 import 'package:shared_aws_api/shared.dart' as _s;
 import 'package:shared_aws_api/shared.dart'
-  show Uint8ListConverter, Uint8ListListConverter ${api.generateJson ? ', rfc822ToJson, iso8601ToJson, unixTimestampToJson, timeStampFromJson, RfcDateTimeConverter, IsoDateTimeConverter, UnixDateTimeConverter' : ''};
+  show Uint8ListConverter, Uint8ListListConverter ${api.generateJson ? ', rfc822ToJson, iso8601ToJson, unixTimestampToJson, timeStampFromJson, RfcDateTimeConverter, IsoDateTimeConverter, UnixDateTimeConverter, StringJsonConverter, Base64JsonConverter' : ''};
 """);
   buf.writeln(builder.imports());
   buf.writeln(
@@ -253,12 +253,24 @@ ${builder.constructor()}
               throw Exception('Unknown time format "$ret"');
             }
             write('@${prefix}DateTimeConverter()');
+          } else if (member.jsonvalue &&
+              member.location?.contains('header') == true) {
+            write('@Base64JsonConverter()');
           }
           writeln(
               "  @_s.JsonKey(name: '${member.locationName ?? member.name}')");
         }
+        var dartType = member.dartType;
 
-        writeln('  final ${member.dartType} ${member.fieldName};');
+        if (member.jsonvalue || member.shapeClass.member?.jsonvalue == true) {
+          if (member.shapeClass.type == 'list') {
+            dartType = 'List<Object>';
+          } else {
+            dartType = 'Object';
+          }
+        }
+
+        writeln('  final $dartType ${member.fieldName};');
       }
 
       final constructorMembers = shape.members.map((member) {
@@ -515,6 +527,8 @@ String extractHeaderCode(Member member, String variable) {
   } else if (member.shapeClass.enumeration?.isNotEmpty ?? false) {
     member.shapeClass.isTopLevelOutputEnum = true;
     return '_s.extractHeaderStringValue($variable, \'${member.locationName ?? member.name}\')?.to${uppercaseName(member.dartType)}()';
+  } else if (member.jsonvalue) {
+    return '_s.extractHeaderJsonValue($variable, \'${member.locationName ?? member.name}\')';
   } else {
     var extraParameters = '';
     if (member.timestampFormat != null ||
