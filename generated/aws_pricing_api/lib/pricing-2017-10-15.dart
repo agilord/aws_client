@@ -420,7 +420,7 @@ class GetProductsResponse {
   /// The list of products that match your filters. The list contains both the
   /// product metadata and the price information.
   @_s.JsonKey(name: 'PriceList')
-  final List<String> priceList;
+  final List<Object> priceList;
 
   GetProductsResponse({
     this.formatVersion,

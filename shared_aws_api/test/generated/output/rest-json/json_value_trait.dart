@@ -56,8 +56,12 @@ class JSONValueTrait {
       bodyField: $json['BodyField'] == null
           ? null
           : jsonDecode($json['BodyField'] as String),
-      bodyListField:
-          ($json['BodyListField'] as List)?.map((e) => e as String)?.toList(),
+      bodyListField: $json['BodyListField'] == null
+          ? null
+          : ($json['BodyListField'] as List)
+              .map((v) => jsonDecode(v as String))
+              .toList()
+              .cast<Object>(),
       headerField: _s.extractHeaderJsonValue(response.headers, 'X-Amz-Foo'),
     );
   }
@@ -74,8 +78,12 @@ class JSONValueTrait {
       bodyField: $json['BodyField'] == null
           ? null
           : jsonDecode($json['BodyField'] as String),
-      bodyListField:
-          ($json['BodyListField'] as List)?.map((e) => e as String)?.toList(),
+      bodyListField: $json['BodyListField'] == null
+          ? null
+          : ($json['BodyListField'] as List)
+              .map((v) => jsonDecode(v as String))
+              .toList()
+              .cast<Object>(),
       headerField: _s.extractHeaderJsonValue(response.headers, 'X-Amz-Foo'),
     );
   }
@@ -87,11 +95,10 @@ class JSONValueTrait {
     createFactory: true,
     createToJson: false)
 class OutputShape {
-  @StringJsonConverter()
   @_s.JsonKey(name: 'BodyField')
   final Object bodyField;
   @_s.JsonKey(name: 'BodyListField')
-  final List<String> bodyListField;
+  final List<Object> bodyListField;
   @Base64JsonConverter()
   @_s.JsonKey(name: 'X-Amz-Foo')
   final Object headerField;

@@ -16807,7 +16807,6 @@ class HumanLoopActivationConditionsConfig {
   /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/a2i-human-fallback-conditions-json-schema.html">JSON
   /// Schema for Human Loop Activation Conditions in Amazon Augmented AI</a> in
   /// the <i>Amazon SageMaker Developer Guide</i>.
-  @StringJsonConverter()
   @_s.JsonKey(name: 'HumanLoopActivationConditions')
   final Object humanLoopActivationConditions;
 

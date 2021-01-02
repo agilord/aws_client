@@ -139,7 +139,6 @@ class Event {
   /// <code>eventValue</code> being the rating. The <code>numberOfRatings</code>
   /// would match the 'NUMBER_OF_RATINGS' field defined in the Interactions
   /// schema.
-  @StringJsonConverter()
   @_s.JsonKey(name: 'properties')
   final Object properties;
 

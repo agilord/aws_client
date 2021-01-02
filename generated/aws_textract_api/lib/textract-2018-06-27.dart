@@ -1269,7 +1269,6 @@ class GetDocumentTextDetectionResponse {
 class HumanLoopActivationOutput {
   /// Shows the result of condition evaluations, including those conditions which
   /// activated a human review.
-  @StringJsonConverter()
   @_s.JsonKey(name: 'HumanLoopActivationConditionsEvaluationResults')
   final Object humanLoopActivationConditionsEvaluationResults;
 

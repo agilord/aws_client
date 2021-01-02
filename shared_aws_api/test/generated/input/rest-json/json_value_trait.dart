@@ -114,11 +114,10 @@ class JSONValueTrait {
     createFactory: false,
     createToJson: true)
 class BodyStructure {
-  @StringJsonConverter()
   @_s.JsonKey(name: 'BodyField')
   final Object bodyField;
   @_s.JsonKey(name: 'BodyListField')
-  final List<String> bodyListField;
+  final List<Object> bodyListField;
 
   BodyStructure({
     this.bodyField,
