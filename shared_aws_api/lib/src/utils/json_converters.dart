@@ -81,14 +81,14 @@ class Uint8ListListConverter
   }
 }
 
-class StringJsonConverter implements JsonConverter<String, Object> {
+class StringJsonConverter implements JsonConverter<Object, String> {
   const StringJsonConverter();
 
   @override
-  String fromJson(Object json) => json == null ? null : jsonEncode(json);
+  Object fromJson(String json) => json == null ? null : jsonDecode(json);
 
   @override
-  Object toJson(String object) => object == null ? null : jsonDecode(object);
+  String toJson(Object object) => object == null ? null : jsonEncode(object);
 }
 
 class Base64JsonConverter implements JsonConverter<Object, String> {

@@ -256,13 +256,19 @@ ${builder.constructor()}
           } else if (member.jsonvalue &&
               member.location?.contains('header') == true) {
             write('@Base64JsonConverter()');
-          } else if (member.jsonvalue) {
-            write('@StringJsonConverter()');
           }
           writeln(
               "  @_s.JsonKey(name: '${member.locationName ?? member.name}')");
         }
-        final dartType = member.jsonvalue ? 'Object' : member.dartType;
+        var dartType = member.dartType;
+
+        if (member.jsonvalue || member.shapeClass.member?.jsonvalue == true) {
+          if (member.shapeClass.type == 'list') {
+            dartType = 'List<Object>';
+          } else {
+            dartType = 'Object';
+          }
+        }
 
         writeln('  final $dartType ${member.fieldName};');
       }
