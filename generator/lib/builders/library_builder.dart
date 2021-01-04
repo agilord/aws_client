@@ -145,9 +145,14 @@ ${builder.constructor()}
       final pattern = member.shapeClass?.pattern;
 
       if (pattern != null) {
+        var variable = name;
+        if (member.enumeration != null ||
+            member.shapeClass.enumeration != null) {
+          variable = '$name${member.isRequired ? '' : '?'}.toValue()';
+        }
         final isRequired = member.isRequired ? 'isRequired: true,' : '';
         writeln(
-            "_s.validateStringPattern('$name', $name, r'''$pattern''', $isRequired);");
+            "_s.validateStringPattern('$name', $variable, r'''$pattern''', $isRequired);");
       }
     }
 

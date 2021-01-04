@@ -17,19 +17,26 @@ final rules = <String, RegionConfig>{
   ),
   '*/budgets': _globalSSL,
   '*/cloudfront': _globalSSL,
-  '*/iam': _globalSSL,
   '*/sts': _globalSSL,
   '*/importexport': RegionConfig(
     endpoint: '{service}.amazonaws.com',
     globalEndpoint: true,
     signatureVersion: 'v2',
   ),
-  '*/route53': RegionConfig(
-    endpoint: 'https://{service}.amazonaws.com',
+  '*/route53': _globalSSL,
+  'cn-*/route53': RegionConfig(
+    endpoint: '{service}.amazonaws.com.cn',
     globalEndpoint: true,
-    signatureVersion: 'v3https',
+    signingRegion: 'cn-northwest-1',
   ),
+  'us-gov-*/route53': _globalGovCloud,
   '*/waf': _globalSSL,
+  '*/iam': _globalSSL,
+  'cn-*/iam': RegionConfig(
+    endpoint: '{service}.cn-north-1.amazonaws.com.cn',
+    globalEndpoint: true,
+    signingRegion: 'cn-north-1',
+  ),
   'us-gov-*/iam': _globalGovCloud,
   'us-gov-*/sts': RegionConfig(
     endpoint: '{service}.{region}.amazonaws.com',
@@ -59,10 +66,13 @@ final rules = <String, RegionConfig>{
 final _globalSSL = RegionConfig(
   endpoint: 'https://{service}.amazonaws.com',
   globalEndpoint: true,
+  signingRegion: 'us-east-1',
 );
 
 final _globalGovCloud = RegionConfig(
   endpoint: '{service}.us-gov.amazonaws.com',
+  globalEndpoint: true,
+  signingRegion: 'us-gov-west-1',
 );
 
 final _s3signature = RegionConfig(

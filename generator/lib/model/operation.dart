@@ -25,11 +25,13 @@ class Operation {
   final String deprecatedMessage;
   final EndPoint endpoint;
   final String alias;
-  final Map<String, String> endpointdiscovery;
+  final Map<String, dynamic> endpointdiscovery;
   @JsonKey(defaultValue: false)
   final bool endpointoperation;
   final bool internal;
   final bool internalonly;
+  @JsonKey(defaultValue: false)
+  final bool httpChecksumRequired;
   final String methodNameOverride;
 
   Operation(
@@ -50,6 +52,7 @@ class Operation {
     this.endpointoperation,
     this.internal,
     this.internalonly,
+    this.httpChecksumRequired,
     this.methodNameOverride,
   );
 
