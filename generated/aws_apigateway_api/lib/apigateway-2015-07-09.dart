@@ -529,6 +529,7 @@ class APIGateway {
     String certificateName,
     String certificatePrivateKey,
     EndpointConfiguration endpointConfiguration,
+    MutualTlsAuthenticationInput mutualTlsAuthentication,
     String regionalCertificateArn,
     String regionalCertificateName,
     SecurityPolicy securityPolicy,
@@ -545,6 +546,8 @@ class APIGateway {
         'certificatePrivateKey': certificatePrivateKey,
       if (endpointConfiguration != null)
         'endpointConfiguration': endpointConfiguration,
+      if (mutualTlsAuthentication != null)
+        'mutualTlsAuthentication': mutualTlsAuthentication,
       if (regionalCertificateArn != null)
         'regionalCertificateArn': regionalCertificateArn,
       if (regionalCertificateName != null)
@@ -726,6 +729,13 @@ class APIGateway {
   /// Parameter [description] :
   /// The description of the <a>RestApi</a>.
   ///
+  /// Parameter [disableExecuteApiEndpoint] :
+  /// Specifies whether clients can invoke your API by using the default
+  /// <code>execute-api</code> endpoint. By default, clients can invoke your API
+  /// with the default https://{api_id}.execute-api.{region}.amazonaws.com
+  /// endpoint. To require that clients use a custom domain name to invoke your
+  /// API, disable the default endpoint.
+  ///
   /// Parameter [endpointConfiguration] :
   /// The endpoint configuration of this <a>RestApi</a> showing the endpoint
   /// types of the API.
@@ -755,6 +765,7 @@ class APIGateway {
     List<String> binaryMediaTypes,
     String cloneFrom,
     String description,
+    bool disableExecuteApiEndpoint,
     EndpointConfiguration endpointConfiguration,
     int minimumCompressionSize,
     String policy,
@@ -768,6 +779,8 @@ class APIGateway {
       if (binaryMediaTypes != null) 'binaryMediaTypes': binaryMediaTypes,
       if (cloneFrom != null) 'cloneFrom': cloneFrom,
       if (description != null) 'description': description,
+      if (disableExecuteApiEndpoint != null)
+        'disableExecuteApiEndpoint': disableExecuteApiEndpoint,
       if (endpointConfiguration != null)
         'endpointConfiguration': endpointConfiguration,
       if (minimumCompressionSize != null)
@@ -2059,6 +2072,7 @@ class APIGateway {
   /// Gets information about a <a>Deployments</a> collection.
   ///
   /// May throw [BadRequestException].
+  /// May throw [NotFoundException].
   /// May throw [UnauthorizedException].
   /// May throw [TooManyRequestsException].
   /// May throw [ServiceUnavailableException].
@@ -3466,7 +3480,7 @@ class APIGateway {
   /// Parameter [body] :
   /// [Required] The POST request body containing external API definitions.
   /// Currently, only OpenAPI definition JSON/YAML files are supported. The
-  /// maximum size of the API definition file is 2MB.
+  /// maximum size of the API definition file is 6MB.
   ///
   /// Parameter [failOnWarnings] :
   /// A query parameter to indicate whether to rollback the API creation
@@ -3625,10 +3639,15 @@ class APIGateway {
   /// [Required] Specifies a put integration input's type.
   ///
   /// Parameter [cacheKeyParameters] :
-  /// An API-specific tag group of related cached parameters.
+  /// A list of request parameters whose values API Gateway caches. To be valid
+  /// values for <code>cacheKeyParameters</code>, these parameters must also be
+  /// specified for <a>Method</a> <code>requestParameters</code>.
   ///
   /// Parameter [cacheNamespace] :
-  /// A list of request parameters whose values are to be cached.
+  /// Specifies a group of related cached parameters. By default, API Gateway
+  /// uses the resource ID as the <code>cacheNamespace</code>. You can specify
+  /// the same <code>cacheNamespace</code> across resources to return the same
+  /// cached data for requests to different resources.
   ///
   /// Parameter [connectionId] :
   /// The (<a
@@ -3723,12 +3742,12 @@ class APIGateway {
   /// <li>
   /// For <code>HTTP</code> or <code>HTTP_PROXY</code> integrations, the URI
   /// must be a fully formed, encoded HTTP(S) URL according to the <a
-  /// target="_blank"
-  /// href="https://en.wikipedia.org/wiki/Uniform_Resource_Identifier">RFC-3986
-  /// specification</a>, for either standard integration, where
-  /// <code>connectionType</code> is not <code>VPC_LINK</code>, or private
-  /// integration, where <code>connectionType</code> is <code>VPC_LINK</code>.
-  /// For a private HTTP integration, the URI is not used for routing.
+  /// href="https://en.wikipedia.org/wiki/Uniform_Resource_Identifier"
+  /// target="_blank">RFC-3986 specification</a>, for either standard
+  /// integration, where <code>connectionType</code> is not
+  /// <code>VPC_LINK</code>, or private integration, where
+  /// <code>connectionType</code> is <code>VPC_LINK</code>. For a private HTTP
+  /// integration, the URI is not used for routing.
   /// </li>
   /// <li>
   /// For <code>AWS</code> or <code>AWS_PROXY</code> integrations, the URI is of
@@ -3769,6 +3788,7 @@ class APIGateway {
     Map<String, String> requestParameters,
     Map<String, String> requestTemplates,
     int timeoutInMillis,
+    TlsConfig tlsConfig,
     String uri,
   }) async {
     ArgumentError.checkNotNull(httpMethod, 'httpMethod');
@@ -3789,6 +3809,7 @@ class APIGateway {
       if (requestParameters != null) 'requestParameters': requestParameters,
       if (requestTemplates != null) 'requestTemplates': requestTemplates,
       if (timeoutInMillis != null) 'timeoutInMillis': timeoutInMillis,
+      if (tlsConfig != null) 'tlsConfig': tlsConfig,
       if (uri != null) 'uri': uri,
     };
     final response = await _protocol.send(
@@ -4095,7 +4116,7 @@ class APIGateway {
   /// Parameter [body] :
   /// [Required] The PUT request body containing external API definitions.
   /// Currently, only OpenAPI definition JSON/YAML files are supported. The
-  /// maximum size of the API definition file is 2MB.
+  /// maximum size of the API definition file is 6MB.
   ///
   /// Parameter [restApiId] :
   /// [Required] The string identifier of the associated <a>RestApi</a>.
@@ -6448,6 +6469,13 @@ class DomainName {
   @_s.JsonKey(name: 'endpointConfiguration')
   final EndpointConfiguration endpointConfiguration;
 
+  /// The mutual TLS authentication configuration for a custom domain name. If
+  /// specified, API Gateway performs two-way authentication between the client
+  /// and the server. Clients must present a trusted certificate to access your
+  /// API.
+  @_s.JsonKey(name: 'mutualTlsAuthentication')
+  final MutualTlsAuthentication mutualTlsAuthentication;
+
   /// The reference to an AWS-managed certificate that will be used for validating
   /// the regional domain name. AWS Certificate Manager is the only supported
   /// source.
@@ -6496,6 +6524,7 @@ class DomainName {
     this.domainNameStatus,
     this.domainNameStatusMessage,
     this.endpointConfiguration,
+    this.mutualTlsAuthentication,
     this.regionalCertificateArn,
     this.regionalCertificateName,
     this.regionalDomainName,
@@ -6659,8 +6688,7 @@ class ExportResponse {
 /// \"stage\": \"$context.stage\",\n \"resourcePath\":
 /// \"$context.resourcePath\",\n \"stageVariables.a\": \"$stageVariables.a\",\n
 /// \"statusCode\": \"&apos;404&apos;\"\n}" }, "responseType":
-/// "MISSING_AUTHENTICATION_TOKEN", "statusCode": "404" }</code></pre>
-///
+/// "MISSING_AUTHENTICATION_TOKEN", "statusCode": "404" }</code></pre> <p/>
 /// </div> </div> <div class="seeAlso"> <a
 /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/customize-gateway-responses.html">Customize
 /// Gateway Responses</a> </div>
@@ -6838,9 +6866,7 @@ extension on GatewayResponseType {
 /// SignedHeaders=content-type;host;x-amz-date,
 /// Signature=59b42fe54a76a5de8adf2c67baa6d39206f8e9ad49a1d77ccc6a5da3103a398a
 /// Cache-Control: no-cache Postman-Token: 5637af27-dc29-fc5c-9dfe-0645d52cb515
-/// </code></pre>
-///
-/// <h5>Response</h5>
+/// </code></pre> <p/> <h5>Response</h5>
 /// The successful operation returns the <code>200 OK</code> status code and a
 /// payload similar to the following:
 /// <pre><code>{ "_links": { "curies": { "href":
@@ -7037,9 +7063,7 @@ extension on GatewayResponseType {
 /// "defaultResponse": true, "responseParameters": {}, "responseTemplates": {
 /// "application/json": "{\"message\":$context.error.messageString}" },
 /// "responseType": "AUTHORIZER_FAILURE", "statusCode": "500" } ] }
-/// }</code></pre>
-///
-/// </div> </div> <div class="seeAlso"> <a
+/// }</code></pre> <p/> </div> </div> <div class="seeAlso"> <a
 /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/customize-gateway-responses.html">Customize
 /// Gateway Responses</a> </div>
 @_s.JsonSerializable(
@@ -7079,9 +7103,10 @@ class Integration {
   @_s.JsonKey(name: 'cacheKeyParameters')
   final List<String> cacheKeyParameters;
 
-  /// An API-specific tag group of related cached parameters. To be valid values
-  /// for <code>cacheKeyParameters</code>, these parameters must also be specified
-  /// for <a>Method</a> <code>requestParameters</code>.
+  /// Specifies a group of related cached parameters. By default, API Gateway uses
+  /// the resource ID as the <code>cacheNamespace</code>. You can specify the same
+  /// <code>cacheNamespace</code> across resources to return the same cached data
+  /// for requests to different resources.
   @_s.JsonKey(name: 'cacheNamespace')
   final String cacheNamespace;
 
@@ -7216,6 +7241,10 @@ class Integration {
   @_s.JsonKey(name: 'timeoutInMillis')
   final int timeoutInMillis;
 
+  /// Specifies the TLS configuration for an integration.
+  @_s.JsonKey(name: 'tlsConfig')
+  final TlsConfig tlsConfig;
+
   /// Specifies an API method integration type. The valid value is one of the
   /// following:
   ///
@@ -7253,10 +7282,10 @@ class Integration {
   /// <ul>
   /// <li>
   /// For <code>HTTP</code> or <code>HTTP_PROXY</code> integrations, the URI must
-  /// be a fully formed, encoded HTTP(S) URL according to the <a target="_blank"
-  /// href="https://en.wikipedia.org/wiki/Uniform_Resource_Identifier">RFC-3986
-  /// specification</a>, for either standard integration, where
-  /// <code>connectionType</code> is not <code>VPC_LINK</code>, or private
+  /// be a fully formed, encoded HTTP(S) URL according to the <a
+  /// href="https://en.wikipedia.org/wiki/Uniform_Resource_Identifier"
+  /// target="_blank">RFC-3986 specification</a>, for either standard integration,
+  /// where <code>connectionType</code> is not <code>VPC_LINK</code>, or private
   /// integration, where <code>connectionType</code> is <code>VPC_LINK</code>. For
   /// a private HTTP integration, the URI is not used for routing.
   /// </li>
@@ -7299,6 +7328,7 @@ class Integration {
     this.requestParameters,
     this.requestTemplates,
     this.timeoutInMillis,
+    this.tlsConfig,
     this.type,
     this.uri,
   });
@@ -7984,6 +8014,76 @@ class Models {
   factory Models.fromJson(Map<String, dynamic> json) => _$ModelsFromJson(json);
 }
 
+/// If specified, API Gateway performs two-way authentication between the client
+/// and the server. Clients must present a trusted certificate to access your
+/// custom domain name.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class MutualTlsAuthentication {
+  /// An Amazon S3 URL that specifies the truststore for mutual TLS
+  /// authentication, for example <code>s3://bucket-name/key-name</code>. The
+  /// truststore can contain certificates from public or private certificate
+  /// authorities. To update the truststore, upload a new version to S3, and then
+  /// update your custom domain name to use the new version. To update the
+  /// truststore, you must have permissions to access the S3 object.
+  @_s.JsonKey(name: 'truststoreUri')
+  final String truststoreUri;
+
+  /// The version of the S3 object that contains your truststore. To specify a
+  /// version, you must have versioning enabled for the S3 bucket.
+  @_s.JsonKey(name: 'truststoreVersion')
+  final String truststoreVersion;
+
+  /// A list of warnings that API Gateway returns while processing your
+  /// truststore. Invalid certificates produce warnings. Mutual TLS is still
+  /// enabled, but some clients might not be able to access your API. To resolve
+  /// warnings, upload a new truststore to S3, and then update you domain name to
+  /// use the new version.
+  @_s.JsonKey(name: 'truststoreWarnings')
+  final List<String> truststoreWarnings;
+
+  MutualTlsAuthentication({
+    this.truststoreUri,
+    this.truststoreVersion,
+    this.truststoreWarnings,
+  });
+  factory MutualTlsAuthentication.fromJson(Map<String, dynamic> json) =>
+      _$MutualTlsAuthenticationFromJson(json);
+}
+
+/// If specified, API Gateway performs two-way authentication between the client
+/// and the server. Clients must present a trusted certificate to access your
+/// custom domain name.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class MutualTlsAuthenticationInput {
+  /// An Amazon S3 resource ARN that specifies the truststore for mutual TLS
+  /// authentication, for example, <code>s3://bucket-name/key-name</code>. The
+  /// truststore can contain certificates from public or private certificate
+  /// authorities. To update the truststore, upload a new version to S3, and then
+  /// update your custom domain name to use the new version. To update the
+  /// truststore, you must have permissions to access the S3 object.
+  @_s.JsonKey(name: 'truststoreUri')
+  final String truststoreUri;
+
+  /// The version of the S3 object that contains your truststore. To specify a
+  /// version, you must have versioning enabled for the S3 bucket.
+  @_s.JsonKey(name: 'truststoreVersion')
+  final String truststoreVersion;
+
+  MutualTlsAuthenticationInput({
+    this.truststoreUri,
+    this.truststoreVersion,
+  });
+  Map<String, dynamic> toJson() => _$MutualTlsAuthenticationInputToJson(this);
+}
+
 enum Op {
   @_s.JsonValue('add')
   add,
@@ -8099,8 +8199,9 @@ class QuotaSettings {
   @_s.JsonKey(name: 'limit')
   final int limit;
 
-  /// The number of requests subtracted from the given limit in the initial time
-  /// period.
+  /// The day that a time period starts. For example, with a time period of
+  /// <code>WEEK</code>, an offset of <code>0</code> starts on Sunday, and an
+  /// offset of <code>1</code> starts on Monday.
   @_s.JsonKey(name: 'offset')
   final int offset;
 
@@ -8371,6 +8472,14 @@ class RestApi {
   @_s.JsonKey(name: 'description')
   final String description;
 
+  /// Specifies whether clients can invoke your API by using the default
+  /// <code>execute-api</code> endpoint. By default, clients can invoke your API
+  /// with the default https://{api_id}.execute-api.{region}.amazonaws.com
+  /// endpoint. To require that clients use a custom domain name to invoke your
+  /// API, disable the default endpoint.
+  @_s.JsonKey(name: 'disableExecuteApiEndpoint')
+  final bool disableExecuteApiEndpoint;
+
   /// The endpoint configuration of this <a>RestApi</a> showing the endpoint types
   /// of the API.
   @_s.JsonKey(name: 'endpointConfiguration')
@@ -8417,6 +8526,7 @@ class RestApi {
     this.binaryMediaTypes,
     this.createdDate,
     this.description,
+    this.disableExecuteApiEndpoint,
     this.endpointConfiguration,
     this.id,
     this.minimumCompressionSize,
@@ -8784,7 +8894,7 @@ class Tags {
     createToJson: false)
 class Template {
   /// The Apache <a
-  /// href="https://velocity.apache.org/engine/devel/vtl-reference-guide.html"
+  /// href="https://velocity.apache.org/engine/devel/vtl-reference.html"
   /// target="_blank">Velocity Template Language (VTL)</a> template content used
   /// for the template resource.
   @_s.JsonKey(name: 'value')
@@ -8920,6 +9030,34 @@ class ThrottleSettings {
       _$ThrottleSettingsFromJson(json);
 
   Map<String, dynamic> toJson() => _$ThrottleSettingsToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class TlsConfig {
+  /// Specifies whether or not API Gateway skips verification that the certificate
+  /// for an integration endpoint is issued by a <a
+  /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-supported-certificate-authorities-for-http-endpoints.html">supported
+  /// certificate authority</a>. This isn’t recommended, but it enables you to use
+  /// certificates that are signed by private certificate authorities, or
+  /// certificates that are self-signed. If enabled, API Gateway still performs
+  /// basic certificate validation, which includes checking the certificate's
+  /// expiration date, hostname, and presence of a root certificate authority.
+  /// Supported only for <code>HTTP</code> and <code>HTTP_PROXY</code>
+  /// integrations.
+  @_s.JsonKey(name: 'insecureSkipVerification')
+  final bool insecureSkipVerification;
+
+  TlsConfig({
+    this.insecureSkipVerification,
+  });
+  factory TlsConfig.fromJson(Map<String, dynamic> json) =>
+      _$TlsConfigFromJson(json);
+
+  Map<String, dynamic> toJson() => _$TlsConfigToJson(this);
 }
 
 enum UnauthorizedCacheControlHeaderStrategy {

@@ -188,12 +188,42 @@ const _$Ac3MetadataControlEnumMap = {
   Ac3MetadataControl.useConfigured: 'USE_CONFIGURED',
 };
 
+AcceptInputDeviceTransferResponse _$AcceptInputDeviceTransferResponseFromJson(
+    Map<String, dynamic> json) {
+  return AcceptInputDeviceTransferResponse();
+}
+
+AncillarySourceSettings _$AncillarySourceSettingsFromJson(
+    Map<String, dynamic> json) {
+  return AncillarySourceSettings(
+    sourceAncillaryChannelNumber: json['sourceAncillaryChannelNumber'] as int,
+  );
+}
+
+Map<String, dynamic> _$AncillarySourceSettingsToJson(
+    AncillarySourceSettings instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'sourceAncillaryChannelNumber', instance.sourceAncillaryChannelNumber);
+  return val;
+}
+
 ArchiveContainerSettings _$ArchiveContainerSettingsFromJson(
     Map<String, dynamic> json) {
   return ArchiveContainerSettings(
     m2tsSettings: json['m2tsSettings'] == null
         ? null
         : M2tsSettings.fromJson(json['m2tsSettings'] as Map<String, dynamic>),
+    rawSettings: json['rawSettings'] == null
+        ? null
+        : RawSettings.fromJson(json['rawSettings'] as Map<String, dynamic>),
   );
 }
 
@@ -208,6 +238,7 @@ Map<String, dynamic> _$ArchiveContainerSettingsToJson(
   }
 
   writeNotNull('m2tsSettings', instance.m2tsSettings?.toJson());
+  writeNotNull('rawSettings', instance.rawSettings?.toJson());
   return val;
 }
 
@@ -324,6 +355,9 @@ AudioCodecSettings _$AudioCodecSettingsFromJson(Map<String, dynamic> json) {
         ? null
         : PassThroughSettings.fromJson(
             json['passThroughSettings'] as Map<String, dynamic>),
+    wavSettings: json['wavSettings'] == null
+        ? null
+        : WavSettings.fromJson(json['wavSettings'] as Map<String, dynamic>),
   );
 }
 
@@ -341,6 +375,7 @@ Map<String, dynamic> _$AudioCodecSettingsToJson(AudioCodecSettings instance) {
   writeNotNull('eac3Settings', instance.eac3Settings?.toJson());
   writeNotNull('mp2Settings', instance.mp2Settings?.toJson());
   writeNotNull('passThroughSettings', instance.passThroughSettings?.toJson());
+  writeNotNull('wavSettings', instance.wavSettings?.toJson());
   return val;
 }
 
@@ -583,6 +618,10 @@ AudioSelectorSettings _$AudioSelectorSettingsFromJson(
         ? null
         : AudioPidSelection.fromJson(
             json['audioPidSelection'] as Map<String, dynamic>),
+    audioTrackSelection: json['audioTrackSelection'] == null
+        ? null
+        : AudioTrackSelection.fromJson(
+            json['audioTrackSelection'] as Map<String, dynamic>),
   );
 }
 
@@ -599,6 +638,71 @@ Map<String, dynamic> _$AudioSelectorSettingsToJson(
   writeNotNull(
       'audioLanguageSelection', instance.audioLanguageSelection?.toJson());
   writeNotNull('audioPidSelection', instance.audioPidSelection?.toJson());
+  writeNotNull('audioTrackSelection', instance.audioTrackSelection?.toJson());
+  return val;
+}
+
+AudioSilenceFailoverSettings _$AudioSilenceFailoverSettingsFromJson(
+    Map<String, dynamic> json) {
+  return AudioSilenceFailoverSettings(
+    audioSelectorName: json['audioSelectorName'] as String,
+    audioSilenceThresholdMsec: json['audioSilenceThresholdMsec'] as int,
+  );
+}
+
+Map<String, dynamic> _$AudioSilenceFailoverSettingsToJson(
+    AudioSilenceFailoverSettings instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('audioSelectorName', instance.audioSelectorName);
+  writeNotNull('audioSilenceThresholdMsec', instance.audioSilenceThresholdMsec);
+  return val;
+}
+
+AudioTrack _$AudioTrackFromJson(Map<String, dynamic> json) {
+  return AudioTrack(
+    track: json['track'] as int,
+  );
+}
+
+Map<String, dynamic> _$AudioTrackToJson(AudioTrack instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('track', instance.track);
+  return val;
+}
+
+AudioTrackSelection _$AudioTrackSelectionFromJson(Map<String, dynamic> json) {
+  return AudioTrackSelection(
+    tracks: (json['tracks'] as List)
+        ?.map((e) =>
+            e == null ? null : AudioTrack.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+Map<String, dynamic> _$AudioTrackSelectionToJson(AudioTrackSelection instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('tracks', instance.tracks?.map((e) => e?.toJson())?.toList());
   return val;
 }
 
@@ -606,6 +710,12 @@ AutomaticInputFailoverSettings _$AutomaticInputFailoverSettingsFromJson(
     Map<String, dynamic> json) {
   return AutomaticInputFailoverSettings(
     secondaryInputId: json['secondaryInputId'] as String,
+    errorClearTimeMsec: json['errorClearTimeMsec'] as int,
+    failoverConditions: (json['failoverConditions'] as List)
+        ?.map((e) => e == null
+            ? null
+            : FailoverCondition.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
     inputPreference:
         _$enumDecodeNullable(_$InputPreferenceEnumMap, json['inputPreference']),
   );
@@ -622,6 +732,9 @@ Map<String, dynamic> _$AutomaticInputFailoverSettingsToJson(
   }
 
   writeNotNull('secondaryInputId', instance.secondaryInputId);
+  writeNotNull('errorClearTimeMsec', instance.errorClearTimeMsec);
+  writeNotNull('failoverConditions',
+      instance.failoverConditions?.map((e) => e?.toJson())?.toList());
   writeNotNull(
       'inputPreference', _$InputPreferenceEnumMap[instance.inputPreference]);
   return val;
@@ -709,6 +822,31 @@ Map<String, dynamic> _$AvailSettingsToJson(AvailSettings instance) {
   return val;
 }
 
+BatchDeleteResponse _$BatchDeleteResponseFromJson(Map<String, dynamic> json) {
+  return BatchDeleteResponse(
+    failed: (json['failed'] as List)
+        ?.map((e) => e == null
+            ? null
+            : BatchFailedResultModel.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    successful: (json['successful'] as List)
+        ?.map((e) => e == null
+            ? null
+            : BatchSuccessfulResultModel.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+BatchFailedResultModel _$BatchFailedResultModelFromJson(
+    Map<String, dynamic> json) {
+  return BatchFailedResultModel(
+    arn: json['arn'] as String,
+    code: json['code'] as String,
+    id: json['id'] as String,
+    message: json['message'] as String,
+  );
+}
+
 Map<String, dynamic> _$BatchScheduleActionCreateRequestToJson(
     BatchScheduleActionCreateRequest instance) {
   final val = <String, dynamic>{};
@@ -757,6 +895,45 @@ BatchScheduleActionDeleteResult _$BatchScheduleActionDeleteResultFromJson(
             ? null
             : ScheduleAction.fromJson(e as Map<String, dynamic>))
         ?.toList(),
+  );
+}
+
+BatchStartResponse _$BatchStartResponseFromJson(Map<String, dynamic> json) {
+  return BatchStartResponse(
+    failed: (json['failed'] as List)
+        ?.map((e) => e == null
+            ? null
+            : BatchFailedResultModel.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    successful: (json['successful'] as List)
+        ?.map((e) => e == null
+            ? null
+            : BatchSuccessfulResultModel.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+BatchStopResponse _$BatchStopResponseFromJson(Map<String, dynamic> json) {
+  return BatchStopResponse(
+    failed: (json['failed'] as List)
+        ?.map((e) => e == null
+            ? null
+            : BatchFailedResultModel.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    successful: (json['successful'] as List)
+        ?.map((e) => e == null
+            ? null
+            : BatchSuccessfulResultModel.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+BatchSuccessfulResultModel _$BatchSuccessfulResultModelFromJson(
+    Map<String, dynamic> json) {
+  return BatchSuccessfulResultModel(
+    arn: json['arn'] as String,
+    id: json['id'] as String,
+    state: json['state'] as String,
   );
 }
 
@@ -925,6 +1102,11 @@ const _$BurnInTeletextGridControlEnumMap = {
   BurnInTeletextGridControl.scaled: 'SCALED',
 };
 
+CancelInputDeviceTransferResponse _$CancelInputDeviceTransferResponseFromJson(
+    Map<String, dynamic> json) {
+  return CancelInputDeviceTransferResponse();
+}
+
 CaptionDescription _$CaptionDescriptionFromJson(Map<String, dynamic> json) {
   return CaptionDescription(
     captionSelectorName: json['captionSelectorName'] as String,
@@ -970,6 +1152,10 @@ CaptionDestinationSettings _$CaptionDestinationSettingsFromJson(
         ? null
         : DvbSubDestinationSettings.fromJson(
             json['dvbSubDestinationSettings'] as Map<String, dynamic>),
+    ebuTtDDestinationSettings: json['ebuTtDDestinationSettings'] == null
+        ? null
+        : EbuTtDDestinationSettings.fromJson(
+            json['ebuTtDDestinationSettings'] as Map<String, dynamic>),
     embeddedDestinationSettings: json['embeddedDestinationSettings'] == null
         ? null
         : EmbeddedDestinationSettings.fromJson(
@@ -1031,6 +1217,8 @@ Map<String, dynamic> _$CaptionDestinationSettingsToJson(
       instance.burnInDestinationSettings?.toJson());
   writeNotNull('dvbSubDestinationSettings',
       instance.dvbSubDestinationSettings?.toJson());
+  writeNotNull('ebuTtDDestinationSettings',
+      instance.ebuTtDDestinationSettings?.toJson());
   writeNotNull('embeddedDestinationSettings',
       instance.embeddedDestinationSettings?.toJson());
   writeNotNull('embeddedPlusScte20DestinationSettings',
@@ -1106,6 +1294,10 @@ Map<String, dynamic> _$CaptionSelectorToJson(CaptionSelector instance) {
 CaptionSelectorSettings _$CaptionSelectorSettingsFromJson(
     Map<String, dynamic> json) {
   return CaptionSelectorSettings(
+    ancillarySourceSettings: json['ancillarySourceSettings'] == null
+        ? null
+        : AncillarySourceSettings.fromJson(
+            json['ancillarySourceSettings'] as Map<String, dynamic>),
     aribSourceSettings: json['aribSourceSettings'] == null
         ? null
         : AribSourceSettings.fromJson(
@@ -1143,6 +1335,8 @@ Map<String, dynamic> _$CaptionSelectorSettingsToJson(
     }
   }
 
+  writeNotNull(
+      'ancillarySourceSettings', instance.ancillarySourceSettings?.toJson());
   writeNotNull('aribSourceSettings', instance.aribSourceSettings?.toJson());
   writeNotNull('dvbSubSourceSettings', instance.dvbSubSourceSettings?.toJson());
   writeNotNull(
@@ -1154,9 +1348,42 @@ Map<String, dynamic> _$CaptionSelectorSettingsToJson(
   return val;
 }
 
+CdiInputSpecification _$CdiInputSpecificationFromJson(
+    Map<String, dynamic> json) {
+  return CdiInputSpecification(
+    resolution:
+        _$enumDecodeNullable(_$CdiInputResolutionEnumMap, json['resolution']),
+  );
+}
+
+Map<String, dynamic> _$CdiInputSpecificationToJson(
+    CdiInputSpecification instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('resolution', _$CdiInputResolutionEnumMap[instance.resolution]);
+  return val;
+}
+
+const _$CdiInputResolutionEnumMap = {
+  CdiInputResolution.sd: 'SD',
+  CdiInputResolution.hd: 'HD',
+  CdiInputResolution.fhd: 'FHD',
+  CdiInputResolution.uhd: 'UHD',
+};
+
 Channel _$ChannelFromJson(Map<String, dynamic> json) {
   return Channel(
     arn: json['arn'] as String,
+    cdiInputSpecification: json['cdiInputSpecification'] == null
+        ? null
+        : CdiInputSpecification.fromJson(
+            json['cdiInputSpecification'] as Map<String, dynamic>),
     channelClass:
         _$enumDecodeNullable(_$ChannelClassEnumMap, json['channelClass']),
     destinations: (json['destinations'] as List)
@@ -1236,6 +1463,10 @@ ChannelEgressEndpoint _$ChannelEgressEndpointFromJson(
 ChannelSummary _$ChannelSummaryFromJson(Map<String, dynamic> json) {
   return ChannelSummary(
     arn: json['arn'] as String,
+    cdiInputSpecification: json['cdiInputSpecification'] == null
+        ? null
+        : CdiInputSpecification.fromJson(
+            json['cdiInputSpecification'] as Map<String, dynamic>),
     channelClass:
         _$enumDecodeNullable(_$ChannelClassEnumMap, json['channelClass']),
     destinations: (json['destinations'] as List)
@@ -1328,6 +1559,10 @@ DeleteChannelResponse _$DeleteChannelResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteChannelResponse(
     arn: json['arn'] as String,
+    cdiInputSpecification: json['cdiInputSpecification'] == null
+        ? null
+        : CdiInputSpecification.fromJson(
+            json['cdiInputSpecification'] as Map<String, dynamic>),
     channelClass:
         _$enumDecodeNullable(_$ChannelClassEnumMap, json['channelClass']),
     destinations: (json['destinations'] as List)
@@ -1391,6 +1626,12 @@ DeleteMultiplexProgramResponse _$DeleteMultiplexProgramResponseFromJson(
         ? null
         : MultiplexProgramPacketIdentifiersMap.fromJson(
             json['packetIdentifiersMap'] as Map<String, dynamic>),
+    pipelineDetails: (json['pipelineDetails'] as List)
+        ?.map((e) => e == null
+            ? null
+            : MultiplexProgramPipelineDetail.fromJson(
+                e as Map<String, dynamic>))
+        ?.toList(),
     programName: json['programName'] as String,
   );
 }
@@ -1488,6 +1729,10 @@ DescribeChannelResponse _$DescribeChannelResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeChannelResponse(
     arn: json['arn'] as String,
+    cdiInputSpecification: json['cdiInputSpecification'] == null
+        ? null
+        : CdiInputSpecification.fromJson(
+            json['cdiInputSpecification'] as Map<String, dynamic>),
     channelClass:
         _$enumDecodeNullable(_$ChannelClassEnumMap, json['channelClass']),
     destinations: (json['destinations'] as List)
@@ -1530,6 +1775,71 @@ DescribeChannelResponse _$DescribeChannelResponseFromJson(
   );
 }
 
+DescribeInputDeviceResponse _$DescribeInputDeviceResponseFromJson(
+    Map<String, dynamic> json) {
+  return DescribeInputDeviceResponse(
+    arn: json['arn'] as String,
+    connectionState: _$enumDecodeNullable(
+        _$InputDeviceConnectionStateEnumMap, json['connectionState']),
+    deviceSettingsSyncState: _$enumDecodeNullable(
+        _$DeviceSettingsSyncStateEnumMap, json['deviceSettingsSyncState']),
+    deviceUpdateStatus: _$enumDecodeNullable(
+        _$DeviceUpdateStatusEnumMap, json['deviceUpdateStatus']),
+    hdDeviceSettings: json['hdDeviceSettings'] == null
+        ? null
+        : InputDeviceHdSettings.fromJson(
+            json['hdDeviceSettings'] as Map<String, dynamic>),
+    id: json['id'] as String,
+    macAddress: json['macAddress'] as String,
+    name: json['name'] as String,
+    networkSettings: json['networkSettings'] == null
+        ? null
+        : InputDeviceNetworkSettings.fromJson(
+            json['networkSettings'] as Map<String, dynamic>),
+    serialNumber: json['serialNumber'] as String,
+    type: _$enumDecodeNullable(_$InputDeviceTypeEnumMap, json['type']),
+    uhdDeviceSettings: json['uhdDeviceSettings'] == null
+        ? null
+        : InputDeviceUhdSettings.fromJson(
+            json['uhdDeviceSettings'] as Map<String, dynamic>),
+  );
+}
+
+const _$InputDeviceConnectionStateEnumMap = {
+  InputDeviceConnectionState.disconnected: 'DISCONNECTED',
+  InputDeviceConnectionState.connected: 'CONNECTED',
+};
+
+const _$DeviceSettingsSyncStateEnumMap = {
+  DeviceSettingsSyncState.synced: 'SYNCED',
+  DeviceSettingsSyncState.syncing: 'SYNCING',
+};
+
+const _$DeviceUpdateStatusEnumMap = {
+  DeviceUpdateStatus.upToDate: 'UP_TO_DATE',
+  DeviceUpdateStatus.notUpToDate: 'NOT_UP_TO_DATE',
+};
+
+const _$InputDeviceTypeEnumMap = {
+  InputDeviceType.hd: 'HD',
+};
+
+DescribeInputDeviceThumbnailResponse
+    _$DescribeInputDeviceThumbnailResponseFromJson(Map<String, dynamic> json) {
+  return DescribeInputDeviceThumbnailResponse(
+    body: const Uint8ListConverter().fromJson(json['body'] as String),
+    contentLength: json['Content-Length'] as int,
+    contentType:
+        _$enumDecodeNullable(_$ContentTypeEnumMap, json['Content-Type']),
+    eTag: json['ETag'] as String,
+    lastModified: const RfcDateTimeConverter().fromJson(json['Last-Modified']),
+  );
+}
+
+const _$ContentTypeEnumMap = {
+  ContentType.imageJpeg: 'image/jpeg',
+};
+
 DescribeInputResponse _$DescribeInputResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeInputResponse(
@@ -1543,6 +1853,11 @@ DescribeInputResponse _$DescribeInputResponseFromJson(
         ?.toList(),
     id: json['id'] as String,
     inputClass: _$enumDecodeNullable(_$InputClassEnumMap, json['inputClass']),
+    inputDevices: (json['inputDevices'] as List)
+        ?.map((e) => e == null
+            ? null
+            : InputDeviceSettings.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
     inputSourceType:
         _$enumDecodeNullable(_$InputSourceTypeEnumMap, json['inputSourceType']),
     mediaConnectFlows: (json['mediaConnectFlows'] as List)
@@ -1592,6 +1907,8 @@ const _$InputTypeEnumMap = {
   InputType.urlPull: 'URL_PULL',
   InputType.mp4File: 'MP4_FILE',
   InputType.mediaconnect: 'MEDIACONNECT',
+  InputType.inputDevice: 'INPUT_DEVICE',
+  InputType.awsCdi: 'AWS_CDI',
 };
 
 DescribeInputSecurityGroupResponse _$DescribeInputSecurityGroupResponseFromJson(
@@ -1632,6 +1949,12 @@ DescribeMultiplexProgramResponse _$DescribeMultiplexProgramResponseFromJson(
         ? null
         : MultiplexProgramPacketIdentifiersMap.fromJson(
             json['packetIdentifiersMap'] as Map<String, dynamic>),
+    pipelineDetails: (json['pipelineDetails'] as List)
+        ?.map((e) => e == null
+            ? null
+            : MultiplexProgramPipelineDetail.fromJson(
+                e as Map<String, dynamic>))
+        ?.toList(),
     programName: json['programName'] as String,
   );
 }
@@ -2094,6 +2417,45 @@ const _$Eac3SurroundModeEnumMap = {
   Eac3SurroundMode.notIndicated: 'NOT_INDICATED',
 };
 
+EbuTtDDestinationSettings _$EbuTtDDestinationSettingsFromJson(
+    Map<String, dynamic> json) {
+  return EbuTtDDestinationSettings(
+    fillLineGap: _$enumDecodeNullable(
+        _$EbuTtDFillLineGapControlEnumMap, json['fillLineGap']),
+    fontFamily: json['fontFamily'] as String,
+    styleControl: _$enumDecodeNullable(
+        _$EbuTtDDestinationStyleControlEnumMap, json['styleControl']),
+  );
+}
+
+Map<String, dynamic> _$EbuTtDDestinationSettingsToJson(
+    EbuTtDDestinationSettings instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'fillLineGap', _$EbuTtDFillLineGapControlEnumMap[instance.fillLineGap]);
+  writeNotNull('fontFamily', instance.fontFamily);
+  writeNotNull('styleControl',
+      _$EbuTtDDestinationStyleControlEnumMap[instance.styleControl]);
+  return val;
+}
+
+const _$EbuTtDFillLineGapControlEnumMap = {
+  EbuTtDFillLineGapControl.disabled: 'DISABLED',
+  EbuTtDFillLineGapControl.enabled: 'ENABLED',
+};
+
+const _$EbuTtDDestinationStyleControlEnumMap = {
+  EbuTtDDestinationStyleControl.exclude: 'EXCLUDE',
+  EbuTtDDestinationStyleControl.include: 'INCLUDE',
+};
+
 EmbeddedDestinationSettings _$EmbeddedDestinationSettingsFromJson(
     Map<String, dynamic> json) {
   return EmbeddedDestinationSettings();
@@ -2188,6 +2550,10 @@ EncoderSettings _$EncoderSettingsFromJson(Map<String, dynamic> json) {
             ? null
             : CaptionDescription.fromJson(e as Map<String, dynamic>))
         ?.toList(),
+    featureActivations: json['featureActivations'] == null
+        ? null
+        : FeatureActivations.fromJson(
+            json['featureActivations'] as Map<String, dynamic>),
     globalConfiguration: json['globalConfiguration'] == null
         ? null
         : GlobalConfiguration.fromJson(
@@ -2220,10 +2586,97 @@ Map<String, dynamic> _$EncoderSettingsToJson(EncoderSettings instance) {
   writeNotNull('blackoutSlate', instance.blackoutSlate?.toJson());
   writeNotNull('captionDescriptions',
       instance.captionDescriptions?.map((e) => e?.toJson())?.toList());
+  writeNotNull('featureActivations', instance.featureActivations?.toJson());
   writeNotNull('globalConfiguration', instance.globalConfiguration?.toJson());
   writeNotNull('nielsenConfiguration', instance.nielsenConfiguration?.toJson());
   return val;
 }
+
+FailoverCondition _$FailoverConditionFromJson(Map<String, dynamic> json) {
+  return FailoverCondition(
+    failoverConditionSettings: json['failoverConditionSettings'] == null
+        ? null
+        : FailoverConditionSettings.fromJson(
+            json['failoverConditionSettings'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$FailoverConditionToJson(FailoverCondition instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('failoverConditionSettings',
+      instance.failoverConditionSettings?.toJson());
+  return val;
+}
+
+FailoverConditionSettings _$FailoverConditionSettingsFromJson(
+    Map<String, dynamic> json) {
+  return FailoverConditionSettings(
+    audioSilenceSettings: json['audioSilenceSettings'] == null
+        ? null
+        : AudioSilenceFailoverSettings.fromJson(
+            json['audioSilenceSettings'] as Map<String, dynamic>),
+    inputLossSettings: json['inputLossSettings'] == null
+        ? null
+        : InputLossFailoverSettings.fromJson(
+            json['inputLossSettings'] as Map<String, dynamic>),
+    videoBlackSettings: json['videoBlackSettings'] == null
+        ? null
+        : VideoBlackFailoverSettings.fromJson(
+            json['videoBlackSettings'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$FailoverConditionSettingsToJson(
+    FailoverConditionSettings instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('audioSilenceSettings', instance.audioSilenceSettings?.toJson());
+  writeNotNull('inputLossSettings', instance.inputLossSettings?.toJson());
+  writeNotNull('videoBlackSettings', instance.videoBlackSettings?.toJson());
+  return val;
+}
+
+FeatureActivations _$FeatureActivationsFromJson(Map<String, dynamic> json) {
+  return FeatureActivations(
+    inputPrepareScheduleActions: _$enumDecodeNullable(
+        _$FeatureActivationsInputPrepareScheduleActionsEnumMap,
+        json['inputPrepareScheduleActions']),
+  );
+}
+
+Map<String, dynamic> _$FeatureActivationsToJson(FeatureActivations instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'inputPrepareScheduleActions',
+      _$FeatureActivationsInputPrepareScheduleActionsEnumMap[
+          instance.inputPrepareScheduleActions]);
+  return val;
+}
+
+const _$FeatureActivationsInputPrepareScheduleActionsEnumMap = {
+  FeatureActivationsInputPrepareScheduleActions.disabled: 'DISABLED',
+  FeatureActivationsInputPrepareScheduleActions.enabled: 'ENABLED',
+};
 
 FecOutputSettings _$FecOutputSettingsFromJson(Map<String, dynamic> json) {
   return FecOutputSettings(
@@ -2278,6 +2731,10 @@ Map<String, dynamic> _$FixedModeScheduleActionStartSettingsToJson(
 Fmp4HlsSettings _$Fmp4HlsSettingsFromJson(Map<String, dynamic> json) {
   return Fmp4HlsSettings(
     audioRenditionSets: json['audioRenditionSets'] as String,
+    nielsenId3Behavior: _$enumDecodeNullable(
+        _$Fmp4NielsenId3BehaviorEnumMap, json['nielsenId3Behavior']),
+    timedMetadataBehavior: _$enumDecodeNullable(
+        _$Fmp4TimedMetadataBehaviorEnumMap, json['timedMetadataBehavior']),
   );
 }
 
@@ -2291,8 +2748,22 @@ Map<String, dynamic> _$Fmp4HlsSettingsToJson(Fmp4HlsSettings instance) {
   }
 
   writeNotNull('audioRenditionSets', instance.audioRenditionSets);
+  writeNotNull('nielsenId3Behavior',
+      _$Fmp4NielsenId3BehaviorEnumMap[instance.nielsenId3Behavior]);
+  writeNotNull('timedMetadataBehavior',
+      _$Fmp4TimedMetadataBehaviorEnumMap[instance.timedMetadataBehavior]);
   return val;
 }
+
+const _$Fmp4NielsenId3BehaviorEnumMap = {
+  Fmp4NielsenId3Behavior.noPassthrough: 'NO_PASSTHROUGH',
+  Fmp4NielsenId3Behavior.passthrough: 'PASSTHROUGH',
+};
+
+const _$Fmp4TimedMetadataBehaviorEnumMap = {
+  Fmp4TimedMetadataBehavior.noPassthrough: 'NO_PASSTHROUGH',
+  Fmp4TimedMetadataBehavior.passthrough: 'PASSTHROUGH',
+};
 
 FollowModeScheduleActionStartSettings
     _$FollowModeScheduleActionStartSettingsFromJson(Map<String, dynamic> json) {
@@ -2502,6 +2973,29 @@ Map<String, dynamic> _$H264ColorSpaceSettingsToJson(
   return val;
 }
 
+H264FilterSettings _$H264FilterSettingsFromJson(Map<String, dynamic> json) {
+  return H264FilterSettings(
+    temporalFilterSettings: json['temporalFilterSettings'] == null
+        ? null
+        : TemporalFilterSettings.fromJson(
+            json['temporalFilterSettings'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$H264FilterSettingsToJson(H264FilterSettings instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'temporalFilterSettings', instance.temporalFilterSettings?.toJson());
+  return val;
+}
+
 H264Settings _$H264SettingsFromJson(Map<String, dynamic> json) {
   return H264Settings(
     adaptiveQuantization: _$enumDecodeNullable(
@@ -2519,6 +3013,10 @@ H264Settings _$H264SettingsFromJson(Map<String, dynamic> json) {
             json['colorSpaceSettings'] as Map<String, dynamic>),
     entropyEncoding: _$enumDecodeNullable(
         _$H264EntropyEncodingEnumMap, json['entropyEncoding']),
+    filterSettings: json['filterSettings'] == null
+        ? null
+        : H264FilterSettings.fromJson(
+            json['filterSettings'] as Map<String, dynamic>),
     fixedAfd: _$enumDecodeNullable(_$FixedAfdEnumMap, json['fixedAfd']),
     flickerAq: _$enumDecodeNullable(_$H264FlickerAqEnumMap, json['flickerAq']),
     forceFieldPictures: _$enumDecodeNullable(
@@ -2545,6 +3043,8 @@ H264Settings _$H264SettingsFromJson(Map<String, dynamic> json) {
     parDenominator: json['parDenominator'] as int,
     parNumerator: json['parNumerator'] as int,
     profile: _$enumDecodeNullable(_$H264ProfileEnumMap, json['profile']),
+    qualityLevel:
+        _$enumDecodeNullable(_$H264QualityLevelEnumMap, json['qualityLevel']),
     qvbrQualityLevel: json['qvbrQualityLevel'] as int,
     rateControlMode: _$enumDecodeNullable(
         _$H264RateControlModeEnumMap, json['rateControlMode']),
@@ -2584,6 +3084,7 @@ Map<String, dynamic> _$H264SettingsToJson(H264Settings instance) {
   writeNotNull('colorSpaceSettings', instance.colorSpaceSettings?.toJson());
   writeNotNull('entropyEncoding',
       _$H264EntropyEncodingEnumMap[instance.entropyEncoding]);
+  writeNotNull('filterSettings', instance.filterSettings?.toJson());
   writeNotNull('fixedAfd', _$FixedAfdEnumMap[instance.fixedAfd]);
   writeNotNull('flickerAq', _$H264FlickerAqEnumMap[instance.flickerAq]);
   writeNotNull('forceFieldPictures',
@@ -2609,6 +3110,8 @@ Map<String, dynamic> _$H264SettingsToJson(H264Settings instance) {
   writeNotNull('parDenominator', instance.parDenominator);
   writeNotNull('parNumerator', instance.parNumerator);
   writeNotNull('profile', _$H264ProfileEnumMap[instance.profile]);
+  writeNotNull(
+      'qualityLevel', _$H264QualityLevelEnumMap[instance.qualityLevel]);
   writeNotNull('qvbrQualityLevel', instance.qvbrQualityLevel);
   writeNotNull('rateControlMode',
       _$H264RateControlModeEnumMap[instance.rateControlMode]);
@@ -2731,6 +3234,11 @@ const _$H264ProfileEnumMap = {
   H264Profile.main: 'MAIN',
 };
 
+const _$H264QualityLevelEnumMap = {
+  H264QualityLevel.enhancedQuality: 'ENHANCED_QUALITY',
+  H264QualityLevel.standardQuality: 'STANDARD_QUALITY',
+};
+
 const _$H264RateControlModeEnumMap = {
   H264RateControlMode.cbr: 'CBR',
   H264RateControlMode.multiplex: 'MULTIPLEX',
@@ -2812,6 +3320,29 @@ Map<String, dynamic> _$H265ColorSpaceSettingsToJson(
   return val;
 }
 
+H265FilterSettings _$H265FilterSettingsFromJson(Map<String, dynamic> json) {
+  return H265FilterSettings(
+    temporalFilterSettings: json['temporalFilterSettings'] == null
+        ? null
+        : TemporalFilterSettings.fromJson(
+            json['temporalFilterSettings'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$H265FilterSettingsToJson(H265FilterSettings instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'temporalFilterSettings', instance.temporalFilterSettings?.toJson());
+  return val;
+}
+
 H265Settings _$H265SettingsFromJson(Map<String, dynamic> json) {
   return H265Settings(
     framerateDenominator: json['framerateDenominator'] as int,
@@ -2831,6 +3362,10 @@ H265Settings _$H265SettingsFromJson(Map<String, dynamic> json) {
         ? null
         : H265ColorSpaceSettings.fromJson(
             json['colorSpaceSettings'] as Map<String, dynamic>),
+    filterSettings: json['filterSettings'] == null
+        ? null
+        : H265FilterSettings.fromJson(
+            json['filterSettings'] as Map<String, dynamic>),
     fixedAfd: _$enumDecodeNullable(_$FixedAfdEnumMap, json['fixedAfd']),
     flickerAq: _$enumDecodeNullable(_$H265FlickerAqEnumMap, json['flickerAq']),
     gopClosedCadence: json['gopClosedCadence'] as int,
@@ -2881,6 +3416,7 @@ Map<String, dynamic> _$H265SettingsToJson(H265Settings instance) {
   writeNotNull(
       'colorMetadata', _$H265ColorMetadataEnumMap[instance.colorMetadata]);
   writeNotNull('colorSpaceSettings', instance.colorSpaceSettings?.toJson());
+  writeNotNull('filterSettings', instance.filterSettings?.toJson());
   writeNotNull('fixedAfd', _$FixedAfdEnumMap[instance.fixedAfd]);
   writeNotNull('flickerAq', _$H265FlickerAqEnumMap[instance.flickerAq]);
   writeNotNull('gopClosedCadence', instance.gopClosedCadence);
@@ -2972,6 +3508,7 @@ const _$H265RateControlModeEnumMap = {
 };
 
 const _$H265ScanTypeEnumMap = {
+  H265ScanType.interlaced: 'INTERLACED',
   H265ScanType.progressive: 'PROGRESSIVE',
 };
 
@@ -3139,6 +3676,8 @@ HlsGroupSettings _$HlsGroupSettingsFromJson(Map<String, dynamic> json) {
     constantIv: json['constantIv'] as String,
     directoryStructure: _$enumDecodeNullable(
         _$HlsDirectoryStructureEnumMap, json['directoryStructure']),
+    discontinuityTags: _$enumDecodeNullable(
+        _$HlsDiscontinuityTagsEnumMap, json['discontinuityTags']),
     encryptionType: _$enumDecodeNullable(
         _$HlsEncryptionTypeEnumMap, json['encryptionType']),
     hlsCdnSettings: json['hlsCdnSettings'] == null
@@ -3149,6 +3688,9 @@ HlsGroupSettings _$HlsGroupSettingsFromJson(Map<String, dynamic> json) {
         _$HlsId3SegmentTaggingStateEnumMap, json['hlsId3SegmentTagging']),
     iFrameOnlyPlaylists: _$enumDecodeNullable(
         _$IFrameOnlyPlaylistTypeEnumMap, json['iFrameOnlyPlaylists']),
+    incompleteSegmentBehavior: _$enumDecodeNullable(
+        _$HlsIncompleteSegmentBehaviorEnumMap,
+        json['incompleteSegmentBehavior']),
     indexNSegments: json['indexNSegments'] as int,
     inputLossAction: _$enumDecodeNullable(
         _$InputLossActionForHlsOutEnumMap, json['inputLossAction']),
@@ -3216,6 +3758,8 @@ Map<String, dynamic> _$HlsGroupSettingsToJson(HlsGroupSettings instance) {
   writeNotNull('constantIv', instance.constantIv);
   writeNotNull('directoryStructure',
       _$HlsDirectoryStructureEnumMap[instance.directoryStructure]);
+  writeNotNull('discontinuityTags',
+      _$HlsDiscontinuityTagsEnumMap[instance.discontinuityTags]);
   writeNotNull(
       'encryptionType', _$HlsEncryptionTypeEnumMap[instance.encryptionType]);
   writeNotNull('hlsCdnSettings', instance.hlsCdnSettings?.toJson());
@@ -3223,6 +3767,10 @@ Map<String, dynamic> _$HlsGroupSettingsToJson(HlsGroupSettings instance) {
       _$HlsId3SegmentTaggingStateEnumMap[instance.hlsId3SegmentTagging]);
   writeNotNull('iFrameOnlyPlaylists',
       _$IFrameOnlyPlaylistTypeEnumMap[instance.iFrameOnlyPlaylists]);
+  writeNotNull(
+      'incompleteSegmentBehavior',
+      _$HlsIncompleteSegmentBehaviorEnumMap[
+          instance.incompleteSegmentBehavior]);
   writeNotNull('indexNSegments', instance.indexNSegments);
   writeNotNull('inputLossAction',
       _$InputLossActionForHlsOutEnumMap[instance.inputLossAction]);
@@ -3287,6 +3835,11 @@ const _$HlsDirectoryStructureEnumMap = {
   HlsDirectoryStructure.subdirectoryPerStream: 'SUBDIRECTORY_PER_STREAM',
 };
 
+const _$HlsDiscontinuityTagsEnumMap = {
+  HlsDiscontinuityTags.insert: 'INSERT',
+  HlsDiscontinuityTags.neverInsert: 'NEVER_INSERT',
+};
+
 const _$HlsEncryptionTypeEnumMap = {
   HlsEncryptionType.aes128: 'AES128',
   HlsEncryptionType.sampleAes: 'SAMPLE_AES',
@@ -3300,6 +3853,11 @@ const _$HlsId3SegmentTaggingStateEnumMap = {
 const _$IFrameOnlyPlaylistTypeEnumMap = {
   IFrameOnlyPlaylistType.disabled: 'DISABLED',
   IFrameOnlyPlaylistType.standard: 'STANDARD',
+};
+
+const _$HlsIncompleteSegmentBehaviorEnumMap = {
+  HlsIncompleteSegmentBehavior.auto: 'AUTO',
+  HlsIncompleteSegmentBehavior.suppress: 'SUPPRESS',
 };
 
 const _$InputLossActionForHlsOutEnumMap = {
@@ -3335,6 +3893,8 @@ const _$HlsModeEnumMap = {
 const _$HlsOutputSelectionEnumMap = {
   HlsOutputSelection.manifestsAndSegments: 'MANIFESTS_AND_SEGMENTS',
   HlsOutputSelection.segmentsOnly: 'SEGMENTS_ONLY',
+  HlsOutputSelection.variantManifestsAndSegments:
+      'VARIANT_MANIFESTS_AND_SEGMENTS',
 };
 
 const _$HlsProgramDateTimeEnumMap = {
@@ -3594,6 +4154,11 @@ Input _$InputFromJson(Map<String, dynamic> json) {
         ?.toList(),
     id: json['id'] as String,
     inputClass: _$enumDecodeNullable(_$InputClassEnumMap, json['inputClass']),
+    inputDevices: (json['inputDevices'] as List)
+        ?.map((e) => e == null
+            ? null
+            : InputDeviceSettings.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
     inputSourceType:
         _$enumDecodeNullable(_$InputSourceTypeEnumMap, json['inputSourceType']),
     mediaConnectFlows: (json['mediaConnectFlows'] as List)
@@ -3738,6 +4303,158 @@ InputDestinationVpc _$InputDestinationVpcFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$InputDeviceConfigurableSettingsToJson(
+    InputDeviceConfigurableSettings instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('configuredInput',
+      _$InputDeviceConfiguredInputEnumMap[instance.configuredInput]);
+  writeNotNull('maxBitrate', instance.maxBitrate);
+  return val;
+}
+
+const _$InputDeviceConfiguredInputEnumMap = {
+  InputDeviceConfiguredInput.auto: 'AUTO',
+  InputDeviceConfiguredInput.hdmi: 'HDMI',
+  InputDeviceConfiguredInput.sdi: 'SDI',
+};
+
+InputDeviceHdSettings _$InputDeviceHdSettingsFromJson(
+    Map<String, dynamic> json) {
+  return InputDeviceHdSettings(
+    activeInput: _$enumDecodeNullable(
+        _$InputDeviceActiveInputEnumMap, json['activeInput']),
+    configuredInput: _$enumDecodeNullable(
+        _$InputDeviceConfiguredInputEnumMap, json['configuredInput']),
+    deviceState:
+        _$enumDecodeNullable(_$InputDeviceStateEnumMap, json['deviceState']),
+    framerate: (json['framerate'] as num)?.toDouble(),
+    height: json['height'] as int,
+    maxBitrate: json['maxBitrate'] as int,
+    scanType:
+        _$enumDecodeNullable(_$InputDeviceScanTypeEnumMap, json['scanType']),
+    width: json['width'] as int,
+  );
+}
+
+const _$InputDeviceActiveInputEnumMap = {
+  InputDeviceActiveInput.hdmi: 'HDMI',
+  InputDeviceActiveInput.sdi: 'SDI',
+};
+
+const _$InputDeviceStateEnumMap = {
+  InputDeviceState.idle: 'IDLE',
+  InputDeviceState.streaming: 'STREAMING',
+};
+
+const _$InputDeviceScanTypeEnumMap = {
+  InputDeviceScanType.interlaced: 'INTERLACED',
+  InputDeviceScanType.progressive: 'PROGRESSIVE',
+};
+
+InputDeviceNetworkSettings _$InputDeviceNetworkSettingsFromJson(
+    Map<String, dynamic> json) {
+  return InputDeviceNetworkSettings(
+    dnsAddresses:
+        (json['dnsAddresses'] as List)?.map((e) => e as String)?.toList(),
+    gateway: json['gateway'] as String,
+    ipAddress: json['ipAddress'] as String,
+    ipScheme:
+        _$enumDecodeNullable(_$InputDeviceIpSchemeEnumMap, json['ipScheme']),
+    subnetMask: json['subnetMask'] as String,
+  );
+}
+
+const _$InputDeviceIpSchemeEnumMap = {
+  InputDeviceIpScheme.static: 'STATIC',
+  InputDeviceIpScheme.dhcp: 'DHCP',
+};
+
+Map<String, dynamic> _$InputDeviceRequestToJson(InputDeviceRequest instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('id', instance.id);
+  return val;
+}
+
+InputDeviceSettings _$InputDeviceSettingsFromJson(Map<String, dynamic> json) {
+  return InputDeviceSettings(
+    id: json['id'] as String,
+  );
+}
+
+Map<String, dynamic> _$InputDeviceSettingsToJson(InputDeviceSettings instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('id', instance.id);
+  return val;
+}
+
+InputDeviceSummary _$InputDeviceSummaryFromJson(Map<String, dynamic> json) {
+  return InputDeviceSummary(
+    arn: json['arn'] as String,
+    connectionState: _$enumDecodeNullable(
+        _$InputDeviceConnectionStateEnumMap, json['connectionState']),
+    deviceSettingsSyncState: _$enumDecodeNullable(
+        _$DeviceSettingsSyncStateEnumMap, json['deviceSettingsSyncState']),
+    deviceUpdateStatus: _$enumDecodeNullable(
+        _$DeviceUpdateStatusEnumMap, json['deviceUpdateStatus']),
+    hdDeviceSettings: json['hdDeviceSettings'] == null
+        ? null
+        : InputDeviceHdSettings.fromJson(
+            json['hdDeviceSettings'] as Map<String, dynamic>),
+    id: json['id'] as String,
+    macAddress: json['macAddress'] as String,
+    name: json['name'] as String,
+    networkSettings: json['networkSettings'] == null
+        ? null
+        : InputDeviceNetworkSettings.fromJson(
+            json['networkSettings'] as Map<String, dynamic>),
+    serialNumber: json['serialNumber'] as String,
+    type: _$enumDecodeNullable(_$InputDeviceTypeEnumMap, json['type']),
+    uhdDeviceSettings: json['uhdDeviceSettings'] == null
+        ? null
+        : InputDeviceUhdSettings.fromJson(
+            json['uhdDeviceSettings'] as Map<String, dynamic>),
+  );
+}
+
+InputDeviceUhdSettings _$InputDeviceUhdSettingsFromJson(
+    Map<String, dynamic> json) {
+  return InputDeviceUhdSettings(
+    activeInput: _$enumDecodeNullable(
+        _$InputDeviceActiveInputEnumMap, json['activeInput']),
+    configuredInput: _$enumDecodeNullable(
+        _$InputDeviceConfiguredInputEnumMap, json['configuredInput']),
+    deviceState:
+        _$enumDecodeNullable(_$InputDeviceStateEnumMap, json['deviceState']),
+    framerate: (json['framerate'] as num)?.toDouble(),
+    height: json['height'] as int,
+    maxBitrate: json['maxBitrate'] as int,
+    scanType:
+        _$enumDecodeNullable(_$InputDeviceScanTypeEnumMap, json['scanType']),
+    width: json['width'] as int,
+  );
+}
+
 InputLocation _$InputLocationFromJson(Map<String, dynamic> json) {
   return InputLocation(
     uri: json['uri'] as String,
@@ -3798,6 +4515,58 @@ const _$InputLossImageTypeEnumMap = {
   InputLossImageType.slate: 'SLATE',
 };
 
+InputLossFailoverSettings _$InputLossFailoverSettingsFromJson(
+    Map<String, dynamic> json) {
+  return InputLossFailoverSettings(
+    inputLossThresholdMsec: json['inputLossThresholdMsec'] as int,
+  );
+}
+
+Map<String, dynamic> _$InputLossFailoverSettingsToJson(
+    InputLossFailoverSettings instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('inputLossThresholdMsec', instance.inputLossThresholdMsec);
+  return val;
+}
+
+InputPrepareScheduleActionSettings _$InputPrepareScheduleActionSettingsFromJson(
+    Map<String, dynamic> json) {
+  return InputPrepareScheduleActionSettings(
+    inputAttachmentNameReference:
+        json['inputAttachmentNameReference'] as String,
+    inputClippingSettings: json['inputClippingSettings'] == null
+        ? null
+        : InputClippingSettings.fromJson(
+            json['inputClippingSettings'] as Map<String, dynamic>),
+    urlPath: (json['urlPath'] as List)?.map((e) => e as String)?.toList(),
+  );
+}
+
+Map<String, dynamic> _$InputPrepareScheduleActionSettingsToJson(
+    InputPrepareScheduleActionSettings instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'inputAttachmentNameReference', instance.inputAttachmentNameReference);
+  writeNotNull(
+      'inputClippingSettings', instance.inputClippingSettings?.toJson());
+  writeNotNull('urlPath', instance.urlPath);
+  return val;
+}
+
 InputSecurityGroup _$InputSecurityGroupFromJson(Map<String, dynamic> json) {
   return InputSecurityGroup(
     arn: json['arn'] as String,
@@ -3839,6 +4608,8 @@ InputSettings _$InputSettingsFromJson(Map<String, dynamic> json) {
         ? null
         : NetworkInputSettings.fromJson(
             json['networkInputSettings'] as Map<String, dynamic>),
+    smpte2038DataPreference: _$enumDecodeNullable(
+        _$Smpte2038DataPreferenceEnumMap, json['smpte2038DataPreference']),
     sourceEndBehavior: _$enumDecodeNullable(
         _$InputSourceEndBehaviorEnumMap, json['sourceEndBehavior']),
     videoSelector: json['videoSelector'] == null
@@ -3867,6 +4638,8 @@ Map<String, dynamic> _$InputSettingsToJson(InputSettings instance) {
   writeNotNull('filterStrength', instance.filterStrength);
   writeNotNull('inputFilter', _$InputFilterEnumMap[instance.inputFilter]);
   writeNotNull('networkInputSettings', instance.networkInputSettings?.toJson());
+  writeNotNull('smpte2038DataPreference',
+      _$Smpte2038DataPreferenceEnumMap[instance.smpte2038DataPreference]);
   writeNotNull('sourceEndBehavior',
       _$InputSourceEndBehaviorEnumMap[instance.sourceEndBehavior]);
   writeNotNull('videoSelector', instance.videoSelector?.toJson());
@@ -3887,6 +4660,11 @@ const _$InputFilterEnumMap = {
   InputFilter.auto: 'AUTO',
   InputFilter.disabled: 'DISABLED',
   InputFilter.forced: 'FORCED',
+};
+
+const _$Smpte2038DataPreferenceEnumMap = {
+  Smpte2038DataPreference.ignore: 'IGNORE',
+  Smpte2038DataPreference.prefer: 'PREFER',
 };
 
 const _$InputSourceEndBehaviorEnumMap = {
@@ -4054,6 +4832,31 @@ ListChannelsResponse _$ListChannelsResponseFromJson(Map<String, dynamic> json) {
         ?.map((e) => e == null
             ? null
             : ChannelSummary.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    nextToken: json['nextToken'] as String,
+  );
+}
+
+ListInputDeviceTransfersResponse _$ListInputDeviceTransfersResponseFromJson(
+    Map<String, dynamic> json) {
+  return ListInputDeviceTransfersResponse(
+    inputDeviceTransfers: (json['inputDeviceTransfers'] as List)
+        ?.map((e) => e == null
+            ? null
+            : TransferringInputDeviceSummary.fromJson(
+                e as Map<String, dynamic>))
+        ?.toList(),
+    nextToken: json['nextToken'] as String,
+  );
+}
+
+ListInputDevicesResponse _$ListInputDevicesResponseFromJson(
+    Map<String, dynamic> json) {
+  return ListInputDevicesResponse(
+    inputDevices: (json['inputDevices'] as List)
+        ?.map((e) => e == null
+            ? null
+            : InputDeviceSummary.fromJson(e as Map<String, dynamic>))
         ?.toList(),
     nextToken: json['nextToken'] as String,
   );
@@ -4564,6 +5367,138 @@ const _$Mp2CodingModeEnumMap = {
   Mp2CodingMode.codingMode_2_0: 'CODING_MODE_2_0',
 };
 
+Mpeg2FilterSettings _$Mpeg2FilterSettingsFromJson(Map<String, dynamic> json) {
+  return Mpeg2FilterSettings(
+    temporalFilterSettings: json['temporalFilterSettings'] == null
+        ? null
+        : TemporalFilterSettings.fromJson(
+            json['temporalFilterSettings'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$Mpeg2FilterSettingsToJson(Mpeg2FilterSettings instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'temporalFilterSettings', instance.temporalFilterSettings?.toJson());
+  return val;
+}
+
+Mpeg2Settings _$Mpeg2SettingsFromJson(Map<String, dynamic> json) {
+  return Mpeg2Settings(
+    framerateDenominator: json['framerateDenominator'] as int,
+    framerateNumerator: json['framerateNumerator'] as int,
+    adaptiveQuantization: _$enumDecodeNullable(
+        _$Mpeg2AdaptiveQuantizationEnumMap, json['adaptiveQuantization']),
+    afdSignaling:
+        _$enumDecodeNullable(_$AfdSignalingEnumMap, json['afdSignaling']),
+    colorMetadata: _$enumDecodeNullable(
+        _$Mpeg2ColorMetadataEnumMap, json['colorMetadata']),
+    colorSpace:
+        _$enumDecodeNullable(_$Mpeg2ColorSpaceEnumMap, json['colorSpace']),
+    displayAspectRatio: _$enumDecodeNullable(
+        _$Mpeg2DisplayRatioEnumMap, json['displayAspectRatio']),
+    filterSettings: json['filterSettings'] == null
+        ? null
+        : Mpeg2FilterSettings.fromJson(
+            json['filterSettings'] as Map<String, dynamic>),
+    fixedAfd: _$enumDecodeNullable(_$FixedAfdEnumMap, json['fixedAfd']),
+    gopClosedCadence: json['gopClosedCadence'] as int,
+    gopNumBFrames: json['gopNumBFrames'] as int,
+    gopSize: (json['gopSize'] as num)?.toDouble(),
+    gopSizeUnits:
+        _$enumDecodeNullable(_$Mpeg2GopSizeUnitsEnumMap, json['gopSizeUnits']),
+    scanType: _$enumDecodeNullable(_$Mpeg2ScanTypeEnumMap, json['scanType']),
+    subgopLength:
+        _$enumDecodeNullable(_$Mpeg2SubGopLengthEnumMap, json['subgopLength']),
+    timecodeInsertion: _$enumDecodeNullable(
+        _$Mpeg2TimecodeInsertionBehaviorEnumMap, json['timecodeInsertion']),
+  );
+}
+
+Map<String, dynamic> _$Mpeg2SettingsToJson(Mpeg2Settings instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('framerateDenominator', instance.framerateDenominator);
+  writeNotNull('framerateNumerator', instance.framerateNumerator);
+  writeNotNull('adaptiveQuantization',
+      _$Mpeg2AdaptiveQuantizationEnumMap[instance.adaptiveQuantization]);
+  writeNotNull('afdSignaling', _$AfdSignalingEnumMap[instance.afdSignaling]);
+  writeNotNull(
+      'colorMetadata', _$Mpeg2ColorMetadataEnumMap[instance.colorMetadata]);
+  writeNotNull('colorSpace', _$Mpeg2ColorSpaceEnumMap[instance.colorSpace]);
+  writeNotNull('displayAspectRatio',
+      _$Mpeg2DisplayRatioEnumMap[instance.displayAspectRatio]);
+  writeNotNull('filterSettings', instance.filterSettings?.toJson());
+  writeNotNull('fixedAfd', _$FixedAfdEnumMap[instance.fixedAfd]);
+  writeNotNull('gopClosedCadence', instance.gopClosedCadence);
+  writeNotNull('gopNumBFrames', instance.gopNumBFrames);
+  writeNotNull('gopSize', instance.gopSize);
+  writeNotNull(
+      'gopSizeUnits', _$Mpeg2GopSizeUnitsEnumMap[instance.gopSizeUnits]);
+  writeNotNull('scanType', _$Mpeg2ScanTypeEnumMap[instance.scanType]);
+  writeNotNull(
+      'subgopLength', _$Mpeg2SubGopLengthEnumMap[instance.subgopLength]);
+  writeNotNull('timecodeInsertion',
+      _$Mpeg2TimecodeInsertionBehaviorEnumMap[instance.timecodeInsertion]);
+  return val;
+}
+
+const _$Mpeg2AdaptiveQuantizationEnumMap = {
+  Mpeg2AdaptiveQuantization.auto: 'AUTO',
+  Mpeg2AdaptiveQuantization.high: 'HIGH',
+  Mpeg2AdaptiveQuantization.low: 'LOW',
+  Mpeg2AdaptiveQuantization.medium: 'MEDIUM',
+  Mpeg2AdaptiveQuantization.off: 'OFF',
+};
+
+const _$Mpeg2ColorMetadataEnumMap = {
+  Mpeg2ColorMetadata.ignore: 'IGNORE',
+  Mpeg2ColorMetadata.insert: 'INSERT',
+};
+
+const _$Mpeg2ColorSpaceEnumMap = {
+  Mpeg2ColorSpace.auto: 'AUTO',
+  Mpeg2ColorSpace.passthrough: 'PASSTHROUGH',
+};
+
+const _$Mpeg2DisplayRatioEnumMap = {
+  Mpeg2DisplayRatio.displayratio16x9: 'DISPLAYRATIO16X9',
+  Mpeg2DisplayRatio.displayratio4x3: 'DISPLAYRATIO4X3',
+};
+
+const _$Mpeg2GopSizeUnitsEnumMap = {
+  Mpeg2GopSizeUnits.frames: 'FRAMES',
+  Mpeg2GopSizeUnits.seconds: 'SECONDS',
+};
+
+const _$Mpeg2ScanTypeEnumMap = {
+  Mpeg2ScanType.interlaced: 'INTERLACED',
+  Mpeg2ScanType.progressive: 'PROGRESSIVE',
+};
+
+const _$Mpeg2SubGopLengthEnumMap = {
+  Mpeg2SubGopLength.dynamic: 'DYNAMIC',
+  Mpeg2SubGopLength.fixed: 'FIXED',
+};
+
+const _$Mpeg2TimecodeInsertionBehaviorEnumMap = {
+  Mpeg2TimecodeInsertionBehavior.disabled: 'DISABLED',
+  Mpeg2TimecodeInsertionBehavior.gopTimecode: 'GOP_TIMECODE',
+};
+
 MsSmoothGroupSettings _$MsSmoothGroupSettingsFromJson(
     Map<String, dynamic> json) {
   return MsSmoothGroupSettings(
@@ -4683,6 +5618,8 @@ const _$SmoothGroupSegmentationModeEnumMap = {
 const _$SmoothGroupSparseTrackTypeEnumMap = {
   SmoothGroupSparseTrackType.none: 'NONE',
   SmoothGroupSparseTrackType.scte_35: 'SCTE_35',
+  SmoothGroupSparseTrackType.scte_35WithoutSegmentation:
+      'SCTE_35_WITHOUT_SEGMENTATION',
 };
 
 const _$SmoothGroupStreamManifestBehaviorEnumMap = {
@@ -4812,6 +5749,12 @@ MultiplexProgram _$MultiplexProgramFromJson(Map<String, dynamic> json) {
         ? null
         : MultiplexProgramPacketIdentifiersMap.fromJson(
             json['packetIdentifiersMap'] as Map<String, dynamic>),
+    pipelineDetails: (json['pipelineDetails'] as List)
+        ?.map((e) => e == null
+            ? null
+            : MultiplexProgramPipelineDetail.fromJson(
+                e as Map<String, dynamic>))
+        ?.toList(),
     programName: json['programName'] as String,
   );
 }
@@ -4856,6 +5799,14 @@ MultiplexProgramPacketIdentifiersMap
     scte35Pid: json['scte35Pid'] as int,
     timedMetadataPid: json['timedMetadataPid'] as int,
     videoPid: json['videoPid'] as int,
+  );
+}
+
+MultiplexProgramPipelineDetail _$MultiplexProgramPipelineDetailFromJson(
+    Map<String, dynamic> json) {
+  return MultiplexProgramPipelineDetail(
+    activeChannelPipeline: json['activeChannelPipeline'] as String,
+    pipelineId: json['pipelineId'] as String,
   );
 }
 
@@ -4972,6 +5923,7 @@ MultiplexStatmuxVideoSettings _$MultiplexStatmuxVideoSettingsFromJson(
   return MultiplexStatmuxVideoSettings(
     maximumBitrate: json['maximumBitrate'] as int,
     minimumBitrate: json['minimumBitrate'] as int,
+    priority: json['priority'] as int,
   );
 }
 
@@ -4987,6 +5939,7 @@ Map<String, dynamic> _$MultiplexStatmuxVideoSettingsToJson(
 
   writeNotNull('maximumBitrate', instance.maximumBitrate);
   writeNotNull('minimumBitrate', instance.minimumBitrate);
+  writeNotNull('priority', instance.priority);
   return val;
 }
 
@@ -5467,6 +6420,13 @@ PurchaseOfferingResponse _$PurchaseOfferingResponseFromJson(
   );
 }
 
+RawSettings _$RawSettingsFromJson(Map<String, dynamic> json) {
+  return RawSettings();
+}
+
+Map<String, dynamic> _$RawSettingsToJson(RawSettings instance) =>
+    <String, dynamic>{};
+
 Rec601Settings _$Rec601SettingsFromJson(Map<String, dynamic> json) {
   return Rec601Settings();
 }
@@ -5480,6 +6440,11 @@ Rec709Settings _$Rec709SettingsFromJson(Map<String, dynamic> json) {
 
 Map<String, dynamic> _$Rec709SettingsToJson(Rec709Settings instance) =>
     <String, dynamic>{};
+
+RejectInputDeviceTransferResponse _$RejectInputDeviceTransferResponseFromJson(
+    Map<String, dynamic> json) {
+  return RejectInputDeviceTransferResponse();
+}
 
 RemixSettings _$RemixSettingsFromJson(Map<String, dynamic> json) {
   return RemixSettings(
@@ -5565,6 +6530,7 @@ const _$ReservationCodecEnumMap = {
   ReservationCodec.avc: 'AVC',
   ReservationCodec.hevc: 'HEVC',
   ReservationCodec.audio: 'AUDIO',
+  ReservationCodec.link: 'LINK',
 };
 
 const _$ReservationMaximumBitrateEnumMap = {
@@ -5614,6 +6580,9 @@ Map<String, dynamic> _$RtmpCaptionInfoDestinationSettingsToJson(
 
 RtmpGroupSettings _$RtmpGroupSettingsFromJson(Map<String, dynamic> json) {
   return RtmpGroupSettings(
+    adMarkers: (json['adMarkers'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$RtmpAdMarkersEnumMap, e))
+        ?.toList(),
     authenticationScheme: _$enumDecodeNullable(
         _$AuthenticationSchemeEnumMap, json['authenticationScheme']),
     cacheFullBehavior: _$enumDecodeNullable(
@@ -5636,6 +6605,8 @@ Map<String, dynamic> _$RtmpGroupSettingsToJson(RtmpGroupSettings instance) {
     }
   }
 
+  writeNotNull('adMarkers',
+      instance.adMarkers?.map((e) => _$RtmpAdMarkersEnumMap[e])?.toList());
   writeNotNull('authenticationScheme',
       _$AuthenticationSchemeEnumMap[instance.authenticationScheme]);
   writeNotNull('cacheFullBehavior',
@@ -5647,6 +6618,10 @@ Map<String, dynamic> _$RtmpGroupSettingsToJson(RtmpGroupSettings instance) {
   writeNotNull('restartDelay', instance.restartDelay);
   return val;
 }
+
+const _$RtmpAdMarkersEnumMap = {
+  RtmpAdMarkers.onCuePointScte35: 'ON_CUE_POINT_SCTE35',
+};
 
 const _$AuthenticationSchemeEnumMap = {
   AuthenticationScheme.akamai: 'AKAMAI',
@@ -5746,6 +6721,10 @@ ScheduleActionSettings _$ScheduleActionSettingsFromJson(
         ? null
         : HlsTimedMetadataScheduleActionSettings.fromJson(
             json['hlsTimedMetadataSettings'] as Map<String, dynamic>),
+    inputPrepareSettings: json['inputPrepareSettings'] == null
+        ? null
+        : InputPrepareScheduleActionSettings.fromJson(
+            json['inputPrepareSettings'] as Map<String, dynamic>),
     inputSwitchSettings: json['inputSwitchSettings'] == null
         ? null
         : InputSwitchScheduleActionSettings.fromJson(
@@ -5791,6 +6770,7 @@ Map<String, dynamic> _$ScheduleActionSettingsToJson(
       instance.hlsId3SegmentTaggingSettings?.toJson());
   writeNotNull(
       'hlsTimedMetadataSettings', instance.hlsTimedMetadataSettings?.toJson());
+  writeNotNull('inputPrepareSettings', instance.inputPrepareSettings?.toJson());
   writeNotNull('inputSwitchSettings', instance.inputSwitchSettings?.toJson());
   writeNotNull('pauseStateSettings', instance.pauseStateSettings?.toJson());
   writeNotNull('scte35ReturnToNetworkSettings',
@@ -6275,6 +7255,10 @@ Map<String, dynamic> _$StandardHlsSettingsToJson(StandardHlsSettings instance) {
 StartChannelResponse _$StartChannelResponseFromJson(Map<String, dynamic> json) {
   return StartChannelResponse(
     arn: json['arn'] as String,
+    cdiInputSpecification: json['cdiInputSpecification'] == null
+        ? null
+        : CdiInputSpecification.fromJson(
+            json['cdiInputSpecification'] as Map<String, dynamic>),
     channelClass:
         _$enumDecodeNullable(_$ChannelClassEnumMap, json['channelClass']),
     destinations: (json['destinations'] as List)
@@ -6455,6 +7439,10 @@ Map<String, dynamic> _$StaticKeySettingsToJson(StaticKeySettings instance) {
 StopChannelResponse _$StopChannelResponseFromJson(Map<String, dynamic> json) {
   return StopChannelResponse(
     arn: json['arn'] as String,
+    cdiInputSpecification: json['cdiInputSpecification'] == null
+        ? null
+        : CdiInputSpecification.fromJson(
+            json['cdiInputSpecification'] as Map<String, dynamic>),
     channelClass:
         _$enumDecodeNullable(_$ChannelClassEnumMap, json['channelClass']),
     destinations: (json['destinations'] as List)
@@ -6581,6 +7569,61 @@ Map<String, dynamic> _$TeletextSourceSettingsToJson(
   return val;
 }
 
+TemporalFilterSettings _$TemporalFilterSettingsFromJson(
+    Map<String, dynamic> json) {
+  return TemporalFilterSettings(
+    postFilterSharpening: _$enumDecodeNullable(
+        _$TemporalFilterPostFilterSharpeningEnumMap,
+        json['postFilterSharpening']),
+    strength:
+        _$enumDecodeNullable(_$TemporalFilterStrengthEnumMap, json['strength']),
+  );
+}
+
+Map<String, dynamic> _$TemporalFilterSettingsToJson(
+    TemporalFilterSettings instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'postFilterSharpening',
+      _$TemporalFilterPostFilterSharpeningEnumMap[
+          instance.postFilterSharpening]);
+  writeNotNull('strength', _$TemporalFilterStrengthEnumMap[instance.strength]);
+  return val;
+}
+
+const _$TemporalFilterPostFilterSharpeningEnumMap = {
+  TemporalFilterPostFilterSharpening.auto: 'AUTO',
+  TemporalFilterPostFilterSharpening.disabled: 'DISABLED',
+  TemporalFilterPostFilterSharpening.enabled: 'ENABLED',
+};
+
+const _$TemporalFilterStrengthEnumMap = {
+  TemporalFilterStrength.auto: 'AUTO',
+  TemporalFilterStrength.strength_1: 'STRENGTH_1',
+  TemporalFilterStrength.strength_2: 'STRENGTH_2',
+  TemporalFilterStrength.strength_3: 'STRENGTH_3',
+  TemporalFilterStrength.strength_4: 'STRENGTH_4',
+  TemporalFilterStrength.strength_5: 'STRENGTH_5',
+  TemporalFilterStrength.strength_6: 'STRENGTH_6',
+  TemporalFilterStrength.strength_7: 'STRENGTH_7',
+  TemporalFilterStrength.strength_8: 'STRENGTH_8',
+  TemporalFilterStrength.strength_9: 'STRENGTH_9',
+  TemporalFilterStrength.strength_10: 'STRENGTH_10',
+  TemporalFilterStrength.strength_11: 'STRENGTH_11',
+  TemporalFilterStrength.strength_12: 'STRENGTH_12',
+  TemporalFilterStrength.strength_13: 'STRENGTH_13',
+  TemporalFilterStrength.strength_14: 'STRENGTH_14',
+  TemporalFilterStrength.strength_15: 'STRENGTH_15',
+  TemporalFilterStrength.strength_16: 'STRENGTH_16',
+};
+
 TimecodeConfig _$TimecodeConfigFromJson(Map<String, dynamic> json) {
   return TimecodeConfig(
     source: _$enumDecodeNullable(_$TimecodeConfigSourceEnumMap, json['source']),
@@ -6606,6 +7649,27 @@ const _$TimecodeConfigSourceEnumMap = {
   TimecodeConfigSource.embedded: 'EMBEDDED',
   TimecodeConfigSource.systemclock: 'SYSTEMCLOCK',
   TimecodeConfigSource.zerobased: 'ZEROBASED',
+};
+
+TransferInputDeviceResponse _$TransferInputDeviceResponseFromJson(
+    Map<String, dynamic> json) {
+  return TransferInputDeviceResponse();
+}
+
+TransferringInputDeviceSummary _$TransferringInputDeviceSummaryFromJson(
+    Map<String, dynamic> json) {
+  return TransferringInputDeviceSummary(
+    id: json['id'] as String,
+    message: json['message'] as String,
+    targetCustomerId: json['targetCustomerId'] as String,
+    transferType: _$enumDecodeNullable(
+        _$InputDeviceTransferTypeEnumMap, json['transferType']),
+  );
+}
+
+const _$InputDeviceTransferTypeEnumMap = {
+  InputDeviceTransferType.outgoing: 'OUTGOING',
+  InputDeviceTransferType.incoming: 'INCOMING',
 };
 
 TtmlDestinationSettings _$TtmlDestinationSettingsFromJson(
@@ -6749,6 +7813,36 @@ UpdateChannelResponse _$UpdateChannelResponseFromJson(
   );
 }
 
+UpdateInputDeviceResponse _$UpdateInputDeviceResponseFromJson(
+    Map<String, dynamic> json) {
+  return UpdateInputDeviceResponse(
+    arn: json['arn'] as String,
+    connectionState: _$enumDecodeNullable(
+        _$InputDeviceConnectionStateEnumMap, json['connectionState']),
+    deviceSettingsSyncState: _$enumDecodeNullable(
+        _$DeviceSettingsSyncStateEnumMap, json['deviceSettingsSyncState']),
+    deviceUpdateStatus: _$enumDecodeNullable(
+        _$DeviceUpdateStatusEnumMap, json['deviceUpdateStatus']),
+    hdDeviceSettings: json['hdDeviceSettings'] == null
+        ? null
+        : InputDeviceHdSettings.fromJson(
+            json['hdDeviceSettings'] as Map<String, dynamic>),
+    id: json['id'] as String,
+    macAddress: json['macAddress'] as String,
+    name: json['name'] as String,
+    networkSettings: json['networkSettings'] == null
+        ? null
+        : InputDeviceNetworkSettings.fromJson(
+            json['networkSettings'] as Map<String, dynamic>),
+    serialNumber: json['serialNumber'] as String,
+    type: _$enumDecodeNullable(_$InputDeviceTypeEnumMap, json['type']),
+    uhdDeviceSettings: json['uhdDeviceSettings'] == null
+        ? null
+        : InputDeviceUhdSettings.fromJson(
+            json['uhdDeviceSettings'] as Map<String, dynamic>),
+  );
+}
+
 UpdateInputResponse _$UpdateInputResponseFromJson(Map<String, dynamic> json) {
   return UpdateInputResponse(
     input: json['input'] == null
@@ -6795,6 +7889,29 @@ UpdateReservationResponse _$UpdateReservationResponseFromJson(
   );
 }
 
+VideoBlackFailoverSettings _$VideoBlackFailoverSettingsFromJson(
+    Map<String, dynamic> json) {
+  return VideoBlackFailoverSettings(
+    blackDetectThreshold: (json['blackDetectThreshold'] as num)?.toDouble(),
+    videoBlackThresholdMsec: json['videoBlackThresholdMsec'] as int,
+  );
+}
+
+Map<String, dynamic> _$VideoBlackFailoverSettingsToJson(
+    VideoBlackFailoverSettings instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('blackDetectThreshold', instance.blackDetectThreshold);
+  writeNotNull('videoBlackThresholdMsec', instance.videoBlackThresholdMsec);
+  return val;
+}
+
 VideoCodecSettings _$VideoCodecSettingsFromJson(Map<String, dynamic> json) {
   return VideoCodecSettings(
     frameCaptureSettings: json['frameCaptureSettings'] == null
@@ -6807,6 +7924,9 @@ VideoCodecSettings _$VideoCodecSettingsFromJson(Map<String, dynamic> json) {
     h265Settings: json['h265Settings'] == null
         ? null
         : H265Settings.fromJson(json['h265Settings'] as Map<String, dynamic>),
+    mpeg2Settings: json['mpeg2Settings'] == null
+        ? null
+        : Mpeg2Settings.fromJson(json['mpeg2Settings'] as Map<String, dynamic>),
   );
 }
 
@@ -6822,6 +7942,7 @@ Map<String, dynamic> _$VideoCodecSettingsToJson(VideoCodecSettings instance) {
   writeNotNull('frameCaptureSettings', instance.frameCaptureSettings?.toJson());
   writeNotNull('h264Settings', instance.h264Settings?.toJson());
   writeNotNull('h265Settings', instance.h265Settings?.toJson());
+  writeNotNull('mpeg2Settings', instance.mpeg2Settings?.toJson());
   return val;
 }
 
@@ -6984,6 +8105,37 @@ Map<String, dynamic> _$VideoSelectorSettingsToJson(
       'videoSelectorProgramId', instance.videoSelectorProgramId?.toJson());
   return val;
 }
+
+WavSettings _$WavSettingsFromJson(Map<String, dynamic> json) {
+  return WavSettings(
+    bitDepth: (json['bitDepth'] as num)?.toDouble(),
+    codingMode:
+        _$enumDecodeNullable(_$WavCodingModeEnumMap, json['codingMode']),
+    sampleRate: (json['sampleRate'] as num)?.toDouble(),
+  );
+}
+
+Map<String, dynamic> _$WavSettingsToJson(WavSettings instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('bitDepth', instance.bitDepth);
+  writeNotNull('codingMode', _$WavCodingModeEnumMap[instance.codingMode]);
+  writeNotNull('sampleRate', instance.sampleRate);
+  return val;
+}
+
+const _$WavCodingModeEnumMap = {
+  WavCodingMode.codingMode_1_0: 'CODING_MODE_1_0',
+  WavCodingMode.codingMode_2_0: 'CODING_MODE_2_0',
+  WavCodingMode.codingMode_4_0: 'CODING_MODE_4_0',
+  WavCodingMode.codingMode_8_0: 'CODING_MODE_8_0',
+};
 
 WebvttDestinationSettings _$WebvttDestinationSettingsFromJson(
     Map<String, dynamic> json) {

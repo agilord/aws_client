@@ -3,11 +3,9 @@
 **Warning: This is a generated library, some operations may not work.**
 
 *About the service:*
-This is the <i>AWS Sever Migration Service API Reference</i>. It provides
-descriptions, syntax, and usage examples for each of the actions and data
-types for the AWS Sever Migration Service (AWS SMS). The topic for each
-action shows the Query API request parameters and the XML response. You can
-also view the XML request elements in the WSDL.
+AWS Server Migration Service (AWS SMS) makes it easier and faster for you to
+migrate your on-premises workloads to AWS. To learn more about AWS SMS, see
+the following resources:
 
 ## Links
 

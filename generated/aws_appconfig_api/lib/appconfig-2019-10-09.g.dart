@@ -265,6 +265,42 @@ Environments _$EnvironmentsFromJson(Map<String, dynamic> json) {
   );
 }
 
+HostedConfigurationVersion _$HostedConfigurationVersionFromJson(
+    Map<String, dynamic> json) {
+  return HostedConfigurationVersion(
+    applicationId: json['Application-Id'] as String,
+    configurationProfileId: json['Configuration-Profile-Id'] as String,
+    content: const Uint8ListConverter().fromJson(json['Content'] as String),
+    contentType: json['Content-Type'] as String,
+    description: json['Description'] as String,
+    versionNumber: json['Version-Number'] as int,
+  );
+}
+
+HostedConfigurationVersionSummary _$HostedConfigurationVersionSummaryFromJson(
+    Map<String, dynamic> json) {
+  return HostedConfigurationVersionSummary(
+    applicationId: json['ApplicationId'] as String,
+    configurationProfileId: json['ConfigurationProfileId'] as String,
+    contentType: json['ContentType'] as String,
+    description: json['Description'] as String,
+    versionNumber: json['VersionNumber'] as int,
+  );
+}
+
+HostedConfigurationVersions _$HostedConfigurationVersionsFromJson(
+    Map<String, dynamic> json) {
+  return HostedConfigurationVersions(
+    items: (json['Items'] as List)
+        ?.map((e) => e == null
+            ? null
+            : HostedConfigurationVersionSummary.fromJson(
+                e as Map<String, dynamic>))
+        ?.toList(),
+    nextToken: json['NextToken'] as String,
+  );
+}
+
 Monitor _$MonitorFromJson(Map<String, dynamic> json) {
   return Monitor(
     alarmArn: json['AlarmArn'] as String,

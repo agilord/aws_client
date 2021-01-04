@@ -3173,6 +3173,16 @@ enum PartitionInstanceType {
   searchM3Xlarge,
   @_s.JsonValue('search.m3.2xlarge')
   searchM3_2xlarge,
+  @_s.JsonValue('search.small')
+  searchSmall,
+  @_s.JsonValue('search.medium')
+  searchMedium,
+  @_s.JsonValue('search.large')
+  searchLarge,
+  @_s.JsonValue('search.xlarge')
+  searchXlarge,
+  @_s.JsonValue('search.2xlarge')
+  search_2xlarge,
 }
 
 extension on String {
@@ -3194,6 +3204,16 @@ extension on String {
         return PartitionInstanceType.searchM3Xlarge;
       case 'search.m3.2xlarge':
         return PartitionInstanceType.searchM3_2xlarge;
+      case 'search.small':
+        return PartitionInstanceType.searchSmall;
+      case 'search.medium':
+        return PartitionInstanceType.searchMedium;
+      case 'search.large':
+        return PartitionInstanceType.searchLarge;
+      case 'search.xlarge':
+        return PartitionInstanceType.searchXlarge;
+      case 'search.2xlarge':
+        return PartitionInstanceType.search_2xlarge;
     }
     throw Exception('Unknown enum value: $this');
   }

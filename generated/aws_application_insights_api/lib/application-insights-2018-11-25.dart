@@ -26,12 +26,11 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
 part 'application-insights-2018-11-25.g.dart';
 
-/// Server</fullname>
-/// Amazon CloudWatch Application Insights for .NET and SQL Server is a service
-/// that helps you detect common problems with your .NET and SQL Server-based
-/// applications. It enables you to pinpoint the source of issues in your
-/// applications (built with technologies such as Microsoft IIS, .NET, and
-/// Microsoft SQL Server), by providing key insights into detected problems.
+/// Amazon CloudWatch Application Insights is a service that helps you detect
+/// common problems with your applications. It enables you to pinpoint the
+/// source of issues in your applications (built with technologies such as
+/// Microsoft IIS, .NET, and Microsoft SQL Server), by providing key insights
+/// into detected problems.
 class ApplicationInsights {
   final _s.JsonProtocol _protocol;
   ApplicationInsights({
@@ -57,6 +56,7 @@ class ApplicationInsights {
   /// May throw [ValidationException].
   /// May throw [InternalServerException].
   /// May throw [TagsAlreadyExistException].
+  /// May throw [AccessDeniedException].
   ///
   /// Parameter [resourceGroupName] :
   /// The name of the resource group.
@@ -106,6 +106,11 @@ class ApplicationInsights {
       20,
       300,
     );
+    _s.validateStringPattern(
+      'opsItemSNSTopicArn',
+      opsItemSNSTopicArn,
+      r'''^arn:aws(-\w+)*:[\w\d-]+:([\w\d-]*)?:[\w\d_-]*([:/].+)*$''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'EC2WindowsBarleyService.CreateApplication'
@@ -151,6 +156,19 @@ class ApplicationInsights {
     @_s.required List<String> resourceList,
   }) async {
     ArgumentError.checkNotNull(componentName, 'componentName');
+    _s.validateStringLength(
+      'componentName',
+      componentName,
+      1,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'componentName',
+      componentName,
+      r'''^[\d\w\-_\.+]*$''',
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(resourceGroupName, 'resourceGroupName');
     _s.validateStringLength(
       'resourceGroupName',
@@ -194,7 +212,8 @@ class ApplicationInsights {
   /// May throw [InternalServerException].
   ///
   /// Parameter [pattern] :
-  /// The log pattern.
+  /// The log pattern. The pattern must be DFA compatible. Patterns that utilize
+  /// forward lookahead or backreference constructions are not supported.
   ///
   /// Parameter [patternName] :
   /// The name of the log pattern.
@@ -203,7 +222,18 @@ class ApplicationInsights {
   /// The name of the log pattern set.
   ///
   /// Parameter [rank] :
-  /// Rank of the log pattern.
+  /// Rank of the log pattern. Must be a value between <code>1</code> and
+  /// <code>1,000,000</code>. The patterns are sorted by rank, so we recommend
+  /// that you set your highest priority patterns with the lowest rank. A
+  /// pattern of rank <code>1</code> will be the first to get matched to a log
+  /// line. A pattern of rank <code>1,000,000</code> will be last to get
+  /// matched. When you configure custom log patterns from the console, a
+  /// <code>Low</code> severity pattern translates to a <code>750,000</code>
+  /// rank. A <code>Medium</code> severity pattern translates to a
+  /// <code>500,000</code> rank. And a <code>High</code> severity pattern
+  /// translates to a <code>250,000</code> rank. Rank values less than
+  /// <code>1</code> or greater than <code>1,000,000</code> are reserved for
+  /// AWS-provided patterns.
   ///
   /// Parameter [resourceGroupName] :
   /// The name of the resource group.
@@ -220,6 +250,12 @@ class ApplicationInsights {
       pattern,
       1,
       50,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'pattern',
+      pattern,
+      r'''[\S\s]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(patternName, 'patternName');
@@ -350,6 +386,19 @@ class ApplicationInsights {
     @_s.required String resourceGroupName,
   }) async {
     ArgumentError.checkNotNull(componentName, 'componentName');
+    _s.validateStringLength(
+      'componentName',
+      componentName,
+      1,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'componentName',
+      componentName,
+      r'''^[\d\w\-_\.+]*$''',
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(resourceGroupName, 'resourceGroupName');
     _s.validateStringLength(
       'resourceGroupName',
@@ -525,6 +574,19 @@ class ApplicationInsights {
     @_s.required String resourceGroupName,
   }) async {
     ArgumentError.checkNotNull(componentName, 'componentName');
+    _s.validateStringLength(
+      'componentName',
+      componentName,
+      1,
+      1011,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'componentName',
+      componentName,
+      r'''(?:^[\d\w\-_\.+]*$)|(?:^arn:aws(-\w+)*:[\w\d-]+:([\w\d-]*)?:[\w\d_-]*([:/].+)*$)''',
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(resourceGroupName, 'resourceGroupName');
     _s.validateStringLength(
       'resourceGroupName',
@@ -575,6 +637,19 @@ class ApplicationInsights {
     @_s.required String resourceGroupName,
   }) async {
     ArgumentError.checkNotNull(componentName, 'componentName');
+    _s.validateStringLength(
+      'componentName',
+      componentName,
+      1,
+      1011,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'componentName',
+      componentName,
+      r'''(?:^[\d\w\-_\.+]*$)|(?:^arn:aws(-\w+)*:[\w\d-]+:([\w\d-]*)?:[\w\d_-]*([:/].+)*$)''',
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(resourceGroupName, 'resourceGroupName');
     _s.validateStringLength(
       'resourceGroupName',
@@ -632,6 +707,19 @@ class ApplicationInsights {
     @_s.required Tier tier,
   }) async {
     ArgumentError.checkNotNull(componentName, 'componentName');
+    _s.validateStringLength(
+      'componentName',
+      componentName,
+      1,
+      1011,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'componentName',
+      componentName,
+      r'''(?:^[\d\w\-_\.+]*$)|(?:^arn:aws(-\w+)*:[\w\d-]+:([\w\d-]*)?:[\w\d_-]*([:/].+)*$)''',
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(resourceGroupName, 'resourceGroupName');
     _s.validateStringLength(
       'resourceGroupName',
@@ -901,6 +989,17 @@ class ApplicationInsights {
       1,
       40,
     );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1024,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''.+''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'EC2WindowsBarleyService.ListApplications'
@@ -961,6 +1060,17 @@ class ApplicationInsights {
       maxResults,
       1,
       40,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1024,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''.+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1048,6 +1158,17 @@ class ApplicationInsights {
       40,
     );
     _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1024,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''.+''',
+    );
+    _s.validateStringLength(
       'resourceGroupName',
       resourceGroupName,
       1,
@@ -1122,6 +1243,17 @@ class ApplicationInsights {
       1,
       40,
     );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1024,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''.+''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'EC2WindowsBarleyService.ListLogPatternSets'
@@ -1186,6 +1318,17 @@ class ApplicationInsights {
       maxResults,
       1,
       40,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1024,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''.+''',
     );
     _s.validateStringLength(
       'patternSetName',
@@ -1258,6 +1401,17 @@ class ApplicationInsights {
       40,
     );
     _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1024,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''.+''',
+    );
+    _s.validateStringLength(
       'resourceGroupName',
       resourceGroupName,
       1,
@@ -1314,6 +1468,12 @@ class ApplicationInsights {
       1011,
       isRequired: true,
     );
+    _s.validateStringPattern(
+      'resourceARN',
+      resourceARN,
+      r'''^arn:aws(-\w+)*:[\w\d-]+:([\w\d-]*)?:[\w\d_-]*([:/].+)*$''',
+      isRequired: true,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'EC2WindowsBarleyService.ListTagsForResource'
@@ -1367,6 +1527,12 @@ class ApplicationInsights {
       1011,
       isRequired: true,
     );
+    _s.validateStringPattern(
+      'resourceARN',
+      resourceARN,
+      r'''^arn:aws(-\w+)*:[\w\d-]+:([\w\d-]*)?:[\w\d_-]*([:/].+)*$''',
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(tags, 'tags');
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1414,6 +1580,12 @@ class ApplicationInsights {
       resourceARN,
       1,
       1011,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'resourceARN',
+      resourceARN,
+      r'''^arn:aws(-\w+)*:[\w\d-]+:([\w\d-]*)?:[\w\d_-]*([:/].+)*$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
@@ -1489,6 +1661,11 @@ class ApplicationInsights {
       20,
       300,
     );
+    _s.validateStringPattern(
+      'opsItemSNSTopicArn',
+      opsItemSNSTopicArn,
+      r'''^arn:aws(-\w+)*:[\w\d-]+:([\w\d-]*)?:[\w\d_-]*([:/].+)*$''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'EC2WindowsBarleyService.UpdateApplication'
@@ -1538,6 +1715,19 @@ class ApplicationInsights {
     List<String> resourceList,
   }) async {
     ArgumentError.checkNotNull(componentName, 'componentName');
+    _s.validateStringLength(
+      'componentName',
+      componentName,
+      1,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'componentName',
+      componentName,
+      r'''^[\d\w\-_\.+]*$''',
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(resourceGroupName, 'resourceGroupName');
     _s.validateStringLength(
       'resourceGroupName',
@@ -1551,6 +1741,17 @@ class ApplicationInsights {
       resourceGroupName,
       r'''[a-zA-Z0-9\.\-_]*''',
       isRequired: true,
+    );
+    _s.validateStringLength(
+      'newComponentName',
+      newComponentName,
+      1,
+      128,
+    );
+    _s.validateStringPattern(
+      'newComponentName',
+      newComponentName,
+      r'''^[\d\w\-_\.+]*$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1615,6 +1816,19 @@ class ApplicationInsights {
     Tier tier,
   }) async {
     ArgumentError.checkNotNull(componentName, 'componentName');
+    _s.validateStringLength(
+      'componentName',
+      componentName,
+      1,
+      1011,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'componentName',
+      componentName,
+      r'''(?:^[\d\w\-_\.+]*$)|(?:^arn:aws(-\w+)*:[\w\d-]+:([\w\d-]*)?:[\w\d_-]*([:/].+)*$)''',
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(resourceGroupName, 'resourceGroupName');
     _s.validateStringLength(
       'resourceGroupName',
@@ -1634,6 +1848,11 @@ class ApplicationInsights {
       componentConfiguration,
       1,
       10000,
+    );
+    _s.validateStringPattern(
+      'componentConfiguration',
+      componentConfiguration,
+      r'''[\S\s]+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1675,10 +1894,22 @@ class ApplicationInsights {
   /// The name of the resource group.
   ///
   /// Parameter [pattern] :
-  /// The log pattern.
+  /// The log pattern. The pattern must be DFA compatible. Patterns that utilize
+  /// forward lookahead or backreference constructions are not supported.
   ///
   /// Parameter [rank] :
-  /// Rank of the log pattern.
+  /// Rank of the log pattern. Must be a value between <code>1</code> and
+  /// <code>1,000,000</code>. The patterns are sorted by rank, so we recommend
+  /// that you set your highest priority patterns with the lowest rank. A
+  /// pattern of rank <code>1</code> will be the first to get matched to a log
+  /// line. A pattern of rank <code>1,000,000</code> will be last to get
+  /// matched. When you configure custom log patterns from the console, a
+  /// <code>Low</code> severity pattern translates to a <code>750,000</code>
+  /// rank. A <code>Medium</code> severity pattern translates to a
+  /// <code>500,000</code> rank. And a <code>High</code> severity pattern
+  /// translates to a <code>250,000</code> rank. Rank values less than
+  /// <code>1</code> or greater than <code>1,000,000</code> are reserved for
+  /// AWS-provided patterns.
   Future<UpdateLogPatternResponse> updateLogPattern({
     @_s.required String patternName,
     @_s.required String patternSetName,
@@ -1734,6 +1965,11 @@ class ApplicationInsights {
       1,
       50,
     );
+    _s.validateStringPattern(
+      'pattern',
+      pattern,
+      r'''[\S\s]+''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'EC2WindowsBarleyService.UpdateLogPattern'
@@ -1769,9 +2005,22 @@ class ApplicationComponent {
   @_s.JsonKey(name: 'ComponentName')
   final String componentName;
 
+  /// If logging is supported for the resource type, indicates whether the
+  /// component has configured logs to be monitored.
+  @_s.JsonKey(name: 'ComponentRemarks')
+  final String componentRemarks;
+
+  /// Workloads detected in the application component.
+  @_s.JsonKey(name: 'DetectedWorkload')
+  final Map<Tier, Map<String, String>> detectedWorkload;
+
   /// Indicates whether the application component is monitored.
   @_s.JsonKey(name: 'Monitor')
   final bool monitor;
+
+  /// The operating system of the component.
+  @_s.JsonKey(name: 'OsType')
+  final OsType osType;
 
   /// The resource type. Supported resource types include EC2 instances, Auto
   /// Scaling group, Classic ELB, Application ELB, and SQS Queue.
@@ -1784,7 +2033,10 @@ class ApplicationComponent {
 
   ApplicationComponent({
     this.componentName,
+    this.componentRemarks,
+    this.detectedWorkload,
     this.monitor,
+    this.osType,
     this.resourceType,
     this.tier,
   });
@@ -1856,6 +2108,8 @@ enum CloudWatchEventSource {
   codeDeploy,
   @_s.JsonValue('HEALTH')
   health,
+  @_s.JsonValue('RDS')
+  rds,
 }
 
 /// The event information.
@@ -1907,6 +2161,8 @@ class ConfigurationEvent {
 enum ConfigurationEventResourceType {
   @_s.JsonValue('CLOUDWATCH_ALARM')
   cloudwatchAlarm,
+  @_s.JsonValue('CLOUDWATCH_LOG')
+  cloudwatchLog,
   @_s.JsonValue('CLOUDFORMATION')
   cloudformation,
   @_s.JsonValue('SSM_ASSOCIATION')
@@ -2383,24 +2639,36 @@ enum LogFilter {
     createFactory: true,
     createToJson: false)
 class LogPattern {
-  /// A regular expression that defines the log pattern. A log pattern can
-  /// contains at many as 50 characters, and it cannot be empty.
+  /// A regular expression that defines the log pattern. A log pattern can contain
+  /// as many as 50 characters, and it cannot be empty. The pattern must be DFA
+  /// compatible. Patterns that utilize forward lookahead or backreference
+  /// constructions are not supported.
   @_s.JsonKey(name: 'Pattern')
   final String pattern;
 
-  /// The name of the log pattern. A log pattern name can contains at many as 50
+  /// The name of the log pattern. A log pattern name can contain as many as 50
   /// characters, and it cannot be empty. The characters can be Unicode letters,
-  /// digits or one of the following symbols: period, dash, underscore.
+  /// digits, or one of the following symbols: period, dash, underscore.
   @_s.JsonKey(name: 'PatternName')
   final String patternName;
 
-  /// The name of the log pattern. A log pattern name can contains at many as 30
+  /// The name of the log pattern. A log pattern name can contain as many as 30
   /// characters, and it cannot be empty. The characters can be Unicode letters,
-  /// digits or one of the following symbols: period, dash, underscore.
+  /// digits, or one of the following symbols: period, dash, underscore.
   @_s.JsonKey(name: 'PatternSetName')
   final String patternSetName;
 
-  /// Rank of the log pattern.
+  /// Rank of the log pattern. Must be a value between <code>1</code> and
+  /// <code>1,000,000</code>. The patterns are sorted by rank, so we recommend
+  /// that you set your highest priority patterns with the lowest rank. A pattern
+  /// of rank <code>1</code> will be the first to get matched to a log line. A
+  /// pattern of rank <code>1,000,000</code> will be last to get matched. When you
+  /// configure custom log patterns from the console, a <code>Low</code> severity
+  /// pattern translates to a <code>750,000</code> rank. A <code>Medium</code>
+  /// severity pattern translates to a <code>500,000</code> rank. And a
+  /// <code>High</code> severity pattern translates to a <code>250,000</code>
+  /// rank. Rank values less than <code>1</code> or greater than
+  /// <code>1,000,000</code> are reserved for AWS-provided patterns.
   @_s.JsonKey(name: 'Rank')
   final int rank;
 
@@ -2456,6 +2724,24 @@ class Observation {
   /// <code> FAILURE</code>.
   @_s.JsonKey(name: 'CodeDeployState')
   final String codeDeployState;
+
+  /// The cause of an EBS CloudWatch event.
+  @_s.JsonKey(name: 'EbsCause')
+  final String ebsCause;
+
+  /// The type of EBS CloudWatch event, such as <code>createVolume</code>,
+  /// <code>deleteVolume</code> or <code>attachVolume</code>.
+  @_s.JsonKey(name: 'EbsEvent')
+  final String ebsEvent;
+
+  /// The request ID of an EBS CloudWatch event.
+  @_s.JsonKey(name: 'EbsRequestId')
+  final String ebsRequestId;
+
+  /// The result of an EBS CloudWatch event, such as <code>failed</code> or
+  /// <code>succeeded</code>.
+  @_s.JsonKey(name: 'EbsResult')
+  final String ebsResult;
 
   /// The state of the instance, such as <code>STOPPING</code> or
   /// <code>TERMINATING</code>.
@@ -2519,6 +2805,18 @@ class Observation {
   @_s.JsonKey(name: 'MetricNamespace')
   final String metricNamespace;
 
+  /// The category of an RDS event.
+  @_s.JsonKey(name: 'RdsEventCategories')
+  final String rdsEventCategories;
+
+  /// The message of an RDS event.
+  @_s.JsonKey(name: 'RdsEventMessage')
+  final String rdsEventMessage;
+
+  /// The name of the S3 CloudWatch Event-based observation.
+  @_s.JsonKey(name: 'S3EventName')
+  final String s3EventName;
+
   /// The source resource ARN of the observation.
   @_s.JsonKey(name: 'SourceARN')
   final String sourceARN;
@@ -2531,6 +2829,23 @@ class Observation {
   @UnixDateTimeConverter()
   @_s.JsonKey(name: 'StartTime')
   final DateTime startTime;
+
+  /// The Amazon Resource Name (ARN) of the step function-based observation.
+  @_s.JsonKey(name: 'StatesArn')
+  final String statesArn;
+
+  /// The Amazon Resource Name (ARN) of the step function execution-based
+  /// observation.
+  @_s.JsonKey(name: 'StatesExecutionArn')
+  final String statesExecutionArn;
+
+  /// The input to the step function-based observation.
+  @_s.JsonKey(name: 'StatesInput')
+  final String statesInput;
+
+  /// The status of the step function-related observation.
+  @_s.JsonKey(name: 'StatesStatus')
+  final String statesStatus;
 
   /// The unit of the source observation metric.
   @_s.JsonKey(name: 'Unit')
@@ -2577,6 +2892,10 @@ class Observation {
     this.codeDeployDeploymentId,
     this.codeDeployInstanceGroupId,
     this.codeDeployState,
+    this.ebsCause,
+    this.ebsEvent,
+    this.ebsRequestId,
+    this.ebsResult,
     this.ec2State,
     this.endTime,
     this.healthEventArn,
@@ -2591,9 +2910,16 @@ class Observation {
     this.logText,
     this.metricName,
     this.metricNamespace,
+    this.rdsEventCategories,
+    this.rdsEventMessage,
+    this.s3EventName,
     this.sourceARN,
     this.sourceType,
     this.startTime,
+    this.statesArn,
+    this.statesExecutionArn,
+    this.statesInput,
+    this.statesStatus,
     this.unit,
     this.value,
     this.xRayErrorPercent,
@@ -2606,6 +2932,13 @@ class Observation {
   });
   factory Observation.fromJson(Map<String, dynamic> json) =>
       _$ObservationFromJson(json);
+}
+
+enum OsType {
+  @_s.JsonValue('WINDOWS')
+  windows,
+  @_s.JsonValue('LINUX')
+  linux,
 }
 
 /// Describes a problem that is detected by correlating observations.
@@ -2776,31 +3109,59 @@ class TagResourceResponse {
 }
 
 enum Tier {
+  @_s.JsonValue('CUSTOM')
+  custom,
   @_s.JsonValue('DEFAULT')
   $default,
   @_s.JsonValue('DOT_NET_CORE')
   dotNetCore,
   @_s.JsonValue('DOT_NET_WORKER')
   dotNetWorker,
+  @_s.JsonValue('DOT_NET_WEB_TIER')
+  dotNetWebTier,
   @_s.JsonValue('DOT_NET_WEB')
   dotNetWeb,
   @_s.JsonValue('SQL_SERVER')
   sqlServer,
+  @_s.JsonValue('SQL_SERVER_ALWAYSON_AVAILABILITY_GROUP')
+  sqlServerAlwaysonAvailabilityGroup,
+  @_s.JsonValue('MYSQL')
+  mysql,
+  @_s.JsonValue('POSTGRESQL')
+  postgresql,
+  @_s.JsonValue('JAVA_JMX')
+  javaJmx,
+  @_s.JsonValue('ORACLE')
+  oracle,
 }
 
 extension on Tier {
   String toValue() {
     switch (this) {
+      case Tier.custom:
+        return 'CUSTOM';
       case Tier.$default:
         return 'DEFAULT';
       case Tier.dotNetCore:
         return 'DOT_NET_CORE';
       case Tier.dotNetWorker:
         return 'DOT_NET_WORKER';
+      case Tier.dotNetWebTier:
+        return 'DOT_NET_WEB_TIER';
       case Tier.dotNetWeb:
         return 'DOT_NET_WEB';
       case Tier.sqlServer:
         return 'SQL_SERVER';
+      case Tier.sqlServerAlwaysonAvailabilityGroup:
+        return 'SQL_SERVER_ALWAYSON_AVAILABILITY_GROUP';
+      case Tier.mysql:
+        return 'MYSQL';
+      case Tier.postgresql:
+        return 'POSTGRESQL';
+      case Tier.javaJmx:
+        return 'JAVA_JMX';
+      case Tier.oracle:
+        return 'ORACLE';
     }
     throw Exception('Unknown enum value: $this');
   }
@@ -2879,6 +3240,11 @@ class UpdateLogPatternResponse {
       _$UpdateLogPatternResponseFromJson(json);
 }
 
+class AccessDeniedException extends _s.GenericAwsException {
+  AccessDeniedException({String type, String message})
+      : super(type: type, code: 'AccessDeniedException', message: message);
+}
+
 class BadRequestException extends _s.GenericAwsException {
   BadRequestException({String type, String message})
       : super(type: type, code: 'BadRequestException', message: message);
@@ -2915,6 +3281,8 @@ class ValidationException extends _s.GenericAwsException {
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{
+  'AccessDeniedException': (type, message) =>
+      AccessDeniedException(type: type, message: message),
   'BadRequestException': (type, message) =>
       BadRequestException(type: type, message: message),
   'InternalServerException': (type, message) =>

@@ -108,6 +108,8 @@ DescribeEnvironmentsResult _$DescribeEnvironmentsResultFromJson(
 Environment _$EnvironmentFromJson(Map<String, dynamic> json) {
   return Environment(
     arn: json['arn'] as String,
+    connectionType:
+        _$enumDecodeNullable(_$ConnectionTypeEnumMap, json['connectionType']),
     description: json['description'] as String,
     id: json['id'] as String,
     lifecycle: json['lifecycle'] == null
@@ -119,6 +121,11 @@ Environment _$EnvironmentFromJson(Map<String, dynamic> json) {
     type: _$enumDecodeNullable(_$EnvironmentTypeEnumMap, json['type']),
   );
 }
+
+const _$ConnectionTypeEnumMap = {
+  ConnectionType.connectSsh: 'CONNECT_SSH',
+  ConnectionType.connectSsm: 'CONNECT_SSM',
+};
 
 const _$EnvironmentTypeEnumMap = {
   EnvironmentType.ssh: 'ssh',

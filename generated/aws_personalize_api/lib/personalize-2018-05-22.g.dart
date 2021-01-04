@@ -72,9 +72,14 @@ AutoMLResult _$AutoMLResultFromJson(Map<String, dynamic> json) {
 BatchInferenceJob _$BatchInferenceJobFromJson(Map<String, dynamic> json) {
   return BatchInferenceJob(
     batchInferenceJobArn: json['batchInferenceJobArn'] as String,
+    batchInferenceJobConfig: json['batchInferenceJobConfig'] == null
+        ? null
+        : BatchInferenceJobConfig.fromJson(
+            json['batchInferenceJobConfig'] as Map<String, dynamic>),
     creationDateTime:
         const UnixDateTimeConverter().fromJson(json['creationDateTime']),
     failureReason: json['failureReason'] as String,
+    filterArn: json['filterArn'] as String,
     jobInput: json['jobInput'] == null
         ? null
         : BatchInferenceJobInput.fromJson(
@@ -91,6 +96,30 @@ BatchInferenceJob _$BatchInferenceJobFromJson(Map<String, dynamic> json) {
     solutionVersionArn: json['solutionVersionArn'] as String,
     status: json['status'] as String,
   );
+}
+
+BatchInferenceJobConfig _$BatchInferenceJobConfigFromJson(
+    Map<String, dynamic> json) {
+  return BatchInferenceJobConfig(
+    itemExplorationConfig:
+        (json['itemExplorationConfig'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(k, e as String),
+    ),
+  );
+}
+
+Map<String, dynamic> _$BatchInferenceJobConfigToJson(
+    BatchInferenceJobConfig instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('itemExplorationConfig', instance.itemExplorationConfig);
+  return val;
 }
 
 BatchInferenceJobInput _$BatchInferenceJobInputFromJson(
@@ -158,6 +187,10 @@ BatchInferenceJobSummary _$BatchInferenceJobSummaryFromJson(
 Campaign _$CampaignFromJson(Map<String, dynamic> json) {
   return Campaign(
     campaignArn: json['campaignArn'] as String,
+    campaignConfig: json['campaignConfig'] == null
+        ? null
+        : CampaignConfig.fromJson(
+            json['campaignConfig'] as Map<String, dynamic>),
     creationDateTime:
         const UnixDateTimeConverter().fromJson(json['creationDateTime']),
     failureReason: json['failureReason'] as String,
@@ -172,6 +205,28 @@ Campaign _$CampaignFromJson(Map<String, dynamic> json) {
     solutionVersionArn: json['solutionVersionArn'] as String,
     status: json['status'] as String,
   );
+}
+
+CampaignConfig _$CampaignConfigFromJson(Map<String, dynamic> json) {
+  return CampaignConfig(
+    itemExplorationConfig:
+        (json['itemExplorationConfig'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(k, e as String),
+    ),
+  );
+}
+
+Map<String, dynamic> _$CampaignConfigToJson(CampaignConfig instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('itemExplorationConfig', instance.itemExplorationConfig);
+  return val;
 }
 
 CampaignSummary _$CampaignSummaryFromJson(Map<String, dynamic> json) {
@@ -190,6 +245,10 @@ CampaignSummary _$CampaignSummaryFromJson(Map<String, dynamic> json) {
 CampaignUpdateSummary _$CampaignUpdateSummaryFromJson(
     Map<String, dynamic> json) {
   return CampaignUpdateSummary(
+    campaignConfig: json['campaignConfig'] == null
+        ? null
+        : CampaignConfig.fromJson(
+            json['campaignConfig'] as Map<String, dynamic>),
     creationDateTime:
         const UnixDateTimeConverter().fromJson(json['creationDateTime']),
     failureReason: json['failureReason'] as String,
@@ -289,6 +348,12 @@ CreateEventTrackerResponse _$CreateEventTrackerResponseFromJson(
   return CreateEventTrackerResponse(
     eventTrackerArn: json['eventTrackerArn'] as String,
     trackingId: json['trackingId'] as String,
+  );
+}
+
+CreateFilterResponse _$CreateFilterResponseFromJson(Map<String, dynamic> json) {
+  return CreateFilterResponse(
+    filterArn: json['filterArn'] as String,
   );
 }
 
@@ -572,6 +637,15 @@ DescribeFeatureTransformationResponse
   );
 }
 
+DescribeFilterResponse _$DescribeFilterResponseFromJson(
+    Map<String, dynamic> json) {
+  return DescribeFilterResponse(
+    filter: json['filter'] == null
+        ? null
+        : Filter.fromJson(json['filter'] as Map<String, dynamic>),
+  );
+}
+
 DescribeRecipeResponse _$DescribeRecipeResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeRecipeResponse(
@@ -645,6 +719,35 @@ FeatureTransformation _$FeatureTransformationFromJson(
       (k, e) => MapEntry(k, e as String),
     ),
     featureTransformationArn: json['featureTransformationArn'] as String,
+    lastUpdatedDateTime:
+        const UnixDateTimeConverter().fromJson(json['lastUpdatedDateTime']),
+    name: json['name'] as String,
+    status: json['status'] as String,
+  );
+}
+
+Filter _$FilterFromJson(Map<String, dynamic> json) {
+  return Filter(
+    creationDateTime:
+        const UnixDateTimeConverter().fromJson(json['creationDateTime']),
+    datasetGroupArn: json['datasetGroupArn'] as String,
+    failureReason: json['failureReason'] as String,
+    filterArn: json['filterArn'] as String,
+    filterExpression: json['filterExpression'] as String,
+    lastUpdatedDateTime:
+        const UnixDateTimeConverter().fromJson(json['lastUpdatedDateTime']),
+    name: json['name'] as String,
+    status: json['status'] as String,
+  );
+}
+
+FilterSummary _$FilterSummaryFromJson(Map<String, dynamic> json) {
+  return FilterSummary(
+    creationDateTime:
+        const UnixDateTimeConverter().fromJson(json['creationDateTime']),
+    datasetGroupArn: json['datasetGroupArn'] as String,
+    failureReason: json['failureReason'] as String,
+    filterArn: json['filterArn'] as String,
     lastUpdatedDateTime:
         const UnixDateTimeConverter().fromJson(json['lastUpdatedDateTime']),
     name: json['name'] as String,
@@ -877,6 +980,17 @@ ListEventTrackersResponse _$ListEventTrackersResponseFromJson(
         ?.map((e) => e == null
             ? null
             : EventTrackerSummary.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    nextToken: json['nextToken'] as String,
+  );
+}
+
+ListFiltersResponse _$ListFiltersResponseFromJson(Map<String, dynamic> json) {
+  return ListFiltersResponse(
+    filters: (json['Filters'] as List)
+        ?.map((e) => e == null
+            ? null
+            : FilterSummary.fromJson(e as Map<String, dynamic>))
         ?.toList(),
     nextToken: json['nextToken'] as String,
   );

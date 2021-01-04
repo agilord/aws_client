@@ -108,16 +108,235 @@ class QuickSight {
     return CancelIngestionResponse.fromJson(response);
   }
 
+  /// Creates Amazon QuickSight customizations the current AWS Region.
+  /// Currently, you can add a custom default theme by using the
+  /// <code>CreateAccountCustomization</code> or
+  /// <code>UpdateAccountCustomization</code> API operation. To further
+  /// customize QuickSight by removing QuickSight sample assets and videos for
+  /// all new users, see <a
+  /// href="https://docs.aws.amazon.com/quicksight/latest/user/customizing-quicksight.html">Customizing
+  /// QuickSight</a> in the <i>Amazon QuickSight User Guide.</i>
+  ///
+  /// You can create customizations for your AWS account or, if you specify a
+  /// namespace, for a QuickSight namespace instead. Customizations that apply
+  /// to a namespace always override customizations that apply to an AWS
+  /// account. To find out which customizations apply, use the
+  /// <code>DescribeAccountCustomization</code> API operation.
+  ///
+  /// Before you use the <code>CreateAccountCustomization</code> API operation
+  /// to add a theme as the namespace default, make sure that you first share
+  /// the theme with the namespace. If you don't share it with the namespace,
+  /// the theme isn't visible to your users even if you make it the default
+  /// theme. To check if the theme is shared, view the current permissions by
+  /// using the <code> <a>DescribeThemePermissions</a> </code> API operation. To
+  /// share the theme, grant permissions by using the <code>
+  /// <a>UpdateThemePermissions</a> </code> API operation.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceExistsException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalFailureException].
+  /// May throw [ResourceUnavailableException].
+  ///
+  /// Parameter [accountCustomization] :
+  /// The QuickSight customizations you're adding in the current AWS Region. You
+  /// can add these to an AWS account and a QuickSight namespace.
+  ///
+  /// For example, you can add a default theme by setting
+  /// <code>AccountCustomization</code> to the midnight theme:
+  /// <code>"AccountCustomization": { "DefaultTheme":
+  /// "arn:aws:quicksight::aws:theme/MIDNIGHT" }</code>. Or, you can add a
+  /// custom theme by specifying <code>"AccountCustomization": { "DefaultTheme":
+  /// "arn:aws:quicksight:us-west-2:111122223333:theme/bdb844d0-0fe9-4d9d-b520-0fe602d93639"
+  /// }</code>.
+  ///
+  /// Parameter [awsAccountId] :
+  /// The ID for the AWS account that you want to customize QuickSight for.
+  ///
+  /// Parameter [namespace] :
+  /// The QuickSight namespace that you want to add customizations to.
+  ///
+  /// Parameter [tags] :
+  /// A list of the tags that you want to attach to this resource.
+  Future<CreateAccountCustomizationResponse> createAccountCustomization({
+    @_s.required AccountCustomization accountCustomization,
+    @_s.required String awsAccountId,
+    String namespace,
+    List<Tag> tags,
+  }) async {
+    ArgumentError.checkNotNull(accountCustomization, 'accountCustomization');
+    ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
+    _s.validateStringLength(
+      'awsAccountId',
+      awsAccountId,
+      12,
+      12,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'awsAccountId',
+      awsAccountId,
+      r'''^[0-9]{12}$''',
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'namespace',
+      namespace,
+      0,
+      64,
+    );
+    _s.validateStringPattern(
+      'namespace',
+      namespace,
+      r'''^[a-zA-Z0-9._-]*$''',
+    );
+    final $query = <String, List<String>>{
+      if (namespace != null) 'namespace': [namespace],
+    };
+    final $payload = <String, dynamic>{
+      'AccountCustomization': accountCustomization,
+      if (tags != null) 'Tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/accounts/${Uri.encodeComponent(awsAccountId)}/customizations',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateAccountCustomizationResponse.fromJson(response);
+  }
+
+  /// Creates an analysis in Amazon QuickSight.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ThrottlingException].
+  /// May throw [ResourceExistsException].
+  /// May throw [ConflictException].
+  /// May throw [UnsupportedUserEditionException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [analysisId] :
+  /// The ID for the analysis that you're creating. This ID displays in the URL
+  /// of the analysis.
+  ///
+  /// Parameter [awsAccountId] :
+  /// The ID of the AWS account where you are creating an analysis.
+  ///
+  /// Parameter [name] :
+  /// A descriptive name for the analysis that you're creating. This name
+  /// displays for the analysis in the QuickSight console.
+  ///
+  /// Parameter [sourceEntity] :
+  /// A source entity to use for the analysis that you're creating. This
+  /// metadata structure contains details that describe a source template and
+  /// one or more datasets.
+  ///
+  /// Parameter [parameters] :
+  /// The parameter names and override values that you want to use. An analysis
+  /// can have any parameter type, and some parameters might accept multiple
+  /// values.
+  ///
+  /// Parameter [permissions] :
+  /// A structure that describes the principals and the resource-level
+  /// permissions on an analysis. You can use the <code>Permissions</code>
+  /// structure to grant permissions by providing a list of AWS Identity and
+  /// Access Management (IAM) action information for each principal listed by
+  /// Amazon Resource Name (ARN).
+  ///
+  /// To specify no permissions, omit <code>Permissions</code>.
+  ///
+  /// Parameter [tags] :
+  /// Contains a map of the key-value pairs for the resource tag or tags
+  /// assigned to the analysis.
+  ///
+  /// Parameter [themeArn] :
+  /// The ARN for the theme to apply to the analysis that you're creating. To
+  /// see the theme in the QuickSight console, make sure that you have access to
+  /// it.
+  Future<CreateAnalysisResponse> createAnalysis({
+    @_s.required String analysisId,
+    @_s.required String awsAccountId,
+    @_s.required String name,
+    @_s.required AnalysisSourceEntity sourceEntity,
+    Parameters parameters,
+    List<ResourcePermission> permissions,
+    List<Tag> tags,
+    String themeArn,
+  }) async {
+    ArgumentError.checkNotNull(analysisId, 'analysisId');
+    _s.validateStringLength(
+      'analysisId',
+      analysisId,
+      1,
+      2048,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'analysisId',
+      analysisId,
+      r'''[\w\-]+''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
+    _s.validateStringLength(
+      'awsAccountId',
+      awsAccountId,
+      12,
+      12,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'awsAccountId',
+      awsAccountId,
+      r'''^[0-9]{12}$''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(name, 'name');
+    _s.validateStringLength(
+      'name',
+      name,
+      1,
+      2048,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'name',
+      name,
+      r'''[\u0020-\u00FF]+''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(sourceEntity, 'sourceEntity');
+    final $payload = <String, dynamic>{
+      'Name': name,
+      'SourceEntity': sourceEntity,
+      if (parameters != null) 'Parameters': parameters,
+      if (permissions != null) 'Permissions': permissions,
+      if (tags != null) 'Tags': tags,
+      if (themeArn != null) 'ThemeArn': themeArn,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/accounts/${Uri.encodeComponent(awsAccountId)}/analyses/${Uri.encodeComponent(analysisId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateAnalysisResponse.fromJson(response);
+  }
+
   /// Creates a dashboard from a template. To first create a template, see the
-  /// CreateTemplate API operation.
+  /// <code> <a>CreateTemplate</a> </code> API operation.
   ///
   /// A dashboard is an entity in QuickSight that identifies QuickSight reports,
   /// created from analyses. You can share QuickSight dashboards. With the right
-  /// permissions, you can create scheduled email reports from them. The
-  /// <code>CreateDashboard</code>, <code>DescribeDashboard</code>, and
-  /// <code>ListDashboardsByUser</code> API operations act on the dashboard
-  /// entity. If you have the correct permissions, you can create a dashboard
-  /// from a template that exists in a different AWS account.
+  /// permissions, you can create scheduled email reports from them. If you have
+  /// the correct permissions, you can create a dashboard from a template that
+  /// exists in a different AWS account.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidParameterValueException].
@@ -137,15 +356,20 @@ class QuickSight {
   /// The display name of the dashboard.
   ///
   /// Parameter [sourceEntity] :
-  /// The source entity from which the dashboard is created. The source entity
-  /// accepts the Amazon Resource Name (ARN) of the source template or analysis
-  /// and also references the replacement datasets for the placeholders set when
-  /// creating the template. The replacement datasets need to follow the same
-  /// schema as the datasets for which placeholders were created when creating
-  /// the template.
+  /// The entity that you are using as a source when you create the dashboard.
+  /// In <code>SourceEntity</code>, you specify the type of object you're using
+  /// as source. You can only create a dashboard from a template, so you use a
+  /// <code>SourceTemplate</code> entity. If you need to create a dashboard from
+  /// an analysis, first convert the analysis to a template by using the
+  /// <a>CreateTemplate</a> API operation. For <code>SourceTemplate</code>,
+  /// specify the Amazon Resource Name (ARN) of the source template. The
+  /// <code>SourceTemplate</code>ARN can contain any AWS Account and any
+  /// QuickSight-supported AWS Region.
   ///
-  /// If you are creating a dashboard from a source entity in a different AWS
-  /// account, use the ARN of the source template.
+  /// Use the <code>DataSetReferences</code> entity within
+  /// <code>SourceTemplate</code> to list the replacement datasets for the
+  /// placeholders listed in the original. The schema in each dataset must match
+  /// its placeholder.
   ///
   /// Parameter [dashboardPublishOptions] :
   /// Options for publishing the dashboard when you create it:
@@ -161,32 +385,37 @@ class QuickSight {
   /// <li>
   /// <code>AvailabilityStatus</code> for <code>ExportToCSVOption</code> - This
   /// status can be either <code>ENABLED</code> or <code>DISABLED</code>. The
-  /// visual option to export data to .csv format isn't enabled when this is set
+  /// visual option to export data to .CSV format isn't enabled when this is set
   /// to <code>DISABLED</code>. This option is <code>ENABLED</code> by default.
   /// </li>
   /// <li>
   /// <code>VisibilityState</code> for <code>SheetControlsOption</code> - This
   /// visibility state can be either <code>COLLAPSED</code> or
-  /// <code>EXPANDED</code>. The sheet controls pane is collapsed by default
-  /// when set to true. This option is <code>COLLAPSED</code> by default.
+  /// <code>EXPANDED</code>. This option is <code>COLLAPSED</code> by default.
   /// </li>
   /// </ul>
   ///
   /// Parameter [parameters] :
-  /// A structure that contains the parameters of the dashboard. These are
-  /// parameter overrides for a dashboard. A dashboard can have any type of
-  /// parameters, and some parameters might accept multiple values. You can use
-  /// the dashboard permissions structure described following to override two
-  /// string parameters that accept multiple values.
+  /// The parameters for the creation of the dashboard, which you want to use to
+  /// override the default settings. A dashboard can have any type of
+  /// parameters, and some parameters might accept multiple values.
   ///
   /// Parameter [permissions] :
   /// A structure that contains the permissions of the dashboard. You can use
-  /// this structure for granting permissions with principal and action
-  /// information.
+  /// this structure for granting permissions by providing a list of IAM action
+  /// information for each principal ARN.
+  ///
+  /// To specify no permissions, omit the permissions list.
   ///
   /// Parameter [tags] :
   /// Contains a map of the key-value pairs for the resource tag or tags
   /// assigned to the dashboard.
+  ///
+  /// Parameter [themeArn] :
+  /// The Amazon Resource Name (ARN) of the theme that is being used for this
+  /// dashboard. If you add a value for this field, it overrides the value that
+  /// is used in the source entity. The theme ARN must exist in the same AWS
+  /// account where you create the dashboard.
   ///
   /// Parameter [versionDescription] :
   /// A description for the first version of the dashboard being created.
@@ -199,6 +428,7 @@ class QuickSight {
     Parameters parameters,
     List<ResourcePermission> permissions,
     List<Tag> tags,
+    String themeArn,
     String versionDescription,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
@@ -258,6 +488,7 @@ class QuickSight {
       if (parameters != null) 'Parameters': parameters,
       if (permissions != null) 'Permissions': permissions,
       if (tags != null) 'Tags': tags,
+      if (themeArn != null) 'ThemeArn': themeArn,
       if (versionDescription != null) 'VersionDescription': versionDescription,
     };
     final response = await _protocol.send(
@@ -303,6 +534,10 @@ class QuickSight {
   /// Groupings of columns that work together in certain QuickSight features.
   /// Currently, only geospatial hierarchy is supported.
   ///
+  /// Parameter [columnLevelPermissionRules] :
+  /// A set of one or more definitions of a <code>
+  /// <a>ColumnLevelPermissionRule</a> </code>.
+  ///
   /// Parameter [logicalTableMap] :
   /// Configures the combination and transformation of the data from the
   /// physical tables.
@@ -323,6 +558,7 @@ class QuickSight {
     @_s.required String name,
     @_s.required Map<String, PhysicalTable> physicalTableMap,
     List<ColumnGroup> columnGroups,
+    List<ColumnLevelPermissionRule> columnLevelPermissionRules,
     Map<String, LogicalTable> logicalTableMap,
     List<ResourcePermission> permissions,
     RowLevelPermissionDataSet rowLevelPermissionDataSet,
@@ -359,6 +595,8 @@ class QuickSight {
       'Name': name,
       'PhysicalTableMap': physicalTableMap,
       if (columnGroups != null) 'ColumnGroups': columnGroups,
+      if (columnLevelPermissionRules != null)
+        'ColumnLevelPermissionRules': columnLevelPermissionRules,
       if (logicalTableMap != null) 'LogicalTableMap': logicalTableMap,
       if (permissions != null) 'Permissions': permissions,
       if (rowLevelPermissionDataSet != null)
@@ -674,9 +912,10 @@ class QuickSight {
   }
 
   /// Creates an assignment with one specified IAM policy, identified by its
-  /// Amazon Resource Name (ARN). This policy will be assigned to specified
-  /// groups or users of Amazon QuickSight. The users and groups need to be in
-  /// the same namespace.
+  /// Amazon Resource Name (ARN). This policy assignment is attached to the
+  /// specified groups or users of Amazon QuickSight. Assignment names are
+  /// unique per AWS account. To avoid overwriting rules in other namespaces,
+  /// use assignment names that are unique.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InvalidParameterValueException].
@@ -687,7 +926,8 @@ class QuickSight {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [assignmentName] :
-  /// The name of the assignment. It must be unique within an AWS account.
+  /// The name of the assignment, also called a rule. It must be unique within
+  /// an AWS account.
   ///
   /// Parameter [assignmentStatus] :
   /// The status of the assignment. Possible values are as follows:
@@ -792,7 +1032,7 @@ class QuickSight {
   ///
   /// Any ingestions operating on tagged datasets inherit the same tags
   /// automatically for use in access control. For an example, see <a
-  /// href="https://aws.example.com/premiumsupport/knowledge-center/iam-ec2-resource-tags/">How
+  /// href="http://aws.amazon.com/premiumsupport/knowledge-center/iam-ec2-resource-tags/">How
   /// do I create an IAM policy to control access to Amazon EC2 resources using
   /// tags?</a> in the AWS Knowledge Center. Tags are visible on the tagged
   /// dataset, but not on the ingestion resource.
@@ -857,6 +1097,91 @@ class QuickSight {
     return CreateIngestionResponse.fromJson(response);
   }
 
+  /// (Enterprise edition only) Creates a new namespace for you to use with
+  /// Amazon QuickSight.
+  ///
+  /// A namespace allows you to isolate the QuickSight users and groups that are
+  /// registered for that namespace. Users that access the namespace can share
+  /// assets only with other users or groups in the same namespace. They can't
+  /// see users and groups in other namespaces. You can create a namespace after
+  /// your AWS account is subscribed to QuickSight. The namespace must be unique
+  /// within the AWS account. By default, there is a limit of 100 namespaces per
+  /// AWS account. To increase your limit, create a ticket with AWS Support.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceExistsException].
+  /// May throw [PreconditionNotMetException].
+  /// May throw [ConflictException].
+  /// May throw [InternalFailureException].
+  /// May throw [ResourceUnavailableException].
+  ///
+  /// Parameter [awsAccountId] :
+  /// The ID for the AWS account that you want to create the QuickSight
+  /// namespace in.
+  ///
+  /// Parameter [identityStore] :
+  /// Specifies the type of your user identity directory. Currently, this
+  /// supports users with an identity type of <code>QUICKSIGHT</code>.
+  ///
+  /// Parameter [namespace] :
+  /// The name that you want to use to describe the new namespace.
+  ///
+  /// Parameter [tags] :
+  /// The tags that you want to associate with the namespace that you're
+  /// creating.
+  Future<CreateNamespaceResponse> createNamespace({
+    @_s.required String awsAccountId,
+    @_s.required IdentityStore identityStore,
+    @_s.required String namespace,
+    List<Tag> tags,
+  }) async {
+    ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
+    _s.validateStringLength(
+      'awsAccountId',
+      awsAccountId,
+      12,
+      12,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'awsAccountId',
+      awsAccountId,
+      r'''^[0-9]{12}$''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(identityStore, 'identityStore');
+    ArgumentError.checkNotNull(namespace, 'namespace');
+    _s.validateStringLength(
+      'namespace',
+      namespace,
+      0,
+      64,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'namespace',
+      namespace,
+      r'''^[a-zA-Z0-9._-]*$''',
+      isRequired: true,
+    );
+    final $payload = <String, dynamic>{
+      'IdentityStore': identityStore?.toValue() ?? '',
+      'Namespace': namespace,
+      if (tags != null) 'Tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/accounts/${Uri.encodeComponent(awsAccountId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateNamespaceResponse.fromJson(response);
+  }
+
   /// Creates a template from an existing QuickSight analysis or template. You
   /// can use the resulting template to create a dashboard.
   ///
@@ -875,6 +1200,7 @@ class QuickSight {
   /// May throw [ThrottlingException].
   /// May throw [LimitExceededException].
   /// May throw [UnsupportedUserEditionException].
+  /// May throw [ConflictException].
   /// May throw [InternalFailureException].
   ///
   /// Parameter [awsAccountId] :
@@ -882,10 +1208,19 @@ class QuickSight {
   /// for the AWS account that contains your Amazon QuickSight account.
   ///
   /// Parameter [sourceEntity] :
-  /// The Amazon Resource Name (ARN) of the source entity from which this
-  /// template is being created. Currently, you can create a template from an
-  /// analysis or another template. If the ARN is for an analysis, include its
-  /// dataset references.
+  /// The entity that you are using as a source when you create the template. In
+  /// <code>SourceEntity</code>, you specify the type of object you're using as
+  /// source: <code>SourceTemplate</code> for a template or
+  /// <code>SourceAnalysis</code> for an analysis. Both of these require an
+  /// Amazon Resource Name (ARN). For <code>SourceTemplate</code>, specify the
+  /// ARN of the source template. For <code>SourceAnalysis</code>, specify the
+  /// ARN of the source analysis. The <code>SourceTemplate</code> ARN can
+  /// contain any AWS Account and any QuickSight-supported AWS Region.
+  ///
+  /// Use the <code>DataSetReferences</code> entity within
+  /// <code>SourceTemplate</code> or <code>SourceAnalysis</code> to list the
+  /// replacement datasets for the placeholders listed in the original. The
+  /// schema in each dataset must match its placeholder.
   ///
   /// Parameter [templateId] :
   /// An ID for the template that you want to create. This template is unique
@@ -987,6 +1322,7 @@ class QuickSight {
   /// May throw [ResourceExistsException].
   /// May throw [LimitExceededException].
   /// May throw [UnsupportedUserEditionException].
+  /// May throw [ConflictException].
   /// May throw [InternalFailureException].
   ///
   /// Parameter [aliasName] :
@@ -1070,6 +1406,391 @@ class QuickSight {
       exceptionFnMap: _exceptionFns,
     );
     return CreateTemplateAliasResponse.fromJson(response);
+  }
+
+  /// Creates a theme.
+  ///
+  /// A <i>theme</i> is set of configuration options for color and layout.
+  /// Themes apply to analyses and dashboards. For more information, see <a
+  /// href="https://docs.aws.amazon.com/quicksight/latest/user/themes-in-quicksight.html">Using
+  /// Themes in Amazon QuickSight</a> in the <i>Amazon QuickSight User
+  /// Guide</i>.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceExistsException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [UnsupportedUserEditionException].
+  /// May throw [LimitExceededException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [awsAccountId] :
+  /// The ID of the AWS account where you want to store the new theme.
+  ///
+  /// Parameter [baseThemeId] :
+  /// The ID of the theme that a custom theme will inherit from. All themes
+  /// inherit from one of the starting themes defined by Amazon QuickSight. For
+  /// a list of the starting themes, use <code>ListThemes</code> or choose
+  /// <b>Themes</b> from within a QuickSight analysis.
+  ///
+  /// Parameter [configuration] :
+  /// The theme configuration, which contains the theme display properties.
+  ///
+  /// Parameter [name] :
+  /// A display name for the theme.
+  ///
+  /// Parameter [themeId] :
+  /// An ID for the theme that you want to create. The theme ID is unique per
+  /// AWS Region in each AWS account.
+  ///
+  /// Parameter [permissions] :
+  /// A valid grouping of resource permissions to apply to the new theme.
+  ///
+  /// Parameter [tags] :
+  /// A map of the key-value pairs for the resource tag or tags that you want to
+  /// add to the resource.
+  ///
+  /// Parameter [versionDescription] :
+  /// A description of the first version of the theme that you're creating.
+  /// Every time <code>UpdateTheme</code> is called, a new version is created.
+  /// Each version of the theme has a description of the version in the
+  /// <code>VersionDescription</code> field.
+  Future<CreateThemeResponse> createTheme({
+    @_s.required String awsAccountId,
+    @_s.required String baseThemeId,
+    @_s.required ThemeConfiguration configuration,
+    @_s.required String name,
+    @_s.required String themeId,
+    List<ResourcePermission> permissions,
+    List<Tag> tags,
+    String versionDescription,
+  }) async {
+    ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
+    _s.validateStringLength(
+      'awsAccountId',
+      awsAccountId,
+      12,
+      12,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'awsAccountId',
+      awsAccountId,
+      r'''^[0-9]{12}$''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(baseThemeId, 'baseThemeId');
+    _s.validateStringLength(
+      'baseThemeId',
+      baseThemeId,
+      1,
+      2048,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'baseThemeId',
+      baseThemeId,
+      r'''[\w\-]+''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(configuration, 'configuration');
+    ArgumentError.checkNotNull(name, 'name');
+    _s.validateStringLength(
+      'name',
+      name,
+      1,
+      2048,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(themeId, 'themeId');
+    _s.validateStringLength(
+      'themeId',
+      themeId,
+      1,
+      2048,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'themeId',
+      themeId,
+      r'''[\w\-]+''',
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'versionDescription',
+      versionDescription,
+      1,
+      512,
+    );
+    final $payload = <String, dynamic>{
+      'BaseThemeId': baseThemeId,
+      'Configuration': configuration,
+      'Name': name,
+      if (permissions != null) 'Permissions': permissions,
+      if (tags != null) 'Tags': tags,
+      if (versionDescription != null) 'VersionDescription': versionDescription,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/accounts/${Uri.encodeComponent(awsAccountId)}/themes/${Uri.encodeComponent(themeId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateThemeResponse.fromJson(response);
+  }
+
+  /// Creates a theme alias for a theme.
+  ///
+  /// May throw [ConflictException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceExistsException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [UnsupportedUserEditionException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [aliasName] :
+  /// The name that you want to give to the theme alias that you are creating.
+  /// The alias name can't begin with a <code>$</code>. Alias names that start
+  /// with <code>$</code> are reserved by Amazon QuickSight.
+  ///
+  /// Parameter [awsAccountId] :
+  /// The ID of the AWS account that contains the theme for the new theme alias.
+  ///
+  /// Parameter [themeId] :
+  /// An ID for the theme alias.
+  ///
+  /// Parameter [themeVersionNumber] :
+  /// The version number of the theme.
+  Future<CreateThemeAliasResponse> createThemeAlias({
+    @_s.required String aliasName,
+    @_s.required String awsAccountId,
+    @_s.required String themeId,
+    @_s.required int themeVersionNumber,
+  }) async {
+    ArgumentError.checkNotNull(aliasName, 'aliasName');
+    _s.validateStringLength(
+      'aliasName',
+      aliasName,
+      1,
+      2048,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'aliasName',
+      aliasName,
+      r'''[\w\-]+|(\$LATEST)|(\$PUBLISHED)''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
+    _s.validateStringLength(
+      'awsAccountId',
+      awsAccountId,
+      12,
+      12,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'awsAccountId',
+      awsAccountId,
+      r'''^[0-9]{12}$''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(themeId, 'themeId');
+    _s.validateStringLength(
+      'themeId',
+      themeId,
+      1,
+      2048,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'themeId',
+      themeId,
+      r'''[\w\-]+''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(themeVersionNumber, 'themeVersionNumber');
+    _s.validateNumRange(
+      'themeVersionNumber',
+      themeVersionNumber,
+      1,
+      1152921504606846976,
+      isRequired: true,
+    );
+    final $payload = <String, dynamic>{
+      'ThemeVersionNumber': themeVersionNumber,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/accounts/${Uri.encodeComponent(awsAccountId)}/themes/${Uri.encodeComponent(themeId)}/aliases/${Uri.encodeComponent(aliasName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateThemeAliasResponse.fromJson(response);
+  }
+
+  /// Deletes all Amazon QuickSight customizations in this AWS Region for the
+  /// specified AWS account and QuickSight namespace.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalFailureException].
+  /// May throw [ResourceUnavailableException].
+  ///
+  /// Parameter [awsAccountId] :
+  /// The ID for the AWS account that you want to delete QuickSight
+  /// customizations from in this AWS Region.
+  ///
+  /// Parameter [namespace] :
+  /// The QuickSight namespace that you're deleting the customizations from.
+  Future<DeleteAccountCustomizationResponse> deleteAccountCustomization({
+    @_s.required String awsAccountId,
+    String namespace,
+  }) async {
+    ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
+    _s.validateStringLength(
+      'awsAccountId',
+      awsAccountId,
+      12,
+      12,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'awsAccountId',
+      awsAccountId,
+      r'''^[0-9]{12}$''',
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'namespace',
+      namespace,
+      0,
+      64,
+    );
+    _s.validateStringPattern(
+      'namespace',
+      namespace,
+      r'''^[a-zA-Z0-9._-]*$''',
+    );
+    final $query = <String, List<String>>{
+      if (namespace != null) 'namespace': [namespace],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/accounts/${Uri.encodeComponent(awsAccountId)}/customizations',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return DeleteAccountCustomizationResponse.fromJson(response);
+  }
+
+  /// Deletes an analysis from Amazon QuickSight. You can optionally include a
+  /// recovery window during which you can restore the analysis. If you don't
+  /// specify a recovery window value, the operation defaults to 30 days.
+  /// QuickSight attaches a <code>DeletionTime</code> stamp to the response that
+  /// specifies the end of the recovery window. At the end of the recovery
+  /// window, QuickSight deletes the analysis permanently.
+  ///
+  /// At any time before recovery window ends, you can use the
+  /// <code>RestoreAnalysis</code> API operation to remove the
+  /// <code>DeletionTime</code> stamp and cancel the deletion of the analysis.
+  /// The analysis remains visible in the API until it's deleted, so you can
+  /// describe it but you can't make a template from it.
+  ///
+  /// An analysis that's scheduled for deletion isn't accessible in the
+  /// QuickSight console. To access it in the console, restore it. Deleting an
+  /// analysis doesn't delete the dashboards that you publish from it.
+  ///
+  /// May throw [ThrottlingException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ConflictException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [UnsupportedUserEditionException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [analysisId] :
+  /// The ID of the analysis that you're deleting.
+  ///
+  /// Parameter [awsAccountId] :
+  /// The ID of the AWS account where you want to delete an analysis.
+  ///
+  /// Parameter [forceDeleteWithoutRecovery] :
+  /// This option defaults to the value
+  /// <code>NoForceDeleteWithoutRecovery</code>. To immediately delete the
+  /// analysis, add the <code>ForceDeleteWithoutRecovery</code> option. You
+  /// can't restore an analysis after it's deleted.
+  ///
+  /// Parameter [recoveryWindowInDays] :
+  /// A value that specifies the number of days that QuickSight waits before it
+  /// deletes the analysis. You can't use this parameter with the
+  /// <code>ForceDeleteWithoutRecovery</code> option in the same API call. The
+  /// default value is 30.
+  Future<DeleteAnalysisResponse> deleteAnalysis({
+    @_s.required String analysisId,
+    @_s.required String awsAccountId,
+    bool forceDeleteWithoutRecovery,
+    int recoveryWindowInDays,
+  }) async {
+    ArgumentError.checkNotNull(analysisId, 'analysisId');
+    _s.validateStringLength(
+      'analysisId',
+      analysisId,
+      1,
+      2048,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'analysisId',
+      analysisId,
+      r'''[\w\-]+''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
+    _s.validateStringLength(
+      'awsAccountId',
+      awsAccountId,
+      12,
+      12,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'awsAccountId',
+      awsAccountId,
+      r'''^[0-9]{12}$''',
+      isRequired: true,
+    );
+    _s.validateNumRange(
+      'recoveryWindowInDays',
+      recoveryWindowInDays,
+      7,
+      30,
+    );
+    final $query = <String, List<String>>{
+      if (forceDeleteWithoutRecovery != null)
+        'force-delete-without-recovery': [
+          forceDeleteWithoutRecovery.toString()
+        ],
+      if (recoveryWindowInDays != null)
+        'recovery-window-in-days': [recoveryWindowInDays.toString()],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/accounts/${Uri.encodeComponent(awsAccountId)}/analyses/${Uri.encodeComponent(analysisId)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return DeleteAnalysisResponse.fromJson(response);
   }
 
   /// Deletes a dashboard.
@@ -1187,8 +1908,8 @@ class QuickSight {
     return DeleteDataSetResponse.fromJson(response);
   }
 
-  /// Deletes the data source permanently. This action breaks all the datasets
-  /// that reference the deleted data source.
+  /// Deletes the data source permanently. This operation breaks all the
+  /// datasets that reference the deleted data source.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InvalidParameterValueException].
@@ -1477,6 +2198,67 @@ class QuickSight {
     return DeleteIAMPolicyAssignmentResponse.fromJson(response);
   }
 
+  /// Deletes a namespace and the users and groups that are associated with the
+  /// namespace. This is an asynchronous process. Assets including dashboards,
+  /// analyses, datasets and data sources are not deleted. To delete these
+  /// assets, you use the API operations for the relevant asset.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [PreconditionNotMetException].
+  /// May throw [InternalFailureException].
+  /// May throw [ResourceUnavailableException].
+  ///
+  /// Parameter [awsAccountId] :
+  /// The ID for the AWS account that you want to delete the QuickSight
+  /// namespace from.
+  ///
+  /// Parameter [namespace] :
+  /// The namespace that you want to delete.
+  Future<DeleteNamespaceResponse> deleteNamespace({
+    @_s.required String awsAccountId,
+    @_s.required String namespace,
+  }) async {
+    ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
+    _s.validateStringLength(
+      'awsAccountId',
+      awsAccountId,
+      12,
+      12,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'awsAccountId',
+      awsAccountId,
+      r'''^[0-9]{12}$''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(namespace, 'namespace');
+    _s.validateStringLength(
+      'namespace',
+      namespace,
+      0,
+      64,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'namespace',
+      namespace,
+      r'''^[a-zA-Z0-9._-]*$''',
+      isRequired: true,
+    );
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/accounts/${Uri.encodeComponent(awsAccountId)}/namespaces/${Uri.encodeComponent(namespace)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DeleteNamespaceResponse.fromJson(response);
+  }
+
   /// Deletes a template.
   ///
   /// May throw [InvalidParameterValueException].
@@ -1557,13 +2339,14 @@ class QuickSight {
   /// May throw [ThrottlingException].
   /// May throw [ResourceNotFoundException].
   /// May throw [UnsupportedUserEditionException].
+  /// May throw [ConflictException].
   /// May throw [InternalFailureException].
   ///
   /// Parameter [aliasName] :
-  /// The name for the template alias. If you name a specific alias, you delete
-  /// the version that the alias points to. You can specify the latest version
-  /// of the template by providing the keyword <code>$LATEST</code> in the
-  /// <code>AliasName</code> parameter.
+  /// The name for the template alias. To delete a specific alias, you delete
+  /// the version that the alias points to. You can specify the alias name, or
+  /// specify the latest version of the template by providing the keyword
+  /// <code>$LATEST</code> in the <code>AliasName</code> parameter.
   ///
   /// Parameter [awsAccountId] :
   /// The ID of the AWS account that contains the item to delete.
@@ -1627,6 +2410,156 @@ class QuickSight {
     return DeleteTemplateAliasResponse.fromJson(response);
   }
 
+  /// Deletes a theme.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [UnsupportedUserEditionException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [awsAccountId] :
+  /// The ID of the AWS account that contains the theme that you're deleting.
+  ///
+  /// Parameter [themeId] :
+  /// An ID for the theme that you want to delete.
+  ///
+  /// Parameter [versionNumber] :
+  /// The version of the theme that you want to delete.
+  ///
+  /// <b>Note:</b> If you don't provide a version number, you're using this call
+  /// to <code>DeleteTheme</code> to delete all versions of the theme.
+  Future<DeleteThemeResponse> deleteTheme({
+    @_s.required String awsAccountId,
+    @_s.required String themeId,
+    int versionNumber,
+  }) async {
+    ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
+    _s.validateStringLength(
+      'awsAccountId',
+      awsAccountId,
+      12,
+      12,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'awsAccountId',
+      awsAccountId,
+      r'''^[0-9]{12}$''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(themeId, 'themeId');
+    _s.validateStringLength(
+      'themeId',
+      themeId,
+      1,
+      2048,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'themeId',
+      themeId,
+      r'''[\w\-]+''',
+      isRequired: true,
+    );
+    _s.validateNumRange(
+      'versionNumber',
+      versionNumber,
+      1,
+      1152921504606846976,
+    );
+    final $query = <String, List<String>>{
+      if (versionNumber != null) 'version-number': [versionNumber.toString()],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/accounts/${Uri.encodeComponent(awsAccountId)}/themes/${Uri.encodeComponent(themeId)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return DeleteThemeResponse.fromJson(response);
+  }
+
+  /// Deletes the version of the theme that the specified theme alias points to.
+  /// If you provide a specific alias, you delete the version of the theme that
+  /// the alias points to.
+  ///
+  /// May throw [ConflictException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [UnsupportedUserEditionException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [aliasName] :
+  /// The unique name for the theme alias to delete.
+  ///
+  /// Parameter [awsAccountId] :
+  /// The ID of the AWS account that contains the theme alias to delete.
+  ///
+  /// Parameter [themeId] :
+  /// The ID for the theme that the specified alias is for.
+  Future<DeleteThemeAliasResponse> deleteThemeAlias({
+    @_s.required String aliasName,
+    @_s.required String awsAccountId,
+    @_s.required String themeId,
+  }) async {
+    ArgumentError.checkNotNull(aliasName, 'aliasName');
+    _s.validateStringLength(
+      'aliasName',
+      aliasName,
+      1,
+      2048,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'aliasName',
+      aliasName,
+      r'''[\w\-]+|(\$LATEST)|(\$PUBLISHED)''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
+    _s.validateStringLength(
+      'awsAccountId',
+      awsAccountId,
+      12,
+      12,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'awsAccountId',
+      awsAccountId,
+      r'''^[0-9]{12}$''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(themeId, 'themeId');
+    _s.validateStringLength(
+      'themeId',
+      themeId,
+      1,
+      2048,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'themeId',
+      themeId,
+      r'''[\w\-]+''',
+      isRequired: true,
+    );
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/accounts/${Uri.encodeComponent(awsAccountId)}/themes/${Uri.encodeComponent(themeId)}/aliases/${Uri.encodeComponent(aliasName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DeleteThemeAliasResponse.fromJson(response);
+  }
+
   /// Deletes the Amazon QuickSight user that is associated with the identity of
   /// the AWS Identity and Access Management (IAM) user or role that's making
   /// the call. The IAM user isn't deleted as a result of this call.
@@ -1635,6 +2568,7 @@ class QuickSight {
   /// May throw [InvalidParameterValueException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [PreconditionNotMetException].
   /// May throw [InternalFailureException].
   /// May throw [ResourceUnavailableException].
   ///
@@ -1710,6 +2644,7 @@ class QuickSight {
   /// May throw [InvalidParameterValueException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [PreconditionNotMetException].
   /// May throw [InternalFailureException].
   /// May throw [ResourceUnavailableException].
   ///
@@ -1764,6 +2699,293 @@ class QuickSight {
       exceptionFnMap: _exceptionFns,
     );
     return DeleteUserByPrincipalIdResponse.fromJson(response);
+  }
+
+  /// Describes the customizations associated with the provided AWS account and
+  /// Amazon QuickSight namespace in an AWS Region. The QuickSight console
+  /// evaluates which customizations to apply by running this API operation with
+  /// the <code>Resolved</code> flag included.
+  ///
+  /// To determine what customizations display when you run this command, it can
+  /// help to visualize the relationship of the entities involved.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>AWS Account</code> - The AWS account exists at the top of the
+  /// hierarchy. It has the potential to use all of the AWS Regions and AWS
+  /// Services. When you subscribe to QuickSight, you choose one AWS Region to
+  /// use as your home Region. That's where your free SPICE capacity is located.
+  /// You can use QuickSight in any supported AWS Region.
+  /// </li>
+  /// <li>
+  /// <code>AWS Region</code> - In each AWS Region where you sign in to
+  /// QuickSight at least once, QuickSight acts as a separate instance of the
+  /// same service. If you have a user directory, it resides in us-east-1, which
+  /// is the US East (N. Virginia). Generally speaking, these users have access
+  /// to QuickSight in any AWS Region, unless they are constrained to a
+  /// namespace.
+  ///
+  /// To run the command in a different AWS Region, you change your Region
+  /// settings. If you're using the AWS CLI, you can use one of the following
+  /// options:
+  ///
+  /// <ul>
+  /// <li>
+  /// Use <a
+  /// href="https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-options.html">command
+  /// line options</a>.
+  /// </li>
+  /// <li>
+  /// Use <a
+  /// href="https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html">named
+  /// profiles</a>.
+  /// </li>
+  /// <li>
+  /// Run <code>aws configure</code> to change your default AWS Region. Use
+  /// Enter to key the same settings for your keys. For more information, see <a
+  /// href="https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-configure.html">Configuring
+  /// the AWS CLI</a>.
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// <code>Namespace</code> - A QuickSight namespace is a partition that
+  /// contains users and assets (data sources, datasets, dashboards, and so on).
+  /// To access assets that are in a specific namespace, users and groups must
+  /// also be part of the same namespace. People who share a namespace are
+  /// completely isolated from users and assets in other namespaces, even if
+  /// they are in the same AWS account and AWS Region.
+  /// </li>
+  /// <li>
+  /// <code>Applied customizations</code> - Within an AWS Region, a set of
+  /// QuickSight customizations can apply to an AWS account or to a namespace.
+  /// Settings that you apply to a namespace override settings that you apply to
+  /// an AWS account. All settings are isolated to a single AWS Region. To apply
+  /// them in other AWS Regions, run the <code>CreateAccountCustomization</code>
+  /// command in each AWS Region where you want to apply the same
+  /// customizations.
+  /// </li>
+  /// </ul>
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalFailureException].
+  /// May throw [ResourceUnavailableException].
+  ///
+  /// Parameter [awsAccountId] :
+  /// The ID for the AWS account that you want to describe QuickSight
+  /// customizations for.
+  ///
+  /// Parameter [namespace] :
+  /// The QuickSight namespace that you want to describe QuickSight
+  /// customizations for.
+  ///
+  /// Parameter [resolved] :
+  /// The <code>Resolved</code> flag works with the other parameters to
+  /// determine which view of QuickSight customizations is returned. You can add
+  /// this flag to your command to use the same view that QuickSight uses to
+  /// identify which customizations to apply to the console. Omit this flag, or
+  /// set it to <code>no-resolved</code>, to reveal customizations that are
+  /// configured at different levels.
+  Future<DescribeAccountCustomizationResponse> describeAccountCustomization({
+    @_s.required String awsAccountId,
+    String namespace,
+    bool resolved,
+  }) async {
+    ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
+    _s.validateStringLength(
+      'awsAccountId',
+      awsAccountId,
+      12,
+      12,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'awsAccountId',
+      awsAccountId,
+      r'''^[0-9]{12}$''',
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'namespace',
+      namespace,
+      0,
+      64,
+    );
+    _s.validateStringPattern(
+      'namespace',
+      namespace,
+      r'''^[a-zA-Z0-9._-]*$''',
+    );
+    final $query = <String, List<String>>{
+      if (namespace != null) 'namespace': [namespace],
+      if (resolved != null) 'resolved': [resolved.toString()],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/accounts/${Uri.encodeComponent(awsAccountId)}/customizations',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeAccountCustomizationResponse.fromJson(response);
+  }
+
+  /// Describes the settings that were used when your QuickSight subscription
+  /// was first created in this AWS account.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalFailureException].
+  /// May throw [ResourceUnavailableException].
+  ///
+  /// Parameter [awsAccountId] :
+  /// The ID for the AWS account that contains the settings that you want to
+  /// list.
+  Future<DescribeAccountSettingsResponse> describeAccountSettings({
+    @_s.required String awsAccountId,
+  }) async {
+    ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
+    _s.validateStringLength(
+      'awsAccountId',
+      awsAccountId,
+      12,
+      12,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'awsAccountId',
+      awsAccountId,
+      r'''^[0-9]{12}$''',
+      isRequired: true,
+    );
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/accounts/${Uri.encodeComponent(awsAccountId)}/settings',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeAccountSettingsResponse.fromJson(response);
+  }
+
+  /// Provides a summary of the metadata for an analysis.
+  ///
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ThrottlingException].
+  /// May throw [UnsupportedUserEditionException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [analysisId] :
+  /// The ID of the analysis that you're describing. The ID is part of the URL
+  /// of the analysis.
+  ///
+  /// Parameter [awsAccountId] :
+  /// The ID of the AWS account that contains the analysis. You must be using
+  /// the AWS account that the analysis is in.
+  Future<DescribeAnalysisResponse> describeAnalysis({
+    @_s.required String analysisId,
+    @_s.required String awsAccountId,
+  }) async {
+    ArgumentError.checkNotNull(analysisId, 'analysisId');
+    _s.validateStringLength(
+      'analysisId',
+      analysisId,
+      1,
+      2048,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'analysisId',
+      analysisId,
+      r'''[\w\-]+''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
+    _s.validateStringLength(
+      'awsAccountId',
+      awsAccountId,
+      12,
+      12,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'awsAccountId',
+      awsAccountId,
+      r'''^[0-9]{12}$''',
+      isRequired: true,
+    );
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/accounts/${Uri.encodeComponent(awsAccountId)}/analyses/${Uri.encodeComponent(analysisId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeAnalysisResponse.fromJson(response);
+  }
+
+  /// Provides the read and write permissions for an analysis.
+  ///
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [UnsupportedUserEditionException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [analysisId] :
+  /// The ID of the analysis whose permissions you're describing. The ID is part
+  /// of the analysis URL.
+  ///
+  /// Parameter [awsAccountId] :
+  /// The ID of the AWS account that contains the analysis whose permissions
+  /// you're describing. You must be using the AWS account that the analysis is
+  /// in.
+  Future<DescribeAnalysisPermissionsResponse> describeAnalysisPermissions({
+    @_s.required String analysisId,
+    @_s.required String awsAccountId,
+  }) async {
+    ArgumentError.checkNotNull(analysisId, 'analysisId');
+    _s.validateStringLength(
+      'analysisId',
+      analysisId,
+      1,
+      2048,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'analysisId',
+      analysisId,
+      r'''[\w\-]+''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
+    _s.validateStringLength(
+      'awsAccountId',
+      awsAccountId,
+      12,
+      12,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'awsAccountId',
+      awsAccountId,
+      r'''^[0-9]{12}$''',
+      isRequired: true,
+    );
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/accounts/${Uri.encodeComponent(awsAccountId)}/analyses/${Uri.encodeComponent(analysisId)}/permissions',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeAnalysisPermissionsResponse.fromJson(response);
   }
 
   /// Provides a summary for a dashboard.
@@ -2173,7 +3395,7 @@ class QuickSight {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [assignmentName] :
-  /// The name of the assignment.
+  /// The name of the assignment, also called a rule.
   ///
   /// Parameter [awsAccountId] :
   /// The ID of the AWS account that contains the assignment that you want to
@@ -2297,6 +3519,63 @@ class QuickSight {
       exceptionFnMap: _exceptionFns,
     );
     return DescribeIngestionResponse.fromJson(response);
+  }
+
+  /// Describes the current namespace.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalFailureException].
+  /// May throw [ResourceUnavailableException].
+  ///
+  /// Parameter [awsAccountId] :
+  /// The ID for the AWS account that contains the QuickSight namespace that you
+  /// want to describe.
+  ///
+  /// Parameter [namespace] :
+  /// The namespace that you want to describe.
+  Future<DescribeNamespaceResponse> describeNamespace({
+    @_s.required String awsAccountId,
+    @_s.required String namespace,
+  }) async {
+    ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
+    _s.validateStringLength(
+      'awsAccountId',
+      awsAccountId,
+      12,
+      12,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'awsAccountId',
+      awsAccountId,
+      r'''^[0-9]{12}$''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(namespace, 'namespace');
+    _s.validateStringLength(
+      'namespace',
+      namespace,
+      0,
+      64,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'namespace',
+      namespace,
+      r'''^[a-zA-Z0-9._-]*$''',
+      isRequired: true,
+    );
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/accounts/${Uri.encodeComponent(awsAccountId)}/namespaces/${Uri.encodeComponent(namespace)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeNamespaceResponse.fromJson(response);
   }
 
   /// Describes a template's metadata.
@@ -2528,12 +3807,230 @@ class QuickSight {
     return DescribeTemplatePermissionsResponse.fromJson(response);
   }
 
+  /// Describes a theme.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceExistsException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [UnsupportedUserEditionException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [awsAccountId] :
+  /// The ID of the AWS account that contains the theme that you're describing.
+  ///
+  /// Parameter [themeId] :
+  /// The ID for the theme.
+  ///
+  /// Parameter [aliasName] :
+  /// The alias of the theme that you want to describe. If you name a specific
+  /// alias, you describe the version that the alias points to. You can specify
+  /// the latest version of the theme by providing the keyword
+  /// <code>$LATEST</code> in the <code>AliasName</code> parameter. The keyword
+  /// <code>$PUBLISHED</code> doesn't apply to themes.
+  ///
+  /// Parameter [versionNumber] :
+  /// The version number for the version to describe. If a
+  /// <code>VersionNumber</code> parameter value isn't provided, the latest
+  /// version of the theme is described.
+  Future<DescribeThemeResponse> describeTheme({
+    @_s.required String awsAccountId,
+    @_s.required String themeId,
+    String aliasName,
+    int versionNumber,
+  }) async {
+    ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
+    _s.validateStringPattern(
+      'awsAccountId',
+      awsAccountId,
+      r'''^(aws|[0-9]{12})$''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(themeId, 'themeId');
+    _s.validateStringLength(
+      'themeId',
+      themeId,
+      1,
+      2048,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'themeId',
+      themeId,
+      r'''[\w\-]+''',
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'aliasName',
+      aliasName,
+      1,
+      2048,
+    );
+    _s.validateStringPattern(
+      'aliasName',
+      aliasName,
+      r'''[\w\-]+|(\$LATEST)|(\$PUBLISHED)''',
+    );
+    _s.validateNumRange(
+      'versionNumber',
+      versionNumber,
+      1,
+      1152921504606846976,
+    );
+    final $query = <String, List<String>>{
+      if (aliasName != null) 'alias-name': [aliasName],
+      if (versionNumber != null) 'version-number': [versionNumber.toString()],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/accounts/${Uri.encodeComponent(awsAccountId)}/themes/${Uri.encodeComponent(themeId)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeThemeResponse.fromJson(response);
+  }
+
+  /// Describes the alias for a theme.
+  ///
+  /// May throw [ConflictException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [UnsupportedUserEditionException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [aliasName] :
+  /// The name of the theme alias that you want to describe.
+  ///
+  /// Parameter [awsAccountId] :
+  /// The ID of the AWS account that contains the theme alias that you're
+  /// describing.
+  ///
+  /// Parameter [themeId] :
+  /// The ID for the theme.
+  Future<DescribeThemeAliasResponse> describeThemeAlias({
+    @_s.required String aliasName,
+    @_s.required String awsAccountId,
+    @_s.required String themeId,
+  }) async {
+    ArgumentError.checkNotNull(aliasName, 'aliasName');
+    _s.validateStringLength(
+      'aliasName',
+      aliasName,
+      1,
+      2048,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'aliasName',
+      aliasName,
+      r'''[\w\-]+|(\$LATEST)|(\$PUBLISHED)''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
+    _s.validateStringLength(
+      'awsAccountId',
+      awsAccountId,
+      12,
+      12,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'awsAccountId',
+      awsAccountId,
+      r'''^[0-9]{12}$''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(themeId, 'themeId');
+    _s.validateStringLength(
+      'themeId',
+      themeId,
+      1,
+      2048,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'themeId',
+      themeId,
+      r'''[\w\-]+''',
+      isRequired: true,
+    );
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/accounts/${Uri.encodeComponent(awsAccountId)}/themes/${Uri.encodeComponent(themeId)}/aliases/${Uri.encodeComponent(aliasName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeThemeAliasResponse.fromJson(response);
+  }
+
+  /// Describes the read and write permissions for a theme.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [UnsupportedUserEditionException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [awsAccountId] :
+  /// The ID of the AWS account that contains the theme that you're describing.
+  ///
+  /// Parameter [themeId] :
+  /// The ID for the theme that you want to describe permissions for.
+  Future<DescribeThemePermissionsResponse> describeThemePermissions({
+    @_s.required String awsAccountId,
+    @_s.required String themeId,
+  }) async {
+    ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
+    _s.validateStringLength(
+      'awsAccountId',
+      awsAccountId,
+      12,
+      12,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'awsAccountId',
+      awsAccountId,
+      r'''^[0-9]{12}$''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(themeId, 'themeId');
+    _s.validateStringLength(
+      'themeId',
+      themeId,
+      1,
+      2048,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'themeId',
+      themeId,
+      r'''[\w\-]+''',
+      isRequired: true,
+    );
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/accounts/${Uri.encodeComponent(awsAccountId)}/themes/${Uri.encodeComponent(themeId)}/permissions',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeThemePermissionsResponse.fromJson(response);
+  }
+
   /// Returns information about a user, given the user name.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InvalidParameterValueException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [PreconditionNotMetException].
   /// May throw [InternalFailureException].
   /// May throw [ResourceUnavailableException].
   ///
@@ -2603,18 +4100,32 @@ class QuickSight {
     return DescribeUserResponse.fromJson(response);
   }
 
-  /// Generates a server-side embeddable URL and authorization code. For this
-  /// process to work properly, first configure the dashboards and user
-  /// permissions. For more information, see <a
-  /// href="https://docs.aws.amazon.com/quicksight/latest/user/embedding-dashboards.html">Embedding
-  /// Amazon QuickSight Dashboards</a> in the <i>Amazon QuickSight User
-  /// Guide</i> or <a
-  /// href="https://docs.aws.amazon.com/quicksight/latest/APIReference/qs-dev-embedded-dashboards.html">Embedding
-  /// Amazon QuickSight Dashboards</a> in the <i>Amazon QuickSight API
-  /// Reference</i>.
+  /// Generates a session URL and authorization code that you can use to embed
+  /// an Amazon QuickSight read-only dashboard in your web server code. Before
+  /// you use this command, make sure that you have configured the dashboards
+  /// and permissions.
   ///
   /// Currently, you can use <code>GetDashboardEmbedURL</code> only from the
-  /// server, not from the user’s browser.
+  /// server, not from the user's browser. The following rules apply to the
+  /// combination of URL and authorization code:
+  ///
+  /// <ul>
+  /// <li>
+  /// They must be used together.
+  /// </li>
+  /// <li>
+  /// They can be used one time only.
+  /// </li>
+  /// <li>
+  /// They are valid for 5 minutes after you run this command.
+  /// </li>
+  /// <li>
+  /// The resulting user session is valid for 10 hours.
+  /// </li>
+  /// </ul>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/quicksight/latest/user/embedded-analytics.html">Embedded
+  /// Analytics</a> in the <i>Amazon QuickSight User Guide</i>.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InvalidParameterValueException].
@@ -2626,6 +4137,7 @@ class QuickSight {
   /// May throw [IdentityTypeNotSupportedException].
   /// May throw [SessionLifetimeInMinutesInvalidException].
   /// May throw [UnsupportedUserEditionException].
+  /// May throw [UnsupportedPricingPlanException].
   /// May throw [InternalFailureException].
   ///
   /// Parameter [awsAccountId] :
@@ -2633,10 +4145,25 @@ class QuickSight {
   /// embedding.
   ///
   /// Parameter [dashboardId] :
-  /// The ID for the dashboard, also added to the IAM policy.
+  /// The ID for the dashboard, also added to the AWS Identity and Access
+  /// Management (IAM) policy.
   ///
   /// Parameter [identityType] :
   /// The authentication method that the user uses to sign in.
+  ///
+  /// Parameter [additionalDashboardIds] :
+  /// A list of one or more dashboard IDs that you want to add to a session that
+  /// includes anonymous users. The <code>IdentityType</code> parameter must be
+  /// set to <code>ANONYMOUS</code> for this to work, because other identity
+  /// types authenticate as QuickSight or IAM users. For example, if you set
+  /// "<code>--dashboard-id dash_id1 --dashboard-id dash_id2 dash_id3
+  /// identity-type ANONYMOUS</code>", the session can access all three
+  /// dashboards.
+  ///
+  /// Parameter [namespace] :
+  /// The QuickSight namespace that contains the dashboard IDs in this request.
+  /// If you're not using a custom namespace, set this to
+  /// "<code>default</code>".
   ///
   /// Parameter [resetDisabled] :
   /// Remove the reset button on the embedded dashboard. The default is FALSE,
@@ -2645,6 +4172,16 @@ class QuickSight {
   /// Parameter [sessionLifetimeInMinutes] :
   /// How many minutes the session is valid. The session lifetime must be 15-600
   /// minutes.
+  ///
+  /// Parameter [statePersistenceEnabled] :
+  /// Adds persistence of state for the user session in an embedded dashboard.
+  /// Persistence applies to the sheet and the parameter settings. These are
+  /// control settings that the dashboard subscriber (QuickSight reader) chooses
+  /// while viewing the dashboard. If this is set to <code>TRUE</code>, the
+  /// settings are the same when the subscriber reopens the same dashboard URL.
+  /// The state is stored in QuickSight, not in a browser cookie. If this is set
+  /// to FALSE, the state of the user session is not persisted. The default is
+  /// <code>FALSE</code>.
   ///
   /// Parameter [undoRedoDisabled] :
   /// Remove the undo/redo button on the embedded dashboard. The default is
@@ -2668,12 +4205,17 @@ class QuickSight {
   /// Single Sign-On using SAML, OpenID Connect, or IAM federation.
   /// </li>
   /// </ul>
+  /// Omit this parameter for users in the third group – IAM users and IAM
+  /// role-based sessions.
   Future<GetDashboardEmbedUrlResponse> getDashboardEmbedUrl({
     @_s.required String awsAccountId,
     @_s.required String dashboardId,
-    @_s.required IdentityType identityType,
+    @_s.required EmbeddingIdentityType identityType,
+    List<String> additionalDashboardIds,
+    String namespace,
     bool resetDisabled,
     int sessionLifetimeInMinutes,
+    bool statePersistenceEnabled,
     bool undoRedoDisabled,
     String userArn,
   }) async {
@@ -2706,6 +4248,17 @@ class QuickSight {
       isRequired: true,
     );
     ArgumentError.checkNotNull(identityType, 'identityType');
+    _s.validateStringLength(
+      'namespace',
+      namespace,
+      0,
+      64,
+    );
+    _s.validateStringPattern(
+      'namespace',
+      namespace,
+      r'''^[a-zA-Z0-9._-]*$''',
+    );
     _s.validateNumRange(
       'sessionLifetimeInMinutes',
       sessionLifetimeInMinutes,
@@ -2714,9 +4267,14 @@ class QuickSight {
     );
     final $query = <String, List<String>>{
       if (identityType != null) 'creds-type': [identityType.toValue()],
+      if (additionalDashboardIds != null)
+        'additional-dashboard-ids': additionalDashboardIds,
+      if (namespace != null) 'namespace': [namespace],
       if (resetDisabled != null) 'reset-disabled': [resetDisabled.toString()],
       if (sessionLifetimeInMinutes != null)
         'session-lifetime': [sessionLifetimeInMinutes.toString()],
+      if (statePersistenceEnabled != null)
+        'state-persistence-enabled': [statePersistenceEnabled.toString()],
       if (undoRedoDisabled != null)
         'undo-redo-disabled': [undoRedoDisabled.toString()],
       if (userArn != null) 'user-arn': [userArn],
@@ -2730,6 +4288,198 @@ class QuickSight {
       exceptionFnMap: _exceptionFns,
     );
     return GetDashboardEmbedUrlResponse.fromJson(response);
+  }
+
+  /// Generates a session URL and authorization code that you can use to embed
+  /// the Amazon QuickSight console in your web server code. Use
+  /// <code>GetSessionEmbedUrl</code> where you want to provide an authoring
+  /// portal that allows users to create data sources, datasets, analyses, and
+  /// dashboards. The users who access an embedded QuickSight console need
+  /// belong to the author or admin security cohort. If you want to restrict
+  /// permissions to some of these features, add a custom permissions profile to
+  /// the user with the <code> <a>UpdateUser</a> </code> API operation. Use
+  /// <code> <a>RegisterUser</a> </code> API operation to add a new user with a
+  /// custom permission profile attached. For more information, see the
+  /// following sections in the <i>Amazon QuickSight User Guide</i>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/quicksight/latest/user/embedding-the-quicksight-console.html">Embedding
+  /// the Amazon QuickSight Console</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/quicksight/latest/user/customizing-permissions-to-the-quicksight-console.html">Customizing
+  /// Access to the Amazon QuickSight Console</a>
+  /// </li>
+  /// </ul>
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceExistsException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [QuickSightUserNotFoundException].
+  /// May throw [SessionLifetimeInMinutesInvalidException].
+  /// May throw [UnsupportedUserEditionException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [awsAccountId] :
+  /// The ID for the AWS account associated with your QuickSight subscription.
+  ///
+  /// Parameter [entryPoint] :
+  /// The URL you use to access the embedded session. The entry point URL is
+  /// constrained to the following paths:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>/start</code>
+  /// </li>
+  /// <li>
+  /// <code>/start/analyses</code>
+  /// </li>
+  /// <li>
+  /// <code>/start/dashboards</code>
+  /// </li>
+  /// <li>
+  /// <code>/start/favorites</code>
+  /// </li>
+  /// <li>
+  /// <code>/dashboards/<i>DashboardId</i> </code> - where
+  /// <code>DashboardId</code> is the actual ID key from the QuickSight console
+  /// URL of the dashboard
+  /// </li>
+  /// <li>
+  /// <code>/analyses/<i>AnalysisId</i> </code> - where <code>AnalysisId</code>
+  /// is the actual ID key from the QuickSight console URL of the analysis
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [sessionLifetimeInMinutes] :
+  /// How many minutes the session is valid. The session lifetime must be 15-600
+  /// minutes.
+  ///
+  /// Parameter [userArn] :
+  /// The Amazon QuickSight user's Amazon Resource Name (ARN), for use with
+  /// <code>QUICKSIGHT</code> identity type. You can use this for any type of
+  /// Amazon QuickSight users in your account (readers, authors, or admins).
+  /// They need to be authenticated as one of the following:
+  /// <ol>
+  /// <li>
+  /// Active Directory (AD) users or group members
+  /// </li>
+  /// <li>
+  /// Invited nonfederated users
+  /// </li>
+  /// <li>
+  /// AWS Identity and Access Management (IAM) users and IAM role-based sessions
+  /// authenticated through Federated Single Sign-On using SAML, OpenID Connect,
+  /// or IAM federation
+  /// </li> </ol>
+  /// Omit this parameter for users in the third group, IAM users and IAM
+  /// role-based sessions.
+  Future<GetSessionEmbedUrlResponse> getSessionEmbedUrl({
+    @_s.required String awsAccountId,
+    String entryPoint,
+    int sessionLifetimeInMinutes,
+    String userArn,
+  }) async {
+    ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
+    _s.validateStringLength(
+      'awsAccountId',
+      awsAccountId,
+      12,
+      12,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'awsAccountId',
+      awsAccountId,
+      r'''^[0-9]{12}$''',
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'entryPoint',
+      entryPoint,
+      1,
+      1000,
+    );
+    _s.validateNumRange(
+      'sessionLifetimeInMinutes',
+      sessionLifetimeInMinutes,
+      15,
+      600,
+    );
+    final $query = <String, List<String>>{
+      if (entryPoint != null) 'entry-point': [entryPoint],
+      if (sessionLifetimeInMinutes != null)
+        'session-lifetime': [sessionLifetimeInMinutes.toString()],
+      if (userArn != null) 'user-arn': [userArn],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/accounts/${Uri.encodeComponent(awsAccountId)}/session-embed-url',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetSessionEmbedUrlResponse.fromJson(response);
+  }
+
+  /// Lists Amazon QuickSight analyses that exist in the specified AWS account.
+  ///
+  /// May throw [ThrottlingException].
+  /// May throw [InvalidNextTokenException].
+  /// May throw [UnsupportedUserEditionException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [awsAccountId] :
+  /// The ID of the AWS account that contains the analyses.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return.
+  ///
+  /// Parameter [nextToken] :
+  /// A pagination token that can be used in a subsequent request.
+  Future<ListAnalysesResponse> listAnalyses({
+    @_s.required String awsAccountId,
+    int maxResults,
+    String nextToken,
+  }) async {
+    ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
+    _s.validateStringLength(
+      'awsAccountId',
+      awsAccountId,
+      12,
+      12,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'awsAccountId',
+      awsAccountId,
+      r'''^[0-9]{12}$''',
+      isRequired: true,
+    );
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'max-results': [maxResults.toString()],
+      if (nextToken != null) 'next-token': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/accounts/${Uri.encodeComponent(awsAccountId)}/analyses',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListAnalysesResponse.fromJson(response);
   }
 
   /// Lists all the versions of the dashboards in the QuickSight subscription.
@@ -3397,6 +5147,65 @@ class QuickSight {
     return ListIngestionsResponse.fromJson(response);
   }
 
+  /// Lists the namespaces for the specified AWS account.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InvalidNextTokenException].
+  /// May throw [PreconditionNotMetException].
+  /// May throw [InternalFailureException].
+  /// May throw [ResourceUnavailableException].
+  ///
+  /// Parameter [awsAccountId] :
+  /// The ID for the AWS account that contains the QuickSight namespaces that
+  /// you want to list.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return.
+  ///
+  /// Parameter [nextToken] :
+  /// A pagination token that can be used in a subsequent request.
+  Future<ListNamespacesResponse> listNamespaces({
+    @_s.required String awsAccountId,
+    int maxResults,
+    String nextToken,
+  }) async {
+    ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
+    _s.validateStringLength(
+      'awsAccountId',
+      awsAccountId,
+      12,
+      12,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'awsAccountId',
+      awsAccountId,
+      r'''^[0-9]{12}$''',
+      isRequired: true,
+    );
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'max-results': [maxResults.toString()],
+      if (nextToken != null) 'next-token': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/accounts/${Uri.encodeComponent(awsAccountId)}/namespaces',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListNamespacesResponse.fromJson(response);
+  }
+
   /// Lists the tags assigned to a resource.
   ///
   /// May throw [AccessDeniedException].
@@ -3423,6 +5232,7 @@ class QuickSight {
 
   /// Lists all the aliases of a template.
   ///
+  /// May throw [InvalidNextTokenException].
   /// May throw [ThrottlingException].
   /// May throw [ResourceNotFoundException].
   /// May throw [UnsupportedUserEditionException].
@@ -3630,6 +5440,239 @@ class QuickSight {
     return ListTemplatesResponse.fromJson(response);
   }
 
+  /// Lists all the aliases of a theme.
+  ///
+  /// May throw [ConflictException].
+  /// May throw [InvalidNextTokenException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [UnsupportedUserEditionException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [awsAccountId] :
+  /// The ID of the AWS account that contains the theme aliases that you're
+  /// listing.
+  ///
+  /// Parameter [themeId] :
+  /// The ID for the theme.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to be returned per request.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of results, or null if there are no more
+  /// results.
+  Future<ListThemeAliasesResponse> listThemeAliases({
+    @_s.required String awsAccountId,
+    @_s.required String themeId,
+    int maxResults,
+    String nextToken,
+  }) async {
+    ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
+    _s.validateStringLength(
+      'awsAccountId',
+      awsAccountId,
+      12,
+      12,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'awsAccountId',
+      awsAccountId,
+      r'''^[0-9]{12}$''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(themeId, 'themeId');
+    _s.validateStringLength(
+      'themeId',
+      themeId,
+      1,
+      2048,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'themeId',
+      themeId,
+      r'''[\w\-]+''',
+      isRequired: true,
+    );
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'max-result': [maxResults.toString()],
+      if (nextToken != null) 'next-token': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/accounts/${Uri.encodeComponent(awsAccountId)}/themes/${Uri.encodeComponent(themeId)}/aliases',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListThemeAliasesResponse.fromJson(response);
+  }
+
+  /// Lists all the versions of the themes in the current AWS account.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidNextTokenException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [UnsupportedUserEditionException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [awsAccountId] :
+  /// The ID of the AWS account that contains the themes that you're listing.
+  ///
+  /// Parameter [themeId] :
+  /// The ID for the theme.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to be returned per request.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of results, or null if there are no more
+  /// results.
+  Future<ListThemeVersionsResponse> listThemeVersions({
+    @_s.required String awsAccountId,
+    @_s.required String themeId,
+    int maxResults,
+    String nextToken,
+  }) async {
+    ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
+    _s.validateStringLength(
+      'awsAccountId',
+      awsAccountId,
+      12,
+      12,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'awsAccountId',
+      awsAccountId,
+      r'''^[0-9]{12}$''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(themeId, 'themeId');
+    _s.validateStringLength(
+      'themeId',
+      themeId,
+      1,
+      2048,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'themeId',
+      themeId,
+      r'''[\w\-]+''',
+      isRequired: true,
+    );
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'max-results': [maxResults.toString()],
+      if (nextToken != null) 'next-token': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/accounts/${Uri.encodeComponent(awsAccountId)}/themes/${Uri.encodeComponent(themeId)}/versions',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListThemeVersionsResponse.fromJson(response);
+  }
+
+  /// Lists all the themes in the current AWS account.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [InvalidNextTokenException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [UnsupportedUserEditionException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [awsAccountId] :
+  /// The ID of the AWS account that contains the themes that you're listing.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to be returned per request.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of results, or null if there are no more
+  /// results.
+  ///
+  /// Parameter [type] :
+  /// The type of themes that you want to list. Valid options include the
+  /// following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ALL (default)</code>- Display all existing themes.
+  /// </li>
+  /// <li>
+  /// <code>CUSTOM</code> - Display only the themes created by people using
+  /// Amazon QuickSight.
+  /// </li>
+  /// <li>
+  /// <code>QUICKSIGHT</code> - Display only the starting themes defined by
+  /// QuickSight.
+  /// </li>
+  /// </ul>
+  Future<ListThemesResponse> listThemes({
+    @_s.required String awsAccountId,
+    int maxResults,
+    String nextToken,
+    ThemeType type,
+  }) async {
+    ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
+    _s.validateStringLength(
+      'awsAccountId',
+      awsAccountId,
+      12,
+      12,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'awsAccountId',
+      awsAccountId,
+      r'''^[0-9]{12}$''',
+      isRequired: true,
+    );
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'max-results': [maxResults.toString()],
+      if (nextToken != null) 'next-token': [nextToken],
+      if (type != null) 'type': [type.toValue()],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/accounts/${Uri.encodeComponent(awsAccountId)}/themes',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListThemesResponse.fromJson(response);
+  }
+
   /// Lists the Amazon QuickSight groups that an Amazon QuickSight user is a
   /// member of.
   ///
@@ -3637,6 +5680,7 @@ class QuickSight {
   /// May throw [InvalidParameterValueException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [PreconditionNotMetException].
   /// May throw [InternalFailureException].
   /// May throw [ResourceUnavailableException].
   ///
@@ -3734,6 +5778,7 @@ class QuickSight {
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [InvalidNextTokenException].
+  /// May throw [PreconditionNotMetException].
   /// May throw [InternalFailureException].
   /// May throw [ResourceUnavailableException].
   ///
@@ -3869,6 +5914,42 @@ class QuickSight {
   /// </li>
   /// </ul>
   ///
+  /// Parameter [customPermissionsName] :
+  /// (Enterprise edition only) The name of the custom permissions profile that
+  /// you want to assign to this user. Customized permissions allows you to
+  /// control a user's access by restricting access the following operations:
+  ///
+  /// <ul>
+  /// <li>
+  /// Create and update data sources
+  /// </li>
+  /// <li>
+  /// Create and update datasets
+  /// </li>
+  /// <li>
+  /// Create and update email reports
+  /// </li>
+  /// <li>
+  /// Subscribe to email reports
+  /// </li>
+  /// </ul>
+  /// To add custom permissions to an existing user, use <code>
+  /// <a>UpdateUser</a> </code> instead.
+  ///
+  /// A set of custom permissions includes any combination of these
+  /// restrictions. Currently, you need to create the profile names for custom
+  /// permission sets by using the QuickSight console. Then, you use the
+  /// <code>RegisterUser</code> API operation to assign the named set of
+  /// permissions to a QuickSight user.
+  ///
+  /// QuickSight custom permissions are applied through IAM policies. Therefore,
+  /// they override the permissions typically granted by assigning QuickSight
+  /// users to one of the default security cohorts in QuickSight (admin, author,
+  /// reader).
+  ///
+  /// This feature is available only to QuickSight Enterprise edition
+  /// subscriptions that use SAML 2.0-Based Federation for Single Sign-On (SSO).
+  ///
   /// Parameter [iamArn] :
   /// The ARN of the IAM user or role that you are registering with Amazon
   /// QuickSight.
@@ -3880,7 +5961,7 @@ class QuickSight {
   /// Amazon QuickSight user. You can register multiple users using the same IAM
   /// role if each user has a different session name. For more information on
   /// assuming IAM roles, see <a
-  /// href="https://docs.aws.example.com/cli/latest/reference/sts/assume-role.html">
+  /// href="https://docs.aws.amazon.com/cli/latest/reference/sts/assume-role.html">
   /// <code>assume-role</code> </a> in the <i>AWS CLI Reference.</i>
   ///
   /// Parameter [userName] :
@@ -3892,6 +5973,7 @@ class QuickSight {
     @_s.required IdentityType identityType,
     @_s.required String namespace,
     @_s.required UserRole userRole,
+    String customPermissionsName,
     String iamArn,
     String sessionName,
     String userName,
@@ -3928,6 +6010,17 @@ class QuickSight {
     );
     ArgumentError.checkNotNull(userRole, 'userRole');
     _s.validateStringLength(
+      'customPermissionsName',
+      customPermissionsName,
+      1,
+      64,
+    );
+    _s.validateStringPattern(
+      'customPermissionsName',
+      customPermissionsName,
+      r'''^[a-zA-Z0-9+=,.@_-]+$''',
+    );
+    _s.validateStringLength(
       'sessionName',
       sessionName,
       2,
@@ -3953,6 +6046,8 @@ class QuickSight {
       'Email': email,
       'IdentityType': identityType?.toValue() ?? '',
       'UserRole': userRole?.toValue() ?? '',
+      if (customPermissionsName != null)
+        'CustomPermissionsName': customPermissionsName,
       if (iamArn != null) 'IamArn': iamArn,
       if (sessionName != null) 'SessionName': sessionName,
       if (userName != null) 'UserName': userName,
@@ -3967,7 +6062,127 @@ class QuickSight {
     return RegisterUserResponse.fromJson(response);
   }
 
-  /// Searchs for dashboards that belong to a user.
+  /// Restores an analysis.
+  ///
+  /// May throw [ThrottlingException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ConflictException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [UnsupportedUserEditionException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [analysisId] :
+  /// The ID of the analysis that you're restoring.
+  ///
+  /// Parameter [awsAccountId] :
+  /// The ID of the AWS account that contains the analysis.
+  Future<RestoreAnalysisResponse> restoreAnalysis({
+    @_s.required String analysisId,
+    @_s.required String awsAccountId,
+  }) async {
+    ArgumentError.checkNotNull(analysisId, 'analysisId');
+    _s.validateStringLength(
+      'analysisId',
+      analysisId,
+      1,
+      2048,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'analysisId',
+      analysisId,
+      r'''[\w\-]+''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
+    _s.validateStringLength(
+      'awsAccountId',
+      awsAccountId,
+      12,
+      12,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'awsAccountId',
+      awsAccountId,
+      r'''^[0-9]{12}$''',
+      isRequired: true,
+    );
+    final response = await _protocol.send(
+      payload: null,
+      method: 'POST',
+      requestUri:
+          '/accounts/${Uri.encodeComponent(awsAccountId)}/restore/analyses/${Uri.encodeComponent(analysisId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return RestoreAnalysisResponse.fromJson(response);
+  }
+
+  /// Searches for analyses that belong to the user specified in the filter.
+  ///
+  /// May throw [ThrottlingException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [UnsupportedUserEditionException].
+  /// May throw [InvalidNextTokenException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [awsAccountId] :
+  /// The ID of the AWS account that contains the analyses that you're searching
+  /// for.
+  ///
+  /// Parameter [filters] :
+  /// The structure for the search filters that you want to apply to your
+  /// search.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return.
+  ///
+  /// Parameter [nextToken] :
+  /// A pagination token that can be used in a subsequent request.
+  Future<SearchAnalysesResponse> searchAnalyses({
+    @_s.required String awsAccountId,
+    @_s.required List<AnalysisSearchFilter> filters,
+    int maxResults,
+    String nextToken,
+  }) async {
+    ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
+    _s.validateStringLength(
+      'awsAccountId',
+      awsAccountId,
+      12,
+      12,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'awsAccountId',
+      awsAccountId,
+      r'''^[0-9]{12}$''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(filters, 'filters');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $payload = <String, dynamic>{
+      'Filters': filters,
+      if (maxResults != null) 'MaxResults': maxResults,
+      if (nextToken != null) 'NextToken': nextToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/accounts/${Uri.encodeComponent(awsAccountId)}/search/analyses',
+      exceptionFnMap: _exceptionFns,
+    );
+    return SearchAnalysesResponse.fromJson(response);
+  }
+
+  /// Searches for dashboards that belong to a user.
   ///
   /// May throw [ThrottlingException].
   /// May throw [ResourceNotFoundException].
@@ -3982,7 +6197,7 @@ class QuickSight {
   ///
   /// Parameter [filters] :
   /// The filters to apply to the search. Currently, you can search only by user
-  /// name. For example, <code>"Filters": [ { "Name": "QUICKSIGHT_USER",
+  /// name, for example, <code>"Filters": [ { "Name": "QUICKSIGHT_USER",
   /// "Operator": "StringEquals", "Value":
   /// "arn:aws:quicksight:us-east-1:1:user/default/UserName1" } ]</code>
   ///
@@ -4128,6 +6343,322 @@ class QuickSight {
     return UntagResourceResponse.fromJson(response);
   }
 
+  /// Updates Amazon QuickSight customizations the current AWS Region.
+  /// Currently, the only customization you can use is a theme.
+  ///
+  /// You can use customizations for your AWS account or, if you specify a
+  /// namespace, for a QuickSight namespace instead. Customizations that apply
+  /// to a namespace override customizations that apply to an AWS account. To
+  /// find out which customizations apply, use the
+  /// <code>DescribeAccountCustomization</code> API operation.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalFailureException].
+  /// May throw [ResourceUnavailableException].
+  ///
+  /// Parameter [accountCustomization] :
+  /// The QuickSight customizations you're updating in the current AWS Region.
+  ///
+  /// Parameter [awsAccountId] :
+  /// The ID for the AWS account that you want to update QuickSight
+  /// customizations for.
+  ///
+  /// Parameter [namespace] :
+  /// The namespace that you want to update QuickSight customizations for.
+  Future<UpdateAccountCustomizationResponse> updateAccountCustomization({
+    @_s.required AccountCustomization accountCustomization,
+    @_s.required String awsAccountId,
+    String namespace,
+  }) async {
+    ArgumentError.checkNotNull(accountCustomization, 'accountCustomization');
+    ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
+    _s.validateStringLength(
+      'awsAccountId',
+      awsAccountId,
+      12,
+      12,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'awsAccountId',
+      awsAccountId,
+      r'''^[0-9]{12}$''',
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'namespace',
+      namespace,
+      0,
+      64,
+    );
+    _s.validateStringPattern(
+      'namespace',
+      namespace,
+      r'''^[a-zA-Z0-9._-]*$''',
+    );
+    final $query = <String, List<String>>{
+      if (namespace != null) 'namespace': [namespace],
+    };
+    final $payload = <String, dynamic>{
+      'AccountCustomization': accountCustomization,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/accounts/${Uri.encodeComponent(awsAccountId)}/customizations',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateAccountCustomizationResponse.fromJson(response);
+  }
+
+  /// Updates the Amazon QuickSight settings in your AWS account.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalFailureException].
+  /// May throw [ResourceUnavailableException].
+  ///
+  /// Parameter [awsAccountId] :
+  /// The ID for the AWS account that contains the QuickSight settings that you
+  /// want to list.
+  ///
+  /// Parameter [defaultNamespace] :
+  /// The default namespace for this AWS account. Currently, the default is
+  /// <code>default</code>. AWS Identity and Access Management (IAM) users that
+  /// register for the first time with QuickSight provide an email that becomes
+  /// associated with the default namespace.
+  ///
+  /// Parameter [notificationEmail] :
+  /// The email address that you want QuickSight to send notifications to
+  /// regarding your AWS account or QuickSight subscription.
+  Future<UpdateAccountSettingsResponse> updateAccountSettings({
+    @_s.required String awsAccountId,
+    @_s.required String defaultNamespace,
+    String notificationEmail,
+  }) async {
+    ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
+    _s.validateStringLength(
+      'awsAccountId',
+      awsAccountId,
+      12,
+      12,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'awsAccountId',
+      awsAccountId,
+      r'''^[0-9]{12}$''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(defaultNamespace, 'defaultNamespace');
+    _s.validateStringLength(
+      'defaultNamespace',
+      defaultNamespace,
+      0,
+      64,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'defaultNamespace',
+      defaultNamespace,
+      r'''^[a-zA-Z0-9._-]*$''',
+      isRequired: true,
+    );
+    final $payload = <String, dynamic>{
+      'DefaultNamespace': defaultNamespace,
+      if (notificationEmail != null) 'NotificationEmail': notificationEmail,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/accounts/${Uri.encodeComponent(awsAccountId)}/settings',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateAccountSettingsResponse.fromJson(response);
+  }
+
+  /// Updates an analysis in Amazon QuickSight
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ThrottlingException].
+  /// May throw [ResourceExistsException].
+  /// May throw [ConflictException].
+  /// May throw [UnsupportedUserEditionException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [analysisId] :
+  /// The ID for the analysis that you're updating. This ID displays in the URL
+  /// of the analysis.
+  ///
+  /// Parameter [awsAccountId] :
+  /// The ID of the AWS account that contains the analysis that you're updating.
+  ///
+  /// Parameter [name] :
+  /// A descriptive name for the analysis that you're updating. This name
+  /// displays for the analysis in the QuickSight console.
+  ///
+  /// Parameter [sourceEntity] :
+  /// A source entity to use for the analysis that you're updating. This
+  /// metadata structure contains details that describe a source template and
+  /// one or more datasets.
+  ///
+  /// Parameter [parameters] :
+  /// The parameter names and override values that you want to use. An analysis
+  /// can have any parameter type, and some parameters might accept multiple
+  /// values.
+  ///
+  /// Parameter [themeArn] :
+  /// The Amazon Resource Name (ARN) for the theme to apply to the analysis that
+  /// you're creating. To see the theme in the QuickSight console, make sure
+  /// that you have access to it.
+  Future<UpdateAnalysisResponse> updateAnalysis({
+    @_s.required String analysisId,
+    @_s.required String awsAccountId,
+    @_s.required String name,
+    @_s.required AnalysisSourceEntity sourceEntity,
+    Parameters parameters,
+    String themeArn,
+  }) async {
+    ArgumentError.checkNotNull(analysisId, 'analysisId');
+    _s.validateStringLength(
+      'analysisId',
+      analysisId,
+      1,
+      2048,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'analysisId',
+      analysisId,
+      r'''[\w\-]+''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
+    _s.validateStringLength(
+      'awsAccountId',
+      awsAccountId,
+      12,
+      12,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'awsAccountId',
+      awsAccountId,
+      r'''^[0-9]{12}$''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(name, 'name');
+    _s.validateStringLength(
+      'name',
+      name,
+      1,
+      2048,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'name',
+      name,
+      r'''[\u0020-\u00FF]+''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(sourceEntity, 'sourceEntity');
+    final $payload = <String, dynamic>{
+      'Name': name,
+      'SourceEntity': sourceEntity,
+      if (parameters != null) 'Parameters': parameters,
+      if (themeArn != null) 'ThemeArn': themeArn,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/accounts/${Uri.encodeComponent(awsAccountId)}/analyses/${Uri.encodeComponent(analysisId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateAnalysisResponse.fromJson(response);
+  }
+
+  /// Updates the read and write permissions for an analysis.
+  ///
+  /// May throw [ThrottlingException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [UnsupportedUserEditionException].
+  /// May throw [ConflictException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [analysisId] :
+  /// The ID of the analysis whose permissions you're updating. The ID is part
+  /// of the analysis URL.
+  ///
+  /// Parameter [awsAccountId] :
+  /// The ID of the AWS account that contains the analysis whose permissions
+  /// you're updating. You must be using the AWS account that the analysis is
+  /// in.
+  ///
+  /// Parameter [grantPermissions] :
+  /// A structure that describes the permissions to add and the principal to add
+  /// them to.
+  ///
+  /// Parameter [revokePermissions] :
+  /// A structure that describes the permissions to remove and the principal to
+  /// remove them from.
+  Future<UpdateAnalysisPermissionsResponse> updateAnalysisPermissions({
+    @_s.required String analysisId,
+    @_s.required String awsAccountId,
+    List<ResourcePermission> grantPermissions,
+    List<ResourcePermission> revokePermissions,
+  }) async {
+    ArgumentError.checkNotNull(analysisId, 'analysisId');
+    _s.validateStringLength(
+      'analysisId',
+      analysisId,
+      1,
+      2048,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'analysisId',
+      analysisId,
+      r'''[\w\-]+''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
+    _s.validateStringLength(
+      'awsAccountId',
+      awsAccountId,
+      12,
+      12,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'awsAccountId',
+      awsAccountId,
+      r'''^[0-9]{12}$''',
+      isRequired: true,
+    );
+    final $payload = <String, dynamic>{
+      if (grantPermissions != null) 'GrantPermissions': grantPermissions,
+      if (revokePermissions != null) 'RevokePermissions': revokePermissions,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/accounts/${Uri.encodeComponent(awsAccountId)}/analyses/${Uri.encodeComponent(analysisId)}/permissions',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateAnalysisPermissionsResponse.fromJson(response);
+  }
+
   /// Updates a dashboard in an AWS account.
   ///
   /// May throw [ThrottlingException].
@@ -4149,12 +6680,20 @@ class QuickSight {
   /// The display name of the dashboard.
   ///
   /// Parameter [sourceEntity] :
-  /// The template or analysis from which the dashboard is created. The
-  /// <code>SouceTemplate</code> entity accepts the Amazon Resource Name (ARN)
-  /// of the template and also references to replacement datasets for the
-  /// placeholders set when creating the template. The replacement datasets need
-  /// to follow the same schema as the datasets for which placeholders were
-  /// created when creating the template.
+  /// The entity that you are using as a source when you update the dashboard.
+  /// In <code>SourceEntity</code>, you specify the type of object you're using
+  /// as source. You can only update a dashboard from a template, so you use a
+  /// <code>SourceTemplate</code> entity. If you need to update a dashboard from
+  /// an analysis, first convert the analysis to a template by using the
+  /// <a>CreateTemplate</a> API operation. For <code>SourceTemplate</code>,
+  /// specify the Amazon Resource Name (ARN) of the source template. The
+  /// <code>SourceTemplate</code> ARN can contain any AWS Account and any
+  /// QuickSight-supported AWS Region.
+  ///
+  /// Use the <code>DataSetReferences</code> entity within
+  /// <code>SourceTemplate</code> to list the replacement datasets for the
+  /// placeholders listed in the original. The schema in each dataset must match
+  /// its placeholder.
   ///
   /// Parameter [dashboardPublishOptions] :
   /// Options for publishing the dashboard when you create it:
@@ -4170,19 +6709,26 @@ class QuickSight {
   /// <li>
   /// <code>AvailabilityStatus</code> for <code>ExportToCSVOption</code> - This
   /// status can be either <code>ENABLED</code> or <code>DISABLED</code>. The
-  /// visual option to export data to .csv format isn't enabled when this is set
+  /// visual option to export data to .CSV format isn't enabled when this is set
   /// to <code>DISABLED</code>. This option is <code>ENABLED</code> by default.
   /// </li>
   /// <li>
   /// <code>VisibilityState</code> for <code>SheetControlsOption</code> - This
   /// visibility state can be either <code>COLLAPSED</code> or
-  /// <code>EXPANDED</code>. The sheet controls pane is collapsed by default
-  /// when set to true. This option is <code>COLLAPSED</code> by default.
+  /// <code>EXPANDED</code>. This option is <code>COLLAPSED</code> by default.
   /// </li>
   /// </ul>
   ///
   /// Parameter [parameters] :
-  /// A structure that contains the parameters of the dashboard.
+  /// A structure that contains the parameters of the dashboard. These are
+  /// parameter overrides for a dashboard. A dashboard can have any type of
+  /// parameters, and some parameters might accept multiple values.
+  ///
+  /// Parameter [themeArn] :
+  /// The Amazon Resource Name (ARN) of the theme that is being used for this
+  /// dashboard. If you add a value for this field, it overrides the value that
+  /// was originally associated with the entity. The theme ARN must exist in the
+  /// same AWS account where you create the dashboard.
   ///
   /// Parameter [versionDescription] :
   /// A description for the first version of the dashboard being created.
@@ -4193,6 +6739,7 @@ class QuickSight {
     @_s.required DashboardSourceEntity sourceEntity,
     DashboardPublishOptions dashboardPublishOptions,
     Parameters parameters,
+    String themeArn,
     String versionDescription,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
@@ -4250,6 +6797,7 @@ class QuickSight {
       if (dashboardPublishOptions != null)
         'DashboardPublishOptions': dashboardPublishOptions,
       if (parameters != null) 'Parameters': parameters,
+      if (themeArn != null) 'ThemeArn': themeArn,
       if (versionDescription != null) 'VersionDescription': versionDescription,
     };
     final response = await _protocol.send(
@@ -4433,6 +6981,10 @@ class QuickSight {
   /// Groupings of columns that work together in certain QuickSight features.
   /// Currently, only geospatial hierarchy is supported.
   ///
+  /// Parameter [columnLevelPermissionRules] :
+  /// A set of one or more definitions of a <code>
+  /// <a>ColumnLevelPermissionRule</a> </code>.
+  ///
   /// Parameter [logicalTableMap] :
   /// Configures the combination and transformation of the data from the
   /// physical tables.
@@ -4446,6 +6998,7 @@ class QuickSight {
     @_s.required String name,
     @_s.required Map<String, PhysicalTable> physicalTableMap,
     List<ColumnGroup> columnGroups,
+    List<ColumnLevelPermissionRule> columnLevelPermissionRules,
     Map<String, LogicalTable> logicalTableMap,
     RowLevelPermissionDataSet rowLevelPermissionDataSet,
   }) async {
@@ -4479,6 +7032,8 @@ class QuickSight {
       'Name': name,
       'PhysicalTableMap': physicalTableMap,
       if (columnGroups != null) 'ColumnGroups': columnGroups,
+      if (columnLevelPermissionRules != null)
+        'ColumnLevelPermissionRules': columnLevelPermissionRules,
       if (logicalTableMap != null) 'LogicalTableMap': logicalTableMap,
       if (rowLevelPermissionDataSet != null)
         'RowLevelPermissionDataSet': rowLevelPermissionDataSet,
@@ -4783,7 +7338,8 @@ class QuickSight {
   }
 
   /// Updates an existing IAM policy assignment. This operation updates only the
-  /// optional parameter or parameters that are specified in the request.
+  /// optional parameter or parameters that are specified in the request. This
+  /// overwrites all of the users included in <code>Identities</code>.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InvalidParameterValueException].
@@ -4794,8 +7350,8 @@ class QuickSight {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [assignmentName] :
-  /// The name of the assignment. This name must be unique within an AWS
-  /// account.
+  /// The name of the assignment, also called a rule. This name must be unique
+  /// within an AWS account.
   ///
   /// Parameter [awsAccountId] :
   /// The ID of the AWS account that contains the IAM policy assignment.
@@ -4910,8 +7466,19 @@ class QuickSight {
   /// The ID of the AWS account that contains the template that you're updating.
   ///
   /// Parameter [sourceEntity] :
-  /// The source QuickSight entity from which this template is being updated.
-  /// You can currently update templates from an Analysis or another template.
+  /// The entity that you are using as a source when you update the template. In
+  /// <code>SourceEntity</code>, you specify the type of object you're using as
+  /// source: <code>SourceTemplate</code> for a template or
+  /// <code>SourceAnalysis</code> for an analysis. Both of these require an
+  /// Amazon Resource Name (ARN). For <code>SourceTemplate</code>, specify the
+  /// ARN of the source template. For <code>SourceAnalysis</code>, specify the
+  /// ARN of the source analysis. The <code>SourceTemplate</code> ARN can
+  /// contain any AWS Account and any QuickSight-supported AWS Region.
+  ///
+  /// Use the <code>DataSetReferences</code> entity within
+  /// <code>SourceTemplate</code> or <code>SourceAnalysis</code> to list the
+  /// replacement datasets for the placeholders listed in the original. The
+  /// schema in each dataset must match its placeholder.
   ///
   /// Parameter [templateId] :
   /// The ID for the template.
@@ -4998,6 +7565,7 @@ class QuickSight {
   /// May throw [ResourceNotFoundException].
   /// May throw [ConflictException].
   /// May throw [UnsupportedUserEditionException].
+  /// May throw [ConflictException].
   /// May throw [InternalFailureException].
   ///
   /// Parameter [aliasName] :
@@ -5153,12 +7721,349 @@ class QuickSight {
     return UpdateTemplatePermissionsResponse.fromJson(response);
   }
 
+  /// Updates a theme.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceExistsException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [UnsupportedUserEditionException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [awsAccountId] :
+  /// The ID of the AWS account that contains the theme that you're updating.
+  ///
+  /// Parameter [baseThemeId] :
+  /// The theme ID, defined by Amazon QuickSight, that a custom theme inherits
+  /// from. All themes initially inherit from a default QuickSight theme.
+  ///
+  /// Parameter [themeId] :
+  /// The ID for the theme.
+  ///
+  /// Parameter [configuration] :
+  /// The theme configuration, which contains the theme display properties.
+  ///
+  /// Parameter [name] :
+  /// The name for the theme.
+  ///
+  /// Parameter [versionDescription] :
+  /// A description of the theme version that you're updating Every time that
+  /// you call <code>UpdateTheme</code>, you create a new version of the theme.
+  /// Each version of the theme maintains a description of the version in
+  /// <code>VersionDescription</code>.
+  Future<UpdateThemeResponse> updateTheme({
+    @_s.required String awsAccountId,
+    @_s.required String baseThemeId,
+    @_s.required String themeId,
+    ThemeConfiguration configuration,
+    String name,
+    String versionDescription,
+  }) async {
+    ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
+    _s.validateStringLength(
+      'awsAccountId',
+      awsAccountId,
+      12,
+      12,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'awsAccountId',
+      awsAccountId,
+      r'''^[0-9]{12}$''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(baseThemeId, 'baseThemeId');
+    _s.validateStringLength(
+      'baseThemeId',
+      baseThemeId,
+      1,
+      2048,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'baseThemeId',
+      baseThemeId,
+      r'''[\w\-]+''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(themeId, 'themeId');
+    _s.validateStringLength(
+      'themeId',
+      themeId,
+      1,
+      2048,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'themeId',
+      themeId,
+      r'''[\w\-]+''',
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'name',
+      name,
+      1,
+      2048,
+    );
+    _s.validateStringLength(
+      'versionDescription',
+      versionDescription,
+      1,
+      512,
+    );
+    final $payload = <String, dynamic>{
+      'BaseThemeId': baseThemeId,
+      if (configuration != null) 'Configuration': configuration,
+      if (name != null) 'Name': name,
+      if (versionDescription != null) 'VersionDescription': versionDescription,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/accounts/${Uri.encodeComponent(awsAccountId)}/themes/${Uri.encodeComponent(themeId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateThemeResponse.fromJson(response);
+  }
+
+  /// Updates an alias of a theme.
+  ///
+  /// May throw [ConflictException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceExistsException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [UnsupportedUserEditionException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [aliasName] :
+  /// The name of the theme alias that you want to update.
+  ///
+  /// Parameter [awsAccountId] :
+  /// The ID of the AWS account that contains the theme alias that you're
+  /// updating.
+  ///
+  /// Parameter [themeId] :
+  /// The ID for the theme.
+  ///
+  /// Parameter [themeVersionNumber] :
+  /// The version number of the theme that the alias should reference.
+  Future<UpdateThemeAliasResponse> updateThemeAlias({
+    @_s.required String aliasName,
+    @_s.required String awsAccountId,
+    @_s.required String themeId,
+    @_s.required int themeVersionNumber,
+  }) async {
+    ArgumentError.checkNotNull(aliasName, 'aliasName');
+    _s.validateStringLength(
+      'aliasName',
+      aliasName,
+      1,
+      2048,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'aliasName',
+      aliasName,
+      r'''[\w\-]+|(\$LATEST)|(\$PUBLISHED)''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
+    _s.validateStringLength(
+      'awsAccountId',
+      awsAccountId,
+      12,
+      12,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'awsAccountId',
+      awsAccountId,
+      r'''^[0-9]{12}$''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(themeId, 'themeId');
+    _s.validateStringLength(
+      'themeId',
+      themeId,
+      1,
+      2048,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'themeId',
+      themeId,
+      r'''[\w\-]+''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(themeVersionNumber, 'themeVersionNumber');
+    _s.validateNumRange(
+      'themeVersionNumber',
+      themeVersionNumber,
+      1,
+      1152921504606846976,
+      isRequired: true,
+    );
+    final $payload = <String, dynamic>{
+      'ThemeVersionNumber': themeVersionNumber,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/accounts/${Uri.encodeComponent(awsAccountId)}/themes/${Uri.encodeComponent(themeId)}/aliases/${Uri.encodeComponent(aliasName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateThemeAliasResponse.fromJson(response);
+  }
+
+  /// Updates the resource permissions for a theme. Permissions apply to the
+  /// action to grant or revoke permissions on, for example
+  /// <code>"quicksight:DescribeTheme"</code>.
+  ///
+  /// Theme permissions apply in groupings. Valid groupings include the
+  /// following for the three levels of permissions, which are user, owner, or
+  /// no permissions:
+  ///
+  /// <ul>
+  /// <li>
+  /// User
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>"quicksight:DescribeTheme"</code>
+  /// </li>
+  /// <li>
+  /// <code>"quicksight:DescribeThemeAlias"</code>
+  /// </li>
+  /// <li>
+  /// <code>"quicksight:ListThemeAliases"</code>
+  /// </li>
+  /// <li>
+  /// <code>"quicksight:ListThemeVersions"</code>
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// Owner
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>"quicksight:DescribeTheme"</code>
+  /// </li>
+  /// <li>
+  /// <code>"quicksight:DescribeThemeAlias"</code>
+  /// </li>
+  /// <li>
+  /// <code>"quicksight:ListThemeAliases"</code>
+  /// </li>
+  /// <li>
+  /// <code>"quicksight:ListThemeVersions"</code>
+  /// </li>
+  /// <li>
+  /// <code>"quicksight:DeleteTheme"</code>
+  /// </li>
+  /// <li>
+  /// <code>"quicksight:UpdateTheme"</code>
+  /// </li>
+  /// <li>
+  /// <code>"quicksight:CreateThemeAlias"</code>
+  /// </li>
+  /// <li>
+  /// <code>"quicksight:DeleteThemeAlias"</code>
+  /// </li>
+  /// <li>
+  /// <code>"quicksight:UpdateThemeAlias"</code>
+  /// </li>
+  /// <li>
+  /// <code>"quicksight:UpdateThemePermissions"</code>
+  /// </li>
+  /// <li>
+  /// <code>"quicksight:DescribeThemePermissions"</code>
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// To specify no permissions, omit the permissions list.
+  /// </li>
+  /// </ul>
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [UnsupportedUserEditionException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [awsAccountId] :
+  /// The ID of the AWS account that contains the theme.
+  ///
+  /// Parameter [themeId] :
+  /// The ID for the theme.
+  ///
+  /// Parameter [grantPermissions] :
+  /// A list of resource permissions to be granted for the theme.
+  ///
+  /// Parameter [revokePermissions] :
+  /// A list of resource permissions to be revoked from the theme.
+  Future<UpdateThemePermissionsResponse> updateThemePermissions({
+    @_s.required String awsAccountId,
+    @_s.required String themeId,
+    List<ResourcePermission> grantPermissions,
+    List<ResourcePermission> revokePermissions,
+  }) async {
+    ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
+    _s.validateStringLength(
+      'awsAccountId',
+      awsAccountId,
+      12,
+      12,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'awsAccountId',
+      awsAccountId,
+      r'''^[0-9]{12}$''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(themeId, 'themeId');
+    _s.validateStringLength(
+      'themeId',
+      themeId,
+      1,
+      2048,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'themeId',
+      themeId,
+      r'''[\w\-]+''',
+      isRequired: true,
+    );
+    final $payload = <String, dynamic>{
+      if (grantPermissions != null) 'GrantPermissions': grantPermissions,
+      if (revokePermissions != null) 'RevokePermissions': revokePermissions,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/accounts/${Uri.encodeComponent(awsAccountId)}/themes/${Uri.encodeComponent(themeId)}/permissions',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateThemePermissionsResponse.fromJson(response);
+  }
+
   /// Updates an Amazon QuickSight user.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InvalidParameterValueException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [PreconditionNotMetException].
   /// May throw [InternalFailureException].
   /// May throw [ResourceUnavailableException].
   ///
@@ -5173,8 +8078,8 @@ class QuickSight {
   /// The namespace. Currently, you should set this to <code>default</code>.
   ///
   /// Parameter [role] :
-  /// The Amazon QuickSight role of the user. The user role can be one of the
-  /// following:
+  /// The Amazon QuickSight role of the user. The role can be one of the
+  /// following default security cohorts:
   ///
   /// <ul>
   /// <li>
@@ -5189,15 +8094,58 @@ class QuickSight {
   /// QuickSight settings.
   /// </li>
   /// </ul>
+  /// The name of the QuickSight role is invisible to the user except for the
+  /// console screens dealing with permissions.
   ///
   /// Parameter [userName] :
   /// The Amazon QuickSight user name that you want to update.
+  ///
+  /// Parameter [customPermissionsName] :
+  /// (Enterprise edition only) The name of the custom permissions profile that
+  /// you want to assign to this user. Customized permissions allows you to
+  /// control a user's access by restricting access the following operations:
+  ///
+  /// <ul>
+  /// <li>
+  /// Create and update data sources
+  /// </li>
+  /// <li>
+  /// Create and update datasets
+  /// </li>
+  /// <li>
+  /// Create and update email reports
+  /// </li>
+  /// <li>
+  /// Subscribe to email reports
+  /// </li>
+  /// </ul>
+  /// A set of custom permissions includes any combination of these
+  /// restrictions. Currently, you need to create the profile names for custom
+  /// permission sets by using the QuickSight console. Then, you use the
+  /// <code>RegisterUser</code> API operation to assign the named set of
+  /// permissions to a QuickSight user.
+  ///
+  /// QuickSight custom permissions are applied through IAM policies. Therefore,
+  /// they override the permissions typically granted by assigning QuickSight
+  /// users to one of the default security cohorts in QuickSight (admin, author,
+  /// reader).
+  ///
+  /// This feature is available only to QuickSight Enterprise edition
+  /// subscriptions that use SAML 2.0-Based Federation for Single Sign-On (SSO).
+  ///
+  /// Parameter [unapplyCustomPermissions] :
+  /// A flag that you use to indicate that you want to remove all custom
+  /// permissions from this user. Using this parameter resets the user to the
+  /// state it was in before a custom permissions profile was applied. This
+  /// parameter defaults to NULL and it doesn't accept any other value.
   Future<UpdateUserResponse> updateUser({
     @_s.required String awsAccountId,
     @_s.required String email,
     @_s.required String namespace,
     @_s.required UserRole role,
     @_s.required String userName,
+    String customPermissionsName,
+    bool unapplyCustomPermissions,
   }) async {
     ArgumentError.checkNotNull(awsAccountId, 'awsAccountId');
     _s.validateStringLength(
@@ -5243,9 +8191,24 @@ class QuickSight {
       r'''[\u0020-\u00FF]+''',
       isRequired: true,
     );
+    _s.validateStringLength(
+      'customPermissionsName',
+      customPermissionsName,
+      1,
+      64,
+    );
+    _s.validateStringPattern(
+      'customPermissionsName',
+      customPermissionsName,
+      r'''^[a-zA-Z0-9+=,.@_-]+$''',
+    );
     final $payload = <String, dynamic>{
       'Email': email,
       'Role': role?.toValue() ?? '',
+      if (customPermissionsName != null)
+        'CustomPermissionsName': customPermissionsName,
+      if (unapplyCustomPermissions != null)
+        'UnapplyCustomPermissions': unapplyCustomPermissions,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -5256,6 +8219,63 @@ class QuickSight {
     );
     return UpdateUserResponse.fromJson(response);
   }
+}
+
+/// The Amazon QuickSight customizations associated with your AWS account or a
+/// QuickSight namespace in a specific AWS Region.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AccountCustomization {
+  /// The default theme for this QuickSight subscription.
+  @_s.JsonKey(name: 'DefaultTheme')
+  final String defaultTheme;
+
+  AccountCustomization({
+    this.defaultTheme,
+  });
+  factory AccountCustomization.fromJson(Map<String, dynamic> json) =>
+      _$AccountCustomizationFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AccountCustomizationToJson(this);
+}
+
+/// The QuickSight settings associated with your AWS account.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class AccountSettings {
+  /// The "account name" you provided for the QuickSight subscription in your AWS
+  /// account. You create this name when you sign up for QuickSight. It is unique
+  /// in all of AWS and it appears only in the console when users sign in.
+  @_s.JsonKey(name: 'AccountName')
+  final String accountName;
+
+  /// The default QuickSight namespace for your AWS account.
+  @_s.JsonKey(name: 'DefaultNamespace')
+  final String defaultNamespace;
+
+  /// The edition of QuickSight that you're currently subscribed to: Enterprise
+  /// edition or Standard edition.
+  @_s.JsonKey(name: 'Edition')
+  final Edition edition;
+
+  /// The main notification email for your QuickSight subscription.
+  @_s.JsonKey(name: 'NotificationEmail')
+  final String notificationEmail;
+
+  AccountSettings({
+    this.accountName,
+    this.defaultNamespace,
+    this.edition,
+    this.notificationEmail,
+  });
+  factory AccountSettings.fromJson(Map<String, dynamic> json) =>
+      _$AccountSettingsFromJson(json);
 }
 
 /// The active AWS Identity and Access Management (IAM) policy assignment.
@@ -5316,6 +8336,238 @@ class AmazonElasticsearchParameters {
       _$AmazonElasticsearchParametersFromJson(json);
 
   Map<String, dynamic> toJson() => _$AmazonElasticsearchParametersToJson(this);
+}
+
+/// Metadata structure for an analysis in Amazon QuickSight
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class Analysis {
+  /// The ID of the analysis.
+  @_s.JsonKey(name: 'AnalysisId')
+  final String analysisId;
+
+  /// The Amazon Resource Name (ARN) of the analysis.
+  @_s.JsonKey(name: 'Arn')
+  final String arn;
+
+  /// The time that the analysis was created.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedTime')
+  final DateTime createdTime;
+
+  /// The ARNs of the datasets of the analysis.
+  @_s.JsonKey(name: 'DataSetArns')
+  final List<String> dataSetArns;
+
+  /// Errors associated with the analysis.
+  @_s.JsonKey(name: 'Errors')
+  final List<AnalysisError> errors;
+
+  /// The time that the analysis was last updated.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastUpdatedTime')
+  final DateTime lastUpdatedTime;
+
+  /// The descriptive name of the analysis.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// A list of the associated sheets with the unique identifier and name of each
+  /// sheet.
+  @_s.JsonKey(name: 'Sheets')
+  final List<Sheet> sheets;
+
+  /// Status associated with the analysis.
+  @_s.JsonKey(name: 'Status')
+  final ResourceStatus status;
+
+  /// The ARN of the theme of the analysis.
+  @_s.JsonKey(name: 'ThemeArn')
+  final String themeArn;
+
+  Analysis({
+    this.analysisId,
+    this.arn,
+    this.createdTime,
+    this.dataSetArns,
+    this.errors,
+    this.lastUpdatedTime,
+    this.name,
+    this.sheets,
+    this.status,
+    this.themeArn,
+  });
+  factory Analysis.fromJson(Map<String, dynamic> json) =>
+      _$AnalysisFromJson(json);
+}
+
+/// A metadata error structure for an analysis.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class AnalysisError {
+  /// The message associated with the analysis error.
+  @_s.JsonKey(name: 'Message')
+  final String message;
+
+  /// The type of the analysis error.
+  @_s.JsonKey(name: 'Type')
+  final AnalysisErrorType type;
+
+  AnalysisError({
+    this.message,
+    this.type,
+  });
+  factory AnalysisError.fromJson(Map<String, dynamic> json) =>
+      _$AnalysisErrorFromJson(json);
+}
+
+enum AnalysisErrorType {
+  @_s.JsonValue('ACCESS_DENIED')
+  accessDenied,
+  @_s.JsonValue('SOURCE_NOT_FOUND')
+  sourceNotFound,
+  @_s.JsonValue('DATA_SET_NOT_FOUND')
+  dataSetNotFound,
+  @_s.JsonValue('INTERNAL_FAILURE')
+  internalFailure,
+  @_s.JsonValue('PARAMETER_VALUE_INCOMPATIBLE')
+  parameterValueIncompatible,
+  @_s.JsonValue('PARAMETER_TYPE_INVALID')
+  parameterTypeInvalid,
+  @_s.JsonValue('PARAMETER_NOT_FOUND')
+  parameterNotFound,
+  @_s.JsonValue('COLUMN_TYPE_MISMATCH')
+  columnTypeMismatch,
+  @_s.JsonValue('COLUMN_GEOGRAPHIC_ROLE_MISMATCH')
+  columnGeographicRoleMismatch,
+  @_s.JsonValue('COLUMN_REPLACEMENT_MISSING')
+  columnReplacementMissing,
+}
+
+enum AnalysisFilterAttribute {
+  @_s.JsonValue('QUICKSIGHT_USER')
+  quicksightUser,
+}
+
+/// A filter that you apply when searching for one or more analyses.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AnalysisSearchFilter {
+  /// The name of the value that you want to use as a filter, for example
+  /// <code>"Name": "QUICKSIGHT_USER"</code>.
+  @_s.JsonKey(name: 'Name')
+  final AnalysisFilterAttribute name;
+
+  /// The comparison operator that you want to use as a filter, for example
+  /// <code>"Operator": "StringEquals"</code>.
+  @_s.JsonKey(name: 'Operator')
+  final FilterOperator operator;
+
+  /// The value of the named item, in this case <code>QUICKSIGHT_USER</code>, that
+  /// you want to use as a filter, for example <code>"Value"</code>. An example is
+  /// <code>"arn:aws:quicksight:us-east-1:1:user/default/UserName1"</code>.
+  @_s.JsonKey(name: 'Value')
+  final String value;
+
+  AnalysisSearchFilter({
+    this.name,
+    this.operator,
+    this.value,
+  });
+  Map<String, dynamic> toJson() => _$AnalysisSearchFilterToJson(this);
+}
+
+/// The source entity of an analysis.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AnalysisSourceEntity {
+  /// The source template for the source entity of the analysis.
+  @_s.JsonKey(name: 'SourceTemplate')
+  final AnalysisSourceTemplate sourceTemplate;
+
+  AnalysisSourceEntity({
+    this.sourceTemplate,
+  });
+  Map<String, dynamic> toJson() => _$AnalysisSourceEntityToJson(this);
+}
+
+/// The source template of an analysis.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AnalysisSourceTemplate {
+  /// The Amazon Resource Name (ARN) of the source template of an analysis.
+  @_s.JsonKey(name: 'Arn')
+  final String arn;
+
+  /// The dataset references of the source template of an analysis.
+  @_s.JsonKey(name: 'DataSetReferences')
+  final List<DataSetReference> dataSetReferences;
+
+  AnalysisSourceTemplate({
+    @_s.required this.arn,
+    @_s.required this.dataSetReferences,
+  });
+  Map<String, dynamic> toJson() => _$AnalysisSourceTemplateToJson(this);
+}
+
+/// The summary metadata that describes an analysis.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class AnalysisSummary {
+  /// The ID of the analysis. This ID displays in the URL.
+  @_s.JsonKey(name: 'AnalysisId')
+  final String analysisId;
+
+  /// The Amazon Resource Name (ARN) for the analysis.
+  @_s.JsonKey(name: 'Arn')
+  final String arn;
+
+  /// The time that the analysis was created.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedTime')
+  final DateTime createdTime;
+
+  /// The time that the analysis was last updated.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastUpdatedTime')
+  final DateTime lastUpdatedTime;
+
+  /// The name of the analysis. This name is displayed in the QuickSight console.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The last known status for the analysis.
+  @_s.JsonKey(name: 'Status')
+  final ResourceStatus status;
+
+  AnalysisSummary({
+    this.analysisId,
+    this.arn,
+    this.createdTime,
+    this.lastUpdatedTime,
+    this.name,
+    this.status,
+  });
+  factory AnalysisSummary.fromJson(Map<String, dynamic> json) =>
+      _$AnalysisSummaryFromJson(json);
 }
 
 enum AssignmentStatus {
@@ -5441,6 +8693,26 @@ class AwsIotAnalyticsParameters {
   Map<String, dynamic> toJson() => _$AwsIotAnalyticsParametersToJson(this);
 }
 
+/// The display options for tile borders for visuals.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class BorderStyle {
+  /// The option to enable display of borders for visuals.
+  @_s.JsonKey(name: 'Show')
+  final bool show;
+
+  BorderStyle({
+    this.show,
+  });
+  factory BorderStyle.fromJson(Map<String, dynamic> json) =>
+      _$BorderStyleFromJson(json);
+
+  Map<String, dynamic> toJson() => _$BorderStyleToJson(this);
+}
+
 /// A calculated column for a dataset.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -5547,6 +8819,26 @@ enum ColumnDataType {
   datetime,
 }
 
+/// Metadata that contains a description for a column.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class ColumnDescription {
+  /// The text of a description for a column.
+  @_s.JsonKey(name: 'Text')
+  final String text;
+
+  ColumnDescription({
+    this.text,
+  });
+  factory ColumnDescription.fromJson(Map<String, dynamic> json) =>
+      _$ColumnDescriptionFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ColumnDescriptionToJson(this);
+}
+
 /// Groupings of columns that work together in certain Amazon QuickSight
 /// features. This is a variant type structure. For this structure to be valid,
 /// only one of the attributes can be non-null.
@@ -5611,6 +8903,35 @@ class ColumnGroupSchema {
       _$ColumnGroupSchemaFromJson(json);
 }
 
+/// A rule defined to grant access on one or more restricted columns. Each
+/// dataset can have multiple rules. To create a restricted column, you add it
+/// to one or more rules. Each rule must contain at least one column and at
+/// least one user or group. To be able to see a restricted column, a user or
+/// group needs to be added to a rule for that column.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class ColumnLevelPermissionRule {
+  /// An array of column names.
+  @_s.JsonKey(name: 'ColumnNames')
+  final List<String> columnNames;
+
+  /// An array of Amazon Resource Names (ARNs) for QuickSight users or groups.
+  @_s.JsonKey(name: 'Principals')
+  final List<String> principals;
+
+  ColumnLevelPermissionRule({
+    this.columnNames,
+    this.principals,
+  });
+  factory ColumnLevelPermissionRule.fromJson(Map<String, dynamic> json) =>
+      _$ColumnLevelPermissionRuleFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ColumnLevelPermissionRuleToJson(this);
+}
+
 /// The column schema.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -5639,7 +8960,7 @@ class ColumnSchema {
       _$ColumnSchemaFromJson(json);
 }
 
-/// A tag for a column in a <code>TagColumnOperation</code> structure. This is a
+/// A tag for a column in a <a>TagColumnOperation</a> structure. This is a
 /// variant type structure. For this structure to be valid, only one of the
 /// attributes can be non-null.
 @_s.JsonSerializable(
@@ -5648,17 +8969,103 @@ class ColumnSchema {
     createFactory: true,
     createToJson: true)
 class ColumnTag {
+  /// A description for a column.
+  @_s.JsonKey(name: 'ColumnDescription')
+  final ColumnDescription columnDescription;
+
   /// A geospatial role for a column.
   @_s.JsonKey(name: 'ColumnGeographicRole')
   final GeoSpatialDataRole columnGeographicRole;
 
   ColumnTag({
+    this.columnDescription,
     this.columnGeographicRole,
   });
   factory ColumnTag.fromJson(Map<String, dynamic> json) =>
       _$ColumnTagFromJson(json);
 
   Map<String, dynamic> toJson() => _$ColumnTagToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class CreateAccountCustomizationResponse {
+  /// The QuickSight customizations you're adding in the current AWS Region.
+  @_s.JsonKey(name: 'AccountCustomization')
+  final AccountCustomization accountCustomization;
+
+  /// The Amazon Resource Name (ARN) for the customization that you created for
+  /// this AWS account.
+  @_s.JsonKey(name: 'Arn')
+  final String arn;
+
+  /// The ID for the AWS account that you want to customize QuickSight for.
+  @_s.JsonKey(name: 'AwsAccountId')
+  final String awsAccountId;
+
+  /// The namespace associated with the customization you're creating.
+  @_s.JsonKey(name: 'Namespace')
+  final String namespace;
+
+  /// The AWS request ID for this operation.
+  @_s.JsonKey(name: 'RequestId')
+  final String requestId;
+
+  /// The HTTP status of the request.
+  @_s.JsonKey(name: 'Status')
+  final int status;
+
+  CreateAccountCustomizationResponse({
+    this.accountCustomization,
+    this.arn,
+    this.awsAccountId,
+    this.namespace,
+    this.requestId,
+    this.status,
+  });
+  factory CreateAccountCustomizationResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$CreateAccountCustomizationResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class CreateAnalysisResponse {
+  /// The ID of the analysis.
+  @_s.JsonKey(name: 'AnalysisId')
+  final String analysisId;
+
+  /// The ARN for the analysis.
+  @_s.JsonKey(name: 'Arn')
+  final String arn;
+
+  /// The status of the creation of the analysis.
+  @_s.JsonKey(name: 'CreationStatus')
+  final ResourceStatus creationStatus;
+
+  /// The AWS request ID for this operation.
+  @_s.JsonKey(name: 'RequestId')
+  final String requestId;
+
+  /// The HTTP status of the request.
+  @_s.JsonKey(name: 'Status')
+  final int status;
+
+  CreateAnalysisResponse({
+    this.analysisId,
+    this.arn,
+    this.creationStatus,
+    this.requestId,
+    this.status,
+  });
+  factory CreateAnalysisResponse.fromJson(Map<String, dynamic> json) =>
+      _$CreateAnalysisResponseFromJson(json);
 }
 
 /// A transform operation that creates calculated columns. Columns created in
@@ -5688,7 +9095,7 @@ class CreateColumnsOperation {
     createFactory: true,
     createToJson: false)
 class CreateDashboardResponse {
-  /// The Amazon Resource Name (ARN) of the dashboard.
+  /// The ARN of the dashboard.
   @_s.JsonKey(name: 'Arn')
   final String arn;
 
@@ -5969,6 +9376,59 @@ class CreateIngestionResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class CreateNamespaceResponse {
+  /// The ARN of the QuickSight namespace you created.
+  @_s.JsonKey(name: 'Arn')
+  final String arn;
+
+  /// The AWS Region that you want to use for the free SPICE capacity for the new
+  /// namespace. This is set to the region that you run CreateNamespace in.
+  @_s.JsonKey(name: 'CapacityRegion')
+  final String capacityRegion;
+
+  /// The status of the creation of the namespace. This is an asynchronous
+  /// process. A status of <code>CREATED</code> means that your namespace is ready
+  /// to use. If an error occurs, it indicates if the process is
+  /// <code>retryable</code> or <code>non-retryable</code>. In the case of a
+  /// non-retryable error, refer to the error message for follow-up tasks.
+  @_s.JsonKey(name: 'CreationStatus')
+  final NamespaceStatus creationStatus;
+
+  /// Specifies the type of your user identity directory. Currently, this supports
+  /// users with an identity type of <code>QUICKSIGHT</code>.
+  @_s.JsonKey(name: 'IdentityStore')
+  final IdentityStore identityStore;
+
+  /// The name of the new namespace that you created.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The AWS request ID for this operation.
+  @_s.JsonKey(name: 'RequestId')
+  final String requestId;
+
+  /// The HTTP status of the request.
+  @_s.JsonKey(name: 'Status')
+  final int status;
+
+  CreateNamespaceResponse({
+    this.arn,
+    this.capacityRegion,
+    this.creationStatus,
+    this.identityStore,
+    this.name,
+    this.requestId,
+    this.status,
+  });
+  factory CreateNamespaceResponse.fromJson(Map<String, dynamic> json) =>
+      _$CreateNamespaceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class CreateTemplateAliasResponse {
   /// The AWS request ID for this operation.
   @_s.JsonKey(name: 'RequestId')
@@ -6034,6 +9494,75 @@ class CreateTemplateResponse {
       _$CreateTemplateResponseFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class CreateThemeAliasResponse {
+  /// The AWS request ID for this operation.
+  @_s.JsonKey(name: 'RequestId')
+  final String requestId;
+
+  /// The HTTP status of the request.
+  @_s.JsonKey(name: 'Status')
+  final int status;
+
+  /// Information about the theme alias.
+  @_s.JsonKey(name: 'ThemeAlias')
+  final ThemeAlias themeAlias;
+
+  CreateThemeAliasResponse({
+    this.requestId,
+    this.status,
+    this.themeAlias,
+  });
+  factory CreateThemeAliasResponse.fromJson(Map<String, dynamic> json) =>
+      _$CreateThemeAliasResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class CreateThemeResponse {
+  /// The Amazon Resource Name (ARN) for the theme.
+  @_s.JsonKey(name: 'Arn')
+  final String arn;
+
+  /// The theme creation status.
+  @_s.JsonKey(name: 'CreationStatus')
+  final ResourceStatus creationStatus;
+
+  /// The AWS request ID for this operation.
+  @_s.JsonKey(name: 'RequestId')
+  final String requestId;
+
+  /// The HTTP status of the request.
+  @_s.JsonKey(name: 'Status')
+  final int status;
+
+  /// The ID of the theme.
+  @_s.JsonKey(name: 'ThemeId')
+  final String themeId;
+
+  /// The Amazon Resource Name (ARN) for the new theme.
+  @_s.JsonKey(name: 'VersionArn')
+  final String versionArn;
+
+  CreateThemeResponse({
+    this.arn,
+    this.creationStatus,
+    this.requestId,
+    this.status,
+    this.themeId,
+    this.versionArn,
+  });
+  factory CreateThemeResponse.fromJson(Map<String, dynamic> json) =>
+      _$CreateThemeResponseFromJson(json);
+}
+
 /// The combination of user name and password that are used as credentials.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -6049,9 +9578,23 @@ class CredentialPair {
   @_s.JsonKey(name: 'Username')
   final String username;
 
+  /// A set of alternate data source parameters that you want to share for these
+  /// credentials. The credentials are applied in tandem with the data source
+  /// parameters when you copy a data source by using a create or update request.
+  /// The API operation compares the <code>DataSourceParameters</code> structure
+  /// that's in the request with the structures in the
+  /// <code>AlternateDataSourceParameters</code> allow list. If the structures are
+  /// an exact match, the request is allowed to use the new data source with the
+  /// existing credentials. If the <code>AlternateDataSourceParameters</code> list
+  /// is null, the <code>DataSourceParameters</code> originally used with these
+  /// <code>Credentials</code> is automatically allowed.
+  @_s.JsonKey(name: 'AlternateDataSourceParameters')
+  final List<DataSourceParameters> alternateDataSourceParameters;
+
   CredentialPair({
     @_s.required this.password,
     @_s.required this.username,
+    this.alternateDataSourceParameters,
   });
   Map<String, dynamic> toJson() => _$CredentialPairToJson(this);
 }
@@ -6121,7 +9664,7 @@ class Dashboard {
   @_s.JsonKey(name: 'LastUpdatedTime')
   final DateTime lastUpdatedTime;
 
-  /// A display name for the dataset.
+  /// A display name for the dashboard.
   @_s.JsonKey(name: 'Name')
   final String name;
 
@@ -6173,6 +9716,10 @@ class DashboardError {
 }
 
 enum DashboardErrorType {
+  @_s.JsonValue('ACCESS_DENIED')
+  accessDenied,
+  @_s.JsonValue('SOURCE_NOT_FOUND')
+  sourceNotFound,
   @_s.JsonValue('DATA_SET_NOT_FOUND')
   dataSetNotFound,
   @_s.JsonValue('INTERNAL_FAILURE')
@@ -6230,18 +9777,18 @@ class DashboardPublishOptions {
     createFactory: false,
     createToJson: true)
 class DashboardSearchFilter {
-  /// The comparison operator that you want to use as a filter. For example,
+  /// The comparison operator that you want to use as a filter, for example,
   /// <code>"Operator": "StringEquals"</code>.
   @_s.JsonKey(name: 'Operator')
   final FilterOperator operator;
 
-  /// The name of the value that you want to use as a filter. For example,
+  /// The name of the value that you want to use as a filter, for example,
   /// <code>"Name": "QUICKSIGHT_USER"</code>.
   @_s.JsonKey(name: 'Name')
   final DashboardFilterAttribute name;
 
   /// The value of the named item, in this case <code>QUICKSIGHT_USER</code>, that
-  /// you want to use as a filter. For example, <code>"Value":
+  /// you want to use as a filter, for example, <code>"Value":
   /// "arn:aws:quicksight:us-east-1:1:user/default/UserName1"</code>.
   @_s.JsonKey(name: 'Value')
   final String value;
@@ -6367,13 +9914,23 @@ class DashboardVersion {
   @_s.JsonKey(name: 'CreatedTime')
   final DateTime createdTime;
 
+  /// The Amazon Resource Numbers (ARNs) for the datasets that are associated with
+  /// this version of the dashboard.
+  @_s.JsonKey(name: 'DataSetArns')
+  final List<String> dataSetArns;
+
   /// Description.
   @_s.JsonKey(name: 'Description')
   final String description;
 
-  /// Errors.
+  /// Errors associated with this dashboard version.
   @_s.JsonKey(name: 'Errors')
   final List<DashboardError> errors;
+
+  /// A list of the associated sheets with the unique identifier and name of each
+  /// sheet.
+  @_s.JsonKey(name: 'Sheets')
+  final List<Sheet> sheets;
 
   /// Source entity ARN.
   @_s.JsonKey(name: 'SourceEntityArn')
@@ -6383,17 +9940,24 @@ class DashboardVersion {
   @_s.JsonKey(name: 'Status')
   final ResourceStatus status;
 
-  /// Version number.
+  /// The ARN of the theme associated with a version of the dashboard.
+  @_s.JsonKey(name: 'ThemeArn')
+  final String themeArn;
+
+  /// Version number for this version of the dashboard.
   @_s.JsonKey(name: 'VersionNumber')
   final int versionNumber;
 
   DashboardVersion({
     this.arn,
     this.createdTime,
+    this.dataSetArns,
     this.description,
     this.errors,
+    this.sheets,
     this.sourceEntityArn,
     this.status,
+    this.themeArn,
     this.versionNumber,
   });
   factory DashboardVersion.fromJson(Map<String, dynamic> json) =>
@@ -6444,6 +10008,39 @@ class DashboardVersionSummary {
       _$DashboardVersionSummaryFromJson(json);
 }
 
+/// The theme colors that are used for data colors in charts. The colors
+/// description is a hexadecimal color code that consists of six alphanumerical
+/// characters, prefixed with <code>#</code>, for example #37BFF5.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class DataColorPalette {
+  /// The hexadecimal codes for the colors.
+  @_s.JsonKey(name: 'Colors')
+  final List<String> colors;
+
+  /// The hexadecimal code of a color that applies to charts where a lack of data
+  /// is highlighted.
+  @_s.JsonKey(name: 'EmptyFillColor')
+  final String emptyFillColor;
+
+  /// The minimum and maximum hexadecimal codes that describe a color gradient.
+  @_s.JsonKey(name: 'MinMaxGradient')
+  final List<String> minMaxGradient;
+
+  DataColorPalette({
+    this.colors,
+    this.emptyFillColor,
+    this.minMaxGradient,
+  });
+  factory DataColorPalette.fromJson(Map<String, dynamic> json) =>
+      _$DataColorPaletteFromJson(json);
+
+  Map<String, dynamic> toJson() => _$DataColorPaletteToJson(this);
+}
+
 /// Dataset.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -6460,6 +10057,11 @@ class DataSet {
   @_s.JsonKey(name: 'ColumnGroups')
   final List<ColumnGroup> columnGroups;
 
+  /// A set of one or more definitions of a <code>
+  /// <a>ColumnLevelPermissionRule</a> </code>.
+  @_s.JsonKey(name: 'ColumnLevelPermissionRules')
+  final List<ColumnLevelPermissionRule> columnLevelPermissionRules;
+
   /// The amount of SPICE capacity used by this dataset. This is 0 if the dataset
   /// isn't imported into SPICE.
   @_s.JsonKey(name: 'ConsumedSpiceCapacityInBytes')
@@ -6474,7 +10076,7 @@ class DataSet {
   @_s.JsonKey(name: 'DataSetId')
   final String dataSetId;
 
-  /// Indicates whether you want to import the data into SPICE.
+  /// A value that indicates whether you want to import the data into SPICE.
   @_s.JsonKey(name: 'ImportMode')
   final DataSetImportMode importMode;
 
@@ -6509,6 +10111,7 @@ class DataSet {
   DataSet({
     this.arn,
     this.columnGroups,
+    this.columnLevelPermissionRules,
     this.consumedSpiceCapacityInBytes,
     this.createdTime,
     this.dataSetId,
@@ -6622,6 +10225,11 @@ class DataSetSummary {
   @_s.JsonKey(name: 'Arn')
   final String arn;
 
+  /// A value that indicates if the dataset has column level permission
+  /// configured.
+  @_s.JsonKey(name: 'ColumnLevelPermissionRulesApplied')
+  final bool columnLevelPermissionRulesApplied;
+
   /// The time that this dataset was created.
   @UnixDateTimeConverter()
   @_s.JsonKey(name: 'CreatedTime')
@@ -6631,7 +10239,7 @@ class DataSetSummary {
   @_s.JsonKey(name: 'DataSetId')
   final String dataSetId;
 
-  /// Indicates whether you want to import the data into SPICE.
+  /// A value that indicates whether you want to import the data into SPICE.
   @_s.JsonKey(name: 'ImportMode')
   final DataSetImportMode importMode;
 
@@ -6650,6 +10258,7 @@ class DataSetSummary {
 
   DataSetSummary({
     this.arn,
+    this.columnLevelPermissionRulesApplied,
     this.createdTime,
     this.dataSetId,
     this.importMode,
@@ -6668,6 +10277,20 @@ class DataSetSummary {
     createFactory: true,
     createToJson: false)
 class DataSource {
+  /// A set of alternate data source parameters that you want to share for the
+  /// credentials stored with this data source. The credentials are applied in
+  /// tandem with the data source parameters when you copy a data source by using
+  /// a create or update request. The API operation compares the
+  /// <code>DataSourceParameters</code> structure that's in the request with the
+  /// structures in the <code>AlternateDataSourceParameters</code> allow list. If
+  /// the structures are an exact match, the request is allowed to use the
+  /// credentials from this existing data source. If the
+  /// <code>AlternateDataSourceParameters</code> list is null, the
+  /// <code>Credentials</code> originally used with this
+  /// <code>DataSourceParameters</code> are automatically allowed.
+  @_s.JsonKey(name: 'AlternateDataSourceParameters')
+  final List<DataSourceParameters> alternateDataSourceParameters;
+
   /// The Amazon Resource Name (ARN) of the data source.
   @_s.JsonKey(name: 'Arn')
   final String arn;
@@ -6722,6 +10345,7 @@ class DataSource {
   final VpcConnectionProperties vpcConnectionProperties;
 
   DataSource({
+    this.alternateDataSourceParameters,
     this.arn,
     this.createdTime,
     this.dataSourceId,
@@ -6738,18 +10362,27 @@ class DataSource {
       _$DataSourceFromJson(json);
 }
 
-/// Data source credentials.
+/// Data source credentials. This is a variant type structure. For this
+/// structure to be valid, only one of the attributes can be non-null.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: false,
     createToJson: true)
 class DataSourceCredentials {
-  /// Credential pair.
+  /// The Amazon Resource Name (ARN) of a data source that has the credential pair
+  /// that you want to use. When <code>CopySourceArn</code> is not null, the
+  /// credential pair from the data source in the ARN is used as the credentials
+  /// for the <code>DataSourceCredentials</code> structure.
+  @_s.JsonKey(name: 'CopySourceArn')
+  final String copySourceArn;
+
+  /// Credential pair. For more information, see <a>CredentialPair</a>.
   @_s.JsonKey(name: 'CredentialPair')
   final CredentialPair credentialPair;
 
   DataSourceCredentials({
+    this.copySourceArn,
     this.credentialPair,
   });
   Map<String, dynamic> toJson() => _$DataSourceCredentialsToJson(this);
@@ -6779,6 +10412,10 @@ class DataSourceErrorInfo {
 }
 
 enum DataSourceErrorInfoType {
+  @_s.JsonValue('ACCESS_DENIED')
+  accessDenied,
+  @_s.JsonValue('COPY_SOURCE_NOT_FOUND')
+  copySourceNotFound,
   @_s.JsonValue('TIMEOUT')
   timeout,
   @_s.JsonValue('ENGINE_VERSION_NOT_SUPPORTED')
@@ -6834,6 +10471,10 @@ class DataSourceParameters {
   @_s.JsonKey(name: 'MySqlParameters')
   final MySqlParameters mySqlParameters;
 
+  /// Oracle parameters.
+  @_s.JsonKey(name: 'OracleParameters')
+  final OracleParameters oracleParameters;
+
   /// PostgreSQL parameters.
   @_s.JsonKey(name: 'PostgreSqlParameters')
   final PostgreSqlParameters postgreSqlParameters;
@@ -6887,6 +10528,7 @@ class DataSourceParameters {
     this.jiraParameters,
     this.mariaDbParameters,
     this.mySqlParameters,
+    this.oracleParameters,
     this.postgreSqlParameters,
     this.prestoParameters,
     this.rdsParameters,
@@ -6926,6 +10568,8 @@ enum DataSourceType {
   mariadb,
   @_s.JsonValue('MYSQL')
   mysql,
+  @_s.JsonValue('ORACLE')
+  oracle,
   @_s.JsonValue('POSTGRESQL')
   postgresql,
   @_s.JsonValue('PRESTO')
@@ -6948,6 +10592,8 @@ enum DataSourceType {
   teradata,
   @_s.JsonValue('TWITTER')
   twitter,
+  @_s.JsonValue('TIMESTREAM')
+  timestream,
 }
 
 extension on DataSourceType {
@@ -6973,6 +10619,8 @@ extension on DataSourceType {
         return 'MARIADB';
       case DataSourceType.mysql:
         return 'MYSQL';
+      case DataSourceType.oracle:
+        return 'ORACLE';
       case DataSourceType.postgresql:
         return 'POSTGRESQL';
       case DataSourceType.presto:
@@ -6995,23 +10643,25 @@ extension on DataSourceType {
         return 'TERADATA';
       case DataSourceType.twitter:
         return 'TWITTER';
+      case DataSourceType.timestream:
+        return 'TIMESTREAM';
     }
     throw Exception('Unknown enum value: $this');
   }
 }
 
-/// Date time parameter.
+/// A date-time parameter.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: false,
     createToJson: true)
 class DateTimeParameter {
-  /// A display name for the dataset.
+  /// A display name for the date-time parameter.
   @_s.JsonKey(name: 'Name')
   final String name;
 
-  /// Values.
+  /// The values for the date-time parameter.
   @UnixDateTimeConverter()
   @_s.JsonKey(name: 'Values')
   final List<DateTime> values;
@@ -7023,18 +10673,18 @@ class DateTimeParameter {
   Map<String, dynamic> toJson() => _$DateTimeParameterToJson(this);
 }
 
-/// Decimal parameter.
+/// A decimal parameter.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: false,
     createToJson: true)
 class DecimalParameter {
-  /// A display name for the dataset.
+  /// A display name for the decimal parameter.
   @_s.JsonKey(name: 'Name')
   final String name;
 
-  /// Values.
+  /// The values for the decimal parameter.
   @_s.JsonKey(name: 'Values')
   final List<double> values;
 
@@ -7043,6 +10693,67 @@ class DecimalParameter {
     @_s.required this.values,
   });
   Map<String, dynamic> toJson() => _$DecimalParameterToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DeleteAccountCustomizationResponse {
+  /// The AWS request ID for this operation.
+  @_s.JsonKey(name: 'RequestId')
+  final String requestId;
+
+  /// The HTTP status of the request.
+  @_s.JsonKey(name: 'Status')
+  final int status;
+
+  DeleteAccountCustomizationResponse({
+    this.requestId,
+    this.status,
+  });
+  factory DeleteAccountCustomizationResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$DeleteAccountCustomizationResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DeleteAnalysisResponse {
+  /// The ID of the deleted analysis.
+  @_s.JsonKey(name: 'AnalysisId')
+  final String analysisId;
+
+  /// The Amazon Resource Name (ARN) of the deleted analysis.
+  @_s.JsonKey(name: 'Arn')
+  final String arn;
+
+  /// The date and time that the analysis is scheduled to be deleted.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'DeletionTime')
+  final DateTime deletionTime;
+
+  /// The AWS request ID for this operation.
+  @_s.JsonKey(name: 'RequestId')
+  final String requestId;
+
+  /// The HTTP status of the request.
+  @_s.JsonKey(name: 'Status')
+  final int status;
+
+  DeleteAnalysisResponse({
+    this.analysisId,
+    this.arn,
+    this.deletionTime,
+    this.requestId,
+    this.status,
+  });
+  factory DeleteAnalysisResponse.fromJson(Map<String, dynamic> json) =>
+      _$DeleteAnalysisResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -7220,12 +10931,34 @@ class DeleteIAMPolicyAssignmentResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class DeleteNamespaceResponse {
+  /// The AWS request ID for this operation.
+  @_s.JsonKey(name: 'RequestId')
+  final String requestId;
+
+  /// The HTTP status of the request.
+  @_s.JsonKey(name: 'Status')
+  final int status;
+
+  DeleteNamespaceResponse({
+    this.requestId,
+    this.status,
+  });
+  factory DeleteNamespaceResponse.fromJson(Map<String, dynamic> json) =>
+      _$DeleteNamespaceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class DeleteTemplateAliasResponse {
   /// The name for the template alias.
   @_s.JsonKey(name: 'AliasName')
   final String aliasName;
 
-  /// The Amazon Resource Name (ARN) of the resource.
+  /// The Amazon Resource Name (ARN) of the template you want to delete.
   @_s.JsonKey(name: 'Arn')
   final String arn;
 
@@ -7289,6 +11022,76 @@ class DeleteTemplateResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class DeleteThemeAliasResponse {
+  /// The name for the theme alias.
+  @_s.JsonKey(name: 'AliasName')
+  final String aliasName;
+
+  /// The Amazon Resource Name (ARN) of the theme resource using the deleted
+  /// alias.
+  @_s.JsonKey(name: 'Arn')
+  final String arn;
+
+  /// The AWS request ID for this operation.
+  @_s.JsonKey(name: 'RequestId')
+  final String requestId;
+
+  /// The HTTP status of the request.
+  @_s.JsonKey(name: 'Status')
+  final int status;
+
+  /// An ID for the theme associated with the deletion.
+  @_s.JsonKey(name: 'ThemeId')
+  final String themeId;
+
+  DeleteThemeAliasResponse({
+    this.aliasName,
+    this.arn,
+    this.requestId,
+    this.status,
+    this.themeId,
+  });
+  factory DeleteThemeAliasResponse.fromJson(Map<String, dynamic> json) =>
+      _$DeleteThemeAliasResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DeleteThemeResponse {
+  /// The Amazon Resource Name (ARN) of the resource.
+  @_s.JsonKey(name: 'Arn')
+  final String arn;
+
+  /// The AWS request ID for this operation.
+  @_s.JsonKey(name: 'RequestId')
+  final String requestId;
+
+  /// The HTTP status of the request.
+  @_s.JsonKey(name: 'Status')
+  final int status;
+
+  /// An ID for the theme.
+  @_s.JsonKey(name: 'ThemeId')
+  final String themeId;
+
+  DeleteThemeResponse({
+    this.arn,
+    this.requestId,
+    this.status,
+    this.themeId,
+  });
+  factory DeleteThemeResponse.fromJson(Map<String, dynamic> json) =>
+      _$DeleteThemeResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class DeleteUserByPrincipalIdResponse {
   /// The AWS request ID for this operation.
   @_s.JsonKey(name: 'RequestId')
@@ -7326,6 +11129,152 @@ class DeleteUserResponse {
   });
   factory DeleteUserResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteUserResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DescribeAccountCustomizationResponse {
+  /// The QuickSight customizations that exist in the current AWS Region.
+  @_s.JsonKey(name: 'AccountCustomization')
+  final AccountCustomization accountCustomization;
+
+  /// The Amazon Resource Name (ARN) of the customization that's associated with
+  /// this AWS account.
+  @_s.JsonKey(name: 'Arn')
+  final String arn;
+
+  /// The ID for the AWS account that you're describing.
+  @_s.JsonKey(name: 'AwsAccountId')
+  final String awsAccountId;
+
+  /// The QuickSight namespace that you're describing.
+  @_s.JsonKey(name: 'Namespace')
+  final String namespace;
+
+  /// The AWS request ID for this operation.
+  @_s.JsonKey(name: 'RequestId')
+  final String requestId;
+
+  /// The HTTP status of the request.
+  @_s.JsonKey(name: 'Status')
+  final int status;
+
+  DescribeAccountCustomizationResponse({
+    this.accountCustomization,
+    this.arn,
+    this.awsAccountId,
+    this.namespace,
+    this.requestId,
+    this.status,
+  });
+  factory DescribeAccountCustomizationResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$DescribeAccountCustomizationResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DescribeAccountSettingsResponse {
+  /// The QuickSight settings for this AWS account. This information includes the
+  /// edition of Amazon QuickSight that you subscribed to (Standard or Enterprise)
+  /// and the notification email for the QuickSight subscription. In the
+  /// QuickSight console, the QuickSight subscription is sometimes referred to as
+  /// a QuickSight "account" even though it's technically not an account by
+  /// itself. Instead, it's a subscription to the QuickSight service for your AWS
+  /// account. The edition that you subscribe to applies to QuickSight in every
+  /// AWS Region where you use it.
+  @_s.JsonKey(name: 'AccountSettings')
+  final AccountSettings accountSettings;
+
+  /// The AWS request ID for this operation.
+  @_s.JsonKey(name: 'RequestId')
+  final String requestId;
+
+  /// The HTTP status of the request.
+  @_s.JsonKey(name: 'Status')
+  final int status;
+
+  DescribeAccountSettingsResponse({
+    this.accountSettings,
+    this.requestId,
+    this.status,
+  });
+  factory DescribeAccountSettingsResponse.fromJson(Map<String, dynamic> json) =>
+      _$DescribeAccountSettingsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DescribeAnalysisPermissionsResponse {
+  /// The Amazon Resource Name (ARN) of the analysis whose permissions you're
+  /// describing.
+  @_s.JsonKey(name: 'AnalysisArn')
+  final String analysisArn;
+
+  /// The ID of the analysis whose permissions you're describing.
+  @_s.JsonKey(name: 'AnalysisId')
+  final String analysisId;
+
+  /// A structure that describes the principals and the resource-level permissions
+  /// on an analysis.
+  @_s.JsonKey(name: 'Permissions')
+  final List<ResourcePermission> permissions;
+
+  /// The AWS request ID for this operation.
+  @_s.JsonKey(name: 'RequestId')
+  final String requestId;
+
+  /// The HTTP status of the request.
+  @_s.JsonKey(name: 'Status')
+  final int status;
+
+  DescribeAnalysisPermissionsResponse({
+    this.analysisArn,
+    this.analysisId,
+    this.permissions,
+    this.requestId,
+    this.status,
+  });
+  factory DescribeAnalysisPermissionsResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$DescribeAnalysisPermissionsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DescribeAnalysisResponse {
+  /// A metadata structure that contains summary information for the analysis that
+  /// you're describing.
+  @_s.JsonKey(name: 'Analysis')
+  final Analysis analysis;
+
+  /// The AWS request ID for this operation.
+  @_s.JsonKey(name: 'RequestId')
+  final String requestId;
+
+  /// The HTTP status of the request.
+  @_s.JsonKey(name: 'Status')
+  final int status;
+
+  DescribeAnalysisResponse({
+    this.analysis,
+    this.requestId,
+    this.status,
+  });
+  factory DescribeAnalysisResponse.fromJson(Map<String, dynamic> json) =>
+      _$DescribeAnalysisResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -7612,6 +11561,38 @@ class DescribeIngestionResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class DescribeNamespaceResponse {
+  /// The information about the namespace that you're describing. The response
+  /// includes the namespace ARN, name, AWS Region, creation status, and identity
+  /// store. <code>DescribeNamespace</code> also works for namespaces that are in
+  /// the process of being created. For incomplete namespaces, this API operation
+  /// lists the namespace error types and messages associated with the creation
+  /// process.
+  @_s.JsonKey(name: 'Namespace')
+  final NamespaceInfoV2 namespace;
+
+  /// The AWS request ID for this operation.
+  @_s.JsonKey(name: 'RequestId')
+  final String requestId;
+
+  /// The HTTP status of the request.
+  @_s.JsonKey(name: 'Status')
+  final int status;
+
+  DescribeNamespaceResponse({
+    this.namespace,
+    this.requestId,
+    this.status,
+  });
+  factory DescribeNamespaceResponse.fromJson(Map<String, dynamic> json) =>
+      _$DescribeNamespaceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class DescribeTemplateAliasResponse {
   /// The AWS request ID for this operation.
   @_s.JsonKey(name: 'RequestId')
@@ -7678,6 +11659,10 @@ class DescribeTemplatePermissionsResponse {
     createFactory: true,
     createToJson: false)
 class DescribeTemplateResponse {
+  /// The AWS request ID for this operation.
+  @_s.JsonKey(name: 'RequestId')
+  final String requestId;
+
   /// The HTTP status of the request.
   @_s.JsonKey(name: 'Status')
   final int status;
@@ -7687,11 +11672,104 @@ class DescribeTemplateResponse {
   final Template template;
 
   DescribeTemplateResponse({
+    this.requestId,
     this.status,
     this.template,
   });
   factory DescribeTemplateResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeTemplateResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DescribeThemeAliasResponse {
+  /// The AWS request ID for this operation.
+  @_s.JsonKey(name: 'RequestId')
+  final String requestId;
+
+  /// The HTTP status of the request.
+  @_s.JsonKey(name: 'Status')
+  final int status;
+
+  /// Information about the theme alias.
+  @_s.JsonKey(name: 'ThemeAlias')
+  final ThemeAlias themeAlias;
+
+  DescribeThemeAliasResponse({
+    this.requestId,
+    this.status,
+    this.themeAlias,
+  });
+  factory DescribeThemeAliasResponse.fromJson(Map<String, dynamic> json) =>
+      _$DescribeThemeAliasResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DescribeThemePermissionsResponse {
+  /// A list of resource permissions set on the theme.
+  @_s.JsonKey(name: 'Permissions')
+  final List<ResourcePermission> permissions;
+
+  /// The AWS request ID for this operation.
+  @_s.JsonKey(name: 'RequestId')
+  final String requestId;
+
+  /// The HTTP status of the request.
+  @_s.JsonKey(name: 'Status')
+  final int status;
+
+  /// The Amazon Resource Name (ARN) of the theme.
+  @_s.JsonKey(name: 'ThemeArn')
+  final String themeArn;
+
+  /// The ID for the theme.
+  @_s.JsonKey(name: 'ThemeId')
+  final String themeId;
+
+  DescribeThemePermissionsResponse({
+    this.permissions,
+    this.requestId,
+    this.status,
+    this.themeArn,
+    this.themeId,
+  });
+  factory DescribeThemePermissionsResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$DescribeThemePermissionsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DescribeThemeResponse {
+  /// The AWS request ID for this operation.
+  @_s.JsonKey(name: 'RequestId')
+  final String requestId;
+
+  /// The HTTP status of the request.
+  @_s.JsonKey(name: 'Status')
+  final int status;
+
+  /// The information about the theme that you are describing.
+  @_s.JsonKey(name: 'Theme')
+  final Theme theme;
+
+  DescribeThemeResponse({
+    this.requestId,
+    this.status,
+    this.theme,
+  });
+  factory DescribeThemeResponse.fromJson(Map<String, dynamic> json) =>
+      _$DescribeThemeResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -7719,6 +11797,36 @@ class DescribeUserResponse {
   });
   factory DescribeUserResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeUserResponseFromJson(json);
+}
+
+enum Edition {
+  @_s.JsonValue('STANDARD')
+  standard,
+  @_s.JsonValue('ENTERPRISE')
+  enterprise,
+}
+
+enum EmbeddingIdentityType {
+  @_s.JsonValue('IAM')
+  iam,
+  @_s.JsonValue('QUICKSIGHT')
+  quicksight,
+  @_s.JsonValue('ANONYMOUS')
+  anonymous,
+}
+
+extension on EmbeddingIdentityType {
+  String toValue() {
+    switch (this) {
+      case EmbeddingIdentityType.iam:
+        return 'IAM';
+      case EmbeddingIdentityType.quicksight:
+        return 'QUICKSIGHT';
+      case EmbeddingIdentityType.anonymous:
+        return 'ANONYMOUS';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Error information for the SPICE ingestion of a dataset.
@@ -7854,16 +11962,17 @@ enum GeoSpatialDataRole {
   latitude,
 }
 
+/// Output returned from the <code>GetDashboardEmbedUrl</code> operation.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetDashboardEmbedUrlResponse {
-  /// An URL that you can put into your server-side webpage to embed your
-  /// dashboard. This URL is valid for 5 minutes, and the resulting session is
-  /// valid for 10 hours. The API provides the URL with an <code>auth_code</code>
-  /// value that enables a single sign-on session.
+  /// A single-use URL that you can put into your server-side webpage to embed
+  /// your dashboard. This URL is valid for 5 minutes. The API operation provides
+  /// the URL with an <code>auth_code</code> value that enables one (and only one)
+  /// sign-on to a user session that is valid for 10 hours.
   @_s.JsonKey(name: 'EmbedUrl')
   final String embedUrl;
 
@@ -7884,10 +11993,38 @@ class GetDashboardEmbedUrlResponse {
       _$GetDashboardEmbedUrlResponseFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class GetSessionEmbedUrlResponse {
+  /// A single-use URL that you can put into your server-side web page to embed
+  /// your QuickSight session. This URL is valid for 5 minutes. The API operation
+  /// provides the URL with an <code>auth_code</code> value that enables one (and
+  /// only one) sign-on to a user session that is valid for 10 hours.
+  @_s.JsonKey(name: 'EmbedUrl')
+  final String embedUrl;
+
+  /// The AWS request ID for this operation.
+  @_s.JsonKey(name: 'RequestId')
+  final String requestId;
+
+  /// The HTTP status of the request.
+  @_s.JsonKey(name: 'Status')
+  final int status;
+
+  GetSessionEmbedUrlResponse({
+    this.embedUrl,
+    this.requestId,
+    this.status,
+  });
+  factory GetSessionEmbedUrlResponse.fromJson(Map<String, dynamic> json) =>
+      _$GetSessionEmbedUrlResponseFromJson(json);
+}
+
 /// A <i>group</i> in Amazon QuickSight consists of a set of users. You can use
-/// groups to make it easier to manage access and security. Currently, an Amazon
-/// QuickSight subscription can't contain more than 500 Amazon QuickSight
-/// groups.
+/// groups to make it easier to manage access and security.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -7943,7 +12080,28 @@ class GroupMember {
       _$GroupMemberFromJson(json);
 }
 
-/// An IAM policy assignment.
+/// The display options for gutter spacing between tiles on a sheet.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class GutterStyle {
+  /// This Boolean value controls whether to display a gutter space between sheet
+  /// tiles.
+  @_s.JsonKey(name: 'Show')
+  final bool show;
+
+  GutterStyle({
+    this.show,
+  });
+  factory GutterStyle.fromJson(Map<String, dynamic> json) =>
+      _$GutterStyleFromJson(json);
+
+  Map<String, dynamic> toJson() => _$GutterStyleToJson(this);
+}
+
+/// An AWS Identity and Access Management (IAM) policy assignment.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -8007,6 +12165,21 @@ class IAMPolicyAssignmentSummary {
   });
   factory IAMPolicyAssignmentSummary.fromJson(Map<String, dynamic> json) =>
       _$IAMPolicyAssignmentSummaryFromJson(json);
+}
+
+enum IdentityStore {
+  @_s.JsonValue('QUICKSIGHT')
+  quicksight,
+}
+
+extension on IdentityStore {
+  String toValue() {
+    switch (this) {
+      case IdentityStore.quicksight:
+        return 'QUICKSIGHT';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 enum IdentityType {
@@ -8251,18 +12424,18 @@ enum InputColumnDataType {
   json,
 }
 
-/// Integer parameter.
+/// An integer parameter.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: false,
     createToJson: true)
 class IntegerParameter {
-  /// A display name for the dataset.
+  /// The name of the integer parameter.
   @_s.JsonKey(name: 'Name')
   final String name;
 
-  /// Values.
+  /// The values for the integer parameter.
   @_s.JsonKey(name: 'Values')
   final List<int> values;
 
@@ -8293,39 +12466,71 @@ class JiraParameters {
   Map<String, dynamic> toJson() => _$JiraParametersToJson(this);
 }
 
-/// Join instruction.
+/// The instructions associated with a join.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: true)
 class JoinInstruction {
-  /// Left operand.
+  /// The operand on the left side of a join.
   @_s.JsonKey(name: 'LeftOperand')
   final String leftOperand;
 
-  /// On Clause.
+  /// The join instructions provided in the <code>ON</code> clause of a join.
   @_s.JsonKey(name: 'OnClause')
   final String onClause;
 
-  /// Right operand.
+  /// The operand on the right side of a join.
   @_s.JsonKey(name: 'RightOperand')
   final String rightOperand;
 
-  /// Type.
+  /// The type of join that it is.
   @_s.JsonKey(name: 'Type')
   final JoinType type;
+
+  /// Join key properties of the left operand.
+  @_s.JsonKey(name: 'LeftJoinKeyProperties')
+  final JoinKeyProperties leftJoinKeyProperties;
+
+  /// Join key properties of the right operand.
+  @_s.JsonKey(name: 'RightJoinKeyProperties')
+  final JoinKeyProperties rightJoinKeyProperties;
 
   JoinInstruction({
     @_s.required this.leftOperand,
     @_s.required this.onClause,
     @_s.required this.rightOperand,
     @_s.required this.type,
+    this.leftJoinKeyProperties,
+    this.rightJoinKeyProperties,
   });
   factory JoinInstruction.fromJson(Map<String, dynamic> json) =>
       _$JoinInstructionFromJson(json);
 
   Map<String, dynamic> toJson() => _$JoinInstructionToJson(this);
+}
+
+/// Properties associated with the columns participating in a join.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class JoinKeyProperties {
+  /// A value that indicates that a row in a table is uniquely identified by the
+  /// columns in a join key. This is used by QuickSight to optimize query
+  /// performance.
+  @_s.JsonKey(name: 'UniqueKey')
+  final bool uniqueKey;
+
+  JoinKeyProperties({
+    this.uniqueKey,
+  });
+  factory JoinKeyProperties.fromJson(Map<String, dynamic> json) =>
+      _$JoinKeyPropertiesFromJson(json);
+
+  Map<String, dynamic> toJson() => _$JoinKeyPropertiesToJson(this);
 }
 
 enum JoinType {
@@ -8337,6 +12542,38 @@ enum JoinType {
   left,
   @_s.JsonValue('RIGHT')
   right,
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListAnalysesResponse {
+  /// Metadata describing each of the analyses that are listed.
+  @_s.JsonKey(name: 'AnalysisSummaryList')
+  final List<AnalysisSummary> analysisSummaryList;
+
+  /// A pagination token that can be used in a subsequent request.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The AWS request ID for this operation.
+  @_s.JsonKey(name: 'RequestId')
+  final String requestId;
+
+  /// The HTTP status of the request.
+  @_s.JsonKey(name: 'Status')
+  final int status;
+
+  ListAnalysesResponse({
+    this.analysisSummaryList,
+    this.nextToken,
+    this.requestId,
+    this.status,
+  });
+  factory ListAnalysesResponse.fromJson(Map<String, dynamic> json) =>
+      _$ListAnalysesResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -8377,7 +12614,7 @@ class ListDashboardVersionsResponse {
     createFactory: true,
     createToJson: false)
 class ListDashboardsResponse {
-  /// A structure that contains all of the dashboards shared with the user. This
+  /// A structure that contains all of the dashboards in your AWS account. This
   /// structure provides basic information about the dashboards.
   @_s.JsonKey(name: 'DashboardSummaryList')
   final List<DashboardSummary> dashboardSummaryList;
@@ -8635,6 +12872,40 @@ class ListIngestionsResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class ListNamespacesResponse {
+  /// The information about the namespaces in this AWS account. The response
+  /// includes the namespace ARN, name, AWS Region, notification email address,
+  /// creation status, and identity store.
+  @_s.JsonKey(name: 'Namespaces')
+  final List<NamespaceInfoV2> namespaces;
+
+  /// A pagination token that can be used in a subsequent request.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The AWS request ID for this operation.
+  @_s.JsonKey(name: 'RequestId')
+  final String requestId;
+
+  /// The HTTP status of the request.
+  @_s.JsonKey(name: 'Status')
+  final int status;
+
+  ListNamespacesResponse({
+    this.namespaces,
+    this.nextToken,
+    this.requestId,
+    this.status,
+  });
+  factory ListNamespacesResponse.fromJson(Map<String, dynamic> json) =>
+      _$ListNamespacesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class ListTagsForResourceResponse {
   /// The AWS request ID for this operation.
   @_s.JsonKey(name: 'RequestId')
@@ -8752,6 +13023,102 @@ class ListTemplatesResponse {
   });
   factory ListTemplatesResponse.fromJson(Map<String, dynamic> json) =>
       _$ListTemplatesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListThemeAliasesResponse {
+  /// The token for the next set of results, or null if there are no more results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The AWS request ID for this operation.
+  @_s.JsonKey(name: 'RequestId')
+  final String requestId;
+
+  /// The HTTP status of the request.
+  @_s.JsonKey(name: 'Status')
+  final int status;
+
+  /// A structure containing the list of the theme's aliases.
+  @_s.JsonKey(name: 'ThemeAliasList')
+  final List<ThemeAlias> themeAliasList;
+
+  ListThemeAliasesResponse({
+    this.nextToken,
+    this.requestId,
+    this.status,
+    this.themeAliasList,
+  });
+  factory ListThemeAliasesResponse.fromJson(Map<String, dynamic> json) =>
+      _$ListThemeAliasesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListThemeVersionsResponse {
+  /// The token for the next set of results, or null if there are no more results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The AWS request ID for this operation.
+  @_s.JsonKey(name: 'RequestId')
+  final String requestId;
+
+  /// The HTTP status of the request.
+  @_s.JsonKey(name: 'Status')
+  final int status;
+
+  /// A structure containing a list of all the versions of the specified theme.
+  @_s.JsonKey(name: 'ThemeVersionSummaryList')
+  final List<ThemeVersionSummary> themeVersionSummaryList;
+
+  ListThemeVersionsResponse({
+    this.nextToken,
+    this.requestId,
+    this.status,
+    this.themeVersionSummaryList,
+  });
+  factory ListThemeVersionsResponse.fromJson(Map<String, dynamic> json) =>
+      _$ListThemeVersionsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListThemesResponse {
+  /// The token for the next set of results, or null if there are no more results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The AWS request ID for this operation.
+  @_s.JsonKey(name: 'RequestId')
+  final String requestId;
+
+  /// The HTTP status of the request.
+  @_s.JsonKey(name: 'Status')
+  final int status;
+
+  /// Information about the themes in the list.
+  @_s.JsonKey(name: 'ThemeSummaryList')
+  final List<ThemeSummary> themeSummaryList;
+
+  ListThemesResponse({
+    this.nextToken,
+    this.requestId,
+    this.status,
+    this.themeSummaryList,
+  });
+  factory ListThemesResponse.fromJson(Map<String, dynamic> json) =>
+      _$ListThemesResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -8904,6 +13271,26 @@ class ManifestFileLocation {
   Map<String, dynamic> toJson() => _$ManifestFileLocationToJson(this);
 }
 
+/// The display options for margins around the outside edge of sheets.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class MarginStyle {
+  /// This Boolean value controls whether to display sheet margins.
+  @_s.JsonKey(name: 'Show')
+  final bool show;
+
+  MarginStyle({
+    this.show,
+  });
+  factory MarginStyle.fromJson(Map<String, dynamic> json) =>
+      _$MarginStyleFromJson(json);
+
+  Map<String, dynamic> toJson() => _$MarginStyleToJson(this);
+}
+
 /// MariaDB parameters.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -8964,6 +13351,122 @@ class MySqlParameters {
   Map<String, dynamic> toJson() => _$MySqlParametersToJson(this);
 }
 
+/// Errors that occur during namespace creation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class NamespaceError {
+  /// The message for the error.
+  @_s.JsonKey(name: 'Message')
+  final String message;
+
+  /// The error type.
+  @_s.JsonKey(name: 'Type')
+  final NamespaceErrorType type;
+
+  NamespaceError({
+    this.message,
+    this.type,
+  });
+  factory NamespaceError.fromJson(Map<String, dynamic> json) =>
+      _$NamespaceErrorFromJson(json);
+}
+
+enum NamespaceErrorType {
+  @_s.JsonValue('PERMISSION_DENIED')
+  permissionDenied,
+  @_s.JsonValue('INTERNAL_SERVICE_ERROR')
+  internalServiceError,
+}
+
+/// The error type.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class NamespaceInfoV2 {
+  /// The namespace ARN.
+  @_s.JsonKey(name: 'Arn')
+  final String arn;
+
+  /// The namespace AWS Region.
+  @_s.JsonKey(name: 'CapacityRegion')
+  final String capacityRegion;
+
+  /// The creation status of a namespace that is not yet completely created.
+  @_s.JsonKey(name: 'CreationStatus')
+  final NamespaceStatus creationStatus;
+
+  /// The identity store used for the namespace.
+  @_s.JsonKey(name: 'IdentityStore')
+  final IdentityStore identityStore;
+
+  /// The name of the error.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// An error that occurred when the namespace was created.
+  @_s.JsonKey(name: 'NamespaceError')
+  final NamespaceError namespaceError;
+
+  NamespaceInfoV2({
+    this.arn,
+    this.capacityRegion,
+    this.creationStatus,
+    this.identityStore,
+    this.name,
+    this.namespaceError,
+  });
+  factory NamespaceInfoV2.fromJson(Map<String, dynamic> json) =>
+      _$NamespaceInfoV2FromJson(json);
+}
+
+enum NamespaceStatus {
+  @_s.JsonValue('CREATED')
+  created,
+  @_s.JsonValue('CREATING')
+  creating,
+  @_s.JsonValue('DELETING')
+  deleting,
+  @_s.JsonValue('RETRYABLE_FAILURE')
+  retryableFailure,
+  @_s.JsonValue('NON_RETRYABLE_FAILURE')
+  nonRetryableFailure,
+}
+
+/// Oracle parameters.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class OracleParameters {
+  /// Database.
+  @_s.JsonKey(name: 'Database')
+  final String database;
+
+  /// An Oracle host.
+  @_s.JsonKey(name: 'Host')
+  final String host;
+
+  /// Port.
+  @_s.JsonKey(name: 'Port')
+  final int port;
+
+  OracleParameters({
+    @_s.required this.database,
+    @_s.required this.host,
+    @_s.required this.port,
+  });
+  factory OracleParameters.fromJson(Map<String, dynamic> json) =>
+      _$OracleParametersFromJson(json);
+
+  Map<String, dynamic> toJson() => _$OracleParametersToJson(this);
+}
+
 /// Output column.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -8971,6 +13474,10 @@ class MySqlParameters {
     createFactory: true,
     createToJson: false)
 class OutputColumn {
+  /// A description for a column.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
   /// A display name for the dataset.
   @_s.JsonKey(name: 'Name')
   final String name;
@@ -8980,6 +13487,7 @@ class OutputColumn {
   final ColumnDataType type;
 
   OutputColumn({
+    this.description,
     this.name,
     this.type,
   });
@@ -8987,14 +13495,14 @@ class OutputColumn {
       _$OutputColumnFromJson(json);
 }
 
-/// Parameters.
+/// A list of QuickSight parameters and the list's override values.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: false,
     createToJson: true)
 class Parameters {
-  /// DateTime parameters.
+  /// Date-time parameters.
   @_s.JsonKey(name: 'DateTimeParameters')
   final List<DateTimeParameter> dateTimeParameters;
 
@@ -9234,7 +13742,7 @@ class RegisterUserResponse {
   @_s.JsonKey(name: 'Status')
   final int status;
 
-  /// The user name.
+  /// The user's user name.
   @_s.JsonKey(name: 'User')
   final User user;
 
@@ -9273,6 +13781,10 @@ class RelationalTable {
   @_s.JsonKey(name: 'Name')
   final String name;
 
+  /// The catalog associated with a table.
+  @_s.JsonKey(name: 'Catalog')
+  final String catalog;
+
   /// The schema name. This name applies to certain relational database engines.
   @_s.JsonKey(name: 'Schema')
   final String schema;
@@ -9281,6 +13793,7 @@ class RelationalTable {
     @_s.required this.dataSourceArn,
     @_s.required this.inputColumns,
     @_s.required this.name,
+    this.catalog,
     this.schema,
   });
   factory RelationalTable.fromJson(Map<String, dynamic> json) =>
@@ -9321,15 +13834,28 @@ class RenameColumnOperation {
     createFactory: true,
     createToJson: true)
 class ResourcePermission {
-  /// The action to grant or revoke permissions on, for example
-  /// <code>"quicksight:DescribeDashboard"</code>.
+  /// The IAM action to grant or revoke permissions on.
   @_s.JsonKey(name: 'Actions')
   final List<String> actions;
 
-  /// The Amazon Resource Name (ARN) of an Amazon QuickSight user or group, or an
-  /// IAM ARN. If you are using cross-account resource sharing, this is the IAM
-  /// ARN of an account root. Otherwise, it is the ARN of a QuickSight user or
-  /// group. .
+  /// The Amazon Resource Name (ARN) of the principal. This can be one of the
+  /// following:
+  ///
+  /// <ul>
+  /// <li>
+  /// The ARN of an Amazon QuickSight user or group associated with a data source
+  /// or dataset. (This is common.)
+  /// </li>
+  /// <li>
+  /// The ARN of an Amazon QuickSight user, group, or namespace associated with an
+  /// analysis, dashboard, template, or theme. (This is common.)
+  /// </li>
+  /// <li>
+  /// The ARN of an AWS account root: This is an IAM ARN rather than a QuickSight
+  /// ARN. Use this option only to share resources (templates) across AWS
+  /// accounts. (This is less common.)
+  /// </li>
+  /// </ul>
   @_s.JsonKey(name: 'Principal')
   final String principal;
 
@@ -9356,6 +13882,40 @@ enum ResourceStatus {
   updateSuccessful,
   @_s.JsonValue('UPDATE_FAILED')
   updateFailed,
+  @_s.JsonValue('DELETED')
+  deleted,
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class RestoreAnalysisResponse {
+  /// The ID of the analysis that you're restoring.
+  @_s.JsonKey(name: 'AnalysisId')
+  final String analysisId;
+
+  /// The Amazon Resource Name (ARN) of the analysis that you're restoring.
+  @_s.JsonKey(name: 'Arn')
+  final String arn;
+
+  /// The AWS request ID for this operation.
+  @_s.JsonKey(name: 'RequestId')
+  final String requestId;
+
+  /// The HTTP status of the request.
+  @_s.JsonKey(name: 'Status')
+  final int status;
+
+  RestoreAnalysisResponse({
+    this.analysisId,
+    this.arn,
+    this.requestId,
+    this.status,
+  });
+  factory RestoreAnalysisResponse.fromJson(Map<String, dynamic> json) =>
+      _$RestoreAnalysisResponseFromJson(json);
 }
 
 /// Information about rows for a data set SPICE ingestion.
@@ -9396,9 +13956,14 @@ class RowLevelPermissionDataSet {
   @_s.JsonKey(name: 'PermissionPolicy')
   final RowLevelPermissionPolicy permissionPolicy;
 
+  /// The namespace associated with the row-level permissions dataset.
+  @_s.JsonKey(name: 'Namespace')
+  final String namespace;
+
   RowLevelPermissionDataSet({
     @_s.required this.arn,
     @_s.required this.permissionPolicy,
+    this.namespace,
   });
   factory RowLevelPermissionDataSet.fromJson(Map<String, dynamic> json) =>
       _$RowLevelPermissionDataSetFromJson(json);
@@ -9469,6 +14034,38 @@ class S3Source {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class SearchAnalysesResponse {
+  /// Metadata describing the analyses that you searched for.
+  @_s.JsonKey(name: 'AnalysisSummaryList')
+  final List<AnalysisSummary> analysisSummaryList;
+
+  /// A pagination token that can be used in a subsequent request.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The AWS request ID for this operation.
+  @_s.JsonKey(name: 'RequestId')
+  final String requestId;
+
+  /// The HTTP status of the request.
+  @_s.JsonKey(name: 'Status')
+  final int status;
+
+  SearchAnalysesResponse({
+    this.analysisSummaryList,
+    this.nextToken,
+    this.requestId,
+    this.status,
+  });
+  factory SearchAnalysesResponse.fromJson(Map<String, dynamic> json) =>
+      _$SearchAnalysesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class SearchDashboardsResponse {
   /// The list of dashboards owned by the user specified in <code>Filters</code>
   /// in your request.
@@ -9517,6 +14114,34 @@ class ServiceNowParameters {
   Map<String, dynamic> toJson() => _$ServiceNowParametersToJson(this);
 }
 
+/// A <i>sheet</i>, which is an object that contains a set of visuals that are
+/// viewed together on one page in the Amazon QuickSight console. Every analysis
+/// and dashboard contains at least one sheet. Each sheet contains at least one
+/// visualization widget, for example a chart, pivot table, or narrative
+/// insight. Sheets can be associated with other components, such as controls,
+/// filters, and so on.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class Sheet {
+  /// The name of a sheet. This name is displayed on the sheet's tab in the
+  /// QuickSight console.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The unique identifier associated with a sheet.
+  @_s.JsonKey(name: 'SheetId')
+  final String sheetId;
+
+  Sheet({
+    this.name,
+    this.sheetId,
+  });
+  factory Sheet.fromJson(Map<String, dynamic> json) => _$SheetFromJson(json);
+}
+
 /// Sheet controls option.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -9532,6 +14157,31 @@ class SheetControlsOption {
     this.visibilityState,
   });
   Map<String, dynamic> toJson() => _$SheetControlsOptionToJson(this);
+}
+
+/// The theme display options for sheets.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class SheetStyle {
+  /// The display options for tiles.
+  @_s.JsonKey(name: 'Tile')
+  final TileStyle tile;
+
+  /// The layout options for tiles.
+  @_s.JsonKey(name: 'TileLayout')
+  final TileLayoutStyle tileLayout;
+
+  SheetStyle({
+    this.tile,
+    this.tileLayout,
+  });
+  factory SheetStyle.fromJson(Map<String, dynamic> json) =>
+      _$SheetStyleFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SheetStyleToJson(this);
 }
 
 /// Snowflake parameters.
@@ -9640,18 +14290,18 @@ class SslProperties {
   Map<String, dynamic> toJson() => _$SslPropertiesToJson(this);
 }
 
-/// String parameter.
+/// A string parameter.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: false,
     createToJson: true)
 class StringParameter {
-  /// A display name for the dataset.
+  /// A display name for a string parameter.
   @_s.JsonKey(name: 'Name')
   final String name;
 
-  /// Values.
+  /// The values of a string parameter.
   @_s.JsonKey(name: 'Values')
   final List<String> values;
 
@@ -9740,8 +14390,8 @@ class TagResourceResponse {
 /// A template object. A <i>template</i> is an entity in QuickSight that
 /// encapsulates the metadata required to create an analysis and that you can
 /// use to create a dashboard. A template adds a layer of abstraction by using
-/// placeholders to replace the dataset associated with the analysis. You can
-/// use templates to create dashboards by replacing dataset placeholders with
+/// placeholders to replace the dataset associated with an analysis. You can use
+/// templates to create dashboards by replacing dataset placeholders with
 /// datasets that follow the same schema that was used to create the source
 /// analysis and template.
 ///
@@ -9843,10 +14493,14 @@ class TemplateError {
 }
 
 enum TemplateErrorType {
+  @_s.JsonValue('SOURCE_NOT_FOUND')
+  sourceNotFound,
   @_s.JsonValue('DATA_SET_NOT_FOUND')
   dataSetNotFound,
   @_s.JsonValue('INTERNAL_FAILURE')
   internalFailure,
+  @_s.JsonValue('ACCESS_DENIED')
+  accessDenied,
 }
 
 /// The source analysis of the template.
@@ -9969,9 +14623,9 @@ class TemplateVersion {
   @_s.JsonKey(name: 'CreatedTime')
   final DateTime createdTime;
 
-  /// Schema of the dataset identified by the placeholder. The idea is that any
-  /// dashboard created from the template should be bound to new datasets matching
-  /// the same schema described through this API. .
+  /// Schema of the dataset identified by the placeholder. Any dashboard created
+  /// from this template should be bound to new datasets matching the same schema
+  /// described through this API operation.
   @_s.JsonKey(name: 'DataSetConfigurations')
   final List<DataSetConfiguration> dataSetConfigurations;
 
@@ -9979,11 +14633,16 @@ class TemplateVersion {
   @_s.JsonKey(name: 'Description')
   final String description;
 
-  /// Errors associated with the template.
+  /// Errors associated with this template version.
   @_s.JsonKey(name: 'Errors')
   final List<TemplateError> errors;
 
-  /// The Amazon Resource Name (ARN) of the analysis or template which was used to
+  /// A list of the associated sheets with the unique identifier and name of each
+  /// sheet.
+  @_s.JsonKey(name: 'Sheets')
+  final List<Sheet> sheets;
+
+  /// The Amazon Resource Name (ARN) of an analysis or template that was used to
   /// create this template.
   @_s.JsonKey(name: 'SourceEntityArn')
   final String sourceEntityArn;
@@ -9992,7 +14651,11 @@ class TemplateVersion {
   @_s.JsonKey(name: 'Status')
   final ResourceStatus status;
 
-  /// The version number of the template.
+  /// The ARN of the theme associated with this version of the template.
+  @_s.JsonKey(name: 'ThemeArn')
+  final String themeArn;
+
+  /// The version number of the template version.
   @_s.JsonKey(name: 'VersionNumber')
   final int versionNumber;
 
@@ -10001,8 +14664,10 @@ class TemplateVersion {
     this.dataSetConfigurations,
     this.description,
     this.errors,
+    this.sheets,
     this.sourceEntityArn,
     this.status,
+    this.themeArn,
     this.versionNumber,
   });
   factory TemplateVersion.fromJson(Map<String, dynamic> json) =>
@@ -10016,7 +14681,7 @@ class TemplateVersion {
     createFactory: true,
     createToJson: false)
 class TemplateVersionSummary {
-  /// The ARN of the template version.
+  /// The Amazon Resource Name (ARN) of the template version.
   @_s.JsonKey(name: 'Arn')
   final String arn;
 
@@ -10083,6 +14748,349 @@ enum TextQualifier {
   doubleQuote,
   @_s.JsonValue('SINGLE_QUOTE')
   singleQuote,
+}
+
+/// Summary information about a theme.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class Theme {
+  /// The Amazon Resource Name (ARN) of the theme.
+  @_s.JsonKey(name: 'Arn')
+  final String arn;
+
+  /// The date and time that the theme was created.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedTime')
+  final DateTime createdTime;
+
+  /// The date and time that the theme was last updated.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastUpdatedTime')
+  final DateTime lastUpdatedTime;
+
+  /// The name that the user gives to the theme.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The identifier that the user gives to the theme.
+  @_s.JsonKey(name: 'ThemeId')
+  final String themeId;
+
+  /// The type of theme, based on how it was created. Valid values include:
+  /// <code>QUICKSIGHT</code> and <code>CUSTOM</code>.
+  @_s.JsonKey(name: 'Type')
+  final ThemeType type;
+  @_s.JsonKey(name: 'Version')
+  final ThemeVersion version;
+
+  Theme({
+    this.arn,
+    this.createdTime,
+    this.lastUpdatedTime,
+    this.name,
+    this.themeId,
+    this.type,
+    this.version,
+  });
+  factory Theme.fromJson(Map<String, dynamic> json) => _$ThemeFromJson(json);
+}
+
+/// An alias for a theme.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ThemeAlias {
+  /// The display name of the theme alias.
+  @_s.JsonKey(name: 'AliasName')
+  final String aliasName;
+
+  /// The Amazon Resource Name (ARN) of the theme alias.
+  @_s.JsonKey(name: 'Arn')
+  final String arn;
+
+  /// The version number of the theme alias.
+  @_s.JsonKey(name: 'ThemeVersionNumber')
+  final int themeVersionNumber;
+
+  ThemeAlias({
+    this.aliasName,
+    this.arn,
+    this.themeVersionNumber,
+  });
+  factory ThemeAlias.fromJson(Map<String, dynamic> json) =>
+      _$ThemeAliasFromJson(json);
+}
+
+/// The theme configuration. This configuration contains all of the display
+/// properties for a theme.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class ThemeConfiguration {
+  /// Color properties that apply to chart data colors.
+  @_s.JsonKey(name: 'DataColorPalette')
+  final DataColorPalette dataColorPalette;
+
+  /// Display options related to sheets.
+  @_s.JsonKey(name: 'Sheet')
+  final SheetStyle sheet;
+
+  /// Color properties that apply to the UI and to charts, excluding the colors
+  /// that apply to data.
+  @_s.JsonKey(name: 'UIColorPalette')
+  final UIColorPalette uIColorPalette;
+
+  ThemeConfiguration({
+    this.dataColorPalette,
+    this.sheet,
+    this.uIColorPalette,
+  });
+  factory ThemeConfiguration.fromJson(Map<String, dynamic> json) =>
+      _$ThemeConfigurationFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ThemeConfigurationToJson(this);
+}
+
+/// Theme error.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ThemeError {
+  /// The error message.
+  @_s.JsonKey(name: 'Message')
+  final String message;
+
+  /// The type of error.
+  @_s.JsonKey(name: 'Type')
+  final ThemeErrorType type;
+
+  ThemeError({
+    this.message,
+    this.type,
+  });
+  factory ThemeError.fromJson(Map<String, dynamic> json) =>
+      _$ThemeErrorFromJson(json);
+}
+
+enum ThemeErrorType {
+  @_s.JsonValue('INTERNAL_FAILURE')
+  internalFailure,
+}
+
+/// The theme summary.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ThemeSummary {
+  /// The Amazon Resource Name (ARN) of the resource.
+  @_s.JsonKey(name: 'Arn')
+  final String arn;
+
+  /// The date and time that this theme was created.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedTime')
+  final DateTime createdTime;
+
+  /// The last date and time that this theme was updated.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastUpdatedTime')
+  final DateTime lastUpdatedTime;
+
+  /// The latest version number for the theme.
+  @_s.JsonKey(name: 'LatestVersionNumber')
+  final int latestVersionNumber;
+
+  /// the display name for the theme.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The ID of the theme. This ID is unique per AWS Region for each AWS account.
+  @_s.JsonKey(name: 'ThemeId')
+  final String themeId;
+
+  ThemeSummary({
+    this.arn,
+    this.createdTime,
+    this.lastUpdatedTime,
+    this.latestVersionNumber,
+    this.name,
+    this.themeId,
+  });
+  factory ThemeSummary.fromJson(Map<String, dynamic> json) =>
+      _$ThemeSummaryFromJson(json);
+}
+
+enum ThemeType {
+  @_s.JsonValue('QUICKSIGHT')
+  quicksight,
+  @_s.JsonValue('CUSTOM')
+  custom,
+  @_s.JsonValue('ALL')
+  all,
+}
+
+extension on ThemeType {
+  String toValue() {
+    switch (this) {
+      case ThemeType.quicksight:
+        return 'QUICKSIGHT';
+      case ThemeType.custom:
+        return 'CUSTOM';
+      case ThemeType.all:
+        return 'ALL';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
+/// A version of a theme.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ThemeVersion {
+  /// The Amazon Resource Name (ARN) of the resource.
+  @_s.JsonKey(name: 'Arn')
+  final String arn;
+
+  /// The Amazon QuickSight-defined ID of the theme that a custom theme inherits
+  /// from. All themes initially inherit from a default QuickSight theme.
+  @_s.JsonKey(name: 'BaseThemeId')
+  final String baseThemeId;
+
+  /// The theme configuration, which contains all the theme display properties.
+  @_s.JsonKey(name: 'Configuration')
+  final ThemeConfiguration configuration;
+
+  /// The date and time that this theme version was created.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedTime')
+  final DateTime createdTime;
+
+  /// The description of the theme.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// Errors associated with the theme.
+  @_s.JsonKey(name: 'Errors')
+  final List<ThemeError> errors;
+
+  /// The status of the theme version.
+  @_s.JsonKey(name: 'Status')
+  final ResourceStatus status;
+
+  /// The version number of the theme.
+  @_s.JsonKey(name: 'VersionNumber')
+  final int versionNumber;
+
+  ThemeVersion({
+    this.arn,
+    this.baseThemeId,
+    this.configuration,
+    this.createdTime,
+    this.description,
+    this.errors,
+    this.status,
+    this.versionNumber,
+  });
+  factory ThemeVersion.fromJson(Map<String, dynamic> json) =>
+      _$ThemeVersionFromJson(json);
+}
+
+/// The theme version.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ThemeVersionSummary {
+  /// The Amazon Resource Name (ARN) of the theme version.
+  @_s.JsonKey(name: 'Arn')
+  final String arn;
+
+  /// The date and time that this theme version was created.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedTime')
+  final DateTime createdTime;
+
+  /// The description of the theme version.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The status of the theme version.
+  @_s.JsonKey(name: 'Status')
+  final ResourceStatus status;
+
+  /// The version number of the theme version.
+  @_s.JsonKey(name: 'VersionNumber')
+  final int versionNumber;
+
+  ThemeVersionSummary({
+    this.arn,
+    this.createdTime,
+    this.description,
+    this.status,
+    this.versionNumber,
+  });
+  factory ThemeVersionSummary.fromJson(Map<String, dynamic> json) =>
+      _$ThemeVersionSummaryFromJson(json);
+}
+
+/// The display options for the layout of tiles on a sheet.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class TileLayoutStyle {
+  /// The gutter settings that apply between tiles.
+  @_s.JsonKey(name: 'Gutter')
+  final GutterStyle gutter;
+
+  /// The margin settings that apply around the outside edge of sheets.
+  @_s.JsonKey(name: 'Margin')
+  final MarginStyle margin;
+
+  TileLayoutStyle({
+    this.gutter,
+    this.margin,
+  });
+  factory TileLayoutStyle.fromJson(Map<String, dynamic> json) =>
+      _$TileLayoutStyleFromJson(json);
+
+  Map<String, dynamic> toJson() => _$TileLayoutStyleToJson(this);
+}
+
+/// Display options related to tiles on a sheet.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class TileStyle {
+  /// The border around a tile.
+  @_s.JsonKey(name: 'Border')
+  final BorderStyle border;
+
+  TileStyle({
+    this.border,
+  });
+  factory TileStyle.fromJson(Map<String, dynamic> json) =>
+      _$TileStyleFromJson(json);
+
+  Map<String, dynamic> toJson() => _$TileStyleToJson(this);
 }
 
 /// A data transformation on a logical table. This is a variant type structure.
@@ -10158,6 +15166,119 @@ class TwitterParameters {
   Map<String, dynamic> toJson() => _$TwitterParametersToJson(this);
 }
 
+/// The theme colors that apply to UI and to charts, excluding data colors. The
+/// colors description is a hexadecimal color code that consists of six
+/// alphanumerical characters, prefixed with <code>#</code>, for example
+/// #37BFF5. For more information, see <a
+/// href="https://docs.aws.amazon.com/quicksight/latest/user/themes-in-quicksight.html">Using
+/// Themes in Amazon QuickSight</a> in the <i>Amazon QuickSight User Guide.</i>
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class UIColorPalette {
+  /// This color is that applies to selected states and buttons.
+  @_s.JsonKey(name: 'Accent')
+  final String accent;
+
+  /// The foreground color that applies to any text or other elements that appear
+  /// over the accent color.
+  @_s.JsonKey(name: 'AccentForeground')
+  final String accentForeground;
+
+  /// The color that applies to error messages.
+  @_s.JsonKey(name: 'Danger')
+  final String danger;
+
+  /// The foreground color that applies to any text or other elements that appear
+  /// over the error color.
+  @_s.JsonKey(name: 'DangerForeground')
+  final String dangerForeground;
+
+  /// The color that applies to the names of fields that are identified as
+  /// dimensions.
+  @_s.JsonKey(name: 'Dimension')
+  final String dimension;
+
+  /// The foreground color that applies to any text or other elements that appear
+  /// over the dimension color.
+  @_s.JsonKey(name: 'DimensionForeground')
+  final String dimensionForeground;
+
+  /// The color that applies to the names of fields that are identified as
+  /// measures.
+  @_s.JsonKey(name: 'Measure')
+  final String measure;
+
+  /// The foreground color that applies to any text or other elements that appear
+  /// over the measure color.
+  @_s.JsonKey(name: 'MeasureForeground')
+  final String measureForeground;
+
+  /// The background color that applies to visuals and other high emphasis UI.
+  @_s.JsonKey(name: 'PrimaryBackground')
+  final String primaryBackground;
+
+  /// The color of text and other foreground elements that appear over the primary
+  /// background regions, such as grid lines, borders, table banding, icons, and
+  /// so on.
+  @_s.JsonKey(name: 'PrimaryForeground')
+  final String primaryForeground;
+
+  /// The background color that applies to the sheet background and sheet
+  /// controls.
+  @_s.JsonKey(name: 'SecondaryBackground')
+  final String secondaryBackground;
+
+  /// The foreground color that applies to any sheet title, sheet control text, or
+  /// UI that appears over the secondary background.
+  @_s.JsonKey(name: 'SecondaryForeground')
+  final String secondaryForeground;
+
+  /// The color that applies to success messages, for example the check mark for a
+  /// successful download.
+  @_s.JsonKey(name: 'Success')
+  final String success;
+
+  /// The foreground color that applies to any text or other elements that appear
+  /// over the success color.
+  @_s.JsonKey(name: 'SuccessForeground')
+  final String successForeground;
+
+  /// This color that applies to warning and informational messages.
+  @_s.JsonKey(name: 'Warning')
+  final String warning;
+
+  /// The foreground color that applies to any text or other elements that appear
+  /// over the warning color.
+  @_s.JsonKey(name: 'WarningForeground')
+  final String warningForeground;
+
+  UIColorPalette({
+    this.accent,
+    this.accentForeground,
+    this.danger,
+    this.dangerForeground,
+    this.dimension,
+    this.dimensionForeground,
+    this.measure,
+    this.measureForeground,
+    this.primaryBackground,
+    this.primaryForeground,
+    this.secondaryBackground,
+    this.secondaryForeground,
+    this.success,
+    this.successForeground,
+    this.warning,
+    this.warningForeground,
+  });
+  factory UIColorPalette.fromJson(Map<String, dynamic> json) =>
+      _$UIColorPaletteFromJson(json);
+
+  Map<String, dynamic> toJson() => _$UIColorPaletteToJson(this);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -10178,6 +15299,149 @@ class UntagResourceResponse {
   });
   factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
       _$UntagResourceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class UpdateAccountCustomizationResponse {
+  /// The QuickSight customizations you're updating in the current AWS Region.
+  @_s.JsonKey(name: 'AccountCustomization')
+  final AccountCustomization accountCustomization;
+
+  /// The Amazon Resource Name (ARN) for the updated customization for this AWS
+  /// account.
+  @_s.JsonKey(name: 'Arn')
+  final String arn;
+
+  /// The ID for the AWS account that you want to update QuickSight customizations
+  /// for.
+  @_s.JsonKey(name: 'AwsAccountId')
+  final String awsAccountId;
+
+  /// The namespace associated with the customization that you're updating.
+  @_s.JsonKey(name: 'Namespace')
+  final String namespace;
+
+  /// The AWS request ID for this operation.
+  @_s.JsonKey(name: 'RequestId')
+  final String requestId;
+
+  /// The HTTP status of the request.
+  @_s.JsonKey(name: 'Status')
+  final int status;
+
+  UpdateAccountCustomizationResponse({
+    this.accountCustomization,
+    this.arn,
+    this.awsAccountId,
+    this.namespace,
+    this.requestId,
+    this.status,
+  });
+  factory UpdateAccountCustomizationResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$UpdateAccountCustomizationResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class UpdateAccountSettingsResponse {
+  /// The AWS request ID for this operation.
+  @_s.JsonKey(name: 'RequestId')
+  final String requestId;
+
+  /// The HTTP status of the request.
+  @_s.JsonKey(name: 'Status')
+  final int status;
+
+  UpdateAccountSettingsResponse({
+    this.requestId,
+    this.status,
+  });
+  factory UpdateAccountSettingsResponse.fromJson(Map<String, dynamic> json) =>
+      _$UpdateAccountSettingsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class UpdateAnalysisPermissionsResponse {
+  /// The Amazon Resource Name (ARN) of the analysis that you updated.
+  @_s.JsonKey(name: 'AnalysisArn')
+  final String analysisArn;
+
+  /// The ID of the analysis that you updated permissions for.
+  @_s.JsonKey(name: 'AnalysisId')
+  final String analysisId;
+
+  /// A structure that describes the principals and the resource-level permissions
+  /// on an analysis.
+  @_s.JsonKey(name: 'Permissions')
+  final List<ResourcePermission> permissions;
+
+  /// The AWS request ID for this operation.
+  @_s.JsonKey(name: 'RequestId')
+  final String requestId;
+
+  /// The HTTP status of the request.
+  @_s.JsonKey(name: 'Status')
+  final int status;
+
+  UpdateAnalysisPermissionsResponse({
+    this.analysisArn,
+    this.analysisId,
+    this.permissions,
+    this.requestId,
+    this.status,
+  });
+  factory UpdateAnalysisPermissionsResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$UpdateAnalysisPermissionsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class UpdateAnalysisResponse {
+  /// The ID of the analysis.
+  @_s.JsonKey(name: 'AnalysisId')
+  final String analysisId;
+
+  /// The ARN of the analysis that you're updating.
+  @_s.JsonKey(name: 'Arn')
+  final String arn;
+
+  /// The AWS request ID for this operation.
+  @_s.JsonKey(name: 'RequestId')
+  final String requestId;
+
+  /// The HTTP status of the request.
+  @_s.JsonKey(name: 'Status')
+  final int status;
+
+  /// The update status of the last update that was made to the analysis.
+  @_s.JsonKey(name: 'UpdateStatus')
+  final ResourceStatus updateStatus;
+
+  UpdateAnalysisResponse({
+    this.analysisId,
+    this.arn,
+    this.requestId,
+    this.status,
+    this.updateStatus,
+  });
+  factory UpdateAnalysisResponse.fromJson(Map<String, dynamic> json) =>
+      _$UpdateAnalysisResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -10481,7 +15745,7 @@ class UpdateIAMPolicyAssignmentResponse {
   @_s.JsonKey(name: 'AssignmentId')
   final String assignmentId;
 
-  /// The name of the assignment.
+  /// The name of the assignment or rule.
   @_s.JsonKey(name: 'AssignmentName')
   final String assignmentName;
 
@@ -10648,6 +15912,112 @@ class UpdateTemplateResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class UpdateThemeAliasResponse {
+  /// The AWS request ID for this operation.
+  @_s.JsonKey(name: 'RequestId')
+  final String requestId;
+
+  /// The HTTP status of the request.
+  @_s.JsonKey(name: 'Status')
+  final int status;
+
+  /// Information about the theme alias.
+  @_s.JsonKey(name: 'ThemeAlias')
+  final ThemeAlias themeAlias;
+
+  UpdateThemeAliasResponse({
+    this.requestId,
+    this.status,
+    this.themeAlias,
+  });
+  factory UpdateThemeAliasResponse.fromJson(Map<String, dynamic> json) =>
+      _$UpdateThemeAliasResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class UpdateThemePermissionsResponse {
+  /// The resulting list of resource permissions for the theme.
+  @_s.JsonKey(name: 'Permissions')
+  final List<ResourcePermission> permissions;
+
+  /// The AWS request ID for this operation.
+  @_s.JsonKey(name: 'RequestId')
+  final String requestId;
+
+  /// The HTTP status of the request.
+  @_s.JsonKey(name: 'Status')
+  final int status;
+
+  /// The Amazon Resource Name (ARN) of the theme.
+  @_s.JsonKey(name: 'ThemeArn')
+  final String themeArn;
+
+  /// The ID for the theme.
+  @_s.JsonKey(name: 'ThemeId')
+  final String themeId;
+
+  UpdateThemePermissionsResponse({
+    this.permissions,
+    this.requestId,
+    this.status,
+    this.themeArn,
+    this.themeId,
+  });
+  factory UpdateThemePermissionsResponse.fromJson(Map<String, dynamic> json) =>
+      _$UpdateThemePermissionsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class UpdateThemeResponse {
+  /// The Amazon Resource Name (ARN) for the theme.
+  @_s.JsonKey(name: 'Arn')
+  final String arn;
+
+  /// The creation status of the theme.
+  @_s.JsonKey(name: 'CreationStatus')
+  final ResourceStatus creationStatus;
+
+  /// The AWS request ID for this operation.
+  @_s.JsonKey(name: 'RequestId')
+  final String requestId;
+
+  /// The HTTP status of the request.
+  @_s.JsonKey(name: 'Status')
+  final int status;
+
+  /// The ID for the theme.
+  @_s.JsonKey(name: 'ThemeId')
+  final String themeId;
+
+  /// The Amazon Resource Name (ARN) for the new version of the theme.
+  @_s.JsonKey(name: 'VersionArn')
+  final String versionArn;
+
+  UpdateThemeResponse({
+    this.arn,
+    this.creationStatus,
+    this.requestId,
+    this.status,
+    this.themeId,
+    this.versionArn,
+  });
+  factory UpdateThemeResponse.fromJson(Map<String, dynamic> json) =>
+      _$UpdateThemeResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class UpdateUserResponse {
   /// The AWS request ID for this operation.
   @_s.JsonKey(name: 'RequestId')
@@ -10710,8 +16080,7 @@ class UploadSettings {
   Map<String, dynamic> toJson() => _$UploadSettingsToJson(this);
 }
 
-/// A registered user of Amazon QuickSight. Currently, an Amazon QuickSight
-/// subscription can't contain more than 20 million users.
+/// A registered user of Amazon QuickSight.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -10727,6 +16096,10 @@ class User {
   /// The Amazon Resource Name (ARN) for the user.
   @_s.JsonKey(name: 'Arn')
   final String arn;
+
+  /// The custom permissions profile associated with this user.
+  @_s.JsonKey(name: 'CustomPermissionsName')
+  final String customPermissionsName;
 
   /// The user's email address.
   @_s.JsonKey(name: 'Email')
@@ -10772,6 +16145,7 @@ class User {
   User({
     this.active,
     this.arn,
+    this.customPermissionsName,
     this.email,
     this.identityType,
     this.principalId,
@@ -10930,6 +16304,14 @@ class ThrottlingException extends _s.GenericAwsException {
       : super(type: type, code: 'ThrottlingException', message: message);
 }
 
+class UnsupportedPricingPlanException extends _s.GenericAwsException {
+  UnsupportedPricingPlanException({String type, String message})
+      : super(
+            type: type,
+            code: 'UnsupportedPricingPlanException',
+            message: message);
+}
+
 class UnsupportedUserEditionException extends _s.GenericAwsException {
   UnsupportedUserEditionException({String type, String message})
       : super(
@@ -10971,6 +16353,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       SessionLifetimeInMinutesInvalidException(type: type, message: message),
   'ThrottlingException': (type, message) =>
       ThrottlingException(type: type, message: message),
+  'UnsupportedPricingPlanException': (type, message) =>
+      UnsupportedPricingPlanException(type: type, message: message),
   'UnsupportedUserEditionException': (type, message) =>
       UnsupportedUserEditionException(type: type, message: message),
 };

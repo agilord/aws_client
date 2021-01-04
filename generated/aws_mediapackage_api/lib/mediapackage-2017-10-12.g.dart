@@ -31,10 +31,18 @@ Channel _$ChannelFromJson(Map<String, dynamic> json) {
   return Channel(
     arn: json['arn'] as String,
     description: json['description'] as String,
+    egressAccessLogs: json['egressAccessLogs'] == null
+        ? null
+        : EgressAccessLogs.fromJson(
+            json['egressAccessLogs'] as Map<String, dynamic>),
     hlsIngest: json['hlsIngest'] == null
         ? null
         : HlsIngest.fromJson(json['hlsIngest'] as Map<String, dynamic>),
     id: json['id'] as String,
+    ingressAccessLogs: json['ingressAccessLogs'] == null
+        ? null
+        : IngressAccessLogs.fromJson(
+            json['ingressAccessLogs'] as Map<String, dynamic>),
     tags: (json['tags'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
@@ -103,15 +111,46 @@ Map<String, dynamic> _$CmafPackageCreateOrUpdateParametersToJson(
   return val;
 }
 
+ConfigureLogsResponse _$ConfigureLogsResponseFromJson(
+    Map<String, dynamic> json) {
+  return ConfigureLogsResponse(
+    arn: json['arn'] as String,
+    description: json['description'] as String,
+    egressAccessLogs: json['egressAccessLogs'] == null
+        ? null
+        : EgressAccessLogs.fromJson(
+            json['egressAccessLogs'] as Map<String, dynamic>),
+    hlsIngest: json['hlsIngest'] == null
+        ? null
+        : HlsIngest.fromJson(json['hlsIngest'] as Map<String, dynamic>),
+    id: json['id'] as String,
+    ingressAccessLogs: json['ingressAccessLogs'] == null
+        ? null
+        : IngressAccessLogs.fromJson(
+            json['ingressAccessLogs'] as Map<String, dynamic>),
+    tags: (json['tags'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(k, e as String),
+    ),
+  );
+}
+
 CreateChannelResponse _$CreateChannelResponseFromJson(
     Map<String, dynamic> json) {
   return CreateChannelResponse(
     arn: json['arn'] as String,
     description: json['description'] as String,
+    egressAccessLogs: json['egressAccessLogs'] == null
+        ? null
+        : EgressAccessLogs.fromJson(
+            json['egressAccessLogs'] as Map<String, dynamic>),
     hlsIngest: json['hlsIngest'] == null
         ? null
         : HlsIngest.fromJson(json['hlsIngest'] as Map<String, dynamic>),
     id: json['id'] as String,
+    ingressAccessLogs: json['ingressAccessLogs'] == null
+        ? null
+        : IngressAccessLogs.fromJson(
+            json['ingressAccessLogs'] as Map<String, dynamic>),
     tags: (json['tags'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
@@ -266,6 +305,8 @@ DashPackage _$DashPackageFromJson(Map<String, dynamic> json) {
             json['streamSelection'] as Map<String, dynamic>),
     suggestedPresentationDelaySeconds:
         json['suggestedPresentationDelaySeconds'] as int,
+    utcTiming: _$enumDecodeNullable(_$UtcTimingEnumMap, json['utcTiming']),
+    utcTimingUri: json['utcTimingUri'] as String,
   );
 }
 
@@ -300,6 +341,8 @@ Map<String, dynamic> _$DashPackageToJson(DashPackage instance) {
   writeNotNull('streamSelection', instance.streamSelection?.toJson());
   writeNotNull('suggestedPresentationDelaySeconds',
       instance.suggestedPresentationDelaySeconds);
+  writeNotNull('utcTiming', _$UtcTimingEnumMap[instance.utcTiming]);
+  writeNotNull('utcTimingUri', instance.utcTimingUri);
   return val;
 }
 
@@ -345,6 +388,12 @@ const _$SegmentTemplateFormatEnumMap = {
   SegmentTemplateFormat.numberWithDuration: 'NUMBER_WITH_DURATION',
 };
 
+const _$UtcTimingEnumMap = {
+  UtcTiming.none: 'NONE',
+  UtcTiming.httpHead: 'HTTP-HEAD',
+  UtcTiming.httpIso: 'HTTP-ISO',
+};
+
 DeleteChannelResponse _$DeleteChannelResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteChannelResponse();
@@ -360,10 +409,18 @@ DescribeChannelResponse _$DescribeChannelResponseFromJson(
   return DescribeChannelResponse(
     arn: json['arn'] as String,
     description: json['description'] as String,
+    egressAccessLogs: json['egressAccessLogs'] == null
+        ? null
+        : EgressAccessLogs.fromJson(
+            json['egressAccessLogs'] as Map<String, dynamic>),
     hlsIngest: json['hlsIngest'] == null
         ? null
         : HlsIngest.fromJson(json['hlsIngest'] as Map<String, dynamic>),
     id: json['id'] as String,
+    ingressAccessLogs: json['ingressAccessLogs'] == null
+        ? null
+        : IngressAccessLogs.fromJson(
+            json['ingressAccessLogs'] as Map<String, dynamic>),
     tags: (json['tags'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
@@ -420,6 +477,25 @@ DescribeOriginEndpointResponse _$DescribeOriginEndpointResponseFromJson(
     url: json['url'] as String,
     whitelist: (json['whitelist'] as List)?.map((e) => e as String)?.toList(),
   );
+}
+
+EgressAccessLogs _$EgressAccessLogsFromJson(Map<String, dynamic> json) {
+  return EgressAccessLogs(
+    logGroupName: json['logGroupName'] as String,
+  );
+}
+
+Map<String, dynamic> _$EgressAccessLogsToJson(EgressAccessLogs instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('logGroupName', instance.logGroupName);
+  return val;
 }
 
 HarvestJob _$HarvestJobFromJson(Map<String, dynamic> json) {
@@ -507,6 +583,7 @@ const _$AdMarkersEnumMap = {
   AdMarkers.none: 'NONE',
   AdMarkers.scte35Enhanced: 'SCTE35_ENHANCED',
   AdMarkers.passthrough: 'PASSTHROUGH',
+  AdMarkers.daterange: 'DATERANGE',
 };
 
 const _$PlaylistTypeEnumMap = {
@@ -599,6 +676,25 @@ IngestEndpoint _$IngestEndpointFromJson(Map<String, dynamic> json) {
     url: json['url'] as String,
     username: json['username'] as String,
   );
+}
+
+IngressAccessLogs _$IngressAccessLogsFromJson(Map<String, dynamic> json) {
+  return IngressAccessLogs(
+    logGroupName: json['logGroupName'] as String,
+  );
+}
+
+Map<String, dynamic> _$IngressAccessLogsToJson(IngressAccessLogs instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('logGroupName', instance.logGroupName);
+  return val;
 }
 
 ListChannelsResponse _$ListChannelsResponseFromJson(Map<String, dynamic> json) {
@@ -734,10 +830,18 @@ RotateChannelCredentialsResponse _$RotateChannelCredentialsResponseFromJson(
   return RotateChannelCredentialsResponse(
     arn: json['arn'] as String,
     description: json['description'] as String,
+    egressAccessLogs: json['egressAccessLogs'] == null
+        ? null
+        : EgressAccessLogs.fromJson(
+            json['egressAccessLogs'] as Map<String, dynamic>),
     hlsIngest: json['hlsIngest'] == null
         ? null
         : HlsIngest.fromJson(json['hlsIngest'] as Map<String, dynamic>),
     id: json['id'] as String,
+    ingressAccessLogs: json['ingressAccessLogs'] == null
+        ? null
+        : IngressAccessLogs.fromJson(
+            json['ingressAccessLogs'] as Map<String, dynamic>),
     tags: (json['tags'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
@@ -750,10 +854,18 @@ RotateIngestEndpointCredentialsResponse
   return RotateIngestEndpointCredentialsResponse(
     arn: json['arn'] as String,
     description: json['description'] as String,
+    egressAccessLogs: json['egressAccessLogs'] == null
+        ? null
+        : EgressAccessLogs.fromJson(
+            json['egressAccessLogs'] as Map<String, dynamic>),
     hlsIngest: json['hlsIngest'] == null
         ? null
         : HlsIngest.fromJson(json['hlsIngest'] as Map<String, dynamic>),
     id: json['id'] as String,
+    ingressAccessLogs: json['ingressAccessLogs'] == null
+        ? null
+        : IngressAccessLogs.fromJson(
+            json['ingressAccessLogs'] as Map<String, dynamic>),
     tags: (json['tags'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
@@ -845,10 +957,18 @@ UpdateChannelResponse _$UpdateChannelResponseFromJson(
   return UpdateChannelResponse(
     arn: json['arn'] as String,
     description: json['description'] as String,
+    egressAccessLogs: json['egressAccessLogs'] == null
+        ? null
+        : EgressAccessLogs.fromJson(
+            json['egressAccessLogs'] as Map<String, dynamic>),
     hlsIngest: json['hlsIngest'] == null
         ? null
         : HlsIngest.fromJson(json['hlsIngest'] as Map<String, dynamic>),
     id: json['id'] as String,
+    ingressAccessLogs: json['ingressAccessLogs'] == null
+        ? null
+        : IngressAccessLogs.fromJson(
+            json['ingressAccessLogs'] as Map<String, dynamic>),
     tags: (json['tags'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k, e as String),
     ),

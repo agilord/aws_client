@@ -81,9 +81,17 @@ DescribeAffectedAccountsForOrganizationResponse
   return DescribeAffectedAccountsForOrganizationResponse(
     affectedAccounts:
         (json['affectedAccounts'] as List)?.map((e) => e as String)?.toList(),
+    eventScopeCode:
+        _$enumDecodeNullable(_$EventScopeCodeEnumMap, json['eventScopeCode']),
     nextToken: json['nextToken'] as String,
   );
 }
+
+const _$EventScopeCodeEnumMap = {
+  EventScopeCode.public: 'PUBLIC',
+  EventScopeCode.accountSpecific: 'ACCOUNT_SPECIFIC',
+  EventScopeCode.none: 'NONE',
+};
 
 DescribeAffectedEntitiesForOrganizationResponse
     _$DescribeAffectedEntitiesForOrganizationResponseFromJson(
@@ -247,6 +255,8 @@ Event _$EventFromJson(Map<String, dynamic> json) {
     arn: json['arn'] as String,
     availabilityZone: json['availabilityZone'] as String,
     endTime: const UnixDateTimeConverter().fromJson(json['endTime']),
+    eventScopeCode:
+        _$enumDecodeNullable(_$EventScopeCodeEnumMap, json['eventScopeCode']),
     eventTypeCategory: _$enumDecodeNullable(
         _$EventTypeCategoryEnumMap, json['eventTypeCategory']),
     eventTypeCode: json['eventTypeCode'] as String,
@@ -282,8 +292,8 @@ Map<String, dynamic> _$EventAccountFilterToJson(EventAccountFilter instance) {
     }
   }
 
-  writeNotNull('awsAccountId', instance.awsAccountId);
   writeNotNull('eventArn', instance.eventArn);
+  writeNotNull('awsAccountId', instance.awsAccountId);
   return val;
 }
 
@@ -402,6 +412,8 @@ OrganizationEvent _$OrganizationEventFromJson(Map<String, dynamic> json) {
   return OrganizationEvent(
     arn: json['arn'] as String,
     endTime: const UnixDateTimeConverter().fromJson(json['endTime']),
+    eventScopeCode:
+        _$enumDecodeNullable(_$EventScopeCodeEnumMap, json['eventScopeCode']),
     eventTypeCategory: _$enumDecodeNullable(
         _$EventTypeCategoryEnumMap, json['eventTypeCategory']),
     eventTypeCode: json['eventTypeCode'] as String,

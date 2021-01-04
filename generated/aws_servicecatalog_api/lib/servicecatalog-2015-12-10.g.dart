@@ -364,6 +364,18 @@ const _$ShareStatusEnumMap = {
   ShareStatus.error: 'ERROR',
 };
 
+DescribePortfolioSharesOutput _$DescribePortfolioSharesOutputFromJson(
+    Map<String, dynamic> json) {
+  return DescribePortfolioSharesOutput(
+    nextPageToken: json['NextPageToken'] as String,
+    portfolioShareDetails: (json['PortfolioShareDetails'] as List)
+        ?.map((e) => e == null
+            ? null
+            : PortfolioShareDetail.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
 DescribeProductAsAdminOutput _$DescribeProductAsAdminOutputFromJson(
     Map<String, dynamic> json) {
   return DescribeProductAsAdminOutput(
@@ -398,6 +410,10 @@ DescribeProductOutput _$DescribeProductOutputFromJson(
     budgets: (json['Budgets'] as List)
         ?.map((e) =>
             e == null ? null : BudgetDetail.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    launchPaths: (json['LaunchPaths'] as List)
+        ?.map((e) =>
+            e == null ? null : LaunchPath.fromJson(e as Map<String, dynamic>))
         ?.toList(),
     productViewSummary: json['ProductViewSummary'] == null
         ? null
@@ -478,6 +494,11 @@ DescribeProvisioningParametersOutput
         ?.map((e) => e == null
             ? null
             : ConstraintSummary.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    provisioningArtifactOutputs: (json['ProvisioningArtifactOutputs'] as List)
+        ?.map((e) => e == null
+            ? null
+            : ProvisioningArtifactOutput.fromJson(e as Map<String, dynamic>))
         ?.toList(),
     provisioningArtifactParameters: (json['ProvisioningArtifactParameters']
             as List)
@@ -648,6 +669,33 @@ const _$AccessStatusEnumMap = {
   AccessStatus.underChange: 'UNDER_CHANGE',
   AccessStatus.disabled: 'DISABLED',
 };
+
+GetProvisionedProductOutputsOutput _$GetProvisionedProductOutputsOutputFromJson(
+    Map<String, dynamic> json) {
+  return GetProvisionedProductOutputsOutput(
+    nextPageToken: json['NextPageToken'] as String,
+    outputs: (json['Outputs'] as List)
+        ?.map((e) =>
+            e == null ? null : RecordOutput.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+ImportAsProvisionedProductOutput _$ImportAsProvisionedProductOutputFromJson(
+    Map<String, dynamic> json) {
+  return ImportAsProvisionedProductOutput(
+    recordDetail: json['RecordDetail'] == null
+        ? null
+        : RecordDetail.fromJson(json['RecordDetail'] as Map<String, dynamic>),
+  );
+}
+
+LaunchPath _$LaunchPathFromJson(Map<String, dynamic> json) {
+  return LaunchPath(
+    id: json['Id'] as String,
+    name: json['Name'] as String,
+  );
+}
 
 LaunchPathSummary _$LaunchPathSummaryFromJson(Map<String, dynamic> json) {
   return LaunchPathSummary(
@@ -934,8 +982,14 @@ const _$OrganizationNodeTypeEnumMap = {
 
 ParameterConstraints _$ParameterConstraintsFromJson(Map<String, dynamic> json) {
   return ParameterConstraints(
+    allowedPattern: json['AllowedPattern'] as String,
     allowedValues:
         (json['AllowedValues'] as List)?.map((e) => e as String)?.toList(),
+    constraintDescription: json['ConstraintDescription'] as String,
+    maxLength: json['MaxLength'] as String,
+    maxValue: json['MaxValue'] as String,
+    minLength: json['MinLength'] as String,
+    minValue: json['MinValue'] as String,
   );
 }
 
@@ -949,6 +1003,24 @@ PortfolioDetail _$PortfolioDetailFromJson(Map<String, dynamic> json) {
     providerName: json['ProviderName'] as String,
   );
 }
+
+PortfolioShareDetail _$PortfolioShareDetailFromJson(Map<String, dynamic> json) {
+  return PortfolioShareDetail(
+    accepted: json['Accepted'] as bool,
+    principalId: json['PrincipalId'] as String,
+    shareTagOptions: json['ShareTagOptions'] as bool,
+    type:
+        _$enumDecodeNullable(_$DescribePortfolioShareTypeEnumMap, json['Type']),
+  );
+}
+
+const _$DescribePortfolioShareTypeEnumMap = {
+  DescribePortfolioShareType.account: 'ACCOUNT',
+  DescribePortfolioShareType.organization: 'ORGANIZATION',
+  DescribePortfolioShareType.organizationalUnit: 'ORGANIZATIONAL_UNIT',
+  DescribePortfolioShareType.organizationMemberAccount:
+      'ORGANIZATION_MEMBER_ACCOUNT',
+};
 
 Principal _$PrincipalFromJson(Map<String, dynamic> json) {
   return Principal(
@@ -1019,11 +1091,16 @@ ProvisionedProductAttribute _$ProvisionedProductAttributeFromJson(
     createdTime: const UnixDateTimeConverter().fromJson(json['CreatedTime']),
     id: json['Id'] as String,
     idempotencyToken: json['IdempotencyToken'] as String,
+    lastProvisioningRecordId: json['LastProvisioningRecordId'] as String,
     lastRecordId: json['LastRecordId'] as String,
+    lastSuccessfulProvisioningRecordId:
+        json['LastSuccessfulProvisioningRecordId'] as String,
     name: json['Name'] as String,
     physicalId: json['PhysicalId'] as String,
     productId: json['ProductId'] as String,
+    productName: json['ProductName'] as String,
     provisioningArtifactId: json['ProvisioningArtifactId'] as String,
+    provisioningArtifactName: json['ProvisioningArtifactName'] as String,
     status:
         _$enumDecodeNullable(_$ProvisionedProductStatusEnumMap, json['Status']),
     statusMessage: json['StatusMessage'] as String,
@@ -1051,7 +1128,11 @@ ProvisionedProductDetail _$ProvisionedProductDetailFromJson(
     createdTime: const UnixDateTimeConverter().fromJson(json['CreatedTime']),
     id: json['Id'] as String,
     idempotencyToken: json['IdempotencyToken'] as String,
+    lastProvisioningRecordId: json['LastProvisioningRecordId'] as String,
     lastRecordId: json['LastRecordId'] as String,
+    lastSuccessfulProvisioningRecordId:
+        json['LastSuccessfulProvisioningRecordId'] as String,
+    launchRoleArn: json['LaunchRoleArn'] as String,
     name: json['Name'] as String,
     productId: json['ProductId'] as String,
     provisioningArtifactId: json['ProvisioningArtifactId'] as String,
@@ -1153,6 +1234,14 @@ const _$ProvisioningArtifactTypeEnumMap = {
   ProvisioningArtifactType.marketplaceAmi: 'MARKETPLACE_AMI',
   ProvisioningArtifactType.marketplaceCar: 'MARKETPLACE_CAR',
 };
+
+ProvisioningArtifactOutput _$ProvisioningArtifactOutputFromJson(
+    Map<String, dynamic> json) {
+  return ProvisioningArtifactOutput(
+    description: json['Description'] as String,
+    key: json['Key'] as String,
+  );
+}
 
 ProvisioningArtifactParameter _$ProvisioningArtifactParameterFromJson(
     Map<String, dynamic> json) {
@@ -1266,6 +1355,7 @@ Map<String, dynamic> _$ProvisioningPreferencesToJson(
 RecordDetail _$RecordDetailFromJson(Map<String, dynamic> json) {
   return RecordDetail(
     createdTime: const UnixDateTimeConverter().fromJson(json['CreatedTime']),
+    launchRoleArn: json['LaunchRoleArn'] as String,
     pathId: json['PathId'] as String,
     productId: json['ProductId'] as String,
     provisionedProductId: json['ProvisionedProductId'] as String,
@@ -1576,6 +1666,7 @@ TagOptionDetail _$TagOptionDetailFromJson(Map<String, dynamic> json) {
     active: json['Active'] as bool,
     id: json['Id'] as String,
     key: json['Key'] as String,
+    owner: json['Owner'] as String,
     value: json['Value'] as String,
   );
 }
@@ -1621,6 +1712,14 @@ UpdatePortfolioOutput _$UpdatePortfolioOutputFromJson(
   );
 }
 
+UpdatePortfolioShareOutput _$UpdatePortfolioShareOutputFromJson(
+    Map<String, dynamic> json) {
+  return UpdatePortfolioShareOutput(
+    portfolioShareToken: json['PortfolioShareToken'] as String,
+    status: _$enumDecodeNullable(_$ShareStatusEnumMap, json['Status']),
+  );
+}
+
 UpdateProductOutput _$UpdateProductOutputFromJson(Map<String, dynamic> json) {
   return UpdateProductOutput(
     productViewDetail: json['ProductViewDetail'] == null
@@ -1659,6 +1758,7 @@ UpdateProvisionedProductPropertiesOutput
 
 const _$PropertyKeyEnumMap = {
   PropertyKey.owner: 'OWNER',
+  PropertyKey.launchRole: 'LAUNCH_ROLE',
 };
 
 UpdateProvisioningArtifactOutput _$UpdateProvisioningArtifactOutputFromJson(

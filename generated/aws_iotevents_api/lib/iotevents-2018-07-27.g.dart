@@ -1029,37 +1029,6 @@ TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
   return TagResourceResponse();
 }
 
-Map<String, dynamic> _$TagrisSweepListItemToJson(TagrisSweepListItem instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('TagrisAccountId', instance.tagrisAccountId);
-  writeNotNull('TagrisAmazonResourceName', instance.tagrisAmazonResourceName);
-  writeNotNull('TagrisInternalId', instance.tagrisInternalId);
-  writeNotNull('TagrisVersion', instance.tagrisVersion);
-  return val;
-}
-
-TagrisVerifyResourcesExistOutput _$TagrisVerifyResourcesExistOutputFromJson(
-    Map<String, dynamic> json) {
-  return TagrisVerifyResourcesExistOutput(
-    tagrisSweepListResult:
-        (json['TagrisSweepListResult'] as Map<String, dynamic>)?.map(
-      (k, e) => MapEntry(k, _$enumDecodeNullable(_$TagrisStatusEnumMap, e)),
-    ),
-  );
-}
-
-const _$TagrisStatusEnumMap = {
-  TagrisStatus.active: 'ACTIVE',
-  TagrisStatus.notActive: 'NOT_ACTIVE',
-};
-
 TransitionEvent _$TransitionEventFromJson(Map<String, dynamic> json) {
   return TransitionEvent(
     condition: json['condition'] as String,

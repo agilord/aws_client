@@ -4,11 +4,11 @@
 
 *About the service:*
 This is documentation for <b>AWS CloudHSM Classic</b>. For more information,
-see <a href="http://aws.amazon.com/cloudhsm/faqs-classic/">AWS CloudHSM
+see <a href="https://aws.amazon.com/cloudhsm/faqs-classic/">AWS CloudHSM
 Classic FAQs</a>, the <a
-href="http://docs.aws.amazon.com/cloudhsm/classic/userguide/">AWS CloudHSM
+href="https://docs.aws.amazon.com/cloudhsm/classic/userguide/">AWS CloudHSM
 Classic User Guide</a>, and the <a
-href="http://docs.aws.amazon.com/cloudhsm/classic/APIReference/">AWS
+href="https://docs.aws.amazon.com/cloudhsm/classic/APIReference/">AWS
 CloudHSM Classic API Reference</a>.
 
 ## Links

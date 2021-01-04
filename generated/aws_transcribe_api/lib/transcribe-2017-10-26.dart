@@ -45,6 +45,175 @@ class TranscribeService {
           endpointUrl: endpointUrl,
         );
 
+  /// Creates a new custom language model. Use Amazon S3 prefixes to provide the
+  /// location of your input files. The time it takes to create your model
+  /// depends on the size of your training data.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [LimitExceededException].
+  /// May throw [InternalFailureException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [baseModelName] :
+  /// The Amazon Transcribe standard language model, or base model used to
+  /// create your custom language model.
+  ///
+  /// If you want to use your custom language model to transcribe audio with a
+  /// sample rate of 16 kHz or greater, choose <code>Wideband</code>.
+  ///
+  /// If you want to use your custom language model to transcribe audio with a
+  /// sample rate that is less than 16 kHz, choose <code>Narrowband</code>.
+  ///
+  /// Parameter [inputDataConfig] :
+  /// Contains the data access role and the Amazon S3 prefixes to read the
+  /// required input files to create a custom language model.
+  ///
+  /// Parameter [languageCode] :
+  /// The language of the input text you're using to train your custom language
+  /// model.
+  ///
+  /// Parameter [modelName] :
+  /// The name you choose for your custom language model when you create it.
+  Future<CreateLanguageModelResponse> createLanguageModel({
+    @_s.required BaseModelName baseModelName,
+    @_s.required InputDataConfig inputDataConfig,
+    @_s.required CLMLanguageCode languageCode,
+    @_s.required String modelName,
+  }) async {
+    ArgumentError.checkNotNull(baseModelName, 'baseModelName');
+    ArgumentError.checkNotNull(inputDataConfig, 'inputDataConfig');
+    ArgumentError.checkNotNull(languageCode, 'languageCode');
+    ArgumentError.checkNotNull(modelName, 'modelName');
+    _s.validateStringLength(
+      'modelName',
+      modelName,
+      1,
+      200,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'modelName',
+      modelName,
+      r'''^[0-9a-zA-Z._-]+''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Transcribe.CreateLanguageModel'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'BaseModelName': baseModelName?.toValue() ?? '',
+        'InputDataConfig': inputDataConfig,
+        'LanguageCode': languageCode?.toValue() ?? '',
+        'ModelName': modelName,
+      },
+    );
+
+    return CreateLanguageModelResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Creates a new custom vocabulary that you can use to change how Amazon
+  /// Transcribe Medical transcribes your audio file.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [LimitExceededException].
+  /// May throw [InternalFailureException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [languageCode] :
+  /// The language code for the language used for the entries in your custom
+  /// vocabulary. The language code of your custom vocabulary must match the
+  /// language code of your transcription job. US English (en-US) is the only
+  /// language code available for Amazon Transcribe Medical.
+  ///
+  /// Parameter [vocabularyFileUri] :
+  /// The location in Amazon S3 of the text file you use to define your custom
+  /// vocabulary. The URI must be in the same AWS Region as the resource that
+  /// you're calling. Enter information about your
+  /// <code>VocabularyFileUri</code> in the following format:
+  ///
+  /// <code>
+  /// https://s3.&lt;aws-region&gt;.amazonaws.com/&lt;bucket-name&gt;/&lt;keyprefix&gt;/&lt;objectkey&gt;
+  /// </code>
+  ///
+  /// The following is an example URI for a vocabulary file that is stored in
+  /// Amazon S3:
+  ///
+  /// <code>https://s3.us-east-1.amazonaws.com/AWSDOC-EXAMPLE-BUCKET/vocab.txt</code>
+  ///
+  /// For more information about Amazon S3 object names, see <a
+  /// href="http://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMetadata.html#object-keys">Object
+  /// Keys</a> in the <i>Amazon S3 Developer Guide</i>.
+  ///
+  /// For more information about custom vocabularies, see <a
+  /// href="http://docs.aws.amazon.com/transcribe/latest/dg/how-it-works.html#how-vocabulary-med">Medical
+  /// Custom Vocabularies</a>.
+  ///
+  /// Parameter [vocabularyName] :
+  /// The name of the custom vocabulary. This case-sensitive name must be unique
+  /// within an AWS account. If you try to create a vocabulary with the same
+  /// name as a previous vocabulary, you get a <code>ConflictException</code>
+  /// error.
+  Future<CreateMedicalVocabularyResponse> createMedicalVocabulary({
+    @_s.required LanguageCode languageCode,
+    @_s.required String vocabularyFileUri,
+    @_s.required String vocabularyName,
+  }) async {
+    ArgumentError.checkNotNull(languageCode, 'languageCode');
+    ArgumentError.checkNotNull(vocabularyFileUri, 'vocabularyFileUri');
+    _s.validateStringLength(
+      'vocabularyFileUri',
+      vocabularyFileUri,
+      1,
+      2000,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'vocabularyFileUri',
+      vocabularyFileUri,
+      r'''(s3://|http(s*)://).+''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(vocabularyName, 'vocabularyName');
+    _s.validateStringLength(
+      'vocabularyName',
+      vocabularyName,
+      1,
+      200,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'vocabularyName',
+      vocabularyName,
+      r'''^[0-9a-zA-Z._-]+''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Transcribe.CreateMedicalVocabulary'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'LanguageCode': languageCode?.toValue() ?? '',
+        'VocabularyFileUri': vocabularyFileUri,
+        'VocabularyName': vocabularyName,
+      },
+    );
+
+    return CreateMedicalVocabularyResponse.fromJson(jsonResponse.body);
+  }
+
   /// Creates a new custom vocabulary that you can use to change the way Amazon
   /// Transcribe handles transcription of an audio file.
   ///
@@ -58,7 +227,9 @@ class TranscribeService {
   ///
   /// Parameter [vocabularyName] :
   /// The name of the vocabulary. The name must be unique within an AWS account.
-  /// The name is case-sensitive.
+  /// The name is case sensitive. If you try to create a vocabulary with the
+  /// same name as a previous vocabulary you will receive a
+  /// <code>ConflictException</code> error.
   ///
   /// Parameter [phrases] :
   /// An array of strings that contains the vocabulary entries.
@@ -67,14 +238,6 @@ class TranscribeService {
   /// The S3 location of the text file that contains the definition of the
   /// custom vocabulary. The URI must be in the same region as the API endpoint
   /// that you are calling. The general form is
-  ///
-  /// <code>
-  /// https://s3.&lt;aws-region&gt;.amazonaws.com/&lt;bucket-name&gt;/&lt;keyprefix&gt;/&lt;objectkey&gt;
-  /// </code>
-  ///
-  /// For example:
-  ///
-  /// <code>https://s3.us-east-1.amazonaws.com/examplebucket/vocab.txt</code>
   ///
   /// For more information about S3 object names, see <a
   /// href="http://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMetadata.html#object-keys">Object
@@ -151,7 +314,9 @@ class TranscribeService {
   ///
   /// Parameter [vocabularyFilterName] :
   /// The vocabulary filter name. The name must be unique within the account
-  /// that contains it.
+  /// that contains it. If you try to create a vocabulary filter with the same
+  /// name as another vocabulary filter, you get a
+  /// <code>ConflictException</code> error.
   ///
   /// Parameter [vocabularyFilterFileUri] :
   /// The Amazon S3 location of a text file used as input to create the
@@ -229,6 +394,47 @@ class TranscribeService {
     return CreateVocabularyFilterResponse.fromJson(jsonResponse.body);
   }
 
+  /// Deletes a custom language model using its name.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [LimitExceededException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [modelName] :
+  /// The name of the model you're choosing to delete.
+  Future<void> deleteLanguageModel({
+    @_s.required String modelName,
+  }) async {
+    ArgumentError.checkNotNull(modelName, 'modelName');
+    _s.validateStringLength(
+      'modelName',
+      modelName,
+      1,
+      200,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'modelName',
+      modelName,
+      r'''^[0-9a-zA-Z._-]+''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Transcribe.DeleteLanguageModel'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ModelName': modelName,
+      },
+    );
+  }
+
   /// Deletes a transcription job generated by Amazon Transcribe Medical and any
   /// related information.
   ///
@@ -269,6 +475,48 @@ class TranscribeService {
       headers: headers,
       payload: {
         'MedicalTranscriptionJobName': medicalTranscriptionJobName,
+      },
+    );
+  }
+
+  /// Deletes a vocabulary from Amazon Transcribe Medical.
+  ///
+  /// May throw [NotFoundException].
+  /// May throw [LimitExceededException].
+  /// May throw [BadRequestException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [vocabularyName] :
+  /// The name of the vocabulary that you want to delete.
+  Future<void> deleteMedicalVocabulary({
+    @_s.required String vocabularyName,
+  }) async {
+    ArgumentError.checkNotNull(vocabularyName, 'vocabularyName');
+    _s.validateStringLength(
+      'vocabularyName',
+      vocabularyName,
+      1,
+      200,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'vocabularyName',
+      vocabularyName,
+      r'''^[0-9a-zA-Z._-]+''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Transcribe.DeleteMedicalVocabulary'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'VocabularyName': vocabularyName,
       },
     );
   }
@@ -399,6 +647,56 @@ class TranscribeService {
     );
   }
 
+  /// Gets information about a single custom language model. Use this
+  /// information to see details about the language model in your AWS account.
+  /// You can also see whether the base language model used to create your
+  /// custom language model has been updated. If Amazon Transcribe has updated
+  /// the base model, you can create a new custom language model using the
+  /// updated base model. If the language model wasn't created, you can use this
+  /// operation to understand why Amazon Transcribe couldn't create it.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [LimitExceededException].
+  /// May throw [InternalFailureException].
+  /// May throw [NotFoundException].
+  ///
+  /// Parameter [modelName] :
+  /// The name of the custom language model you submit to get more information.
+  Future<DescribeLanguageModelResponse> describeLanguageModel({
+    @_s.required String modelName,
+  }) async {
+    ArgumentError.checkNotNull(modelName, 'modelName');
+    _s.validateStringLength(
+      'modelName',
+      modelName,
+      1,
+      200,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'modelName',
+      modelName,
+      r'''^[0-9a-zA-Z._-]+''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Transcribe.DescribeLanguageModel'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ModelName': modelName,
+      },
+    );
+
+    return DescribeLanguageModelResponse.fromJson(jsonResponse.body);
+  }
+
   /// Returns information about a transcription job from Amazon Transcribe
   /// Medical. To see the status of the job, check the
   /// <code>TranscriptionJobStatus</code> field. If the status is
@@ -446,6 +744,51 @@ class TranscribeService {
     );
 
     return GetMedicalTranscriptionJobResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves information about a medical vocabulary.
+  ///
+  /// May throw [NotFoundException].
+  /// May throw [LimitExceededException].
+  /// May throw [InternalFailureException].
+  /// May throw [BadRequestException].
+  ///
+  /// Parameter [vocabularyName] :
+  /// The name of the vocabulary that you want information about. The value is
+  /// case sensitive.
+  Future<GetMedicalVocabularyResponse> getMedicalVocabulary({
+    @_s.required String vocabularyName,
+  }) async {
+    ArgumentError.checkNotNull(vocabularyName, 'vocabularyName');
+    _s.validateStringLength(
+      'vocabularyName',
+      vocabularyName,
+      1,
+      200,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'vocabularyName',
+      vocabularyName,
+      r'''^[0-9a-zA-Z._-]+''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Transcribe.GetMedicalVocabulary'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'VocabularyName': vocabularyName,
+      },
+    );
+
+    return GetMedicalVocabularyResponse.fromJson(jsonResponse.body);
   }
 
   /// Returns information about a transcription job. To see the status of the
@@ -505,8 +848,8 @@ class TranscribeService {
   /// May throw [BadRequestException].
   ///
   /// Parameter [vocabularyName] :
-  /// The name of the vocabulary to return information about. The name is
-  /// case-sensitive.
+  /// The name of the vocabulary to return information about. The name is case
+  /// sensitive.
   Future<GetVocabularyResponse> getVocabulary({
     @_s.required String vocabularyName,
   }) async {
@@ -584,6 +927,88 @@ class TranscribeService {
     );
 
     return GetVocabularyFilterResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Provides more information about the custom language models you've created.
+  /// You can use the information in this list to find a specific custom
+  /// language model. You can then use the operation to get more information
+  /// about it.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [LimitExceededException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of language models to return in the response. If there
+  /// are fewer results in the list, the response contains only the actual
+  /// results.
+  ///
+  /// Parameter [nameContains] :
+  /// When specified, the custom language model names returned contain the
+  /// substring you've specified.
+  ///
+  /// Parameter [nextToken] :
+  /// When included, fetches the next set of jobs if the result of the previous
+  /// request was truncated.
+  ///
+  /// Parameter [statusEquals] :
+  /// When specified, returns only custom language models with the specified
+  /// status. Language models are ordered by creation date, with the newest
+  /// models first. If you don't specify a status, Amazon Transcribe returns all
+  /// custom language models ordered by date.
+  Future<ListLanguageModelsResponse> listLanguageModels({
+    int maxResults,
+    String nameContains,
+    String nextToken,
+    ModelStatus statusEquals,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'nameContains',
+      nameContains,
+      1,
+      200,
+    );
+    _s.validateStringPattern(
+      'nameContains',
+      nameContains,
+      r'''^[0-9a-zA-Z._-]+''',
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      8192,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''.+''',
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Transcribe.ListLanguageModels'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nameContains != null) 'NameContains': nameContains,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (statusEquals != null) 'StatusEquals': statusEquals.toValue(),
+      },
+    );
+
+    return ListLanguageModelsResponse.fromJson(jsonResponse.body);
   }
 
   /// Lists medical transcription jobs with a specified status or substring that
@@ -665,6 +1090,87 @@ class TranscribeService {
     );
 
     return ListMedicalTranscriptionJobsResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Returns a list of vocabularies that match the specified criteria. If you
+  /// don't enter a value in any of the request parameters, returns the entire
+  /// list of vocabularies.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [LimitExceededException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of vocabularies to return in the response.
+  ///
+  /// Parameter [nameContains] :
+  /// Returns vocabularies whose names contain the specified string. The search
+  /// is not case sensitive. <code>ListMedicalVocabularies</code> returns both
+  /// "<code>vocabularyname</code>" and "<code>VocabularyName</code>".
+  ///
+  /// Parameter [nextToken] :
+  /// If the result of your previous request to
+  /// <code>ListMedicalVocabularies</code> was truncated, include the
+  /// <code>NextToken</code> to fetch the next set of vocabularies.
+  ///
+  /// Parameter [stateEquals] :
+  /// When specified, returns only vocabularies with the
+  /// <code>VocabularyState</code> equal to the specified vocabulary state. Use
+  /// this field to see which vocabularies are ready for your medical
+  /// transcription jobs.
+  Future<ListMedicalVocabulariesResponse> listMedicalVocabularies({
+    int maxResults,
+    String nameContains,
+    String nextToken,
+    VocabularyState stateEquals,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'nameContains',
+      nameContains,
+      1,
+      200,
+    );
+    _s.validateStringPattern(
+      'nameContains',
+      nameContains,
+      r'''^[0-9a-zA-Z._-]+''',
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      8192,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''.+''',
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Transcribe.ListMedicalVocabularies'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nameContains != null) 'NameContains': nameContains,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (stateEquals != null) 'StateEquals': stateEquals.toValue(),
+      },
+    );
+
+    return ListMedicalVocabulariesResponse.fromJson(jsonResponse.body);
   }
 
   /// Lists transcription jobs with the specified status.
@@ -759,8 +1265,8 @@ class TranscribeService {
   ///
   /// Parameter [nameContains] :
   /// When specified, the vocabularies returned in the list are limited to
-  /// vocabularies whose name contains the specified string. The search is
-  /// case-insensitive, <code>ListVocabularies</code> returns both
+  /// vocabularies whose name contains the specified string. The search is not
+  /// case sensitive, <code>ListVocabularies</code> returns both
   /// "vocabularyname" and "VocabularyName" in the response list.
   ///
   /// Parameter [nextToken] :
@@ -897,7 +1403,7 @@ class TranscribeService {
     return ListVocabularyFiltersResponse.fromJson(jsonResponse.body);
   }
 
-  /// Start a batch job to transcribe medical speech to text.
+  /// Starts a batch job to transcribe medical speech to text.
   ///
   /// May throw [BadRequestException].
   /// May throw [LimitExceededException].
@@ -911,9 +1417,11 @@ class TranscribeService {
   /// <code>BadRequestException</code> error.
   ///
   /// Parameter [medicalTranscriptionJobName] :
-  /// The name of the medical transcription job. You can't use the strings "."
-  /// or ".." by themselves as the job name. The name must also be unique within
-  /// an AWS account.
+  /// The name of the medical transcription job. You can't use the strings
+  /// "<code>.</code>" or "<code>..</code>" by themselves as the job name. The
+  /// name must also be unique within an AWS account. If you try to create a
+  /// medical transcription job with the same name as a previous medical
+  /// transcription job, you get a <code>ConflictException</code> error.
   ///
   /// Parameter [outputBucketName] :
   /// The Amazon S3 location where the transcription is stored.
@@ -937,10 +1445,10 @@ class TranscribeService {
   /// The medical specialty of any clinician speaking in the input media.
   ///
   /// Parameter [type] :
-  /// The speech of clinician in the input audio. <code>CONVERSATION</code>
-  /// refers to conversations clinicians have with patients.
-  /// <code>DICTATION</code> refers to medical professionals dictating their
-  /// notes about a patient encounter.
+  /// The type of speech in the input audio. <code>CONVERSATION</code> refers to
+  /// conversations between two or more speakers, e.g., a conversations between
+  /// doctors and patients. <code>DICTATION</code> refers to single-speaker
+  /// dictated speech, e.g., for clinical notes.
   ///
   /// Parameter [mediaFormat] :
   /// The audio format of the input media file.
@@ -990,6 +1498,25 @@ class TranscribeService {
   /// If you specify a KMS key to encrypt your output, you must also specify an
   /// output location in the <code>OutputBucketName</code> parameter.
   ///
+  /// Parameter [outputKey] :
+  /// You can specify a location in an Amazon S3 bucket to store the output of
+  /// your medical transcription job.
+  ///
+  /// If you don't specify an output key, Amazon Transcribe Medical stores the
+  /// output of your transcription job in the Amazon S3 bucket you specified. By
+  /// default, the object key is "your-transcription-job-name.json".
+  ///
+  /// You can use output keys to specify the Amazon S3 prefix and file name of
+  /// the transcription output. For example, specifying the Amazon S3 prefix,
+  /// "folder1/folder2/", as an output key would lead to the output being stored
+  /// as "folder1/folder2/your-transcription-job-name.json". If you specify
+  /// "my-other-job-name.json" as the output key, the object key is changed to
+  /// "my-other-job-name.json". You can use an output key to change both the
+  /// prefix and the file name, for example "folder/my-other-job-name.json".
+  ///
+  /// If you specify an output key, you must also specify an S3 bucket in the
+  /// <code>OutputBucketName</code> parameter.
+  ///
   /// Parameter [settings] :
   /// Optional settings for the medical transcription job.
   Future<StartMedicalTranscriptionJobResponse> startMedicalTranscriptionJob({
@@ -1002,6 +1529,7 @@ class TranscribeService {
     MediaFormat mediaFormat,
     int mediaSampleRateHertz,
     String outputEncryptionKMSKeyId,
+    String outputKey,
     MedicalTranscriptionSetting settings,
   }) async {
     ArgumentError.checkNotNull(languageCode, 'languageCode');
@@ -1054,6 +1582,17 @@ class TranscribeService {
       outputEncryptionKMSKeyId,
       r'''^[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,2048}$''',
     );
+    _s.validateStringLength(
+      'outputKey',
+      outputKey,
+      1,
+      1024,
+    );
+    _s.validateStringPattern(
+      'outputKey',
+      outputKey,
+      r'''[a-zA-Z0-9-_.!*'()/]{1,1024}$''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Transcribe.StartMedicalTranscriptionJob'
@@ -1076,6 +1615,7 @@ class TranscribeService {
           'MediaSampleRateHertz': mediaSampleRateHertz,
         if (outputEncryptionKMSKeyId != null)
           'OutputEncryptionKMSKeyId': outputEncryptionKMSKeyId,
+        if (outputKey != null) 'OutputKey': outputKey,
         if (settings != null) 'Settings': settings,
       },
     );
@@ -1090,25 +1630,38 @@ class TranscribeService {
   /// May throw [InternalFailureException].
   /// May throw [ConflictException].
   ///
-  /// Parameter [languageCode] :
-  /// The language code for the language used in the input media file.
-  ///
   /// Parameter [media] :
   /// An object that describes the input media for a transcription job.
   ///
   /// Parameter [transcriptionJobName] :
-  /// The name of the job. Note that you can't use the strings "." or ".." by
-  /// themselves as the job name. The name must also be unique within an AWS
-  /// account.
+  /// The name of the job. You can't use the strings "<code>.</code>" or
+  /// "<code>..</code>" by themselves as the job name. The name must also be
+  /// unique within an AWS account. If you try to create a transcription job
+  /// with the same name as a previous transcription job, you get a
+  /// <code>ConflictException</code> error.
   ///
   /// Parameter [contentRedaction] :
   /// An object that contains the request parameters for content redaction.
+  ///
+  /// Parameter [identifyLanguage] :
+  /// Set this field to <code>true</code> to enable automatic language
+  /// identification. Automatic language identification is disabled by default.
+  /// You receive a <code>BadRequestException</code> error if you enter a value
+  /// for a <code>LanguageCode</code>.
   ///
   /// Parameter [jobExecutionSettings] :
   /// Provides information about how a transcription job is executed. Use this
   /// field to indicate that the job can be queued for deferred execution if the
   /// concurrency limit is reached and there are no slots available to
   /// immediately run the job.
+  ///
+  /// Parameter [languageCode] :
+  /// The language code for the language used in the input media file.
+  ///
+  /// Parameter [languageOptions] :
+  /// An object containing a list of languages that might be present in your
+  /// collection of audio files. Automatic language identification chooses a
+  /// language that best matches the source audio from that list.
   ///
   /// Parameter [mediaFormat] :
   /// The format of the input media file.
@@ -1121,6 +1674,10 @@ class TranscribeService {
   /// rate detected by Amazon Transcribe. In most cases, you should leave the
   /// <code>MediaSampleRateHertz</code> field blank and let Amazon Transcribe
   /// determine the sample rate.
+  ///
+  /// Parameter [modelSettings] :
+  /// Choose the custom language model you use for your transcription job in
+  /// this parameter.
   ///
   /// Parameter [outputBucketName] :
   /// The location where the transcription is stored.
@@ -1184,22 +1741,44 @@ class TranscribeService {
   /// If you specify a KMS key to encrypt your output, you must also specify an
   /// output location in the <code>OutputBucketName</code> parameter.
   ///
+  /// Parameter [outputKey] :
+  /// You can specify a location in an Amazon S3 bucket to store the output of
+  /// your transcription job.
+  ///
+  /// If you don't specify an output key, Amazon Transcribe stores the output of
+  /// your transcription job in the Amazon S3 bucket you specified. By default,
+  /// the object key is "your-transcription-job-name.json".
+  ///
+  /// You can use output keys to specify the Amazon S3 prefix and file name of
+  /// the transcription output. For example, specifying the Amazon S3 prefix,
+  /// "folder1/folder2/", as an output key would lead to the output being stored
+  /// as "folder1/folder2/your-transcription-job-name.json". If you specify
+  /// "my-other-job-name.json" as the output key, the object key is changed to
+  /// "my-other-job-name.json". You can use an output key to change both the
+  /// prefix and the file name, for example "folder/my-other-job-name.json".
+  ///
+  /// If you specify an output key, you must also specify an S3 bucket in the
+  /// <code>OutputBucketName</code> parameter.
+  ///
   /// Parameter [settings] :
   /// A <code>Settings</code> object that provides optional settings for a
   /// transcription job.
   Future<StartTranscriptionJobResponse> startTranscriptionJob({
-    @_s.required LanguageCode languageCode,
     @_s.required Media media,
     @_s.required String transcriptionJobName,
     ContentRedaction contentRedaction,
+    bool identifyLanguage,
     JobExecutionSettings jobExecutionSettings,
+    LanguageCode languageCode,
+    List<LanguageCode> languageOptions,
     MediaFormat mediaFormat,
     int mediaSampleRateHertz,
+    ModelSettings modelSettings,
     String outputBucketName,
     String outputEncryptionKMSKeyId,
+    String outputKey,
     Settings settings,
   }) async {
-    ArgumentError.checkNotNull(languageCode, 'languageCode');
     ArgumentError.checkNotNull(media, 'media');
     ArgumentError.checkNotNull(transcriptionJobName, 'transcriptionJobName');
     _s.validateStringLength(
@@ -1243,6 +1822,17 @@ class TranscribeService {
       outputEncryptionKMSKeyId,
       r'''^[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,2048}$''',
     );
+    _s.validateStringLength(
+      'outputKey',
+      outputKey,
+      1,
+      1024,
+    );
+    _s.validateStringPattern(
+      'outputKey',
+      outputKey,
+      r'''[a-zA-Z0-9-_.!*'()/]{1,1024}$''',
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'Transcribe.StartTranscriptionJob'
@@ -1254,23 +1844,122 @@ class TranscribeService {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LanguageCode': languageCode?.toValue() ?? '',
         'Media': media,
         'TranscriptionJobName': transcriptionJobName,
         if (contentRedaction != null) 'ContentRedaction': contentRedaction,
+        if (identifyLanguage != null) 'IdentifyLanguage': identifyLanguage,
         if (jobExecutionSettings != null)
           'JobExecutionSettings': jobExecutionSettings,
+        if (languageCode != null) 'LanguageCode': languageCode.toValue(),
+        if (languageOptions != null)
+          'LanguageOptions':
+              languageOptions.map((e) => e?.toValue() ?? '').toList(),
         if (mediaFormat != null) 'MediaFormat': mediaFormat.toValue(),
         if (mediaSampleRateHertz != null)
           'MediaSampleRateHertz': mediaSampleRateHertz,
+        if (modelSettings != null) 'ModelSettings': modelSettings,
         if (outputBucketName != null) 'OutputBucketName': outputBucketName,
         if (outputEncryptionKMSKeyId != null)
           'OutputEncryptionKMSKeyId': outputEncryptionKMSKeyId,
+        if (outputKey != null) 'OutputKey': outputKey,
         if (settings != null) 'Settings': settings,
       },
     );
 
     return StartTranscriptionJobResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Updates a vocabulary with new values that you provide in a different text
+  /// file from the one you used to create the vocabulary. The
+  /// <code>UpdateMedicalVocabulary</code> operation overwrites all of the
+  /// existing information with the values that you provide in the request.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [LimitExceededException].
+  /// May throw [InternalFailureException].
+  /// May throw [NotFoundException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [languageCode] :
+  /// The language code of the language used for the entries in the updated
+  /// vocabulary. US English (en-US) is the only valid language code in Amazon
+  /// Transcribe Medical.
+  ///
+  /// Parameter [vocabularyName] :
+  /// The name of the vocabulary to update. The name is case sensitive. If you
+  /// try to update a vocabulary with the same name as a vocabulary you've
+  /// already made, you get a <code>ConflictException</code> error.
+  ///
+  /// Parameter [vocabularyFileUri] :
+  /// The location in Amazon S3 of the text file that contains the you use for
+  /// your custom vocabulary. The URI must be in the same AWS Region as the
+  /// resource that you are calling. The following is the format for a URI:
+  ///
+  /// <code>
+  /// https://s3.&lt;aws-region&gt;.amazonaws.com/&lt;bucket-name&gt;/&lt;keyprefix&gt;/&lt;objectkey&gt;
+  /// </code>
+  ///
+  /// For example:
+  ///
+  /// <code>https://s3.us-east-1.amazonaws.com/AWSDOC-EXAMPLE-BUCKET/vocab.txt</code>
+  ///
+  /// For more information about Amazon S3 object names, see <a
+  /// href="http://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMetadata.html#object-keys">Object
+  /// Keys</a> in the <i>Amazon S3 Developer Guide</i>.
+  ///
+  /// For more information about custom vocabularies in Amazon Transcribe
+  /// Medical, see <a
+  /// href="http://docs.aws.amazon.com/transcribe/latest/dg/how-it-works.html#how-vocabulary">Medical
+  /// Custom Vocabularies</a>.
+  Future<UpdateMedicalVocabularyResponse> updateMedicalVocabulary({
+    @_s.required LanguageCode languageCode,
+    @_s.required String vocabularyName,
+    String vocabularyFileUri,
+  }) async {
+    ArgumentError.checkNotNull(languageCode, 'languageCode');
+    ArgumentError.checkNotNull(vocabularyName, 'vocabularyName');
+    _s.validateStringLength(
+      'vocabularyName',
+      vocabularyName,
+      1,
+      200,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'vocabularyName',
+      vocabularyName,
+      r'''^[0-9a-zA-Z._-]+''',
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'vocabularyFileUri',
+      vocabularyFileUri,
+      1,
+      2000,
+    );
+    _s.validateStringPattern(
+      'vocabularyFileUri',
+      vocabularyFileUri,
+      r'''(s3://|http(s*)://).+''',
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Transcribe.UpdateMedicalVocabulary'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'LanguageCode': languageCode?.toValue() ?? '',
+        'VocabularyName': vocabularyName,
+        if (vocabularyFileUri != null) 'VocabularyFileUri': vocabularyFileUri,
+      },
+    );
+
+    return UpdateMedicalVocabularyResponse.fromJson(jsonResponse.body);
   }
 
   /// Updates an existing vocabulary with new values. The
@@ -1287,7 +1976,9 @@ class TranscribeService {
   /// The language code of the vocabulary entries.
   ///
   /// Parameter [vocabularyName] :
-  /// The name of the vocabulary to update. The name is case-sensitive.
+  /// The name of the vocabulary to update. The name is case sensitive. If you
+  /// try to update a vocabulary with the same name as a previous vocabulary you
+  /// will receive a <code>ConflictException</code> error.
   ///
   /// Parameter [phrases] :
   /// An array of strings containing the vocabulary entries.
@@ -1297,13 +1988,7 @@ class TranscribeService {
   /// custom vocabulary. The URI must be in the same region as the API endpoint
   /// that you are calling. The general form is
   ///
-  /// <code>
-  /// https://s3.&lt;aws-region&gt;.amazonaws.com/&lt;bucket-name&gt;/&lt;keyprefix&gt;/&lt;objectkey&gt;
-  /// </code>
-  ///
   /// For example:
-  ///
-  /// <code>https://s3.us-east-1.amazonaws.com/examplebucket/vocab.txt</code>
   ///
   /// For more information about S3 object names, see <a
   /// href="http://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMetadata.html#object-keys">Object
@@ -1373,7 +2058,9 @@ class TranscribeService {
   /// May throw [NotFoundException].
   ///
   /// Parameter [vocabularyFilterName] :
-  /// The name of the vocabulary filter to update.
+  /// The name of the vocabulary filter to update. If you try to update a
+  /// vocabulary filter with the same name as another vocabulary filter, you get
+  /// a <code>ConflictException</code> error.
   ///
   /// Parameter [vocabularyFilterFileUri] :
   /// The Amazon S3 location of a text file used as input to create the
@@ -1449,6 +2136,40 @@ class TranscribeService {
   }
 }
 
+enum BaseModelName {
+  @_s.JsonValue('NarrowBand')
+  narrowBand,
+  @_s.JsonValue('WideBand')
+  wideBand,
+}
+
+extension on BaseModelName {
+  String toValue() {
+    switch (this) {
+      case BaseModelName.narrowBand:
+        return 'NarrowBand';
+      case BaseModelName.wideBand:
+        return 'WideBand';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
+enum CLMLanguageCode {
+  @_s.JsonValue('en-US')
+  enUs,
+}
+
+extension on CLMLanguageCode {
+  String toValue() {
+    switch (this) {
+      case CLMLanguageCode.enUs:
+        return 'en-US';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Settings for content redaction within a transcription job.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -1480,6 +2201,89 @@ class ContentRedaction {
       _$ContentRedactionFromJson(json);
 
   Map<String, dynamic> toJson() => _$ContentRedactionToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class CreateLanguageModelResponse {
+  /// The Amazon Transcribe standard language model, or base model you've used to
+  /// create a custom language model.
+  @_s.JsonKey(name: 'BaseModelName')
+  final BaseModelName baseModelName;
+
+  /// The data access role and Amazon S3 prefixes you've chosen to create your
+  /// custom language model.
+  @_s.JsonKey(name: 'InputDataConfig')
+  final InputDataConfig inputDataConfig;
+
+  /// The language code of the text you've used to create a custom language model.
+  @_s.JsonKey(name: 'LanguageCode')
+  final CLMLanguageCode languageCode;
+
+  /// The name you've chosen for your custom language model.
+  @_s.JsonKey(name: 'ModelName')
+  final String modelName;
+
+  /// The status of the custom language model. When the status is
+  /// <code>COMPLETED</code> the model is ready to use.
+  @_s.JsonKey(name: 'ModelStatus')
+  final ModelStatus modelStatus;
+
+  CreateLanguageModelResponse({
+    this.baseModelName,
+    this.inputDataConfig,
+    this.languageCode,
+    this.modelName,
+    this.modelStatus,
+  });
+  factory CreateLanguageModelResponse.fromJson(Map<String, dynamic> json) =>
+      _$CreateLanguageModelResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class CreateMedicalVocabularyResponse {
+  /// If the <code>VocabularyState</code> field is <code>FAILED</code>, this field
+  /// contains information about why the job failed.
+  @_s.JsonKey(name: 'FailureReason')
+  final String failureReason;
+
+  /// The language code for the entries in your custom vocabulary. US English
+  /// (en-US) is the only valid language code for Amazon Transcribe Medical.
+  @_s.JsonKey(name: 'LanguageCode')
+  final LanguageCode languageCode;
+
+  /// The date and time that you created the vocabulary.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastModifiedTime')
+  final DateTime lastModifiedTime;
+
+  /// The name of the vocabulary. The name must be unique within an AWS account
+  /// and is case sensitive.
+  @_s.JsonKey(name: 'VocabularyName')
+  final String vocabularyName;
+
+  /// The processing state of your custom vocabulary in Amazon Transcribe Medical.
+  /// If the state is <code>READY</code>, you can use the vocabulary in a
+  /// <code>StartMedicalTranscriptionJob</code> request.
+  @_s.JsonKey(name: 'VocabularyState')
+  final VocabularyState vocabularyState;
+
+  CreateMedicalVocabularyResponse({
+    this.failureReason,
+    this.languageCode,
+    this.lastModifiedTime,
+    this.vocabularyName,
+    this.vocabularyState,
+  });
+  factory CreateMedicalVocabularyResponse.fromJson(Map<String, dynamic> json) =>
+      _$CreateMedicalVocabularyResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -1557,6 +2361,23 @@ class CreateVocabularyResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class DescribeLanguageModelResponse {
+  /// The name of the custom language model you requested more information about.
+  @_s.JsonKey(name: 'LanguageModel')
+  final LanguageModel languageModel;
+
+  DescribeLanguageModelResponse({
+    this.languageModel,
+  });
+  factory DescribeLanguageModelResponse.fromJson(Map<String, dynamic> json) =>
+      _$DescribeLanguageModelResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class GetMedicalTranscriptionJobResponse {
   /// An object that contains the results of the medical transcription job.
   @_s.JsonKey(name: 'MedicalTranscriptionJob')
@@ -1568,6 +2389,55 @@ class GetMedicalTranscriptionJobResponse {
   factory GetMedicalTranscriptionJobResponse.fromJson(
           Map<String, dynamic> json) =>
       _$GetMedicalTranscriptionJobResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class GetMedicalVocabularyResponse {
+  /// The location in Amazon S3 where the vocabulary is stored. Use this URI to
+  /// get the contents of the vocabulary. You can download your vocabulary from
+  /// the URI for a limited time.
+  @_s.JsonKey(name: 'DownloadUri')
+  final String downloadUri;
+
+  /// If the <code>VocabularyState</code> is <code>FAILED</code>, this field
+  /// contains information about why the job failed.
+  @_s.JsonKey(name: 'FailureReason')
+  final String failureReason;
+
+  /// The valid language code for your vocabulary entries.
+  @_s.JsonKey(name: 'LanguageCode')
+  final LanguageCode languageCode;
+
+  /// The date and time that the vocabulary was last modified with a text file
+  /// different from the one that was previously used.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastModifiedTime')
+  final DateTime lastModifiedTime;
+
+  /// The name of the vocabulary returned by Amazon Transcribe Medical.
+  @_s.JsonKey(name: 'VocabularyName')
+  final String vocabularyName;
+
+  /// The processing state of the vocabulary. If the <code>VocabularyState</code>
+  /// is <code>READY</code> then you can use it in the
+  /// <code>StartMedicalTranscriptionJob</code> operation.
+  @_s.JsonKey(name: 'VocabularyState')
+  final VocabularyState vocabularyState;
+
+  GetMedicalVocabularyResponse({
+    this.downloadUri,
+    this.failureReason,
+    this.languageCode,
+    this.lastModifiedTime,
+    this.vocabularyName,
+    this.vocabularyState,
+  });
+  factory GetMedicalVocabularyResponse.fromJson(Map<String, dynamic> json) =>
+      _$GetMedicalVocabularyResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -1666,6 +2536,41 @@ class GetVocabularyResponse {
       _$GetVocabularyResponseFromJson(json);
 }
 
+/// The object that contains the Amazon S3 object location and access role
+/// required to train and tune your custom language model.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class InputDataConfig {
+  /// The Amazon Resource Name (ARN) that uniquely identifies the permissions
+  /// you've given Amazon Transcribe to access your Amazon S3 buckets containing
+  /// your media files or text data.
+  @_s.JsonKey(name: 'DataAccessRoleArn')
+  final String dataAccessRoleArn;
+
+  /// The Amazon S3 prefix you specify to access the plain text files that you use
+  /// to train your custom language model.
+  @_s.JsonKey(name: 'S3Uri')
+  final String s3Uri;
+
+  /// The Amazon S3 prefix you specify to access the plain text files that you use
+  /// to tune your custom language model.
+  @_s.JsonKey(name: 'TuningDataS3Uri')
+  final String tuningDataS3Uri;
+
+  InputDataConfig({
+    @_s.required this.dataAccessRoleArn,
+    @_s.required this.s3Uri,
+    this.tuningDataS3Uri,
+  });
+  factory InputDataConfig.fromJson(Map<String, dynamic> json) =>
+      _$InputDataConfigFromJson(json);
+
+  Map<String, dynamic> toJson() => _$InputDataConfigToJson(this);
+}
+
 /// Provides information about when a transcription job should be executed.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -1707,138 +2612,249 @@ class JobExecutionSettings {
 }
 
 enum LanguageCode {
-  @_s.JsonValue('en-US')
-  enUs,
-  @_s.JsonValue('es-US')
-  esUs,
-  @_s.JsonValue('en-AU')
-  enAu,
-  @_s.JsonValue('fr-CA')
-  frCa,
-  @_s.JsonValue('en-GB')
-  enGb,
-  @_s.JsonValue('de-DE')
-  deDe,
-  @_s.JsonValue('pt-BR')
-  ptBr,
-  @_s.JsonValue('fr-FR')
-  frFr,
-  @_s.JsonValue('it-IT')
-  itIt,
-  @_s.JsonValue('ko-KR')
-  koKr,
-  @_s.JsonValue('es-ES')
-  esEs,
-  @_s.JsonValue('en-IN')
-  enIn,
-  @_s.JsonValue('hi-IN')
-  hiIn,
+  @_s.JsonValue('af-ZA')
+  afZa,
+  @_s.JsonValue('ar-AE')
+  arAe,
   @_s.JsonValue('ar-SA')
   arSa,
-  @_s.JsonValue('ru-RU')
-  ruRu,
-  @_s.JsonValue('zh-CN')
-  zhCn,
-  @_s.JsonValue('nl-NL')
-  nlNl,
-  @_s.JsonValue('id-ID')
-  idId,
-  @_s.JsonValue('ta-IN')
-  taIn,
-  @_s.JsonValue('fa-IR')
-  faIr,
-  @_s.JsonValue('en-IE')
-  enIe,
+  @_s.JsonValue('cy-GB')
+  cyGb,
+  @_s.JsonValue('da-DK')
+  daDk,
+  @_s.JsonValue('de-CH')
+  deCh,
+  @_s.JsonValue('de-DE')
+  deDe,
   @_s.JsonValue('en-AB')
   enAb,
+  @_s.JsonValue('en-AU')
+  enAu,
+  @_s.JsonValue('en-GB')
+  enGb,
+  @_s.JsonValue('en-IE')
+  enIe,
+  @_s.JsonValue('en-IN')
+  enIn,
+  @_s.JsonValue('en-US')
+  enUs,
   @_s.JsonValue('en-WL')
   enWl,
+  @_s.JsonValue('es-ES')
+  esEs,
+  @_s.JsonValue('es-US')
+  esUs,
+  @_s.JsonValue('fa-IR')
+  faIr,
+  @_s.JsonValue('fr-CA')
+  frCa,
+  @_s.JsonValue('fr-FR')
+  frFr,
+  @_s.JsonValue('ga-IE')
+  gaIe,
+  @_s.JsonValue('gd-GB')
+  gdGb,
+  @_s.JsonValue('he-IL')
+  heIl,
+  @_s.JsonValue('hi-IN')
+  hiIn,
+  @_s.JsonValue('id-ID')
+  idId,
+  @_s.JsonValue('it-IT')
+  itIt,
+  @_s.JsonValue('ja-JP')
+  jaJp,
+  @_s.JsonValue('ko-KR')
+  koKr,
+  @_s.JsonValue('ms-MY')
+  msMy,
+  @_s.JsonValue('nl-NL')
+  nlNl,
+  @_s.JsonValue('pt-BR')
+  ptBr,
   @_s.JsonValue('pt-PT')
   ptPt,
+  @_s.JsonValue('ru-RU')
+  ruRu,
+  @_s.JsonValue('ta-IN')
+  taIn,
   @_s.JsonValue('te-IN')
   teIn,
   @_s.JsonValue('tr-TR')
   trTr,
-  @_s.JsonValue('de-CH')
-  deCh,
-  @_s.JsonValue('he-IL')
-  heIl,
-  @_s.JsonValue('ms-MY')
-  msMy,
-  @_s.JsonValue('ja-JP')
-  jaJp,
-  @_s.JsonValue('ar-AE')
-  arAe,
+  @_s.JsonValue('zh-CN')
+  zhCn,
 }
 
 extension on LanguageCode {
   String toValue() {
     switch (this) {
-      case LanguageCode.enUs:
-        return 'en-US';
-      case LanguageCode.esUs:
-        return 'es-US';
-      case LanguageCode.enAu:
-        return 'en-AU';
-      case LanguageCode.frCa:
-        return 'fr-CA';
-      case LanguageCode.enGb:
-        return 'en-GB';
-      case LanguageCode.deDe:
-        return 'de-DE';
-      case LanguageCode.ptBr:
-        return 'pt-BR';
-      case LanguageCode.frFr:
-        return 'fr-FR';
-      case LanguageCode.itIt:
-        return 'it-IT';
-      case LanguageCode.koKr:
-        return 'ko-KR';
-      case LanguageCode.esEs:
-        return 'es-ES';
-      case LanguageCode.enIn:
-        return 'en-IN';
-      case LanguageCode.hiIn:
-        return 'hi-IN';
+      case LanguageCode.afZa:
+        return 'af-ZA';
+      case LanguageCode.arAe:
+        return 'ar-AE';
       case LanguageCode.arSa:
         return 'ar-SA';
-      case LanguageCode.ruRu:
-        return 'ru-RU';
-      case LanguageCode.zhCn:
-        return 'zh-CN';
-      case LanguageCode.nlNl:
-        return 'nl-NL';
-      case LanguageCode.idId:
-        return 'id-ID';
-      case LanguageCode.taIn:
-        return 'ta-IN';
-      case LanguageCode.faIr:
-        return 'fa-IR';
-      case LanguageCode.enIe:
-        return 'en-IE';
+      case LanguageCode.cyGb:
+        return 'cy-GB';
+      case LanguageCode.daDk:
+        return 'da-DK';
+      case LanguageCode.deCh:
+        return 'de-CH';
+      case LanguageCode.deDe:
+        return 'de-DE';
       case LanguageCode.enAb:
         return 'en-AB';
+      case LanguageCode.enAu:
+        return 'en-AU';
+      case LanguageCode.enGb:
+        return 'en-GB';
+      case LanguageCode.enIe:
+        return 'en-IE';
+      case LanguageCode.enIn:
+        return 'en-IN';
+      case LanguageCode.enUs:
+        return 'en-US';
       case LanguageCode.enWl:
         return 'en-WL';
+      case LanguageCode.esEs:
+        return 'es-ES';
+      case LanguageCode.esUs:
+        return 'es-US';
+      case LanguageCode.faIr:
+        return 'fa-IR';
+      case LanguageCode.frCa:
+        return 'fr-CA';
+      case LanguageCode.frFr:
+        return 'fr-FR';
+      case LanguageCode.gaIe:
+        return 'ga-IE';
+      case LanguageCode.gdGb:
+        return 'gd-GB';
+      case LanguageCode.heIl:
+        return 'he-IL';
+      case LanguageCode.hiIn:
+        return 'hi-IN';
+      case LanguageCode.idId:
+        return 'id-ID';
+      case LanguageCode.itIt:
+        return 'it-IT';
+      case LanguageCode.jaJp:
+        return 'ja-JP';
+      case LanguageCode.koKr:
+        return 'ko-KR';
+      case LanguageCode.msMy:
+        return 'ms-MY';
+      case LanguageCode.nlNl:
+        return 'nl-NL';
+      case LanguageCode.ptBr:
+        return 'pt-BR';
       case LanguageCode.ptPt:
         return 'pt-PT';
+      case LanguageCode.ruRu:
+        return 'ru-RU';
+      case LanguageCode.taIn:
+        return 'ta-IN';
       case LanguageCode.teIn:
         return 'te-IN';
       case LanguageCode.trTr:
         return 'tr-TR';
-      case LanguageCode.deCh:
-        return 'de-CH';
-      case LanguageCode.heIl:
-        return 'he-IL';
-      case LanguageCode.msMy:
-        return 'ms-MY';
-      case LanguageCode.jaJp:
-        return 'ja-JP';
-      case LanguageCode.arAe:
-        return 'ar-AE';
+      case LanguageCode.zhCn:
+        return 'zh-CN';
     }
     throw Exception('Unknown enum value: $this');
   }
+}
+
+/// The structure used to describe a custom language model.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class LanguageModel {
+  /// The Amazon Transcribe standard language model, or base model used to create
+  /// the custom language model.
+  @_s.JsonKey(name: 'BaseModelName')
+  final BaseModelName baseModelName;
+
+  /// The time the custom language model was created.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreateTime')
+  final DateTime createTime;
+
+  /// The reason why the custom language model couldn't be created.
+  @_s.JsonKey(name: 'FailureReason')
+  final String failureReason;
+
+  /// The data access role and Amazon S3 prefixes for the input files used to
+  /// train the custom language model.
+  @_s.JsonKey(name: 'InputDataConfig')
+  final InputDataConfig inputDataConfig;
+
+  /// The language code you used to create your custom language model.
+  @_s.JsonKey(name: 'LanguageCode')
+  final CLMLanguageCode languageCode;
+
+  /// The most recent time the custom language model was modified.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastModifiedTime')
+  final DateTime lastModifiedTime;
+
+  /// The name of the custom language model.
+  @_s.JsonKey(name: 'ModelName')
+  final String modelName;
+
+  /// The creation status of a custom language model. When the status is
+  /// <code>COMPLETED</code> the model is ready for use.
+  @_s.JsonKey(name: 'ModelStatus')
+  final ModelStatus modelStatus;
+
+  /// Whether the base model used for the custom language model is up to date. If
+  /// this field is <code>true</code> then you are running the most up-to-date
+  /// version of the base model in your custom language model.
+  @_s.JsonKey(name: 'UpgradeAvailability')
+  final bool upgradeAvailability;
+
+  LanguageModel({
+    this.baseModelName,
+    this.createTime,
+    this.failureReason,
+    this.inputDataConfig,
+    this.languageCode,
+    this.lastModifiedTime,
+    this.modelName,
+    this.modelStatus,
+    this.upgradeAvailability,
+  });
+  factory LanguageModel.fromJson(Map<String, dynamic> json) =>
+      _$LanguageModelFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListLanguageModelsResponse {
+  /// A list of objects containing information about custom language models.
+  @_s.JsonKey(name: 'Models')
+  final List<LanguageModel> models;
+
+  /// The operation returns a page of jobs at a time. The maximum size of the list
+  /// is set by the MaxResults parameter. If there are more language models in the
+  /// list than the page size, Amazon Transcribe returns the <code>NextPage</code>
+  /// token. Include the token in the next request to the operation to return the
+  /// next page of language models.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListLanguageModelsResponse({
+    this.models,
+    this.nextToken,
+  });
+  factory ListLanguageModelsResponse.fromJson(Map<String, dynamic> json) =>
+      _$ListLanguageModelsResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -1880,6 +2896,40 @@ class ListMedicalTranscriptionJobsResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class ListMedicalVocabulariesResponse {
+  /// The <code>ListMedicalVocabularies</code> operation returns a page of
+  /// vocabularies at a time. You set the maximum number of vocabularies to return
+  /// on a page with the <code>MaxResults</code> parameter. If there are more jobs
+  /// in the list will fit on a page, Amazon Transcribe Medical returns the
+  /// <code>NextPage</code> token. To return the next page of vocabularies,
+  /// include the token in the next request to the
+  /// <code>ListMedicalVocabularies</code> operation .
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The requested vocabulary state.
+  @_s.JsonKey(name: 'Status')
+  final VocabularyState status;
+
+  /// A list of objects that describe the vocabularies that match your search
+  /// criteria.
+  @_s.JsonKey(name: 'Vocabularies')
+  final List<VocabularyInfo> vocabularies;
+
+  ListMedicalVocabulariesResponse({
+    this.nextToken,
+    this.status,
+    this.vocabularies,
+  });
+  factory ListMedicalVocabulariesResponse.fromJson(Map<String, dynamic> json) =>
+      _$ListMedicalVocabulariesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class ListTranscriptionJobsResponse {
   /// The <code>ListTranscriptionJobs</code> operation returns a page of jobs at a
   /// time. The maximum size of the page is set by the <code>MaxResults</code>
@@ -1914,17 +2964,17 @@ class ListTranscriptionJobsResponse {
     createToJson: false)
 class ListVocabulariesResponse {
   /// The <code>ListVocabularies</code> operation returns a page of vocabularies
-  /// at a time. The maximum size of the page is set by the
+  /// at a time. The maximum size of the page is set in the
   /// <code>MaxResults</code> parameter. If there are more jobs in the list than
-  /// the page size, Amazon Transcribe returns the <code>NextPage</code> token.
-  /// Include the token in the next request to the <code>ListVocabularies</code>
-  /// operation to return in the next page of jobs.
+  /// will fit on the page, Amazon Transcribe returns the <code>NextPage</code>
+  /// token. To return in the next page of jobs, include the token in the next
+  /// request to the <code>ListVocabularies</code> operation.
   @_s.JsonKey(name: 'NextToken')
   final String nextToken;
 
   /// The requested vocabulary state.
   @_s.JsonKey(name: 'Status')
-  final TranscriptionJobStatus status;
+  final VocabularyState status;
 
   /// A list of objects that describe the vocabularies that match the search
   /// criteria in the request.
@@ -1982,13 +3032,7 @@ class Media {
   /// The S3 object location of the input media file. The URI must be in the same
   /// region as the API endpoint that you are calling. The general form is:
   ///
-  /// <code> s3://&lt;bucket-name&gt;/&lt;keyprefix&gt;/&lt;objectkey&gt; </code>
-  ///
   /// For example:
-  ///
-  /// <code>s3://examplebucket/example.mp4</code>
-  ///
-  /// <code>s3://examplebucket/mediadocs/example.mp4</code>
   ///
   /// For more information about S3 object names, see <a
   /// href="http://docs.aws.amazon.com/AmazonS3/latest/dev/UsingMetadata.html#object-keys">Object
@@ -2013,6 +3057,12 @@ enum MediaFormat {
   wav,
   @_s.JsonValue('flac')
   flac,
+  @_s.JsonValue('ogg')
+  ogg,
+  @_s.JsonValue('amr')
+  amr,
+  @_s.JsonValue('webm')
+  webm,
 }
 
 extension on MediaFormat {
@@ -2026,6 +3076,12 @@ extension on MediaFormat {
         return 'wav';
       case MediaFormat.flac:
         return 'flac';
+      case MediaFormat.ogg:
+        return 'ogg';
+      case MediaFormat.amr:
+        return 'amr';
+      case MediaFormat.webm:
+        return 'webm';
     }
     throw Exception('Unknown enum value: $this');
   }
@@ -2052,8 +3108,8 @@ class MedicalTranscript {
       _$MedicalTranscriptFromJson(json);
 }
 
-/// The data structure that containts the information for a medical
-/// transcription job.
+/// The data structure that contains the information for a medical transcription
+/// job.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -2104,7 +3160,7 @@ class MedicalTranscriptionJob {
   /// <code>Invalid file size: file size too large</code>- The size of your audio
   /// file is larger than what Amazon Transcribe Medical can process. For more
   /// information, see <a
-  /// href="https://docs.aws.amazon.com/transcribe/latest/dg/limits-guidelines.html#limits">Guidlines
+  /// href="https://docs.aws.amazon.com/transcribe/latest/dg/limits-guidelines.html#limits">Guidelines
   /// and Quotas</a> in the <i>Amazon Transcribe Medical Guide</i>
   /// </li>
   /// <li>
@@ -2320,7 +3376,7 @@ class MedicalTranscriptionSetting {
   final bool showAlternatives;
 
   /// Determines whether the transcription job uses speaker recognition to
-  /// identify different speakers in the input audio. Speaker recongition labels
+  /// identify different speakers in the input audio. Speaker recognition labels
   /// individual speakers in the audio file. If you set the
   /// <code>ShowSpeakerLabels</code> field to true, you must also set the maximum
   /// number of speaker labels in the <code>MaxSpeakerLabels</code> field.
@@ -2331,17 +3387,67 @@ class MedicalTranscriptionSetting {
   @_s.JsonKey(name: 'ShowSpeakerLabels')
   final bool showSpeakerLabels;
 
+  /// The name of the vocabulary to use when processing a medical transcription
+  /// job.
+  @_s.JsonKey(name: 'VocabularyName')
+  final String vocabularyName;
+
   MedicalTranscriptionSetting({
     this.channelIdentification,
     this.maxAlternatives,
     this.maxSpeakerLabels,
     this.showAlternatives,
     this.showSpeakerLabels,
+    this.vocabularyName,
   });
   factory MedicalTranscriptionSetting.fromJson(Map<String, dynamic> json) =>
       _$MedicalTranscriptionSettingFromJson(json);
 
   Map<String, dynamic> toJson() => _$MedicalTranscriptionSettingToJson(this);
+}
+
+/// The object used to call your custom language model to your transcription
+/// job.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class ModelSettings {
+  /// The name of your custom language model.
+  @_s.JsonKey(name: 'LanguageModelName')
+  final String languageModelName;
+
+  ModelSettings({
+    this.languageModelName,
+  });
+  factory ModelSettings.fromJson(Map<String, dynamic> json) =>
+      _$ModelSettingsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ModelSettingsToJson(this);
+}
+
+enum ModelStatus {
+  @_s.JsonValue('IN_PROGRESS')
+  inProgress,
+  @_s.JsonValue('FAILED')
+  failed,
+  @_s.JsonValue('COMPLETED')
+  completed,
+}
+
+extension on ModelStatus {
+  String toValue() {
+    switch (this) {
+      case ModelStatus.inProgress:
+        return 'IN_PROGRESS';
+      case ModelStatus.failed:
+        return 'FAILED';
+      case ModelStatus.completed:
+        return 'COMPLETED';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 enum OutputLocationType {
@@ -2511,7 +3617,7 @@ class StartTranscriptionJobResponse {
 class Transcript {
   /// The S3 object location of the redacted transcript.
   ///
-  /// Use this URI to access the redacated transcript. If you specified an S3
+  /// Use this URI to access the redacted transcript. If you specified an S3
   /// bucket in the <code>OutputBucketName</code> field when you created the job,
   /// this is the URI of that bucket. If you chose to store the transcript in
   /// Amazon Transcribe, this is a shareable URL that provides secure access to
@@ -2519,7 +3625,7 @@ class Transcript {
   @_s.JsonKey(name: 'RedactedTranscriptFileUri')
   final String redactedTranscriptFileUri;
 
-  /// The S3 object location of the the transcript.
+  /// The S3 object location of the transcript.
   ///
   /// Use this URI to access the transcript. If you specified an S3 bucket in the
   /// <code>OutputBucketName</code> field when you created the job, this is the
@@ -2609,6 +3715,17 @@ class TranscriptionJob {
   @_s.JsonKey(name: 'FailureReason')
   final String failureReason;
 
+  /// A value between zero and one that Amazon Transcribe assigned to the language
+  /// that it identified in the source audio. Larger values indicate that Amazon
+  /// Transcribe has higher confidence in the language it identified.
+  @_s.JsonKey(name: 'IdentifiedLanguageScore')
+  final double identifiedLanguageScore;
+
+  /// A value that shows if automatic language identification was enabled for a
+  /// transcription job.
+  @_s.JsonKey(name: 'IdentifyLanguage')
+  final bool identifyLanguage;
+
   /// Provides information about how a transcription job is executed.
   @_s.JsonKey(name: 'JobExecutionSettings')
   final JobExecutionSettings jobExecutionSettings;
@@ -2616,6 +3733,11 @@ class TranscriptionJob {
   /// The language code for the input speech.
   @_s.JsonKey(name: 'LanguageCode')
   final LanguageCode languageCode;
+
+  /// An object that shows the optional array of languages inputted for
+  /// transcription jobs with automatic language identification enabled.
+  @_s.JsonKey(name: 'LanguageOptions')
+  final List<LanguageCode> languageOptions;
 
   /// An object that describes the input media for the transcription job.
   @_s.JsonKey(name: 'Media')
@@ -2628,6 +3750,10 @@ class TranscriptionJob {
   /// The sample rate, in Hertz, of the audio track in the input media file.
   @_s.JsonKey(name: 'MediaSampleRateHertz')
   final int mediaSampleRateHertz;
+
+  /// An object containing the details of your custom language model.
+  @_s.JsonKey(name: 'ModelSettings')
+  final ModelSettings modelSettings;
 
   /// Optional settings for the transcription job. Use these settings to turn on
   /// speaker recognition, to set the maximum number of speakers that should be
@@ -2658,11 +3784,15 @@ class TranscriptionJob {
     this.contentRedaction,
     this.creationTime,
     this.failureReason,
+    this.identifiedLanguageScore,
+    this.identifyLanguage,
     this.jobExecutionSettings,
     this.languageCode,
+    this.languageOptions,
     this.media,
     this.mediaFormat,
     this.mediaSampleRateHertz,
+    this.modelSettings,
     this.settings,
     this.startTime,
     this.transcript,
@@ -2726,9 +3856,22 @@ class TranscriptionJobSummary {
   @_s.JsonKey(name: 'FailureReason')
   final String failureReason;
 
+  /// A value between zero and one that Amazon Transcribe assigned to the language
+  /// it identified in the source audio. A higher score indicates that Amazon
+  /// Transcribe is more confident in the language it identified.
+  @_s.JsonKey(name: 'IdentifiedLanguageScore')
+  final double identifiedLanguageScore;
+
+  /// Whether automatic language identification was enabled for a transcription
+  /// job.
+  @_s.JsonKey(name: 'IdentifyLanguage')
+  final bool identifyLanguage;
+
   /// The language code for the input speech.
   @_s.JsonKey(name: 'LanguageCode')
   final LanguageCode languageCode;
+  @_s.JsonKey(name: 'ModelSettings')
+  final ModelSettings modelSettings;
 
   /// Indicates the location of the output of the transcription job.
   ///
@@ -2764,7 +3907,10 @@ class TranscriptionJobSummary {
     this.contentRedaction,
     this.creationTime,
     this.failureReason,
+    this.identifiedLanguageScore,
+    this.identifyLanguage,
     this.languageCode,
+    this.modelSettings,
     this.outputLocationType,
     this.startTime,
     this.transcriptionJobName,
@@ -2791,6 +3937,43 @@ extension on Type {
     }
     throw Exception('Unknown enum value: $this');
   }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class UpdateMedicalVocabularyResponse {
+  /// The language code for the language of the text file used to update the
+  /// custom vocabulary. US English (en-US) is the only language supported in
+  /// Amazon Transcribe Medical.
+  @_s.JsonKey(name: 'LanguageCode')
+  final LanguageCode languageCode;
+
+  /// The date and time that the vocabulary was updated.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastModifiedTime')
+  final DateTime lastModifiedTime;
+
+  /// The name of the updated vocabulary.
+  @_s.JsonKey(name: 'VocabularyName')
+  final String vocabularyName;
+
+  /// The processing state of the update to the vocabulary. When the
+  /// <code>VocabularyState</code> field is <code>READY</code>, the vocabulary is
+  /// ready to be used in a <code>StartMedicalTranscriptionJob</code> request.
+  @_s.JsonKey(name: 'VocabularyState')
+  final VocabularyState vocabularyState;
+
+  UpdateMedicalVocabularyResponse({
+    this.languageCode,
+    this.lastModifiedTime,
+    this.vocabularyName,
+    this.vocabularyState,
+  });
+  factory UpdateMedicalVocabularyResponse.fromJson(Map<String, dynamic> json) =>
+      _$UpdateMedicalVocabularyResponseFromJson(json);
 }
 
 @_s.JsonSerializable(

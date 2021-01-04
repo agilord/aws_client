@@ -6,27 +6,26 @@ part of 'connect-2017-08-08.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-Map<String, dynamic> _$ChatMessageToJson(ChatMessage instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Content', instance.content);
-  writeNotNull('ContentType', instance.contentType);
-  return val;
+AssociateInstanceStorageConfigResponse
+    _$AssociateInstanceStorageConfigResponseFromJson(
+        Map<String, dynamic> json) {
+  return AssociateInstanceStorageConfigResponse(
+    associationId: json['AssociationId'] as String,
+  );
 }
 
-ContactFlowSummary _$ContactFlowSummaryFromJson(Map<String, dynamic> json) {
-  return ContactFlowSummary(
-    arn: json['Arn'] as String,
-    contactFlowType:
-        _$enumDecodeNullable(_$ContactFlowTypeEnumMap, json['ContactFlowType']),
-    id: json['Id'] as String,
-    name: json['Name'] as String,
+AssociateSecurityKeyResponse _$AssociateSecurityKeyResponseFromJson(
+    Map<String, dynamic> json) {
+  return AssociateSecurityKeyResponse(
+    associationId: json['AssociationId'] as String,
+  );
+}
+
+Attribute _$AttributeFromJson(Map<String, dynamic> json) {
+  return Attribute(
+    attributeType: _$enumDecodeNullable(
+        _$InstanceAttributeTypeEnumMap, json['AttributeType']),
+    value: json['Value'] as String,
   );
 }
 
@@ -62,6 +61,44 @@ T _$enumDecodeNullable<T>(
   return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
 }
 
+const _$InstanceAttributeTypeEnumMap = {
+  InstanceAttributeType.inboundCalls: 'INBOUND_CALLS',
+  InstanceAttributeType.outboundCalls: 'OUTBOUND_CALLS',
+  InstanceAttributeType.contactflowLogs: 'CONTACTFLOW_LOGS',
+  InstanceAttributeType.contactLens: 'CONTACT_LENS',
+  InstanceAttributeType.autoResolveBestVoices: 'AUTO_RESOLVE_BEST_VOICES',
+  InstanceAttributeType.useCustomTtsVoices: 'USE_CUSTOM_TTS_VOICES',
+  InstanceAttributeType.earlyMedia: 'EARLY_MEDIA',
+};
+
+Map<String, dynamic> _$ChatMessageToJson(ChatMessage instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Content', instance.content);
+  writeNotNull('ContentType', instance.contentType);
+  return val;
+}
+
+ContactFlow _$ContactFlowFromJson(Map<String, dynamic> json) {
+  return ContactFlow(
+    arn: json['Arn'] as String,
+    content: json['Content'] as String,
+    description: json['Description'] as String,
+    id: json['Id'] as String,
+    name: json['Name'] as String,
+    tags: (json['Tags'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(k, e as String),
+    ),
+    type: _$enumDecodeNullable(_$ContactFlowTypeEnumMap, json['Type']),
+  );
+}
+
 const _$ContactFlowTypeEnumMap = {
   ContactFlowType.contactFlow: 'CONTACT_FLOW',
   ContactFlowType.customerQueue: 'CUSTOMER_QUEUE',
@@ -73,6 +110,72 @@ const _$ContactFlowTypeEnumMap = {
   ContactFlowType.agentTransfer: 'AGENT_TRANSFER',
   ContactFlowType.queueTransfer: 'QUEUE_TRANSFER',
 };
+
+ContactFlowSummary _$ContactFlowSummaryFromJson(Map<String, dynamic> json) {
+  return ContactFlowSummary(
+    arn: json['Arn'] as String,
+    contactFlowType:
+        _$enumDecodeNullable(_$ContactFlowTypeEnumMap, json['ContactFlowType']),
+    id: json['Id'] as String,
+    name: json['Name'] as String,
+  );
+}
+
+CreateContactFlowResponse _$CreateContactFlowResponseFromJson(
+    Map<String, dynamic> json) {
+  return CreateContactFlowResponse(
+    contactFlowArn: json['ContactFlowArn'] as String,
+    contactFlowId: json['ContactFlowId'] as String,
+  );
+}
+
+CreateInstanceResponse _$CreateInstanceResponseFromJson(
+    Map<String, dynamic> json) {
+  return CreateInstanceResponse(
+    arn: json['Arn'] as String,
+    id: json['Id'] as String,
+  );
+}
+
+CreateIntegrationAssociationResponse
+    _$CreateIntegrationAssociationResponseFromJson(Map<String, dynamic> json) {
+  return CreateIntegrationAssociationResponse(
+    integrationAssociationArn: json['IntegrationAssociationArn'] as String,
+    integrationAssociationId: json['IntegrationAssociationId'] as String,
+  );
+}
+
+CreateQuickConnectResponse _$CreateQuickConnectResponseFromJson(
+    Map<String, dynamic> json) {
+  return CreateQuickConnectResponse(
+    quickConnectARN: json['QuickConnectARN'] as String,
+    quickConnectId: json['QuickConnectId'] as String,
+  );
+}
+
+CreateRoutingProfileResponse _$CreateRoutingProfileResponseFromJson(
+    Map<String, dynamic> json) {
+  return CreateRoutingProfileResponse(
+    routingProfileArn: json['RoutingProfileArn'] as String,
+    routingProfileId: json['RoutingProfileId'] as String,
+  );
+}
+
+CreateUseCaseResponse _$CreateUseCaseResponseFromJson(
+    Map<String, dynamic> json) {
+  return CreateUseCaseResponse(
+    useCaseArn: json['UseCaseArn'] as String,
+    useCaseId: json['UseCaseId'] as String,
+  );
+}
+
+CreateUserHierarchyGroupResponse _$CreateUserHierarchyGroupResponseFromJson(
+    Map<String, dynamic> json) {
+  return CreateUserHierarchyGroupResponse(
+    hierarchyGroupArn: json['HierarchyGroupArn'] as String,
+    hierarchyGroupId: json['HierarchyGroupId'] as String,
+  );
+}
 
 CreateUserResponse _$CreateUserResponseFromJson(Map<String, dynamic> json) {
   return CreateUserResponse(
@@ -157,6 +260,62 @@ CurrentMetricResult _$CurrentMetricResultFromJson(Map<String, dynamic> json) {
   );
 }
 
+DescribeContactFlowResponse _$DescribeContactFlowResponseFromJson(
+    Map<String, dynamic> json) {
+  return DescribeContactFlowResponse(
+    contactFlow: json['ContactFlow'] == null
+        ? null
+        : ContactFlow.fromJson(json['ContactFlow'] as Map<String, dynamic>),
+  );
+}
+
+DescribeInstanceAttributeResponse _$DescribeInstanceAttributeResponseFromJson(
+    Map<String, dynamic> json) {
+  return DescribeInstanceAttributeResponse(
+    attribute: json['Attribute'] == null
+        ? null
+        : Attribute.fromJson(json['Attribute'] as Map<String, dynamic>),
+  );
+}
+
+DescribeInstanceResponse _$DescribeInstanceResponseFromJson(
+    Map<String, dynamic> json) {
+  return DescribeInstanceResponse(
+    instance: json['Instance'] == null
+        ? null
+        : Instance.fromJson(json['Instance'] as Map<String, dynamic>),
+  );
+}
+
+DescribeInstanceStorageConfigResponse
+    _$DescribeInstanceStorageConfigResponseFromJson(Map<String, dynamic> json) {
+  return DescribeInstanceStorageConfigResponse(
+    storageConfig: json['StorageConfig'] == null
+        ? null
+        : InstanceStorageConfig.fromJson(
+            json['StorageConfig'] as Map<String, dynamic>),
+  );
+}
+
+DescribeQuickConnectResponse _$DescribeQuickConnectResponseFromJson(
+    Map<String, dynamic> json) {
+  return DescribeQuickConnectResponse(
+    quickConnect: json['QuickConnect'] == null
+        ? null
+        : QuickConnect.fromJson(json['QuickConnect'] as Map<String, dynamic>),
+  );
+}
+
+DescribeRoutingProfileResponse _$DescribeRoutingProfileResponseFromJson(
+    Map<String, dynamic> json) {
+  return DescribeRoutingProfileResponse(
+    routingProfile: json['RoutingProfile'] == null
+        ? null
+        : RoutingProfile.fromJson(
+            json['RoutingProfile'] as Map<String, dynamic>),
+  );
+}
+
 DescribeUserHierarchyGroupResponse _$DescribeUserHierarchyGroupResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeUserHierarchyGroupResponse(
@@ -198,6 +357,34 @@ Dimensions _$DimensionsFromJson(Map<String, dynamic> json) {
 const _$ChannelEnumMap = {
   Channel.voice: 'VOICE',
   Channel.chat: 'CHAT',
+  Channel.task: 'TASK',
+};
+
+EncryptionConfig _$EncryptionConfigFromJson(Map<String, dynamic> json) {
+  return EncryptionConfig(
+    encryptionType:
+        _$enumDecodeNullable(_$EncryptionTypeEnumMap, json['EncryptionType']),
+    keyId: json['KeyId'] as String,
+  );
+}
+
+Map<String, dynamic> _$EncryptionConfigToJson(EncryptionConfig instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'EncryptionType', _$EncryptionTypeEnumMap[instance.encryptionType]);
+  writeNotNull('KeyId', instance.keyId);
+  return val;
+}
+
+const _$EncryptionTypeEnumMap = {
+  EncryptionType.kms: 'KMS',
 };
 
 Map<String, dynamic> _$FiltersToJson(Filters instance) {
@@ -288,6 +475,20 @@ HierarchyLevel _$HierarchyLevelFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$HierarchyLevelUpdateToJson(
+    HierarchyLevelUpdate instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  return val;
+}
+
 HierarchyPath _$HierarchyPathFromJson(Map<String, dynamic> json) {
   return HierarchyPath(
     levelFive: json['LevelFive'] == null
@@ -331,6 +532,24 @@ HierarchyStructure _$HierarchyStructureFromJson(Map<String, dynamic> json) {
         ? null
         : HierarchyLevel.fromJson(json['LevelTwo'] as Map<String, dynamic>),
   );
+}
+
+Map<String, dynamic> _$HierarchyStructureUpdateToJson(
+    HierarchyStructureUpdate instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('LevelFive', instance.levelFive?.toJson());
+  writeNotNull('LevelFour', instance.levelFour?.toJson());
+  writeNotNull('LevelOne', instance.levelOne?.toJson());
+  writeNotNull('LevelThree', instance.levelThree?.toJson());
+  writeNotNull('LevelTwo', instance.levelTwo?.toJson());
+  return val;
 }
 
 HistoricalMetric _$HistoricalMetricFromJson(Map<String, dynamic> json) {
@@ -428,6 +647,233 @@ HoursOfOperationSummary _$HoursOfOperationSummaryFromJson(
   );
 }
 
+Instance _$InstanceFromJson(Map<String, dynamic> json) {
+  return Instance(
+    arn: json['Arn'] as String,
+    createdTime: const UnixDateTimeConverter().fromJson(json['CreatedTime']),
+    id: json['Id'] as String,
+    identityManagementType: _$enumDecodeNullable(
+        _$DirectoryTypeEnumMap, json['IdentityManagementType']),
+    inboundCallsEnabled: json['InboundCallsEnabled'] as bool,
+    instanceAlias: json['InstanceAlias'] as String,
+    instanceStatus:
+        _$enumDecodeNullable(_$InstanceStatusEnumMap, json['InstanceStatus']),
+    outboundCallsEnabled: json['OutboundCallsEnabled'] as bool,
+    serviceRole: json['ServiceRole'] as String,
+    statusReason: json['StatusReason'] == null
+        ? null
+        : InstanceStatusReason.fromJson(
+            json['StatusReason'] as Map<String, dynamic>),
+  );
+}
+
+const _$DirectoryTypeEnumMap = {
+  DirectoryType.saml: 'SAML',
+  DirectoryType.connectManaged: 'CONNECT_MANAGED',
+  DirectoryType.existingDirectory: 'EXISTING_DIRECTORY',
+};
+
+const _$InstanceStatusEnumMap = {
+  InstanceStatus.creationInProgress: 'CREATION_IN_PROGRESS',
+  InstanceStatus.active: 'ACTIVE',
+  InstanceStatus.creationFailed: 'CREATION_FAILED',
+};
+
+InstanceStatusReason _$InstanceStatusReasonFromJson(Map<String, dynamic> json) {
+  return InstanceStatusReason(
+    message: json['Message'] as String,
+  );
+}
+
+InstanceStorageConfig _$InstanceStorageConfigFromJson(
+    Map<String, dynamic> json) {
+  return InstanceStorageConfig(
+    storageType:
+        _$enumDecodeNullable(_$StorageTypeEnumMap, json['StorageType']),
+    associationId: json['AssociationId'] as String,
+    kinesisFirehoseConfig: json['KinesisFirehoseConfig'] == null
+        ? null
+        : KinesisFirehoseConfig.fromJson(
+            json['KinesisFirehoseConfig'] as Map<String, dynamic>),
+    kinesisStreamConfig: json['KinesisStreamConfig'] == null
+        ? null
+        : KinesisStreamConfig.fromJson(
+            json['KinesisStreamConfig'] as Map<String, dynamic>),
+    kinesisVideoStreamConfig: json['KinesisVideoStreamConfig'] == null
+        ? null
+        : KinesisVideoStreamConfig.fromJson(
+            json['KinesisVideoStreamConfig'] as Map<String, dynamic>),
+    s3Config: json['S3Config'] == null
+        ? null
+        : S3Config.fromJson(json['S3Config'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$InstanceStorageConfigToJson(
+    InstanceStorageConfig instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('StorageType', _$StorageTypeEnumMap[instance.storageType]);
+  writeNotNull('AssociationId', instance.associationId);
+  writeNotNull(
+      'KinesisFirehoseConfig', instance.kinesisFirehoseConfig?.toJson());
+  writeNotNull('KinesisStreamConfig', instance.kinesisStreamConfig?.toJson());
+  writeNotNull(
+      'KinesisVideoStreamConfig', instance.kinesisVideoStreamConfig?.toJson());
+  writeNotNull('S3Config', instance.s3Config?.toJson());
+  return val;
+}
+
+const _$StorageTypeEnumMap = {
+  StorageType.s3: 'S3',
+  StorageType.kinesisVideoStream: 'KINESIS_VIDEO_STREAM',
+  StorageType.kinesisStream: 'KINESIS_STREAM',
+  StorageType.kinesisFirehose: 'KINESIS_FIREHOSE',
+};
+
+InstanceSummary _$InstanceSummaryFromJson(Map<String, dynamic> json) {
+  return InstanceSummary(
+    arn: json['Arn'] as String,
+    createdTime: const UnixDateTimeConverter().fromJson(json['CreatedTime']),
+    id: json['Id'] as String,
+    identityManagementType: _$enumDecodeNullable(
+        _$DirectoryTypeEnumMap, json['IdentityManagementType']),
+    inboundCallsEnabled: json['InboundCallsEnabled'] as bool,
+    instanceAlias: json['InstanceAlias'] as String,
+    instanceStatus:
+        _$enumDecodeNullable(_$InstanceStatusEnumMap, json['InstanceStatus']),
+    outboundCallsEnabled: json['OutboundCallsEnabled'] as bool,
+    serviceRole: json['ServiceRole'] as String,
+  );
+}
+
+IntegrationAssociationSummary _$IntegrationAssociationSummaryFromJson(
+    Map<String, dynamic> json) {
+  return IntegrationAssociationSummary(
+    instanceId: json['InstanceId'] as String,
+    integrationArn: json['IntegrationArn'] as String,
+    integrationAssociationArn: json['IntegrationAssociationArn'] as String,
+    integrationAssociationId: json['IntegrationAssociationId'] as String,
+    integrationType:
+        _$enumDecodeNullable(_$IntegrationTypeEnumMap, json['IntegrationType']),
+    sourceApplicationName: json['SourceApplicationName'] as String,
+    sourceApplicationUrl: json['SourceApplicationUrl'] as String,
+    sourceType: _$enumDecodeNullable(_$SourceTypeEnumMap, json['SourceType']),
+  );
+}
+
+const _$IntegrationTypeEnumMap = {
+  IntegrationType.event: 'EVENT',
+};
+
+const _$SourceTypeEnumMap = {
+  SourceType.salesforce: 'SALESFORCE',
+  SourceType.zendesk: 'ZENDESK',
+};
+
+KinesisFirehoseConfig _$KinesisFirehoseConfigFromJson(
+    Map<String, dynamic> json) {
+  return KinesisFirehoseConfig(
+    firehoseArn: json['FirehoseArn'] as String,
+  );
+}
+
+Map<String, dynamic> _$KinesisFirehoseConfigToJson(
+    KinesisFirehoseConfig instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('FirehoseArn', instance.firehoseArn);
+  return val;
+}
+
+KinesisStreamConfig _$KinesisStreamConfigFromJson(Map<String, dynamic> json) {
+  return KinesisStreamConfig(
+    streamArn: json['StreamArn'] as String,
+  );
+}
+
+Map<String, dynamic> _$KinesisStreamConfigToJson(KinesisStreamConfig instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('StreamArn', instance.streamArn);
+  return val;
+}
+
+KinesisVideoStreamConfig _$KinesisVideoStreamConfigFromJson(
+    Map<String, dynamic> json) {
+  return KinesisVideoStreamConfig(
+    encryptionConfig: json['EncryptionConfig'] == null
+        ? null
+        : EncryptionConfig.fromJson(
+            json['EncryptionConfig'] as Map<String, dynamic>),
+    prefix: json['Prefix'] as String,
+    retentionPeriodHours: json['RetentionPeriodHours'] as int,
+  );
+}
+
+Map<String, dynamic> _$KinesisVideoStreamConfigToJson(
+    KinesisVideoStreamConfig instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EncryptionConfig', instance.encryptionConfig?.toJson());
+  writeNotNull('Prefix', instance.prefix);
+  writeNotNull('RetentionPeriodHours', instance.retentionPeriodHours);
+  return val;
+}
+
+LexBot _$LexBotFromJson(Map<String, dynamic> json) {
+  return LexBot(
+    lexRegion: json['LexRegion'] as String,
+    name: json['Name'] as String,
+  );
+}
+
+Map<String, dynamic> _$LexBotToJson(LexBot instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('LexRegion', instance.lexRegion);
+  writeNotNull('Name', instance.name);
+  return val;
+}
+
+ListApprovedOriginsResponse _$ListApprovedOriginsResponseFromJson(
+    Map<String, dynamic> json) {
+  return ListApprovedOriginsResponse(
+    nextToken: json['NextToken'] as String,
+    origins: (json['Origins'] as List)?.map((e) => e as String)?.toList(),
+  );
+}
+
 ListContactFlowsResponse _$ListContactFlowsResponseFromJson(
     Map<String, dynamic> json) {
   return ListContactFlowsResponse(
@@ -452,6 +898,74 @@ ListHoursOfOperationsResponse _$ListHoursOfOperationsResponseFromJson(
   );
 }
 
+ListInstanceAttributesResponse _$ListInstanceAttributesResponseFromJson(
+    Map<String, dynamic> json) {
+  return ListInstanceAttributesResponse(
+    attributes: (json['Attributes'] as List)
+        ?.map((e) =>
+            e == null ? null : Attribute.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    nextToken: json['NextToken'] as String,
+  );
+}
+
+ListInstanceStorageConfigsResponse _$ListInstanceStorageConfigsResponseFromJson(
+    Map<String, dynamic> json) {
+  return ListInstanceStorageConfigsResponse(
+    nextToken: json['NextToken'] as String,
+    storageConfigs: (json['StorageConfigs'] as List)
+        ?.map((e) => e == null
+            ? null
+            : InstanceStorageConfig.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+ListInstancesResponse _$ListInstancesResponseFromJson(
+    Map<String, dynamic> json) {
+  return ListInstancesResponse(
+    instanceSummaryList: (json['InstanceSummaryList'] as List)
+        ?.map((e) => e == null
+            ? null
+            : InstanceSummary.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    nextToken: json['NextToken'] as String,
+  );
+}
+
+ListIntegrationAssociationsResponse
+    _$ListIntegrationAssociationsResponseFromJson(Map<String, dynamic> json) {
+  return ListIntegrationAssociationsResponse(
+    integrationAssociationSummaryList:
+        (json['IntegrationAssociationSummaryList'] as List)
+            ?.map((e) => e == null
+                ? null
+                : IntegrationAssociationSummary.fromJson(
+                    e as Map<String, dynamic>))
+            ?.toList(),
+    nextToken: json['NextToken'] as String,
+  );
+}
+
+ListLambdaFunctionsResponse _$ListLambdaFunctionsResponseFromJson(
+    Map<String, dynamic> json) {
+  return ListLambdaFunctionsResponse(
+    lambdaFunctions:
+        (json['LambdaFunctions'] as List)?.map((e) => e as String)?.toList(),
+    nextToken: json['NextToken'] as String,
+  );
+}
+
+ListLexBotsResponse _$ListLexBotsResponseFromJson(Map<String, dynamic> json) {
+  return ListLexBotsResponse(
+    lexBots: (json['LexBots'] as List)
+        ?.map((e) =>
+            e == null ? null : LexBot.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    nextToken: json['NextToken'] as String,
+  );
+}
+
 ListPhoneNumbersResponse _$ListPhoneNumbersResponseFromJson(
     Map<String, dynamic> json) {
   return ListPhoneNumbersResponse(
@@ -460,6 +974,17 @@ ListPhoneNumbersResponse _$ListPhoneNumbersResponseFromJson(
         ?.map((e) => e == null
             ? null
             : PhoneNumberSummary.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+ListPromptsResponse _$ListPromptsResponseFromJson(Map<String, dynamic> json) {
+  return ListPromptsResponse(
+    nextToken: json['NextToken'] as String,
+    promptSummaryList: (json['PromptSummaryList'] as List)
+        ?.map((e) => e == null
+            ? null
+            : PromptSummary.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
 }
@@ -474,6 +999,32 @@ ListQueuesResponse _$ListQueuesResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+ListQuickConnectsResponse _$ListQuickConnectsResponseFromJson(
+    Map<String, dynamic> json) {
+  return ListQuickConnectsResponse(
+    nextToken: json['NextToken'] as String,
+    quickConnectSummaryList: (json['QuickConnectSummaryList'] as List)
+        ?.map((e) => e == null
+            ? null
+            : QuickConnectSummary.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+ListRoutingProfileQueuesResponse _$ListRoutingProfileQueuesResponseFromJson(
+    Map<String, dynamic> json) {
+  return ListRoutingProfileQueuesResponse(
+    nextToken: json['NextToken'] as String,
+    routingProfileQueueConfigSummaryList:
+        (json['RoutingProfileQueueConfigSummaryList'] as List)
+            ?.map((e) => e == null
+                ? null
+                : RoutingProfileQueueConfigSummary.fromJson(
+                    e as Map<String, dynamic>))
+            ?.toList(),
+  );
+}
+
 ListRoutingProfilesResponse _$ListRoutingProfilesResponseFromJson(
     Map<String, dynamic> json) {
   return ListRoutingProfilesResponse(
@@ -482,6 +1033,17 @@ ListRoutingProfilesResponse _$ListRoutingProfilesResponseFromJson(
         ?.map((e) => e == null
             ? null
             : RoutingProfileSummary.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+ListSecurityKeysResponse _$ListSecurityKeysResponseFromJson(
+    Map<String, dynamic> json) {
+  return ListSecurityKeysResponse(
+    nextToken: json['NextToken'] as String,
+    securityKeys: (json['SecurityKeys'] as List)
+        ?.map((e) =>
+            e == null ? null : SecurityKey.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
 }
@@ -504,6 +1066,16 @@ ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
     tags: (json['tags'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
+  );
+}
+
+ListUseCasesResponse _$ListUseCasesResponseFromJson(Map<String, dynamic> json) {
+  return ListUseCasesResponse(
+    nextToken: json['NextToken'] as String,
+    useCaseSummaryList: (json['UseCaseSummaryList'] as List)
+        ?.map((e) =>
+            e == null ? null : UseCase.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
   );
 }
 
@@ -530,6 +1102,27 @@ ListUsersResponse _$ListUsersResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+MediaConcurrency _$MediaConcurrencyFromJson(Map<String, dynamic> json) {
+  return MediaConcurrency(
+    channel: _$enumDecodeNullable(_$ChannelEnumMap, json['Channel']),
+    concurrency: json['Concurrency'] as int,
+  );
+}
+
+Map<String, dynamic> _$MediaConcurrencyToJson(MediaConcurrency instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Channel', _$ChannelEnumMap[instance.channel]);
+  writeNotNull('Concurrency', instance.concurrency);
+  return val;
+}
+
 Map<String, dynamic> _$ParticipantDetailsToJson(ParticipantDetails instance) {
   final val = <String, dynamic>{};
 
@@ -540,6 +1133,27 @@ Map<String, dynamic> _$ParticipantDetailsToJson(ParticipantDetails instance) {
   }
 
   writeNotNull('DisplayName', instance.displayName);
+  return val;
+}
+
+PhoneNumberQuickConnectConfig _$PhoneNumberQuickConnectConfigFromJson(
+    Map<String, dynamic> json) {
+  return PhoneNumberQuickConnectConfig(
+    phoneNumber: json['PhoneNumber'] as String,
+  );
+}
+
+Map<String, dynamic> _$PhoneNumberQuickConnectConfigToJson(
+    PhoneNumberQuickConnectConfig instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('PhoneNumber', instance.phoneNumber);
   return val;
 }
 
@@ -800,6 +1414,37 @@ const _$PhoneNumberTypeEnumMap = {
   PhoneNumberType.did: 'DID',
 };
 
+PromptSummary _$PromptSummaryFromJson(Map<String, dynamic> json) {
+  return PromptSummary(
+    arn: json['Arn'] as String,
+    id: json['Id'] as String,
+    name: json['Name'] as String,
+  );
+}
+
+QueueQuickConnectConfig _$QueueQuickConnectConfigFromJson(
+    Map<String, dynamic> json) {
+  return QueueQuickConnectConfig(
+    contactFlowId: json['ContactFlowId'] as String,
+    queueId: json['QueueId'] as String,
+  );
+}
+
+Map<String, dynamic> _$QueueQuickConnectConfigToJson(
+    QueueQuickConnectConfig instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ContactFlowId', instance.contactFlowId);
+  writeNotNull('QueueId', instance.queueId);
+  return val;
+}
+
 QueueReference _$QueueReferenceFromJson(Map<String, dynamic> json) {
   return QueueReference(
     arn: json['Arn'] as String,
@@ -821,12 +1466,199 @@ const _$QueueTypeEnumMap = {
   QueueType.agent: 'AGENT',
 };
 
+QuickConnect _$QuickConnectFromJson(Map<String, dynamic> json) {
+  return QuickConnect(
+    description: json['Description'] as String,
+    name: json['Name'] as String,
+    quickConnectARN: json['QuickConnectARN'] as String,
+    quickConnectConfig: json['QuickConnectConfig'] == null
+        ? null
+        : QuickConnectConfig.fromJson(
+            json['QuickConnectConfig'] as Map<String, dynamic>),
+    quickConnectId: json['QuickConnectId'] as String,
+    tags: (json['Tags'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(k, e as String),
+    ),
+  );
+}
+
+QuickConnectConfig _$QuickConnectConfigFromJson(Map<String, dynamic> json) {
+  return QuickConnectConfig(
+    quickConnectType: _$enumDecodeNullable(
+        _$QuickConnectTypeEnumMap, json['QuickConnectType']),
+    phoneConfig: json['PhoneConfig'] == null
+        ? null
+        : PhoneNumberQuickConnectConfig.fromJson(
+            json['PhoneConfig'] as Map<String, dynamic>),
+    queueConfig: json['QueueConfig'] == null
+        ? null
+        : QueueQuickConnectConfig.fromJson(
+            json['QueueConfig'] as Map<String, dynamic>),
+    userConfig: json['UserConfig'] == null
+        ? null
+        : UserQuickConnectConfig.fromJson(
+            json['UserConfig'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$QuickConnectConfigToJson(QuickConnectConfig instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'QuickConnectType', _$QuickConnectTypeEnumMap[instance.quickConnectType]);
+  writeNotNull('PhoneConfig', instance.phoneConfig?.toJson());
+  writeNotNull('QueueConfig', instance.queueConfig?.toJson());
+  writeNotNull('UserConfig', instance.userConfig?.toJson());
+  return val;
+}
+
+const _$QuickConnectTypeEnumMap = {
+  QuickConnectType.user: 'USER',
+  QuickConnectType.queue: 'QUEUE',
+  QuickConnectType.phoneNumber: 'PHONE_NUMBER',
+};
+
+QuickConnectSummary _$QuickConnectSummaryFromJson(Map<String, dynamic> json) {
+  return QuickConnectSummary(
+    arn: json['Arn'] as String,
+    id: json['Id'] as String,
+    name: json['Name'] as String,
+    quickConnectType: _$enumDecodeNullable(
+        _$QuickConnectTypeEnumMap, json['QuickConnectType']),
+  );
+}
+
+Map<String, dynamic> _$ReferenceToJson(Reference instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Type', _$ReferenceTypeEnumMap[instance.type]);
+  writeNotNull('Value', instance.value);
+  return val;
+}
+
+const _$ReferenceTypeEnumMap = {
+  ReferenceType.url: 'URL',
+};
+
+ResumeContactRecordingResponse _$ResumeContactRecordingResponseFromJson(
+    Map<String, dynamic> json) {
+  return ResumeContactRecordingResponse();
+}
+
+RoutingProfile _$RoutingProfileFromJson(Map<String, dynamic> json) {
+  return RoutingProfile(
+    defaultOutboundQueueId: json['DefaultOutboundQueueId'] as String,
+    description: json['Description'] as String,
+    instanceId: json['InstanceId'] as String,
+    mediaConcurrencies: (json['MediaConcurrencies'] as List)
+        ?.map((e) => e == null
+            ? null
+            : MediaConcurrency.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    name: json['Name'] as String,
+    routingProfileArn: json['RoutingProfileArn'] as String,
+    routingProfileId: json['RoutingProfileId'] as String,
+    tags: (json['Tags'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(k, e as String),
+    ),
+  );
+}
+
+Map<String, dynamic> _$RoutingProfileQueueConfigToJson(
+    RoutingProfileQueueConfig instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Delay', instance.delay);
+  writeNotNull('Priority', instance.priority);
+  writeNotNull('QueueReference', instance.queueReference?.toJson());
+  return val;
+}
+
+RoutingProfileQueueConfigSummary _$RoutingProfileQueueConfigSummaryFromJson(
+    Map<String, dynamic> json) {
+  return RoutingProfileQueueConfigSummary(
+    channel: _$enumDecodeNullable(_$ChannelEnumMap, json['Channel']),
+    delay: json['Delay'] as int,
+    priority: json['Priority'] as int,
+    queueArn: json['QueueArn'] as String,
+    queueId: json['QueueId'] as String,
+    queueName: json['QueueName'] as String,
+  );
+}
+
+Map<String, dynamic> _$RoutingProfileQueueReferenceToJson(
+    RoutingProfileQueueReference instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Channel', _$ChannelEnumMap[instance.channel]);
+  writeNotNull('QueueId', instance.queueId);
+  return val;
+}
+
 RoutingProfileSummary _$RoutingProfileSummaryFromJson(
     Map<String, dynamic> json) {
   return RoutingProfileSummary(
     arn: json['Arn'] as String,
     id: json['Id'] as String,
     name: json['Name'] as String,
+  );
+}
+
+S3Config _$S3ConfigFromJson(Map<String, dynamic> json) {
+  return S3Config(
+    bucketName: json['BucketName'] as String,
+    bucketPrefix: json['BucketPrefix'] as String,
+    encryptionConfig: json['EncryptionConfig'] == null
+        ? null
+        : EncryptionConfig.fromJson(
+            json['EncryptionConfig'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$S3ConfigToJson(S3Config instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('BucketName', instance.bucketName);
+  writeNotNull('BucketPrefix', instance.bucketPrefix);
+  writeNotNull('EncryptionConfig', instance.encryptionConfig?.toJson());
+  return val;
+}
+
+SecurityKey _$SecurityKeyFromJson(Map<String, dynamic> json) {
+  return SecurityKey(
+    associationId: json['AssociationId'] as String,
+    creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
+    key: json['Key'] as String,
   );
 }
 
@@ -848,6 +1680,11 @@ StartChatContactResponse _$StartChatContactResponseFromJson(
   );
 }
 
+StartContactRecordingResponse _$StartContactRecordingResponseFromJson(
+    Map<String, dynamic> json) {
+  return StartContactRecordingResponse();
+}
+
 StartOutboundVoiceContactResponse _$StartOutboundVoiceContactResponseFromJson(
     Map<String, dynamic> json) {
   return StartOutboundVoiceContactResponse(
@@ -855,8 +1692,25 @@ StartOutboundVoiceContactResponse _$StartOutboundVoiceContactResponseFromJson(
   );
 }
 
+StartTaskContactResponse _$StartTaskContactResponseFromJson(
+    Map<String, dynamic> json) {
+  return StartTaskContactResponse(
+    contactId: json['ContactId'] as String,
+  );
+}
+
+StopContactRecordingResponse _$StopContactRecordingResponseFromJson(
+    Map<String, dynamic> json) {
+  return StopContactRecordingResponse();
+}
+
 StopContactResponse _$StopContactResponseFromJson(Map<String, dynamic> json) {
   return StopContactResponse();
+}
+
+SuspendContactRecordingResponse _$SuspendContactRecordingResponseFromJson(
+    Map<String, dynamic> json) {
+  return SuspendContactRecordingResponse();
 }
 
 Threshold _$ThresholdFromJson(Map<String, dynamic> json) {
@@ -888,6 +1742,19 @@ UpdateContactAttributesResponse _$UpdateContactAttributesResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateContactAttributesResponse();
 }
+
+UseCase _$UseCaseFromJson(Map<String, dynamic> json) {
+  return UseCase(
+    useCaseArn: json['UseCaseArn'] as String,
+    useCaseId: json['UseCaseId'] as String,
+    useCaseType:
+        _$enumDecodeNullable(_$UseCaseTypeEnumMap, json['UseCaseType']),
+  );
+}
+
+const _$UseCaseTypeEnumMap = {
+  UseCaseType.rulesEvaluation: 'RULES_EVALUATION',
+};
 
 User _$UserFromJson(Map<String, dynamic> json) {
   return User(
@@ -965,6 +1832,29 @@ const _$PhoneTypeEnumMap = {
   PhoneType.deskPhone: 'DESK_PHONE',
 };
 
+UserQuickConnectConfig _$UserQuickConnectConfigFromJson(
+    Map<String, dynamic> json) {
+  return UserQuickConnectConfig(
+    contactFlowId: json['ContactFlowId'] as String,
+    userId: json['UserId'] as String,
+  );
+}
+
+Map<String, dynamic> _$UserQuickConnectConfigToJson(
+    UserQuickConnectConfig instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ContactFlowId', instance.contactFlowId);
+  writeNotNull('UserId', instance.userId);
+  return val;
+}
+
 UserSummary _$UserSummaryFromJson(Map<String, dynamic> json) {
   return UserSummary(
     arn: json['Arn'] as String,
@@ -972,3 +1862,24 @@ UserSummary _$UserSummaryFromJson(Map<String, dynamic> json) {
     username: json['Username'] as String,
   );
 }
+
+Map<String, dynamic> _$VoiceRecordingConfigurationToJson(
+    VoiceRecordingConfiguration instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('VoiceRecordingTrack',
+      _$VoiceRecordingTrackEnumMap[instance.voiceRecordingTrack]);
+  return val;
+}
+
+const _$VoiceRecordingTrackEnumMap = {
+  VoiceRecordingTrack.fromAgent: 'FROM_AGENT',
+  VoiceRecordingTrack.toAgent: 'TO_AGENT',
+  VoiceRecordingTrack.all: 'ALL',
+};

@@ -55,6 +55,36 @@ class EC2 {
     throw UnimplementedError();
   }
 
+  /// Accepts a request to associate subnets with a transit gateway multicast
+  /// domain.
+  ///
+  /// Parameter [dryRun] :
+  /// Checks whether you have the required permissions for the action, without
+  /// actually making the request, and provides an error response. If you have
+  /// the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  ///
+  /// Parameter [subnetIds] :
+  /// The IDs of the subnets to associate with the transit gateway multicast
+  /// domain.
+  ///
+  /// Parameter [transitGatewayAttachmentId] :
+  /// The ID of the transit gateway attachment.
+  ///
+  /// Parameter [transitGatewayMulticastDomainId] :
+  /// The ID of the transit gateway multicast domain.
+  Future<AcceptTransitGatewayMulticastDomainAssociationsResult>
+      acceptTransitGatewayMulticastDomainAssociations({
+    bool dryRun,
+    List<String> subnetIds,
+    String transitGatewayAttachmentId,
+    String transitGatewayMulticastDomainId,
+  }) async {
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
   /// Accepts a transit gateway peering attachment request. The peering
   /// attachment must be in the <code>pendingAcceptance</code> state.
   ///
@@ -221,6 +251,10 @@ class EC2 {
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html">Elastic
   /// IP Addresses</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
   ///
+  /// You can allocate a carrier IP address which is a public IP address from a
+  /// telecommunication carrier, to a network interface which resides in a
+  /// subnet in a Wavelength Zone (for example an EC2 instance).
+  ///
   /// Parameter [address] :
   /// [EC2-VPC] The Elastic IP address to recover or an IPv4 address from an
   /// address pool.
@@ -231,10 +265,11 @@ class EC2 {
   /// specific address from the address pool.
   ///
   /// Parameter [domain] :
-  /// Set to <code>vpc</code> to allocate the address for use with instances in
-  /// a VPC.
+  /// Indicates whether the Elastic IP address is for use with instances in a
+  /// VPC or instances in EC2-Classic.
   ///
-  /// Default: The address is for use with instances in EC2-Classic.
+  /// Default: If the Region supports EC2-Classic, the default is
+  /// <code>standard</code>. Otherwise, the default is <code>vpc</code>.
   ///
   /// Parameter [dryRun] :
   /// Checks whether you have the required permissions for the action, without
@@ -244,12 +279,10 @@ class EC2 {
   /// <code>UnauthorizedOperation</code>.
   ///
   /// Parameter [networkBorderGroup] :
-  /// The location from which the IP address is advertised. Use this parameter
-  /// to limit the address to this location.
-  ///
-  /// A network border group is a unique set of Availability Zones or Local
-  /// Zones from where AWS advertises IP addresses and limits the addresses to
-  /// the group. IP addresses cannot move between network border groups.
+  /// A unique set of Availability Zones, Local Zones, or Wavelength Zones from
+  /// which AWS advertises IP addresses. Use this parameter to limit the IP
+  /// address to this location. IP addresses cannot move between network border
+  /// groups.
   ///
   /// Use <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeAvailabilityZones.html">DescribeAvailabilityZones</a>
@@ -267,6 +300,9 @@ class EC2 {
   /// The ID of an address pool that you own. Use this parameter to let Amazon
   /// EC2 select an address from the address pool. To specify a specific address
   /// from the address pool, use the <code>Address</code> parameter instead.
+  ///
+  /// Parameter [tagSpecifications] :
+  /// The tags to assign to the Elastic IP address.
   Future<AllocateAddressResult> allocateAddress({
     String address,
     String customerOwnedIpv4Pool,
@@ -274,6 +310,7 @@ class EC2 {
     bool dryRun,
     String networkBorderGroup,
     String publicIpv4Pool,
+    List<TagSpecification> tagSpecifications,
   }) async {
 // TODO: implement ec2
     throw UnimplementedError();
@@ -478,9 +515,10 @@ class EC2 {
     throw UnimplementedError();
   }
 
-  /// Associates an Elastic IP address with an instance or a network interface.
-  /// Before you can use an Elastic IP address, you must allocate it to your
-  /// account.
+  /// Associates an Elastic IP address, or carrier IP address (for instances
+  /// that are in subnets in Wavelength Zones) with an instance or a network
+  /// interface. Before you can use an Elastic IP address, you must allocate it
+  /// to your account.
   ///
   /// An Elastic IP address is for use in either the EC2-Classic platform or in
   /// a VPC. For more information, see <a
@@ -500,6 +538,9 @@ class EC2 {
   /// network interface, you get an error unless you allow reassociation. You
   /// cannot associate an Elastic IP address with an instance or network
   /// interface that has an existing Elastic IP address.
+  ///
+  /// [Subnets in Wavelength Zones] You can associate an IP address from the
+  /// telecommunication carrier to the instance or network interface.
   ///
   /// You cannot associate an Elastic IP address with an interface in a
   /// different network border group.
@@ -641,6 +682,64 @@ class EC2 {
   }) async {
     ArgumentError.checkNotNull(dhcpOptionsId, 'dhcpOptionsId');
     ArgumentError.checkNotNull(vpcId, 'vpcId');
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
+  /// Associates an AWS Identity and Access Management (IAM) role with an AWS
+  /// Certificate Manager (ACM) certificate. This enables the certificate to be
+  /// used by the ACM for Nitro Enclaves application inside an enclave. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/enclaves/latest/user/nitro-enclave-refapp.html">AWS
+  /// Certificate Manager for Nitro Enclaves</a> in the <i>AWS Nitro Enclaves
+  /// User Guide</i>.
+  ///
+  /// When the IAM role is associated with the ACM certificate, places the
+  /// certificate, certificate chain, and encrypted private key in an Amazon S3
+  /// bucket that only the associated IAM role can access. The private key of
+  /// the certificate is encrypted with an AWS-managed KMS customer master (CMK)
+  /// that has an attached attestation-based CMK policy.
+  ///
+  /// To enable the IAM role to access the Amazon S3 object, you must grant it
+  /// permission to call <code>s3:GetObject</code> on the Amazon S3 bucket
+  /// returned by the command. To enable the IAM role to access the AWS KMS CMK,
+  /// you must grant it permission to call <code>kms:Decrypt</code> on AWS KMS
+  /// CMK returned by the command. For more information, see <a
+  /// href="https://docs.aws.amazon.com/enclaves/latest/user/nitro-enclave-refapp.html#add-policy">
+  /// Grant the role permission to access the certificate and encryption key</a>
+  /// in the <i>AWS Nitro Enclaves User Guide</i>.
+  ///
+  /// Parameter [certificateArn] :
+  /// The ARN of the ACM certificate with which to associate the IAM role.
+  ///
+  /// Parameter [dryRun] :
+  /// Checks whether you have the required permissions for the action, without
+  /// actually making the request, and provides an error response. If you have
+  /// the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  ///
+  /// Parameter [roleArn] :
+  /// The ARN of the IAM role to associate with the ACM certificate. You can
+  /// associate up to 16 IAM roles with an ACM certificate.
+  Future<AssociateEnclaveCertificateIamRoleResult>
+      associateEnclaveCertificateIamRole({
+    String certificateArn,
+    bool dryRun,
+    String roleArn,
+  }) async {
+    _s.validateStringLength(
+      'certificateArn',
+      certificateArn,
+      1,
+      1283,
+    );
+    _s.validateStringLength(
+      'roleArn',
+      roleArn,
+      1,
+      1283,
+    );
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -820,7 +919,7 @@ class EC2 {
   ///
   /// Parameter [ipv6CidrBlockNetworkBorderGroup] :
   /// The name of the location from which we advertise the IPV6 CIDR block. Use
-  /// this parameter to limit the CiDR block to this location.
+  /// this parameter to limit the CIDR block to this location.
   ///
   /// You must set <code>AmazonProvidedIpv6CidrBlock</code> to <code>true</code>
   /// to use this parameter.
@@ -931,11 +1030,17 @@ class EC2 {
   /// the required permissions, the error response is
   /// <code>DryRunOperation</code>. Otherwise, it is
   /// <code>UnauthorizedOperation</code>.
+  ///
+  /// Parameter [networkCardIndex] :
+  /// The index of the network card. Some instance types support multiple
+  /// network cards. The primary network interface must be assigned to network
+  /// card index 0. The default is network card index 0.
   Future<AttachNetworkInterfaceResult> attachNetworkInterface({
     @_s.required int deviceIndex,
     @_s.required String instanceId,
     @_s.required String networkInterfaceId,
     bool dryRun,
+    int networkCardIndex,
   }) async {
     ArgumentError.checkNotNull(deviceIndex, 'deviceIndex');
     ArgumentError.checkNotNull(instanceId, 'instanceId');
@@ -950,12 +1055,12 @@ class EC2 {
   /// Encrypted EBS volumes must be attached to instances that support Amazon
   /// EBS encryption. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html">Amazon
-  /// EBS Encryption</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+  /// EBS encryption</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
   ///
   /// After you attach an EBS volume, you must make it available. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-using-volumes.html">Making
-  /// an EBS Volume Available For Use</a>.
+  /// an EBS volume available for use</a>.
   ///
   /// If a volume has an AWS Marketplace product code:
   ///
@@ -977,7 +1082,7 @@ class EC2 {
   /// </ul>
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-attaching-volume.html">Attaching
-  /// Amazon EBS Volumes</a> in the <i>Amazon Elastic Compute Cloud User
+  /// Amazon EBS volumes</a> in the <i>Amazon Elastic Compute Cloud User
   /// Guide</i>.
   ///
   /// Parameter [device] :
@@ -1052,12 +1157,15 @@ class EC2 {
   /// is being authorized.
   ///
   /// Parameter [accessGroupId] :
-  /// The ID of the Active Directory group to grant access.
+  /// The ID of the group to grant access to, for example, the Active Directory
+  /// group or identity provider (IdP) group. Required if
+  /// <code>AuthorizeAllGroups</code> is <code>false</code> or not specified.
   ///
   /// Parameter [authorizeAllGroups] :
-  /// Indicates whether to grant access to all clients. Use <code>true</code> to
-  /// grant all clients who successfully establish a VPN connection access to
-  /// the network.
+  /// Indicates whether to grant access to all clients. Specify
+  /// <code>true</code> to grant all clients who successfully establish a VPN
+  /// connection access to the network. Must be set to <code>true</code> if
+  /// <code>AccessGroupId</code> is not specified.
   ///
   /// Parameter [clientToken] :
   /// Unique, case-sensitive identifier that you provide to ensure the
@@ -1625,39 +1733,34 @@ class EC2 {
   /// EBS Encryption</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
   ///
   /// Parameter [kmsKeyId] :
-  /// An identifier for the symmetric AWS Key Management Service (AWS KMS)
-  /// customer master key (CMK) to use when creating the encrypted volume. This
-  /// parameter is only required if you want to use a non-default CMK; if this
-  /// parameter is not specified, the default CMK for EBS is used. If a
-  /// <code>KmsKeyId</code> is specified, the <code>Encrypted</code> flag must
-  /// also be set.
+  /// The identifier of the symmetric AWS Key Management Service (AWS KMS)
+  /// customer master key (CMK) to use when creating encrypted volumes. If this
+  /// parameter is not specified, your AWS managed CMK for EBS is used. If you
+  /// specify a CMK, you must also set the encrypted state to <code>true</code>.
   ///
-  /// To specify a CMK, use its key ID, Amazon Resource Name (ARN), alias name,
-  /// or alias ARN. When using an alias name, prefix it with "alias/". For
-  /// example:
+  /// You can specify a CMK using any of the following:
   ///
   /// <ul>
   /// <li>
-  /// Key ID: <code>1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// Key ID. For example, 1234abcd-12ab-34cd-56ef-1234567890ab.
   /// </li>
   /// <li>
-  /// Key ARN:
-  /// <code>arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab</code>
+  /// Key alias. For example, alias/ExampleAlias.
   /// </li>
   /// <li>
-  /// Alias name: <code>alias/ExampleAlias</code>
+  /// Key ARN. For example,
+  /// arn:aws:kms:us-east-1:012345678910:key/1234abcd-12ab-34cd-56ef-1234567890ab.
   /// </li>
   /// <li>
-  /// Alias ARN:
-  /// <code>arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias</code>
+  /// Alias ARN. For example,
+  /// arn:aws:kms:us-east-1:012345678910:alias/ExampleAlias.
   /// </li>
   /// </ul>
-  /// AWS parses <code>KmsKeyId</code> asynchronously, meaning that the action
-  /// you call may appear to complete even though you provided an invalid
-  /// identifier. This action will eventually report failure.
+  /// AWS authenticates the CMK asynchronously. Therefore, if you specify an
+  /// identifier that is not valid, the action can appear to complete, but
+  /// eventually fails.
   ///
-  /// The specified CMK must exist in the Region that the snapshot is being
-  /// copied to.
+  /// The specified CMK must exist in the destination Region.
   ///
   /// Amazon EBS does not support asymmetric CMKs.
   Future<CopyImageResult> copyImage({
@@ -1696,7 +1799,7 @@ class EC2 {
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-copy-snapshot.html">Copying
-  /// an Amazon EBS Snapshot</a> in the <i>Amazon Elastic Compute Cloud User
+  /// an Amazon EBS snapshot</a> in the <i>Amazon Elastic Compute Cloud User
   /// Guide</i>.
   ///
   /// Parameter [sourceRegion] :
@@ -1733,7 +1836,7 @@ class EC2 {
   /// parameter and encryption by default is not enabled. You cannot set this
   /// parameter to false. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html">Amazon
-  /// EBS Encryption</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+  /// EBS encryption</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
   ///
   /// Parameter [kmsKeyId] :
   /// The identifier of the AWS Key Management Service (AWS KMS) customer master
@@ -1745,18 +1848,18 @@ class EC2 {
   ///
   /// <ul>
   /// <li>
-  /// Key ID. For example, key/1234abcd-12ab-34cd-56ef-1234567890ab.
+  /// Key ID. For example, 1234abcd-12ab-34cd-56ef-1234567890ab.
   /// </li>
   /// <li>
   /// Key alias. For example, alias/ExampleAlias.
   /// </li>
   /// <li>
   /// Key ARN. For example,
-  /// arn:aws:kms:<i>us-east-1</i>:<i>012345678910</i>:key/<i>abcd1234-a123-456a-a12b-a123b4cd56ef</i>.
+  /// arn:aws:kms:us-east-1:012345678910:key/1234abcd-12ab-34cd-56ef-1234567890ab.
   /// </li>
   /// <li>
   /// Alias ARN. For example,
-  /// arn:aws:kms:<i>us-east-1</i>:<i>012345678910</i>:alias/<i>ExampleAlias</i>.
+  /// arn:aws:kms:us-east-1:012345678910:alias/ExampleAlias.
   /// </li>
   /// </ul>
   /// AWS authenticates the CMK asynchronously. Therefore, if you specify an ID,
@@ -1768,7 +1871,7 @@ class EC2 {
   /// you must supply a pre-signed URL. This parameter is optional for
   /// unencrypted snapshots. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Query-Requests.html">Query
-  /// Requests</a>.
+  /// requests</a>.
   ///
   /// The <code>PresignedUrl</code> should use the snapshot source endpoint, the
   /// <code>CopySnapshot</code> action, and include the
@@ -1778,7 +1881,7 @@ class EC2 {
   /// stored in Amazon S3, the signing algorithm for this parameter uses the
   /// same logic that is described in <a
   /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/sigv4-query-string-auth.html">Authenticating
-  /// Requests by Using Query Parameters (AWS Signature Version 4)</a> in the
+  /// Requests: Using Query Parameters (AWS Signature Version 4)</a> in the
   /// <i>Amazon Simple Storage Service API Reference</i>. An invalid or
   /// improperly signed <code>PresignedUrl</code> will cause the copy operation
   /// to fail asynchronously, and the snapshot will move to an
@@ -1855,8 +1958,6 @@ class EC2 {
   /// idempotency of the request. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">How
   /// to Ensure Idempotency</a>.
-  ///
-  /// Constraint: Maximum 64 ASCII characters.
   ///
   /// Parameter [dryRun] :
   /// Checks whether you have the required permissions for the action, without
@@ -1969,6 +2070,40 @@ class EC2 {
     throw UnimplementedError();
   }
 
+  /// Creates a carrier gateway. For more information about carrier gateways,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/wavelength/latest/developerguide/how-wavelengths-work.html#wavelength-carrier-gateway">Carrier
+  /// gateways</a> in the <i>AWS Wavelength Developer Guide</i>.
+  ///
+  /// Parameter [vpcId] :
+  /// The ID of the VPC to associate with the carrier gateway.
+  ///
+  /// Parameter [clientToken] :
+  /// Unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the request. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Run_Instance_Idempotency.html">How
+  /// to Ensure Idempotency</a>.
+  ///
+  /// Parameter [dryRun] :
+  /// Checks whether you have the required permissions for the action, without
+  /// actually making the request, and provides an error response. If you have
+  /// the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  ///
+  /// Parameter [tagSpecifications] :
+  /// The tags to associate with the carrier gateway.
+  Future<CreateCarrierGatewayResult> createCarrierGateway({
+    @_s.required String vpcId,
+    String clientToken,
+    bool dryRun,
+    List<TagSpecification> tagSpecifications,
+  }) async {
+    ArgumentError.checkNotNull(vpcId, 'vpcId');
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
   /// Creates a Client VPN endpoint. A Client VPN endpoint is the resource you
   /// create and configure to enable and manage client VPN sessions. It is the
   /// destination endpoint at which all client VPN sessions are terminated.
@@ -2010,6 +2145,10 @@ class EC2 {
   /// href="https://docs.aws.amazon.com/acm/latest/userguide/">AWS Certificate
   /// Manager User Guide</a>.
   ///
+  /// Parameter [clientConnectOptions] :
+  /// The options for managing connection authorization for new client
+  /// connections.
+  ///
   /// Parameter [clientToken] :
   /// Unique, case-sensitive identifier that you provide to ensure the
   /// idempotency of the request. For more information, see <a
@@ -2035,6 +2174,12 @@ class EC2 {
   /// Parameter [securityGroupIds] :
   /// The IDs of one or more security groups to apply to the target network. You
   /// must also specify the ID of the VPC that contains the security groups.
+  ///
+  /// Parameter [selfServicePortal] :
+  /// Specify whether to enable the self-service portal for the Client VPN
+  /// endpoint.
+  ///
+  /// Default Value: <code>enabled</code>
   ///
   /// Parameter [splitTunnel] :
   /// Indicates whether split-tunnel is enabled on the AWS Client VPN endpoint.
@@ -2071,11 +2216,13 @@ class EC2 {
     @_s.required String clientCidrBlock,
     @_s.required ConnectionLogOptions connectionLogOptions,
     @_s.required String serverCertificateArn,
+    ClientConnectOptions clientConnectOptions,
     String clientToken,
     String description,
     List<String> dnsServers,
     bool dryRun,
     List<String> securityGroupIds,
+    SelfServicePortal selfServicePortal,
     bool splitTunnel,
     List<TagSpecification> tagSpecifications,
     TransportProtocol transportProtocol,
@@ -2113,14 +2260,18 @@ class EC2 {
   /// To add a route for an on-premises network, enter the AWS Site-to-Site VPN
   /// connection's IPv4 CIDR range
   /// </li>
+  /// <li>
+  /// To add a route for the local network, enter the client CIDR range
+  /// </li>
   /// </ul>
-  /// Route address ranges cannot overlap with the CIDR range specified for
-  /// client allocation.
   ///
   /// Parameter [targetVpcSubnetId] :
   /// The ID of the subnet through which you want to route traffic. The
   /// specified subnet must be an existing target network of the Client VPN
   /// endpoint.
+  ///
+  /// Alternatively, if you're adding a route for the local network, specify
+  /// <code>local</code>.
   ///
   /// Parameter [clientToken] :
   /// Unique, case-sensitive identifier that you provide to ensure the
@@ -2155,7 +2306,7 @@ class EC2 {
   /// Provides information to AWS about your VPN customer gateway device. The
   /// customer gateway is the appliance at your end of the VPN connection. (The
   /// device on the AWS side of the VPN connection is the virtual private
-  /// gateway.) You must provide the Internet-routable IP address of the
+  /// gateway.) You must provide the internet-routable IP address of the
   /// customer gateway's external interface. The IP address must be static and
   /// can be behind a device performing network address translation (NAT).
   ///
@@ -2164,10 +2315,23 @@ class EC2 {
   /// ASN assigned to your network. If you don't have an ASN already, you can
   /// use a private ASN (in the 64512 - 65534 range).
   /// <note>
-  /// Amazon EC2 supports all 2-byte ASN numbers in the range of 1 - 65534, with
-  /// the exception of 7224, which is reserved in the <code>us-east-1</code>
-  /// Region, and 9059, which is reserved in the <code>eu-west-1</code> Region.
-  /// </note>
+  /// Amazon EC2 supports all 4-byte ASN numbers in the range of 1 - 2147483647,
+  /// with the exception of the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// 7224 - reserved in the <code>us-east-1</code> Region
+  /// </li>
+  /// <li>
+  /// 9059 - reserved in the <code>eu-west-1</code> Region
+  /// </li>
+  /// <li>
+  /// 17943 - reserved in the <code>ap-southeast-1</code> Region
+  /// </li>
+  /// <li>
+  /// 10124 - reserved in the <code>ap-northeast-1</code> Region
+  /// </li>
+  /// </ul> </note>
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/vpn/latest/s2svpn/VPC_VPN.html">AWS
   /// Site-to-Site VPN</a> in the <i>AWS Site-to-Site VPN User Guide</i>.
@@ -2205,6 +2369,9 @@ class EC2 {
   /// Parameter [publicIp] :
   /// The Internet-routable IP address for the customer gateway's outside
   /// interface. The address must be static.
+  ///
+  /// Parameter [tagSpecifications] :
+  /// The tags to apply to the customer gateway.
   Future<CreateCustomerGatewayResult> createCustomerGateway({
     @_s.required int bgpAsn,
     @_s.required GatewayType type,
@@ -2212,6 +2379,7 @@ class EC2 {
     String deviceName,
     bool dryRun,
     String publicIp,
+    List<TagSpecification> tagSpecifications,
   }) async {
     ArgumentError.checkNotNull(bgpAsn, 'bgpAsn');
     ArgumentError.checkNotNull(type, 'type');
@@ -2296,7 +2464,7 @@ class EC2 {
   /// AmazonProvidedDNS in another Region, specify
   /// <code>region.compute.internal</code> (for example,
   /// <code>ap-northeast-1.compute.internal</code>). Otherwise, specify a domain
-  /// name (for example, <code>MyCompany.com</code>). This value is used to
+  /// name (for example, <code>ExampleCompany.com</code>). This value is used to
   /// complete unqualified DNS hostnames. <b>Important</b>: Some Linux operating
   /// systems accept multiple domain names separated by spaces. However, Windows
   /// and other Linux operating systems treat the value as a single domain,
@@ -2337,9 +2505,13 @@ class EC2 {
   /// the required permissions, the error response is
   /// <code>DryRunOperation</code>. Otherwise, it is
   /// <code>UnauthorizedOperation</code>.
+  ///
+  /// Parameter [tagSpecifications] :
+  /// The tags to assign to the DHCP option.
   Future<CreateDhcpOptionsResult> createDhcpOptions({
     @_s.required List<NewDhcpConfiguration> dhcpConfigurations,
     bool dryRun,
+    List<TagSpecification> tagSpecifications,
   }) async {
     ArgumentError.checkNotNull(dhcpConfigurations, 'dhcpConfigurations');
 // TODO: implement ec2
@@ -2366,11 +2538,15 @@ class EC2 {
   /// the required permissions, the error response is
   /// <code>DryRunOperation</code>. Otherwise, it is
   /// <code>UnauthorizedOperation</code>.
+  ///
+  /// Parameter [tagSpecifications] :
+  /// The tags to assign to the egress-only internet gateway.
   Future<CreateEgressOnlyInternetGatewayResult>
       createEgressOnlyInternetGateway({
     @_s.required String vpcId,
     String clientToken,
     bool dryRun,
+    List<TagSpecification> tagSpecifications,
   }) async {
     ArgumentError.checkNotNull(vpcId, 'vpcId');
 // TODO: implement ec2
@@ -2428,23 +2604,36 @@ class EC2 {
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-launch-templates.html#create-launch-template">launch
   /// template</a>. For information about tagging after launch, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html#tag-resources">Tagging
-  /// Your Resources</a>.
+  /// your resources</a>.
   ///
   /// Parameter [terminateInstancesWithExpiration] :
   /// Indicates whether running instances should be terminated when the EC2
   /// Fleet expires.
   ///
   /// Parameter [type] :
-  /// The type of the request. By default, the EC2 Fleet places an asynchronous
-  /// request for your desired capacity, and maintains it by replenishing
-  /// interrupted Spot Instances (<code>maintain</code>). A value of
-  /// <code>instant</code> places a synchronous one-time request, and returns
-  /// errors for any instances that could not be launched. A value of
-  /// <code>request</code> places an asynchronous one-time request without
-  /// maintaining capacity or submitting requests in alternative capacity pools
-  /// if capacity is unavailable. For more information, see <a
+  /// The type of request. The default value is <code>maintain</code>.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>maintain</code> - The EC2 Fleet plaees an asynchronous request for
+  /// your desired capacity, and continues to maintain your desired Spot
+  /// capacity by replenishing interrupted Spot Instances.
+  /// </li>
+  /// <li>
+  /// <code>request</code> - The EC2 Fleet places an asynchronous one-time
+  /// request for your desired capacity, but does submit Spot requests in
+  /// alternative capacity pools if Spot capacity is unavailable, and does not
+  /// maintain Spot capacity if Spot Instances are interrupted.
+  /// </li>
+  /// <li>
+  /// <code>instant</code> - The EC2 Fleet places a synchronous one-time request
+  /// for your desired capacity, and returns errors for any instances that could
+  /// not be launched.
+  /// </li>
+  /// </ul>
+  /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet-configuration-strategies.html#ec2-fleet-request-type">EC2
-  /// Fleet Request Types</a> in the <i>Amazon Elastic Compute Cloud User
+  /// Fleet request types</a> in the <i>Amazon Elastic Compute Cloud User
   /// Guide</i>.
   ///
   /// Parameter [validFrom] :
@@ -2581,8 +2770,6 @@ class EC2 {
   /// Specify the fields using the <code>${field-id}</code> format, separated by
   /// spaces. For the AWS CLI, use single quotation marks (' ') to surround the
   /// parameter value.
-  ///
-  /// Only applicable to flow logs that are published to an Amazon S3 bucket.
   ///
   /// Parameter [logGroupName] :
   /// The name of a new or existing CloudWatch Logs log group where Amazon EC2
@@ -2721,9 +2908,32 @@ class EC2 {
   ///
   /// Parameter [noReboot] :
   /// By default, Amazon EC2 attempts to shut down and reboot the instance
-  /// before creating the image. If the 'No Reboot' option is set, Amazon EC2
-  /// doesn't shut down the instance before creating the image. When this option
-  /// is used, file system integrity on the created image can't be guaranteed.
+  /// before creating the image. If the <code>No Reboot</code> option is set,
+  /// Amazon EC2 doesn't shut down the instance before creating the image. When
+  /// this option is used, file system integrity on the created image can't be
+  /// guaranteed.
+  ///
+  /// Parameter [tagSpecifications] :
+  /// The tags to apply to the AMI and snapshots on creation. You can tag the
+  /// AMI, the snapshots, or both.
+  ///
+  /// <ul>
+  /// <li>
+  /// To tag the AMI, the value for <code>ResourceType</code> must be
+  /// <code>image</code>.
+  /// </li>
+  /// <li>
+  /// To tag the snapshots that are created of the root volume and of other EBS
+  /// volumes that are attached to the instance, the value for
+  /// <code>ResourceType</code> must be <code>snapshot</code>. The same tag is
+  /// applied to all of the snapshots that are created.
+  /// </li>
+  /// </ul>
+  /// If you specify other values for <code>ResourceType</code>, the request
+  /// fails.
+  ///
+  /// To tag an AMI or snapshot after it has been created, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateTags.html">CreateTags</a>.
   Future<CreateImageResult> createImage({
     @_s.required String instanceId,
     @_s.required String name,
@@ -2731,6 +2941,7 @@ class EC2 {
     String description,
     bool dryRun,
     bool noReboot,
+    List<TagSpecification> tagSpecifications,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
     ArgumentError.checkNotNull(name, 'name');
@@ -2738,7 +2949,7 @@ class EC2 {
     throw UnimplementedError();
   }
 
-  /// Exports a running or stopped instance to an S3 bucket.
+  /// Exports a running or stopped instance to an Amazon S3 bucket.
   ///
   /// For information about the supported operating systems, image formats, and
   /// known limitations for the types of instances you can export, see <a
@@ -2746,25 +2957,31 @@ class EC2 {
   /// an Instance as a VM Using VM Import/Export</a> in the <i>VM Import/Export
   /// User Guide</i>.
   ///
-  /// Parameter [instanceId] :
-  /// The ID of the instance.
-  ///
-  /// Parameter [description] :
-  /// A description for the conversion task or the resource being exported. The
-  /// maximum length is 255 bytes.
-  ///
   /// Parameter [exportToS3Task] :
   /// The format and location for an instance export task.
   ///
+  /// Parameter [instanceId] :
+  /// The ID of the instance.
+  ///
   /// Parameter [targetEnvironment] :
   /// The target virtualization environment.
+  ///
+  /// Parameter [description] :
+  /// A description for the conversion task or the resource being exported. The
+  /// maximum length is 255 characters.
+  ///
+  /// Parameter [tagSpecifications] :
+  /// The tags to apply to the instance export task during creation.
   Future<CreateInstanceExportTaskResult> createInstanceExportTask({
+    @_s.required ExportToS3TaskSpecification exportToS3Task,
     @_s.required String instanceId,
+    @_s.required ExportEnvironment targetEnvironment,
     String description,
-    ExportToS3TaskSpecification exportToS3Task,
-    ExportEnvironment targetEnvironment,
+    List<TagSpecification> tagSpecifications,
   }) async {
+    ArgumentError.checkNotNull(exportToS3Task, 'exportToS3Task');
     ArgumentError.checkNotNull(instanceId, 'instanceId');
+    ArgumentError.checkNotNull(targetEnvironment, 'targetEnvironment');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -2783,8 +3000,12 @@ class EC2 {
   /// the required permissions, the error response is
   /// <code>DryRunOperation</code>. Otherwise, it is
   /// <code>UnauthorizedOperation</code>.
+  ///
+  /// Parameter [tagSpecifications] :
+  /// The tags to assign to the internet gateway.
   Future<CreateInternetGatewayResult> createInternetGateway({
     bool dryRun,
+    List<TagSpecification> tagSpecifications,
   }) async {
 // TODO: implement ec2
     throw UnimplementedError();
@@ -2833,7 +3054,10 @@ class EC2 {
   /// Creates a launch template. A launch template contains the parameters to
   /// launch an instance. When you launch an instance using <a>RunInstances</a>,
   /// you can specify a launch template instead of providing the launch
-  /// parameters in the request.
+  /// parameters in the request. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-launch-templates.html">Launching
+  /// an instance from a launch template</a>in the <i>Amazon Elastic Compute
+  /// Cloud User Guide</i>.
   ///
   /// Parameter [launchTemplateData] :
   /// The information for the launch template.
@@ -2900,6 +3124,11 @@ class EC2 {
   /// Launch template versions are numbered in the order in which they are
   /// created. You cannot specify, change, or replace the numbering of launch
   /// template versions.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-launch-templates.html#manage-launch-template-versions">Managing
+  /// launch template versions</a>in the <i>Amazon Elastic Compute Cloud User
+  /// Guide</i>.
   ///
   /// Parameter [launchTemplateData] :
   /// The information for the launch template.
@@ -3015,15 +3244,76 @@ class EC2 {
   /// the required permissions, the error response is
   /// <code>DryRunOperation</code>. Otherwise, it is
   /// <code>UnauthorizedOperation</code>.
+  ///
+  /// Parameter [tagSpecifications] :
+  /// The tags to assign to the local gateway route table VPC association.
   Future<CreateLocalGatewayRouteTableVpcAssociationResult>
       createLocalGatewayRouteTableVpcAssociation({
     @_s.required String localGatewayRouteTableId,
     @_s.required String vpcId,
     bool dryRun,
+    List<TagSpecification> tagSpecifications,
   }) async {
     ArgumentError.checkNotNull(
         localGatewayRouteTableId, 'localGatewayRouteTableId');
     ArgumentError.checkNotNull(vpcId, 'vpcId');
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
+  /// Creates a managed prefix list. You can specify one or more entries for the
+  /// prefix list. Each entry consists of a CIDR block and an optional
+  /// description.
+  ///
+  /// You must specify the maximum number of entries for the prefix list. The
+  /// maximum number of entries cannot be changed later.
+  ///
+  /// Parameter [addressFamily] :
+  /// The IP address type.
+  ///
+  /// Valid Values: <code>IPv4</code> | <code>IPv6</code>
+  ///
+  /// Parameter [maxEntries] :
+  /// The maximum number of entries for the prefix list.
+  ///
+  /// Parameter [prefixListName] :
+  /// A name for the prefix list.
+  ///
+  /// Constraints: Up to 255 characters in length. The name cannot start with
+  /// <code>com.amazonaws</code>.
+  ///
+  /// Parameter [clientToken] :
+  /// Unique, case-sensitive identifier you provide to ensure the idempotency of
+  /// the request. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">Ensuring
+  /// Idempotency</a>.
+  ///
+  /// Constraints: Up to 255 UTF-8 characters in length.
+  ///
+  /// Parameter [dryRun] :
+  /// Checks whether you have the required permissions for the action, without
+  /// actually making the request, and provides an error response. If you have
+  /// the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  ///
+  /// Parameter [entries] :
+  /// One or more entries for the prefix list.
+  ///
+  /// Parameter [tagSpecifications] :
+  /// The tags to apply to the prefix list during creation.
+  Future<CreateManagedPrefixListResult> createManagedPrefixList({
+    @_s.required String addressFamily,
+    @_s.required int maxEntries,
+    @_s.required String prefixListName,
+    String clientToken,
+    bool dryRun,
+    List<AddPrefixListEntry> entries,
+    List<TagSpecification> tagSpecifications,
+  }) async {
+    ArgumentError.checkNotNull(addressFamily, 'addressFamily');
+    ArgumentError.checkNotNull(maxEntries, 'maxEntries');
+    ArgumentError.checkNotNull(prefixListName, 'prefixListName');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -3091,9 +3381,13 @@ class EC2 {
   /// the required permissions, the error response is
   /// <code>DryRunOperation</code>. Otherwise, it is
   /// <code>UnauthorizedOperation</code>.
+  ///
+  /// Parameter [tagSpecifications] :
+  /// The tags to assign to the network ACL.
   Future<CreateNetworkAclResult> createNetworkAcl({
     @_s.required String vpcId,
     bool dryRun,
+    List<TagSpecification> tagSpecifications,
   }) async {
     ArgumentError.checkNotNull(vpcId, 'vpcId');
 // TODO: implement ec2
@@ -3147,7 +3441,9 @@ class EC2 {
   ///
   /// Parameter [cidrBlock] :
   /// The IPv4 network range to allow or deny, in CIDR notation (for example
-  /// <code>172.16.0.0/24</code>).
+  /// <code>172.16.0.0/24</code>). We modify the specified CIDR block to its
+  /// canonical form; for example, if you specify <code>100.68.0.18/18</code>,
+  /// we modify it to <code>100.68.0.0/18</code>.
   ///
   /// Parameter [dryRun] :
   /// Checks whether you have the required permissions for the action, without
@@ -3184,6 +3480,94 @@ class EC2 {
     ArgumentError.checkNotNull(protocol, 'protocol');
     ArgumentError.checkNotNull(ruleAction, 'ruleAction');
     ArgumentError.checkNotNull(ruleNumber, 'ruleNumber');
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
+  /// Creates a path to analyze for reachability.
+  ///
+  /// Reachability Analyzer enables you to analyze and debug network
+  /// reachability between two resources in your virtual private cloud (VPC).
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/vpc/latest/reachability/">What is
+  /// Reachability Analyzer</a>.
+  ///
+  /// Parameter [clientToken] :
+  /// Unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the request. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">How
+  /// to Ensure Idempotency</a>.
+  ///
+  /// Parameter [destination] :
+  /// The AWS resource that is the destination of the path.
+  ///
+  /// Parameter [protocol] :
+  /// The protocol.
+  ///
+  /// Parameter [source] :
+  /// The AWS resource that is the source of the path.
+  ///
+  /// Parameter [destinationIp] :
+  /// The IP address of the AWS resource that is the destination of the path.
+  ///
+  /// Parameter [destinationPort] :
+  /// The destination port.
+  ///
+  /// Parameter [dryRun] :
+  /// Checks whether you have the required permissions for the action, without
+  /// actually making the request, and provides an error response. If you have
+  /// the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  ///
+  /// Parameter [sourceIp] :
+  /// The IP address of the AWS resource that is the source of the path.
+  ///
+  /// Parameter [tagSpecifications] :
+  /// The tags to add to the path.
+  Future<CreateNetworkInsightsPathResult> createNetworkInsightsPath({
+    @_s.required String clientToken,
+    @_s.required String destination,
+    @_s.required Protocol protocol,
+    @_s.required String source,
+    String destinationIp,
+    int destinationPort,
+    bool dryRun,
+    String sourceIp,
+    List<TagSpecification> tagSpecifications,
+  }) async {
+    ArgumentError.checkNotNull(clientToken, 'clientToken');
+    ArgumentError.checkNotNull(destination, 'destination');
+    ArgumentError.checkNotNull(protocol, 'protocol');
+    ArgumentError.checkNotNull(source, 'source');
+    _s.validateStringLength(
+      'destinationIp',
+      destinationIp,
+      0,
+      15,
+    );
+    _s.validateStringPattern(
+      'destinationIp',
+      destinationIp,
+      r'''^([0-9]{1,3}.){3}[0-9]{1,3}$''',
+    );
+    _s.validateNumRange(
+      'destinationPort',
+      destinationPort,
+      1,
+      65535,
+    );
+    _s.validateStringLength(
+      'sourceIp',
+      sourceIp,
+      0,
+      15,
+    );
+    _s.validateStringPattern(
+      'sourceIp',
+      sourceIp,
+      r'''^([0-9]{1,3}.){3}[0-9]{1,3}$''',
+    );
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -3253,6 +3637,9 @@ class EC2 {
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-eni.html#AvailableIpPerENI">IP
   /// Addresses Per ENI Per Instance Type</a> in the <i>Amazon Virtual Private
   /// Cloud User Guide</i>.
+  ///
+  /// Parameter [tagSpecifications] :
+  /// The tags to apply to the new network interface.
   Future<CreateNetworkInterfaceResult> createNetworkInterface({
     @_s.required String subnetId,
     String description,
@@ -3264,6 +3651,7 @@ class EC2 {
     String privateIpAddress,
     List<PrivateIpAddressSpecification> privateIpAddresses,
     int secondaryPrivateIpAddressCount,
+    List<TagSpecification> tagSpecifications,
   }) async {
     ArgumentError.checkNotNull(subnetId, 'subnetId');
 // TODO: implement ec2
@@ -3322,7 +3710,7 @@ class EC2 {
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-groups.html">Placement
-  /// Groups</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+  /// groups</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
   ///
   /// Parameter [dryRun] :
   /// Checks whether you have the required permissions for the action, without
@@ -3449,13 +3837,24 @@ class EC2 {
   /// Parameter [routeTableId] :
   /// The ID of the route table for the route.
   ///
+  /// Parameter [carrierGatewayId] :
+  /// The ID of the carrier gateway.
+  ///
+  /// You can only use this option when the VPC contains a subnet which is
+  /// associated with a Wavelength Zone.
+  ///
   /// Parameter [destinationCidrBlock] :
   /// The IPv4 CIDR address block used for the destination match. Routing
-  /// decisions are based on the most specific match.
+  /// decisions are based on the most specific match. We modify the specified
+  /// CIDR block to its canonical form; for example, if you specify
+  /// <code>100.68.0.18/18</code>, we modify it to <code>100.68.0.0/18</code>.
   ///
   /// Parameter [destinationIpv6CidrBlock] :
   /// The IPv6 CIDR block used for the destination match. Routing decisions are
   /// based on the most specific match.
+  ///
+  /// Parameter [destinationPrefixListId] :
+  /// The ID of a prefix list used for the destination match.
   ///
   /// Parameter [dryRun] :
   /// Checks whether you have the required permissions for the action, without
@@ -3487,12 +3886,18 @@ class EC2 {
   /// Parameter [transitGatewayId] :
   /// The ID of a transit gateway.
   ///
+  /// Parameter [vpcEndpointId] :
+  /// The ID of a VPC endpoint. Supported for Gateway Load Balancer endpoints
+  /// only.
+  ///
   /// Parameter [vpcPeeringConnectionId] :
   /// The ID of a VPC peering connection.
   Future<CreateRouteResult> createRoute({
     @_s.required String routeTableId,
+    String carrierGatewayId,
     String destinationCidrBlock,
     String destinationIpv6CidrBlock,
+    String destinationPrefixListId,
     bool dryRun,
     String egressOnlyInternetGatewayId,
     String gatewayId,
@@ -3501,6 +3906,7 @@ class EC2 {
     String natGatewayId,
     String networkInterfaceId,
     String transitGatewayId,
+    String vpcEndpointId,
     String vpcPeeringConnectionId,
   }) async {
     ArgumentError.checkNotNull(routeTableId, 'routeTableId');
@@ -3524,9 +3930,13 @@ class EC2 {
   /// the required permissions, the error response is
   /// <code>DryRunOperation</code>. Otherwise, it is
   /// <code>UnauthorizedOperation</code>.
+  ///
+  /// Parameter [tagSpecifications] :
+  /// The tags to assign to the route table.
   Future<CreateRouteTableResult> createRouteTable({
     @_s.required String vpcId,
     bool dryRun,
+    List<TagSpecification> tagSpecifications,
   }) async {
     ArgumentError.checkNotNull(vpcId, 'vpcId');
 // TODO: implement ec2
@@ -3592,12 +4002,16 @@ class EC2 {
   /// <code>DryRunOperation</code>. Otherwise, it is
   /// <code>UnauthorizedOperation</code>.
   ///
+  /// Parameter [tagSpecifications] :
+  /// The tags to assign to the security group.
+  ///
   /// Parameter [vpcId] :
   /// [EC2-VPC] The ID of the VPC. Required for EC2-VPC.
   Future<CreateSecurityGroupResult> createSecurityGroup({
     @_s.required String description,
     @_s.required String groupName,
     bool dryRun,
+    List<TagSpecification> tagSpecifications,
     String vpcId,
   }) async {
     ArgumentError.checkNotNull(description, 'description');
@@ -3615,7 +4029,7 @@ class EC2 {
   ///
   /// You can take a snapshot of an attached volume that is in use. However,
   /// snapshots only capture data that has been written to your EBS volume at
-  /// the time the snapshot command is issued; this may exclude any data that
+  /// the time the snapshot command is issued; this might exclude any data that
   /// has been cached by any applications or the operating system. If you can
   /// pause any file systems on the volume long enough to take a snapshot, your
   /// snapshot should be complete. However, if you cannot pause all file writes
@@ -3634,14 +4048,14 @@ class EC2 {
   ///
   /// You can tag your snapshots during creation. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html">Tagging
-  /// Your Amazon EC2 Resources</a> in the <i>Amazon Elastic Compute Cloud User
+  /// your Amazon EC2 resources</a> in the <i>Amazon Elastic Compute Cloud User
   /// Guide</i>.
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AmazonEBS.html">Amazon
   /// Elastic Block Store</a> and <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html">Amazon
-  /// EBS Encryption</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+  /// EBS encryption</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
   ///
   /// Parameter [volumeId] :
   /// The ID of the EBS volume.
@@ -3708,11 +4122,14 @@ class EC2 {
   /// usage logs. You can create one data feed per AWS account. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-data-feeds.html">Spot
-  /// Instance Data Feed</a> in the <i>Amazon EC2 User Guide for Linux
+  /// Instance data feed</a> in the <i>Amazon EC2 User Guide for Linux
   /// Instances</i>.
   ///
   /// Parameter [bucket] :
-  /// The Amazon S3 bucket in which to store the Spot Instance data feed.
+  /// The name of the Amazon S3 bucket in which to store the Spot Instance data
+  /// feed. For more information about bucket names, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/BucketRestrictions.html#bucketnamingrules">Rules
+  /// for bucket naming</a> in the <i>Amazon S3 Developer Guide</i>.
   ///
   /// Parameter [dryRun] :
   /// Checks whether you have the required permissions for the action, without
@@ -3722,7 +4139,7 @@ class EC2 {
   /// <code>UnauthorizedOperation</code>.
   ///
   /// Parameter [prefix] :
-  /// A prefix for the data feed file names.
+  /// The prefix for the data feed file names.
   Future<CreateSpotDatafeedSubscriptionResult> createSpotDatafeedSubscription({
     @_s.required String bucket,
     bool dryRun,
@@ -3733,16 +4150,13 @@ class EC2 {
     throw UnimplementedError();
   }
 
-  /// Creates a subnet in an existing VPC.
+  /// Creates a subnet in a specified VPC.
   ///
-  /// When you create each subnet, you provide the VPC ID and IPv4 CIDR block
-  /// for the subnet. After you create a subnet, you can't change its CIDR
-  /// block. The size of the subnet's IPv4 CIDR block can be the same as a VPC's
-  /// IPv4 CIDR block, or a subset of a VPC's IPv4 CIDR block. If you create
-  /// more than one subnet in a VPC, the subnets' CIDR blocks must not overlap.
-  /// The smallest IPv4 subnet (and VPC) you can create uses a /28 netmask (16
-  /// IPv4 addresses), and the largest uses a /16 netmask (65,536 IPv4
-  /// addresses).
+  /// You must specify an IPv4 CIDR block for the subnet. After you create a
+  /// subnet, you can't change its CIDR block. The allowed block size is between
+  /// a /16 netmask (65,536 IP addresses) and /28 netmask (16 IP addresses). The
+  /// CIDR block must not overlap with the CIDR block of an existing subnet in
+  /// the VPC.
   ///
   /// If you've associated an IPv6 CIDR block with your VPC, you can create a
   /// subnet with an IPv6 CIDR block that uses a /64 prefix length.
@@ -3753,10 +4167,8 @@ class EC2 {
   /// If you add more than one subnet to a VPC, they're set up in a star
   /// topology with a logical router in the middle.
   ///
-  /// If you launch an instance in a VPC using an Amazon EBS-backed AMI, the IP
-  /// address doesn't change if you stop and restart the instance (unlike a
-  /// similar instance launched outside a VPC, which gets a new IP address when
-  /// restarted). It's therefore possible to have a subnet with no running
+  /// When you stop an instance in a subnet, it retains its private IPv4
+  /// address. It's therefore possible to have a subnet with no running
   /// instances (they're all stopped), but no remaining IP addresses available.
   ///
   /// For more information about subnets, see <a
@@ -3765,7 +4177,9 @@ class EC2 {
   ///
   /// Parameter [cidrBlock] :
   /// The IPv4 network range for the subnet, in CIDR notation. For example,
-  /// <code>10.0.0.0/24</code>.
+  /// <code>10.0.0.0/24</code>. We modify the specified CIDR block to its
+  /// canonical form; for example, if you specify <code>100.68.0.18/18</code>,
+  /// we modify it to <code>100.68.0.0/18</code>.
   ///
   /// Parameter [vpcId] :
   /// The ID of the VPC.
@@ -3782,6 +4196,9 @@ class EC2 {
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html#concepts-available-regions">Available
   /// Regions</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
   ///
+  /// To create a subnet in an Outpost, set this value to the Availability Zone
+  /// for the Outpost and specify the Outpost ARN.
+  ///
   /// Parameter [availabilityZoneId] :
   /// The AZ ID or the Local Zone ID of the subnet.
   ///
@@ -3797,7 +4214,11 @@ class EC2 {
   /// must use a /64 prefix length.
   ///
   /// Parameter [outpostArn] :
-  /// The Amazon Resource Name (ARN) of the Outpost.
+  /// The Amazon Resource Name (ARN) of the Outpost. If you specify an Outpost
+  /// ARN, you must also specify the Availability Zone of the Outpost subnet.
+  ///
+  /// Parameter [tagSpecifications] :
+  /// The tags to assign to the subnet.
   Future<CreateSubnetResult> createSubnet({
     @_s.required String cidrBlock,
     @_s.required String vpcId,
@@ -3806,6 +4227,7 @@ class EC2 {
     bool dryRun,
     String ipv6CidrBlock,
     String outpostArn,
+    List<TagSpecification> tagSpecifications,
   }) async {
     ArgumentError.checkNotNull(cidrBlock, 'cidrBlock');
     ArgumentError.checkNotNull(vpcId, 'vpcId');
@@ -3813,10 +4235,11 @@ class EC2 {
     throw UnimplementedError();
   }
 
-  /// Adds or overwrites the specified tags for the specified Amazon EC2
-  /// resource or resources. Each resource can have a maximum of 50 tags. Each
-  /// tag consists of a key and optional value. Tag keys must be unique per
-  /// resource.
+  /// Adds or overwrites only the specified tags for the specified Amazon EC2
+  /// resource or resources. When you specify an existing tag key, the value is
+  /// overwritten with the new value. Each resource can have a maximum of 50
+  /// tags. Each tag consists of a key and optional value. Tag keys must be
+  /// unique per resource.
   ///
   /// For more information about tags, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html">Tagging
@@ -4161,6 +4584,102 @@ class EC2 {
     throw UnimplementedError();
   }
 
+  /// Creates a Connect attachment from a specified transit gateway attachment.
+  /// A Connect attachment is a GRE-based tunnel attachment that you can use to
+  /// establish a connection between a transit gateway and an appliance.
+  ///
+  /// A Connect attachment uses an existing VPC or AWS Direct Connect attachment
+  /// as the underlying transport mechanism.
+  ///
+  /// Parameter [options] :
+  /// The Connect attachment options.
+  ///
+  /// Parameter [transportTransitGatewayAttachmentId] :
+  /// The ID of the transit gateway attachment. You can specify a VPC attachment
+  /// or a AWS Direct Connect attachment.
+  ///
+  /// Parameter [dryRun] :
+  /// Checks whether you have the required permissions for the action, without
+  /// actually making the request, and provides an error response. If you have
+  /// the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  ///
+  /// Parameter [tagSpecifications] :
+  /// The tags to apply to the Connect attachment.
+  Future<CreateTransitGatewayConnectResult> createTransitGatewayConnect({
+    @_s.required CreateTransitGatewayConnectRequestOptions options,
+    @_s.required String transportTransitGatewayAttachmentId,
+    bool dryRun,
+    List<TagSpecification> tagSpecifications,
+  }) async {
+    ArgumentError.checkNotNull(options, 'options');
+    ArgumentError.checkNotNull(transportTransitGatewayAttachmentId,
+        'transportTransitGatewayAttachmentId');
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
+  /// Creates a Connect peer for a specified transit gateway Connect attachment
+  /// between a transit gateway and an appliance.
+  ///
+  /// The peer address and transit gateway address must be the same IP address
+  /// family (IPv4 or IPv6).
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/vpc/latest/tgw/tgw-connect.html#tgw-connect-peer">Connect
+  /// peers</a> in the <i>Transit Gateways Guide</i>.
+  ///
+  /// Parameter [insideCidrBlocks] :
+  /// The range of inside IP addresses that are used for BGP peering. You must
+  /// specify a size /29 IPv4 CIDR block from the <code>169.254.0.0/16</code>
+  /// range. The first address from the range must be configured on the
+  /// appliance as the BGP IP address. You can also optionally specify a size
+  /// /125 IPv6 CIDR block from the <code>fd00::/8</code> range.
+  ///
+  /// Parameter [peerAddress] :
+  /// The peer IP address (GRE outer IP address) on the appliance side of the
+  /// Connect peer.
+  ///
+  /// Parameter [transitGatewayAttachmentId] :
+  /// The ID of the Connect attachment.
+  ///
+  /// Parameter [bgpOptions] :
+  /// The BGP options for the Connect peer.
+  ///
+  /// Parameter [dryRun] :
+  /// Checks whether you have the required permissions for the action, without
+  /// actually making the request, and provides an error response. If you have
+  /// the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  ///
+  /// Parameter [tagSpecifications] :
+  /// The tags to apply to the Connect peer.
+  ///
+  /// Parameter [transitGatewayAddress] :
+  /// The peer IP address (GRE outer IP address) on the transit gateway side of
+  /// the Connect peer, which must be specified from a transit gateway CIDR
+  /// block. If not specified, Amazon automatically assigns the first available
+  /// IP address from the transit gateway CIDR block.
+  Future<CreateTransitGatewayConnectPeerResult>
+      createTransitGatewayConnectPeer({
+    @_s.required List<String> insideCidrBlocks,
+    @_s.required String peerAddress,
+    @_s.required String transitGatewayAttachmentId,
+    TransitGatewayConnectRequestBgpOptions bgpOptions,
+    bool dryRun,
+    List<TagSpecification> tagSpecifications,
+    String transitGatewayAddress,
+  }) async {
+    ArgumentError.checkNotNull(insideCidrBlocks, 'insideCidrBlocks');
+    ArgumentError.checkNotNull(peerAddress, 'peerAddress');
+    ArgumentError.checkNotNull(
+        transitGatewayAttachmentId, 'transitGatewayAttachmentId');
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
   /// Creates a multicast domain using the specified transit gateway.
   ///
   /// The transit gateway must be in the available state before you create a
@@ -4178,12 +4697,16 @@ class EC2 {
   /// <code>DryRunOperation</code>. Otherwise, it is
   /// <code>UnauthorizedOperation</code>.
   ///
+  /// Parameter [options] :
+  /// The options for the transit gateway multicast domain.
+  ///
   /// Parameter [tagSpecifications] :
   /// The tags for the transit gateway multicast domain.
   Future<CreateTransitGatewayMulticastDomainResult>
       createTransitGatewayMulticastDomain({
     @_s.required String transitGatewayId,
     bool dryRun,
+    CreateTransitGatewayMulticastDomainRequestOptions options,
     List<TagSpecification> tagSpecifications,
   }) async {
     ArgumentError.checkNotNull(transitGatewayId, 'transitGatewayId');
@@ -4234,6 +4757,42 @@ class EC2 {
     ArgumentError.checkNotNull(peerRegion, 'peerRegion');
     ArgumentError.checkNotNull(peerTransitGatewayId, 'peerTransitGatewayId');
     ArgumentError.checkNotNull(transitGatewayId, 'transitGatewayId');
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
+  /// Creates a reference (route) to a prefix list in a specified transit
+  /// gateway route table.
+  ///
+  /// Parameter [prefixListId] :
+  /// The ID of the prefix list that is used for destination matches.
+  ///
+  /// Parameter [transitGatewayRouteTableId] :
+  /// The ID of the transit gateway route table.
+  ///
+  /// Parameter [blackhole] :
+  /// Indicates whether to drop traffic that matches this route.
+  ///
+  /// Parameter [dryRun] :
+  /// Checks whether you have the required permissions for the action, without
+  /// actually making the request, and provides an error response. If you have
+  /// the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  ///
+  /// Parameter [transitGatewayAttachmentId] :
+  /// The ID of the attachment to which traffic is routed.
+  Future<CreateTransitGatewayPrefixListReferenceResult>
+      createTransitGatewayPrefixListReference({
+    @_s.required String prefixListId,
+    @_s.required String transitGatewayRouteTableId,
+    bool blackhole,
+    bool dryRun,
+    String transitGatewayAttachmentId,
+  }) async {
+    ArgumentError.checkNotNull(prefixListId, 'prefixListId');
+    ArgumentError.checkNotNull(
+        transitGatewayRouteTableId, 'transitGatewayRouteTableId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -4347,10 +4906,7 @@ class EC2 {
   }
 
   /// Creates an EBS volume that can be attached to an instance in the same
-  /// Availability Zone. The volume is created in the regional endpoint that you
-  /// send the HTTP request to. For more information see <a
-  /// href="https://docs.aws.amazon.com/general/latest/gr/rande.html">Regions
-  /// and Endpoints</a>.
+  /// Availability Zone.
   ///
   /// You can create a new empty volume or restore a volume from an EBS
   /// snapshot. Any AWS Marketplace product codes from the snapshot are
@@ -4361,16 +4917,16 @@ class EC2 {
   /// from encrypted snapshots are also automatically encrypted. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html">Amazon
-  /// EBS Encryption</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+  /// EBS encryption</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
   ///
   /// You can tag your volumes during creation. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html">Tagging
-  /// Your Amazon EC2 Resources</a> in the <i>Amazon Elastic Compute Cloud User
+  /// your Amazon EC2 resources</a> in the <i>Amazon Elastic Compute Cloud User
   /// Guide</i>.
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-creating-volume.html">Creating
-  /// an Amazon EBS Volume</a> in the <i>Amazon Elastic Compute Cloud User
+  /// an Amazon EBS volume</a> in the <i>Amazon Elastic Compute Cloud User
   /// Guide</i>.
   ///
   /// Parameter [availabilityZone] :
@@ -4384,31 +4940,48 @@ class EC2 {
   /// <code>UnauthorizedOperation</code>.
   ///
   /// Parameter [encrypted] :
-  /// Specifies whether the volume should be encrypted. The effect of setting
+  /// Indicates whether the volume should be encrypted. The effect of setting
   /// the encryption state to <code>true</code> depends on the volume origin
   /// (new or from a snapshot), starting encryption state, ownership, and
   /// whether encryption by default is enabled. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html#encryption-by-default">Encryption
-  /// by Default</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+  /// by default</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
   ///
   /// Encrypted Amazon EBS volumes must be attached to instances that support
   /// Amazon EBS encryption. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html#EBSEncryption_supported_instances">Supported
-  /// Instance Types</a>.
+  /// instance types</a>.
   ///
   /// Parameter [iops] :
-  /// The number of I/O operations per second (IOPS) to provision for the
-  /// volume, with a maximum ratio of 50 IOPS/GiB. Range is 100 to 64,000 IOPS
-  /// for volumes in most Regions. Maximum IOPS of 64,000 is guaranteed only on
-  /// <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html#ec2-nitro-instances">Nitro-based
-  /// instances</a>. Other instance families guarantee performance up to 32,000
-  /// IOPS. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumeTypes.html">Amazon
-  /// EBS Volume Types</a> in the <i>Amazon Elastic Compute Cloud User
-  /// Guide</i>.
+  /// The number of I/O operations per second (IOPS). For <code>gp3</code>,
+  /// <code>io1</code>, and <code>io2</code> volumes, this represents the number
+  /// of IOPS that are provisioned for the volume. For <code>gp2</code> volumes,
+  /// this represents the baseline performance of the volume and the rate at
+  /// which the volume accumulates I/O credits for bursting.
   ///
-  /// This parameter is valid only for Provisioned IOPS SSD (io1) volumes.
+  /// The following are the supported values for each volume type:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>gp3</code>: 3,000-16,000 IOPS
+  /// </li>
+  /// <li>
+  /// <code>io1</code>: 100-64,000 IOPS
+  /// </li>
+  /// <li>
+  /// <code>io2</code>: 100-64,000 IOPS
+  /// </li>
+  /// </ul>
+  /// For <code>io1</code> and <code>io2</code> volumes, we guarantee 64,000
+  /// IOPS only for <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html#ec2-nitro-instances">Instances
+  /// built on the Nitro System</a>. Other instance families guarantee
+  /// performance up to 32,000 IOPS.
+  ///
+  /// This parameter is required for <code>io1</code> and <code>io2</code>
+  /// volumes. The default for <code>gp3</code> volumes is 3,000 IOPS. This
+  /// parameter is not supported for <code>gp2</code>, <code>st1</code>,
+  /// <code>sc1</code>, or <code>standard</code> volumes.
   ///
   /// Parameter [kmsKeyId] :
   /// The identifier of the AWS Key Management Service (AWS KMS) customer master
@@ -4420,18 +4993,18 @@ class EC2 {
   ///
   /// <ul>
   /// <li>
-  /// Key ID. For example, key/1234abcd-12ab-34cd-56ef-1234567890ab.
+  /// Key ID. For example, 1234abcd-12ab-34cd-56ef-1234567890ab.
   /// </li>
   /// <li>
   /// Key alias. For example, alias/ExampleAlias.
   /// </li>
   /// <li>
   /// Key ARN. For example,
-  /// arn:aws:kms:<i>us-east-1</i>:<i>012345678910</i>:key/<i>abcd1234-a123-456a-a12b-a123b4cd56ef</i>.
+  /// arn:aws:kms:us-east-1:012345678910:key/1234abcd-12ab-34cd-56ef-1234567890ab.
   /// </li>
   /// <li>
   /// Alias ARN. For example,
-  /// arn:aws:kms:<i>us-east-1</i>:<i>012345678910</i>:alias/<i>ExampleAlias</i>.
+  /// arn:aws:kms:us-east-1:012345678910:alias/ExampleAlias.
   /// </li>
   /// </ul>
   /// AWS authenticates the CMK asynchronously. Therefore, if you specify an ID,
@@ -4439,10 +5012,12 @@ class EC2 {
   /// eventually fails.
   ///
   /// Parameter [multiAttachEnabled] :
-  /// Specifies whether to enable Amazon EBS Multi-Attach. If you enable
+  /// Indicates whether to enable Amazon EBS Multi-Attach. If you enable
   /// Multi-Attach, you can attach the volume to up to 16 <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html#ec2-nitro-instances">Nitro-based
-  /// instances</a> in the same Availability Zone. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html#ec2-nitro-instances">Instances
+  /// built on the Nitro System</a> in the same Availability Zone. This
+  /// parameter is supported with <code>io1</code> and <code>io2</code> volumes
+  /// only. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-volumes-multi.html">
   /// Amazon EBS Multi-Attach</a> in the <i>Amazon Elastic Compute Cloud User
   /// Guide</i>.
@@ -4452,15 +5027,26 @@ class EC2 {
   ///
   /// Parameter [size] :
   /// The size of the volume, in GiBs. You must specify either a snapshot ID or
-  /// a volume size.
+  /// a volume size. If you specify a snapshot, the default is the snapshot
+  /// size. You can specify a volume size that is equal to or larger than the
+  /// snapshot size.
   ///
-  /// Constraints: 1-16,384 for <code>gp2</code>, 4-16,384 for <code>io1</code>,
-  /// 500-16,384 for <code>st1</code>, 500-16,384 for <code>sc1</code>, and
-  /// 1-1,024 for <code>standard</code>. If you specify a snapshot, the volume
-  /// size must be equal to or larger than the snapshot size.
+  /// The following are the supported volumes sizes for each volume type:
   ///
-  /// Default: If you're creating the volume from a snapshot and don't specify a
-  /// volume size, the default is the snapshot size.
+  /// <ul>
+  /// <li>
+  /// <code>gp2</code> and <code>gp3</code>: 1-16,384
+  /// </li>
+  /// <li>
+  /// <code>io1</code> and <code>io2</code>: 4-16,384
+  /// </li>
+  /// <li>
+  /// <code>st1</code> and <code>sc1</code>: 125-16,384
+  /// </li>
+  /// <li>
+  /// <code>standard</code>: 1-1,024
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [snapshotId] :
   /// The snapshot from which to create the volume. You must specify either a
@@ -4469,11 +5055,37 @@ class EC2 {
   /// Parameter [tagSpecifications] :
   /// The tags to apply to the volume during creation.
   ///
+  /// Parameter [throughput] :
+  /// The throughput to provision for a volume, with a maximum of 1,000 MiB/s.
+  ///
+  /// This parameter is valid only for <code>gp3</code> volumes.
+  ///
+  /// Valid Range: Minimum value of 125. Maximum value of 1000.
+  ///
   /// Parameter [volumeType] :
-  /// The volume type. This can be <code>gp2</code> for General Purpose SSD,
-  /// <code>io1</code> for Provisioned IOPS SSD, <code>st1</code> for Throughput
-  /// Optimized HDD, <code>sc1</code> for Cold HDD, or <code>standard</code> for
-  /// Magnetic volumes.
+  /// The volume type. This parameter can be one of the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// General Purpose SSD: <code>gp2</code> | <code>gp3</code>
+  /// </li>
+  /// <li>
+  /// Provisioned IOPS SSD: <code>io1</code> | <code>io2</code>
+  /// </li>
+  /// <li>
+  /// Throughput Optimized HDD: <code>st1</code>
+  /// </li>
+  /// <li>
+  /// Cold HDD: <code>sc1</code>
+  /// </li>
+  /// <li>
+  /// Magnetic: <code>standard</code>
+  /// </li>
+  /// </ul>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumeTypes.html">Amazon
+  /// EBS volume types</a> in the <i>Amazon Elastic Compute Cloud User
+  /// Guide</i>.
   ///
   /// Default: <code>gp2</code>
   Future<Volume> createVolume({
@@ -4487,6 +5099,7 @@ class EC2 {
     int size,
     String snapshotId,
     List<TagSpecification> tagSpecifications,
+    int throughput,
     VolumeType volumeType,
   }) async {
     ArgumentError.checkNotNull(availabilityZone, 'availabilityZone');
@@ -4521,7 +5134,9 @@ class EC2 {
   ///
   /// Parameter [cidrBlock] :
   /// The IPv4 network range for the VPC, in CIDR notation. For example,
-  /// <code>10.0.0.0/16</code>.
+  /// <code>10.0.0.0/16</code>. We modify the specified CIDR block to its
+  /// canonical form; for example, if you specify <code>100.68.0.18/18</code>,
+  /// we modify it to <code>100.68.0.0/18</code>.
   ///
   /// Parameter [amazonProvidedIpv6CidrBlock] :
   /// Requests an Amazon-provided IPv6 CIDR block with a /56 prefix length for
@@ -4565,6 +5180,9 @@ class EC2 {
   ///
   /// Parameter [ipv6Pool] :
   /// The ID of an IPv6 address pool from which to allocate the IPv6 CIDR block.
+  ///
+  /// Parameter [tagSpecifications] :
+  /// The tags to assign to the VPC.
   Future<CreateVpcResult> createVpc({
     @_s.required String cidrBlock,
     bool amazonProvidedIpv6CidrBlock,
@@ -4573,6 +5191,7 @@ class EC2 {
     String ipv6CidrBlock,
     String ipv6CidrBlockNetworkBorderGroup,
     String ipv6Pool,
+    List<TagSpecification> tagSpecifications,
   }) async {
     ArgumentError.checkNotNull(cidrBlock, 'cidrBlock');
 // TODO: implement ec2
@@ -4596,6 +5215,10 @@ class EC2 {
   /// that serves as an endpoint for communicating with the specified service.
   /// You can specify the subnets in which to create an endpoint, and the
   /// security groups to associate with the endpoint network interface.
+  ///
+  /// A <code>GatewayLoadBalancer</code> endpoint is a network interface in your
+  /// subnet that serves an endpoint for communicating with a Gateway Load
+  /// Balancer that you've configured as a VPC endpoint service.
   ///
   /// Use <a>DescribeVpcEndpointServices</a> to get a list of supported
   /// services.
@@ -4622,10 +5245,10 @@ class EC2 {
   /// <code>UnauthorizedOperation</code>.
   ///
   /// Parameter [policyDocument] :
-  /// A policy to attach to the endpoint that controls access to the service.
-  /// The policy must be in valid JSON format. If this parameter is not
-  /// specified, we attach a default policy that allows full access to the
-  /// service.
+  /// (Interface and gateway endpoints) A policy to attach to the endpoint that
+  /// controls access to the service. The policy must be in valid JSON format.
+  /// If this parameter is not specified, we attach a default policy that allows
+  /// full access to the service.
   ///
   /// Parameter [privateDnsEnabled] :
   /// (Interface endpoint) Indicates whether to associate a private hosted zone
@@ -4652,8 +5275,9 @@ class EC2 {
   /// with the endpoint network interface.
   ///
   /// Parameter [subnetIds] :
-  /// (Interface endpoint) The ID of one or more subnets in which to create an
-  /// endpoint network interface.
+  /// (Interface and Gateway Load Balancer endpoints) The ID of one or more
+  /// subnets in which to create an endpoint network interface. For a Gateway
+  /// Load Balancer endpoint, you can specify one subnet only.
   ///
   /// Parameter [tagSpecifications] :
   /// The tags to associate with the endpoint.
@@ -4734,11 +5358,26 @@ class EC2 {
   }
 
   /// Creates a VPC endpoint service configuration to which service consumers
-  /// (AWS accounts, IAM users, and IAM roles) can connect. Service consumers
-  /// can create an interface VPC endpoint to connect to your service.
+  /// (AWS accounts, IAM users, and IAM roles) can connect.
   ///
-  /// To create an endpoint service configuration, you must first create a
-  /// Network Load Balancer for your service. For more information, see <a
+  /// To create an endpoint service configuration, you must first create one of
+  /// the following for your service:
+  ///
+  /// <ul>
+  /// <li>
+  /// A <a
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/network/introduction.html">Network
+  /// Load Balancer</a>. Service consumers connect to your service using an
+  /// interface endpoint.
+  /// </li>
+  /// <li>
+  /// A <a
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/gateway/introduction.html">Gateway
+  /// Load Balancer</a>. Service consumers connect to your service using a
+  /// Gateway Load Balancer endpoint.
+  /// </li>
+  /// </ul>
+  /// For more information, see <a
   /// href="https://docs.aws.amazon.com/vpc/latest/userguide/endpoint-service.html">VPC
   /// Endpoint Services</a> in the <i>Amazon Virtual Private Cloud User
   /// Guide</i>.
@@ -4748,10 +5387,6 @@ class EC2 {
   /// href="https://docs.aws.amazon.com/vpc/latest/userguide/endpoint-services-dns-validation.html">VPC
   /// Endpoint Service Private DNS Name Verification</a> in the <i>Amazon
   /// Virtual Private Cloud User Guide</i>.
-  ///
-  /// Parameter [networkLoadBalancerArns] :
-  /// The Amazon Resource Names (ARNs) of one or more Network Load Balancers for
-  /// your service.
   ///
   /// Parameter [acceptanceRequired] :
   /// Indicates whether requests from service consumers to create an endpoint to
@@ -4771,22 +5406,29 @@ class EC2 {
   /// <code>DryRunOperation</code>. Otherwise, it is
   /// <code>UnauthorizedOperation</code>.
   ///
+  /// Parameter [gatewayLoadBalancerArns] :
+  /// The Amazon Resource Names (ARNs) of one or more Gateway Load Balancers.
+  ///
+  /// Parameter [networkLoadBalancerArns] :
+  /// The Amazon Resource Names (ARNs) of one or more Network Load Balancers for
+  /// your service.
+  ///
   /// Parameter [privateDnsName] :
-  /// The private DNS name to assign to the VPC endpoint service.
+  /// (Interface endpoint configuration) The private DNS name to assign to the
+  /// VPC endpoint service.
   ///
   /// Parameter [tagSpecifications] :
   /// The tags to associate with the service.
   Future<CreateVpcEndpointServiceConfigurationResult>
       createVpcEndpointServiceConfiguration({
-    @_s.required List<String> networkLoadBalancerArns,
     bool acceptanceRequired,
     String clientToken,
     bool dryRun,
+    List<String> gatewayLoadBalancerArns,
+    List<String> networkLoadBalancerArns,
     String privateDnsName,
     List<TagSpecification> tagSpecifications,
   }) async {
-    ArgumentError.checkNotNull(
-        networkLoadBalancerArns, 'networkLoadBalancerArns');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -4832,6 +5474,9 @@ class EC2 {
   /// The ID of the VPC with which you are creating the VPC peering connection.
   /// You must specify this parameter in the request.
   ///
+  /// Parameter [tagSpecifications] :
+  /// The tags to assign to the peering connection.
+  ///
   /// Parameter [vpcId] :
   /// The ID of the requester VPC. You must specify this parameter in the
   /// request.
@@ -4840,14 +5485,15 @@ class EC2 {
     String peerOwnerId,
     String peerRegion,
     String peerVpcId,
+    List<TagSpecification> tagSpecifications,
     String vpcId,
   }) async {
 // TODO: implement ec2
     throw UnimplementedError();
   }
 
-  /// Creates a VPN connection between an existing virtual private gateway and a
-  /// VPN customer gateway. The supported connection type is
+  /// Creates a VPN connection between an existing virtual private gateway or
+  /// transit gateway and a customer gateway. The supported connection type is
   /// <code>ipsec.1</code>.
   ///
   /// The response includes information that you need to give to your network
@@ -4855,7 +5501,7 @@ class EC2 {
   /// <important>
   /// We strongly recommend that you use HTTPS when calling this operation
   /// because the response contains sensitive cryptographic information for
-  /// configuring your customer gateway.
+  /// configuring your customer gateway device.
   /// </important>
   /// If you decide to shut down your VPN connection for any reason and later
   /// create a new VPN connection, you must reconfigure your customer gateway
@@ -4884,6 +5530,9 @@ class EC2 {
   /// Parameter [options] :
   /// The options for the VPN connection.
   ///
+  /// Parameter [tagSpecifications] :
+  /// The tags to apply to the VPN connection.
+  ///
   /// Parameter [transitGatewayId] :
   /// The ID of the transit gateway. If you specify a transit gateway, you
   /// cannot specify a virtual private gateway.
@@ -4896,6 +5545,7 @@ class EC2 {
     @_s.required String type,
     bool dryRun,
     VpnConnectionOptionsSpecification options,
+    List<TagSpecification> tagSpecifications,
     String transitGatewayId,
     String vpnGatewayId,
   }) async {
@@ -4957,13 +5607,43 @@ class EC2 {
   /// the required permissions, the error response is
   /// <code>DryRunOperation</code>. Otherwise, it is
   /// <code>UnauthorizedOperation</code>.
+  ///
+  /// Parameter [tagSpecifications] :
+  /// The tags to apply to the virtual private gateway.
   Future<CreateVpnGatewayResult> createVpnGateway({
     @_s.required GatewayType type,
     int amazonSideAsn,
     String availabilityZone,
     bool dryRun,
+    List<TagSpecification> tagSpecifications,
   }) async {
     ArgumentError.checkNotNull(type, 'type');
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
+  /// Deletes a carrier gateway.
+  /// <important>
+  /// If you do not delete the route that contains the carrier gateway as the
+  /// Target, the route is a blackhole route. For information about how to
+  /// delete a route, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DeleteRoute.html">DeleteRoute</a>.
+  /// </important>
+  ///
+  /// Parameter [carrierGatewayId] :
+  /// The ID of the carrier gateway.
+  ///
+  /// Parameter [dryRun] :
+  /// Checks whether you have the required permissions for the action, without
+  /// actually making the request, and provides an error response. If you have
+  /// the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  Future<DeleteCarrierGatewayResult> deleteCarrierGateway({
+    @_s.required String carrierGatewayId,
+    bool dryRun,
+  }) async {
+    ArgumentError.checkNotNull(carrierGatewayId, 'carrierGatewayId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -5090,19 +5770,50 @@ class EC2 {
 
   /// Deletes the specified EC2 Fleet.
   ///
-  /// After you delete an EC2 Fleet, it launches no new instances. You must
-  /// specify whether an EC2 Fleet should also terminate its instances. If you
-  /// terminate the instances, the EC2 Fleet enters the
-  /// <code>deleted_terminating</code> state. Otherwise, the EC2 Fleet enters
-  /// the <code>deleted_running</code> state, and the instances continue to run
-  /// until they are interrupted or you terminate them manually.
+  /// After you delete an EC2 Fleet, it launches no new instances.
+  ///
+  /// You must specify whether a deleted EC2 Fleet should also terminate its
+  /// instances. If you choose to terminate the instances, the EC2 Fleet enters
+  /// the <code>deleted_terminating</code> state. Otherwise, the EC2 Fleet
+  /// enters the <code>deleted_running</code> state, and the instances continue
+  /// to run until they are interrupted or you terminate them manually.
+  ///
+  /// For <code>instant</code> fleets, EC2 Fleet must terminate the instances
+  /// when the fleet is deleted. A deleted <code>instant</code> fleet with
+  /// running instances is not supported.
+  /// <p class="title"> <b>Restrictions</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// You can delete up to 25 <code>instant</code> fleets in a single request.
+  /// If you exceed this number, no <code>instant</code> fleets are deleted and
+  /// an error is returned. There is no restriction on the number of fleets of
+  /// type <code>maintain</code> or <code>request</code> that can be deleted in
+  /// a single request.
+  /// </li>
+  /// <li>
+  /// Up to 1000 instances can be terminated in a single request to delete
+  /// <code>instant</code> fleets.
+  /// </li>
+  /// </ul>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/manage-ec2-fleet.html#delete-fleet">Deleting
+  /// an EC2 Fleet</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
   ///
   /// Parameter [fleetIds] :
   /// The IDs of the EC2 Fleets.
   ///
   /// Parameter [terminateInstances] :
-  /// Indicates whether to terminate instances for an EC2 Fleet if it is deleted
-  /// successfully.
+  /// Indicates whether to terminate the instances when the EC2 Fleet is
+  /// deleted. The default is to terminate the instances.
+  ///
+  /// To let the instances continue to run after the EC2 Fleet is deleted,
+  /// specify <code>NoTerminateInstances</code>. Supported only for fleets of
+  /// type <code>maintain</code> and <code>request</code>.
+  ///
+  /// For <code>instant</code> fleets, you cannot specify
+  /// <code>NoTerminateInstances</code>. A deleted <code>instant</code> fleet
+  /// with running instances is not supported.
   ///
   /// Parameter [dryRun] :
   /// Checks whether you have the required permissions for the action, without
@@ -5340,6 +6051,27 @@ class EC2 {
     throw UnimplementedError();
   }
 
+  /// Deletes the specified managed prefix list. You must first remove all
+  /// references to the prefix list in your resources.
+  ///
+  /// Parameter [prefixListId] :
+  /// The ID of the prefix list.
+  ///
+  /// Parameter [dryRun] :
+  /// Checks whether you have the required permissions for the action, without
+  /// actually making the request, and provides an error response. If you have
+  /// the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  Future<DeleteManagedPrefixListResult> deleteManagedPrefixList({
+    @_s.required String prefixListId,
+    bool dryRun,
+  }) async {
+    ArgumentError.checkNotNull(prefixListId, 'prefixListId');
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
   /// Deletes the specified NAT gateway. Deleting a NAT gateway disassociates
   /// its Elastic IP address, but does not release the address from your
   /// account. Deleting a NAT gateway does not delete any NAT gateway routes in
@@ -5415,6 +6147,47 @@ class EC2 {
     throw UnimplementedError();
   }
 
+  /// Deletes the specified network insights analysis.
+  ///
+  /// Parameter [networkInsightsAnalysisId] :
+  /// The ID of the network insights analysis.
+  ///
+  /// Parameter [dryRun] :
+  /// Checks whether you have the required permissions for the action, without
+  /// actually making the request, and provides an error response. If you have
+  /// the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  Future<DeleteNetworkInsightsAnalysisResult> deleteNetworkInsightsAnalysis({
+    @_s.required String networkInsightsAnalysisId,
+    bool dryRun,
+  }) async {
+    ArgumentError.checkNotNull(
+        networkInsightsAnalysisId, 'networkInsightsAnalysisId');
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
+  /// Deletes the specified path.
+  ///
+  /// Parameter [networkInsightsPathId] :
+  /// The ID of the path.
+  ///
+  /// Parameter [dryRun] :
+  /// Checks whether you have the required permissions for the action, without
+  /// actually making the request, and provides an error response. If you have
+  /// the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  Future<DeleteNetworkInsightsPathResult> deleteNetworkInsightsPath({
+    @_s.required String networkInsightsPathId,
+    bool dryRun,
+  }) async {
+    ArgumentError.checkNotNull(networkInsightsPathId, 'networkInsightsPathId');
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
   /// Deletes the specified network interface. You must detach the network
   /// interface before you can delete it.
   ///
@@ -5470,7 +6243,7 @@ class EC2 {
   /// the placement group before you can delete the placement group. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-groups.html">Placement
-  /// Groups</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+  /// groups</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
   ///
   /// Parameter [groupName] :
   /// The name of the placement group.
@@ -5523,6 +6296,9 @@ class EC2 {
   /// The IPv6 CIDR range for the route. The value you specify must match the
   /// CIDR for the route exactly.
   ///
+  /// Parameter [destinationPrefixListId] :
+  /// The ID of the prefix list for the route.
+  ///
   /// Parameter [dryRun] :
   /// Checks whether you have the required permissions for the action, without
   /// actually making the request, and provides an error response. If you have
@@ -5533,6 +6309,7 @@ class EC2 {
     @_s.required String routeTableId,
     String destinationCidrBlock,
     String destinationIpv6CidrBlock,
+    String destinationPrefixListId,
     bool dryRun,
   }) async {
     ArgumentError.checkNotNull(routeTableId, 'routeTableId');
@@ -5607,7 +6384,7 @@ class EC2 {
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-deleting-snapshot.html">Deleting
-  /// an Amazon EBS Snapshot</a> in the <i>Amazon Elastic Compute Cloud User
+  /// an Amazon EBS snapshot</a> in the <i>Amazon Elastic Compute Cloud User
   /// Guide</i>.
   ///
   /// Parameter [snapshotId] :
@@ -5812,6 +6589,50 @@ class EC2 {
     throw UnimplementedError();
   }
 
+  /// Deletes the specified Connect attachment. You must first delete any
+  /// Connect peers for the attachment.
+  ///
+  /// Parameter [transitGatewayAttachmentId] :
+  /// The ID of the Connect attachment.
+  ///
+  /// Parameter [dryRun] :
+  /// Checks whether you have the required permissions for the action, without
+  /// actually making the request, and provides an error response. If you have
+  /// the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  Future<DeleteTransitGatewayConnectResult> deleteTransitGatewayConnect({
+    @_s.required String transitGatewayAttachmentId,
+    bool dryRun,
+  }) async {
+    ArgumentError.checkNotNull(
+        transitGatewayAttachmentId, 'transitGatewayAttachmentId');
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
+  /// Deletes the specified Connect peer.
+  ///
+  /// Parameter [transitGatewayConnectPeerId] :
+  /// The ID of the Connect peer.
+  ///
+  /// Parameter [dryRun] :
+  /// Checks whether you have the required permissions for the action, without
+  /// actually making the request, and provides an error response. If you have
+  /// the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  Future<DeleteTransitGatewayConnectPeerResult>
+      deleteTransitGatewayConnectPeer({
+    @_s.required String transitGatewayConnectPeerId,
+    bool dryRun,
+  }) async {
+    ArgumentError.checkNotNull(
+        transitGatewayConnectPeerId, 'transitGatewayConnectPeerId');
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
   /// Deletes the specified transit gateway multicast domain.
   ///
   /// Parameter [transitGatewayMulticastDomainId] :
@@ -5852,6 +6673,34 @@ class EC2 {
   }) async {
     ArgumentError.checkNotNull(
         transitGatewayAttachmentId, 'transitGatewayAttachmentId');
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
+  /// Deletes a reference (route) to a prefix list in a specified transit
+  /// gateway route table.
+  ///
+  /// Parameter [prefixListId] :
+  /// The ID of the prefix list.
+  ///
+  /// Parameter [transitGatewayRouteTableId] :
+  /// The ID of the route table.
+  ///
+  /// Parameter [dryRun] :
+  /// Checks whether you have the required permissions for the action, without
+  /// actually making the request, and provides an error response. If you have
+  /// the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  Future<DeleteTransitGatewayPrefixListReferenceResult>
+      deleteTransitGatewayPrefixListReference({
+    @_s.required String prefixListId,
+    @_s.required String transitGatewayRouteTableId,
+    bool dryRun,
+  }) async {
+    ArgumentError.checkNotNull(prefixListId, 'prefixListId');
+    ArgumentError.checkNotNull(
+        transitGatewayRouteTableId, 'transitGatewayRouteTableId');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -5937,7 +6786,7 @@ class EC2 {
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-deleting-volume.html">Deleting
-  /// an Amazon EBS Volume</a> in the <i>Amazon Elastic Compute Cloud User
+  /// an Amazon EBS volume</a> in the <i>Amazon Elastic Compute Cloud User
   /// Guide</i>.
   ///
   /// Parameter [volumeId] :
@@ -6031,8 +6880,10 @@ class EC2 {
 
   /// Deletes one or more specified VPC endpoints. Deleting a gateway endpoint
   /// also deletes the endpoint routes in the route tables that were associated
-  /// with the endpoint. Deleting an interface endpoint deletes the endpoint
-  /// network interfaces.
+  /// with the endpoint. Deleting an interface endpoint or a Gateway Load
+  /// Balancer endpoint deletes the endpoint network interfaces. Gateway Load
+  /// Balancer endpoints can only be deleted if the routes that are associated
+  /// with the endpoint are deleted.
   ///
   /// Parameter [vpcEndpointIds] :
   /// One or more VPC endpoint IDs.
@@ -6086,8 +6937,12 @@ class EC2 {
   /// credentials for your VPN connection have been compromised, you can delete
   /// the VPN connection and create a new one that has new keys, without needing
   /// to delete the VPC or virtual private gateway. If you create a new VPN
-  /// connection, you must reconfigure the customer gateway using the new
+  /// connection, you must reconfigure the customer gateway device using the new
   /// configuration information returned with the new VPN connection ID.
+  ///
+  /// For certificate-based authentication, delete all AWS Certificate Manager
+  /// (ACM) private certificates used for the AWS-side tunnel endpoints for the
+  /// VPN connection before deleting the VPN connection.
   ///
   /// Parameter [vpnConnectionId] :
   /// The ID of the VPN connection.
@@ -6374,8 +7229,8 @@ class EC2 {
   /// associated with, if any.
   /// </li>
   /// <li>
-  /// <code>network-border-group</code> - The location from where the IP address
-  /// is advertised.
+  /// <code>network-border-group</code> - A unique set of Availability Zones,
+  /// Local Zones, or Wavelength Zones from where AWS advertises IP addresses.
   /// </li>
   /// <li>
   /// <code>network-interface-id</code> - [EC2-VPC] The ID of the network
@@ -6389,7 +7244,8 @@ class EC2 {
   /// associated with the Elastic IP address.
   /// </li>
   /// <li>
-  /// <code>public-ip</code> - The Elastic IP address.
+  /// <code>public-ip</code> - The Elastic IP address, or the carrier IP
+  /// address.
   /// </li>
   /// <li>
   /// <code>tag</code>:&lt;key&gt; - The key/value combination of a tag assigned
@@ -6457,19 +7313,19 @@ class EC2 {
     throw UnimplementedError();
   }
 
-  /// Describes the Availability Zones and Local Zones that are available to
-  /// you. If there is an event impacting an Availability Zone or Local Zone,
-  /// you can use this request to view the state and any provided messages for
-  /// that Availability Zone or Local Zone.
+  /// Describes the Availability Zones, Local Zones, and Wavelength Zones that
+  /// are available to you. If there is an event impacting a zone, you can use
+  /// this request to view the state and any provided messages for that zone.
   ///
-  /// For more information about Availability Zones and Local Zones, see <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html">Regions
-  /// and Availability Zones</a> in the <i>Amazon Elastic Compute Cloud User
+  /// For more information about Availability Zones, Local Zones, and Wavelength
+  /// Zones, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html">Regions,
+  /// Zones and Outposts</a> in the <i>Amazon Elastic Compute Cloud User
   /// Guide</i>.
   ///
   /// Parameter [allAvailabilityZones] :
-  /// Include all Availability Zones and Local Zones regardless of your opt in
-  /// status.
+  /// Include all Availability Zones, Local Zones, and Wavelength Zones
+  /// regardless of your opt-in status.
   ///
   /// If you do not use this parameter, the results include only the zones for
   /// the Regions where you have chosen the option to opt in.
@@ -6488,41 +7344,63 @@ class EC2 {
   /// <li>
   /// <code>group-name</code> - For Availability Zones, use the Region name. For
   /// Local Zones, use the name of the group associated with the Local Zone (for
-  /// example, <code>us-west-2-lax-1</code>).
+  /// example, <code>us-west-2-lax-1</code>) For Wavelength Zones, use the name
+  /// of the group associated with the Wavelength Zone (for example,
+  /// <code>us-east-1-wl1-bos-wlz-1</code>).
   /// </li>
   /// <li>
-  /// <code>message</code> - The Availability Zone or Local Zone message.
+  /// <code>message</code> - The Zone message.
   /// </li>
   /// <li>
-  /// <code>opt-in-status</code> - The opt in status (<code>opted-in</code>, and
+  /// <code>opt-in-status</code> - The opt-in status (<code>opted-in</code>, and
   /// <code>not-opted-in</code> | <code>opt-in-not-required</code>).
   /// </li>
   /// <li>
-  /// <code>region-name</code> - The name of the Region for the Availability
-  /// Zone or Local Zone (for example, <code>us-east-1</code>).
+  /// <code>parent-zoneID</code> - The ID of the zone that handles some of the
+  /// Local Zone and Wavelength Zone control plane operations, such as API
+  /// calls.
   /// </li>
   /// <li>
-  /// <code>state</code> - The state of the Availability Zone or Local Zone
-  /// (<code>available</code> | <code>information</code> | <code>impaired</code>
-  /// | <code>unavailable</code>).
+  /// <code>parent-zoneName</code> - The ID of the zone that handles some of the
+  /// Local Zone and Wavelength Zone control plane operations, such as API
+  /// calls.
+  /// </li>
+  /// <li>
+  /// <code>region-name</code> - The name of the Region for the Zone (for
+  /// example, <code>us-east-1</code>).
+  /// </li>
+  /// <li>
+  /// <code>state</code> - The state of the Availability Zone, the Local Zone,
+  /// or the Wavelength Zone (<code>available</code> | <code>information</code>
+  /// | <code>impaired</code> | <code>unavailable</code>).
   /// </li>
   /// <li>
   /// <code>zone-id</code> - The ID of the Availability Zone (for example,
-  /// <code>use1-az1</code>) or the Local Zone (for example, use
-  /// <code>usw2-lax1-az1</code>).
+  /// <code>use1-az1</code>), the Local Zone (for example,
+  /// <code>usw2-lax1-az1</code>), or the Wavelength Zone (for example,
+  /// <code>us-east-1-wl1-bos-wlz-1</code>).
+  /// </li>
+  /// <li>
+  /// <code>zone-type</code> - The type of zone, for example,
+  /// <code>local-zone</code>.
   /// </li>
   /// <li>
   /// <code>zone-name</code> - The name of the Availability Zone (for example,
-  /// <code>us-east-1a</code>) or the Local Zone (for example, use
-  /// <code>us-west-2-lax-1a</code>).
+  /// <code>us-east-1a</code>), the Local Zone (for example,
+  /// <code>us-west-2-lax-1a</code>), or the Wavelength Zone (for example,
+  /// <code>us-east-1-wl1-bos-wlz-1</code>).
+  /// </li>
+  /// <li>
+  /// <code>zone-type</code> - The type of zone, for example,
+  /// <code>local-zone</code>.
   /// </li>
   /// </ul>
   ///
   /// Parameter [zoneIds] :
-  /// The IDs of the Availability Zones and Local Zones.
+  /// The IDs of the Availability Zones, Local Zones, and Wavelength Zones.
   ///
   /// Parameter [zoneNames] :
-  /// The names of the Availability Zones and Local Zones.
+  /// The names of the Availability Zones, Local Zones, and Wavelength Zones.
   Future<DescribeAvailabilityZonesResult> describeAvailabilityZones({
     bool allAvailabilityZones,
     bool dryRun,
@@ -6769,10 +7647,12 @@ class EC2 {
   /// Parameter [maxResults] :
   /// The maximum number of results to return for the request in a single page.
   /// The remaining results can be seen by sending another request with the
-  /// returned nextToken value.
+  /// returned <code>nextToken</code> value. This value can be between 5 and
+  /// 500. If <code>maxResults</code> is given a larger value than 500, you
+  /// receive an error.
   ///
   /// Parameter [nextToken] :
-  /// The token to retrieve the next page of results.
+  /// The token to use to retrieve the next page of results.
   Future<DescribeCapacityReservationsResult> describeCapacityReservations({
     List<String> capacityReservationIds,
     bool dryRun,
@@ -6784,6 +7664,77 @@ class EC2 {
       'maxResults',
       maxResults,
       1,
+      1000,
+    );
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
+  /// Describes one or more of your carrier gateways.
+  ///
+  /// Parameter [carrierGatewayIds] :
+  /// One or more carrier gateway IDs.
+  ///
+  /// Parameter [dryRun] :
+  /// Checks whether you have the required permissions for the action, without
+  /// actually making the request, and provides an error response. If you have
+  /// the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  ///
+  /// Parameter [filters] :
+  /// One or more filters.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>carrier-gateway-id</code> - The ID of the carrier gateway.
+  /// </li>
+  /// <li>
+  /// <code>state</code> - The state of the carrier gateway
+  /// (<code>pending</code> | <code>failed</code> | <code>available</code> |
+  /// <code>deleting</code> | <code>deleted</code>).
+  /// </li>
+  /// <li>
+  /// <code>owner-id</code> - The AWS account ID of the owner of the carrier
+  /// gateway.
+  /// </li>
+  /// <li>
+  /// <code>tag</code>:&lt;key&gt; - The key/value combination of a tag assigned
+  /// to the resource. Use the tag key in the filter name and the tag value as
+  /// the filter value. For example, to find all resources that have a tag with
+  /// the key <code>Owner</code> and the value <code>TeamA</code>, specify
+  /// <code>tag:Owner</code> for the filter name and <code>TeamA</code> for the
+  /// filter value.
+  /// </li>
+  /// <li>
+  /// <code>tag-key</code> - The key of a tag assigned to the resource. Use this
+  /// filter to find all resources assigned a tag with a specific key,
+  /// regardless of the tag value.
+  /// </li>
+  /// <li>
+  /// <code>vpc-id</code> - The ID of the VPC associated with the carrier
+  /// gateway.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return with a single call. To retrieve
+  /// the remaining results, make another call with the returned
+  /// <code>nextToken</code> value.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next page of results.
+  Future<DescribeCarrierGatewaysResult> describeCarrierGateways({
+    List<String> carrierGatewayIds,
+    bool dryRun,
+    List<Filter> filters,
+    int maxResults,
+    String nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      5,
       1000,
     );
 // TODO: implement ec2
@@ -7472,7 +8423,8 @@ class EC2 {
     throw UnimplementedError();
   }
 
-  /// Describes the specified export image tasks or all your export image tasks.
+  /// Describes the specified export image tasks or all of your export image
+  /// tasks.
   ///
   /// Parameter [dryRun] :
   /// Checks whether you have the required permissions for the action, without
@@ -7511,8 +8463,8 @@ class EC2 {
     throw UnimplementedError();
   }
 
-  /// Describes the specified export instance tasks or all your export instance
-  /// tasks.
+  /// Describes the specified export instance tasks or all of your export
+  /// instance tasks.
   ///
   /// Parameter [exportTaskIds] :
   /// The export task IDs.
@@ -7544,7 +8496,8 @@ class EC2 {
   /// <code>availability-zone</code>: The Availability Zone of the snapshot.
   /// </li>
   /// <li>
-  /// <code>owner-id</code>: The ID of the AWS account that owns the snapshot.
+  /// <code>owner-id</code>: The ID of the AWS account that enabled fast
+  /// snapshot restore on the snapshot.
   /// </li>
   /// <li>
   /// <code>snapshot-id</code>: The ID of the snapshot.
@@ -7747,7 +8700,7 @@ class EC2 {
   /// <li>
   /// <code>log-destination-type</code> - The type of destination to which the
   /// flow log publishes data. Possible destination types include
-  /// <code>cloud-watch-logs</code> and <code>S3</code>.
+  /// <code>cloud-watch-logs</code> and <code>s3</code>.
   /// </li>
   /// <li>
   /// <code>flow-log-id</code> - The ID of the flow log.
@@ -8349,8 +9302,8 @@ class EC2 {
   /// </li>
   /// <li>
   /// <code>block-device-mapping.volume-type</code> - The volume type of the EBS
-  /// volume (<code>gp2</code> | <code>io1</code> | <code>st1 </code>|
-  /// <code>sc1</code> | <code>standard</code>).
+  /// volume (<code>gp2</code> | <code>io1</code> | <code>io2</code> | <code>st1
+  /// </code>| <code>sc1</code> | <code>standard</code>).
   /// </li>
   /// <li>
   /// <code>block-device-mapping.encrypted</code> - A Boolean that indicates
@@ -8389,13 +9342,14 @@ class EC2 {
   /// <code>name</code> - The name of the AMI (provided during image creation).
   /// </li>
   /// <li>
-  /// <code>owner-alias</code> - String value from an Amazon-maintained list
-  /// (<code>amazon</code> | <code>aws-marketplace</code> |
-  /// <code>microsoft</code>) of snapshot owners. Not to be confused with the
-  /// user-configured AWS account alias, which is set from the IAM console.
+  /// <code>owner-alias</code> - The owner alias, from an Amazon-maintained list
+  /// (<code>amazon</code> | <code>aws-marketplace</code>). This is not the
+  /// user-configured AWS account alias set using the IAM console. We recommend
+  /// that you use the related parameter instead of this filter.
   /// </li>
   /// <li>
-  /// <code>owner-id</code> - The AWS account ID of the image owner.
+  /// <code>owner-id</code> - The AWS account ID of the owner. We recommend that
+  /// you use the related parameter instead of this filter.
   /// </li>
   /// <li>
   /// <code>platform</code> - The platform. To only list Windows-based AMIs, use
@@ -8458,11 +9412,11 @@ class EC2 {
   /// Default: Describes all images available to you.
   ///
   /// Parameter [owners] :
-  /// Filters the images by the owner. Specify an AWS account ID,
-  /// <code>self</code> (owner is the sender of the request), or an AWS owner
-  /// alias (valid values are <code>amazon</code> | <code>aws-marketplace</code>
-  /// | <code>microsoft</code>). Omitting this option returns all images for
-  /// which you have launch permissions, regardless of ownership.
+  /// Scopes the results to images with the specified owners. You can specify a
+  /// combination of AWS account IDs, <code>self</code>, <code>amazon</code>,
+  /// and <code>aws-marketplace</code>. If you omit this parameter, the results
+  /// include all images for which you have launch permissions, regardless of
+  /// ownership.
   Future<DescribeImagesResult> describeImages({
     bool dryRun,
     List<String> executableUsers,
@@ -8603,7 +9557,7 @@ class EC2 {
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-performance-instances.html">Burstable
-  /// Performance Instances</a> in the <i>Amazon Elastic Compute Cloud User
+  /// performance instances</a> in the <i>Amazon Elastic Compute Cloud User
   /// Guide</i>.
   ///
   /// Parameter [dryRun] :
@@ -8685,9 +9639,9 @@ class EC2 {
   /// instances to identify hardware and software issues. For more information,
   /// see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/monitoring-system-instance-status-check.html">Status
-  /// Checks for Your Instances</a> and <a
+  /// checks for your instances</a> and <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/TroubleshootingInstances.html">Troubleshooting
-  /// Instances with Failed Status Checks</a> in the <i>Amazon Elastic Compute
+  /// instances with failed status checks</a> in the <i>Amazon Elastic Compute
   /// Cloud User Guide</i>.
   /// </li>
   /// <li>
@@ -8695,14 +9649,14 @@ class EC2 {
   /// stop, or terminate) for your instances related to hardware issues,
   /// software updates, or system maintenance. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/monitoring-instances-status-check_sched.html">Scheduled
-  /// Events for Your Instances</a> in the <i>Amazon Elastic Compute Cloud User
+  /// events for your instances</a> in the <i>Amazon Elastic Compute Cloud User
   /// Guide</i>.
   /// </li>
   /// <li>
   /// <b>Instance state</b> - You can manage your instances from the moment you
   /// launch them through their termination. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-lifecycle.html">Instance
-  /// Lifecycle</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+  /// lifecycle</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
   /// </li>
   /// </ul>
   ///
@@ -8836,7 +9790,8 @@ class EC2 {
   /// Region code (for example, <code>us-east-2</code>.)
   /// </li>
   /// <li>
-  /// <code>instance-type</code> - The instance type.
+  /// <code>instance-type</code> - The instance type. For example,
+  /// <code>c5.2xlarge</code>.
   /// </li>
   /// </ul>
   ///
@@ -8867,8 +9822,9 @@ class EC2 {
     throw UnimplementedError();
   }
 
-  /// Returns a list of all instance types offered in your current AWS Region.
-  /// The results can be filtered by the attributes of the instance types.
+  /// Describes the details of the instance types that are offered in a
+  /// location. The results can be filtered by the attributes of the instance
+  /// types.
   ///
   /// Parameter [dryRun] :
   /// Checks whether you have the required permissions for the action, without
@@ -8883,43 +9839,77 @@ class EC2 {
   /// <ul>
   /// <li>
   /// <code>auto-recovery-supported</code> - Indicates whether auto recovery is
-  /// supported. (<code>true</code> | <code>false</code>)
+  /// supported (<code>true</code> | <code>false</code>).
   /// </li>
   /// <li>
   /// <code>bare-metal</code> - Indicates whether it is a bare metal instance
-  /// type. (<code>true</code> | <code>false</code>)
+  /// type (<code>true</code> | <code>false</code>).
   /// </li>
   /// <li>
   /// <code>burstable-performance-supported</code> - Indicates whether it is a
-  /// burstable performance instance type. (<code>true</code> |
-  /// <code>false</code>)
+  /// burstable performance instance type (<code>true</code> |
+  /// <code>false</code>).
   /// </li>
   /// <li>
   /// <code>current-generation</code> - Indicates whether this instance type is
-  /// the latest generation instance type of an instance family.
-  /// (<code>true</code> | <code>false</code>)
+  /// the latest generation instance type of an instance family
+  /// (<code>true</code> | <code>false</code>).
+  /// </li>
+  /// <li>
+  /// <code>ebs-info.ebs-optimized-info.baseline-bandwidth-in-mbps</code> - The
+  /// baseline bandwidth performance for an EBS-optimized instance type, in
+  /// Mbps.
+  /// </li>
+  /// <li>
+  /// <code>ebs-info.ebs-optimized-info.baseline-iops</code> - The baseline
+  /// input/output storage operations per second for an EBS-optimized instance
+  /// type.
+  /// </li>
+  /// <li>
+  /// <code>ebs-info.ebs-optimized-info.baseline-throughput-in-mbps</code> - The
+  /// baseline throughput performance for an EBS-optimized instance type, in
+  /// MB/s.
+  /// </li>
+  /// <li>
+  /// <code>ebs-info.ebs-optimized-info.maximum-bandwidth-in-mbps</code> - The
+  /// maximum bandwidth performance for an EBS-optimized instance type, in Mbps.
+  /// </li>
+  /// <li>
+  /// <code>ebs-info.ebs-optimized-info.maximum-iops</code> - The maximum
+  /// input/output storage operations per second for an EBS-optimized instance
+  /// type.
+  /// </li>
+  /// <li>
+  /// <code>ebs-info.ebs-optimized-info.maximum-throughput-in-mbps</code> - The
+  /// maximum throughput performance for an EBS-optimized instance type, in
+  /// MB/s.
   /// </li>
   /// <li>
   /// <code>ebs-info.ebs-optimized-support</code> - Indicates whether the
-  /// instance type is EBS-optimized. (<code>supported</code> |
-  /// <code>unsupported</code> | <code>default</code>)
+  /// instance type is EBS-optimized (<code>supported</code> |
+  /// <code>unsupported</code> | <code>default</code>).
   /// </li>
   /// <li>
   /// <code>ebs-info.encryption-support</code> - Indicates whether EBS
-  /// encryption is supported. (<code>supported</code> |
-  /// <code>unsupported</code>)
+  /// encryption is supported (<code>supported</code> |
+  /// <code>unsupported</code>).
+  /// </li>
+  /// <li>
+  /// <code>ebs-info.nvme-support</code> - Indicates whether non-volatile memory
+  /// express (NVMe) is supported for EBS volumes (<code>required</code> |
+  /// <code>supported</code> | <code>unsupported</code>).
   /// </li>
   /// <li>
   /// <code>free-tier-eligible</code> - Indicates whether the instance type is
-  /// eligible to use in the free tier. (<code>true</code> | <code>false</code>)
+  /// eligible to use in the free tier (<code>true</code> | <code>false</code>).
   /// </li>
   /// <li>
   /// <code>hibernation-supported</code> - Indicates whether On-Demand
-  /// hibernation is supported. (<code>true</code> | <code>false</code>)
+  /// hibernation is supported (<code>true</code> | <code>false</code>).
   /// </li>
   /// <li>
-  /// <code>hypervisor</code> - The hypervisor used. (<code>nitro</code> |
-  /// <code>xen</code>)
+  /// <code>hypervisor</code> - The hypervisor (<code>nitro</code> |
+  /// <code>xen</code>).
   /// </li>
   /// <li>
   /// <code>instance-storage-info.disk.count</code> - The number of local disks.
@@ -8930,7 +9920,13 @@ class EC2 {
   /// </li>
   /// <li>
   /// <code>instance-storage-info.disk.type</code> - The storage technology for
-  /// the local instance storage disks. (<code>hdd</code> | <code>ssd</code>)
+  /// the local instance storage disks (<code>hdd</code> | <code>ssd</code>).
+  /// </li>
+  /// <li>
+  /// <code>instance-storage-info.nvme-support</code> - Indicates whether
+  /// non-volatile memory express (NVMe) is supported for instance store
+  /// (<code>required</code> | <code>supported</code>) |
+  /// <code>unsupported</code>).
   /// </li>
   /// <li>
   /// <code>instance-storage-info.total-size-in-gb</code> - The total amount of
@@ -8938,15 +9934,24 @@ class EC2 {
   /// </li>
   /// <li>
   /// <code>instance-storage-supported</code> - Indicates whether the instance
-  /// type has local instance storage. (<code>true</code> | <code>false</code>)
+  /// type has local instance storage (<code>true</code> | <code>false</code>).
+  /// </li>
+  /// <li>
+  /// <code>instance-type</code> - The instance type (for example
+  /// <code>c5.2xlarge</code> or c5*).
   /// </li>
   /// <li>
   /// <code>memory-info.size-in-mib</code> - The memory size.
   /// </li>
   /// <li>
+  /// <code>network-info.efa-supported</code> - Indicates whether the instance
+  /// type supports Elastic Fabric Adapter (EFA) (<code>true</code> |
+  /// <code>false</code>).
+  /// </li>
+  /// <li>
   /// <code>network-info.ena-support</code> - Indicates whether Elastic Network
-  /// Adapter (ENA) is supported or required. (<code>required</code> |
-  /// <code>supported</code> | <code>unsupported</code>)
+  /// Adapter (ENA) is supported or required (<code>required</code> |
+  /// <code>supported</code> | <code>unsupported</code>).
   /// </li>
   /// <li>
   /// <code>network-info.ipv4-addresses-per-interface</code> - The maximum
@@ -8958,19 +9963,35 @@ class EC2 {
   /// </li>
   /// <li>
   /// <code>network-info.ipv6-supported</code> - Indicates whether the instance
-  /// type supports IPv6. (<code>true</code> | <code>false</code>)
+  /// type supports IPv6 (<code>true</code> | <code>false</code>).
   /// </li>
   /// <li>
   /// <code>network-info.maximum-network-interfaces</code> - The maximum number
   /// of network interfaces per instance.
   /// </li>
   /// <li>
-  /// <code>network-info.network-performance</code> - Describes the network
-  /// performance.
+  /// <code>network-info.network-performance</code> - The network performance
+  /// (for example, "25 Gigabit").
+  /// </li>
+  /// <li>
+  /// <code>processor-info.supported-architecture</code> - The CPU architecture
+  /// (<code>arm64</code> | <code>i386</code> | <code>x86_64</code>).
   /// </li>
   /// <li>
   /// <code>processor-info.sustained-clock-speed-in-ghz</code> - The CPU clock
   /// speed, in GHz.
+  /// </li>
+  /// <li>
+  /// <code>supported-root-device-type</code> - The root device type
+  /// (<code>ebs</code> | <code>instance-store</code>).
+  /// </li>
+  /// <li>
+  /// <code>supported-usage-class</code> - The usage class
+  /// (<code>on-demand</code> | <code>spot</code>).
+  /// </li>
+  /// <li>
+  /// <code>supported-virtualization-type</code> - The virtualization type
+  /// (<code>hvm</code> | <code>paravirtual</code>).
   /// </li>
   /// <li>
   /// <code>vcpu-info.default-cores</code> - The default number of cores for the
@@ -8983,6 +10004,15 @@ class EC2 {
   /// <li>
   /// <code>vcpu-info.default-vcpus</code> - The default number of vCPUs for the
   /// instance type.
+  /// </li>
+  /// <li>
+  /// <code>vcpu-info.valid-cores</code> - The number of cores that can be
+  /// configured for the instance type.
+  /// </li>
+  /// <li>
+  /// <code>vcpu-info.valid-threads-per-core</code> - The number of threads per
+  /// core that can be configured for the instance type. For example, "1" or
+  /// "1,2".
   /// </li>
   /// </ul>
   ///
@@ -9015,13 +10045,18 @@ class EC2 {
     throw UnimplementedError();
   }
 
-  /// Describes the specified instances or all of AWS account's instances.
+  /// Describes the specified instances or all instances.
   ///
-  /// If you specify one or more instance IDs, Amazon EC2 returns information
-  /// for those instances. If you do not specify instance IDs, Amazon EC2
-  /// returns information for all relevant instances. If you specify an instance
-  /// ID that is not valid, an error is returned. If you specify an instance
-  /// that you do not own, it is not included in the returned results.
+  /// If you specify instance IDs, the output includes information for only the
+  /// specified instances. If you specify filters, the output includes
+  /// information for only those instances that meet the filter criteria. If you
+  /// do not specify instance IDs or filters, the output includes information
+  /// for all instances, which can affect performance. We recommend that you use
+  /// pagination to ensure that the operation returns quickly and successfully.
+  ///
+  /// If you specify an instance ID that is not valid, an error is returned. If
+  /// you specify an instance that you do not own, it is not included in the
+  /// output.
   ///
   /// Recently terminated instances might appear in the returned results. This
   /// interval is usually less than one hour.
@@ -9627,7 +10662,9 @@ class EC2 {
   }
 
   /// Describes one or more versions of a specified launch template. You can
-  /// describe all versions, individual versions, or a range of versions.
+  /// describe all versions, individual versions, or a range of versions. You
+  /// can also describe all the latest versions or all the default versions of
+  /// all the launch templates in your account.
   ///
   /// Parameter [dryRun] :
   /// Checks whether you have the required permissions for the action, without
@@ -9670,12 +10707,18 @@ class EC2 {
   /// </ul>
   ///
   /// Parameter [launchTemplateId] :
-  /// The ID of the launch template. You must specify either the launch template
-  /// ID or launch template name in the request.
+  /// The ID of the launch template. To describe one or more versions of a
+  /// specified launch template, you must specify either the launch template ID
+  /// or the launch template name in the request. To describe all the latest or
+  /// default launch template versions in your account, you must omit this
+  /// parameter.
   ///
   /// Parameter [launchTemplateName] :
-  /// The name of the launch template. You must specify either the launch
-  /// template ID or launch template name in the request.
+  /// The name of the launch template. To describe one or more versions of a
+  /// specified launch template, you must specify either the launch template ID
+  /// or the launch template name in the request. To describe all the latest or
+  /// default launch template versions in your account, you must omit this
+  /// parameter.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return in a single call. To retrieve the
@@ -9692,7 +10735,19 @@ class EC2 {
   /// The token to request the next page of results.
   ///
   /// Parameter [versions] :
-  /// One or more versions of the launch template.
+  /// One or more versions of the launch template. Valid values depend on
+  /// whether you are describing a specified launch template (by ID or name) or
+  /// all launch templates in your account.
+  ///
+  /// To describe one or more versions of a specified launch template, valid
+  /// values are <code>$Latest</code>, <code>$Default</code>, and numbers.
+  ///
+  /// To describe all launch templates in your account that are defined as the
+  /// latest version, the valid value is <code>$Latest</code>. To describe all
+  /// launch templates in your account that are defined as the default version,
+  /// the valid value is <code>$Default</code>. You can specify
+  /// <code>$Latest</code> and <code>$Default</code> in the same call. You
+  /// cannot specify numbers.
   Future<DescribeLaunchTemplateVersionsResult> describeLaunchTemplateVersions({
     bool dryRun,
     List<Filter> filters,
@@ -9797,6 +10852,27 @@ class EC2 {
   /// Parameter [filters] :
   /// One or more filters.
   ///
+  /// <ul>
+  /// <li>
+  /// <code>local-gateway-id</code> - The ID of a local gateway.
+  /// </li>
+  /// <li>
+  /// <code>local-gateway-route-table-id</code> - The ID of the local gateway
+  /// route table.
+  /// </li>
+  /// <li>
+  /// <code>local-gateway-route-table-virtual-interface-group-association-id</code>
+  /// - The ID of the association.
+  /// </li>
+  /// <li>
+  /// <code>local-gateway-route-table-virtual-interface-group-id</code> - The ID
+  /// of the virtual interface group.
+  /// </li>
+  /// <li>
+  /// <code>state</code> - The state of the association.
+  /// </li>
+  /// </ul>
+  ///
   /// Parameter [localGatewayRouteTableVirtualInterfaceGroupAssociationIds] :
   /// The IDs of the associations.
   ///
@@ -9837,6 +10913,26 @@ class EC2 {
   ///
   /// Parameter [filters] :
   /// One or more filters.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>local-gateway-id</code> - The ID of a local gateway.
+  /// </li>
+  /// <li>
+  /// <code>local-gateway-route-table-id</code> - The ID of the local gateway
+  /// route table.
+  /// </li>
+  /// <li>
+  /// <code>local-gateway-route-table-vpc-association-id</code> - The ID of the
+  /// association.
+  /// </li>
+  /// <li>
+  /// <code>state</code> - The state of the association.
+  /// </li>
+  /// <li>
+  /// <code>vpc-id</code> - The ID of the VPC.
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [localGatewayRouteTableVpcAssociationIds] :
   /// The IDs of the associations.
@@ -9880,6 +10976,22 @@ class EC2 {
   /// Parameter [filters] :
   /// One or more filters.
   ///
+  /// <ul>
+  /// <li>
+  /// <code>local-gateway-id</code> - The ID of a local gateway.
+  /// </li>
+  /// <li>
+  /// <code>local-gateway-route-table-id</code> - The ID of a local gateway
+  /// route table.
+  /// </li>
+  /// <li>
+  /// <code>outpost-arn</code> - The Amazon Resource Name (ARN) of the Outpost.
+  /// </li>
+  /// <li>
+  /// <code>state</code> - The state of the local gateway route table.
+  /// </li>
+  /// </ul>
+  ///
   /// Parameter [localGatewayRouteTableIds] :
   /// The IDs of the local gateway route tables.
   ///
@@ -9919,6 +11031,20 @@ class EC2 {
   ///
   /// Parameter [filters] :
   /// One or more filters.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>local-gateway-id</code> - The ID of a local gateway.
+  /// </li>
+  /// <li>
+  /// <code>local-gateway-virtual-interface-id</code> - The ID of the virtual
+  /// interface.
+  /// </li>
+  /// <li>
+  /// <code>local-gateway-virtual-interface-group-id</code> - The ID of the
+  /// virtual interface group.
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [localGatewayVirtualInterfaceGroupIds] :
   /// The IDs of the virtual interface groups.
@@ -10002,7 +11128,31 @@ class EC2 {
   /// One or more filters.
   ///
   /// Parameter [localGatewayIds] :
-  /// The IDs of the local gateways.
+  /// One or more filters.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>local-gateway-id</code> - The ID of a local gateway.
+  /// </li>
+  /// <li>
+  /// <code>local-gateway-route-table-id</code> - The ID of the local gateway
+  /// route table.
+  /// </li>
+  /// <li>
+  /// <code>local-gateway-route-table-virtual-interface-group-association-id</code>
+  /// - The ID of the association.
+  /// </li>
+  /// <li>
+  /// <code>local-gateway-route-table-virtual-interface-group-id</code> - The ID
+  /// of the virtual interface group.
+  /// </li>
+  /// <li>
+  /// <code>outpost-arn</code> - The Amazon Resource Name (ARN) of the Outpost.
+  /// </li>
+  /// <li>
+  /// <code>state</code> - The state of the association.
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return with a single call. To retrieve
@@ -10022,6 +11172,60 @@ class EC2 {
       'maxResults',
       maxResults,
       5,
+      1000,
+    );
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
+  /// Describes your managed prefix lists and any AWS-managed prefix lists.
+  ///
+  /// To view the entries for your prefix list, use
+  /// <a>GetManagedPrefixListEntries</a>.
+  ///
+  /// Parameter [dryRun] :
+  /// Checks whether you have the required permissions for the action, without
+  /// actually making the request, and provides an error response. If you have
+  /// the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  ///
+  /// Parameter [filters] :
+  /// One or more filters.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>owner-id</code> - The ID of the prefix list owner.
+  /// </li>
+  /// <li>
+  /// <code>prefix-list-id</code> - The ID of the prefix list.
+  /// </li>
+  /// <li>
+  /// <code>prefix-list-name</code> - The name of the prefix list.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return with a single call. To retrieve
+  /// the remaining results, make another call with the returned
+  /// <code>nextToken</code> value.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next page of results.
+  ///
+  /// Parameter [prefixListIds] :
+  /// One or more prefix list IDs.
+  Future<DescribeManagedPrefixListsResult> describeManagedPrefixLists({
+    bool dryRun,
+    List<Filter> filters,
+    int maxResults,
+    String nextToken,
+    List<String> prefixListIds,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
       1000,
     );
 // TODO: implement ec2
@@ -10273,6 +11477,126 @@ class EC2 {
     throw UnimplementedError();
   }
 
+  /// Describes one or more of your network insights analyses.
+  ///
+  /// Parameter [analysisEndTime] :
+  /// The time when the network insights analyses ended.
+  ///
+  /// Parameter [analysisStartTime] :
+  /// The time when the network insights analyses started.
+  ///
+  /// Parameter [dryRun] :
+  /// Checks whether you have the required permissions for the action, without
+  /// actually making the request, and provides an error response. If you have
+  /// the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  ///
+  /// Parameter [filters] :
+  /// The filters. The following are possible values:
+  ///
+  /// <ul>
+  /// <li>
+  /// PathFound - A Boolean value that indicates whether a feasible path is
+  /// found.
+  /// </li>
+  /// <li>
+  /// Status - The status of the analysis (running | succeeded | failed).
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return with a single call. To retrieve
+  /// the remaining results, make another call with the returned
+  /// <code>nextToken</code> value.
+  ///
+  /// Parameter [networkInsightsAnalysisIds] :
+  /// The ID of the network insights analyses. You must specify either analysis
+  /// IDs or a path ID.
+  ///
+  /// Parameter [networkInsightsPathId] :
+  /// The ID of the path. You must specify either a path ID or analysis IDs.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next page of results.
+  Future<DescribeNetworkInsightsAnalysesResult>
+      describeNetworkInsightsAnalyses({
+    DateTime analysisEndTime,
+    DateTime analysisStartTime,
+    bool dryRun,
+    List<Filter> filters,
+    int maxResults,
+    List<String> networkInsightsAnalysisIds,
+    String networkInsightsPathId,
+    String nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
+  /// Describes one or more of your paths.
+  ///
+  /// Parameter [dryRun] :
+  /// Checks whether you have the required permissions for the action, without
+  /// actually making the request, and provides an error response. If you have
+  /// the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  ///
+  /// Parameter [filters] :
+  /// The filters. The following are possible values:
+  ///
+  /// <ul>
+  /// <li>
+  /// Destination - The ID of the resource.
+  /// </li>
+  /// <li>
+  /// DestinationPort - The destination port.
+  /// </li>
+  /// <li>
+  /// Name - The path name.
+  /// </li>
+  /// <li>
+  /// Protocol - The protocol.
+  /// </li>
+  /// <li>
+  /// Source - The ID of the resource.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return with a single call. To retrieve
+  /// the remaining results, make another call with the returned
+  /// <code>nextToken</code> value.
+  ///
+  /// Parameter [networkInsightsPathIds] :
+  /// The IDs of the paths.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next page of results.
+  Future<DescribeNetworkInsightsPathsResult> describeNetworkInsightsPaths({
+    bool dryRun,
+    List<Filter> filters,
+    int maxResults,
+    List<String> networkInsightsPathIds,
+    String nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
   /// Describes a network interface attribute. You can specify only one
   /// attribute at a time.
   ///
@@ -10429,10 +11753,6 @@ class EC2 {
   /// to which the network interface is attached.
   /// </li>
   /// <li>
-  /// <code>attachment.nat-gateway-id</code> - The ID of the NAT gateway to
-  /// which the network interface is attached.
-  /// </li>
-  /// <li>
   /// <code>attachment.status</code> - The status of the attachment
   /// (<code>attaching</code> | <code>attached</code> | <code>detaching</code> |
   /// <code>detached</code>).
@@ -10550,7 +11870,7 @@ class EC2 {
   /// Describes the specified placement groups or all of your placement groups.
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/placement-groups.html">Placement
-  /// Groups</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+  /// groups</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
   ///
   /// Parameter [dryRun] :
   /// Checks whether you have the required permissions for the action, without
@@ -10610,10 +11930,9 @@ class EC2 {
 
   /// Describes available AWS services in a prefix list format, which includes
   /// the prefix list name and prefix list ID of the service and the IP address
-  /// range for the service. A prefix list ID is required for creating an
-  /// outbound security group rule that allows traffic from a VPC to access an
-  /// AWS service through a gateway VPC endpoint. Currently, the services that
-  /// support this action are Amazon S3 and Amazon DynamoDB.
+  /// range for the service.
+  ///
+  /// We recommend that you use <a>DescribeManagedPrefixLists</a> instead.
   ///
   /// Parameter [dryRun] :
   /// Checks whether you have the required permissions for the action, without
@@ -11359,9 +12678,6 @@ class EC2 {
   /// regardless of the tag value.
   /// </li>
   /// <li>
-  /// <code>transit-gateway-id</code> - The ID of a transit gateway.
-  /// </li>
-  /// <li>
   /// <code>vpc-id</code> - The ID of the VPC for the route table.
   /// </li>
   /// </ul>
@@ -11610,8 +12926,8 @@ class EC2 {
   /// outbound security group rule.
   /// </li>
   /// <li>
-  /// <code>egress.ip-permission.prefix-list-id</code> - The ID (prefix) of the
-  /// AWS service to which a security group rule allows outbound access.
+  /// <code>egress.ip-permission.prefix-list-id</code> - The ID of a prefix list
+  /// to which a security group rule allows outbound access.
   /// </li>
   /// <li>
   /// <code>egress.ip-permission.protocol</code> - The IP protocol for an
@@ -11653,8 +12969,8 @@ class EC2 {
   /// security group rule.
   /// </li>
   /// <li>
-  /// <code>ip-permission.prefix-list-id</code> - The ID (prefix) of the AWS
-  /// service from which a security group rule allows inbound access.
+  /// <code>ip-permission.prefix-list-id</code> - The ID of a prefix list from
+  /// which a security group rule allows inbound access.
   /// </li>
   /// <li>
   /// <code>ip-permission.protocol</code> - The IP protocol for an inbound
@@ -11737,7 +13053,7 @@ class EC2 {
   ///
   /// For more information about EBS snapshots, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSSnapshots.html">Amazon
-  /// EBS Snapshots</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+  /// EBS snapshots</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
   ///
   /// Parameter [attribute] :
   /// The snapshot attribute you would like to view.
@@ -11808,20 +13124,21 @@ class EC2 {
   /// for which you own or have explicit permissions, or <code>all</code> for
   /// public snapshots.
   ///
-  /// If you are describing a long list of snapshots, you can paginate the
-  /// output to make the list more manageable. The <code>MaxResults</code>
-  /// parameter sets the maximum number of results returned in a single page. If
-  /// the list of results exceeds your <code>MaxResults</code> value, then that
-  /// number of results is returned along with a <code>NextToken</code> value
-  /// that can be passed to a subsequent <code>DescribeSnapshots</code> request
-  /// to retrieve the remaining results.
+  /// If you are describing a long list of snapshots, we recommend that you
+  /// paginate the output to make the list more manageable. The
+  /// <code>MaxResults</code> parameter sets the maximum number of results
+  /// returned in a single page. If the list of results exceeds your
+  /// <code>MaxResults</code> value, then that number of results is returned
+  /// along with a <code>NextToken</code> value that can be passed to a
+  /// subsequent <code>DescribeSnapshots</code> request to retrieve the
+  /// remaining results.
   ///
   /// To get the state of fast snapshot restores for a snapshot, use
   /// <a>DescribeFastSnapshotRestores</a>.
   ///
   /// For more information about EBS snapshots, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSSnapshots.html">Amazon
-  /// EBS Snapshots</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+  /// EBS snapshots</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
   ///
   /// Parameter [dryRun] :
   /// Checks whether you have the required permissions for the action, without
@@ -11842,14 +13159,14 @@ class EC2 {
   /// (<code>true</code> | <code>false</code>)
   /// </li>
   /// <li>
-  /// <code>owner-alias</code> - Value from an Amazon-maintained list
-  /// (<code>amazon</code> | <code>self</code> | <code>all</code> |
-  /// <code>aws-marketplace</code> | <code>microsoft</code>) of snapshot owners.
-  /// Not to be confused with the user-configured AWS account alias, which is
-  /// set from the IAM console.
+  /// <code>owner-alias</code> - The owner alias, from an Amazon-maintained list
+  /// (<code>amazon</code>). This is not the user-configured AWS account alias
+  /// set using the IAM console. We recommend that you use the related parameter
+  /// instead of this filter.
   /// </li>
   /// <li>
-  /// <code>owner-id</code> - The ID of the AWS account that owns the snapshot.
+  /// <code>owner-id</code> - The AWS account ID of the owner. We recommend that
+  /// you use the related parameter instead of this filter.
   /// </li>
   /// <li>
   /// <code>progress</code> - The progress of the snapshot, as a percentage (for
@@ -11893,8 +13210,8 @@ class EC2 {
   /// results in a single page along with a <code>NextToken</code> response
   /// element. The remaining results of the initial request can be seen by
   /// sending another <code>DescribeSnapshots</code> request with the returned
-  /// <code>NextToken</code> value. This value can be between 5 and 1000; if
-  /// <code>MaxResults</code> is given a value larger than 1000, only 1000
+  /// <code>NextToken</code> value. This value can be between 5 and 1,000; if
+  /// <code>MaxResults</code> is given a value larger than 1,000, only 1,000
   /// results are returned. If this parameter is not used, then
   /// <code>DescribeSnapshots</code> returns all results. You cannot specify
   /// this parameter and the snapshot IDs parameter in the same request.
@@ -11908,7 +13225,9 @@ class EC2 {
   /// are no more results to return.
   ///
   /// Parameter [ownerIds] :
-  /// Describes the snapshots owned by these owners.
+  /// Scopes the results to snapshots with the specified owners. You can specify
+  /// a combination of AWS account IDs, <code>self</code>, and
+  /// <code>amazon</code>.
   ///
   /// Parameter [restorableByUserIds] :
   /// The IDs of the AWS accounts that can create volumes from the snapshot.
@@ -11933,7 +13252,7 @@ class EC2 {
 
   /// Describes the data feed for Spot Instances. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-data-feeds.html">Spot
-  /// Instance Data Feed</a> in the <i>Amazon EC2 User Guide for Linux
+  /// Instance data feed</a> in the <i>Amazon EC2 User Guide for Linux
   /// Instances</i>.
   ///
   /// Parameter [dryRun] :
@@ -12143,9 +13462,10 @@ class EC2 {
   /// </li>
   /// <li>
   /// <code>launch.block-device-mapping.volume-type</code> - The type of EBS
-  /// volume: <code>gp2</code> for General Purpose SSD, <code>io1</code> for
-  /// Provisioned IOPS SSD, <code>st1</code> for Throughput Optimized HDD,
-  /// <code>sc1</code>for Cold HDD, or <code>standard</code> for Magnetic.
+  /// volume: <code>gp2</code> for General Purpose SSD, <code>io1</code> or
+  /// <code>io2</code> for Provisioned IOPS SSD, <code>st1</code> for Throughput
+  /// Optimized HDD, <code>sc1</code>for Cold HDD, or <code>standard</code> for
+  /// Magnetic.
   /// </li>
   /// <li>
   /// <code>launch.group-id</code> - The ID of the security group for the
@@ -12230,7 +13550,7 @@ class EC2 {
   /// information can help you track your Amazon EC2 Spot Instance requests. For
   /// more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-bid-status.html">Spot
-  /// Request Status</a> in the <i>Amazon EC2 User Guide for Linux
+  /// request status</a> in the <i>Amazon EC2 User Guide for Linux
   /// Instances</i>.
   /// </li>
   /// <li>
@@ -12290,7 +13610,7 @@ class EC2 {
 
   /// Describes the Spot price history. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-spot-instances-history.html">Spot
-  /// Instance Pricing History</a> in the <i>Amazon EC2 User Guide for Linux
+  /// Instance pricing history</a> in the <i>Amazon EC2 User Guide for Linux
   /// Instances</i>.
   ///
   /// When you specify a start and end time, this operation returns the prices
@@ -12328,9 +13648,10 @@ class EC2 {
   /// </li>
   /// <li>
   /// <code>product-description</code> - The product description for the Spot
-  /// price (<code>Linux/UNIX</code> | <code>SUSE Linux</code> |
-  /// <code>Windows</code> | <code>Linux/UNIX (Amazon VPC)</code> | <code>SUSE
-  /// Linux (Amazon VPC)</code> | <code>Windows (Amazon VPC)</code>).
+  /// price (<code>Linux/UNIX</code> | <code>Red Hat Enterprise Linux</code> |
+  /// <code>SUSE Linux</code> | <code>Windows</code> | <code>Linux/UNIX (Amazon
+  /// VPC)</code> | <code>Red Hat Enterprise Linux (Amazon VPC)</code> |
+  /// <code>SUSE Linux (Amazon VPC)</code> | <code>Windows (Amazon VPC)</code>).
   /// </li>
   /// <li>
   /// <code>spot-price</code> - The Spot price. The value must match exactly (or
@@ -12822,15 +14143,17 @@ class EC2 {
   /// resource.
   /// </li>
   /// <li>
-  /// <code>resource-type</code> - The resource type (<code>vpc</code> |
-  /// <code>vpn</code>).
+  /// <code>resource-type</code> - The resource type. Valid values are
+  /// <code>vpc</code> | <code>vpn</code> | <code>direct-connect-gateway</code>
+  /// | <code>peering</code> | <code>connect</code>.
   /// </li>
   /// <li>
-  /// <code>state</code> - The state of the attachment (<code>available</code> |
-  /// <code>deleted</code> | <code>deleting</code> | <code>failed</code> |
-  /// <code>modifying</code> | <code>pendingAcceptance</code> |
-  /// <code>pending</code> | <code>rollingBack</code> | <code>rejected</code> |
-  /// <code>rejecting</code>).
+  /// <code>state</code> - The state of the attachment. Valid values are
+  /// <code>available</code> | <code>deleted</code> | <code>deleting</code> |
+  /// <code>failed</code> | <code>failing</code> |
+  /// <code>initiatingRequest</code> | <code>modifying</code> |
+  /// <code>pendingAcceptance</code> | <code>pending</code> |
+  /// <code>rollingBack</code> | <code>rejected</code> | <code>rejecting</code>.
   /// </li>
   /// <li>
   /// <code>transit-gateway-attachment-id</code> - The ID of the attachment.
@@ -12856,6 +14179,123 @@ class EC2 {
   /// The IDs of the attachments.
   Future<DescribeTransitGatewayAttachmentsResult>
       describeTransitGatewayAttachments({
+    bool dryRun,
+    List<Filter> filters,
+    int maxResults,
+    String nextToken,
+    List<String> transitGatewayAttachmentIds,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      5,
+      1000,
+    );
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
+  /// Describes one or more Connect peers.
+  ///
+  /// Parameter [dryRun] :
+  /// Checks whether you have the required permissions for the action, without
+  /// actually making the request, and provides an error response. If you have
+  /// the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  ///
+  /// Parameter [filters] :
+  /// One or more filters. The possible values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>state</code> - The state of the Connect peer (<code>pending</code> |
+  /// <code>available</code> | <code>deleting</code> | <code>deleted</code>).
+  /// </li>
+  /// <li>
+  /// <code>transit-gateway-attachment-id</code> - The ID of the attachment.
+  /// </li>
+  /// <li>
+  /// <code>transit-gateway-connect-peer-id</code> - The ID of the Connect peer.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return with a single call. To retrieve
+  /// the remaining results, make another call with the returned
+  /// <code>nextToken</code> value.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next page of results.
+  ///
+  /// Parameter [transitGatewayConnectPeerIds] :
+  /// The IDs of the Connect peers.
+  Future<DescribeTransitGatewayConnectPeersResult>
+      describeTransitGatewayConnectPeers({
+    bool dryRun,
+    List<Filter> filters,
+    int maxResults,
+    String nextToken,
+    List<String> transitGatewayConnectPeerIds,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      5,
+      1000,
+    );
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
+  /// Describes one or more Connect attachments.
+  ///
+  /// Parameter [dryRun] :
+  /// Checks whether you have the required permissions for the action, without
+  /// actually making the request, and provides an error response. If you have
+  /// the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  ///
+  /// Parameter [filters] :
+  /// One or more filters. The possible values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>options.protocol</code> - The tunnel protocol (<code>gre</code>).
+  /// </li>
+  /// <li>
+  /// <code>state</code> - The state of the attachment (<code>initiating</code>
+  /// | <code>initiatingRequest</code> | <code>pendingAcceptance</code> |
+  /// <code>rollingBack</code> | <code>pending</code> | <code>available</code> |
+  /// <code>modifying</code> | <code>deleting</code> | <code>deleted</code> |
+  /// <code>failed</code> | <code>rejected</code> | <code>rejecting</code> |
+  /// <code>failing</code>).
+  /// </li>
+  /// <li>
+  /// <code>transit-gateway-attachment-id</code> - The ID of the Connect
+  /// attachment.
+  /// </li>
+  /// <li>
+  /// <code>transit-gateway-id</code> - The ID of the transit gateway.
+  /// </li>
+  /// <li>
+  /// <code>transport-transit-gateway-attachment-id</code> - The ID of the
+  /// transit gateway attachment from which the Connect attachment was created.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return with a single call. To retrieve
+  /// the remaining results, make another call with the returned
+  /// <code>nextToken</code> value.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next page of results.
+  ///
+  /// Parameter [transitGatewayAttachmentIds] :
+  /// The IDs of the attachments.
+  Future<DescribeTransitGatewayConnectsResult> describeTransitGatewayConnects({
     bool dryRun,
     List<Filter> filters,
     int maxResults,
@@ -12952,12 +14392,26 @@ class EC2 {
   /// Region that owns the transit gateway.
   /// </li>
   /// <li>
-  /// <code>state</code> - The state of the peering attachment
-  /// (<code>available</code> | <code>deleted</code> | <code>deleting</code> |
-  /// <code>failed</code> | <code>modifying</code> |
+  /// <code>state</code> - The state of the peering attachment. Valid values are
+  /// <code>available</code> | <code>deleted</code> | <code>deleting</code> |
+  /// <code>failed</code> | <code>failing</code> |
+  /// <code>initiatingRequest</code> | <code>modifying</code> |
   /// <code>pendingAcceptance</code> | <code>pending</code> |
   /// <code>rollingBack</code> | <code>rejected</code> |
   /// <code>rejecting</code>).
+  /// </li>
+  /// <li>
+  /// <code>tag</code>:&lt;key&gt; - The key/value combination of a tag assigned
+  /// to the resource. Use the tag key in the filter name and the tag value as
+  /// the filter value. For example, to find all resources that have a tag with
+  /// the key <code>Owner</code> and the value <code>TeamA</code>, specify
+  /// <code>tag:Owner</code> for the filter name and <code>TeamA</code> for the
+  /// filter value.
+  /// </li>
+  /// <li>
+  /// <code>tag-key</code> - The key of a tag assigned to the resource. Use this
+  /// filter to find all resources that have a tag with a specific key,
+  /// regardless of the tag value.
   /// </li>
   /// <li>
   /// <code>transit-gateway-id</code> - The ID of the transit gateway.
@@ -13018,11 +14472,8 @@ class EC2 {
   /// (<code>true</code> | <code>false</code>).
   /// </li>
   /// <li>
-  /// <code>state</code> - The state of the attachment (<code>available</code> |
-  /// <code>deleted</code> | <code>deleting</code> | <code>failed</code> |
-  /// <code>modifying</code> | <code>pendingAcceptance</code> |
-  /// <code>pending</code> | <code>rollingBack</code> | <code>rejected</code> |
-  /// <code>rejecting</code>).
+  /// <code>state</code> - The state of the route table (<code>available</code>
+  /// | <code>deleting</code> | <code>deleted</code> | <code>pending</code>).
   /// </li>
   /// <li>
   /// <code>transit-gateway-id</code> - The ID of the transit gateway.
@@ -13076,11 +14527,12 @@ class EC2 {
   ///
   /// <ul>
   /// <li>
-  /// <code>state</code> - The state of the attachment (<code>available</code> |
-  /// <code>deleted</code> | <code>deleting</code> | <code>failed</code> |
-  /// <code>modifying</code> | <code>pendingAcceptance</code> |
-  /// <code>pending</code> | <code>rollingBack</code> | <code>rejected</code> |
-  /// <code>rejecting</code>).
+  /// <code>state</code> - The state of the attachment. Valid values are
+  /// <code>available</code> | <code>deleted</code> | <code>deleting</code> |
+  /// <code>failed</code> | <code>failing</code> |
+  /// <code>initiatingRequest</code> | <code>modifying</code> |
+  /// <code>pendingAcceptance</code> | <code>pending</code> |
+  /// <code>rollingBack</code> | <code>rejected</code> | <code>rejecting</code>.
   /// </li>
   /// <li>
   /// <code>transit-gateway-attachment-id</code> - The ID of the attachment.
@@ -13176,11 +14628,9 @@ class EC2 {
   /// gateway.
   /// </li>
   /// <li>
-  /// <code>state</code> - The state of the attachment (<code>available</code> |
-  /// <code>deleted</code> | <code>deleting</code> | <code>failed</code> |
-  /// <code>modifying</code> | <code>pendingAcceptance</code> |
-  /// <code>pending</code> | <code>rollingBack</code> | <code>rejected</code> |
-  /// <code>rejecting</code>).
+  /// <code>state</code> - The state of the transit gateway
+  /// (<code>available</code> | <code>deleted</code> | <code>deleting</code> |
+  /// <code>modifying</code> | <code>pending</code>).
   /// </li>
   /// <li>
   /// <code>transit-gateway-id</code> - The ID of the transit gateway.
@@ -13219,7 +14669,7 @@ class EC2 {
   ///
   /// For more information about EBS volumes, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumes.html">Amazon
-  /// EBS Volumes</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+  /// EBS volumes</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
   ///
   /// Parameter [attribute] :
   /// The attribute of the volume. This parameter is required.
@@ -13261,27 +14711,27 @@ class EC2 {
   /// or <code>insufficient-data</code>. If all checks pass, the overall status
   /// of the volume is <code>ok</code>. If the check fails, the overall status
   /// is <code>impaired</code>. If the status is <code>insufficient-data</code>,
-  /// then the checks may still be taking place on your volume at the time. We
+  /// then the checks might still be taking place on your volume at the time. We
   /// recommend that you retry the request. For more information about volume
   /// status, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/monitoring-volume-status.html">Monitoring
-  /// the Status of Your Volumes</a> in the <i>Amazon Elastic Compute Cloud User
+  /// the status of your volumes</a> in the <i>Amazon Elastic Compute Cloud User
   /// Guide</i>.
   ///
-  /// <i>Events</i>: Reflect the cause of a volume status and may require you to
-  /// take action. For example, if your volume returns an <code>impaired</code>
-  /// status, then the volume event might be
+  /// <i>Events</i>: Reflect the cause of a volume status and might require you
+  /// to take action. For example, if your volume returns an
+  /// <code>impaired</code> status, then the volume event might be
   /// <code>potential-data-inconsistency</code>. This means that your volume has
   /// been affected by an issue with the underlying host, has all I/O operations
-  /// disabled, and may have inconsistent data.
+  /// disabled, and might have inconsistent data.
   ///
-  /// <i>Actions</i>: Reflect the actions you may have to take in response to an
-  /// event. For example, if the status of the volume is <code>impaired</code>
-  /// and the volume event shows <code>potential-data-inconsistency</code>, then
-  /// the action shows <code>enable-volume-io</code>. This means that you may
-  /// want to enable the I/O operations for the volume by calling the
-  /// <a>EnableVolumeIO</a> action and then check the volume for data
-  /// consistency.
+  /// <i>Actions</i>: Reflect the actions you might have to take in response to
+  /// an event. For example, if the status of the volume is
+  /// <code>impaired</code> and the volume event shows
+  /// <code>potential-data-inconsistency</code>, then the action shows
+  /// <code>enable-volume-io</code>. This means that you may want to enable the
+  /// I/O operations for the volume by calling the <a>EnableVolumeIO</a> action
+  /// and then check the volume for data consistency.
   ///
   /// Volume status is based on the volume status checks, and does not reflect
   /// the volume state. Therefore, volume status does not indicate volumes in
@@ -13357,10 +14807,11 @@ class EC2 {
   /// single page along with a <code>NextToken</code> response element. The
   /// remaining results of the initial request can be seen by sending another
   /// request with the returned <code>NextToken</code> value. This value can be
-  /// between 5 and 1000; if <code>MaxResults</code> is given a value larger
-  /// than 1000, only 1000 results are returned. If this parameter is not used,
-  /// then <code>DescribeVolumeStatus</code> returns all results. You cannot
-  /// specify this parameter and the volume IDs parameter in the same request.
+  /// between 5 and 1,000; if <code>MaxResults</code> is given a value larger
+  /// than 1,000, only 1,000 results are returned. If this parameter is not
+  /// used, then <code>DescribeVolumeStatus</code> returns all results. You
+  /// cannot specify this parameter and the volume IDs parameter in the same
+  /// request.
   ///
   /// Parameter [nextToken] :
   /// The <code>NextToken</code> value to include in a future
@@ -13386,17 +14837,18 @@ class EC2 {
 
   /// Describes the specified EBS volumes or all of your EBS volumes.
   ///
-  /// If you are describing a long list of volumes, you can paginate the output
-  /// to make the list more manageable. The <code>MaxResults</code> parameter
-  /// sets the maximum number of results returned in a single page. If the list
-  /// of results exceeds your <code>MaxResults</code> value, then that number of
-  /// results is returned along with a <code>NextToken</code> value that can be
-  /// passed to a subsequent <code>DescribeVolumes</code> request to retrieve
-  /// the remaining results.
+  /// If you are describing a long list of volumes, we recommend that you
+  /// paginate the output to make the list more manageable. The
+  /// <code>MaxResults</code> parameter sets the maximum number of results
+  /// returned in a single page. If the list of results exceeds your
+  /// <code>MaxResults</code> value, then that number of results is returned
+  /// along with a <code>NextToken</code> value that can be passed to a
+  /// subsequent <code>DescribeVolumes</code> request to retrieve the remaining
+  /// results.
   ///
   /// For more information about EBS volumes, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumes.html">Amazon
-  /// EBS Volumes</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+  /// EBS volumes</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
   ///
   /// Parameter [dryRun] :
   /// Checks whether you have the required permissions for the action, without
@@ -13456,7 +14908,7 @@ class EC2 {
   /// <code>snapshot-id</code> - The snapshot from which the volume was created.
   /// </li>
   /// <li>
-  /// <code>status</code> - The status of the volume (<code>creating</code> |
+  /// <code>status</code> - The state of the volume (<code>creating</code> |
   /// <code>available</code> | <code>in-use</code> | <code>deleting</code> |
   /// <code>deleted</code> | <code>error</code>).
   /// </li>
@@ -13477,10 +14929,9 @@ class EC2 {
   /// <code>volume-id</code> - The volume ID.
   /// </li>
   /// <li>
-  /// <code>volume-type</code> - The Amazon EBS volume type. This can be
-  /// <code>gp2</code> for General Purpose SSD, <code>io1</code> for Provisioned
-  /// IOPS SSD, <code>st1</code> for Throughput Optimized HDD, <code>sc1</code>
-  /// for Cold HDD, or <code>standard</code> for Magnetic volumes.
+  /// <code>volume-type</code> - The Amazon EBS volume type (<code>gp2</code> |
+  /// <code>gp3</code> | <code>io1</code> | <code>io2</code> | <code>st1</code>
+  /// | <code>sc1</code>| <code>standard</code>)
   /// </li>
   /// </ul>
   ///
@@ -13518,23 +14969,19 @@ class EC2 {
     throw UnimplementedError();
   }
 
-  /// Reports the current modification status of EBS volumes.
+  /// Describes the most recent volume modification request for the specified
+  /// EBS volumes.
   ///
-  /// Current-generation EBS volumes support modification of attributes
-  /// including type, size, and (for <code>io1</code> volumes) IOPS provisioning
-  /// while either attached to or detached from an instance. Following an action
-  /// from the API or the console to modify a volume, the status of the
-  /// modification may be <code>modifying</code>, <code>optimizing</code>,
-  /// <code>completed</code>, or <code>failed</code>. If a volume has never been
-  /// modified, then certain elements of the returned
-  /// <code>VolumeModification</code> objects are null.
+  /// If a volume has never been modified, some information in the output will
+  /// be null. If a volume has been modified more than once, the output includes
+  /// only the most recent modification request.
   ///
   /// You can also use CloudWatch Events to check the status of a modification
   /// to an EBS volume. For information about CloudWatch Events, see the <a
   /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/">Amazon
   /// CloudWatch Events User Guide</a>. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-expand-volume.html#monitoring_mods">Monitoring
-  /// Volume Modifications"</a> in the <i>Amazon Elastic Compute Cloud User
+  /// volume modifications</a> in the <i>Amazon Elastic Compute Cloud User
   /// Guide</i>.
   ///
   /// Parameter [dryRun] :
@@ -13545,13 +14992,48 @@ class EC2 {
   /// <code>UnauthorizedOperation</code>.
   ///
   /// Parameter [filters] :
-  /// The filters. Supported filters: <code>volume-id</code> |
-  /// <code>modification-state</code> | <code>target-size</code> |
-  /// <code>target-iops</code> | <code>target-volume-type</code> |
-  /// <code>original-size</code> | <code>original-iops</code> |
-  /// <code>original-volume-type</code> | <code>start-time</code> |
-  /// <code>originalMultiAttachEnabled</code> |
-  /// <code>targetMultiAttachEnabled</code>.
+  /// The filters.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>modification-state</code> - The current modification state
+  /// (modifying | optimizing | completed | failed).
+  /// </li>
+  /// <li>
+  /// <code>original-iops</code> - The original IOPS rate of the volume.
+  /// </li>
+  /// <li>
+  /// <code>original-size</code> - The original size of the volume, in GiB.
+  /// </li>
+  /// <li>
+  /// <code>original-volume-type</code> - The original volume type of the volume
+  /// (standard | io1 | io2 | gp2 | sc1 | st1).
+  /// </li>
+  /// <li>
+  /// <code>originalMultiAttachEnabled</code> - Indicates whether Multi-Attach
+  /// support was enabled (true | false).
+  /// </li>
+  /// <li>
+  /// <code>start-time</code> - The modification start time.
+  /// </li>
+  /// <li>
+  /// <code>target-iops</code> - The target IOPS rate of the volume.
+  /// </li>
+  /// <li>
+  /// <code>target-size</code> - The target size of the volume, in GiB.
+  /// </li>
+  /// <li>
+  /// <code>target-volume-type</code> - The target volume type of the volume
+  /// (standard | io1 | io2 | gp2 | sc1 | st1).
+  /// </li>
+  /// <li>
+  /// <code>targetMultiAttachEnabled</code> - Indicates whether Multi-Attach
+  /// support is to be enabled (true | false).
+  /// </li>
+  /// <li>
+  /// <code>volume-id</code> - The ID of the volume.
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results (up to a limit of 500) to be returned in a
@@ -13561,8 +15043,7 @@ class EC2 {
   /// The <code>nextToken</code> value returned by a previous paginated request.
   ///
   /// Parameter [volumeIds] :
-  /// The IDs of the volumes for which in-progress modifications will be
-  /// described.
+  /// The IDs of the volumes.
   Future<DescribeVolumesModificationsResult> describeVolumesModifications({
     bool dryRun,
     List<Filter> filters,
@@ -13909,6 +15390,15 @@ class EC2 {
 
   /// Describes available services to which you can create a VPC endpoint.
   ///
+  /// When the service provider and the consumer have different accounts
+  /// multiple Availability Zones, and the consumer views the VPC endpoint
+  /// service information, the response only includes the common Availability
+  /// Zones. For example, when the service provider account uses
+  /// <code>us-east-1a</code> and <code>us-east-1c</code> and the consumer uses
+  /// <code>us-east-1a</code> and us-east-1a and us-east-1b, the response
+  /// includes the VPC endpoint services in the common Availability Zone,
+  /// <code>us-east-1a</code>.
+  ///
   /// Parameter [dryRun] :
   /// Checks whether you have the required permissions for the action, without
   /// actually making the request, and provides an error response. If you have
@@ -13990,6 +15480,11 @@ class EC2 {
   /// (<code>pendingAcceptance</code> | <code>pending</code> |
   /// <code>available</code> | <code>deleting</code> | <code>deleted</code> |
   /// <code>rejected</code> | <code>failed</code>).
+  /// </li>
+  /// <li>
+  /// <code>vpc-endpoint-type</code> - The type of VPC endpoint
+  /// (<code>Interface</code> | <code>Gateway</code> |
+  /// <code>GatewayLoadBalancer</code>).
   /// </li>
   /// <li>
   /// <code>tag</code>:&lt;key&gt; - The key/value combination of a tag assigned
@@ -14505,7 +16000,7 @@ class EC2 {
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-detaching-volume.html">Detaching
-  /// an Amazon EBS Volume</a> in the <i>Amazon Elastic Compute Cloud User
+  /// an Amazon EBS volume</a> in the <i>Amazon Elastic Compute Cloud User
   /// Guide</i>.
   ///
   /// Parameter [volumeId] :
@@ -14588,7 +16083,7 @@ class EC2 {
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html">Amazon
-  /// EBS Encryption</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+  /// EBS encryption</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
   ///
   /// Parameter [dryRun] :
   /// Checks whether you have the required permissions for the action, without
@@ -14713,6 +16208,8 @@ class EC2 {
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/vpc-classiclink.html">ClassicLink</a>
   /// in the <i>Amazon Elastic Compute Cloud User Guide</i>.
   ///
+  /// You must specify a VPC ID in the request.
+  ///
   /// Parameter [vpcId] :
   /// The ID of the VPC.
   Future<DisableVpcClassicLinkDnsSupportResult>
@@ -14799,6 +16296,48 @@ class EC2 {
     throw UnimplementedError();
   }
 
+  /// Disassociates an IAM role from an AWS Certificate Manager (ACM)
+  /// certificate. Disassociating an IAM role from an ACM certificate removes
+  /// the Amazon S3 object that contains the certificate, certificate chain, and
+  /// encrypted private key from the Amazon S3 bucket. It also revokes the IAM
+  /// role's permission to use the AWS Key Management Service (KMS) customer
+  /// master key (CMK) used to encrypt the private key. This effectively revokes
+  /// the role's permission to use the certificate.
+  ///
+  /// Parameter [certificateArn] :
+  /// The ARN of the ACM certificate from which to disassociate the IAM role.
+  ///
+  /// Parameter [dryRun] :
+  /// Checks whether you have the required permissions for the action, without
+  /// actually making the request, and provides an error response. If you have
+  /// the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  ///
+  /// Parameter [roleArn] :
+  /// The ARN of the IAM role to disassociate.
+  Future<DisassociateEnclaveCertificateIamRoleResult>
+      disassociateEnclaveCertificateIamRole({
+    String certificateArn,
+    bool dryRun,
+    String roleArn,
+  }) async {
+    _s.validateStringLength(
+      'certificateArn',
+      certificateArn,
+      1,
+      1283,
+    );
+    _s.validateStringLength(
+      'roleArn',
+      roleArn,
+      1,
+      1283,
+    );
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
   /// Disassociates an IAM instance profile from a running or stopped instance.
   ///
   /// Use <a>DescribeIamInstanceProfileAssociations</a> to get the association
@@ -14814,7 +16353,7 @@ class EC2 {
     throw UnimplementedError();
   }
 
-  /// Disassociates a subnet from a route table.
+  /// Disassociates a subnet or gateway from a route table.
   ///
   /// After you perform this action, the subnet no longer uses the routes in the
   /// route table. Instead, it uses the routes in the VPC's main route table.
@@ -14824,7 +16363,7 @@ class EC2 {
   ///
   /// Parameter [associationId] :
   /// The association ID representing the current association between the route
-  /// table and subnet.
+  /// table and subnet or gateway.
   ///
   /// Parameter [dryRun] :
   /// Checks whether you have the required permissions for the action, without
@@ -14937,7 +16476,7 @@ class EC2 {
   /// are are always encrypted, either using the default CMK or the CMK that you
   /// specified when you created each volume. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html">Amazon
-  /// EBS Encryption</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+  /// EBS encryption</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
   ///
   /// You can specify the default CMK for encryption by default using
   /// <a>ModifyEbsDefaultKmsKeyId</a> or <a>ResetEbsDefaultKmsKeyId</a>.
@@ -14949,7 +16488,7 @@ class EC2 {
   /// using instance types that do not support encryption. For more information,
   /// see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html#EBSEncryption_supported_instances">Supported
-  /// Instance Types</a>.
+  /// instance types</a>.
   ///
   /// Parameter [dryRun] :
   /// Checks whether you have the required permissions for the action, without
@@ -14974,7 +16513,7 @@ class EC2 {
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-fast-snapshot-restore.html">Amazon
-  /// EBS Fast Snapshot Restore</a> in the <i>Amazon Elastic Compute Cloud User
+  /// EBS fast snapshot restore</a> in the <i>Amazon Elastic Compute Cloud User
   /// Guide</i>.
   ///
   /// Parameter [availabilityZones] :
@@ -15118,6 +16657,8 @@ class EC2 {
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/vpc-classiclink.html">ClassicLink</a>
   /// in the <i>Amazon Elastic Compute Cloud User Guide</i>.
   ///
+  /// You must specify a VPC ID in the request.
+  ///
   /// Parameter [vpcId] :
   /// The ID of the VPC.
   Future<EnableVpcClassicLinkDnsSupportResult> enableVpcClassicLinkDnsSupport({
@@ -15186,8 +16727,8 @@ class EC2 {
   /// The ID of the image.
   ///
   /// Parameter [s3ExportLocation] :
-  /// Information about the destination S3 bucket. The bucket must exist and
-  /// grant WRITE and READ_ACP permissions to the AWS account
+  /// Information about the destination Amazon S3 bucket. The bucket must exist
+  /// and grant WRITE and READ_ACP permissions to the AWS account
   /// vm-import-export@amazon.com.
   ///
   /// Parameter [clientToken] :
@@ -15195,7 +16736,7 @@ class EC2 {
   ///
   /// Parameter [description] :
   /// A description of the image being exported. The maximum length is 255
-  /// bytes.
+  /// characters.
   ///
   /// Parameter [dryRun] :
   /// Checks whether you have the required permissions for the action, without
@@ -15206,8 +16747,11 @@ class EC2 {
   ///
   /// Parameter [roleName] :
   /// The name of the role that grants VM Import/Export permission to export
-  /// images to your S3 bucket. If this parameter is not specified, the default
-  /// role is named 'vmimport'.
+  /// images to your Amazon S3 bucket. If this parameter is not specified, the
+  /// default role is named 'vmimport'.
+  ///
+  /// Parameter [tagSpecifications] :
+  /// The tags to apply to the image being exported.
   Future<ExportImageResult> exportImage({
     @_s.required DiskImageFormat diskImageFormat,
     @_s.required String imageId,
@@ -15216,6 +16760,7 @@ class EC2 {
     String description,
     bool dryRun,
     String roleName,
+    List<TagSpecification> tagSpecifications,
   }) async {
     ArgumentError.checkNotNull(diskImageFormat, 'diskImageFormat');
     ArgumentError.checkNotNull(imageId, 'imageId');
@@ -15277,19 +16822,16 @@ class EC2 {
   /// as 10.0.1.0/30, then the result returns 10.0.1.0/29.
   /// </li>
   /// <li>
-  /// <code>state</code> - The state of the attachment (<code>available</code> |
-  /// <code>deleted</code> | <code>deleting</code> | <code>failed</code> |
-  /// <code>modifying</code> | <code>pendingAcceptance</code> |
-  /// <code>pending</code> | <code>rollingBack</code> | <code>rejected</code> |
-  /// <code>rejecting</code>).
+  /// <code>state</code> - The state of the route (<code>active</code> |
+  /// <code>blackhole</code>).
   /// </li>
   /// <li>
   /// <code>transit-gateway-route-destination-cidr-block</code> - The CIDR
   /// range.
   /// </li>
   /// <li>
-  /// <code>type</code> - The type of route (<code>active</code> |
-  /// <code>blackhole</code>).
+  /// <code>type</code> - The type of route (<code>propagated</code> |
+  /// <code>static</code>).
   /// </li>
   /// </ul>
   Future<ExportTransitGatewayRoutesResult> exportTransitGatewayRoutes({
@@ -15301,6 +16843,38 @@ class EC2 {
     ArgumentError.checkNotNull(s3Bucket, 's3Bucket');
     ArgumentError.checkNotNull(
         transitGatewayRouteTableId, 'transitGatewayRouteTableId');
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
+  /// Returns the IAM roles that are associated with the specified AWS
+  /// Certificate Manager (ACM) certificate. It also returns the name of the
+  /// Amazon S3 bucket and the Amazon S3 object key where the certificate,
+  /// certificate chain, and encrypted private key bundle are stored, and the
+  /// ARN of the AWS Key Management Service (KMS) customer master key (CMK)
+  /// that's used to encrypt the private key.
+  ///
+  /// Parameter [certificateArn] :
+  /// The ARN of the ACM certificate for which to view the associated IAM roles,
+  /// encryption keys, and Amazon S3 object information.
+  ///
+  /// Parameter [dryRun] :
+  /// Checks whether you have the required permissions for the action, without
+  /// actually making the request, and provides an error response. If you have
+  /// the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  Future<GetAssociatedEnclaveCertificateIamRolesResult>
+      getAssociatedEnclaveCertificateIamRoles({
+    String certificateArn,
+    bool dryRun,
+  }) async {
+    _s.validateStringLength(
+      'certificateArn',
+      certificateArn,
+      1,
+      1283,
+    );
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -15361,12 +16935,14 @@ class EC2 {
   /// Parameter [maxResults] :
   /// The maximum number of results to return for the request in a single page.
   /// The remaining results can be seen by sending another request with the
-  /// returned nextToken value.
+  /// returned <code>nextToken</code> value. This value can be between 5 and
+  /// 500. If <code>maxResults</code> is given a larger value than 500, you
+  /// receive an error.
   ///
   /// Valid range: Minimum value of 1. Maximum value of 1000.
   ///
   /// Parameter [nextToken] :
-  /// The token to retrieve the next page of results.
+  /// The token to use to retrieve the next page of results.
   Future<GetCapacityReservationUsageResult> getCapacityReservationUsage({
     @_s.required String capacityReservationId,
     bool dryRun,
@@ -15522,7 +17098,7 @@ class EC2 {
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-performance-instances.html">Burstable
-  /// Performance Instances</a> in the <i>Amazon Elastic Compute Cloud User
+  /// performance instances</a> in the <i>Amazon Elastic Compute Cloud User
   /// Guide</i>.
   ///
   /// Parameter [instanceFamily] :
@@ -15550,7 +17126,7 @@ class EC2 {
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html">Amazon
-  /// EBS Encryption</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+  /// EBS encryption</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
   ///
   /// Parameter [dryRun] :
   /// Checks whether you have the required permissions for the action, without
@@ -15570,7 +17146,7 @@ class EC2 {
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html">Amazon
-  /// EBS Encryption</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+  /// EBS encryption</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
   ///
   /// Parameter [dryRun] :
   /// Checks whether you have the required permissions for the action, without
@@ -15581,6 +17157,45 @@ class EC2 {
   Future<GetEbsEncryptionByDefaultResult> getEbsEncryptionByDefault({
     bool dryRun,
   }) async {
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
+  /// Lists the resource groups to which a Capacity Reservation has been added.
+  ///
+  /// Parameter [capacityReservationId] :
+  /// The ID of the Capacity Reservation.
+  ///
+  /// Parameter [dryRun] :
+  /// Checks whether you have the required permissions for the action, without
+  /// actually making the request, and provides an error response. If you have
+  /// the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return for the request in a single page.
+  /// The remaining results can be seen by sending another request with the
+  /// returned <code>nextToken</code> value. This value can be between 5 and
+  /// 500. If <code>maxResults</code> is given a larger value than 500, you
+  /// receive an error.
+  ///
+  /// Parameter [nextToken] :
+  /// The token to use to retrieve the next page of results.
+  Future<GetGroupsForCapacityReservationResult>
+      getGroupsForCapacityReservation({
+    @_s.required String capacityReservationId,
+    bool dryRun,
+    int maxResults,
+    String nextToken,
+  }) async {
+    ArgumentError.checkNotNull(capacityReservationId, 'capacityReservationId');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -15611,6 +17226,13 @@ class EC2 {
   /// Retrieves the configuration data of the specified instance. You can use
   /// this data to create a launch template.
   ///
+  /// This action calls on other describe actions to get instance information.
+  /// Depending on your instance configuration, you may need to allow the
+  /// following actions in your IAM policy: DescribeSpotInstanceRequests,
+  /// DescribeInstanceCreditSpecifications, DescribeVolumes,
+  /// DescribeInstanceAttribute, and DescribeElasticGpus. Or, you can allow
+  /// <code>describe*</code> depending on your instance requirements.
+  ///
   /// Parameter [instanceId] :
   /// The ID of the instance.
   ///
@@ -15625,6 +17247,85 @@ class EC2 {
     bool dryRun,
   }) async {
     ArgumentError.checkNotNull(instanceId, 'instanceId');
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
+  /// Gets information about the resources that are associated with the
+  /// specified managed prefix list.
+  ///
+  /// Parameter [prefixListId] :
+  /// The ID of the prefix list.
+  ///
+  /// Parameter [dryRun] :
+  /// Checks whether you have the required permissions for the action, without
+  /// actually making the request, and provides an error response. If you have
+  /// the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return with a single call. To retrieve
+  /// the remaining results, make another call with the returned
+  /// <code>nextToken</code> value.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next page of results.
+  Future<GetManagedPrefixListAssociationsResult>
+      getManagedPrefixListAssociations({
+    @_s.required String prefixListId,
+    bool dryRun,
+    int maxResults,
+    String nextToken,
+  }) async {
+    ArgumentError.checkNotNull(prefixListId, 'prefixListId');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      5,
+      255,
+    );
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
+  /// Gets information about the entries for a specified managed prefix list.
+  ///
+  /// Parameter [prefixListId] :
+  /// The ID of the prefix list.
+  ///
+  /// Parameter [dryRun] :
+  /// Checks whether you have the required permissions for the action, without
+  /// actually making the request, and provides an error response. If you have
+  /// the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return with a single call. To retrieve
+  /// the remaining results, make another call with the returned
+  /// <code>nextToken</code> value.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next page of results.
+  ///
+  /// Parameter [targetVersion] :
+  /// The version of the prefix list for which to return the entries. The
+  /// default is the current version.
+  Future<GetManagedPrefixListEntriesResult> getManagedPrefixListEntries({
+    @_s.required String prefixListId,
+    bool dryRun,
+    int maxResults,
+    String nextToken,
+    int targetVersion,
+  }) async {
+    ArgumentError.checkNotNull(prefixListId, 'prefixListId');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -15815,6 +17516,81 @@ class EC2 {
     throw UnimplementedError();
   }
 
+  /// Gets information about the prefix list references in a specified transit
+  /// gateway route table.
+  ///
+  /// Parameter [transitGatewayRouteTableId] :
+  /// The ID of the transit gateway route table.
+  ///
+  /// Parameter [dryRun] :
+  /// Checks whether you have the required permissions for the action, without
+  /// actually making the request, and provides an error response. If you have
+  /// the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  ///
+  /// Parameter [filters] :
+  /// One or more filters. The possible values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>attachment.resource-id</code> - The ID of the resource for the
+  /// attachment.
+  /// </li>
+  /// <li>
+  /// <code>attachment.resource-type</code> - The type of resource for the
+  /// attachment. Valid values are <code>vpc</code> | <code>vpn</code> |
+  /// <code>direct-connect-gateway</code> | <code>peering</code>.
+  /// </li>
+  /// <li>
+  /// <code>attachment.transit-gateway-attachment-id</code> - The ID of the
+  /// attachment.
+  /// </li>
+  /// <li>
+  /// <code>is-blackhole</code> - Whether traffic matching the route is blocked
+  /// (<code>true</code> | <code>false</code>).
+  /// </li>
+  /// <li>
+  /// <code>prefix-list-id</code> - The ID of the prefix list.
+  /// </li>
+  /// <li>
+  /// <code>prefix-list-owner-id</code> - The ID of the owner of the prefix
+  /// list.
+  /// </li>
+  /// <li>
+  /// <code>state</code> - The state of the prefix list reference
+  /// (<code>pending</code> | <code>available</code> | <code>modifying</code> |
+  /// <code>deleting</code>).
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return with a single call. To retrieve
+  /// the remaining results, make another call with the returned
+  /// <code>nextToken</code> value.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next page of results.
+  Future<GetTransitGatewayPrefixListReferencesResult>
+      getTransitGatewayPrefixListReferences({
+    @_s.required String transitGatewayRouteTableId,
+    bool dryRun,
+    List<Filter> filters,
+    int maxResults,
+    String nextToken,
+  }) async {
+    ArgumentError.checkNotNull(
+        transitGatewayRouteTableId, 'transitGatewayRouteTableId');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      5,
+      1000,
+    );
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
   /// Gets information about the associations for the specified transit gateway
   /// route table.
   ///
@@ -15836,8 +17612,9 @@ class EC2 {
   /// <code>resource-id</code> - The ID of the resource.
   /// </li>
   /// <li>
-  /// <code>resource-type</code> - The resource type (<code>vpc</code> |
-  /// <code>vpn</code>).
+  /// <code>resource-type</code> - The resource type. Valid values are
+  /// <code>vpc</code> | <code>vpn</code> | <code>direct-connect-gateway</code>
+  /// | <code>peering</code> | <code>connect</code>.
   /// </li>
   /// <li>
   /// <code>transit-gateway-attachment-id</code> - The ID of the attachment.
@@ -15892,8 +17669,9 @@ class EC2 {
   /// <code>resource-id</code> - The ID of the resource.
   /// </li>
   /// <li>
-  /// <code>resource-type</code> - The resource type (<code>vpc</code> |
-  /// <code>vpn</code>).
+  /// <code>resource-type</code> - The resource type. Valid values are
+  /// <code>vpc</code> | <code>vpn</code> | <code>direct-connect-gateway</code>
+  /// | <code>peering</code> | <code>connect</code>.
   /// </li>
   /// <li>
   /// <code>transit-gateway-attachment-id</code> - The ID of the attachment.
@@ -16075,6 +17853,9 @@ class EC2 {
   ///
   /// Parameter [roleName] :
   /// The name of the role to use when not using the default role, 'vmimport'.
+  ///
+  /// Parameter [tagSpecifications] :
+  /// The tags to apply to the image being imported.
   Future<ImportImageResult> importImage({
     String architecture,
     ClientData clientData,
@@ -16089,6 +17870,7 @@ class EC2 {
     String licenseType,
     String platform,
     String roleName,
+    List<TagSpecification> tagSpecifications,
   }) async {
 // TODO: implement ec2
     throw UnimplementedError();
@@ -16249,6 +18031,9 @@ class EC2 {
   ///
   /// Parameter [roleName] :
   /// The name of the role to use when not using the default role, 'vmimport'.
+  ///
+  /// Parameter [tagSpecifications] :
+  /// The tags to apply to the snapshot being imported.
   Future<ImportSnapshotResult> importSnapshot({
     ClientData clientData,
     String clientToken,
@@ -16258,6 +18043,7 @@ class EC2 {
     bool encrypted,
     String kmsKeyId,
     String roleName,
+    List<TagSpecification> tagSpecifications,
   }) async {
 // TODO: implement ec2
     throw UnimplementedError();
@@ -16305,20 +18091,24 @@ class EC2 {
     throw UnimplementedError();
   }
 
-  /// Enables or disables an Availability Zone group for your account.
+  /// Changes the opt-in status of the Local Zone and Wavelength Zone group for
+  /// your account.
   ///
   /// Use <a
-  /// href="https://docs.aws.amazon.com/AWSEC2ApiDocReef/build/server-root/AWSEC2/latest/APIReference/API_DescribeAvailabilityZones.html">describe-availability-zones</a>
-  /// to view the value for <code>GroupName</code>.
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeAvailabilityZones.html">
+  /// DescribeAvailabilityZones</a> to view the value for
+  /// <code>GroupName</code>.
   ///
   /// Parameter [groupName] :
-  /// The name of the Availability Zone Group.
+  /// The name of the Availability Zone group, Local Zone group, or Wavelength
+  /// Zone group.
   ///
   /// Parameter [optInStatus] :
-  /// Indicates whether to enable or disable membership. The valid values are
-  /// <code>opted-in</code>. You must contact <a
+  /// Indicates whether you are opted in to the Local Zone group or Wavelength
+  /// Zone group. The only valid value is <code>opted-in</code>. You must
+  /// contact <a
   /// href="https://console.aws.amazon.com/support/home#/case/create%3FissueType=customer-service%26serviceCode=general-info%26getting-started%26categoryCode=using-aws%26services">AWS
-  /// Support</a> to disable an Availability Zone group.
+  /// Support</a> to opt out of a Local Zone group, or Wavelength Zone group.
   ///
   /// Parameter [dryRun] :
   /// Checks whether you have the required permissions for the action, without
@@ -16406,6 +18196,10 @@ class EC2 {
   /// Parameter [clientVpnEndpointId] :
   /// The ID of the Client VPN endpoint to modify.
   ///
+  /// Parameter [clientConnectOptions] :
+  /// The options for managing connection authorization for new client
+  /// connections.
+  ///
   /// Parameter [connectionLogOptions] :
   /// Information about the client connection logging options.
   ///
@@ -16444,6 +18238,10 @@ class EC2 {
   /// Parameter [securityGroupIds] :
   /// The IDs of one or more security groups to apply to the target network.
   ///
+  /// Parameter [selfServicePortal] :
+  /// Specify whether to enable the self-service portal for the Client VPN
+  /// endpoint.
+  ///
   /// Parameter [serverCertificateArn] :
   /// The ARN of the server certificate to be used. The server certificate must
   /// be provisioned in AWS Certificate Manager (ACM).
@@ -16468,11 +18266,13 @@ class EC2 {
   /// Default Value: <code>443</code>
   Future<ModifyClientVpnEndpointResult> modifyClientVpnEndpoint({
     @_s.required String clientVpnEndpointId,
+    ClientConnectOptions clientConnectOptions,
     ConnectionLogOptions connectionLogOptions,
     String description,
     DnsServersOptionsModifyStructure dnsServers,
     bool dryRun,
     List<String> securityGroupIds,
+    SelfServicePortal selfServicePortal,
     String serverCertificateArn,
     bool splitTunnel,
     String vpcId,
@@ -16500,7 +18300,7 @@ class EC2 {
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-performance-instances.html">Burstable
-  /// Performance Instances</a> in the <i>Amazon Elastic Compute Cloud User
+  /// performance instances</a> in the <i>Amazon Elastic Compute Cloud User
   /// Guide</i>.
   ///
   /// Parameter [cpuCredits] :
@@ -16544,7 +18344,7 @@ class EC2 {
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html">Amazon
-  /// EBS Encryption</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+  /// EBS encryption</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
   ///
   /// Parameter [kmsKeyId] :
   /// The identifier of the AWS Key Management Service (AWS KMS) customer master
@@ -16556,18 +18356,18 @@ class EC2 {
   ///
   /// <ul>
   /// <li>
-  /// Key ID. For example, key/1234abcd-12ab-34cd-56ef-1234567890ab.
+  /// Key ID. For example, 1234abcd-12ab-34cd-56ef-1234567890ab.
   /// </li>
   /// <li>
   /// Key alias. For example, alias/ExampleAlias.
   /// </li>
   /// <li>
   /// Key ARN. For example,
-  /// arn:aws:kms:<i>us-east-1</i>:<i>012345678910</i>:key/<i>abcd1234-a123-456a-a12b-a123b4cd56ef</i>.
+  /// arn:aws:kms:us-east-1:012345678910:key/1234abcd-12ab-34cd-56ef-1234567890ab.
   /// </li>
   /// <li>
   /// Alias ARN. For example,
-  /// arn:aws:kms:<i>us-east-1</i>:<i>012345678910</i>:alias/<i>ExampleAlias</i>.
+  /// arn:aws:kms:us-east-1:012345678910:alias/ExampleAlias.
   /// </li>
   /// </ul>
   /// AWS authenticates the CMK asynchronously. Therefore, if you specify an ID,
@@ -16629,9 +18429,6 @@ class EC2 {
   /// Parameter [fleetId] :
   /// The ID of the EC2 Fleet.
   ///
-  /// Parameter [targetCapacitySpecification] :
-  /// The size of the EC2 Fleet.
-  ///
   /// Parameter [dryRun] :
   /// Checks whether you have the required permissions for the action, without
   /// actually making the request, and provides an error response. If you have
@@ -16643,15 +18440,20 @@ class EC2 {
   /// Indicates whether running instances should be terminated if the total
   /// target capacity of the EC2 Fleet is decreased below the current size of
   /// the EC2 Fleet.
+  ///
+  /// Parameter [launchTemplateConfigs] :
+  /// The launch template and overrides.
+  ///
+  /// Parameter [targetCapacitySpecification] :
+  /// The size of the EC2 Fleet.
   Future<ModifyFleetResult> modifyFleet({
     @_s.required String fleetId,
-    @_s.required TargetCapacitySpecificationRequest targetCapacitySpecification,
     bool dryRun,
     FleetExcessCapacityTerminationPolicy excessCapacityTerminationPolicy,
+    List<FleetLaunchTemplateConfigRequest> launchTemplateConfigs,
+    TargetCapacitySpecificationRequest targetCapacitySpecification,
   }) async {
     ArgumentError.checkNotNull(fleetId, 'fleetId');
-    ArgumentError.checkNotNull(
-        targetCapacitySpecification, 'targetCapacitySpecification');
 // TODO: implement ec2
     throw UnimplementedError();
   }
@@ -16984,7 +18786,7 @@ class EC2 {
   /// To modify some attributes, the instance must be stopped. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_ChangingAttributesWhileInstanceStopped.html">Modifying
-  /// Attributes of a Stopped Instance</a> in the <i>Amazon Elastic Compute
+  /// attributes of a stopped instance</a> in the <i>Amazon Elastic Compute
   /// Cloud User Guide</i>.
   ///
   /// Parameter [instanceId] :
@@ -17003,7 +18805,7 @@ class EC2 {
   /// To add instance store volumes to an Amazon EBS-backed instance, you must
   /// add them when you launch the instance. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/block-device-mapping-concepts.html#Using_OverridingAMIBDM">Updating
-  /// the Block Device Mapping when Launching an Instance</a> in the <i>Amazon
+  /// the block device mapping when launching an instance</a> in the <i>Amazon
   /// Elastic Compute Cloud User Guide</i>.
   ///
   /// Parameter [disableApiTermination] :
@@ -17047,7 +18849,7 @@ class EC2 {
   /// Changes the instance type to the specified value. For more information,
   /// see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html">Instance
-  /// Types</a>. If the instance type is not valid, the error returned is
+  /// types</a>. If the instance type is not valid, the error returned is
   /// <code>InvalidInstanceAttributeValue</code>.
   ///
   /// Parameter [kernel] :
@@ -17149,7 +18951,7 @@ class EC2 {
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-performance-instances.html">Burstable
-  /// Performance Instances</a> in the <i>Amazon Elastic Compute Cloud User
+  /// performance instances</a> in the <i>Amazon Elastic Compute Cloud User
   /// Guide</i>.
   ///
   /// Parameter [instanceCreditSpecifications] :
@@ -17218,7 +19020,7 @@ class EC2 {
   /// modifications changes from “pending” to “applied” in subsequent
   /// describe-instances API calls. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html">Instance
-  /// Metadata and User Data</a>.
+  /// metadata and user data</a>.
   ///
   /// Parameter [instanceId] :
   /// The ID of the instance.
@@ -17399,6 +19201,49 @@ class EC2 {
     throw UnimplementedError();
   }
 
+  /// Modifies the specified managed prefix list.
+  ///
+  /// Adding or removing entries in a prefix list creates a new version of the
+  /// prefix list. Changing the name of the prefix list does not affect the
+  /// version.
+  ///
+  /// If you specify a current version number that does not match the true
+  /// current version number, the request fails.
+  ///
+  /// Parameter [prefixListId] :
+  /// The ID of the prefix list.
+  ///
+  /// Parameter [addEntries] :
+  /// One or more entries to add to the prefix list.
+  ///
+  /// Parameter [currentVersion] :
+  /// The current version of the prefix list.
+  ///
+  /// Parameter [dryRun] :
+  /// Checks whether you have the required permissions for the action, without
+  /// actually making the request, and provides an error response. If you have
+  /// the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  ///
+  /// Parameter [prefixListName] :
+  /// A name for the prefix list.
+  ///
+  /// Parameter [removeEntries] :
+  /// One or more entries to remove from the prefix list.
+  Future<ModifyManagedPrefixListResult> modifyManagedPrefixList({
+    @_s.required String prefixListId,
+    List<AddPrefixListEntry> addEntries,
+    int currentVersion,
+    bool dryRun,
+    String prefixListName,
+    List<RemovePrefixListEntry> removeEntries,
+  }) async {
+    ArgumentError.checkNotNull(prefixListId, 'prefixListId');
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
   /// Modifies the specified network interface attribute. You can specify only
   /// one attribute at a time. You can use this action to attach and detach
   /// security groups from an existing EC2 instance.
@@ -17491,7 +19336,7 @@ class EC2 {
   ///
   /// For more information about modifying snapshot permissions, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-modifying-snapshot-permissions.html">Sharing
-  /// Snapshots</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+  /// snapshots</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
   ///
   /// Parameter [snapshotId] :
   /// The ID of the snapshot.
@@ -17575,6 +19420,12 @@ class EC2 {
   /// target capacity of the Spot Fleet request is decreased below the current
   /// size of the Spot Fleet.
   ///
+  /// Parameter [launchTemplateConfigs] :
+  /// The launch template and overrides. You can only use this parameter if you
+  /// specified a launch template (<code>LaunchTemplateConfigs</code>) in your
+  /// Spot Fleet request. If you specified <code>LaunchSpecifications</code> in
+  /// your Spot Fleet request, then omit this parameter.
+  ///
   /// Parameter [onDemandTargetCapacity] :
   /// The number of On-Demand Instances in the fleet.
   ///
@@ -17583,6 +19434,7 @@ class EC2 {
   Future<ModifySpotFleetRequestResponse> modifySpotFleetRequest({
     @_s.required String spotFleetRequestId,
     ExcessCapacityTerminationPolicy excessCapacityTerminationPolicy,
+    List<LaunchTemplateConfig> launchTemplateConfigs,
     int onDemandTargetCapacity,
     int targetCapacity,
   }) async {
@@ -17606,12 +19458,29 @@ class EC2 {
   /// interface or instance only receives an IPv6 address if it's created using
   /// version <code>2016-11-15</code> or later of the Amazon EC2 API.
   ///
+  /// Parameter [customerOwnedIpv4Pool] :
+  /// The customer-owned IPv4 address pool associated with the subnet.
+  ///
+  /// You must set this value when you specify <code>true</code> for
+  /// <code>MapCustomerOwnedIpOnLaunch</code>.
+  ///
+  /// Parameter [mapCustomerOwnedIpOnLaunch] :
+  /// Specify <code>true</code> to indicate that network interfaces attached to
+  /// instances created in the specified subnet should be assigned a
+  /// customer-owned IPv4 address.
+  ///
+  /// When this value is <code>true</code>, you must specify the customer-owned
+  /// IP pool using <code>CustomerOwnedIpv4Pool</code>.
+  ///
   /// Parameter [mapPublicIpOnLaunch] :
-  /// Specify <code>true</code> to indicate that ENIs attached to instances
-  /// created in the specified subnet should be assigned a public IPv4 address.
+  /// Specify <code>true</code> to indicate that network interfaces attached to
+  /// instances created in the specified subnet should be assigned a public IPv4
+  /// address.
   Future<void> modifySubnetAttribute({
     @_s.required String subnetId,
     AttributeBooleanValue assignIpv6AddressOnCreation,
+    String customerOwnedIpv4Pool,
+    AttributeBooleanValue mapCustomerOwnedIpOnLaunch,
     AttributeBooleanValue mapPublicIpOnLaunch,
   }) async {
     ArgumentError.checkNotNull(subnetId, 'subnetId');
@@ -17793,6 +19662,72 @@ class EC2 {
     throw UnimplementedError();
   }
 
+  /// Modifies the specified transit gateway. When you modify a transit gateway,
+  /// the modified options are applied to new transit gateway attachments only.
+  /// Your existing transit gateway attachments are not modified.
+  ///
+  /// Parameter [transitGatewayId] :
+  /// The ID of the transit gateway.
+  ///
+  /// Parameter [description] :
+  /// The description for the transit gateway.
+  ///
+  /// Parameter [dryRun] :
+  /// Checks whether you have the required permissions for the action, without
+  /// actually making the request, and provides an error response. If you have
+  /// the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  ///
+  /// Parameter [options] :
+  /// The options to modify.
+  Future<ModifyTransitGatewayResult> modifyTransitGateway({
+    @_s.required String transitGatewayId,
+    String description,
+    bool dryRun,
+    ModifyTransitGatewayOptions options,
+  }) async {
+    ArgumentError.checkNotNull(transitGatewayId, 'transitGatewayId');
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
+  /// Modifies a reference (route) to a prefix list in a specified transit
+  /// gateway route table.
+  ///
+  /// Parameter [prefixListId] :
+  /// The ID of the prefix list.
+  ///
+  /// Parameter [transitGatewayRouteTableId] :
+  /// The ID of the transit gateway route table.
+  ///
+  /// Parameter [blackhole] :
+  /// Indicates whether to drop traffic that matches this route.
+  ///
+  /// Parameter [dryRun] :
+  /// Checks whether you have the required permissions for the action, without
+  /// actually making the request, and provides an error response. If you have
+  /// the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  ///
+  /// Parameter [transitGatewayAttachmentId] :
+  /// The ID of the attachment to which traffic is routed.
+  Future<ModifyTransitGatewayPrefixListReferenceResult>
+      modifyTransitGatewayPrefixListReference({
+    @_s.required String prefixListId,
+    @_s.required String transitGatewayRouteTableId,
+    bool blackhole,
+    bool dryRun,
+    String transitGatewayAttachmentId,
+  }) async {
+    ArgumentError.checkNotNull(prefixListId, 'prefixListId');
+    ArgumentError.checkNotNull(
+        transitGatewayRouteTableId, 'transitGatewayRouteTableId');
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
   /// Modifies the specified VPC attachment.
   ///
   /// Parameter [transitGatewayAttachmentId] :
@@ -17833,24 +19768,24 @@ class EC2 {
 
   /// You can modify several parameters of an existing EBS volume, including
   /// volume size, volume type, and IOPS capacity. If your EBS volume is
-  /// attached to a current-generation EC2 instance type, you may be able to
+  /// attached to a current-generation EC2 instance type, you might be able to
   /// apply these changes without stopping the instance or detaching the volume
   /// from it. For more information about modifying an EBS volume running Linux,
   /// see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-expand-volume.html">Modifying
-  /// the Size, IOPS, or Type of an EBS Volume on Linux</a>. For more
+  /// the size, IOPS, or type of an EBS volume on Linux</a>. For more
   /// information about modifying an EBS volume running Windows, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/ebs-expand-volume.html">Modifying
-  /// the Size, IOPS, or Type of an EBS Volume on Windows</a>.
+  /// the size, IOPS, or type of an EBS volume on Windows</a>.
   ///
   /// When you complete a resize operation on your volume, you need to extend
   /// the volume's file-system size to take advantage of the new storage
   /// capacity. For information about extending a Linux file system, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-expand-volume.html#recognize-expanded-volume-linux">Extending
-  /// a Linux File System</a>. For information about extending a Windows file
+  /// a Linux file system</a>. For information about extending a Windows file
   /// system, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/ebs-expand-volume.html#recognize-expanded-volume-windows">Extending
-  /// a Windows File System</a>.
+  /// a Windows file system</a>.
   ///
   /// You can use CloudWatch Events to check the status of a modification to an
   /// EBS volume. For information about CloudWatch Events, see the <a
@@ -17859,15 +19794,15 @@ class EC2 {
   /// modification using <a>DescribeVolumesModifications</a>. For information
   /// about tracking status changes using either method, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-expand-volume.html#monitoring_mods">Monitoring
-  /// Volume Modifications</a>.
+  /// volume modifications</a>.
   ///
-  /// With previous-generation instance types, resizing an EBS volume may
+  /// With previous-generation instance types, resizing an EBS volume might
   /// require detaching and reattaching the volume or stopping and restarting
   /// the instance. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-expand-volume.html">Modifying
-  /// the Size, IOPS, or Type of an EBS Volume on Linux</a> and <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/ebs-expand-volume.html">Modifying
-  /// the Size, IOPS, or Type of an EBS Volume on Windows</a>.
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-modify-volume.html">Amazon
+  /// EBS Elastic Volumes</a> (Linux) or <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/ebs-modify-volume.html">Amazon
+  /// EBS Elastic Volumes</a> (Windows).
   ///
   /// If you reach the maximum volume modification rate per volume limit, you
   /// will need to wait at least six hours before applying further modifications
@@ -17884,33 +19819,80 @@ class EC2 {
   /// <code>UnauthorizedOperation</code>.
   ///
   /// Parameter [iops] :
-  /// The target IOPS rate of the volume.
+  /// The target IOPS rate of the volume. This parameter is valid only for
+  /// <code>gp3</code>, <code>io1</code>, and <code>io2</code> volumes.
   ///
-  /// This is only valid for Provisioned IOPS SSD (<code>io1</code>) volumes.
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumeTypes.html#EBSVolumeTypes_piops">Provisioned
-  /// IOPS SSD (io1) Volumes</a>.
+  /// The following are the supported values for each volume type:
   ///
+  /// <ul>
+  /// <li>
+  /// <code>gp3</code>: 3,000-16,000 IOPS
+  /// </li>
+  /// <li>
+  /// <code>io1</code>: 100-64,000 IOPS
+  /// </li>
+  /// <li>
+  /// <code>io2</code>: 100-64,000 IOPS
+  /// </li>
+  /// </ul>
   /// Default: If no IOPS value is specified, the existing value is retained.
+  ///
+  /// Parameter [multiAttachEnabled] :
+  /// Specifies whether to enable Amazon EBS Multi-Attach. If you enable
+  /// Multi-Attach, you can attach the volume to up to 16 <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html#ec2-nitro-instances">
+  /// Nitro-based instances</a> in the same Availability Zone. This parameter is
+  /// supported with <code>io1</code> and <code>io2</code> volumes only. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-volumes-multi.html">
+  /// Amazon EBS Multi-Attach</a> in the <i>Amazon Elastic Compute Cloud User
+  /// Guide</i>.
   ///
   /// Parameter [size] :
   /// The target size of the volume, in GiB. The target volume size must be
-  /// greater than or equal to than the existing size of the volume. For
-  /// information about available EBS volume sizes, see <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumeTypes.html">Amazon
-  /// EBS Volume Types</a>.
+  /// greater than or equal to the existing size of the volume.
   ///
+  /// The following are the supported volumes sizes for each volume type:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>gp2</code> and <code>gp3</code>: 1-16,384
+  /// </li>
+  /// <li>
+  /// <code>io1</code> and <code>io2</code>: 4-16,384
+  /// </li>
+  /// <li>
+  /// <code>st1</code> and <code>sc1</code>: 125-16,384
+  /// </li>
+  /// <li>
+  /// <code>standard</code>: 1-1,024
+  /// </li>
+  /// </ul>
   /// Default: If no size is specified, the existing size is retained.
   ///
+  /// Parameter [throughput] :
+  /// The target throughput of the volume, in MiB/s. This parameter is valid
+  /// only for <code>gp3</code> volumes. The maximum value is 1,000.
+  ///
+  /// Default: If no throughput value is specified, the existing value is
+  /// retained.
+  ///
+  /// Valid Range: Minimum value of 125. Maximum value of 1000.
+  ///
   /// Parameter [volumeType] :
-  /// The target EBS volume type of the volume.
+  /// The target EBS volume type of the volume. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumeTypes.html">Amazon
+  /// EBS volume types</a> in the <i>Amazon Elastic Compute Cloud User
+  /// Guide</i>.
   ///
   /// Default: If no type is specified, the existing type is retained.
   Future<ModifyVolumeResult> modifyVolume({
     @_s.required String volumeId,
     bool dryRun,
     int iops,
+    bool multiAttachEnabled,
     int size,
+    int throughput,
     VolumeType volumeType,
   }) async {
     ArgumentError.checkNotNull(volumeId, 'volumeId');
@@ -17985,8 +19967,8 @@ class EC2 {
   }
 
   /// Modifies attributes of a specified VPC endpoint. The attributes that you
-  /// can modify depend on the type of VPC endpoint (interface or gateway). For
-  /// more information, see <a
+  /// can modify depend on the type of VPC endpoint (interface, gateway, or
+  /// Gateway Load Balancer). For more information, see <a
   /// href="https://docs.aws.amazon.com/vpc/latest/userguide/vpc-endpoints.html">VPC
   /// Endpoints</a> in the <i>Amazon Virtual Private Cloud User Guide</i>.
   ///
@@ -18002,8 +19984,9 @@ class EC2 {
   /// network interface.
   ///
   /// Parameter [addSubnetIds] :
-  /// (Interface endpoint) One or more subnet IDs in which to serve the
-  /// endpoint.
+  /// (Interface and Gateway Load Balancer endpoints) One or more subnet IDs in
+  /// which to serve the endpoint. For a Gateway Load Balancer endpoint, you can
+  /// specify only one subnet.
   ///
   /// Parameter [dryRun] :
   /// Checks whether you have the required permissions for the action, without
@@ -18013,8 +19996,8 @@ class EC2 {
   /// <code>UnauthorizedOperation</code>.
   ///
   /// Parameter [policyDocument] :
-  /// A policy to attach to the endpoint that controls access to the service.
-  /// The policy must be in valid JSON format.
+  /// (Interface and gateway endpoints) A policy to attach to the endpoint that
+  /// controls access to the service. The policy must be in valid JSON format.
   ///
   /// Parameter [privateDnsEnabled] :
   /// (Interface endpoint) Indicates whether a private hosted zone is associated
@@ -18088,9 +20071,9 @@ class EC2 {
   }
 
   /// Modifies the attributes of your VPC endpoint service configuration. You
-  /// can change the Network Load Balancers for your service, and you can
-  /// specify whether acceptance is required for requests to connect to your
-  /// endpoint service through an interface VPC endpoint.
+  /// can change the Network Load Balancers or Gateway Load Balancers for your
+  /// service, and you can specify whether acceptance is required for requests
+  /// to connect to your endpoint service through an interface VPC endpoint.
   ///
   /// If you set or modify the private DNS name, you must prove that you own the
   /// private DNS domain name. For more information, see <a
@@ -18105,6 +20088,10 @@ class EC2 {
   /// Indicates whether requests to create an endpoint to your service must be
   /// accepted.
   ///
+  /// Parameter [addGatewayLoadBalancerArns] :
+  /// The Amazon Resource Names (ARNs) of Gateway Load Balancers to add to your
+  /// service configuration.
+  ///
   /// Parameter [addNetworkLoadBalancerArns] :
   /// The Amazon Resource Names (ARNs) of Network Load Balancers to add to your
   /// service configuration.
@@ -18117,21 +20104,29 @@ class EC2 {
   /// <code>UnauthorizedOperation</code>.
   ///
   /// Parameter [privateDnsName] :
-  /// The private DNS name to assign to the endpoint service.
+  /// (Interface endpoint configuration) The private DNS name to assign to the
+  /// endpoint service.
+  ///
+  /// Parameter [removeGatewayLoadBalancerArns] :
+  /// The Amazon Resource Names (ARNs) of Gateway Load Balancers to remove from
+  /// your service configuration.
   ///
   /// Parameter [removeNetworkLoadBalancerArns] :
   /// The Amazon Resource Names (ARNs) of Network Load Balancers to remove from
   /// your service configuration.
   ///
   /// Parameter [removePrivateDnsName] :
-  /// Removes the private DNS name of the endpoint service.
+  /// (Interface endpoint configuration) Removes the private DNS name of the
+  /// endpoint service.
   Future<ModifyVpcEndpointServiceConfigurationResult>
       modifyVpcEndpointServiceConfiguration({
     @_s.required String serviceId,
     bool acceptanceRequired,
+    List<String> addGatewayLoadBalancerArns,
     List<String> addNetworkLoadBalancerArns,
     bool dryRun,
     String privateDnsName,
+    List<String> removeGatewayLoadBalancerArns,
     List<String> removeNetworkLoadBalancerArns,
     bool removePrivateDnsName,
   }) async {
@@ -18276,8 +20271,9 @@ class EC2 {
     throw UnimplementedError();
   }
 
-  /// Modifies the target gateway of an AWS Site-to-Site VPN connection. The
-  /// following migration options are available:
+  /// Modifies the customer gateway or the target gateway of an AWS Site-to-Site
+  /// VPN connection. To modify the target gateway, the following migration
+  /// options are available:
   ///
   /// <ul>
   /// <li>
@@ -18356,6 +20352,57 @@ class EC2 {
     throw UnimplementedError();
   }
 
+  /// Modifies the connection options for your Site-to-Site VPN connection.
+  ///
+  /// When you modify the VPN connection options, the VPN endpoint IP addresses
+  /// on the AWS side do not change, and the tunnel options do not change. Your
+  /// VPN connection will be temporarily unavailable for a brief period while
+  /// the VPN connection is updated.
+  ///
+  /// Parameter [vpnConnectionId] :
+  /// The ID of the Site-to-Site VPN connection.
+  ///
+  /// Parameter [dryRun] :
+  /// Checks whether you have the required permissions for the action, without
+  /// actually making the request, and provides an error response. If you have
+  /// the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  ///
+  /// Parameter [localIpv4NetworkCidr] :
+  /// The IPv4 CIDR on the customer gateway (on-premises) side of the VPN
+  /// connection.
+  ///
+  /// Default: <code>0.0.0.0/0</code>
+  ///
+  /// Parameter [localIpv6NetworkCidr] :
+  /// The IPv6 CIDR on the customer gateway (on-premises) side of the VPN
+  /// connection.
+  ///
+  /// Default: <code>::/0</code>
+  ///
+  /// Parameter [remoteIpv4NetworkCidr] :
+  /// The IPv4 CIDR on the AWS side of the VPN connection.
+  ///
+  /// Default: <code>0.0.0.0/0</code>
+  ///
+  /// Parameter [remoteIpv6NetworkCidr] :
+  /// The IPv6 CIDR on the AWS side of the VPN connection.
+  ///
+  /// Default: <code>::/0</code>
+  Future<ModifyVpnConnectionOptionsResult> modifyVpnConnectionOptions({
+    @_s.required String vpnConnectionId,
+    bool dryRun,
+    String localIpv4NetworkCidr,
+    String localIpv6NetworkCidr,
+    String remoteIpv4NetworkCidr,
+    String remoteIpv6NetworkCidr,
+  }) async {
+    ArgumentError.checkNotNull(vpnConnectionId, 'vpnConnectionId');
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
   /// Modifies the VPN tunnel endpoint certificate.
   ///
   /// Parameter [vpnConnectionId] :
@@ -18422,7 +20469,7 @@ class EC2 {
   /// Enables detailed monitoring for a running instance. Otherwise, basic
   /// monitoring is enabled. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-cloudwatch.html">Monitoring
-  /// Your Instances and Volumes</a> in the <i>Amazon Elastic Compute Cloud User
+  /// your instances and volumes</a> in the <i>Amazon Elastic Compute Cloud User
   /// Guide</i>.
   ///
   /// To disable detailed monitoring, see .
@@ -18513,6 +20560,9 @@ class EC2 {
   /// <code>DryRunOperation</code>. Otherwise, it is
   /// <code>UnauthorizedOperation</code>.
   ///
+  /// Parameter [poolTagSpecifications] :
+  /// The tags to apply to the address pool.
+  ///
   /// Parameter [publiclyAdvertisable] :
   /// (IPv6 only) Indicate whether the address range will be publicly advertised
   /// to the internet.
@@ -18523,6 +20573,7 @@ class EC2 {
     CidrAuthorizationContext cidrAuthorizationContext,
     String description,
     bool dryRun,
+    List<TagSpecification> poolTagSpecifications,
     bool publiclyAdvertisable,
   }) async {
     ArgumentError.checkNotNull(cidr, 'cidr');
@@ -18561,12 +20612,16 @@ class EC2 {
   /// not exceed the expected upfront cost of the purchase. At this time, the
   /// only supported currency is <code>USD</code>. For example, to indicate a
   /// limit price of USD 100, specify 100.00.
+  ///
+  /// Parameter [tagSpecifications] :
+  /// The tags to apply to the Dedicated Host Reservation during purchase.
   Future<PurchaseHostReservationResult> purchaseHostReservation({
     @_s.required List<String> hostIdSet,
     @_s.required String offeringId,
     String clientToken,
     CurrencyCodeValues currencyCode,
     String limitPrice,
+    List<TagSpecification> tagSpecifications,
   }) async {
     ArgumentError.checkNotNull(hostIdSet, 'hostIdSet');
     ArgumentError.checkNotNull(offeringId, 'offeringId');
@@ -18671,12 +20726,12 @@ class EC2 {
   /// The operation succeeds if the instances are valid and belong to you.
   /// Requests to reboot terminated instances are ignored.
   ///
-  /// If an instance does not cleanly shut down within four minutes, Amazon EC2
+  /// If an instance does not cleanly shut down within a few minutes, Amazon EC2
   /// performs a hard reboot.
   ///
   /// For more information about troubleshooting, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-console.html">Getting
-  /// Console Output and Rebooting Instances</a> in the <i>Amazon Elastic
+  /// console output and rebooting instances</a> in the <i>Amazon Elastic
   /// Compute Cloud User Guide</i>.
   ///
   /// Parameter [instanceIds] :
@@ -18701,7 +20756,7 @@ class EC2 {
   /// must complete before you can launch an instance from the AMI. For more
   /// information about creating AMIs, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/creating-an-ami.html">Creating
-  /// Your Own AMIs</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+  /// your own AMIs</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
   /// <note>
   /// For Amazon EBS-backed instances, <a>CreateImage</a> creates and registers
   /// the AMI in a single request, so you don't have to register the AMI
@@ -18711,11 +20766,11 @@ class EC2 {
   /// Linux AMI from a snapshot of a root device volume. You specify the
   /// snapshot using the block device mapping. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-launch-snapshot.html">Launching
-  /// a Linux Instance from a Backup</a> in the <i>Amazon Elastic Compute Cloud
+  /// a Linux instance from a backup</a> in the <i>Amazon Elastic Compute Cloud
   /// User Guide</i>.
   ///
-  /// You can't register an image where a secondary (non-root) snapshot has AWS
-  /// Marketplace product codes.
+  /// If any snapshots have AWS Marketplace product codes, they are copied to
+  /// the new AMI.
   ///
   /// Windows and some Linux distributions, such as Red Hat Enterprise Linux
   /// (RHEL) and SUSE Linux Enterprise Server (SLES), use the EC2 billing
@@ -18741,7 +20796,7 @@ class EC2 {
   /// about how to obtain the platform details and billing information of an
   /// AMI, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ami-billing-info.html">Obtaining
-  /// Billing Information</a> in the <i>Amazon Elastic Compute Cloud User
+  /// billing information</a> in the <i>Amazon Elastic Compute Cloud User
   /// Guide</i>.
   ///
   /// If needed, you can deregister an AMI at any time. Any modifications you
@@ -18941,6 +20996,36 @@ class EC2 {
     throw UnimplementedError();
   }
 
+  /// Rejects a request to associate cross-account subnets with a transit
+  /// gateway multicast domain.
+  ///
+  /// Parameter [dryRun] :
+  /// Checks whether you have the required permissions for the action, without
+  /// actually making the request, and provides an error response. If you have
+  /// the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  ///
+  /// Parameter [subnetIds] :
+  /// The IDs of the subnets to associate with the transit gateway multicast
+  /// domain.
+  ///
+  /// Parameter [transitGatewayAttachmentId] :
+  /// The ID of the transit gateway attachment.
+  ///
+  /// Parameter [transitGatewayMulticastDomainId] :
+  /// The ID of the transit gateway multicast domain.
+  Future<RejectTransitGatewayMulticastDomainAssociationsResult>
+      rejectTransitGatewayMulticastDomainAssociations({
+    bool dryRun,
+    List<String> subnetIds,
+    String transitGatewayAttachmentId,
+    String transitGatewayMulticastDomainId,
+  }) async {
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
   /// Rejects a transit gateway peering attachment request.
   ///
   /// Parameter [transitGatewayAttachmentId] :
@@ -19074,7 +21159,8 @@ class EC2 {
   /// <code>UnauthorizedOperation</code>.
   ///
   /// Parameter [networkBorderGroup] :
-  /// The location that the IP address is released from.
+  /// The set of Availability Zones, Local Zones, or Wavelength Zones from which
+  /// AWS advertises IP addresses.
   ///
   /// If you provide an incorrect network border group, you will receive an
   /// <code>InvalidAddress.NotFound</code> error. For more information, see <a
@@ -19262,6 +21348,9 @@ class EC2 {
   /// Parameter [routeTableId] :
   /// The ID of the route table.
   ///
+  /// Parameter [carrierGatewayId] :
+  /// [IPv4 traffic only] The ID of a carrier gateway.
+  ///
   /// Parameter [destinationCidrBlock] :
   /// The IPv4 CIDR address block used for the destination match. The value that
   /// you provide must match the CIDR of an existing route in the table.
@@ -19269,6 +21358,9 @@ class EC2 {
   /// Parameter [destinationIpv6CidrBlock] :
   /// The IPv6 CIDR address block used for the destination match. The value that
   /// you provide must match the CIDR of an existing route in the table.
+  ///
+  /// Parameter [destinationPrefixListId] :
+  /// The ID of the prefix list for the route.
   ///
   /// Parameter [dryRun] :
   /// Checks whether you have the required permissions for the action, without
@@ -19302,12 +21394,18 @@ class EC2 {
   /// Parameter [transitGatewayId] :
   /// The ID of a transit gateway.
   ///
+  /// Parameter [vpcEndpointId] :
+  /// The ID of a VPC endpoint. Supported for Gateway Load Balancer endpoints
+  /// only.
+  ///
   /// Parameter [vpcPeeringConnectionId] :
   /// The ID of a VPC peering connection.
   Future<void> replaceRoute({
     @_s.required String routeTableId,
+    String carrierGatewayId,
     String destinationCidrBlock,
     String destinationIpv6CidrBlock,
+    String destinationPrefixListId,
     bool dryRun,
     String egressOnlyInternetGatewayId,
     String gatewayId,
@@ -19317,6 +21415,7 @@ class EC2 {
     String natGatewayId,
     String networkInterfaceId,
     String transitGatewayId,
+    String vpcEndpointId,
     String vpcPeeringConnectionId,
   }) async {
     ArgumentError.checkNotNull(routeTableId, 'routeTableId');
@@ -19507,7 +21606,7 @@ class EC2 {
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-fleet-requests.html">Spot
-  /// Fleet Requests</a> in the <i>Amazon EC2 User Guide for Linux
+  /// Fleet requests</a> in the <i>Amazon EC2 User Guide for Linux
   /// Instances</i>.
   ///
   /// Parameter [spotFleetRequestConfig] :
@@ -19533,7 +21632,7 @@ class EC2 {
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-requests.html">Spot
-  /// Instance Requests</a> in the <i>Amazon EC2 User Guide for Linux
+  /// Instance requests</a> in the <i>Amazon EC2 User Guide for Linux
   /// Instances</i>.
   ///
   /// Parameter [availabilityZoneGroup] :
@@ -19572,6 +21671,10 @@ class EC2 {
   /// You can't specify an Availability Zone group or a launch group if you
   /// specify a duration.
   ///
+  /// New accounts or accounts with no previous billing history with AWS are not
+  /// eligible for Spot Instances with a defined duration (also known as Spot
+  /// blocks).
+  ///
   /// Parameter [clientToken] :
   /// Unique, case-sensitive identifier that you provide to ensure the
   /// idempotency of the request. For more information, see <a
@@ -19608,6 +21711,13 @@ class EC2 {
   /// The maximum price per hour that you are willing to pay for a Spot
   /// Instance. The default is the On-Demand price.
   ///
+  /// Parameter [tagSpecifications] :
+  /// The key-value pair for tagging the Spot Instance request on creation. The
+  /// value for <code>ResourceType</code> must be
+  /// <code>spot-instances-request</code>, otherwise the Spot Instance request
+  /// fails. To tag the Spot Instance request after it has been created, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateTags.html">CreateTags</a>.
+  ///
   /// Parameter [type] :
   /// The Spot Instance request type.
   ///
@@ -19625,11 +21735,22 @@ class EC2 {
   /// date and time.
   ///
   /// Parameter [validUntil] :
-  /// The end date of the request. If this is a one-time request, the request
-  /// remains active until all instances launch, the request is canceled, or
-  /// this date is reached. If the request is persistent, it remains active
-  /// until it is canceled or this date is reached. The default end date is 7
-  /// days from the current date.
+  /// The end date of the request, in UTC format
+  /// (<i>YYYY</i>-<i>MM</i>-<i>DD</i>T<i>HH</i>:<i>MM</i>:<i>SS</i>Z).
+  ///
+  /// <ul>
+  /// <li>
+  /// For a persistent request, the request remains active until the
+  /// <code>ValidUntil</code> date and time is reached. Otherwise, the request
+  /// remains active until you cancel it.
+  /// </li>
+  /// <li>
+  /// For a one-time request, the request remains active until all instances
+  /// launch, the request is canceled, or the <code>ValidUntil</code> date and
+  /// time is reached. By default, the request is valid for 7 days from the date
+  /// the request was created.
+  /// </li>
+  /// </ul>
   Future<RequestSpotInstancesResult> requestSpotInstances({
     String availabilityZoneGroup,
     int blockDurationMinutes,
@@ -19640,6 +21761,7 @@ class EC2 {
     String launchGroup,
     RequestSpotLaunchSpecification launchSpecification,
     String spotPrice,
+    List<TagSpecification> tagSpecifications,
     SpotInstanceType type,
     DateTime validFrom,
     DateTime validUntil,
@@ -19655,7 +21777,7 @@ class EC2 {
   /// to encrypt by a customer managed CMK by specifying it when you create the
   /// volume. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html">Amazon
-  /// EBS Encryption</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+  /// EBS encryption</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
   ///
   /// Parameter [dryRun] :
   /// Checks whether you have the required permissions for the action, without
@@ -19795,7 +21917,7 @@ class EC2 {
   ///
   /// For more information about modifying snapshot permissions, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ebs-modifying-snapshot-permissions.html">Sharing
-  /// Snapshots</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+  /// snapshots</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
   ///
   /// Parameter [attribute] :
   /// The attribute to reset. Currently, only the attribute for permission to
@@ -19844,6 +21966,38 @@ class EC2 {
     throw UnimplementedError();
   }
 
+  /// Restores the entries from a previous version of a managed prefix list to a
+  /// new version of the prefix list.
+  ///
+  /// Parameter [currentVersion] :
+  /// The current version number for the prefix list.
+  ///
+  /// Parameter [prefixListId] :
+  /// The ID of the prefix list.
+  ///
+  /// Parameter [previousVersion] :
+  /// The version to restore.
+  ///
+  /// Parameter [dryRun] :
+  /// Checks whether you have the required permissions for the action, without
+  /// actually making the request, and provides an error response. If you have
+  /// the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  Future<RestoreManagedPrefixListVersionResult>
+      restoreManagedPrefixListVersion({
+    @_s.required int currentVersion,
+    @_s.required String prefixListId,
+    @_s.required int previousVersion,
+    bool dryRun,
+  }) async {
+    ArgumentError.checkNotNull(currentVersion, 'currentVersion');
+    ArgumentError.checkNotNull(prefixListId, 'prefixListId');
+    ArgumentError.checkNotNull(previousVersion, 'previousVersion');
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
   /// Removes an ingress authorization rule from a Client VPN endpoint.
   ///
   /// Parameter [clientVpnEndpointId] :
@@ -19880,10 +22034,17 @@ class EC2 {
   }
 
   /// [VPC only] Removes the specified egress rules from a security group for
-  /// EC2-VPC. This action doesn't apply to security groups for use in
+  /// EC2-VPC. This action does not apply to security groups for use in
   /// EC2-Classic. To remove a rule, the values that you specify (for example,
   /// ports) must match the existing rule's values exactly.
+  /// <note>
+  /// [Default VPC] If the values you specify do not match the existing rule's
+  /// values, no error is returned, and the output describes the security group
+  /// rules that were not revoked.
   ///
+  /// AWS recommends that you use <a>DescribeSecurityGroups</a> to verify that
+  /// the rule has been removed.
+  /// </note>
   /// Each rule consists of the protocol and the IPv4 or IPv6 CIDR range or
   /// source security group. For the TCP and UDP protocols, you must also
   /// specify the destination port or range of ports. For the ICMP protocol, you
@@ -19928,7 +22089,7 @@ class EC2 {
   ///
   /// Parameter [toPort] :
   /// Not supported. Use a set of IP permissions to specify the port.
-  Future<void> revokeSecurityGroupEgress({
+  Future<RevokeSecurityGroupEgressResult> revokeSecurityGroupEgress({
     @_s.required String groupId,
     String cidrIp,
     bool dryRun,
@@ -19948,9 +22109,12 @@ class EC2 {
   /// rule, the values that you specify (for example, ports) must match the
   /// existing rule's values exactly.
   /// <note>
-  /// [EC2-Classic only] If the values you specify do not match the existing
-  /// rule's values, no error is returned. Use <a>DescribeSecurityGroups</a> to
-  /// verify that the rule has been removed.
+  /// [EC2-Classic , default VPC] If the values you specify do not match the
+  /// existing rule's values, no error is returned, and the output describes the
+  /// security group rules that were not revoked.
+  ///
+  /// AWS recommends that you use <a>DescribeSecurityGroups</a> to verify that
+  /// the rule has been removed.
   /// </note>
   /// Each rule consists of the protocol and the CIDR range or source security
   /// group. For the TCP and UDP protocols, you must also specify the
@@ -20018,7 +22182,7 @@ class EC2 {
   /// The end of port range for the TCP and UDP protocols, or an ICMP code
   /// number. For the ICMP code number, use <code>-1</code> to specify all ICMP
   /// codes for the ICMP type.
-  Future<void> revokeSecurityGroupIngress({
+  Future<RevokeSecurityGroupIngressResult> revokeSecurityGroupIngress({
     String cidrIp,
     bool dryRun,
     int fromPort,
@@ -20055,7 +22219,7 @@ class EC2 {
   /// default VPC, or if you do not specify a subnet ID, the request fails. For
   /// more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-vpc.html#vpc-only-instance-types">Instance
-  /// Types Available Only in a VPC</a>.
+  /// types available only in a VPC</a>.
   /// </li>
   /// <li>
   /// [EC2-VPC] All instances have a network interface with a primary private
@@ -20066,13 +22230,13 @@ class EC2 {
   /// Not all instance types support IPv6 addresses. For more information, see
   /// <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html">Instance
-  /// Types</a>.
+  /// types</a>.
   /// </li>
   /// <li>
   /// If you don't specify a security group ID, we use the default security
   /// group. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-network-security.html">Security
-  /// Groups</a>.
+  /// groups</a>.
   /// </li>
   /// <li>
   /// If any of the AMIs have a product code attached for which the user has not
@@ -20096,20 +22260,20 @@ class EC2 {
   /// launch, after launch, or both. For more information, see <a>CreateTags</a>
   /// and <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_Tags.html">Tagging
-  /// Your Amazon EC2 Resources</a>.
+  /// your Amazon EC2 resources</a>.
   ///
   /// Linux instances have access to the public key of the key pair at boot. You
   /// can use this key to provide secure access to the instance. Amazon EC2
   /// public images use this feature to provide secure access without passwords.
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html">Key
-  /// Pairs</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+  /// pairs</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
   ///
   /// For troubleshooting, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Using_InstanceStraightToTerminated.html">What
-  /// To Do If An Instance Immediately Terminates</a>, and <a
+  /// to do if an instance immediately terminates</a>, and <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/TroubleshootingInstancesConnecting.html">Troubleshooting
-  /// Connecting to Your Instance</a> in the <i>Amazon Elastic Compute Cloud
+  /// connecting to your instance</a> in the <i>Amazon Elastic Compute Cloud
   /// User Guide</i>.
   ///
   /// Parameter [maxCount] :
@@ -20162,7 +22326,7 @@ class EC2 {
   /// Parameter [cpuOptions] :
   /// The CPU options for the instance. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-optimize-cpu.html">Optimizing
-  /// CPU Options</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+  /// CPU options</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
   ///
   /// Parameter [creditSpecification] :
   /// The credit option for CPU usage of the burstable performance instance.
@@ -20171,7 +22335,7 @@ class EC2 {
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ModifyInstanceCreditSpecification.html">
   /// ModifyInstanceCreditSpecification</a>. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/burstable-performance-instances.html">Burstable
-  /// Performance Instances</a> in the <i>Amazon Elastic Compute Cloud User
+  /// performance instances</a> in the <i>Amazon Elastic Compute Cloud User
   /// Guide</i>.
   ///
   /// Default: <code>standard</code> (T2 instances) or <code>unlimited</code>
@@ -20217,11 +22381,25 @@ class EC2 {
   /// inference accelerators are a resource you can attach to your Amazon EC2
   /// instances to accelerate your Deep Learning (DL) inference workloads.
   ///
+  /// You cannot specify accelerators from different generations in the same
+  /// request.
+  ///
+  /// Parameter [enclaveOptions] :
+  /// Indicates whether the instance is enabled for AWS Nitro Enclaves. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/enclaves/latest/user/nitro-enclave.html">
+  /// What is AWS Nitro Enclaves?</a> in the <i>AWS Nitro Enclaves User
+  /// Guide</i>.
+  ///
+  /// You can't enable AWS Nitro Enclaves and hibernation on the same instance.
+  ///
   /// Parameter [hibernationOptions] :
   /// Indicates whether an instance is enabled for hibernation. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Hibernate.html">Hibernate
-  /// Your Instance</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+  /// your instance</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+  ///
+  /// You can't enable hibernation and AWS Nitro Enclaves on the same instance.
   ///
   /// Parameter [iamInstanceProfile] :
   /// The IAM instance profile.
@@ -20247,7 +22425,7 @@ class EC2 {
   /// Parameter [instanceType] :
   /// The instance type. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html">Instance
-  /// Types</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+  /// types</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
   ///
   /// Default: <code>m1.small</code>
   ///
@@ -20302,7 +22480,7 @@ class EC2 {
   /// Parameter [metadataOptions] :
   /// The metadata options for the instance. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-metadata.html">Instance
-  /// Metadata and User Data</a>.
+  /// metadata and user data</a>.
   ///
   /// Parameter [monitoring] :
   /// Specifies whether detailed monitoring is enabled for the instance.
@@ -20373,7 +22551,7 @@ class EC2 {
   /// The user data to make available to the instance. For more information, see
   /// <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/user-data.html">Running
-  /// Commands on Your Linux Instance at Launch</a> (Linux) and <a
+  /// commands on your Linux instance at launch</a> (Linux) and <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/ec2-instance-metadata.html#instancedata-add-user-data">Adding
   /// User Data</a> (Windows). If you are using a command line tool,
   /// base64-encoding is performed for you, and you can load the text from a
@@ -20393,6 +22571,7 @@ class EC2 {
     bool ebsOptimized,
     List<ElasticGpuSpecification> elasticGpuSpecification,
     List<ElasticInferenceAccelerator> elasticInferenceAccelerators,
+    EnclaveOptionsRequest enclaveOptions,
     HibernationOptionsRequest hibernationOptions,
     IamInstanceProfileSpecification iamInstanceProfile,
     String imageId,
@@ -20608,8 +22787,13 @@ class EC2 {
   /// gateway attachment.
   /// </li>
   /// <li>
-  /// <code>attachment.resource-type</code> - The attachment resource type
-  /// (<code>vpc</code> | <code>vpn</code>).
+  /// <code>attachment.resource-type</code> - The attachment resource type.
+  /// Valid values are <code>vpc</code> | <code>vpn</code> |
+  /// <code>direct-connect-gateway</code> | <code>peering</code> |
+  /// <code>connect</code>.
+  /// </li>
+  /// <li>
+  /// <code>prefix-list-id</code> - The ID of the prefix list.
   /// </li>
   /// <li>
   /// <code>route-search.exact-match</code> - The exact match of the specified
@@ -20687,7 +22871,7 @@ class EC2 {
   /// For more information about configuring your operating system to generate a
   /// crash dump when a kernel panic or stop error occurs, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/diagnostic-interrupt.html">Send
-  /// a Diagnostic Interrupt</a> (Linux instances) or <a
+  /// a diagnostic interrupt</a> (Linux instances) or <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/diagnostic-interrupt.html">Send
   /// a Diagnostic Interrupt</a> (Windows instances).
   ///
@@ -20732,7 +22916,7 @@ class EC2 {
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Stop_Start.html">Stopping
-  /// Instances</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+  /// instances</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
   ///
   /// Parameter [instanceIds] :
   /// The IDs of the instances.
@@ -20756,6 +22940,44 @@ class EC2 {
     throw UnimplementedError();
   }
 
+  /// Starts analyzing the specified path. If the path is reachable, the
+  /// operation returns the shortest feasible path.
+  ///
+  /// Parameter [clientToken] :
+  /// Unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the request. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">How
+  /// to Ensure Idempotency</a>.
+  ///
+  /// Parameter [networkInsightsPathId] :
+  /// The ID of the path.
+  ///
+  /// Parameter [dryRun] :
+  /// Checks whether you have the required permissions for the action, without
+  /// actually making the request, and provides an error response. If you have
+  /// the required permissions, the error response is
+  /// <code>DryRunOperation</code>. Otherwise, it is
+  /// <code>UnauthorizedOperation</code>.
+  ///
+  /// Parameter [filterInArns] :
+  /// The Amazon Resource Names (ARN) of the resources that the path must
+  /// traverse.
+  ///
+  /// Parameter [tagSpecifications] :
+  /// The tags to apply.
+  Future<StartNetworkInsightsAnalysisResult> startNetworkInsightsAnalysis({
+    @_s.required String clientToken,
+    @_s.required String networkInsightsPathId,
+    bool dryRun,
+    List<String> filterInArns,
+    List<TagSpecification> tagSpecifications,
+  }) async {
+    ArgumentError.checkNotNull(clientToken, 'clientToken');
+    ArgumentError.checkNotNull(networkInsightsPathId, 'networkInsightsPathId');
+// TODO: implement ec2
+    throw UnimplementedError();
+  }
+
   /// Initiates the verification process to prove that the service provider owns
   /// the private DNS name domain for the endpoint service.
   ///
@@ -20764,7 +22986,7 @@ class EC2 {
   ///
   /// Before the service provider runs this command, they must add a record to
   /// the DNS server. For more information, see <a
-  /// href="https://docs.aws.amazon.com/vpc/latest/userguide/ndpoint-services-dns-validation.html#add-dns-txt-record">Adding
+  /// href="https://docs.aws.amazon.com/vpc/latest/userguide/endpoint-services-dns-validation.html#add-dns-txt-record">Adding
   /// a TXT Record to Your Domain's DNS Server </a> in the <i>Amazon VPC User
   /// Guide</i>.
   ///
@@ -20795,7 +23017,7 @@ class EC2 {
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Hibernate.html#hibernating-prerequisites">hibernation
   /// prerequisites</a>. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Hibernate.html">Hibernate
-  /// Your Instance</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+  /// your instance</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
   ///
   /// We don't charge usage for a stopped instance, or data transfer fees;
   /// however, your root partition Amazon EBS volume remains and continues to
@@ -20813,7 +23035,7 @@ class EC2 {
   /// Amazon EC2 should hibernate Spot Instances when they are interrupted. For
   /// more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-interruptions.html#hibernate-spot-instances">Hibernating
-  /// Interrupted Spot Instances</a> in the <i>Amazon Elastic Compute Cloud User
+  /// interrupted Spot Instances</a> in the <i>Amazon Elastic Compute Cloud User
   /// Guide</i>.
   ///
   /// When you stop or hibernate an instance, we shut it down. You can restart
@@ -20831,14 +23053,14 @@ class EC2 {
   /// about the differences between rebooting, stopping, hibernating, and
   /// terminating instances, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-lifecycle.html">Instance
-  /// Lifecycle</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+  /// lifecycle</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
   ///
   /// When you stop an instance, we attempt to shut it down forcibly after a
   /// short while. If your instance appears stuck in the stopping state after a
   /// period of time, there may be an issue with the underlying host computer.
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/TroubleshootingInstancesStopping.html">Troubleshooting
-  /// Stopping Your Instance</a> in the <i>Amazon Elastic Compute Cloud User
+  /// stopping your instance</a> in the <i>Amazon Elastic Compute Cloud User
   /// Guide</i>.
   ///
   /// Parameter [instanceIds] :
@@ -20864,7 +23086,7 @@ class EC2 {
   /// launch. If the instance cannot hibernate successfully, a normal shutdown
   /// occurs. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Hibernate.html">Hibernate
-  /// Your Instance</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+  /// your instance</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
   ///
   /// Default: <code>false</code>
   Future<StopInstancesResult> stopInstances({
@@ -20933,11 +23155,11 @@ class EC2 {
   /// <code>true</code> are automatically deleted. For more information about
   /// the differences between stopping and terminating instances, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-lifecycle.html">Instance
-  /// Lifecycle</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+  /// lifecycle</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
   ///
   /// For more information about troubleshooting, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/TroubleshootingInstancesShuttingDown.html">Troubleshooting
-  /// Terminating Your Instance</a> in the <i>Amazon Elastic Compute Cloud User
+  /// terminating your instance</a> in the <i>Amazon Elastic Compute Cloud User
   /// Guide</i>.
   ///
   /// Parameter [instanceIds] :
@@ -21001,7 +23223,7 @@ class EC2 {
   /// Disables detailed monitoring for a running instance. For more information,
   /// see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-cloudwatch.html">Monitoring
-  /// Your Instances and Volumes</a> in the <i>Amazon Elastic Compute Cloud User
+  /// your instances and volumes</a> in the <i>Amazon Elastic Compute Cloud User
   /// Guide</i>.
   ///
   /// Parameter [instanceIds] :
@@ -21136,6 +23358,14 @@ class AcceptReservedInstancesExchangeQuoteResult {
   });
 }
 
+class AcceptTransitGatewayMulticastDomainAssociationsResult {
+  final TransitGatewayMulticastDomainAssociations associations;
+
+  AcceptTransitGatewayMulticastDomainAssociationsResult({
+    this.associations,
+  });
+}
+
 class AcceptTransitGatewayPeeringAttachmentResult {
   /// The transit gateway peering attachment.
   final TransitGatewayPeeringAttachment transitGatewayPeeringAttachment;
@@ -21234,7 +23464,23 @@ enum ActivityStatus {
   fulfilled,
 }
 
-/// Describes an Elastic IP address.
+/// An entry for a prefix list.
+class AddPrefixListEntry {
+  /// The CIDR block.
+  final String cidr;
+
+  /// A description for the entry.
+  ///
+  /// Constraints: Up to 255 characters in length.
+  final String description;
+
+  AddPrefixListEntry({
+    @_s.required this.cidr,
+    this.description,
+  });
+}
+
+/// Describes an Elastic IP address, or a carrier IP address.
 class Address {
   /// The ID representing the allocation of the address for use with EC2-VPC.
   final String allocationId;
@@ -21242,6 +23488,11 @@ class Address {
   /// The ID representing the association of the address with an instance in a
   /// VPC.
   final String associationId;
+
+  /// The carrier IP address associated. This option is only available for network
+  /// interfaces which reside in a subnet in a Wavelength Zone (for example an EC2
+  /// instance).
+  final String carrierIp;
 
   /// The customer-owned IP address.
   final String customerOwnedIp;
@@ -21257,7 +23508,8 @@ class Address {
   /// The ID of the instance that the address is associated with (if any).
   final String instanceId;
 
-  /// The name of the location from which the IP address is advertised.
+  /// The name of the unique set of Availability Zones, Local Zones, or Wavelength
+  /// Zones from which AWS advertises IP addresses.
   final String networkBorderGroup;
 
   /// The ID of the network interface.
@@ -21281,6 +23533,7 @@ class Address {
   Address({
     this.allocationId,
     this.associationId,
+    this.carrierIp,
     this.customerOwnedIp,
     this.customerOwnedIpv4Pool,
     this.domain,
@@ -21314,18 +23567,22 @@ class AllocateAddressResult {
   /// IP address for use with instances in a VPC.
   final String allocationId;
 
+  /// The carrier IP address. This option is only available for network interfaces
+  /// which reside in a subnet in a Wavelength Zone (for example an EC2 instance).
+  final String carrierIp;
+
   /// The customer-owned IP address.
   final String customerOwnedIp;
 
   /// The ID of the customer-owned address pool.
   final String customerOwnedIpv4Pool;
 
-  /// Indicates whether this Elastic IP address is for use with instances in
-  /// EC2-Classic (<code>standard</code>) or instances in a VPC
-  /// (<code>vpc</code>).
+  /// Indicates whether the Elastic IP address is for use with instances in a VPC
+  /// (<code>vpc</code>) or instances in EC2-Classic (<code>standard</code>).
   final DomainType domain;
 
-  /// The location from which the IP address is advertised.
+  /// The set of Availability Zones, Local Zones, or Wavelength Zones from which
+  /// AWS advertises IP addresses.
   final String networkBorderGroup;
 
   /// The Elastic IP address.
@@ -21336,6 +23593,7 @@ class AllocateAddressResult {
 
   AllocateAddressResult({
     this.allocationId,
+    this.carrierIp,
     this.customerOwnedIp,
     this.customerOwnedIpv4Pool,
     this.domain,
@@ -21388,6 +23646,239 @@ class AllowedPrincipal {
 enum AllowsMultipleInstanceTypes {
   on,
   off,
+}
+
+/// Describes an potential intermediate component of a feasible path.
+class AlternatePathHint {
+  /// The Amazon Resource Name (ARN) of the component.
+  final String componentArn;
+
+  /// The ID of the component.
+  final String componentId;
+
+  AlternatePathHint({
+    this.componentArn,
+    this.componentId,
+  });
+}
+
+/// Describes a network access control (ACL) rule.
+class AnalysisAclRule {
+  /// The IPv4 address range, in CIDR notation.
+  final String cidr;
+
+  /// Indicates whether the rule is an outbound rule.
+  final bool egress;
+
+  /// The range of ports.
+  final PortRange portRange;
+
+  /// The protocol.
+  final String protocol;
+
+  /// Indicates whether to allow or deny traffic that matches the rule.
+  final String ruleAction;
+
+  /// The rule number.
+  final int ruleNumber;
+
+  AnalysisAclRule({
+    this.cidr,
+    this.egress,
+    this.portRange,
+    this.protocol,
+    this.ruleAction,
+    this.ruleNumber,
+  });
+}
+
+/// Describes a path component.
+class AnalysisComponent {
+  /// The Amazon Resource Name (ARN) of the component.
+  final String arn;
+
+  /// The ID of the component.
+  final String id;
+
+  AnalysisComponent({
+    this.arn,
+    this.id,
+  });
+}
+
+/// Describes a load balancer listener.
+class AnalysisLoadBalancerListener {
+  /// [Classic Load Balancers] The back-end port for the listener.
+  final int instancePort;
+
+  /// The port on which the load balancer is listening.
+  final int loadBalancerPort;
+
+  AnalysisLoadBalancerListener({
+    this.instancePort,
+    this.loadBalancerPort,
+  });
+}
+
+/// Describes a load balancer target.
+class AnalysisLoadBalancerTarget {
+  /// The IP address.
+  final String address;
+
+  /// The Availability Zone.
+  final String availabilityZone;
+
+  /// Information about the instance.
+  final AnalysisComponent instance;
+
+  /// The port on which the target is listening.
+  final int port;
+
+  AnalysisLoadBalancerTarget({
+    this.address,
+    this.availabilityZone,
+    this.instance,
+    this.port,
+  });
+}
+
+/// Describes a header. Reflects any changes made by a component as traffic
+/// passes through. The fields of an inbound header are null except for the
+/// first component of a path.
+class AnalysisPacketHeader {
+  /// The destination addresses.
+  final List<String> destinationAddresses;
+
+  /// The destination port ranges.
+  final List<PortRange> destinationPortRanges;
+
+  /// The protocol.
+  final String protocol;
+
+  /// The source addresses.
+  final List<String> sourceAddresses;
+
+  /// The source port ranges.
+  final List<PortRange> sourcePortRanges;
+
+  AnalysisPacketHeader({
+    this.destinationAddresses,
+    this.destinationPortRanges,
+    this.protocol,
+    this.sourceAddresses,
+    this.sourcePortRanges,
+  });
+}
+
+/// Describes a route table route.
+class AnalysisRouteTableRoute {
+  /// The destination IPv4 address, in CIDR notation.
+  final String destinationCidr;
+
+  /// The prefix of the AWS service.
+  final String destinationPrefixListId;
+
+  /// The ID of an egress-only internet gateway.
+  final String egressOnlyInternetGatewayId;
+
+  /// The ID of the gateway, such as an internet gateway or virtual private
+  /// gateway.
+  final String gatewayId;
+
+  /// The ID of the instance, such as a NAT instance.
+  final String instanceId;
+
+  /// The ID of a NAT gateway.
+  final String natGatewayId;
+
+  /// The ID of a network interface.
+  final String networkInterfaceId;
+
+  /// Describes how the route was created. The following are possible values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CreateRouteTable</code> - The route was automatically created when the
+  /// route table was created.
+  /// </li>
+  /// <li>
+  /// <code>CreateRoute</code> - The route was manually added to the route table.
+  /// </li>
+  /// <li>
+  /// <code>EnableVgwRoutePropagation</code> - The route was propagated by route
+  /// propagation.
+  /// </li>
+  /// </ul>
+  final String origin;
+
+  /// The ID of a transit gateway.
+  final String transitGatewayId;
+
+  /// The ID of a VPC peering connection.
+  final String vpcPeeringConnectionId;
+
+  AnalysisRouteTableRoute({
+    this.destinationCidr,
+    this.destinationPrefixListId,
+    this.egressOnlyInternetGatewayId,
+    this.gatewayId,
+    this.instanceId,
+    this.natGatewayId,
+    this.networkInterfaceId,
+    this.origin,
+    this.transitGatewayId,
+    this.vpcPeeringConnectionId,
+  });
+}
+
+/// Describes a security group rule.
+class AnalysisSecurityGroupRule {
+  /// The IPv4 address range, in CIDR notation.
+  final String cidr;
+
+  /// The direction. The following are possible values:
+  ///
+  /// <ul>
+  /// <li>
+  /// egress
+  /// </li>
+  /// <li>
+  /// ingress
+  /// </li>
+  /// </ul>
+  final String direction;
+
+  /// The port range.
+  final PortRange portRange;
+
+  /// The prefix list ID.
+  final String prefixListId;
+
+  /// The protocol name.
+  final String protocol;
+
+  /// The security group ID.
+  final String securityGroupId;
+
+  AnalysisSecurityGroupRule({
+    this.cidr,
+    this.direction,
+    this.portRange,
+    this.prefixListId,
+    this.protocol,
+    this.securityGroupId,
+  });
+}
+
+enum AnalysisStatus {
+  running,
+  succeeded,
+  failed,
+}
+
+enum ApplianceModeSupportValue {
+  enable,
+  disable,
 }
 
 class ApplySecurityGroupsToClientVpnTargetNetworkResult {
@@ -21470,6 +23961,26 @@ class AssociateClientVpnTargetNetworkResult {
   });
 }
 
+class AssociateEnclaveCertificateIamRoleResult {
+  /// The name of the Amazon S3 bucket to which the certificate was uploaded.
+  final String certificateS3BucketName;
+
+  /// The Amazon S3 object key where the certificate, certificate chain, and
+  /// encrypted private key bundle are stored. The object key is formatted as
+  /// follows: <code>certificate_arn</code>/<code>role_arn</code>.
+  final String certificateS3ObjectKey;
+
+  /// The ID of the AWS KMS CMK used to encrypt the private key of the
+  /// certificate.
+  final String encryptionKmsKeyId;
+
+  AssociateEnclaveCertificateIamRoleResult({
+    this.certificateS3BucketName,
+    this.certificateS3ObjectKey,
+    this.encryptionKmsKeyId,
+  });
+}
+
 class AssociateIamInstanceProfileResult {
   /// Information about the IAM instance profile association.
   final IamInstanceProfileAssociation iamInstanceProfileAssociation;
@@ -21545,6 +24056,30 @@ enum AssociatedNetworkType {
   vpc,
 }
 
+/// Information about the associated IAM roles.
+class AssociatedRole {
+  /// The ARN of the associated IAM role.
+  final String associatedRoleArn;
+
+  /// The name of the Amazon S3 bucket in which the Amazon S3 object is stored.
+  final String certificateS3BucketName;
+
+  /// The key of the Amazon S3 object ey where the certificate, certificate chain,
+  /// and encrypted private key bundle is stored. The object key is formated as
+  /// follows: <code>certificate_arn</code>/<code>role_arn</code>.
+  final String certificateS3ObjectKey;
+
+  /// The ID of the KMS customer master key (CMK) used to encrypt the private key.
+  final String encryptionKmsKeyId;
+
+  AssociatedRole({
+    this.associatedRoleArn,
+    this.certificateS3BucketName,
+    this.certificateS3ObjectKey,
+    this.encryptionKmsKeyId,
+  });
+}
+
 /// Describes a target network that is associated with a Client VPN endpoint. A
 /// target network is a subnet in a VPC.
 class AssociatedTargetNetwork {
@@ -21597,8 +24132,12 @@ class AttachNetworkInterfaceResult {
   /// The ID of the network interface attachment.
   final String attachmentId;
 
+  /// The index of the network card.
+  final int networkCardIndex;
+
   AttachNetworkInterfaceResult({
     this.attachmentId,
+    this.networkCardIndex,
   });
 }
 
@@ -21682,6 +24221,11 @@ class AuthorizeClientVpnIngressResult {
   });
 }
 
+enum AutoAcceptSharedAssociationsValue {
+  enable,
+  disable,
+}
+
 enum AutoAcceptSharedAttachmentsValue {
   enable,
   disable,
@@ -21692,55 +24236,75 @@ enum AutoPlacement {
   off,
 }
 
-/// Describes an Availability Zone or Local Zone.
+/// Describes Availability Zones, Local Zones, and Wavelength Zones.
 class AvailabilityZone {
   /// For Availability Zones, this parameter has the same value as the Region
   /// name.
   ///
   /// For Local Zones, the name of the associated group, for example
   /// <code>us-west-2-lax-1</code>.
+  ///
+  /// For Wavelength Zones, the name of the associated group, for example
+  /// <code>us-east-1-wl1-bos-wlz-1</code>.
   final String groupName;
 
-  /// Any messages about the Availability Zone or Local Zone.
+  /// Any messages about the Availability Zone, Local Zone, or Wavelength Zone.
   final List<AvailabilityZoneMessage> messages;
 
-  /// The name of the location from which the address is advertised.
+  /// The name of the network border group.
   final String networkBorderGroup;
 
   /// For Availability Zones, this parameter always has the value of
   /// <code>opt-in-not-required</code>.
   ///
-  /// For Local Zones, this parameter is the opt in status. The possible values
-  /// are <code>opted-in</code>, and <code>not-opted-in</code>.
+  /// For Local Zones and Wavelength Zones, this parameter is the opt-in status.
+  /// The possible values are <code>opted-in</code>, and
+  /// <code>not-opted-in</code>.
   final AvailabilityZoneOptInStatus optInStatus;
+
+  /// The ID of the zone that handles some of the Local Zone or Wavelength Zone
+  /// control plane operations, such as API calls.
+  final String parentZoneId;
+
+  /// The name of the zone that handles some of the Local Zone or Wavelength Zone
+  /// control plane operations, such as API calls.
+  final String parentZoneName;
 
   /// The name of the Region.
   final String regionName;
 
-  /// The state of the Availability Zone or Local Zone.
+  /// The state of the Availability Zone, Local Zone, or Wavelength Zone.
   final AvailabilityZoneState state;
 
-  /// The ID of the Availability Zone or Local Zone.
+  /// The ID of the Availability Zone, Local Zone, or Wavelength Zone.
   final String zoneId;
 
-  /// The name of the Availability Zone or Local Zone.
+  /// The name of the Availability Zone, Local Zone, or Wavelength Zone.
   final String zoneName;
+
+  /// The type of zone. The valid values are <code>availability-zone</code>,
+  /// <code>local-zone</code>, and <code>wavelength-zone</code>.
+  final String zoneType;
 
   AvailabilityZone({
     this.groupName,
     this.messages,
     this.networkBorderGroup,
     this.optInStatus,
+    this.parentZoneId,
+    this.parentZoneName,
     this.regionName,
     this.state,
     this.zoneId,
     this.zoneName,
+    this.zoneType,
   });
 }
 
-/// Describes a message about an Availability Zone or Local Zone.
+/// Describes a message about an Availability Zone, Local Zone, or Wavelength
+/// Zone.
 class AvailabilityZoneMessage {
-  /// The message about the Availability Zone or Local Zone.
+  /// The message about the Availability Zone, Local Zone, or Wavelength Zone.
   final String message;
 
   AvailabilityZoneMessage({
@@ -21788,6 +24352,11 @@ enum BatchState {
   cancelledRunning,
   cancelledTerminating,
   modifying,
+}
+
+enum BgpStatus {
+  up,
+  down,
 }
 
 class BlobAttributeValue {
@@ -22244,6 +24813,20 @@ class CapacityReservation {
   });
 }
 
+/// Describes a resource group to which a Capacity Reservation has been added.
+class CapacityReservationGroup {
+  /// The ARN of the resource group.
+  final String groupArn;
+
+  /// The ID of the AWS account that owns the resource group.
+  final String ownerId;
+
+  CapacityReservationGroup({
+    this.groupArn,
+    this.ownerId,
+  });
+}
+
 enum CapacityReservationInstancePlatform {
   linuxUnix,
   redHatEnterpriseLinux,
@@ -22270,7 +24853,7 @@ enum CapacityReservationInstancePlatform {
 /// Guide</i>. For examples of using Capacity Reservations in an EC2 Fleet, see
 /// <a
 /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet-examples.html">EC2
-/// Fleet Example Configurations</a> in the <i>Amazon Elastic Compute Cloud User
+/// Fleet example configurations</a> in the <i>Amazon Elastic Compute Cloud User
 /// Guide</i>.
 class CapacityReservationOptions {
   /// Indicates whether to use unused Capacity Reservations for fulfilling
@@ -22306,7 +24889,7 @@ class CapacityReservationOptions {
 /// Guide</i>. For examples of using Capacity Reservations in an EC2 Fleet, see
 /// <a
 /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet-examples.html">EC2
-/// Fleet Example Configurations</a> in the <i>Amazon Elastic Compute Cloud User
+/// Fleet example configurations</a> in the <i>Amazon Elastic Compute Cloud User
 /// Guide</i>.
 class CapacityReservationOptionsRequest {
   /// Indicates whether to use unused Capacity Reservations for fulfilling
@@ -22345,7 +24928,7 @@ enum CapacityReservationPreference {
 /// <code>open</code> Capacity Reservation that has matching attributes
 /// (instance type, platform, Availability Zone). Use the
 /// <code>CapacityReservationTarget</code> parameter to explicitly target a
-/// specific Capacity Reservation.
+/// specific Capacity Reservation or a Capacity Reservation group.
 class CapacityReservationSpecification {
   /// Indicates the instance's Capacity Reservation preferences. Possible
   /// preferences include:
@@ -22363,7 +24946,8 @@ class CapacityReservationSpecification {
   /// </ul>
   final CapacityReservationPreference capacityReservationPreference;
 
-  /// Information about the target Capacity Reservation.
+  /// Information about the target Capacity Reservation or Capacity Reservation
+  /// group.
   final CapacityReservationTarget capacityReservationTarget;
 
   CapacityReservationSpecification({
@@ -22378,7 +24962,8 @@ class CapacityReservationSpecification {
 /// is configured in run in any <code>open</code> Capacity Reservation that has
 /// matching attributes (instance type, platform, Availability Zone). The action
 /// returns the <code>capacityReservationTarget</code> response element if the
-/// instance explicily targets a specific Capacity Reservation.
+/// instance explicily targets a specific Capacity Reservation or Capacity
+/// Reservation group.
 class CapacityReservationSpecificationResponse {
   /// Describes the instance's Capacity Reservation preferences. Possible
   /// preferences include:
@@ -22396,7 +24981,8 @@ class CapacityReservationSpecificationResponse {
   /// </ul>
   final CapacityReservationPreference capacityReservationPreference;
 
-  /// Information about the targeted Capacity Reservation.
+  /// Information about the targeted Capacity Reservation or Capacity Reservation
+  /// group.
   final CapacityReservationTargetResponse capacityReservationTarget;
 
   CapacityReservationSpecificationResponse({
@@ -22413,29 +24999,71 @@ enum CapacityReservationState {
   failed,
 }
 
-/// Describes a target Capacity Reservation.
+/// Describes a target Capacity Reservation or Capacity Reservation group.
 class CapacityReservationTarget {
-  /// The ID of the Capacity Reservation.
+  /// The ID of the Capacity Reservation in which to run the instance.
   final String capacityReservationId;
+
+  /// The ARN of the Capacity Reservation resource group in which to run the
+  /// instance.
+  final String capacityReservationResourceGroupArn;
 
   CapacityReservationTarget({
     this.capacityReservationId,
+    this.capacityReservationResourceGroupArn,
   });
 }
 
-/// Describes a target Capacity Reservation.
+/// Describes a target Capacity Reservation or Capacity Reservation group.
 class CapacityReservationTargetResponse {
-  /// The ID of the Capacity Reservation.
+  /// The ID of the targeted Capacity Reservation.
   final String capacityReservationId;
+
+  /// The ARN of the targeted Capacity Reservation group.
+  final String capacityReservationResourceGroupArn;
 
   CapacityReservationTargetResponse({
     this.capacityReservationId,
+    this.capacityReservationResourceGroupArn,
   });
 }
 
 enum CapacityReservationTenancy {
   $default,
   dedicated,
+}
+
+/// Describes a carrier gateway.
+class CarrierGateway {
+  /// The ID of the carrier gateway.
+  final String carrierGatewayId;
+
+  /// The AWS account ID of the owner of the carrier gateway.
+  final String ownerId;
+
+  /// The state of the carrier gateway.
+  final CarrierGatewayState state;
+
+  /// The tags assigned to the carrier gateway.
+  final List<Tag> tags;
+
+  /// The ID of the VPC associated with the carrier gateway.
+  final String vpcId;
+
+  CarrierGateway({
+    this.carrierGatewayId,
+    this.ownerId,
+    this.state,
+    this.tags,
+    this.vpcId,
+  });
+}
+
+enum CarrierGatewayState {
+  pending,
+  available,
+  deleting,
+  deleted,
 }
 
 /// Information about the client certificate used for authentication.
@@ -22566,6 +25194,43 @@ enum ClientCertificateRevocationListStatusCode {
   active,
 }
 
+/// The options for managing connection authorization for new client
+/// connections.
+class ClientConnectOptions {
+  /// Indicates whether client connect options are enabled. The default is
+  /// <code>false</code> (not enabled).
+  final bool enabled;
+
+  /// The Amazon Resource Name (ARN) of the AWS Lambda function used for
+  /// connection authorization.
+  final String lambdaFunctionArn;
+
+  ClientConnectOptions({
+    this.enabled,
+    this.lambdaFunctionArn,
+  });
+}
+
+/// The options for managing connection authorization for new client
+/// connections.
+class ClientConnectResponseOptions {
+  /// Indicates whether client connect options are enabled.
+  final bool enabled;
+
+  /// The Amazon Resource Name (ARN) of the AWS Lambda function used for
+  /// connection authorization.
+  final String lambdaFunctionArn;
+
+  /// The status of any updates to the client connect options.
+  final ClientVpnEndpointAttributeStatus status;
+
+  ClientConnectResponseOptions({
+    this.enabled,
+    this.lambdaFunctionArn,
+    this.status,
+  });
+}
+
 /// Describes the client-specific data.
 class ClientData {
   /// A user-defined comment about the disk upload.
@@ -22588,14 +25253,16 @@ class ClientData {
   });
 }
 
-/// Describes the authentication methods used by a Client VPN endpoint. Client
-/// VPN supports Active Directory and mutual authentication. For more
+/// Describes the authentication methods used by a Client VPN endpoint. For more
 /// information, see <a
-/// href="https://docs.aws.amazon.com/vpn/latest/clientvpn-admin/authentication-authrization.html#client-authentication">Authentication</a>
+/// href="https://docs.aws.amazon.com/vpn/latest/clientvpn-admin/client-authentication.html">Authentication</a>
 /// in the <i>AWS Client VPN Administrator Guide</i>.
 class ClientVpnAuthentication {
   /// Information about the Active Directory, if applicable.
   final DirectoryServiceAuthentication activeDirectory;
+
+  /// Information about the IAM SAML identity provider, if applicable.
+  final FederatedAuthentication federatedAuthentication;
 
   /// Information about the authentication certificates, if applicable.
   final CertificateAuthentication mutualAuthentication;
@@ -22605,14 +25272,14 @@ class ClientVpnAuthentication {
 
   ClientVpnAuthentication({
     this.activeDirectory,
+    this.federatedAuthentication,
     this.mutualAuthentication,
     this.type,
   });
 }
 
-/// Describes the authentication method to be used by a Client VPN endpoint.
-/// Client VPN supports Active Directory and mutual authentication. For more
-/// information, see <a
+/// Describes the authentication method to be used by a Client VPN endpoint. For
+/// more information, see <a
 /// href="https://docs.aws.amazon.com/vpn/latest/clientvpn-admin/authentication-authrization.html#client-authentication">Authentication</a>
 /// in the <i>AWS Client VPN Administrator Guide</i>.
 class ClientVpnAuthenticationRequest {
@@ -22621,19 +25288,22 @@ class ClientVpnAuthenticationRequest {
   /// <code>directory-service-authentication</code>.
   final DirectoryServiceAuthenticationRequest activeDirectory;
 
+  /// Information about the IAM SAML identity provider to be used, if applicable.
+  /// You must provide this information if <b>Type</b> is
+  /// <code>federated-authentication</code>.
+  final FederatedAuthenticationRequest federatedAuthentication;
+
   /// Information about the authentication certificates to be used, if applicable.
   /// You must provide this information if <b>Type</b> is
   /// <code>certificate-authentication</code>.
   final CertificateAuthenticationRequest mutualAuthentication;
 
-  /// The type of client authentication to be used. Specify
-  /// <code>certificate-authentication</code> to use certificate-based
-  /// authentication, or <code>directory-service-authentication</code> to use
-  /// Active Directory authentication.
+  /// The type of client authentication to be used.
   final ClientVpnAuthenticationType type;
 
   ClientVpnAuthenticationRequest({
     this.activeDirectory,
+    this.federatedAuthentication,
     this.mutualAuthentication,
     this.type,
   });
@@ -22642,6 +25312,7 @@ class ClientVpnAuthenticationRequest {
 enum ClientVpnAuthenticationType {
   certificateAuthentication,
   directoryServiceAuthentication,
+  federatedAuthentication,
 }
 
 /// Describes the state of an authorization rule.
@@ -22698,6 +25369,10 @@ class ClientVpnConnection {
   /// The number of packets sent by the client.
   final String ingressPackets;
 
+  /// The statuses returned by the client connect handler for posture compliance,
+  /// if applicable.
+  final List<String> postureComplianceStatuses;
+
   /// The current state of the client connection.
   final ClientVpnConnectionStatus status;
 
@@ -22720,6 +25395,7 @@ class ClientVpnConnection {
     this.egressPackets,
     this.ingressBytes,
     this.ingressPackets,
+    this.postureComplianceStatuses,
     this.status,
     this.timestamp,
     this.username,
@@ -22760,6 +25436,10 @@ class ClientVpnEndpoint {
   /// assigned.
   final String clientCidrBlock;
 
+  /// The options for managing connection authorization for new client
+  /// connections.
+  final ClientConnectResponseOptions clientConnectOptions;
+
   /// The ID of the Client VPN endpoint.
   final String clientVpnEndpointId;
 
@@ -22785,6 +25465,9 @@ class ClientVpnEndpoint {
 
   /// The IDs of the security groups for the target network.
   final List<String> securityGroupIds;
+
+  /// The URL of the self-service portal.
+  final String selfServicePortalUrl;
 
   /// The ARN of the server certificate.
   final String serverCertificateArn;
@@ -22819,6 +25502,7 @@ class ClientVpnEndpoint {
     this.associatedTargetNetworks,
     this.authenticationOptions,
     this.clientCidrBlock,
+    this.clientConnectOptions,
     this.clientVpnEndpointId,
     this.connectionLogOptions,
     this.creationTime,
@@ -22827,6 +25511,7 @@ class ClientVpnEndpoint {
     this.dnsName,
     this.dnsServers,
     this.securityGroupIds,
+    this.selfServicePortalUrl,
     this.serverCertificateArn,
     this.splitTunnel,
     this.status,
@@ -22836,6 +25521,25 @@ class ClientVpnEndpoint {
     this.vpnPort,
     this.vpnProtocol,
   });
+}
+
+/// Describes the status of the Client VPN endpoint attribute.
+class ClientVpnEndpointAttributeStatus {
+  /// The status code.
+  final ClientVpnEndpointAttributeStatusCode code;
+
+  /// The status message.
+  final String message;
+
+  ClientVpnEndpointAttributeStatus({
+    this.code,
+    this.message,
+  });
+}
+
+enum ClientVpnEndpointAttributeStatusCode {
+  applying,
+  applied,
 }
 
 /// Describes the state of a Client VPN endpoint.
@@ -22966,6 +25670,9 @@ class CoipPool {
   /// The ID of the local gateway route table.
   final String localGatewayRouteTableId;
 
+  /// The ARN of the address pool.
+  final String poolArn;
+
   /// The address ranges of the address pool.
   final List<String> poolCidrs;
 
@@ -22977,6 +25684,7 @@ class CoipPool {
 
   CoipPool({
     this.localGatewayRouteTableId,
+    this.poolArn,
     this.poolCidrs,
     this.poolId,
     this.tags,
@@ -23001,7 +25709,8 @@ class ConfirmProductInstanceResult {
 
 /// Describes the client connection logging options for the Client VPN endpoint.
 class ConnectionLogOptions {
-  /// The name of the CloudWatch Logs log group.
+  /// The name of the CloudWatch Logs log group. Required if connection logging is
+  /// enabled.
   final String cloudwatchLogGroup;
 
   /// The name of the CloudWatch Logs log stream to which the connection data is
@@ -23206,6 +25915,15 @@ class CreateCapacityReservationResult {
 
   CreateCapacityReservationResult({
     this.capacityReservation,
+  });
+}
+
+class CreateCarrierGatewayResult {
+  /// Information about the carrier gateway.
+  final CarrierGateway carrierGateway;
+
+  CreateCarrierGatewayResult({
+    this.carrierGateway,
   });
 }
 
@@ -23428,8 +26146,14 @@ class CreateLaunchTemplateResult {
   /// Information about the launch template.
   final LaunchTemplate launchTemplate;
 
+  /// If the launch template contains parameters or parameter combinations that
+  /// are not valid, an error code and an error message are returned for each
+  /// issue that's found.
+  final ValidationWarning warning;
+
   CreateLaunchTemplateResult({
     this.launchTemplate,
+    this.warning,
   });
 }
 
@@ -23437,8 +26161,14 @@ class CreateLaunchTemplateVersionResult {
   /// Information about the launch template version.
   final LaunchTemplateVersion launchTemplateVersion;
 
+  /// If the new version of the launch template contains parameters or parameter
+  /// combinations that are not valid, an error code and an error message are
+  /// returned for each issue that's found.
+  final ValidationWarning warning;
+
   CreateLaunchTemplateVersionResult({
     this.launchTemplateVersion,
+    this.warning,
   });
 }
 
@@ -23458,6 +26188,15 @@ class CreateLocalGatewayRouteTableVpcAssociationResult {
 
   CreateLocalGatewayRouteTableVpcAssociationResult({
     this.localGatewayRouteTableVpcAssociation,
+  });
+}
+
+class CreateManagedPrefixListResult {
+  /// Information about the prefix list.
+  final ManagedPrefixList prefixList;
+
+  CreateManagedPrefixListResult({
+    this.prefixList,
   });
 }
 
@@ -23481,6 +26220,15 @@ class CreateNetworkAclResult {
 
   CreateNetworkAclResult({
     this.networkAcl,
+  });
+}
+
+class CreateNetworkInsightsPathResult {
+  /// Information about the path.
+  final NetworkInsightsPath networkInsightsPath;
+
+  CreateNetworkInsightsPathResult({
+    this.networkInsightsPath,
   });
 }
 
@@ -23545,8 +26293,12 @@ class CreateSecurityGroupResult {
   /// The ID of the security group.
   final String groupId;
 
+  /// The tags assigned to the security group.
+  final List<Tag> tags;
+
   CreateSecurityGroupResult({
     this.groupId,
+    this.tags,
   });
 }
 
@@ -23642,6 +26394,55 @@ class CreateTrafficMirrorTargetResult {
   });
 }
 
+class CreateTransitGatewayConnectPeerResult {
+  /// Information about the Connect peer.
+  final TransitGatewayConnectPeer transitGatewayConnectPeer;
+
+  CreateTransitGatewayConnectPeerResult({
+    this.transitGatewayConnectPeer,
+  });
+}
+
+/// The options for a Connect attachment.
+class CreateTransitGatewayConnectRequestOptions {
+  /// The tunnel protocol.
+  final ProtocolValue protocol;
+
+  CreateTransitGatewayConnectRequestOptions({
+    @_s.required this.protocol,
+  });
+}
+
+class CreateTransitGatewayConnectResult {
+  /// Information about the Connect attachment.
+  final TransitGatewayConnect transitGatewayConnect;
+
+  CreateTransitGatewayConnectResult({
+    this.transitGatewayConnect,
+  });
+}
+
+/// The options for the transit gateway multicast domain.
+class CreateTransitGatewayMulticastDomainRequestOptions {
+  /// Indicates whether to automatically accept cross-account subnet associations
+  /// that are associated with the transit gateway multicast domain.
+  final AutoAcceptSharedAssociationsValue autoAcceptSharedAssociations;
+
+  /// Specify whether to enable Internet Group Management Protocol (IGMP) version
+  /// 2 for the transit gateway multicast domain.
+  final Igmpv2SupportValue igmpv2Support;
+
+  /// Specify whether to enable support for statically configuring multicast group
+  /// sources for a domain.
+  final StaticSourcesSupportValue staticSourcesSupport;
+
+  CreateTransitGatewayMulticastDomainRequestOptions({
+    this.autoAcceptSharedAssociations,
+    this.igmpv2Support,
+    this.staticSourcesSupport,
+  });
+}
+
 class CreateTransitGatewayMulticastDomainResult {
   /// Information about the transit gateway multicast domain.
   final TransitGatewayMulticastDomain transitGatewayMulticastDomain;
@@ -23657,6 +26458,15 @@ class CreateTransitGatewayPeeringAttachmentResult {
 
   CreateTransitGatewayPeeringAttachmentResult({
     this.transitGatewayPeeringAttachment,
+  });
+}
+
+class CreateTransitGatewayPrefixListReferenceResult {
+  /// Information about the prefix list reference.
+  final TransitGatewayPrefixListReference transitGatewayPrefixListReference;
+
+  CreateTransitGatewayPrefixListReferenceResult({
+    this.transitGatewayPrefixListReference,
   });
 }
 
@@ -23689,13 +26499,20 @@ class CreateTransitGatewayRouteTableResult {
 
 /// Describes the options for a VPC attachment.
 class CreateTransitGatewayVpcAttachmentRequestOptions {
+  /// Enable or disable support for appliance mode. If enabled, a traffic flow
+  /// between a source and destination uses the same Availability Zone for the VPC
+  /// attachment for the lifetime of that flow. The default is
+  /// <code>disable</code>.
+  final ApplianceModeSupportValue applianceModeSupport;
+
   /// Enable or disable DNS support. The default is <code>enable</code>.
   final DnsSupportValue dnsSupport;
 
-  /// Enable or disable IPv6 support. The default is <code>enable</code>.
+  /// Enable or disable IPv6 support. The default is <code>disable</code>.
   final Ipv6SupportValue ipv6Support;
 
   CreateTransitGatewayVpcAttachmentRequestOptions({
+    this.applianceModeSupport,
     this.dnsSupport,
     this.ipv6Support,
   });
@@ -23821,10 +26638,10 @@ class CreateVpnGatewayResult {
   });
 }
 
-/// Describes the credit option for CPU usage of a T2 or T3 instance.
+/// Describes the credit option for CPU usage of a T2, T3, or T3a instance.
 class CreditSpecification {
-  /// The credit option for CPU usage of a T2 or T3 instance. Valid values are
-  /// <code>standard</code> and <code>unlimited</code>.
+  /// The credit option for CPU usage of a T2, T3, or T3a instance. Valid values
+  /// are <code>standard</code> and <code>unlimited</code>.
   final String cpuCredits;
 
   CreditSpecification({
@@ -23832,10 +26649,10 @@ class CreditSpecification {
   });
 }
 
-/// The credit option for CPU usage of a T2 or T3 instance.
+/// The credit option for CPU usage of a T2, T3, or T3a instance.
 class CreditSpecificationRequest {
-  /// The credit option for CPU usage of a T2 or T3 instance. Valid values are
-  /// <code>standard</code> and <code>unlimited</code>.
+  /// The credit option for CPU usage of a T2, T3, or T3a instance. Valid values
+  /// are <code>standard</code> and <code>unlimited</code>.
   final String cpuCredits;
 
   CreditSpecificationRequest({
@@ -23907,6 +26724,15 @@ enum DefaultRouteTablePropagationValue {
 enum DefaultTargetCapacityType {
   spot,
   onDemand,
+}
+
+class DeleteCarrierGatewayResult {
+  /// Information about the carrier gateway.
+  final CarrierGateway carrierGateway;
+
+  DeleteCarrierGatewayResult({
+    this.carrierGateway,
+  });
 }
 
 class DeleteClientVpnEndpointResult {
@@ -24105,12 +26931,39 @@ class DeleteLocalGatewayRouteTableVpcAssociationResult {
   });
 }
 
+class DeleteManagedPrefixListResult {
+  /// Information about the prefix list.
+  final ManagedPrefixList prefixList;
+
+  DeleteManagedPrefixListResult({
+    this.prefixList,
+  });
+}
+
 class DeleteNatGatewayResult {
   /// The ID of the NAT gateway.
   final String natGatewayId;
 
   DeleteNatGatewayResult({
     this.natGatewayId,
+  });
+}
+
+class DeleteNetworkInsightsAnalysisResult {
+  /// The ID of the network insights analysis.
+  final String networkInsightsAnalysisId;
+
+  DeleteNetworkInsightsAnalysisResult({
+    this.networkInsightsAnalysisId,
+  });
+}
+
+class DeleteNetworkInsightsPathResult {
+  /// The ID of the path.
+  final String networkInsightsPathId;
+
+  DeleteNetworkInsightsPathResult({
+    this.networkInsightsPathId,
   });
 }
 
@@ -24196,6 +27049,24 @@ class DeleteTrafficMirrorTargetResult {
   });
 }
 
+class DeleteTransitGatewayConnectPeerResult {
+  /// Information about the deleted Connect peer.
+  final TransitGatewayConnectPeer transitGatewayConnectPeer;
+
+  DeleteTransitGatewayConnectPeerResult({
+    this.transitGatewayConnectPeer,
+  });
+}
+
+class DeleteTransitGatewayConnectResult {
+  /// Information about the deleted Connect attachment.
+  final TransitGatewayConnect transitGatewayConnect;
+
+  DeleteTransitGatewayConnectResult({
+    this.transitGatewayConnect,
+  });
+}
+
 class DeleteTransitGatewayMulticastDomainResult {
   /// Information about the deleted transit gateway multicast domain.
   final TransitGatewayMulticastDomain transitGatewayMulticastDomain;
@@ -24211,6 +27082,15 @@ class DeleteTransitGatewayPeeringAttachmentResult {
 
   DeleteTransitGatewayPeeringAttachmentResult({
     this.transitGatewayPeeringAttachment,
+  });
+}
+
+class DeleteTransitGatewayPrefixListReferenceResult {
+  /// Information about the deleted prefix list reference.
+  final TransitGatewayPrefixListReference transitGatewayPrefixListReference;
+
+  DeleteTransitGatewayPrefixListReferenceResult({
+    this.transitGatewayPrefixListReference,
   });
 }
 
@@ -24379,7 +27259,7 @@ class DescribeAggregateIdFormatResult {
 }
 
 class DescribeAvailabilityZonesResult {
-  /// Information about the Availability Zones and Local Zones.
+  /// Information about the Availability Zones, Local Zones, and Wavelength Zones.
   final List<AvailabilityZone> availabilityZones;
 
   DescribeAvailabilityZonesResult({
@@ -24420,6 +27300,20 @@ class DescribeCapacityReservationsResult {
 
   DescribeCapacityReservationsResult({
     this.capacityReservations,
+    this.nextToken,
+  });
+}
+
+class DescribeCarrierGatewaysResult {
+  /// Information about the carrier gateway.
+  final List<CarrierGateway> carrierGateways;
+
+  /// The token to use to retrieve the next page of results. This value is
+  /// <code>null</code> when there are no more results to return.
+  final String nextToken;
+
+  DescribeCarrierGatewaysResult({
+    this.carrierGateways,
     this.nextToken,
   });
 }
@@ -24637,10 +27531,12 @@ class DescribeFastSnapshotRestoreSuccessItem {
   /// state.
   final DateTime optimizingTime;
 
-  /// The alias of the snapshot owner.
+  /// The AWS owner alias that enabled fast snapshot restores on the snapshot.
+  /// This is intended for future use.
   final String ownerAlias;
 
-  /// The ID of the AWS account that owns the snapshot.
+  /// The ID of the AWS account that enabled fast snapshot restores on the
+  /// snapshot.
   final String ownerId;
 
   /// The ID of the snapshot.
@@ -25199,6 +28095,20 @@ class DescribeLocalGatewaysResult {
   });
 }
 
+class DescribeManagedPrefixListsResult {
+  /// The token to use to retrieve the next page of results. This value is
+  /// <code>null</code> when there are no more results to return.
+  final String nextToken;
+
+  /// Information about the prefix lists.
+  final List<ManagedPrefixList> prefixLists;
+
+  DescribeManagedPrefixListsResult({
+    this.nextToken,
+    this.prefixLists,
+  });
+}
+
 class DescribeMovingAddressesResult {
   /// The status for each Elastic IP address.
   final List<MovingAddressStatus> movingAddressStatuses;
@@ -25237,6 +28147,34 @@ class DescribeNetworkAclsResult {
 
   DescribeNetworkAclsResult({
     this.networkAcls,
+    this.nextToken,
+  });
+}
+
+class DescribeNetworkInsightsAnalysesResult {
+  /// Information about the network insights analyses.
+  final List<NetworkInsightsAnalysis> networkInsightsAnalyses;
+
+  /// The token to use to retrieve the next page of results. This value is
+  /// <code>null</code> when there are no more results to return.
+  final String nextToken;
+
+  DescribeNetworkInsightsAnalysesResult({
+    this.networkInsightsAnalyses,
+    this.nextToken,
+  });
+}
+
+class DescribeNetworkInsightsPathsResult {
+  /// Information about the paths.
+  final List<NetworkInsightsPath> networkInsightsPaths;
+
+  /// The token to use to retrieve the next page of results. This value is
+  /// <code>null</code> when there are no more results to return.
+  final String nextToken;
+
+  DescribeNetworkInsightsPathsResult({
+    this.networkInsightsPaths,
     this.nextToken,
   });
 }
@@ -25716,6 +28654,34 @@ class DescribeTransitGatewayAttachmentsResult {
   });
 }
 
+class DescribeTransitGatewayConnectPeersResult {
+  /// The token to use to retrieve the next page of results. This value is
+  /// <code>null</code> when there are no more results to return.
+  final String nextToken;
+
+  /// Information about the Connect peers.
+  final List<TransitGatewayConnectPeer> transitGatewayConnectPeers;
+
+  DescribeTransitGatewayConnectPeersResult({
+    this.nextToken,
+    this.transitGatewayConnectPeers,
+  });
+}
+
+class DescribeTransitGatewayConnectsResult {
+  /// The token to use to retrieve the next page of results. This value is
+  /// <code>null</code> when there are no more results to return.
+  final String nextToken;
+
+  /// Information about the Connect attachments.
+  final List<TransitGatewayConnect> transitGatewayConnects;
+
+  DescribeTransitGatewayConnectsResult({
+    this.nextToken,
+    this.transitGatewayConnects,
+  });
+}
+
 class DescribeTransitGatewayMulticastDomainsResult {
   /// The token to use to retrieve the next page of results. This value is
   /// <code>null</code> when there are no more results to return.
@@ -26179,10 +29145,12 @@ class DisableFastSnapshotRestoreSuccessItem {
   /// state.
   final DateTime optimizingTime;
 
-  /// The alias of the snapshot owner.
+  /// The AWS owner alias that enabled fast snapshot restores on the snapshot.
+  /// This is intended for future use.
   final String ownerAlias;
 
-  /// The ID of the AWS account that owns the snapshot.
+  /// The ID of the AWS account that enabled fast snapshot restores on the
+  /// snapshot.
   final String ownerId;
 
   /// The ID of the snapshot.
@@ -26275,6 +29243,16 @@ class DisassociateClientVpnTargetNetworkResult {
   DisassociateClientVpnTargetNetworkResult({
     this.associationId,
     this.status,
+  });
+}
+
+class DisassociateEnclaveCertificateIamRoleResult {
+  /// Returns <code>true</code> if the request succeeds; otherwise, it returns an
+  /// error.
+  final bool returnValue;
+
+  DisassociateEnclaveCertificateIamRoleResult({
+    this.returnValue,
   });
 }
 
@@ -26509,7 +29487,7 @@ class EbsBlockDevice {
   /// Indicates whether the EBS volume is deleted on instance termination. For
   /// more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/terminating-instances.html#preserving-volumes-on-termination">Preserving
-  /// Amazon EBS Volumes on Instance Termination</a> in the Amazon Elastic Compute
+  /// Amazon EBS volumes on instance termination</a> in the Amazon Elastic Compute
   /// Cloud User Guide.
   final bool deleteOnTermination;
 
@@ -26526,32 +29504,40 @@ class EbsBlockDevice {
   /// Encrypted volumes can only be attached to instances that support Amazon EBS
   /// encryption. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html#EBSEncryption_supported_instances">Supported
-  /// Instance Types</a>.
+  /// instance types</a>.
   ///
   /// This parameter is not returned by .
   final bool encrypted;
 
-  /// The number of I/O operations per second (IOPS) that the volume supports. For
-  /// <code>io1</code> volumes, this represents the number of IOPS that are
-  /// provisioned for the volume. For <code>gp2</code> volumes, this represents
-  /// the baseline performance of the volume and the rate at which the volume
-  /// accumulates I/O credits for bursting. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumeTypes.html">Amazon
-  /// EBS Volume Types</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+  /// The number of I/O operations per second (IOPS). For <code>gp3</code>,
+  /// <code>io1</code>, and <code>io2</code> volumes, this represents the number
+  /// of IOPS that are provisioned for the volume. For <code>gp2</code> volumes,
+  /// this represents the baseline performance of the volume and the rate at which
+  /// the volume accumulates I/O credits for bursting.
   ///
-  /// Constraints: Range is 100-16,000 IOPS for <code>gp2</code> volumes and 100
-  /// to 64,000IOPS for <code>io1</code> volumes in most Regions. Maximum
-  /// <code>io1</code> IOPS of 64,000 is guaranteed only on <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html#ec2-nitro-instances">Nitro-based
-  /// instances</a>. Other instance families guarantee performance up to 32,000
-  /// IOPS. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumeTypes.html">Amazon
-  /// EBS Volume Types</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+  /// The following are the supported values for each volume type:
   ///
-  /// Condition: This parameter is required for requests to create
-  /// <code>io1</code> volumes; it is not used in requests to create
-  /// <code>gp2</code>, <code>st1</code>, <code>sc1</code>, or
-  /// <code>standard</code> volumes.
+  /// <ul>
+  /// <li>
+  /// <code>gp3</code>: 3,000-16,000 IOPS
+  /// </li>
+  /// <li>
+  /// <code>io1</code>: 100-64,000 IOPS
+  /// </li>
+  /// <li>
+  /// <code>io2</code>: 100-64,000 IOPS
+  /// </li>
+  /// </ul>
+  /// For <code>io1</code> and <code>io2</code> volumes, we guarantee 64,000 IOPS
+  /// only for <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html#ec2-nitro-instances">Instances
+  /// built on the Nitro System</a>. Other instance families guarantee performance
+  /// up to 32,000 IOPS.
+  ///
+  /// This parameter is required for <code>io1</code> and <code>io2</code>
+  /// volumes. The default for <code>gp3</code> volumes is 3,000 IOPS. This
+  /// parameter is not supported for <code>gp2</code>, <code>st1</code>,
+  /// <code>sc1</code>, or <code>standard</code> volumes.
   final int iops;
 
   /// Identifier (key ID, key alias, ID ARN, or alias ARN) for a customer managed
@@ -26569,24 +29555,44 @@ class EbsBlockDevice {
   /// The ID of the snapshot.
   final String snapshotId;
 
-  /// The size of the volume, in GiB.
+  /// The throughput that the volume supports, in MiB/s.
   ///
-  /// Default: If you're creating the volume from a snapshot and don't specify a
-  /// volume size, the default is the snapshot size.
+  /// This parameter is valid only for <code>gp3</code> volumes.
   ///
-  /// Constraints: 1-16384 for General Purpose SSD (<code>gp2</code>), 4-16384 for
-  /// Provisioned IOPS SSD (<code>io1</code>), 500-16384 for Throughput Optimized
-  /// HDD (<code>st1</code>), 500-16384 for Cold HDD (<code>sc1</code>), and
-  /// 1-1024 for Magnetic (<code>standard</code>) volumes. If you specify a
-  /// snapshot, the volume size must be equal to or larger than the snapshot size.
+  /// Valid Range: Minimum value of 125. Maximum value of 1000.
+  final int throughput;
+
+  /// The size of the volume, in GiBs. You must specify either a snapshot ID or a
+  /// volume size. If you specify a snapshot, the default is the snapshot size.
+  /// You can specify a volume size that is equal to or larger than the snapshot
+  /// size.
+  ///
+  /// The following are the supported volumes sizes for each volume type:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>gp2</code> and <code>gp3</code>:1-16,384
+  /// </li>
+  /// <li>
+  /// <code>io1</code> and <code>io2</code>: 4-16,384
+  /// </li>
+  /// <li>
+  /// <code>st1</code>: 500-16,384
+  /// </li>
+  /// <li>
+  /// <code>sc1</code>: 500-16,384
+  /// </li>
+  /// <li>
+  /// <code>standard</code>: 1-1,024
+  /// </li>
+  /// </ul>
   final int volumeSize;
 
-  /// The volume type. If you set the type to <code>io1</code>, you must also
-  /// specify the <b>Iops</b> parameter. If you set the type to <code>gp2</code>,
-  /// <code>st1</code>, <code>sc1</code>, or <code>standard</code>, you must omit
-  /// the <b>Iops</b> parameter.
-  ///
-  /// Default: <code>gp2</code>
+  /// The volume type. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumeTypes.html">Amazon
+  /// EBS volume types</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+  /// If the volume type is <code>io1</code> or <code>io2</code>, you must specify
+  /// the IOPS that the volume supports.
   final VolumeType volumeType;
 
   EbsBlockDevice({
@@ -26595,6 +29601,7 @@ class EbsBlockDevice {
     this.iops,
     this.kmsKeyId,
     this.snapshotId,
+    this.throughput,
     this.volumeSize,
     this.volumeType,
   });
@@ -26607,7 +29614,10 @@ enum EbsEncryptionSupport {
 
 /// Describes the Amazon EBS features supported by the instance type.
 class EbsInfo {
-  /// Indicates that the instance type is Amazon EBS-optimized. For more
+  /// Describes the optimized EBS performance for the instance type.
+  final EbsOptimizedInfo ebsOptimizedInfo;
+
+  /// Indicates whether the instance type is Amazon EBS-optimized. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSOptimized.html">Amazon
   /// EBS-Optimized Instances</a> in <i>Amazon EC2 User Guide for Linux
@@ -26617,9 +29627,14 @@ class EbsInfo {
   /// Indicates whether Amazon EBS encryption is supported.
   final EbsEncryptionSupport encryptionSupport;
 
+  /// Indicates whether non-volatile memory express (NVMe) is supported.
+  final EbsNvmeSupport nvmeSupport;
+
   EbsInfo({
+    this.ebsOptimizedInfo,
     this.ebsOptimizedSupport,
     this.encryptionSupport,
+    this.nvmeSupport,
   });
 }
 
@@ -26658,6 +29673,48 @@ class EbsInstanceBlockDeviceSpecification {
   EbsInstanceBlockDeviceSpecification({
     this.deleteOnTermination,
     this.volumeId,
+  });
+}
+
+enum EbsNvmeSupport {
+  unsupported,
+  supported,
+  required,
+}
+
+/// Describes the optimized EBS performance for supported instance types.
+class EbsOptimizedInfo {
+  /// The baseline bandwidth performance for an EBS-optimized instance type, in
+  /// Mbps.
+  final int baselineBandwidthInMbps;
+
+  /// The baseline input/output storage operations per seconds for an
+  /// EBS-optimized instance type.
+  final int baselineIops;
+
+  /// The baseline throughput performance for an EBS-optimized instance type, in
+  /// MB/s.
+  final double baselineThroughputInMBps;
+
+  /// The maximum bandwidth performance for an EBS-optimized instance type, in
+  /// Mbps.
+  final int maximumBandwidthInMbps;
+
+  /// The maximum input/output storage operations per second for an EBS-optimized
+  /// instance type.
+  final int maximumIops;
+
+  /// The maximum throughput performance for an EBS-optimized instance type, in
+  /// MB/s.
+  final double maximumThroughputInMBps;
+
+  EbsOptimizedInfo({
+    this.baselineBandwidthInMbps,
+    this.baselineIops,
+    this.baselineThroughputInMBps,
+    this.maximumBandwidthInMbps,
+    this.maximumIops,
+    this.maximumThroughputInMBps,
   });
 }
 
@@ -26790,8 +29847,9 @@ class ElasticGpus {
 /// Describes an elastic inference accelerator.
 class ElasticInferenceAccelerator {
   /// The type of elastic inference accelerator. The possible values are
-  /// <code>eia1.medium</code>, <code>eia1.large</code>, and
-  /// <code>eia1.xlarge</code>.
+  /// <code>eia1.medium</code>, <code>eia1.large</code>, <code>eia1.xlarge</code>,
+  /// <code>eia2.medium</code>, <code>eia2.large</code>, and
+  /// <code>eia2.xlarge</code>.
   final String type;
 
   /// The number of elastic inference accelerators to attach to the instance.
@@ -26914,10 +29972,12 @@ class EnableFastSnapshotRestoreSuccessItem {
   /// state.
   final DateTime optimizingTime;
 
-  /// The alias of the snapshot owner.
+  /// The AWS owner alias that enabled fast snapshot restores on the snapshot.
+  /// This is intended for future use.
   final String ownerAlias;
 
-  /// The ID of the AWS account that owns the snapshot.
+  /// The ID of the AWS account that enabled fast snapshot restores on the
+  /// snapshot.
   final String ownerId;
 
   /// The ID of the snapshot.
@@ -27000,9 +30060,40 @@ class EnableVpcClassicLinkResult {
   });
 }
 
+/// Indicates whether the instance is enabled for AWS Nitro Enclaves.
+class EnclaveOptions {
+  /// If this parameter is set to <code>true</code>, the instance is enabled for
+  /// AWS Nitro Enclaves; otherwise, it is not enabled for AWS Nitro Enclaves.
+  final bool enabled;
+
+  EnclaveOptions({
+    this.enabled,
+  });
+}
+
+/// Indicates whether the instance is enabled for AWS Nitro Enclaves. For more
+/// information, see <a
+/// href="https://docs.aws.amazon.com/enclaves/latest/user/nitro-enclave.html">
+/// What is AWS Nitro Enclaves?</a> in the <i>AWS Nitro Enclaves User Guide</i>.
+class EnclaveOptionsRequest {
+  /// To enable the instance for AWS Nitro Enclaves, set this parameter to
+  /// <code>true</code>.
+  final bool enabled;
+
+  EnclaveOptionsRequest({
+    this.enabled,
+  });
+}
+
 enum EndDateType {
   unlimited,
   limited,
+}
+
+enum EphemeralNvmeSupport {
+  unsupported,
+  supported,
+  required,
 }
 
 enum EventCode {
@@ -27136,6 +30227,204 @@ enum ExcessCapacityTerminationPolicy {
   $default,
 }
 
+/// Describes an explanation code for an unreachable path. For more information,
+/// see <a
+/// href="https://docs.aws.amazon.com/vpc/latest/reachability/explanation-codes.html">Reachability
+/// Analyzer explanation codes</a>.
+class Explanation {
+  /// The network ACL.
+  final AnalysisComponent acl;
+
+  /// The network ACL rule.
+  final AnalysisAclRule aclRule;
+
+  /// The IPv4 address, in CIDR notation.
+  final String address;
+
+  /// The IPv4 addresses, in CIDR notation.
+  final List<String> addresses;
+
+  /// The resource to which the component is attached.
+  final AnalysisComponent attachedTo;
+
+  /// The Availability Zones.
+  final List<String> availabilityZones;
+
+  /// The CIDR ranges.
+  final List<String> cidrs;
+
+  /// The listener for a Classic Load Balancer.
+  final AnalysisLoadBalancerListener classicLoadBalancerListener;
+
+  /// The component.
+  final AnalysisComponent component;
+
+  /// The customer gateway.
+  final AnalysisComponent customerGateway;
+
+  /// The destination.
+  final AnalysisComponent destination;
+
+  /// The destination VPC.
+  final AnalysisComponent destinationVpc;
+
+  /// The direction. The following are possible values:
+  ///
+  /// <ul>
+  /// <li>
+  /// egress
+  /// </li>
+  /// <li>
+  /// ingress
+  /// </li>
+  /// </ul>
+  final String direction;
+
+  /// The load balancer listener.
+  final AnalysisComponent elasticLoadBalancerListener;
+
+  /// The explanation code.
+  final String explanationCode;
+
+  /// The route table.
+  final AnalysisComponent ingressRouteTable;
+
+  /// The internet gateway.
+  final AnalysisComponent internetGateway;
+
+  /// The Amazon Resource Name (ARN) of the load balancer.
+  final String loadBalancerArn;
+
+  /// The listener port of the load balancer.
+  final int loadBalancerListenerPort;
+
+  /// The target.
+  final AnalysisLoadBalancerTarget loadBalancerTarget;
+
+  /// The target group.
+  final AnalysisComponent loadBalancerTargetGroup;
+
+  /// The target groups.
+  final List<AnalysisComponent> loadBalancerTargetGroups;
+
+  /// The target port.
+  final int loadBalancerTargetPort;
+
+  /// The missing component.
+  final String missingComponent;
+
+  /// The NAT gateway.
+  final AnalysisComponent natGateway;
+
+  /// The network interface.
+  final AnalysisComponent networkInterface;
+
+  /// The packet field.
+  final String packetField;
+
+  /// The port.
+  final int port;
+
+  /// The port ranges.
+  final List<PortRange> portRanges;
+
+  /// The prefix list.
+  final AnalysisComponent prefixList;
+
+  /// The protocols.
+  final List<String> protocols;
+
+  /// The route table.
+  final AnalysisComponent routeTable;
+
+  /// The route table route.
+  final AnalysisRouteTableRoute routeTableRoute;
+
+  /// The security group.
+  final AnalysisComponent securityGroup;
+
+  /// The security group rule.
+  final AnalysisSecurityGroupRule securityGroupRule;
+
+  /// The security groups.
+  final List<AnalysisComponent> securityGroups;
+
+  /// The source VPC.
+  final AnalysisComponent sourceVpc;
+
+  /// The state.
+  final String state;
+
+  /// The subnet.
+  final AnalysisComponent subnet;
+
+  /// The route table for the subnet.
+  final AnalysisComponent subnetRouteTable;
+
+  /// The component VPC.
+  final AnalysisComponent vpc;
+
+  /// The VPC endpoint.
+  final AnalysisComponent vpcEndpoint;
+
+  /// The VPC peering connection.
+  final AnalysisComponent vpcPeeringConnection;
+
+  /// The VPN connection.
+  final AnalysisComponent vpnConnection;
+
+  /// The VPN gateway.
+  final AnalysisComponent vpnGateway;
+
+  Explanation({
+    this.acl,
+    this.aclRule,
+    this.address,
+    this.addresses,
+    this.attachedTo,
+    this.availabilityZones,
+    this.cidrs,
+    this.classicLoadBalancerListener,
+    this.component,
+    this.customerGateway,
+    this.destination,
+    this.destinationVpc,
+    this.direction,
+    this.elasticLoadBalancerListener,
+    this.explanationCode,
+    this.ingressRouteTable,
+    this.internetGateway,
+    this.loadBalancerArn,
+    this.loadBalancerListenerPort,
+    this.loadBalancerTarget,
+    this.loadBalancerTargetGroup,
+    this.loadBalancerTargetGroups,
+    this.loadBalancerTargetPort,
+    this.missingComponent,
+    this.natGateway,
+    this.networkInterface,
+    this.packetField,
+    this.port,
+    this.portRanges,
+    this.prefixList,
+    this.protocols,
+    this.routeTable,
+    this.routeTableRoute,
+    this.securityGroup,
+    this.securityGroupRule,
+    this.securityGroups,
+    this.sourceVpc,
+    this.state,
+    this.subnet,
+    this.subnetRouteTable,
+    this.vpc,
+    this.vpcEndpoint,
+    this.vpcPeeringConnection,
+    this.vpnConnection,
+    this.vpnGateway,
+  });
+}
+
 class ExportClientVpnClientCertificateRevocationListResult {
   /// Information about the client certificate revocation list.
   final String certificateRevocationList;
@@ -27181,10 +30470,10 @@ class ExportImageResult {
   final String progress;
 
   /// The name of the role that grants VM Import/Export permission to export
-  /// images to your S3 bucket.
+  /// images to your Amazon S3 bucket.
   final String roleName;
 
-  /// Information about the destination S3 bucket.
+  /// Information about the destination Amazon S3 bucket.
   final ExportTaskS3Location s3ExportLocation;
 
   /// The status of the export image task. The possible values are
@@ -27194,6 +30483,9 @@ class ExportImageResult {
 
   /// The status message for the export image task.
   final String statusMessage;
+
+  /// Any tags assigned to the image being exported.
+  final List<Tag> tags;
 
   ExportImageResult({
     this.description,
@@ -27205,6 +30497,7 @@ class ExportImageResult {
     this.s3ExportLocation,
     this.status,
     this.statusMessage,
+    this.tags,
   });
 }
 
@@ -27222,7 +30515,7 @@ class ExportImageTask {
   /// The percent complete of the export image task.
   final String progress;
 
-  /// Information about the destination S3 bucket.
+  /// Information about the destination Amazon S3 bucket.
   final ExportTaskS3Location s3ExportLocation;
 
   /// The status of the export image task. The possible values are
@@ -27233,6 +30526,9 @@ class ExportImageTask {
   /// The status message for the export image task.
   final String statusMessage;
 
+  /// Any tags assigned to the image being exported.
+  final List<Tag> tags;
+
   ExportImageTask({
     this.description,
     this.exportImageTaskId,
@@ -27241,6 +30537,7 @@ class ExportImageTask {
     this.s3ExportLocation,
     this.status,
     this.statusMessage,
+    this.tags,
   });
 }
 
@@ -27280,7 +30577,7 @@ class ExportTask {
 
 /// Describes the destination for an export image task.
 class ExportTaskS3Location {
-  /// The destination S3 bucket.
+  /// The destination Amazon S3 bucket.
   final String s3Bucket;
 
   /// The prefix (logical hierarchy) in the bucket.
@@ -27294,7 +30591,7 @@ class ExportTaskS3Location {
 
 /// Describes the destination for an export image task.
 class ExportTaskS3LocationRequest {
-  /// The destination S3 bucket.
+  /// The destination Amazon S3 bucket.
   final String s3Bucket;
 
   /// The prefix (logical hierarchy) in the bucket.
@@ -27322,8 +30619,8 @@ class ExportToS3Task {
   /// The format for the exported image.
   final DiskImageFormat diskImageFormat;
 
-  /// The S3 bucket for the destination image. The destination bucket must exist
-  /// and grant WRITE and READ_ACP permissions to the AWS account
+  /// The Amazon S3 bucket for the destination image. The destination bucket must
+  /// exist and grant WRITE and READ_ACP permissions to the AWS account
   /// <code>vm-import-export@amazon.com</code>.
   final String s3Bucket;
 
@@ -27347,13 +30644,13 @@ class ExportToS3TaskSpecification {
   /// The format for the exported image.
   final DiskImageFormat diskImageFormat;
 
-  /// The S3 bucket for the destination image. The destination bucket must exist
-  /// and grant WRITE and READ_ACP permissions to the AWS account
+  /// The Amazon S3 bucket for the destination image. The destination bucket must
+  /// exist and grant WRITE and READ_ACP permissions to the AWS account
   /// <code>vm-import-export@amazon.com</code>.
   final String s3Bucket;
 
-  /// The image is written to a single object in the S3 bucket at the S3 key
-  /// s3prefix + exportTaskId + '.' + diskImageFormat.
+  /// The image is written to a single object in the Amazon S3 bucket at the S3
+  /// key s3prefix + exportTaskId + '.' + diskImageFormat.
   final String s3Prefix;
 
   ExportToS3TaskSpecification({
@@ -27394,6 +30691,36 @@ enum FastSnapshotRestoreStateCode {
   enabled,
   disabling,
   disabled,
+}
+
+/// Describes the IAM SAML identity providers used for federated authentication.
+class FederatedAuthentication {
+  /// The Amazon Resource Name (ARN) of the IAM SAML identity provider.
+  final String samlProviderArn;
+
+  /// The Amazon Resource Name (ARN) of the IAM SAML identity provider for the
+  /// self-service portal.
+  final String selfServiceSamlProviderArn;
+
+  FederatedAuthentication({
+    this.samlProviderArn,
+    this.selfServiceSamlProviderArn,
+  });
+}
+
+/// The IAM SAML identity provider used for federated authentication.
+class FederatedAuthenticationRequest {
+  /// The Amazon Resource Name (ARN) of the IAM SAML identity provider.
+  final String sAMLProviderArn;
+
+  /// The Amazon Resource Name (ARN) of the IAM SAML identity provider for the
+  /// self-service portal.
+  final String selfServiceSAMLProviderArn;
+
+  FederatedAuthenticationRequest({
+    this.sAMLProviderArn,
+    this.selfServiceSAMLProviderArn,
+  });
 }
 
 /// A filter name and value pair that is used to return a more specific list of
@@ -27704,18 +31031,30 @@ class FleetLaunchTemplateOverridesRequest {
   });
 }
 
-/// Describes a launch template.
+/// Describes the Amazon EC2 launch template and the launch template version
+/// that can be used by a Spot Fleet request to configure Amazon EC2 instances.
+/// For information about launch templates, see <a
+/// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-launch-templates.html">Launching
+/// an instance from a launch template</a> in the <i>Amazon EC2 User Guide for
+/// Linux Instances</i>.
 class FleetLaunchTemplateSpecification {
-  /// The ID of the launch template. You must specify either a template ID or a
-  /// template name.
+  /// The ID of the launch template. If you specify the template ID, you can't
+  /// specify the template name.
   final String launchTemplateId;
 
-  /// The name of the launch template. You must specify either a template name or
-  /// a template ID.
+  /// The name of the launch template. If you specify the template name, you can't
+  /// specify the template ID.
   final String launchTemplateName;
 
-  /// The version number of the launch template. You must specify a version
-  /// number.
+  /// The launch template version number, <code>$Latest</code>, or
+  /// <code>$Default</code>. You must specify a value, otherwise the request
+  /// fails.
+  ///
+  /// If the value is <code>$Latest</code>, Amazon EC2 uses the latest version of
+  /// the launch template.
+  ///
+  /// If the value is <code>$Default</code>, Amazon EC2 uses the default version
+  /// of the launch template.
   final String version;
 
   FleetLaunchTemplateSpecification({
@@ -27725,17 +31064,30 @@ class FleetLaunchTemplateSpecification {
   });
 }
 
-/// The launch template to use. You must specify either the launch template ID
-/// or launch template name in the request.
+/// Describes the Amazon EC2 launch template and the launch template version
+/// that can be used by an EC2 Fleet to configure Amazon EC2 instances. For
+/// information about launch templates, see <a
+/// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-launch-templates.html">Launching
+/// an instance from a launch template</a> in the <i>Amazon Elastic Compute
+/// Cloud User Guide</i>.
 class FleetLaunchTemplateSpecificationRequest {
-  /// The ID of the launch template.
+  /// The ID of the launch template. If you specify the template ID, you can't
+  /// specify the template name.
   final String launchTemplateId;
 
-  /// The name of the launch template.
+  /// The name of the launch template. If you specify the template name, you can't
+  /// specify the template ID.
   final String launchTemplateName;
 
-  /// The version number of the launch template. Note: This is a required
-  /// parameter and will be updated soon.
+  /// The launch template version number, <code>$Latest</code>, or
+  /// <code>$Default</code>. You must specify a value, otherwise the request
+  /// fails.
+  ///
+  /// If the value is <code>$Latest</code>, Amazon EC2 uses the latest version of
+  /// the launch template.
+  ///
+  /// If the value is <code>$Default</code>, Amazon EC2 uses the default version
+  /// of the launch template.
   final String version;
 
   FleetLaunchTemplateSpecificationRequest({
@@ -27748,6 +31100,78 @@ class FleetLaunchTemplateSpecificationRequest {
 enum FleetOnDemandAllocationStrategy {
   lowestPrice,
   prioritized,
+}
+
+enum FleetReplacementStrategy {
+  launch,
+}
+
+/// The strategy to use when Amazon EC2 emits a signal that your Spot Instance
+/// is at an elevated risk of being interrupted.
+class FleetSpotCapacityRebalance {
+  /// To allow EC2 Fleet to launch a replacement Spot Instance when an instance
+  /// rebalance notification is emitted for an existing Spot Instance in the
+  /// fleet, specify <code>launch</code>. Only available for fleets of type
+  /// <code>maintain</code>.
+  /// <note>
+  /// When a replacement instance is launched, the instance marked for rebalance
+  /// is not automatically terminated. You can terminate it, or you can leave it
+  /// running. You are charged for both instances while they are running.
+  /// </note>
+  final FleetReplacementStrategy replacementStrategy;
+
+  FleetSpotCapacityRebalance({
+    this.replacementStrategy,
+  });
+}
+
+/// The Spot Instance replacement strategy to use when Amazon EC2 emits a signal
+/// that your Spot Instance is at an elevated risk of being interrupted. For
+/// more information, see <a
+/// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet-configuration-strategies.html#ec2-fleet-capacity-rebalance">Capacity
+/// rebalancing</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+class FleetSpotCapacityRebalanceRequest {
+  /// The replacement strategy to use. Only available for fleets of type
+  /// <code>maintain</code>.
+  ///
+  /// To allow EC2 Fleet to launch a replacement Spot Instance when an instance
+  /// rebalance notification is emitted for an existing Spot Instance in the
+  /// fleet, specify <code>launch</code>. You must specify a value, otherwise you
+  /// get an error.
+  /// <note>
+  /// When a replacement instance is launched, the instance marked for rebalance
+  /// is not automatically terminated. You can terminate it, or you can leave it
+  /// running. You are charged for all instances while they are running.
+  /// </note>
+  final FleetReplacementStrategy replacementStrategy;
+
+  FleetSpotCapacityRebalanceRequest({
+    this.replacementStrategy,
+  });
+}
+
+/// The strategies for managing your Spot Instances that are at an elevated risk
+/// of being interrupted.
+class FleetSpotMaintenanceStrategies {
+  /// The strategy to use when Amazon EC2 emits a signal that your Spot Instance
+  /// is at an elevated risk of being interrupted.
+  final FleetSpotCapacityRebalance capacityRebalance;
+
+  FleetSpotMaintenanceStrategies({
+    this.capacityRebalance,
+  });
+}
+
+/// The strategies for managing your Spot Instances that are at an elevated risk
+/// of being interrupted.
+class FleetSpotMaintenanceStrategiesRequest {
+  /// The strategy to use when Amazon EC2 emits a signal that your Spot Instance
+  /// is at an elevated risk of being interrupted.
+  final FleetSpotCapacityRebalanceRequest capacityRebalance;
+
+  FleetSpotMaintenanceStrategiesRequest({
+    this.capacityRebalance,
+  });
 }
 
 enum FleetStateCode {
@@ -27879,7 +31303,7 @@ class FpgaDeviceInfo {
 
 /// Describes the memory for the FPGA accelerator for the instance type.
 class FpgaDeviceMemoryInfo {
-  /// The size (in MiB) for the memory available to the FPGA accelerator.
+  /// The size of the memory available to the FPGA accelerator, in MiB.
   final int sizeInMiB;
 
   FpgaDeviceMemoryInfo({
@@ -28042,6 +31466,15 @@ enum GatewayType {
   ipsec_1,
 }
 
+class GetAssociatedEnclaveCertificateIamRolesResult {
+  /// Information about the associated IAM roles.
+  final List<AssociatedRole> associatedRoles;
+
+  GetAssociatedEnclaveCertificateIamRolesResult({
+    this.associatedRoles,
+  });
+}
+
 class GetAssociatedIpv6PoolCidrsResult {
   /// Information about the IPv6 CIDR block associations.
   final List<Ipv6CidrAssociation> ipv6CidrAssociations;
@@ -28193,6 +31626,21 @@ class GetEbsEncryptionByDefaultResult {
   });
 }
 
+class GetGroupsForCapacityReservationResult {
+  /// Information about the resource groups to which the Capacity Reservation has
+  /// been added.
+  final List<CapacityReservationGroup> capacityReservationGroups;
+
+  /// The token to use to retrieve the next page of results. This value is
+  /// <code>null</code> when there are no more results to return.
+  final String nextToken;
+
+  GetGroupsForCapacityReservationResult({
+    this.capacityReservationGroups,
+    this.nextToken,
+  });
+}
+
 class GetHostReservationPurchasePreviewResult {
   /// The currency in which the <code>totalUpfrontPrice</code> and
   /// <code>totalHourlyPrice</code> amounts are specified. At this time, the only
@@ -28223,6 +31671,34 @@ class GetLaunchTemplateDataResult {
 
   GetLaunchTemplateDataResult({
     this.launchTemplateData,
+  });
+}
+
+class GetManagedPrefixListAssociationsResult {
+  /// The token to use to retrieve the next page of results. This value is
+  /// <code>null</code> when there are no more results to return.
+  final String nextToken;
+
+  /// Information about the associations.
+  final List<PrefixListAssociation> prefixListAssociations;
+
+  GetManagedPrefixListAssociationsResult({
+    this.nextToken,
+    this.prefixListAssociations,
+  });
+}
+
+class GetManagedPrefixListEntriesResult {
+  /// Information about the prefix list entries.
+  final List<PrefixListEntry> entries;
+
+  /// The token to use to retrieve the next page of results. This value is
+  /// <code>null</code> when there are no more results to return.
+  final String nextToken;
+
+  GetManagedPrefixListEntriesResult({
+    this.entries,
+    this.nextToken,
   });
 }
 
@@ -28317,6 +31793,21 @@ class GetTransitGatewayMulticastDomainAssociationsResult {
   });
 }
 
+class GetTransitGatewayPrefixListReferencesResult {
+  /// The token to use to retrieve the next page of results. This value is
+  /// <code>null</code> when there are no more results to return.
+  final String nextToken;
+
+  /// Information about the prefix list references.
+  final List<TransitGatewayPrefixListReference>
+      transitGatewayPrefixListReferences;
+
+  GetTransitGatewayPrefixListReferencesResult({
+    this.nextToken,
+    this.transitGatewayPrefixListReferences,
+  });
+}
+
 class GetTransitGatewayRouteTableAssociationsResult {
   /// Information about the associations.
   final List<TransitGatewayRouteTableAssociation> associations;
@@ -28370,7 +31861,7 @@ class GpuDeviceInfo {
 
 /// Describes the memory available to the GPU accelerator.
 class GpuDeviceMemoryInfo {
-  /// The size (in MiB) for the memory available to the GPU accelerator.
+  /// The size of the memory available to the GPU accelerator, in MiB.
   final int sizeInMiB;
 
   GpuDeviceMemoryInfo({
@@ -28383,7 +31874,8 @@ class GpuInfo {
   /// Describes the GPU accelerators for the instance type.
   final List<GpuDeviceInfo> gpus;
 
-  /// The total size of the memory for the GPU accelerators for the instance type.
+  /// The total size of the memory for the GPU accelerators for the instance type,
+  /// in MiB.
   final int totalGpuMemoryInMiB;
 
   GpuInfo({
@@ -28411,7 +31903,7 @@ class GroupIdentifier {
 /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Hibernate.html#hibernating-prerequisites">hibernation
 /// prerequisites</a>. For more information, see <a
 /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Hibernate.html">Hibernate
-/// Your Instance</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+/// your instance</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
 class HibernationOptions {
   /// If this parameter is set to <code>true</code>, your instance is enabled for
   /// hibernation; otherwise, it is not enabled for hibernation.
@@ -28427,7 +31919,7 @@ class HibernationOptions {
 /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Hibernate.html#hibernating-prerequisites">hibernation
 /// prerequisites</a>. For more information, see <a
 /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/Hibernate.html">Hibernate
-/// Your Instance</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+/// your instance</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
 class HibernationOptionsRequest {
   /// If you set this parameter to <code>true</code>, your instance is enabled for
   /// hibernation.
@@ -28865,6 +32357,11 @@ class IdFormat {
   });
 }
 
+enum Igmpv2SupportValue {
+  enable,
+  disable,
+}
+
 /// Describes an image.
 class Image {
   /// The architecture of the image.
@@ -29057,7 +32554,8 @@ class ImageDiskContainer {
 
   /// The format of the disk image being imported.
   ///
-  /// Valid values: <code>VHD</code> | <code>VMDK</code> | <code>OVA</code>
+  /// Valid values: <code>OVA</code> | <code>VHD</code> | <code>VHDX</code>
+  /// |<code>VMDK</code>
   final String format;
 
   /// The ID of the EBS snapshot to be used for importing the snapshot.
@@ -29133,7 +32631,7 @@ class ImportImageResult {
   /// A description of the import task.
   final String description;
 
-  /// Indicates whether the AMI is encypted.
+  /// Indicates whether the AMI is encrypted.
   final bool encrypted;
 
   /// The target hypervisor of the import task.
@@ -29170,6 +32668,9 @@ class ImportImageResult {
   /// A detailed status message of the import task.
   final String statusMessage;
 
+  /// Any tags assigned to the image being imported.
+  final List<Tag> tags;
+
   ImportImageResult({
     this.architecture,
     this.description,
@@ -29185,6 +32686,7 @@ class ImportImageResult {
     this.snapshotDetails,
     this.status,
     this.statusMessage,
+    this.tags,
   });
 }
 
@@ -29410,10 +32912,14 @@ class ImportSnapshotResult {
   /// Information about the import snapshot task.
   final SnapshotTaskDetail snapshotTaskDetail;
 
+  /// Any tags assigned to the snapshot being imported.
+  final List<Tag> tags;
+
   ImportSnapshotResult({
     this.description,
     this.importTaskId,
     this.snapshotTaskDetail,
+    this.tags,
   });
 }
 
@@ -29545,6 +33051,9 @@ class Instance {
   /// Specifies whether enhanced networking with ENA is enabled.
   final bool enaSupport;
 
+  /// Indicates whether the instance is enabled for AWS Nitro Enclaves.
+  final EnclaveOptions enclaveOptions;
+
   /// Indicates whether the instance is enabled for hibernation.
   final HibernationOptions hibernationOptions;
 
@@ -29620,7 +33129,11 @@ class Instance {
   /// your VPC.
   final String publicDnsName;
 
-  /// The public IPv4 address assigned to the instance, if applicable.
+  /// The public IPv4 address, or the Carrier IP address assigned to the instance,
+  /// if applicable.
+  ///
+  /// A Carrier IP address only applies to an instance launched in a subnet
+  /// associated with a Wavelength Zone.
   final String publicIpAddress;
 
   /// The RAM disk associated with this instance, if applicable.
@@ -29688,6 +33201,7 @@ class Instance {
     this.elasticGpuAssociations,
     this.elasticInferenceAcceleratorAssociations,
     this.enaSupport,
+    this.enclaveOptions,
     this.hibernationOptions,
     this.hypervisor,
     this.iamInstanceProfile,
@@ -29742,6 +33256,10 @@ class InstanceAttribute {
   /// Indicates whether enhanced networking with ENA is enabled.
   final AttributeBooleanValue enaSupport;
 
+  /// To enable the instance for AWS Nitro Enclaves, set this parameter to
+  /// <code>true</code>; otherwise, set it to <code>false</code>.
+  final EnclaveOptions enclaveOptions;
+
   /// The security groups associated with the instance.
   final List<GroupIdentifier> groups;
 
@@ -29786,6 +33304,7 @@ class InstanceAttribute {
     this.disableApiTermination,
     this.ebsOptimized,
     this.enaSupport,
+    this.enclaveOptions,
     this.groups,
     this.instanceId,
     this.instanceInitiatedShutdownBehavior,
@@ -29815,6 +33334,7 @@ enum InstanceAttributeName {
   ebsOptimized,
   sriovNetSupport,
   enaSupport,
+  enclaveOptions,
 }
 
 /// Describes a block device mapping.
@@ -30207,6 +33727,9 @@ class InstanceNetworkInterface {
 
 /// Describes association information for an Elastic IP address (IPv4).
 class InstanceNetworkInterfaceAssociation {
+  /// The carrier IP address associated with the network interface.
+  final String carrierIp;
+
   /// The ID of the owner of the Elastic IP address.
   final String ipOwnerId;
 
@@ -30217,6 +33740,7 @@ class InstanceNetworkInterfaceAssociation {
   final String publicIp;
 
   InstanceNetworkInterfaceAssociation({
+    this.carrierIp,
     this.ipOwnerId,
     this.publicDnsName,
     this.publicIp,
@@ -30239,6 +33763,9 @@ class InstanceNetworkInterfaceAttachment {
   /// attachment.
   final int deviceIndex;
 
+  /// The index of the network card.
+  final int networkCardIndex;
+
   /// The attachment state.
   final AttachmentStatus status;
 
@@ -30247,12 +33774,20 @@ class InstanceNetworkInterfaceAttachment {
     this.attachmentId,
     this.deleteOnTermination,
     this.deviceIndex,
+    this.networkCardIndex,
     this.status,
   });
 }
 
 /// Describes a network interface.
 class InstanceNetworkInterfaceSpecification {
+  /// Indicates whether to assign a carrier IP address to the network interface.
+  ///
+  /// You can only assign a carrier IP address to a network interface that is in a
+  /// subnet in a Wavelength Zone. For more information about carrier IP
+  /// addresses, see Carrier IP addresses in the AWS Wavelength Developer Guide.
+  final bool associateCarrierIpAddress;
+
   /// Indicates whether to assign a public IPv4 address to an instance you launch
   /// in a VPC. The public IP address can only be assigned to a network interface
   /// for eth0, and can only be assigned to a new network interface, not an
@@ -30281,8 +33816,10 @@ class InstanceNetworkInterfaceSpecification {
   /// creating a network interface when launching an instance.
   final List<String> groups;
 
-  /// The type of network interface. To create an Elastic Fabric Adapter (EFA),
-  /// specify <code>efa</code>. For more information, see <a
+  /// The type of network interface.
+  ///
+  /// To create an Elastic Fabric Adapter (EFA), specify <code>efa</code>. For
+  /// more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/efa.html">Elastic
   /// Fabric Adapter</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
   ///
@@ -30304,6 +33841,11 @@ class InstanceNetworkInterfaceSpecification {
   /// the same request. You cannot specify this option if you've specified a
   /// minimum number of instances to launch.
   final List<InstanceIpv6Address> ipv6Addresses;
+
+  /// The index of the network card. Some instance types support multiple network
+  /// cards. The primary network interface must be assigned to network card index
+  /// 0. The default is network card index 0.
+  final int networkCardIndex;
 
   /// The ID of the network interface.
   ///
@@ -30338,6 +33880,7 @@ class InstanceNetworkInterfaceSpecification {
   final String subnetId;
 
   InstanceNetworkInterfaceSpecification({
+    this.associateCarrierIpAddress,
     this.associatePublicIpAddress,
     this.deleteOnTermination,
     this.description,
@@ -30346,6 +33889,7 @@ class InstanceNetworkInterfaceSpecification {
     this.interfaceType,
     this.ipv6AddressCount,
     this.ipv6Addresses,
+    this.networkCardIndex,
     this.networkInterfaceId,
     this.privateIpAddress,
     this.privateIpAddresses,
@@ -30573,14 +34117,19 @@ class InstanceStatusSummary {
 
 /// Describes the disks that are available for the instance type.
 class InstanceStorageInfo {
-  /// Array describing the disks that are available for the instance type.
+  /// Describes the disks that are available for the instance type.
   final List<DiskInfo> disks;
+
+  /// Indicates whether non-volatile memory express (NVMe) is supported for
+  /// instance store.
+  final EphemeralNvmeSupport nvmeSupport;
 
   /// The total size of the disks, in GB.
   final int totalSizeInGB;
 
   InstanceStorageInfo({
     this.disks,
+    this.nvmeSupport,
     this.totalSizeInGB,
   });
 }
@@ -30624,6 +34173,13 @@ enum InstanceType {
   t3aLarge,
   t3aXlarge,
   t3a_2xlarge,
+  t4gNano,
+  t4gMicro,
+  t4gSmall,
+  t4gMedium,
+  t4gLarge,
+  t4gXlarge,
+  t4g_2xlarge,
   m1Small,
   m1Medium,
   m1Large,
@@ -30670,6 +34226,15 @@ enum InstanceType {
   r5a_12xlarge,
   r5a_16xlarge,
   r5a_24xlarge,
+  r5bLarge,
+  r5bXlarge,
+  r5b_2xlarge,
+  r5b_4xlarge,
+  r5b_8xlarge,
+  r5b_12xlarge,
+  r5b_16xlarge,
+  r5b_24xlarge,
+  r5bMetal,
   r5dLarge,
   r5dXlarge,
   r5d_2xlarge,
@@ -30687,6 +34252,24 @@ enum InstanceType {
   r5ad_12xlarge,
   r5ad_16xlarge,
   r5ad_24xlarge,
+  r6gMetal,
+  r6gMedium,
+  r6gLarge,
+  r6gXlarge,
+  r6g_2xlarge,
+  r6g_4xlarge,
+  r6g_8xlarge,
+  r6g_12xlarge,
+  r6g_16xlarge,
+  r6gdMetal,
+  r6gdMedium,
+  r6gdLarge,
+  r6gdXlarge,
+  r6gd_2xlarge,
+  r6gd_4xlarge,
+  r6gd_8xlarge,
+  r6gd_12xlarge,
+  r6gd_16xlarge,
   x1_16xlarge,
   x1_32xlarge,
   x1eXlarge,
@@ -30737,6 +34320,22 @@ enum InstanceType {
   c5_18xlarge,
   c5_24xlarge,
   c5Metal,
+  c5aLarge,
+  c5aXlarge,
+  c5a_2xlarge,
+  c5a_4xlarge,
+  c5a_8xlarge,
+  c5a_12xlarge,
+  c5a_16xlarge,
+  c5a_24xlarge,
+  c5adLarge,
+  c5adXlarge,
+  c5ad_2xlarge,
+  c5ad_4xlarge,
+  c5ad_8xlarge,
+  c5ad_12xlarge,
+  c5ad_16xlarge,
+  c5ad_24xlarge,
   c5dLarge,
   c5dXlarge,
   c5d_2xlarge,
@@ -30752,6 +34351,33 @@ enum InstanceType {
   c5n_4xlarge,
   c5n_9xlarge,
   c5n_18xlarge,
+  c5nMetal,
+  c6gMetal,
+  c6gMedium,
+  c6gLarge,
+  c6gXlarge,
+  c6g_2xlarge,
+  c6g_4xlarge,
+  c6g_8xlarge,
+  c6g_12xlarge,
+  c6g_16xlarge,
+  c6gdMetal,
+  c6gdMedium,
+  c6gdLarge,
+  c6gdXlarge,
+  c6gd_2xlarge,
+  c6gd_4xlarge,
+  c6gd_8xlarge,
+  c6gd_12xlarge,
+  c6gd_16xlarge,
+  c6gnMedium,
+  c6gnLarge,
+  c6gnXlarge,
+  c6gn_2xlarge,
+  c6gn_4xlarge,
+  c6gn_8xlarge,
+  c6gn_12xlarge,
+  c6gn_16xlarge,
   cc1_4xlarge,
   cc2_8xlarge,
   g2_2xlarge,
@@ -30760,12 +34386,16 @@ enum InstanceType {
   g3_8xlarge,
   g3_16xlarge,
   g3sXlarge,
+  g4ad_4xlarge,
+  g4ad_8xlarge,
+  g4ad_16xlarge,
   g4dnXlarge,
   g4dn_2xlarge,
   g4dn_4xlarge,
   g4dn_8xlarge,
   g4dn_12xlarge,
   g4dn_16xlarge,
+  g4dnMetal,
   cg1_4xlarge,
   p2Xlarge,
   p2_8xlarge,
@@ -30774,10 +34404,21 @@ enum InstanceType {
   p3_8xlarge,
   p3_16xlarge,
   p3dn_24xlarge,
+  p4d_24xlarge,
   d2Xlarge,
   d2_2xlarge,
   d2_4xlarge,
   d2_8xlarge,
+  d3Xlarge,
+  d3_2xlarge,
+  d3_4xlarge,
+  d3_8xlarge,
+  d3enXlarge,
+  d3en_2xlarge,
+  d3en_4xlarge,
+  d3en_6xlarge,
+  d3en_8xlarge,
+  d3en_12xlarge,
   f1_2xlarge,
   f1_4xlarge,
   f1_16xlarge,
@@ -30815,6 +34456,13 @@ enum InstanceType {
   m5ad_12xlarge,
   m5ad_16xlarge,
   m5ad_24xlarge,
+  m5znLarge,
+  m5znXlarge,
+  m5zn_2xlarge,
+  m5zn_3xlarge,
+  m5zn_6xlarge,
+  m5zn_12xlarge,
+  m5znMetal,
   h1_2xlarge,
   h1_4xlarge,
   h1_8xlarge,
@@ -30873,6 +34521,25 @@ enum InstanceType {
   inf1_2xlarge,
   inf1_6xlarge,
   inf1_24xlarge,
+  m6gMetal,
+  m6gMedium,
+  m6gLarge,
+  m6gXlarge,
+  m6g_2xlarge,
+  m6g_4xlarge,
+  m6g_8xlarge,
+  m6g_12xlarge,
+  m6g_16xlarge,
+  m6gdMetal,
+  m6gdMedium,
+  m6gdLarge,
+  m6gdXlarge,
+  m6gd_2xlarge,
+  m6gd_4xlarge,
+  m6gd_8xlarge,
+  m6gd_12xlarge,
+  m6gd_16xlarge,
+  mac1Metal,
 }
 
 enum InstanceTypeHypervisor {
@@ -30885,14 +34552,14 @@ class InstanceTypeInfo {
   /// Indicates whether auto recovery is supported.
   final bool autoRecoverySupported;
 
-  /// Indicates whether the instance is bare metal.
+  /// Indicates whether the instance is a bare metal instance type.
   final bool bareMetal;
 
   /// Indicates whether the instance type is a burstable performance instance
   /// type.
   final bool burstablePerformanceSupported;
 
-  /// Indicates whether the instance type is a current generation.
+  /// Indicates whether the instance type is current generation.
   final bool currentGeneration;
 
   /// Indicates whether Dedicated Hosts are supported on the instance type.
@@ -30913,13 +34580,13 @@ class InstanceTypeInfo {
   /// Indicates whether On-Demand hibernation is supported.
   final bool hibernationSupported;
 
-  /// Indicates the hypervisor used for the instance type.
+  /// The hypervisor for the instance type.
   final InstanceTypeHypervisor hypervisor;
 
   /// Describes the Inference accelerator settings for the instance type.
   final InferenceAcceleratorInfo inferenceAcceleratorInfo;
 
-  /// Describes the disks for the instance type.
+  /// Describes the instance storage for the instance type.
   final InstanceStorageInfo instanceStorageInfo;
 
   /// Indicates whether instance storage is supported.
@@ -30942,11 +34609,14 @@ class InstanceTypeInfo {
   /// Describes the processor.
   final ProcessorInfo processorInfo;
 
-  /// Indicates the supported root device types.
+  /// The supported root device types.
   final List<RootDeviceType> supportedRootDeviceTypes;
 
   /// Indicates whether the instance type is offered for spot or On-Demand.
   final List<UsageClassType> supportedUsageClasses;
+
+  /// The supported virtualization types.
+  final List<VirtualizationType> supportedVirtualizationTypes;
 
   /// Describes the vCPU configurations for the instance type.
   final VCpuInfo vCpuInfo;
@@ -30973,6 +34643,7 @@ class InstanceTypeInfo {
     this.processorInfo,
     this.supportedRootDeviceTypes,
     this.supportedUsageClasses,
+    this.supportedVirtualizationTypes,
     this.vCpuInfo,
   });
 }
@@ -31086,9 +34757,7 @@ class IpPermission {
   /// [VPC only] The IPv6 ranges.
   final List<Ipv6Range> ipv6Ranges;
 
-  /// [VPC only] The prefix list IDs for an AWS service. With outbound rules, this
-  /// is the AWS service to access through a VPC endpoint from instances
-  /// associated with the security group.
+  /// [VPC only] The prefix list IDs.
   final List<PrefixListId> prefixListIds;
 
   /// The end of port range for the TCP and UDP protocols, or an ICMP/ICMPv6 code.
@@ -31474,7 +35143,8 @@ class LaunchTemplateBlockDeviceMappingRequest {
 /// instance to run in On-Demand capacity or to run in any <code>open</code>
 /// Capacity Reservation that has matching attributes (instance type, platform,
 /// Availability Zone). Use the <code>CapacityReservationTarget</code> parameter
-/// to explicitly target a specific Capacity Reservation.
+/// to explicitly target a specific Capacity Reservation or a Capacity
+/// Reservation group.
 class LaunchTemplateCapacityReservationSpecificationRequest {
   /// Indicates the instance's Capacity Reservation preferences. Possible
   /// preferences include:
@@ -31492,7 +35162,8 @@ class LaunchTemplateCapacityReservationSpecificationRequest {
   /// </ul>
   final CapacityReservationPreference capacityReservationPreference;
 
-  /// Information about the target Capacity Reservation.
+  /// Information about the target Capacity Reservation or Capacity Reservation
+  /// group.
   final CapacityReservationTarget capacityReservationTarget;
 
   LaunchTemplateCapacityReservationSpecificationRequest({
@@ -31519,7 +35190,8 @@ class LaunchTemplateCapacityReservationSpecificationResponse {
   /// </ul>
   final CapacityReservationPreference capacityReservationPreference;
 
-  /// Information about the target Capacity Reservation.
+  /// Information about the target Capacity Reservation or Capacity Reservation
+  /// group.
   final CapacityReservationTargetResponse capacityReservationTarget;
 
   LaunchTemplateCapacityReservationSpecificationResponse({
@@ -31590,6 +35262,9 @@ class LaunchTemplateEbsBlockDevice {
   /// The ID of the snapshot.
   final String snapshotId;
 
+  /// The throughput that the volume supports, in MiB/s.
+  final int throughput;
+
   /// The size of the volume, in GiB.
   final int volumeSize;
 
@@ -31602,6 +35277,7 @@ class LaunchTemplateEbsBlockDevice {
     this.iops,
     this.kmsKeyId,
     this.snapshotId,
+    this.throughput,
     this.volumeSize,
     this.volumeType,
   });
@@ -31617,17 +35293,35 @@ class LaunchTemplateEbsBlockDeviceRequest {
   /// creating a volume from a snapshot, you can't specify an encryption value.
   final bool encrypted;
 
-  /// The number of I/O operations per second (IOPS) that the volume supports. For
-  /// io1, this represents the number of IOPS that are provisioned for the volume.
-  /// For gp2, this represents the baseline performance of the volume and the rate
-  /// at which the volume accumulates I/O credits for bursting. For more
-  /// information about General Purpose SSD baseline performance, I/O credits, and
-  /// bursting, see <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumeTypes.html">Amazon
-  /// EBS Volume Types</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
+  /// The number of I/O operations per second (IOPS). For <code>gp3</code>,
+  /// <code>io1</code>, and <code>io2</code> volumes, this represents the number
+  /// of IOPS that are provisioned for the volume. For <code>gp2</code> volumes,
+  /// this represents the baseline performance of the volume and the rate at which
+  /// the volume accumulates I/O credits for bursting.
   ///
-  /// Condition: This parameter is required for requests to create io1 volumes; it
-  /// is not used in requests to create gp2, st1, sc1, or standard volumes.
+  /// The following are the supported values for each volume type:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>gp3</code>: 3,000-16,000 IOPS
+  /// </li>
+  /// <li>
+  /// <code>io1</code>: 100-64,000 IOPS
+  /// </li>
+  /// <li>
+  /// <code>io2</code>: 100-64,000 IOPS
+  /// </li>
+  /// </ul>
+  /// For <code>io1</code> and <code>io2</code> volumes, we guarantee 64,000 IOPS
+  /// only for <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html#ec2-nitro-instances">Instances
+  /// built on the Nitro System</a>. Other instance families guarantee performance
+  /// up to 32,000 IOPS.
+  ///
+  /// This parameter is required for <code>io1</code> and <code>io2</code>
+  /// volumes. The default for <code>gp3</code> volumes is 3,000 IOPS. This
+  /// parameter is not supported for <code>gp2</code>, <code>st1</code>,
+  /// <code>sc1</code>, or <code>standard</code> volumes.
   final int iops;
 
   /// The ARN of the symmetric AWS Key Management Service (AWS KMS) CMK used for
@@ -31637,13 +35331,39 @@ class LaunchTemplateEbsBlockDeviceRequest {
   /// The ID of the snapshot.
   final String snapshotId;
 
-  /// The size of the volume, in GiB.
+  /// The throughput to provision for a <code>gp3</code> volume, with a maximum of
+  /// 1,000 MiB/s.
   ///
-  /// Default: If you're creating the volume from a snapshot and don't specify a
-  /// volume size, the default is the snapshot size.
+  /// Valid Range: Minimum value of 125. Maximum value of 1000.
+  final int throughput;
+
+  /// The size of the volume, in GiBs. You must specify either a snapshot ID or a
+  /// volume size. If you specify a snapshot, the default is the snapshot size.
+  /// You can specify a volume size that is equal to or larger than the snapshot
+  /// size.
+  ///
+  /// The following are the supported volumes sizes for each volume type:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>gp2</code> and <code>gp3</code>: 1-16,384
+  /// </li>
+  /// <li>
+  /// <code>io1</code> and <code>io2</code>: 4-16,384
+  /// </li>
+  /// <li>
+  /// <code>st1</code> and <code>sc1</code>: 125-16,384
+  /// </li>
+  /// <li>
+  /// <code>standard</code>: 1-1,024
+  /// </li>
+  /// </ul>
   final int volumeSize;
 
-  /// The volume type.
+  /// The volume type. The default is <code>gp2</code>. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumeTypes.html">Amazon
+  /// EBS volume types</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
   final VolumeType volumeType;
 
   LaunchTemplateEbsBlockDeviceRequest({
@@ -31652,6 +35372,7 @@ class LaunchTemplateEbsBlockDeviceRequest {
     this.iops,
     this.kmsKeyId,
     this.snapshotId,
+    this.throughput,
     this.volumeSize,
     this.volumeType,
   });
@@ -31688,6 +35409,31 @@ class LaunchTemplateElasticInferenceAcceleratorResponse {
   LaunchTemplateElasticInferenceAcceleratorResponse({
     this.count,
     this.type,
+  });
+}
+
+/// Indicates whether the instance is enabled for AWS Nitro Enclaves.
+class LaunchTemplateEnclaveOptions {
+  /// If this parameter is set to <code>true</code>, the instance is enabled for
+  /// AWS Nitro Enclaves; otherwise, it is not enabled for AWS Nitro Enclaves.
+  final bool enabled;
+
+  LaunchTemplateEnclaveOptions({
+    this.enabled,
+  });
+}
+
+/// Indicates whether the instance is enabled for AWS Nitro Enclaves. For more
+/// information, see <a
+/// href="https://docs.aws.amazon.com/enclaves/latest/user/nitro-enclave.html">
+/// What is AWS Nitro Enclaves?</a> in the <i>AWS Nitro Enclaves User Guide</i>.
+class LaunchTemplateEnclaveOptionsRequest {
+  /// To enable the instance for AWS Nitro Enclaves, set this parameter to
+  /// <code>true</code>.
+  final bool enabled;
+
+  LaunchTemplateEnclaveOptionsRequest({
+    this.enabled,
   });
 }
 
@@ -31900,6 +35646,16 @@ enum LaunchTemplateInstanceMetadataOptionsState {
 
 /// Describes a network interface.
 class LaunchTemplateInstanceNetworkInterfaceSpecification {
+  /// Indicates whether to associate a Carrier IP address with eth0 for a new
+  /// network interface.
+  ///
+  /// Use this option when you launch an instance in a Wavelength Zone and want to
+  /// associate a Carrier IP address with the network interface. For more
+  /// information about Carrier IP addresses, see <a
+  /// href="https://docs.aws.amazon.com/wavelength/latest/developerguide/how-wavelengths-work.html#provider-owned-ip">Carrier
+  /// IP addresses</a> in the <i>AWS Wavelength Developer Guide</i>.
+  final bool associateCarrierIpAddress;
+
   /// Indicates whether to associate a public IPv4 address with eth0 for a new
   /// network interface.
   final bool associatePublicIpAddress;
@@ -31926,6 +35682,9 @@ class LaunchTemplateInstanceNetworkInterfaceSpecification {
   /// The IPv6 addresses for the network interface.
   final List<InstanceIpv6Address> ipv6Addresses;
 
+  /// The index of the network card.
+  final int networkCardIndex;
+
   /// The ID of the network interface.
   final String networkInterfaceId;
 
@@ -31942,6 +35701,7 @@ class LaunchTemplateInstanceNetworkInterfaceSpecification {
   final String subnetId;
 
   LaunchTemplateInstanceNetworkInterfaceSpecification({
+    this.associateCarrierIpAddress,
     this.associatePublicIpAddress,
     this.deleteOnTermination,
     this.description,
@@ -31950,6 +35710,7 @@ class LaunchTemplateInstanceNetworkInterfaceSpecification {
     this.interfaceType,
     this.ipv6AddressCount,
     this.ipv6Addresses,
+    this.networkCardIndex,
     this.networkInterfaceId,
     this.privateIpAddress,
     this.privateIpAddresses,
@@ -31960,6 +35721,15 @@ class LaunchTemplateInstanceNetworkInterfaceSpecification {
 
 /// The parameters for a network interface.
 class LaunchTemplateInstanceNetworkInterfaceSpecificationRequest {
+  /// Associates a Carrier IP address with eth0 for a new network interface.
+  ///
+  /// Use this option when you launch an instance in a Wavelength Zone and want to
+  /// associate a Carrier IP address with the network interface. For more
+  /// information about Carrier IP addresses, see <a
+  /// href="https://docs.aws.amazon.com/wavelength/latest/developerguide/how-wavelengths-work.html#provider-owned-ip">Carrier
+  /// IP addresses</a> in the <i>AWS Wavelength Developer Guide</i>.
+  final bool associateCarrierIpAddress;
+
   /// Associates a public IPv4 address with eth0 for a new network interface.
   final bool associatePublicIpAddress;
 
@@ -31997,6 +35767,11 @@ class LaunchTemplateInstanceNetworkInterfaceSpecificationRequest {
   /// addresses.
   final List<InstanceIpv6AddressRequest> ipv6Addresses;
 
+  /// The index of the network card. Some instance types support multiple network
+  /// cards. The primary network interface must be assigned to network card index
+  /// 0. The default is network card index 0.
+  final int networkCardIndex;
+
   /// The ID of the network interface.
   final String networkInterfaceId;
 
@@ -32014,6 +35789,7 @@ class LaunchTemplateInstanceNetworkInterfaceSpecificationRequest {
   final String subnetId;
 
   LaunchTemplateInstanceNetworkInterfaceSpecificationRequest({
+    this.associateCarrierIpAddress,
     this.associatePublicIpAddress,
     this.deleteOnTermination,
     this.description,
@@ -32022,6 +35798,7 @@ class LaunchTemplateInstanceNetworkInterfaceSpecificationRequest {
     this.interfaceType,
     this.ipv6AddressCount,
     this.ipv6Addresses,
+    this.networkCardIndex,
     this.networkInterfaceId,
     this.privateIpAddress,
     this.privateIpAddresses,
@@ -32446,7 +36223,7 @@ class LocalGateway {
   /// The Amazon Resource Name (ARN) of the Outpost.
   final String outpostArn;
 
-  /// The ID of the AWS account ID that owns the local gateway.
+  /// The AWS account ID that owns the local gateway.
   final String ownerId;
 
   /// The state of the local gateway.
@@ -32469,11 +36246,17 @@ class LocalGatewayRoute {
   /// The CIDR block used for destination matches.
   final String destinationCidrBlock;
 
+  /// The Amazon Resource Name (ARN) of the local gateway route table.
+  final String localGatewayRouteTableArn;
+
   /// The ID of the local gateway route table.
   final String localGatewayRouteTableId;
 
   /// The ID of the virtual interface group.
   final String localGatewayVirtualInterfaceGroupId;
+
+  /// The AWS account ID that owns the local gateway route.
+  final String ownerId;
 
   /// The state of the route.
   final LocalGatewayRouteState state;
@@ -32483,8 +36266,10 @@ class LocalGatewayRoute {
 
   LocalGatewayRoute({
     this.destinationCidrBlock,
+    this.localGatewayRouteTableArn,
     this.localGatewayRouteTableId,
     this.localGatewayVirtualInterfaceGroupId,
+    this.ownerId,
     this.state,
     this.type,
   });
@@ -32503,11 +36288,17 @@ class LocalGatewayRouteTable {
   /// The ID of the local gateway.
   final String localGatewayId;
 
+  /// The Amazon Resource Name (ARN) of the local gateway route table.
+  final String localGatewayRouteTableArn;
+
   /// The ID of the local gateway route table.
   final String localGatewayRouteTableId;
 
   /// The Amazon Resource Name (ARN) of the Outpost.
   final String outpostArn;
+
+  /// The AWS account ID that owns the local gateway route table.
+  final String ownerId;
 
   /// The state of the local gateway route table.
   final String state;
@@ -32517,8 +36308,10 @@ class LocalGatewayRouteTable {
 
   LocalGatewayRouteTable({
     this.localGatewayId,
+    this.localGatewayRouteTableArn,
     this.localGatewayRouteTableId,
     this.outpostArn,
+    this.ownerId,
     this.state,
     this.tags,
   });
@@ -32530,6 +36323,10 @@ class LocalGatewayRouteTableVirtualInterfaceGroupAssociation {
   /// The ID of the local gateway.
   final String localGatewayId;
 
+  /// The Amazon Resource Name (ARN) of the local gateway route table for the
+  /// virtual interface group.
+  final String localGatewayRouteTableArn;
+
   /// The ID of the local gateway route table.
   final String localGatewayRouteTableId;
 
@@ -32539,6 +36336,10 @@ class LocalGatewayRouteTableVirtualInterfaceGroupAssociation {
   /// The ID of the virtual interface group.
   final String localGatewayVirtualInterfaceGroupId;
 
+  /// The AWS account ID that owns the local gateway virtual interface group
+  /// association.
+  final String ownerId;
+
   /// The state of the association.
   final String state;
 
@@ -32547,9 +36348,11 @@ class LocalGatewayRouteTableVirtualInterfaceGroupAssociation {
 
   LocalGatewayRouteTableVirtualInterfaceGroupAssociation({
     this.localGatewayId,
+    this.localGatewayRouteTableArn,
     this.localGatewayRouteTableId,
     this.localGatewayRouteTableVirtualInterfaceGroupAssociationId,
     this.localGatewayVirtualInterfaceGroupId,
+    this.ownerId,
     this.state,
     this.tags,
   });
@@ -32560,11 +36363,19 @@ class LocalGatewayRouteTableVpcAssociation {
   /// The ID of the local gateway.
   final String localGatewayId;
 
+  /// The Amazon Resource Name (ARN) of the local gateway route table for the
+  /// association.
+  final String localGatewayRouteTableArn;
+
   /// The ID of the local gateway route table.
   final String localGatewayRouteTableId;
 
   /// The ID of the association.
   final String localGatewayRouteTableVpcAssociationId;
+
+  /// The AWS account ID that owns the local gateway route table for the
+  /// association.
+  final String ownerId;
 
   /// The state of the association.
   final String state;
@@ -32577,8 +36388,10 @@ class LocalGatewayRouteTableVpcAssociation {
 
   LocalGatewayRouteTableVpcAssociation({
     this.localGatewayId,
+    this.localGatewayRouteTableArn,
     this.localGatewayRouteTableId,
     this.localGatewayRouteTableVpcAssociationId,
+    this.ownerId,
     this.state,
     this.tags,
     this.vpcId,
@@ -32605,6 +36418,9 @@ class LocalGatewayVirtualInterface {
   /// The ID of the virtual interface.
   final String localGatewayVirtualInterfaceId;
 
+  /// The AWS account ID that owns the local gateway virtual interface.
+  final String ownerId;
+
   /// The peer address.
   final String peerAddress;
 
@@ -32622,6 +36438,7 @@ class LocalGatewayVirtualInterface {
     this.localBgpAsn,
     this.localGatewayId,
     this.localGatewayVirtualInterfaceId,
+    this.ownerId,
     this.peerAddress,
     this.peerBgpAsn,
     this.tags,
@@ -32640,6 +36457,9 @@ class LocalGatewayVirtualInterfaceGroup {
   /// The IDs of the virtual interfaces.
   final List<String> localGatewayVirtualInterfaceIds;
 
+  /// The AWS account ID that owns the local gateway virtual interface group.
+  final String ownerId;
+
   /// The tags assigned to the virtual interface group.
   final List<Tag> tags;
 
@@ -32647,6 +36467,7 @@ class LocalGatewayVirtualInterfaceGroup {
     this.localGatewayId,
     this.localGatewayVirtualInterfaceGroupId,
     this.localGatewayVirtualInterfaceIds,
+    this.ownerId,
     this.tags,
   });
 }
@@ -32662,6 +36483,52 @@ enum LogDestinationType {
   s3,
 }
 
+/// Describes a managed prefix list.
+class ManagedPrefixList {
+  /// The IP address version.
+  final String addressFamily;
+
+  /// The maximum number of entries for the prefix list.
+  final int maxEntries;
+
+  /// The ID of the owner of the prefix list.
+  final String ownerId;
+
+  /// The Amazon Resource Name (ARN) for the prefix list.
+  final String prefixListArn;
+
+  /// The ID of the prefix list.
+  final String prefixListId;
+
+  /// The name of the prefix list.
+  final String prefixListName;
+
+  /// The state of the prefix list.
+  final PrefixListState state;
+
+  /// The state message.
+  final String stateMessage;
+
+  /// The tags for the prefix list.
+  final List<Tag> tags;
+
+  /// The version of the prefix list.
+  final int version;
+
+  ManagedPrefixList({
+    this.addressFamily,
+    this.maxEntries,
+    this.ownerId,
+    this.prefixListArn,
+    this.prefixListId,
+    this.prefixListName,
+    this.state,
+    this.stateMessage,
+    this.tags,
+    this.version,
+  });
+}
+
 enum MarketType {
   spot,
 }
@@ -32673,7 +36540,7 @@ enum MembershipType {
 
 /// Describes the memory for the instance type.
 class MemoryInfo {
-  /// Size of the memory, in MiB.
+  /// The size of the memory, in MiB.
   final int sizeInMiB;
 
   MemoryInfo({
@@ -32831,6 +36698,15 @@ class ModifyLaunchTemplateResult {
   });
 }
 
+class ModifyManagedPrefixListResult {
+  /// Information about the prefix list.
+  final ManagedPrefixList prefixList;
+
+  ModifyManagedPrefixListResult({
+    this.prefixList,
+  });
+}
+
 /// Contains the output of ModifyReservedInstances.
 class ModifyReservedInstancesResult {
   /// The ID for the modification.
@@ -32878,8 +36754,76 @@ class ModifyTrafficMirrorSessionResult {
   });
 }
 
+/// The transit gateway options.
+class ModifyTransitGatewayOptions {
+  /// Adds IPv4 or IPv6 CIDR blocks for the transit gateway. Must be a size /24
+  /// CIDR block or larger for IPv4, or a size /64 CIDR block or larger for IPv6.
+  final List<String> addTransitGatewayCidrBlocks;
+
+  /// The ID of the default association route table.
+  final String associationDefaultRouteTableId;
+
+  /// Enable or disable automatic acceptance of attachment requests.
+  final AutoAcceptSharedAttachmentsValue autoAcceptSharedAttachments;
+
+  /// Enable or disable automatic association with the default association route
+  /// table.
+  final DefaultRouteTableAssociationValue defaultRouteTableAssociation;
+
+  /// Enable or disable automatic propagation of routes to the default propagation
+  /// route table.
+  final DefaultRouteTablePropagationValue defaultRouteTablePropagation;
+
+  /// Enable or disable DNS support.
+  final DnsSupportValue dnsSupport;
+
+  /// The ID of the default propagation route table.
+  final String propagationDefaultRouteTableId;
+
+  /// Removes CIDR blocks for the transit gateway.
+  final List<String> removeTransitGatewayCidrBlocks;
+
+  /// Enable or disable Equal Cost Multipath Protocol support.
+  final VpnEcmpSupportValue vpnEcmpSupport;
+
+  ModifyTransitGatewayOptions({
+    this.addTransitGatewayCidrBlocks,
+    this.associationDefaultRouteTableId,
+    this.autoAcceptSharedAttachments,
+    this.defaultRouteTableAssociation,
+    this.defaultRouteTablePropagation,
+    this.dnsSupport,
+    this.propagationDefaultRouteTableId,
+    this.removeTransitGatewayCidrBlocks,
+    this.vpnEcmpSupport,
+  });
+}
+
+class ModifyTransitGatewayPrefixListReferenceResult {
+  /// Information about the prefix list reference.
+  final TransitGatewayPrefixListReference transitGatewayPrefixListReference;
+
+  ModifyTransitGatewayPrefixListReferenceResult({
+    this.transitGatewayPrefixListReference,
+  });
+}
+
+class ModifyTransitGatewayResult {
+  final TransitGateway transitGateway;
+
+  ModifyTransitGatewayResult({
+    this.transitGateway,
+  });
+}
+
 /// Describes the options for a VPC attachment.
 class ModifyTransitGatewayVpcAttachmentRequestOptions {
+  /// Enable or disable support for appliance mode. If enabled, a traffic flow
+  /// between a source and destination uses the same Availability Zone for the VPC
+  /// attachment for the lifetime of that flow. The default is
+  /// <code>disable</code>.
+  final ApplianceModeSupportValue applianceModeSupport;
+
   /// Enable or disable DNS support. The default is <code>enable</code>.
   final DnsSupportValue dnsSupport;
 
@@ -32887,6 +36831,7 @@ class ModifyTransitGatewayVpcAttachmentRequestOptions {
   final Ipv6SupportValue ipv6Support;
 
   ModifyTransitGatewayVpcAttachmentRequestOptions({
+    this.applianceModeSupport,
     this.dnsSupport,
     this.ipv6Support,
   });
@@ -32973,6 +36918,14 @@ class ModifyVpcTenancyResult {
   });
 }
 
+class ModifyVpnConnectionOptionsResult {
+  final VpnConnection vpnConnection;
+
+  ModifyVpnConnectionOptionsResult({
+    this.vpnConnection,
+  });
+}
+
 class ModifyVpnConnectionResult {
   final VpnConnection vpnConnection;
 
@@ -32999,6 +36952,15 @@ class ModifyVpnTunnelOptionsResult {
 
 /// The AWS Site-to-Site VPN tunnel options to modify.
 class ModifyVpnTunnelOptionsSpecification {
+  /// The action to take after DPD timeout occurs. Specify <code>restart</code> to
+  /// restart the IKE initiation. Specify <code>clear</code> to end the IKE
+  /// session.
+  ///
+  /// Valid Values: <code>clear</code> | <code>none</code> | <code>restart</code>
+  ///
+  /// Default: <code>clear</code>
+  final String dPDTimeoutAction;
+
   /// The number of seconds after which a DPD timeout occurs.
   ///
   /// Constraints: A value between 0 and 30.
@@ -33015,21 +36977,24 @@ class ModifyVpnTunnelOptionsSpecification {
   /// tunnel for phase 1 IKE negotiations.
   ///
   /// Valid values: <code>2</code> | <code>14</code> | <code>15</code> |
-  /// <code>16</code> | <code>17</code> | <code>18</code> | <code>22</code> |
-  /// <code>23</code> | <code>24</code>
+  /// <code>16</code> | <code>17</code> | <code>18</code> | <code>19</code> |
+  /// <code>20</code> | <code>21</code> | <code>22</code> | <code>23</code> |
+  /// <code>24</code>
   final List<Phase1DHGroupNumbersRequestListValue> phase1DHGroupNumbers;
 
   /// One or more encryption algorithms that are permitted for the VPN tunnel for
   /// phase 1 IKE negotiations.
   ///
-  /// Valid values: <code>AES128</code> | <code>AES256</code>
+  /// Valid values: <code>AES128</code> | <code>AES256</code> |
+  /// <code>AES128-GCM-16</code> | <code>AES256-GCM-16</code>
   final List<Phase1EncryptionAlgorithmsRequestListValue>
       phase1EncryptionAlgorithms;
 
   /// One or more integrity algorithms that are permitted for the VPN tunnel for
   /// phase 1 IKE negotiations.
   ///
-  /// Valid values: <code>SHA1</code> | <code>SHA2-256</code>
+  /// Valid values: <code>SHA1</code> | <code>SHA2-256</code> |
+  /// <code>SHA2-384</code> | <code>SHA2-512</code>
   final List<Phase1IntegrityAlgorithmsRequestListValue>
       phase1IntegrityAlgorithms;
 
@@ -33045,20 +37010,23 @@ class ModifyVpnTunnelOptionsSpecification {
   ///
   /// Valid values: <code>2</code> | <code>5</code> | <code>14</code> |
   /// <code>15</code> | <code>16</code> | <code>17</code> | <code>18</code> |
-  /// <code>22</code> | <code>23</code> | <code>24</code>
+  /// <code>19</code> | <code>20</code> | <code>21</code> | <code>22</code> |
+  /// <code>23</code> | <code>24</code>
   final List<Phase2DHGroupNumbersRequestListValue> phase2DHGroupNumbers;
 
   /// One or more encryption algorithms that are permitted for the VPN tunnel for
   /// phase 2 IKE negotiations.
   ///
-  /// Valid values: <code>AES128</code> | <code>AES256</code>
+  /// Valid values: <code>AES128</code> | <code>AES256</code> |
+  /// <code>AES128-GCM-16</code> | <code>AES256-GCM-16</code>
   final List<Phase2EncryptionAlgorithmsRequestListValue>
       phase2EncryptionAlgorithms;
 
   /// One or more integrity algorithms that are permitted for the VPN tunnel for
   /// phase 2 IKE negotiations.
   ///
-  /// Valid values: <code>SHA1</code> | <code>SHA2-256</code>
+  /// Valid values: <code>SHA1</code> | <code>SHA2-256</code> |
+  /// <code>SHA2-384</code> | <code>SHA2-512</code>
   final List<Phase2IntegrityAlgorithmsRequestListValue>
       phase2IntegrityAlgorithms;
 
@@ -33105,7 +37073,17 @@ class ModifyVpnTunnelOptionsSpecification {
   /// Default: <code>1024</code>
   final int replayWindowSize;
 
-  /// The range of inside IP addresses for the tunnel. Any specified CIDR blocks
+  /// The action to take when the establishing the tunnel for the VPN connection.
+  /// By default, your customer gateway device must initiate the IKE negotiation
+  /// and bring up the tunnel. Specify <code>start</code> for AWS to initiate the
+  /// IKE negotiation.
+  ///
+  /// Valid Values: <code>add</code> | <code>start</code>
+  ///
+  /// Default: <code>add</code>
+  final String startupAction;
+
+  /// The range of inside IPv4 addresses for the tunnel. Any specified CIDR blocks
   /// must be unique across all VPN connections that use the same virtual private
   /// gateway.
   ///
@@ -33137,7 +37115,15 @@ class ModifyVpnTunnelOptionsSpecification {
   /// </ul>
   final String tunnelInsideCidr;
 
+  /// The range of inside IPv6 addresses for the tunnel. Any specified CIDR blocks
+  /// must be unique across all VPN connections that use the same transit gateway.
+  ///
+  /// Constraints: A size /126 CIDR block from the local <code>fd00::/8</code>
+  /// range.
+  final String tunnelInsideIpv6Cidr;
+
   ModifyVpnTunnelOptionsSpecification({
+    this.dPDTimeoutAction,
     this.dPDTimeoutSeconds,
     this.iKEVersions,
     this.phase1DHGroupNumbers,
@@ -33152,7 +37138,9 @@ class ModifyVpnTunnelOptionsSpecification {
     this.rekeyFuzzPercentage,
     this.rekeyMarginTimeSeconds,
     this.replayWindowSize,
+    this.startupAction,
     this.tunnelInsideCidr,
+    this.tunnelInsideIpv6Cidr,
   });
 }
 
@@ -33456,8 +37444,32 @@ class NetworkAclEntry {
   });
 }
 
+/// Describes the network card support of the instance type.
+class NetworkCardInfo {
+  /// The maximum number of network interfaces for the network card.
+  final int maximumNetworkInterfaces;
+
+  /// The index of the network card.
+  final int networkCardIndex;
+
+  /// The network performance of the network card.
+  final String networkPerformance;
+
+  NetworkCardInfo({
+    this.maximumNetworkInterfaces,
+    this.networkCardIndex,
+    this.networkPerformance,
+  });
+}
+
 /// Describes the networking features of the instance type.
 class NetworkInfo {
+  /// The index of the default network card, starting at 0.
+  final int defaultNetworkCardIndex;
+
+  /// Indicates whether Elastic Fabric Adapter (EFA) is supported.
+  final bool efaSupported;
+
   /// Indicates whether Elastic Network Adapter (ENA) is supported.
   final EnaSupport enaSupport;
 
@@ -33470,19 +37482,137 @@ class NetworkInfo {
   /// Indicates whether IPv6 is supported.
   final bool ipv6Supported;
 
+  /// The maximum number of physical network cards that can be allocated to the
+  /// instance.
+  final int maximumNetworkCards;
+
   /// The maximum number of network interfaces for the instance type.
   final int maximumNetworkInterfaces;
 
-  /// Describes the network performance.
+  /// Describes the network cards for the instance type.
+  final List<NetworkCardInfo> networkCards;
+
+  /// The network performance.
   final String networkPerformance;
 
   NetworkInfo({
+    this.defaultNetworkCardIndex,
+    this.efaSupported,
     this.enaSupport,
     this.ipv4AddressesPerInterface,
     this.ipv6AddressesPerInterface,
     this.ipv6Supported,
+    this.maximumNetworkCards,
     this.maximumNetworkInterfaces,
+    this.networkCards,
     this.networkPerformance,
+  });
+}
+
+/// Describes a network insights analysis.
+class NetworkInsightsAnalysis {
+  /// Potential intermediate components.
+  final List<AlternatePathHint> alternatePathHints;
+
+  /// The explanations. For more information, see <a
+  /// href="https://docs.aws.amazon.com/vpc/latest/reachability/explanation-codes.html">Reachability
+  /// Analyzer explanation codes</a>.
+  final List<Explanation> explanations;
+
+  /// The Amazon Resource Names (ARN) of the AWS resources that the path must
+  /// traverse.
+  final List<String> filterInArns;
+
+  /// The components in the path from source to destination.
+  final List<PathComponent> forwardPathComponents;
+
+  /// The Amazon Resource Name (ARN) of the network insights analysis.
+  final String networkInsightsAnalysisArn;
+
+  /// The ID of the network insights analysis.
+  final String networkInsightsAnalysisId;
+
+  /// The ID of the path.
+  final String networkInsightsPathId;
+
+  /// Indicates whether the destination is reachable from the source.
+  final bool networkPathFound;
+
+  /// The components in the path from destination to source.
+  final List<PathComponent> returnPathComponents;
+
+  /// The time the analysis started.
+  final DateTime startDate;
+
+  /// The status of the network insights analysis.
+  final AnalysisStatus status;
+
+  /// The status message, if the status is <code>failed</code>.
+  final String statusMessage;
+
+  /// The tags.
+  final List<Tag> tags;
+
+  NetworkInsightsAnalysis({
+    this.alternatePathHints,
+    this.explanations,
+    this.filterInArns,
+    this.forwardPathComponents,
+    this.networkInsightsAnalysisArn,
+    this.networkInsightsAnalysisId,
+    this.networkInsightsPathId,
+    this.networkPathFound,
+    this.returnPathComponents,
+    this.startDate,
+    this.status,
+    this.statusMessage,
+    this.tags,
+  });
+}
+
+/// Describes a path.
+class NetworkInsightsPath {
+  /// The time stamp when the path was created.
+  final DateTime createdDate;
+
+  /// The AWS resource that is the destination of the path.
+  final String destination;
+
+  /// The IP address of the AWS resource that is the destination of the path.
+  final String destinationIp;
+
+  /// The destination port.
+  final int destinationPort;
+
+  /// The Amazon Resource Name (ARN) of the path.
+  final String networkInsightsPathArn;
+
+  /// The ID of the path.
+  final String networkInsightsPathId;
+
+  /// The protocol.
+  final Protocol protocol;
+
+  /// The AWS resource that is the source of the path.
+  final String source;
+
+  /// The IP address of the AWS resource that is the source of the path.
+  final String sourceIp;
+
+  /// The tags associated with the path.
+  final List<Tag> tags;
+
+  NetworkInsightsPath({
+    this.createdDate,
+    this.destination,
+    this.destinationIp,
+    this.destinationPort,
+    this.networkInsightsPathArn,
+    this.networkInsightsPathId,
+    this.protocol,
+    this.source,
+    this.sourceIp,
+    this.tags,
   });
 }
 
@@ -33578,13 +37708,24 @@ class NetworkInterface {
   });
 }
 
-/// Describes association information for an Elastic IP address (IPv4 only).
+/// Describes association information for an Elastic IP address (IPv4 only), or
+/// a Carrier IP address (for a network interface which resides in a subnet in a
+/// Wavelength Zone).
 class NetworkInterfaceAssociation {
   /// The allocation ID.
   final String allocationId;
 
   /// The association ID.
   final String associationId;
+
+  /// The carrier IP address associated with the network interface.
+  ///
+  /// This option is only available when the network interface is in a subnet
+  /// which is associated with a Wavelength Zone.
+  final String carrierIp;
+
+  /// The customer-owned IP address associated with the network interface.
+  final String customerOwnedIp;
 
   /// The ID of the Elastic IP address owner.
   final String ipOwnerId;
@@ -33598,6 +37739,8 @@ class NetworkInterfaceAssociation {
   NetworkInterfaceAssociation({
     this.allocationId,
     this.associationId,
+    this.carrierIp,
+    this.customerOwnedIp,
     this.ipOwnerId,
     this.publicDnsName,
     this.publicIp,
@@ -33625,6 +37768,9 @@ class NetworkInterfaceAttachment {
   /// The AWS account ID of the owner of the instance.
   final String instanceOwnerId;
 
+  /// The index of the network card.
+  final int networkCardIndex;
+
   /// The attachment state.
   final AttachmentStatus status;
 
@@ -33635,6 +37781,7 @@ class NetworkInterfaceAttachment {
     this.deviceIndex,
     this.instanceId,
     this.instanceOwnerId,
+    this.networkCardIndex,
     this.status,
   });
 }
@@ -33878,6 +38025,56 @@ class OnDemandOptionsRequest {
 enum OperationType {
   add,
   remove,
+}
+
+/// Describes a path component.
+class PathComponent {
+  /// The network ACL rule.
+  final AnalysisAclRule aclRule;
+
+  /// The component.
+  final AnalysisComponent component;
+
+  /// The destination VPC.
+  final AnalysisComponent destinationVpc;
+
+  /// The inbound header.
+  final AnalysisPacketHeader inboundHeader;
+
+  /// The outbound header.
+  final AnalysisPacketHeader outboundHeader;
+
+  /// The route table route.
+  final AnalysisRouteTableRoute routeTableRoute;
+
+  /// The security group rule.
+  final AnalysisSecurityGroupRule securityGroupRule;
+
+  /// The sequence number.
+  final int sequenceNumber;
+
+  /// The source VPC.
+  final AnalysisComponent sourceVpc;
+
+  /// The subnet.
+  final AnalysisComponent subnet;
+
+  /// The component VPC.
+  final AnalysisComponent vpc;
+
+  PathComponent({
+    this.aclRule,
+    this.component,
+    this.destinationVpc,
+    this.inboundHeader,
+    this.outboundHeader,
+    this.routeTableRoute,
+    this.securityGroupRule,
+    this.sequenceNumber,
+    this.sourceVpc,
+    this.subnet,
+    this.vpc,
+  });
 }
 
 enum PaymentOption {
@@ -34221,7 +38418,7 @@ class PlacementGroup {
 
 /// Describes the placement group support of the instance type.
 class PlacementGroupInfo {
-  /// A list of supported placement groups types.
+  /// The supported placement group types.
   final List<PlacementGroupStrategy> supportedStrategies;
 
   PlacementGroupInfo({
@@ -34304,6 +38501,34 @@ class PrefixList {
   });
 }
 
+/// Describes the resource with which a prefix list is associated.
+class PrefixListAssociation {
+  /// The ID of the resource.
+  final String resourceId;
+
+  /// The owner of the resource.
+  final String resourceOwner;
+
+  PrefixListAssociation({
+    this.resourceId,
+    this.resourceOwner,
+  });
+}
+
+/// Describes a prefix list entry.
+class PrefixListEntry {
+  /// The CIDR block.
+  final String cidr;
+
+  /// The description.
+  final String description;
+
+  PrefixListEntry({
+    this.cidr,
+    this.description,
+  });
+}
+
 /// Describes a prefix list ID.
 class PrefixListId {
   /// A description for the security group rule that references this prefix list
@@ -34320,6 +38545,21 @@ class PrefixListId {
     this.description,
     this.prefixListId,
   });
+}
+
+enum PrefixListState {
+  createInProgress,
+  createComplete,
+  createFailed,
+  modifyInProgress,
+  modifyComplete,
+  modifyFailed,
+  restoreInProgress,
+  restoreComplete,
+  restoreFailed,
+  deleteInProgress,
+  deleteComplete,
+  deleteFailed,
 }
 
 /// Describes the price for a Reserved Instance.
@@ -34412,6 +38652,16 @@ enum PrincipalType {
   role,
 }
 
+/// Information about the Private DNS name for interface endpoints.
+class PrivateDnsDetails {
+  /// The private DNS name assigned to the VPC endpoint service.
+  final String privateDnsName;
+
+  PrivateDnsDetails({
+    this.privateDnsName,
+  });
+}
+
 /// Information about the private DNS name for the service endpoint. For more
 /// information about these parameters, see <a
 /// href="https://docs.aws.amazon.com/vpc/latest/userguide/ndpoint-services-dns-validation.html">VPC
@@ -34460,7 +38710,7 @@ class PrivateIpAddressSpecification {
 
 /// Describes the processor used by the instance type.
 class ProcessorInfo {
-  /// A list of architectures supported by the instance type.
+  /// The architectures supported by the instance type.
   final List<ArchitectureType> supportedArchitectures;
 
   /// The speed of the processor, in GHz.
@@ -34499,6 +38749,15 @@ class PropagatingVgw {
   PropagatingVgw({
     this.gatewayId,
   });
+}
+
+enum Protocol {
+  tcp,
+  udp,
+}
+
+enum ProtocolValue {
+  gre,
 }
 
 class ProvisionByoipCidrResult {
@@ -34559,6 +38818,11 @@ class PublicIpv4Pool {
   /// A description of the address pool.
   final String description;
 
+  /// The name of the location from which the address pool is advertised. A
+  /// network border group is a unique set of Availability Zones or Local Zones
+  /// from where AWS advertises public IP addresses.
+  final String networkBorderGroup;
+
   /// The address ranges.
   final List<PublicIpv4PoolRange> poolAddressRanges;
 
@@ -34576,6 +38840,7 @@ class PublicIpv4Pool {
 
   PublicIpv4Pool({
     this.description,
+    this.networkBorderGroup,
     this.poolAddressRanges,
     this.poolId,
     this.tags,
@@ -34813,6 +39078,14 @@ class RegisterTransitGatewayMulticastGroupSourcesResult {
   });
 }
 
+class RejectTransitGatewayMulticastDomainAssociationsResult {
+  final TransitGatewayMulticastDomainAssociations associations;
+
+  RejectTransitGatewayMulticastDomainAssociationsResult({
+    this.associations,
+  });
+}
+
 class RejectTransitGatewayPeeringAttachmentResult {
   /// The transit gateway peering attachment.
   final TransitGatewayPeeringAttachment transitGatewayPeeringAttachment;
@@ -34864,6 +39137,16 @@ class ReleaseHostsResult {
   });
 }
 
+/// An entry for a prefix list.
+class RemovePrefixListEntry {
+  /// The CIDR block.
+  final String cidr;
+
+  RemovePrefixListEntry({
+    @_s.required this.cidr,
+  });
+}
+
 class ReplaceIamInstanceProfileAssociationResult {
   /// Information about the IAM instance profile association.
   final IamInstanceProfileAssociation iamInstanceProfileAssociation;
@@ -34904,6 +39187,10 @@ class ReplaceTransitGatewayRouteResult {
   });
 }
 
+enum ReplacementStrategy {
+  launch,
+}
+
 enum ReportInstanceReasonCodes {
   instanceStuckInState,
   unresponsive,
@@ -34938,7 +39225,7 @@ class RequestLaunchTemplateData {
   /// CPU Options</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
   final LaunchTemplateCpuOptionsRequest cpuOptions;
 
-  /// The credit option for CPU usage of the instance. Valid for T2 or T3
+  /// The credit option for CPU usage of the instance. Valid for T2, T3, or T3a
   /// instances only.
   final CreditSpecificationRequest creditSpecification;
 
@@ -34964,6 +39251,14 @@ class RequestLaunchTemplateData {
   /// The elastic inference accelerator for the instance.
   final List<LaunchTemplateElasticInferenceAccelerator>
       elasticInferenceAccelerators;
+
+  /// Indicates whether the instance is enabled for AWS Nitro Enclaves. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/enclaves/latest/user/nitro-enclave.html">
+  /// What is AWS Nitro Enclaves?</a> in the <i>AWS Nitro Enclaves User Guide</i>.
+  ///
+  /// You can't enable AWS Nitro Enclaves and hibernation on the same instance.
+  final LaunchTemplateEnclaveOptionsRequest enclaveOptions;
 
   /// Indicates whether an instance is enabled for hibernation. This parameter is
   /// valid only if the instance meets the <a
@@ -35076,6 +39371,7 @@ class RequestLaunchTemplateData {
     this.ebsOptimized,
     this.elasticGpuSpecifications,
     this.elasticInferenceAccelerators,
+    this.enclaveOptions,
     this.hibernationOptions,
     this.iamInstanceProfile,
     this.imageId,
@@ -35204,7 +39500,9 @@ class RequestSpotLaunchSpecification {
   });
 }
 
-/// Describes a reservation.
+/// Describes a launch request for one or more instances, and includes owner,
+/// requester, and security group information that applies to all instances in
+/// the launch request.
 class Reservation {
   /// [EC2-Classic only] The security groups.
   final List<GroupIdentifier> groups;
@@ -35638,18 +39936,27 @@ enum ResourceType {
   customerGateway,
   dedicatedHost,
   dhcpOptions,
+  egressOnlyInternetGateway,
   elasticIp,
+  elasticGpu,
+  exportImageTask,
+  exportInstanceTask,
   fleet,
   fpgaImage,
   hostReservation,
   image,
+  importImageTask,
+  importSnapshotTask,
   instance,
   internetGateway,
   keyPair,
   launchTemplate,
+  localGatewayRouteTableVpcAssociation,
   natgateway,
   networkAcl,
   networkInterface,
+  networkInsightsAnalysis,
+  networkInsightsPath,
   placementGroup,
   reservedInstances,
   routeTable,
@@ -35663,6 +39970,7 @@ enum ResourceType {
   trafficMirrorTarget,
   transitGateway,
   transitGatewayAttachment,
+  transitGatewayConnectPeer,
   transitGatewayMulticastDomain,
   transitGatewayRouteTable,
   volume,
@@ -35718,6 +40026,9 @@ class ResponseLaunchTemplateData {
   /// The elastic inference accelerator for the instance.
   final List<LaunchTemplateElasticInferenceAcceleratorResponse>
       elasticInferenceAccelerators;
+
+  /// Indicates whether the instance is enabled for AWS Nitro Enclaves.
+  final LaunchTemplateEnclaveOptions enclaveOptions;
 
   /// Indicates whether an instance is configured for hibernation. For more
   /// information, see <a
@@ -35790,6 +40101,7 @@ class ResponseLaunchTemplateData {
     this.ebsOptimized,
     this.elasticGpuSpecifications,
     this.elasticInferenceAccelerators,
+    this.enclaveOptions,
     this.hibernationOptions,
     this.iamInstanceProfile,
     this.imageId,
@@ -35824,12 +40136,53 @@ class RestoreAddressToClassicResult {
   });
 }
 
+class RestoreManagedPrefixListVersionResult {
+  /// Information about the prefix list.
+  final ManagedPrefixList prefixList;
+
+  RestoreManagedPrefixListVersionResult({
+    this.prefixList,
+  });
+}
+
 class RevokeClientVpnIngressResult {
   /// The current state of the authorization rule.
   final ClientVpnAuthorizationRuleStatus status;
 
   RevokeClientVpnIngressResult({
     this.status,
+  });
+}
+
+class RevokeSecurityGroupEgressResult {
+  /// Returns <code>true</code> if the request succeeds; otherwise, returns an
+  /// error.
+  final bool returnValue;
+
+  /// The outbound rules that were unknown to the service. In some cases,
+  /// <code>unknownIpPermissionSet</code> might be in a different format from the
+  /// request parameter.
+  final List<IpPermission> unknownIpPermissions;
+
+  RevokeSecurityGroupEgressResult({
+    this.returnValue,
+    this.unknownIpPermissions,
+  });
+}
+
+class RevokeSecurityGroupIngressResult {
+  /// Returns <code>true</code> if the request succeeds; otherwise, returns an
+  /// error.
+  final bool returnValue;
+
+  /// The inbound rules that were unknown to the service. In some cases,
+  /// <code>unknownIpPermissionSet</code> might be in a different format from the
+  /// request parameter.
+  final List<IpPermission> unknownIpPermissions;
+
+  RevokeSecurityGroupIngressResult({
+    this.returnValue,
+    this.unknownIpPermissions,
   });
 }
 
@@ -35840,6 +40193,9 @@ enum RootDeviceType {
 
 /// Describes a route in a route table.
 class Route {
+  /// The ID of the carrier gateway.
+  final String carrierGatewayId;
+
   /// The IPv4 CIDR block used for the destination match.
   final String destinationCidrBlock;
 
@@ -35899,6 +40255,7 @@ class Route {
   final String vpcPeeringConnectionId;
 
   Route({
+    this.carrierGatewayId,
     this.destinationCidrBlock,
     this.destinationIpv6CidrBlock,
     this.destinationPrefixListId,
@@ -36311,22 +40668,19 @@ class ScheduledInstancesEbs {
   /// volumes only to instances that support them.
   final bool encrypted;
 
-  /// The number of I/O operations per second (IOPS) that the volume supports. For
-  /// io1 volumes, this represents the number of IOPS that are provisioned for the
-  /// volume. For <code>gp2</code> volumes, this represents the baseline
-  /// performance of the volume and the rate at which the volume accumulates I/O
-  /// credits for bursting. For more information about <code>gp2</code> baseline
-  /// performance, I/O credits, and bursting, see <a
+  /// The number of I/O operations per second (IOPS) to provision for an
+  /// <code>io1</code> or <code>io2</code> volume, with a maximum ratio of 50
+  /// IOPS/GiB for <code>io1</code>, and 500 IOPS/GiB for <code>io2</code>. Range
+  /// is 100 to 64,000 IOPS for volumes in most Regions. Maximum IOPS of 64,000 is
+  /// guaranteed only on <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html#ec2-nitro-instances">Nitro-based
+  /// instances</a>. Other instance families guarantee performance up to 32,000
+  /// IOPS. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumeTypes.html">Amazon
   /// EBS Volume Types</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
   ///
-  /// Constraint: Range is 100-20000 IOPS for <code>io1</code> volumes and
-  /// 100-10000 IOPS for <code>gp2</code> volumes.
-  ///
-  /// Condition: This parameter is required for requests to create
-  /// <code>io1</code>volumes; it is not used in requests to create
-  /// <code>gp2</code>, <code>st1</code>, <code>sc1</code>, or
-  /// <code>standard</code> volumes.
+  /// This parameter is valid only for Provisioned IOPS SSD (<code>io1</code> and
+  /// <code>io2</code>) volumes.
   final int iops;
 
   /// The ID of the snapshot.
@@ -36339,8 +40693,9 @@ class ScheduledInstancesEbs {
   final int volumeSize;
 
   /// The volume type. <code>gp2</code> for General Purpose SSD, <code>io1</code>
-  /// for Provisioned IOPS SSD, Throughput Optimized HDD for <code>st1</code>,
-  /// Cold HDD for <code>sc1</code>, or <code>standard</code> for Magnetic.
+  /// or <code> io2</code> for Provisioned IOPS SSD, Throughput Optimized HDD for
+  /// <code>st1</code>, Cold HDD for <code>sc1</code>, or <code>standard</code>
+  /// for Magnetic.
   ///
   /// Default: <code>gp2</code>
   final String volumeType;
@@ -36660,6 +41015,11 @@ class SecurityGroupReference {
   });
 }
 
+enum SelfServicePortal {
+  enabled,
+  disabled,
+}
+
 /// Describes a service configuration for a VPC endpoint service.
 class ServiceConfiguration {
   /// Indicates whether requests from other AWS accounts to create an endpoint to
@@ -36671,6 +41031,10 @@ class ServiceConfiguration {
 
   /// The DNS names for the service.
   final List<String> baseEndpointDnsNames;
+
+  /// The Amazon Resource Names (ARNs) of the Gateway Load Balancers for the
+  /// service.
+  final List<String> gatewayLoadBalancerArns;
 
   /// Indicates whether the service manages its VPC endpoints. Management of the
   /// service VPC endpoints using the VPC endpoint API is restricted.
@@ -36705,6 +41069,7 @@ class ServiceConfiguration {
     this.acceptanceRequired,
     this.availabilityZones,
     this.baseEndpointDnsNames,
+    this.gatewayLoadBalancerArns,
     this.managesVpcEndpoints,
     this.networkLoadBalancerArns,
     this.privateDnsName,
@@ -36745,6 +41110,9 @@ class ServiceDetail {
   /// is not <code>verified</code>.
   final DnsNameState privateDnsNameVerificationState;
 
+  /// The private DNS names assigned to the VPC endpoint service.
+  final List<PrivateDnsDetails> privateDnsNames;
+
   /// The ID of the endpoint service.
   final String serviceId;
 
@@ -36768,6 +41136,7 @@ class ServiceDetail {
     this.owner,
     this.privateDnsName,
     this.privateDnsNameVerificationState,
+    this.privateDnsNames,
     this.serviceId,
     this.serviceName,
     this.serviceType,
@@ -36787,6 +41156,7 @@ enum ServiceState {
 enum ServiceType {
   interface,
   gateway,
+  gatewayLoadBalancer,
 }
 
 /// Describes the type of service for a VPC endpoint.
@@ -36858,10 +41228,8 @@ class Snapshot {
   /// for the parent volume.
   final String kmsKeyId;
 
-  /// Value from an Amazon-maintained list (<code>amazon</code> |
-  /// <code>self</code> | <code>all</code> | <code>aws-marketplace</code> |
-  /// <code>microsoft</code>) of snapshot owners. Not to be confused with the
-  /// user-configured AWS account alias, which is set from the IAM console.
+  /// The AWS owner alias, from an Amazon-maintained list (<code>amazon</code>).
+  /// This is not the user-configured AWS account alias set using the IAM console.
   final String ownerAlias;
 
   /// The AWS account ID of the EBS snapshot owner.
@@ -36950,7 +41318,7 @@ class SnapshotDetail {
   /// The URL used to access the disk image.
   final String url;
 
-  /// The S3 bucket for the disk image.
+  /// The Amazon S3 bucket for the disk image.
   final UserBucketDetails userBucket;
 
   SnapshotDetail({
@@ -36981,7 +41349,7 @@ class SnapshotDiskContainer {
   /// https URL (https://..) or an Amazon S3 URL (s3://..).
   final String url;
 
-  /// The S3 bucket for the disk image.
+  /// The Amazon S3 bucket for the disk image.
   final UserBucket userBucket;
 
   SnapshotDiskContainer({
@@ -37079,7 +41447,7 @@ class SnapshotTaskDetail {
   /// The URL of the disk image from which the snapshot is created.
   final String url;
 
-  /// The S3 bucket for the disk image.
+  /// The Amazon S3 bucket for the disk image.
   final UserBucketDetails userBucket;
 
   SnapshotTaskDetail({
@@ -37103,9 +41471,34 @@ enum SpotAllocationStrategy {
   capacityOptimized,
 }
 
+/// The Spot Instance replacement strategy to use when Amazon EC2 emits a signal
+/// that your Spot Instance is at an elevated risk of being interrupted. For
+/// more information, see <a
+/// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-fleet-configuration-strategies.html#spot-fleet-capacity-rebalance">Capacity
+/// rebalancing</a> in the <i>Amazon EC2 User Guide for Linux Instances</i>.
+class SpotCapacityRebalance {
+  /// The replacement strategy to use. Only available for fleets of type
+  /// <code>maintain</code>. You must specify a value, otherwise you get an error.
+  ///
+  /// To allow Spot Fleet to launch a replacement Spot Instance when an instance
+  /// rebalance notification is emitted for a Spot Instance in the fleet, specify
+  /// <code>launch</code>.
+  /// <note>
+  /// When a replacement instance is launched, the instance marked for rebalance
+  /// is not automatically terminated. You can terminate it, or you can leave it
+  /// running. You are charged for all instances while they are running.
+  /// </note>
+  final ReplacementStrategy replacementStrategy;
+
+  SpotCapacityRebalance({
+    this.replacementStrategy,
+  });
+}
+
 /// Describes the data feed for a Spot Instance.
 class SpotDatafeedSubscription {
-  /// The Amazon S3 bucket where the Spot Instance data feed is located.
+  /// The name of the Amazon S3 bucket where the Spot Instance data feed is
+  /// located.
   final String bucket;
 
   /// The fault codes for the Spot Instance request, if any.
@@ -37114,7 +41507,7 @@ class SpotDatafeedSubscription {
   /// The AWS account ID of the account.
   final String ownerId;
 
-  /// The prefix that is prepended to data feed files.
+  /// The prefix for the data feed files.
   final String prefix;
 
   /// The state of the Spot Instance data feed subscription.
@@ -37130,8 +41523,9 @@ class SpotDatafeedSubscription {
 }
 
 /// Describes the launch specification for one or more Spot Instances. If you
-/// include On-Demand capacity in your fleet request, you can't use
-/// <code>SpotFleetLaunchSpecification</code>; you must use <a
+/// include On-Demand capacity in your fleet request or want to specify an EFA
+/// network device, you can't use <code>SpotFleetLaunchSpecification</code>; you
+/// must use <a
 /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_LaunchTemplateConfig.html">LaunchTemplateConfig</a>.
 class SpotFleetLaunchSpecification {
   /// Deprecated.
@@ -37173,6 +41567,11 @@ class SpotFleetLaunchSpecification {
 
   /// One or more network interfaces. If you specify a network interface, you must
   /// specify subnet IDs and security group IDs using the network interface.
+  /// <note>
+  /// <code>SpotFleetLaunchSpecification</code> currently does not support Elastic
+  /// Fabric Adapter (EFA). To specify an EFA, you must use <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_LaunchTemplateConfig.html">LaunchTemplateConfig</a>.
+  /// </note>
   final List<InstanceNetworkInterfaceSpecification> networkInterfaces;
 
   /// The placement information.
@@ -37290,7 +41689,7 @@ class SpotFleetRequestConfigData {
   /// (IAM) role that grants the Spot Fleet the permission to request, launch,
   /// terminate, and tag instances on your behalf. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-fleet-requests.html#spot-fleet-prerequisites">Spot
-  /// Fleet Prerequisites</a> in the <i>Amazon EC2 User Guide for Linux
+  /// Fleet prerequisites</a> in the <i>Amazon EC2 User Guide for Linux
   /// Instances</i>. Spot Fleet can terminate Spot Instances on your behalf when
   /// you cancel its Spot Fleet request using <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CancelSpotFleetRequests">CancelSpotFleetRequests</a>
@@ -37402,6 +41801,10 @@ class SpotFleetRequestConfigData {
   /// Indicates whether Spot Fleet should replace unhealthy instances.
   final bool replaceUnhealthyInstances;
 
+  /// The strategies for managing your Spot Instances that are at an elevated risk
+  /// of being interrupted.
+  final SpotMaintenanceStrategies spotMaintenanceStrategies;
+
   /// The maximum amount per hour for Spot Instances that you're willing to pay.
   /// You can use the <code>spotdMaxTotalPrice</code> parameter, the
   /// <code>onDemandMaxTotalPrice</code> parameter, or both parameters to ensure
@@ -37477,6 +41880,7 @@ class SpotFleetRequestConfigData {
     this.onDemandMaxTotalPrice,
     this.onDemandTargetCapacity,
     this.replaceUnhealthyInstances,
+    this.spotMaintenanceStrategies,
     this.spotMaxTotalPrice,
     this.spotPrice,
     this.tagSpecifications,
@@ -37563,7 +41967,7 @@ class SpotInstanceRequest {
   /// The state of the Spot Instance request. Spot status information helps track
   /// your Spot Instance requests. For more information, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-bid-status.html">Spot
-  /// Status</a> in the <i>Amazon EC2 User Guide for Linux Instances</i>.
+  /// status</a> in the <i>Amazon EC2 User Guide for Linux Instances</i>.
   final SpotInstanceState state;
 
   /// The status code and status message describing the Spot Instance request.
@@ -37580,12 +41984,22 @@ class SpotInstanceRequest {
   /// becomes active at this date and time.
   final DateTime validFrom;
 
-  /// The end date of the request, in UTC format (for example,
-  /// <i>YYYY</i>-<i>MM</i>-<i>DD</i>T<i>HH</i>:<i>MM</i>:<i>SS</i>Z). If this is
-  /// a one-time request, it remains active until all instances launch, the
-  /// request is canceled, or this date is reached. If the request is persistent,
-  /// it remains active until it is canceled or this date is reached. The default
-  /// end date is 7 days from the current date.
+  /// The end date of the request, in UTC format
+  /// (<i>YYYY</i>-<i>MM</i>-<i>DD</i>T<i>HH</i>:<i>MM</i>:<i>SS</i>Z).
+  ///
+  /// <ul>
+  /// <li>
+  /// For a persistent request, the request remains active until the
+  /// <code>validUntil</code> date and time is reached. Otherwise, the request
+  /// remains active until you cancel it.
+  /// </li>
+  /// <li>
+  /// For a one-time request, the request remains active until all instances
+  /// launch, the request is canceled, or the <code>validUntil</code> date and
+  /// time is reached. By default, the request is valid for 7 days from the date
+  /// the request was created.
+  /// </li>
+  /// </ul>
   final DateTime validUntil;
 
   SpotInstanceRequest({
@@ -37637,7 +42051,7 @@ class SpotInstanceStateFault {
 class SpotInstanceStatus {
   /// The status code. For a list of status codes, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/spot-bid-status.html#spot-instance-bid-status-understand">Spot
-  /// Status Codes</a> in the <i>Amazon EC2 User Guide for Linux Instances</i>.
+  /// status codes</a> in the <i>Amazon EC2 User Guide for Linux Instances</i>.
   final String code;
 
   /// The description for the status code.
@@ -37659,11 +42073,35 @@ enum SpotInstanceType {
   persistent,
 }
 
+/// The strategies for managing your Spot Instances that are at an elevated risk
+/// of being interrupted.
+class SpotMaintenanceStrategies {
+  /// The strategy to use when Amazon EC2 emits a signal that your Spot Instance
+  /// is at an elevated risk of being interrupted.
+  final SpotCapacityRebalance capacityRebalance;
+
+  SpotMaintenanceStrategies({
+    this.capacityRebalance,
+  });
+}
+
 /// The options for Spot Instances.
 class SpotMarketOptions {
   /// The required duration for the Spot Instances (also known as Spot blocks), in
   /// minutes. This value must be a multiple of 60 (60, 120, 180, 240, 300, or
   /// 360).
+  ///
+  /// The duration period starts as soon as your Spot Instance receives its
+  /// instance ID. At the end of the duration period, Amazon EC2 marks the Spot
+  /// Instance for termination and provides a Spot Instance termination notice,
+  /// which gives the instance a two-minute warning before it terminates.
+  ///
+  /// You can't specify an Availability Zone group or a launch group if you
+  /// specify a duration.
+  ///
+  /// New accounts or accounts with no previous billing history with AWS are not
+  /// eligible for Spot Instances with a defined duration (also known as Spot
+  /// blocks).
   final int blockDurationMinutes;
 
   /// The behavior when a Spot Instance is interrupted. The default is
@@ -37681,11 +42119,21 @@ class SpotMarketOptions {
   /// or <code>stop</code>.
   final SpotInstanceType spotInstanceType;
 
-  /// The end date of the request. For a one-time request, the request remains
-  /// active until all instances launch, the request is canceled, or this date is
-  /// reached. If the request is persistent, it remains active until it is
-  /// canceled or this date and time is reached. The default end date is 7 days
-  /// from the current date.
+  /// The end date of the request, in UTC format
+  /// (<i>YYYY</i>-<i>MM</i>-<i>DD</i>T<i>HH</i>:<i>MM</i>:<i>SS</i>Z). Supported
+  /// only for persistent requests.
+  ///
+  /// <ul>
+  /// <li>
+  /// For a persistent request, the request remains active until the
+  /// <code>ValidUntil</code> date and time is reached. Otherwise, the request
+  /// remains active until you cancel it.
+  /// </li>
+  /// <li>
+  /// For a one-time request, <code>ValidUntil</code> is not supported. The
+  /// request remains active until all instances launch or you cancel the request.
+  /// </li>
+  /// </ul>
   final DateTime validUntil;
 
   SpotMarketOptions({
@@ -37725,6 +42173,10 @@ class SpotOptions {
   /// that you specify.
   final int instancePoolsToUseCount;
 
+  /// The strategies for managing your workloads on your Spot Instances that will
+  /// be interrupted. Currently only the capacity rebalance strategy is available.
+  final FleetSpotMaintenanceStrategies maintenanceStrategies;
+
   /// The maximum amount per hour for Spot Instances that you're willing to pay.
   final String maxTotalPrice;
 
@@ -37745,6 +42197,7 @@ class SpotOptions {
     this.allocationStrategy,
     this.instanceInterruptionBehavior,
     this.instancePoolsToUseCount,
+    this.maintenanceStrategies,
     this.maxTotalPrice,
     this.minTargetCapacity,
     this.singleAvailabilityZone,
@@ -37780,6 +42233,10 @@ class SpotOptionsRequest {
   /// that you specify.
   final int instancePoolsToUseCount;
 
+  /// The strategies for managing your Spot Instances that are at an elevated risk
+  /// of being interrupted.
+  final FleetSpotMaintenanceStrategiesRequest maintenanceStrategies;
+
   /// The maximum amount per hour for Spot Instances that you're willing to pay.
   final String maxTotalPrice;
 
@@ -37800,6 +42257,7 @@ class SpotOptionsRequest {
     this.allocationStrategy,
     this.instanceInterruptionBehavior,
     this.instancePoolsToUseCount,
+    this.maintenanceStrategies,
     this.maxTotalPrice,
     this.minTargetCapacity,
     this.singleAvailabilityZone,
@@ -37873,8 +42331,7 @@ class StaleIpPermission {
   /// The IP ranges. Not applicable for stale security group rules.
   final List<String> ipRanges;
 
-  /// The prefix list IDs for an AWS service. Not applicable for stale security
-  /// group rules.
+  /// The prefix list IDs. Not applicable for stale security group rules.
   final List<String> prefixListIds;
 
   /// The end of the port range for the TCP and UDP protocols, or an ICMP type
@@ -37932,6 +42389,15 @@ class StartInstancesResult {
 
   StartInstancesResult({
     this.startingInstances,
+  });
+}
+
+class StartNetworkInsightsAnalysisResult {
+  /// Information about the network insights analysis.
+  final NetworkInsightsAnalysis networkInsightsAnalysis;
+
+  StartNetworkInsightsAnalysisResult({
+    this.networkInsightsAnalysis,
   });
 }
 
@@ -38026,6 +42492,11 @@ class StateReason {
   });
 }
 
+enum StaticSourcesSupportValue {
+  enable,
+  disable,
+}
+
 enum Status {
   moveInProgress,
   inVpc,
@@ -38095,11 +42566,19 @@ class Subnet {
   /// The IPv4 CIDR block assigned to the subnet.
   final String cidrBlock;
 
+  /// The customer-owned IPv4 address pool associated with the subnet.
+  final String customerOwnedIpv4Pool;
+
   /// Indicates whether this is the default subnet for the Availability Zone.
   final bool defaultForAz;
 
   /// Information about the IPv6 CIDR blocks associated with the subnet.
   final List<SubnetIpv6CidrBlockAssociation> ipv6CidrBlockAssociationSet;
+
+  /// Indicates whether a network interface created in this subnet (including a
+  /// network interface created by <a>RunInstances</a>) receives a customer-owned
+  /// IPv4 address.
+  final bool mapCustomerOwnedIpOnLaunch;
 
   /// Indicates whether instances launched in this subnet receive a public IPv4
   /// address.
@@ -38132,8 +42611,10 @@ class Subnet {
     this.availabilityZoneId,
     this.availableIpAddressCount,
     this.cidrBlock,
+    this.customerOwnedIpv4Pool,
     this.defaultForAz,
     this.ipv6CidrBlockAssociationSet,
+    this.mapCustomerOwnedIpOnLaunch,
     this.mapPublicIpOnLaunch,
     this.outpostArn,
     this.ownerId,
@@ -38281,17 +42762,34 @@ class TagDescription {
 class TagSpecification {
   /// The type of resource to tag. Currently, the resource types that support
   /// tagging on creation are: <code>capacity-reservation</code> |
-  /// <code>client-vpn-endpoint</code> | <code>dedicated-host</code> |
-  /// <code>fleet</code> | <code>fpga-image</code> | <code>instance</code> |
-  /// <code>key-pair</code> | <code>launch-template</code> | |
-  /// <code>natgateway</code> | <code>spot-fleet-request</code> |
-  /// <code>placement-group</code> | <code>snapshot</code> |
-  /// <code>traffic-mirror-filter</code> | <code>traffic-mirror-session</code> |
-  /// <code>traffic-mirror-target</code> | <code>transit-gateway</code> |
-  /// <code>transit-gateway-attachment</code> |
-  /// <code>transit-gateway-route-table</code> | <code>vpc-endpoint</code> (for
-  /// interface VPC endpoints)| <code>vpc-endpoint-service</code> (for gateway VPC
-  /// endpoints) | <code>volume</code> | <code>vpc-flow-log</code>.
+  /// <code>carrier-gateway</code> | <code>client-vpn-endpoint</code> |
+  /// <code>customer-gateway</code> | <code>dedicated-host</code> |
+  /// <code>dhcp-options</code> | <code>egress-only-internet-gateway</code> |
+  /// <code>elastic-ip</code> | <code>elastic-gpu</code> |
+  /// <code>export-image-task</code> | <code>export-instance-task</code> |
+  /// <code>fleet</code> | <code>fpga-image</code> | <code>host-reservation</code>
+  /// | <code>image</code>| <code>import-image-task</code> |
+  /// <code>import-snapshot-task</code> | <code>instance</code> |
+  /// <code>internet-gateway</code> | <code>ipv4pool-ec2</code> |
+  /// <code>ipv6pool-ec2</code> | <code>key-pair</code> |
+  /// <code>launch-template</code> |
+  /// <code>local-gateway-route-table-vpc-association</code> |
+  /// <code>placement-group</code> | <code>prefix-list</code> |
+  /// <code>natgateway</code> | <code>network-acl</code> |
+  /// <code>network-interface</code> | <code>reserved-instances</code>
+  /// |<code>route-table</code> | <code>security-group</code>|
+  /// <code>snapshot</code> | <code>spot-fleet-request</code> |
+  /// <code>spot-instances-request</code> | <code>snapshot</code> |
+  /// <code>subnet</code> | <code>traffic-mirror-filter</code> |
+  /// <code>traffic-mirror-session</code> | <code>traffic-mirror-target</code> |
+  /// <code>transit-gateway</code> | <code>transit-gateway-attachment</code> |
+  /// <code>transit-gateway-multicast-domain</code> |
+  /// <code>transit-gateway-route-table</code> | <code>volume</code>
+  /// |<code>vpc</code> | <code> vpc-peering-connection</code> |
+  /// <code>vpc-endpoint</code> (for interface and gateway endpoints) |
+  /// <code>vpc-endpoint-service</code> (for AWS PrivateLink) |
+  /// <code>vpc-flow-log</code> | <code>vpn-connection</code> |
+  /// <code>vpn-gateway</code>.
   ///
   /// To tag a resource after it has been created, see <a
   /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_CreateTags.html">CreateTags</a>.
@@ -38828,7 +43326,8 @@ class TransitGatewayAssociation {
   /// The ID of the resource.
   final String resourceId;
 
-  /// The resource type.
+  /// The resource type. Note that the <code>tgw-peering</code> resource type has
+  /// been deprecated.
   final TransitGatewayAttachmentResourceType resourceType;
 
   /// The state of the association.
@@ -38870,10 +43369,12 @@ class TransitGatewayAttachment {
   /// The ID of the AWS account that owns the resource.
   final String resourceOwnerId;
 
-  /// The resource type.
+  /// The resource type. Note that the <code>tgw-peering</code> resource type has
+  /// been deprecated.
   final TransitGatewayAttachmentResourceType resourceType;
 
-  /// The attachment state.
+  /// The attachment state. Note that the <code>initiating</code> state has been
+  /// deprecated.
   final TransitGatewayAttachmentState state;
 
   /// The tags for the attachment.
@@ -38916,6 +43417,32 @@ class TransitGatewayAttachmentAssociation {
   });
 }
 
+/// The BGP configuration information.
+class TransitGatewayAttachmentBgpConfiguration {
+  /// The BGP status.
+  final BgpStatus bgpStatus;
+
+  /// The interior BGP peer IP address for the appliance.
+  final String peerAddress;
+
+  /// The peer Autonomous System Number (ASN).
+  final int peerAsn;
+
+  /// The interior BGP peer IP address for the transit gateway.
+  final String transitGatewayAddress;
+
+  /// The transit gateway Autonomous System Number (ASN).
+  final int transitGatewayAsn;
+
+  TransitGatewayAttachmentBgpConfiguration({
+    this.bgpStatus,
+    this.peerAddress,
+    this.peerAsn,
+    this.transitGatewayAddress,
+    this.transitGatewayAsn,
+  });
+}
+
 /// Describes a propagation route table.
 class TransitGatewayAttachmentPropagation {
   /// The state of the propagation route table.
@@ -38934,11 +43461,14 @@ enum TransitGatewayAttachmentResourceType {
   vpc,
   vpn,
   directConnectGateway,
+  connect,
+  peering,
   tgwPeering,
 }
 
 enum TransitGatewayAttachmentState {
   initiating,
+  initiatingRequest,
   pendingAcceptance,
   rollingBack,
   pending,
@@ -38952,11 +43482,131 @@ enum TransitGatewayAttachmentState {
   failing,
 }
 
+/// Describes a transit gateway Connect attachment.
+class TransitGatewayConnect {
+  /// The creation time.
+  final DateTime creationTime;
+
+  /// The Connect attachment options.
+  final TransitGatewayConnectOptions options;
+
+  /// The state of the attachment.
+  final TransitGatewayAttachmentState state;
+
+  /// The tags for the attachment.
+  final List<Tag> tags;
+
+  /// The ID of the Connect attachment.
+  final String transitGatewayAttachmentId;
+
+  /// The ID of the transit gateway.
+  final String transitGatewayId;
+
+  /// The ID of the attachment from which the Connect attachment was created.
+  final String transportTransitGatewayAttachmentId;
+
+  TransitGatewayConnect({
+    this.creationTime,
+    this.options,
+    this.state,
+    this.tags,
+    this.transitGatewayAttachmentId,
+    this.transitGatewayId,
+    this.transportTransitGatewayAttachmentId,
+  });
+}
+
+/// Describes the Connect attachment options.
+class TransitGatewayConnectOptions {
+  /// The tunnel protocol.
+  final ProtocolValue protocol;
+
+  TransitGatewayConnectOptions({
+    this.protocol,
+  });
+}
+
+/// Describes a transit gateway Connect peer.
+class TransitGatewayConnectPeer {
+  /// The Connect peer details.
+  final TransitGatewayConnectPeerConfiguration connectPeerConfiguration;
+
+  /// The creation time.
+  final DateTime creationTime;
+
+  /// The state of the Connect peer.
+  final TransitGatewayConnectPeerState state;
+
+  /// The tags for the Connect peer.
+  final List<Tag> tags;
+
+  /// The ID of the Connect attachment.
+  final String transitGatewayAttachmentId;
+
+  /// The ID of the Connect peer.
+  final String transitGatewayConnectPeerId;
+
+  TransitGatewayConnectPeer({
+    this.connectPeerConfiguration,
+    this.creationTime,
+    this.state,
+    this.tags,
+    this.transitGatewayAttachmentId,
+    this.transitGatewayConnectPeerId,
+  });
+}
+
+/// Describes the Connect peer details.
+class TransitGatewayConnectPeerConfiguration {
+  /// The BGP configuration details.
+  final List<TransitGatewayAttachmentBgpConfiguration> bgpConfigurations;
+
+  /// The range of interior BGP peer IP addresses.
+  final List<String> insideCidrBlocks;
+
+  /// The Connect peer IP address on the appliance side of the tunnel.
+  final String peerAddress;
+
+  /// The tunnel protocol.
+  final ProtocolValue protocol;
+
+  /// The Connect peer IP address on the transit gateway side of the tunnel.
+  final String transitGatewayAddress;
+
+  TransitGatewayConnectPeerConfiguration({
+    this.bgpConfigurations,
+    this.insideCidrBlocks,
+    this.peerAddress,
+    this.protocol,
+    this.transitGatewayAddress,
+  });
+}
+
+enum TransitGatewayConnectPeerState {
+  pending,
+  available,
+  deleting,
+  deleted,
+}
+
+/// The BGP options for the Connect attachment.
+class TransitGatewayConnectRequestBgpOptions {
+  /// The peer Autonomous System Number (ASN).
+  final int peerAsn;
+
+  TransitGatewayConnectRequestBgpOptions({
+    this.peerAsn,
+  });
+}
+
 enum TransitGatewayMulitcastDomainAssociationState {
+  pendingAcceptance,
   associating,
   associated,
   disassociating,
   disassociated,
+  rejected,
+  failed,
 }
 
 /// Describes the deregistered transit gateway multicast group members.
@@ -39000,6 +43650,12 @@ class TransitGatewayMulticastDomain {
   /// The time the transit gateway multicast domain was created.
   final DateTime creationTime;
 
+  /// The options for the transit gateway multicast domain.
+  final TransitGatewayMulticastDomainOptions options;
+
+  /// The ID of the AWS account that owns the transit gateway multiicast domain.
+  final String ownerId;
+
   /// The state of the transit gateway multicast domain.
   final TransitGatewayMulticastDomainState state;
 
@@ -39009,14 +43665,20 @@ class TransitGatewayMulticastDomain {
   /// The ID of the transit gateway.
   final String transitGatewayId;
 
+  /// The Amazon Resource Name (ARN) of the transit gateway multicast domain.
+  final String transitGatewayMulticastDomainArn;
+
   /// The ID of the transit gateway multicast domain.
   final String transitGatewayMulticastDomainId;
 
   TransitGatewayMulticastDomain({
     this.creationTime,
+    this.options,
+    this.ownerId,
     this.state,
     this.tags,
     this.transitGatewayId,
+    this.transitGatewayMulticastDomainArn,
     this.transitGatewayMulticastDomainId,
   });
 }
@@ -39026,6 +43688,10 @@ class TransitGatewayMulticastDomain {
 class TransitGatewayMulticastDomainAssociation {
   /// The ID of the resource.
   final String resourceId;
+
+  /// The ID of the AWS account that owns the transit gateway multicast domain
+  /// association resource.
+  final String resourceOwnerId;
 
   /// The type of resource, for example a VPC attachment.
   final TransitGatewayAttachmentResourceType resourceType;
@@ -39038,6 +43704,7 @@ class TransitGatewayMulticastDomainAssociation {
 
   TransitGatewayMulticastDomainAssociation({
     this.resourceId,
+    this.resourceOwnerId,
     this.resourceType,
     this.subnet,
     this.transitGatewayAttachmentId,
@@ -39048,6 +43715,9 @@ class TransitGatewayMulticastDomainAssociation {
 class TransitGatewayMulticastDomainAssociations {
   /// The ID of the resource.
   final String resourceId;
+
+  /// The ID of the AWS account that owns the resource.
+  final String resourceOwnerId;
 
   /// The type of resource, for example a VPC attachment.
   final TransitGatewayAttachmentResourceType resourceType;
@@ -39063,10 +43733,32 @@ class TransitGatewayMulticastDomainAssociations {
 
   TransitGatewayMulticastDomainAssociations({
     this.resourceId,
+    this.resourceOwnerId,
     this.resourceType,
     this.subnets,
     this.transitGatewayAttachmentId,
     this.transitGatewayMulticastDomainId,
+  });
+}
+
+/// Describes the options for a transit gateway multicast domain.
+class TransitGatewayMulticastDomainOptions {
+  /// Indicates whether to automatically cross-account subnet associations that
+  /// are associated with the transit gateway multicast domain.
+  final AutoAcceptSharedAssociationsValue autoAcceptSharedAssociations;
+
+  /// Indicates whether Internet Group Management Protocol (IGMP) version 2 is
+  /// turned on for the transit gateway multicast domain.
+  final Igmpv2SupportValue igmpv2Support;
+
+  /// Indicates whether support for statically configuring transit gateway
+  /// multicast group sources is turned on.
+  final StaticSourcesSupportValue staticSourcesSupport;
+
+  TransitGatewayMulticastDomainOptions({
+    this.autoAcceptSharedAssociations,
+    this.igmpv2Support,
+    this.staticSourcesSupport,
   });
 }
 
@@ -39097,6 +43789,10 @@ class TransitGatewayMulticastGroup {
   /// The ID of the resource.
   final String resourceId;
 
+  /// The ID of the AWS account that owns the transit gateway multicast domain
+  /// group resource.
+  final String resourceOwnerId;
+
   /// The type of resource, for example a VPC attachment.
   final TransitGatewayAttachmentResourceType resourceType;
 
@@ -39116,6 +43812,7 @@ class TransitGatewayMulticastGroup {
     this.memberType,
     this.networkInterfaceId,
     this.resourceId,
+    this.resourceOwnerId,
     this.resourceType,
     this.sourceType,
     this.subnetId,
@@ -39190,6 +43887,9 @@ class TransitGatewayOptions {
   /// The ID of the default propagation route table.
   final String propagationDefaultRouteTableId;
 
+  /// The transit gateway CIDR blocks.
+  final List<String> transitGatewayCidrBlocks;
+
   /// Indicates whether Equal Cost Multipath Protocol support is enabled.
   final VpnEcmpSupportValue vpnEcmpSupport;
 
@@ -39202,6 +43902,7 @@ class TransitGatewayOptions {
     this.dnsSupport,
     this.multicastSupport,
     this.propagationDefaultRouteTableId,
+    this.transitGatewayCidrBlocks,
     this.vpnEcmpSupport,
   });
 }
@@ -39217,7 +43918,8 @@ class TransitGatewayPeeringAttachment {
   /// Information about the requester transit gateway.
   final PeeringTgwInfo requesterTgwInfo;
 
-  /// The state of the transit gateway peering attachment.
+  /// The state of the transit gateway peering attachment. Note that the
+  /// <code>initiating</code> state has been deprecated.
   final TransitGatewayAttachmentState state;
 
   /// The status of the transit gateway peering attachment.
@@ -39240,12 +43942,69 @@ class TransitGatewayPeeringAttachment {
   });
 }
 
+/// Describes a transit gateway prefix list attachment.
+class TransitGatewayPrefixListAttachment {
+  /// The ID of the resource.
+  final String resourceId;
+
+  /// The resource type. Note that the <code>tgw-peering</code> resource type has
+  /// been deprecated.
+  final TransitGatewayAttachmentResourceType resourceType;
+
+  /// The ID of the attachment.
+  final String transitGatewayAttachmentId;
+
+  TransitGatewayPrefixListAttachment({
+    this.resourceId,
+    this.resourceType,
+    this.transitGatewayAttachmentId,
+  });
+}
+
+/// Describes a prefix list reference.
+class TransitGatewayPrefixListReference {
+  /// Indicates whether traffic that matches this route is dropped.
+  final bool blackhole;
+
+  /// The ID of the prefix list.
+  final String prefixListId;
+
+  /// The ID of the prefix list owner.
+  final String prefixListOwnerId;
+
+  /// The state of the prefix list reference.
+  final TransitGatewayPrefixListReferenceState state;
+
+  /// Information about the transit gateway attachment.
+  final TransitGatewayPrefixListAttachment transitGatewayAttachment;
+
+  /// The ID of the transit gateway route table.
+  final String transitGatewayRouteTableId;
+
+  TransitGatewayPrefixListReference({
+    this.blackhole,
+    this.prefixListId,
+    this.prefixListOwnerId,
+    this.state,
+    this.transitGatewayAttachment,
+    this.transitGatewayRouteTableId,
+  });
+}
+
+enum TransitGatewayPrefixListReferenceState {
+  pending,
+  available,
+  modifying,
+  deleting,
+}
+
 /// Describes route propagation.
 class TransitGatewayPropagation {
   /// The ID of the resource.
   final String resourceId;
 
-  /// The resource type.
+  /// The resource type. Note that the <code>tgw-peering</code> resource type has
+  /// been deprecated.
   final TransitGatewayAttachmentResourceType resourceType;
 
   /// The state.
@@ -39277,28 +44036,33 @@ enum TransitGatewayPropagationState {
 class TransitGatewayRequestOptions {
   /// A private Autonomous System Number (ASN) for the Amazon side of a BGP
   /// session. The range is 64512 to 65534 for 16-bit ASNs and 4200000000 to
-  /// 4294967294 for 32-bit ASNs.
+  /// 4294967294 for 32-bit ASNs. The default is <code>64512</code>.
   final int amazonSideAsn;
 
-  /// Enable or disable automatic acceptance of attachment requests. The default
-  /// is <code>disable</code>.
+  /// Enable or disable automatic acceptance of attachment requests. Disabled by
+  /// default.
   final AutoAcceptSharedAttachmentsValue autoAcceptSharedAttachments;
 
   /// Enable or disable automatic association with the default association route
-  /// table. The default is <code>enable</code>.
+  /// table. Enabled by default.
   final DefaultRouteTableAssociationValue defaultRouteTableAssociation;
 
   /// Enable or disable automatic propagation of routes to the default propagation
-  /// route table. The default is <code>enable</code>.
+  /// route table. Enabled by default.
   final DefaultRouteTablePropagationValue defaultRouteTablePropagation;
 
-  /// Enable or disable DNS support.
+  /// Enable or disable DNS support. Enabled by default.
   final DnsSupportValue dnsSupport;
 
   /// Indicates whether multicast is enabled on the transit gateway
   final MulticastSupportValue multicastSupport;
 
-  /// Enable or disable Equal Cost Multipath Protocol support.
+  /// One or more IPv4 or IPv6 CIDR blocks for the transit gateway. Must be a size
+  /// /24 CIDR block or larger for IPv4, or a size /64 CIDR block or larger for
+  /// IPv6.
+  final List<String> transitGatewayCidrBlocks;
+
+  /// Enable or disable Equal Cost Multipath Protocol support. Enabled by default.
   final VpnEcmpSupportValue vpnEcmpSupport;
 
   TransitGatewayRequestOptions({
@@ -39308,6 +44072,7 @@ class TransitGatewayRequestOptions {
     this.defaultRouteTablePropagation,
     this.dnsSupport,
     this.multicastSupport,
+    this.transitGatewayCidrBlocks,
     this.vpnEcmpSupport,
   });
 }
@@ -39316,6 +44081,9 @@ class TransitGatewayRequestOptions {
 class TransitGatewayRoute {
   /// The CIDR block used for destination matches.
   final String destinationCidrBlock;
+
+  /// The ID of the prefix list used for destination matches.
+  final String prefixListId;
 
   /// The state of the route.
   final TransitGatewayRouteState state;
@@ -39328,6 +44096,7 @@ class TransitGatewayRoute {
 
   TransitGatewayRoute({
     this.destinationCidrBlock,
+    this.prefixListId,
     this.state,
     this.transitGatewayAttachments,
     this.type,
@@ -39339,7 +44108,8 @@ class TransitGatewayRouteAttachment {
   /// The ID of the resource.
   final String resourceId;
 
-  /// The resource type.
+  /// The resource type. Note that the <code>tgw-peering</code> resource type has
+  /// been deprecated.
   final TransitGatewayAttachmentResourceType resourceType;
 
   /// The ID of the attachment.
@@ -39401,7 +44171,8 @@ class TransitGatewayRouteTableAssociation {
   /// The ID of the resource.
   final String resourceId;
 
-  /// The resource type.
+  /// The resource type. Note that the <code>tgw-peering</code> resource type has
+  /// been deprecated.
   final TransitGatewayAttachmentResourceType resourceType;
 
   /// The state of the association.
@@ -39423,7 +44194,8 @@ class TransitGatewayRouteTablePropagation {
   /// The ID of the resource.
   final String resourceId;
 
-  /// The type of resource.
+  /// The type of resource. Note that the <code>tgw-peering</code> resource type
+  /// has been deprecated.
   final TransitGatewayAttachmentResourceType resourceType;
 
   /// The state of the resource.
@@ -39468,7 +44240,8 @@ class TransitGatewayVpcAttachment {
   /// The VPC attachment options.
   final TransitGatewayVpcAttachmentOptions options;
 
-  /// The state of the VPC attachment.
+  /// The state of the VPC attachment. Note that the <code>initiating</code> state
+  /// has been deprecated.
   final TransitGatewayAttachmentState state;
 
   /// The IDs of the subnets.
@@ -39504,6 +44277,9 @@ class TransitGatewayVpcAttachment {
 
 /// Describes the VPC attachment options.
 class TransitGatewayVpcAttachmentOptions {
+  /// Indicates whether appliance mode support is enabled.
+  final ApplianceModeSupportValue applianceModeSupport;
+
   /// Indicates whether DNS support is enabled.
   final DnsSupportValue dnsSupport;
 
@@ -39511,6 +44287,7 @@ class TransitGatewayVpcAttachmentOptions {
   final Ipv6SupportValue ipv6Support;
 
   TransitGatewayVpcAttachmentOptions({
+    this.applianceModeSupport,
     this.dnsSupport,
     this.ipv6Support,
   });
@@ -39521,8 +44298,16 @@ enum TransportProtocol {
   udp,
 }
 
+enum TunnelInsideIpVersion {
+  ipv4,
+  ipv6,
+}
+
 /// The VPN tunnel options.
 class TunnelOption {
+  /// The action to take after a DPD timeout occurs.
+  final String dpdTimeoutAction;
+
   /// The number of seconds after which a DPD timeout occurs.
   final int dpdTimeoutSeconds;
 
@@ -39578,10 +44363,18 @@ class TunnelOption {
   /// The number of packets in an IKE replay window.
   final int replayWindowSize;
 
-  /// The range of inside IP addresses for the tunnel.
+  /// The action to take when the establishing the VPN tunnels for a VPN
+  /// connection.
+  final String startupAction;
+
+  /// The range of inside IPv4 addresses for the tunnel.
   final String tunnelInsideCidr;
 
+  /// The range of inside IPv6 addresses for the tunnel.
+  final String tunnelInsideIpv6Cidr;
+
   TunnelOption({
+    this.dpdTimeoutAction,
     this.dpdTimeoutSeconds,
     this.ikeVersions,
     this.outsideIpAddress,
@@ -39597,7 +44390,9 @@ class TunnelOption {
     this.rekeyFuzzPercentage,
     this.rekeyMarginTimeSeconds,
     this.replayWindowSize,
+    this.startupAction,
     this.tunnelInsideCidr,
+    this.tunnelInsideIpv6Cidr,
   });
 }
 
@@ -39618,6 +44413,7 @@ enum UnlimitedSupportedInstanceFamily {
   t2,
   t3,
   t3a,
+  t4g,
 }
 
 class UnmonitorInstancesResult {
@@ -39724,9 +44520,9 @@ enum UsageClassType {
   onDemand,
 }
 
-/// Describes the S3 bucket for the disk image.
+/// Describes the Amazon S3 bucket for the disk image.
 class UserBucket {
-  /// The name of the S3 bucket where the disk image is located.
+  /// The name of the Amazon S3 bucket where the disk image is located.
   final String s3Bucket;
 
   /// The file name of the disk image.
@@ -39738,9 +44534,9 @@ class UserBucket {
   });
 }
 
-/// Describes the S3 bucket for the disk image.
+/// Describes the Amazon S3 bucket for the disk image.
 class UserBucketDetails {
-  /// The S3 bucket from which the disk image was created.
+  /// The Amazon S3 bucket from which the disk image was created.
   final String s3Bucket;
 
   /// The file name of the disk image.
@@ -39825,12 +44621,11 @@ class VCpuInfo {
   /// The default number of vCPUs for the instance type.
   final int defaultVCpus;
 
-  /// List of the valid number of cores that can be configured for the instance
-  /// type.
+  /// The valid number of cores that can be configured for the instance type.
   final List<int> validCores;
 
-  /// List of the valid number of threads per core that can be configured for the
-  /// instance type.
+  /// The valid number of threads per core that can be configured for the instance
+  /// type.
   final List<int> validThreadsPerCore;
 
   VCpuInfo({
@@ -39839,6 +44634,40 @@ class VCpuInfo {
     this.defaultVCpus,
     this.validCores,
     this.validThreadsPerCore,
+  });
+}
+
+/// The error code and error message that is returned for a parameter or
+/// parameter combination that is not valid when a new launch template or new
+/// version of a launch template is created.
+class ValidationError {
+  /// The error code that indicates why the parameter or parameter combination is
+  /// not valid. For more information about error codes, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/errors-overview.html.html">Error
+  /// Codes</a>.
+  final String code;
+
+  /// The error message that describes why the parameter or parameter combination
+  /// is not valid. For more information about error messages, see <a
+  /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/errors-overview.html.html">Error
+  /// Codes</a>.
+  final String message;
+
+  ValidationError({
+    this.code,
+    this.message,
+  });
+}
+
+/// The error codes and error messages that are returned for the parameters or
+/// parameter combinations that are not valid when a new launch template or new
+/// version of a launch template is created.
+class ValidationWarning {
+  /// The error codes and error messages.
+  final List<ValidationError> errors;
+
+  ValidationWarning({
+    this.errors,
   });
 }
 
@@ -39895,25 +44724,11 @@ class Volume {
   /// Indicates whether the volume was created using fast snapshot restore.
   final bool fastRestored;
 
-  /// The number of I/O operations per second (IOPS) that the volume supports. For
-  /// Provisioned IOPS SSD volumes, this represents the number of IOPS that are
-  /// provisioned for the volume. For General Purpose SSD volumes, this represents
-  /// the baseline performance of the volume and the rate at which the volume
-  /// accumulates I/O credits for bursting. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSVolumeTypes.html">Amazon
-  /// EBS Volume Types</a> in the <i>Amazon Elastic Compute Cloud User Guide</i>.
-  ///
-  /// Constraints: Range is 100-16,000 IOPS for <code>gp2</code> volumes and 100
-  /// to 64,000IOPS for <code>io1</code> volumes, in most Regions. The maximum
-  /// IOPS for <code>io1</code> of 64,000 is guaranteed only on <a
-  /// href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html#ec2-nitro-instances">Nitro-based
-  /// instances</a>. Other instance families guarantee performance up to 32,000
-  /// IOPS.
-  ///
-  /// Condition: This parameter is required for requests to create
-  /// <code>io1</code> volumes; it is not used in requests to create
-  /// <code>gp2</code>, <code>st1</code>, <code>sc1</code>, or
-  /// <code>standard</code> volumes.
+  /// The number of I/O operations per second (IOPS). For <code>gp3</code>,
+  /// <code>io1</code>, and <code>io2</code> volumes, this represents the number
+  /// of IOPS that are provisioned for the volume. For <code>gp2</code> volumes,
+  /// this represents the baseline performance of the volume and the rate at which
+  /// the volume accumulates I/O credits for bursting.
   final int iops;
 
   /// The Amazon Resource Name (ARN) of the AWS Key Management Service (AWS KMS)
@@ -39939,13 +44754,13 @@ class Volume {
   /// Any tags assigned to the volume.
   final List<Tag> tags;
 
+  /// The throughput that the volume supports, in MiB/s.
+  final int throughput;
+
   /// The ID of the volume.
   final String volumeId;
 
-  /// The volume type. This can be <code>gp2</code> for General Purpose SSD,
-  /// <code>io1</code> for Provisioned IOPS SSD, <code>st1</code> for Throughput
-  /// Optimized HDD, <code>sc1</code> for Cold HDD, or <code>standard</code> for
-  /// Magnetic volumes.
+  /// The volume type.
   final VolumeType volumeType;
 
   Volume({
@@ -39962,6 +44777,7 @@ class Volume {
     this.snapshotId,
     this.state,
     this.tags,
+    this.throughput,
     this.volumeId,
     this.volumeType,
   });
@@ -40034,8 +44850,14 @@ class VolumeModification {
   /// The original IOPS rate of the volume.
   final int originalIops;
 
-  /// The original size of the volume.
+  /// The original setting for Amazon EBS Multi-Attach.
+  final bool originalMultiAttachEnabled;
+
+  /// The original size of the volume, in GiB.
   final int originalSize;
+
+  /// The original throughput of the volume, in MiB/s.
+  final int originalThroughput;
 
   /// The original EBS volume type of the volume.
   final VolumeType originalVolumeType;
@@ -40052,8 +44874,14 @@ class VolumeModification {
   /// The target IOPS rate of the volume.
   final int targetIops;
 
+  /// The target setting for Amazon EBS Multi-Attach.
+  final bool targetMultiAttachEnabled;
+
   /// The target size of the volume, in GiB.
   final int targetSize;
+
+  /// The target throughput of the volume, in MiB/s.
+  final int targetThroughput;
 
   /// The target EBS volume type of the volume.
   final VolumeType targetVolumeType;
@@ -40065,13 +44893,17 @@ class VolumeModification {
     this.endTime,
     this.modificationState,
     this.originalIops,
+    this.originalMultiAttachEnabled,
     this.originalSize,
+    this.originalThroughput,
     this.originalVolumeType,
     this.progress,
     this.startTime,
     this.statusMessage,
     this.targetIops,
+    this.targetMultiAttachEnabled,
     this.targetSize,
+    this.targetThroughput,
     this.targetVolumeType,
     this.volumeId,
   });
@@ -40236,9 +45068,11 @@ enum VolumeStatusName {
 enum VolumeType {
   standard,
   io1,
+  io2,
   gp2,
   sc1,
   st1,
+  gp3,
 }
 
 /// Describes a VPC.
@@ -40249,8 +45083,7 @@ class Vpc {
   /// Information about the IPv4 CIDR blocks associated with the VPC.
   final List<VpcCidrBlockAssociation> cidrBlockAssociationSet;
 
-  /// The ID of the set of DHCP options you've associated with the VPC (or
-  /// <code>default</code> if the default options are associated with the VPC).
+  /// The ID of the set of DHCP options you've associated with the VPC.
   final String dhcpOptionsId;
 
   /// The allowed tenancy of instances launched into the VPC.
@@ -40450,6 +45283,10 @@ class VpcEndpointConnection {
   /// The DNS entries for the VPC endpoint.
   final List<DnsEntry> dnsEntries;
 
+  /// The Amazon Resource Names (ARNs) of the Gateway Load Balancers for the
+  /// service.
+  final List<String> gatewayLoadBalancerArns;
+
   /// The Amazon Resource Names (ARNs) of the network load balancers for the
   /// service.
   final List<String> networkLoadBalancerArns;
@@ -40469,6 +45306,7 @@ class VpcEndpointConnection {
   VpcEndpointConnection({
     this.creationTimestamp,
     this.dnsEntries,
+    this.gatewayLoadBalancerArns,
     this.networkLoadBalancerArns,
     this.serviceId,
     this.vpcEndpointId,
@@ -40480,6 +45318,7 @@ class VpcEndpointConnection {
 enum VpcEndpointType {
   interface,
   gateway,
+  gatewayLoadBalancer,
 }
 
 /// Describes an IPv6 CIDR block associated with a VPC.
@@ -40496,7 +45335,9 @@ class VpcIpv6CidrBlockAssociation {
   /// The ID of the IPv6 address pool from which the IPv6 CIDR block is allocated.
   final String ipv6Pool;
 
-  /// The name of the location from which we advertise the IPV6 CIDR block.
+  /// The name of the unique set of Availability Zones, Local Zones, or Wavelength
+  /// Zones from which AWS advertises IP addresses, for example,
+  /// <code>us-east-1-wl1-bos-wlz-1</code>.
   final String networkBorderGroup;
 
   VpcIpv6CidrBlockAssociation({
@@ -40696,16 +45537,38 @@ class VpnConnectionOptions {
   /// Indicates whether acceleration is enabled for the VPN connection.
   final bool enableAcceleration;
 
+  /// The IPv4 CIDR on the customer gateway (on-premises) side of the VPN
+  /// connection.
+  final String localIpv4NetworkCidr;
+
+  /// The IPv6 CIDR on the customer gateway (on-premises) side of the VPN
+  /// connection.
+  final String localIpv6NetworkCidr;
+
+  /// The IPv4 CIDR on the AWS side of the VPN connection.
+  final String remoteIpv4NetworkCidr;
+
+  /// The IPv6 CIDR on the AWS side of the VPN connection.
+  final String remoteIpv6NetworkCidr;
+
   /// Indicates whether the VPN connection uses static routes only. Static routes
   /// must be used for devices that don't support BGP.
   final bool staticRoutesOnly;
+
+  /// Indicates whether the VPN tunnels process IPv4 or IPv6 traffic.
+  final TunnelInsideIpVersion tunnelInsideIpVersion;
 
   /// Indicates the VPN tunnel options.
   final List<TunnelOption> tunnelOptions;
 
   VpnConnectionOptions({
     this.enableAcceleration,
+    this.localIpv4NetworkCidr,
+    this.localIpv6NetworkCidr,
+    this.remoteIpv4NetworkCidr,
+    this.remoteIpv6NetworkCidr,
     this.staticRoutesOnly,
+    this.tunnelInsideIpVersion,
     this.tunnelOptions,
   });
 }
@@ -40717,6 +45580,28 @@ class VpnConnectionOptionsSpecification {
   /// Default: <code>false</code>
   final bool enableAcceleration;
 
+  /// The IPv4 CIDR on the customer gateway (on-premises) side of the VPN
+  /// connection.
+  ///
+  /// Default: <code>0.0.0.0/0</code>
+  final String localIpv4NetworkCidr;
+
+  /// The IPv6 CIDR on the customer gateway (on-premises) side of the VPN
+  /// connection.
+  ///
+  /// Default: <code>::/0</code>
+  final String localIpv6NetworkCidr;
+
+  /// The IPv4 CIDR on the AWS side of the VPN connection.
+  ///
+  /// Default: <code>0.0.0.0/0</code>
+  final String remoteIpv4NetworkCidr;
+
+  /// The IPv6 CIDR on the AWS side of the VPN connection.
+  ///
+  /// Default: <code>::/0</code>
+  final String remoteIpv6NetworkCidr;
+
   /// Indicate whether the VPN connection uses static routes only. If you are
   /// creating a VPN connection for a device that does not support BGP, you must
   /// specify <code>true</code>. Use <a>CreateVpnConnectionRoute</a> to create a
@@ -40725,12 +45610,22 @@ class VpnConnectionOptionsSpecification {
   /// Default: <code>false</code>
   final bool staticRoutesOnly;
 
+  /// Indicate whether the VPN tunnels process IPv4 or IPv6 traffic.
+  ///
+  /// Default: <code>ipv4</code>
+  final TunnelInsideIpVersion tunnelInsideIpVersion;
+
   /// The tunnel options for the VPN connection.
   final List<VpnTunnelOptionsSpecification> tunnelOptions;
 
   VpnConnectionOptionsSpecification({
     this.enableAcceleration,
+    this.localIpv4NetworkCidr,
+    this.localIpv6NetworkCidr,
+    this.remoteIpv4NetworkCidr,
+    this.remoteIpv6NetworkCidr,
     this.staticRoutesOnly,
+    this.tunnelInsideIpVersion,
     this.tunnelOptions,
   });
 }
@@ -40811,6 +45706,15 @@ enum VpnStaticRouteSource {
 
 /// The tunnel options for a single VPN tunnel.
 class VpnTunnelOptionsSpecification {
+  /// The action to take after DPD timeout occurs. Specify <code>restart</code> to
+  /// restart the IKE initiation. Specify <code>clear</code> to end the IKE
+  /// session.
+  ///
+  /// Valid Values: <code>clear</code> | <code>none</code> | <code>restart</code>
+  ///
+  /// Default: <code>clear</code>
+  final String dPDTimeoutAction;
+
   /// The number of seconds after which a DPD timeout occurs.
   ///
   /// Constraints: A value between 0 and 30.
@@ -40827,21 +45731,24 @@ class VpnTunnelOptionsSpecification {
   /// tunnel for phase 1 IKE negotiations.
   ///
   /// Valid values: <code>2</code> | <code>14</code> | <code>15</code> |
-  /// <code>16</code> | <code>17</code> | <code>18</code> | <code>22</code> |
-  /// <code>23</code> | <code>24</code>
+  /// <code>16</code> | <code>17</code> | <code>18</code> | <code>19</code> |
+  /// <code>20</code> | <code>21</code> | <code>22</code> | <code>23</code> |
+  /// <code>24</code>
   final List<Phase1DHGroupNumbersRequestListValue> phase1DHGroupNumbers;
 
   /// One or more encryption algorithms that are permitted for the VPN tunnel for
   /// phase 1 IKE negotiations.
   ///
-  /// Valid values: <code>AES128</code> | <code>AES256</code>
+  /// Valid values: <code>AES128</code> | <code>AES256</code> |
+  /// <code>AES128-GCM-16</code> | <code>AES256-GCM-16</code>
   final List<Phase1EncryptionAlgorithmsRequestListValue>
       phase1EncryptionAlgorithms;
 
   /// One or more integrity algorithms that are permitted for the VPN tunnel for
   /// phase 1 IKE negotiations.
   ///
-  /// Valid values: <code>SHA1</code> | <code>SHA2-256</code>
+  /// Valid values: <code>SHA1</code> | <code>SHA2-256</code> |
+  /// <code>SHA2-384</code> | <code>SHA2-512</code>
   final List<Phase1IntegrityAlgorithmsRequestListValue>
       phase1IntegrityAlgorithms;
 
@@ -40857,20 +45764,23 @@ class VpnTunnelOptionsSpecification {
   ///
   /// Valid values: <code>2</code> | <code>5</code> | <code>14</code> |
   /// <code>15</code> | <code>16</code> | <code>17</code> | <code>18</code> |
-  /// <code>22</code> | <code>23</code> | <code>24</code>
+  /// <code>19</code> | <code>20</code> | <code>21</code> | <code>22</code> |
+  /// <code>23</code> | <code>24</code>
   final List<Phase2DHGroupNumbersRequestListValue> phase2DHGroupNumbers;
 
   /// One or more encryption algorithms that are permitted for the VPN tunnel for
   /// phase 2 IKE negotiations.
   ///
-  /// Valid values: <code>AES128</code> | <code>AES256</code>
+  /// Valid values: <code>AES128</code> | <code>AES256</code> |
+  /// <code>AES128-GCM-16</code> | <code>AES256-GCM-16</code>
   final List<Phase2EncryptionAlgorithmsRequestListValue>
       phase2EncryptionAlgorithms;
 
   /// One or more integrity algorithms that are permitted for the VPN tunnel for
   /// phase 2 IKE negotiations.
   ///
-  /// Valid values: <code>SHA1</code> | <code>SHA2-256</code>
+  /// Valid values: <code>SHA1</code> | <code>SHA2-256</code> |
+  /// <code>SHA2-384</code> | <code>SHA2-512</code>
   final List<Phase2IntegrityAlgorithmsRequestListValue>
       phase2IntegrityAlgorithms;
 
@@ -40917,7 +45827,17 @@ class VpnTunnelOptionsSpecification {
   /// Default: <code>1024</code>
   final int replayWindowSize;
 
-  /// The range of inside IP addresses for the tunnel. Any specified CIDR blocks
+  /// The action to take when the establishing the tunnel for the VPN connection.
+  /// By default, your customer gateway device must initiate the IKE negotiation
+  /// and bring up the tunnel. Specify <code>start</code> for AWS to initiate the
+  /// IKE negotiation.
+  ///
+  /// Valid Values: <code>add</code> | <code>start</code>
+  ///
+  /// Default: <code>add</code>
+  final String startupAction;
+
+  /// The range of inside IPv4 addresses for the tunnel. Any specified CIDR blocks
   /// must be unique across all VPN connections that use the same virtual private
   /// gateway.
   ///
@@ -40949,7 +45869,15 @@ class VpnTunnelOptionsSpecification {
   /// </ul>
   final String tunnelInsideCidr;
 
+  /// The range of inside IPv6 addresses for the tunnel. Any specified CIDR blocks
+  /// must be unique across all VPN connections that use the same transit gateway.
+  ///
+  /// Constraints: A size /126 CIDR block from the local <code>fd00::/8</code>
+  /// range.
+  final String tunnelInsideIpv6Cidr;
+
   VpnTunnelOptionsSpecification({
+    this.dPDTimeoutAction,
     this.dPDTimeoutSeconds,
     this.iKEVersions,
     this.phase1DHGroupNumbers,
@@ -40964,7 +45892,9 @@ class VpnTunnelOptionsSpecification {
     this.rekeyFuzzPercentage,
     this.rekeyMarginTimeSeconds,
     this.replayWindowSize,
+    this.startupAction,
     this.tunnelInsideCidr,
+    this.tunnelInsideIpv6Cidr,
   });
 }
 

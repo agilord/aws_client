@@ -11,9 +11,13 @@ AppSummary _$AppSummaryFromJson(Map<String, dynamic> json) {
     appId: json['appId'] as String,
     creationTime: const UnixDateTimeConverter().fromJson(json['creationTime']),
     description: json['description'] as String,
+    importedAppId: json['importedAppId'] as String,
     lastModified: const UnixDateTimeConverter().fromJson(json['lastModified']),
     latestReplicationTime:
         const UnixDateTimeConverter().fromJson(json['latestReplicationTime']),
+    launchConfigurationStatus: _$enumDecodeNullable(
+        _$AppLaunchConfigurationStatusEnumMap,
+        json['launchConfigurationStatus']),
     launchDetails: json['launchDetails'] == null
         ? null
         : LaunchDetails.fromJson(json['launchDetails'] as Map<String, dynamic>),
@@ -21,6 +25,9 @@ AppSummary _$AppSummaryFromJson(Map<String, dynamic> json) {
         _$enumDecodeNullable(_$AppLaunchStatusEnumMap, json['launchStatus']),
     launchStatusMessage: json['launchStatusMessage'] as String,
     name: json['name'] as String,
+    replicationConfigurationStatus: _$enumDecodeNullable(
+        _$AppReplicationConfigurationStatusEnumMap,
+        json['replicationConfigurationStatus']),
     replicationStatus: _$enumDecodeNullable(
         _$AppReplicationStatusEnumMap, json['replicationStatus']),
     replicationStatusMessage: json['replicationStatusMessage'] as String,
@@ -64,6 +71,11 @@ T _$enumDecodeNullable<T>(
   return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
 }
 
+const _$AppLaunchConfigurationStatusEnumMap = {
+  AppLaunchConfigurationStatus.notConfigured: 'NOT_CONFIGURED',
+  AppLaunchConfigurationStatus.configured: 'CONFIGURED',
+};
+
 const _$AppLaunchStatusEnumMap = {
   AppLaunchStatus.readyForConfiguration: 'READY_FOR_CONFIGURATION',
   AppLaunchStatus.configurationInProgress: 'CONFIGURATION_IN_PROGRESS',
@@ -73,12 +85,18 @@ const _$AppLaunchStatusEnumMap = {
   AppLaunchStatus.launchPending: 'LAUNCH_PENDING',
   AppLaunchStatus.launchInProgress: 'LAUNCH_IN_PROGRESS',
   AppLaunchStatus.launched: 'LAUNCHED',
+  AppLaunchStatus.partiallyLaunched: 'PARTIALLY_LAUNCHED',
   AppLaunchStatus.deltaLaunchInProgress: 'DELTA_LAUNCH_IN_PROGRESS',
   AppLaunchStatus.deltaLaunchFailed: 'DELTA_LAUNCH_FAILED',
   AppLaunchStatus.launchFailed: 'LAUNCH_FAILED',
   AppLaunchStatus.terminateInProgress: 'TERMINATE_IN_PROGRESS',
   AppLaunchStatus.terminateFailed: 'TERMINATE_FAILED',
   AppLaunchStatus.terminated: 'TERMINATED',
+};
+
+const _$AppReplicationConfigurationStatusEnumMap = {
+  AppReplicationConfigurationStatus.notConfigured: 'NOT_CONFIGURED',
+  AppReplicationConfigurationStatus.configured: 'CONFIGURED',
 };
 
 const _$AppReplicationStatusEnumMap = {
@@ -90,6 +108,7 @@ const _$AppReplicationStatusEnumMap = {
   AppReplicationStatus.replicationPending: 'REPLICATION_PENDING',
   AppReplicationStatus.replicationInProgress: 'REPLICATION_IN_PROGRESS',
   AppReplicationStatus.replicated: 'REPLICATED',
+  AppReplicationStatus.partiallyReplicated: 'PARTIALLY_REPLICATED',
   AppReplicationStatus.deltaReplicationInProgress:
       'DELTA_REPLICATION_IN_PROGRESS',
   AppReplicationStatus.deltaReplicated: 'DELTA_REPLICATED',
@@ -108,6 +127,51 @@ const _$AppStatusEnumMap = {
   AppStatus.deleted: 'DELETED',
   AppStatus.deleteFailed: 'DELETE_FAILED',
 };
+
+AppValidationConfiguration _$AppValidationConfigurationFromJson(
+    Map<String, dynamic> json) {
+  return AppValidationConfiguration(
+    appValidationStrategy: _$enumDecodeNullable(
+        _$AppValidationStrategyEnumMap, json['appValidationStrategy']),
+    name: json['name'] as String,
+    ssmValidationParameters: json['ssmValidationParameters'] == null
+        ? null
+        : SSMValidationParameters.fromJson(
+            json['ssmValidationParameters'] as Map<String, dynamic>),
+    validationId: json['validationId'] as String,
+  );
+}
+
+Map<String, dynamic> _$AppValidationConfigurationToJson(
+    AppValidationConfiguration instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('appValidationStrategy',
+      _$AppValidationStrategyEnumMap[instance.appValidationStrategy]);
+  writeNotNull('name', instance.name);
+  writeNotNull(
+      'ssmValidationParameters', instance.ssmValidationParameters?.toJson());
+  writeNotNull('validationId', instance.validationId);
+  return val;
+}
+
+const _$AppValidationStrategyEnumMap = {
+  AppValidationStrategy.ssm: 'SSM',
+};
+
+AppValidationOutput _$AppValidationOutputFromJson(Map<String, dynamic> json) {
+  return AppValidationOutput(
+    ssmOutput: json['ssmOutput'] == null
+        ? null
+        : SSMOutput.fromJson(json['ssmOutput'] as Map<String, dynamic>),
+  );
+}
 
 Connector _$ConnectorFromJson(Map<String, dynamic> json) {
   return Connector(
@@ -132,6 +196,7 @@ const _$ConnectorCapabilityEnumMap = {
   ConnectorCapability.scvmm: 'SCVMM',
   ConnectorCapability.hypervManager: 'HYPERV-MANAGER',
   ConnectorCapability.snapshotBatching: 'SNAPSHOT_BATCHING',
+  ConnectorCapability.smsOptimized: 'SMS_OPTIMIZED',
 };
 
 const _$ConnectorStatusEnumMap = {
@@ -182,6 +247,12 @@ DeleteAppResponse _$DeleteAppResponseFromJson(Map<String, dynamic> json) {
   return DeleteAppResponse();
 }
 
+DeleteAppValidationConfigurationResponse
+    _$DeleteAppValidationConfigurationResponseFromJson(
+        Map<String, dynamic> json) {
+  return DeleteAppValidationConfigurationResponse();
+}
+
 DeleteReplicationJobResponse _$DeleteReplicationJobResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteReplicationJobResponse();
@@ -219,6 +290,7 @@ GetAppLaunchConfigurationResponse _$GetAppLaunchConfigurationResponseFromJson(
     Map<String, dynamic> json) {
   return GetAppLaunchConfigurationResponse(
     appId: json['appId'] as String,
+    autoLaunch: json['autoLaunch'] as bool,
     roleName: json['roleName'] as String,
     serverGroupLaunchConfigurations:
         (json['serverGroupLaunchConfigurations'] as List)
@@ -255,6 +327,35 @@ GetAppResponse _$GetAppResponseFromJson(Map<String, dynamic> json) {
         ?.toList(),
     tags: (json['tags'] as List)
         ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+GetAppValidationConfigurationResponse
+    _$GetAppValidationConfigurationResponseFromJson(Map<String, dynamic> json) {
+  return GetAppValidationConfigurationResponse(
+    appValidationConfigurations: (json['appValidationConfigurations'] as List)
+        ?.map((e) => e == null
+            ? null
+            : AppValidationConfiguration.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    serverGroupValidationConfigurations:
+        (json['serverGroupValidationConfigurations'] as List)
+            ?.map((e) => e == null
+                ? null
+                : ServerGroupValidationConfiguration.fromJson(
+                    e as Map<String, dynamic>))
+            ?.toList(),
+  );
+}
+
+GetAppValidationOutputResponse _$GetAppValidationOutputResponseFromJson(
+    Map<String, dynamic> json) {
+  return GetAppValidationOutputResponse(
+    validationOutputList: (json['validationOutputList'] as List)
+        ?.map((e) => e == null
+            ? null
+            : ValidationOutput.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
 }
@@ -320,6 +421,11 @@ const _$ServerCatalogStatusEnumMap = {
   ServerCatalogStatus.expired: 'EXPIRED',
 };
 
+ImportAppCatalogResponse _$ImportAppCatalogResponseFromJson(
+    Map<String, dynamic> json) {
+  return ImportAppCatalogResponse();
+}
+
 ImportServerCatalogResponse _$ImportServerCatalogResponseFromJson(
     Map<String, dynamic> json) {
   return ImportServerCatalogResponse();
@@ -348,6 +454,34 @@ ListAppsResponse _$ListAppsResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$NotificationContextToJson(NotificationContext instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('status', _$ValidationStatusEnumMap[instance.status]);
+  writeNotNull('statusMessage', instance.statusMessage);
+  writeNotNull('validationId', instance.validationId);
+  return val;
+}
+
+const _$ValidationStatusEnumMap = {
+  ValidationStatus.readyForValidation: 'READY_FOR_VALIDATION',
+  ValidationStatus.pending: 'PENDING',
+  ValidationStatus.inProgress: 'IN_PROGRESS',
+  ValidationStatus.succeeded: 'SUCCEEDED',
+  ValidationStatus.failed: 'FAILED',
+};
+
+NotifyAppValidationOutputResponse _$NotifyAppValidationOutputResponseFromJson(
+    Map<String, dynamic> json) {
+  return NotifyAppValidationOutputResponse();
+}
+
 PutAppLaunchConfigurationResponse _$PutAppLaunchConfigurationResponseFromJson(
     Map<String, dynamic> json) {
   return PutAppLaunchConfigurationResponse();
@@ -357,6 +491,11 @@ PutAppReplicationConfigurationResponse
     _$PutAppReplicationConfigurationResponseFromJson(
         Map<String, dynamic> json) {
   return PutAppReplicationConfigurationResponse();
+}
+
+PutAppValidationConfigurationResponse
+    _$PutAppValidationConfigurationResponseFromJson(Map<String, dynamic> json) {
+  return PutAppValidationConfigurationResponse();
 }
 
 ReplicationJob _$ReplicationJobFromJson(Map<String, dynamic> json) {
@@ -475,6 +614,52 @@ Map<String, dynamic> _$S3LocationToJson(S3Location instance) {
   writeNotNull('key', instance.key);
   return val;
 }
+
+SSMOutput _$SSMOutputFromJson(Map<String, dynamic> json) {
+  return SSMOutput(
+    s3Location: json['s3Location'] == null
+        ? null
+        : S3Location.fromJson(json['s3Location'] as Map<String, dynamic>),
+  );
+}
+
+SSMValidationParameters _$SSMValidationParametersFromJson(
+    Map<String, dynamic> json) {
+  return SSMValidationParameters(
+    command: json['command'] as String,
+    executionTimeoutSeconds: json['executionTimeoutSeconds'] as int,
+    instanceId: json['instanceId'] as String,
+    outputS3BucketName: json['outputS3BucketName'] as String,
+    scriptType: _$enumDecodeNullable(_$ScriptTypeEnumMap, json['scriptType']),
+    source: json['source'] == null
+        ? null
+        : Source.fromJson(json['source'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$SSMValidationParametersToJson(
+    SSMValidationParameters instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('command', instance.command);
+  writeNotNull('executionTimeoutSeconds', instance.executionTimeoutSeconds);
+  writeNotNull('instanceId', instance.instanceId);
+  writeNotNull('outputS3BucketName', instance.outputS3BucketName);
+  writeNotNull('scriptType', _$ScriptTypeEnumMap[instance.scriptType]);
+  writeNotNull('source', instance.source?.toJson());
+  return val;
+}
+
+const _$ScriptTypeEnumMap = {
+  ScriptType.shellScript: 'SHELL_SCRIPT',
+  ScriptType.powershellScript: 'POWERSHELL_SCRIPT',
+};
 
 Server _$ServerFromJson(Map<String, dynamic> json) {
   return Server(
@@ -595,11 +780,49 @@ Map<String, dynamic> _$ServerGroupReplicationConfigurationToJson(
   return val;
 }
 
+ServerGroupValidationConfiguration _$ServerGroupValidationConfigurationFromJson(
+    Map<String, dynamic> json) {
+  return ServerGroupValidationConfiguration(
+    serverGroupId: json['serverGroupId'] as String,
+    serverValidationConfigurations: (json['serverValidationConfigurations']
+            as List)
+        ?.map((e) => e == null
+            ? null
+            : ServerValidationConfiguration.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+Map<String, dynamic> _$ServerGroupValidationConfigurationToJson(
+    ServerGroupValidationConfiguration instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('serverGroupId', instance.serverGroupId);
+  writeNotNull(
+      'serverValidationConfigurations',
+      instance.serverValidationConfigurations
+          ?.map((e) => e?.toJson())
+          ?.toList());
+  return val;
+}
+
 ServerLaunchConfiguration _$ServerLaunchConfigurationFromJson(
     Map<String, dynamic> json) {
   return ServerLaunchConfiguration(
     associatePublicIpAddress: json['associatePublicIpAddress'] as bool,
+    configureScript: json['configureScript'] == null
+        ? null
+        : S3Location.fromJson(json['configureScript'] as Map<String, dynamic>),
+    configureScriptType:
+        _$enumDecodeNullable(_$ScriptTypeEnumMap, json['configureScriptType']),
     ec2KeyName: json['ec2KeyName'] as String,
+    iamInstanceProfileName: json['iamInstanceProfileName'] as String,
     instanceType: json['instanceType'] as String,
     logicalId: json['logicalId'] as String,
     securityGroup: json['securityGroup'] as String,
@@ -625,7 +848,11 @@ Map<String, dynamic> _$ServerLaunchConfigurationToJson(
   }
 
   writeNotNull('associatePublicIpAddress', instance.associatePublicIpAddress);
+  writeNotNull('configureScript', instance.configureScript?.toJson());
+  writeNotNull(
+      'configureScriptType', _$ScriptTypeEnumMap[instance.configureScriptType]);
   writeNotNull('ec2KeyName', instance.ec2KeyName);
+  writeNotNull('iamInstanceProfileName', instance.iamInstanceProfileName);
   writeNotNull('instanceType', instance.instanceType);
   writeNotNull('logicalId', instance.logicalId);
   writeNotNull('securityGroup', instance.securityGroup);
@@ -700,9 +927,85 @@ Map<String, dynamic> _$ServerReplicationParametersToJson(
   return val;
 }
 
+ServerValidationConfiguration _$ServerValidationConfigurationFromJson(
+    Map<String, dynamic> json) {
+  return ServerValidationConfiguration(
+    name: json['name'] as String,
+    server: json['server'] == null
+        ? null
+        : Server.fromJson(json['server'] as Map<String, dynamic>),
+    serverValidationStrategy: _$enumDecodeNullable(
+        _$ServerValidationStrategyEnumMap, json['serverValidationStrategy']),
+    userDataValidationParameters: json['userDataValidationParameters'] == null
+        ? null
+        : UserDataValidationParameters.fromJson(
+            json['userDataValidationParameters'] as Map<String, dynamic>),
+    validationId: json['validationId'] as String,
+  );
+}
+
+Map<String, dynamic> _$ServerValidationConfigurationToJson(
+    ServerValidationConfiguration instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('name', instance.name);
+  writeNotNull('server', instance.server?.toJson());
+  writeNotNull('serverValidationStrategy',
+      _$ServerValidationStrategyEnumMap[instance.serverValidationStrategy]);
+  writeNotNull('userDataValidationParameters',
+      instance.userDataValidationParameters?.toJson());
+  writeNotNull('validationId', instance.validationId);
+  return val;
+}
+
+const _$ServerValidationStrategyEnumMap = {
+  ServerValidationStrategy.userdata: 'USERDATA',
+};
+
+ServerValidationOutput _$ServerValidationOutputFromJson(
+    Map<String, dynamic> json) {
+  return ServerValidationOutput(
+    server: json['server'] == null
+        ? null
+        : Server.fromJson(json['server'] as Map<String, dynamic>),
+  );
+}
+
+Source _$SourceFromJson(Map<String, dynamic> json) {
+  return Source(
+    s3Location: json['s3Location'] == null
+        ? null
+        : S3Location.fromJson(json['s3Location'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$SourceToJson(Source instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('s3Location', instance.s3Location?.toJson());
+  return val;
+}
+
 StartAppReplicationResponse _$StartAppReplicationResponseFromJson(
     Map<String, dynamic> json) {
   return StartAppReplicationResponse();
+}
+
+StartOnDemandAppReplicationResponse
+    _$StartOnDemandAppReplicationResponseFromJson(Map<String, dynamic> json) {
+  return StartOnDemandAppReplicationResponse();
 }
 
 StartOnDemandReplicationRunResponse
@@ -781,6 +1084,50 @@ Map<String, dynamic> _$UserDataToJson(UserData instance) {
 
   writeNotNull('s3Location', instance.s3Location?.toJson());
   return val;
+}
+
+UserDataValidationParameters _$UserDataValidationParametersFromJson(
+    Map<String, dynamic> json) {
+  return UserDataValidationParameters(
+    scriptType: _$enumDecodeNullable(_$ScriptTypeEnumMap, json['scriptType']),
+    source: json['source'] == null
+        ? null
+        : Source.fromJson(json['source'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$UserDataValidationParametersToJson(
+    UserDataValidationParameters instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('scriptType', _$ScriptTypeEnumMap[instance.scriptType]);
+  writeNotNull('source', instance.source?.toJson());
+  return val;
+}
+
+ValidationOutput _$ValidationOutputFromJson(Map<String, dynamic> json) {
+  return ValidationOutput(
+    appValidationOutput: json['appValidationOutput'] == null
+        ? null
+        : AppValidationOutput.fromJson(
+            json['appValidationOutput'] as Map<String, dynamic>),
+    latestValidationTime:
+        const UnixDateTimeConverter().fromJson(json['latestValidationTime']),
+    name: json['name'] as String,
+    serverValidationOutput: json['serverValidationOutput'] == null
+        ? null
+        : ServerValidationOutput.fromJson(
+            json['serverValidationOutput'] as Map<String, dynamic>),
+    status: _$enumDecodeNullable(_$ValidationStatusEnumMap, json['status']),
+    statusMessage: json['statusMessage'] as String,
+    validationId: json['validationId'] as String,
+  );
 }
 
 VmServer _$VmServerFromJson(Map<String, dynamic> json) {

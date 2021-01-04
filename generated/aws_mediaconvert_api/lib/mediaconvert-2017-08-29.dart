@@ -113,7 +113,7 @@ class MediaConvert {
   /// Parameter [role] :
   /// Required. The IAM role you use for creating this job. For details about
   /// permissions, see the User Guide topic at the User Guide at
-  /// http://docs.aws.amazon.com/mediaconvert/latest/ug/iam-role.html.
+  /// https://docs.aws.amazon.com/mediaconvert/latest/ug/iam-role.html.
   ///
   /// Parameter [settings] :
   /// JobSettings contains all the transcode settings for a job.
@@ -157,7 +157,7 @@ class MediaConvert {
   /// Optional. When you create a job, you can specify a queue to send it to. If
   /// you don't specify, the job will go to the default queue. For more about
   /// queues, see the User Guide topic at
-  /// http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html.
+  /// https://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html.
   ///
   /// Parameter [simulateReservedQueue] :
   /// Optional. Enable this setting when you run a test job to estimate how many
@@ -175,11 +175,15 @@ class MediaConvert {
   ///
   /// Parameter [tags] :
   /// Optional. The tags that you want to add to the resource. You can tag
-  /// resources with a key-value pair or with only a key.
+  /// resources with a key-value pair or with only a key.  Use standard AWS tags
+  /// on your job for automatic integration with AWS services and for custom
+  /// integrations and workflows.
   ///
   /// Parameter [userMetadata] :
   /// Optional. User-defined metadata that you want to associate with an
-  /// MediaConvert job. You specify metadata in key/value pairs.
+  /// MediaConvert job. You specify metadata in key/value pairs.  Use only for
+  /// existing integrations or workflows that rely on job metadata tags.
+  /// Otherwise, we recommend that you use standard AWS tags.
   Future<CreateJobResponse> createJob({
     @_s.required String role,
     @_s.required JobSettings settings,
@@ -1692,6 +1696,71 @@ class AssociateCertificateResponse {
       _$AssociateCertificateResponseFromJson(json);
 }
 
+/// You can add a tag for this mono-channel audio track to mimic its placement
+/// in a multi-channel layout.  For example, if this track is the left surround
+/// channel, choose Left surround (LS).
+enum AudioChannelTag {
+  @_s.JsonValue('L')
+  l,
+  @_s.JsonValue('R')
+  r,
+  @_s.JsonValue('C')
+  c,
+  @_s.JsonValue('LFE')
+  lfe,
+  @_s.JsonValue('LS')
+  ls,
+  @_s.JsonValue('RS')
+  rs,
+  @_s.JsonValue('LC')
+  lc,
+  @_s.JsonValue('RC')
+  rc,
+  @_s.JsonValue('CS')
+  cs,
+  @_s.JsonValue('LSD')
+  lsd,
+  @_s.JsonValue('RSD')
+  rsd,
+  @_s.JsonValue('TCS')
+  tcs,
+  @_s.JsonValue('VHL')
+  vhl,
+  @_s.JsonValue('VHC')
+  vhc,
+  @_s.JsonValue('VHR')
+  vhr,
+}
+
+/// When you mimic a multi-channel audio layout with multiple mono-channel
+/// tracks, you can tag each channel layout manually. For example, you would tag
+/// the tracks that contain your left, right, and center audio with Left (L),
+/// Right (R), and Center (C), respectively. When you don't specify a value,
+/// MediaConvert labels your track as Center (C) by default. To use audio layout
+/// tagging, your output must be in a QuickTime (.mov) container; your audio
+/// codec must be AAC, WAV, or AIFF; and you must set up your audio track to
+/// have only one channel.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AudioChannelTaggingSettings {
+  /// You can add a tag for this mono-channel audio track to mimic its placement
+  /// in a multi-channel layout.  For example, if this track is the left surround
+  /// channel, choose Left surround (LS).
+  @_s.JsonKey(name: 'channelTag')
+  final AudioChannelTag channelTag;
+
+  AudioChannelTaggingSettings({
+    this.channelTag,
+  });
+  factory AudioChannelTaggingSettings.fromJson(Map<String, dynamic> json) =>
+      _$AudioChannelTaggingSettingsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AudioChannelTaggingSettingsToJson(this);
+}
+
 /// Type of Audio codec.
 enum AudioCodec {
   @_s.JsonValue('AAC')
@@ -1710,6 +1779,10 @@ enum AudioCodec {
   eac3,
   @_s.JsonValue('EAC3_ATMOS')
   eac3Atmos,
+  @_s.JsonValue('VORBIS')
+  vorbis,
+  @_s.JsonValue('OPUS')
+  opus,
   @_s.JsonValue('PASSTHROUGH')
   passthrough,
 }
@@ -1720,7 +1793,8 @@ enum AudioCodec {
 /// codec enum that you choose, define the corresponding settings object. The
 /// following lists the codec enum, settings object pairs. * AAC, AacSettings *
 /// MP2, Mp2Settings * MP3, Mp3Settings * WAV, WavSettings * AIFF, AiffSettings
-/// * AC3, Ac3Settings * EAC3, Eac3Settings * EAC3_ATMOS, Eac3AtmosSettings
+/// * AC3, Ac3Settings * EAC3, Eac3Settings * EAC3_ATMOS, Eac3AtmosSettings *
+/// VORBIS, VorbisSettings * OPUS, OpusSettings
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -1771,6 +1845,16 @@ class AudioCodecSettings {
   @_s.JsonKey(name: 'mp3Settings')
   final Mp3Settings mp3Settings;
 
+  /// Required when you set Codec, under AudioDescriptions>CodecSettings, to the
+  /// value OPUS.
+  @_s.JsonKey(name: 'opusSettings')
+  final OpusSettings opusSettings;
+
+  /// Required when you set Codec, under AudioDescriptions>CodecSettings, to the
+  /// value Vorbis.
+  @_s.JsonKey(name: 'vorbisSettings')
+  final VorbisSettings vorbisSettings;
+
   /// Required when you set (Codec) under (AudioDescriptions)>(CodecSettings) to
   /// the value WAV.
   @_s.JsonKey(name: 'wavSettings')
@@ -1785,6 +1869,8 @@ class AudioCodecSettings {
     this.eac3Settings,
     this.mp2Settings,
     this.mp3Settings,
+    this.opusSettings,
+    this.vorbisSettings,
     this.wavSettings,
   });
   factory AudioCodecSettings.fromJson(Map<String, dynamic> json) =>
@@ -1811,6 +1897,17 @@ enum AudioDefaultSelection {
     createFactory: true,
     createToJson: true)
 class AudioDescription {
+  /// When you mimic a multi-channel audio layout with multiple mono-channel
+  /// tracks, you can tag each channel layout manually. For example, you would tag
+  /// the tracks that contain your left, right, and center audio with Left (L),
+  /// Right (R), and Center (C), respectively. When you don't specify a value,
+  /// MediaConvert labels your track as Center (C) by default. To use audio layout
+  /// tagging, your output must be in a QuickTime (.mov) container; your audio
+  /// codec must be AAC, WAV, or AIFF; and you must set up your audio track to
+  /// have only one channel.
+  @_s.JsonKey(name: 'audioChannelTaggingSettings')
+  final AudioChannelTaggingSettings audioChannelTaggingSettings;
+
   /// Advanced audio normalization settings. Ignore these settings unless you need
   /// to comply with a loudness standard.
   @_s.JsonKey(name: 'audioNormalizationSettings')
@@ -1851,7 +1948,8 @@ class AudioDescription {
   /// codec enum that you choose, define the corresponding settings object. The
   /// following lists the codec enum, settings object pairs. * AAC, AacSettings *
   /// MP2, Mp2Settings * MP3, Mp3Settings * WAV, WavSettings * AIFF, AiffSettings
-  /// * AC3, Ac3Settings * EAC3, Eac3Settings * EAC3_ATMOS, Eac3AtmosSettings
+  /// * AC3, Ac3Settings * EAC3, Eac3Settings * EAC3_ATMOS, Eac3AtmosSettings *
+  /// VORBIS, VorbisSettings * OPUS, OpusSettings
   @_s.JsonKey(name: 'codecSettings')
   final AudioCodecSettings codecSettings;
 
@@ -1898,6 +1996,7 @@ class AudioDescription {
   final String streamName;
 
   AudioDescription({
+    this.audioChannelTaggingSettings,
     this.audioNormalizationSettings,
     this.audioSourceName,
     this.audioType,
@@ -2170,8 +2269,78 @@ enum AudioTypeControl {
   useConfigured,
 }
 
-/// Adaptive quantization. Allows intra-frame quantizers to vary to improve
-/// visual quality.
+/// Use automated ABR to have MediaConvert set up the renditions in your ABR
+/// package for you automatically, based on characteristics of your input video.
+/// This feature optimizes video quality while minimizing the overall size of
+/// your ABR package.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AutomatedAbrSettings {
+  /// Optional. The maximum target bit rate used in your automated ABR stack. Use
+  /// this value to set an upper limit on the bandwidth consumed by the
+  /// highest-quality rendition. This is the rendition that is delivered to
+  /// viewers with the fastest internet connections. If you don't specify a value,
+  /// MediaConvert uses 8,000,000 (8 mb/s) by default.
+  @_s.JsonKey(name: 'maxAbrBitrate')
+  final int maxAbrBitrate;
+
+  /// Optional. The maximum number of renditions that MediaConvert will create in
+  /// your automated ABR stack. The number of renditions is determined
+  /// automatically, based on analysis of each job, but will never exceed this
+  /// limit. When you set this to Auto in the console, which is equivalent to
+  /// excluding it from your JSON job specification, MediaConvert defaults to a
+  /// limit of 15.
+  @_s.JsonKey(name: 'maxRenditions')
+  final int maxRenditions;
+
+  /// Optional. The minimum target bitrate used in your automated ABR stack. Use
+  /// this value to set a lower limit on the bitrate of video delivered to viewers
+  /// with slow internet connections. If you don't specify a value, MediaConvert
+  /// uses 600,000 (600 kb/s) by default.
+  @_s.JsonKey(name: 'minAbrBitrate')
+  final int minAbrBitrate;
+
+  AutomatedAbrSettings({
+    this.maxAbrBitrate,
+    this.maxRenditions,
+    this.minAbrBitrate,
+  });
+  factory AutomatedAbrSettings.fromJson(Map<String, dynamic> json) =>
+      _$AutomatedAbrSettingsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AutomatedAbrSettingsToJson(this);
+}
+
+/// Use automated encoding to have MediaConvert choose your encoding settings
+/// for you, based on characteristics of your input video.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AutomatedEncodingSettings {
+  /// Use automated ABR to have MediaConvert set up the renditions in your ABR
+  /// package for you automatically, based on characteristics of your input video.
+  /// This feature optimizes video quality while minimizing the overall size of
+  /// your ABR package.
+  @_s.JsonKey(name: 'abrSettings')
+  final AutomatedAbrSettings abrSettings;
+
+  AutomatedEncodingSettings({
+    this.abrSettings,
+  });
+  factory AutomatedEncodingSettings.fromJson(Map<String, dynamic> json) =>
+      _$AutomatedEncodingSettingsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AutomatedEncodingSettingsToJson(this);
+}
+
+/// Specify the strength of any adaptive quantization filters that you enable.
+/// The value that you choose here applies to Spatial adaptive quantization
+/// (spatialAdaptiveQuantization).
 enum Av1AdaptiveQuantization {
   @_s.JsonValue('OFF')
   off,
@@ -2206,13 +2375,24 @@ enum Av1FramerateControl {
   specified,
 }
 
-/// When set to INTERPOLATE, produces smoother motion during frame rate
-/// conversion.
+/// Choose the method that you want MediaConvert to use when increasing or
+/// decreasing the frame rate. We recommend using drop duplicate
+/// (DUPLICATE_DROP) for numerically simple conversions, such as 60 fps to 30
+/// fps. For numerically complex conversions, you can use interpolate
+/// (INTERPOLATE) to avoid stutter. This results in a smooth picture, but might
+/// introduce undesirable video artifacts. For complex frame rate conversions,
+/// especially if your source video has already been converted from its original
+/// cadence, use FrameFormer (FRAMEFORMER) to do motion-compensated
+/// interpolation. FrameFormer chooses the best conversion method frame by
+/// frame. Note that using FrameFormer increases the transcoding time and incurs
+/// a significant add-on cost.
 enum Av1FramerateConversionAlgorithm {
   @_s.JsonValue('DUPLICATE_DROP')
   duplicateDrop,
   @_s.JsonValue('INTERPOLATE')
   interpolate,
+  @_s.JsonValue('FRAMEFORMER')
+  frameformer,
 }
 
 /// Settings for quality-defined variable bitrate encoding with the AV1 codec.
@@ -2271,8 +2451,9 @@ enum Av1RateControlMode {
     createFactory: true,
     createToJson: true)
 class Av1Settings {
-  /// Adaptive quantization. Allows intra-frame quantizers to vary to improve
-  /// visual quality.
+  /// Specify the strength of any adaptive quantization filters that you enable.
+  /// The value that you choose here applies to Spatial adaptive quantization
+  /// (spatialAdaptiveQuantization).
   @_s.JsonKey(name: 'adaptiveQuantization')
   final Av1AdaptiveQuantization adaptiveQuantization;
 
@@ -2291,8 +2472,17 @@ class Av1Settings {
   @_s.JsonKey(name: 'framerateControl')
   final Av1FramerateControl framerateControl;
 
-  /// When set to INTERPOLATE, produces smoother motion during frame rate
-  /// conversion.
+  /// Choose the method that you want MediaConvert to use when increasing or
+  /// decreasing the frame rate. We recommend using drop duplicate
+  /// (DUPLICATE_DROP) for numerically simple conversions, such as 60 fps to 30
+  /// fps. For numerically complex conversions, you can use interpolate
+  /// (INTERPOLATE) to avoid stutter. This results in a smooth picture, but might
+  /// introduce undesirable video artifacts. For complex frame rate conversions,
+  /// especially if your source video has already been converted from its original
+  /// cadence, use FrameFormer (FRAMEFORMER) to do motion-compensated
+  /// interpolation. FrameFormer chooses the best conversion method frame by
+  /// frame. Note that using FrameFormer increases the transcoding time and incurs
+  /// a significant add-on cost.
   @_s.JsonKey(name: 'framerateConversionAlgorithm')
   final Av1FramerateConversionAlgorithm framerateConversionAlgorithm;
 
@@ -2351,8 +2541,21 @@ class Av1Settings {
   @_s.JsonKey(name: 'slices')
   final int slices;
 
-  /// Adjust quantization within each frame based on spatial variation of content
-  /// complexity.
+  /// Keep the default value, Enabled (ENABLED), to adjust quantization within
+  /// each frame based on spatial variation of content complexity. When you enable
+  /// this feature, the encoder uses fewer bits on areas that can sustain more
+  /// distortion with no noticeable visual degradation and uses more bits on areas
+  /// where any small distortion will be noticeable. For example, complex textured
+  /// blocks are encoded with fewer bits and smooth textured blocks are encoded
+  /// with more bits. Enabling this feature will almost always improve your video
+  /// quality. Note, though, that this feature doesn't take into account where the
+  /// viewer's attention is likely to be. If viewers are likely to be focusing
+  /// their attention on a part of the screen with a lot of complex texture, you
+  /// might choose to disable this feature. Related setting: When you enable
+  /// spatial adaptive quantization, set the value for Adaptive quantization
+  /// (adaptiveQuantization) depending on your content. For homogeneous content,
+  /// such as cartoons and video games, set it to Low. For content with a wider
+  /// variety of textures, set it to High or Higher.
   @_s.JsonKey(name: 'spatialAdaptiveQuantization')
   final Av1SpatialAdaptiveQuantization spatialAdaptiveQuantization;
 
@@ -2376,8 +2579,21 @@ class Av1Settings {
   Map<String, dynamic> toJson() => _$Av1SettingsToJson(this);
 }
 
-/// Adjust quantization within each frame based on spatial variation of content
-/// complexity.
+/// Keep the default value, Enabled (ENABLED), to adjust quantization within
+/// each frame based on spatial variation of content complexity. When you enable
+/// this feature, the encoder uses fewer bits on areas that can sustain more
+/// distortion with no noticeable visual degradation and uses more bits on areas
+/// where any small distortion will be noticeable. For example, complex textured
+/// blocks are encoded with fewer bits and smooth textured blocks are encoded
+/// with more bits. Enabling this feature will almost always improve your video
+/// quality. Note, though, that this feature doesn't take into account where the
+/// viewer's attention is likely to be. If viewers are likely to be focusing
+/// their attention on a part of the screen with a lot of complex texture, you
+/// might choose to disable this feature. Related setting: When you enable
+/// spatial adaptive quantization, set the value for Adaptive quantization
+/// (adaptiveQuantization) depending on your content. For homogeneous content,
+/// such as cartoons and video games, set it to Low. For content with a wider
+/// variety of textures, set it to High or Higher.
 enum Av1SpatialAdaptiveQuantization {
   @_s.JsonValue('DISABLED')
   disabled,
@@ -2404,6 +2620,227 @@ class AvailBlanking {
       _$AvailBlankingFromJson(json);
 
   Map<String, dynamic> toJson() => _$AvailBlankingToJson(this);
+}
+
+/// Specify the AVC-Intra class of your output. The AVC-Intra class selection
+/// determines the output video bit rate depending on the frame rate of the
+/// output. Outputs with higher class values have higher bitrates and improved
+/// image quality.
+enum AvcIntraClass {
+  @_s.JsonValue('CLASS_50')
+  class_50,
+  @_s.JsonValue('CLASS_100')
+  class_100,
+  @_s.JsonValue('CLASS_200')
+  class_200,
+}
+
+/// If you are using the console, use the Framerate setting to specify the frame
+/// rate for this output. If you want to keep the same frame rate as the input
+/// video, choose Follow source. If you want to do frame rate conversion, choose
+/// a frame rate from the dropdown list or choose Custom. The framerates shown
+/// in the dropdown list are decimal approximations of fractions. If you choose
+/// Custom, specify your frame rate as a fraction. If you are creating your
+/// transcoding job specification as a JSON file without the console, use
+/// FramerateControl to specify which value the service uses for the frame rate
+/// for this output. Choose INITIALIZE_FROM_SOURCE if you want the service to
+/// use the frame rate from the input. Choose SPECIFIED if you want the service
+/// to use the frame rate you specify in the settings FramerateNumerator and
+/// FramerateDenominator.
+enum AvcIntraFramerateControl {
+  @_s.JsonValue('INITIALIZE_FROM_SOURCE')
+  initializeFromSource,
+  @_s.JsonValue('SPECIFIED')
+  specified,
+}
+
+/// Choose the method that you want MediaConvert to use when increasing or
+/// decreasing the frame rate. We recommend using drop duplicate
+/// (DUPLICATE_DROP) for numerically simple conversions, such as 60 fps to 30
+/// fps. For numerically complex conversions, you can use interpolate
+/// (INTERPOLATE) to avoid stutter. This results in a smooth picture, but might
+/// introduce undesirable video artifacts. For complex frame rate conversions,
+/// especially if your source video has already been converted from its original
+/// cadence, use FrameFormer (FRAMEFORMER) to do motion-compensated
+/// interpolation. FrameFormer chooses the best conversion method frame by
+/// frame. Note that using FrameFormer increases the transcoding time and incurs
+/// a significant add-on cost.
+enum AvcIntraFramerateConversionAlgorithm {
+  @_s.JsonValue('DUPLICATE_DROP')
+  duplicateDrop,
+  @_s.JsonValue('INTERPOLATE')
+  interpolate,
+  @_s.JsonValue('FRAMEFORMER')
+  frameformer,
+}
+
+/// Choose the scan line type for the output. Keep the default value,
+/// Progressive (PROGRESSIVE) to create a progressive output, regardless of the
+/// scan type of your input. Use Top field first (TOP_FIELD) or Bottom field
+/// first (BOTTOM_FIELD) to create an output that's interlaced with the same
+/// field polarity throughout. Use Follow, default top (FOLLOW_TOP_FIELD) or
+/// Follow, default bottom (FOLLOW_BOTTOM_FIELD) to produce outputs with the
+/// same field polarity as the source. For jobs that have multiple inputs, the
+/// output field polarity might change over the course of the output. Follow
+/// behavior depends on the input scan type. If the source is interlaced, the
+/// output will be interlaced with the same polarity as the source. If the
+/// source is progressive, the output will be interlaced with top field bottom
+/// field first, depending on which of the Follow options you choose.
+enum AvcIntraInterlaceMode {
+  @_s.JsonValue('PROGRESSIVE')
+  progressive,
+  @_s.JsonValue('TOP_FIELD')
+  topField,
+  @_s.JsonValue('BOTTOM_FIELD')
+  bottomField,
+  @_s.JsonValue('FOLLOW_TOP_FIELD')
+  followTopField,
+  @_s.JsonValue('FOLLOW_BOTTOM_FIELD')
+  followBottomField,
+}
+
+/// Required when you set your output video codec to AVC-Intra. For more
+/// information about the AVC-I settings, see the relevant specification. For
+/// detailed information about SD and HD in AVC-I, see
+/// https://ieeexplore.ieee.org/document/7290936.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AvcIntraSettings {
+  /// Specify the AVC-Intra class of your output. The AVC-Intra class selection
+  /// determines the output video bit rate depending on the frame rate of the
+  /// output. Outputs with higher class values have higher bitrates and improved
+  /// image quality.
+  @_s.JsonKey(name: 'avcIntraClass')
+  final AvcIntraClass avcIntraClass;
+
+  /// If you are using the console, use the Framerate setting to specify the frame
+  /// rate for this output. If you want to keep the same frame rate as the input
+  /// video, choose Follow source. If you want to do frame rate conversion, choose
+  /// a frame rate from the dropdown list or choose Custom. The framerates shown
+  /// in the dropdown list are decimal approximations of fractions. If you choose
+  /// Custom, specify your frame rate as a fraction. If you are creating your
+  /// transcoding job specification as a JSON file without the console, use
+  /// FramerateControl to specify which value the service uses for the frame rate
+  /// for this output. Choose INITIALIZE_FROM_SOURCE if you want the service to
+  /// use the frame rate from the input. Choose SPECIFIED if you want the service
+  /// to use the frame rate you specify in the settings FramerateNumerator and
+  /// FramerateDenominator.
+  @_s.JsonKey(name: 'framerateControl')
+  final AvcIntraFramerateControl framerateControl;
+
+  /// Choose the method that you want MediaConvert to use when increasing or
+  /// decreasing the frame rate. We recommend using drop duplicate
+  /// (DUPLICATE_DROP) for numerically simple conversions, such as 60 fps to 30
+  /// fps. For numerically complex conversions, you can use interpolate
+  /// (INTERPOLATE) to avoid stutter. This results in a smooth picture, but might
+  /// introduce undesirable video artifacts. For complex frame rate conversions,
+  /// especially if your source video has already been converted from its original
+  /// cadence, use FrameFormer (FRAMEFORMER) to do motion-compensated
+  /// interpolation. FrameFormer chooses the best conversion method frame by
+  /// frame. Note that using FrameFormer increases the transcoding time and incurs
+  /// a significant add-on cost.
+  @_s.JsonKey(name: 'framerateConversionAlgorithm')
+  final AvcIntraFramerateConversionAlgorithm framerateConversionAlgorithm;
+
+  /// When you use the API for transcode jobs that use frame rate conversion,
+  /// specify the frame rate as a fraction. For example,  24000 / 1001 = 23.976
+  /// fps. Use FramerateDenominator to specify the denominator of this fraction.
+  /// In this example, use 1001 for the value of FramerateDenominator. When you
+  /// use the console for transcode jobs that use frame rate conversion, provide
+  /// the value as a decimal number for Framerate. In this example, specify
+  /// 23.976.
+  @_s.JsonKey(name: 'framerateDenominator')
+  final int framerateDenominator;
+
+  /// When you use the API for transcode jobs that use frame rate conversion,
+  /// specify the frame rate as a fraction. For example,  24000 / 1001 = 23.976
+  /// fps. Use FramerateNumerator to specify the numerator of this fraction. In
+  /// this example, use 24000 for the value of FramerateNumerator. When you use
+  /// the console for transcode jobs that use frame rate conversion, provide the
+  /// value as a decimal number for Framerate. In this example, specify 23.976.
+  @_s.JsonKey(name: 'framerateNumerator')
+  final int framerateNumerator;
+
+  /// Choose the scan line type for the output. Keep the default value,
+  /// Progressive (PROGRESSIVE) to create a progressive output, regardless of the
+  /// scan type of your input. Use Top field first (TOP_FIELD) or Bottom field
+  /// first (BOTTOM_FIELD) to create an output that's interlaced with the same
+  /// field polarity throughout. Use Follow, default top (FOLLOW_TOP_FIELD) or
+  /// Follow, default bottom (FOLLOW_BOTTOM_FIELD) to produce outputs with the
+  /// same field polarity as the source. For jobs that have multiple inputs, the
+  /// output field polarity might change over the course of the output. Follow
+  /// behavior depends on the input scan type. If the source is interlaced, the
+  /// output will be interlaced with the same polarity as the source. If the
+  /// source is progressive, the output will be interlaced with top field bottom
+  /// field first, depending on which of the Follow options you choose.
+  @_s.JsonKey(name: 'interlaceMode')
+  final AvcIntraInterlaceMode interlaceMode;
+
+  /// Ignore this setting unless your input frame rate is 23.976 or 24 frames per
+  /// second (fps). Enable slow PAL to create a 25 fps output. When you enable
+  /// slow PAL, MediaConvert relabels the video frames to 25 fps and resamples
+  /// your audio to keep it synchronized with the video. Note that enabling this
+  /// setting will slightly reduce the duration of your video. Required settings:
+  /// You must also set Framerate to 25. In your JSON job specification, set
+  /// (framerateControl) to (SPECIFIED), (framerateNumerator) to 25 and
+  /// (framerateDenominator) to 1.
+  @_s.JsonKey(name: 'slowPal')
+  final AvcIntraSlowPal slowPal;
+
+  /// When you do frame rate conversion from 23.976 frames per second (fps) to
+  /// 29.97 fps, and your output scan type is interlaced, you can optionally
+  /// enable hard telecine (HARD) to create a smoother picture. When you keep the
+  /// default value, None (NONE), MediaConvert does a standard frame rate
+  /// conversion to 29.97 without doing anything with the field polarity to create
+  /// a smoother picture.
+  @_s.JsonKey(name: 'telecine')
+  final AvcIntraTelecine telecine;
+
+  AvcIntraSettings({
+    this.avcIntraClass,
+    this.framerateControl,
+    this.framerateConversionAlgorithm,
+    this.framerateDenominator,
+    this.framerateNumerator,
+    this.interlaceMode,
+    this.slowPal,
+    this.telecine,
+  });
+  factory AvcIntraSettings.fromJson(Map<String, dynamic> json) =>
+      _$AvcIntraSettingsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AvcIntraSettingsToJson(this);
+}
+
+/// Ignore this setting unless your input frame rate is 23.976 or 24 frames per
+/// second (fps). Enable slow PAL to create a 25 fps output. When you enable
+/// slow PAL, MediaConvert relabels the video frames to 25 fps and resamples
+/// your audio to keep it synchronized with the video. Note that enabling this
+/// setting will slightly reduce the duration of your video. Required settings:
+/// You must also set Framerate to 25. In your JSON job specification, set
+/// (framerateControl) to (SPECIFIED), (framerateNumerator) to 25 and
+/// (framerateDenominator) to 1.
+enum AvcIntraSlowPal {
+  @_s.JsonValue('DISABLED')
+  disabled,
+  @_s.JsonValue('ENABLED')
+  enabled,
+}
+
+/// When you do frame rate conversion from 23.976 frames per second (fps) to
+/// 29.97 fps, and your output scan type is interlaced, you can optionally
+/// enable hard telecine (HARD) to create a smoother picture. When you keep the
+/// default value, None (NONE), MediaConvert does a standard frame rate
+/// conversion to 29.97 without doing anything with the field polarity to create
+/// a smoother picture.
+enum AvcIntraTelecine {
+  @_s.JsonValue('NONE')
+  none,
+  @_s.JsonValue('HARD')
+  hard,
 }
 
 /// The tag type that AWS Billing and Cost Management will use to sort your AWS
@@ -2946,8 +3383,8 @@ class CaptionSelector {
 }
 
 /// Ignore this setting unless your input captions format is SCC. To have the
-/// service compensate for differing framerates between your input captions and
-/// input video, specify the framerate of the captions file. Specify this value
+/// service compensate for differing frame rates between your input captions and
+/// input video, specify the frame rate of the captions file. Specify this value
 /// as a fraction, using the settings Framerate numerator (framerateNumerator)
 /// and Framerate denominator (framerateDenominator). For example, you might
 /// specify 24 / 1 for 24 fps, 25 / 1 for 25 fps, 24000 / 1001 for 23.976 fps,
@@ -2958,14 +3395,14 @@ class CaptionSelector {
     createFactory: true,
     createToJson: true)
 class CaptionSourceFramerate {
-  /// Specify the denominator of the fraction that represents the framerate for
-  /// the setting Caption source framerate (CaptionSourceFramerate). Use this
+  /// Specify the denominator of the fraction that represents the frame rate for
+  /// the setting Caption source frame rate (CaptionSourceFramerate). Use this
   /// setting along with the setting Framerate numerator (framerateNumerator).
   @_s.JsonKey(name: 'framerateDenominator')
   final int framerateDenominator;
 
-  /// Specify the numerator of the fraction that represents the framerate for the
-  /// setting Caption source framerate (CaptionSourceFramerate). Use this setting
+  /// Specify the numerator of the fraction that represents the frame rate for the
+  /// setting Caption source frame rate (CaptionSourceFramerate). Use this setting
   /// along with the setting Framerate denominator (framerateDenominator).
   @_s.JsonKey(name: 'framerateNumerator')
   final int framerateNumerator;
@@ -3128,8 +3565,10 @@ class CmafAdditionalManifest {
   Map<String, dynamic> toJson() => _$CmafAdditionalManifestToJson(this);
 }
 
-/// When set to ENABLED, sets #EXT-X-ALLOW-CACHE:no tag, which prevents client
-/// from saving media segments for later replay.
+/// Disable this setting only when your workflow requires the
+/// #EXT-X-ALLOW-CACHE:no tag. Otherwise, keep the default value Enabled
+/// (ENABLED) and control caching in your video distribution set up. For
+/// example, use the Cache-Control http header.
 enum CmafClientCache {
   @_s.JsonValue('DISABLED')
   disabled,
@@ -3234,8 +3673,10 @@ class CmafGroupSettings {
   @_s.JsonKey(name: 'baseUrl')
   final String baseUrl;
 
-  /// When set to ENABLED, sets #EXT-X-ALLOW-CACHE:no tag, which prevents client
-  /// from saving media segments for later replay.
+  /// Disable this setting only when your workflow requires the
+  /// #EXT-X-ALLOW-CACHE:no tag. Otherwise, keep the default value Enabled
+  /// (ENABLED) and control caching in your video distribution set up. For
+  /// example, use the Cache-Control http header.
   @_s.JsonKey(name: 'clientCache')
   final CmafClientCache clientCache;
 
@@ -3477,6 +3918,27 @@ enum CmafWriteSegmentTimelineInRepresentation {
   disabled,
 }
 
+/// Specify this setting only when your output will be consumed by a downstream
+/// repackaging workflow that is sensitive to very small duration differences
+/// between video and audio. For this situation, choose Match video duration
+/// (MATCH_VIDEO_DURATION). In all other cases, keep the default value, Default
+/// codec duration (DEFAULT_CODEC_DURATION). When you choose Match video
+/// duration, MediaConvert pads the output audio streams with silence or trims
+/// them to ensure that the total duration of each audio stream is at least as
+/// long as the total duration of the video stream. After padding or trimming,
+/// the audio stream duration is no more than one frame longer than the video
+/// stream. MediaConvert applies audio padding or trimming only to the end of
+/// the last segment of the output. For unsegmented outputs, MediaConvert adds
+/// padding only to the end of the file. When you keep the default value, any
+/// minor discrepancies between audio and video duration will depend on your
+/// output audio codec.
+enum CmfcAudioDuration {
+  @_s.JsonValue('DEFAULT_CODEC_DURATION')
+  defaultCodecDuration,
+  @_s.JsonValue('MATCH_VIDEO_DURATION')
+  matchVideoDuration,
+}
+
 /// Use this setting only when you specify SCTE-35 markers from ESAM. Choose
 /// INSERT to put SCTE-35 markers in this output at the insertion points that
 /// you specify in an ESAM XML document. Provide the document in the setting SCC
@@ -3506,6 +3968,23 @@ enum CmfcScte35Source {
     createFactory: true,
     createToJson: true)
 class CmfcSettings {
+  /// Specify this setting only when your output will be consumed by a downstream
+  /// repackaging workflow that is sensitive to very small duration differences
+  /// between video and audio. For this situation, choose Match video duration
+  /// (MATCH_VIDEO_DURATION). In all other cases, keep the default value, Default
+  /// codec duration (DEFAULT_CODEC_DURATION). When you choose Match video
+  /// duration, MediaConvert pads the output audio streams with silence or trims
+  /// them to ensure that the total duration of each audio stream is at least as
+  /// long as the total duration of the video stream. After padding or trimming,
+  /// the audio stream duration is no more than one frame longer than the video
+  /// stream. MediaConvert applies audio padding or trimming only to the end of
+  /// the last segment of the output. For unsegmented outputs, MediaConvert adds
+  /// padding only to the end of the file. When you keep the default value, any
+  /// minor discrepancies between audio and video duration will depend on your
+  /// output audio codec.
+  @_s.JsonKey(name: 'audioDuration')
+  final CmfcAudioDuration audioDuration;
+
   /// Use this setting only when you specify SCTE-35 markers from ESAM. Choose
   /// INSERT to put SCTE-35 markers in this output at the insertion points that
   /// you specify in an ESAM XML document. Provide the document in the setting SCC
@@ -3521,6 +4000,7 @@ class CmfcSettings {
   final CmfcScte35Source scte35Source;
 
   CmfcSettings({
+    this.audioDuration,
     this.scte35Esam,
     this.scte35Source,
   });
@@ -3715,6 +4195,10 @@ class ContainerSettings {
   @_s.JsonKey(name: 'mpdSettings')
   final MpdSettings mpdSettings;
 
+  /// MXF settings
+  @_s.JsonKey(name: 'mxfSettings')
+  final MxfSettings mxfSettings;
+
   ContainerSettings({
     this.cmfcSettings,
     this.container,
@@ -3724,6 +4208,7 @@ class ContainerSettings {
     this.movSettings,
     this.mp4Settings,
     this.mpdSettings,
+    this.mxfSettings,
   });
   factory ContainerSettings.fromJson(Map<String, dynamic> json) =>
       _$ContainerSettingsFromJson(json);
@@ -3752,6 +4237,8 @@ enum ContainerType {
   mpd,
   @_s.JsonValue('MXF')
   mxf,
+  @_s.JsonValue('WEBM')
+  webm,
   @_s.JsonValue('RAW')
   raw,
 }
@@ -3764,7 +4251,7 @@ enum ContainerType {
 class CreateJobResponse {
   /// Each job converts an input file into an output file or files. For more
   /// information, see the User Guide at
-  /// http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
+  /// https://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
   @_s.JsonKey(name: 'job')
   final Job job;
 
@@ -3955,6 +4442,20 @@ class DashIsoGroupSettings {
   @_s.JsonKey(name: 'minBufferTime')
   final int minBufferTime;
 
+  /// Keep this setting at the default value of 0, unless you are troubleshooting
+  /// a problem with how devices play back the end of your video asset. If you
+  /// know that player devices are hanging on the final segment of your video
+  /// because the length of your final segment is too short, use this setting to
+  /// specify a minimum final segment length, in seconds. Choose a value that is
+  /// greater than or equal to 1 and less than your segment length. When you
+  /// specify a value for this setting, the encoder will combine any final segment
+  /// that is shorter than the length that you specify with the previous segment.
+  /// For example, your segment length is 3 seconds and your final segment is .5
+  /// seconds without a minimum final segment length; when you set the minimum
+  /// final segment length to 1, your final segment is 3.5 seconds.
+  @_s.JsonKey(name: 'minFinalSegmentLength')
+  final double minFinalSegmentLength;
+
   /// Specify whether your DASH profile is on-demand or main. When you choose Main
   /// profile (MAIN_PROFILE), the service signals
   /// urn:mpeg:dash:profile:isoff-main:2011 in your .mpd DASH manifest. When you
@@ -3999,6 +4500,7 @@ class DashIsoGroupSettings {
     this.fragmentLength,
     this.hbbtvCompliance,
     this.minBufferTime,
+    this.minFinalSegmentLength,
     this.mpdProfile,
     this.segmentControl,
     this.segmentLength,
@@ -5610,8 +6112,8 @@ class FileSourceSettings {
   final FileSourceConvert608To708 convert608To708;
 
   /// Ignore this setting unless your input captions format is SCC. To have the
-  /// service compensate for differing framerates between your input captions and
-  /// input video, specify the framerate of the captions file. Specify this value
+  /// service compensate for differing frame rates between your input captions and
+  /// input video, specify the frame rate of the captions file. Specify this value
   /// as a fraction, using the settings Framerate numerator (framerateNumerator)
   /// and Framerate denominator (framerateDenominator). For example, you might
   /// specify 24 / 1 for 24 fps, 25 / 1 for 25 fps, 24000 / 1001 for 23.976 fps,
@@ -5707,7 +6209,7 @@ class FrameCaptureSettings {
 class GetJobResponse {
   /// Each job converts an input file into an output file or files. For more
   /// information, see the User Guide at
-  /// http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
+  /// https://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
   @_s.JsonKey(name: 'job')
   final Job job;
 
@@ -5775,11 +6277,21 @@ class GetQueueResponse {
       _$GetQueueResponseFromJson(json);
 }
 
-/// Adaptive quantization. Allows intra-frame quantizers to vary to improve
-/// visual quality.
+/// Keep the default value, Auto (AUTO), for this setting to have MediaConvert
+/// automatically apply the best types of quantization for your video content.
+/// When you want to apply your quantization settings manually, you must set
+/// H264AdaptiveQuantization to a value other than Auto (AUTO). Use this setting
+/// to specify the strength of any adaptive quantization filters that you
+/// enable. If you don't want MediaConvert to do any adaptive quantization in
+/// this transcode, set Adaptive quantization (H264AdaptiveQuantization) to Off
+/// (OFF). Related settings: The value that you choose here applies to the
+/// following settings: H264FlickerAdaptiveQuantization,
+/// H264SpatialAdaptiveQuantization, and H264TemporalAdaptiveQuantization.
 enum H264AdaptiveQuantization {
   @_s.JsonValue('OFF')
   off,
+  @_s.JsonValue('AUTO')
+  auto,
   @_s.JsonValue('LOW')
   low,
   @_s.JsonValue('MEDIUM')
@@ -5869,7 +6381,9 @@ enum H264EntropyEncoding {
   cavlc,
 }
 
-/// Choosing FORCE_FIELD disables PAFF encoding for interlaced outputs.
+/// Keep the default value, PAFF, to have MediaConvert use PAFF encoding for
+/// interlaced outputs. Choose Force field (FORCE_FIELD) to disable PAFF
+/// encoding and create separate interlaced fields.
 enum H264FieldEncoding {
   @_s.JsonValue('PAFF')
   paff,
@@ -5877,8 +6391,20 @@ enum H264FieldEncoding {
   forceField,
 }
 
-/// Adjust quantization within each frame to reduce flicker or 'pop' on
-/// I-frames.
+/// Only use this setting when you change the default value, AUTO, for the
+/// setting H264AdaptiveQuantization. When you keep all defaults, excluding
+/// H264AdaptiveQuantization and all other adaptive quantization from your JSON
+/// job specification, MediaConvert automatically applies the best types of
+/// quantization for your video content. When you set H264AdaptiveQuantization
+/// to a value other than AUTO, the default value for
+/// H264FlickerAdaptiveQuantization is Disabled (DISABLED). Change this value to
+/// Enabled (ENABLED) to reduce I-frame pop. I-frame pop appears as a visual
+/// flicker that can arise when the encoder saves bits by copying some
+/// macroblocks many times from frame to frame, and then refreshes them at the
+/// I-frame. When you enable this setting, the encoder updates these macroblocks
+/// slightly more often to smooth out the flicker. To manually enable or disable
+/// H264FlickerAdaptiveQuantization, you must set Adaptive quantization
+/// (H264AdaptiveQuantization) to a value other than AUTO.
 enum H264FlickerAdaptiveQuantization {
   @_s.JsonValue('DISABLED')
   disabled,
@@ -5905,13 +6431,24 @@ enum H264FramerateControl {
   specified,
 }
 
-/// When set to INTERPOLATE, produces smoother motion during frame rate
-/// conversion.
+/// Choose the method that you want MediaConvert to use when increasing or
+/// decreasing the frame rate. We recommend using drop duplicate
+/// (DUPLICATE_DROP) for numerically simple conversions, such as 60 fps to 30
+/// fps. For numerically complex conversions, you can use interpolate
+/// (INTERPOLATE) to avoid stutter. This results in a smooth picture, but might
+/// introduce undesirable video artifacts. For complex frame rate conversions,
+/// especially if your source video has already been converted from its original
+/// cadence, use FrameFormer (FRAMEFORMER) to do motion-compensated
+/// interpolation. FrameFormer chooses the best conversion method frame by
+/// frame. Note that using FrameFormer increases the transcoding time and incurs
+/// a significant add-on cost.
 enum H264FramerateConversionAlgorithm {
   @_s.JsonValue('DUPLICATE_DROP')
   duplicateDrop,
   @_s.JsonValue('INTERPOLATE')
   interpolate,
+  @_s.JsonValue('FRAMEFORMER')
+  frameformer,
 }
 
 /// If enable, use reference B frames for GOP structures that have B frames > 1.
@@ -5931,18 +6468,18 @@ enum H264GopSizeUnits {
   seconds,
 }
 
-/// Use Interlace mode (InterlaceMode) to choose the scan line type for the
-/// output. * Top Field First (TOP_FIELD) and Bottom Field First (BOTTOM_FIELD)
-/// produce interlaced output with the entire output having the same field
-/// polarity (top or bottom first). * Follow, Default Top (FOLLOW_TOP_FIELD) and
-/// Follow, Default Bottom (FOLLOW_BOTTOM_FIELD) use the same field polarity as
-/// the source. Therefore, behavior depends on the input scan type, as follows.
-/// - If the source is interlaced, the output will be interlaced with the same
-/// polarity as the source (it will follow the source). The output could
-/// therefore be a mix of "top field first" and "bottom field first".
-/// - If the source is progressive, the output will be interlaced with "top
-/// field first" or "bottom field first" polarity, depending on which of the
-/// Follow options you chose.
+/// Choose the scan line type for the output. Keep the default value,
+/// Progressive (PROGRESSIVE) to create a progressive output, regardless of the
+/// scan type of your input. Use Top field first (TOP_FIELD) or Bottom field
+/// first (BOTTOM_FIELD) to create an output that's interlaced with the same
+/// field polarity throughout. Use Follow, default top (FOLLOW_TOP_FIELD) or
+/// Follow, default bottom (FOLLOW_BOTTOM_FIELD) to produce outputs with the
+/// same field polarity as the source. For jobs that have multiple inputs, the
+/// output field polarity might change over the course of the output. Follow
+/// behavior depends on the input scan type. If the source is interlaced, the
+/// output will be interlaced with the same polarity as the source. If the
+/// source is progressive, the output will be interlaced with top field bottom
+/// field first, depending on which of the Follow options you choose.
 enum H264InterlaceMode {
   @_s.JsonValue('PROGRESSIVE')
   progressive,
@@ -5956,9 +6493,14 @@ enum H264InterlaceMode {
   followBottomField,
 }
 
-/// Using the API, enable ParFollowSource if you want the service to use the
-/// pixel aspect ratio from the input. Using the console, do this by choosing
-/// Follow source for Pixel aspect ratio.
+/// Optional. Specify how the service determines the pixel aspect ratio (PAR)
+/// for this output. The default behavior, Follow source
+/// (INITIALIZE_FROM_SOURCE), uses the PAR from your input video for your
+/// output. To specify a different PAR in the console, choose any value other
+/// than Follow source. To specify a different PAR by editing the JSON job
+/// specification, choose SPECIFIED. When you choose SPECIFIED for this setting,
+/// you must also specify values for the parNumerator and parDenominator
+/// settings.
 enum H264ParControl {
   @_s.JsonValue('INITIALIZE_FROM_SOURCE')
   initializeFromSource,
@@ -5966,9 +6508,9 @@ enum H264ParControl {
   specified,
 }
 
-/// Use Quality tuning level (H264QualityTuningLevel) to specifiy whether to use
-/// fast single-pass, high-quality singlepass, or high-quality multipass video
-/// encoding.
+/// Optional. Use Quality tuning level (qualityTuningLevel) to choose how you
+/// want to trade off encoding speed for output video quality. The default
+/// behavior is faster, lower quality, single-pass encoding.
 enum H264QualityTuningLevel {
   @_s.JsonValue('SINGLE_PASS')
   singlePass,
@@ -6071,8 +6613,16 @@ enum H264SceneChangeDetect {
     createFactory: true,
     createToJson: true)
 class H264Settings {
-  /// Adaptive quantization. Allows intra-frame quantizers to vary to improve
-  /// visual quality.
+  /// Keep the default value, Auto (AUTO), for this setting to have MediaConvert
+  /// automatically apply the best types of quantization for your video content.
+  /// When you want to apply your quantization settings manually, you must set
+  /// H264AdaptiveQuantization to a value other than Auto (AUTO). Use this setting
+  /// to specify the strength of any adaptive quantization filters that you
+  /// enable. If you don't want MediaConvert to do any adaptive quantization in
+  /// this transcode, set Adaptive quantization (H264AdaptiveQuantization) to Off
+  /// (OFF). Related settings: The value that you choose here applies to the
+  /// following settings: H264FlickerAdaptiveQuantization,
+  /// H264SpatialAdaptiveQuantization, and H264TemporalAdaptiveQuantization.
   @_s.JsonKey(name: 'adaptiveQuantization')
   final H264AdaptiveQuantization adaptiveQuantization;
 
@@ -6105,12 +6655,26 @@ class H264Settings {
   @_s.JsonKey(name: 'entropyEncoding')
   final H264EntropyEncoding entropyEncoding;
 
-  /// Choosing FORCE_FIELD disables PAFF encoding for interlaced outputs.
+  /// Keep the default value, PAFF, to have MediaConvert use PAFF encoding for
+  /// interlaced outputs. Choose Force field (FORCE_FIELD) to disable PAFF
+  /// encoding and create separate interlaced fields.
   @_s.JsonKey(name: 'fieldEncoding')
   final H264FieldEncoding fieldEncoding;
 
-  /// Adjust quantization within each frame to reduce flicker or 'pop' on
-  /// I-frames.
+  /// Only use this setting when you change the default value, AUTO, for the
+  /// setting H264AdaptiveQuantization. When you keep all defaults, excluding
+  /// H264AdaptiveQuantization and all other adaptive quantization from your JSON
+  /// job specification, MediaConvert automatically applies the best types of
+  /// quantization for your video content. When you set H264AdaptiveQuantization
+  /// to a value other than AUTO, the default value for
+  /// H264FlickerAdaptiveQuantization is Disabled (DISABLED). Change this value to
+  /// Enabled (ENABLED) to reduce I-frame pop. I-frame pop appears as a visual
+  /// flicker that can arise when the encoder saves bits by copying some
+  /// macroblocks many times from frame to frame, and then refreshes them at the
+  /// I-frame. When you enable this setting, the encoder updates these macroblocks
+  /// slightly more often to smooth out the flicker. To manually enable or disable
+  /// H264FlickerAdaptiveQuantization, you must set Adaptive quantization
+  /// (H264AdaptiveQuantization) to a value other than AUTO.
   @_s.JsonKey(name: 'flickerAdaptiveQuantization')
   final H264FlickerAdaptiveQuantization flickerAdaptiveQuantization;
 
@@ -6129,8 +6693,17 @@ class H264Settings {
   @_s.JsonKey(name: 'framerateControl')
   final H264FramerateControl framerateControl;
 
-  /// When set to INTERPOLATE, produces smoother motion during frame rate
-  /// conversion.
+  /// Choose the method that you want MediaConvert to use when increasing or
+  /// decreasing the frame rate. We recommend using drop duplicate
+  /// (DUPLICATE_DROP) for numerically simple conversions, such as 60 fps to 30
+  /// fps. For numerically complex conversions, you can use interpolate
+  /// (INTERPOLATE) to avoid stutter. This results in a smooth picture, but might
+  /// introduce undesirable video artifacts. For complex frame rate conversions,
+  /// especially if your source video has already been converted from its original
+  /// cadence, use FrameFormer (FRAMEFORMER) to do motion-compensated
+  /// interpolation. FrameFormer chooses the best conversion method frame by
+  /// frame. Note that using FrameFormer increases the transcoding time and incurs
+  /// a significant add-on cost.
   @_s.JsonKey(name: 'framerateConversionAlgorithm')
   final H264FramerateConversionAlgorithm framerateConversionAlgorithm;
 
@@ -6144,8 +6717,12 @@ class H264Settings {
   @_s.JsonKey(name: 'framerateDenominator')
   final int framerateDenominator;
 
-  /// Frame rate numerator - frame rate is a fraction, e.g. 24000 / 1001 = 23.976
-  /// fps.
+  /// When you use the API for transcode jobs that use frame rate conversion,
+  /// specify the frame rate as a fraction. For example,  24000 / 1001 = 23.976
+  /// fps. Use FramerateNumerator to specify the numerator of this fraction. In
+  /// this example, use 24000 for the value of FramerateNumerator. When you use
+  /// the console for transcode jobs that use frame rate conversion, provide the
+  /// value as a decimal number for Framerate. In this example, specify 23.976.
   @_s.JsonKey(name: 'framerateNumerator')
   final int framerateNumerator;
 
@@ -6179,18 +6756,18 @@ class H264Settings {
   @_s.JsonKey(name: 'hrdBufferSize')
   final int hrdBufferSize;
 
-  /// Use Interlace mode (InterlaceMode) to choose the scan line type for the
-  /// output. * Top Field First (TOP_FIELD) and Bottom Field First (BOTTOM_FIELD)
-  /// produce interlaced output with the entire output having the same field
-  /// polarity (top or bottom first). * Follow, Default Top (FOLLOW_TOP_FIELD) and
-  /// Follow, Default Bottom (FOLLOW_BOTTOM_FIELD) use the same field polarity as
-  /// the source. Therefore, behavior depends on the input scan type, as follows.
-  /// - If the source is interlaced, the output will be interlaced with the same
-  /// polarity as the source (it will follow the source). The output could
-  /// therefore be a mix of "top field first" and "bottom field first".
-  /// - If the source is progressive, the output will be interlaced with "top
-  /// field first" or "bottom field first" polarity, depending on which of the
-  /// Follow options you chose.
+  /// Choose the scan line type for the output. Keep the default value,
+  /// Progressive (PROGRESSIVE) to create a progressive output, regardless of the
+  /// scan type of your input. Use Top field first (TOP_FIELD) or Bottom field
+  /// first (BOTTOM_FIELD) to create an output that's interlaced with the same
+  /// field polarity throughout. Use Follow, default top (FOLLOW_TOP_FIELD) or
+  /// Follow, default bottom (FOLLOW_BOTTOM_FIELD) to produce outputs with the
+  /// same field polarity as the source. For jobs that have multiple inputs, the
+  /// output field polarity might change over the course of the output. Follow
+  /// behavior depends on the input scan type. If the source is interlaced, the
+  /// output will be interlaced with the same polarity as the source. If the
+  /// source is progressive, the output will be interlaced with top field bottom
+  /// field first, depending on which of the Follow options you choose.
   @_s.JsonKey(name: 'interlaceMode')
   final H264InterlaceMode interlaceMode;
 
@@ -6218,23 +6795,38 @@ class H264Settings {
   @_s.JsonKey(name: 'numberReferenceFrames')
   final int numberReferenceFrames;
 
-  /// Using the API, enable ParFollowSource if you want the service to use the
-  /// pixel aspect ratio from the input. Using the console, do this by choosing
-  /// Follow source for Pixel aspect ratio.
+  /// Optional. Specify how the service determines the pixel aspect ratio (PAR)
+  /// for this output. The default behavior, Follow source
+  /// (INITIALIZE_FROM_SOURCE), uses the PAR from your input video for your
+  /// output. To specify a different PAR in the console, choose any value other
+  /// than Follow source. To specify a different PAR by editing the JSON job
+  /// specification, choose SPECIFIED. When you choose SPECIFIED for this setting,
+  /// you must also specify values for the parNumerator and parDenominator
+  /// settings.
   @_s.JsonKey(name: 'parControl')
   final H264ParControl parControl;
 
-  /// Pixel Aspect Ratio denominator.
+  /// Required when you set Pixel aspect ratio (parControl) to SPECIFIED. On the
+  /// console, this corresponds to any value other than Follow source. When you
+  /// specify an output pixel aspect ratio (PAR) that is different from your input
+  /// video PAR, provide your output PAR as a ratio. For example, for D1/DV NTSC
+  /// widescreen, you would specify the ratio 40:33. In this example, the value
+  /// for parDenominator is 33.
   @_s.JsonKey(name: 'parDenominator')
   final int parDenominator;
 
-  /// Pixel Aspect Ratio numerator.
+  /// Required when you set Pixel aspect ratio (parControl) to SPECIFIED. On the
+  /// console, this corresponds to any value other than Follow source. When you
+  /// specify an output pixel aspect ratio (PAR) that is different from your input
+  /// video PAR, provide your output PAR as a ratio. For example, for D1/DV NTSC
+  /// widescreen, you would specify the ratio 40:33. In this example, the value
+  /// for parNumerator is 40.
   @_s.JsonKey(name: 'parNumerator')
   final int parNumerator;
 
-  /// Use Quality tuning level (H264QualityTuningLevel) to specifiy whether to use
-  /// fast single-pass, high-quality singlepass, or high-quality multipass video
-  /// encoding.
+  /// Optional. Use Quality tuning level (qualityTuningLevel) to choose how you
+  /// want to trade off encoding speed for output video quality. The default
+  /// behavior is faster, lower quality, single-pass encoding.
   @_s.JsonKey(name: 'qualityTuningLevel')
   final H264QualityTuningLevel qualityTuningLevel;
 
@@ -6269,18 +6861,55 @@ class H264Settings {
   @_s.JsonKey(name: 'slices')
   final int slices;
 
-  /// Enables Slow PAL rate conversion. 23.976fps and 24fps input is relabeled as
-  /// 25fps, and audio is sped up correspondingly.
+  /// Ignore this setting unless your input frame rate is 23.976 or 24 frames per
+  /// second (fps). Enable slow PAL to create a 25 fps output. When you enable
+  /// slow PAL, MediaConvert relabels the video frames to 25 fps and resamples
+  /// your audio to keep it synchronized with the video. Note that enabling this
+  /// setting will slightly reduce the duration of your video. Required settings:
+  /// You must also set Framerate to 25. In your JSON job specification, set
+  /// (framerateControl) to (SPECIFIED), (framerateNumerator) to 25 and
+  /// (framerateDenominator) to 1.
   @_s.JsonKey(name: 'slowPal')
   final H264SlowPal slowPal;
 
-  /// Softness. Selects quantizer matrix, larger values reduce high-frequency
-  /// content in the encoded image.
+  /// Ignore this setting unless you need to comply with a specification that
+  /// requires a specific value. If you don't have a specification requirement, we
+  /// recommend that you adjust the softness of your output by using a lower value
+  /// for the setting Sharpness (sharpness) or by enabling a noise reducer filter
+  /// (noiseReducerFilter). The Softness (softness) setting specifies the
+  /// quantization matrices that the encoder uses. Keep the default value, 0, for
+  /// flat quantization. Choose the value 1 or 16 to use the default JVT softening
+  /// quantization matricies from the H.264 specification. Choose a value from 17
+  /// to 128 to use planar interpolation. Increasing values from 17 to 128 result
+  /// in increasing reduction of high-frequency data. The value 128 results in the
+  /// softest video.
   @_s.JsonKey(name: 'softness')
   final int softness;
 
-  /// Adjust quantization within each frame based on spatial variation of content
-  /// complexity.
+  /// Only use this setting when you change the default value, Auto (AUTO), for
+  /// the setting H264AdaptiveQuantization. When you keep all defaults, excluding
+  /// H264AdaptiveQuantization and all other adaptive quantization from your JSON
+  /// job specification, MediaConvert automatically applies the best types of
+  /// quantization for your video content. When you set H264AdaptiveQuantization
+  /// to a value other than AUTO, the default value for
+  /// H264SpatialAdaptiveQuantization is Enabled (ENABLED). Keep this default
+  /// value to adjust quantization within each frame based on spatial variation of
+  /// content complexity. When you enable this feature, the encoder uses fewer
+  /// bits on areas that can sustain more distortion with no noticeable visual
+  /// degradation and uses more bits on areas where any small distortion will be
+  /// noticeable. For example, complex textured blocks are encoded with fewer bits
+  /// and smooth textured blocks are encoded with more bits. Enabling this feature
+  /// will almost always improve your video quality. Note, though, that this
+  /// feature doesn't take into account where the viewer's attention is likely to
+  /// be. If viewers are likely to be focusing their attention on a part of the
+  /// screen with a lot of complex texture, you might choose to set
+  /// H264SpatialAdaptiveQuantization to Disabled (DISABLED). Related setting:
+  /// When you enable spatial adaptive quantization, set the value for Adaptive
+  /// quantization (H264AdaptiveQuantization) depending on your content. For
+  /// homogeneous content, such as cartoons and video games, set it to Low. For
+  /// content with a wider variety of textures, set it to High or Higher. To
+  /// manually enable or disable H264SpatialAdaptiveQuantization, you must set
+  /// Adaptive quantization (H264AdaptiveQuantization) to a value other than AUTO.
   @_s.JsonKey(name: 'spatialAdaptiveQuantization')
   final H264SpatialAdaptiveQuantization spatialAdaptiveQuantization;
 
@@ -6288,18 +6917,39 @@ class H264Settings {
   @_s.JsonKey(name: 'syntax')
   final H264Syntax syntax;
 
-  /// This field applies only if the Streams > Advanced > Framerate (framerate)
-  /// field  is set to 29.970. This field works with the Streams > Advanced >
-  /// Preprocessors > Deinterlacer  field (deinterlace_mode) and the Streams >
-  /// Advanced > Interlaced Mode field (interlace_mode)  to identify the scan type
-  /// for the output: Progressive, Interlaced, Hard Telecine or Soft Telecine. -
-  /// Hard: produces 29.97i output from 23.976 input. - Soft: produces 23.976; the
-  /// player converts this output to 29.97i.
+  /// When you do frame rate conversion from 23.976 frames per second (fps) to
+  /// 29.97 fps, and your output scan type is interlaced, you can optionally
+  /// enable hard or soft telecine to create a smoother picture. Hard telecine
+  /// (HARD) produces a 29.97i output. Soft telecine (SOFT) produces an output
+  /// with a 23.976 output that signals to the video player device to do the
+  /// conversion during play back. When you keep the default value, None (NONE),
+  /// MediaConvert does a standard frame rate conversion to 29.97 without doing
+  /// anything with the field polarity to create a smoother picture.
   @_s.JsonKey(name: 'telecine')
   final H264Telecine telecine;
 
-  /// Adjust quantization within each frame based on temporal variation of content
-  /// complexity.
+  /// Only use this setting when you change the default value, AUTO, for the
+  /// setting H264AdaptiveQuantization. When you keep all defaults, excluding
+  /// H264AdaptiveQuantization and all other adaptive quantization from your JSON
+  /// job specification, MediaConvert automatically applies the best types of
+  /// quantization for your video content. When you set H264AdaptiveQuantization
+  /// to a value other than AUTO, the default value for
+  /// H264TemporalAdaptiveQuantization is Enabled (ENABLED). Keep this default
+  /// value to adjust quantization within each frame based on temporal variation
+  /// of content complexity. When you enable this feature, the encoder uses fewer
+  /// bits on areas of the frame that aren't moving and uses more bits on complex
+  /// objects with sharp edges that move a lot. For example, this feature improves
+  /// the readability of text tickers on newscasts and scoreboards on sports
+  /// matches. Enabling this feature will almost always improve your video
+  /// quality. Note, though, that this feature doesn't take into account where the
+  /// viewer's attention is likely to be. If viewers are likely to be focusing
+  /// their attention on a part of the screen that doesn't have moving objects
+  /// with sharp edges, such as sports athletes' faces, you might choose to set
+  /// H264TemporalAdaptiveQuantization to Disabled (DISABLED). Related setting:
+  /// When you enable temporal quantization, adjust the strength of the filter
+  /// with the setting Adaptive quantization (adaptiveQuantization). To manually
+  /// enable or disable H264TemporalAdaptiveQuantization, you must set Adaptive
+  /// quantization (H264AdaptiveQuantization) to a value other than AUTO.
   @_s.JsonKey(name: 'temporalAdaptiveQuantization')
   final H264TemporalAdaptiveQuantization temporalAdaptiveQuantization;
 
@@ -6354,8 +7004,14 @@ class H264Settings {
   Map<String, dynamic> toJson() => _$H264SettingsToJson(this);
 }
 
-/// Enables Slow PAL rate conversion. 23.976fps and 24fps input is relabeled as
-/// 25fps, and audio is sped up correspondingly.
+/// Ignore this setting unless your input frame rate is 23.976 or 24 frames per
+/// second (fps). Enable slow PAL to create a 25 fps output. When you enable
+/// slow PAL, MediaConvert relabels the video frames to 25 fps and resamples
+/// your audio to keep it synchronized with the video. Note that enabling this
+/// setting will slightly reduce the duration of your video. Required settings:
+/// You must also set Framerate to 25. In your JSON job specification, set
+/// (framerateControl) to (SPECIFIED), (framerateNumerator) to 25 and
+/// (framerateDenominator) to 1.
 enum H264SlowPal {
   @_s.JsonValue('DISABLED')
   disabled,
@@ -6363,8 +7019,30 @@ enum H264SlowPal {
   enabled,
 }
 
-/// Adjust quantization within each frame based on spatial variation of content
-/// complexity.
+/// Only use this setting when you change the default value, Auto (AUTO), for
+/// the setting H264AdaptiveQuantization. When you keep all defaults, excluding
+/// H264AdaptiveQuantization and all other adaptive quantization from your JSON
+/// job specification, MediaConvert automatically applies the best types of
+/// quantization for your video content. When you set H264AdaptiveQuantization
+/// to a value other than AUTO, the default value for
+/// H264SpatialAdaptiveQuantization is Enabled (ENABLED). Keep this default
+/// value to adjust quantization within each frame based on spatial variation of
+/// content complexity. When you enable this feature, the encoder uses fewer
+/// bits on areas that can sustain more distortion with no noticeable visual
+/// degradation and uses more bits on areas where any small distortion will be
+/// noticeable. For example, complex textured blocks are encoded with fewer bits
+/// and smooth textured blocks are encoded with more bits. Enabling this feature
+/// will almost always improve your video quality. Note, though, that this
+/// feature doesn't take into account where the viewer's attention is likely to
+/// be. If viewers are likely to be focusing their attention on a part of the
+/// screen with a lot of complex texture, you might choose to set
+/// H264SpatialAdaptiveQuantization to Disabled (DISABLED). Related setting:
+/// When you enable spatial adaptive quantization, set the value for Adaptive
+/// quantization (H264AdaptiveQuantization) depending on your content. For
+/// homogeneous content, such as cartoons and video games, set it to Low. For
+/// content with a wider variety of textures, set it to High or Higher. To
+/// manually enable or disable H264SpatialAdaptiveQuantization, you must set
+/// Adaptive quantization (H264AdaptiveQuantization) to a value other than AUTO.
 enum H264SpatialAdaptiveQuantization {
   @_s.JsonValue('DISABLED')
   disabled,
@@ -6380,13 +7058,14 @@ enum H264Syntax {
   rp2027,
 }
 
-/// This field applies only if the Streams > Advanced > Framerate (framerate)
-/// field  is set to 29.970. This field works with the Streams > Advanced >
-/// Preprocessors > Deinterlacer  field (deinterlace_mode) and the Streams >
-/// Advanced > Interlaced Mode field (interlace_mode)  to identify the scan type
-/// for the output: Progressive, Interlaced, Hard Telecine or Soft Telecine. -
-/// Hard: produces 29.97i output from 23.976 input. - Soft: produces 23.976; the
-/// player converts this output to 29.97i.
+/// When you do frame rate conversion from 23.976 frames per second (fps) to
+/// 29.97 fps, and your output scan type is interlaced, you can optionally
+/// enable hard or soft telecine to create a smoother picture. Hard telecine
+/// (HARD) produces a 29.97i output. Soft telecine (SOFT) produces an output
+/// with a 23.976 output that signals to the video player device to do the
+/// conversion during play back. When you keep the default value, None (NONE),
+/// MediaConvert does a standard frame rate conversion to 29.97 without doing
+/// anything with the field polarity to create a smoother picture.
 enum H264Telecine {
   @_s.JsonValue('NONE')
   none,
@@ -6396,8 +7075,28 @@ enum H264Telecine {
   hard,
 }
 
-/// Adjust quantization within each frame based on temporal variation of content
-/// complexity.
+/// Only use this setting when you change the default value, AUTO, for the
+/// setting H264AdaptiveQuantization. When you keep all defaults, excluding
+/// H264AdaptiveQuantization and all other adaptive quantization from your JSON
+/// job specification, MediaConvert automatically applies the best types of
+/// quantization for your video content. When you set H264AdaptiveQuantization
+/// to a value other than AUTO, the default value for
+/// H264TemporalAdaptiveQuantization is Enabled (ENABLED). Keep this default
+/// value to adjust quantization within each frame based on temporal variation
+/// of content complexity. When you enable this feature, the encoder uses fewer
+/// bits on areas of the frame that aren't moving and uses more bits on complex
+/// objects with sharp edges that move a lot. For example, this feature improves
+/// the readability of text tickers on newscasts and scoreboards on sports
+/// matches. Enabling this feature will almost always improve your video
+/// quality. Note, though, that this feature doesn't take into account where the
+/// viewer's attention is likely to be. If viewers are likely to be focusing
+/// their attention on a part of the screen that doesn't have moving objects
+/// with sharp edges, such as sports athletes' faces, you might choose to set
+/// H264TemporalAdaptiveQuantization to Disabled (DISABLED). Related setting:
+/// When you enable temporal quantization, adjust the strength of the filter
+/// with the setting Adaptive quantization (adaptiveQuantization). To manually
+/// enable or disable H264TemporalAdaptiveQuantization, you must set Adaptive
+/// quantization (H264AdaptiveQuantization) to a value other than AUTO.
 enum H264TemporalAdaptiveQuantization {
   @_s.JsonValue('DISABLED')
   disabled,
@@ -6413,8 +7112,11 @@ enum H264UnregisteredSeiTimecode {
   enabled,
 }
 
-/// Adaptive quantization. Allows intra-frame quantizers to vary to improve
-/// visual quality.
+/// Specify the strength of any adaptive quantization filters that you enable.
+/// The value that you choose here applies to the following settings: Flicker
+/// adaptive quantization (flickerAdaptiveQuantization), Spatial adaptive
+/// quantization (spatialAdaptiveQuantization), and Temporal adaptive
+/// quantization (temporalAdaptiveQuantization).
 enum H265AdaptiveQuantization {
   @_s.JsonValue('OFF')
   off,
@@ -6507,8 +7209,13 @@ enum H265DynamicSubGop {
   static,
 }
 
-/// Adjust quantization within each frame to reduce flicker or 'pop' on
-/// I-frames.
+/// Enable this setting to have the encoder reduce I-frame pop. I-frame pop
+/// appears as a visual flicker that can arise when the encoder saves bits by
+/// copying some macroblocks many times from frame to frame, and then refreshes
+/// them at the I-frame. When you enable this setting, the encoder updates these
+/// macroblocks slightly more often to smooth out the flicker. This setting is
+/// disabled by default. Related setting: In addition to enabling this setting,
+/// you must also set adaptiveQuantization to a value other than Off (OFF).
 enum H265FlickerAdaptiveQuantization {
   @_s.JsonValue('DISABLED')
   disabled,
@@ -6522,7 +7229,7 @@ enum H265FlickerAdaptiveQuantization {
 /// a frame rate from the dropdown list or choose Custom. The framerates shown
 /// in the dropdown list are decimal approximations of fractions. If you choose
 /// Custom, specify your frame rate as a fraction. If you are creating your
-/// transcoding job sepecification as a JSON file without the console, use
+/// transcoding job specification as a JSON file without the console, use
 /// FramerateControl to specify which value the service uses for the frame rate
 /// for this output. Choose INITIALIZE_FROM_SOURCE if you want the service to
 /// use the frame rate from the input. Choose SPECIFIED if you want the service
@@ -6535,13 +7242,24 @@ enum H265FramerateControl {
   specified,
 }
 
-/// When set to INTERPOLATE, produces smoother motion during frame rate
-/// conversion.
+/// Choose the method that you want MediaConvert to use when increasing or
+/// decreasing the frame rate. We recommend using drop duplicate
+/// (DUPLICATE_DROP) for numerically simple conversions, such as 60 fps to 30
+/// fps. For numerically complex conversions, you can use interpolate
+/// (INTERPOLATE) to avoid stutter. This results in a smooth picture, but might
+/// introduce undesirable video artifacts. For complex frame rate conversions,
+/// especially if your source video has already been converted from its original
+/// cadence, use FrameFormer (FRAMEFORMER) to do motion-compensated
+/// interpolation. FrameFormer chooses the best conversion method frame by
+/// frame. Note that using FrameFormer increases the transcoding time and incurs
+/// a significant add-on cost.
 enum H265FramerateConversionAlgorithm {
   @_s.JsonValue('DUPLICATE_DROP')
   duplicateDrop,
   @_s.JsonValue('INTERPOLATE')
   interpolate,
+  @_s.JsonValue('FRAMEFORMER')
+  frameformer,
 }
 
 /// If enable, use reference B frames for GOP structures that have B frames > 1.
@@ -6561,19 +7279,18 @@ enum H265GopSizeUnits {
   seconds,
 }
 
-/// Choose the scan line type for the output. Choose Progressive (PROGRESSIVE)
-/// to create a progressive output, regardless of the scan type of your input.
-/// Choose Top Field First (TOP_FIELD) or Bottom Field First (BOTTOM_FIELD) to
-/// create an output that's interlaced with the same field polarity throughout.
-/// Choose Follow, Default Top (FOLLOW_TOP_FIELD) or Follow, Default Bottom
-/// (FOLLOW_BOTTOM_FIELD) to create an interlaced output with the same field
-/// polarity as the source. If the source is interlaced, the output will be
-/// interlaced with the same polarity as the source (it will follow the source).
-/// The output could therefore be a mix of "top field first" and "bottom field
-/// first". If the source is progressive, your output will be interlaced with
-/// "top field first" or "bottom field first" polarity, depending on which of
-/// the Follow options you chose. If you don't choose a value, the service will
-/// default to Progressive (PROGRESSIVE).
+/// Choose the scan line type for the output. Keep the default value,
+/// Progressive (PROGRESSIVE) to create a progressive output, regardless of the
+/// scan type of your input. Use Top field first (TOP_FIELD) or Bottom field
+/// first (BOTTOM_FIELD) to create an output that's interlaced with the same
+/// field polarity throughout. Use Follow, default top (FOLLOW_TOP_FIELD) or
+/// Follow, default bottom (FOLLOW_BOTTOM_FIELD) to produce outputs with the
+/// same field polarity as the source. For jobs that have multiple inputs, the
+/// output field polarity might change over the course of the output. Follow
+/// behavior depends on the input scan type. If the source is interlaced, the
+/// output will be interlaced with the same polarity as the source. If the
+/// source is progressive, the output will be interlaced with top field bottom
+/// field first, depending on which of the Follow options you choose.
 enum H265InterlaceMode {
   @_s.JsonValue('PROGRESSIVE')
   progressive,
@@ -6587,9 +7304,14 @@ enum H265InterlaceMode {
   followBottomField,
 }
 
-/// Using the API, enable ParFollowSource if you want the service to use the
-/// pixel aspect ratio from the input. Using the console, do this by choosing
-/// Follow source for Pixel aspect ratio.
+/// Optional. Specify how the service determines the pixel aspect ratio (PAR)
+/// for this output. The default behavior, Follow source
+/// (INITIALIZE_FROM_SOURCE), uses the PAR from your input video for your
+/// output. To specify a different PAR in the console, choose any value other
+/// than Follow source. To specify a different PAR by editing the JSON job
+/// specification, choose SPECIFIED. When you choose SPECIFIED for this setting,
+/// you must also specify values for the parNumerator and parDenominator
+/// settings.
 enum H265ParControl {
   @_s.JsonValue('INITIALIZE_FROM_SOURCE')
   initializeFromSource,
@@ -6597,9 +7319,9 @@ enum H265ParControl {
   specified,
 }
 
-/// Use Quality tuning level (H265QualityTuningLevel) to specifiy whether to use
-/// fast single-pass, high-quality singlepass, or high-quality multipass video
-/// encoding.
+/// Optional. Use Quality tuning level (qualityTuningLevel) to choose how you
+/// want to trade off encoding speed for output video quality. The default
+/// behavior is faster, lower quality, single-pass encoding.
 enum H265QualityTuningLevel {
   @_s.JsonValue('SINGLE_PASS')
   singlePass,
@@ -6704,8 +7426,11 @@ enum H265SceneChangeDetect {
     createFactory: true,
     createToJson: true)
 class H265Settings {
-  /// Adaptive quantization. Allows intra-frame quantizers to vary to improve
-  /// visual quality.
+  /// Specify the strength of any adaptive quantization filters that you enable.
+  /// The value that you choose here applies to the following settings: Flicker
+  /// adaptive quantization (flickerAdaptiveQuantization), Spatial adaptive
+  /// quantization (spatialAdaptiveQuantization), and Temporal adaptive
+  /// quantization (temporalAdaptiveQuantization).
   @_s.JsonKey(name: 'adaptiveQuantization')
   final H265AdaptiveQuantization adaptiveQuantization;
 
@@ -6740,8 +7465,13 @@ class H265Settings {
   @_s.JsonKey(name: 'dynamicSubGop')
   final H265DynamicSubGop dynamicSubGop;
 
-  /// Adjust quantization within each frame to reduce flicker or 'pop' on
-  /// I-frames.
+  /// Enable this setting to have the encoder reduce I-frame pop. I-frame pop
+  /// appears as a visual flicker that can arise when the encoder saves bits by
+  /// copying some macroblocks many times from frame to frame, and then refreshes
+  /// them at the I-frame. When you enable this setting, the encoder updates these
+  /// macroblocks slightly more often to smooth out the flicker. This setting is
+  /// disabled by default. Related setting: In addition to enabling this setting,
+  /// you must also set adaptiveQuantization to a value other than Off (OFF).
   @_s.JsonKey(name: 'flickerAdaptiveQuantization')
   final H265FlickerAdaptiveQuantization flickerAdaptiveQuantization;
 
@@ -6751,7 +7481,7 @@ class H265Settings {
   /// a frame rate from the dropdown list or choose Custom. The framerates shown
   /// in the dropdown list are decimal approximations of fractions. If you choose
   /// Custom, specify your frame rate as a fraction. If you are creating your
-  /// transcoding job sepecification as a JSON file without the console, use
+  /// transcoding job specification as a JSON file without the console, use
   /// FramerateControl to specify which value the service uses for the frame rate
   /// for this output. Choose INITIALIZE_FROM_SOURCE if you want the service to
   /// use the frame rate from the input. Choose SPECIFIED if you want the service
@@ -6760,17 +7490,36 @@ class H265Settings {
   @_s.JsonKey(name: 'framerateControl')
   final H265FramerateControl framerateControl;
 
-  /// When set to INTERPOLATE, produces smoother motion during frame rate
-  /// conversion.
+  /// Choose the method that you want MediaConvert to use when increasing or
+  /// decreasing the frame rate. We recommend using drop duplicate
+  /// (DUPLICATE_DROP) for numerically simple conversions, such as 60 fps to 30
+  /// fps. For numerically complex conversions, you can use interpolate
+  /// (INTERPOLATE) to avoid stutter. This results in a smooth picture, but might
+  /// introduce undesirable video artifacts. For complex frame rate conversions,
+  /// especially if your source video has already been converted from its original
+  /// cadence, use FrameFormer (FRAMEFORMER) to do motion-compensated
+  /// interpolation. FrameFormer chooses the best conversion method frame by
+  /// frame. Note that using FrameFormer increases the transcoding time and incurs
+  /// a significant add-on cost.
   @_s.JsonKey(name: 'framerateConversionAlgorithm')
   final H265FramerateConversionAlgorithm framerateConversionAlgorithm;
 
-  /// Frame rate denominator.
+  /// When you use the API for transcode jobs that use frame rate conversion,
+  /// specify the frame rate as a fraction. For example,  24000 / 1001 = 23.976
+  /// fps. Use FramerateDenominator to specify the denominator of this fraction.
+  /// In this example, use 1001 for the value of FramerateDenominator. When you
+  /// use the console for transcode jobs that use frame rate conversion, provide
+  /// the value as a decimal number for Framerate. In this example, specify
+  /// 23.976.
   @_s.JsonKey(name: 'framerateDenominator')
   final int framerateDenominator;
 
-  /// Frame rate numerator - frame rate is a fraction, e.g. 24000 / 1001 = 23.976
-  /// fps.
+  /// When you use the API for transcode jobs that use frame rate conversion,
+  /// specify the frame rate as a fraction. For example,  24000 / 1001 = 23.976
+  /// fps. Use FramerateNumerator to specify the numerator of this fraction. In
+  /// this example, use 24000 for the value of FramerateNumerator. When you use
+  /// the console for transcode jobs that use frame rate conversion, provide the
+  /// value as a decimal number for Framerate. In this example, specify 23.976.
   @_s.JsonKey(name: 'framerateNumerator')
   final int framerateNumerator;
 
@@ -6804,19 +7553,18 @@ class H265Settings {
   @_s.JsonKey(name: 'hrdBufferSize')
   final int hrdBufferSize;
 
-  /// Choose the scan line type for the output. Choose Progressive (PROGRESSIVE)
-  /// to create a progressive output, regardless of the scan type of your input.
-  /// Choose Top Field First (TOP_FIELD) or Bottom Field First (BOTTOM_FIELD) to
-  /// create an output that's interlaced with the same field polarity throughout.
-  /// Choose Follow, Default Top (FOLLOW_TOP_FIELD) or Follow, Default Bottom
-  /// (FOLLOW_BOTTOM_FIELD) to create an interlaced output with the same field
-  /// polarity as the source. If the source is interlaced, the output will be
-  /// interlaced with the same polarity as the source (it will follow the source).
-  /// The output could therefore be a mix of "top field first" and "bottom field
-  /// first". If the source is progressive, your output will be interlaced with
-  /// "top field first" or "bottom field first" polarity, depending on which of
-  /// the Follow options you chose. If you don't choose a value, the service will
-  /// default to Progressive (PROGRESSIVE).
+  /// Choose the scan line type for the output. Keep the default value,
+  /// Progressive (PROGRESSIVE) to create a progressive output, regardless of the
+  /// scan type of your input. Use Top field first (TOP_FIELD) or Bottom field
+  /// first (BOTTOM_FIELD) to create an output that's interlaced with the same
+  /// field polarity throughout. Use Follow, default top (FOLLOW_TOP_FIELD) or
+  /// Follow, default bottom (FOLLOW_BOTTOM_FIELD) to produce outputs with the
+  /// same field polarity as the source. For jobs that have multiple inputs, the
+  /// output field polarity might change over the course of the output. Follow
+  /// behavior depends on the input scan type. If the source is interlaced, the
+  /// output will be interlaced with the same polarity as the source. If the
+  /// source is progressive, the output will be interlaced with top field bottom
+  /// field first, depending on which of the Follow options you choose.
   @_s.JsonKey(name: 'interlaceMode')
   final H265InterlaceMode interlaceMode;
 
@@ -6844,23 +7592,38 @@ class H265Settings {
   @_s.JsonKey(name: 'numberReferenceFrames')
   final int numberReferenceFrames;
 
-  /// Using the API, enable ParFollowSource if you want the service to use the
-  /// pixel aspect ratio from the input. Using the console, do this by choosing
-  /// Follow source for Pixel aspect ratio.
+  /// Optional. Specify how the service determines the pixel aspect ratio (PAR)
+  /// for this output. The default behavior, Follow source
+  /// (INITIALIZE_FROM_SOURCE), uses the PAR from your input video for your
+  /// output. To specify a different PAR in the console, choose any value other
+  /// than Follow source. To specify a different PAR by editing the JSON job
+  /// specification, choose SPECIFIED. When you choose SPECIFIED for this setting,
+  /// you must also specify values for the parNumerator and parDenominator
+  /// settings.
   @_s.JsonKey(name: 'parControl')
   final H265ParControl parControl;
 
-  /// Pixel Aspect Ratio denominator.
+  /// Required when you set Pixel aspect ratio (parControl) to SPECIFIED. On the
+  /// console, this corresponds to any value other than Follow source. When you
+  /// specify an output pixel aspect ratio (PAR) that is different from your input
+  /// video PAR, provide your output PAR as a ratio. For example, for D1/DV NTSC
+  /// widescreen, you would specify the ratio 40:33. In this example, the value
+  /// for parDenominator is 33.
   @_s.JsonKey(name: 'parDenominator')
   final int parDenominator;
 
-  /// Pixel Aspect Ratio numerator.
+  /// Required when you set Pixel aspect ratio (parControl) to SPECIFIED. On the
+  /// console, this corresponds to any value other than Follow source. When you
+  /// specify an output pixel aspect ratio (PAR) that is different from your input
+  /// video PAR, provide your output PAR as a ratio. For example, for D1/DV NTSC
+  /// widescreen, you would specify the ratio 40:33. In this example, the value
+  /// for parNumerator is 40.
   @_s.JsonKey(name: 'parNumerator')
   final int parNumerator;
 
-  /// Use Quality tuning level (H265QualityTuningLevel) to specifiy whether to use
-  /// fast single-pass, high-quality singlepass, or high-quality multipass video
-  /// encoding.
+  /// Optional. Use Quality tuning level (qualityTuningLevel) to choose how you
+  /// want to trade off encoding speed for output video quality. The default
+  /// behavior is faster, lower quality, single-pass encoding.
   @_s.JsonKey(name: 'qualityTuningLevel')
   final H265QualityTuningLevel qualityTuningLevel;
 
@@ -6896,13 +7659,32 @@ class H265Settings {
   @_s.JsonKey(name: 'slices')
   final int slices;
 
-  /// Enables Slow PAL rate conversion. 23.976fps and 24fps input is relabeled as
-  /// 25fps, and audio is sped up correspondingly.
+  /// Ignore this setting unless your input frame rate is 23.976 or 24 frames per
+  /// second (fps). Enable slow PAL to create a 25 fps output. When you enable
+  /// slow PAL, MediaConvert relabels the video frames to 25 fps and resamples
+  /// your audio to keep it synchronized with the video. Note that enabling this
+  /// setting will slightly reduce the duration of your video. Required settings:
+  /// You must also set Framerate to 25. In your JSON job specification, set
+  /// (framerateControl) to (SPECIFIED), (framerateNumerator) to 25 and
+  /// (framerateDenominator) to 1.
   @_s.JsonKey(name: 'slowPal')
   final H265SlowPal slowPal;
 
-  /// Adjust quantization within each frame based on spatial variation of content
-  /// complexity.
+  /// Keep the default value, Enabled (ENABLED), to adjust quantization within
+  /// each frame based on spatial variation of content complexity. When you enable
+  /// this feature, the encoder uses fewer bits on areas that can sustain more
+  /// distortion with no noticeable visual degradation and uses more bits on areas
+  /// where any small distortion will be noticeable. For example, complex textured
+  /// blocks are encoded with fewer bits and smooth textured blocks are encoded
+  /// with more bits. Enabling this feature will almost always improve your video
+  /// quality. Note, though, that this feature doesn't take into account where the
+  /// viewer's attention is likely to be. If viewers are likely to be focusing
+  /// their attention on a part of the screen with a lot of complex texture, you
+  /// might choose to disable this feature. Related setting: When you enable
+  /// spatial adaptive quantization, set the value for Adaptive quantization
+  /// (adaptiveQuantization) depending on your content. For homogeneous content,
+  /// such as cartoons and video games, set it to Low. For content with a wider
+  /// variety of textures, set it to High or Higher.
   @_s.JsonKey(name: 'spatialAdaptiveQuantization')
   final H265SpatialAdaptiveQuantization spatialAdaptiveQuantization;
 
@@ -6916,8 +7698,19 @@ class H265Settings {
   @_s.JsonKey(name: 'telecine')
   final H265Telecine telecine;
 
-  /// Adjust quantization within each frame based on temporal variation of content
-  /// complexity.
+  /// Keep the default value, Enabled (ENABLED), to adjust quantization within
+  /// each frame based on temporal variation of content complexity. When you
+  /// enable this feature, the encoder uses fewer bits on areas of the frame that
+  /// aren't moving and uses more bits on complex objects with sharp edges that
+  /// move a lot. For example, this feature improves the readability of text
+  /// tickers on newscasts and scoreboards on sports matches. Enabling this
+  /// feature will almost always improve your video quality. Note, though, that
+  /// this feature doesn't take into account where the viewer's attention is
+  /// likely to be. If viewers are likely to be focusing their attention on a part
+  /// of the screen that doesn't have moving objects with sharp edges, such as
+  /// sports athletes' faces, you might choose to disable this feature. Related
+  /// setting: When you enable temporal quantization, adjust the strength of the
+  /// filter with the setting Adaptive quantization (adaptiveQuantization).
   @_s.JsonKey(name: 'temporalAdaptiveQuantization')
   final H265TemporalAdaptiveQuantization temporalAdaptiveQuantization;
 
@@ -7002,8 +7795,14 @@ class H265Settings {
   Map<String, dynamic> toJson() => _$H265SettingsToJson(this);
 }
 
-/// Enables Slow PAL rate conversion. 23.976fps and 24fps input is relabeled as
-/// 25fps, and audio is sped up correspondingly.
+/// Ignore this setting unless your input frame rate is 23.976 or 24 frames per
+/// second (fps). Enable slow PAL to create a 25 fps output. When you enable
+/// slow PAL, MediaConvert relabels the video frames to 25 fps and resamples
+/// your audio to keep it synchronized with the video. Note that enabling this
+/// setting will slightly reduce the duration of your video. Required settings:
+/// You must also set Framerate to 25. In your JSON job specification, set
+/// (framerateControl) to (SPECIFIED), (framerateNumerator) to 25 and
+/// (framerateDenominator) to 1.
 enum H265SlowPal {
   @_s.JsonValue('DISABLED')
   disabled,
@@ -7011,8 +7810,21 @@ enum H265SlowPal {
   enabled,
 }
 
-/// Adjust quantization within each frame based on spatial variation of content
-/// complexity.
+/// Keep the default value, Enabled (ENABLED), to adjust quantization within
+/// each frame based on spatial variation of content complexity. When you enable
+/// this feature, the encoder uses fewer bits on areas that can sustain more
+/// distortion with no noticeable visual degradation and uses more bits on areas
+/// where any small distortion will be noticeable. For example, complex textured
+/// blocks are encoded with fewer bits and smooth textured blocks are encoded
+/// with more bits. Enabling this feature will almost always improve your video
+/// quality. Note, though, that this feature doesn't take into account where the
+/// viewer's attention is likely to be. If viewers are likely to be focusing
+/// their attention on a part of the screen with a lot of complex texture, you
+/// might choose to disable this feature. Related setting: When you enable
+/// spatial adaptive quantization, set the value for Adaptive quantization
+/// (adaptiveQuantization) depending on your content. For homogeneous content,
+/// such as cartoons and video games, set it to Low. For content with a wider
+/// variety of textures, set it to High or Higher.
 enum H265SpatialAdaptiveQuantization {
   @_s.JsonValue('DISABLED')
   disabled,
@@ -7036,8 +7848,19 @@ enum H265Telecine {
   hard,
 }
 
-/// Adjust quantization within each frame based on temporal variation of content
-/// complexity.
+/// Keep the default value, Enabled (ENABLED), to adjust quantization within
+/// each frame based on temporal variation of content complexity. When you
+/// enable this feature, the encoder uses fewer bits on areas of the frame that
+/// aren't moving and uses more bits on complex objects with sharp edges that
+/// move a lot. For example, this feature improves the readability of text
+/// tickers on newscasts and scoreboards on sports matches. Enabling this
+/// feature will almost always improve your video quality. Note, though, that
+/// this feature doesn't take into account where the viewer's attention is
+/// likely to be. If viewers are likely to be focusing their attention on a part
+/// of the screen that doesn't have moving objects with sharp edges, such as
+/// sports athletes' faces, you might choose to disable this feature. Related
+/// setting: When you enable temporal quantization, adjust the strength of the
+/// filter with the setting Adaptive quantization (adaptiveQuantization).
 enum H265TemporalAdaptiveQuantization {
   @_s.JsonValue('DISABLED')
   disabled,
@@ -7259,6 +8082,17 @@ enum HlsAudioOnlyContainer {
   m2ts,
 }
 
+/// Ignore this setting unless you are using FairPlay DRM with Verimatrix and
+/// you encounter playback issues. Keep the default value, Include (INCLUDE), to
+/// output audio-only headers. Choose Exclude (EXCLUDE) to remove the audio-only
+/// headers from your audio segments.
+enum HlsAudioOnlyHeader {
+  @_s.JsonValue('INCLUDE')
+  include,
+  @_s.JsonValue('EXCLUDE')
+  exclude,
+}
+
 /// Four types of audio-only tracks are supported: Audio-Only Variant Stream The
 /// client can play back this audio-only stream instead of video in
 /// low-bandwidth scenarios. Represented as an EXT-X-STREAM-INF in the HLS
@@ -7336,8 +8170,10 @@ enum HlsCaptionLanguageSetting {
   none,
 }
 
-/// When set to ENABLED, sets #EXT-X-ALLOW-CACHE:no tag, which prevents client
-/// from saving media segments for later replay.
+/// Disable this setting only when your workflow requires the
+/// #EXT-X-ALLOW-CACHE:no tag. Otherwise, keep the default value Enabled
+/// (ENABLED) and control caching in your video distribution set up. For
+/// example, use the Cache-Control http header.
 enum HlsClientCache {
   @_s.JsonValue('DISABLED')
   disabled,
@@ -7454,6 +8290,13 @@ class HlsGroupSettings {
   @_s.JsonKey(name: 'additionalManifests')
   final List<HlsAdditionalManifest> additionalManifests;
 
+  /// Ignore this setting unless you are using FairPlay DRM with Verimatrix and
+  /// you encounter playback issues. Keep the default value, Include (INCLUDE), to
+  /// output audio-only headers. Choose Exclude (EXCLUDE) to remove the audio-only
+  /// headers from your audio segments.
+  @_s.JsonKey(name: 'audioOnlyHeader')
+  final HlsAudioOnlyHeader audioOnlyHeader;
+
   /// A partial URI prefix that will be prepended to each output in the media
   /// .m3u8 file. Can be used if base manifest is delivered from a different URL
   /// than the main .m3u8 file.
@@ -7476,8 +8319,10 @@ class HlsGroupSettings {
   @_s.JsonKey(name: 'captionLanguageSetting')
   final HlsCaptionLanguageSetting captionLanguageSetting;
 
-  /// When set to ENABLED, sets #EXT-X-ALLOW-CACHE:no tag, which prevents client
-  /// from saving media segments for later replay.
+  /// Disable this setting only when your workflow requires the
+  /// #EXT-X-ALLOW-CACHE:no tag. Otherwise, keep the default value Enabled
+  /// (ENABLED) and control caching in your video distribution set up. For
+  /// example, use the Cache-Control http header.
   @_s.JsonKey(name: 'clientCache')
   final HlsClientCache clientCache;
 
@@ -7590,6 +8435,7 @@ class HlsGroupSettings {
   HlsGroupSettings({
     this.adMarkers,
     this.additionalManifests,
+    this.audioOnlyHeader,
     this.baseUrl,
     this.captionLanguageMappings,
     this.captionLanguageSetting,
@@ -7890,8 +8736,8 @@ class ImageInserter {
 class ImscDestinationSettings {
   /// Keep this setting enabled to have MediaConvert use the font style and
   /// position information from the captions source in the output. This option is
-  /// available only when your input captions are CFF-TT, IMSC, SMPTE-TT, or TTML.
-  /// Disable this setting for simplified output captions.
+  /// available only when your input captions are IMSC, SMPTE-TT, or TTML. Disable
+  /// this setting for simplified output captions.
   @_s.JsonKey(name: 'stylePassthrough')
   final ImscStylePassthrough stylePassthrough;
 
@@ -7906,8 +8752,8 @@ class ImscDestinationSettings {
 
 /// Keep this setting enabled to have MediaConvert use the font style and
 /// position information from the captions source in the output. This option is
-/// available only when your input captions are CFF-TT, IMSC, SMPTE-TT, or TTML.
-/// Disable this setting for simplified output captions.
+/// available only when your input captions are IMSC, SMPTE-TT, or TTML. Disable
+/// this setting for simplified output captions.
 enum ImscStylePassthrough {
   @_s.JsonValue('ENABLED')
   enabled,
@@ -7929,14 +8775,13 @@ class Input {
   final Map<String, AudioSelectorGroup> audioSelectorGroups;
 
   /// Use Audio selectors (AudioSelectors) to specify a track or set of tracks
-  /// from the input that you will use in your outputs. You can use mutiple Audio
+  /// from the input that you will use in your outputs. You can use multiple Audio
   /// selectors per input.
   @_s.JsonKey(name: 'audioSelectors')
   final Map<String, AudioSelector> audioSelectors;
 
-  /// Use Captions selectors (CaptionSelectors) to specify the captions data from
-  /// the input that you will use in your outputs. You can use mutiple captions
-  /// selectors per input.
+  /// Use captions selectors to specify the captions data from your input that you
+  /// use in your outputs. You can use up to 20 captions selectors per input.
   @_s.JsonKey(name: 'captionSelectors')
   final Map<String, CaptionSelector> captionSelectors;
 
@@ -7948,7 +8793,7 @@ class Input {
   final Rectangle crop;
 
   /// Enable Deblock (InputDeblockFilter) to produce smoother motion in the
-  /// output. Default is disabled. Only manaully controllable for MPEG2 and
+  /// output. Default is disabled. Only manually controllable for MPEG2 and
   /// uncompressed video inputs.
   @_s.JsonKey(name: 'deblockFilter')
   final InputDeblockFilter deblockFilter;
@@ -7976,14 +8821,14 @@ class Input {
   @_s.JsonKey(name: 'fileInput')
   final String fileInput;
 
-  /// Use Filter enable (InputFilterEnable) to specify how the transcoding service
-  /// applies the denoise and deblock filters. You must also enable the filters
-  /// separately, with Denoise (InputDenoiseFilter) and Deblock
-  /// (InputDeblockFilter). * Auto - The transcoding service determines whether to
-  /// apply filtering, depending on input type and quality. * Disable - The input
-  /// is not filtered. This is true even if you use the API to enable them in
-  /// (InputDeblockFilter) and (InputDeblockFilter). * Force - The in put is
-  /// filtered regardless of input type.
+  /// Specify how the transcoding service applies the denoise and deblock filters.
+  /// You must also enable the filters separately, with Denoise
+  /// (InputDenoiseFilter) and Deblock (InputDeblockFilter). * Auto - The
+  /// transcoding service determines whether to apply filtering, depending on
+  /// input type and quality. * Disable - The input is not filtered. This is true
+  /// even if you use the API to enable them in (InputDeblockFilter) and
+  /// (InputDeblockFilter). * Force - The input is filtered regardless of input
+  /// type.
   @_s.JsonKey(name: 'filterEnable')
   final InputFilterEnable filterEnable;
 
@@ -8007,6 +8852,16 @@ class Input {
   /// them.
   @_s.JsonKey(name: 'inputClippings')
   final List<InputClipping> inputClippings;
+
+  /// When you have a progressive segmented frame (PsF) input, use this setting to
+  /// flag the input as PsF. MediaConvert doesn't automatically detect PsF.
+  /// Therefore, flagging your input as PsF results in better preservation of
+  /// video quality when you do deinterlacing and frame rate conversion. If you
+  /// don't specify, the default value is Auto (AUTO). Auto is the correct setting
+  /// for all inputs that are not PsF. Don't set this value to PsF when your input
+  /// is interlaced. Doing so creates horizontal interlacing artifacts.
+  @_s.JsonKey(name: 'inputScanType')
+  final InputScanType inputScanType;
 
   /// Use Selection placement (position) to define the video area in your output
   /// frame. The area outside of the rectangle that you specify here is black. If
@@ -8081,6 +8936,7 @@ class Input {
     this.filterStrength,
     this.imageInserter,
     this.inputClippings,
+    this.inputScanType,
     this.position,
     this.programNumber,
     this.psiControl,
@@ -8138,7 +8994,7 @@ class InputClipping {
 }
 
 /// Enable Deblock (InputDeblockFilter) to produce smoother motion in the
-/// output. Default is disabled. Only manaully controllable for MPEG2 and
+/// output. Default is disabled. Only manually controllable for MPEG2 and
 /// uncompressed video inputs.
 enum InputDeblockFilter {
   @_s.JsonValue('ENABLED')
@@ -8205,14 +9061,14 @@ enum InputDenoiseFilter {
   disabled,
 }
 
-/// Use Filter enable (InputFilterEnable) to specify how the transcoding service
-/// applies the denoise and deblock filters. You must also enable the filters
-/// separately, with Denoise (InputDenoiseFilter) and Deblock
-/// (InputDeblockFilter). * Auto - The transcoding service determines whether to
-/// apply filtering, depending on input type and quality. * Disable - The input
-/// is not filtered. This is true even if you use the API to enable them in
-/// (InputDeblockFilter) and (InputDeblockFilter). * Force - The in put is
-/// filtered regardless of input type.
+/// Specify how the transcoding service applies the denoise and deblock filters.
+/// You must also enable the filters separately, with Denoise
+/// (InputDenoiseFilter) and Deblock (InputDeblockFilter). * Auto - The
+/// transcoding service determines whether to apply filtering, depending on
+/// input type and quality. * Disable - The input is not filtered. This is true
+/// even if you use the API to enable them in (InputDeblockFilter) and
+/// (InputDeblockFilter). * Force - The input is filtered regardless of input
+/// type.
 enum InputFilterEnable {
   @_s.JsonValue('AUTO')
   auto,
@@ -8255,6 +9111,20 @@ enum InputRotate {
   auto,
 }
 
+/// When you have a progressive segmented frame (PsF) input, use this setting to
+/// flag the input as PsF. MediaConvert doesn't automatically detect PsF.
+/// Therefore, flagging your input as PsF results in better preservation of
+/// video quality when you do deinterlacing and frame rate conversion. If you
+/// don't specify, the default value is Auto (AUTO). Auto is the correct setting
+/// for all inputs that are not PsF. Don't set this value to PsF when your input
+/// is interlaced. Doing so creates horizontal interlacing artifacts.
+enum InputScanType {
+  @_s.JsonValue('AUTO')
+  auto,
+  @_s.JsonValue('PSF')
+  psf,
+}
+
 /// Specified video input in a template.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -8269,14 +9139,13 @@ class InputTemplate {
   final Map<String, AudioSelectorGroup> audioSelectorGroups;
 
   /// Use Audio selectors (AudioSelectors) to specify a track or set of tracks
-  /// from the input that you will use in your outputs. You can use mutiple Audio
+  /// from the input that you will use in your outputs. You can use multiple Audio
   /// selectors per input.
   @_s.JsonKey(name: 'audioSelectors')
   final Map<String, AudioSelector> audioSelectors;
 
-  /// Use Captions selectors (CaptionSelectors) to specify the captions data from
-  /// the input that you will use in your outputs. You can use mutiple captions
-  /// selectors per input.
+  /// Use captions selectors to specify the captions data from your input that you
+  /// use in your outputs. You can use up to 20 captions selectors per input.
   @_s.JsonKey(name: 'captionSelectors')
   final Map<String, CaptionSelector> captionSelectors;
 
@@ -8288,7 +9157,7 @@ class InputTemplate {
   final Rectangle crop;
 
   /// Enable Deblock (InputDeblockFilter) to produce smoother motion in the
-  /// output. Default is disabled. Only manaully controllable for MPEG2 and
+  /// output. Default is disabled. Only manually controllable for MPEG2 and
   /// uncompressed video inputs.
   @_s.JsonKey(name: 'deblockFilter')
   final InputDeblockFilter deblockFilter;
@@ -8299,14 +9168,14 @@ class InputTemplate {
   @_s.JsonKey(name: 'denoiseFilter')
   final InputDenoiseFilter denoiseFilter;
 
-  /// Use Filter enable (InputFilterEnable) to specify how the transcoding service
-  /// applies the denoise and deblock filters. You must also enable the filters
-  /// separately, with Denoise (InputDenoiseFilter) and Deblock
-  /// (InputDeblockFilter). * Auto - The transcoding service determines whether to
-  /// apply filtering, depending on input type and quality. * Disable - The input
-  /// is not filtered. This is true even if you use the API to enable them in
-  /// (InputDeblockFilter) and (InputDeblockFilter). * Force - The in put is
-  /// filtered regardless of input type.
+  /// Specify how the transcoding service applies the denoise and deblock filters.
+  /// You must also enable the filters separately, with Denoise
+  /// (InputDenoiseFilter) and Deblock (InputDeblockFilter). * Auto - The
+  /// transcoding service determines whether to apply filtering, depending on
+  /// input type and quality. * Disable - The input is not filtered. This is true
+  /// even if you use the API to enable them in (InputDeblockFilter) and
+  /// (InputDeblockFilter). * Force - The input is filtered regardless of input
+  /// type.
   @_s.JsonKey(name: 'filterEnable')
   final InputFilterEnable filterEnable;
 
@@ -8330,6 +9199,16 @@ class InputTemplate {
   /// them.
   @_s.JsonKey(name: 'inputClippings')
   final List<InputClipping> inputClippings;
+
+  /// When you have a progressive segmented frame (PsF) input, use this setting to
+  /// flag the input as PsF. MediaConvert doesn't automatically detect PsF.
+  /// Therefore, flagging your input as PsF results in better preservation of
+  /// video quality when you do deinterlacing and frame rate conversion. If you
+  /// don't specify, the default value is Auto (AUTO). Auto is the correct setting
+  /// for all inputs that are not PsF. Don't set this value to PsF when your input
+  /// is interlaced. Doing so creates horizontal interlacing artifacts.
+  @_s.JsonKey(name: 'inputScanType')
+  final InputScanType inputScanType;
 
   /// Use Selection placement (position) to define the video area in your output
   /// frame. The area outside of the rectangle that you specify here is black. If
@@ -8393,6 +9272,7 @@ class InputTemplate {
     this.filterStrength,
     this.imageInserter,
     this.inputClippings,
+    this.inputScanType,
     this.position,
     this.programNumber,
     this.psiControl,
@@ -8521,7 +9401,7 @@ class InsertableImage {
 
 /// Each job converts an input file into an output file or files. For more
 /// information, see the User Guide at
-/// http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
+/// https://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -8530,7 +9410,7 @@ class InsertableImage {
 class Job {
   /// The IAM role you use for creating this job. For details about permissions,
   /// see the User Guide topic at the User Guide at
-  /// http://docs.aws.amazon.com/mediaconvert/latest/ug/iam-role.html
+  /// https://docs.aws.amazon.com/mediaconvert/latest/ug/iam-role.html
   @_s.JsonKey(name: 'role')
   final String role;
 
@@ -8626,7 +9506,7 @@ class Job {
   /// When you create a job, you can specify a queue to send it to. If you don't
   /// specify, the job will go to the default queue. For more about queues, see
   /// the User Guide topic at
-  /// http://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
+  /// https://docs.aws.amazon.com/mediaconvert/latest/ug/what-is.html
   @_s.JsonKey(name: 'queue')
   final String queue;
 
@@ -8776,6 +9656,17 @@ class JobSettings {
   @_s.JsonKey(name: 'nielsenConfiguration')
   final NielsenConfiguration nielsenConfiguration;
 
+  /// Ignore these settings unless you are using Nielsen non-linear watermarking.
+  /// Specify the values that  MediaConvert uses to generate and place Nielsen
+  /// watermarks in your output audio. In addition to  specifying these values,
+  /// you also need to set up your cloud TIC server. These settings apply to
+  /// every output in your job. The MediaConvert implementation is currently with
+  /// the following Nielsen versions: Nielsen Watermark SDK Version 5.2.1 Nielsen
+  /// NLM Watermark Engine Version 1.2.7 Nielsen Watermark Authenticator [SID_TIC]
+  /// Version [5.0.0]
+  @_s.JsonKey(name: 'nielsenNonLinearWatermark')
+  final NielsenNonLinearWatermarkSettings nielsenNonLinearWatermark;
+
   /// (OutputGroups) contains one group of settings for each set of outputs that
   /// share a common package type. All unpackaged files (MPEG-4, MPEG-2 TS,
   /// Quicktime, MXF, and no container) are grouped in a single output group as
@@ -8795,9 +9686,9 @@ class JobSettings {
   final TimecodeConfig timecodeConfig;
 
   /// Enable Timed metadata insertion (TimedMetadataInsertion) to include ID3 tags
-  /// in your job. To include timed metadata, you must enable it here, enable it
-  /// in each output container, and specify tags and timecodes in ID3 insertion
-  /// (Id3Insertion) objects.
+  /// in any HLS outputs. To include timed metadata, you must enable it here,
+  /// enable it in each output container, and specify tags and timecodes in ID3
+  /// insertion (Id3Insertion) objects.
   @_s.JsonKey(name: 'timedMetadataInsertion')
   final TimedMetadataInsertion timedMetadataInsertion;
 
@@ -8808,6 +9699,7 @@ class JobSettings {
     this.inputs,
     this.motionImageInserter,
     this.nielsenConfiguration,
+    this.nielsenNonLinearWatermark,
     this.outputGroups,
     this.timecodeConfig,
     this.timedMetadataInsertion,
@@ -9009,6 +9901,17 @@ class JobTemplateSettings {
   @_s.JsonKey(name: 'nielsenConfiguration')
   final NielsenConfiguration nielsenConfiguration;
 
+  /// Ignore these settings unless you are using Nielsen non-linear watermarking.
+  /// Specify the values that  MediaConvert uses to generate and place Nielsen
+  /// watermarks in your output audio. In addition to  specifying these values,
+  /// you also need to set up your cloud TIC server. These settings apply to
+  /// every output in your job. The MediaConvert implementation is currently with
+  /// the following Nielsen versions: Nielsen Watermark SDK Version 5.2.1 Nielsen
+  /// NLM Watermark Engine Version 1.2.7 Nielsen Watermark Authenticator [SID_TIC]
+  /// Version [5.0.0]
+  @_s.JsonKey(name: 'nielsenNonLinearWatermark')
+  final NielsenNonLinearWatermarkSettings nielsenNonLinearWatermark;
+
   /// (OutputGroups) contains one group of settings for each set of outputs that
   /// share a common package type. All unpackaged files (MPEG-4, MPEG-2 TS,
   /// Quicktime, MXF, and no container) are grouped in a single output group as
@@ -9028,9 +9931,9 @@ class JobTemplateSettings {
   final TimecodeConfig timecodeConfig;
 
   /// Enable Timed metadata insertion (TimedMetadataInsertion) to include ID3 tags
-  /// in your job. To include timed metadata, you must enable it here, enable it
-  /// in each output container, and specify tags and timecodes in ID3 insertion
-  /// (Id3Insertion) objects.
+  /// in any HLS outputs. To include timed metadata, you must enable it here,
+  /// enable it in each output container, and specify tags and timecodes in ID3
+  /// insertion (Id3Insertion) objects.
   @_s.JsonKey(name: 'timedMetadataInsertion')
   final TimedMetadataInsertion timedMetadataInsertion;
 
@@ -9041,6 +9944,7 @@ class JobTemplateSettings {
     this.inputs,
     this.motionImageInserter,
     this.nielsenConfiguration,
+    this.nielsenNonLinearWatermark,
     this.outputGroups,
     this.timecodeConfig,
     this.timedMetadataInsertion,
@@ -9552,6 +10456,27 @@ enum M2tsAudioBufferModel {
   atsc,
 }
 
+/// Specify this setting only when your output will be consumed by a downstream
+/// repackaging workflow that is sensitive to very small duration differences
+/// between video and audio. For this situation, choose Match video duration
+/// (MATCH_VIDEO_DURATION). In all other cases, keep the default value, Default
+/// codec duration (DEFAULT_CODEC_DURATION). When you choose Match video
+/// duration, MediaConvert pads the output audio streams with silence or trims
+/// them to ensure that the total duration of each audio stream is at least as
+/// long as the total duration of the video stream. After padding or trimming,
+/// the audio stream duration is no more than one frame longer than the video
+/// stream. MediaConvert applies audio padding or trimming only to the end of
+/// the last segment of the output. For unsegmented outputs, MediaConvert adds
+/// padding only to the end of the file. When you keep the default value, any
+/// minor discrepancies between audio and video duration will depend on your
+/// output audio codec.
+enum M2tsAudioDuration {
+  @_s.JsonValue('DEFAULT_CODEC_DURATION')
+  defaultCodecDuration,
+  @_s.JsonValue('MATCH_VIDEO_DURATION')
+  matchVideoDuration,
+}
+
 /// Controls what buffer model to use for accurate interleaving. If set to
 /// MULTIPLEX, use multiplex  buffer model. If set to NONE, this can lead to
 /// lower latency, but low-memory devices may not be able to play back the
@@ -9733,6 +10658,23 @@ class M2tsSettings {
   /// Selects between the DVB and ATSC buffer models for Dolby Digital audio.
   @_s.JsonKey(name: 'audioBufferModel')
   final M2tsAudioBufferModel audioBufferModel;
+
+  /// Specify this setting only when your output will be consumed by a downstream
+  /// repackaging workflow that is sensitive to very small duration differences
+  /// between video and audio. For this situation, choose Match video duration
+  /// (MATCH_VIDEO_DURATION). In all other cases, keep the default value, Default
+  /// codec duration (DEFAULT_CODEC_DURATION). When you choose Match video
+  /// duration, MediaConvert pads the output audio streams with silence or trims
+  /// them to ensure that the total duration of each audio stream is at least as
+  /// long as the total duration of the video stream. After padding or trimming,
+  /// the audio stream duration is no more than one frame longer than the video
+  /// stream. MediaConvert applies audio padding or trimming only to the end of
+  /// the last segment of the output. For unsegmented outputs, MediaConvert adds
+  /// padding only to the end of the file. When you keep the default value, any
+  /// minor discrepancies between audio and video duration will depend on your
+  /// output audio codec.
+  @_s.JsonKey(name: 'audioDuration')
+  final M2tsAudioDuration audioDuration;
 
   /// The number of audio frames to insert for each PES packet.
   @_s.JsonKey(name: 'audioFramesPerPes')
@@ -9953,6 +10895,7 @@ class M2tsSettings {
 
   M2tsSettings({
     this.audioBufferModel,
+    this.audioDuration,
     this.audioFramesPerPes,
     this.audioPids,
     this.bitrate,
@@ -9993,6 +10936,27 @@ class M2tsSettings {
       _$M2tsSettingsFromJson(json);
 
   Map<String, dynamic> toJson() => _$M2tsSettingsToJson(this);
+}
+
+/// Specify this setting only when your output will be consumed by a downstream
+/// repackaging workflow that is sensitive to very small duration differences
+/// between video and audio. For this situation, choose Match video duration
+/// (MATCH_VIDEO_DURATION). In all other cases, keep the default value, Default
+/// codec duration (DEFAULT_CODEC_DURATION). When you choose Match video
+/// duration, MediaConvert pads the output audio streams with silence or trims
+/// them to ensure that the total duration of each audio stream is at least as
+/// long as the total duration of the video stream. After padding or trimming,
+/// the audio stream duration is no more than one frame longer than the video
+/// stream. MediaConvert applies audio padding or trimming only to the end of
+/// the last segment of the output. For unsegmented outputs, MediaConvert adds
+/// padding only to the end of the file. When you keep the default value, any
+/// minor discrepancies between audio and video duration will depend on your
+/// output audio codec.
+enum M3u8AudioDuration {
+  @_s.JsonValue('DEFAULT_CODEC_DURATION')
+  defaultCodecDuration,
+  @_s.JsonValue('MATCH_VIDEO_DURATION')
+  matchVideoDuration,
 }
 
 /// If INSERT, Nielsen inaudible tones for media tracking will be detected in
@@ -10037,6 +11001,23 @@ enum M3u8Scte35Source {
     createFactory: true,
     createToJson: true)
 class M3u8Settings {
+  /// Specify this setting only when your output will be consumed by a downstream
+  /// repackaging workflow that is sensitive to very small duration differences
+  /// between video and audio. For this situation, choose Match video duration
+  /// (MATCH_VIDEO_DURATION). In all other cases, keep the default value, Default
+  /// codec duration (DEFAULT_CODEC_DURATION). When you choose Match video
+  /// duration, MediaConvert pads the output audio streams with silence or trims
+  /// them to ensure that the total duration of each audio stream is at least as
+  /// long as the total duration of the video stream. After padding or trimming,
+  /// the audio stream duration is no more than one frame longer than the video
+  /// stream. MediaConvert applies audio padding or trimming only to the end of
+  /// the last segment of the output. For unsegmented outputs, MediaConvert adds
+  /// padding only to the end of the file. When you keep the default value, any
+  /// minor discrepancies between audio and video duration will depend on your
+  /// output audio codec.
+  @_s.JsonKey(name: 'audioDuration')
+  final M3u8AudioDuration audioDuration;
+
   /// The number of audio frames to insert for each PES packet.
   @_s.JsonKey(name: 'audioFramesPerPes')
   final int audioFramesPerPes;
@@ -10124,6 +11105,7 @@ class M3u8Settings {
   final int videoPid;
 
   M3u8Settings({
+    this.audioDuration,
     this.audioFramesPerPes,
     this.audioPids,
     this.nielsenId3,
@@ -10333,7 +11315,11 @@ enum MovMpeg2FourCCControl {
   mpeg,
 }
 
-/// If set to OMNEON, inserts Omneon-compatible padding
+/// To make this output compatible with Omenon, keep the default value, OMNEON.
+/// Unless you need Omneon compatibility, set this value to NONE. When you keep
+/// the default value, OMNEON, MediaConvert increases the length of the edit
+/// list atom. This might cause file rejections when a recipient of the output
+/// file doesn't expct this extra padding.
 enum MovPaddingControl {
   @_s.JsonValue('OMNEON')
   omneon,
@@ -10376,7 +11362,11 @@ class MovSettings {
   @_s.JsonKey(name: 'mpeg2FourCCControl')
   final MovMpeg2FourCCControl mpeg2FourCCControl;
 
-  /// If set to OMNEON, inserts Omneon-compatible padding
+  /// To make this output compatible with Omenon, keep the default value, OMNEON.
+  /// Unless you need Omneon compatibility, set this value to NONE. When you keep
+  /// the default value, OMNEON, MediaConvert increases the length of the edit
+  /// list atom. This might cause file rejections when a recipient of the output
+  /// file doesn't expct this extra padding.
   @_s.JsonKey(name: 'paddingControl')
   final MovPaddingControl paddingControl;
 
@@ -10523,6 +11513,23 @@ enum Mp4MoovPlacement {
     createFactory: true,
     createToJson: true)
 class Mp4Settings {
+  /// Specify this setting only when your output will be consumed by a downstream
+  /// repackaging workflow that is sensitive to very small duration differences
+  /// between video and audio. For this situation, choose Match video duration
+  /// (MATCH_VIDEO_DURATION). In all other cases, keep the default value, Default
+  /// codec duration (DEFAULT_CODEC_DURATION). When you choose Match video
+  /// duration, MediaConvert pads the output audio streams with silence or trims
+  /// them to ensure that the total duration of each audio stream is at least as
+  /// long as the total duration of the video stream. After padding or trimming,
+  /// the audio stream duration is no more than one frame longer than the video
+  /// stream. MediaConvert applies audio padding or trimming only to the end of
+  /// the last segment of the output. For unsegmented outputs, MediaConvert adds
+  /// padding only to the end of the file. When you keep the default value, any
+  /// minor discrepancies between audio and video duration will depend on your
+  /// output audio codec.
+  @_s.JsonKey(name: 'audioDuration')
+  final CmfcAudioDuration audioDuration;
+
   /// When enabled, file composition times will start at zero, composition times
   /// in the 'ctts' (composition time to sample) box for B-frames will be
   /// negative, and a 'cslg' (composition shift least greatest) box will be
@@ -10556,6 +11563,7 @@ class Mp4Settings {
   final String mp4MajorBrand;
 
   Mp4Settings({
+    this.audioDuration,
     this.cslgAtom,
     this.cttsVersion,
     this.freeSpaceBox,
@@ -10566,6 +11574,41 @@ class Mp4Settings {
       _$Mp4SettingsFromJson(json);
 
   Map<String, dynamic> toJson() => _$Mp4SettingsToJson(this);
+}
+
+/// Optional. Choose Include (INCLUDE) to have MediaConvert mark up your DASH
+/// manifest with <Accessibility> elements for embedded 608 captions. This
+/// markup isn't generally required, but some video players require it to
+/// discover and play embedded 608 captions. Keep the default value, Exclude
+/// (EXCLUDE), to leave these elements out. When you enable this setting, this
+/// is the markup that MediaConvert includes in your manifest: <Accessibility
+/// schemeIdUri="urn:scte:dash:cc:cea-608:2015" value="CC1=eng"/>
+enum MpdAccessibilityCaptionHints {
+  @_s.JsonValue('INCLUDE')
+  include,
+  @_s.JsonValue('EXCLUDE')
+  exclude,
+}
+
+/// Specify this setting only when your output will be consumed by a downstream
+/// repackaging workflow that is sensitive to very small duration differences
+/// between video and audio. For this situation, choose Match video duration
+/// (MATCH_VIDEO_DURATION). In all other cases, keep the default value, Default
+/// codec duration (DEFAULT_CODEC_DURATION). When you choose Match video
+/// duration, MediaConvert pads the output audio streams with silence or trims
+/// them to ensure that the total duration of each audio stream is at least as
+/// long as the total duration of the video stream. After padding or trimming,
+/// the audio stream duration is no more than one frame longer than the video
+/// stream. MediaConvert applies audio padding or trimming only to the end of
+/// the last segment of the output. For unsegmented outputs, MediaConvert adds
+/// padding only to the end of the file. When you keep the default value, any
+/// minor discrepancies between audio and video duration will depend on your
+/// output audio codec.
+enum MpdAudioDuration {
+  @_s.JsonValue('DEFAULT_CODEC_DURATION')
+  defaultCodecDuration,
+  @_s.JsonValue('MATCH_VIDEO_DURATION')
+  matchVideoDuration,
 }
 
 /// Use this setting only in DASH output groups that include sidecar TTML or
@@ -10610,6 +11653,33 @@ enum MpdScte35Source {
     createFactory: true,
     createToJson: true)
 class MpdSettings {
+  /// Optional. Choose Include (INCLUDE) to have MediaConvert mark up your DASH
+  /// manifest with <Accessibility> elements for embedded 608 captions. This
+  /// markup isn't generally required, but some video players require it to
+  /// discover and play embedded 608 captions. Keep the default value, Exclude
+  /// (EXCLUDE), to leave these elements out. When you enable this setting, this
+  /// is the markup that MediaConvert includes in your manifest: <Accessibility
+  /// schemeIdUri="urn:scte:dash:cc:cea-608:2015" value="CC1=eng"/>
+  @_s.JsonKey(name: 'accessibilityCaptionHints')
+  final MpdAccessibilityCaptionHints accessibilityCaptionHints;
+
+  /// Specify this setting only when your output will be consumed by a downstream
+  /// repackaging workflow that is sensitive to very small duration differences
+  /// between video and audio. For this situation, choose Match video duration
+  /// (MATCH_VIDEO_DURATION). In all other cases, keep the default value, Default
+  /// codec duration (DEFAULT_CODEC_DURATION). When you choose Match video
+  /// duration, MediaConvert pads the output audio streams with silence or trims
+  /// them to ensure that the total duration of each audio stream is at least as
+  /// long as the total duration of the video stream. After padding or trimming,
+  /// the audio stream duration is no more than one frame longer than the video
+  /// stream. MediaConvert applies audio padding or trimming only to the end of
+  /// the last segment of the output. For unsegmented outputs, MediaConvert adds
+  /// padding only to the end of the file. When you keep the default value, any
+  /// minor discrepancies between audio and video duration will depend on your
+  /// output audio codec.
+  @_s.JsonKey(name: 'audioDuration')
+  final MpdAudioDuration audioDuration;
+
   /// Use this setting only in DASH output groups that include sidecar TTML or
   /// IMSC captions.  You specify sidecar captions in a separate output from your
   /// audio and video. Choose Raw (RAW) for captions in a single XML file in a raw
@@ -10634,6 +11704,8 @@ class MpdSettings {
   final MpdScte35Source scte35Source;
 
   MpdSettings({
+    this.accessibilityCaptionHints,
+    this.audioDuration,
     this.captionContainerType,
     this.scte35Esam,
     this.scte35Source,
@@ -10644,8 +11716,10 @@ class MpdSettings {
   Map<String, dynamic> toJson() => _$MpdSettingsToJson(this);
 }
 
-/// Adaptive quantization. Allows intra-frame quantizers to vary to improve
-/// visual quality.
+/// Specify the strength of any adaptive quantization filters that you enable.
+/// The value that you choose here applies to the following settings: Spatial
+/// adaptive quantization (spatialAdaptiveQuantization), and Temporal adaptive
+/// quantization (temporalAdaptiveQuantization).
 enum Mpeg2AdaptiveQuantization {
   @_s.JsonValue('OFF')
   off,
@@ -10699,7 +11773,7 @@ enum Mpeg2DynamicSubGop {
 /// a frame rate from the dropdown list or choose Custom. The framerates shown
 /// in the dropdown list are decimal approximations of fractions. If you choose
 /// Custom, specify your frame rate as a fraction. If you are creating your
-/// transcoding job sepecification as a JSON file without the console, use
+/// transcoding job specification as a JSON file without the console, use
 /// FramerateControl to specify which value the service uses for the frame rate
 /// for this output. Choose INITIALIZE_FROM_SOURCE if you want the service to
 /// use the frame rate from the input. Choose SPECIFIED if you want the service
@@ -10712,13 +11786,24 @@ enum Mpeg2FramerateControl {
   specified,
 }
 
-/// When set to INTERPOLATE, produces smoother motion during frame rate
-/// conversion.
+/// Choose the method that you want MediaConvert to use when increasing or
+/// decreasing the frame rate. We recommend using drop duplicate
+/// (DUPLICATE_DROP) for numerically simple conversions, such as 60 fps to 30
+/// fps. For numerically complex conversions, you can use interpolate
+/// (INTERPOLATE) to avoid stutter. This results in a smooth picture, but might
+/// introduce undesirable video artifacts. For complex frame rate conversions,
+/// especially if your source video has already been converted from its original
+/// cadence, use FrameFormer (FRAMEFORMER) to do motion-compensated
+/// interpolation. FrameFormer chooses the best conversion method frame by
+/// frame. Note that using FrameFormer increases the transcoding time and incurs
+/// a significant add-on cost.
 enum Mpeg2FramerateConversionAlgorithm {
   @_s.JsonValue('DUPLICATE_DROP')
   duplicateDrop,
   @_s.JsonValue('INTERPOLATE')
   interpolate,
+  @_s.JsonValue('FRAMEFORMER')
+  frameformer,
 }
 
 /// Indicates if the GOP Size in MPEG2 is specified in frames or seconds. If
@@ -10730,18 +11815,18 @@ enum Mpeg2GopSizeUnits {
   seconds,
 }
 
-/// Use Interlace mode (InterlaceMode) to choose the scan line type for the
-/// output. * Top Field First (TOP_FIELD) and Bottom Field First (BOTTOM_FIELD)
-/// produce interlaced output with the entire output having the same field
-/// polarity (top or bottom first). * Follow, Default Top (FOLLOW_TOP_FIELD) and
-/// Follow, Default Bottom (FOLLOW_BOTTOM_FIELD) use the same field polarity as
-/// the source. Therefore, behavior depends on the input scan type.
-/// - If the source is interlaced, the output will be interlaced with the same
-/// polarity as the source (it will follow the source). The output could
-/// therefore be a mix of "top field first" and "bottom field first".
-/// - If the source is progressive, the output will be interlaced with "top
-/// field first" or "bottom field first" polarity, depending on which of the
-/// Follow options you chose.
+/// Choose the scan line type for the output. Keep the default value,
+/// Progressive (PROGRESSIVE) to create a progressive output, regardless of the
+/// scan type of your input. Use Top field first (TOP_FIELD) or Bottom field
+/// first (BOTTOM_FIELD) to create an output that's interlaced with the same
+/// field polarity throughout. Use Follow, default top (FOLLOW_TOP_FIELD) or
+/// Follow, default bottom (FOLLOW_BOTTOM_FIELD) to produce outputs with the
+/// same field polarity as the source. For jobs that have multiple inputs, the
+/// output field polarity might change over the course of the output. Follow
+/// behavior depends on the input scan type. If the source is interlaced, the
+/// output will be interlaced with the same polarity as the source. If the
+/// source is progressive, the output will be interlaced with top field bottom
+/// field first, depending on which of the Follow options you choose.
 enum Mpeg2InterlaceMode {
   @_s.JsonValue('PROGRESSIVE')
   progressive,
@@ -10772,9 +11857,14 @@ enum Mpeg2IntraDcPrecision {
   intraDcPrecision_11,
 }
 
-/// Using the API, enable ParFollowSource if you want the service to use the
-/// pixel aspect ratio from the input. Using the console, do this by choosing
-/// Follow source for Pixel aspect ratio.
+/// Optional. Specify how the service determines the pixel aspect ratio (PAR)
+/// for this output. The default behavior, Follow source
+/// (INITIALIZE_FROM_SOURCE), uses the PAR from your input video for your
+/// output. To specify a different PAR in the console, choose any value other
+/// than Follow source. To specify a different PAR by editing the JSON job
+/// specification, choose SPECIFIED. When you choose SPECIFIED for this setting,
+/// you must also specify values for the parNumerator and parDenominator
+/// settings.
 enum Mpeg2ParControl {
   @_s.JsonValue('INITIALIZE_FROM_SOURCE')
   initializeFromSource,
@@ -10782,8 +11872,9 @@ enum Mpeg2ParControl {
   specified,
 }
 
-/// Use Quality tuning level (Mpeg2QualityTuningLevel) to specifiy whether to
-/// use single-pass or multipass video encoding.
+/// Optional. Use Quality tuning level (qualityTuningLevel) to choose how you
+/// want to trade off encoding speed for output video quality. The default
+/// behavior is faster, lower quality, single-pass encoding.
 enum Mpeg2QualityTuningLevel {
   @_s.JsonValue('SINGLE_PASS')
   singlePass,
@@ -10818,8 +11909,10 @@ enum Mpeg2SceneChangeDetect {
     createFactory: true,
     createToJson: true)
 class Mpeg2Settings {
-  /// Adaptive quantization. Allows intra-frame quantizers to vary to improve
-  /// visual quality.
+  /// Specify the strength of any adaptive quantization filters that you enable.
+  /// The value that you choose here applies to the following settings: Spatial
+  /// adaptive quantization (spatialAdaptiveQuantization), and Temporal adaptive
+  /// quantization (temporalAdaptiveQuantization).
   @_s.JsonKey(name: 'adaptiveQuantization')
   final Mpeg2AdaptiveQuantization adaptiveQuantization;
 
@@ -10853,7 +11946,7 @@ class Mpeg2Settings {
   /// a frame rate from the dropdown list or choose Custom. The framerates shown
   /// in the dropdown list are decimal approximations of fractions. If you choose
   /// Custom, specify your frame rate as a fraction. If you are creating your
-  /// transcoding job sepecification as a JSON file without the console, use
+  /// transcoding job specification as a JSON file without the console, use
   /// FramerateControl to specify which value the service uses for the frame rate
   /// for this output. Choose INITIALIZE_FROM_SOURCE if you want the service to
   /// use the frame rate from the input. Choose SPECIFIED if you want the service
@@ -10862,17 +11955,36 @@ class Mpeg2Settings {
   @_s.JsonKey(name: 'framerateControl')
   final Mpeg2FramerateControl framerateControl;
 
-  /// When set to INTERPOLATE, produces smoother motion during frame rate
-  /// conversion.
+  /// Choose the method that you want MediaConvert to use when increasing or
+  /// decreasing the frame rate. We recommend using drop duplicate
+  /// (DUPLICATE_DROP) for numerically simple conversions, such as 60 fps to 30
+  /// fps. For numerically complex conversions, you can use interpolate
+  /// (INTERPOLATE) to avoid stutter. This results in a smooth picture, but might
+  /// introduce undesirable video artifacts. For complex frame rate conversions,
+  /// especially if your source video has already been converted from its original
+  /// cadence, use FrameFormer (FRAMEFORMER) to do motion-compensated
+  /// interpolation. FrameFormer chooses the best conversion method frame by
+  /// frame. Note that using FrameFormer increases the transcoding time and incurs
+  /// a significant add-on cost.
   @_s.JsonKey(name: 'framerateConversionAlgorithm')
   final Mpeg2FramerateConversionAlgorithm framerateConversionAlgorithm;
 
-  /// Frame rate denominator.
+  /// When you use the API for transcode jobs that use frame rate conversion,
+  /// specify the frame rate as a fraction. For example,  24000 / 1001 = 23.976
+  /// fps. Use FramerateDenominator to specify the denominator of this fraction.
+  /// In this example, use 1001 for the value of FramerateDenominator. When you
+  /// use the console for transcode jobs that use frame rate conversion, provide
+  /// the value as a decimal number for Framerate. In this example, specify
+  /// 23.976.
   @_s.JsonKey(name: 'framerateDenominator')
   final int framerateDenominator;
 
-  /// Frame rate numerator - frame rate is a fraction, e.g. 24000 / 1001 = 23.976
-  /// fps.
+  /// When you use the API for transcode jobs that use frame rate conversion,
+  /// specify the frame rate as a fraction. For example,  24000 / 1001 = 23.976
+  /// fps. Use FramerateNumerator to specify the numerator of this fraction. In
+  /// this example, use 24000 for the value of FramerateNumerator. When you use
+  /// the console for transcode jobs that use frame rate conversion, provide the
+  /// value as a decimal number for Framerate. In this example, specify 23.976.
   @_s.JsonKey(name: 'framerateNumerator')
   final int framerateNumerator;
 
@@ -10902,18 +12014,18 @@ class Mpeg2Settings {
   @_s.JsonKey(name: 'hrdBufferSize')
   final int hrdBufferSize;
 
-  /// Use Interlace mode (InterlaceMode) to choose the scan line type for the
-  /// output. * Top Field First (TOP_FIELD) and Bottom Field First (BOTTOM_FIELD)
-  /// produce interlaced output with the entire output having the same field
-  /// polarity (top or bottom first). * Follow, Default Top (FOLLOW_TOP_FIELD) and
-  /// Follow, Default Bottom (FOLLOW_BOTTOM_FIELD) use the same field polarity as
-  /// the source. Therefore, behavior depends on the input scan type.
-  /// - If the source is interlaced, the output will be interlaced with the same
-  /// polarity as the source (it will follow the source). The output could
-  /// therefore be a mix of "top field first" and "bottom field first".
-  /// - If the source is progressive, the output will be interlaced with "top
-  /// field first" or "bottom field first" polarity, depending on which of the
-  /// Follow options you chose.
+  /// Choose the scan line type for the output. Keep the default value,
+  /// Progressive (PROGRESSIVE) to create a progressive output, regardless of the
+  /// scan type of your input. Use Top field first (TOP_FIELD) or Bottom field
+  /// first (BOTTOM_FIELD) to create an output that's interlaced with the same
+  /// field polarity throughout. Use Follow, default top (FOLLOW_TOP_FIELD) or
+  /// Follow, default bottom (FOLLOW_BOTTOM_FIELD) to produce outputs with the
+  /// same field polarity as the source. For jobs that have multiple inputs, the
+  /// output field polarity might change over the course of the output. Follow
+  /// behavior depends on the input scan type. If the source is interlaced, the
+  /// output will be interlaced with the same polarity as the source. If the
+  /// source is progressive, the output will be interlaced with top field bottom
+  /// field first, depending on which of the Follow options you choose.
   @_s.JsonKey(name: 'interlaceMode')
   final Mpeg2InterlaceMode interlaceMode;
 
@@ -10943,22 +12055,38 @@ class Mpeg2Settings {
   @_s.JsonKey(name: 'numberBFramesBetweenReferenceFrames')
   final int numberBFramesBetweenReferenceFrames;
 
-  /// Using the API, enable ParFollowSource if you want the service to use the
-  /// pixel aspect ratio from the input. Using the console, do this by choosing
-  /// Follow source for Pixel aspect ratio.
+  /// Optional. Specify how the service determines the pixel aspect ratio (PAR)
+  /// for this output. The default behavior, Follow source
+  /// (INITIALIZE_FROM_SOURCE), uses the PAR from your input video for your
+  /// output. To specify a different PAR in the console, choose any value other
+  /// than Follow source. To specify a different PAR by editing the JSON job
+  /// specification, choose SPECIFIED. When you choose SPECIFIED for this setting,
+  /// you must also specify values for the parNumerator and parDenominator
+  /// settings.
   @_s.JsonKey(name: 'parControl')
   final Mpeg2ParControl parControl;
 
-  /// Pixel Aspect Ratio denominator.
+  /// Required when you set Pixel aspect ratio (parControl) to SPECIFIED. On the
+  /// console, this corresponds to any value other than Follow source. When you
+  /// specify an output pixel aspect ratio (PAR) that is different from your input
+  /// video PAR, provide your output PAR as a ratio. For example, for D1/DV NTSC
+  /// widescreen, you would specify the ratio 40:33. In this example, the value
+  /// for parDenominator is 33.
   @_s.JsonKey(name: 'parDenominator')
   final int parDenominator;
 
-  /// Pixel Aspect Ratio numerator.
+  /// Required when you set Pixel aspect ratio (parControl) to SPECIFIED. On the
+  /// console, this corresponds to any value other than Follow source. When you
+  /// specify an output pixel aspect ratio (PAR) that is different from your input
+  /// video PAR, provide your output PAR as a ratio. For example, for D1/DV NTSC
+  /// widescreen, you would specify the ratio 40:33. In this example, the value
+  /// for parNumerator is 40.
   @_s.JsonKey(name: 'parNumerator')
   final int parNumerator;
 
-  /// Use Quality tuning level (Mpeg2QualityTuningLevel) to specifiy whether to
-  /// use single-pass or multipass video encoding.
+  /// Optional. Use Quality tuning level (qualityTuningLevel) to choose how you
+  /// want to trade off encoding speed for output video quality. The default
+  /// behavior is faster, lower quality, single-pass encoding.
   @_s.JsonKey(name: 'qualityTuningLevel')
   final Mpeg2QualityTuningLevel qualityTuningLevel;
 
@@ -10973,34 +12101,79 @@ class Mpeg2Settings {
   @_s.JsonKey(name: 'sceneChangeDetect')
   final Mpeg2SceneChangeDetect sceneChangeDetect;
 
-  /// Enables Slow PAL rate conversion. 23.976fps and 24fps input is relabeled as
-  /// 25fps, and audio is sped up correspondingly.
+  /// Ignore this setting unless your input frame rate is 23.976 or 24 frames per
+  /// second (fps). Enable slow PAL to create a 25 fps output. When you enable
+  /// slow PAL, MediaConvert relabels the video frames to 25 fps and resamples
+  /// your audio to keep it synchronized with the video. Note that enabling this
+  /// setting will slightly reduce the duration of your video. Required settings:
+  /// You must also set Framerate to 25. In your JSON job specification, set
+  /// (framerateControl) to (SPECIFIED), (framerateNumerator) to 25 and
+  /// (framerateDenominator) to 1.
   @_s.JsonKey(name: 'slowPal')
   final Mpeg2SlowPal slowPal;
 
-  /// Softness. Selects quantizer matrix, larger values reduce high-frequency
-  /// content in the encoded image.
+  /// Ignore this setting unless you need to comply with a specification that
+  /// requires a specific value. If you don't have a specification requirement, we
+  /// recommend that you adjust the softness of your output by using a lower value
+  /// for the setting Sharpness (sharpness) or by enabling a noise reducer filter
+  /// (noiseReducerFilter). The Softness (softness) setting specifies the
+  /// quantization matrices that the encoder uses. Keep the default value, 0, to
+  /// use the AWS Elemental default matrices. Choose a value from 17 to 128 to use
+  /// planar interpolation. Increasing values from 17 to 128 result in increasing
+  /// reduction of high-frequency data. The value 128 results in the softest
+  /// video.
   @_s.JsonKey(name: 'softness')
   final int softness;
 
-  /// Adjust quantization within each frame based on spatial variation of content
-  /// complexity.
+  /// Keep the default value, Enabled (ENABLED), to adjust quantization within
+  /// each frame based on spatial variation of content complexity. When you enable
+  /// this feature, the encoder uses fewer bits on areas that can sustain more
+  /// distortion with no noticeable visual degradation and uses more bits on areas
+  /// where any small distortion will be noticeable. For example, complex textured
+  /// blocks are encoded with fewer bits and smooth textured blocks are encoded
+  /// with more bits. Enabling this feature will almost always improve your video
+  /// quality. Note, though, that this feature doesn't take into account where the
+  /// viewer's attention is likely to be. If viewers are likely to be focusing
+  /// their attention on a part of the screen with a lot of complex texture, you
+  /// might choose to disable this feature. Related setting: When you enable
+  /// spatial adaptive quantization, set the value for Adaptive quantization
+  /// (adaptiveQuantization) depending on your content. For homogeneous content,
+  /// such as cartoons and video games, set it to Low. For content with a wider
+  /// variety of textures, set it to High or Higher.
   @_s.JsonKey(name: 'spatialAdaptiveQuantization')
   final Mpeg2SpatialAdaptiveQuantization spatialAdaptiveQuantization;
 
-  /// Produces a Type D-10 compatible bitstream (SMPTE 356M-2001).
+  /// Specify whether this output's video uses the D10 syntax. Keep the default
+  /// value to  not use the syntax. Related settings: When you choose D10 (D_10)
+  /// for your MXF  profile (profile), you must also set this value to to D10
+  /// (D_10).
   @_s.JsonKey(name: 'syntax')
   final Mpeg2Syntax syntax;
 
-  /// Only use Telecine (Mpeg2Telecine) when you set Framerate (Framerate) to
-  /// 29.970. Set Telecine (Mpeg2Telecine) to Hard (hard) to produce a 29.97i
-  /// output from a 23.976 input. Set it to Soft (soft) to produce 23.976 output
-  /// and leave converstion to the player.
+  /// When you do frame rate conversion from 23.976 frames per second (fps) to
+  /// 29.97 fps, and your output scan type is interlaced, you can optionally
+  /// enable hard or soft telecine to create a smoother picture. Hard telecine
+  /// (HARD) produces a 29.97i output. Soft telecine (SOFT) produces an output
+  /// with a 23.976 output that signals to the video player device to do the
+  /// conversion during play back. When you keep the default value, None (NONE),
+  /// MediaConvert does a standard frame rate conversion to 29.97 without doing
+  /// anything with the field polarity to create a smoother picture.
   @_s.JsonKey(name: 'telecine')
   final Mpeg2Telecine telecine;
 
-  /// Adjust quantization within each frame based on temporal variation of content
-  /// complexity.
+  /// Keep the default value, Enabled (ENABLED), to adjust quantization within
+  /// each frame based on temporal variation of content complexity. When you
+  /// enable this feature, the encoder uses fewer bits on areas of the frame that
+  /// aren't moving and uses more bits on complex objects with sharp edges that
+  /// move a lot. For example, this feature improves the readability of text
+  /// tickers on newscasts and scoreboards on sports matches. Enabling this
+  /// feature will almost always improve your video quality. Note, though, that
+  /// this feature doesn't take into account where the viewer's attention is
+  /// likely to be. If viewers are likely to be focusing their attention on a part
+  /// of the screen that doesn't have moving objects with sharp edges, such as
+  /// sports athletes' faces, you might choose to disable this feature. Related
+  /// setting: When you enable temporal quantization, adjust the strength of the
+  /// filter with the setting Adaptive quantization (adaptiveQuantization).
   @_s.JsonKey(name: 'temporalAdaptiveQuantization')
   final Mpeg2TemporalAdaptiveQuantization temporalAdaptiveQuantization;
 
@@ -11043,8 +12216,14 @@ class Mpeg2Settings {
   Map<String, dynamic> toJson() => _$Mpeg2SettingsToJson(this);
 }
 
-/// Enables Slow PAL rate conversion. 23.976fps and 24fps input is relabeled as
-/// 25fps, and audio is sped up correspondingly.
+/// Ignore this setting unless your input frame rate is 23.976 or 24 frames per
+/// second (fps). Enable slow PAL to create a 25 fps output. When you enable
+/// slow PAL, MediaConvert relabels the video frames to 25 fps and resamples
+/// your audio to keep it synchronized with the video. Note that enabling this
+/// setting will slightly reduce the duration of your video. Required settings:
+/// You must also set Framerate to 25. In your JSON job specification, set
+/// (framerateControl) to (SPECIFIED), (framerateNumerator) to 25 and
+/// (framerateDenominator) to 1.
 enum Mpeg2SlowPal {
   @_s.JsonValue('DISABLED')
   disabled,
@@ -11052,8 +12231,21 @@ enum Mpeg2SlowPal {
   enabled,
 }
 
-/// Adjust quantization within each frame based on spatial variation of content
-/// complexity.
+/// Keep the default value, Enabled (ENABLED), to adjust quantization within
+/// each frame based on spatial variation of content complexity. When you enable
+/// this feature, the encoder uses fewer bits on areas that can sustain more
+/// distortion with no noticeable visual degradation and uses more bits on areas
+/// where any small distortion will be noticeable. For example, complex textured
+/// blocks are encoded with fewer bits and smooth textured blocks are encoded
+/// with more bits. Enabling this feature will almost always improve your video
+/// quality. Note, though, that this feature doesn't take into account where the
+/// viewer's attention is likely to be. If viewers are likely to be focusing
+/// their attention on a part of the screen with a lot of complex texture, you
+/// might choose to disable this feature. Related setting: When you enable
+/// spatial adaptive quantization, set the value for Adaptive quantization
+/// (adaptiveQuantization) depending on your content. For homogeneous content,
+/// such as cartoons and video games, set it to Low. For content with a wider
+/// variety of textures, set it to High or Higher.
 enum Mpeg2SpatialAdaptiveQuantization {
   @_s.JsonValue('DISABLED')
   disabled,
@@ -11061,7 +12253,10 @@ enum Mpeg2SpatialAdaptiveQuantization {
   enabled,
 }
 
-/// Produces a Type D-10 compatible bitstream (SMPTE 356M-2001).
+/// Specify whether this output's video uses the D10 syntax. Keep the default
+/// value to  not use the syntax. Related settings: When you choose D10 (D_10)
+/// for your MXF  profile (profile), you must also set this value to to D10
+/// (D_10).
 enum Mpeg2Syntax {
   @_s.JsonValue('DEFAULT')
   $default,
@@ -11069,10 +12264,14 @@ enum Mpeg2Syntax {
   d_10,
 }
 
-/// Only use Telecine (Mpeg2Telecine) when you set Framerate (Framerate) to
-/// 29.970. Set Telecine (Mpeg2Telecine) to Hard (hard) to produce a 29.97i
-/// output from a 23.976 input. Set it to Soft (soft) to produce 23.976 output
-/// and leave converstion to the player.
+/// When you do frame rate conversion from 23.976 frames per second (fps) to
+/// 29.97 fps, and your output scan type is interlaced, you can optionally
+/// enable hard or soft telecine to create a smoother picture. Hard telecine
+/// (HARD) produces a 29.97i output. Soft telecine (SOFT) produces an output
+/// with a 23.976 output that signals to the video player device to do the
+/// conversion during play back. When you keep the default value, None (NONE),
+/// MediaConvert does a standard frame rate conversion to 29.97 without doing
+/// anything with the field polarity to create a smoother picture.
 enum Mpeg2Telecine {
   @_s.JsonValue('NONE')
   none,
@@ -11082,8 +12281,19 @@ enum Mpeg2Telecine {
   hard,
 }
 
-/// Adjust quantization within each frame based on temporal variation of content
-/// complexity.
+/// Keep the default value, Enabled (ENABLED), to adjust quantization within
+/// each frame based on temporal variation of content complexity. When you
+/// enable this feature, the encoder uses fewer bits on areas of the frame that
+/// aren't moving and uses more bits on complex objects with sharp edges that
+/// move a lot. For example, this feature improves the readability of text
+/// tickers on newscasts and scoreboards on sports matches. Enabling this
+/// feature will almost always improve your video quality. Note, though, that
+/// this feature doesn't take into account where the viewer's attention is
+/// likely to be. If viewers are likely to be focusing their attention on a part
+/// of the screen that doesn't have moving objects with sharp edges, such as
+/// sports athletes' faces, you might choose to disable this feature. Related
+/// setting: When you enable temporal quantization, adjust the strength of the
+/// filter with the setting Adaptive quantization (adaptiveQuantization).
 enum Mpeg2TemporalAdaptiveQuantization {
   @_s.JsonValue('DISABLED')
   disabled,
@@ -11230,6 +12440,145 @@ enum MsSmoothManifestEncoding {
   utf16,
 }
 
+/// Optional. When you have AFD signaling set up in your output video stream,
+/// use this setting to choose whether to also include it in the MXF wrapper.
+/// Choose Don't copy (NO_COPY) to exclude AFD signaling from the MXF wrapper.
+/// Choose Copy from video stream (COPY_FROM_VIDEO) to copy the AFD values from
+/// the video stream for this output to the MXF wrapper. Regardless of which
+/// option you choose, the AFD values remain in the video stream. Related
+/// settings: To set up your output to include or exclude AFD values, see
+/// AfdSignaling, under VideoDescription. On the console, find AFD signaling
+/// under the output's video encoding settings.
+enum MxfAfdSignaling {
+  @_s.JsonValue('NO_COPY')
+  noCopy,
+  @_s.JsonValue('COPY_FROM_VIDEO')
+  copyFromVideo,
+}
+
+/// Specify the MXF profile, also called shim, for this output. When you choose
+/// Auto, MediaConvert chooses a profile based on the video codec and
+/// resolution. For a list of codecs supported with each MXF profile, see
+/// https://docs.aws.amazon.com/mediaconvert/latest/ug/codecs-supported-with-each-mxf-profile.html.
+/// For more information about the automatic selection behavior, see
+/// https://docs.aws.amazon.com/mediaconvert/latest/ug/default-automatic-selection-of-mxf-profiles.html.
+enum MxfProfile {
+  @_s.JsonValue('D_10')
+  d_10,
+  @_s.JsonValue('XDCAM')
+  xdcam,
+  @_s.JsonValue('OP1A')
+  op1a,
+}
+
+/// MXF settings
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class MxfSettings {
+  /// Optional. When you have AFD signaling set up in your output video stream,
+  /// use this setting to choose whether to also include it in the MXF wrapper.
+  /// Choose Don't copy (NO_COPY) to exclude AFD signaling from the MXF wrapper.
+  /// Choose Copy from video stream (COPY_FROM_VIDEO) to copy the AFD values from
+  /// the video stream for this output to the MXF wrapper. Regardless of which
+  /// option you choose, the AFD values remain in the video stream. Related
+  /// settings: To set up your output to include or exclude AFD values, see
+  /// AfdSignaling, under VideoDescription. On the console, find AFD signaling
+  /// under the output's video encoding settings.
+  @_s.JsonKey(name: 'afdSignaling')
+  final MxfAfdSignaling afdSignaling;
+
+  /// Specify the MXF profile, also called shim, for this output. When you choose
+  /// Auto, MediaConvert chooses a profile based on the video codec and
+  /// resolution. For a list of codecs supported with each MXF profile, see
+  /// https://docs.aws.amazon.com/mediaconvert/latest/ug/codecs-supported-with-each-mxf-profile.html.
+  /// For more information about the automatic selection behavior, see
+  /// https://docs.aws.amazon.com/mediaconvert/latest/ug/default-automatic-selection-of-mxf-profiles.html.
+  @_s.JsonKey(name: 'profile')
+  final MxfProfile profile;
+
+  MxfSettings({
+    this.afdSignaling,
+    this.profile,
+  });
+  factory MxfSettings.fromJson(Map<String, dynamic> json) =>
+      _$MxfSettingsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$MxfSettingsToJson(this);
+}
+
+/// For forensic video watermarking, MediaConvert supports Nagra NexGuard File
+/// Marker watermarking. MediaConvert supports both PreRelease Content (NGPR/G2)
+/// and OTT Streaming workflows.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class NexGuardFileMarkerSettings {
+  /// Use the base64 license string that Nagra provides you. Enter it directly in
+  /// your JSON job specification or in the console. Required when you include
+  /// Nagra NexGuard File Marker watermarking (NexGuardWatermarkingSettings) in
+  /// your job.
+  @_s.JsonKey(name: 'license')
+  final String license;
+
+  /// Specify the payload ID that you want associated with this output. Valid
+  /// values vary depending on your Nagra NexGuard forensic watermarking workflow.
+  /// Required when you include Nagra NexGuard File Marker watermarking
+  /// (NexGuardWatermarkingSettings) in your job. For PreRelease Content
+  /// (NGPR/G2), specify an integer from 1 through 4,194,303. You must generate a
+  /// unique ID for each asset you watermark, and keep a record of which ID you
+  /// have assigned to each asset. Neither Nagra nor MediaConvert keep track of
+  /// the relationship between output files and your IDs. For OTT Streaming,
+  /// create two adaptive bitrate (ABR) stacks for each asset. Do this by setting
+  /// up two output groups. For one output group, set the value of Payload ID
+  /// (payload) to 0 in every output. For the other output group, set Payload ID
+  /// (payload) to 1 in every output.
+  @_s.JsonKey(name: 'payload')
+  final int payload;
+
+  /// Enter one of the watermarking preset strings that Nagra provides you.
+  /// Required when you include Nagra NexGuard File Marker watermarking
+  /// (NexGuardWatermarkingSettings) in your job.
+  @_s.JsonKey(name: 'preset')
+  final String preset;
+
+  /// Optional. Ignore this setting unless Nagra support directs you to specify a
+  /// value. When you don't specify a value here, the Nagra NexGuard library uses
+  /// its default value.
+  @_s.JsonKey(name: 'strength')
+  final WatermarkingStrength strength;
+
+  NexGuardFileMarkerSettings({
+    this.license,
+    this.payload,
+    this.preset,
+    this.strength,
+  });
+  factory NexGuardFileMarkerSettings.fromJson(Map<String, dynamic> json) =>
+      _$NexGuardFileMarkerSettingsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$NexGuardFileMarkerSettingsToJson(this);
+}
+
+/// Choose the type of Nielsen watermarks that you want in your outputs. When
+/// you choose NAES 2 and NW (NAES2_AND_NW), you must provide a value for the
+/// setting SID (sourceId). When you choose CBET (CBET), you must provide a
+/// value for the setting CSID (cbetSourceId). When you choose NAES 2, NW, and
+/// CBET (NAES2_AND_NW_AND_CBET), you must provide values for both of these
+/// settings.
+enum NielsenActiveWatermarkProcessType {
+  @_s.JsonValue('NAES2_AND_NW')
+  naes2AndNw,
+  @_s.JsonValue('CBET')
+  cbet,
+  @_s.JsonValue('NAES2_AND_NW_AND_CBET')
+  naes2AndNwAndCbet,
+}
+
 /// Settings for your Nielsen configuration. If you don't do Nielsen measurement
 /// and analytics, ignore these settings. When you enable Nielsen configuration
 /// (nielsenConfiguration), MediaConvert enables PCM to ID3 tagging for all
@@ -11261,6 +12610,161 @@ class NielsenConfiguration {
       _$NielsenConfigurationFromJson(json);
 
   Map<String, dynamic> toJson() => _$NielsenConfigurationToJson(this);
+}
+
+/// Ignore these settings unless you are using Nielsen non-linear watermarking.
+/// Specify the values that  MediaConvert uses to generate and place Nielsen
+/// watermarks in your output audio. In addition to  specifying these values,
+/// you also need to set up your cloud TIC server. These settings apply to
+/// every output in your job. The MediaConvert implementation is currently with
+/// the following Nielsen versions: Nielsen Watermark SDK Version 5.2.1 Nielsen
+/// NLM Watermark Engine Version 1.2.7 Nielsen Watermark Authenticator [SID_TIC]
+/// Version [5.0.0]
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class NielsenNonLinearWatermarkSettings {
+  /// Choose the type of Nielsen watermarks that you want in your outputs. When
+  /// you choose NAES 2 and NW (NAES2_AND_NW), you must provide a value for the
+  /// setting SID (sourceId). When you choose CBET (CBET), you must provide a
+  /// value for the setting CSID (cbetSourceId). When you choose NAES 2, NW, and
+  /// CBET (NAES2_AND_NW_AND_CBET), you must provide values for both of these
+  /// settings.
+  @_s.JsonKey(name: 'activeWatermarkProcess')
+  final NielsenActiveWatermarkProcessType activeWatermarkProcess;
+
+  /// Optional. Use this setting when you want the service to include an ADI file
+  /// in the Nielsen  metadata .zip file. To provide an ADI file, store it in
+  /// Amazon S3 and provide a URL to it  here. The URL should be in the following
+  /// format: S3://bucket/path/ADI-file. For more information about the metadata
+  /// .zip file, see the setting Metadata destination (metadataDestination).
+  @_s.JsonKey(name: 'adiFilename')
+  final String adiFilename;
+
+  /// Use the asset ID that you provide to Nielsen to uniquely identify this
+  /// asset. Required for all Nielsen non-linear watermarking.
+  @_s.JsonKey(name: 'assetId')
+  final String assetId;
+
+  /// Use the asset name that you provide to Nielsen for this asset. Required for
+  /// all Nielsen non-linear watermarking.
+  @_s.JsonKey(name: 'assetName')
+  final String assetName;
+
+  /// Use the CSID that Nielsen provides to you. This CBET source ID should be
+  /// unique to your Nielsen account but common to all of your output assets that
+  /// have CBET watermarking. Required when you choose a value for the setting
+  /// Watermark types (ActiveWatermarkProcess) that includes CBET.
+  @_s.JsonKey(name: 'cbetSourceId')
+  final String cbetSourceId;
+
+  /// Optional. If this asset uses an episode ID with Nielsen, provide it here.
+  @_s.JsonKey(name: 'episodeId')
+  final String episodeId;
+
+  /// Specify the Amazon S3 location where you want MediaConvert to save your
+  /// Nielsen non-linear metadata .zip file. This Amazon S3 bucket must be in the
+  /// same Region as the one where you do your MediaConvert transcoding. If you
+  /// want to include an ADI file in this .zip file, use the setting ADI file
+  /// (adiFilename) to specify it. MediaConvert delivers the Nielsen metadata .zip
+  /// files only to your metadata destination Amazon S3 bucket. It doesn't deliver
+  /// the .zip files to Nielsen. You are responsible for delivering the metadata
+  /// .zip files to Nielsen.
+  @_s.JsonKey(name: 'metadataDestination')
+  final String metadataDestination;
+
+  /// Use the SID that Nielsen provides to you. This source ID should be unique to
+  /// your Nielsen account but common to all of your output assets. Required for
+  /// all Nielsen non-linear watermarking. This ID should be unique to your
+  /// Nielsen account but common to all of your output assets. Required for all
+  /// Nielsen non-linear watermarking.
+  @_s.JsonKey(name: 'sourceId')
+  final int sourceId;
+
+  /// Required. Specify whether your source content already contains Nielsen
+  /// non-linear watermarks. When you set this value to Watermarked (WATERMARKED),
+  /// the service fails the job. Nielsen requires that you add non-linear
+  /// watermarking to only clean content that doesn't already  have non-linear
+  /// Nielsen watermarks.
+  @_s.JsonKey(name: 'sourceWatermarkStatus')
+  final NielsenSourceWatermarkStatusType sourceWatermarkStatus;
+
+  /// Specify the endpoint for the TIC server that you have deployed and
+  /// configured in the AWS Cloud. Required for all Nielsen non-linear
+  /// watermarking. MediaConvert can't connect directly to a TIC server. Instead,
+  /// you must use API Gateway to provide a RESTful interface between MediaConvert
+  /// and a TIC server that you deploy in your AWS account. For more information
+  /// on deploying a TIC server in your AWS account and the required API Gateway,
+  /// contact Nielsen support.
+  @_s.JsonKey(name: 'ticServerUrl')
+  final String ticServerUrl;
+
+  /// To create assets that have the same TIC values in each audio track, keep the
+  /// default value Share TICs (SAME_TICS_PER_TRACK). To create assets that have
+  /// unique TIC values for each audio track, choose Use unique TICs
+  /// (RESERVE_UNIQUE_TICS_PER_TRACK).
+  @_s.JsonKey(name: 'uniqueTicPerAudioTrack')
+  final NielsenUniqueTicPerAudioTrackType uniqueTicPerAudioTrack;
+
+  NielsenNonLinearWatermarkSettings({
+    this.activeWatermarkProcess,
+    this.adiFilename,
+    this.assetId,
+    this.assetName,
+    this.cbetSourceId,
+    this.episodeId,
+    this.metadataDestination,
+    this.sourceId,
+    this.sourceWatermarkStatus,
+    this.ticServerUrl,
+    this.uniqueTicPerAudioTrack,
+  });
+  factory NielsenNonLinearWatermarkSettings.fromJson(
+          Map<String, dynamic> json) =>
+      _$NielsenNonLinearWatermarkSettingsFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$NielsenNonLinearWatermarkSettingsToJson(this);
+}
+
+/// Required. Specify whether your source content already contains Nielsen
+/// non-linear watermarks. When you set this value to Watermarked (WATERMARKED),
+/// the service fails the job. Nielsen requires that you add non-linear
+/// watermarking to only clean content that doesn't already  have non-linear
+/// Nielsen watermarks.
+enum NielsenSourceWatermarkStatusType {
+  @_s.JsonValue('CLEAN')
+  clean,
+  @_s.JsonValue('WATERMARKED')
+  watermarked,
+}
+
+/// To create assets that have the same TIC values in each audio track, keep the
+/// default value Share TICs (SAME_TICS_PER_TRACK). To create assets that have
+/// unique TIC values for each audio track, choose Use unique TICs
+/// (RESERVE_UNIQUE_TICS_PER_TRACK).
+enum NielsenUniqueTicPerAudioTrackType {
+  @_s.JsonValue('RESERVE_UNIQUE_TICS_PER_TRACK')
+  reserveUniqueTicsPerTrack,
+  @_s.JsonValue('SAME_TICS_PER_TRACK')
+  sameTicsPerTrack,
+}
+
+/// Optional. When you set Noise reducer (noiseReducer) to Temporal (TEMPORAL),
+/// you can use this setting to apply sharpening. The default behavior, Auto
+/// (AUTO), allows the transcoder to determine whether to apply filtering,
+/// depending on input type and quality. When you set Noise reducer to Temporal,
+/// your output bandwidth is reduced. When Post temporal sharpening is also
+/// enabled, that bandwidth reduction is smaller.
+enum NoiseFilterPostTemporalSharpening {
+  @_s.JsonValue('DISABLED')
+  disabled,
+  @_s.JsonValue('ENABLED')
+  enabled,
+  @_s.JsonValue('AUTO')
+  auto,
 }
 
 /// Enable the Noise reducer (NoiseReducer) feature to remove noise from your
@@ -11403,6 +12907,15 @@ class NoiseReducerTemporalFilterSettings {
   @_s.JsonKey(name: 'aggressiveMode')
   final int aggressiveMode;
 
+  /// Optional. When you set Noise reducer (noiseReducer) to Temporal (TEMPORAL),
+  /// you can use this setting to apply sharpening. The default behavior, Auto
+  /// (AUTO), allows the transcoder to determine whether to apply filtering,
+  /// depending on input type and quality. When you set Noise reducer to Temporal,
+  /// your output bandwidth is reduced. When Post temporal sharpening is also
+  /// enabled, that bandwidth reduction is smaller.
+  @_s.JsonKey(name: 'postTemporalSharpening')
+  final NoiseFilterPostTemporalSharpening postTemporalSharpening;
+
   /// The speed of the filter (higher number is faster). Low setting reduces bit
   /// rate at the cost of transcode time, high setting improves transcode time at
   /// the cost of bit rate.
@@ -11419,6 +12932,7 @@ class NoiseReducerTemporalFilterSettings {
 
   NoiseReducerTemporalFilterSettings({
     this.aggressiveMode,
+    this.postTemporalSharpening,
     this.speed,
     this.strength,
   });
@@ -11428,6 +12942,42 @@ class NoiseReducerTemporalFilterSettings {
 
   Map<String, dynamic> toJson() =>
       _$NoiseReducerTemporalFilterSettingsToJson(this);
+}
+
+/// Required when you set Codec, under AudioDescriptions>CodecSettings, to the
+/// value OPUS.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class OpusSettings {
+  /// Optional. Specify the average bitrate in bits per second. Valid values are
+  /// multiples of 8000, from 32000 through 192000. The default value is 96000,
+  /// which we recommend for quality and bandwidth.
+  @_s.JsonKey(name: 'bitrate')
+  final int bitrate;
+
+  /// Specify the number of channels in this output audio track. Choosing Mono on
+  /// the console gives you 1 output channel; choosing Stereo gives you 2. In the
+  /// API, valid values are 1 and 2.
+  @_s.JsonKey(name: 'channels')
+  final int channels;
+
+  /// Optional. Sample rate in hz. Valid values are 16000, 24000, and 48000. The
+  /// default value is 48000.
+  @_s.JsonKey(name: 'sampleRate')
+  final int sampleRate;
+
+  OpusSettings({
+    this.bitrate,
+    this.channels,
+    this.sampleRate,
+  });
+  factory OpusSettings.fromJson(Map<String, dynamic> json) =>
+      _$OpusSettingsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$OpusSettingsToJson(this);
 }
 
 /// Optional. When you request lists of resources, you can specify whether they
@@ -11478,8 +13028,9 @@ class Output {
   /// Use Extension (Extension) to specify the file extension for outputs in File
   /// output groups. If you do not specify a value, the service will use default
   /// extensions by container type as follows * MPEG-2 transport stream, m2ts *
-  /// Quicktime, mov * MXF container, mxf * MPEG-4 container, mp4 * No Container,
-  /// the service will use codec extensions (e.g. AAC, H265, H265, AC3)
+  /// Quicktime, mov * MXF container, mxf * MPEG-4 container, mp4 * WebM
+  /// container, webm * No Container, the service will use codec extensions (e.g.
+  /// AAC, H265, H265, AC3)
   @_s.JsonKey(name: 'extension')
   final String extension;
 
@@ -11575,6 +13126,11 @@ class OutputDetail {
     createFactory: true,
     createToJson: true)
 class OutputGroup {
+  /// Use automated encoding to have MediaConvert choose your encoding settings
+  /// for you, based on characteristics of your input video.
+  @_s.JsonKey(name: 'automatedEncodingSettings')
+  final AutomatedEncodingSettings automatedEncodingSettings;
+
   /// Use Custom Group Name (CustomName) to specify a name for the output group.
   /// This value is displayed on the console and can make your job settings JSON
   /// more human-readable. It does not affect your outputs. Use up to twelve
@@ -11596,6 +13152,7 @@ class OutputGroup {
   final List<Output> outputs;
 
   OutputGroup({
+    this.automatedEncodingSettings,
     this.customName,
     this.name,
     this.outputGroupSettings,
@@ -11728,6 +13285,30 @@ class OutputSettings {
       _$OutputSettingsFromJson(json);
 
   Map<String, dynamic> toJson() => _$OutputSettingsToJson(this);
+}
+
+/// If you work with a third party video watermarking partner, use the group of
+/// settings that correspond with your watermarking partner to include
+/// watermarks in your output.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class PartnerWatermarking {
+  /// For forensic video watermarking, MediaConvert supports Nagra NexGuard File
+  /// Marker watermarking. MediaConvert supports both PreRelease Content (NGPR/G2)
+  /// and OTT Streaming workflows.
+  @_s.JsonKey(name: 'nexguardFileMarkerSettings')
+  final NexGuardFileMarkerSettings nexguardFileMarkerSettings;
+
+  PartnerWatermarking({
+    this.nexguardFileMarkerSettings,
+  });
+  factory PartnerWatermarking.fromJson(Map<String, dynamic> json) =>
+      _$PartnerWatermarkingFromJson(json);
+
+  Map<String, dynamic> toJson() => _$PartnerWatermarkingToJson(this);
 }
 
 /// A preset is a collection of preconfigured media conversion settings that you
@@ -11897,7 +13478,7 @@ enum ProresCodecProfile {
 /// a frame rate from the dropdown list or choose Custom. The framerates shown
 /// in the dropdown list are decimal approximations of fractions. If you choose
 /// Custom, specify your frame rate as a fraction. If you are creating your
-/// transcoding job sepecification as a JSON file without the console, use
+/// transcoding job specification as a JSON file without the console, use
 /// FramerateControl to specify which value the service uses for the frame rate
 /// for this output. Choose INITIALIZE_FROM_SOURCE if you want the service to
 /// use the frame rate from the input. Choose SPECIFIED if you want the service
@@ -11910,27 +13491,38 @@ enum ProresFramerateControl {
   specified,
 }
 
-/// When set to INTERPOLATE, produces smoother motion during frame rate
-/// conversion.
+/// Choose the method that you want MediaConvert to use when increasing or
+/// decreasing the frame rate. We recommend using drop duplicate
+/// (DUPLICATE_DROP) for numerically simple conversions, such as 60 fps to 30
+/// fps. For numerically complex conversions, you can use interpolate
+/// (INTERPOLATE) to avoid stutter. This results in a smooth picture, but might
+/// introduce undesirable video artifacts. For complex frame rate conversions,
+/// especially if your source video has already been converted from its original
+/// cadence, use FrameFormer (FRAMEFORMER) to do motion-compensated
+/// interpolation. FrameFormer chooses the best conversion method frame by
+/// frame. Note that using FrameFormer increases the transcoding time and incurs
+/// a significant add-on cost.
 enum ProresFramerateConversionAlgorithm {
   @_s.JsonValue('DUPLICATE_DROP')
   duplicateDrop,
   @_s.JsonValue('INTERPOLATE')
   interpolate,
+  @_s.JsonValue('FRAMEFORMER')
+  frameformer,
 }
 
-/// Use Interlace mode (InterlaceMode) to choose the scan line type for the
-/// output. * Top Field First (TOP_FIELD) and Bottom Field First (BOTTOM_FIELD)
-/// produce interlaced output with the entire output having the same field
-/// polarity (top or bottom first). * Follow, Default Top (FOLLOW_TOP_FIELD) and
-/// Follow, Default Bottom (FOLLOW_BOTTOM_FIELD) use the same field polarity as
-/// the source. Therefore, behavior depends on the input scan type.
-/// - If the source is interlaced, the output will be interlaced with the same
-/// polarity as the source (it will follow the source). The output could
-/// therefore be a mix of "top field first" and "bottom field first".
-/// - If the source is progressive, the output will be interlaced with "top
-/// field first" or "bottom field first" polarity, depending on which of the
-/// Follow options you chose.
+/// Choose the scan line type for the output. Keep the default value,
+/// Progressive (PROGRESSIVE) to create a progressive output, regardless of the
+/// scan type of your input. Use Top field first (TOP_FIELD) or Bottom field
+/// first (BOTTOM_FIELD) to create an output that's interlaced with the same
+/// field polarity throughout. Use Follow, default top (FOLLOW_TOP_FIELD) or
+/// Follow, default bottom (FOLLOW_BOTTOM_FIELD) to produce outputs with the
+/// same field polarity as the source. For jobs that have multiple inputs, the
+/// output field polarity might change over the course of the output. Follow
+/// behavior depends on the input scan type. If the source is interlaced, the
+/// output will be interlaced with the same polarity as the source. If the
+/// source is progressive, the output will be interlaced with top field bottom
+/// field first, depending on which of the Follow options you choose.
 enum ProresInterlaceMode {
   @_s.JsonValue('PROGRESSIVE')
   progressive,
@@ -11944,12 +13536,14 @@ enum ProresInterlaceMode {
   followBottomField,
 }
 
-/// Use (ProresParControl) to specify how the service determines the pixel
-/// aspect ratio. Set to Follow source (INITIALIZE_FROM_SOURCE) to use the pixel
-/// aspect ratio from the input.  To specify a different pixel aspect ratio:
-/// Using the console, choose it from the dropdown menu. Using the API, set
-/// ProresParControl to (SPECIFIED) and provide  for (ParNumerator) and
-/// (ParDenominator).
+/// Optional. Specify how the service determines the pixel aspect ratio (PAR)
+/// for this output. The default behavior, Follow source
+/// (INITIALIZE_FROM_SOURCE), uses the PAR from your input video for your
+/// output. To specify a different PAR in the console, choose any value other
+/// than Follow source. To specify a different PAR by editing the JSON job
+/// specification, choose SPECIFIED. When you choose SPECIFIED for this setting,
+/// you must also specify values for the parNumerator and parDenominator
+/// settings.
 enum ProresParControl {
   @_s.JsonValue('INITIALIZE_FROM_SOURCE')
   initializeFromSource,
@@ -11976,7 +13570,7 @@ class ProresSettings {
   /// a frame rate from the dropdown list or choose Custom. The framerates shown
   /// in the dropdown list are decimal approximations of fractions. If you choose
   /// Custom, specify your frame rate as a fraction. If you are creating your
-  /// transcoding job sepecification as a JSON file without the console, use
+  /// transcoding job specification as a JSON file without the console, use
   /// FramerateControl to specify which value the service uses for the frame rate
   /// for this output. Choose INITIALIZE_FROM_SOURCE if you want the service to
   /// use the frame rate from the input. Choose SPECIFIED if you want the service
@@ -11985,63 +13579,100 @@ class ProresSettings {
   @_s.JsonKey(name: 'framerateControl')
   final ProresFramerateControl framerateControl;
 
-  /// When set to INTERPOLATE, produces smoother motion during frame rate
-  /// conversion.
+  /// Choose the method that you want MediaConvert to use when increasing or
+  /// decreasing the frame rate. We recommend using drop duplicate
+  /// (DUPLICATE_DROP) for numerically simple conversions, such as 60 fps to 30
+  /// fps. For numerically complex conversions, you can use interpolate
+  /// (INTERPOLATE) to avoid stutter. This results in a smooth picture, but might
+  /// introduce undesirable video artifacts. For complex frame rate conversions,
+  /// especially if your source video has already been converted from its original
+  /// cadence, use FrameFormer (FRAMEFORMER) to do motion-compensated
+  /// interpolation. FrameFormer chooses the best conversion method frame by
+  /// frame. Note that using FrameFormer increases the transcoding time and incurs
+  /// a significant add-on cost.
   @_s.JsonKey(name: 'framerateConversionAlgorithm')
   final ProresFramerateConversionAlgorithm framerateConversionAlgorithm;
 
-  /// Frame rate denominator.
+  /// When you use the API for transcode jobs that use frame rate conversion,
+  /// specify the frame rate as a fraction. For example,  24000 / 1001 = 23.976
+  /// fps. Use FramerateDenominator to specify the denominator of this fraction.
+  /// In this example, use 1001 for the value of FramerateDenominator. When you
+  /// use the console for transcode jobs that use frame rate conversion, provide
+  /// the value as a decimal number for Framerate. In this example, specify
+  /// 23.976.
   @_s.JsonKey(name: 'framerateDenominator')
   final int framerateDenominator;
 
   /// When you use the API for transcode jobs that use frame rate conversion,
   /// specify the frame rate as a fraction. For example,  24000 / 1001 = 23.976
   /// fps. Use FramerateNumerator to specify the numerator of this fraction. In
-  /// this example, use 24000 for the value of FramerateNumerator.
+  /// this example, use 24000 for the value of FramerateNumerator. When you use
+  /// the console for transcode jobs that use frame rate conversion, provide the
+  /// value as a decimal number for Framerate. In this example, specify 23.976.
   @_s.JsonKey(name: 'framerateNumerator')
   final int framerateNumerator;
 
-  /// Use Interlace mode (InterlaceMode) to choose the scan line type for the
-  /// output. * Top Field First (TOP_FIELD) and Bottom Field First (BOTTOM_FIELD)
-  /// produce interlaced output with the entire output having the same field
-  /// polarity (top or bottom first). * Follow, Default Top (FOLLOW_TOP_FIELD) and
-  /// Follow, Default Bottom (FOLLOW_BOTTOM_FIELD) use the same field polarity as
-  /// the source. Therefore, behavior depends on the input scan type.
-  /// - If the source is interlaced, the output will be interlaced with the same
-  /// polarity as the source (it will follow the source). The output could
-  /// therefore be a mix of "top field first" and "bottom field first".
-  /// - If the source is progressive, the output will be interlaced with "top
-  /// field first" or "bottom field first" polarity, depending on which of the
-  /// Follow options you chose.
+  /// Choose the scan line type for the output. Keep the default value,
+  /// Progressive (PROGRESSIVE) to create a progressive output, regardless of the
+  /// scan type of your input. Use Top field first (TOP_FIELD) or Bottom field
+  /// first (BOTTOM_FIELD) to create an output that's interlaced with the same
+  /// field polarity throughout. Use Follow, default top (FOLLOW_TOP_FIELD) or
+  /// Follow, default bottom (FOLLOW_BOTTOM_FIELD) to produce outputs with the
+  /// same field polarity as the source. For jobs that have multiple inputs, the
+  /// output field polarity might change over the course of the output. Follow
+  /// behavior depends on the input scan type. If the source is interlaced, the
+  /// output will be interlaced with the same polarity as the source. If the
+  /// source is progressive, the output will be interlaced with top field bottom
+  /// field first, depending on which of the Follow options you choose.
   @_s.JsonKey(name: 'interlaceMode')
   final ProresInterlaceMode interlaceMode;
 
-  /// Use (ProresParControl) to specify how the service determines the pixel
-  /// aspect ratio. Set to Follow source (INITIALIZE_FROM_SOURCE) to use the pixel
-  /// aspect ratio from the input.  To specify a different pixel aspect ratio:
-  /// Using the console, choose it from the dropdown menu. Using the API, set
-  /// ProresParControl to (SPECIFIED) and provide  for (ParNumerator) and
-  /// (ParDenominator).
+  /// Optional. Specify how the service determines the pixel aspect ratio (PAR)
+  /// for this output. The default behavior, Follow source
+  /// (INITIALIZE_FROM_SOURCE), uses the PAR from your input video for your
+  /// output. To specify a different PAR in the console, choose any value other
+  /// than Follow source. To specify a different PAR by editing the JSON job
+  /// specification, choose SPECIFIED. When you choose SPECIFIED for this setting,
+  /// you must also specify values for the parNumerator and parDenominator
+  /// settings.
   @_s.JsonKey(name: 'parControl')
   final ProresParControl parControl;
 
-  /// Pixel Aspect Ratio denominator.
+  /// Required when you set Pixel aspect ratio (parControl) to SPECIFIED. On the
+  /// console, this corresponds to any value other than Follow source. When you
+  /// specify an output pixel aspect ratio (PAR) that is different from your input
+  /// video PAR, provide your output PAR as a ratio. For example, for D1/DV NTSC
+  /// widescreen, you would specify the ratio 40:33. In this example, the value
+  /// for parDenominator is 33.
   @_s.JsonKey(name: 'parDenominator')
   final int parDenominator;
 
-  /// Pixel Aspect Ratio numerator.
+  /// Required when you set Pixel aspect ratio (parControl) to SPECIFIED. On the
+  /// console, this corresponds to any value other than Follow source. When you
+  /// specify an output pixel aspect ratio (PAR) that is different from your input
+  /// video PAR, provide your output PAR as a ratio. For example, for D1/DV NTSC
+  /// widescreen, you would specify the ratio 40:33. In this example, the value
+  /// for parNumerator is 40.
   @_s.JsonKey(name: 'parNumerator')
   final int parNumerator;
 
-  /// Enables Slow PAL rate conversion. 23.976fps and 24fps input is relabeled as
-  /// 25fps, and audio is sped up correspondingly.
+  /// Ignore this setting unless your input frame rate is 23.976 or 24 frames per
+  /// second (fps). Enable slow PAL to create a 25 fps output. When you enable
+  /// slow PAL, MediaConvert relabels the video frames to 25 fps and resamples
+  /// your audio to keep it synchronized with the video. Note that enabling this
+  /// setting will slightly reduce the duration of your video. Required settings:
+  /// You must also set Framerate to 25. In your JSON job specification, set
+  /// (framerateControl) to (SPECIFIED), (framerateNumerator) to 25 and
+  /// (framerateDenominator) to 1.
   @_s.JsonKey(name: 'slowPal')
   final ProresSlowPal slowPal;
 
-  /// Only use Telecine (ProresTelecine) when you set Framerate (Framerate) to
-  /// 29.970. Set Telecine (ProresTelecine) to Hard (hard) to produce a 29.97i
-  /// output from a 23.976 input. Set it to Soft (soft) to produce 23.976 output
-  /// and leave converstion to the player.
+  /// When you do frame rate conversion from 23.976 frames per second (fps) to
+  /// 29.97 fps, and your output scan type is interlaced, you can optionally
+  /// enable hard telecine (HARD) to create a smoother picture. When you keep the
+  /// default value, None (NONE), MediaConvert does a standard frame rate
+  /// conversion to 29.97 without doing anything with the field polarity to create
+  /// a smoother picture.
   @_s.JsonKey(name: 'telecine')
   final ProresTelecine telecine;
 
@@ -12064,8 +13695,14 @@ class ProresSettings {
   Map<String, dynamic> toJson() => _$ProresSettingsToJson(this);
 }
 
-/// Enables Slow PAL rate conversion. 23.976fps and 24fps input is relabeled as
-/// 25fps, and audio is sped up correspondingly.
+/// Ignore this setting unless your input frame rate is 23.976 or 24 frames per
+/// second (fps). Enable slow PAL to create a 25 fps output. When you enable
+/// slow PAL, MediaConvert relabels the video frames to 25 fps and resamples
+/// your audio to keep it synchronized with the video. Note that enabling this
+/// setting will slightly reduce the duration of your video. Required settings:
+/// You must also set Framerate to 25. In your JSON job specification, set
+/// (framerateControl) to (SPECIFIED), (framerateNumerator) to 25 and
+/// (framerateDenominator) to 1.
 enum ProresSlowPal {
   @_s.JsonValue('DISABLED')
   disabled,
@@ -12073,10 +13710,12 @@ enum ProresSlowPal {
   enabled,
 }
 
-/// Only use Telecine (ProresTelecine) when you set Framerate (Framerate) to
-/// 29.970. Set Telecine (ProresTelecine) to Hard (hard) to produce a 29.97i
-/// output from a 23.976 input. Set it to Soft (soft) to produce 23.976 output
-/// and leave converstion to the player.
+/// When you do frame rate conversion from 23.976 frames per second (fps) to
+/// 29.97 fps, and your output scan type is interlaced, you can optionally
+/// enable hard telecine (HARD) to create a smoother picture. When you keep the
+/// default value, None (NONE), MediaConvert does a standard frame rate
+/// conversion to 29.97 without doing anything with the field polarity to create
+/// a smoother picture.
 enum ProresTelecine {
   @_s.JsonValue('NONE')
   none,
@@ -13125,9 +14764,9 @@ enum TimedMetadata {
 }
 
 /// Enable Timed metadata insertion (TimedMetadataInsertion) to include ID3 tags
-/// in your job. To include timed metadata, you must enable it here, enable it
-/// in each output container, and specify tags and timecodes in ID3 insertion
-/// (Id3Insertion) objects.
+/// in any HLS outputs. To include timed metadata, you must enable it here,
+/// enable it in each output container, and specify tags and timecodes in ID3
+/// insertion (Id3Insertion) objects.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -13216,7 +14855,7 @@ class TrackSourceSettings {
     createToJson: true)
 class TtmlDestinationSettings {
   /// Pass through style and position information from a TTML-like input source
-  /// (TTML, SMPTE-TT, CFF-TT) to the CFF-TT output or TTML output.
+  /// (TTML, SMPTE-TT) to the TTML output.
   @_s.JsonKey(name: 'stylePassthrough')
   final TtmlStylePassthrough stylePassthrough;
 
@@ -13230,7 +14869,7 @@ class TtmlDestinationSettings {
 }
 
 /// Pass through style and position information from a TTML-like input source
-/// (TTML, SMPTE-TT, CFF-TT) to the CFF-TT output or TTML output.
+/// (TTML, SMPTE-TT) to the TTML output.
 enum TtmlStylePassthrough {
   @_s.JsonValue('ENABLED')
   enabled,
@@ -13313,12 +14952,211 @@ class UpdateQueueResponse {
       _$UpdateQueueResponseFromJson(json);
 }
 
+/// Specify the VC3 class to choose the quality characteristics for this output.
+/// VC3 class, together with the settings Framerate (framerateNumerator and
+/// framerateDenominator) and Resolution (height and width), determine your
+/// output bitrate. For example, say that your video resolution is 1920x1080 and
+/// your framerate is 29.97. Then Class 145 (CLASS_145) gives you an output with
+/// a bitrate of approximately 145 Mbps and Class 220 (CLASS_220) gives you and
+/// output with a bitrate of approximately 220 Mbps. VC3 class also specifies
+/// the color bit depth of your output.
+enum Vc3Class {
+  @_s.JsonValue('CLASS_145_8BIT')
+  class_145_8bit,
+  @_s.JsonValue('CLASS_220_8BIT')
+  class_220_8bit,
+  @_s.JsonValue('CLASS_220_10BIT')
+  class_220_10bit,
+}
+
+/// If you are using the console, use the Framerate setting to specify the frame
+/// rate for this output. If you want to keep the same frame rate as the input
+/// video, choose Follow source. If you want to do frame rate conversion, choose
+/// a frame rate from the dropdown list or choose Custom. The framerates shown
+/// in the dropdown list are decimal approximations of fractions. If you choose
+/// Custom, specify your frame rate as a fraction. If you are creating your
+/// transcoding job specification as a JSON file without the console, use
+/// FramerateControl to specify which value the service uses for the frame rate
+/// for this output. Choose INITIALIZE_FROM_SOURCE if you want the service to
+/// use the frame rate from the input. Choose SPECIFIED if you want the service
+/// to use the frame rate you specify in the settings FramerateNumerator and
+/// FramerateDenominator.
+enum Vc3FramerateControl {
+  @_s.JsonValue('INITIALIZE_FROM_SOURCE')
+  initializeFromSource,
+  @_s.JsonValue('SPECIFIED')
+  specified,
+}
+
+/// Choose the method that you want MediaConvert to use when increasing or
+/// decreasing the frame rate. We recommend using drop duplicate
+/// (DUPLICATE_DROP) for numerically simple conversions, such as 60 fps to 30
+/// fps. For numerically complex conversions, you can use interpolate
+/// (INTERPOLATE) to avoid stutter. This results in a smooth picture, but might
+/// introduce undesirable video artifacts. For complex frame rate conversions,
+/// especially if your source video has already been converted from its original
+/// cadence, use FrameFormer (FRAMEFORMER) to do motion-compensated
+/// interpolation. FrameFormer chooses the best conversion method frame by
+/// frame. Note that using FrameFormer increases the transcoding time and incurs
+/// a significant add-on cost.
+enum Vc3FramerateConversionAlgorithm {
+  @_s.JsonValue('DUPLICATE_DROP')
+  duplicateDrop,
+  @_s.JsonValue('INTERPOLATE')
+  interpolate,
+  @_s.JsonValue('FRAMEFORMER')
+  frameformer,
+}
+
+/// Optional. Choose the scan line type for this output. If you don't specify a
+/// value, MediaConvert will create a progressive output.
+enum Vc3InterlaceMode {
+  @_s.JsonValue('INTERLACED')
+  interlaced,
+  @_s.JsonValue('PROGRESSIVE')
+  progressive,
+}
+
+/// Required when you set (Codec) under (VideoDescription)>(CodecSettings) to
+/// the value VC3
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class Vc3Settings {
+  /// If you are using the console, use the Framerate setting to specify the frame
+  /// rate for this output. If you want to keep the same frame rate as the input
+  /// video, choose Follow source. If you want to do frame rate conversion, choose
+  /// a frame rate from the dropdown list or choose Custom. The framerates shown
+  /// in the dropdown list are decimal approximations of fractions. If you choose
+  /// Custom, specify your frame rate as a fraction. If you are creating your
+  /// transcoding job specification as a JSON file without the console, use
+  /// FramerateControl to specify which value the service uses for the frame rate
+  /// for this output. Choose INITIALIZE_FROM_SOURCE if you want the service to
+  /// use the frame rate from the input. Choose SPECIFIED if you want the service
+  /// to use the frame rate you specify in the settings FramerateNumerator and
+  /// FramerateDenominator.
+  @_s.JsonKey(name: 'framerateControl')
+  final Vc3FramerateControl framerateControl;
+
+  /// Choose the method that you want MediaConvert to use when increasing or
+  /// decreasing the frame rate. We recommend using drop duplicate
+  /// (DUPLICATE_DROP) for numerically simple conversions, such as 60 fps to 30
+  /// fps. For numerically complex conversions, you can use interpolate
+  /// (INTERPOLATE) to avoid stutter. This results in a smooth picture, but might
+  /// introduce undesirable video artifacts. For complex frame rate conversions,
+  /// especially if your source video has already been converted from its original
+  /// cadence, use FrameFormer (FRAMEFORMER) to do motion-compensated
+  /// interpolation. FrameFormer chooses the best conversion method frame by
+  /// frame. Note that using FrameFormer increases the transcoding time and incurs
+  /// a significant add-on cost.
+  @_s.JsonKey(name: 'framerateConversionAlgorithm')
+  final Vc3FramerateConversionAlgorithm framerateConversionAlgorithm;
+
+  /// When you use the API for transcode jobs that use frame rate conversion,
+  /// specify the frame rate as a fraction. For example,  24000 / 1001 = 23.976
+  /// fps. Use FramerateDenominator to specify the denominator of this fraction.
+  /// In this example, use 1001 for the value of FramerateDenominator. When you
+  /// use the console for transcode jobs that use frame rate conversion, provide
+  /// the value as a decimal number for Framerate. In this example, specify
+  /// 23.976.
+  @_s.JsonKey(name: 'framerateDenominator')
+  final int framerateDenominator;
+
+  /// When you use the API for transcode jobs that use frame rate conversion,
+  /// specify the frame rate as a fraction. For example,  24000 / 1001 = 23.976
+  /// fps. Use FramerateNumerator to specify the numerator of this fraction. In
+  /// this example, use 24000 for the value of FramerateNumerator. When you use
+  /// the console for transcode jobs that use frame rate conversion, provide the
+  /// value as a decimal number for Framerate. In this example, specify 23.976.
+  @_s.JsonKey(name: 'framerateNumerator')
+  final int framerateNumerator;
+
+  /// Optional. Choose the scan line type for this output. If you don't specify a
+  /// value, MediaConvert will create a progressive output.
+  @_s.JsonKey(name: 'interlaceMode')
+  final Vc3InterlaceMode interlaceMode;
+
+  /// Ignore this setting unless your input frame rate is 23.976 or 24 frames per
+  /// second (fps). Enable slow PAL to create a 25 fps output by relabeling the
+  /// video frames and resampling your audio. Note that enabling this setting will
+  /// slightly reduce the duration of your video. Related settings: You must also
+  /// set Framerate to 25. In your JSON job specification, set (framerateControl)
+  /// to (SPECIFIED), (framerateNumerator) to 25 and (framerateDenominator) to 1.
+  @_s.JsonKey(name: 'slowPal')
+  final Vc3SlowPal slowPal;
+
+  /// When you do frame rate conversion from 23.976 frames per second (fps) to
+  /// 29.97 fps, and your output scan type is interlaced, you can optionally
+  /// enable hard telecine (HARD) to create a smoother picture. When you keep the
+  /// default value, None (NONE), MediaConvert does a standard frame rate
+  /// conversion to 29.97 without doing anything with the field polarity to create
+  /// a smoother picture.
+  @_s.JsonKey(name: 'telecine')
+  final Vc3Telecine telecine;
+
+  /// Specify the VC3 class to choose the quality characteristics for this output.
+  /// VC3 class, together with the settings Framerate (framerateNumerator and
+  /// framerateDenominator) and Resolution (height and width), determine your
+  /// output bitrate. For example, say that your video resolution is 1920x1080 and
+  /// your framerate is 29.97. Then Class 145 (CLASS_145) gives you an output with
+  /// a bitrate of approximately 145 Mbps and Class 220 (CLASS_220) gives you and
+  /// output with a bitrate of approximately 220 Mbps. VC3 class also specifies
+  /// the color bit depth of your output.
+  @_s.JsonKey(name: 'vc3Class')
+  final Vc3Class vc3Class;
+
+  Vc3Settings({
+    this.framerateControl,
+    this.framerateConversionAlgorithm,
+    this.framerateDenominator,
+    this.framerateNumerator,
+    this.interlaceMode,
+    this.slowPal,
+    this.telecine,
+    this.vc3Class,
+  });
+  factory Vc3Settings.fromJson(Map<String, dynamic> json) =>
+      _$Vc3SettingsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$Vc3SettingsToJson(this);
+}
+
+/// Ignore this setting unless your input frame rate is 23.976 or 24 frames per
+/// second (fps). Enable slow PAL to create a 25 fps output by relabeling the
+/// video frames and resampling your audio. Note that enabling this setting will
+/// slightly reduce the duration of your video. Related settings: You must also
+/// set Framerate to 25. In your JSON job specification, set (framerateControl)
+/// to (SPECIFIED), (framerateNumerator) to 25 and (framerateDenominator) to 1.
+enum Vc3SlowPal {
+  @_s.JsonValue('DISABLED')
+  disabled,
+  @_s.JsonValue('ENABLED')
+  enabled,
+}
+
+/// When you do frame rate conversion from 23.976 frames per second (fps) to
+/// 29.97 fps, and your output scan type is interlaced, you can optionally
+/// enable hard telecine (HARD) to create a smoother picture. When you keep the
+/// default value, None (NONE), MediaConvert does a standard frame rate
+/// conversion to 29.97 without doing anything with the field polarity to create
+/// a smoother picture.
+enum Vc3Telecine {
+  @_s.JsonValue('NONE')
+  none,
+  @_s.JsonValue('HARD')
+  hard,
+}
+
 /// Type of video codec
 enum VideoCodec {
-  @_s.JsonValue('FRAME_CAPTURE')
-  frameCapture,
   @_s.JsonValue('AV1')
   av1,
+  @_s.JsonValue('AVC_INTRA')
+  avcIntra,
+  @_s.JsonValue('FRAME_CAPTURE')
+  frameCapture,
   @_s.JsonValue('H_264')
   h_264,
   @_s.JsonValue('H_265')
@@ -13327,15 +15165,22 @@ enum VideoCodec {
   mpeg2,
   @_s.JsonValue('PRORES')
   prores,
+  @_s.JsonValue('VC3')
+  vc3,
+  @_s.JsonValue('VP8')
+  vp8,
+  @_s.JsonValue('VP9')
+  vp9,
 }
 
 /// Video codec settings, (CodecSettings) under (VideoDescription), contains the
 /// group of settings related to video encoding. The settings in this group vary
 /// depending on the value that you choose for Video codec (Codec). For each
 /// codec enum that you choose, define the corresponding settings object. The
-/// following lists the codec enum, settings object pairs. * FRAME_CAPTURE,
-/// FrameCaptureSettings * AV1, Av1Settings * H_264, H264Settings * H_265,
-/// H265Settings * MPEG2, Mpeg2Settings * PRORES, ProresSettings
+/// following lists the codec enum, settings object pairs. * AV1, Av1Settings *
+/// AVC_INTRA, AvcIntraSettings * FRAME_CAPTURE, FrameCaptureSettings * H_264,
+/// H264Settings * H_265, H265Settings * MPEG2, Mpeg2Settings * PRORES,
+/// ProresSettings * VC3, Vc3Settings * VP8, Vp8Settings * VP9, Vp9Settings
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -13346,6 +15191,13 @@ class VideoCodecSettings {
   /// value AV1.
   @_s.JsonKey(name: 'av1Settings')
   final Av1Settings av1Settings;
+
+  /// Required when you set your output video codec to AVC-Intra. For more
+  /// information about the AVC-I settings, see the relevant specification. For
+  /// detailed information about SD and HD in AVC-I, see
+  /// https://ieeexplore.ieee.org/document/7290936.
+  @_s.JsonKey(name: 'avcIntraSettings')
+  final AvcIntraSettings avcIntraSettings;
 
   /// Specifies the video codec. This must be equal to one of the enum values
   /// defined by the object  VideoCodec.
@@ -13376,14 +15228,33 @@ class VideoCodecSettings {
   @_s.JsonKey(name: 'proresSettings')
   final ProresSettings proresSettings;
 
+  /// Required when you set (Codec) under (VideoDescription)>(CodecSettings) to
+  /// the value VC3
+  @_s.JsonKey(name: 'vc3Settings')
+  final Vc3Settings vc3Settings;
+
+  /// Required when you set (Codec) under (VideoDescription)>(CodecSettings) to
+  /// the value VP8.
+  @_s.JsonKey(name: 'vp8Settings')
+  final Vp8Settings vp8Settings;
+
+  /// Required when you set (Codec) under (VideoDescription)>(CodecSettings) to
+  /// the value VP9.
+  @_s.JsonKey(name: 'vp9Settings')
+  final Vp9Settings vp9Settings;
+
   VideoCodecSettings({
     this.av1Settings,
+    this.avcIntraSettings,
     this.codec,
     this.frameCaptureSettings,
     this.h264Settings,
     this.h265Settings,
     this.mpeg2Settings,
     this.proresSettings,
+    this.vc3Settings,
+    this.vp8Settings,
+    this.vp9Settings,
   });
   factory VideoCodecSettings.fromJson(Map<String, dynamic> json) =>
       _$VideoCodecSettingsFromJson(json);
@@ -13417,9 +15288,10 @@ class VideoDescription {
   /// group of settings related to video encoding. The settings in this group vary
   /// depending on the value that you choose for Video codec (Codec). For each
   /// codec enum that you choose, define the corresponding settings object. The
-  /// following lists the codec enum, settings object pairs. * FRAME_CAPTURE,
-  /// FrameCaptureSettings * AV1, Av1Settings * H_264, H264Settings * H_265,
-  /// H265Settings * MPEG2, Mpeg2Settings * PRORES, ProresSettings
+  /// following lists the codec enum, settings object pairs. * AV1, Av1Settings *
+  /// AVC_INTRA, AvcIntraSettings * FRAME_CAPTURE, FrameCaptureSettings * H_264,
+  /// H264Settings * H_265, H265Settings * MPEG2, Mpeg2Settings * PRORES,
+  /// ProresSettings * VC3, Vc3Settings * VP8, Vp8Settings * VP9, Vp9Settings
   @_s.JsonKey(name: 'codecSettings')
   final VideoCodecSettings codecSettings;
 
@@ -13597,6 +15469,12 @@ class VideoPreprocessor {
   @_s.JsonKey(name: 'noiseReducer')
   final NoiseReducer noiseReducer;
 
+  /// If you work with a third party video watermarking partner, use the group of
+  /// settings that correspond with your watermarking partner to include
+  /// watermarks in your output.
+  @_s.JsonKey(name: 'partnerWatermarking')
+  final PartnerWatermarking partnerWatermarking;
+
   /// Timecode burn-in (TimecodeBurnIn)--Burns the output timecode and specified
   /// prefix into the output.
   @_s.JsonKey(name: 'timecodeBurnin')
@@ -13608,6 +15486,7 @@ class VideoPreprocessor {
     this.dolbyVision,
     this.imageInserter,
     this.noiseReducer,
+    this.partnerWatermarking,
     this.timecodeBurnin,
   });
   factory VideoPreprocessor.fromJson(Map<String, dynamic> json) =>
@@ -13730,6 +15609,472 @@ enum VideoTimecodeInsertion {
   disabled,
   @_s.JsonValue('PIC_TIMING_SEI')
   picTimingSei,
+}
+
+/// Required when you set Codec, under AudioDescriptions>CodecSettings, to the
+/// value Vorbis.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class VorbisSettings {
+  /// Optional. Specify the number of channels in this output audio track.
+  /// Choosing Mono on the console gives you 1 output channel; choosing Stereo
+  /// gives you 2. In the API, valid values are 1 and 2. The default value is 2.
+  @_s.JsonKey(name: 'channels')
+  final int channels;
+
+  /// Optional. Specify the audio sample rate in Hz. Valid values are 22050,
+  /// 32000, 44100, and 48000. The default value is 48000.
+  @_s.JsonKey(name: 'sampleRate')
+  final int sampleRate;
+
+  /// Optional. Specify the variable audio quality of this Vorbis output from -1
+  /// (lowest quality, ~45 kbit/s) to 10 (highest quality, ~500 kbit/s). The
+  /// default value is 4 (~128 kbit/s). Values 5 and 6 are approximately 160 and
+  /// 192 kbit/s, respectively.
+  @_s.JsonKey(name: 'vbrQuality')
+  final int vbrQuality;
+
+  VorbisSettings({
+    this.channels,
+    this.sampleRate,
+    this.vbrQuality,
+  });
+  factory VorbisSettings.fromJson(Map<String, dynamic> json) =>
+      _$VorbisSettingsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$VorbisSettingsToJson(this);
+}
+
+/// If you are using the console, use the Framerate setting to specify the frame
+/// rate for this output. If you want to keep the same frame rate as the input
+/// video, choose Follow source. If you want to do frame rate conversion, choose
+/// a frame rate from the dropdown list or choose Custom. The framerates shown
+/// in the dropdown list are decimal approximations of fractions. If you choose
+/// Custom, specify your frame rate as a fraction. If you are creating your
+/// transcoding job specification as a JSON file without the console, use
+/// FramerateControl to specify which value the service uses for the frame rate
+/// for this output. Choose INITIALIZE_FROM_SOURCE if you want the service to
+/// use the frame rate from the input. Choose SPECIFIED if you want the service
+/// to use the frame rate you specify in the settings FramerateNumerator and
+/// FramerateDenominator.
+enum Vp8FramerateControl {
+  @_s.JsonValue('INITIALIZE_FROM_SOURCE')
+  initializeFromSource,
+  @_s.JsonValue('SPECIFIED')
+  specified,
+}
+
+/// Choose the method that you want MediaConvert to use when increasing or
+/// decreasing the frame rate. We recommend using drop duplicate
+/// (DUPLICATE_DROP) for numerically simple conversions, such as 60 fps to 30
+/// fps. For numerically complex conversions, you can use interpolate
+/// (INTERPOLATE) to avoid stutter. This results in a smooth picture, but might
+/// introduce undesirable video artifacts. For complex frame rate conversions,
+/// especially if your source video has already been converted from its original
+/// cadence, use FrameFormer (FRAMEFORMER) to do motion-compensated
+/// interpolation. FrameFormer chooses the best conversion method frame by
+/// frame. Note that using FrameFormer increases the transcoding time and incurs
+/// a significant add-on cost.
+enum Vp8FramerateConversionAlgorithm {
+  @_s.JsonValue('DUPLICATE_DROP')
+  duplicateDrop,
+  @_s.JsonValue('INTERPOLATE')
+  interpolate,
+  @_s.JsonValue('FRAMEFORMER')
+  frameformer,
+}
+
+/// Optional. Specify how the service determines the pixel aspect ratio (PAR)
+/// for this output. The default behavior, Follow source
+/// (INITIALIZE_FROM_SOURCE), uses the PAR from your input video for your
+/// output. To specify a different PAR in the console, choose any value other
+/// than Follow source. To specify a different PAR by editing the JSON job
+/// specification, choose SPECIFIED. When you choose SPECIFIED for this setting,
+/// you must also specify values for the parNumerator and parDenominator
+/// settings.
+enum Vp8ParControl {
+  @_s.JsonValue('INITIALIZE_FROM_SOURCE')
+  initializeFromSource,
+  @_s.JsonValue('SPECIFIED')
+  specified,
+}
+
+/// Optional. Use Quality tuning level (qualityTuningLevel) to choose how you
+/// want to trade off encoding speed for output video quality. The default
+/// behavior is faster, lower quality, multi-pass encoding.
+enum Vp8QualityTuningLevel {
+  @_s.JsonValue('MULTI_PASS')
+  multiPass,
+  @_s.JsonValue('MULTI_PASS_HQ')
+  multiPassHq,
+}
+
+/// With the VP8 codec, you can use only the variable bitrate (VBR) rate control
+/// mode.
+enum Vp8RateControlMode {
+  @_s.JsonValue('VBR')
+  vbr,
+}
+
+/// Required when you set (Codec) under (VideoDescription)>(CodecSettings) to
+/// the value VP8.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class Vp8Settings {
+  /// Target bitrate in bits/second. For example, enter five megabits per second
+  /// as 5000000.
+  @_s.JsonKey(name: 'bitrate')
+  final int bitrate;
+
+  /// If you are using the console, use the Framerate setting to specify the frame
+  /// rate for this output. If you want to keep the same frame rate as the input
+  /// video, choose Follow source. If you want to do frame rate conversion, choose
+  /// a frame rate from the dropdown list or choose Custom. The framerates shown
+  /// in the dropdown list are decimal approximations of fractions. If you choose
+  /// Custom, specify your frame rate as a fraction. If you are creating your
+  /// transcoding job specification as a JSON file without the console, use
+  /// FramerateControl to specify which value the service uses for the frame rate
+  /// for this output. Choose INITIALIZE_FROM_SOURCE if you want the service to
+  /// use the frame rate from the input. Choose SPECIFIED if you want the service
+  /// to use the frame rate you specify in the settings FramerateNumerator and
+  /// FramerateDenominator.
+  @_s.JsonKey(name: 'framerateControl')
+  final Vp8FramerateControl framerateControl;
+
+  /// Choose the method that you want MediaConvert to use when increasing or
+  /// decreasing the frame rate. We recommend using drop duplicate
+  /// (DUPLICATE_DROP) for numerically simple conversions, such as 60 fps to 30
+  /// fps. For numerically complex conversions, you can use interpolate
+  /// (INTERPOLATE) to avoid stutter. This results in a smooth picture, but might
+  /// introduce undesirable video artifacts. For complex frame rate conversions,
+  /// especially if your source video has already been converted from its original
+  /// cadence, use FrameFormer (FRAMEFORMER) to do motion-compensated
+  /// interpolation. FrameFormer chooses the best conversion method frame by
+  /// frame. Note that using FrameFormer increases the transcoding time and incurs
+  /// a significant add-on cost.
+  @_s.JsonKey(name: 'framerateConversionAlgorithm')
+  final Vp8FramerateConversionAlgorithm framerateConversionAlgorithm;
+
+  /// When you use the API for transcode jobs that use frame rate conversion,
+  /// specify the frame rate as a fraction. For example,  24000 / 1001 = 23.976
+  /// fps. Use FramerateDenominator to specify the denominator of this fraction.
+  /// In this example, use 1001 for the value of FramerateDenominator. When you
+  /// use the console for transcode jobs that use frame rate conversion, provide
+  /// the value as a decimal number for Framerate. In this example, specify
+  /// 23.976.
+  @_s.JsonKey(name: 'framerateDenominator')
+  final int framerateDenominator;
+
+  /// When you use the API for transcode jobs that use frame rate conversion,
+  /// specify the frame rate as a fraction. For example,  24000 / 1001 = 23.976
+  /// fps. Use FramerateNumerator to specify the numerator of this fraction. In
+  /// this example, use 24000 for the value of FramerateNumerator. When you use
+  /// the console for transcode jobs that use frame rate conversion, provide the
+  /// value as a decimal number for Framerate. In this example, specify 23.976.
+  @_s.JsonKey(name: 'framerateNumerator')
+  final int framerateNumerator;
+
+  /// GOP Length (keyframe interval) in frames. Must be greater than zero.
+  @_s.JsonKey(name: 'gopSize')
+  final double gopSize;
+
+  /// Optional. Size of buffer (HRD buffer model) in bits. For example, enter five
+  /// megabits as 5000000.
+  @_s.JsonKey(name: 'hrdBufferSize')
+  final int hrdBufferSize;
+
+  /// Ignore this setting unless you set qualityTuningLevel to MULTI_PASS.
+  /// Optional. Specify the maximum bitrate in bits/second. For example, enter
+  /// five megabits per second as 5000000. The default behavior uses twice the
+  /// target bitrate as the maximum bitrate.
+  @_s.JsonKey(name: 'maxBitrate')
+  final int maxBitrate;
+
+  /// Optional. Specify how the service determines the pixel aspect ratio (PAR)
+  /// for this output. The default behavior, Follow source
+  /// (INITIALIZE_FROM_SOURCE), uses the PAR from your input video for your
+  /// output. To specify a different PAR in the console, choose any value other
+  /// than Follow source. To specify a different PAR by editing the JSON job
+  /// specification, choose SPECIFIED. When you choose SPECIFIED for this setting,
+  /// you must also specify values for the parNumerator and parDenominator
+  /// settings.
+  @_s.JsonKey(name: 'parControl')
+  final Vp8ParControl parControl;
+
+  /// Required when you set Pixel aspect ratio (parControl) to SPECIFIED. On the
+  /// console, this corresponds to any value other than Follow source. When you
+  /// specify an output pixel aspect ratio (PAR) that is different from your input
+  /// video PAR, provide your output PAR as a ratio. For example, for D1/DV NTSC
+  /// widescreen, you would specify the ratio 40:33. In this example, the value
+  /// for parDenominator is 33.
+  @_s.JsonKey(name: 'parDenominator')
+  final int parDenominator;
+
+  /// Required when you set Pixel aspect ratio (parControl) to SPECIFIED. On the
+  /// console, this corresponds to any value other than Follow source. When you
+  /// specify an output pixel aspect ratio (PAR) that is different from your input
+  /// video PAR, provide your output PAR as a ratio. For example, for D1/DV NTSC
+  /// widescreen, you would specify the ratio 40:33. In this example, the value
+  /// for parNumerator is 40.
+  @_s.JsonKey(name: 'parNumerator')
+  final int parNumerator;
+
+  /// Optional. Use Quality tuning level (qualityTuningLevel) to choose how you
+  /// want to trade off encoding speed for output video quality. The default
+  /// behavior is faster, lower quality, multi-pass encoding.
+  @_s.JsonKey(name: 'qualityTuningLevel')
+  final Vp8QualityTuningLevel qualityTuningLevel;
+
+  /// With the VP8 codec, you can use only the variable bitrate (VBR) rate control
+  /// mode.
+  @_s.JsonKey(name: 'rateControlMode')
+  final Vp8RateControlMode rateControlMode;
+
+  Vp8Settings({
+    this.bitrate,
+    this.framerateControl,
+    this.framerateConversionAlgorithm,
+    this.framerateDenominator,
+    this.framerateNumerator,
+    this.gopSize,
+    this.hrdBufferSize,
+    this.maxBitrate,
+    this.parControl,
+    this.parDenominator,
+    this.parNumerator,
+    this.qualityTuningLevel,
+    this.rateControlMode,
+  });
+  factory Vp8Settings.fromJson(Map<String, dynamic> json) =>
+      _$Vp8SettingsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$Vp8SettingsToJson(this);
+}
+
+/// If you are using the console, use the Framerate setting to specify the frame
+/// rate for this output. If you want to keep the same frame rate as the input
+/// video, choose Follow source. If you want to do frame rate conversion, choose
+/// a frame rate from the dropdown list or choose Custom. The framerates shown
+/// in the dropdown list are decimal approximations of fractions. If you choose
+/// Custom, specify your frame rate as a fraction. If you are creating your
+/// transcoding job specification as a JSON file without the console, use
+/// FramerateControl to specify which value the service uses for the frame rate
+/// for this output. Choose INITIALIZE_FROM_SOURCE if you want the service to
+/// use the frame rate from the input. Choose SPECIFIED if you want the service
+/// to use the frame rate you specify in the settings FramerateNumerator and
+/// FramerateDenominator.
+enum Vp9FramerateControl {
+  @_s.JsonValue('INITIALIZE_FROM_SOURCE')
+  initializeFromSource,
+  @_s.JsonValue('SPECIFIED')
+  specified,
+}
+
+/// Choose the method that you want MediaConvert to use when increasing or
+/// decreasing the frame rate. We recommend using drop duplicate
+/// (DUPLICATE_DROP) for numerically simple conversions, such as 60 fps to 30
+/// fps. For numerically complex conversions, you can use interpolate
+/// (INTERPOLATE) to avoid stutter. This results in a smooth picture, but might
+/// introduce undesirable video artifacts. For complex frame rate conversions,
+/// especially if your source video has already been converted from its original
+/// cadence, use FrameFormer (FRAMEFORMER) to do motion-compensated
+/// interpolation. FrameFormer chooses the best conversion method frame by
+/// frame. Note that using FrameFormer increases the transcoding time and incurs
+/// a significant add-on cost.
+enum Vp9FramerateConversionAlgorithm {
+  @_s.JsonValue('DUPLICATE_DROP')
+  duplicateDrop,
+  @_s.JsonValue('INTERPOLATE')
+  interpolate,
+  @_s.JsonValue('FRAMEFORMER')
+  frameformer,
+}
+
+/// Optional. Specify how the service determines the pixel aspect ratio (PAR)
+/// for this output. The default behavior, Follow source
+/// (INITIALIZE_FROM_SOURCE), uses the PAR from your input video for your
+/// output. To specify a different PAR in the console, choose any value other
+/// than Follow source. To specify a different PAR by editing the JSON job
+/// specification, choose SPECIFIED. When you choose SPECIFIED for this setting,
+/// you must also specify values for the parNumerator and parDenominator
+/// settings.
+enum Vp9ParControl {
+  @_s.JsonValue('INITIALIZE_FROM_SOURCE')
+  initializeFromSource,
+  @_s.JsonValue('SPECIFIED')
+  specified,
+}
+
+/// Optional. Use Quality tuning level (qualityTuningLevel) to choose how you
+/// want to trade off encoding speed for output video quality. The default
+/// behavior is faster, lower quality, multi-pass encoding.
+enum Vp9QualityTuningLevel {
+  @_s.JsonValue('MULTI_PASS')
+  multiPass,
+  @_s.JsonValue('MULTI_PASS_HQ')
+  multiPassHq,
+}
+
+/// With the VP9 codec, you can use only the variable bitrate (VBR) rate control
+/// mode.
+enum Vp9RateControlMode {
+  @_s.JsonValue('VBR')
+  vbr,
+}
+
+/// Required when you set (Codec) under (VideoDescription)>(CodecSettings) to
+/// the value VP9.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class Vp9Settings {
+  /// Target bitrate in bits/second. For example, enter five megabits per second
+  /// as 5000000.
+  @_s.JsonKey(name: 'bitrate')
+  final int bitrate;
+
+  /// If you are using the console, use the Framerate setting to specify the frame
+  /// rate for this output. If you want to keep the same frame rate as the input
+  /// video, choose Follow source. If you want to do frame rate conversion, choose
+  /// a frame rate from the dropdown list or choose Custom. The framerates shown
+  /// in the dropdown list are decimal approximations of fractions. If you choose
+  /// Custom, specify your frame rate as a fraction. If you are creating your
+  /// transcoding job specification as a JSON file without the console, use
+  /// FramerateControl to specify which value the service uses for the frame rate
+  /// for this output. Choose INITIALIZE_FROM_SOURCE if you want the service to
+  /// use the frame rate from the input. Choose SPECIFIED if you want the service
+  /// to use the frame rate you specify in the settings FramerateNumerator and
+  /// FramerateDenominator.
+  @_s.JsonKey(name: 'framerateControl')
+  final Vp9FramerateControl framerateControl;
+
+  /// Choose the method that you want MediaConvert to use when increasing or
+  /// decreasing the frame rate. We recommend using drop duplicate
+  /// (DUPLICATE_DROP) for numerically simple conversions, such as 60 fps to 30
+  /// fps. For numerically complex conversions, you can use interpolate
+  /// (INTERPOLATE) to avoid stutter. This results in a smooth picture, but might
+  /// introduce undesirable video artifacts. For complex frame rate conversions,
+  /// especially if your source video has already been converted from its original
+  /// cadence, use FrameFormer (FRAMEFORMER) to do motion-compensated
+  /// interpolation. FrameFormer chooses the best conversion method frame by
+  /// frame. Note that using FrameFormer increases the transcoding time and incurs
+  /// a significant add-on cost.
+  @_s.JsonKey(name: 'framerateConversionAlgorithm')
+  final Vp9FramerateConversionAlgorithm framerateConversionAlgorithm;
+
+  /// When you use the API for transcode jobs that use frame rate conversion,
+  /// specify the frame rate as a fraction. For example,  24000 / 1001 = 23.976
+  /// fps. Use FramerateDenominator to specify the denominator of this fraction.
+  /// In this example, use 1001 for the value of FramerateDenominator. When you
+  /// use the console for transcode jobs that use frame rate conversion, provide
+  /// the value as a decimal number for Framerate. In this example, specify
+  /// 23.976.
+  @_s.JsonKey(name: 'framerateDenominator')
+  final int framerateDenominator;
+
+  /// When you use the API for transcode jobs that use frame rate conversion,
+  /// specify the frame rate as a fraction. For example,  24000 / 1001 = 23.976
+  /// fps. Use FramerateNumerator to specify the numerator of this fraction. In
+  /// this example, use 24000 for the value of FramerateNumerator. When you use
+  /// the console for transcode jobs that use frame rate conversion, provide the
+  /// value as a decimal number for Framerate. In this example, specify 23.976.
+  @_s.JsonKey(name: 'framerateNumerator')
+  final int framerateNumerator;
+
+  /// GOP Length (keyframe interval) in frames. Must be greater than zero.
+  @_s.JsonKey(name: 'gopSize')
+  final double gopSize;
+
+  /// Size of buffer (HRD buffer model) in bits. For example, enter five megabits
+  /// as 5000000.
+  @_s.JsonKey(name: 'hrdBufferSize')
+  final int hrdBufferSize;
+
+  /// Ignore this setting unless you set qualityTuningLevel to MULTI_PASS.
+  /// Optional. Specify the maximum bitrate in bits/second. For example, enter
+  /// five megabits per second as 5000000. The default behavior uses twice the
+  /// target bitrate as the maximum bitrate.
+  @_s.JsonKey(name: 'maxBitrate')
+  final int maxBitrate;
+
+  /// Optional. Specify how the service determines the pixel aspect ratio for this
+  /// output. The default behavior is to use the same pixel aspect ratio as your
+  /// input video.
+  @_s.JsonKey(name: 'parControl')
+  final Vp9ParControl parControl;
+
+  /// Required when you set Pixel aspect ratio (parControl) to SPECIFIED. On the
+  /// console, this corresponds to any value other than Follow source. When you
+  /// specify an output pixel aspect ratio (PAR) that is different from your input
+  /// video PAR, provide your output PAR as a ratio. For example, for D1/DV NTSC
+  /// widescreen, you would specify the ratio 40:33. In this example, the value
+  /// for parDenominator is 33.
+  @_s.JsonKey(name: 'parDenominator')
+  final int parDenominator;
+
+  /// Required when you set Pixel aspect ratio (parControl) to SPECIFIED. On the
+  /// console, this corresponds to any value other than Follow source. When you
+  /// specify an output pixel aspect ratio (PAR) that is different from your input
+  /// video PAR, provide your output PAR as a ratio. For example, for D1/DV NTSC
+  /// widescreen, you would specify the ratio 40:33. In this example, the value
+  /// for parNumerator is 40.
+  @_s.JsonKey(name: 'parNumerator')
+  final int parNumerator;
+
+  /// Optional. Use Quality tuning level (qualityTuningLevel) to choose how you
+  /// want to trade off encoding speed for output video quality. The default
+  /// behavior is faster, lower quality, multi-pass encoding.
+  @_s.JsonKey(name: 'qualityTuningLevel')
+  final Vp9QualityTuningLevel qualityTuningLevel;
+
+  /// With the VP9 codec, you can use only the variable bitrate (VBR) rate control
+  /// mode.
+  @_s.JsonKey(name: 'rateControlMode')
+  final Vp9RateControlMode rateControlMode;
+
+  Vp9Settings({
+    this.bitrate,
+    this.framerateControl,
+    this.framerateConversionAlgorithm,
+    this.framerateDenominator,
+    this.framerateNumerator,
+    this.gopSize,
+    this.hrdBufferSize,
+    this.maxBitrate,
+    this.parControl,
+    this.parDenominator,
+    this.parNumerator,
+    this.qualityTuningLevel,
+    this.rateControlMode,
+  });
+  factory Vp9Settings.fromJson(Map<String, dynamic> json) =>
+      _$Vp9SettingsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$Vp9SettingsToJson(this);
+}
+
+/// Optional. Ignore this setting unless Nagra support directs you to specify a
+/// value. When you don't specify a value here, the Nagra NexGuard library uses
+/// its default value.
+enum WatermarkingStrength {
+  @_s.JsonValue('LIGHTEST')
+  lightest,
+  @_s.JsonValue('LIGHTER')
+  lighter,
+  @_s.JsonValue('DEFAULT')
+  $default,
+  @_s.JsonValue('STRONGER')
+  stronger,
+  @_s.JsonValue('STRONGEST')
+  strongest,
 }
 
 /// The service defaults to using RIFF for WAV outputs. If your output audio is

@@ -26,13 +26,13 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
 part 'ecr-2015-09-21.g.dart';
 
-/// Amazon Elastic Container Registry (Amazon ECR) is a managed Docker registry
-/// service. Customers can use the familiar Docker CLI to push, pull, and manage
-/// images. Amazon ECR provides a secure, scalable, and reliable registry.
-/// Amazon ECR supports private Docker repositories with resource-based
-/// permissions using IAM so that specific users or Amazon EC2 instances can
-/// access repositories and images. Developers can use the Docker CLI to author
-/// and manage images.
+/// Amazon Elastic Container Registry (Amazon ECR) is a managed container image
+/// registry service. Customers can use the familiar Docker CLI, or their
+/// preferred client, to push, pull, and manage images. Amazon ECR provides a
+/// secure, scalable, and reliable registry for your Docker or Open Container
+/// Initiative (OCI) images. Amazon ECR supports private repositories with
+/// resource-based permissions using IAM so that specific users or Amazon EC2
+/// instances can access repositories and images.
 class ECR {
   final _s.JsonProtocol _protocol;
   ECR({
@@ -54,15 +54,12 @@ class ECR {
   /// Checks the availability of one or more image layers in a repository.
   ///
   /// When an image is pushed to a repository, each image layer is checked to
-  /// verify if it has been uploaded before. If it is, then the image layer is
-  /// skipped.
-  ///
-  /// When an image is pulled from a repository, each image layer is checked
-  /// once to verify it is available to be pulled.
+  /// verify if it has been uploaded before. If it has been uploaded, then the
+  /// image layer is skipped.
   /// <note>
-  /// This operation is used by the Amazon ECR proxy, and it is not intended for
-  /// general use by customers for pulling and pushing images. In most cases,
-  /// you should use the <code>docker</code> CLI to pull, tag, and push images.
+  /// This operation is used by the Amazon ECR proxy and is not generally used
+  /// by customers for pulling and pushing images. In most cases, you should use
+  /// the <code>docker</code> CLI to pull, tag, and push images.
   /// </note>
   ///
   /// May throw [RepositoryNotFoundException].
@@ -283,9 +280,9 @@ class ECR {
   /// When an image is pushed, the CompleteLayerUpload API is called once per
   /// each new image layer to verify that the upload has completed.
   /// <note>
-  /// This operation is used by the Amazon ECR proxy, and it is not intended for
-  /// general use by customers for pulling and pushing images. In most cases,
-  /// you should use the <code>docker</code> CLI to pull, tag, and push images.
+  /// This operation is used by the Amazon ECR proxy and is not generally used
+  /// by customers for pulling and pushing images. In most cases, you should use
+  /// the <code>docker</code> CLI to pull, tag, and push images.
   /// </note>
   ///
   /// May throw [ServerException].
@@ -296,6 +293,7 @@ class ECR {
   /// May throw [LayerPartTooSmallException].
   /// May throw [LayerAlreadyExistsException].
   /// May throw [EmptyUploadException].
+  /// May throw [KmsException].
   ///
   /// Parameter [layerDigests] :
   /// The <code>sha256</code> digest of the image layer.
@@ -375,6 +373,7 @@ class ECR {
   /// May throw [TooManyTagsException].
   /// May throw [RepositoryAlreadyExistsException].
   /// May throw [LimitExceededException].
+  /// May throw [KmsException].
   ///
   /// Parameter [repositoryName] :
   /// The name to use for the repository. The repository name may be specified
@@ -382,10 +381,14 @@ class ECR {
   /// with a namespace to group the repository into a category (such as
   /// <code>project-a/nginx-web-app</code>).
   ///
+  /// Parameter [encryptionConfiguration] :
+  /// The encryption configuration for the repository. This determines how the
+  /// contents of your repository are encrypted at rest.
+  ///
   /// Parameter [imageScanningConfiguration] :
-  /// The image scanning configuration for the repository. This setting
-  /// determines whether images are scanned for known vulnerabilities after
-  /// being pushed to the repository.
+  /// The image scanning configuration for the repository. This determines
+  /// whether images are scanned for known vulnerabilities after being pushed to
+  /// the repository.
   ///
   /// Parameter [imageTagMutability] :
   /// The tag mutability setting for the repository. If this parameter is
@@ -401,6 +404,7 @@ class ECR {
   /// characters, and tag values can have a maximum length of 256 characters.
   Future<CreateRepositoryResponse> createRepository({
     @_s.required String repositoryName,
+    EncryptionConfiguration encryptionConfiguration,
     ImageScanningConfiguration imageScanningConfiguration,
     ImageTagMutability imageTagMutability,
     List<Tag> tags,
@@ -431,6 +435,8 @@ class ECR {
       headers: headers,
       payload: {
         'repositoryName': repositoryName,
+        if (encryptionConfiguration != null)
+          'encryptionConfiguration': encryptionConfiguration,
         if (imageScanningConfiguration != null)
           'imageScanningConfiguration': imageScanningConfiguration,
         if (imageTagMutability != null)
@@ -499,6 +505,28 @@ class ECR {
     return DeleteLifecyclePolicyResponse.fromJson(jsonResponse.body);
   }
 
+  /// Deletes the registry permissions policy.
+  ///
+  /// May throw [ServerException].
+  /// May throw [InvalidParameterException].
+  /// May throw [RegistryPolicyNotFoundException].
+  Future<DeleteRegistryPolicyResponse> deleteRegistryPolicy() async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'AmazonEC2ContainerRegistry_V20150921.DeleteRegistryPolicy'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+    );
+
+    return DeleteRegistryPolicyResponse.fromJson(jsonResponse.body);
+  }
+
   /// Deletes a repository. If the repository contains images, you must either
   /// delete all images in the repository or use the <code>force</code> option
   /// to delete the repository.
@@ -507,6 +535,7 @@ class ECR {
   /// May throw [InvalidParameterException].
   /// May throw [RepositoryNotFoundException].
   /// May throw [RepositoryNotEmptyException].
+  /// May throw [KmsException].
   ///
   /// Parameter [repositoryName] :
   /// The name of the repository to delete.
@@ -817,6 +846,29 @@ class ECR {
     return DescribeImagesResponse.fromJson(jsonResponse.body);
   }
 
+  /// Describes the settings for a registry. The replication configuration for a
+  /// repository can be created or updated with the
+  /// <a>PutReplicationConfiguration</a> API action.
+  ///
+  /// May throw [ServerException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ValidationException].
+  Future<DescribeRegistryResponse> describeRegistry() async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonEC2ContainerRegistry_V20150921.DescribeRegistry'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+    );
+
+    return DescribeRegistryResponse.fromJson(jsonResponse.body);
+  }
+
   /// Describes image repositories in a registry.
   ///
   /// May throw [ServerException].
@@ -945,11 +997,11 @@ class ECR {
   /// image.
   ///
   /// When an image is pulled, the GetDownloadUrlForLayer API is called once per
-  /// image layer.
+  /// image layer that is not already cached.
   /// <note>
-  /// This operation is used by the Amazon ECR proxy, and it is not intended for
-  /// general use by customers for pulling and pushing images. In most cases,
-  /// you should use the <code>docker</code> CLI to pull, tag, and push images.
+  /// This operation is used by the Amazon ECR proxy and is not generally used
+  /// by customers for pulling and pushing images. In most cases, you should use
+  /// the <code>docker</code> CLI to pull, tag, and push images.
   /// </note>
   ///
   /// May throw [ServerException].
@@ -1180,6 +1232,27 @@ class ECR {
     return GetLifecyclePolicyPreviewResponse.fromJson(jsonResponse.body);
   }
 
+  /// Retrieves the permissions policy for a registry.
+  ///
+  /// May throw [ServerException].
+  /// May throw [InvalidParameterException].
+  /// May throw [RegistryPolicyNotFoundException].
+  Future<GetRegistryPolicyResponse> getRegistryPolicy() async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonEC2ContainerRegistry_V20150921.GetRegistryPolicy'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+    );
+
+    return GetRegistryPolicyResponse.fromJson(jsonResponse.body);
+  }
+
   /// Retrieves the repository policy for the specified repository.
   ///
   /// May throw [ServerException].
@@ -1239,18 +1312,19 @@ class ECR {
   /// Notifies Amazon ECR that you intend to upload an image layer.
   ///
   /// When an image is pushed, the InitiateLayerUpload API is called once per
-  /// image layer that has not already been uploaded. Whether an image layer has
-  /// been uploaded before is determined by the
-  /// <a>BatchCheckLayerAvailability</a> API action.
+  /// image layer that has not already been uploaded. Whether or not an image
+  /// layer has been uploaded is determined by the BatchCheckLayerAvailability
+  /// API action.
   /// <note>
-  /// This operation is used by the Amazon ECR proxy, and it is not intended for
-  /// general use by customers for pulling and pushing images. In most cases,
-  /// you should use the <code>docker</code> CLI to pull, tag, and push images.
+  /// This operation is used by the Amazon ECR proxy and is not generally used
+  /// by customers for pulling and pushing images. In most cases, you should use
+  /// the <code>docker</code> CLI to pull, tag, and push images.
   /// </note>
   ///
   /// May throw [ServerException].
   /// May throw [InvalidParameterException].
   /// May throw [RepositoryNotFoundException].
+  /// May throw [KmsException].
   ///
   /// Parameter [repositoryName] :
   /// The name of the repository to which you intend to upload layers.
@@ -1438,12 +1512,12 @@ class ECR {
   /// Creates or updates the image manifest and tags associated with an image.
   ///
   /// When an image is pushed and all new image layers have been uploaded, the
-  /// PutImage API is called once to create or update the image manifest and
+  /// PutImage API is called once to create or update the image manifest and the
   /// tags associated with the image.
   /// <note>
-  /// This operation is used by the Amazon ECR proxy, and it is not intended for
-  /// general use by customers for pulling and pushing images. In most cases,
-  /// you should use the <code>docker</code> CLI to pull, tag, and push images.
+  /// This operation is used by the Amazon ECR proxy and is not generally used
+  /// by customers for pulling and pushing images. In most cases, you should use
+  /// the <code>docker</code> CLI to pull, tag, and push images.
   /// </note>
   ///
   /// May throw [ServerException].
@@ -1451,8 +1525,11 @@ class ECR {
   /// May throw [RepositoryNotFoundException].
   /// May throw [ImageAlreadyExistsException].
   /// May throw [LayersNotFoundException].
+  /// May throw [ReferencedImagesNotFoundException].
   /// May throw [LimitExceededException].
   /// May throw [ImageTagAlreadyExistsException].
+  /// May throw [ImageDigestDoesNotMatchException].
+  /// May throw [KmsException].
   ///
   /// Parameter [imageManifest] :
   /// The image manifest corresponding to the image to be uploaded.
@@ -1460,9 +1537,18 @@ class ECR {
   /// Parameter [repositoryName] :
   /// The name of the repository in which to put the image.
   ///
+  /// Parameter [imageDigest] :
+  /// The image digest of the image manifest corresponding to the image.
+  ///
+  /// Parameter [imageManifestMediaType] :
+  /// The media type of the image manifest. If you push an image manifest that
+  /// does not contain the <code>mediaType</code> field, you must specify the
+  /// <code>imageManifestMediaType</code> in the request.
+  ///
   /// Parameter [imageTag] :
   /// The tag to associate with the image. This parameter is required for images
-  /// that use the Docker Image Manifest V2 Schema 2 or OCI formats.
+  /// that use the Docker Image Manifest V2 Schema 2 or Open Container
+  /// Initiative (OCI) formats.
   ///
   /// Parameter [registryId] :
   /// The AWS account ID associated with the registry that contains the
@@ -1471,6 +1557,8 @@ class ECR {
   Future<PutImageResponse> putImage({
     @_s.required String imageManifest,
     @_s.required String repositoryName,
+    String imageDigest,
+    String imageManifestMediaType,
     String imageTag,
     String registryId,
   }) async {
@@ -1520,6 +1608,9 @@ class ECR {
       payload: {
         'imageManifest': imageManifest,
         'repositoryName': repositoryName,
+        if (imageDigest != null) 'imageDigest': imageDigest,
+        if (imageManifestMediaType != null)
+          'imageManifestMediaType': imageManifestMediaType,
         if (imageTag != null) 'imageTag': imageTag,
         if (registryId != null) 'registryId': registryId,
       },
@@ -1735,9 +1826,102 @@ class ECR {
     return PutLifecyclePolicyResponse.fromJson(jsonResponse.body);
   }
 
+  /// Creates or updates the permissions policy for your registry.
+  ///
+  /// A registry policy is used to specify permissions for another AWS account
+  /// and is used when configuring cross-account replication. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/registry-permissions.html">Registry
+  /// permissions</a> in the <i>Amazon Elastic Container Registry User
+  /// Guide</i>.
+  ///
+  /// May throw [ServerException].
+  /// May throw [InvalidParameterException].
+  ///
+  /// Parameter [policyText] :
+  /// The JSON policy text to apply to your registry. The policy text follows
+  /// the same format as IAM policy text. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/registry-permissions.html">Registry
+  /// permissions</a> in the <i>Amazon Elastic Container Registry User
+  /// Guide</i>.
+  Future<PutRegistryPolicyResponse> putRegistryPolicy({
+    @_s.required String policyText,
+  }) async {
+    ArgumentError.checkNotNull(policyText, 'policyText');
+    _s.validateStringLength(
+      'policyText',
+      policyText,
+      0,
+      10240,
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonEC2ContainerRegistry_V20150921.PutRegistryPolicy'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'policyText': policyText,
+      },
+    );
+
+    return PutRegistryPolicyResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Creates or updates the replication configuration for a registry. The
+  /// existing replication configuration for a repository can be retrieved with
+  /// the <a>DescribeRegistry</a> API action. The first time the
+  /// PutReplicationConfiguration API is called, a service-linked IAM role is
+  /// created in your account for the replication process. For more information,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/using-service-linked-roles.html">Using
+  /// Service-Linked Roles for Amazon ECR</a> in the <i>Amazon Elastic Container
+  /// Registry User Guide</i>.
+  /// <note>
+  /// When configuring cross-account replication, the destination account must
+  /// grant the source account permission to replicate. This permission is
+  /// controlled using a registry permissions policy. For more information, see
+  /// <a>PutRegistryPolicy</a>.
+  /// </note>
+  ///
+  /// May throw [ServerException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [replicationConfiguration] :
+  /// An object representing the replication configuration for a registry.
+  Future<PutReplicationConfigurationResponse> putReplicationConfiguration({
+    @_s.required ReplicationConfiguration replicationConfiguration,
+  }) async {
+    ArgumentError.checkNotNull(
+        replicationConfiguration, 'replicationConfiguration');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'AmazonEC2ContainerRegistry_V20150921.PutReplicationConfiguration'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'replicationConfiguration': replicationConfiguration,
+      },
+    );
+
+    return PutReplicationConfigurationResponse.fromJson(jsonResponse.body);
+  }
+
   /// Applies a repository policy to the specified repository to control access
   /// permissions. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/RepositoryPolicies.html">Amazon
+  /// href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/repository-policies.html">Amazon
   /// ECR Repository Policies</a> in the <i>Amazon Elastic Container Registry
   /// User Guide</i>.
   ///
@@ -1748,9 +1932,9 @@ class ECR {
   /// Parameter [policyText] :
   /// The JSON repository policy text to apply to the repository. For more
   /// information, see <a
-  /// href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/RepositoryPolicyExamples.html">Amazon
-  /// ECR Repository Policy Examples</a> in the <i>Amazon Elastic Container
-  /// Registry User Guide</i>.
+  /// href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/repository-policy-examples.html">Amazon
+  /// ECR Repository Policies</a> in the <i>Amazon Elastic Container Registry
+  /// User Guide</i>.
   ///
   /// Parameter [repositoryName] :
   /// The name of the repository to receive the policy.
@@ -1827,6 +2011,8 @@ class ECR {
   ///
   /// May throw [ServerException].
   /// May throw [InvalidParameterException].
+  /// May throw [UnsupportedImageTypeException].
+  /// May throw [LimitExceededException].
   /// May throw [RepositoryNotFoundException].
   /// May throw [ImageNotFoundException].
   ///
@@ -2044,9 +2230,9 @@ class ECR {
   /// 20MB). The UploadLayerPart API is called once per each new image layer
   /// part.
   /// <note>
-  /// This operation is used by the Amazon ECR proxy, and it is not intended for
-  /// general use by customers for pulling and pushing images. In most cases,
-  /// you should use the <code>docker</code> CLI to pull, tag, and push images.
+  /// This operation is used by the Amazon ECR proxy and is not generally used
+  /// by customers for pulling and pushing images. In most cases, you should use
+  /// the <code>docker</code> CLI to pull, tag, and push images.
   /// </note>
   ///
   /// May throw [ServerException].
@@ -2055,15 +2241,18 @@ class ECR {
   /// May throw [RepositoryNotFoundException].
   /// May throw [UploadNotFoundException].
   /// May throw [LimitExceededException].
+  /// May throw [KmsException].
   ///
   /// Parameter [layerPartBlob] :
   /// The base64-encoded layer part payload.
   ///
   /// Parameter [partFirstByte] :
-  /// The integer value of the first byte of the layer part.
+  /// The position of the first byte of the layer part witin the overall image
+  /// layer.
   ///
   /// Parameter [partLastByte] :
-  /// The integer value of the last byte of the layer part.
+  /// The position of the last byte of the layer part within the overall image
+  /// layer.
   ///
   /// Parameter [repositoryName] :
   /// The name of the repository to which you are uploading layer parts.
@@ -2366,6 +2555,28 @@ class DeleteLifecyclePolicyResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class DeleteRegistryPolicyResponse {
+  /// The contents of the registry permissions policy that was deleted.
+  @_s.JsonKey(name: 'policyText')
+  final String policyText;
+
+  /// The registry ID associated with the request.
+  @_s.JsonKey(name: 'registryId')
+  final String registryId;
+
+  DeleteRegistryPolicyResponse({
+    this.policyText,
+    this.registryId,
+  });
+  factory DeleteRegistryPolicyResponse.fromJson(Map<String, dynamic> json) =>
+      _$DeleteRegistryPolicyResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class DeleteRepositoryPolicyResponse {
   /// The JSON repository policy that was deleted from the repository.
   @_s.JsonKey(name: 'policyText')
@@ -2501,6 +2712,28 @@ class DescribeImagesResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class DescribeRegistryResponse {
+  /// The ID of the registry.
+  @_s.JsonKey(name: 'registryId')
+  final String registryId;
+
+  /// The replication configuration for the registry.
+  @_s.JsonKey(name: 'replicationConfiguration')
+  final ReplicationConfiguration replicationConfiguration;
+
+  DescribeRegistryResponse({
+    this.registryId,
+    this.replicationConfiguration,
+  });
+  factory DescribeRegistryResponse.fromJson(Map<String, dynamic> json) =>
+      _$DescribeRegistryResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class DescribeRepositoriesResponse {
   /// The <code>nextToken</code> value to include in a future
   /// <code>DescribeRepositories</code> request. When the results of a
@@ -2520,6 +2753,76 @@ class DescribeRepositoriesResponse {
   });
   factory DescribeRepositoriesResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeRepositoriesResponseFromJson(json);
+}
+
+/// The encryption configuration for the repository. This determines how the
+/// contents of your repository are encrypted at rest.
+///
+/// By default, when no encryption configuration is set or the
+/// <code>AES256</code> encryption type is used, Amazon ECR uses server-side
+/// encryption with Amazon S3-managed encryption keys which encrypts your data
+/// at rest using an AES-256 encryption algorithm. This does not require any
+/// action on your part.
+///
+/// For more control over the encryption of the contents of your repository, you
+/// can use server-side encryption with customer master keys (CMKs) stored in
+/// AWS Key Management Service (AWS KMS) to encrypt your images. For more
+/// information, see <a
+/// href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/encryption-at-rest.html">Amazon
+/// ECR encryption at rest</a> in the <i>Amazon Elastic Container Registry User
+/// Guide</i>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class EncryptionConfiguration {
+  /// The encryption type to use.
+  ///
+  /// If you use the <code>KMS</code> encryption type, the contents of the
+  /// repository will be encrypted using server-side encryption with customer
+  /// master keys (CMKs) stored in AWS KMS. When you use AWS KMS to encrypt your
+  /// data, you can either use the default AWS managed CMK for Amazon ECR, or
+  /// specify your own CMK, which you already created. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingKMSEncryption.html">Protecting
+  /// Data Using Server-Side Encryption with CMKs Stored in AWS Key Management
+  /// Service (SSE-KMS)</a> in the <i>Amazon Simple Storage Service Console
+  /// Developer Guide.</i>.
+  ///
+  /// If you use the <code>AES256</code> encryption type, Amazon ECR uses
+  /// server-side encryption with Amazon S3-managed encryption keys which encrypts
+  /// the images in the repository using an AES-256 encryption algorithm. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/UsingServerSideEncryption.html">Protecting
+  /// Data Using Server-Side Encryption with Amazon S3-Managed Encryption Keys
+  /// (SSE-S3)</a> in the <i>Amazon Simple Storage Service Console Developer
+  /// Guide.</i>.
+  @_s.JsonKey(name: 'encryptionType')
+  final EncryptionType encryptionType;
+
+  /// If you use the <code>KMS</code> encryption type, specify the CMK to use for
+  /// encryption. The alias, key ID, or full ARN of the CMK can be specified. The
+  /// key must exist in the same Region as the repository. If no key is specified,
+  /// the default AWS managed CMK for Amazon ECR will be used.
+  @_s.JsonKey(name: 'kmsKey')
+  final String kmsKey;
+
+  EncryptionConfiguration({
+    @_s.required this.encryptionType,
+    this.kmsKey,
+  });
+  factory EncryptionConfiguration.fromJson(Map<String, dynamic> json) =>
+      _$EncryptionConfigurationFromJson(json);
+
+  Map<String, dynamic> toJson() => _$EncryptionConfigurationToJson(this);
+}
+
+enum EncryptionType {
+  @_s.JsonValue('AES256')
+  aes256,
+  @_s.JsonValue('KMS')
+  kms,
 }
 
 enum FindingSeverity {
@@ -2668,6 +2971,28 @@ class GetLifecyclePolicyResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class GetRegistryPolicyResponse {
+  /// The JSON text of the permissions policy for a registry.
+  @_s.JsonKey(name: 'policyText')
+  final String policyText;
+
+  /// The ID of the registry.
+  @_s.JsonKey(name: 'registryId')
+  final String registryId;
+
+  GetRegistryPolicyResponse({
+    this.policyText,
+    this.registryId,
+  });
+  factory GetRegistryPolicyResponse.fromJson(Map<String, dynamic> json) =>
+      _$GetRegistryPolicyResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class GetRepositoryPolicyResponse {
   /// The JSON repository policy text associated with the repository.
   @_s.JsonKey(name: 'policyText')
@@ -2706,6 +3031,10 @@ class Image {
   @_s.JsonKey(name: 'imageManifest')
   final String imageManifest;
 
+  /// The manifest media type of the image.
+  @_s.JsonKey(name: 'imageManifestMediaType')
+  final String imageManifestMediaType;
+
   /// The AWS account ID associated with the registry containing the image.
   @_s.JsonKey(name: 'registryId')
   final String registryId;
@@ -2717,6 +3046,7 @@ class Image {
   Image({
     this.imageId,
     this.imageManifest,
+    this.imageManifestMediaType,
     this.registryId,
     this.repositoryName,
   });
@@ -2736,9 +3066,17 @@ enum ImageActionType {
     createFactory: true,
     createToJson: false)
 class ImageDetail {
+  /// The artifact media type of the image.
+  @_s.JsonKey(name: 'artifactMediaType')
+  final String artifactMediaType;
+
   /// The <code>sha256</code> digest of the image manifest.
   @_s.JsonKey(name: 'imageDigest')
   final String imageDigest;
+
+  /// The media type of the image manifest.
+  @_s.JsonKey(name: 'imageManifestMediaType')
+  final String imageManifestMediaType;
 
   /// The date and time, expressed in standard JavaScript date format, at which
   /// the current image was pushed to the repository.
@@ -2755,6 +3093,9 @@ class ImageDetail {
   final ImageScanStatus imageScanStatus;
 
   /// The size, in bytes, of the image in the repository.
+  ///
+  /// If the image is a manifest list, this will be the max size of all manifests
+  /// in the list.
   /// <note>
   /// Beginning with Docker version 1.9, the Docker client compresses image layers
   /// before pushing them to a V2 Docker registry. The output of the <code>docker
@@ -2777,7 +3118,9 @@ class ImageDetail {
   final String repositoryName;
 
   ImageDetail({
+    this.artifactMediaType,
     this.imageDigest,
+    this.imageManifestMediaType,
     this.imagePushedAt,
     this.imageScanFindingsSummary,
     this.imageScanStatus,
@@ -2829,6 +3172,10 @@ enum ImageFailureCode {
   imageNotFound,
   @_s.JsonValue('MissingDigestAndTag')
   missingDigestAndTag,
+  @_s.JsonValue('ImageReferencedByManifestList')
+  imageReferencedByManifestList,
+  @_s.JsonValue('KmsError')
+  kmsError,
 }
 
 /// An object with identifying information for an Amazon ECR image.
@@ -3389,6 +3736,116 @@ class PutLifecyclePolicyResponse {
       _$PutLifecyclePolicyResponseFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class PutRegistryPolicyResponse {
+  /// The JSON policy text for your registry.
+  @_s.JsonKey(name: 'policyText')
+  final String policyText;
+
+  /// The registry ID.
+  @_s.JsonKey(name: 'registryId')
+  final String registryId;
+
+  PutRegistryPolicyResponse({
+    this.policyText,
+    this.registryId,
+  });
+  factory PutRegistryPolicyResponse.fromJson(Map<String, dynamic> json) =>
+      _$PutRegistryPolicyResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class PutReplicationConfigurationResponse {
+  /// The contents of the replication configuration for the registry.
+  @_s.JsonKey(name: 'replicationConfiguration')
+  final ReplicationConfiguration replicationConfiguration;
+
+  PutReplicationConfigurationResponse({
+    this.replicationConfiguration,
+  });
+  factory PutReplicationConfigurationResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$PutReplicationConfigurationResponseFromJson(json);
+}
+
+/// The replication configuration for a registry.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class ReplicationConfiguration {
+  /// An array of objects representing the replication rules for a replication
+  /// configuration. A replication configuration may contain only one replication
+  /// rule but the rule may contain one or more replication destinations.
+  @_s.JsonKey(name: 'rules')
+  final List<ReplicationRule> rules;
+
+  ReplicationConfiguration({
+    @_s.required this.rules,
+  });
+  factory ReplicationConfiguration.fromJson(Map<String, dynamic> json) =>
+      _$ReplicationConfigurationFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ReplicationConfigurationToJson(this);
+}
+
+/// An array of objects representing the details of a replication destination.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class ReplicationDestination {
+  /// A Region to replicate to.
+  @_s.JsonKey(name: 'region')
+  final String region;
+
+  /// The account ID of the destination registry to replicate to.
+  @_s.JsonKey(name: 'registryId')
+  final String registryId;
+
+  ReplicationDestination({
+    @_s.required this.region,
+    @_s.required this.registryId,
+  });
+  factory ReplicationDestination.fromJson(Map<String, dynamic> json) =>
+      _$ReplicationDestinationFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ReplicationDestinationToJson(this);
+}
+
+/// An array of objects representing the replication destinations for a
+/// replication configuration. A replication configuration may contain only one
+/// replication rule but the rule may contain one or more replication
+/// destinations.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class ReplicationRule {
+  /// An array of objects representing the details of a replication destination.
+  @_s.JsonKey(name: 'destinations')
+  final List<ReplicationDestination> destinations;
+
+  ReplicationRule({
+    @_s.required this.destinations,
+  });
+  factory ReplicationRule.fromJson(Map<String, dynamic> json) =>
+      _$ReplicationRuleFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ReplicationRuleToJson(this);
+}
+
 /// An object representing a repository.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3401,6 +3858,11 @@ class Repository {
   @UnixDateTimeConverter()
   @_s.JsonKey(name: 'createdAt')
   final DateTime createdAt;
+
+  /// The encryption configuration for the repository. This determines how the
+  /// contents of your repository are encrypted at rest.
+  @_s.JsonKey(name: 'encryptionConfiguration')
+  final EncryptionConfiguration encryptionConfiguration;
   @_s.JsonKey(name: 'imageScanningConfiguration')
   final ImageScanningConfiguration imageScanningConfiguration;
 
@@ -3425,13 +3887,14 @@ class Repository {
   @_s.JsonKey(name: 'repositoryName')
   final String repositoryName;
 
-  /// The URI for the repository. You can use this URI for Docker
-  /// <code>push</code> or <code>pull</code> operations.
+  /// The URI for the repository. You can use this URI for container image
+  /// <code>push</code> and <code>pull</code> operations.
   @_s.JsonKey(name: 'repositoryUri')
   final String repositoryUri;
 
   Repository({
     this.createdAt,
+    this.encryptionConfiguration,
     this.imageScanningConfiguration,
     this.imageTagMutability,
     this.registryId,
@@ -3646,6 +4109,14 @@ class ImageAlreadyExistsException extends _s.GenericAwsException {
             type: type, code: 'ImageAlreadyExistsException', message: message);
 }
 
+class ImageDigestDoesNotMatchException extends _s.GenericAwsException {
+  ImageDigestDoesNotMatchException({String type, String message})
+      : super(
+            type: type,
+            code: 'ImageDigestDoesNotMatchException',
+            message: message);
+}
+
 class ImageNotFoundException extends _s.GenericAwsException {
   ImageNotFoundException({String type, String message})
       : super(type: type, code: 'ImageNotFoundException', message: message);
@@ -3678,6 +4149,11 @@ class InvalidTagParameterException extends _s.GenericAwsException {
   InvalidTagParameterException({String type, String message})
       : super(
             type: type, code: 'InvalidTagParameterException', message: message);
+}
+
+class KmsException extends _s.GenericAwsException {
+  KmsException({String type, String message})
+      : super(type: type, code: 'KmsException', message: message);
 }
 
 class LayerAlreadyExistsException extends _s.GenericAwsException {
@@ -3730,6 +4206,22 @@ class LimitExceededException extends _s.GenericAwsException {
       : super(type: type, code: 'LimitExceededException', message: message);
 }
 
+class ReferencedImagesNotFoundException extends _s.GenericAwsException {
+  ReferencedImagesNotFoundException({String type, String message})
+      : super(
+            type: type,
+            code: 'ReferencedImagesNotFoundException',
+            message: message);
+}
+
+class RegistryPolicyNotFoundException extends _s.GenericAwsException {
+  RegistryPolicyNotFoundException({String type, String message})
+      : super(
+            type: type,
+            code: 'RegistryPolicyNotFoundException',
+            message: message);
+}
+
 class RepositoryAlreadyExistsException extends _s.GenericAwsException {
   RepositoryAlreadyExistsException({String type, String message})
       : super(
@@ -3773,9 +4265,22 @@ class TooManyTagsException extends _s.GenericAwsException {
       : super(type: type, code: 'TooManyTagsException', message: message);
 }
 
+class UnsupportedImageTypeException extends _s.GenericAwsException {
+  UnsupportedImageTypeException({String type, String message})
+      : super(
+            type: type,
+            code: 'UnsupportedImageTypeException',
+            message: message);
+}
+
 class UploadNotFoundException extends _s.GenericAwsException {
   UploadNotFoundException({String type, String message})
       : super(type: type, code: 'UploadNotFoundException', message: message);
+}
+
+class ValidationException extends _s.GenericAwsException {
+  ValidationException({String type, String message})
+      : super(type: type, code: 'ValidationException', message: message);
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{
@@ -3783,6 +4288,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       EmptyUploadException(type: type, message: message),
   'ImageAlreadyExistsException': (type, message) =>
       ImageAlreadyExistsException(type: type, message: message),
+  'ImageDigestDoesNotMatchException': (type, message) =>
+      ImageDigestDoesNotMatchException(type: type, message: message),
   'ImageNotFoundException': (type, message) =>
       ImageNotFoundException(type: type, message: message),
   'ImageTagAlreadyExistsException': (type, message) =>
@@ -3795,6 +4302,7 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       InvalidParameterException(type: type, message: message),
   'InvalidTagParameterException': (type, message) =>
       InvalidTagParameterException(type: type, message: message),
+  'KmsException': (type, message) => KmsException(type: type, message: message),
   'LayerAlreadyExistsException': (type, message) =>
       LayerAlreadyExistsException(type: type, message: message),
   'LayerInaccessibleException': (type, message) =>
@@ -3811,6 +4319,10 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       LifecyclePolicyPreviewNotFoundException(type: type, message: message),
   'LimitExceededException': (type, message) =>
       LimitExceededException(type: type, message: message),
+  'ReferencedImagesNotFoundException': (type, message) =>
+      ReferencedImagesNotFoundException(type: type, message: message),
+  'RegistryPolicyNotFoundException': (type, message) =>
+      RegistryPolicyNotFoundException(type: type, message: message),
   'RepositoryAlreadyExistsException': (type, message) =>
       RepositoryAlreadyExistsException(type: type, message: message),
   'RepositoryNotEmptyException': (type, message) =>
@@ -3825,6 +4337,10 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       ServerException(type: type, message: message),
   'TooManyTagsException': (type, message) =>
       TooManyTagsException(type: type, message: message),
+  'UnsupportedImageTypeException': (type, message) =>
+      UnsupportedImageTypeException(type: type, message: message),
   'UploadNotFoundException': (type, message) =>
       UploadNotFoundException(type: type, message: message),
+  'ValidationException': (type, message) =>
+      ValidationException(type: type, message: message),
 };

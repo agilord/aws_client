@@ -73,15 +73,22 @@ class Neptune {
   /// The Amazon Resource Name (ARN) of the IAM role to associate with the
   /// Neptune DB cluster, for example
   /// <code>arn:aws:iam::123456789012:role/NeptuneAccessRole</code>.
+  ///
+  /// Parameter [featureName] :
+  /// The name of the feature for the Neptune DB cluster that the IAM role is to
+  /// be associated with. For the list of supported feature names, see
+  /// <a>DBEngineVersion</a>.
   Future<void> addRoleToDBCluster({
     @_s.required String dBClusterIdentifier,
     @_s.required String roleArn,
+    String featureName,
   }) async {
     ArgumentError.checkNotNull(dBClusterIdentifier, 'dBClusterIdentifier');
     ArgumentError.checkNotNull(roleArn, 'roleArn');
     final $request = <String, dynamic>{};
     $request['DBClusterIdentifier'] = dBClusterIdentifier;
     $request['RoleArn'] = roleArn;
+    featureName?.also((arg) => $request['FeatureName'] = arg);
     await _protocol.send(
       $request,
       action: 'AddRoleToDBCluster',
@@ -647,16 +654,12 @@ class Neptune {
   /// Logs.
   ///
   /// Parameter [enableIAMDatabaseAuthentication] :
-  /// True to enable mapping of AWS Identity and Access Management (IAM)
-  /// accounts to database accounts, and otherwise false.
-  ///
-  /// Default: <code>false</code>
+  /// Not supported by Neptune.
   ///
   /// Parameter [engineVersion] :
-  /// The version number of the database engine to use. Currently, setting this
-  /// parameter has no effect.
+  /// The version number of the database engine to use for the new DB cluster.
   ///
-  /// Example: <code>1.0.1</code>
+  /// Example: <code>1.0.2.1</code>
   ///
   /// Parameter [kmsKeyId] :
   /// The AWS KMS key identifier for an encrypted DB cluster.
@@ -854,6 +857,72 @@ class Neptune {
       resultWrapper: 'CreateDBClusterResult',
     );
     return CreateDBClusterResult.fromXml($result);
+  }
+
+  /// Creates a new custom endpoint and associates it with an Amazon Neptune DB
+  /// cluster.
+  ///
+  /// May throw [DBClusterEndpointQuotaExceededFault].
+  /// May throw [DBClusterEndpointAlreadyExistsFault].
+  /// May throw [DBClusterNotFoundFault].
+  /// May throw [InvalidDBClusterStateFault].
+  /// May throw [DBInstanceNotFoundFault].
+  /// May throw [InvalidDBInstanceStateFault].
+  ///
+  /// Parameter [dBClusterEndpointIdentifier] :
+  /// The identifier to use for the new endpoint. This parameter is stored as a
+  /// lowercase string.
+  ///
+  /// Parameter [dBClusterIdentifier] :
+  /// The DB cluster identifier of the DB cluster associated with the endpoint.
+  /// This parameter is stored as a lowercase string.
+  ///
+  /// Parameter [endpointType] :
+  /// The type of the endpoint. One of: <code>READER</code>,
+  /// <code>WRITER</code>, <code>ANY</code>.
+  ///
+  /// Parameter [excludedMembers] :
+  /// List of DB instance identifiers that aren't part of the custom endpoint
+  /// group. All other eligible instances are reachable through the custom
+  /// endpoint. Only relevant if the list of static members is empty.
+  ///
+  /// Parameter [staticMembers] :
+  /// List of DB instance identifiers that are part of the custom endpoint
+  /// group.
+  ///
+  /// Parameter [tags] :
+  /// The tags to be assigned to the Amazon Neptune resource.
+  Future<CreateDBClusterEndpointOutput> createDBClusterEndpoint({
+    @_s.required String dBClusterEndpointIdentifier,
+    @_s.required String dBClusterIdentifier,
+    @_s.required String endpointType,
+    List<String> excludedMembers,
+    List<String> staticMembers,
+    List<Tag> tags,
+  }) async {
+    ArgumentError.checkNotNull(
+        dBClusterEndpointIdentifier, 'dBClusterEndpointIdentifier');
+    ArgumentError.checkNotNull(dBClusterIdentifier, 'dBClusterIdentifier');
+    ArgumentError.checkNotNull(endpointType, 'endpointType');
+    final $request = <String, dynamic>{};
+    $request['DBClusterEndpointIdentifier'] = dBClusterEndpointIdentifier;
+    $request['DBClusterIdentifier'] = dBClusterIdentifier;
+    $request['EndpointType'] = endpointType;
+    excludedMembers?.also((arg) => $request['ExcludedMembers'] = arg);
+    staticMembers?.also((arg) => $request['StaticMembers'] = arg);
+    tags?.also((arg) => $request['Tags'] = arg);
+    final $result = await _protocol.send(
+      $request,
+      action: 'CreateDBClusterEndpoint',
+      version: '2014-10-31',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['CreateDBClusterEndpointMessage'],
+      shapes: shapes,
+      resultWrapper: 'CreateDBClusterEndpointResult',
+    );
+    return CreateDBClusterEndpointOutput.fromXml($result);
   }
 
   /// Creates a new DB cluster parameter group.
@@ -1790,6 +1859,37 @@ class Neptune {
     return DeleteDBClusterResult.fromXml($result);
   }
 
+  /// Deletes a custom endpoint and removes it from an Amazon Neptune DB
+  /// cluster.
+  ///
+  /// May throw [InvalidDBClusterEndpointStateFault].
+  /// May throw [DBClusterEndpointNotFoundFault].
+  /// May throw [InvalidDBClusterStateFault].
+  ///
+  /// Parameter [dBClusterEndpointIdentifier] :
+  /// The identifier associated with the custom endpoint. This parameter is
+  /// stored as a lowercase string.
+  Future<DeleteDBClusterEndpointOutput> deleteDBClusterEndpoint({
+    @_s.required String dBClusterEndpointIdentifier,
+  }) async {
+    ArgumentError.checkNotNull(
+        dBClusterEndpointIdentifier, 'dBClusterEndpointIdentifier');
+    final $request = <String, dynamic>{};
+    $request['DBClusterEndpointIdentifier'] = dBClusterEndpointIdentifier;
+    final $result = await _protocol.send(
+      $request,
+      action: 'DeleteDBClusterEndpoint',
+      version: '2014-10-31',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteDBClusterEndpointMessage'],
+      shapes: shapes,
+      resultWrapper: 'DeleteDBClusterEndpointResult',
+    );
+    return DeleteDBClusterEndpointOutput.fromXml($result);
+  }
+
   /// Deletes a specified DB cluster parameter group. The DB cluster parameter
   /// group to be deleted can't be associated with any DB clusters.
   ///
@@ -2073,6 +2173,81 @@ class Neptune {
       resultWrapper: 'DeleteEventSubscriptionResult',
     );
     return DeleteEventSubscriptionResult.fromXml($result);
+  }
+
+  /// Returns information about endpoints for an Amazon Neptune DB cluster.
+  /// <note>
+  /// This operation can also return information for Amazon RDS clusters and
+  /// Amazon DocDB clusters.
+  /// </note>
+  ///
+  /// May throw [DBClusterNotFoundFault].
+  ///
+  /// Parameter [dBClusterEndpointIdentifier] :
+  /// The identifier of the endpoint to describe. This parameter is stored as a
+  /// lowercase string.
+  ///
+  /// Parameter [dBClusterIdentifier] :
+  /// The DB cluster identifier of the DB cluster associated with the endpoint.
+  /// This parameter is stored as a lowercase string.
+  ///
+  /// Parameter [filters] :
+  /// A set of name-value pairs that define which endpoints to include in the
+  /// output. The filters are specified as name-value pairs, in the format
+  /// <code>Name=<i>endpoint_type</i>,Values=<i>endpoint_type1</i>,<i>endpoint_type2</i>,...</code>.
+  /// <code>Name</code> can be one of: <code>db-cluster-endpoint-type</code>,
+  /// <code>db-cluster-endpoint-custom-type</code>,
+  /// <code>db-cluster-endpoint-id</code>,
+  /// <code>db-cluster-endpoint-status</code>. <code>Values</code> for the
+  /// <code> db-cluster-endpoint-type</code> filter can be one or more of:
+  /// <code>reader</code>, <code>writer</code>, <code>custom</code>.
+  /// <code>Values</code> for the <code>db-cluster-endpoint-custom-type</code>
+  /// filter can be one or more of: <code>reader</code>, <code>any</code>.
+  /// <code>Values</code> for the <code>db-cluster-endpoint-status</code> filter
+  /// can be one or more of: <code>available</code>, <code>creating</code>,
+  /// <code>deleting</code>, <code>inactive</code>, <code>modifying</code>.
+  ///
+  /// Parameter [marker] :
+  /// An optional pagination token provided by a previous
+  /// <code>DescribeDBClusterEndpoints</code> request. If this parameter is
+  /// specified, the response includes only records beyond the marker, up to the
+  /// value specified by <code>MaxRecords</code>.
+  ///
+  /// Parameter [maxRecords] :
+  /// The maximum number of records to include in the response. If more records
+  /// exist than the specified <code>MaxRecords</code> value, a pagination token
+  /// called a marker is included in the response so you can retrieve the
+  /// remaining results.
+  ///
+  /// Default: 100
+  ///
+  /// Constraints: Minimum 20, maximum 100.
+  Future<DBClusterEndpointMessage> describeDBClusterEndpoints({
+    String dBClusterEndpointIdentifier,
+    String dBClusterIdentifier,
+    List<Filter> filters,
+    String marker,
+    int maxRecords,
+  }) async {
+    final $request = <String, dynamic>{};
+    dBClusterEndpointIdentifier
+        ?.also((arg) => $request['DBClusterEndpointIdentifier'] = arg);
+    dBClusterIdentifier?.also((arg) => $request['DBClusterIdentifier'] = arg);
+    filters?.also((arg) => $request['Filters'] = arg);
+    marker?.also((arg) => $request['Marker'] = arg);
+    maxRecords?.also((arg) => $request['MaxRecords'] = arg);
+    final $result = await _protocol.send(
+      $request,
+      action: 'DescribeDBClusterEndpoints',
+      version: '2014-10-31',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeDBClusterEndpointsMessage'],
+      shapes: shapes,
+      resultWrapper: 'DescribeDBClusterEndpointsResult',
+    );
+    return DBClusterEndpointMessage.fromXml($result);
   }
 
   /// Returns a list of <code>DBClusterParameterGroup</code> descriptions. If a
@@ -3476,12 +3651,15 @@ class Neptune {
   /// Default: <code>false</code>
   ///
   /// Parameter [engineVersion] :
-  /// The version number of the database engine. Currently, setting this
-  /// parameter has no effect. To upgrade your database engine to the most
-  /// recent release, use the <a>ApplyPendingMaintenanceAction</a> API.
+  /// The version number of the database engine to which you want to upgrade.
+  /// Changing this parameter results in an outage. The change is applied during
+  /// the next maintenance window unless the <code>ApplyImmediately</code>
+  /// parameter is set to true.
   ///
-  /// For a list of valid engine versions, see <a>CreateDBInstance</a>, or call
-  /// <a>DescribeDBEngineVersions</a>.
+  /// For a list of valid engine versions, see <a
+  /// href="https://docs.aws.amazon.com/neptune/latest/userguide/engine-releases.html">Engine
+  /// Releases for Amazon Neptune</a>, or call <a
+  /// href="https://docs.aws.amazon.com/neptune/latest/userguide/api-other-apis.html#DescribeDBEngineVersions">DescribeDBEngineVersions</a>.
   ///
   /// Parameter [masterUserPassword] :
   /// The new password for the master database user. This password can contain
@@ -3611,6 +3789,57 @@ class Neptune {
       resultWrapper: 'ModifyDBClusterResult',
     );
     return ModifyDBClusterResult.fromXml($result);
+  }
+
+  /// Modifies the properties of an endpoint in an Amazon Neptune DB cluster.
+  ///
+  /// May throw [InvalidDBClusterStateFault].
+  /// May throw [InvalidDBClusterEndpointStateFault].
+  /// May throw [DBClusterEndpointNotFoundFault].
+  /// May throw [DBInstanceNotFoundFault].
+  /// May throw [InvalidDBInstanceStateFault].
+  ///
+  /// Parameter [dBClusterEndpointIdentifier] :
+  /// The identifier of the endpoint to modify. This parameter is stored as a
+  /// lowercase string.
+  ///
+  /// Parameter [endpointType] :
+  /// The type of the endpoint. One of: <code>READER</code>,
+  /// <code>WRITER</code>, <code>ANY</code>.
+  ///
+  /// Parameter [excludedMembers] :
+  /// List of DB instance identifiers that aren't part of the custom endpoint
+  /// group. All other eligible instances are reachable through the custom
+  /// endpoint. Only relevant if the list of static members is empty.
+  ///
+  /// Parameter [staticMembers] :
+  /// List of DB instance identifiers that are part of the custom endpoint
+  /// group.
+  Future<ModifyDBClusterEndpointOutput> modifyDBClusterEndpoint({
+    @_s.required String dBClusterEndpointIdentifier,
+    String endpointType,
+    List<String> excludedMembers,
+    List<String> staticMembers,
+  }) async {
+    ArgumentError.checkNotNull(
+        dBClusterEndpointIdentifier, 'dBClusterEndpointIdentifier');
+    final $request = <String, dynamic>{};
+    $request['DBClusterEndpointIdentifier'] = dBClusterEndpointIdentifier;
+    endpointType?.also((arg) => $request['EndpointType'] = arg);
+    excludedMembers?.also((arg) => $request['ExcludedMembers'] = arg);
+    staticMembers?.also((arg) => $request['StaticMembers'] = arg);
+    final $result = await _protocol.send(
+      $request,
+      action: 'ModifyDBClusterEndpoint',
+      version: '2014-10-31',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['ModifyDBClusterEndpointMessage'],
+      shapes: shapes,
+      resultWrapper: 'ModifyDBClusterEndpointResult',
+    );
+    return ModifyDBClusterEndpointOutput.fromXml($result);
   }
 
   /// Modifies the parameters of a DB cluster parameter group. To modify more
@@ -4467,15 +4696,22 @@ class Neptune {
   /// The Amazon Resource Name (ARN) of the IAM role to disassociate from the DB
   /// cluster, for example
   /// <code>arn:aws:iam::123456789012:role/NeptuneAccessRole</code>.
+  ///
+  /// Parameter [featureName] :
+  /// The name of the feature for the DB cluster that the IAM role is to be
+  /// disassociated from. For the list of supported feature names, see
+  /// <a>DBEngineVersion</a>.
   Future<void> removeRoleFromDBCluster({
     @_s.required String dBClusterIdentifier,
     @_s.required String roleArn,
+    String featureName,
   }) async {
     ArgumentError.checkNotNull(dBClusterIdentifier, 'dBClusterIdentifier');
     ArgumentError.checkNotNull(roleArn, 'roleArn');
     final $request = <String, dynamic>{};
     $request['DBClusterIdentifier'] = dBClusterIdentifier;
     $request['RoleArn'] = roleArn;
+    featureName?.also((arg) => $request['FeatureName'] = arg);
     await _protocol.send(
       $request,
       action: 'RemoveRoleFromDBCluster',
@@ -5363,6 +5599,105 @@ class CopyDBParameterGroupResult {
   }
 }
 
+/// This data type represents the information you need to connect to an Amazon
+/// Neptune DB cluster. This data type is used as a response element in the
+/// following actions:
+///
+/// <ul>
+/// <li>
+/// <code>CreateDBClusterEndpoint</code>
+/// </li>
+/// <li>
+/// <code>DescribeDBClusterEndpoints</code>
+/// </li>
+/// <li>
+/// <code>ModifyDBClusterEndpoint</code>
+/// </li>
+/// <li>
+/// <code>DeleteDBClusterEndpoint</code>
+/// </li>
+/// </ul>
+/// For the data structure that represents Amazon Neptune DB instance endpoints,
+/// see <code>Endpoint</code>.
+class CreateDBClusterEndpointOutput {
+  /// The type associated with a custom endpoint. One of: <code>READER</code>,
+  /// <code>WRITER</code>, <code>ANY</code>.
+  final String customEndpointType;
+
+  /// The Amazon Resource Name (ARN) for the endpoint.
+  final String dBClusterEndpointArn;
+
+  /// The identifier associated with the endpoint. This parameter is stored as a
+  /// lowercase string.
+  final String dBClusterEndpointIdentifier;
+
+  /// A unique system-generated identifier for an endpoint. It remains the same
+  /// for the whole life of the endpoint.
+  final String dBClusterEndpointResourceIdentifier;
+
+  /// The DB cluster identifier of the DB cluster associated with the endpoint.
+  /// This parameter is stored as a lowercase string.
+  final String dBClusterIdentifier;
+
+  /// The DNS address of the endpoint.
+  final String endpoint;
+
+  /// The type of the endpoint. One of: <code>READER</code>, <code>WRITER</code>,
+  /// <code>CUSTOM</code>.
+  final String endpointType;
+
+  /// List of DB instance identifiers that aren't part of the custom endpoint
+  /// group. All other eligible instances are reachable through the custom
+  /// endpoint. Only relevant if the list of static members is empty.
+  final List<String> excludedMembers;
+
+  /// List of DB instance identifiers that are part of the custom endpoint group.
+  final List<String> staticMembers;
+
+  /// The current status of the endpoint. One of: <code>creating</code>,
+  /// <code>available</code>, <code>deleting</code>, <code>inactive</code>,
+  /// <code>modifying</code>. The <code>inactive</code> state applies to an
+  /// endpoint that cannot be used for a certain kind of cluster, such as a
+  /// <code>writer</code> endpoint for a read-only secondary cluster in a global
+  /// database.
+  final String status;
+
+  CreateDBClusterEndpointOutput({
+    this.customEndpointType,
+    this.dBClusterEndpointArn,
+    this.dBClusterEndpointIdentifier,
+    this.dBClusterEndpointResourceIdentifier,
+    this.dBClusterIdentifier,
+    this.endpoint,
+    this.endpointType,
+    this.excludedMembers,
+    this.staticMembers,
+    this.status,
+  });
+  factory CreateDBClusterEndpointOutput.fromXml(_s.XmlElement elem) {
+    return CreateDBClusterEndpointOutput(
+      customEndpointType: _s.extractXmlStringValue(elem, 'CustomEndpointType'),
+      dBClusterEndpointArn:
+          _s.extractXmlStringValue(elem, 'DBClusterEndpointArn'),
+      dBClusterEndpointIdentifier:
+          _s.extractXmlStringValue(elem, 'DBClusterEndpointIdentifier'),
+      dBClusterEndpointResourceIdentifier:
+          _s.extractXmlStringValue(elem, 'DBClusterEndpointResourceIdentifier'),
+      dBClusterIdentifier:
+          _s.extractXmlStringValue(elem, 'DBClusterIdentifier'),
+      endpoint: _s.extractXmlStringValue(elem, 'Endpoint'),
+      endpointType: _s.extractXmlStringValue(elem, 'EndpointType'),
+      excludedMembers: _s
+          .extractXmlChild(elem, 'ExcludedMembers')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      staticMembers: _s
+          .extractXmlChild(elem, 'StaticMembers')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      status: _s.extractXmlStringValue(elem, 'Status'),
+    );
+  }
+}
+
 class CreateDBClusterParameterGroupResult {
   final DBClusterParameterGroup dBClusterParameterGroup;
 
@@ -5733,6 +6068,132 @@ class DBCluster {
   }
 }
 
+/// This data type represents the information you need to connect to an Amazon
+/// Neptune DB cluster. This data type is used as a response element in the
+/// following actions:
+///
+/// <ul>
+/// <li>
+/// <code>CreateDBClusterEndpoint</code>
+/// </li>
+/// <li>
+/// <code>DescribeDBClusterEndpoints</code>
+/// </li>
+/// <li>
+/// <code>ModifyDBClusterEndpoint</code>
+/// </li>
+/// <li>
+/// <code>DeleteDBClusterEndpoint</code>
+/// </li>
+/// </ul>
+/// For the data structure that represents Amazon Neptune DB instance endpoints,
+/// see <code>Endpoint</code>.
+class DBClusterEndpoint {
+  /// The type associated with a custom endpoint. One of: <code>READER</code>,
+  /// <code>WRITER</code>, <code>ANY</code>.
+  final String customEndpointType;
+
+  /// The Amazon Resource Name (ARN) for the endpoint.
+  final String dBClusterEndpointArn;
+
+  /// The identifier associated with the endpoint. This parameter is stored as a
+  /// lowercase string.
+  final String dBClusterEndpointIdentifier;
+
+  /// A unique system-generated identifier for an endpoint. It remains the same
+  /// for the whole life of the endpoint.
+  final String dBClusterEndpointResourceIdentifier;
+
+  /// The DB cluster identifier of the DB cluster associated with the endpoint.
+  /// This parameter is stored as a lowercase string.
+  final String dBClusterIdentifier;
+
+  /// The DNS address of the endpoint.
+  final String endpoint;
+
+  /// The type of the endpoint. One of: <code>READER</code>, <code>WRITER</code>,
+  /// <code>CUSTOM</code>.
+  final String endpointType;
+
+  /// List of DB instance identifiers that aren't part of the custom endpoint
+  /// group. All other eligible instances are reachable through the custom
+  /// endpoint. Only relevant if the list of static members is empty.
+  final List<String> excludedMembers;
+
+  /// List of DB instance identifiers that are part of the custom endpoint group.
+  final List<String> staticMembers;
+
+  /// The current status of the endpoint. One of: <code>creating</code>,
+  /// <code>available</code>, <code>deleting</code>, <code>inactive</code>,
+  /// <code>modifying</code>. The <code>inactive</code> state applies to an
+  /// endpoint that cannot be used for a certain kind of cluster, such as a
+  /// <code>writer</code> endpoint for a read-only secondary cluster in a global
+  /// database.
+  final String status;
+
+  DBClusterEndpoint({
+    this.customEndpointType,
+    this.dBClusterEndpointArn,
+    this.dBClusterEndpointIdentifier,
+    this.dBClusterEndpointResourceIdentifier,
+    this.dBClusterIdentifier,
+    this.endpoint,
+    this.endpointType,
+    this.excludedMembers,
+    this.staticMembers,
+    this.status,
+  });
+  factory DBClusterEndpoint.fromXml(_s.XmlElement elem) {
+    return DBClusterEndpoint(
+      customEndpointType: _s.extractXmlStringValue(elem, 'CustomEndpointType'),
+      dBClusterEndpointArn:
+          _s.extractXmlStringValue(elem, 'DBClusterEndpointArn'),
+      dBClusterEndpointIdentifier:
+          _s.extractXmlStringValue(elem, 'DBClusterEndpointIdentifier'),
+      dBClusterEndpointResourceIdentifier:
+          _s.extractXmlStringValue(elem, 'DBClusterEndpointResourceIdentifier'),
+      dBClusterIdentifier:
+          _s.extractXmlStringValue(elem, 'DBClusterIdentifier'),
+      endpoint: _s.extractXmlStringValue(elem, 'Endpoint'),
+      endpointType: _s.extractXmlStringValue(elem, 'EndpointType'),
+      excludedMembers: _s
+          .extractXmlChild(elem, 'ExcludedMembers')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      staticMembers: _s
+          .extractXmlChild(elem, 'StaticMembers')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      status: _s.extractXmlStringValue(elem, 'Status'),
+    );
+  }
+}
+
+class DBClusterEndpointMessage {
+  /// Contains the details of the endpoints associated with the cluster and
+  /// matching any filter conditions.
+  final List<DBClusterEndpoint> dBClusterEndpoints;
+
+  /// An optional pagination token provided by a previous
+  /// <code>DescribeDBClusterEndpoints</code> request. If this parameter is
+  /// specified, the response includes only records beyond the marker, up to the
+  /// value specified by <code>MaxRecords</code>.
+  final String marker;
+
+  DBClusterEndpointMessage({
+    this.dBClusterEndpoints,
+    this.marker,
+  });
+  factory DBClusterEndpointMessage.fromXml(_s.XmlElement elem) {
+    return DBClusterEndpointMessage(
+      dBClusterEndpoints: _s.extractXmlChild(elem, 'DBClusterEndpoints')?.let(
+          (elem) => elem
+              .findElements('DBClusterEndpointList')
+              .map((c) => DBClusterEndpoint.fromXml(c))
+              .toList()),
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+    );
+  }
+}
+
 /// Contains information about an instance that is part of a DB cluster.
 class DBClusterMember {
   /// Specifies the status of the DB cluster parameter group for this member of
@@ -5936,6 +6397,11 @@ class DBClusterParameterGroupsMessage {
 /// Describes an AWS Identity and Access Management (IAM) role that is
 /// associated with a DB cluster.
 class DBClusterRole {
+  /// The name of the feature associated with the AWS Identity and Access
+  /// Management (IAM) role. For the list of supported feature names, see
+  /// <a>DBEngineVersion</a>.
+  final String featureName;
+
   /// The Amazon Resource Name (ARN) of the IAM role that is associated with the
   /// DB cluster.
   final String roleArn;
@@ -5961,11 +6427,13 @@ class DBClusterRole {
   final String status;
 
   DBClusterRole({
+    this.featureName,
     this.roleArn,
     this.status,
   });
   factory DBClusterRole.fromXml(_s.XmlElement elem) {
     return DBClusterRole(
+      featureName: _s.extractXmlStringValue(elem, 'FeatureName'),
       roleArn: _s.extractXmlStringValue(elem, 'RoleArn'),
       status: _s.extractXmlStringValue(elem, 'Status'),
     );
@@ -6981,6 +7449,105 @@ class DBSubnetGroupMessage {
   }
 }
 
+/// This data type represents the information you need to connect to an Amazon
+/// Neptune DB cluster. This data type is used as a response element in the
+/// following actions:
+///
+/// <ul>
+/// <li>
+/// <code>CreateDBClusterEndpoint</code>
+/// </li>
+/// <li>
+/// <code>DescribeDBClusterEndpoints</code>
+/// </li>
+/// <li>
+/// <code>ModifyDBClusterEndpoint</code>
+/// </li>
+/// <li>
+/// <code>DeleteDBClusterEndpoint</code>
+/// </li>
+/// </ul>
+/// For the data structure that represents Amazon RDS DB instance endpoints, see
+/// <code>Endpoint</code>.
+class DeleteDBClusterEndpointOutput {
+  /// The type associated with a custom endpoint. One of: <code>READER</code>,
+  /// <code>WRITER</code>, <code>ANY</code>.
+  final String customEndpointType;
+
+  /// The Amazon Resource Name (ARN) for the endpoint.
+  final String dBClusterEndpointArn;
+
+  /// The identifier associated with the endpoint. This parameter is stored as a
+  /// lowercase string.
+  final String dBClusterEndpointIdentifier;
+
+  /// A unique system-generated identifier for an endpoint. It remains the same
+  /// for the whole life of the endpoint.
+  final String dBClusterEndpointResourceIdentifier;
+
+  /// The DB cluster identifier of the DB cluster associated with the endpoint.
+  /// This parameter is stored as a lowercase string.
+  final String dBClusterIdentifier;
+
+  /// The DNS address of the endpoint.
+  final String endpoint;
+
+  /// The type of the endpoint. One of: <code>READER</code>, <code>WRITER</code>,
+  /// <code>CUSTOM</code>.
+  final String endpointType;
+
+  /// List of DB instance identifiers that aren't part of the custom endpoint
+  /// group. All other eligible instances are reachable through the custom
+  /// endpoint. Only relevant if the list of static members is empty.
+  final List<String> excludedMembers;
+
+  /// List of DB instance identifiers that are part of the custom endpoint group.
+  final List<String> staticMembers;
+
+  /// The current status of the endpoint. One of: <code>creating</code>,
+  /// <code>available</code>, <code>deleting</code>, <code>inactive</code>,
+  /// <code>modifying</code>. The <code>inactive</code> state applies to an
+  /// endpoint that cannot be used for a certain kind of cluster, such as a
+  /// <code>writer</code> endpoint for a read-only secondary cluster in a global
+  /// database.
+  final String status;
+
+  DeleteDBClusterEndpointOutput({
+    this.customEndpointType,
+    this.dBClusterEndpointArn,
+    this.dBClusterEndpointIdentifier,
+    this.dBClusterEndpointResourceIdentifier,
+    this.dBClusterIdentifier,
+    this.endpoint,
+    this.endpointType,
+    this.excludedMembers,
+    this.staticMembers,
+    this.status,
+  });
+  factory DeleteDBClusterEndpointOutput.fromXml(_s.XmlElement elem) {
+    return DeleteDBClusterEndpointOutput(
+      customEndpointType: _s.extractXmlStringValue(elem, 'CustomEndpointType'),
+      dBClusterEndpointArn:
+          _s.extractXmlStringValue(elem, 'DBClusterEndpointArn'),
+      dBClusterEndpointIdentifier:
+          _s.extractXmlStringValue(elem, 'DBClusterEndpointIdentifier'),
+      dBClusterEndpointResourceIdentifier:
+          _s.extractXmlStringValue(elem, 'DBClusterEndpointResourceIdentifier'),
+      dBClusterIdentifier:
+          _s.extractXmlStringValue(elem, 'DBClusterIdentifier'),
+      endpoint: _s.extractXmlStringValue(elem, 'Endpoint'),
+      endpointType: _s.extractXmlStringValue(elem, 'EndpointType'),
+      excludedMembers: _s
+          .extractXmlChild(elem, 'ExcludedMembers')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      staticMembers: _s
+          .extractXmlChild(elem, 'StaticMembers')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      status: _s.extractXmlStringValue(elem, 'Status'),
+    );
+  }
+}
+
 class DeleteDBClusterResult {
   final DBCluster dBCluster;
 
@@ -7157,6 +7724,9 @@ class DoubleRange {
 }
 
 /// Specifies a connection endpoint.
+///
+/// For the data structure that represents Amazon Neptune DB cluster endpoints,
+/// see <code>DBClusterEndpoint</code>.
 class Endpoint {
   /// Specifies the DNS address of the DB instance.
   final String address;
@@ -7461,6 +8031,105 @@ class Filter {
     @_s.required this.values,
   });
   Map<String, dynamic> toJson() => _$FilterToJson(this);
+}
+
+/// This data type represents the information you need to connect to an Amazon
+/// Aurora DB cluster. This data type is used as a response element in the
+/// following actions:
+///
+/// <ul>
+/// <li>
+/// <code>CreateDBClusterEndpoint</code>
+/// </li>
+/// <li>
+/// <code>DescribeDBClusterEndpoints</code>
+/// </li>
+/// <li>
+/// <code>ModifyDBClusterEndpoint</code>
+/// </li>
+/// <li>
+/// <code>DeleteDBClusterEndpoint</code>
+/// </li>
+/// </ul>
+/// For the data structure that represents Amazon RDS DB instance endpoints, see
+/// <code>Endpoint</code>.
+class ModifyDBClusterEndpointOutput {
+  /// The type associated with a custom endpoint. One of: <code>READER</code>,
+  /// <code>WRITER</code>, <code>ANY</code>.
+  final String customEndpointType;
+
+  /// The Amazon Resource Name (ARN) for the endpoint.
+  final String dBClusterEndpointArn;
+
+  /// The identifier associated with the endpoint. This parameter is stored as a
+  /// lowercase string.
+  final String dBClusterEndpointIdentifier;
+
+  /// A unique system-generated identifier for an endpoint. It remains the same
+  /// for the whole life of the endpoint.
+  final String dBClusterEndpointResourceIdentifier;
+
+  /// The DB cluster identifier of the DB cluster associated with the endpoint.
+  /// This parameter is stored as a lowercase string.
+  final String dBClusterIdentifier;
+
+  /// The DNS address of the endpoint.
+  final String endpoint;
+
+  /// The type of the endpoint. One of: <code>READER</code>, <code>WRITER</code>,
+  /// <code>CUSTOM</code>.
+  final String endpointType;
+
+  /// List of DB instance identifiers that aren't part of the custom endpoint
+  /// group. All other eligible instances are reachable through the custom
+  /// endpoint. Only relevant if the list of static members is empty.
+  final List<String> excludedMembers;
+
+  /// List of DB instance identifiers that are part of the custom endpoint group.
+  final List<String> staticMembers;
+
+  /// The current status of the endpoint. One of: <code>creating</code>,
+  /// <code>available</code>, <code>deleting</code>, <code>inactive</code>,
+  /// <code>modifying</code>. The <code>inactive</code> state applies to an
+  /// endpoint that cannot be used for a certain kind of cluster, such as a
+  /// <code>writer</code> endpoint for a read-only secondary cluster in a global
+  /// database.
+  final String status;
+
+  ModifyDBClusterEndpointOutput({
+    this.customEndpointType,
+    this.dBClusterEndpointArn,
+    this.dBClusterEndpointIdentifier,
+    this.dBClusterEndpointResourceIdentifier,
+    this.dBClusterIdentifier,
+    this.endpoint,
+    this.endpointType,
+    this.excludedMembers,
+    this.staticMembers,
+    this.status,
+  });
+  factory ModifyDBClusterEndpointOutput.fromXml(_s.XmlElement elem) {
+    return ModifyDBClusterEndpointOutput(
+      customEndpointType: _s.extractXmlStringValue(elem, 'CustomEndpointType'),
+      dBClusterEndpointArn:
+          _s.extractXmlStringValue(elem, 'DBClusterEndpointArn'),
+      dBClusterEndpointIdentifier:
+          _s.extractXmlStringValue(elem, 'DBClusterEndpointIdentifier'),
+      dBClusterEndpointResourceIdentifier:
+          _s.extractXmlStringValue(elem, 'DBClusterEndpointResourceIdentifier'),
+      dBClusterIdentifier:
+          _s.extractXmlStringValue(elem, 'DBClusterIdentifier'),
+      endpoint: _s.extractXmlStringValue(elem, 'Endpoint'),
+      endpointType: _s.extractXmlStringValue(elem, 'EndpointType'),
+      excludedMembers: _s
+          .extractXmlChild(elem, 'ExcludedMembers')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      staticMembers: _s
+          .extractXmlChild(elem, 'StaticMembers')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+      status: _s.extractXmlStringValue(elem, 'Status'),
+    );
+  }
 }
 
 class ModifyDBClusterResult {
@@ -8449,6 +9118,30 @@ class DBClusterAlreadyExistsFault extends _s.GenericAwsException {
             type: type, code: 'DBClusterAlreadyExistsFault', message: message);
 }
 
+class DBClusterEndpointAlreadyExistsFault extends _s.GenericAwsException {
+  DBClusterEndpointAlreadyExistsFault({String type, String message})
+      : super(
+            type: type,
+            code: 'DBClusterEndpointAlreadyExistsFault',
+            message: message);
+}
+
+class DBClusterEndpointNotFoundFault extends _s.GenericAwsException {
+  DBClusterEndpointNotFoundFault({String type, String message})
+      : super(
+            type: type,
+            code: 'DBClusterEndpointNotFoundFault',
+            message: message);
+}
+
+class DBClusterEndpointQuotaExceededFault extends _s.GenericAwsException {
+  DBClusterEndpointQuotaExceededFault({String type, String message})
+      : super(
+            type: type,
+            code: 'DBClusterEndpointQuotaExceededFault',
+            message: message);
+}
+
 class DBClusterNotFoundFault extends _s.GenericAwsException {
   DBClusterNotFoundFault({String type, String message})
       : super(type: type, code: 'DBClusterNotFoundFault', message: message);
@@ -8641,6 +9334,14 @@ class InsufficientStorageClusterCapacityFault extends _s.GenericAwsException {
             message: message);
 }
 
+class InvalidDBClusterEndpointStateFault extends _s.GenericAwsException {
+  InvalidDBClusterEndpointStateFault({String type, String message})
+      : super(
+            type: type,
+            code: 'InvalidDBClusterEndpointStateFault',
+            message: message);
+}
+
 class InvalidDBClusterSnapshotStateFault extends _s.GenericAwsException {
   InvalidDBClusterSnapshotStateFault({String type, String message})
       : super(
@@ -8819,6 +9520,12 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       CertificateNotFoundFault(type: type, message: message),
   'DBClusterAlreadyExistsFault': (type, message) =>
       DBClusterAlreadyExistsFault(type: type, message: message),
+  'DBClusterEndpointAlreadyExistsFault': (type, message) =>
+      DBClusterEndpointAlreadyExistsFault(type: type, message: message),
+  'DBClusterEndpointNotFoundFault': (type, message) =>
+      DBClusterEndpointNotFoundFault(type: type, message: message),
+  'DBClusterEndpointQuotaExceededFault': (type, message) =>
+      DBClusterEndpointQuotaExceededFault(type: type, message: message),
   'DBClusterNotFoundFault': (type, message) =>
       DBClusterNotFoundFault(type: type, message: message),
   'DBClusterParameterGroupNotFoundFault': (type, message) =>
@@ -8875,6 +9582,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       InsufficientDBInstanceCapacityFault(type: type, message: message),
   'InsufficientStorageClusterCapacityFault': (type, message) =>
       InsufficientStorageClusterCapacityFault(type: type, message: message),
+  'InvalidDBClusterEndpointStateFault': (type, message) =>
+      InvalidDBClusterEndpointStateFault(type: type, message: message),
   'InvalidDBClusterSnapshotStateFault': (type, message) =>
       InvalidDBClusterSnapshotStateFault(type: type, message: message),
   'InvalidDBClusterStateFault': (type, message) =>

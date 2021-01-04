@@ -34,6 +34,7 @@ Api _$ApiFromJson(Map<String, dynamic> json) {
         _$enumDecodeNullable(_$ProtocolTypeEnumMap, json['protocolType']),
     routeSelectionExpression: json['routeSelectionExpression'] as String,
     apiEndpoint: json['apiEndpoint'] as String,
+    apiGatewayManaged: json['apiGatewayManaged'] as bool,
     apiId: json['apiId'] as String,
     apiKeySelectionExpression: json['apiKeySelectionExpression'] as String,
     corsConfiguration: json['corsConfiguration'] == null
@@ -41,6 +42,7 @@ Api _$ApiFromJson(Map<String, dynamic> json) {
         : Cors.fromJson(json['corsConfiguration'] as Map<String, dynamic>),
     createdDate: const IsoDateTimeConverter().fromJson(json['createdDate']),
     description: json['description'] as String,
+    disableExecuteApiEndpoint: json['disableExecuteApiEndpoint'] as bool,
     disableSchemaValidation: json['disableSchemaValidation'] as bool,
     importInfo: (json['importInfo'] as List)?.map((e) => e as String)?.toList(),
     tags: (json['tags'] as Map<String, dynamic>)?.map(
@@ -102,10 +104,13 @@ Authorizer _$AuthorizerFromJson(Map<String, dynamic> json) {
     name: json['name'] as String,
     authorizerCredentialsArn: json['authorizerCredentialsArn'] as String,
     authorizerId: json['authorizerId'] as String,
+    authorizerPayloadFormatVersion:
+        json['authorizerPayloadFormatVersion'] as String,
     authorizerResultTtlInSeconds: json['authorizerResultTtlInSeconds'] as int,
     authorizerType:
         _$enumDecodeNullable(_$AuthorizerTypeEnumMap, json['authorizerType']),
     authorizerUri: json['authorizerUri'] as String,
+    enableSimpleResponses: json['enableSimpleResponses'] as bool,
     identitySource:
         (json['identitySource'] as List)?.map((e) => e as String)?.toList(),
     identityValidationExpression:
@@ -168,6 +173,7 @@ CreateApiMappingResponse _$CreateApiMappingResponseFromJson(
 CreateApiResponse _$CreateApiResponseFromJson(Map<String, dynamic> json) {
   return CreateApiResponse(
     apiEndpoint: json['apiEndpoint'] as String,
+    apiGatewayManaged: json['apiGatewayManaged'] as bool,
     apiId: json['apiId'] as String,
     apiKeySelectionExpression: json['apiKeySelectionExpression'] as String,
     corsConfiguration: json['corsConfiguration'] == null
@@ -175,6 +181,7 @@ CreateApiResponse _$CreateApiResponseFromJson(Map<String, dynamic> json) {
         : Cors.fromJson(json['corsConfiguration'] as Map<String, dynamic>),
     createdDate: const IsoDateTimeConverter().fromJson(json['createdDate']),
     description: json['description'] as String,
+    disableExecuteApiEndpoint: json['disableExecuteApiEndpoint'] as bool,
     disableSchemaValidation: json['disableSchemaValidation'] as bool,
     importInfo: (json['importInfo'] as List)?.map((e) => e as String)?.toList(),
     name: json['name'] as String,
@@ -194,10 +201,13 @@ CreateAuthorizerResponse _$CreateAuthorizerResponseFromJson(
   return CreateAuthorizerResponse(
     authorizerCredentialsArn: json['authorizerCredentialsArn'] as String,
     authorizerId: json['authorizerId'] as String,
+    authorizerPayloadFormatVersion:
+        json['authorizerPayloadFormatVersion'] as String,
     authorizerResultTtlInSeconds: json['authorizerResultTtlInSeconds'] as int,
     authorizerType:
         _$enumDecodeNullable(_$AuthorizerTypeEnumMap, json['authorizerType']),
     authorizerUri: json['authorizerUri'] as String,
+    enableSimpleResponses: json['enableSimpleResponses'] as bool,
     identitySource:
         (json['identitySource'] as List)?.map((e) => e as String)?.toList(),
     identityValidationExpression:
@@ -240,6 +250,10 @@ CreateDomainNameResponse _$CreateDomainNameResponseFromJson(
             ? null
             : DomainNameConfiguration.fromJson(e as Map<String, dynamic>))
         ?.toList(),
+    mutualTlsAuthentication: json['mutualTlsAuthentication'] == null
+        ? null
+        : MutualTlsAuthentication.fromJson(
+            json['mutualTlsAuthentication'] as Map<String, dynamic>),
     tags: (json['tags'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
@@ -261,6 +275,7 @@ CreateIntegrationResult _$CreateIntegrationResultFromJson(
     integrationMethod: json['integrationMethod'] as String,
     integrationResponseSelectionExpression:
         json['integrationResponseSelectionExpression'] as String,
+    integrationSubtype: json['integrationSubtype'] as String,
     integrationType:
         _$enumDecodeNullable(_$IntegrationTypeEnumMap, json['integrationType']),
     integrationUri: json['integrationUri'] as String,
@@ -272,6 +287,14 @@ CreateIntegrationResult _$CreateIntegrationResultFromJson(
     ),
     requestTemplates: (json['requestTemplates'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k, e as String),
+    ),
+    responseParameters:
+        (json['responseParameters'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(
+          k,
+          (e as Map<String, dynamic>)?.map(
+            (k, e) => MapEntry(k, e as String),
+          )),
     ),
     templateSelectionExpression: json['templateSelectionExpression'] as String,
     timeoutInMillis: json['timeoutInMillis'] as int,
@@ -482,6 +505,10 @@ DomainName _$DomainNameFromJson(Map<String, dynamic> json) {
             ? null
             : DomainNameConfiguration.fromJson(e as Map<String, dynamic>))
         ?.toList(),
+    mutualTlsAuthentication: json['mutualTlsAuthentication'] == null
+        ? null
+        : MutualTlsAuthentication.fromJson(
+            json['mutualTlsAuthentication'] as Map<String, dynamic>),
     tags: (json['tags'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
@@ -577,6 +604,7 @@ GetApiMappingsResponse _$GetApiMappingsResponseFromJson(
 GetApiResponse _$GetApiResponseFromJson(Map<String, dynamic> json) {
   return GetApiResponse(
     apiEndpoint: json['apiEndpoint'] as String,
+    apiGatewayManaged: json['apiGatewayManaged'] as bool,
     apiId: json['apiId'] as String,
     apiKeySelectionExpression: json['apiKeySelectionExpression'] as String,
     corsConfiguration: json['corsConfiguration'] == null
@@ -584,6 +612,7 @@ GetApiResponse _$GetApiResponseFromJson(Map<String, dynamic> json) {
         : Cors.fromJson(json['corsConfiguration'] as Map<String, dynamic>),
     createdDate: const IsoDateTimeConverter().fromJson(json['createdDate']),
     description: json['description'] as String,
+    disableExecuteApiEndpoint: json['disableExecuteApiEndpoint'] as bool,
     disableSchemaValidation: json['disableSchemaValidation'] as bool,
     importInfo: (json['importInfo'] as List)?.map((e) => e as String)?.toList(),
     name: json['name'] as String,
@@ -612,10 +641,13 @@ GetAuthorizerResponse _$GetAuthorizerResponseFromJson(
   return GetAuthorizerResponse(
     authorizerCredentialsArn: json['authorizerCredentialsArn'] as String,
     authorizerId: json['authorizerId'] as String,
+    authorizerPayloadFormatVersion:
+        json['authorizerPayloadFormatVersion'] as String,
     authorizerResultTtlInSeconds: json['authorizerResultTtlInSeconds'] as int,
     authorizerType:
         _$enumDecodeNullable(_$AuthorizerTypeEnumMap, json['authorizerType']),
     authorizerUri: json['authorizerUri'] as String,
+    enableSimpleResponses: json['enableSimpleResponses'] as bool,
     identitySource:
         (json['identitySource'] as List)?.map((e) => e as String)?.toList(),
     identityValidationExpression:
@@ -674,6 +706,10 @@ GetDomainNameResponse _$GetDomainNameResponseFromJson(
             ? null
             : DomainNameConfiguration.fromJson(e as Map<String, dynamic>))
         ?.toList(),
+    mutualTlsAuthentication: json['mutualTlsAuthentication'] == null
+        ? null
+        : MutualTlsAuthentication.fromJson(
+            json['mutualTlsAuthentication'] as Map<String, dynamic>),
     tags: (json['tags'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
@@ -705,6 +741,7 @@ GetIntegrationResult _$GetIntegrationResultFromJson(Map<String, dynamic> json) {
     integrationMethod: json['integrationMethod'] as String,
     integrationResponseSelectionExpression:
         json['integrationResponseSelectionExpression'] as String,
+    integrationSubtype: json['integrationSubtype'] as String,
     integrationType:
         _$enumDecodeNullable(_$IntegrationTypeEnumMap, json['integrationType']),
     integrationUri: json['integrationUri'] as String,
@@ -716,6 +753,14 @@ GetIntegrationResult _$GetIntegrationResultFromJson(Map<String, dynamic> json) {
     ),
     requestTemplates: (json['requestTemplates'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k, e as String),
+    ),
+    responseParameters:
+        (json['responseParameters'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(
+          k,
+          (e as Map<String, dynamic>)?.map(
+            (k, e) => MapEntry(k, e as String),
+          )),
     ),
     templateSelectionExpression: json['templateSelectionExpression'] as String,
     timeoutInMillis: json['timeoutInMillis'] as int,
@@ -948,6 +993,7 @@ GetVpcLinksResponse _$GetVpcLinksResponseFromJson(Map<String, dynamic> json) {
 ImportApiResponse _$ImportApiResponseFromJson(Map<String, dynamic> json) {
   return ImportApiResponse(
     apiEndpoint: json['apiEndpoint'] as String,
+    apiGatewayManaged: json['apiGatewayManaged'] as bool,
     apiId: json['apiId'] as String,
     apiKeySelectionExpression: json['apiKeySelectionExpression'] as String,
     corsConfiguration: json['corsConfiguration'] == null
@@ -955,6 +1001,7 @@ ImportApiResponse _$ImportApiResponseFromJson(Map<String, dynamic> json) {
         : Cors.fromJson(json['corsConfiguration'] as Map<String, dynamic>),
     createdDate: const IsoDateTimeConverter().fromJson(json['createdDate']),
     description: json['description'] as String,
+    disableExecuteApiEndpoint: json['disableExecuteApiEndpoint'] as bool,
     disableSchemaValidation: json['disableSchemaValidation'] as bool,
     importInfo: (json['importInfo'] as List)?.map((e) => e as String)?.toList(),
     name: json['name'] as String,
@@ -983,6 +1030,7 @@ Integration _$IntegrationFromJson(Map<String, dynamic> json) {
     integrationMethod: json['integrationMethod'] as String,
     integrationResponseSelectionExpression:
         json['integrationResponseSelectionExpression'] as String,
+    integrationSubtype: json['integrationSubtype'] as String,
     integrationType:
         _$enumDecodeNullable(_$IntegrationTypeEnumMap, json['integrationType']),
     integrationUri: json['integrationUri'] as String,
@@ -994,6 +1042,14 @@ Integration _$IntegrationFromJson(Map<String, dynamic> json) {
     ),
     requestTemplates: (json['requestTemplates'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k, e as String),
+    ),
+    responseParameters:
+        (json['responseParameters'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(
+          k,
+          (e as Map<String, dynamic>)?.map(
+            (k, e) => MapEntry(k, e as String),
+          )),
     ),
     templateSelectionExpression: json['templateSelectionExpression'] as String,
     timeoutInMillis: json['timeoutInMillis'] as int,
@@ -1051,6 +1107,31 @@ Model _$ModelFromJson(Map<String, dynamic> json) {
   );
 }
 
+MutualTlsAuthentication _$MutualTlsAuthenticationFromJson(
+    Map<String, dynamic> json) {
+  return MutualTlsAuthentication(
+    truststoreUri: json['truststoreUri'] as String,
+    truststoreVersion: json['truststoreVersion'] as String,
+    truststoreWarnings:
+        (json['truststoreWarnings'] as List)?.map((e) => e as String)?.toList(),
+  );
+}
+
+Map<String, dynamic> _$MutualTlsAuthenticationInputToJson(
+    MutualTlsAuthenticationInput instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('truststoreUri', instance.truststoreUri);
+  writeNotNull('truststoreVersion', instance.truststoreVersion);
+  return val;
+}
+
 ParameterConstraints _$ParameterConstraintsFromJson(Map<String, dynamic> json) {
   return ParameterConstraints(
     required: json['required'] as bool,
@@ -1074,6 +1155,7 @@ Map<String, dynamic> _$ParameterConstraintsToJson(
 ReimportApiResponse _$ReimportApiResponseFromJson(Map<String, dynamic> json) {
   return ReimportApiResponse(
     apiEndpoint: json['apiEndpoint'] as String,
+    apiGatewayManaged: json['apiGatewayManaged'] as bool,
     apiId: json['apiId'] as String,
     apiKeySelectionExpression: json['apiKeySelectionExpression'] as String,
     corsConfiguration: json['corsConfiguration'] == null
@@ -1081,6 +1163,7 @@ ReimportApiResponse _$ReimportApiResponseFromJson(Map<String, dynamic> json) {
         : Cors.fromJson(json['corsConfiguration'] as Map<String, dynamic>),
     createdDate: const IsoDateTimeConverter().fromJson(json['createdDate']),
     description: json['description'] as String,
+    disableExecuteApiEndpoint: json['disableExecuteApiEndpoint'] as bool,
     disableSchemaValidation: json['disableSchemaValidation'] as bool,
     importInfo: (json['importInfo'] as List)?.map((e) => e as String)?.toList(),
     name: json['name'] as String,
@@ -1247,6 +1330,7 @@ UpdateApiMappingResponse _$UpdateApiMappingResponseFromJson(
 UpdateApiResponse _$UpdateApiResponseFromJson(Map<String, dynamic> json) {
   return UpdateApiResponse(
     apiEndpoint: json['apiEndpoint'] as String,
+    apiGatewayManaged: json['apiGatewayManaged'] as bool,
     apiId: json['apiId'] as String,
     apiKeySelectionExpression: json['apiKeySelectionExpression'] as String,
     corsConfiguration: json['corsConfiguration'] == null
@@ -1254,6 +1338,7 @@ UpdateApiResponse _$UpdateApiResponseFromJson(Map<String, dynamic> json) {
         : Cors.fromJson(json['corsConfiguration'] as Map<String, dynamic>),
     createdDate: const IsoDateTimeConverter().fromJson(json['createdDate']),
     description: json['description'] as String,
+    disableExecuteApiEndpoint: json['disableExecuteApiEndpoint'] as bool,
     disableSchemaValidation: json['disableSchemaValidation'] as bool,
     importInfo: (json['importInfo'] as List)?.map((e) => e as String)?.toList(),
     name: json['name'] as String,
@@ -1273,10 +1358,13 @@ UpdateAuthorizerResponse _$UpdateAuthorizerResponseFromJson(
   return UpdateAuthorizerResponse(
     authorizerCredentialsArn: json['authorizerCredentialsArn'] as String,
     authorizerId: json['authorizerId'] as String,
+    authorizerPayloadFormatVersion:
+        json['authorizerPayloadFormatVersion'] as String,
     authorizerResultTtlInSeconds: json['authorizerResultTtlInSeconds'] as int,
     authorizerType:
         _$enumDecodeNullable(_$AuthorizerTypeEnumMap, json['authorizerType']),
     authorizerUri: json['authorizerUri'] as String,
+    enableSimpleResponses: json['enableSimpleResponses'] as bool,
     identitySource:
         (json['identitySource'] as List)?.map((e) => e as String)?.toList(),
     identityValidationExpression:
@@ -1313,6 +1401,10 @@ UpdateDomainNameResponse _$UpdateDomainNameResponseFromJson(
             ? null
             : DomainNameConfiguration.fromJson(e as Map<String, dynamic>))
         ?.toList(),
+    mutualTlsAuthentication: json['mutualTlsAuthentication'] == null
+        ? null
+        : MutualTlsAuthentication.fromJson(
+            json['mutualTlsAuthentication'] as Map<String, dynamic>),
     tags: (json['tags'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
@@ -1334,6 +1426,7 @@ UpdateIntegrationResult _$UpdateIntegrationResultFromJson(
     integrationMethod: json['integrationMethod'] as String,
     integrationResponseSelectionExpression:
         json['integrationResponseSelectionExpression'] as String,
+    integrationSubtype: json['integrationSubtype'] as String,
     integrationType:
         _$enumDecodeNullable(_$IntegrationTypeEnumMap, json['integrationType']),
     integrationUri: json['integrationUri'] as String,
@@ -1345,6 +1438,14 @@ UpdateIntegrationResult _$UpdateIntegrationResultFromJson(
     ),
     requestTemplates: (json['requestTemplates'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k, e as String),
+    ),
+    responseParameters:
+        (json['responseParameters'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(
+          k,
+          (e as Map<String, dynamic>)?.map(
+            (k, e) => MapEntry(k, e as String),
+          )),
     ),
     templateSelectionExpression: json['templateSelectionExpression'] as String,
     timeoutInMillis: json['timeoutInMillis'] as int,

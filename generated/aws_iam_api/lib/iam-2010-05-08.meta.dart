@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_single_quotes
 const Map<String, Map<String, dynamic>> shapesJson = {
+  "AccessAdvisorUsageGranularityType": {"type": "string", "flattened": false},
   "AccessDetail": {
     "type": "structure",
     "members": {
@@ -744,7 +745,11 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   "GenerateServiceLastAccessedDetailsRequest": {
     "type": "structure",
     "members": {
-      "Arn": {"shape": "arnType", "flattened": false}
+      "Arn": {"shape": "arnType", "flattened": false},
+      "Granularity": {
+        "shape": "AccessAdvisorUsageGranularityType",
+        "flattened": false
+      }
     },
     "flattened": false
   },
@@ -1085,6 +1090,10 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "type": "structure",
     "members": {
       "JobStatus": {"shape": "jobStatusType", "flattened": false},
+      "JobType": {
+        "shape": "AccessAdvisorUsageGranularityType",
+        "flattened": false
+      },
       "JobCreationDate": {"shape": "dateType", "flattened": false},
       "ServicesLastAccessed": {
         "shape": "ServicesLastAccessed",
@@ -2276,7 +2285,15 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "LastAuthenticated": {"shape": "dateType", "flattened": false},
       "ServiceNamespace": {"shape": "serviceNamespaceType", "flattened": false},
       "LastAuthenticatedEntity": {"shape": "arnType", "flattened": false},
-      "TotalAuthenticatedEntities": {"shape": "integerType", "flattened": false}
+      "LastAuthenticatedRegion": {"shape": "stringType", "flattened": false},
+      "TotalAuthenticatedEntities": {
+        "shape": "integerType",
+        "flattened": false
+      },
+      "TrackedActionsLastAccessed": {
+        "shape": "TrackedActionsLastAccessed",
+        "flattened": false
+      }
     },
     "flattened": false
   },
@@ -2457,6 +2474,21 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "UserName": {"shape": "existingUserNameType", "flattened": false},
       "Tags": {"shape": "tagListType", "flattened": false}
     },
+    "flattened": false
+  },
+  "TrackedActionLastAccessed": {
+    "type": "structure",
+    "members": {
+      "ActionName": {"shape": "stringType", "flattened": false},
+      "LastAccessedEntity": {"shape": "arnType", "flattened": false},
+      "LastAccessedTime": {"shape": "dateType", "flattened": false},
+      "LastAccessedRegion": {"shape": "stringType", "flattened": false}
+    },
+    "flattened": false
+  },
+  "TrackedActionsLastAccessed": {
+    "type": "list",
+    "member": {"shape": "TrackedActionLastAccessed"},
     "flattened": false
   },
   "UntagRoleRequest": {

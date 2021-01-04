@@ -6,6 +6,43 @@ part of 'kinesis-video-archived-media-2017-09-30.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+Map<String, dynamic> _$ClipFragmentSelectorToJson(
+    ClipFragmentSelector instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('FragmentSelectorType',
+      _$ClipFragmentSelectorTypeEnumMap[instance.fragmentSelectorType]);
+  writeNotNull('TimestampRange', instance.timestampRange?.toJson());
+  return val;
+}
+
+const _$ClipFragmentSelectorTypeEnumMap = {
+  ClipFragmentSelectorType.producerTimestamp: 'PRODUCER_TIMESTAMP',
+  ClipFragmentSelectorType.serverTimestamp: 'SERVER_TIMESTAMP',
+};
+
+Map<String, dynamic> _$ClipTimestampRangeToJson(ClipTimestampRange instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EndTimestamp',
+      const UnixDateTimeConverter().toJson(instance.endTimestamp));
+  writeNotNull('StartTimestamp',
+      const UnixDateTimeConverter().toJson(instance.startTimestamp));
+  return val;
+}
+
 Map<String, dynamic> _$DASHFragmentSelectorToJson(
     DASHFragmentSelector instance) {
   final val = <String, dynamic>{};
@@ -74,6 +111,13 @@ const _$FragmentSelectorTypeEnumMap = {
   FragmentSelectorType.producerTimestamp: 'PRODUCER_TIMESTAMP',
   FragmentSelectorType.serverTimestamp: 'SERVER_TIMESTAMP',
 };
+
+GetClipOutput _$GetClipOutputFromJson(Map<String, dynamic> json) {
+  return GetClipOutput(
+    contentType: json['Content-Type'] as String,
+    payload: const Uint8ListConverter().fromJson(json['Payload'] as String),
+  );
+}
 
 GetDASHStreamingSessionURLOutput _$GetDASHStreamingSessionURLOutputFromJson(
     Map<String, dynamic> json) {

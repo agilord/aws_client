@@ -30,12 +30,20 @@ The following throttling limits apply to using Security Hub API operations.
 
 <ul>
 <li>
+<code> <a>BatchEnableStandards</a> </code> - <code>RateLimit</code> of 1
+request per second, <code>BurstLimit</code> of 1 request per second.
+</li>
+<li>
 <code> <a>GetFindings</a> </code> - <code>RateLimit</code> of 3 requests per
 second. <code>BurstLimit</code> of 6 requests per second.
 </li>
 <li>
 <code> <a>UpdateFindings</a> </code> - <code>RateLimit</code> of 1 request
 per second. <code>BurstLimit</code> of 5 requests per second.
+</li>
+<li>
+<code> <a>UpdateStandardsControl</a> </code> - <code>RateLimit</code> of 1
+request per second, <code>BurstLimit</code> of 5 requests per second.
 </li>
 <li>
 All other operations - <code>RateLimit</code> of 10 requests per second.

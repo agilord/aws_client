@@ -62,6 +62,67 @@ class CostExplorer {
           endpointUrl: endpointUrl,
         );
 
+  /// Creates a new cost anomaly detection monitor with the requested type and
+  /// monitor specification.
+  ///
+  /// May throw [LimitExceededException].
+  ///
+  /// Parameter [anomalyMonitor] :
+  /// The cost anomaly detection monitor object that you want to create.
+  Future<CreateAnomalyMonitorResponse> createAnomalyMonitor({
+    @_s.required AnomalyMonitor anomalyMonitor,
+  }) async {
+    ArgumentError.checkNotNull(anomalyMonitor, 'anomalyMonitor');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSInsightsIndexService.CreateAnomalyMonitor'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AnomalyMonitor': anomalyMonitor,
+      },
+    );
+
+    return CreateAnomalyMonitorResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Adds a subscription to a cost anomaly detection monitor. You can use each
+  /// subscription to define subscribers with email or SNS notifications. Email
+  /// subscribers can set a dollar threshold and a time frequency for receiving
+  /// notifications.
+  ///
+  /// May throw [UnknownMonitorException].
+  /// May throw [LimitExceededException].
+  ///
+  /// Parameter [anomalySubscription] :
+  /// The cost anomaly subscription object that you want to create.
+  Future<CreateAnomalySubscriptionResponse> createAnomalySubscription({
+    @_s.required AnomalySubscription anomalySubscription,
+  }) async {
+    ArgumentError.checkNotNull(anomalySubscription, 'anomalySubscription');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSInsightsIndexService.CreateAnomalySubscription'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AnomalySubscription': anomalySubscription,
+      },
+    );
+
+    return CreateAnomalySubscriptionResponse.fromJson(jsonResponse.body);
+  }
+
   /// Creates a new Cost Category with the requested name and rules.
   ///
   /// May throw [ServiceQuotaExceededException].
@@ -110,6 +171,91 @@ class CostExplorer {
     );
 
     return CreateCostCategoryDefinitionResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Deletes a cost anomaly monitor.
+  ///
+  /// May throw [LimitExceededException].
+  /// May throw [UnknownMonitorException].
+  ///
+  /// Parameter [monitorArn] :
+  /// The unique identifier of the cost anomaly monitor that you want to delete.
+  Future<void> deleteAnomalyMonitor({
+    @_s.required String monitorArn,
+  }) async {
+    ArgumentError.checkNotNull(monitorArn, 'monitorArn');
+    _s.validateStringLength(
+      'monitorArn',
+      monitorArn,
+      0,
+      1024,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'monitorArn',
+      monitorArn,
+      r'''[\S\s]*''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSInsightsIndexService.DeleteAnomalyMonitor'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'MonitorArn': monitorArn,
+      },
+    );
+
+    return DeleteAnomalyMonitorResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Deletes a cost anomaly subscription.
+  ///
+  /// May throw [LimitExceededException].
+  /// May throw [UnknownSubscriptionException].
+  ///
+  /// Parameter [subscriptionArn] :
+  /// The unique identifier of the cost anomaly subscription that you want to
+  /// delete.
+  Future<void> deleteAnomalySubscription({
+    @_s.required String subscriptionArn,
+  }) async {
+    ArgumentError.checkNotNull(subscriptionArn, 'subscriptionArn');
+    _s.validateStringLength(
+      'subscriptionArn',
+      subscriptionArn,
+      0,
+      1024,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'subscriptionArn',
+      subscriptionArn,
+      r'''[\S\s]*''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSInsightsIndexService.DeleteAnomalySubscription'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'SubscriptionArn': subscriptionArn,
+      },
+    );
+
+    return DeleteAnomalySubscriptionResponse.fromJson(jsonResponse.body);
   }
 
   /// Deletes a Cost Category. Expenses from this month going forward will no
@@ -221,6 +367,213 @@ class CostExplorer {
     return DescribeCostCategoryDefinitionResponse.fromJson(jsonResponse.body);
   }
 
+  /// Retrieves all of the cost anomalies detected on your account, during the
+  /// time period specified by the <code>DateInterval</code> object.
+  ///
+  /// May throw [LimitExceededException].
+  /// May throw [InvalidNextTokenException].
+  ///
+  /// Parameter [dateInterval] :
+  /// Assigns the start and end dates for retrieving cost anomalies. The
+  /// returned anomaly object will have an <code>AnomalyEndDate</code> in the
+  /// specified time range.
+  ///
+  /// Parameter [feedback] :
+  /// Filters anomaly results by the feedback field on the anomaly object.
+  ///
+  /// Parameter [maxResults] :
+  /// The number of entries a paginated response contains.
+  ///
+  /// Parameter [monitorArn] :
+  /// Retrieves all of the cost anomalies detected for a specific cost anomaly
+  /// monitor Amazon Resource Name (ARN).
+  ///
+  /// Parameter [nextPageToken] :
+  /// The token to retrieve the next set of results. AWS provides the token when
+  /// the response from a previous call has more results than the maximum page
+  /// size.
+  ///
+  /// Parameter [totalImpact] :
+  /// Filters anomaly results by the total impact field on the anomaly object.
+  /// For example, you can filter anomalies <code>GREATER_THAN 200.00</code> to
+  /// retrieve anomalies, with an estimated dollar impact greater than 200.
+  Future<GetAnomaliesResponse> getAnomalies({
+    @_s.required AnomalyDateInterval dateInterval,
+    AnomalyFeedbackType feedback,
+    int maxResults,
+    String monitorArn,
+    String nextPageToken,
+    TotalImpactFilter totalImpact,
+  }) async {
+    ArgumentError.checkNotNull(dateInterval, 'dateInterval');
+    _s.validateStringLength(
+      'monitorArn',
+      monitorArn,
+      0,
+      1024,
+    );
+    _s.validateStringPattern(
+      'monitorArn',
+      monitorArn,
+      r'''[\S\s]*''',
+    );
+    _s.validateStringLength(
+      'nextPageToken',
+      nextPageToken,
+      0,
+      8192,
+    );
+    _s.validateStringPattern(
+      'nextPageToken',
+      nextPageToken,
+      r'''[\S\s]*''',
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSInsightsIndexService.GetAnomalies'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'DateInterval': dateInterval,
+        if (feedback != null) 'Feedback': feedback.toValue(),
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (monitorArn != null) 'MonitorArn': monitorArn,
+        if (nextPageToken != null) 'NextPageToken': nextPageToken,
+        if (totalImpact != null) 'TotalImpact': totalImpact,
+      },
+    );
+
+    return GetAnomaliesResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves the cost anomaly monitor definitions for your account. You can
+  /// filter using a list of cost anomaly monitor Amazon Resource Names (ARNs).
+  ///
+  /// May throw [LimitExceededException].
+  /// May throw [UnknownMonitorException].
+  /// May throw [InvalidNextTokenException].
+  ///
+  /// Parameter [maxResults] :
+  /// The number of entries a paginated response contains.
+  ///
+  /// Parameter [monitorArnList] :
+  /// A list of cost anomaly monitor ARNs.
+  ///
+  /// Parameter [nextPageToken] :
+  /// The token to retrieve the next set of results. AWS provides the token when
+  /// the response from a previous call has more results than the maximum page
+  /// size.
+  Future<GetAnomalyMonitorsResponse> getAnomalyMonitors({
+    int maxResults,
+    List<String> monitorArnList,
+    String nextPageToken,
+  }) async {
+    _s.validateStringLength(
+      'nextPageToken',
+      nextPageToken,
+      0,
+      8192,
+    );
+    _s.validateStringPattern(
+      'nextPageToken',
+      nextPageToken,
+      r'''[\S\s]*''',
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSInsightsIndexService.GetAnomalyMonitors'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (monitorArnList != null) 'MonitorArnList': monitorArnList,
+        if (nextPageToken != null) 'NextPageToken': nextPageToken,
+      },
+    );
+
+    return GetAnomalyMonitorsResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves the cost anomaly subscription objects for your account. You can
+  /// filter using a list of cost anomaly monitor Amazon Resource Names (ARNs).
+  ///
+  /// May throw [LimitExceededException].
+  /// May throw [UnknownSubscriptionException].
+  /// May throw [InvalidNextTokenException].
+  ///
+  /// Parameter [maxResults] :
+  /// The number of entries a paginated response contains.
+  ///
+  /// Parameter [monitorArn] :
+  /// Cost anomaly monitor ARNs.
+  ///
+  /// Parameter [nextPageToken] :
+  /// The token to retrieve the next set of results. AWS provides the token when
+  /// the response from a previous call has more results than the maximum page
+  /// size.
+  ///
+  /// Parameter [subscriptionArnList] :
+  /// A list of cost anomaly subscription ARNs.
+  Future<GetAnomalySubscriptionsResponse> getAnomalySubscriptions({
+    int maxResults,
+    String monitorArn,
+    String nextPageToken,
+    List<String> subscriptionArnList,
+  }) async {
+    _s.validateStringLength(
+      'monitorArn',
+      monitorArn,
+      0,
+      1024,
+    );
+    _s.validateStringPattern(
+      'monitorArn',
+      monitorArn,
+      r'''[\S\s]*''',
+    );
+    _s.validateStringLength(
+      'nextPageToken',
+      nextPageToken,
+      0,
+      8192,
+    );
+    _s.validateStringPattern(
+      'nextPageToken',
+      nextPageToken,
+      r'''[\S\s]*''',
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSInsightsIndexService.GetAnomalySubscriptions'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (monitorArn != null) 'MonitorArn': monitorArn,
+        if (nextPageToken != null) 'NextPageToken': nextPageToken,
+        if (subscriptionArnList != null)
+          'SubscriptionArnList': subscriptionArnList,
+      },
+    );
+
+    return GetAnomalySubscriptionsResponse.fromJson(jsonResponse.body);
+  }
+
   /// Retrieves cost and usage metrics for your account. You can specify which
   /// cost and usage-related metric, such as <code>BlendedCosts</code> or
   /// <code>UsageQuantity</code>, that you want the request to return. You can
@@ -228,14 +581,40 @@ class CostExplorer {
   /// <code>SERVICE</code> or <code>AZ</code>, in a specific time range. For a
   /// complete list of valid dimensions, see the <a
   /// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_GetDimensionValues.html">GetDimensionValues</a>
-  /// operation. Master accounts in an organization in AWS Organizations have
+  /// operation. Management account in an organization in AWS Organizations have
   /// access to all member accounts.
+  ///
+  /// For information about filter limitations, see <a
+  /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/billing-limits.html">Quotas
+  /// and restrictions</a> in the <i>Billing and Cost Management User Guide</i>.
   ///
   /// May throw [LimitExceededException].
   /// May throw [BillExpirationException].
   /// May throw [DataUnavailableException].
   /// May throw [InvalidNextTokenException].
   /// May throw [RequestChangedException].
+  ///
+  /// Parameter [metrics] :
+  /// Which metrics are returned in the query. For more information about
+  /// blended and unblended rates, see <a
+  /// href="http://aws.amazon.com/premiumsupport/knowledge-center/blended-rates-intro/">Why
+  /// does the "blended" annotation appear on some line items in my bill?</a>.
+  ///
+  /// Valid values are <code>AmortizedCost</code>, <code>BlendedCost</code>,
+  /// <code>NetAmortizedCost</code>, <code>NetUnblendedCost</code>,
+  /// <code>NormalizedUsageAmount</code>, <code>UnblendedCost</code>, and
+  /// <code>UsageQuantity</code>.
+  /// <note>
+  /// If you return the <code>UsageQuantity</code> metric, the service
+  /// aggregates all usage numbers without taking into account the units. For
+  /// example, if you aggregate <code>usageQuantity</code> across all of Amazon
+  /// EC2, the results aren't meaningful because Amazon EC2 compute hours and
+  /// data transfer are measured in different units (for example, hours vs. GB).
+  /// To get more meaningful <code>UsageQuantity</code> metrics, filter by
+  /// <code>UsageType</code> or <code>UsageTypeGroups</code>.
+  /// </note>
+  /// <code>Metrics</code> is required for <code>GetCostAndUsage</code>
+  /// requests.
   ///
   /// Parameter [timePeriod] :
   /// Sets the start and end dates for retrieving AWS costs. The start date is
@@ -262,7 +641,7 @@ class CostExplorer {
   ///
   /// Parameter [groupBy] :
   /// You can group AWS costs using up to two different groups, either
-  /// dimensions, tag keys, or both.
+  /// dimensions, tag keys, cost categories, or any two group by types.
   ///
   /// When you group by tag key, you get all tag values, including empty
   /// strings.
@@ -273,40 +652,19 @@ class CostExplorer {
   /// <code>SERVICE</code>, <code>TAGS</code>, <code>TENANCY</code>,
   /// <code>RECORD_TYPE</code>, and <code>USAGE_TYPE</code>.
   ///
-  /// Parameter [metrics] :
-  /// Which metrics are returned in the query. For more information about
-  /// blended and unblended rates, see <a
-  /// href="http://aws.amazon.com/premiumsupport/knowledge-center/blended-rates-intro/">Why
-  /// does the "blended" annotation appear on some line items in my bill?</a>.
-  ///
-  /// Valid values are <code>AmortizedCost</code>, <code>BlendedCost</code>,
-  /// <code>NetAmortizedCost</code>, <code>NetUnblendedCost</code>,
-  /// <code>NormalizedUsageAmount</code>, <code>UnblendedCost</code>, and
-  /// <code>UsageQuantity</code>.
-  /// <note>
-  /// If you return the <code>UsageQuantity</code> metric, the service
-  /// aggregates all usage numbers without taking into account the units. For
-  /// example, if you aggregate <code>usageQuantity</code> across all of Amazon
-  /// EC2, the results aren't meaningful because Amazon EC2 compute hours and
-  /// data transfer are measured in different units (for example, hours vs. GB).
-  /// To get more meaningful <code>UsageQuantity</code> metrics, filter by
-  /// <code>UsageType</code> or <code>UsageTypeGroups</code>.
-  /// </note>
-  /// <code>Metrics</code> is required for <code>GetCostAndUsage</code>
-  /// requests.
-  ///
   /// Parameter [nextPageToken] :
   /// The token to retrieve the next set of results. AWS provides the token when
   /// the response from a previous call has more results than the maximum page
   /// size.
   Future<GetCostAndUsageResponse> getCostAndUsage({
+    @_s.required List<String> metrics,
     @_s.required DateInterval timePeriod,
     Expression filter,
     Granularity granularity,
     List<GroupDefinition> groupBy,
-    List<String> metrics,
     String nextPageToken,
   }) async {
+    ArgumentError.checkNotNull(metrics, 'metrics');
     ArgumentError.checkNotNull(timePeriod, 'timePeriod');
     _s.validateStringLength(
       'nextPageToken',
@@ -330,11 +688,11 @@ class CostExplorer {
       // TODO queryParams
       headers: headers,
       payload: {
+        'Metrics': metrics,
         'TimePeriod': timePeriod,
         if (filter != null) 'Filter': filter,
         if (granularity != null) 'Granularity': granularity.toValue(),
         if (groupBy != null) 'GroupBy': groupBy,
-        if (metrics != null) 'Metrics': metrics,
         if (nextPageToken != null) 'NextPageToken': nextPageToken,
       },
     );
@@ -349,7 +707,7 @@ class CostExplorer {
   /// dimensions, such as <code>SERVICE</code> or <code>AZ</code>, in a specific
   /// time range. For a complete list of valid dimensions, see the <a
   /// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_GetDimensionValues.html">GetDimensionValues</a>
-  /// operation. Master accounts in an organization in AWS Organizations have
+  /// operation. Management account in an organization in AWS Organizations have
   /// access to all member accounts. This API is currently available for the
   /// Amazon Elastic Compute Cloud – Compute service only.
   /// <note>
@@ -367,15 +725,6 @@ class CostExplorer {
   /// May throw [InvalidNextTokenException].
   /// May throw [RequestChangedException].
   ///
-  /// Parameter [timePeriod] :
-  /// Sets the start and end dates for retrieving Amazon Web Services costs. The
-  /// range must be within the last 14 days (the start date cannot be earlier
-  /// than 14 days ago). The start date is inclusive, but the end date is
-  /// exclusive. For example, if <code>start</code> is <code>2017-01-01</code>
-  /// and <code>end</code> is <code>2017-05-01</code>, then the cost and usage
-  /// data is retrieved from <code>2017-01-01</code> up to and including
-  /// <code>2017-04-30</code> but not including <code>2017-05-01</code>.
-  ///
   /// Parameter [filter] :
   /// Filters Amazon Web Services costs by different dimensions. For example,
   /// you can specify <code>SERVICE</code> and <code>LINKED_ACCOUNT</code> and
@@ -385,7 +734,19 @@ class CostExplorer {
   /// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Expression.html">Expression</a>.
   ///
   /// The <code>GetCostAndUsageWithResources</code> operation requires that you
-  /// either group by or filter by a <code>ResourceId</code>.
+  /// either group by or filter by a <code>ResourceId</code>. It requires the <a
+  /// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Expression.html">Expression</a>
+  /// <code>"SERVICE = Amazon Elastic Compute Cloud - Compute"</code> in the
+  /// filter.
+  ///
+  /// Parameter [timePeriod] :
+  /// Sets the start and end dates for retrieving Amazon Web Services costs. The
+  /// range must be within the last 14 days (the start date cannot be earlier
+  /// than 14 days ago). The start date is inclusive, but the end date is
+  /// exclusive. For example, if <code>start</code> is <code>2017-01-01</code>
+  /// and <code>end</code> is <code>2017-05-01</code>, then the cost and usage
+  /// data is retrieved from <code>2017-01-01</code> up to and including
+  /// <code>2017-04-30</code> but not including <code>2017-05-01</code>.
   ///
   /// Parameter [granularity] :
   /// Sets the AWS cost granularity to <code>MONTHLY</code>, <code>DAILY</code>,
@@ -395,7 +756,7 @@ class CostExplorer {
   ///
   /// Parameter [groupBy] :
   /// You can group Amazon Web Services costs using up to two different groups:
-  /// either dimensions, tag keys, or both.
+  /// <code>DIMENSION</code>, <code>TAG</code>, <code>COST_CATEGORY</code>.
   ///
   /// Parameter [metrics] :
   /// Which metrics are returned in the query. For more information about
@@ -424,13 +785,14 @@ class CostExplorer {
   /// the response from a previous call has more results than the maximum page
   /// size.
   Future<GetCostAndUsageWithResourcesResponse> getCostAndUsageWithResources({
+    @_s.required Expression filter,
     @_s.required DateInterval timePeriod,
-    Expression filter,
     Granularity granularity,
     List<GroupDefinition> groupBy,
     List<String> metrics,
     String nextPageToken,
   }) async {
+    ArgumentError.checkNotNull(filter, 'filter');
     ArgumentError.checkNotNull(timePeriod, 'timePeriod');
     _s.validateStringLength(
       'nextPageToken',
@@ -454,8 +816,8 @@ class CostExplorer {
       // TODO queryParams
       headers: headers,
       payload: {
+        'Filter': filter,
         'TimePeriod': timePeriod,
-        if (filter != null) 'Filter': filter,
         if (granularity != null) 'Granularity': granularity.toValue(),
         if (groupBy != null) 'GroupBy': groupBy,
         if (metrics != null) 'Metrics': metrics,
@@ -508,7 +870,9 @@ class CostExplorer {
   /// </ul>
   ///
   /// Parameter [timePeriod] :
-  /// The period of time that you want the forecast to cover.
+  /// The period of time that you want the forecast to cover. The start date
+  /// must be equal to or no later than the current date to avoid a validation
+  /// error.
   ///
   /// Parameter [filter] :
   /// The filters that you want to use to filter your forecast. Cost Explorer
@@ -641,6 +1005,9 @@ class CostExplorer {
   /// USAGE_TYPE_GROUP - The grouping of common usage types. An example is
   /// Amazon EC2: CloudWatch – Alarms. The response for this operation includes
   /// a unit attribute.
+  /// </li>
+  /// <li>
+  /// REGION - The AWS Region.
   /// </li>
   /// <li>
   /// RECORD_TYPE - The different types of charges such as RI fees, usage costs,
@@ -785,10 +1152,10 @@ class CostExplorer {
   /// Retrieves the reservation coverage for your account. This enables you to
   /// see how much of your Amazon Elastic Compute Cloud, Amazon ElastiCache,
   /// Amazon Relational Database Service, or Amazon Redshift usage is covered by
-  /// a reservation. An organization's master account can see the coverage of
-  /// the associated member accounts. This supports dimensions, Cost Categories,
-  /// and nested expressions. For any time period, you can filter data about
-  /// reservation usage by the following dimensions:
+  /// a reservation. An organization's management account can see the coverage
+  /// of the associated member accounts. This supports dimensions, Cost
+  /// Categories, and nested expressions. For any time period, you can filter
+  /// data about reservation usage by the following dimensions:
   ///
   /// <ul>
   /// <li>
@@ -1032,9 +1399,9 @@ class CostExplorer {
   ///
   /// Parameter [accountScope] :
   /// The account scope that you want your recommendations for. Amazon Web
-  /// Services calculates recommendations including the payer account and linked
-  /// accounts if the value is set to <code>PAYER</code>. If the value is
-  /// <code>LINKED</code>, recommendations are calculated for individual linked
+  /// Services calculates recommendations including the management account and
+  /// member accounts if the value is set to <code>PAYER</code>. If the value is
+  /// <code>LINKED</code>, recommendations are calculated for individual member
   /// accounts only.
   ///
   /// Parameter [lookbackPeriodInDays] :
@@ -1142,8 +1509,8 @@ class CostExplorer {
         jsonResponse.body);
   }
 
-  /// Retrieves the reservation utilization for your account. Master accounts in
-  /// an organization have access to member accounts. You can filter data by
+  /// Retrieves the reservation utilization for your account. Management account
+  /// in an organization have access to member accounts. You can filter data by
   /// dimensions in a time period. You can use <code>GetDimensionValues</code>
   /// to determine the possible dimension values. Currently, you can group only
   /// by <code>SUBSCRIPTION_ID</code>.
@@ -1264,14 +1631,15 @@ class CostExplorer {
     return GetReservationUtilizationResponse.fromJson(jsonResponse.body);
   }
 
-  /// Creates recommendations that helps you save cost by identifying idle and
+  /// Creates recommendations that help you save cost by identifying idle and
   /// underutilized Amazon EC2 instances.
   ///
   /// Recommendations are generated to either downsize or terminate instances,
   /// along with providing savings detail and metrics. For details on
   /// calculation and function, see <a
-  /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/ce-what-is.html">Optimizing
-  /// Your Cost with Rightsizing Recommendations</a>.
+  /// href="https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/ce-rightsizing.html">Optimizing
+  /// Your Cost with Rightsizing Recommendations</a> in the <i>AWS Billing and
+  /// Cost Management User Guide</i>.
   ///
   /// May throw [LimitExceededException].
   /// May throw [InvalidNextTokenException].
@@ -1280,6 +1648,13 @@ class CostExplorer {
   /// The specific service that you want recommendations for. The only valid
   /// value for <code>GetRightsizingRecommendation</code> is
   /// "<code>AmazonEC2</code>".
+  ///
+  /// Parameter [configuration] :
+  /// Enables you to customize recommendations across two attributes. You can
+  /// choose to view recommendations for instances within the same instance
+  /// families or across different instance families. You can also choose to
+  /// view your estimated savings associated with recommendations with
+  /// consideration of existing Savings Plans or RI benefits, or neither.
   ///
   /// Parameter [nextPageToken] :
   /// The pagination token that indicates the next set of results that you want
@@ -1290,6 +1665,7 @@ class CostExplorer {
   /// object.
   Future<GetRightsizingRecommendationResponse> getRightsizingRecommendation({
     @_s.required String service,
+    RightsizingRecommendationConfiguration configuration,
     Expression filter,
     String nextPageToken,
     int pageSize,
@@ -1337,6 +1713,7 @@ class CostExplorer {
       headers: headers,
       payload: {
         'Service': service,
+        if (configuration != null) 'Configuration': configuration,
         if (filter != null) 'Filter': filter,
         if (nextPageToken != null) 'NextPageToken': nextPageToken,
         if (pageSize != null) 'PageSize': pageSize,
@@ -1348,7 +1725,7 @@ class CostExplorer {
 
   /// Retrieves the Savings Plans covered for your account. This enables you to
   /// see how much of your cost is covered by a Savings Plan. An organization’s
-  /// master account can see the coverage of the associated member accounts.
+  /// management account can see the coverage of the associated member accounts.
   /// This supports dimensions, Cost Categories, and nested expressions. For any
   /// time period, you can filter data for Savings Plans usage with the
   /// following dimensions:
@@ -1497,14 +1874,14 @@ class CostExplorer {
   /// The Savings Plans recommendation type requested.
   ///
   /// Parameter [termInYears] :
-  /// The savings plan recommendation term used to generated these
+  /// The savings plan recommendation term used to generate these
   /// recommendations.
   ///
   /// Parameter [accountScope] :
   /// The account scope that you want your recommendations for. Amazon Web
-  /// Services calculates recommendations including the payer account and linked
-  /// accounts if the value is set to <code>PAYER</code>. If the value is
-  /// <code>LINKED</code>, recommendations are calculated for individual linked
+  /// Services calculates recommendations including the management account and
+  /// member accounts if the value is set to <code>PAYER</code>. If the value is
+  /// <code>LINKED</code>, recommendations are calculated for individual member
   /// accounts only.
   ///
   /// Parameter [filter] :
@@ -1591,7 +1968,7 @@ class CostExplorer {
   }
 
   /// Retrieves the Savings Plans utilization for your account across date
-  /// ranges with daily or monthly granularity. Master accounts in an
+  /// ranges with daily or monthly granularity. Management account in an
   /// organization have access to member accounts. You can use
   /// <code>GetDimensionValues</code> in <code>SAVINGS_PLANS</code> to determine
   /// the possible dimension values.
@@ -1899,7 +2276,9 @@ class CostExplorer {
   /// For example, if <code>start</code> is <code>2017-01-01</code> and
   /// <code>end</code> is <code>2017-05-01</code>, then the cost and usage data
   /// is retrieved from <code>2017-01-01</code> up to and including
-  /// <code>2017-04-30</code> but not including <code>2017-05-01</code>.
+  /// <code>2017-04-30</code> but not including <code>2017-05-01</code>. The
+  /// start date must be equal to or later than the current date to avoid a
+  /// validation error.
   ///
   /// Parameter [filter] :
   /// The filters that you want to use to filter your forecast. Cost Explorer
@@ -2025,6 +2404,199 @@ class CostExplorer {
     return ListCostCategoryDefinitionsResponse.fromJson(jsonResponse.body);
   }
 
+  /// Modifies the feedback property of a given cost anomaly.
+  ///
+  /// May throw [LimitExceededException].
+  ///
+  /// Parameter [anomalyId] :
+  /// A cost anomaly ID.
+  ///
+  /// Parameter [feedback] :
+  /// Describes whether the cost anomaly was a planned activity or you
+  /// considered it an anomaly.
+  Future<ProvideAnomalyFeedbackResponse> provideAnomalyFeedback({
+    @_s.required String anomalyId,
+    @_s.required AnomalyFeedbackType feedback,
+  }) async {
+    ArgumentError.checkNotNull(anomalyId, 'anomalyId');
+    _s.validateStringLength(
+      'anomalyId',
+      anomalyId,
+      0,
+      1024,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'anomalyId',
+      anomalyId,
+      r'''[\S\s]*''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(feedback, 'feedback');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSInsightsIndexService.ProvideAnomalyFeedback'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AnomalyId': anomalyId,
+        'Feedback': feedback?.toValue() ?? '',
+      },
+    );
+
+    return ProvideAnomalyFeedbackResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Updates an existing cost anomaly monitor. The changes made are applied
+  /// going forward, and does not change anomalies detected in the past.
+  ///
+  /// May throw [LimitExceededException].
+  /// May throw [UnknownMonitorException].
+  ///
+  /// Parameter [monitorArn] :
+  /// Cost anomaly monitor Amazon Resource Names (ARNs).
+  ///
+  /// Parameter [monitorName] :
+  /// The new name for the cost anomaly monitor.
+  Future<UpdateAnomalyMonitorResponse> updateAnomalyMonitor({
+    @_s.required String monitorArn,
+    String monitorName,
+  }) async {
+    ArgumentError.checkNotNull(monitorArn, 'monitorArn');
+    _s.validateStringLength(
+      'monitorArn',
+      monitorArn,
+      0,
+      1024,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'monitorArn',
+      monitorArn,
+      r'''[\S\s]*''',
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'monitorName',
+      monitorName,
+      0,
+      1024,
+    );
+    _s.validateStringPattern(
+      'monitorName',
+      monitorName,
+      r'''[\S\s]*''',
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSInsightsIndexService.UpdateAnomalyMonitor'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'MonitorArn': monitorArn,
+        if (monitorName != null) 'MonitorName': monitorName,
+      },
+    );
+
+    return UpdateAnomalyMonitorResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Updates an existing cost anomaly monitor subscription.
+  ///
+  /// May throw [LimitExceededException].
+  /// May throw [UnknownMonitorException].
+  /// May throw [UnknownSubscriptionException].
+  ///
+  /// Parameter [subscriptionArn] :
+  /// A cost anomaly subscription Amazon Resource Name (ARN).
+  ///
+  /// Parameter [frequency] :
+  /// The update to the frequency value at which subscribers will receive
+  /// notifications.
+  ///
+  /// Parameter [monitorArnList] :
+  /// A list of cost anomaly monitor ARNs.
+  ///
+  /// Parameter [subscribers] :
+  /// The update to the subscriber list.
+  ///
+  /// Parameter [subscriptionName] :
+  /// The subscription's new name.
+  ///
+  /// Parameter [threshold] :
+  /// The update to the threshold value for receiving notifications.
+  Future<UpdateAnomalySubscriptionResponse> updateAnomalySubscription({
+    @_s.required String subscriptionArn,
+    AnomalySubscriptionFrequency frequency,
+    List<String> monitorArnList,
+    List<Subscriber> subscribers,
+    String subscriptionName,
+    double threshold,
+  }) async {
+    ArgumentError.checkNotNull(subscriptionArn, 'subscriptionArn');
+    _s.validateStringLength(
+      'subscriptionArn',
+      subscriptionArn,
+      0,
+      1024,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'subscriptionArn',
+      subscriptionArn,
+      r'''[\S\s]*''',
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'subscriptionName',
+      subscriptionName,
+      0,
+      1024,
+    );
+    _s.validateStringPattern(
+      'subscriptionName',
+      subscriptionName,
+      r'''[\S\s]*''',
+    );
+    _s.validateNumRange(
+      'threshold',
+      threshold,
+      0,
+      1152921504606846976,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSInsightsIndexService.UpdateAnomalySubscription'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'SubscriptionArn': subscriptionArn,
+        if (frequency != null) 'Frequency': frequency.toValue(),
+        if (monitorArnList != null) 'MonitorArnList': monitorArnList,
+        if (subscribers != null) 'Subscribers': subscribers,
+        if (subscriptionName != null) 'SubscriptionName': subscriptionName,
+        if (threshold != null) 'Threshold': threshold,
+      },
+    );
+
+    return UpdateAnomalySubscriptionResponse.fromJson(jsonResponse.body);
+  }
+
   /// Updates an existing Cost Category. Changes made to the Cost Category rules
   /// will be used to categorize the current month’s expenses and future
   /// expenses. This won’t change categorization for the previous months.
@@ -2102,6 +2674,272 @@ extension on AccountScope {
   }
 }
 
+/// An unusual cost pattern. This consists of the detailed metadata and the
+/// current status of the anomaly object.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class Anomaly {
+  /// The unique identifier for the anomaly.
+  @_s.JsonKey(name: 'AnomalyId')
+  final String anomalyId;
+
+  /// The latest and maximum score for the anomaly.
+  @_s.JsonKey(name: 'AnomalyScore')
+  final AnomalyScore anomalyScore;
+
+  /// The dollar impact for the anomaly.
+  @_s.JsonKey(name: 'Impact')
+  final Impact impact;
+
+  /// The Amazon Resource Name (ARN) for the cost monitor that generated this
+  /// anomaly.
+  @_s.JsonKey(name: 'MonitorArn')
+  final String monitorArn;
+
+  /// The last day the anomaly is detected.
+  @_s.JsonKey(name: 'AnomalyEndDate')
+  final String anomalyEndDate;
+
+  /// The first day the anomaly is detected.
+  @_s.JsonKey(name: 'AnomalyStartDate')
+  final String anomalyStartDate;
+
+  /// The dimension for the anomaly. For example, an AWS service in a service
+  /// monitor.
+  @_s.JsonKey(name: 'DimensionValue')
+  final String dimensionValue;
+
+  /// The feedback value.
+  @_s.JsonKey(name: 'Feedback')
+  final AnomalyFeedbackType feedback;
+
+  /// The list of identified root causes for the anomaly.
+  @_s.JsonKey(name: 'RootCauses')
+  final List<RootCause> rootCauses;
+
+  Anomaly({
+    @_s.required this.anomalyId,
+    @_s.required this.anomalyScore,
+    @_s.required this.impact,
+    @_s.required this.monitorArn,
+    this.anomalyEndDate,
+    this.anomalyStartDate,
+    this.dimensionValue,
+    this.feedback,
+    this.rootCauses,
+  });
+  factory Anomaly.fromJson(Map<String, dynamic> json) =>
+      _$AnomalyFromJson(json);
+}
+
+/// The time period for an anomaly.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AnomalyDateInterval {
+  /// The first date an anomaly was observed.
+  @_s.JsonKey(name: 'StartDate')
+  final String startDate;
+
+  /// The last date an anomaly was observed.
+  @_s.JsonKey(name: 'EndDate')
+  final String endDate;
+
+  AnomalyDateInterval({
+    @_s.required this.startDate,
+    this.endDate,
+  });
+  Map<String, dynamic> toJson() => _$AnomalyDateIntervalToJson(this);
+}
+
+enum AnomalyFeedbackType {
+  @_s.JsonValue('YES')
+  yes,
+  @_s.JsonValue('NO')
+  no,
+  @_s.JsonValue('PLANNED_ACTIVITY')
+  plannedActivity,
+}
+
+extension on AnomalyFeedbackType {
+  String toValue() {
+    switch (this) {
+      case AnomalyFeedbackType.yes:
+        return 'YES';
+      case AnomalyFeedbackType.no:
+        return 'NO';
+      case AnomalyFeedbackType.plannedActivity:
+        return 'PLANNED_ACTIVITY';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
+/// This object continuously inspects your account's cost data for anomalies,
+/// based on <code>MonitorType</code> and <code>MonitorSpecification</code>. The
+/// content consists of detailed metadata and the current status of the monitor
+/// object.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AnomalyMonitor {
+  /// The name of the monitor.
+  @_s.JsonKey(name: 'MonitorName')
+  final String monitorName;
+
+  /// The possible type values.
+  @_s.JsonKey(name: 'MonitorType')
+  final MonitorType monitorType;
+
+  /// The date when the monitor was created.
+  @_s.JsonKey(name: 'CreationDate')
+  final String creationDate;
+
+  /// The value for evaluated dimensions.
+  @_s.JsonKey(name: 'DimensionalValueCount')
+  final int dimensionalValueCount;
+
+  /// The date when the monitor last evaluated for anomalies.
+  @_s.JsonKey(name: 'LastEvaluatedDate')
+  final String lastEvaluatedDate;
+
+  /// The date when the monitor was last updated.
+  @_s.JsonKey(name: 'LastUpdatedDate')
+  final String lastUpdatedDate;
+
+  /// The Amazon Resource Name (ARN) value.
+  @_s.JsonKey(name: 'MonitorArn')
+  final String monitorArn;
+
+  /// The dimensions to evaluate.
+  @_s.JsonKey(name: 'MonitorDimension')
+  final MonitorDimension monitorDimension;
+  @_s.JsonKey(name: 'MonitorSpecification')
+  final Expression monitorSpecification;
+
+  AnomalyMonitor({
+    @_s.required this.monitorName,
+    @_s.required this.monitorType,
+    this.creationDate,
+    this.dimensionalValueCount,
+    this.lastEvaluatedDate,
+    this.lastUpdatedDate,
+    this.monitorArn,
+    this.monitorDimension,
+    this.monitorSpecification,
+  });
+  factory AnomalyMonitor.fromJson(Map<String, dynamic> json) =>
+      _$AnomalyMonitorFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AnomalyMonitorToJson(this);
+}
+
+/// Quantifies the anomaly. The higher score means that it is more anomalous.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class AnomalyScore {
+  /// The last observed score.
+  @_s.JsonKey(name: 'CurrentScore')
+  final double currentScore;
+
+  /// The maximum score observed during the <code>AnomalyDateInterval</code>.
+  @_s.JsonKey(name: 'MaxScore')
+  final double maxScore;
+
+  AnomalyScore({
+    @_s.required this.currentScore,
+    @_s.required this.maxScore,
+  });
+  factory AnomalyScore.fromJson(Map<String, dynamic> json) =>
+      _$AnomalyScoreFromJson(json);
+}
+
+/// The association between a monitor, threshold, and list of subscribers used
+/// to deliver notifications about anomalies detected by a monitor that exceeds
+/// a threshold. The content consists of the detailed metadata and the current
+/// status of the <code>AnomalySubscription</code> object.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AnomalySubscription {
+  /// The frequency at which anomaly reports are sent over email.
+  @_s.JsonKey(name: 'Frequency')
+  final AnomalySubscriptionFrequency frequency;
+
+  /// A list of cost anomaly monitors.
+  @_s.JsonKey(name: 'MonitorArnList')
+  final List<String> monitorArnList;
+
+  /// A list of subscribers to notify.
+  @_s.JsonKey(name: 'Subscribers')
+  final List<Subscriber> subscribers;
+
+  /// The name for the subscription.
+  @_s.JsonKey(name: 'SubscriptionName')
+  final String subscriptionName;
+
+  /// The dollar value that triggers a notification if the threshold is exceeded.
+  @_s.JsonKey(name: 'Threshold')
+  final double threshold;
+
+  /// Your unique account identifier.
+  @_s.JsonKey(name: 'AccountId')
+  final String accountId;
+
+  /// The <code>AnomalySubscription</code> Amazon Resource Name (ARN).
+  @_s.JsonKey(name: 'SubscriptionArn')
+  final String subscriptionArn;
+
+  AnomalySubscription({
+    @_s.required this.frequency,
+    @_s.required this.monitorArnList,
+    @_s.required this.subscribers,
+    @_s.required this.subscriptionName,
+    @_s.required this.threshold,
+    this.accountId,
+    this.subscriptionArn,
+  });
+  factory AnomalySubscription.fromJson(Map<String, dynamic> json) =>
+      _$AnomalySubscriptionFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AnomalySubscriptionToJson(this);
+}
+
+enum AnomalySubscriptionFrequency {
+  @_s.JsonValue('DAILY')
+  daily,
+  @_s.JsonValue('IMMEDIATE')
+  immediate,
+  @_s.JsonValue('WEEKLY')
+  weekly,
+}
+
+extension on AnomalySubscriptionFrequency {
+  String toValue() {
+    switch (this) {
+      case AnomalySubscriptionFrequency.daily:
+        return 'DAILY';
+      case AnomalySubscriptionFrequency.immediate:
+        return 'IMMEDIATE';
+      case AnomalySubscriptionFrequency.weekly:
+        return 'WEEKLY';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 enum Context {
   @_s.JsonValue('COST_AND_USAGE')
   costAndUsage,
@@ -2155,6 +2993,11 @@ class CostCategory {
   @_s.JsonKey(name: 'EffectiveEnd')
   final String effectiveEnd;
 
+  /// The list of processing statuses for Cost Management products for a specific
+  /// cost category.
+  @_s.JsonKey(name: 'ProcessingStatus')
+  final List<CostCategoryProcessingStatus> processingStatus;
+
   CostCategory({
     @_s.required this.costCategoryArn,
     @_s.required this.effectiveStart,
@@ -2162,9 +3005,34 @@ class CostCategory {
     @_s.required this.ruleVersion,
     @_s.required this.rules,
     this.effectiveEnd,
+    this.processingStatus,
   });
   factory CostCategory.fromJson(Map<String, dynamic> json) =>
       _$CostCategoryFromJson(json);
+}
+
+/// The list of processing statuses for Cost Management products for a specific
+/// cost category.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class CostCategoryProcessingStatus {
+  /// The Cost Management product name of the applied status.
+  @_s.JsonKey(name: 'Component')
+  final CostCategoryStatusComponent component;
+
+  /// The process status for a specific cost category.
+  @_s.JsonKey(name: 'Status')
+  final CostCategoryStatus status;
+
+  CostCategoryProcessingStatus({
+    this.component,
+    this.status,
+  });
+  factory CostCategoryProcessingStatus.fromJson(Map<String, dynamic> json) =>
+      _$CostCategoryProcessingStatusFromJson(json);
 }
 
 /// A reference to a Cost Category containing only enough information to
@@ -2196,12 +3064,23 @@ class CostCategoryReference {
   @_s.JsonKey(name: 'NumberOfRules')
   final int numberOfRules;
 
+  /// The list of processing statuses for Cost Management products for a specific
+  /// cost category.
+  @_s.JsonKey(name: 'ProcessingStatus')
+  final List<CostCategoryProcessingStatus> processingStatus;
+
+  /// A list of unique cost category values in a specific cost category.
+  @_s.JsonKey(name: 'Values')
+  final List<String> values;
+
   CostCategoryReference({
     this.costCategoryArn,
     this.effectiveEnd,
     this.effectiveStart,
     this.name,
     this.numberOfRules,
+    this.processingStatus,
+    this.values,
   });
   factory CostCategoryReference.fromJson(Map<String, dynamic> json) =>
       _$CostCategoryReferenceFromJson(json);
@@ -2218,7 +3097,7 @@ class CostCategoryReference {
 class CostCategoryRule {
   /// An <a
   /// href="https://docs.aws.amazon.com/aws-cost-management/latest/APIReference/API_Expression.html">Expression</a>
-  /// object used to categorize costs. This supports dimensions, Tags, and nested
+  /// object used to categorize costs. This supports dimensions, tags, and nested
   /// expressions. Currently the only dimensions supported are
   /// <code>LINKED_ACCOUNT</code>, <code>SERVICE_CODE</code>,
   /// <code>RECORD_TYPE</code>, and <code>LINKED_ACCOUNT_NAME</code>.
@@ -2263,6 +3142,18 @@ extension on CostCategoryRuleVersion {
   }
 }
 
+enum CostCategoryStatus {
+  @_s.JsonValue('PROCESSING')
+  processing,
+  @_s.JsonValue('APPLIED')
+  applied,
+}
+
+enum CostCategoryStatusComponent {
+  @_s.JsonValue('COST_EXPLORER')
+  costExplorer,
+}
+
 /// The Cost Categories values used for filtering the costs.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2273,12 +3164,20 @@ class CostCategoryValues {
   @_s.JsonKey(name: 'Key')
   final String key;
 
+  /// The match options that you can use to filter your results. MatchOptions is
+  /// only applicable for only applicable for actions related to cost category.
+  /// The default values for <code>MatchOptions</code> is <code>EQUALS</code> and
+  /// <code>CASE_SENSITIVE</code>.
+  @_s.JsonKey(name: 'MatchOptions')
+  final List<MatchOption> matchOptions;
+
   /// The specific value of the Cost Category.
   @_s.JsonKey(name: 'Values')
   final List<String> values;
 
   CostCategoryValues({
     this.key,
+    this.matchOptions,
     this.values,
   });
   factory CostCategoryValues.fromJson(Map<String, dynamic> json) =>
@@ -2447,6 +3346,41 @@ class CoverageNormalizedUnits {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class CreateAnomalyMonitorResponse {
+  /// The unique identifier of your newly created cost anomaly detection monitor.
+  @_s.JsonKey(name: 'MonitorArn')
+  final String monitorArn;
+
+  CreateAnomalyMonitorResponse({
+    @_s.required this.monitorArn,
+  });
+  factory CreateAnomalyMonitorResponse.fromJson(Map<String, dynamic> json) =>
+      _$CreateAnomalyMonitorResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class CreateAnomalySubscriptionResponse {
+  /// The unique identifier of your newly created cost anomaly subscription.
+  @_s.JsonKey(name: 'SubscriptionArn')
+  final String subscriptionArn;
+
+  CreateAnomalySubscriptionResponse({
+    @_s.required this.subscriptionArn,
+  });
+  factory CreateAnomalySubscriptionResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$CreateAnomalySubscriptionResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class CreateCostCategoryDefinitionResponse {
   /// The unique identifier for your newly created Cost Category.
   @_s.JsonKey(name: 'CostCategoryArn')
@@ -2472,16 +3406,20 @@ class CreateCostCategoryDefinitionResponse {
     createFactory: true,
     createToJson: false)
 class CurrentInstance {
-  /// The currency code that Amazon Web Services used to calculate the costs for
-  /// this instance.
+  /// The currency code that AWS used to calculate the costs for this instance.
   @_s.JsonKey(name: 'CurrencyCode')
   final String currencyCode;
 
-  /// Current On Demand cost of operating this instance on a monthly basis.
+  /// The name you've given an instance. This field will show as blank if you
+  /// haven't given the instance a name.
+  @_s.JsonKey(name: 'InstanceName')
+  final String instanceName;
+
+  /// Current On-Demand cost of operating this instance on a monthly basis.
   @_s.JsonKey(name: 'MonthlyCost')
   final String monthlyCost;
 
-  /// Number of hours during the lookback period billed at On Demand rates.
+  /// Number of hours during the lookback period billed at On-Demand rates.
   @_s.JsonKey(name: 'OnDemandHoursInLookbackPeriod')
   final String onDemandHoursInLookbackPeriod;
 
@@ -2515,6 +3453,7 @@ class CurrentInstance {
 
   CurrentInstance({
     this.currencyCode,
+    this.instanceName,
     this.monthlyCost,
     this.onDemandHoursInLookbackPeriod,
     this.reservationCoveredHoursInLookbackPeriod,
@@ -2558,6 +3497,29 @@ class DateInterval {
       _$DateIntervalFromJson(json);
 
   Map<String, dynamic> toJson() => _$DateIntervalToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DeleteAnomalyMonitorResponse {
+  DeleteAnomalyMonitorResponse();
+  factory DeleteAnomalyMonitorResponse.fromJson(Map<String, dynamic> json) =>
+      _$DeleteAnomalyMonitorResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DeleteAnomalySubscriptionResponse {
+  DeleteAnomalySubscriptionResponse();
+  factory DeleteAnomalySubscriptionResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$DeleteAnomalySubscriptionResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -2743,7 +3705,7 @@ class DimensionValues {
 
   /// The match options that you can use to filter your results.
   /// <code>MatchOptions</code> is only applicable for actions related to Cost
-  /// Category. The default values for <code>MatchOptions</code> is
+  /// Category. The default values for <code>MatchOptions</code> are
   /// <code>EQUALS</code> and <code>CASE_SENSITIVE</code>.
   @_s.JsonKey(name: 'MatchOptions')
   final List<MatchOption> matchOptions;
@@ -2787,6 +3749,40 @@ class DimensionValuesWithAttributes {
   });
   factory DimensionValuesWithAttributes.fromJson(Map<String, dynamic> json) =>
       _$DimensionValuesWithAttributesFromJson(json);
+}
+
+/// The EBS field that contains a list of EBS metrics associated with the
+/// current instance.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class EBSResourceUtilization {
+  /// The maximum size of read operations per second
+  @_s.JsonKey(name: 'EbsReadBytesPerSecond')
+  final String ebsReadBytesPerSecond;
+
+  /// The maximum number of read operations per second.
+  @_s.JsonKey(name: 'EbsReadOpsPerSecond')
+  final String ebsReadOpsPerSecond;
+
+  /// The maximum size of write operations per second.
+  @_s.JsonKey(name: 'EbsWriteBytesPerSecond')
+  final String ebsWriteBytesPerSecond;
+
+  /// The maximum number of write operations per second.
+  @_s.JsonKey(name: 'EbsWriteOpsPerSecond')
+  final String ebsWriteOpsPerSecond;
+
+  EBSResourceUtilization({
+    this.ebsReadBytesPerSecond,
+    this.ebsReadOpsPerSecond,
+    this.ebsWriteBytesPerSecond,
+    this.ebsWriteOpsPerSecond,
+  });
+  factory EBSResourceUtilization.fromJson(Map<String, dynamic> json) =>
+      _$EBSResourceUtilizationFromJson(json);
 }
 
 /// Details about the Amazon EC2 instances that AWS recommends that you
@@ -2851,29 +3847,28 @@ class EC2InstanceDetails {
     createFactory: true,
     createToJson: false)
 class EC2ResourceDetails {
-  /// Hourly public On Demand rate for the instance type.
+  /// Hourly public On-Demand rate for the instance type.
   @_s.JsonKey(name: 'HourlyOnDemandRate')
   final String hourlyOnDemandRate;
 
-  /// The type of Amazon Web Services instance.
+  /// The type of AWS instance.
   @_s.JsonKey(name: 'InstanceType')
   final String instanceType;
 
-  /// Memory capacity of Amazon Web Services instance.
+  /// Memory capacity of the AWS instance.
   @_s.JsonKey(name: 'Memory')
   final String memory;
 
-  /// Network performance capacity of the Amazon Web Services instance.
+  /// Network performance capacity of the AWS instance.
   @_s.JsonKey(name: 'NetworkPerformance')
   final String networkPerformance;
 
-  /// The platform of the Amazon Web Services instance. The platform is the
-  /// specific combination of operating system, license model, and software on an
-  /// instance.
+  /// The platform of the AWS instance. The platform is the specific combination
+  /// of operating system, license model, and software on an instance.
   @_s.JsonKey(name: 'Platform')
   final String platform;
 
-  /// The Amazon Web Services Region of the instance.
+  /// The AWS Region of the instance.
   @_s.JsonKey(name: 'Region')
   final String region;
 
@@ -2881,11 +3876,11 @@ class EC2ResourceDetails {
   @_s.JsonKey(name: 'Sku')
   final String sku;
 
-  /// The disk storage of the Amazon Web Services instance (Not EBS storage).
+  /// The disk storage of the AWS instance (not EBS storage).
   @_s.JsonKey(name: 'Storage')
   final String storage;
 
-  /// Number of VCPU cores in the Amazon Web Services instance type.
+  /// Number of VCPU cores in the AWS instance type.
   @_s.JsonKey(name: 'Vcpu')
   final String vcpu;
 
@@ -2911,6 +3906,11 @@ class EC2ResourceDetails {
     createFactory: true,
     createToJson: false)
 class EC2ResourceUtilization {
+  /// The EBS field that contains a list of EBS metrics associated with the
+  /// current instance.
+  @_s.JsonKey(name: 'EBSResourceUtilization')
+  final EBSResourceUtilization eBSResourceUtilization;
+
   /// Maximum observed or expected CPU utilization of the instance.
   @_s.JsonKey(name: 'MaxCpuUtilizationPercentage')
   final String maxCpuUtilizationPercentage;
@@ -2925,6 +3925,7 @@ class EC2ResourceUtilization {
   final String maxStorageUtilizationPercentage;
 
   EC2ResourceUtilization({
+    this.eBSResourceUtilization,
     this.maxCpuUtilizationPercentage,
     this.maxMemoryUtilizationPercentage,
     this.maxStorageUtilizationPercentage,
@@ -3043,8 +4044,10 @@ class ElastiCacheInstanceDetails {
 /// <li>
 /// Simple dimension values - You can set the dimension name and values for the
 /// filters that you plan to use. For example, you can filter for
-/// <code>REGION==us-east-1 OR REGION==us-west-1</code>. The
-/// <code>Expression</code> for that looks like this:
+/// <code>REGION==us-east-1 OR REGION==us-west-1</code>. For
+/// <code>GetRightsizingRecommendation</code>, the Region is a full name (for
+/// example, <code>REGION==US East (N. Virginia)</code>. The
+/// <code>Expression</code> example looks like:
 ///
 /// <code>{ "Dimensions": { "Key": "REGION", "Values": [ "us-east-1",
 /// “us-west-1” ] } }</code>
@@ -3157,6 +4160,80 @@ class ForecastResult {
   });
   factory ForecastResult.fromJson(Map<String, dynamic> json) =>
       _$ForecastResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class GetAnomaliesResponse {
+  /// A list of cost anomalies.
+  @_s.JsonKey(name: 'Anomalies')
+  final List<Anomaly> anomalies;
+
+  /// The token to retrieve the next set of results. AWS provides the token when
+  /// the response from a previous call has more results than the maximum page
+  /// size.
+  @_s.JsonKey(name: 'NextPageToken')
+  final String nextPageToken;
+
+  GetAnomaliesResponse({
+    @_s.required this.anomalies,
+    this.nextPageToken,
+  });
+  factory GetAnomaliesResponse.fromJson(Map<String, dynamic> json) =>
+      _$GetAnomaliesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class GetAnomalyMonitorsResponse {
+  /// A list of cost anomaly monitors that includes the detailed metadata for each
+  /// monitor.
+  @_s.JsonKey(name: 'AnomalyMonitors')
+  final List<AnomalyMonitor> anomalyMonitors;
+
+  /// The token to retrieve the next set of results. AWS provides the token when
+  /// the response from a previous call has more results than the maximum page
+  /// size.
+  @_s.JsonKey(name: 'NextPageToken')
+  final String nextPageToken;
+
+  GetAnomalyMonitorsResponse({
+    @_s.required this.anomalyMonitors,
+    this.nextPageToken,
+  });
+  factory GetAnomalyMonitorsResponse.fromJson(Map<String, dynamic> json) =>
+      _$GetAnomalyMonitorsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class GetAnomalySubscriptionsResponse {
+  /// A list of cost anomaly subscriptions that includes the detailed metadata for
+  /// each one.
+  @_s.JsonKey(name: 'AnomalySubscriptions')
+  final List<AnomalySubscription> anomalySubscriptions;
+
+  /// The token to retrieve the next set of results. AWS provides the token when
+  /// the response from a previous call has more results than the maximum page
+  /// size.
+  @_s.JsonKey(name: 'NextPageToken')
+  final String nextPageToken;
+
+  GetAnomalySubscriptionsResponse({
+    @_s.required this.anomalySubscriptions,
+    this.nextPageToken,
+  });
+  factory GetAnomalySubscriptionsResponse.fromJson(Map<String, dynamic> json) =>
+      _$GetAnomalySubscriptionsResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -3506,6 +4583,14 @@ class GetReservationUtilizationResponse {
     createFactory: true,
     createToJson: false)
 class GetRightsizingRecommendationResponse {
+  /// Enables you to customize recommendations across two attributes. You can
+  /// choose to view recommendations for instances within the same instance
+  /// families or across different instance families. You can also choose to view
+  /// your estimated savings associated with recommendations with consideration of
+  /// existing Savings Plans or RI benefits, or neither.
+  @_s.JsonKey(name: 'Configuration')
+  final RightsizingRecommendationConfiguration configuration;
+
   /// Information regarding this specific recommendation set.
   @_s.JsonKey(name: 'Metadata')
   final RightsizingRecommendationMetadata metadata;
@@ -3523,6 +4608,7 @@ class GetRightsizingRecommendationResponse {
   final RightsizingRecommendationSummary summary;
 
   GetRightsizingRecommendationResponse({
+    this.configuration,
     this.metadata,
     this.nextPageToken,
     this.rightsizingRecommendations,
@@ -3785,6 +4871,28 @@ enum GroupDefinitionType {
   costCategory,
 }
 
+/// The anomaly's dollar value.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class Impact {
+  /// The maximum dollar value observed for an anomaly.
+  @_s.JsonKey(name: 'MaxImpact')
+  final double maxImpact;
+
+  /// The cumulative dollar value observed for an anomaly.
+  @_s.JsonKey(name: 'TotalImpact')
+  final double totalImpact;
+
+  Impact({
+    @_s.required this.maxImpact,
+    this.totalImpact,
+  });
+  factory Impact.fromJson(Map<String, dynamic> json) => _$ImpactFromJson(json);
+}
+
 /// Details about the instances that AWS recommends that you purchase.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3956,8 +5064,7 @@ class MetricValue {
     createFactory: true,
     createToJson: false)
 class ModifyRecommendationDetail {
-  /// Identifies whether this instance type is the Amazon Web Services default
-  /// recommendation.
+  /// Identifies whether this instance type is the AWS default recommendation.
   @_s.JsonKey(name: 'TargetInstances')
   final List<TargetInstance> targetInstances;
 
@@ -3966,6 +5073,33 @@ class ModifyRecommendationDetail {
   });
   factory ModifyRecommendationDetail.fromJson(Map<String, dynamic> json) =>
       _$ModifyRecommendationDetailFromJson(json);
+}
+
+enum MonitorDimension {
+  @_s.JsonValue('SERVICE')
+  service,
+}
+
+enum MonitorType {
+  @_s.JsonValue('DIMENSIONAL')
+  dimensional,
+  @_s.JsonValue('CUSTOM')
+  custom,
+}
+
+enum NumericOperator {
+  @_s.JsonValue('EQUAL')
+  equal,
+  @_s.JsonValue('GREATER_THAN_OR_EQUAL')
+  greaterThanOrEqual,
+  @_s.JsonValue('LESS_THAN_OR_EQUAL')
+  lessThanOrEqual,
+  @_s.JsonValue('GREATER_THAN')
+  greaterThan,
+  @_s.JsonValue('LESS_THAN')
+  lessThan,
+  @_s.JsonValue('BETWEEN')
+  between,
 }
 
 enum OfferingClass {
@@ -4008,6 +5142,23 @@ extension on PaymentOption {
     }
     throw Exception('Unknown enum value: $this');
   }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ProvideAnomalyFeedbackResponse {
+  /// The ID of the modified cost anomaly.
+  @_s.JsonKey(name: 'AnomalyId')
+  final String anomalyId;
+
+  ProvideAnomalyFeedbackResponse({
+    @_s.required this.anomalyId,
+  });
+  factory ProvideAnomalyFeedbackResponse.fromJson(Map<String, dynamic> json) =>
+      _$ProvideAnomalyFeedbackResponseFromJson(json);
 }
 
 /// Details about the Amazon RDS instances that AWS recommends that you
@@ -4068,6 +5219,13 @@ class RDSInstanceDetails {
   });
   factory RDSInstanceDetails.fromJson(Map<String, dynamic> json) =>
       _$RDSInstanceDetailsFromJson(json);
+}
+
+enum RecommendationTarget {
+  @_s.JsonValue('SAME_INSTANCE_FAMILY')
+  sameInstanceFamily,
+  @_s.JsonValue('CROSS_INSTANCE_FAMILY')
+  crossInstanceFamily,
 }
 
 /// Details about the Amazon Redshift instances that AWS recommends that you
@@ -4520,7 +5678,7 @@ class ResourceDetails {
     createFactory: true,
     createToJson: false)
 class ResourceUtilization {
-  /// Utilization of current Amazon EC2 Instance
+  /// Utilization of current Amazon EC2 instance.
   @_s.JsonKey(name: 'EC2ResourceUtilization')
   final EC2ResourceUtilization eC2ResourceUtilization;
 
@@ -4602,6 +5760,40 @@ class RightsizingRecommendation {
       _$RightsizingRecommendationFromJson(json);
 }
 
+/// Enables you to customize recommendations across two attributes. You can
+/// choose to view recommendations for instances within the same instance
+/// families or across different instance families. You can also choose to view
+/// your estimated savings associated with recommendations with consideration of
+/// existing Savings Plans or RI benefits, or neither.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class RightsizingRecommendationConfiguration {
+  /// The option to consider RI or Savings Plans discount benefits in your savings
+  /// calculation. The default value is <code>TRUE</code>.
+  @_s.JsonKey(name: 'BenefitsConsidered')
+  final bool benefitsConsidered;
+
+  /// The option to see recommendations within the same instance family, or
+  /// recommendations for instances across other families. The default value is
+  /// <code>SAME_INSTANCE_FAMILY</code>.
+  @_s.JsonKey(name: 'RecommendationTarget')
+  final RecommendationTarget recommendationTarget;
+
+  RightsizingRecommendationConfiguration({
+    @_s.required this.benefitsConsidered,
+    @_s.required this.recommendationTarget,
+  });
+  factory RightsizingRecommendationConfiguration.fromJson(
+          Map<String, dynamic> json) =>
+      _$RightsizingRecommendationConfigurationFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$RightsizingRecommendationConfigurationToJson(this);
+}
+
 /// Metadata for this recommendation set.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -4609,12 +5801,16 @@ class RightsizingRecommendation {
     createFactory: true,
     createToJson: false)
 class RightsizingRecommendationMetadata {
-  /// The time stamp for when Amazon Web Services made this recommendation.
+  /// Additional metadata that may be applicable to the recommendation.
+  @_s.JsonKey(name: 'AdditionalMetadata')
+  final String additionalMetadata;
+
+  /// The timestamp for when AWS made this recommendation.
   @_s.JsonKey(name: 'GenerationTimestamp')
   final String generationTimestamp;
 
-  /// How many days of previous usage that Amazon Web Services considers when
-  /// making this recommendation.
+  /// How many days of previous usage that AWS considers when making this
+  /// recommendation.
   @_s.JsonKey(name: 'LookbackPeriodInDays')
   final LookbackPeriodInDays lookbackPeriodInDays;
 
@@ -4623,6 +5819,7 @@ class RightsizingRecommendationMetadata {
   final String recommendationId;
 
   RightsizingRecommendationMetadata({
+    this.additionalMetadata,
     this.generationTimestamp,
     this.lookbackPeriodInDays,
     this.recommendationId,
@@ -4643,12 +5840,12 @@ class RightsizingRecommendationSummary {
   @_s.JsonKey(name: 'EstimatedTotalMonthlySavingsAmount')
   final String estimatedTotalMonthlySavingsAmount;
 
-  /// The currency code that Amazon Web Services used to calculate the savings.
+  /// The currency code that AWS used to calculate the savings.
   @_s.JsonKey(name: 'SavingsCurrencyCode')
   final String savingsCurrencyCode;
 
   /// Savings percentage based on the recommended modifications, relative to the
-  /// total On Demand costs associated with these instances.
+  /// total On-Demand costs associated with these instances.
   @_s.JsonKey(name: 'SavingsPercentage')
   final String savingsPercentage;
 
@@ -4672,6 +5869,40 @@ enum RightsizingType {
   terminate,
   @_s.JsonValue('MODIFY')
   modify,
+}
+
+/// The combination of AWS service, linked account, Region, and usage type where
+/// a cost anomaly is observed.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class RootCause {
+  /// The linked account value associated with the cost anomaly.
+  @_s.JsonKey(name: 'LinkedAccount')
+  final String linkedAccount;
+
+  /// The AWS Region associated with the cost anomaly.
+  @_s.JsonKey(name: 'Region')
+  final String region;
+
+  /// The AWS service name associated with the cost anomaly.
+  @_s.JsonKey(name: 'Service')
+  final String service;
+
+  /// The <code>UsageType</code> value associated with the cost anomaly.
+  @_s.JsonKey(name: 'UsageType')
+  final String usageType;
+
+  RootCause({
+    this.linkedAccount,
+    this.region,
+    this.service,
+    this.usageType,
+  });
+  factory RootCause.fromJson(Map<String, dynamic> json) =>
+      _$RootCauseFromJson(json);
 }
 
 /// The amortized amount of Savings Plans purchased in a specific account during
@@ -4747,17 +5978,15 @@ class SavingsPlansCoverageData {
   @_s.JsonKey(name: 'CoveragePercentage')
   final String coveragePercentage;
 
-  /// The cost of your Amazon Web Services usage at the public On-Demand rate.
+  /// The cost of your AWS usage at the public On-Demand rate.
   @_s.JsonKey(name: 'OnDemandCost')
   final String onDemandCost;
 
-  /// The amount of your Amazon Web Services usage that is covered by a Savings
-  /// Plans.
+  /// The amount of your AWS usage that is covered by a Savings Plans.
   @_s.JsonKey(name: 'SpendCoveredBySavingsPlans')
   final String spendCoveredBySavingsPlans;
 
-  /// The total cost of your Amazon Web Services usage, regardless of your
-  /// purchase option.
+  /// The total cost of your AWS usage, regardless of your purchase option.
   @_s.JsonKey(name: 'TotalCost')
   final String totalCost;
 
@@ -4809,9 +6038,9 @@ class SavingsPlansDetails {
     createToJson: false)
 class SavingsPlansPurchaseRecommendation {
   /// The account scope that you want your recommendations for. Amazon Web
-  /// Services calculates recommendations including the payer account and linked
-  /// accounts if the value is set to <code>PAYER</code>. If the value is
-  /// <code>LINKED</code>, recommendations are calculated for individual linked
+  /// Services calculates recommendations including the management account and
+  /// member accounts if the value is set to <code>PAYER</code>. If the value is
+  /// <code>LINKED</code>, recommendations are calculated for individual member
   /// accounts only.
   @_s.JsonKey(name: 'AccountScope')
   final AccountScope accountScope;
@@ -4869,8 +6098,8 @@ class SavingsPlansPurchaseRecommendationDetail {
   @_s.JsonKey(name: 'AccountId')
   final String accountId;
 
-  /// The currency code Amazon Web Services used to generate the recommendations
-  /// and present potential savings.
+  /// The currency code AWS used to generate the recommendations and present
+  /// potential savings.
   @_s.JsonKey(name: 'CurrencyCode')
   final String currencyCode;
 
@@ -4974,6 +6203,10 @@ class SavingsPlansPurchaseRecommendationDetail {
     createFactory: true,
     createToJson: false)
 class SavingsPlansPurchaseRecommendationMetadata {
+  /// Additional metadata that may be applicable to the recommendation.
+  @_s.JsonKey(name: 'AdditionalMetadata')
+  final String additionalMetadata;
+
   /// The timestamp showing when the recommendations were generated.
   @_s.JsonKey(name: 'GenerationTimestamp')
   final String generationTimestamp;
@@ -4983,6 +6216,7 @@ class SavingsPlansPurchaseRecommendationMetadata {
   final String recommendationId;
 
   SavingsPlansPurchaseRecommendationMetadata({
+    this.additionalMetadata,
     this.generationTimestamp,
     this.recommendationId,
   });
@@ -4998,8 +6232,8 @@ class SavingsPlansPurchaseRecommendationMetadata {
     createFactory: true,
     createToJson: false)
 class SavingsPlansPurchaseRecommendationSummary {
-  /// The currency code Amazon Web Services used to generate the recommendations
-  /// and present potential savings.
+  /// The currency code AWS used to generate the recommendations and present
+  /// potential savings.
   @_s.JsonKey(name: 'CurrencyCode')
   final String currencyCode;
 
@@ -5208,7 +6442,7 @@ class SavingsPlansUtilizationByTime {
 }
 
 /// A single daily or monthly Savings Plans utilization rate, and details for
-/// your account. Master accounts in an organization have access to member
+/// your account. A management account in an organization have access to member
 /// accounts. You can use <code>GetDimensionValues</code> to determine the
 /// possible dimension values.
 @_s.JsonSerializable(
@@ -5274,6 +6508,51 @@ class ServiceSpecification {
   Map<String, dynamic> toJson() => _$ServiceSpecificationToJson(this);
 }
 
+/// The recipient of <code>AnomalySubscription</code> notifications.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class Subscriber {
+  /// The email address or SNS Amazon Resource Name (ARN), depending on the
+  /// <code>Type</code>.
+  @_s.JsonKey(name: 'Address')
+  final String address;
+
+  /// Indicates if the subscriber accepts the notifications.
+  @_s.JsonKey(name: 'Status')
+  final SubscriberStatus status;
+
+  /// The notification delivery channel.
+  @_s.JsonKey(name: 'Type')
+  final SubscriberType type;
+
+  Subscriber({
+    this.address,
+    this.status,
+    this.type,
+  });
+  factory Subscriber.fromJson(Map<String, dynamic> json) =>
+      _$SubscriberFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SubscriberToJson(this);
+}
+
+enum SubscriberStatus {
+  @_s.JsonValue('CONFIRMED')
+  confirmed,
+  @_s.JsonValue('DECLINED')
+  declined,
+}
+
+enum SubscriberType {
+  @_s.JsonValue('EMAIL')
+  email,
+  @_s.JsonValue('SNS')
+  sns,
+}
+
 enum SupportedSavingsPlansType {
   @_s.JsonValue('COMPUTE_SP')
   computeSp,
@@ -5305,9 +6584,9 @@ class TagValues {
   final String key;
 
   /// The match options that you can use to filter your results.
-  /// <code>MatchOptions</code> is only applicable for only applicable for actions
-  /// related to Cost Category. The default values for <code>MatchOptions</code>
-  /// is <code>EQUALS</code> and <code>CASE_SENSITIVE</code>.
+  /// <code>MatchOptions</code> is only applicable for actions related to Cost
+  /// Category. The default values for <code>MatchOptions</code> are
+  /// <code>EQUALS</code> and <code>CASE_SENSITIVE</code>.
   @_s.JsonKey(name: 'MatchOptions')
   final List<MatchOption> matchOptions;
 
@@ -5333,13 +6612,11 @@ class TagValues {
     createFactory: true,
     createToJson: false)
 class TargetInstance {
-  /// The currency code that Amazon Web Services used to calculate the costs for
-  /// this instance.
+  /// The currency code that AWS used to calculate the costs for this instance.
   @_s.JsonKey(name: 'CurrencyCode')
   final String currencyCode;
 
-  /// Indicates whether or not this recommendation is the defaulted Amazon Web
-  /// Services recommendation.
+  /// Indicates whether this recommendation is the defaulted AWS recommendation.
   @_s.JsonKey(name: 'DefaultTargetInstance')
   final bool defaultTargetInstance;
 
@@ -5397,8 +6674,7 @@ extension on TermInYears {
     createFactory: true,
     createToJson: false)
 class TerminateRecommendationDetail {
-  /// The currency code that Amazon Web Services used to calculate the costs for
-  /// this instance.
+  /// The currency code that AWS used to calculate the costs for this instance.
   @_s.JsonKey(name: 'CurrencyCode')
   final String currencyCode;
 
@@ -5412,6 +6688,68 @@ class TerminateRecommendationDetail {
   });
   factory TerminateRecommendationDetail.fromJson(Map<String, dynamic> json) =>
       _$TerminateRecommendationDetailFromJson(json);
+}
+
+/// Filters cost anomalies based on the total impact.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TotalImpactFilter {
+  /// The comparing value used in the filter.
+  @_s.JsonKey(name: 'NumericOperator')
+  final NumericOperator numericOperator;
+
+  /// The lower bound dollar value used in the filter.
+  @_s.JsonKey(name: 'StartValue')
+  final double startValue;
+
+  /// The upper bound dollar value used in the filter.
+  @_s.JsonKey(name: 'EndValue')
+  final double endValue;
+
+  TotalImpactFilter({
+    @_s.required this.numericOperator,
+    @_s.required this.startValue,
+    this.endValue,
+  });
+  Map<String, dynamic> toJson() => _$TotalImpactFilterToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class UpdateAnomalyMonitorResponse {
+  /// A cost anomaly monitor ARN.
+  @_s.JsonKey(name: 'MonitorArn')
+  final String monitorArn;
+
+  UpdateAnomalyMonitorResponse({
+    @_s.required this.monitorArn,
+  });
+  factory UpdateAnomalyMonitorResponse.fromJson(Map<String, dynamic> json) =>
+      _$UpdateAnomalyMonitorResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class UpdateAnomalySubscriptionResponse {
+  /// A cost anomaly subscription ARN.
+  @_s.JsonKey(name: 'SubscriptionArn')
+  final String subscriptionArn;
+
+  UpdateAnomalySubscriptionResponse({
+    @_s.required this.subscriptionArn,
+  });
+  factory UpdateAnomalySubscriptionResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$UpdateAnomalySubscriptionResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -5503,6 +6841,17 @@ class ServiceQuotaExceededException extends _s.GenericAwsException {
             message: message);
 }
 
+class UnknownMonitorException extends _s.GenericAwsException {
+  UnknownMonitorException({String type, String message})
+      : super(type: type, code: 'UnknownMonitorException', message: message);
+}
+
+class UnknownSubscriptionException extends _s.GenericAwsException {
+  UnknownSubscriptionException({String type, String message})
+      : super(
+            type: type, code: 'UnknownSubscriptionException', message: message);
+}
+
 class UnresolvableUsageUnitException extends _s.GenericAwsException {
   UnresolvableUsageUnitException({String type, String message})
       : super(
@@ -5526,6 +6875,10 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       ResourceNotFoundException(type: type, message: message),
   'ServiceQuotaExceededException': (type, message) =>
       ServiceQuotaExceededException(type: type, message: message),
+  'UnknownMonitorException': (type, message) =>
+      UnknownMonitorException(type: type, message: message),
+  'UnknownSubscriptionException': (type, message) =>
+      UnknownSubscriptionException(type: type, message: message),
   'UnresolvableUsageUnitException': (type, message) =>
       UnresolvableUsageUnitException(type: type, message: message),
 };

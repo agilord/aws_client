@@ -6,10 +6,40 @@ part of 'backup-2018-11-15.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+AdvancedBackupSetting _$AdvancedBackupSettingFromJson(
+    Map<String, dynamic> json) {
+  return AdvancedBackupSetting(
+    backupOptions: (json['BackupOptions'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(k, e as String),
+    ),
+    resourceType: json['ResourceType'] as String,
+  );
+}
+
+Map<String, dynamic> _$AdvancedBackupSettingToJson(
+    AdvancedBackupSetting instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('BackupOptions', instance.backupOptions);
+  writeNotNull('ResourceType', instance.resourceType);
+  return val;
+}
+
 BackupJob _$BackupJobFromJson(Map<String, dynamic> json) {
   return BackupJob(
+    accountId: json['AccountId'] as String,
     backupJobId: json['BackupJobId'] as String,
+    backupOptions: (json['BackupOptions'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(k, e as String),
+    ),
     backupSizeInBytes: json['BackupSizeInBytes'] as int,
+    backupType: json['BackupType'] as String,
     backupVaultArn: json['BackupVaultArn'] as String,
     backupVaultName: json['BackupVaultName'] as String,
     bytesTransferred: json['BytesTransferred'] as int,
@@ -83,6 +113,11 @@ BackupPlan _$BackupPlanFromJson(Map<String, dynamic> json) {
         ?.map((e) =>
             e == null ? null : BackupRule.fromJson(e as Map<String, dynamic>))
         ?.toList(),
+    advancedBackupSettings: (json['AdvancedBackupSettings'] as List)
+        ?.map((e) => e == null
+            ? null
+            : AdvancedBackupSetting.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
   );
 }
 
@@ -97,6 +132,8 @@ Map<String, dynamic> _$BackupPlanInputToJson(BackupPlanInput instance) {
 
   writeNotNull('BackupPlanName', instance.backupPlanName);
   writeNotNull('Rules', instance.rules?.map((e) => e?.toJson())?.toList());
+  writeNotNull('AdvancedBackupSettings',
+      instance.advancedBackupSettings?.map((e) => e?.toJson())?.toList());
   return val;
 }
 
@@ -111,6 +148,11 @@ BackupPlanTemplatesListMember _$BackupPlanTemplatesListMemberFromJson(
 BackupPlansListMember _$BackupPlansListMemberFromJson(
     Map<String, dynamic> json) {
   return BackupPlansListMember(
+    advancedBackupSettings: (json['AdvancedBackupSettings'] as List)
+        ?.map((e) => e == null
+            ? null
+            : AdvancedBackupSetting.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
     backupPlanArn: json['BackupPlanArn'] as String,
     backupPlanId: json['BackupPlanId'] as String,
     backupPlanName: json['BackupPlanName'] as String,
@@ -279,6 +321,7 @@ Map<String, dynamic> _$CopyActionToJson(CopyAction instance) {
 
 CopyJob _$CopyJobFromJson(Map<String, dynamic> json) {
   return CopyJob(
+    accountId: json['AccountId'] as String,
     backupSizeInBytes: json['BackupSizeInBytes'] as int,
     completionDate:
         const UnixDateTimeConverter().fromJson(json['CompletionDate']),
@@ -310,6 +353,11 @@ const _$CopyJobStateEnumMap = {
 CreateBackupPlanOutput _$CreateBackupPlanOutputFromJson(
     Map<String, dynamic> json) {
   return CreateBackupPlanOutput(
+    advancedBackupSettings: (json['AdvancedBackupSettings'] as List)
+        ?.map((e) => e == null
+            ? null
+            : AdvancedBackupSetting.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
     backupPlanArn: json['BackupPlanArn'] as String,
     backupPlanId: json['BackupPlanId'] as String,
     creationDate: const UnixDateTimeConverter().fromJson(json['CreationDate']),
@@ -348,8 +396,13 @@ DeleteBackupPlanOutput _$DeleteBackupPlanOutputFromJson(
 DescribeBackupJobOutput _$DescribeBackupJobOutputFromJson(
     Map<String, dynamic> json) {
   return DescribeBackupJobOutput(
+    accountId: json['AccountId'] as String,
     backupJobId: json['BackupJobId'] as String,
+    backupOptions: (json['BackupOptions'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(k, e as String),
+    ),
     backupSizeInBytes: json['BackupSizeInBytes'] as int,
+    backupType: json['BackupType'] as String,
     backupVaultArn: json['BackupVaultArn'] as String,
     backupVaultName: json['BackupVaultName'] as String,
     bytesTransferred: json['BytesTransferred'] as int,
@@ -394,6 +447,17 @@ DescribeCopyJobOutput _$DescribeCopyJobOutputFromJson(
   );
 }
 
+DescribeGlobalSettingsOutput _$DescribeGlobalSettingsOutputFromJson(
+    Map<String, dynamic> json) {
+  return DescribeGlobalSettingsOutput(
+    globalSettings: (json['GlobalSettings'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(k, e as String),
+    ),
+    lastUpdateTime:
+        const UnixDateTimeConverter().fromJson(json['LastUpdateTime']),
+  );
+}
+
 DescribeProtectedResourceOutput _$DescribeProtectedResourceOutputFromJson(
     Map<String, dynamic> json) {
   return DescribeProtectedResourceOutput(
@@ -432,6 +496,7 @@ DescribeRecoveryPointOutput _$DescribeRecoveryPointOutputFromJson(
     recoveryPointArn: json['RecoveryPointArn'] as String,
     resourceArn: json['ResourceArn'] as String,
     resourceType: json['ResourceType'] as String,
+    sourceBackupVaultArn: json['SourceBackupVaultArn'] as String,
     status: _$enumDecodeNullable(_$RecoveryPointStatusEnumMap, json['Status']),
     storageClass:
         _$enumDecodeNullable(_$StorageClassEnumMap, json['StorageClass']),
@@ -451,9 +516,20 @@ const _$StorageClassEnumMap = {
   StorageClass.deleted: 'DELETED',
 };
 
+DescribeRegionSettingsOutput _$DescribeRegionSettingsOutputFromJson(
+    Map<String, dynamic> json) {
+  return DescribeRegionSettingsOutput(
+    resourceTypeOptInPreference:
+        (json['ResourceTypeOptInPreference'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(k, e as bool),
+    ),
+  );
+}
+
 DescribeRestoreJobOutput _$DescribeRestoreJobOutputFromJson(
     Map<String, dynamic> json) {
   return DescribeRestoreJobOutput(
+    accountId: json['AccountId'] as String,
     backupSizeInBytes: json['BackupSizeInBytes'] as int,
     completionDate:
         const UnixDateTimeConverter().fromJson(json['CompletionDate']),
@@ -463,6 +539,7 @@ DescribeRestoreJobOutput _$DescribeRestoreJobOutputFromJson(
     iamRoleArn: json['IamRoleArn'] as String,
     percentDone: json['PercentDone'] as String,
     recoveryPointArn: json['RecoveryPointArn'] as String,
+    resourceType: json['ResourceType'] as String,
     restoreJobId: json['RestoreJobId'] as String,
     status: _$enumDecodeNullable(_$RestoreJobStatusEnumMap, json['Status']),
     statusMessage: json['StatusMessage'] as String,
@@ -505,6 +582,11 @@ GetBackupPlanFromTemplateOutput _$GetBackupPlanFromTemplateOutputFromJson(
 
 GetBackupPlanOutput _$GetBackupPlanOutputFromJson(Map<String, dynamic> json) {
   return GetBackupPlanOutput(
+    advancedBackupSettings: (json['AdvancedBackupSettings'] as List)
+        ?.map((e) => e == null
+            ? null
+            : AdvancedBackupSetting.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
     backupPlan: json['BackupPlan'] == null
         ? null
         : BackupPlan.fromJson(json['BackupPlan'] as Map<String, dynamic>),
@@ -787,6 +869,7 @@ RecoveryPointByBackupVault _$RecoveryPointByBackupVaultFromJson(
     recoveryPointArn: json['RecoveryPointArn'] as String,
     resourceArn: json['ResourceArn'] as String,
     resourceType: json['ResourceType'] as String,
+    sourceBackupVaultArn: json['SourceBackupVaultArn'] as String,
     status: _$enumDecodeNullable(_$RecoveryPointStatusEnumMap, json['Status']),
   );
 }
@@ -815,6 +898,7 @@ RecoveryPointCreator _$RecoveryPointCreatorFromJson(Map<String, dynamic> json) {
 RestoreJobsListMember _$RestoreJobsListMemberFromJson(
     Map<String, dynamic> json) {
   return RestoreJobsListMember(
+    accountId: json['AccountId'] as String,
     backupSizeInBytes: json['BackupSizeInBytes'] as int,
     completionDate:
         const UnixDateTimeConverter().fromJson(json['CompletionDate']),
@@ -824,6 +908,7 @@ RestoreJobsListMember _$RestoreJobsListMemberFromJson(
     iamRoleArn: json['IamRoleArn'] as String,
     percentDone: json['PercentDone'] as String,
     recoveryPointArn: json['RecoveryPointArn'] as String,
+    resourceType: json['ResourceType'] as String,
     restoreJobId: json['RestoreJobId'] as String,
     status: _$enumDecodeNullable(_$RestoreJobStatusEnumMap, json['Status']),
     statusMessage: json['StatusMessage'] as String,
@@ -855,6 +940,11 @@ StartRestoreJobOutput _$StartRestoreJobOutputFromJson(
 UpdateBackupPlanOutput _$UpdateBackupPlanOutputFromJson(
     Map<String, dynamic> json) {
   return UpdateBackupPlanOutput(
+    advancedBackupSettings: (json['AdvancedBackupSettings'] as List)
+        ?.map((e) => e == null
+            ? null
+            : AdvancedBackupSetting.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
     backupPlanArn: json['BackupPlanArn'] as String,
     backupPlanId: json['BackupPlanId'] as String,
     creationDate: const UnixDateTimeConverter().fromJson(json['CreationDate']),

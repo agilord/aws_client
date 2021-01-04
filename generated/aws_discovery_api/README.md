@@ -6,7 +6,7 @@
 AWS Application Discovery Service helps you plan application migration
 projects. It automatically identifies servers, virtual machines (VMs), and
 network dependencies in your on-premises data centers. For more information,
-see the <a href="http://aws.amazon.com/application-discovery/faqs/">AWS
+see the <a href="https://aws.amazon.com/application-discovery/faqs/">AWS
 Application Discovery Service FAQ</a>. Application Discovery Service offers
 three ways of performing discovery and collecting data about your
 on-premises servers:

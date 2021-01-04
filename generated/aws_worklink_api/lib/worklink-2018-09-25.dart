@@ -27,13 +27,14 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 part 'worklink-2018-09-25.g.dart';
 
 /// Amazon WorkLink is a cloud-based service that provides secure access to
-/// internal websites and web apps from iOS phones. In a single step, your
-/// users, such as employees, can access internal websites as efficiently as
-/// they access any other public website. They enter a URL in their web browser,
-/// or choose a link to an internal website in an email. Amazon WorkLink
-/// authenticates the user's access and securely renders authorized internal web
-/// content in a secure rendering service in the AWS cloud. Amazon WorkLink
-/// doesn't download or store any internal web content on mobile devices.
+/// internal websites and web apps from iOS and Android phones. In a single
+/// step, your users, such as employees, can access internal websites as
+/// efficiently as they access any other public website. They enter a URL in
+/// their web browser, or choose a link to an internal website in an email.
+/// Amazon WorkLink authenticates the user's access and securely renders
+/// authorized internal web content in a secure rendering service in the AWS
+/// cloud. Amazon WorkLink doesn't download or store any internal web content on
+/// mobile devices.
 class WorkLink {
   final _s.RestJsonProtocol _protocol;
   WorkLink({
@@ -277,10 +278,14 @@ class WorkLink {
   /// Parameter [optimizeForEndUserLocation] :
   /// The option to optimize for better performance by routing traffic through
   /// the closest AWS Region to users, which may be outside of your home Region.
+  ///
+  /// Parameter [tags] :
+  /// The tags to add to the resource. A tag is a key-value pair.
   Future<CreateFleetResponse> createFleet({
     @_s.required String fleetName,
     String displayName,
     bool optimizeForEndUserLocation,
+    Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(fleetName, 'fleetName');
     _s.validateStringLength(
@@ -307,6 +312,7 @@ class WorkLink {
       if (displayName != null) 'DisplayName': displayName,
       if (optimizeForEndUserLocation != null)
         'OptimizeForEndUserLocation': optimizeForEndUserLocation,
+      if (tags != null) 'Tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -563,7 +569,7 @@ class WorkLink {
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [fleetArn] :
-  /// The ARN of the fleet.
+  /// The Amazon Resource Name (ARN) of the fleet.
   Future<DescribeFleetMetadataResponse> describeFleetMetadata({
     @_s.required String fleetArn,
   }) async {
@@ -883,6 +889,7 @@ class WorkLink {
   /// May throw [UnauthorizedException].
   /// May throw [InternalServerErrorException].
   /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
   /// May throw [TooManyRequestsException].
   ///
   /// Parameter [fleetArn] :
@@ -983,6 +990,32 @@ class WorkLink {
       exceptionFnMap: _exceptionFns,
     );
     return ListFleetsResponse.fromJson(response);
+  }
+
+  /// Retrieves a list of tags for the specified resource.
+  ///
+  /// May throw [InvalidRequestException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The Amazon Resource Name (ARN) of the fleet.
+  Future<ListTagsForResourceResponse> listTagsForResource({
+    @_s.required String resourceArn,
+  }) async {
+    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
+    _s.validateStringLength(
+      'resourceArn',
+      resourceArn,
+      20,
+      2048,
+      isRequired: true,
+    );
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListTagsForResourceResponse.fromJson(response);
   }
 
   /// Retrieves a list of website authorization providers associated with a
@@ -1261,6 +1294,77 @@ class WorkLink {
     return SignOutUserResponse.fromJson(response);
   }
 
+  /// Adds or overwrites one or more tags for the specified resource, such as a
+  /// fleet. Each tag consists of a key and an optional value. If a resource
+  /// already has a tag with the same key, this operation updates its value.
+  ///
+  /// May throw [InvalidRequestException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The Amazon Resource Name (ARN) of the fleet.
+  ///
+  /// Parameter [tags] :
+  /// The tags to add to the resource. A tag is a key-value pair.
+  Future<void> tagResource({
+    @_s.required String resourceArn,
+    @_s.required Map<String, String> tags,
+  }) async {
+    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
+    _s.validateStringLength(
+      'resourceArn',
+      resourceArn,
+      20,
+      2048,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(tags, 'tags');
+    final $payload = <String, dynamic>{
+      'Tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return TagResourceResponse.fromJson(response);
+  }
+
+  /// Removes one or more tags from the specified resource.
+  ///
+  /// May throw [InvalidRequestException].
+  ///
+  /// Parameter [resourceArn] :
+  /// The Amazon Resource Name (ARN) of the fleet.
+  ///
+  /// Parameter [tagKeys] :
+  /// The list of tag keys to remove from the resource.
+  Future<void> untagResource({
+    @_s.required String resourceArn,
+    @_s.required List<String> tagKeys,
+  }) async {
+    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
+    _s.validateStringLength(
+      'resourceArn',
+      resourceArn,
+      20,
+      2048,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
+    final $query = <String, List<String>>{
+      if (tagKeys != null) 'tagKeys': tagKeys,
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return UntagResourceResponse.fromJson(response);
+  }
+
   /// Updates the audit stream configuration for the fleet.
   ///
   /// May throw [UnauthorizedException].
@@ -1285,6 +1389,11 @@ class WorkLink {
       20,
       2048,
       isRequired: true,
+    );
+    _s.validateStringPattern(
+      'auditStreamArn',
+      auditStreamArn,
+      r'''^arn:aws:kinesis:.+:[0-9]{12}:stream/AmazonWorkLink-.*$''',
     );
     final $payload = <String, dynamic>{
       'FleetArn': fleetArn,
@@ -1644,7 +1753,7 @@ extension on AuthorizationProviderType {
     createFactory: true,
     createToJson: false)
 class CreateFleetResponse {
-  /// The ARN of the fleet.
+  /// The Amazon Resource Name (ARN) of the fleet.
   @_s.JsonKey(name: 'FleetArn')
   final String fleetArn;
 
@@ -1868,6 +1977,10 @@ class DescribeFleetMetadataResponse {
   @_s.JsonKey(name: 'OptimizeForEndUserLocation')
   final bool optimizeForEndUserLocation;
 
+  /// The tags attached to the resource. A tag is a key-value pair.
+  @_s.JsonKey(name: 'Tags')
+  final Map<String, String> tags;
+
   DescribeFleetMetadataResponse({
     this.companyCode,
     this.createdTime,
@@ -1876,6 +1989,7 @@ class DescribeFleetMetadataResponse {
     this.fleetStatus,
     this.lastUpdatedTime,
     this.optimizeForEndUserLocation,
+    this.tags,
   });
   factory DescribeFleetMetadataResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeFleetMetadataResponseFromJson(json);
@@ -2087,11 +2201,11 @@ class FleetSummary {
   @_s.JsonKey(name: 'CreatedTime')
   final DateTime createdTime;
 
-  /// The name to display.
+  /// The name of the fleet to display.
   @_s.JsonKey(name: 'DisplayName')
   final String displayName;
 
-  /// The ARN of the fleet.
+  /// The Amazon Resource Name (ARN) of the fleet.
   @_s.JsonKey(name: 'FleetArn')
   final String fleetArn;
 
@@ -2108,6 +2222,10 @@ class FleetSummary {
   @_s.JsonKey(name: 'LastUpdatedTime')
   final DateTime lastUpdatedTime;
 
+  /// The tags attached to the resource. A tag is a key-value pair.
+  @_s.JsonKey(name: 'Tags')
+  final Map<String, String> tags;
+
   FleetSummary({
     this.companyCode,
     this.createdTime,
@@ -2116,6 +2234,7 @@ class FleetSummary {
     this.fleetName,
     this.fleetStatus,
     this.lastUpdatedTime,
+    this.tags,
   });
   factory FleetSummary.fromJson(Map<String, dynamic> json) =>
       _$FleetSummaryFromJson(json);
@@ -2210,6 +2329,23 @@ class ListFleetsResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class ListTagsForResourceResponse {
+  /// The tags attached to the resource. A tag is a key-value pair.
+  @_s.JsonKey(name: 'Tags')
+  final Map<String, String> tags;
+
+  ListTagsForResourceResponse({
+    this.tags,
+  });
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
+      _$ListTagsForResourceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class ListWebsiteAuthorizationProvidersResponse {
   /// The pagination token to use to retrieve the next page of results for this
   /// operation. If this value is null, it retrieves the first page.
@@ -2284,6 +2420,28 @@ class SignOutUserResponse {
   SignOutUserResponse();
   factory SignOutUserResponse.fromJson(Map<String, dynamic> json) =>
       _$SignOutUserResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class TagResourceResponse {
+  TagResourceResponse();
+  factory TagResourceResponse.fromJson(Map<String, dynamic> json) =>
+      _$TagResourceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class UntagResourceResponse {
+  UntagResourceResponse();
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
+      _$UntagResourceResponseFromJson(json);
 }
 
 @_s.JsonSerializable(

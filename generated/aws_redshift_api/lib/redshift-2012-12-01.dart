@@ -82,8 +82,22 @@ class Redshift {
     @_s.required String targetReservedNodeOfferingId,
   }) async {
     ArgumentError.checkNotNull(reservedNodeId, 'reservedNodeId');
+    _s.validateStringLength(
+      'reservedNodeId',
+      reservedNodeId,
+      0,
+      2147483647,
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(
         targetReservedNodeOfferingId, 'targetReservedNodeOfferingId');
+    _s.validateStringLength(
+      'targetReservedNodeOfferingId',
+      targetReservedNodeOfferingId,
+      0,
+      2147483647,
+      isRequired: true,
+    );
     final $request = <String, dynamic>{};
     $request['ReservedNodeId'] = reservedNodeId;
     $request['TargetReservedNodeOfferingId'] = targetReservedNodeOfferingId;
@@ -155,6 +169,31 @@ class Redshift {
   }) async {
     ArgumentError.checkNotNull(
         clusterSecurityGroupName, 'clusterSecurityGroupName');
+    _s.validateStringLength(
+      'clusterSecurityGroupName',
+      clusterSecurityGroupName,
+      0,
+      2147483647,
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'cidrip',
+      cidrip,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'eC2SecurityGroupName',
+      eC2SecurityGroupName,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'eC2SecurityGroupOwnerId',
+      eC2SecurityGroupOwnerId,
+      0,
+      2147483647,
+    );
     final $request = <String, dynamic>{};
     $request['ClusterSecurityGroupName'] = clusterSecurityGroupName;
     cidrip?.also((arg) => $request['CIDRIP'] = arg);
@@ -211,7 +250,27 @@ class Redshift {
   }) async {
     ArgumentError.checkNotNull(
         accountWithRestoreAccess, 'accountWithRestoreAccess');
+    _s.validateStringLength(
+      'accountWithRestoreAccess',
+      accountWithRestoreAccess,
+      0,
+      2147483647,
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(snapshotIdentifier, 'snapshotIdentifier');
+    _s.validateStringLength(
+      'snapshotIdentifier',
+      snapshotIdentifier,
+      0,
+      2147483647,
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'snapshotClusterIdentifier',
+      snapshotClusterIdentifier,
+      0,
+      2147483647,
+    );
     final $request = <String, dynamic>{};
     $request['AccountWithRestoreAccess'] = accountWithRestoreAccess;
     $request['SnapshotIdentifier'] = snapshotIdentifier;
@@ -319,6 +378,13 @@ class Redshift {
     @_s.required String clusterIdentifier,
   }) async {
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
+    _s.validateStringLength(
+      'clusterIdentifier',
+      clusterIdentifier,
+      0,
+      2147483647,
+      isRequired: true,
+    );
     final $request = <String, dynamic>{};
     $request['ClusterIdentifier'] = clusterIdentifier;
     final $result = await _protocol.send(
@@ -420,8 +486,28 @@ class Redshift {
   }) async {
     ArgumentError.checkNotNull(
         sourceSnapshotIdentifier, 'sourceSnapshotIdentifier');
+    _s.validateStringLength(
+      'sourceSnapshotIdentifier',
+      sourceSnapshotIdentifier,
+      0,
+      2147483647,
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(
         targetSnapshotIdentifier, 'targetSnapshotIdentifier');
+    _s.validateStringLength(
+      'targetSnapshotIdentifier',
+      targetSnapshotIdentifier,
+      0,
+      2147483647,
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'sourceSnapshotClusterIdentifier',
+      sourceSnapshotClusterIdentifier,
+      0,
+      2147483647,
+    );
     final $request = <String, dynamic>{};
     $request['SourceSnapshotIdentifier'] = sourceSnapshotIdentifier;
     $request['TargetSnapshotIdentifier'] = targetSnapshotIdentifier;
@@ -557,8 +643,8 @@ class Redshift {
   ///
   /// Valid Values: <code>ds2.xlarge</code> | <code>ds2.8xlarge</code> |
   /// <code>dc1.large</code> | <code>dc1.8xlarge</code> | <code>dc2.large</code>
-  /// | <code>dc2.8xlarge</code> | <code>ra3.4xlarge</code> |
-  /// <code>ra3.16xlarge</code>
+  /// | <code>dc2.8xlarge</code> | <code>ra3.xlplus</code> |
+  /// <code>ra3.4xlarge</code> | <code>ra3.16xlarge</code>
   ///
   /// Parameter [additionalInfo] :
   /// Reserved.
@@ -598,6 +684,10 @@ class Redshift {
   ///
   /// Constraint: The specified Availability Zone must be in the same region as
   /// the current endpoint.
+  ///
+  /// Parameter [availabilityZoneRelocation] :
+  /// The option to enable relocation for an Amazon Redshift cluster between
+  /// Availability Zones after the cluster is created.
   ///
   /// Parameter [clusterParameterGroupName] :
   /// The name of the parameter group to be associated with this cluster.
@@ -812,6 +902,7 @@ class Redshift {
     bool allowVersionUpgrade,
     int automatedSnapshotRetentionPeriod,
     String availabilityZone,
+    bool availabilityZoneRelocation,
     String clusterParameterGroupName,
     List<String> clusterSecurityGroups,
     String clusterSubnetGroupName,
@@ -836,9 +927,121 @@ class Redshift {
     List<String> vpcSecurityGroupIds,
   }) async {
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
+    _s.validateStringLength(
+      'clusterIdentifier',
+      clusterIdentifier,
+      0,
+      2147483647,
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(masterUserPassword, 'masterUserPassword');
+    _s.validateStringLength(
+      'masterUserPassword',
+      masterUserPassword,
+      0,
+      2147483647,
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(masterUsername, 'masterUsername');
+    _s.validateStringLength(
+      'masterUsername',
+      masterUsername,
+      0,
+      2147483647,
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(nodeType, 'nodeType');
+    _s.validateStringLength(
+      'nodeType',
+      nodeType,
+      0,
+      2147483647,
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'additionalInfo',
+      additionalInfo,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'availabilityZone',
+      availabilityZone,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'clusterParameterGroupName',
+      clusterParameterGroupName,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'clusterSubnetGroupName',
+      clusterSubnetGroupName,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'clusterType',
+      clusterType,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'clusterVersion',
+      clusterVersion,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'dBName',
+      dBName,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'elasticIp',
+      elasticIp,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'hsmClientCertificateIdentifier',
+      hsmClientCertificateIdentifier,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'hsmConfigurationIdentifier',
+      hsmConfigurationIdentifier,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'kmsKeyId',
+      kmsKeyId,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'maintenanceTrackName',
+      maintenanceTrackName,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'preferredMaintenanceWindow',
+      preferredMaintenanceWindow,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'snapshotScheduleIdentifier',
+      snapshotScheduleIdentifier,
+      0,
+      2147483647,
+    );
     final $request = <String, dynamic>{};
     $request['ClusterIdentifier'] = clusterIdentifier;
     $request['MasterUserPassword'] = masterUserPassword;
@@ -849,6 +1052,8 @@ class Redshift {
     automatedSnapshotRetentionPeriod
         ?.also((arg) => $request['AutomatedSnapshotRetentionPeriod'] = arg);
     availabilityZone?.also((arg) => $request['AvailabilityZone'] = arg);
+    availabilityZoneRelocation
+        ?.also((arg) => $request['AvailabilityZoneRelocation'] = arg);
     clusterParameterGroupName
         ?.also((arg) => $request['ClusterParameterGroupName'] = arg);
     clusterSecurityGroups
@@ -958,8 +1163,29 @@ class Redshift {
     List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(description, 'description');
+    _s.validateStringLength(
+      'description',
+      description,
+      0,
+      2147483647,
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(parameterGroupFamily, 'parameterGroupFamily');
+    _s.validateStringLength(
+      'parameterGroupFamily',
+      parameterGroupFamily,
+      0,
+      2147483647,
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(parameterGroupName, 'parameterGroupName');
+    _s.validateStringLength(
+      'parameterGroupName',
+      parameterGroupName,
+      0,
+      2147483647,
+      isRequired: true,
+    );
     final $request = <String, dynamic>{};
     $request['Description'] = description;
     $request['ParameterGroupFamily'] = parameterGroupFamily;
@@ -1024,7 +1250,21 @@ class Redshift {
   }) async {
     ArgumentError.checkNotNull(
         clusterSecurityGroupName, 'clusterSecurityGroupName');
+    _s.validateStringLength(
+      'clusterSecurityGroupName',
+      clusterSecurityGroupName,
+      0,
+      2147483647,
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(description, 'description');
+    _s.validateStringLength(
+      'description',
+      description,
+      0,
+      2147483647,
+      isRequired: true,
+    );
     final $request = <String, dynamic>{};
     $request['ClusterSecurityGroupName'] = clusterSecurityGroupName;
     $request['Description'] = description;
@@ -1101,7 +1341,21 @@ class Redshift {
     List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
+    _s.validateStringLength(
+      'clusterIdentifier',
+      clusterIdentifier,
+      0,
+      2147483647,
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(snapshotIdentifier, 'snapshotIdentifier');
+    _s.validateStringLength(
+      'snapshotIdentifier',
+      snapshotIdentifier,
+      0,
+      2147483647,
+      isRequired: true,
+    );
     final $request = <String, dynamic>{};
     $request['ClusterIdentifier'] = clusterIdentifier;
     $request['SnapshotIdentifier'] = snapshotIdentifier;
@@ -1176,7 +1430,21 @@ class Redshift {
   }) async {
     ArgumentError.checkNotNull(
         clusterSubnetGroupName, 'clusterSubnetGroupName');
+    _s.validateStringLength(
+      'clusterSubnetGroupName',
+      clusterSubnetGroupName,
+      0,
+      2147483647,
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(description, 'description');
+    _s.validateStringLength(
+      'description',
+      description,
+      0,
+      2147483647,
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(subnetIds, 'subnetIds');
     final $request = <String, dynamic>{};
     $request['ClusterSubnetGroupName'] = clusterSubnetGroupName;
@@ -1310,7 +1578,33 @@ class Redshift {
     List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(snsTopicArn, 'snsTopicArn');
+    _s.validateStringLength(
+      'snsTopicArn',
+      snsTopicArn,
+      0,
+      2147483647,
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(subscriptionName, 'subscriptionName');
+    _s.validateStringLength(
+      'subscriptionName',
+      subscriptionName,
+      0,
+      2147483647,
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'severity',
+      severity,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'sourceType',
+      sourceType,
+      0,
+      2147483647,
+    );
     final $request = <String, dynamic>{};
     $request['SnsTopicArn'] = snsTopicArn;
     $request['SubscriptionName'] = subscriptionName;
@@ -1364,6 +1658,13 @@ class Redshift {
   }) async {
     ArgumentError.checkNotNull(
         hsmClientCertificateIdentifier, 'hsmClientCertificateIdentifier');
+    _s.validateStringLength(
+      'hsmClientCertificateIdentifier',
+      hsmClientCertificateIdentifier,
+      0,
+      2147483647,
+      isRequired: true,
+    );
     final $request = <String, dynamic>{};
     $request['HsmClientCertificateIdentifier'] = hsmClientCertificateIdentifier;
     tags?.also((arg) => $request['Tags'] = arg);
@@ -1431,13 +1732,55 @@ class Redshift {
     List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(description, 'description');
+    _s.validateStringLength(
+      'description',
+      description,
+      0,
+      2147483647,
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(
         hsmConfigurationIdentifier, 'hsmConfigurationIdentifier');
+    _s.validateStringLength(
+      'hsmConfigurationIdentifier',
+      hsmConfigurationIdentifier,
+      0,
+      2147483647,
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(hsmIpAddress, 'hsmIpAddress');
+    _s.validateStringLength(
+      'hsmIpAddress',
+      hsmIpAddress,
+      0,
+      2147483647,
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(hsmPartitionName, 'hsmPartitionName');
+    _s.validateStringLength(
+      'hsmPartitionName',
+      hsmPartitionName,
+      0,
+      2147483647,
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(hsmPartitionPassword, 'hsmPartitionPassword');
+    _s.validateStringLength(
+      'hsmPartitionPassword',
+      hsmPartitionPassword,
+      0,
+      2147483647,
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(
         hsmServerPublicCertificate, 'hsmServerPublicCertificate');
+    _s.validateStringLength(
+      'hsmServerPublicCertificate',
+      hsmServerPublicCertificate,
+      0,
+      2147483647,
+      isRequired: true,
+    );
     final $request = <String, dynamic>{};
     $request['Description'] = description;
     $request['HsmConfigurationIdentifier'] = hsmConfigurationIdentifier;
@@ -1517,9 +1860,36 @@ class Redshift {
     DateTime startTime,
   }) async {
     ArgumentError.checkNotNull(iamRole, 'iamRole');
+    _s.validateStringLength(
+      'iamRole',
+      iamRole,
+      0,
+      2147483647,
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(schedule, 'schedule');
+    _s.validateStringLength(
+      'schedule',
+      schedule,
+      0,
+      2147483647,
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(scheduledActionName, 'scheduledActionName');
+    _s.validateStringLength(
+      'scheduledActionName',
+      scheduledActionName,
+      0,
+      2147483647,
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(targetAction, 'targetAction');
+    _s.validateStringLength(
+      'scheduledActionDescription',
+      scheduledActionDescription,
+      0,
+      2147483647,
+    );
     final $request = <String, dynamic>{};
     $request['IamRole'] = iamRole;
     $request['Schedule'] = schedule;
@@ -1597,6 +1967,19 @@ class Redshift {
     List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(snapshotCopyGrantName, 'snapshotCopyGrantName');
+    _s.validateStringLength(
+      'snapshotCopyGrantName',
+      snapshotCopyGrantName,
+      0,
+      2147483647,
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'kmsKeyId',
+      kmsKeyId,
+      0,
+      2147483647,
+    );
     final $request = <String, dynamic>{};
     $request['SnapshotCopyGrantName'] = snapshotCopyGrantName;
     kmsKeyId?.also((arg) => $request['KmsKeyId'] = arg);
@@ -1623,6 +2006,7 @@ class Redshift {
   /// May throw [SnapshotScheduleQuotaExceededFault].
   /// May throw [TagLimitExceededFault].
   /// May throw [ScheduleDefinitionTypeUnsupportedFault].
+  /// May throw [InvalidTagFault].
   ///
   /// Parameter [dryRun] :
   /// <p/>
@@ -1651,6 +2035,18 @@ class Redshift {
     String scheduleIdentifier,
     List<Tag> tags,
   }) async {
+    _s.validateStringLength(
+      'scheduleDescription',
+      scheduleDescription,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'scheduleIdentifier',
+      scheduleIdentifier,
+      0,
+      2147483647,
+    );
     final $request = <String, dynamic>{};
     dryRun?.also((arg) => $request['DryRun'] = arg);
     nextInvocations?.also((arg) => $request['NextInvocations'] = arg);
@@ -1683,6 +2079,7 @@ class Redshift {
   /// May throw [TagLimitExceededFault].
   /// May throw [ResourceNotFoundFault].
   /// May throw [InvalidTagFault].
+  /// May throw [InvalidClusterStateFault].
   ///
   /// Parameter [resourceName] :
   /// The Amazon Resource Name (ARN) to which you want to add the tag or tags.
@@ -1701,6 +2098,13 @@ class Redshift {
     @_s.required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(resourceName, 'resourceName');
+    _s.validateStringLength(
+      'resourceName',
+      resourceName,
+      0,
+      2147483647,
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(tags, 'tags');
     final $request = <String, dynamic>{};
     $request['ResourceName'] = resourceName;
@@ -1715,6 +2119,89 @@ class Redshift {
       shape: shapes['CreateTagsMessage'],
       shapes: shapes,
     );
+  }
+
+  /// Creates a usage limit for a specified Amazon Redshift feature on a
+  /// cluster. The usage limit is identified by the returned usage limit
+  /// identifier.
+  ///
+  /// May throw [ClusterNotFoundFault].
+  /// May throw [InvalidClusterStateFault].
+  /// May throw [LimitExceededFault].
+  /// May throw [UsageLimitAlreadyExistsFault].
+  /// May throw [InvalidUsageLimitFault].
+  /// May throw [TagLimitExceededFault].
+  /// May throw [UnsupportedOperationFault].
+  ///
+  /// Parameter [amount] :
+  /// The limit amount. If time-based, this amount is in minutes. If data-based,
+  /// this amount is in terabytes (TB). The value must be a positive number.
+  ///
+  /// Parameter [clusterIdentifier] :
+  /// The identifier of the cluster that you want to limit usage.
+  ///
+  /// Parameter [featureType] :
+  /// The Amazon Redshift feature that you want to limit.
+  ///
+  /// Parameter [limitType] :
+  /// The type of limit. Depending on the feature type, this can be based on a
+  /// time duration or data size. If <code>FeatureType</code> is
+  /// <code>spectrum</code>, then <code>LimitType</code> must be
+  /// <code>data-scanned</code>. If <code>FeatureType</code> is
+  /// <code>concurrency-scaling</code>, then <code>LimitType</code> must be
+  /// <code>time</code>.
+  ///
+  /// Parameter [breachAction] :
+  /// The action that Amazon Redshift takes when the limit is reached. The
+  /// default is log. For more information about this parameter, see
+  /// <a>UsageLimit</a>.
+  ///
+  /// Parameter [period] :
+  /// The time period that the amount applies to. A <code>weekly</code> period
+  /// begins on Sunday. The default is <code>monthly</code>.
+  ///
+  /// Parameter [tags] :
+  /// A list of tag instances.
+  Future<UsageLimit> createUsageLimit({
+    @_s.required int amount,
+    @_s.required String clusterIdentifier,
+    @_s.required UsageLimitFeatureType featureType,
+    @_s.required UsageLimitLimitType limitType,
+    UsageLimitBreachAction breachAction,
+    UsageLimitPeriod period,
+    List<Tag> tags,
+  }) async {
+    ArgumentError.checkNotNull(amount, 'amount');
+    ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
+    _s.validateStringLength(
+      'clusterIdentifier',
+      clusterIdentifier,
+      0,
+      2147483647,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(featureType, 'featureType');
+    ArgumentError.checkNotNull(limitType, 'limitType');
+    final $request = <String, dynamic>{};
+    $request['Amount'] = amount;
+    $request['ClusterIdentifier'] = clusterIdentifier;
+    $request['FeatureType'] = featureType.toValue();
+    $request['LimitType'] = limitType.toValue();
+    breachAction?.also((arg) => $request['BreachAction'] = arg.toValue());
+    period?.also((arg) => $request['Period'] = arg.toValue());
+    tags?.also((arg) => $request['Tags'] = arg);
+    final $result = await _protocol.send(
+      $request,
+      action: 'CreateUsageLimit',
+      version: '2012-12-01',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['CreateUsageLimitMessage'],
+      shapes: shapes,
+      resultWrapper: 'CreateUsageLimitResult',
+    );
+    return UsageLimit.fromXml($result);
   }
 
   /// Deletes a previously provisioned cluster without its final snapshot being
@@ -1810,6 +2297,19 @@ class Redshift {
     bool skipFinalClusterSnapshot,
   }) async {
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
+    _s.validateStringLength(
+      'clusterIdentifier',
+      clusterIdentifier,
+      0,
+      2147483647,
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'finalClusterSnapshotIdentifier',
+      finalClusterSnapshotIdentifier,
+      0,
+      2147483647,
+    );
     final $request = <String, dynamic>{};
     $request['ClusterIdentifier'] = clusterIdentifier;
     finalClusterSnapshotIdentifier
@@ -1857,6 +2357,13 @@ class Redshift {
     @_s.required String parameterGroupName,
   }) async {
     ArgumentError.checkNotNull(parameterGroupName, 'parameterGroupName');
+    _s.validateStringLength(
+      'parameterGroupName',
+      parameterGroupName,
+      0,
+      2147483647,
+      isRequired: true,
+    );
     final $request = <String, dynamic>{};
     $request['ParameterGroupName'] = parameterGroupName;
     await _protocol.send(
@@ -1891,6 +2398,13 @@ class Redshift {
   }) async {
     ArgumentError.checkNotNull(
         clusterSecurityGroupName, 'clusterSecurityGroupName');
+    _s.validateStringLength(
+      'clusterSecurityGroupName',
+      clusterSecurityGroupName,
+      0,
+      2147483647,
+      isRequired: true,
+    );
     final $request = <String, dynamic>{};
     $request['ClusterSecurityGroupName'] = clusterSecurityGroupName;
     await _protocol.send(
@@ -1937,6 +2451,19 @@ class Redshift {
     String snapshotClusterIdentifier,
   }) async {
     ArgumentError.checkNotNull(snapshotIdentifier, 'snapshotIdentifier');
+    _s.validateStringLength(
+      'snapshotIdentifier',
+      snapshotIdentifier,
+      0,
+      2147483647,
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'snapshotClusterIdentifier',
+      snapshotClusterIdentifier,
+      0,
+      2147483647,
+    );
     final $request = <String, dynamic>{};
     $request['SnapshotIdentifier'] = snapshotIdentifier;
     snapshotClusterIdentifier
@@ -1968,6 +2495,13 @@ class Redshift {
   }) async {
     ArgumentError.checkNotNull(
         clusterSubnetGroupName, 'clusterSubnetGroupName');
+    _s.validateStringLength(
+      'clusterSubnetGroupName',
+      clusterSubnetGroupName,
+      0,
+      2147483647,
+      isRequired: true,
+    );
     final $request = <String, dynamic>{};
     $request['ClusterSubnetGroupName'] = clusterSubnetGroupName;
     await _protocol.send(
@@ -1994,6 +2528,13 @@ class Redshift {
     @_s.required String subscriptionName,
   }) async {
     ArgumentError.checkNotNull(subscriptionName, 'subscriptionName');
+    _s.validateStringLength(
+      'subscriptionName',
+      subscriptionName,
+      0,
+      2147483647,
+      isRequired: true,
+    );
     final $request = <String, dynamic>{};
     $request['SubscriptionName'] = subscriptionName;
     await _protocol.send(
@@ -2020,6 +2561,13 @@ class Redshift {
   }) async {
     ArgumentError.checkNotNull(
         hsmClientCertificateIdentifier, 'hsmClientCertificateIdentifier');
+    _s.validateStringLength(
+      'hsmClientCertificateIdentifier',
+      hsmClientCertificateIdentifier,
+      0,
+      2147483647,
+      isRequired: true,
+    );
     final $request = <String, dynamic>{};
     $request['HsmClientCertificateIdentifier'] = hsmClientCertificateIdentifier;
     await _protocol.send(
@@ -2046,6 +2594,13 @@ class Redshift {
   }) async {
     ArgumentError.checkNotNull(
         hsmConfigurationIdentifier, 'hsmConfigurationIdentifier');
+    _s.validateStringLength(
+      'hsmConfigurationIdentifier',
+      hsmConfigurationIdentifier,
+      0,
+      2147483647,
+      isRequired: true,
+    );
     final $request = <String, dynamic>{};
     $request['HsmConfigurationIdentifier'] = hsmConfigurationIdentifier;
     await _protocol.send(
@@ -2071,6 +2626,13 @@ class Redshift {
     @_s.required String scheduledActionName,
   }) async {
     ArgumentError.checkNotNull(scheduledActionName, 'scheduledActionName');
+    _s.validateStringLength(
+      'scheduledActionName',
+      scheduledActionName,
+      0,
+      2147483647,
+      isRequired: true,
+    );
     final $request = <String, dynamic>{};
     $request['ScheduledActionName'] = scheduledActionName;
     await _protocol.send(
@@ -2096,6 +2658,13 @@ class Redshift {
     @_s.required String snapshotCopyGrantName,
   }) async {
     ArgumentError.checkNotNull(snapshotCopyGrantName, 'snapshotCopyGrantName');
+    _s.validateStringLength(
+      'snapshotCopyGrantName',
+      snapshotCopyGrantName,
+      0,
+      2147483647,
+      isRequired: true,
+    );
     final $request = <String, dynamic>{};
     $request['SnapshotCopyGrantName'] = snapshotCopyGrantName;
     await _protocol.send(
@@ -2121,6 +2690,13 @@ class Redshift {
     @_s.required String scheduleIdentifier,
   }) async {
     ArgumentError.checkNotNull(scheduleIdentifier, 'scheduleIdentifier');
+    _s.validateStringLength(
+      'scheduleIdentifier',
+      scheduleIdentifier,
+      0,
+      2147483647,
+      isRequired: true,
+    );
     final $request = <String, dynamic>{};
     $request['ScheduleIdentifier'] = scheduleIdentifier;
     await _protocol.send(
@@ -2153,6 +2729,13 @@ class Redshift {
     @_s.required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceName, 'resourceName');
+    _s.validateStringLength(
+      'resourceName',
+      resourceName,
+      0,
+      2147483647,
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $request = <String, dynamic>{};
     $request['ResourceName'] = resourceName;
@@ -2165,6 +2748,38 @@ class Redshift {
       requestUri: '/',
       exceptionFnMap: _exceptionFns,
       shape: shapes['DeleteTagsMessage'],
+      shapes: shapes,
+    );
+  }
+
+  /// Deletes a usage limit from a cluster.
+  ///
+  /// May throw [UsageLimitNotFoundFault].
+  /// May throw [UnsupportedOperationFault].
+  ///
+  /// Parameter [usageLimitId] :
+  /// The identifier of the usage limit to delete.
+  Future<void> deleteUsageLimit({
+    @_s.required String usageLimitId,
+  }) async {
+    ArgumentError.checkNotNull(usageLimitId, 'usageLimitId');
+    _s.validateStringLength(
+      'usageLimitId',
+      usageLimitId,
+      0,
+      2147483647,
+      isRequired: true,
+    );
+    final $request = <String, dynamic>{};
+    $request['UsageLimitId'] = usageLimitId;
+    await _protocol.send(
+      $request,
+      action: 'DeleteUsageLimit',
+      version: '2012-12-01',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['DeleteUsageLimitMessage'],
       shapes: shapes,
     );
   }
@@ -2230,6 +2845,18 @@ class Redshift {
     String marker,
     int maxRecords,
   }) async {
+    _s.validateStringLength(
+      'clusterIdentifier',
+      clusterIdentifier,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'marker',
+      marker,
+      0,
+      2147483647,
+    );
     final $request = <String, dynamic>{};
     clusterIdentifier?.also((arg) => $request['ClusterIdentifier'] = arg);
     marker?.also((arg) => $request['Marker'] = arg);
@@ -2322,6 +2949,18 @@ class Redshift {
     List<String> tagKeys,
     List<String> tagValues,
   }) async {
+    _s.validateStringLength(
+      'marker',
+      marker,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'parameterGroupName',
+      parameterGroupName,
+      0,
+      2147483647,
+    );
     final $request = <String, dynamic>{};
     marker?.also((arg) => $request['Marker'] = arg);
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
@@ -2397,6 +3036,25 @@ class Redshift {
     String source,
   }) async {
     ArgumentError.checkNotNull(parameterGroupName, 'parameterGroupName');
+    _s.validateStringLength(
+      'parameterGroupName',
+      parameterGroupName,
+      0,
+      2147483647,
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'marker',
+      marker,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'source',
+      source,
+      0,
+      2147483647,
+    );
     final $request = <String, dynamic>{};
     $request['ParameterGroupName'] = parameterGroupName;
     marker?.also((arg) => $request['Marker'] = arg);
@@ -2493,6 +3151,18 @@ class Redshift {
     List<String> tagKeys,
     List<String> tagValues,
   }) async {
+    _s.validateStringLength(
+      'clusterSecurityGroupName',
+      clusterSecurityGroupName,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'marker',
+      marker,
+      0,
+      2147483647,
+    );
     final $request = <String, dynamic>{};
     clusterSecurityGroupName
         ?.also((arg) => $request['ClusterSecurityGroupName'] = arg);
@@ -2651,6 +3321,36 @@ class Redshift {
     List<String> tagKeys,
     List<String> tagValues,
   }) async {
+    _s.validateStringLength(
+      'clusterIdentifier',
+      clusterIdentifier,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'marker',
+      marker,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'ownerAccount',
+      ownerAccount,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'snapshotIdentifier',
+      snapshotIdentifier,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'snapshotType',
+      snapshotType,
+      0,
+      2147483647,
+    );
     final $request = <String, dynamic>{};
     clusterExists?.also((arg) => $request['ClusterExists'] = arg);
     clusterIdentifier?.also((arg) => $request['ClusterIdentifier'] = arg);
@@ -2743,6 +3443,18 @@ class Redshift {
     List<String> tagKeys,
     List<String> tagValues,
   }) async {
+    _s.validateStringLength(
+      'clusterSubnetGroupName',
+      clusterSubnetGroupName,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'marker',
+      marker,
+      0,
+      2147483647,
+    );
     final $request = <String, dynamic>{};
     clusterSubnetGroupName
         ?.also((arg) => $request['ClusterSubnetGroupName'] = arg);
@@ -2788,6 +3500,18 @@ class Redshift {
     String marker,
     int maxRecords,
   }) async {
+    _s.validateStringLength(
+      'maintenanceTrackName',
+      maintenanceTrackName,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'marker',
+      marker,
+      0,
+      2147483647,
+    );
     final $request = <String, dynamic>{};
     maintenanceTrackName?.also((arg) => $request['MaintenanceTrackName'] = arg);
     marker?.also((arg) => $request['Marker'] = arg);
@@ -2861,6 +3585,24 @@ class Redshift {
     String marker,
     int maxRecords,
   }) async {
+    _s.validateStringLength(
+      'clusterParameterGroupFamily',
+      clusterParameterGroupFamily,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'clusterVersion',
+      clusterVersion,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'marker',
+      marker,
+      0,
+      2147483647,
+    );
     final $request = <String, dynamic>{};
     clusterParameterGroupFamily
         ?.also((arg) => $request['ClusterParameterGroupFamily'] = arg);
@@ -2954,6 +3696,18 @@ class Redshift {
     List<String> tagKeys,
     List<String> tagValues,
   }) async {
+    _s.validateStringLength(
+      'clusterIdentifier',
+      clusterIdentifier,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'marker',
+      marker,
+      0,
+      2147483647,
+    );
     final $request = <String, dynamic>{};
     clusterIdentifier?.also((arg) => $request['ClusterIdentifier'] = arg);
     marker?.also((arg) => $request['Marker'] = arg);
@@ -3011,6 +3765,19 @@ class Redshift {
     int maxRecords,
   }) async {
     ArgumentError.checkNotNull(parameterGroupFamily, 'parameterGroupFamily');
+    _s.validateStringLength(
+      'parameterGroupFamily',
+      parameterGroupFamily,
+      0,
+      2147483647,
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'marker',
+      marker,
+      0,
+      2147483647,
+    );
     final $request = <String, dynamic>{};
     $request['ParameterGroupFamily'] = parameterGroupFamily;
     marker?.also((arg) => $request['Marker'] = arg);
@@ -3044,6 +3811,12 @@ class Redshift {
   Future<EventCategoriesMessage> describeEventCategories({
     String sourceType,
   }) async {
+    _s.validateStringLength(
+      'sourceType',
+      sourceType,
+      0,
+      2147483647,
+    );
     final $request = <String, dynamic>{};
     sourceType?.also((arg) => $request['SourceType'] = arg);
     final $result = await _protocol.send(
@@ -3125,6 +3898,18 @@ class Redshift {
     List<String> tagKeys,
     List<String> tagValues,
   }) async {
+    _s.validateStringLength(
+      'marker',
+      marker,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'subscriptionName',
+      subscriptionName,
+      0,
+      2147483647,
+    );
     final $request = <String, dynamic>{};
     marker?.also((arg) => $request['Marker'] = arg);
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
@@ -3257,6 +4042,18 @@ class Redshift {
     SourceType sourceType,
     DateTime startTime,
   }) async {
+    _s.validateStringLength(
+      'marker',
+      marker,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'sourceIdentifier',
+      sourceIdentifier,
+      0,
+      2147483647,
+    );
     final $request = <String, dynamic>{};
     duration?.also((arg) => $request['Duration'] = arg);
     endTime?.also((arg) => $request['EndTime'] = _s.iso8601ToJson(arg));
@@ -3346,6 +4143,18 @@ class Redshift {
     List<String> tagKeys,
     List<String> tagValues,
   }) async {
+    _s.validateStringLength(
+      'hsmClientCertificateIdentifier',
+      hsmClientCertificateIdentifier,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'marker',
+      marker,
+      0,
+      2147483647,
+    );
     final $request = <String, dynamic>{};
     hsmClientCertificateIdentifier
         ?.also((arg) => $request['HsmClientCertificateIdentifier'] = arg);
@@ -3433,6 +4242,18 @@ class Redshift {
     List<String> tagKeys,
     List<String> tagValues,
   }) async {
+    _s.validateStringLength(
+      'hsmConfigurationIdentifier',
+      hsmConfigurationIdentifier,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'marker',
+      marker,
+      0,
+      2147483647,
+    );
     final $request = <String, dynamic>{};
     hsmConfigurationIdentifier
         ?.also((arg) => $request['HsmConfigurationIdentifier'] = arg);
@@ -3467,6 +4288,13 @@ class Redshift {
     @_s.required String clusterIdentifier,
   }) async {
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
+    _s.validateStringLength(
+      'clusterIdentifier',
+      clusterIdentifier,
+      0,
+      2147483647,
+      isRequired: true,
+    );
     final $request = <String, dynamic>{};
     $request['ClusterIdentifier'] = clusterIdentifier;
     final $result = await _protocol.send(
@@ -3544,6 +4372,30 @@ class Redshift {
     String snapshotIdentifier,
   }) async {
     ArgumentError.checkNotNull(actionType, 'actionType');
+    _s.validateStringLength(
+      'clusterIdentifier',
+      clusterIdentifier,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'marker',
+      marker,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'ownerAccount',
+      ownerAccount,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'snapshotIdentifier',
+      snapshotIdentifier,
+      0,
+      2147483647,
+    );
     final $request = <String, dynamic>{};
     $request['ActionType'] = actionType.toValue();
     clusterIdentifier?.also((arg) => $request['ClusterIdentifier'] = arg);
@@ -3616,6 +4468,24 @@ class Redshift {
     int maxRecords,
     String nodeType,
   }) async {
+    _s.validateStringLength(
+      'clusterVersion',
+      clusterVersion,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'marker',
+      marker,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'nodeType',
+      nodeType,
+      0,
+      2147483647,
+    );
     final $request = <String, dynamic>{};
     clusterVersion?.also((arg) => $request['ClusterVersion'] = arg);
     marker?.also((arg) => $request['Marker'] = arg);
@@ -3678,6 +4548,18 @@ class Redshift {
     int maxRecords,
     String reservedNodeOfferingId,
   }) async {
+    _s.validateStringLength(
+      'marker',
+      marker,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'reservedNodeOfferingId',
+      reservedNodeOfferingId,
+      0,
+      2147483647,
+    );
     final $request = <String, dynamic>{};
     marker?.also((arg) => $request['Marker'] = arg);
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
@@ -3728,6 +4610,18 @@ class Redshift {
     int maxRecords,
     String reservedNodeId,
   }) async {
+    _s.validateStringLength(
+      'marker',
+      marker,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'reservedNodeId',
+      reservedNodeId,
+      0,
+      2147483647,
+    );
     final $request = <String, dynamic>{};
     marker?.also((arg) => $request['Marker'] = arg);
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
@@ -3768,6 +4662,13 @@ class Redshift {
     @_s.required String clusterIdentifier,
   }) async {
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
+    _s.validateStringLength(
+      'clusterIdentifier',
+      clusterIdentifier,
+      0,
+      2147483647,
+      isRequired: true,
+    );
     final $request = <String, dynamic>{};
     $request['ClusterIdentifier'] = clusterIdentifier;
     final $result = await _protocol.send(
@@ -3838,6 +4739,18 @@ class Redshift {
     DateTime startTime,
     ScheduledActionTypeValues targetActionType,
   }) async {
+    _s.validateStringLength(
+      'marker',
+      marker,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'scheduledActionName',
+      scheduledActionName,
+      0,
+      2147483647,
+    );
     final $request = <String, dynamic>{};
     active?.also((arg) => $request['Active'] = arg);
     endTime?.also((arg) => $request['EndTime'] = _s.iso8601ToJson(arg));
@@ -3922,6 +4835,18 @@ class Redshift {
     List<String> tagKeys,
     List<String> tagValues,
   }) async {
+    _s.validateStringLength(
+      'marker',
+      marker,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'snapshotCopyGrantName',
+      snapshotCopyGrantName,
+      0,
+      2147483647,
+    );
     final $request = <String, dynamic>{};
     marker?.also((arg) => $request['Marker'] = arg);
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
@@ -3981,6 +4906,24 @@ class Redshift {
     List<String> tagKeys,
     List<String> tagValues,
   }) async {
+    _s.validateStringLength(
+      'clusterIdentifier',
+      clusterIdentifier,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'marker',
+      marker,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'scheduleIdentifier',
+      scheduleIdentifier,
+      0,
+      2147483647,
+    );
     final $request = <String, dynamic>{};
     clusterIdentifier?.also((arg) => $request['ClusterIdentifier'] = arg);
     marker?.also((arg) => $request['Marker'] = arg);
@@ -4055,6 +4998,24 @@ class Redshift {
     int maxRecords,
     String tableRestoreRequestId,
   }) async {
+    _s.validateStringLength(
+      'clusterIdentifier',
+      clusterIdentifier,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'marker',
+      marker,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'tableRestoreRequestId',
+      tableRestoreRequestId,
+      0,
+      2147483647,
+    );
     final $request = <String, dynamic>{};
     clusterIdentifier?.also((arg) => $request['ClusterIdentifier'] = arg);
     marker?.also((arg) => $request['Marker'] = arg);
@@ -4196,6 +5157,24 @@ class Redshift {
     List<String> tagKeys,
     List<String> tagValues,
   }) async {
+    _s.validateStringLength(
+      'marker',
+      marker,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'resourceName',
+      resourceName,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'resourceType',
+      resourceType,
+      0,
+      2147483647,
+    );
     final $request = <String, dynamic>{};
     marker?.also((arg) => $request['Marker'] = arg);
     maxRecords?.also((arg) => $request['MaxRecords'] = arg);
@@ -4217,6 +5196,127 @@ class Redshift {
     return TaggedResourceListMessage.fromXml($result);
   }
 
+  /// Shows usage limits on a cluster. Results are filtered based on the
+  /// combination of input usage limit identifier, cluster identifier, and
+  /// feature type parameters:
+  ///
+  /// <ul>
+  /// <li>
+  /// If usage limit identifier, cluster identifier, and feature type are not
+  /// provided, then all usage limit objects for the current account in the
+  /// current region are returned.
+  /// </li>
+  /// <li>
+  /// If usage limit identifier is provided, then the corresponding usage limit
+  /// object is returned.
+  /// </li>
+  /// <li>
+  /// If cluster identifier is provided, then all usage limit objects for the
+  /// specified cluster are returned.
+  /// </li>
+  /// <li>
+  /// If cluster identifier and feature type are provided, then all usage limit
+  /// objects for the combination of cluster and feature are returned.
+  /// </li>
+  /// </ul>
+  ///
+  /// May throw [ClusterNotFoundFault].
+  /// May throw [UnsupportedOperationFault].
+  ///
+  /// Parameter [clusterIdentifier] :
+  /// The identifier of the cluster for which you want to describe usage limits.
+  ///
+  /// Parameter [featureType] :
+  /// The feature type for which you want to describe usage limits.
+  ///
+  /// Parameter [marker] :
+  /// An optional parameter that specifies the starting point to return a set of
+  /// response records. When the results of a <a>DescribeUsageLimits</a> request
+  /// exceed the value specified in <code>MaxRecords</code>, AWS returns a value
+  /// in the <code>Marker</code> field of the response. You can retrieve the
+  /// next set of response records by providing the returned marker value in the
+  /// <code>Marker</code> parameter and retrying the request.
+  ///
+  /// Parameter [maxRecords] :
+  /// The maximum number of response records to return in each call. If the
+  /// number of remaining response records exceeds the specified
+  /// <code>MaxRecords</code> value, a value is returned in a
+  /// <code>marker</code> field of the response. You can retrieve the next set
+  /// of records by retrying the command with the returned marker value.
+  ///
+  /// Default: <code>100</code>
+  ///
+  /// Constraints: minimum 20, maximum 100.
+  ///
+  /// Parameter [tagKeys] :
+  /// A tag key or keys for which you want to return all matching usage limit
+  /// objects that are associated with the specified key or keys. For example,
+  /// suppose that you have parameter groups that are tagged with keys called
+  /// <code>owner</code> and <code>environment</code>. If you specify both of
+  /// these tag keys in the request, Amazon Redshift returns a response with the
+  /// usage limit objects have either or both of these tag keys associated with
+  /// them.
+  ///
+  /// Parameter [tagValues] :
+  /// A tag value or values for which you want to return all matching usage
+  /// limit objects that are associated with the specified tag value or values.
+  /// For example, suppose that you have parameter groups that are tagged with
+  /// values called <code>admin</code> and <code>test</code>. If you specify
+  /// both of these tag values in the request, Amazon Redshift returns a
+  /// response with the usage limit objects that have either or both of these
+  /// tag values associated with them.
+  ///
+  /// Parameter [usageLimitId] :
+  /// The identifier of the usage limit to describe.
+  Future<UsageLimitList> describeUsageLimits({
+    String clusterIdentifier,
+    UsageLimitFeatureType featureType,
+    String marker,
+    int maxRecords,
+    List<String> tagKeys,
+    List<String> tagValues,
+    String usageLimitId,
+  }) async {
+    _s.validateStringLength(
+      'clusterIdentifier',
+      clusterIdentifier,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'marker',
+      marker,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'usageLimitId',
+      usageLimitId,
+      0,
+      2147483647,
+    );
+    final $request = <String, dynamic>{};
+    clusterIdentifier?.also((arg) => $request['ClusterIdentifier'] = arg);
+    featureType?.also((arg) => $request['FeatureType'] = arg.toValue());
+    marker?.also((arg) => $request['Marker'] = arg);
+    maxRecords?.also((arg) => $request['MaxRecords'] = arg);
+    tagKeys?.also((arg) => $request['TagKeys'] = arg);
+    tagValues?.also((arg) => $request['TagValues'] = arg);
+    usageLimitId?.also((arg) => $request['UsageLimitId'] = arg);
+    final $result = await _protocol.send(
+      $request,
+      action: 'DescribeUsageLimits',
+      version: '2012-12-01',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['DescribeUsageLimitsMessage'],
+      shapes: shapes,
+      resultWrapper: 'DescribeUsageLimitsResult',
+    );
+    return UsageLimitList.fromXml($result);
+  }
+
   /// Stops logging information, such as queries and connection attempts, for
   /// the specified Amazon Redshift cluster.
   ///
@@ -4230,6 +5330,13 @@ class Redshift {
     @_s.required String clusterIdentifier,
   }) async {
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
+    _s.validateStringLength(
+      'clusterIdentifier',
+      clusterIdentifier,
+      0,
+      2147483647,
+      isRequired: true,
+    );
     final $request = <String, dynamic>{};
     $request['ClusterIdentifier'] = clusterIdentifier;
     final $result = await _protocol.send(
@@ -4269,6 +5376,13 @@ class Redshift {
     @_s.required String clusterIdentifier,
   }) async {
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
+    _s.validateStringLength(
+      'clusterIdentifier',
+      clusterIdentifier,
+      0,
+      2147483647,
+      isRequired: true,
+    );
     final $request = <String, dynamic>{};
     $request['ClusterIdentifier'] = clusterIdentifier;
     final $result = await _protocol.send(
@@ -4352,7 +5466,27 @@ class Redshift {
     String s3KeyPrefix,
   }) async {
     ArgumentError.checkNotNull(bucketName, 'bucketName');
+    _s.validateStringLength(
+      'bucketName',
+      bucketName,
+      0,
+      2147483647,
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
+    _s.validateStringLength(
+      'clusterIdentifier',
+      clusterIdentifier,
+      0,
+      2147483647,
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      's3KeyPrefix',
+      s3KeyPrefix,
+      0,
+      2147483647,
+    );
     final $request = <String, dynamic>{};
     $request['BucketName'] = bucketName;
     $request['ClusterIdentifier'] = clusterIdentifier;
@@ -4426,7 +5560,27 @@ class Redshift {
     String snapshotCopyGrantName,
   }) async {
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
+    _s.validateStringLength(
+      'clusterIdentifier',
+      clusterIdentifier,
+      0,
+      2147483647,
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(destinationRegion, 'destinationRegion');
+    _s.validateStringLength(
+      'destinationRegion',
+      destinationRegion,
+      0,
+      2147483647,
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'snapshotCopyGrantName',
+      snapshotCopyGrantName,
+      0,
+      2147483647,
+    );
     final $request = <String, dynamic>{};
     $request['ClusterIdentifier'] = clusterIdentifier;
     $request['DestinationRegion'] = destinationRegion;
@@ -4604,7 +5758,27 @@ class Redshift {
     int durationSeconds,
   }) async {
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
+    _s.validateStringLength(
+      'clusterIdentifier',
+      clusterIdentifier,
+      0,
+      2147483647,
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(dbUser, 'dbUser');
+    _s.validateStringLength(
+      'dbUser',
+      dbUser,
+      0,
+      2147483647,
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'dbName',
+      dbName,
+      0,
+      2147483647,
+    );
     final $request = <String, dynamic>{};
     $request['ClusterIdentifier'] = clusterIdentifier;
     $request['DbUser'] = dbUser;
@@ -4654,6 +5828,19 @@ class Redshift {
     int maxRecords,
   }) async {
     ArgumentError.checkNotNull(reservedNodeId, 'reservedNodeId');
+    _s.validateStringLength(
+      'reservedNodeId',
+      reservedNodeId,
+      0,
+      2147483647,
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'marker',
+      marker,
+      0,
+      2147483647,
+    );
     final $request = <String, dynamic>{};
     $request['ReservedNodeId'] = reservedNodeId;
     marker?.also((arg) => $request['Marker'] = arg);
@@ -4732,6 +5919,14 @@ class Redshift {
   ///
   /// Constraints: Must be a value from 0 to 35.
   ///
+  /// Parameter [availabilityZone] :
+  /// The option to initiate relocation for an Amazon Redshift cluster to the
+  /// target Availability Zone.
+  ///
+  /// Parameter [availabilityZoneRelocation] :
+  /// The option to enable relocation for an Amazon Redshift cluster between
+  /// Availability Zones after the cluster modification is complete.
+  ///
   /// Parameter [clusterParameterGroupName] :
   /// The name of the cluster parameter group to apply to this cluster. This
   /// change is applied only after the cluster is rebooted. To reboot a cluster
@@ -4804,9 +5999,7 @@ class Redshift {
   /// Indicates whether the cluster is encrypted. If the value is encrypted
   /// (true) and you provide a value for the <code>KmsKeyId</code> parameter, we
   /// encrypt the cluster with the provided <code>KmsKeyId</code>. If you don't
-  /// provide a <code>KmsKeyId</code>, we encrypt with the default key. In the
-  /// China region we use legacy encryption if you specify that the cluster is
-  /// encrypted.
+  /// provide a <code>KmsKeyId</code>, we encrypt with the default key.
   ///
   /// If the value is not encrypted (false), then the cluster is decrypted.
   ///
@@ -4920,8 +6113,8 @@ class Redshift {
   ///
   /// Valid Values: <code>ds2.xlarge</code> | <code>ds2.8xlarge</code> |
   /// <code>dc1.large</code> | <code>dc1.8xlarge</code> | <code>dc2.large</code>
-  /// | <code>dc2.8xlarge</code> | <code>ra3.4xlarge</code> |
-  /// <code>ra3.16xlarge</code>
+  /// | <code>dc2.8xlarge</code> | <code>ra3.xlplus</code> |
+  /// <code>ra3.4xlarge</code> | <code>ra3.16xlarge</code>
   ///
   /// Parameter [numberOfNodes] :
   /// The new number of nodes of the cluster. If you specify a new number of
@@ -4933,6 +6126,9 @@ class Redshift {
   /// Management Guide</i>.
   ///
   /// Valid Values: Integer greater than <code>0</code>.
+  ///
+  /// Parameter [port] :
+  /// The option to change the port of an Amazon Redshift cluster.
   ///
   /// Parameter [preferredMaintenanceWindow] :
   /// The weekly time range (in UTC) during which system maintenance can occur,
@@ -4965,6 +6161,8 @@ class Redshift {
     @_s.required String clusterIdentifier,
     bool allowVersionUpgrade,
     int automatedSnapshotRetentionPeriod,
+    String availabilityZone,
+    bool availabilityZoneRelocation,
     String clusterParameterGroupName,
     List<String> clusterSecurityGroups,
     String clusterType,
@@ -4981,16 +6179,105 @@ class Redshift {
     String newClusterIdentifier,
     String nodeType,
     int numberOfNodes,
+    int port,
     String preferredMaintenanceWindow,
     bool publiclyAccessible,
     List<String> vpcSecurityGroupIds,
   }) async {
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
+    _s.validateStringLength(
+      'clusterIdentifier',
+      clusterIdentifier,
+      0,
+      2147483647,
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'availabilityZone',
+      availabilityZone,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'clusterParameterGroupName',
+      clusterParameterGroupName,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'clusterType',
+      clusterType,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'clusterVersion',
+      clusterVersion,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'elasticIp',
+      elasticIp,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'hsmClientCertificateIdentifier',
+      hsmClientCertificateIdentifier,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'hsmConfigurationIdentifier',
+      hsmConfigurationIdentifier,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'kmsKeyId',
+      kmsKeyId,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'maintenanceTrackName',
+      maintenanceTrackName,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'masterUserPassword',
+      masterUserPassword,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'newClusterIdentifier',
+      newClusterIdentifier,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'nodeType',
+      nodeType,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'preferredMaintenanceWindow',
+      preferredMaintenanceWindow,
+      0,
+      2147483647,
+    );
     final $request = <String, dynamic>{};
     $request['ClusterIdentifier'] = clusterIdentifier;
     allowVersionUpgrade?.also((arg) => $request['AllowVersionUpgrade'] = arg);
     automatedSnapshotRetentionPeriod
         ?.also((arg) => $request['AutomatedSnapshotRetentionPeriod'] = arg);
+    availabilityZone?.also((arg) => $request['AvailabilityZone'] = arg);
+    availabilityZoneRelocation
+        ?.also((arg) => $request['AvailabilityZoneRelocation'] = arg);
     clusterParameterGroupName
         ?.also((arg) => $request['ClusterParameterGroupName'] = arg);
     clusterSecurityGroups
@@ -5012,6 +6299,7 @@ class Redshift {
     newClusterIdentifier?.also((arg) => $request['NewClusterIdentifier'] = arg);
     nodeType?.also((arg) => $request['NodeType'] = arg);
     numberOfNodes?.also((arg) => $request['NumberOfNodes'] = arg);
+    port?.also((arg) => $request['Port'] = arg);
     preferredMaintenanceWindow
         ?.also((arg) => $request['PreferredMaintenanceWindow'] = arg);
     publiclyAccessible?.also((arg) => $request['PubliclyAccessible'] = arg);
@@ -5051,7 +6339,21 @@ class Redshift {
     @_s.required String revisionTarget,
   }) async {
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
+    _s.validateStringLength(
+      'clusterIdentifier',
+      clusterIdentifier,
+      0,
+      2147483647,
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(revisionTarget, 'revisionTarget');
+    _s.validateStringLength(
+      'revisionTarget',
+      revisionTarget,
+      0,
+      2147483647,
+      isRequired: true,
+    );
     final $request = <String, dynamic>{};
     $request['ClusterIdentifier'] = clusterIdentifier;
     $request['RevisionTarget'] = revisionTarget;
@@ -5096,6 +6398,13 @@ class Redshift {
     List<String> removeIamRoles,
   }) async {
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
+    _s.validateStringLength(
+      'clusterIdentifier',
+      clusterIdentifier,
+      0,
+      2147483647,
+      isRequired: true,
+    );
     final $request = <String, dynamic>{};
     $request['ClusterIdentifier'] = clusterIdentifier;
     addIamRoles?.also((arg) => $request['AddIamRoles'] = arg);
@@ -5148,6 +6457,19 @@ class Redshift {
     DateTime deferMaintenanceStartTime,
   }) async {
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
+    _s.validateStringLength(
+      'clusterIdentifier',
+      clusterIdentifier,
+      0,
+      2147483647,
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'deferMaintenanceIdentifier',
+      deferMaintenanceIdentifier,
+      0,
+      2147483647,
+    );
     final $request = <String, dynamic>{};
     $request['ClusterIdentifier'] = clusterIdentifier;
     deferMaintenance?.also((arg) => $request['DeferMaintenance'] = arg);
@@ -5201,6 +6523,13 @@ class Redshift {
     @_s.required List<Parameter> parameters,
   }) async {
     ArgumentError.checkNotNull(parameterGroupName, 'parameterGroupName');
+    _s.validateStringLength(
+      'parameterGroupName',
+      parameterGroupName,
+      0,
+      2147483647,
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(parameters, 'parameters');
     final $request = <String, dynamic>{};
     $request['ParameterGroupName'] = parameterGroupName;
@@ -5249,6 +6578,13 @@ class Redshift {
     int manualSnapshotRetentionPeriod,
   }) async {
     ArgumentError.checkNotNull(snapshotIdentifier, 'snapshotIdentifier');
+    _s.validateStringLength(
+      'snapshotIdentifier',
+      snapshotIdentifier,
+      0,
+      2147483647,
+      isRequired: true,
+    );
     final $request = <String, dynamic>{};
     $request['SnapshotIdentifier'] = snapshotIdentifier;
     force?.also((arg) => $request['Force'] = arg);
@@ -5291,6 +6627,19 @@ class Redshift {
     String scheduleIdentifier,
   }) async {
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
+    _s.validateStringLength(
+      'clusterIdentifier',
+      clusterIdentifier,
+      0,
+      2147483647,
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'scheduleIdentifier',
+      scheduleIdentifier,
+      0,
+      2147483647,
+    );
     final $request = <String, dynamic>{};
     $request['ClusterIdentifier'] = clusterIdentifier;
     disassociateSchedule?.also((arg) => $request['DisassociateSchedule'] = arg);
@@ -5334,7 +6683,20 @@ class Redshift {
   }) async {
     ArgumentError.checkNotNull(
         clusterSubnetGroupName, 'clusterSubnetGroupName');
+    _s.validateStringLength(
+      'clusterSubnetGroupName',
+      clusterSubnetGroupName,
+      0,
+      2147483647,
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(subnetIds, 'subnetIds');
+    _s.validateStringLength(
+      'description',
+      description,
+      0,
+      2147483647,
+    );
     final $request = <String, dynamic>{};
     $request['ClusterSubnetGroupName'] = clusterSubnetGroupName;
     $request['SubnetIds'] = subnetIds;
@@ -5418,6 +6780,31 @@ class Redshift {
     String sourceType,
   }) async {
     ArgumentError.checkNotNull(subscriptionName, 'subscriptionName');
+    _s.validateStringLength(
+      'subscriptionName',
+      subscriptionName,
+      0,
+      2147483647,
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'severity',
+      severity,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'snsTopicArn',
+      snsTopicArn,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'sourceType',
+      sourceType,
+      0,
+      2147483647,
+    );
     final $request = <String, dynamic>{};
     $request['SubscriptionName'] = subscriptionName;
     enabled?.also((arg) => $request['Enabled'] = arg);
@@ -5489,6 +6876,31 @@ class Redshift {
     ScheduledActionType targetAction,
   }) async {
     ArgumentError.checkNotNull(scheduledActionName, 'scheduledActionName');
+    _s.validateStringLength(
+      'scheduledActionName',
+      scheduledActionName,
+      0,
+      2147483647,
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'iamRole',
+      iamRole,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'schedule',
+      schedule,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'scheduledActionDescription',
+      scheduledActionDescription,
+      0,
+      2147483647,
+    );
     final $request = <String, dynamic>{};
     $request['ScheduledActionName'] = scheduledActionName;
     enable?.also((arg) => $request['Enable'] = arg);
@@ -5570,6 +6982,13 @@ class Redshift {
     bool manual,
   }) async {
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
+    _s.validateStringLength(
+      'clusterIdentifier',
+      clusterIdentifier,
+      0,
+      2147483647,
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(retentionPeriod, 'retentionPeriod');
     final $request = <String, dynamic>{};
     $request['ClusterIdentifier'] = clusterIdentifier;
@@ -5608,6 +7027,13 @@ class Redshift {
   }) async {
     ArgumentError.checkNotNull(scheduleDefinitions, 'scheduleDefinitions');
     ArgumentError.checkNotNull(scheduleIdentifier, 'scheduleIdentifier');
+    _s.validateStringLength(
+      'scheduleIdentifier',
+      scheduleIdentifier,
+      0,
+      2147483647,
+      isRequired: true,
+    );
     final $request = <String, dynamic>{};
     $request['ScheduleDefinitions'] = scheduleDefinitions;
     $request['ScheduleIdentifier'] = scheduleIdentifier;
@@ -5625,6 +7051,54 @@ class Redshift {
     return SnapshotSchedule.fromXml($result);
   }
 
+  /// Modifies a usage limit in a cluster. You can't modify the feature type or
+  /// period of a usage limit.
+  ///
+  /// May throw [InvalidUsageLimitFault].
+  /// May throw [UsageLimitNotFoundFault].
+  /// May throw [UnsupportedOperationFault].
+  ///
+  /// Parameter [usageLimitId] :
+  /// The identifier of the usage limit to modify.
+  ///
+  /// Parameter [amount] :
+  /// The new limit amount. For more information about this parameter, see
+  /// <a>UsageLimit</a>.
+  ///
+  /// Parameter [breachAction] :
+  /// The new action that Amazon Redshift takes when the limit is reached. For
+  /// more information about this parameter, see <a>UsageLimit</a>.
+  Future<UsageLimit> modifyUsageLimit({
+    @_s.required String usageLimitId,
+    int amount,
+    UsageLimitBreachAction breachAction,
+  }) async {
+    ArgumentError.checkNotNull(usageLimitId, 'usageLimitId');
+    _s.validateStringLength(
+      'usageLimitId',
+      usageLimitId,
+      0,
+      2147483647,
+      isRequired: true,
+    );
+    final $request = <String, dynamic>{};
+    $request['UsageLimitId'] = usageLimitId;
+    amount?.also((arg) => $request['Amount'] = arg);
+    breachAction?.also((arg) => $request['BreachAction'] = arg.toValue());
+    final $result = await _protocol.send(
+      $request,
+      action: 'ModifyUsageLimit',
+      version: '2012-12-01',
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      shape: shapes['ModifyUsageLimitMessage'],
+      shapes: shapes,
+      resultWrapper: 'ModifyUsageLimitResult',
+    );
+    return UsageLimit.fromXml($result);
+  }
+
   /// Pauses a cluster.
   ///
   /// May throw [ClusterNotFoundFault].
@@ -5636,6 +7110,13 @@ class Redshift {
     @_s.required String clusterIdentifier,
   }) async {
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
+    _s.validateStringLength(
+      'clusterIdentifier',
+      clusterIdentifier,
+      0,
+      2147483647,
+      isRequired: true,
+    );
     final $request = <String, dynamic>{};
     $request['ClusterIdentifier'] = clusterIdentifier;
     final $result = await _protocol.send(
@@ -5681,6 +7162,13 @@ class Redshift {
   }) async {
     ArgumentError.checkNotNull(
         reservedNodeOfferingId, 'reservedNodeOfferingId');
+    _s.validateStringLength(
+      'reservedNodeOfferingId',
+      reservedNodeOfferingId,
+      0,
+      2147483647,
+      isRequired: true,
+    );
     final $request = <String, dynamic>{};
     $request['ReservedNodeOfferingId'] = reservedNodeOfferingId;
     nodeCount?.also((arg) => $request['NodeCount'] = arg);
@@ -5717,6 +7205,13 @@ class Redshift {
     @_s.required String clusterIdentifier,
   }) async {
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
+    _s.validateStringLength(
+      'clusterIdentifier',
+      clusterIdentifier,
+      0,
+      2147483647,
+      isRequired: true,
+    );
     final $request = <String, dynamic>{};
     $request['ClusterIdentifier'] = clusterIdentifier;
     final $result = await _protocol.send(
@@ -5762,6 +7257,13 @@ class Redshift {
     bool resetAllParameters,
   }) async {
     ArgumentError.checkNotNull(parameterGroupName, 'parameterGroupName');
+    _s.validateStringLength(
+      'parameterGroupName',
+      parameterGroupName,
+      0,
+      2147483647,
+      isRequired: true,
+    );
     final $request = <String, dynamic>{};
     $request['ParameterGroupName'] = parameterGroupName;
     parameters?.also((arg) => $request['Parameters'] = arg);
@@ -5794,6 +7296,12 @@ class Redshift {
   ///
   /// <ul>
   /// <li>
+  /// dc1.large (if your cluster is in a VPC)
+  /// </li>
+  /// <li>
+  /// dc1.8xlarge (if your cluster is in a VPC)
+  /// </li>
+  /// <li>
   /// dc2.large
   /// </li>
   /// <li>
@@ -5804,6 +7312,9 @@ class Redshift {
   /// </li>
   /// <li>
   /// ds2.8xlarge
+  /// </li>
+  /// <li>
+  /// ra3.xlplus
   /// </li>
   /// <li>
   /// ra3.4xlarge
@@ -5843,7 +7354,8 @@ class Redshift {
   /// cluster's current node type is used.
   ///
   /// Parameter [numberOfNodes] :
-  /// The new number of nodes for the cluster.
+  /// The new number of nodes for the cluster. If not specified, the cluster's
+  /// current number of nodes is used.
   Future<ResizeClusterResult> resizeCluster({
     @_s.required String clusterIdentifier,
     bool classic,
@@ -5852,6 +7364,25 @@ class Redshift {
     int numberOfNodes,
   }) async {
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
+    _s.validateStringLength(
+      'clusterIdentifier',
+      clusterIdentifier,
+      0,
+      2147483647,
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'clusterType',
+      clusterType,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'nodeType',
+      nodeType,
+      0,
+      2147483647,
+    );
     final $request = <String, dynamic>{};
     $request['ClusterIdentifier'] = clusterIdentifier;
     classic?.also((arg) => $request['Classic'] = arg);
@@ -5973,6 +7504,10 @@ class Redshift {
   ///
   /// Example: <code>us-east-2a</code>
   ///
+  /// Parameter [availabilityZoneRelocation] :
+  /// The option to enable relocation for an Amazon Redshift cluster between
+  /// Availability Zones after the cluster is restored.
+  ///
   /// Parameter [clusterParameterGroupName] :
   /// The name of the parameter group to be associated with this cluster.
   ///
@@ -6070,7 +7605,7 @@ class Redshift {
   /// same instance type and size. In other words, you can only restore a
   /// dc1.large instance type into another dc1.large instance type or dc2.large
   /// instance type. You can't restore dc1.8xlarge to dc2.8xlarge. First restore
-  /// to a dc1.8xlareg cluster, then resize to a dc2.8large cluster. For more
+  /// to a dc1.8xlarge cluster, then resize to a dc2.8large cluster. For more
   /// information about node types, see <a
   /// href="https://docs.aws.amazon.com/redshift/latest/mgmt/working-with-clusters.html#rs-about-clusters-and-nodes">
   /// About Clusters and Nodes</a> in the <i>Amazon Redshift Cluster Management
@@ -6132,6 +7667,7 @@ class Redshift {
     bool allowVersionUpgrade,
     int automatedSnapshotRetentionPeriod,
     String availabilityZone,
+    bool availabilityZoneRelocation,
     String clusterParameterGroupName,
     List<String> clusterSecurityGroups,
     String clusterSubnetGroupName,
@@ -6154,7 +7690,105 @@ class Redshift {
     List<String> vpcSecurityGroupIds,
   }) async {
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
+    _s.validateStringLength(
+      'clusterIdentifier',
+      clusterIdentifier,
+      0,
+      2147483647,
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(snapshotIdentifier, 'snapshotIdentifier');
+    _s.validateStringLength(
+      'snapshotIdentifier',
+      snapshotIdentifier,
+      0,
+      2147483647,
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'additionalInfo',
+      additionalInfo,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'availabilityZone',
+      availabilityZone,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'clusterParameterGroupName',
+      clusterParameterGroupName,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'clusterSubnetGroupName',
+      clusterSubnetGroupName,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'elasticIp',
+      elasticIp,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'hsmClientCertificateIdentifier',
+      hsmClientCertificateIdentifier,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'hsmConfigurationIdentifier',
+      hsmConfigurationIdentifier,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'kmsKeyId',
+      kmsKeyId,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'maintenanceTrackName',
+      maintenanceTrackName,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'nodeType',
+      nodeType,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'ownerAccount',
+      ownerAccount,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'preferredMaintenanceWindow',
+      preferredMaintenanceWindow,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'snapshotClusterIdentifier',
+      snapshotClusterIdentifier,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'snapshotScheduleIdentifier',
+      snapshotScheduleIdentifier,
+      0,
+      2147483647,
+    );
     final $request = <String, dynamic>{};
     $request['ClusterIdentifier'] = clusterIdentifier;
     $request['SnapshotIdentifier'] = snapshotIdentifier;
@@ -6163,6 +7797,8 @@ class Redshift {
     automatedSnapshotRetentionPeriod
         ?.also((arg) => $request['AutomatedSnapshotRetentionPeriod'] = arg);
     availabilityZone?.also((arg) => $request['AvailabilityZone'] = arg);
+    availabilityZoneRelocation
+        ?.also((arg) => $request['AvailabilityZoneRelocation'] = arg);
     clusterParameterGroupName
         ?.also((arg) => $request['ClusterParameterGroupName'] = arg);
     clusterSecurityGroups
@@ -6268,10 +7904,63 @@ class Redshift {
     String targetSchemaName,
   }) async {
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
+    _s.validateStringLength(
+      'clusterIdentifier',
+      clusterIdentifier,
+      0,
+      2147483647,
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(newTableName, 'newTableName');
+    _s.validateStringLength(
+      'newTableName',
+      newTableName,
+      0,
+      2147483647,
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(snapshotIdentifier, 'snapshotIdentifier');
+    _s.validateStringLength(
+      'snapshotIdentifier',
+      snapshotIdentifier,
+      0,
+      2147483647,
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(sourceDatabaseName, 'sourceDatabaseName');
+    _s.validateStringLength(
+      'sourceDatabaseName',
+      sourceDatabaseName,
+      0,
+      2147483647,
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(sourceTableName, 'sourceTableName');
+    _s.validateStringLength(
+      'sourceTableName',
+      sourceTableName,
+      0,
+      2147483647,
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'sourceSchemaName',
+      sourceSchemaName,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'targetDatabaseName',
+      targetDatabaseName,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'targetSchemaName',
+      targetSchemaName,
+      0,
+      2147483647,
+    );
     final $request = <String, dynamic>{};
     $request['ClusterIdentifier'] = clusterIdentifier;
     $request['NewTableName'] = newTableName;
@@ -6299,6 +7988,7 @@ class Redshift {
   ///
   /// May throw [ClusterNotFoundFault].
   /// May throw [InvalidClusterStateFault].
+  /// May throw [InsufficientClusterCapacityFault].
   ///
   /// Parameter [clusterIdentifier] :
   /// The identifier of the cluster to be resumed.
@@ -6306,6 +7996,13 @@ class Redshift {
     @_s.required String clusterIdentifier,
   }) async {
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
+    _s.validateStringLength(
+      'clusterIdentifier',
+      clusterIdentifier,
+      0,
+      2147483647,
+      isRequired: true,
+    );
     final $request = <String, dynamic>{};
     $request['ClusterIdentifier'] = clusterIdentifier;
     final $result = await _protocol.send(
@@ -6366,6 +8063,31 @@ class Redshift {
   }) async {
     ArgumentError.checkNotNull(
         clusterSecurityGroupName, 'clusterSecurityGroupName');
+    _s.validateStringLength(
+      'clusterSecurityGroupName',
+      clusterSecurityGroupName,
+      0,
+      2147483647,
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'cidrip',
+      cidrip,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'eC2SecurityGroupName',
+      eC2SecurityGroupName,
+      0,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'eC2SecurityGroupOwnerId',
+      eC2SecurityGroupOwnerId,
+      0,
+      2147483647,
+    );
     final $request = <String, dynamic>{};
     $request['ClusterSecurityGroupName'] = clusterSecurityGroupName;
     cidrip?.also((arg) => $request['CIDRIP'] = arg);
@@ -6418,7 +8140,27 @@ class Redshift {
   }) async {
     ArgumentError.checkNotNull(
         accountWithRestoreAccess, 'accountWithRestoreAccess');
+    _s.validateStringLength(
+      'accountWithRestoreAccess',
+      accountWithRestoreAccess,
+      0,
+      2147483647,
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(snapshotIdentifier, 'snapshotIdentifier');
+    _s.validateStringLength(
+      'snapshotIdentifier',
+      snapshotIdentifier,
+      0,
+      2147483647,
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'snapshotClusterIdentifier',
+      snapshotClusterIdentifier,
+      0,
+      2147483647,
+    );
     final $request = <String, dynamic>{};
     $request['AccountWithRestoreAccess'] = accountWithRestoreAccess;
     $request['SnapshotIdentifier'] = snapshotIdentifier;
@@ -6454,6 +8196,13 @@ class Redshift {
     @_s.required String clusterIdentifier,
   }) async {
     ArgumentError.checkNotNull(clusterIdentifier, 'clusterIdentifier');
+    _s.validateStringLength(
+      'clusterIdentifier',
+      clusterIdentifier,
+      0,
+      2147483647,
+      isRequired: true,
+    );
     final $request = <String, dynamic>{};
     $request['ClusterIdentifier'] = clusterIdentifier;
     final $result = await _protocol.send(
@@ -6717,6 +8466,9 @@ class Cluster {
   /// The name of the Availability Zone in which the cluster is located.
   final String availabilityZone;
 
+  /// Describes the status of the Availability Zone relocation operation.
+  final String availabilityZoneRelocationStatus;
+
   /// The availability status of the cluster for queries. Possible values are the
   /// following:
   ///
@@ -6746,6 +8498,9 @@ class Cluster {
 
   /// The unique identifier of the cluster.
   final String clusterIdentifier;
+
+  /// The namespace Amazon Resource Name (ARN) of the cluster.
+  final String clusterNamespaceArn;
 
   /// The nodes in the cluster.
   final List<ClusterNode> clusterNodes;
@@ -6997,9 +8752,11 @@ class Cluster {
     this.allowVersionUpgrade,
     this.automatedSnapshotRetentionPeriod,
     this.availabilityZone,
+    this.availabilityZoneRelocationStatus,
     this.clusterAvailabilityStatus,
     this.clusterCreateTime,
     this.clusterIdentifier,
+    this.clusterNamespaceArn,
     this.clusterNodes,
     this.clusterParameterGroups,
     this.clusterPublicKey,
@@ -7047,10 +8804,14 @@ class Cluster {
       automatedSnapshotRetentionPeriod:
           _s.extractXmlIntValue(elem, 'AutomatedSnapshotRetentionPeriod'),
       availabilityZone: _s.extractXmlStringValue(elem, 'AvailabilityZone'),
+      availabilityZoneRelocationStatus:
+          _s.extractXmlStringValue(elem, 'AvailabilityZoneRelocationStatus'),
       clusterAvailabilityStatus:
           _s.extractXmlStringValue(elem, 'ClusterAvailabilityStatus'),
       clusterCreateTime: _s.extractXmlDateTimeValue(elem, 'ClusterCreateTime'),
       clusterIdentifier: _s.extractXmlStringValue(elem, 'ClusterIdentifier'),
+      clusterNamespaceArn:
+          _s.extractXmlStringValue(elem, 'ClusterNamespaceArn'),
       clusterNodes: _s.extractXmlChild(elem, 'ClusterNodes')?.let((elem) => elem
           .findElements('member')
           .map((c) => ClusterNode.fromXml(c))
@@ -8302,14 +10063,22 @@ class Endpoint {
   /// The port that the database engine is listening on.
   final int port;
 
+  /// Describes a connection endpoint.
+  final List<SpartaProxyVpcEndpoint> vpcEndpoints;
+
   Endpoint({
     this.address,
     this.port,
+    this.vpcEndpoints,
   });
   factory Endpoint.fromXml(_s.XmlElement elem) {
     return Endpoint(
       address: _s.extractXmlStringValue(elem, 'Address'),
       port: _s.extractXmlIntValue(elem, 'Port'),
+      vpcEndpoints: _s.extractXmlChild(elem, 'VpcEndpoints')?.let((elem) => elem
+          .findElements('SpartaProxyVpcEndpoint')
+          .map((c) => SpartaProxyVpcEndpoint.fromXml(c))
+          .toList()),
     );
   }
 }
@@ -9352,6 +11121,8 @@ extension on String {
   }
 }
 
+/// Describes a pause cluster operation. For example, a scheduled action to run
+/// the <code>PauseCluster</code> API operation.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -9404,8 +11175,7 @@ class PendingModifiedValues {
   /// The pending or in-progress change of the service version.
   final String clusterVersion;
 
-  /// The encryption type for a cluster. Possible values are: KMS and None. For
-  /// the China region the possible values are None, and Legacy.
+  /// The encryption type for a cluster. Possible values are: KMS and None.
   final String encryptionType;
 
   /// An option that specifies whether to create the cluster with enhanced VPC
@@ -9774,6 +11544,8 @@ class ReservedNodesMessage {
   }
 }
 
+/// Describes a resize cluster operation. For example, a scheduled action to run
+/// the <code>ResizeCluster</code> API operation.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -9799,7 +11571,8 @@ class ResizeClusterMessage {
   @_s.JsonKey(name: 'NodeType')
   final String nodeType;
 
-  /// The new number of nodes for the cluster.
+  /// The new number of nodes for the cluster. If not specified, the cluster's
+  /// current number of nodes is used.
   @_s.JsonKey(name: 'NumberOfNodes')
   final int numberOfNodes;
 
@@ -9922,8 +11695,7 @@ class ResizeProgressMessage {
 
   /// The type of encryption for the cluster after the resize is complete.
   ///
-  /// Possible values are <code>KMS</code> and <code>None</code>. In the China
-  /// region possible values are: <code>Legacy</code> and <code>None</code>.
+  /// Possible values are <code>KMS</code> and <code>None</code>.
   final String targetEncryptionType;
 
   /// The node type that the cluster will have after the resize operation is
@@ -10071,6 +11843,8 @@ class RestoreTableFromClusterSnapshotResult {
   }
 }
 
+/// Describes a resume cluster operation. For example, a scheduled action to run
+/// the <code>ResumeCluster</code> API operation.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -10499,6 +12273,10 @@ class Snapshot {
   /// encrypted using HSM keys.
   final bool encryptedWithHSM;
 
+  /// The cluster version of the cluster used to create the snapshot. For example,
+  /// 1.0.15503.
+  final String engineFullVersion;
+
   /// An option that specifies whether to create the cluster with enhanced VPC
   /// routing enabled. To create a cluster that uses enhanced VPC routing, the
   /// cluster must be in a VPC. For more information, see <a
@@ -10609,6 +12387,7 @@ class Snapshot {
     this.elapsedTimeInSeconds,
     this.encrypted,
     this.encryptedWithHSM,
+    this.engineFullVersion,
     this.enhancedVpcRouting,
     this.estimatedSecondsToCompletion,
     this.kmsKeyId,
@@ -10653,6 +12432,7 @@ class Snapshot {
       elapsedTimeInSeconds: _s.extractXmlIntValue(elem, 'ElapsedTimeInSeconds'),
       encrypted: _s.extractXmlBoolValue(elem, 'Encrypted'),
       encryptedWithHSM: _s.extractXmlBoolValue(elem, 'EncryptedWithHSM'),
+      engineFullVersion: _s.extractXmlStringValue(elem, 'EngineFullVersion'),
       enhancedVpcRouting: _s.extractXmlBoolValue(elem, 'EnhancedVpcRouting'),
       estimatedSecondsToCompletion:
           _s.extractXmlIntValue(elem, 'EstimatedSecondsToCompletion'),
@@ -10981,6 +12761,23 @@ extension on String {
         return SourceType.scheduledAction;
     }
     throw Exception('Unknown enum value: $this');
+  }
+}
+
+/// The connection endpoint for connecting an Amazon Redshift cluster through
+/// the proxy.
+class SpartaProxyVpcEndpoint {
+  /// The connection endpoint ID for connecting an Amazon Redshift cluster through
+  /// the proxy.
+  final String vpcEndpointId;
+
+  SpartaProxyVpcEndpoint({
+    this.vpcEndpointId,
+  });
+  factory SpartaProxyVpcEndpoint.fromXml(_s.XmlElement elem) {
+    return SpartaProxyVpcEndpoint(
+      vpcEndpointId: _s.extractXmlStringValue(elem, 'VpcEndpointId'),
+    );
   }
 }
 
@@ -11360,6 +13157,241 @@ class UpdateTarget {
               .map((c) => SupportedOperation.fromXml(c))
               .toList()),
     );
+  }
+}
+
+/// Describes a usage limit object for a cluster.
+class UsageLimit {
+  /// The limit amount. If time-based, this amount is in minutes. If data-based,
+  /// this amount is in terabytes (TB).
+  final int amount;
+
+  /// The action that Amazon Redshift takes when the limit is reached. Possible
+  /// values are:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>log</b> - To log an event in a system table. The default is log.
+  /// </li>
+  /// <li>
+  /// <b>emit-metric</b> - To emit CloudWatch metrics.
+  /// </li>
+  /// <li>
+  /// <b>disable</b> - To disable the feature until the next usage period begins.
+  /// </li>
+  /// </ul>
+  final UsageLimitBreachAction breachAction;
+
+  /// The identifier of the cluster with a usage limit.
+  final String clusterIdentifier;
+
+  /// The Amazon Redshift feature to which the limit applies.
+  final UsageLimitFeatureType featureType;
+
+  /// The type of limit. Depending on the feature type, this can be based on a
+  /// time duration or data size.
+  final UsageLimitLimitType limitType;
+
+  /// The time period that the amount applies to. A <code>weekly</code> period
+  /// begins on Sunday. The default is <code>monthly</code>.
+  final UsageLimitPeriod period;
+
+  /// A list of tag instances.
+  final List<Tag> tags;
+
+  /// The identifier of the usage limit.
+  final String usageLimitId;
+
+  UsageLimit({
+    this.amount,
+    this.breachAction,
+    this.clusterIdentifier,
+    this.featureType,
+    this.limitType,
+    this.period,
+    this.tags,
+    this.usageLimitId,
+  });
+  factory UsageLimit.fromXml(_s.XmlElement elem) {
+    return UsageLimit(
+      amount: _s.extractXmlIntValue(elem, 'Amount'),
+      breachAction: _s
+          .extractXmlStringValue(elem, 'BreachAction')
+          ?.toUsageLimitBreachAction(),
+      clusterIdentifier: _s.extractXmlStringValue(elem, 'ClusterIdentifier'),
+      featureType: _s
+          .extractXmlStringValue(elem, 'FeatureType')
+          ?.toUsageLimitFeatureType(),
+      limitType:
+          _s.extractXmlStringValue(elem, 'LimitType')?.toUsageLimitLimitType(),
+      period: _s.extractXmlStringValue(elem, 'Period')?.toUsageLimitPeriod(),
+      tags: _s.extractXmlChild(elem, 'Tags')?.let((elem) =>
+          elem.findElements('Tag').map((c) => Tag.fromXml(c)).toList()),
+      usageLimitId: _s.extractXmlStringValue(elem, 'UsageLimitId'),
+    );
+  }
+}
+
+enum UsageLimitBreachAction {
+  @_s.JsonValue('log')
+  log,
+  @_s.JsonValue('emit-metric')
+  emitMetric,
+  @_s.JsonValue('disable')
+  disable,
+}
+
+extension on UsageLimitBreachAction {
+  String toValue() {
+    switch (this) {
+      case UsageLimitBreachAction.log:
+        return 'log';
+      case UsageLimitBreachAction.emitMetric:
+        return 'emit-metric';
+      case UsageLimitBreachAction.disable:
+        return 'disable';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  UsageLimitBreachAction toUsageLimitBreachAction() {
+    switch (this) {
+      case 'log':
+        return UsageLimitBreachAction.log;
+      case 'emit-metric':
+        return UsageLimitBreachAction.emitMetric;
+      case 'disable':
+        return UsageLimitBreachAction.disable;
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
+enum UsageLimitFeatureType {
+  @_s.JsonValue('spectrum')
+  spectrum,
+  @_s.JsonValue('concurrency-scaling')
+  concurrencyScaling,
+}
+
+extension on UsageLimitFeatureType {
+  String toValue() {
+    switch (this) {
+      case UsageLimitFeatureType.spectrum:
+        return 'spectrum';
+      case UsageLimitFeatureType.concurrencyScaling:
+        return 'concurrency-scaling';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  UsageLimitFeatureType toUsageLimitFeatureType() {
+    switch (this) {
+      case 'spectrum':
+        return UsageLimitFeatureType.spectrum;
+      case 'concurrency-scaling':
+        return UsageLimitFeatureType.concurrencyScaling;
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
+enum UsageLimitLimitType {
+  @_s.JsonValue('time')
+  time,
+  @_s.JsonValue('data-scanned')
+  dataScanned,
+}
+
+extension on UsageLimitLimitType {
+  String toValue() {
+    switch (this) {
+      case UsageLimitLimitType.time:
+        return 'time';
+      case UsageLimitLimitType.dataScanned:
+        return 'data-scanned';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  UsageLimitLimitType toUsageLimitLimitType() {
+    switch (this) {
+      case 'time':
+        return UsageLimitLimitType.time;
+      case 'data-scanned':
+        return UsageLimitLimitType.dataScanned;
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
+class UsageLimitList {
+  /// A value that indicates the starting point for the next set of response
+  /// records in a subsequent request. If a value is returned in a response, you
+  /// can retrieve the next set of records by providing this returned marker value
+  /// in the <code>Marker</code> parameter and retrying the command. If the
+  /// <code>Marker</code> field is empty, all response records have been retrieved
+  /// for the request.
+  final String marker;
+
+  /// Contains the output from the <a>DescribeUsageLimits</a> action.
+  final List<UsageLimit> usageLimits;
+
+  UsageLimitList({
+    this.marker,
+    this.usageLimits,
+  });
+  factory UsageLimitList.fromXml(_s.XmlElement elem) {
+    return UsageLimitList(
+      marker: _s.extractXmlStringValue(elem, 'Marker'),
+      usageLimits: _s.extractXmlChild(elem, 'UsageLimits')?.let((elem) => elem
+          .findElements('member')
+          .map((c) => UsageLimit.fromXml(c))
+          .toList()),
+    );
+  }
+}
+
+enum UsageLimitPeriod {
+  @_s.JsonValue('daily')
+  daily,
+  @_s.JsonValue('weekly')
+  weekly,
+  @_s.JsonValue('monthly')
+  monthly,
+}
+
+extension on UsageLimitPeriod {
+  String toValue() {
+    switch (this) {
+      case UsageLimitPeriod.daily:
+        return 'daily';
+      case UsageLimitPeriod.weekly:
+        return 'weekly';
+      case UsageLimitPeriod.monthly:
+        return 'monthly';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  UsageLimitPeriod toUsageLimitPeriod() {
+    switch (this) {
+      case 'daily':
+        return UsageLimitPeriod.daily;
+      case 'weekly':
+        return UsageLimitPeriod.weekly;
+      case 'monthly':
+        return UsageLimitPeriod.monthly;
+    }
+    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -11815,6 +13847,11 @@ class InvalidTagFault extends _s.GenericAwsException {
       : super(type: type, code: 'InvalidTagFault', message: message);
 }
 
+class InvalidUsageLimitFault extends _s.GenericAwsException {
+  InvalidUsageLimitFault({String type, String message})
+      : super(type: type, code: 'InvalidUsageLimitFault', message: message);
+}
+
 class InvalidVPCNetworkStateFault extends _s.GenericAwsException {
   InvalidVPCNetworkStateFault({String type, String message})
       : super(
@@ -12104,6 +14141,17 @@ class UnsupportedOptionFault extends _s.GenericAwsException {
       : super(type: type, code: 'UnsupportedOptionFault', message: message);
 }
 
+class UsageLimitAlreadyExistsFault extends _s.GenericAwsException {
+  UsageLimitAlreadyExistsFault({String type, String message})
+      : super(
+            type: type, code: 'UsageLimitAlreadyExistsFault', message: message);
+}
+
+class UsageLimitNotFoundFault extends _s.GenericAwsException {
+  UsageLimitNotFoundFault({String type, String message})
+      : super(type: type, code: 'UsageLimitNotFoundFault', message: message);
+}
+
 final _exceptionFns = <String, _s.AwsExceptionFn>{
   'AccessToSnapshotDeniedFault': (type, message) =>
       AccessToSnapshotDeniedFault(type: type, message: message),
@@ -12228,6 +14276,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       InvalidTableRestoreArgumentFault(type: type, message: message),
   'InvalidTagFault': (type, message) =>
       InvalidTagFault(type: type, message: message),
+  'InvalidUsageLimitFault': (type, message) =>
+      InvalidUsageLimitFault(type: type, message: message),
   'InvalidVPCNetworkStateFault': (type, message) =>
       InvalidVPCNetworkStateFault(type: type, message: message),
   'LimitExceededFault': (type, message) =>
@@ -12314,4 +14364,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       UnsupportedOperationFault(type: type, message: message),
   'UnsupportedOptionFault': (type, message) =>
       UnsupportedOptionFault(type: type, message: message),
+  'UsageLimitAlreadyExistsFault': (type, message) =>
+      UsageLimitAlreadyExistsFault(type: type, message: message),
+  'UsageLimitNotFoundFault': (type, message) =>
+      UsageLimitNotFoundFault(type: type, message: message),
 };

@@ -62,7 +62,7 @@ class ElasticLoadBalancing {
   /// updates its value.
   ///
   /// For more information, see <a
-  /// href="http://docs.aws.amazon.com/elasticloadbalancing/latest/classic/add-remove-tags.html">Tag
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/add-remove-tags.html">Tag
   /// Your Classic Load Balancer</a> in the <i>Classic Load Balancers Guide</i>.
   ///
   /// May throw [AccessPointNotFoundException].
@@ -101,7 +101,7 @@ class ElasticLoadBalancing {
   /// previously associated security groups.
   ///
   /// For more information, see <a
-  /// href="http://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-security-groups.html#elb-vpc-security-groups">Security
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-security-groups.html#elb-vpc-security-groups">Security
   /// Groups for Load Balancers in a VPC</a> in the <i>Classic Load Balancers
   /// Guide</i>.
   ///
@@ -144,7 +144,7 @@ class ElasticLoadBalancing {
   ///
   /// The load balancer evenly distributes requests across all registered
   /// subnets. For more information, see <a
-  /// href="http://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-manage-subnets.html">Add
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-manage-subnets.html">Add
   /// or Remove Subnets for Your Load Balancer in a VPC</a> in the <i>Classic
   /// Load Balancers Guide</i>.
   ///
@@ -186,7 +186,7 @@ class ElasticLoadBalancing {
   /// state of your EC2 instances.
   ///
   /// For more information, see <a
-  /// href="http://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-healthchecks.html">Configure
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-healthchecks.html">Configure
   /// Health Checks for Your Load Balancer</a> in the <i>Classic Load Balancers
   /// Guide</i>.
   ///
@@ -235,7 +235,7 @@ class ElasticLoadBalancing {
   /// stops being sticky until a new application cookie is issued.
   ///
   /// For more information, see <a
-  /// href="http://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-sticky-sessions.html#enable-sticky-sessions-application">Application-Controlled
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-sticky-sessions.html#enable-sticky-sessions-application">Application-Controlled
   /// Session Stickiness</a> in the <i>Classic Load Balancers Guide</i>.
   ///
   /// May throw [AccessPointNotFoundException].
@@ -296,7 +296,7 @@ class ElasticLoadBalancing {
   /// configuration.
   ///
   /// For more information, see <a
-  /// href="http://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-sticky-sessions.html#enable-sticky-sessions-duration">Duration-Based
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-sticky-sessions.html#enable-sticky-sessions-duration">Duration-Based
   /// Session Stickiness</a> in the <i>Classic Load Balancers Guide</i>.
   ///
   /// May throw [AccessPointNotFoundException].
@@ -357,7 +357,7 @@ class ElasticLoadBalancing {
   /// You can create up to 20 load balancers per region per account. You can
   /// request an increase for the number of load balancers for your account. For
   /// more information, see <a
-  /// href="http://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-limits.html">Limits
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-limits.html">Limits
   /// for Your Classic Load Balancer</a> in the <i>Classic Load Balancers
   /// Guide</i>.
   ///
@@ -378,7 +378,7 @@ class ElasticLoadBalancing {
   /// The listeners.
   ///
   /// For more information, see <a
-  /// href="http://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-listener-config.html">Listeners
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-listener-config.html">Listeners
   /// for Your Classic Load Balancer</a> in the <i>Classic Load Balancers
   /// Guide</i>.
   ///
@@ -403,7 +403,7 @@ class ElasticLoadBalancing {
   /// By default, Elastic Load Balancing creates an Internet-facing load
   /// balancer with a DNS name that resolves to public IP addresses. For more
   /// information about Internet-facing and Internal load balancers, see <a
-  /// href="http://docs.aws.amazon.com/elasticloadbalancing/latest/userguide/how-elastic-load-balancing-works.html#load-balancer-scheme">Load
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/userguide/how-elastic-load-balancing-works.html#load-balancer-scheme">Load
   /// Balancer Scheme</a> in the <i>Elastic Load Balancing User Guide</i>.
   ///
   /// Specify <code>internal</code> to create a load balancer with a DNS name
@@ -421,7 +421,7 @@ class ElasticLoadBalancing {
   /// A list of tags to assign to the load balancer.
   ///
   /// For more information about tagging your load balancer, see <a
-  /// href="http://docs.aws.amazon.com/elasticloadbalancing/latest/classic/add-remove-tags.html">Tag
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/add-remove-tags.html">Tag
   /// Your Classic Load Balancer</a> in the <i>Classic Load Balancers Guide</i>.
   Future<CreateAccessPointOutput> createLoadBalancer({
     @_s.required List<Listener> listeners,
@@ -462,7 +462,7 @@ class ElasticLoadBalancing {
   /// the existing listener.
   ///
   /// For more information, see <a
-  /// href="http://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-listener-config.html">Listeners
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-listener-config.html">Listeners
   /// for Your Classic Load Balancer</a> in the <i>Classic Load Balancers
   /// Guide</i>.
   ///
@@ -656,7 +656,7 @@ class ElasticLoadBalancing {
   /// deregistered from the load balancer.
   ///
   /// For more information, see <a
-  /// href="http://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-deregister-register-instances.html">Register
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-deregister-register-instances.html">Register
   /// or De-Register EC2 Instances</a> in the <i>Classic Load Balancers
   /// Guide</i>.
   ///
@@ -695,7 +695,7 @@ class ElasticLoadBalancing {
   /// account.
   ///
   /// For more information, see <a
-  /// href="http://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-limits.html">Limits
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-limits.html">Limits
   /// for Your Classic Load Balancer</a> in the <i>Classic Load Balancers
   /// Guide</i>.
   ///
@@ -997,7 +997,7 @@ class ElasticLoadBalancing {
   /// Availability Zones.
   ///
   /// For more information, see <a
-  /// href="http://docs.aws.amazon.com/elasticloadbalancing/latest/classic/enable-disable-az.html">Add
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/enable-disable-az.html">Add
   /// or Remove Availability Zones</a> in the <i>Classic Load Balancers
   /// Guide</i>.
   ///
@@ -1041,7 +1041,7 @@ class ElasticLoadBalancing {
   ///
   /// The load balancer evenly distributes requests across all its registered
   /// Availability Zones that contain instances. For more information, see <a
-  /// href="http://docs.aws.amazon.com/elasticloadbalancing/latest/classic/enable-disable-az.html">Add
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/enable-disable-az.html">Add
   /// or Remove Availability Zones</a> in the <i>Classic Load Balancers
   /// Guide</i>.
   ///
@@ -1091,22 +1091,22 @@ class ElasticLoadBalancing {
   /// <ul>
   /// <li>
   /// <a
-  /// href="http://docs.aws.amazon.com/elasticloadbalancing/latest/classic/enable-disable-crosszone-lb.html">Cross-Zone
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/enable-disable-crosszone-lb.html">Cross-Zone
   /// Load Balancing</a>
   /// </li>
   /// <li>
   /// <a
-  /// href="http://docs.aws.amazon.com/elasticloadbalancing/latest/classic/config-conn-drain.html">Connection
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/config-conn-drain.html">Connection
   /// Draining</a>
   /// </li>
   /// <li>
   /// <a
-  /// href="http://docs.aws.amazon.com/elasticloadbalancing/latest/classic/access-log-collection.html">Access
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/access-log-collection.html">Access
   /// Logs</a>
   /// </li>
   /// <li>
   /// <a
-  /// href="http://docs.aws.amazon.com/elasticloadbalancing/latest/classic/config-idle-timeout.html">Idle
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/config-idle-timeout.html">Idle
   /// Connection Timeout</a>
   /// </li>
   /// </ul>
@@ -1168,7 +1168,7 @@ class ElasticLoadBalancing {
   /// <a>DeregisterInstancesFromLoadBalancer</a>.
   ///
   /// For more information, see <a
-  /// href="http://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-deregister-register-instances.html">Register
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-deregister-register-instances.html">Register
   /// or De-Register EC2 Instances</a> in the <i>Classic Load Balancers
   /// Guide</i>.
   ///
@@ -1240,7 +1240,7 @@ class ElasticLoadBalancing {
   /// was used on the same load balancer and port.
   ///
   /// For more information about updating your SSL certificate, see <a
-  /// href="http://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-update-ssl-cert.html">Replace
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-update-ssl-cert.html">Replace
   /// the SSL Certificate for Your Load Balancer</a> in the <i>Classic Load
   /// Balancers Guide</i>.
   ///
@@ -1299,10 +1299,10 @@ class ElasticLoadBalancing {
   ///
   /// For more information about enabling back-end instance authentication, see
   /// <a
-  /// href="http://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-create-https-ssl-load-balancer.html#configure_backendauth_clt">Configure
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-create-https-ssl-load-balancer.html#configure_backendauth_clt">Configure
   /// Back-end Instance Authentication</a> in the <i>Classic Load Balancers
   /// Guide</i>. For more information about Proxy Protocol, see <a
-  /// href="http://docs.aws.amazon.com/elasticloadbalancing/latest/classic/enable-proxy-protocol.html">Configure
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/enable-proxy-protocol.html">Configure
   /// Proxy Protocol Support</a> in the <i>Classic Load Balancers Guide</i>.
   ///
   /// May throw [AccessPointNotFoundException].
@@ -1350,11 +1350,11 @@ class ElasticLoadBalancing {
   /// <a>SetLoadBalancerPoliciesForBackendServer</a>.
   ///
   /// For more information about setting policies, see <a
-  /// href="http://docs.aws.amazon.com/elasticloadbalancing/latest/classic/ssl-config-update.html">Update
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/ssl-config-update.html">Update
   /// the SSL Negotiation Configuration</a>, <a
-  /// href="http://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-sticky-sessions.html#enable-sticky-sessions-duration">Duration-Based
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-sticky-sessions.html#enable-sticky-sessions-duration">Duration-Based
   /// Session Stickiness</a>, and <a
-  /// href="http://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-sticky-sessions.html#enable-sticky-sessions-application">Application-Controlled
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-sticky-sessions.html#enable-sticky-sessions-application">Application-Controlled
   /// Session Stickiness</a> in the <i>Classic Load Balancers Guide</i>.
   ///
   /// May throw [AccessPointNotFoundException].
@@ -1471,18 +1471,30 @@ class AddTagsOutput {
   }
 }
 
-/// This data type is reserved.
+/// Information about additional load balancer attributes.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: false,
     createToJson: true)
 class AdditionalAttribute {
-  /// This parameter is reserved.
+  /// The name of the attribute.
+  ///
+  /// The following attribute is supported.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>elb.http.desyncmitigationmode</code> - Determines how the load
+  /// balancer handles requests that might pose a security risk to your
+  /// application. The possible values are <code>monitor</code>,
+  /// <code>defensive</code>, and <code>strictest</code>. The default is
+  /// <code>defensive</code>.
+  /// </li>
+  /// </ul>
   @_s.JsonKey(name: 'Key')
   final String key;
 
-  /// This parameter is reserved.
+  /// This value of the attribute.
   @_s.JsonKey(name: 'Value')
   final String value;
 
@@ -2164,7 +2176,7 @@ class Limit {
 ///
 /// For information about the protocols and the ports supported by Elastic Load
 /// Balancing, see <a
-/// href="http://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-listener-config.html">Listeners
+/// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-listener-config.html">Listeners
 /// for Your Classic Load Balancer</a> in the <i>Classic Load Balancers
 /// Guide</i>.
 @_s.JsonSerializable(
@@ -2191,8 +2203,9 @@ class Listener {
   /// The protocol to use for routing traffic to instances: HTTP, HTTPS, TCP, or
   /// SSL.
   ///
-  /// If the front-end protocol is HTTP, HTTPS, TCP, or SSL,
-  /// <code>InstanceProtocol</code> must be at the same protocol.
+  /// If the front-end protocol is TCP or SSL, the back-end protocol must be TCP
+  /// or SSL. If the front-end protocol is HTTP or HTTPS, the back-end protocol
+  /// must be HTTP or HTTPS.
   ///
   /// If there is another listener with the same <code>InstancePort</code> whose
   /// <code>InstanceProtocol</code> is secure, (HTTPS or SSL), the listener's
@@ -2262,12 +2275,12 @@ class LoadBalancerAttributes {
   /// and delivers the information to the Amazon S3 bucket that you specify.
   ///
   /// For more information, see <a
-  /// href="http://docs.aws.amazon.com/elasticloadbalancing/latest/classic/enable-access-logs.html">Enable
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/enable-access-logs.html">Enable
   /// Access Logs</a> in the <i>Classic Load Balancers Guide</i>.
   @_s.JsonKey(name: 'AccessLog')
   final AccessLog accessLog;
 
-  /// This parameter is reserved.
+  /// Any additional attributes.
   @_s.JsonKey(name: 'AdditionalAttributes')
   final List<AdditionalAttribute> additionalAttributes;
 
@@ -2276,7 +2289,7 @@ class LoadBalancerAttributes {
   /// instance.
   ///
   /// For more information, see <a
-  /// href="http://docs.aws.amazon.com/elasticloadbalancing/latest/classic/config-conn-drain.html">Configure
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/config-conn-drain.html">Configure
   /// Connection Draining</a> in the <i>Classic Load Balancers Guide</i>.
   @_s.JsonKey(name: 'ConnectionDraining')
   final ConnectionDraining connectionDraining;
@@ -2287,7 +2300,7 @@ class LoadBalancerAttributes {
   /// By default, Elastic Load Balancing maintains a 60-second idle connection
   /// timeout for both front-end and back-end connections of your load balancer.
   /// For more information, see <a
-  /// href="http://docs.aws.amazon.com/elasticloadbalancing/latest/classic/config-idle-timeout.html">Configure
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/config-idle-timeout.html">Configure
   /// Idle Connection Timeout</a> in the <i>Classic Load Balancers Guide</i>.
   @_s.JsonKey(name: 'ConnectionSettings')
   final ConnectionSettings connectionSettings;
@@ -2296,7 +2309,7 @@ class LoadBalancerAttributes {
   /// instances regardless of the Availability Zones.
   ///
   /// For more information, see <a
-  /// href="http://docs.aws.amazon.com/elasticloadbalancing/latest/classic/enable-disable-crosszone-lb.html">Configure
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/enable-disable-crosszone-lb.html">Configure
   /// Cross-Zone Load Balancing</a> in the <i>Classic Load Balancers Guide</i>.
   @_s.JsonKey(name: 'CrossZoneLoadBalancing')
   final CrossZoneLoadBalancing crossZoneLoadBalancing;
@@ -2345,7 +2358,7 @@ class LoadBalancerDescription {
   /// The DNS name of the load balancer.
   ///
   /// For more information, see <a
-  /// href="http://docs.aws.amazon.com/elasticloadbalancing/latest/classic/using-domain-names-with-elb.html">Configure
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/using-domain-names-with-elb.html">Configure
   /// a Custom Domain Name</a> in the <i>Classic Load Balancers Guide</i>.
   final String canonicalHostedZoneName;
 

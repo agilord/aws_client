@@ -62,14 +62,11 @@ class ElasticLoadBalancingv2 {
   /// If the certificate in already in the certificate list, the call is
   /// successful but the certificate is not added again.
   ///
-  /// To get the certificate list for a listener, use
-  /// <a>DescribeListenerCertificates</a>. To remove certificates from the
-  /// certificate list for a listener, use <a>RemoveListenerCertificates</a>. To
-  /// replace the default certificate for a listener, use <a>ModifyListener</a>.
-  ///
   /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/application/create-https-listener.html#https-listener-certificates">SSL
-  /// Certificates</a> in the <i>Application Load Balancers Guide</i>.
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/application/create-https-listener.html">HTTPS
+  /// listeners</a> in the <i>Application Load Balancers Guide</i> or <a
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/network/create-tls-listener.html">TLS
+  /// listeners</a> in the <i>Network Load Balancers Guide</i>.
   ///
   /// May throw [ListenerNotFoundException].
   /// May throw [TooManyCertificatesException].
@@ -106,14 +103,11 @@ class ElasticLoadBalancingv2 {
   }
 
   /// Adds the specified tags to the specified Elastic Load Balancing resource.
-  /// You can tag your Application Load Balancers, Network Load Balancers, and
-  /// your target groups.
+  /// You can tag your Application Load Balancers, Network Load Balancers,
+  /// Gateway Load Balancers, target groups, listeners, and rules.
   ///
   /// Each tag consists of a key and an optional value. If a resource already
   /// has a tag with the same key, <code>AddTags</code> updates its value.
-  ///
-  /// To list the current tags for your resources, use <a>DescribeTags</a>. To
-  /// remove tags from your resources, use <a>RemoveTags</a>.
   ///
   /// May throw [DuplicateTagKeysException].
   /// May throw [TooManyTagsException].
@@ -147,25 +141,31 @@ class ElasticLoadBalancingv2 {
     );
   }
 
-  /// Creates a listener for the specified Application Load Balancer or Network
-  /// Load Balancer.
+  /// Creates a listener for the specified Application Load Balancer, Network
+  /// Load Balancer. or Gateway Load Balancer.
   ///
-  /// To update a listener, use <a>ModifyListener</a>. When you are finished
-  /// with a listener, you can delete it using <a>DeleteListener</a>. If you are
-  /// finished with both the listener and the load balancer, you can delete them
-  /// both using <a>DeleteLoadBalancer</a>.
+  /// For more information, see the following:
   ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-listeners.html">Listeners
+  /// for your Application Load Balancers</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-listeners.html">Listeners
+  /// for your Network Load Balancers</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/gateway/gateway-listeners.html">Listeners
+  /// for your Gateway Load Balancers</a>
+  /// </li>
+  /// </ul>
   /// This operation is idempotent, which means that it completes at most one
   /// time. If you attempt to create multiple listeners with the same settings,
   /// each call succeeds.
-  ///
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-listeners.html">Listeners
-  /// for Your Application Load Balancers</a> in the <i>Application Load
-  /// Balancers Guide</i> and <a
-  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-listeners.html">Listeners
-  /// for Your Network Load Balancers</a> in the <i>Network Load Balancers
-  /// Guide</i>.
   ///
   /// May throw [DuplicateListenerException].
   /// May throw [TooManyListenersException].
@@ -183,114 +183,96 @@ class ElasticLoadBalancingv2 {
   /// May throw [TooManyActionsException].
   /// May throw [InvalidLoadBalancerActionException].
   /// May throw [TooManyUniqueTargetGroupsPerLoadBalancerException].
+  /// May throw [ALPNPolicyNotSupportedException].
+  /// May throw [TooManyTagsException].
   ///
   /// Parameter [defaultActions] :
-  /// The actions for the default rule. The rule must include one forward action
-  /// or one or more fixed-response actions.
-  ///
-  /// If the action type is <code>forward</code>, you specify one or more target
-  /// groups. The protocol of the target group must be HTTP or HTTPS for an
-  /// Application Load Balancer. The protocol of the target group must be TCP,
-  /// TLS, UDP, or TCP_UDP for a Network Load Balancer.
-  ///
-  /// [HTTPS listeners] If the action type is <code>authenticate-oidc</code>,
-  /// you authenticate users through an identity provider that is OpenID Connect
-  /// (OIDC) compliant.
-  ///
-  /// [HTTPS listeners] If the action type is <code>authenticate-cognito</code>,
-  /// you authenticate users through the user pools supported by Amazon Cognito.
-  ///
-  /// [Application Load Balancer] If the action type is <code>redirect</code>,
-  /// you redirect specified client requests from one URL to another.
-  ///
-  /// [Application Load Balancer] If the action type is
-  /// <code>fixed-response</code>, you drop specified client requests and return
-  /// a custom HTTP response.
+  /// The actions for the default rule.
   ///
   /// Parameter [loadBalancerArn] :
   /// The Amazon Resource Name (ARN) of the load balancer.
   ///
-  /// Parameter [port] :
-  /// The port on which the load balancer is listening.
+  /// Parameter [alpnPolicy] :
+  /// [TLS listeners] The name of the Application-Layer Protocol Negotiation
+  /// (ALPN) policy. You can specify one policy name. The following are the
+  /// possible values:
   ///
-  /// Parameter [protocol] :
-  /// The protocol for connections from clients to the load balancer. For
-  /// Application Load Balancers, the supported protocols are HTTP and HTTPS.
-  /// For Network Load Balancers, the supported protocols are TCP, TLS, UDP, and
-  /// TCP_UDP.
+  /// <ul>
+  /// <li>
+  /// <code>HTTP1Only</code>
+  /// </li>
+  /// <li>
+  /// <code>HTTP2Only</code>
+  /// </li>
+  /// <li>
+  /// <code>HTTP2Optional</code>
+  /// </li>
+  /// <li>
+  /// <code>HTTP2Preferred</code>
+  /// </li>
+  /// <li>
+  /// <code>None</code>
+  /// </li>
+  /// </ul>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/network/create-tls-listener.html#alpn-policies">ALPN
+  /// policies</a> in the <i>Network Load Balancers Guide</i>.
   ///
   /// Parameter [certificates] :
   /// [HTTPS and TLS listeners] The default certificate for the listener. You
   /// must provide exactly one certificate. Set <code>CertificateArn</code> to
   /// the certificate ARN but do not set <code>IsDefault</code>.
   ///
-  /// To create a certificate list for the listener, use
-  /// <a>AddListenerCertificates</a>.
+  /// Parameter [port] :
+  /// The port on which the load balancer is listening. You cannot specify a
+  /// port for a Gateway Load Balancer.
+  ///
+  /// Parameter [protocol] :
+  /// The protocol for connections from clients to the load balancer. For
+  /// Application Load Balancers, the supported protocols are HTTP and HTTPS.
+  /// For Network Load Balancers, the supported protocols are TCP, TLS, UDP, and
+  /// TCP_UDP. You can’t specify the UDP or TCP_UDP protocol if dual-stack mode
+  /// is enabled. You cannot specify a protocol for a Gateway Load Balancer.
   ///
   /// Parameter [sslPolicy] :
   /// [HTTPS and TLS listeners] The security policy that defines which protocols
-  /// and ciphers are supported. The following are the possible values:
+  /// and ciphers are supported.
   ///
-  /// <ul>
-  /// <li>
-  /// <code>ELBSecurityPolicy-2016-08</code>
-  /// </li>
-  /// <li>
-  /// <code>ELBSecurityPolicy-TLS-1-0-2015-04</code>
-  /// </li>
-  /// <li>
-  /// <code>ELBSecurityPolicy-TLS-1-1-2017-01</code>
-  /// </li>
-  /// <li>
-  /// <code>ELBSecurityPolicy-TLS-1-2-2017-01</code>
-  /// </li>
-  /// <li>
-  /// <code>ELBSecurityPolicy-TLS-1-2-Ext-2018-06</code>
-  /// </li>
-  /// <li>
-  /// <code>ELBSecurityPolicy-FS-2018-06</code>
-  /// </li>
-  /// <li>
-  /// <code>ELBSecurityPolicy-FS-1-1-2019-08</code>
-  /// </li>
-  /// <li>
-  /// <code>ELBSecurityPolicy-FS-1-2-2019-08</code>
-  /// </li>
-  /// <li>
-  /// <code>ELBSecurityPolicy-FS-1-2-Res-2019-08</code>
-  /// </li>
-  /// </ul>
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/application/create-https-listener.html#describe-ssl-policies">Security
-  /// Policies</a> in the <i>Application Load Balancers Guide</i> and <a
+  /// policies</a> in the <i>Application Load Balancers Guide</i> and <a
   /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/network/create-tls-listener.html#describe-ssl-policies">Security
-  /// Policies</a> in the <i>Network Load Balancers Guide</i>.
+  /// policies</a> in the <i>Network Load Balancers Guide</i>.
+  ///
+  /// Parameter [tags] :
+  /// The tags to assign to the listener.
   Future<CreateListenerOutput> createListener({
     @_s.required List<Action> defaultActions,
     @_s.required String loadBalancerArn,
-    @_s.required int port,
-    @_s.required ProtocolEnum protocol,
+    List<String> alpnPolicy,
     List<Certificate> certificates,
+    int port,
+    ProtocolEnum protocol,
     String sslPolicy,
+    List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(defaultActions, 'defaultActions');
     ArgumentError.checkNotNull(loadBalancerArn, 'loadBalancerArn');
-    ArgumentError.checkNotNull(port, 'port');
     _s.validateNumRange(
       'port',
       port,
       1,
       65535,
-      isRequired: true,
     );
-    ArgumentError.checkNotNull(protocol, 'protocol');
     final $request = <String, dynamic>{};
     $request['DefaultActions'] = defaultActions;
     $request['LoadBalancerArn'] = loadBalancerArn;
-    $request['Port'] = port;
-    $request['Protocol'] = protocol.toValue();
+    alpnPolicy?.also((arg) => $request['AlpnPolicy'] = arg);
     certificates?.also((arg) => $request['Certificates'] = arg);
+    port?.also((arg) => $request['Port'] = arg);
+    protocol?.also((arg) => $request['Protocol'] = arg.toValue());
     sslPolicy?.also((arg) => $request['SslPolicy'] = arg);
+    tags?.also((arg) => $request['Tags'] = arg);
     final $result = await _protocol.send(
       $request,
       action: 'CreateListener',
@@ -305,35 +287,31 @@ class ElasticLoadBalancingv2 {
     return CreateListenerOutput.fromXml($result);
   }
 
-  /// Creates an Application Load Balancer or a Network Load Balancer.
+  /// Creates an Application Load Balancer, Network Load Balancer, or Gateway
+  /// Load Balancer.
   ///
-  /// When you create a load balancer, you can specify security groups, public
-  /// subnets, IP address type, and tags. Otherwise, you could do so later using
-  /// <a>SetSecurityGroups</a>, <a>SetSubnets</a>, <a>SetIpAddressType</a>, and
-  /// <a>AddTags</a>.
+  /// For more information, see the following:
   ///
-  /// To create listeners for your load balancer, use <a>CreateListener</a>. To
-  /// describe your current load balancers, see <a>DescribeLoadBalancers</a>.
-  /// When you are finished with a load balancer, you can delete it using
-  /// <a>DeleteLoadBalancer</a>.
-  ///
-  /// For limit information, see <a
-  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-limits.html">Limits
-  /// for Your Application Load Balancer</a> in the <i>Application Load
-  /// Balancers Guide</i> and <a
-  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-limits.html">Limits
-  /// for Your Network Load Balancer</a> in the <i>Network Load Balancers
-  /// Guide</i>.
-  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/application/application-load-balancers.html">Application
+  /// Load Balancers</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/network/network-load-balancers.html">Network
+  /// Load Balancers</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/gateway/gateway-load-balancers.html">Gateway
+  /// Load Balancers</a>
+  /// </li>
+  /// </ul>
   /// This operation is idempotent, which means that it completes at most one
   /// time. If you attempt to create multiple load balancers with the same
   /// settings, each call succeeds.
-  ///
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/application/application-load-balancers.html">Application
-  /// Load Balancers</a> in the <i>Application Load Balancers Guide</i> and <a
-  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/network/network-load-balancers.html">Network
-  /// Load Balancers</a> in the <i>Network Load Balancers Guide</i>.
   ///
   /// May throw [DuplicateLoadBalancerNameException].
   /// May throw [TooManyLoadBalancersException].
@@ -356,11 +334,15 @@ class ElasticLoadBalancingv2 {
   /// characters, must contain only alphanumeric characters or hyphens, must not
   /// begin or end with a hyphen, and must not begin with "internal-".
   ///
+  /// Parameter [customerOwnedIpv4Pool] :
+  /// [Application Load Balancers on Outposts] The ID of the customer-owned
+  /// address pool (CoIP pool).
+  ///
   /// Parameter [ipAddressType] :
-  /// [Application Load Balancers] The type of IP addresses used by the subnets
-  /// for your load balancer. The possible values are <code>ipv4</code> (for
-  /// IPv4 addresses) and <code>dualstack</code> (for IPv4 and IPv6 addresses).
-  /// Internal load balancers must use <code>ipv4</code>.
+  /// The type of IP addresses used by the subnets for your load balancer. The
+  /// possible values are <code>ipv4</code> (for IPv4 addresses) and
+  /// <code>dualstack</code> (for IPv4 and IPv6 addresses). Internal load
+  /// balancers must use <code>ipv4</code>.
   ///
   /// Parameter [scheme] :
   /// The nodes of an Internet-facing load balancer have public IP addresses.
@@ -376,6 +358,8 @@ class ElasticLoadBalancingv2 {
   ///
   /// The default is an Internet-facing load balancer.
   ///
+  /// You cannot specify a scheme for a Gateway Load Balancer.
+  ///
   /// Parameter [securityGroups] :
   /// [Application Load Balancers] The IDs of the security groups for the load
   /// balancer.
@@ -388,11 +372,22 @@ class ElasticLoadBalancingv2 {
   /// Availability Zones. You cannot specify Elastic IP addresses for your
   /// subnets.
   ///
+  /// [Application Load Balancers on Outposts] You must specify one Outpost
+  /// subnet.
+  ///
+  /// [Application Load Balancers on Local Zones] You can specify subnets from
+  /// one or more Local Zones.
+  ///
   /// [Network Load Balancers] You can specify subnets from one or more
   /// Availability Zones. You can specify one Elastic IP address per subnet if
   /// you need static IP addresses for your internet-facing load balancer. For
   /// internal load balancers, you can specify one private IP address per subnet
-  /// from the IPv4 range of the subnet.
+  /// from the IPv4 range of the subnet. For internet-facing load balancer, you
+  /// can specify one IPv6 address per subnet.
+  ///
+  /// [Gateway Load Balancers] You can specify subnets from one or more
+  /// Availability Zones. You cannot specify Elastic IP addresses for your
+  /// subnets.
   ///
   /// Parameter [subnets] :
   /// The IDs of the public subnets. You can specify only one subnet per
@@ -401,16 +396,26 @@ class ElasticLoadBalancingv2 {
   /// [Application Load Balancers] You must specify subnets from at least two
   /// Availability Zones.
   ///
+  /// [Application Load Balancers on Outposts] You must specify one Outpost
+  /// subnet.
+  ///
+  /// [Application Load Balancers on Local Zones] You can specify subnets from
+  /// one or more Local Zones.
+  ///
   /// [Network Load Balancers] You can specify subnets from one or more
   /// Availability Zones.
   ///
+  /// [Gateway Load Balancers] You can specify subnets from one or more
+  /// Availability Zones.
+  ///
   /// Parameter [tags] :
-  /// One or more tags to assign to the load balancer.
+  /// The tags to assign to the load balancer.
   ///
   /// Parameter [type] :
   /// The type of load balancer. The default is <code>application</code>.
   Future<CreateLoadBalancerOutput> createLoadBalancer({
     @_s.required String name,
+    String customerOwnedIpv4Pool,
     IpAddressType ipAddressType,
     LoadBalancerSchemeEnum scheme,
     List<String> securityGroups,
@@ -420,8 +425,21 @@ class ElasticLoadBalancingv2 {
     LoadBalancerTypeEnum type,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
+    _s.validateStringLength(
+      'customerOwnedIpv4Pool',
+      customerOwnedIpv4Pool,
+      0,
+      256,
+    );
+    _s.validateStringPattern(
+      'customerOwnedIpv4Pool',
+      customerOwnedIpv4Pool,
+      r'''^(ipv4pool-coip-)[a-zA-Z0-9]+$''',
+    );
     final $request = <String, dynamic>{};
     $request['Name'] = name;
+    customerOwnedIpv4Pool
+        ?.also((arg) => $request['CustomerOwnedIpv4Pool'] = arg);
     ipAddressType?.also((arg) => $request['IpAddressType'] = arg.toValue());
     scheme?.also((arg) => $request['Scheme'] = arg.toValue());
     securityGroups?.also((arg) => $request['SecurityGroups'] = arg);
@@ -446,16 +464,13 @@ class ElasticLoadBalancingv2 {
   /// Creates a rule for the specified listener. The listener must be associated
   /// with an Application Load Balancer.
   ///
-  /// Rules are evaluated in priority order, from the lowest value to the
-  /// highest value. When the conditions for a rule are met, its actions are
-  /// performed. If the conditions for no rules are met, the actions for the
+  /// Each rule consists of a priority, one or more actions, and one or more
+  /// conditions. Rules are evaluated in priority order, from the lowest value
+  /// to the highest value. When the conditions for a rule are met, its actions
+  /// are performed. If the conditions for no rules are met, the actions for the
   /// default rule are performed. For more information, see <a
   /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-listeners.html#listener-rules">Listener
-  /// Rules</a> in the <i>Application Load Balancers Guide</i>.
-  ///
-  /// To view your current rules, use <a>DescribeRules</a>. To update a rule,
-  /// use <a>ModifyRule</a>. To set the priorities of your rules, use
-  /// <a>SetRulePriorities</a>. To delete a rule, use <a>DeleteRule</a>.
+  /// rules</a> in the <i>Application Load Balancers Guide</i>.
   ///
   /// May throw [PriorityInUseException].
   /// May throw [TooManyTargetGroupsException].
@@ -471,37 +486,13 @@ class ElasticLoadBalancingv2 {
   /// May throw [TooManyActionsException].
   /// May throw [InvalidLoadBalancerActionException].
   /// May throw [TooManyUniqueTargetGroupsPerLoadBalancerException].
+  /// May throw [TooManyTagsException].
   ///
   /// Parameter [actions] :
-  /// The actions. Each rule must include exactly one of the following types of
-  /// actions: <code>forward</code>, <code>fixed-response</code>, or
-  /// <code>redirect</code>, and it must be the last action to be performed.
-  ///
-  /// If the action type is <code>forward</code>, you specify one or more target
-  /// groups. The protocol of the target group must be HTTP or HTTPS for an
-  /// Application Load Balancer. The protocol of the target group must be TCP,
-  /// TLS, UDP, or TCP_UDP for a Network Load Balancer.
-  ///
-  /// [HTTPS listeners] If the action type is <code>authenticate-oidc</code>,
-  /// you authenticate users through an identity provider that is OpenID Connect
-  /// (OIDC) compliant.
-  ///
-  /// [HTTPS listeners] If the action type is <code>authenticate-cognito</code>,
-  /// you authenticate users through the user pools supported by Amazon Cognito.
-  ///
-  /// [Application Load Balancer] If the action type is <code>redirect</code>,
-  /// you redirect specified client requests from one URL to another.
-  ///
-  /// [Application Load Balancer] If the action type is
-  /// <code>fixed-response</code>, you drop specified client requests and return
-  /// a custom HTTP response.
+  /// The actions.
   ///
   /// Parameter [conditions] :
-  /// The conditions. Each rule can include zero or one of the following
-  /// conditions: <code>http-request-method</code>, <code>host-header</code>,
-  /// <code>path-pattern</code>, and <code>source-ip</code>, and zero or more of
-  /// the following conditions: <code>http-header</code> and
-  /// <code>query-string</code>.
+  /// The conditions.
   ///
   /// Parameter [listenerArn] :
   /// The Amazon Resource Name (ARN) of the listener.
@@ -509,11 +500,15 @@ class ElasticLoadBalancingv2 {
   /// Parameter [priority] :
   /// The rule priority. A listener can't have multiple rules with the same
   /// priority.
+  ///
+  /// Parameter [tags] :
+  /// The tags to assign to the rule.
   Future<CreateRuleOutput> createRule({
     @_s.required List<Action> actions,
     @_s.required List<RuleCondition> conditions,
     @_s.required String listenerArn,
     @_s.required int priority,
+    List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(actions, 'actions');
     ArgumentError.checkNotNull(conditions, 'conditions');
@@ -531,6 +526,7 @@ class ElasticLoadBalancingv2 {
     $request['Conditions'] = conditions;
     $request['ListenerArn'] = listenerArn;
     $request['Priority'] = priority;
+    tags?.also((arg) => $request['Tags'] = arg);
     final $result = await _protocol.send(
       $request,
       action: 'CreateRule',
@@ -547,31 +543,33 @@ class ElasticLoadBalancingv2 {
 
   /// Creates a target group.
   ///
-  /// To register targets with the target group, use <a>RegisterTargets</a>. To
-  /// update the health check settings for the target group, use
-  /// <a>ModifyTargetGroup</a>. To monitor the health of targets in the target
-  /// group, use <a>DescribeTargetHealth</a>.
+  /// For more information, see the following:
   ///
-  /// To route traffic to the targets in a target group, specify the target
-  /// group in an action using <a>CreateListener</a> or <a>CreateRule</a>.
-  ///
-  /// To delete a target group, use <a>DeleteTargetGroup</a>.
-  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-target-groups.html">Target
+  /// groups for your Application Load Balancers</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-target-groups.html">Target
+  /// groups for your Network Load Balancers</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/gateway/target-groups.html">Target
+  /// groups for your Gateway Load Balancers</a>
+  /// </li>
+  /// </ul>
   /// This operation is idempotent, which means that it completes at most one
   /// time. If you attempt to create multiple target groups with the same
   /// settings, each call succeeds.
   ///
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-target-groups.html">Target
-  /// Groups for Your Application Load Balancers</a> in the <i>Application Load
-  /// Balancers Guide</i> or <a
-  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-target-groups.html">Target
-  /// Groups for Your Network Load Balancers</a> in the <i>Network Load
-  /// Balancers Guide</i>.
-  ///
   /// May throw [DuplicateTargetGroupNameException].
   /// May throw [TooManyTargetGroupsException].
   /// May throw [InvalidConfigurationRequestException].
+  /// May throw [TooManyTagsException].
   ///
   /// Parameter [name] :
   /// The name of the target group.
@@ -588,59 +586,77 @@ class ElasticLoadBalancingv2 {
   ///
   /// Parameter [healthCheckIntervalSeconds] :
   /// The approximate amount of time, in seconds, between health checks of an
-  /// individual target. For HTTP and HTTPS health checks, the range is 5–300
-  /// seconds. For TCP health checks, the supported values are 10 and 30
-  /// seconds. If the target type is <code>instance</code> or <code>ip</code>,
-  /// the default is 30 seconds. If the target type is <code>lambda</code>, the
-  /// default is 35 seconds.
+  /// individual target. For TCP health checks, the supported values are 10 and
+  /// 30 seconds. If the target type is <code>instance</code> or
+  /// <code>ip</code>, the default is 30 seconds. If the target group protocol
+  /// is GENEVE, the default is 10 seconds. If the target type is
+  /// <code>lambda</code>, the default is 35 seconds.
   ///
   /// Parameter [healthCheckPath] :
-  /// [HTTP/HTTPS health checks] The ping path that is the destination on the
-  /// targets for health checks. The default is /.
+  /// [HTTP/HTTPS health checks] The destination for health checks on the
+  /// targets.
+  ///
+  /// [HTTP1 or HTTP2 protocol version] The ping path. The default is /.
+  ///
+  /// [GRPC protocol version] The path of a custom health check method with the
+  /// format /package.service/method. The default is /AWS.ALB/healthcheck.
   ///
   /// Parameter [healthCheckPort] :
   /// The port the load balancer uses when performing health checks on targets.
-  /// The default is <code>traffic-port</code>, which is the port on which each
-  /// target receives traffic from the load balancer.
+  /// If the protocol is HTTP, HTTPS, TCP, TLS, UDP, or TCP_UDP, the default is
+  /// <code>traffic-port</code>, which is the port on which each target receives
+  /// traffic from the load balancer. If the protocol is GENEVE, the default is
+  /// port 80.
   ///
   /// Parameter [healthCheckProtocol] :
   /// The protocol the load balancer uses when performing health checks on
   /// targets. For Application Load Balancers, the default is HTTP. For Network
-  /// Load Balancers, the default is TCP. The TCP protocol is supported for
-  /// health checks only if the protocol of the target group is TCP, TLS, UDP,
-  /// or TCP_UDP. The TLS, UDP, and TCP_UDP protocols are not supported for
-  /// health checks.
+  /// Load Balancers and Gateway Load Balancers, the default is TCP. The TCP
+  /// protocol is not supported for health checks if the protocol of the target
+  /// group is HTTP or HTTPS. The GENEVE, TLS, UDP, and TCP_UDP protocols are
+  /// not supported for health checks.
   ///
   /// Parameter [healthCheckTimeoutSeconds] :
   /// The amount of time, in seconds, during which no response from a target
-  /// means a failed health check. For target groups with a protocol of HTTP or
-  /// HTTPS, the default is 5 seconds. For target groups with a protocol of TCP
-  /// or TLS, this value must be 6 seconds for HTTP health checks and 10 seconds
-  /// for TCP and HTTPS health checks. If the target type is
-  /// <code>lambda</code>, the default is 30 seconds.
+  /// means a failed health check. For target groups with a protocol of HTTP,
+  /// HTTPS, or GENEVE, the default is 5 seconds. For target groups with a
+  /// protocol of TCP or TLS, this value must be 6 seconds for HTTP health
+  /// checks and 10 seconds for TCP and HTTPS health checks. If the target type
+  /// is <code>lambda</code>, the default is 30 seconds.
   ///
   /// Parameter [healthyThresholdCount] :
   /// The number of consecutive health checks successes required before
   /// considering an unhealthy target healthy. For target groups with a protocol
   /// of HTTP or HTTPS, the default is 5. For target groups with a protocol of
-  /// TCP or TLS, the default is 3. If the target type is <code>lambda</code>,
-  /// the default is 5.
+  /// TCP, TLS, or GENEVE, the default is 3. If the target type is
+  /// <code>lambda</code>, the default is 5.
   ///
   /// Parameter [matcher] :
-  /// [HTTP/HTTPS health checks] The HTTP codes to use when checking for a
-  /// successful response from a target.
+  /// [HTTP/HTTPS health checks] The HTTP or gRPC codes to use when checking for
+  /// a successful response from a target.
   ///
   /// Parameter [port] :
   /// The port on which the targets receive traffic. This port is used unless
   /// you specify a port override when registering the target. If the target is
-  /// a Lambda function, this parameter does not apply.
+  /// a Lambda function, this parameter does not apply. If the protocol is
+  /// GENEVE, the supported port is 6081.
   ///
   /// Parameter [protocol] :
   /// The protocol to use for routing traffic to the targets. For Application
   /// Load Balancers, the supported protocols are HTTP and HTTPS. For Network
-  /// Load Balancers, the supported protocols are TCP, TLS, UDP, or TCP_UDP. A
-  /// TCP_UDP listener must be associated with a TCP_UDP target group. If the
-  /// target is a Lambda function, this parameter does not apply.
+  /// Load Balancers, the supported protocols are TCP, TLS, UDP, or TCP_UDP. For
+  /// Gateway Load Balancers, the supported protocol is GENEVE. A TCP_UDP
+  /// listener must be associated with a TCP_UDP target group. If the target is
+  /// a Lambda function, this parameter does not apply.
+  ///
+  /// Parameter [protocolVersion] :
+  /// [HTTP/HTTPS protocol] The protocol version. Specify <code>GRPC</code> to
+  /// send requests to targets using gRPC. Specify <code>HTTP2</code> to send
+  /// requests to targets using HTTP/2. The default is <code>HTTP1</code>, which
+  /// sends requests to targets using HTTP/1.1.
+  ///
+  /// Parameter [tags] :
+  /// The tags to assign to the target group.
   ///
   /// Parameter [targetType] :
   /// The type of target that you must specify when registering targets with
@@ -649,28 +665,28 @@ class ElasticLoadBalancingv2 {
   ///
   /// <ul>
   /// <li>
-  /// <code>instance</code> - Targets are specified by instance ID. This is the
-  /// default value. If the target group protocol is UDP or TCP_UDP, the target
-  /// type must be <code>instance</code>.
+  /// <code>instance</code> - Register targets by instance ID. This is the
+  /// default value.
   /// </li>
   /// <li>
-  /// <code>ip</code> - Targets are specified by IP address. You can specify IP
+  /// <code>ip</code> - Register targets by IP address. You can specify IP
   /// addresses from the subnets of the virtual private cloud (VPC) for the
   /// target group, the RFC 1918 range (10.0.0.0/8, 172.16.0.0/12, and
   /// 192.168.0.0/16), and the RFC 6598 range (100.64.0.0/10). You can't specify
   /// publicly routable IP addresses.
   /// </li>
   /// <li>
-  /// <code>lambda</code> - The target groups contains a single Lambda function.
+  /// <code>lambda</code> - Register a single Lambda function as a target.
   /// </li>
   /// </ul>
   ///
   /// Parameter [unhealthyThresholdCount] :
   /// The number of consecutive health check failures required before
-  /// considering a target unhealthy. For target groups with a protocol of HTTP
-  /// or HTTPS, the default is 2. For target groups with a protocol of TCP or
-  /// TLS, this value must be the same as the healthy threshold count. If the
-  /// target type is <code>lambda</code>, the default is 2.
+  /// considering a target unhealthy. If the target group protocol is HTTP or
+  /// HTTPS, the default is 2. If the target group protocol is TCP or TLS, this
+  /// value must be the same as the healthy threshold count. If the target group
+  /// protocol is GENEVE, the default is 3. If the target type is
+  /// <code>lambda</code>, the default is 2.
   ///
   /// Parameter [vpcId] :
   /// The identifier of the virtual private cloud (VPC). If the target is a
@@ -688,6 +704,8 @@ class ElasticLoadBalancingv2 {
     Matcher matcher,
     int port,
     ProtocolEnum protocol,
+    String protocolVersion,
+    List<Tag> tags,
     TargetTypeEnum targetType,
     int unhealthyThresholdCount,
     String vpcId,
@@ -745,6 +763,8 @@ class ElasticLoadBalancingv2 {
     matcher?.also((arg) => $request['Matcher'] = arg);
     port?.also((arg) => $request['Port'] = arg);
     protocol?.also((arg) => $request['Protocol'] = arg.toValue());
+    protocolVersion?.also((arg) => $request['ProtocolVersion'] = arg);
+    tags?.also((arg) => $request['Tags'] = arg);
     targetType?.also((arg) => $request['TargetType'] = arg.toValue());
     unhealthyThresholdCount
         ?.also((arg) => $request['UnhealthyThresholdCount'] = arg);
@@ -766,7 +786,7 @@ class ElasticLoadBalancingv2 {
   /// Deletes the specified listener.
   ///
   /// Alternatively, your listener is deleted when you delete the load balancer
-  /// to which it is attached, using <a>DeleteLoadBalancer</a>.
+  /// to which it is attached.
   ///
   /// May throw [ListenerNotFoundException].
   ///
@@ -791,8 +811,9 @@ class ElasticLoadBalancingv2 {
     );
   }
 
-  /// Deletes the specified Application Load Balancer or Network Load Balancer
-  /// and its attached listeners.
+  /// Deletes the specified Application Load Balancer, Network Load Balancer, or
+  /// Gateway Load Balancer. Deleting a load balancer also deletes its
+  /// listeners.
   ///
   /// You can't delete a load balancer if deletion protection is enabled. If the
   /// load balancer does not exist or has already been deleted, the call
@@ -830,6 +851,8 @@ class ElasticLoadBalancingv2 {
 
   /// Deletes the specified rule.
   ///
+  /// You can't delete the default rule.
+  ///
   /// May throw [RuleNotFoundException].
   /// May throw [OperationNotPermittedException].
   ///
@@ -858,6 +881,9 @@ class ElasticLoadBalancingv2 {
   ///
   /// You can delete a target group if it is not referenced by any actions.
   /// Deleting a target group also deletes any associated health checks.
+  /// Deleting a target group does not affect its registered targets. For
+  /// example, any EC2 instances continue to run until you stop or terminate
+  /// them.
   ///
   /// May throw [ResourceInUseException].
   ///
@@ -921,13 +947,25 @@ class ElasticLoadBalancingv2 {
   /// Describes the current Elastic Load Balancing resource limits for your AWS
   /// account.
   ///
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-limits.html">Limits
-  /// for Your Application Load Balancers</a> in the <i>Application Load
-  /// Balancer Guide</i> or <a
-  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-limits.html">Limits
-  /// for Your Network Load Balancers</a> in the <i>Network Load Balancers
-  /// Guide</i>.
+  /// For more information, see the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-limits.html">Quotas
+  /// for your Application Load Balancers</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-limits.html">Quotas
+  /// for your Network Load Balancers</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/gateway/quotas-limits.html">Quotas
+  /// for your Gateway Load Balancers</a>
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [marker] :
   /// The marker for the next set of results. (You received this marker from a
@@ -971,7 +1009,9 @@ class ElasticLoadBalancingv2 {
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/application/create-https-listener.html#https-listener-certificates">SSL
-  /// Certificates</a> in the <i>Application Load Balancers Guide</i>.
+  /// certificates</a> in the <i>Application Load Balancers Guide</i> or <a
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/network/create-tls-listener.html#tls-listener-certificate">Server
+  /// certificates</a> in the <i>Network Load Balancers Guide</i>.
   ///
   /// May throw [ListenerNotFoundException].
   ///
@@ -1015,12 +1055,9 @@ class ElasticLoadBalancingv2 {
   }
 
   /// Describes the specified listeners or the listeners for the specified
-  /// Application Load Balancer or Network Load Balancer. You must specify
-  /// either a load balancer or one or more listeners.
-  ///
-  /// For an HTTPS or TLS listener, the output includes the default certificate
-  /// for the listener. To describe the certificate list for the listener, use
-  /// <a>DescribeListenerCertificates</a>.
+  /// Application Load Balancer, Network Load Balancer, or Gateway Load
+  /// Balancer. You must specify either a load balancer or one or more
+  /// listeners.
   ///
   /// May throw [ListenerNotFoundException].
   /// May throw [LoadBalancerNotFoundException].
@@ -1069,15 +1106,28 @@ class ElasticLoadBalancingv2 {
     return DescribeListenersOutput.fromXml($result);
   }
 
-  /// Describes the attributes for the specified Application Load Balancer or
-  /// Network Load Balancer.
+  /// Describes the attributes for the specified Application Load Balancer,
+  /// Network Load Balancer, or Gateway Load Balancer.
   ///
-  /// For more information, see <a
+  /// For more information, see the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
   /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/application/application-load-balancers.html#load-balancer-attributes">Load
-  /// Balancer Attributes</a> in the <i>Application Load Balancers Guide</i> or
+  /// balancer attributes</a> in the <i>Application Load Balancers Guide</i>
+  /// </li>
+  /// <li>
   /// <a
   /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/network/network-load-balancers.html#load-balancer-attributes">Load
-  /// Balancer Attributes</a> in the <i>Network Load Balancers Guide</i>.
+  /// balancer attributes</a> in the <i>Network Load Balancers Guide</i>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/gateway/gateway-load-balancers.html#load-balancer-attributes">Load
+  /// balancer attributes</a> in the <i>Gateway Load Balancers Guide</i>
+  /// </li>
+  /// </ul>
   ///
   /// May throw [LoadBalancerNotFoundException].
   ///
@@ -1104,10 +1154,6 @@ class ElasticLoadBalancingv2 {
   }
 
   /// Describes the specified load balancers or all of your load balancers.
-  ///
-  /// To describe the listeners for a load balancer, use
-  /// <a>DescribeListeners</a>. To describe the attributes for a load balancer,
-  /// use <a>DescribeLoadBalancerAttributes</a>.
   ///
   /// May throw [LoadBalancerNotFoundException].
   ///
@@ -1209,7 +1255,9 @@ class ElasticLoadBalancingv2 {
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/application/create-https-listener.html#describe-ssl-policies">Security
-  /// Policies</a> in the <i>Application Load Balancers Guide</i>.
+  /// policies</a> in the <i>Application Load Balancers Guide</i> or <a
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/network/create-tls-listener.html#describe-ssl-policies">Security
+  /// policies</a> in the <i>Network Load Balancers Guide</i>.
   ///
   /// May throw [SSLPolicyNotFoundException].
   ///
@@ -1251,9 +1299,10 @@ class ElasticLoadBalancingv2 {
     return DescribeSSLPoliciesOutput.fromXml($result);
   }
 
-  /// Describes the tags for the specified resources. You can describe the tags
-  /// for one or more Application Load Balancers, Network Load Balancers, and
-  /// target groups.
+  /// Describes the tags for the specified Elastic Load Balancing resources. You
+  /// can describe the tags for one or more Application Load Balancers, Network
+  /// Load Balancers, Gateway Load Balancers, target groups, listeners, or
+  /// rules.
   ///
   /// May throw [LoadBalancerNotFoundException].
   /// May throw [TargetGroupNotFoundException].
@@ -1285,11 +1334,25 @@ class ElasticLoadBalancingv2 {
 
   /// Describes the attributes for the specified target group.
   ///
-  /// For more information, see <a
+  /// For more information, see the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <a
   /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/application/load-balancer-target-groups.html#target-group-attributes">Target
-  /// Group Attributes</a> in the <i>Application Load Balancers Guide</i> or <a
+  /// group attributes</a> in the <i>Application Load Balancers Guide</i>
+  /// </li>
+  /// <li>
+  /// <a
   /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/network/load-balancer-target-groups.html#target-group-attributes">Target
-  /// Group Attributes</a> in the <i>Network Load Balancers Guide</i>.
+  /// group attributes</a> in the <i>Network Load Balancers Guide</i>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/gateway/target-groups.html#target-group-attributes">Target
+  /// group attributes</a> in the <i>Gateway Load Balancers Guide</i>
+  /// </li>
+  /// </ul>
   ///
   /// May throw [TargetGroupNotFoundException].
   ///
@@ -1320,10 +1383,6 @@ class ElasticLoadBalancingv2 {
   /// one of the following to filter the results: the ARN of the load balancer,
   /// the names of one or more target groups, or the ARNs of one or more target
   /// groups.
-  ///
-  /// To describe the targets for a target group, use
-  /// <a>DescribeTargetHealth</a>. To describe the attributes of a target group,
-  /// use <a>DescribeTargetGroupAttributes</a>.
   ///
   /// May throw [LoadBalancerNotFoundException].
   /// May throw [TargetGroupNotFoundException].
@@ -1437,88 +1496,68 @@ class ElasticLoadBalancingv2 {
   /// May throw [TooManyActionsException].
   /// May throw [InvalidLoadBalancerActionException].
   /// May throw [TooManyUniqueTargetGroupsPerLoadBalancerException].
+  /// May throw [ALPNPolicyNotSupportedException].
   ///
   /// Parameter [listenerArn] :
   /// The Amazon Resource Name (ARN) of the listener.
+  ///
+  /// Parameter [alpnPolicy] :
+  /// [TLS listeners] The name of the Application-Layer Protocol Negotiation
+  /// (ALPN) policy. You can specify one policy name. The following are the
+  /// possible values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>HTTP1Only</code>
+  /// </li>
+  /// <li>
+  /// <code>HTTP2Only</code>
+  /// </li>
+  /// <li>
+  /// <code>HTTP2Optional</code>
+  /// </li>
+  /// <li>
+  /// <code>HTTP2Preferred</code>
+  /// </li>
+  /// <li>
+  /// <code>None</code>
+  /// </li>
+  /// </ul>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/network/create-tls-listener.html#alpn-policies">ALPN
+  /// policies</a> in the <i>Network Load Balancers Guide</i>.
   ///
   /// Parameter [certificates] :
   /// [HTTPS and TLS listeners] The default certificate for the listener. You
   /// must provide exactly one certificate. Set <code>CertificateArn</code> to
   /// the certificate ARN but do not set <code>IsDefault</code>.
   ///
-  /// To create a certificate list, use <a>AddListenerCertificates</a>.
-  ///
   /// Parameter [defaultActions] :
-  /// The actions for the default rule. The rule must include one forward action
-  /// or one or more fixed-response actions.
-  ///
-  /// If the action type is <code>forward</code>, you specify one or more target
-  /// groups. The protocol of the target group must be HTTP or HTTPS for an
-  /// Application Load Balancer. The protocol of the target group must be TCP,
-  /// TLS, UDP, or TCP_UDP for a Network Load Balancer.
-  ///
-  /// [HTTPS listeners] If the action type is <code>authenticate-oidc</code>,
-  /// you authenticate users through an identity provider that is OpenID Connect
-  /// (OIDC) compliant.
-  ///
-  /// [HTTPS listeners] If the action type is <code>authenticate-cognito</code>,
-  /// you authenticate users through the user pools supported by Amazon Cognito.
-  ///
-  /// [Application Load Balancer] If the action type is <code>redirect</code>,
-  /// you redirect specified client requests from one URL to another.
-  ///
-  /// [Application Load Balancer] If the action type is
-  /// <code>fixed-response</code>, you drop specified client requests and return
-  /// a custom HTTP response.
+  /// The actions for the default rule.
   ///
   /// Parameter [port] :
-  /// The port for connections from clients to the load balancer.
+  /// The port for connections from clients to the load balancer. You cannot
+  /// specify a port for a Gateway Load Balancer.
   ///
   /// Parameter [protocol] :
   /// The protocol for connections from clients to the load balancer.
   /// Application Load Balancers support the HTTP and HTTPS protocols. Network
-  /// Load Balancers support the TCP, TLS, UDP, and TCP_UDP protocols.
+  /// Load Balancers support the TCP, TLS, UDP, and TCP_UDP protocols. You can’t
+  /// change the protocol to UDP or TCP_UDP if dual-stack mode is enabled. You
+  /// cannot specify a protocol for a Gateway Load Balancer.
   ///
   /// Parameter [sslPolicy] :
   /// [HTTPS and TLS listeners] The security policy that defines which protocols
-  /// and ciphers are supported. The following are the possible values:
+  /// and ciphers are supported.
   ///
-  /// <ul>
-  /// <li>
-  /// <code>ELBSecurityPolicy-2016-08</code>
-  /// </li>
-  /// <li>
-  /// <code>ELBSecurityPolicy-TLS-1-0-2015-04</code>
-  /// </li>
-  /// <li>
-  /// <code>ELBSecurityPolicy-TLS-1-1-2017-01</code>
-  /// </li>
-  /// <li>
-  /// <code>ELBSecurityPolicy-TLS-1-2-2017-01</code>
-  /// </li>
-  /// <li>
-  /// <code>ELBSecurityPolicy-TLS-1-2-Ext-2018-06</code>
-  /// </li>
-  /// <li>
-  /// <code>ELBSecurityPolicy-FS-2018-06</code>
-  /// </li>
-  /// <li>
-  /// <code>ELBSecurityPolicy-FS-1-1-2019-08</code>
-  /// </li>
-  /// <li>
-  /// <code>ELBSecurityPolicy-FS-1-2-2019-08</code>
-  /// </li>
-  /// <li>
-  /// <code>ELBSecurityPolicy-FS-1-2-Res-2019-08</code>
-  /// </li>
-  /// </ul>
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/application/create-https-listener.html#describe-ssl-policies">Security
-  /// Policies</a> in the <i>Application Load Balancers Guide</i> and <a
+  /// policies</a> in the <i>Application Load Balancers Guide</i> or <a
   /// href="https://docs.aws.amazon.com/elasticloadbalancing/latest/network/create-tls-listener.html#describe-ssl-policies">Security
-  /// Policies</a> in the <i>Network Load Balancers Guide</i>.
+  /// policies</a> in the <i>Network Load Balancers Guide</i>.
   Future<ModifyListenerOutput> modifyListener({
     @_s.required String listenerArn,
+    List<String> alpnPolicy,
     List<Certificate> certificates,
     List<Action> defaultActions,
     int port,
@@ -1534,6 +1573,7 @@ class ElasticLoadBalancingv2 {
     );
     final $request = <String, dynamic>{};
     $request['ListenerArn'] = listenerArn;
+    alpnPolicy?.also((arg) => $request['AlpnPolicy'] = arg);
     certificates?.also((arg) => $request['Certificates'] = arg);
     defaultActions?.also((arg) => $request['DefaultActions'] = arg);
     port?.also((arg) => $request['Port'] = arg);
@@ -1554,7 +1594,7 @@ class ElasticLoadBalancingv2 {
   }
 
   /// Modifies the specified attributes of the specified Application Load
-  /// Balancer or Network Load Balancer.
+  /// Balancer, Network Load Balancer, or Gateway Load Balancer.
   ///
   /// If any of the specified attributes can't be modified as requested, the
   /// call fails. Any existing attributes that you do not modify retain their
@@ -1598,8 +1638,6 @@ class ElasticLoadBalancingv2 {
   /// a list, you must provide the entire list. For example, to add an action,
   /// specify a list with the current actions plus the new action.
   ///
-  /// To modify the actions for the default rule, use <a>ModifyListener</a>.
-  ///
   /// May throw [TargetGroupAssociationLimitException].
   /// May throw [IncompatibleProtocolsException].
   /// May throw [RuleNotFoundException].
@@ -1616,35 +1654,10 @@ class ElasticLoadBalancingv2 {
   /// The Amazon Resource Name (ARN) of the rule.
   ///
   /// Parameter [actions] :
-  /// The actions. Each rule must include exactly one of the following types of
-  /// actions: <code>forward</code>, <code>fixed-response</code>, or
-  /// <code>redirect</code>, and it must be the last action to be performed.
-  ///
-  /// If the action type is <code>forward</code>, you specify one or more target
-  /// groups. The protocol of the target group must be HTTP or HTTPS for an
-  /// Application Load Balancer. The protocol of the target group must be TCP,
-  /// TLS, UDP, or TCP_UDP for a Network Load Balancer.
-  ///
-  /// [HTTPS listeners] If the action type is <code>authenticate-oidc</code>,
-  /// you authenticate users through an identity provider that is OpenID Connect
-  /// (OIDC) compliant.
-  ///
-  /// [HTTPS listeners] If the action type is <code>authenticate-cognito</code>,
-  /// you authenticate users through the user pools supported by Amazon Cognito.
-  ///
-  /// [Application Load Balancer] If the action type is <code>redirect</code>,
-  /// you redirect specified client requests from one URL to another.
-  ///
-  /// [Application Load Balancer] If the action type is
-  /// <code>fixed-response</code>, you drop specified client requests and return
-  /// a custom HTTP response.
+  /// The actions.
   ///
   /// Parameter [conditions] :
-  /// The conditions. Each rule can include zero or one of the following
-  /// conditions: <code>http-request-method</code>, <code>host-header</code>,
-  /// <code>path-pattern</code>, and <code>source-ip</code>, and zero or more of
-  /// the following conditions: <code>http-header</code> and
-  /// <code>query-string</code>.
+  /// The conditions.
   Future<ModifyRuleOutput> modifyRule({
     @_s.required String ruleArn,
     List<Action> actions,
@@ -1672,8 +1685,6 @@ class ElasticLoadBalancingv2 {
   /// Modifies the health checks used when evaluating the health state of the
   /// targets in the specified target group.
   ///
-  /// To monitor the health of the targets, use <a>DescribeTargetHealth</a>.
-  ///
   /// May throw [TargetGroupNotFoundException].
   /// May throw [InvalidConfigurationRequestException].
   ///
@@ -1685,15 +1696,19 @@ class ElasticLoadBalancingv2 {
   ///
   /// Parameter [healthCheckIntervalSeconds] :
   /// The approximate amount of time, in seconds, between health checks of an
-  /// individual target. For Application Load Balancers, the range is 5 to 300
-  /// seconds. For Network Load Balancers, the supported values are 10 or 30
-  /// seconds.
+  /// individual target. For TCP health checks, the supported values are 10 or
+  /// 30 seconds.
   ///
   /// With Network Load Balancers, you can't modify this setting.
   ///
   /// Parameter [healthCheckPath] :
-  /// [HTTP/HTTPS health checks] The ping path that is the destination for the
-  /// health check request.
+  /// [HTTP/HTTPS health checks] The destination for health checks on the
+  /// targets.
+  ///
+  /// [HTTP1 or HTTP2 protocol version] The ping path. The default is /.
+  ///
+  /// [GRPC protocol version] The path of a custom health check method with the
+  /// format /package.service/method. The default is /AWS.ALB/healthcheck.
   ///
   /// Parameter [healthCheckPort] :
   /// The port the load balancer uses when performing health checks on targets.
@@ -1701,8 +1716,8 @@ class ElasticLoadBalancingv2 {
   /// Parameter [healthCheckProtocol] :
   /// The protocol the load balancer uses when performing health checks on
   /// targets. The TCP protocol is supported for health checks only if the
-  /// protocol of the target group is TCP, TLS, UDP, or TCP_UDP. The TLS, UDP,
-  /// and TCP_UDP protocols are not supported for health checks.
+  /// protocol of the target group is TCP, TLS, UDP, or TCP_UDP. The GENEVE,
+  /// TLS, UDP, and TCP_UDP protocols are not supported for health checks.
   ///
   /// With Network Load Balancers, you can't modify this setting.
   ///
@@ -1717,15 +1732,15 @@ class ElasticLoadBalancingv2 {
   /// considering an unhealthy target healthy.
   ///
   /// Parameter [matcher] :
-  /// [HTTP/HTTPS health checks] The HTTP codes to use when checking for a
-  /// successful response from a target.
+  /// [HTTP/HTTPS health checks] The HTTP or gRPC codes to use when checking for
+  /// a successful response from a target.
   ///
   /// With Network Load Balancers, you can't modify this setting.
   ///
   /// Parameter [unhealthyThresholdCount] :
   /// The number of consecutive health check failures required before
-  /// considering the target unhealthy. For Network Load Balancers, this value
-  /// must be the same as the healthy threshold count.
+  /// considering the target unhealthy. For target groups with a protocol of TCP
+  /// or TLS, this value must be the same as the healthy threshold count.
   Future<ModifyTargetGroupOutput> modifyTargetGroup({
     @_s.required String targetGroupArn,
     bool healthCheckEnabled,
@@ -1848,8 +1863,6 @@ class ElasticLoadBalancingv2 {
   /// CS1, G1, G2, HI1, HS1, M1, M2, M3, and T1. You can register instances of
   /// these types by IP address.
   ///
-  /// To remove a target from a target group, use <a>DeregisterTargets</a>.
-  ///
   /// May throw [TargetGroupNotFoundException].
   /// May throw [TooManyTargetsException].
   /// May throw [InvalidTargetException].
@@ -1860,10 +1873,6 @@ class ElasticLoadBalancingv2 {
   ///
   /// Parameter [targets] :
   /// The targets.
-  ///
-  /// To register a target by instance ID, specify the instance ID. To register
-  /// a target by IP address, specify the IP address. To register a Lambda
-  /// function, specify the ARN of the Lambda function.
   Future<void> registerTargets({
     @_s.required String targetGroupArn,
     @_s.required List<TargetDescription> targets,
@@ -1888,12 +1897,6 @@ class ElasticLoadBalancingv2 {
 
   /// Removes the specified certificate from the certificate list for the
   /// specified HTTPS or TLS listener.
-  ///
-  /// You can't remove the default certificate for a listener. To replace the
-  /// default certificate, call <a>ModifyListener</a>.
-  ///
-  /// To list the certificates for your listener, use
-  /// <a>DescribeListenerCertificates</a>.
   ///
   /// May throw [ListenerNotFoundException].
   /// May throw [OperationNotPermittedException].
@@ -1928,9 +1931,9 @@ class ElasticLoadBalancingv2 {
   }
 
   /// Removes the specified tags from the specified Elastic Load Balancing
-  /// resource.
-  ///
-  /// To list the current tags for your resources, use <a>DescribeTags</a>.
+  /// resources. You can remove the tags for one or more Application Load
+  /// Balancers, Network Load Balancers, Gateway Load Balancers, target groups,
+  /// listeners, or rules.
   ///
   /// May throw [LoadBalancerNotFoundException].
   /// May throw [TargetGroupNotFoundException].
@@ -1975,8 +1978,8 @@ class ElasticLoadBalancingv2 {
   /// Parameter [ipAddressType] :
   /// The IP address type. The possible values are <code>ipv4</code> (for IPv4
   /// addresses) and <code>dualstack</code> (for IPv4 and IPv6 addresses).
-  /// Internal load balancers must use <code>ipv4</code>. Network Load Balancers
-  /// must use <code>ipv4</code>.
+  /// Internal load balancers must use <code>ipv4</code>. You can’t specify
+  /// <code>dualstack</code> for a load balancer with a UDP or TCP_UDP listener.
   ///
   /// Parameter [loadBalancerArn] :
   /// The Amazon Resource Name (ARN) of the load balancer.
@@ -2039,7 +2042,8 @@ class ElasticLoadBalancingv2 {
   /// Load Balancer. The specified security groups override the previously
   /// associated security groups.
   ///
-  /// You can't specify a security group for a Network Load Balancer.
+  /// You can't specify a security group for a Network Load Balancer or Gateway
+  /// Load Balancer.
   ///
   /// May throw [LoadBalancerNotFoundException].
   /// May throw [InvalidConfigurationRequestException].
@@ -2074,8 +2078,8 @@ class ElasticLoadBalancingv2 {
   }
 
   /// Enables the Availability Zones for the specified public subnets for the
-  /// specified load balancer. The specified subnets replace the previously
-  /// enabled subnets.
+  /// specified Application Load Balancer or Network Load Balancer. The
+  /// specified subnets replace the previously enabled subnets.
   ///
   /// When you specify subnets for a Network Load Balancer, you must include all
   /// subnets that were enabled previously, with their existing configurations,
@@ -2091,6 +2095,13 @@ class ElasticLoadBalancingv2 {
   /// Parameter [loadBalancerArn] :
   /// The Amazon Resource Name (ARN) of the load balancer.
   ///
+  /// Parameter [ipAddressType] :
+  /// [Network Load Balancers] The type of IP addresses used by the subnets for
+  /// your load balancer. The possible values are <code>ipv4</code> (for IPv4
+  /// addresses) and <code>dualstack</code> (for IPv4 and IPv6 addresses). You
+  /// can’t specify <code>dualstack</code> for a load balancer with a UDP or
+  /// TCP_UDP listener. Internal load balancers must use <code>ipv4</code>.
+  ///
   /// Parameter [subnetMappings] :
   /// The IDs of the public subnets. You can specify only one subnet per
   /// Availability Zone. You must specify either subnets or subnet mappings.
@@ -2099,24 +2110,44 @@ class ElasticLoadBalancingv2 {
   /// Availability Zones. You cannot specify Elastic IP addresses for your
   /// subnets.
   ///
+  /// [Application Load Balancers on Outposts] You must specify one Outpost
+  /// subnet.
+  ///
+  /// [Application Load Balancers on Local Zones] You can specify subnets from
+  /// one or more Local Zones.
+  ///
   /// [Network Load Balancers] You can specify subnets from one or more
-  /// Availability Zones. If you need static IP addresses for your
-  /// internet-facing load balancer, you can specify one Elastic IP address per
-  /// subnet. For internal load balancers, you can specify one private IP
-  /// address per subnet from the IPv4 range of the subnet.
+  /// Availability Zones. You can specify one Elastic IP address per subnet if
+  /// you need static IP addresses for your internet-facing load balancer. For
+  /// internal load balancers, you can specify one private IP address per subnet
+  /// from the IPv4 range of the subnet. For internet-facing load balancer, you
+  /// can specify one IPv6 address per subnet.
   ///
   /// Parameter [subnets] :
-  /// The IDs of the public subnets. You must specify subnets from at least two
-  /// Availability Zones. You can specify only one subnet per Availability Zone.
-  /// You must specify either subnets or subnet mappings.
+  /// The IDs of the public subnets. You can specify only one subnet per
+  /// Availability Zone. You must specify either subnets or subnet mappings.
+  ///
+  /// [Application Load Balancers] You must specify subnets from at least two
+  /// Availability Zones.
+  ///
+  /// [Application Load Balancers on Outposts] You must specify one Outpost
+  /// subnet.
+  ///
+  /// [Application Load Balancers on Local Zones] You can specify subnets from
+  /// one or more Local Zones.
+  ///
+  /// [Network Load Balancers] You can specify subnets from one or more
+  /// Availability Zones.
   Future<SetSubnetsOutput> setSubnets({
     @_s.required String loadBalancerArn,
+    IpAddressType ipAddressType,
     List<SubnetMapping> subnetMappings,
     List<String> subnets,
   }) async {
     ArgumentError.checkNotNull(loadBalancerArn, 'loadBalancerArn');
     final $request = <String, dynamic>{};
     $request['LoadBalancerArn'] = loadBalancerArn;
+    ipAddressType?.also((arg) => $request['IpAddressType'] = arg.toValue());
     subnetMappings?.also((arg) => $request['SubnetMappings'] = arg);
     subnets?.also((arg) => $request['Subnets'] = arg);
     final $result = await _protocol.send(
@@ -2135,6 +2166,10 @@ class ElasticLoadBalancingv2 {
 }
 
 /// Information about an action.
+///
+/// Each rule must include exactly one of the following types of actions:
+/// <code>forward</code>, <code>fixed-response</code>, or <code>redirect</code>,
+/// and it must be the last action to be performed.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -2174,9 +2209,7 @@ class Action {
   final ForwardActionConfig forwardConfig;
 
   /// The order for the action. This value is required for rules with multiple
-  /// actions. The action with the lowest value for order is performed first. The
-  /// last action to be performed must be one of the following types of actions: a
-  /// <code>forward</code>, <code>fixed-response</code>, or <code>redirect</code>.
+  /// actions. The action with the lowest value for order is performed first.
   @_s.JsonKey(name: 'Order')
   final int order;
 
@@ -2575,6 +2608,9 @@ class AvailabilityZone {
   /// you can specify a private IP address from the IPv4 range of the subnet.
   final List<LoadBalancerAddress> loadBalancerAddresses;
 
+  /// [Application Load Balancers on Outposts] The ID of the Outpost.
+  final String outpostId;
+
   /// The ID of the subnet. You can specify one subnet per Availability Zone.
   final String subnetId;
 
@@ -2583,6 +2619,7 @@ class AvailabilityZone {
 
   AvailabilityZone({
     this.loadBalancerAddresses,
+    this.outpostId,
     this.subnetId,
     this.zoneName,
   });
@@ -2594,6 +2631,7 @@ class AvailabilityZone {
               .findElements('member')
               .map((c) => LoadBalancerAddress.fromXml(c))
               .toList()),
+      outpostId: _s.extractXmlStringValue(elem, 'OutpostId'),
       subnetId: _s.extractXmlStringValue(elem, 'SubnetId'),
       zoneName: _s.extractXmlStringValue(elem, 'ZoneName'),
     );
@@ -3225,6 +3263,21 @@ class Limit {
   /// application-load-balancers
   /// </li>
   /// <li>
+  /// condition-values-per-alb-rule
+  /// </li>
+  /// <li>
+  /// condition-wildcards-per-alb-rule
+  /// </li>
+  /// <li>
+  /// gateway-load-balancers
+  /// </li>
+  /// <li>
+  /// gateway-load-balancers-per-vpc
+  /// </li>
+  /// <li>
+  /// geneve-target-groups
+  /// </li>
+  /// <li>
   /// listeners-per-application-load-balancer
   /// </li>
   /// <li>
@@ -3252,6 +3305,9 @@ class Limit {
   /// targets-per-application-load-balancer
   /// </li>
   /// <li>
+  /// targets-per-availability-zone-per-gateway-load-balancer
+  /// </li>
+  /// <li>
   /// targets-per-availability-zone-per-network-load-balancer
   /// </li>
   /// <li>
@@ -3274,6 +3330,10 @@ class Limit {
 
 /// Information about a listener.
 class Listener {
+  /// [TLS listener] The name of the Application-Layer Protocol Negotiation (ALPN)
+  /// policy.
+  final List<String> alpnPolicy;
+
   /// [HTTPS or TLS listener] The default certificate for the listener.
   final List<Certificate> certificates;
 
@@ -3297,6 +3357,7 @@ class Listener {
   final String sslPolicy;
 
   Listener({
+    this.alpnPolicy,
     this.certificates,
     this.defaultActions,
     this.listenerArn,
@@ -3307,6 +3368,9 @@ class Listener {
   });
   factory Listener.fromXml(_s.XmlElement elem) {
     return Listener(
+      alpnPolicy: _s
+          .extractXmlChild(elem, 'AlpnPolicy')
+          ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
       certificates: _s.extractXmlChild(elem, 'Certificates')?.let((elem) => elem
           .findElements('member')
           .map((c) => Certificate.fromXml(c))
@@ -3324,7 +3388,7 @@ class Listener {
 
 /// Information about a load balancer.
 class LoadBalancer {
-  /// The Availability Zones for the load balancer.
+  /// The subnets for the load balancer.
   final List<AvailabilityZone> availabilityZones;
 
   /// The ID of the Amazon Route 53 hosted zone associated with the load balancer.
@@ -3332,6 +3396,10 @@ class LoadBalancer {
 
   /// The date and time the load balancer was created.
   final DateTime createdTime;
+
+  /// [Application Load Balancers on Outposts] The ID of the customer-owned
+  /// address pool.
+  final String customerOwnedIpv4Pool;
 
   /// The public DNS name of the load balancer.
   final String dNSName;
@@ -3374,6 +3442,7 @@ class LoadBalancer {
     this.availabilityZones,
     this.canonicalHostedZoneId,
     this.createdTime,
+    this.customerOwnedIpv4Pool,
     this.dNSName,
     this.ipAddressType,
     this.loadBalancerArn,
@@ -3394,6 +3463,8 @@ class LoadBalancer {
       canonicalHostedZoneId:
           _s.extractXmlStringValue(elem, 'CanonicalHostedZoneId'),
       createdTime: _s.extractXmlDateTimeValue(elem, 'CreatedTime'),
+      customerOwnedIpv4Pool:
+          _s.extractXmlStringValue(elem, 'CustomerOwnedIpv4Pool'),
       dNSName: _s.extractXmlStringValue(elem, 'DNSName'),
       ipAddressType:
           _s.extractXmlStringValue(elem, 'IpAddressType')?.toIpAddressType(),
@@ -3419,6 +3490,9 @@ class LoadBalancerAddress {
   /// internal-facing load balancer.
   final String allocationId;
 
+  /// [Network Load Balancers] The IPv6 address.
+  final String iPv6Address;
+
   /// The static IP address.
   final String ipAddress;
 
@@ -3428,12 +3502,14 @@ class LoadBalancerAddress {
 
   LoadBalancerAddress({
     this.allocationId,
+    this.iPv6Address,
     this.ipAddress,
     this.privateIPv4Address,
   });
   factory LoadBalancerAddress.fromXml(_s.XmlElement elem) {
     return LoadBalancerAddress(
       allocationId: _s.extractXmlStringValue(elem, 'AllocationId'),
+      iPv6Address: _s.extractXmlStringValue(elem, 'IPv6Address'),
       ipAddress: _s.extractXmlStringValue(elem, 'IpAddress'),
       privateIPv4Address: _s.extractXmlStringValue(elem, 'PrivateIPv4Address'),
     );
@@ -3449,6 +3525,15 @@ class LoadBalancerAddress {
 class LoadBalancerAttribute {
   /// The name of the attribute.
   ///
+  /// The following attribute is supported by all load balancers:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>deletion_protection.enabled</code> - Indicates whether deletion
+  /// protection is enabled. The value is <code>true</code> or <code>false</code>.
+  /// The default is <code>false</code>.
+  /// </li>
+  /// </ul>
   /// The following attributes are supported by both Application Load Balancers
   /// and Network Load Balancers:
   ///
@@ -3469,11 +3554,6 @@ class LoadBalancerAttribute {
   /// <code>access_logs.s3.prefix</code> - The prefix for the location in the S3
   /// bucket for the access logs.
   /// </li>
-  /// <li>
-  /// <code>deletion_protection.enabled</code> - Indicates whether deletion
-  /// protection is enabled. The value is <code>true</code> or <code>false</code>.
-  /// The default is <code>false</code>.
-  /// </li>
   /// </ul>
   /// The following attributes are supported by only Application Load Balancers:
   ///
@@ -3481,6 +3561,13 @@ class LoadBalancerAttribute {
   /// <li>
   /// <code>idle_timeout.timeout_seconds</code> - The idle timeout value, in
   /// seconds. The valid range is 1-4000 seconds. The default is 60 seconds.
+  /// </li>
+  /// <li>
+  /// <code>routing.http.desync_mitigation_mode</code> - Determines how the load
+  /// balancer handles requests that might pose a security risk to your
+  /// application. The possible values are <code>monitor</code>,
+  /// <code>defensive</code>, and <code>strictest</code>. The default is
+  /// <code>defensive</code>.
   /// </li>
   /// <li>
   /// <code>routing.http.drop_invalid_header_fields.enabled</code> - Indicates
@@ -3494,8 +3581,15 @@ class LoadBalancerAttribute {
   /// <code>true</code>. Elastic Load Balancing requires that message header names
   /// contain only alphanumeric characters and hyphens.
   /// </li>
+  /// <li>
+  /// <code>waf.fail_open.enabled</code> - Indicates whether to allow a
+  /// WAF-enabled load balancer to route requests to targets if it is unable to
+  /// forward the request to AWS WAF. The value is <code>true</code> or
+  /// <code>false</code>. The default is <code>false</code>.
+  /// </li>
   /// </ul>
-  /// The following attributes are supported by only Network Load Balancers:
+  /// The following attribute is supported by Network Load Balancers and Gateway
+  /// Load Balancers:
   ///
   /// <ul>
   /// <li>
@@ -3611,6 +3705,8 @@ enum LoadBalancerTypeEnum {
   application,
   @_s.JsonValue('network')
   network,
+  @_s.JsonValue('gateway')
+  gateway,
 }
 
 extension on LoadBalancerTypeEnum {
@@ -3620,6 +3716,8 @@ extension on LoadBalancerTypeEnum {
         return 'application';
       case LoadBalancerTypeEnum.network:
         return 'network';
+      case LoadBalancerTypeEnum.gateway:
+        return 'gateway';
     }
     throw Exception('Unknown enum value: $this');
   }
@@ -3632,33 +3730,44 @@ extension on String {
         return LoadBalancerTypeEnum.application;
       case 'network':
         return LoadBalancerTypeEnum.network;
+      case 'gateway':
+        return LoadBalancerTypeEnum.gateway;
     }
     throw Exception('Unknown enum value: $this');
   }
 }
 
-/// Information to use when checking for a successful response from a target.
+/// The codes to use when checking for a successful response from a target. If
+/// the protocol version is gRPC, these are gRPC codes. Otherwise, these are
+/// HTTP codes.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: false,
     createToJson: true)
 class Matcher {
-  /// The HTTP codes.
-  ///
+  /// You can specify values between 0 and 99. You can specify multiple values
+  /// (for example, "0,1") or a range of values (for example, "0-5"). The default
+  /// value is 12.
+  @_s.JsonKey(name: 'GrpcCode')
+  final String grpcCode;
+
   /// For Application Load Balancers, you can specify values between 200 and 499,
   /// and the default value is 200. You can specify multiple values (for example,
   /// "200,202") or a range of values (for example, "200-299").
   ///
-  /// For Network Load Balancers, this is 200–399.
+  /// For Network Load Balancers and Gateway Load Balancers, this must be
+  /// "200–399".
   @_s.JsonKey(name: 'HttpCode')
   final String httpCode;
 
   Matcher({
-    @_s.required this.httpCode,
+    this.grpcCode,
+    this.httpCode,
   });
   factory Matcher.fromXml(_s.XmlElement elem) {
     return Matcher(
+      grpcCode: _s.extractXmlStringValue(elem, 'GrpcCode'),
       httpCode: _s.extractXmlStringValue(elem, 'HttpCode'),
     );
   }
@@ -3793,6 +3902,8 @@ enum ProtocolEnum {
   udp,
   @_s.JsonValue('TCP_UDP')
   tcpUdp,
+  @_s.JsonValue('GENEVE')
+  geneve,
 }
 
 extension on ProtocolEnum {
@@ -3810,6 +3921,8 @@ extension on ProtocolEnum {
         return 'UDP';
       case ProtocolEnum.tcpUdp:
         return 'TCP_UDP';
+      case ProtocolEnum.geneve:
+        return 'GENEVE';
     }
     throw Exception('Unknown enum value: $this');
   }
@@ -3830,6 +3943,8 @@ extension on String {
         return ProtocolEnum.udp;
       case 'TCP_UDP':
         return ProtocolEnum.tcpUdp;
+      case 'GENEVE':
+        return ProtocolEnum.geneve;
     }
     throw Exception('Unknown enum value: $this');
   }
@@ -4085,6 +4200,12 @@ class Rule {
 }
 
 /// Information about a condition for a rule.
+///
+/// Each rule can optionally include up to one of each of the following
+/// conditions: <code>http-request-method</code>, <code>host-header</code>,
+/// <code>path-pattern</code>, and <code>source-ip</code>. Each rule can also
+/// optionally include one or more of each of the following conditions:
+/// <code>http-header</code> and <code>query-string</code>.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -4146,16 +4267,16 @@ class RuleCondition {
   @_s.JsonKey(name: 'SourceIpConfig')
   final SourceIpConditionConfig sourceIpConfig;
 
-  /// The condition value. You can use <code>Values</code> if the rule contains
-  /// only <code>host-header</code> and <code>path-pattern</code> conditions.
-  /// Otherwise, you can use <code>HostHeaderConfig</code> for
-  /// <code>host-header</code> conditions and <code>PathPatternConfig</code> for
-  /// <code>path-pattern</code> conditions.
+  /// The condition value. Specify only when <code>Field</code> is
+  /// <code>host-header</code> or <code>path-pattern</code>. Alternatively, to
+  /// specify multiple host names or multiple path patterns, use
+  /// <code>HostHeaderConfig</code> or <code>PathPatternConfig</code>.
   ///
-  /// If <code>Field</code> is <code>host-header</code>, you can specify a single
-  /// host name (for example, my.example.com). A host name is case insensitive,
-  /// can be up to 128 characters in length, and can contain any of the following
-  /// characters.
+  /// If <code>Field</code> is <code>host-header</code> and you are not using
+  /// <code>HostHeaderConfig</code>, you can specify a single host name (for
+  /// example, my.example.com) in <code>Values</code>. A host name is case
+  /// insensitive, can be up to 128 characters in length, and can contain any of
+  /// the following characters.
   ///
   /// <ul>
   /// <li>
@@ -4171,9 +4292,10 @@ class RuleCondition {
   /// ? (matches exactly 1 character)
   /// </li>
   /// </ul>
-  /// If <code>Field</code> is <code>path-pattern</code>, you can specify a single
-  /// path pattern (for example, /img/*). A path pattern is case-sensitive, can be
-  /// up to 128 characters in length, and can contain any of the following
+  /// If <code>Field</code> is <code>path-pattern</code> and you are not using
+  /// <code>PathPatternConfig</code>, you can specify a single path pattern (for
+  /// example, /img/*) in <code>Values</code>. A path pattern is case-sensitive,
+  /// can be up to 128 characters in length, and can contain any of the following
   /// characters.
   ///
   /// <ul>
@@ -4305,11 +4427,15 @@ class SetSecurityGroupsOutput {
 }
 
 class SetSubnetsOutput {
-  /// Information about the subnet and Availability Zone.
+  /// Information about the subnets.
   final List<AvailabilityZone> availabilityZones;
+
+  /// [Network Load Balancers] The IP address type.
+  final IpAddressType ipAddressType;
 
   SetSubnetsOutput({
     this.availabilityZones,
+    this.ipAddressType,
   });
   factory SetSubnetsOutput.fromXml(_s.XmlElement elem) {
     return SetSubnetsOutput(
@@ -4318,6 +4444,8 @@ class SetSubnetsOutput {
               .findElements('member')
               .map((c) => AvailabilityZone.fromXml(c))
               .toList()),
+      ipAddressType:
+          _s.extractXmlStringValue(elem, 'IpAddressType')?.toIpAddressType(),
     );
   }
 }
@@ -4398,6 +4526,10 @@ class SubnetMapping {
   @_s.JsonKey(name: 'AllocationId')
   final String allocationId;
 
+  /// [Network Load Balancers] The IPv6 address.
+  @_s.JsonKey(name: 'IPv6Address')
+  final String iPv6Address;
+
   /// [Network Load Balancers] The private IPv4 address for an internal load
   /// balancer.
   @_s.JsonKey(name: 'PrivateIPv4Address')
@@ -4409,6 +4541,7 @@ class SubnetMapping {
 
   SubnetMapping({
     this.allocationId,
+    this.iPv6Address,
     this.privateIPv4Address,
     this.subnetId,
   });
@@ -4500,8 +4633,9 @@ class TargetDescription {
   @_s.JsonKey(name: 'AvailabilityZone')
   final String availabilityZone;
 
-  /// The port on which the target is listening. Not used if the target is a
-  /// Lambda function.
+  /// The port on which the target is listening. If the target group protocol is
+  /// GENEVE, the supported port is 6081. Not used if the target is a Lambda
+  /// function.
   @_s.JsonKey(name: 'Port')
   final int port;
 
@@ -4530,13 +4664,14 @@ class TargetGroup {
   /// individual target.
   final int healthCheckIntervalSeconds;
 
-  /// The destination for the health check request.
+  /// The destination for health checks on the targets.
   final String healthCheckPath;
 
   /// The port to use to connect with the target.
   final String healthCheckPort;
 
-  /// The protocol to use to connect with the target.
+  /// The protocol to use to connect with the target. The GENEVE, TLS, UDP, and
+  /// TCP_UDP protocols are not supported for health checks.
   final ProtocolEnum healthCheckProtocol;
 
   /// The amount of time, in seconds, during which no response means a failed
@@ -4551,7 +4686,8 @@ class TargetGroup {
   /// this target group.
   final List<String> loadBalancerArns;
 
-  /// The HTTP codes to use when checking for a successful response from a target.
+  /// The HTTP or gRPC codes to use when checking for a successful response from a
+  /// target.
   final Matcher matcher;
 
   /// The port on which the targets are listening. Not used if the target is a
@@ -4561,6 +4697,10 @@ class TargetGroup {
   /// The protocol to use for routing traffic to the targets.
   final ProtocolEnum protocol;
 
+  /// [HTTP/HTTPS protocol] The protocol version. The possible values are
+  /// <code>GRPC</code>, <code>HTTP1</code>, and <code>HTTP2</code>.
+  final String protocolVersion;
+
   /// The Amazon Resource Name (ARN) of the target group.
   final String targetGroupArn;
 
@@ -4568,9 +4708,9 @@ class TargetGroup {
   final String targetGroupName;
 
   /// The type of target that you must specify when registering targets with this
-  /// target group. The possible values are <code>instance</code> (targets are
-  /// specified by instance ID) or <code>ip</code> (targets are specified by IP
-  /// address).
+  /// target group. The possible values are <code>instance</code> (register
+  /// targets by instance ID), <code>ip</code> (register targets by IP address),
+  /// or <code>lambda</code> (register a single Lambda function as a target).
   final TargetTypeEnum targetType;
 
   /// The number of consecutive health check failures required before considering
@@ -4592,6 +4732,7 @@ class TargetGroup {
     this.matcher,
     this.port,
     this.protocol,
+    this.protocolVersion,
     this.targetGroupArn,
     this.targetGroupName,
     this.targetType,
@@ -4619,6 +4760,7 @@ class TargetGroup {
           _s.extractXmlChild(elem, 'Matcher')?.let((e) => Matcher.fromXml(e)),
       port: _s.extractXmlIntValue(elem, 'Port'),
       protocol: _s.extractXmlStringValue(elem, 'Protocol')?.toProtocolEnum(),
+      protocolVersion: _s.extractXmlStringValue(elem, 'ProtocolVersion'),
       targetGroupArn: _s.extractXmlStringValue(elem, 'TargetGroupArn'),
       targetGroupName: _s.extractXmlStringValue(elem, 'TargetGroupName'),
       targetType:
@@ -4639,8 +4781,7 @@ class TargetGroup {
 class TargetGroupAttribute {
   /// The name of the attribute.
   ///
-  /// The following attributes are supported by both Application Load Balancers
-  /// and Network Load Balancers:
+  /// The following attribute is supported by all load balancers:
   ///
   /// <ul>
   /// <li>
@@ -4650,6 +4791,11 @@ class TargetGroupAttribute {
   /// range is 0-3600 seconds. The default value is 300 seconds. If the target is
   /// a Lambda function, this attribute is not supported.
   /// </li>
+  /// </ul>
+  /// The following attributes are supported by both Application Load Balancers
+  /// and Network Load Balancers:
+  ///
+  /// <ul>
   /// <li>
   /// <code>stickiness.enabled</code> - Indicates whether sticky sessions are
   /// enabled. The value is <code>true</code> or <code>false</code>. The default
@@ -4661,8 +4807,8 @@ class TargetGroupAttribute {
   /// <code>source_ip</code> for Network Load Balancers.
   /// </li>
   /// </ul>
-  /// The following attributes are supported by Application Load Balancers if the
-  /// target is not a Lambda function:
+  /// The following attributes are supported only if the load balancer is an
+  /// Application Load Balancer and the target is an instance or an IP address:
   ///
   /// <ul>
   /// <li>
@@ -4674,10 +4820,10 @@ class TargetGroupAttribute {
   /// </li>
   /// <li>
   /// <code>slow_start.duration_seconds</code> - The time period, in seconds,
-  /// during which a newly registered target receives a linearly increasing share
-  /// of the traffic to the target group. After this time period ends, the target
+  /// during which a newly registered target receives an increasing share of the
+  /// traffic to the target group. After this time period ends, the target
   /// receives its full share of traffic. The range is 30-900 seconds (15
-  /// minutes). Slow start mode is disabled by default.
+  /// minutes). The default is 0 seconds (disabled).
   /// </li>
   /// <li>
   /// <code>stickiness.lb_cookie.duration_seconds</code> - The time period, in
@@ -4687,23 +4833,29 @@ class TargetGroupAttribute {
   /// default value is 1 day (86400 seconds).
   /// </li>
   /// </ul>
-  /// The following attribute is supported only if the target is a Lambda
-  /// function.
+  /// The following attribute is supported only if the load balancer is an
+  /// Application Load Balancer and the target is a Lambda function:
   ///
   /// <ul>
   /// <li>
   /// <code>lambda.multi_value_headers.enabled</code> - Indicates whether the
-  /// request and response headers exchanged between the load balancer and the
-  /// Lambda function include arrays of values or strings. The value is
+  /// request and response headers that are exchanged between the load balancer
+  /// and the Lambda function include arrays of values or strings. The value is
   /// <code>true</code> or <code>false</code>. The default is <code>false</code>.
   /// If the value is <code>false</code> and the request contains a duplicate
   /// header field name or query parameter key, the load balancer uses the last
   /// value sent by the client.
   /// </li>
   /// </ul>
-  /// The following attribute is supported only by Network Load Balancers:
+  /// The following attributes are supported only by Network Load Balancers:
   ///
   /// <ul>
+  /// <li>
+  /// <code>deregistration_delay.connection_termination.enabled</code> - Indicates
+  /// whether the load balancer terminates connections at the end of the
+  /// deregistration timeout. The value is <code>true</code> or
+  /// <code>false</code>. The default is <code>false</code>.
+  /// </li>
   /// <li>
   /// <code>proxy_protocol_v2.enabled</code> - Indicates whether Proxy Protocol
   /// version 2 is enabled. The value is <code>true</code> or <code>false</code>.
@@ -4821,11 +4973,12 @@ class TargetHealth {
   /// <ul>
   /// <li>
   /// <code>Target.ResponseCodeMismatch</code> - The health checks did not return
-  /// an expected HTTP code. Applies only to Application Load Balancers.
+  /// an expected HTTP code. Applies only to Application Load Balancers and
+  /// Gateway Load Balancers.
   /// </li>
   /// <li>
   /// <code>Target.Timeout</code> - The health check requests timed out. Applies
-  /// only to Application Load Balancers.
+  /// only to Application Load Balancers and Gateway Load Balancers.
   /// </li>
   /// <li>
   /// <code>Target.FailedHealthChecks</code> - The load balancer received an error
@@ -5061,6 +5214,14 @@ extension on String {
   }
 }
 
+class ALPNPolicyNotSupportedException extends _s.GenericAwsException {
+  ALPNPolicyNotSupportedException({String type, String message})
+      : super(
+            type: type,
+            code: 'ALPNPolicyNotSupportedException',
+            message: message);
+}
+
 class AllocationIdNotFoundException extends _s.GenericAwsException {
   AllocationIdNotFoundException({String type, String message})
       : super(
@@ -5291,6 +5452,8 @@ class UnsupportedProtocolException extends _s.GenericAwsException {
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{
+  'ALPNPolicyNotSupportedException': (type, message) =>
+      ALPNPolicyNotSupportedException(type: type, message: message),
   'AllocationIdNotFoundException': (type, message) =>
       AllocationIdNotFoundException(type: type, message: message),
   'AvailabilityZoneNotSupportedException': (type, message) =>

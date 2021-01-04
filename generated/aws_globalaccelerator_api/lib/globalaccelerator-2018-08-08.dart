@@ -50,11 +50,76 @@ class GlobalAccelerator {
           endpointUrl: endpointUrl,
         );
 
+  /// Associate a virtual private cloud (VPC) subnet endpoint with your custom
+  /// routing accelerator.
+  ///
+  /// The listener port range must be large enough to support the number of IP
+  /// addresses that can be specified in your subnet. The number of ports
+  /// required is: subnet size times the number of ports per destination EC2
+  /// instances. For example, a subnet defined as /24 requires a listener port
+  /// range of at least 255 ports.
+  ///
+  /// Note: You must have enough remaining listener ports available to map to
+  /// the subnet ports, or the call will fail with a LimitExceededException.
+  ///
+  /// By default, all destinations in a subnet in a custom routing accelerator
+  /// cannot receive traffic. To enable all destinations to receive traffic, or
+  /// to specify individual port mappings that can receive traffic, see the <a
+  /// href="https://docs.aws.amazon.com/global-accelerator/latest/api/API_AllowCustomRoutingTraffic.html">
+  /// AllowCustomRoutingTraffic</a> operation.
+  ///
+  /// May throw [EndpointAlreadyExistsException].
+  /// May throw [EndpointGroupNotFoundException].
+  /// May throw [InternalServiceErrorException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [LimitExceededException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [endpointConfigurations] :
+  /// The list of endpoint objects to add to a custom routing accelerator.
+  ///
+  /// Parameter [endpointGroupArn] :
+  /// The Amazon Resource Name (ARN) of the endpoint group for the custom
+  /// routing endpoint.
+  Future<AddCustomRoutingEndpointsResponse> addCustomRoutingEndpoints({
+    @_s.required
+        List<CustomRoutingEndpointConfiguration> endpointConfigurations,
+    @_s.required String endpointGroupArn,
+  }) async {
+    ArgumentError.checkNotNull(
+        endpointConfigurations, 'endpointConfigurations');
+    ArgumentError.checkNotNull(endpointGroupArn, 'endpointGroupArn');
+    _s.validateStringLength(
+      'endpointGroupArn',
+      endpointGroupArn,
+      0,
+      255,
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'GlobalAccelerator_V20180706.AddCustomRoutingEndpoints'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'EndpointConfigurations': endpointConfigurations,
+        'EndpointGroupArn': endpointGroupArn,
+      },
+    );
+
+    return AddCustomRoutingEndpointsResponse.fromJson(jsonResponse.body);
+  }
+
   /// Advertises an IPv4 address range that is provisioned for use with your AWS
   /// resources through bring your own IP addresses (BYOIP). It can take a few
   /// minutes before traffic to the specified addresses starts routing to AWS
-  /// because of propagation delays. To see an AWS CLI example of advertising an
-  /// address range, scroll down to <b>Example</b>.
+  /// because of propagation delays.
   ///
   /// To stop advertising the BYOIP address range, use <a
   /// href="https://docs.aws.amazon.com/global-accelerator/latest/api/WithdrawByoipCidr.html">
@@ -103,19 +168,109 @@ class GlobalAccelerator {
     return AdvertiseByoipCidrResponse.fromJson(jsonResponse.body);
   }
 
+  /// Specify the Amazon EC2 instance (destination) IP addresses and ports for a
+  /// VPC subnet endpoint that can receive traffic for a custom routing
+  /// accelerator. You can allow traffic to all destinations in the subnet
+  /// endpoint, or allow traffic to a specified list of destination IP addresses
+  /// and ports in the subnet. Note that you cannot specify IP addresses or
+  /// ports outside of the range that you configured for the endpoint group.
+  ///
+  /// After you make changes, you can verify that the updates are complete by
+  /// checking the status of your accelerator: the status changes from
+  /// IN_PROGRESS to DEPLOYED.
+  ///
+  /// May throw [InvalidArgumentException].
+  /// May throw [InternalServiceErrorException].
+  ///
+  /// Parameter [endpointGroupArn] :
+  /// The Amazon Resource Name (ARN) of the endpoint group.
+  ///
+  /// Parameter [endpointId] :
+  /// An ID for the endpoint. For custom routing accelerators, this is the
+  /// virtual private cloud (VPC) subnet ID.
+  ///
+  /// Parameter [allowAllTrafficToEndpoint] :
+  /// Indicates whether all destination IP addresses and ports for a specified
+  /// VPC subnet endpoint can receive traffic from a custom routing accelerator.
+  /// The value is TRUE or FALSE.
+  ///
+  /// When set to TRUE, <i>all</i> destinations in the custom routing VPC subnet
+  /// can receive traffic. Note that you cannot specify destination IP addresses
+  /// and ports when the value is set to TRUE.
+  ///
+  /// When set to FALSE (or not specified), you <i>must</i> specify a list of
+  /// destination IP addresses that are allowed to receive traffic. A list of
+  /// ports is optional. If you don't specify a list of ports, the ports that
+  /// can accept traffic is the same as the ports configured for the endpoint
+  /// group.
+  ///
+  /// The default value is FALSE.
+  ///
+  /// Parameter [destinationAddresses] :
+  /// A list of specific Amazon EC2 instance IP addresses (destination
+  /// addresses) in a subnet that you want to allow to receive traffic. The IP
+  /// addresses must be a subset of the IP addresses that you specified for the
+  /// endpoint group.
+  ///
+  /// <code>DestinationAddresses</code> is required if
+  /// <code>AllowAllTrafficToEndpoint</code> is <code>FALSE</code> or is not
+  /// specified.
+  ///
+  /// Parameter [destinationPorts] :
+  /// A list of specific Amazon EC2 instance ports (destination ports) that you
+  /// want to allow to receive traffic.
+  Future<void> allowCustomRoutingTraffic({
+    @_s.required String endpointGroupArn,
+    @_s.required String endpointId,
+    bool allowAllTrafficToEndpoint,
+    List<String> destinationAddresses,
+    List<int> destinationPorts,
+  }) async {
+    ArgumentError.checkNotNull(endpointGroupArn, 'endpointGroupArn');
+    _s.validateStringLength(
+      'endpointGroupArn',
+      endpointGroupArn,
+      0,
+      255,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(endpointId, 'endpointId');
+    _s.validateStringLength(
+      'endpointId',
+      endpointId,
+      0,
+      255,
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'GlobalAccelerator_V20180706.AllowCustomRoutingTraffic'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'EndpointGroupArn': endpointGroupArn,
+        'EndpointId': endpointId,
+        if (allowAllTrafficToEndpoint != null)
+          'AllowAllTrafficToEndpoint': allowAllTrafficToEndpoint,
+        if (destinationAddresses != null)
+          'DestinationAddresses': destinationAddresses,
+        if (destinationPorts != null) 'DestinationPorts': destinationPorts,
+      },
+    );
+  }
+
   /// Create an accelerator. An accelerator includes one or more listeners that
   /// process inbound connections and direct traffic to one or more endpoint
   /// groups, each of which includes endpoints, such as Network Load Balancers.
-  /// To see an AWS CLI example of creating an accelerator, scroll down to
-  /// <b>Example</b>.
-  ///
-  /// If you bring your own IP address ranges to AWS Global Accelerator (BYOIP),
-  /// you can assign IP addresses from your own pool to your accelerator as the
-  /// static IP address entry points. Only one IP address from each of your IP
-  /// address ranges can be used for each accelerator.
   /// <important>
-  /// You must specify the US West (Oregon) Region to create or update
-  /// accelerators.
+  /// Global Accelerator is a global service that supports endpoints in multiple
+  /// AWS Regions but you must specify the US West (Oregon) Region to create or
+  /// update accelerators.
   /// </important>
   ///
   /// May throw [InternalServiceErrorException].
@@ -142,14 +297,19 @@ class GlobalAccelerator {
   /// The value for the address type must be IPv4.
   ///
   /// Parameter [ipAddresses] :
-  /// Optionally, if you've added your own IP address pool to Global
-  /// Accelerator, you can choose IP addresses from your own pool to use for the
-  /// accelerator's static IP addresses. You can specify one or two addresses,
-  /// separated by a comma. Do not include the /32 suffix.
+  /// Optionally, if you've added your own IP address pool to Global Accelerator
+  /// (BYOIP), you can choose IP addresses from your own pool to use for the
+  /// accelerator's static IP addresses when you create an accelerator. You can
+  /// specify one or two addresses, separated by a comma. Do not include the /32
+  /// suffix.
   ///
-  /// If you specify only one IP address from your IP address range, Global
-  /// Accelerator assigns a second static IP address for the accelerator from
-  /// the AWS IP address pool.
+  /// Only one IP address from each of your IP address ranges can be used for
+  /// each accelerator. If you specify only one IP address from your IP address
+  /// range, Global Accelerator assigns a second static IP address for the
+  /// accelerator from the AWS IP address pool.
+  ///
+  /// Note that you can't update IP addresses for an existing accelerator. To
+  /// change them, you must create a new accelerator with the new addresses.
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/global-accelerator/latest/dg/using-byoip.html">Bring
@@ -210,9 +370,251 @@ class GlobalAccelerator {
     return CreateAcceleratorResponse.fromJson(jsonResponse.body);
   }
 
+  /// Create a custom routing accelerator. A custom routing accelerator directs
+  /// traffic to one of possibly thousands of Amazon EC2 instance destinations
+  /// running in a single or multiple virtual private clouds (VPC) subnet
+  /// endpoints.
+  ///
+  /// Be aware that, by default, all destination EC2 instances in a VPC subnet
+  /// endpoint cannot receive traffic. To enable all destinations to receive
+  /// traffic, or to specify individual port mappings that can receive traffic,
+  /// see the <a
+  /// href="https://docs.aws.amazon.com/global-accelerator/latest/api/API_AllowCustomRoutingTraffic.html">
+  /// AllowCustomRoutingTraffic</a> operation.
+  ///
+  /// May throw [InternalServiceErrorException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [LimitExceededException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [idempotencyToken] :
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency—that is, the uniqueness—of the request.
+  ///
+  /// Parameter [name] :
+  /// The name of a custom routing accelerator. The name can have a maximum of
+  /// 64 characters, must contain only alphanumeric characters or hyphens (-),
+  /// and must not begin or end with a hyphen.
+  ///
+  /// Parameter [enabled] :
+  /// Indicates whether an accelerator is enabled. The value is true or false.
+  /// The default value is true.
+  ///
+  /// If the value is set to true, an accelerator cannot be deleted. If set to
+  /// false, the accelerator can be deleted.
+  ///
+  /// Parameter [ipAddressType] :
+  /// The value for the address type must be IPv4.
+  ///
+  /// Parameter [tags] :
+  /// Create tags for an accelerator.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/global-accelerator/latest/dg/tagging-in-global-accelerator.html">Tagging
+  /// in AWS Global Accelerator</a> in the <i>AWS Global Accelerator Developer
+  /// Guide</i>.
+  Future<CreateCustomRoutingAcceleratorResponse>
+      createCustomRoutingAccelerator({
+    @_s.required String idempotencyToken,
+    @_s.required String name,
+    bool enabled,
+    IpAddressType ipAddressType,
+    List<Tag> tags,
+  }) async {
+    ArgumentError.checkNotNull(idempotencyToken, 'idempotencyToken');
+    _s.validateStringLength(
+      'idempotencyToken',
+      idempotencyToken,
+      0,
+      255,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(name, 'name');
+    _s.validateStringLength(
+      'name',
+      name,
+      0,
+      255,
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'GlobalAccelerator_V20180706.CreateCustomRoutingAccelerator'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'IdempotencyToken': idempotencyToken ?? _s.generateIdempotencyToken(),
+        'Name': name,
+        if (enabled != null) 'Enabled': enabled,
+        if (ipAddressType != null) 'IpAddressType': ipAddressType.toValue(),
+        if (tags != null) 'Tags': tags,
+      },
+    );
+
+    return CreateCustomRoutingAcceleratorResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Create an endpoint group for the specified listener for a custom routing
+  /// accelerator. An endpoint group is a collection of endpoints in one AWS
+  /// Region.
+  ///
+  /// May throw [AcceleratorNotFoundException].
+  /// May throw [EndpointGroupAlreadyExistsException].
+  /// May throw [ListenerNotFoundException].
+  /// May throw [InternalServiceErrorException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [InvalidPortRangeException].
+  /// May throw [LimitExceededException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [destinationConfigurations] :
+  /// Sets the port range and protocol for all endpoints (virtual private cloud
+  /// subnets) in a custom routing endpoint group to accept client traffic on.
+  ///
+  /// Parameter [endpointGroupRegion] :
+  /// The AWS Region where the endpoint group is located. A listener can have
+  /// only one endpoint group in a specific Region.
+  ///
+  /// Parameter [idempotencyToken] :
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency—that is, the uniqueness—of the request.
+  ///
+  /// Parameter [listenerArn] :
+  /// The Amazon Resource Name (ARN) of the listener for a custom routing
+  /// endpoint.
+  Future<CreateCustomRoutingEndpointGroupResponse>
+      createCustomRoutingEndpointGroup({
+    @_s.required
+        List<CustomRoutingDestinationConfiguration> destinationConfigurations,
+    @_s.required String endpointGroupRegion,
+    @_s.required String idempotencyToken,
+    @_s.required String listenerArn,
+  }) async {
+    ArgumentError.checkNotNull(
+        destinationConfigurations, 'destinationConfigurations');
+    ArgumentError.checkNotNull(endpointGroupRegion, 'endpointGroupRegion');
+    _s.validateStringLength(
+      'endpointGroupRegion',
+      endpointGroupRegion,
+      0,
+      255,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(idempotencyToken, 'idempotencyToken');
+    _s.validateStringLength(
+      'idempotencyToken',
+      idempotencyToken,
+      0,
+      255,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(listenerArn, 'listenerArn');
+    _s.validateStringLength(
+      'listenerArn',
+      listenerArn,
+      0,
+      255,
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'GlobalAccelerator_V20180706.CreateCustomRoutingEndpointGroup'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'DestinationConfigurations': destinationConfigurations,
+        'EndpointGroupRegion': endpointGroupRegion,
+        'IdempotencyToken': idempotencyToken ?? _s.generateIdempotencyToken(),
+        'ListenerArn': listenerArn,
+      },
+    );
+
+    return CreateCustomRoutingEndpointGroupResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Create a listener to process inbound connections from clients to a custom
+  /// routing accelerator. Connections arrive to assigned static IP addresses on
+  /// the port range that you specify.
+  ///
+  /// May throw [InvalidArgumentException].
+  /// May throw [AcceleratorNotFoundException].
+  /// May throw [InvalidPortRangeException].
+  /// May throw [InternalServiceErrorException].
+  /// May throw [LimitExceededException].
+  ///
+  /// Parameter [acceleratorArn] :
+  /// The Amazon Resource Name (ARN) of the accelerator for a custom routing
+  /// listener.
+  ///
+  /// Parameter [idempotencyToken] :
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency—that is, the uniqueness—of the request.
+  ///
+  /// Parameter [portRanges] :
+  /// The port range to support for connections from clients to your
+  /// accelerator.
+  ///
+  /// Separately, you set port ranges for endpoints. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/global-accelerator/latest/dg/about-custom-routing-endpoints.html">About
+  /// endpoints for custom routing accelerators</a>.
+  Future<CreateCustomRoutingListenerResponse> createCustomRoutingListener({
+    @_s.required String acceleratorArn,
+    @_s.required String idempotencyToken,
+    @_s.required List<PortRange> portRanges,
+  }) async {
+    ArgumentError.checkNotNull(acceleratorArn, 'acceleratorArn');
+    _s.validateStringLength(
+      'acceleratorArn',
+      acceleratorArn,
+      0,
+      255,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(idempotencyToken, 'idempotencyToken');
+    _s.validateStringLength(
+      'idempotencyToken',
+      idempotencyToken,
+      0,
+      255,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(portRanges, 'portRanges');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'GlobalAccelerator_V20180706.CreateCustomRoutingListener'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AcceleratorArn': acceleratorArn,
+        'IdempotencyToken': idempotencyToken ?? _s.generateIdempotencyToken(),
+        'PortRanges': portRanges,
+      },
+    );
+
+    return CreateCustomRoutingListenerResponse.fromJson(jsonResponse.body);
+  }
+
   /// Create an endpoint group for the specified listener. An endpoint group is
-  /// a collection of endpoints in one AWS Region. To see an AWS CLI example of
-  /// creating an endpoint group, scroll down to <b>Example</b>.
+  /// a collection of endpoints in one AWS Region. A resource must be valid and
+  /// active when you add it as an endpoint.
   ///
   /// May throw [AcceleratorNotFoundException].
   /// May throw [EndpointGroupAlreadyExistsException].
@@ -223,8 +625,8 @@ class GlobalAccelerator {
   /// May throw [AccessDeniedException].
   ///
   /// Parameter [endpointGroupRegion] :
-  /// The name of the AWS Region where the endpoint group is located. A listener
-  /// can have only one endpoint group in a specific Region.
+  /// The AWS Region where the endpoint group is located. A listener can have
+  /// only one endpoint group in a specific Region.
   ///
   /// Parameter [idempotencyToken] :
   /// A unique, case-sensitive identifier that you provide to ensure the
@@ -254,6 +656,17 @@ class GlobalAccelerator {
   /// The protocol that AWS Global Accelerator uses to check the health of
   /// endpoints that are part of this endpoint group. The default value is TCP.
   ///
+  /// Parameter [portOverrides] :
+  /// Override specific listener ports used to route traffic to endpoints that
+  /// are part of this endpoint group. For example, you can create a port
+  /// override in which the listener receives user traffic on ports 80 and 443,
+  /// but your accelerator routes that traffic to ports 1080 and 1443,
+  /// respectively, on the endpoints.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/global-accelerator/latest/dg/about-endpoint-groups-port-override.html">
+  /// Port overrides</a> in the <i>AWS Global Accelerator Developer Guide</i>.
+  ///
   /// Parameter [thresholdCount] :
   /// The number of consecutive health checks required to set the state of a
   /// healthy endpoint to unhealthy, or to set an unhealthy endpoint to healthy.
@@ -277,6 +690,7 @@ class GlobalAccelerator {
     String healthCheckPath,
     int healthCheckPort,
     HealthCheckProtocol healthCheckProtocol,
+    List<PortOverride> portOverrides,
     int thresholdCount,
     double trafficDialPercentage,
   }) async {
@@ -315,6 +729,11 @@ class GlobalAccelerator {
       healthCheckPath,
       0,
       255,
+    );
+    _s.validateStringPattern(
+      'healthCheckPath',
+      healthCheckPath,
+      r'''^/[-a-zA-Z0-9@:%_\\+.~#?&/=]*$''',
     );
     _s.validateNumRange(
       'healthCheckPort',
@@ -356,6 +775,7 @@ class GlobalAccelerator {
         if (healthCheckPort != null) 'HealthCheckPort': healthCheckPort,
         if (healthCheckProtocol != null)
           'HealthCheckProtocol': healthCheckProtocol.toValue(),
+        if (portOverrides != null) 'PortOverrides': portOverrides,
         if (thresholdCount != null) 'ThresholdCount': thresholdCount,
         if (trafficDialPercentage != null)
           'TrafficDialPercentage': trafficDialPercentage,
@@ -367,8 +787,7 @@ class GlobalAccelerator {
 
   /// Create a listener to process inbound connections from clients to an
   /// accelerator. Connections arrive to assigned static IP addresses on a port,
-  /// port range, or list of port ranges that you specify. To see an AWS CLI
-  /// example of creating a listener, scroll down to <b>Example</b>.
+  /// port range, or list of port ranges that you specify.
   ///
   /// May throw [InvalidArgumentException].
   /// May throw [AcceleratorNotFoundException].
@@ -393,7 +812,7 @@ class GlobalAccelerator {
   /// Parameter [clientAffinity] :
   /// Client affinity lets you direct all requests from a user to the same
   /// endpoint, if you have stateful applications, regardless of the port and
-  /// protocol of the client request. Clienty affinity gives you control over
+  /// protocol of the client request. Client affinity gives you control over
   /// whether to always route each client to the same specific endpoint.
   ///
   /// AWS Global Accelerator uses a consistent-flow hashing algorithm to choose
@@ -517,6 +936,136 @@ class GlobalAccelerator {
     );
   }
 
+  /// Delete a custom routing accelerator. Before you can delete an accelerator,
+  /// you must disable it and remove all dependent resources (listeners and
+  /// endpoint groups). To disable the accelerator, update the accelerator to
+  /// set <code>Enabled</code> to false.
+  /// <important>
+  /// When you create a custom routing accelerator, by default, Global
+  /// Accelerator provides you with a set of two static IP addresses.
+  ///
+  /// The IP addresses are assigned to your accelerator for as long as it
+  /// exists, even if you disable the accelerator and it no longer accepts or
+  /// routes traffic. However, when you <i>delete</i> an accelerator, you lose
+  /// the static IP addresses that are assigned to the accelerator, so you can
+  /// no longer route traffic by using them. As a best practice, ensure that you
+  /// have permissions in place to avoid inadvertently deleting accelerators.
+  /// You can use IAM policies with Global Accelerator to limit the users who
+  /// have permissions to delete an accelerator. For more information, see <a
+  /// href="https://docs.aws.amazon.com/global-accelerator/latest/dg/auth-and-access-control.html">Authentication
+  /// and Access Control</a> in the <i>AWS Global Accelerator Developer
+  /// Guide</i>.
+  /// </important>
+  ///
+  /// May throw [AcceleratorNotFoundException].
+  /// May throw [AcceleratorNotDisabledException].
+  /// May throw [AssociatedListenerFoundException].
+  /// May throw [InternalServiceErrorException].
+  /// May throw [InvalidArgumentException].
+  ///
+  /// Parameter [acceleratorArn] :
+  /// The Amazon Resource Name (ARN) of the custom routing accelerator to
+  /// delete.
+  Future<void> deleteCustomRoutingAccelerator({
+    @_s.required String acceleratorArn,
+  }) async {
+    ArgumentError.checkNotNull(acceleratorArn, 'acceleratorArn');
+    _s.validateStringLength(
+      'acceleratorArn',
+      acceleratorArn,
+      0,
+      255,
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'GlobalAccelerator_V20180706.DeleteCustomRoutingAccelerator'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AcceleratorArn': acceleratorArn,
+      },
+    );
+  }
+
+  /// Delete an endpoint group from a listener for a custom routing accelerator.
+  ///
+  /// May throw [InvalidArgumentException].
+  /// May throw [EndpointGroupNotFoundException].
+  /// May throw [InternalServiceErrorException].
+  ///
+  /// Parameter [endpointGroupArn] :
+  /// The Amazon Resource Name (ARN) of the endpoint group to delete.
+  Future<void> deleteCustomRoutingEndpointGroup({
+    @_s.required String endpointGroupArn,
+  }) async {
+    ArgumentError.checkNotNull(endpointGroupArn, 'endpointGroupArn');
+    _s.validateStringLength(
+      'endpointGroupArn',
+      endpointGroupArn,
+      0,
+      255,
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'GlobalAccelerator_V20180706.DeleteCustomRoutingEndpointGroup'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'EndpointGroupArn': endpointGroupArn,
+      },
+    );
+  }
+
+  /// Delete a listener for a custom routing accelerator.
+  ///
+  /// May throw [InvalidArgumentException].
+  /// May throw [ListenerNotFoundException].
+  /// May throw [AssociatedEndpointGroupFoundException].
+  /// May throw [InternalServiceErrorException].
+  ///
+  /// Parameter [listenerArn] :
+  /// The Amazon Resource Name (ARN) of the listener to delete.
+  Future<void> deleteCustomRoutingListener({
+    @_s.required String listenerArn,
+  }) async {
+    ArgumentError.checkNotNull(listenerArn, 'listenerArn');
+    _s.validateStringLength(
+      'listenerArn',
+      listenerArn,
+      0,
+      255,
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'GlobalAccelerator_V20180706.DeleteCustomRoutingListener'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ListenerArn': listenerArn,
+      },
+    );
+  }
+
   /// Delete an endpoint group from a listener.
   ///
   /// May throw [InvalidArgumentException].
@@ -588,10 +1137,100 @@ class GlobalAccelerator {
     );
   }
 
+  /// Specify the Amazon EC2 instance (destination) IP addresses and ports for a
+  /// VPC subnet endpoint that cannot receive traffic for a custom routing
+  /// accelerator. You can deny traffic to all destinations in the VPC endpoint,
+  /// or deny traffic to a specified list of destination IP addresses and ports.
+  /// Note that you cannot specify IP addresses or ports outside of the range
+  /// that you configured for the endpoint group.
+  ///
+  /// After you make changes, you can verify that the updates are complete by
+  /// checking the status of your accelerator: the status changes from
+  /// IN_PROGRESS to DEPLOYED.
+  ///
+  /// May throw [InvalidArgumentException].
+  /// May throw [InternalServiceErrorException].
+  ///
+  /// Parameter [endpointGroupArn] :
+  /// The Amazon Resource Name (ARN) of the endpoint group.
+  ///
+  /// Parameter [endpointId] :
+  /// An ID for the endpoint. For custom routing accelerators, this is the
+  /// virtual private cloud (VPC) subnet ID.
+  ///
+  /// Parameter [denyAllTrafficToEndpoint] :
+  /// Indicates whether all destination IP addresses and ports for a specified
+  /// VPC subnet endpoint <i>cannot</i> receive traffic from a custom routing
+  /// accelerator. The value is TRUE or FALSE.
+  ///
+  /// When set to TRUE, <i>no</i> destinations in the custom routing VPC subnet
+  /// can receive traffic. Note that you cannot specify destination IP addresses
+  /// and ports when the value is set to TRUE.
+  ///
+  /// When set to FALSE (or not specified), you <i>must</i> specify a list of
+  /// destination IP addresses that cannot receive traffic. A list of ports is
+  /// optional. If you don't specify a list of ports, the ports that can accept
+  /// traffic is the same as the ports configured for the endpoint group.
+  ///
+  /// The default value is FALSE.
+  ///
+  /// Parameter [destinationAddresses] :
+  /// A list of specific Amazon EC2 instance IP addresses (destination
+  /// addresses) in a subnet that you want to prevent from receiving traffic.
+  /// The IP addresses must be a subset of the IP addresses allowed for the VPC
+  /// subnet associated with the endpoint group.
+  ///
+  /// Parameter [destinationPorts] :
+  /// A list of specific Amazon EC2 instance ports (destination ports) in a
+  /// subnet endpoint that you want to prevent from receiving traffic.
+  Future<void> denyCustomRoutingTraffic({
+    @_s.required String endpointGroupArn,
+    @_s.required String endpointId,
+    bool denyAllTrafficToEndpoint,
+    List<String> destinationAddresses,
+    List<int> destinationPorts,
+  }) async {
+    ArgumentError.checkNotNull(endpointGroupArn, 'endpointGroupArn');
+    _s.validateStringLength(
+      'endpointGroupArn',
+      endpointGroupArn,
+      0,
+      255,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(endpointId, 'endpointId');
+    _s.validateStringLength(
+      'endpointId',
+      endpointId,
+      0,
+      255,
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'GlobalAccelerator_V20180706.DenyCustomRoutingTraffic'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'EndpointGroupArn': endpointGroupArn,
+        'EndpointId': endpointId,
+        if (denyAllTrafficToEndpoint != null)
+          'DenyAllTrafficToEndpoint': denyAllTrafficToEndpoint,
+        if (destinationAddresses != null)
+          'DestinationAddresses': destinationAddresses,
+        if (destinationPorts != null) 'DestinationPorts': destinationPorts,
+      },
+    );
+  }
+
   /// Releases the specified address range that you provisioned to use with your
   /// AWS resources through bring your own IP addresses (BYOIP) and deletes the
-  /// corresponding address pool. To see an AWS CLI example of deprovisioning an
-  /// address range, scroll down to <b>Example</b>.
+  /// corresponding address pool.
   ///
   /// Before you can release an address range, you must stop advertising it by
   /// using <a
@@ -642,8 +1281,7 @@ class GlobalAccelerator {
     return DeprovisionByoipCidrResponse.fromJson(jsonResponse.body);
   }
 
-  /// Describe an accelerator. To see an AWS CLI example of describing an
-  /// accelerator, scroll down to <b>Example</b>.
+  /// Describe an accelerator.
   ///
   /// May throw [AcceleratorNotFoundException].
   /// May throw [InternalServiceErrorException].
@@ -680,9 +1318,7 @@ class GlobalAccelerator {
     return DescribeAcceleratorResponse.fromJson(jsonResponse.body);
   }
 
-  /// Describe the attributes of an accelerator. To see an AWS CLI example of
-  /// describing the attributes of an accelerator, scroll down to
-  /// <b>Example</b>.
+  /// Describe the attributes of an accelerator.
   ///
   /// May throw [AcceleratorNotFoundException].
   /// May throw [InternalServiceErrorException].
@@ -721,8 +1357,165 @@ class GlobalAccelerator {
     return DescribeAcceleratorAttributesResponse.fromJson(jsonResponse.body);
   }
 
-  /// Describe an endpoint group. To see an AWS CLI example of describing an
-  /// endpoint group, scroll down to <b>Example</b>.
+  /// Describe a custom routing accelerator.
+  ///
+  /// May throw [AcceleratorNotFoundException].
+  /// May throw [InternalServiceErrorException].
+  /// May throw [InvalidArgumentException].
+  ///
+  /// Parameter [acceleratorArn] :
+  /// The Amazon Resource Name (ARN) of the accelerator to describe.
+  Future<DescribeCustomRoutingAcceleratorResponse>
+      describeCustomRoutingAccelerator({
+    @_s.required String acceleratorArn,
+  }) async {
+    ArgumentError.checkNotNull(acceleratorArn, 'acceleratorArn');
+    _s.validateStringLength(
+      'acceleratorArn',
+      acceleratorArn,
+      0,
+      255,
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'GlobalAccelerator_V20180706.DescribeCustomRoutingAccelerator'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AcceleratorArn': acceleratorArn,
+      },
+    );
+
+    return DescribeCustomRoutingAcceleratorResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Describe the attributes of a custom routing accelerator.
+  ///
+  /// May throw [AcceleratorNotFoundException].
+  /// May throw [InternalServiceErrorException].
+  /// May throw [InvalidArgumentException].
+  ///
+  /// Parameter [acceleratorArn] :
+  /// The Amazon Resource Name (ARN) of the custom routing accelerator to
+  /// describe the attributes for.
+  Future<DescribeCustomRoutingAcceleratorAttributesResponse>
+      describeCustomRoutingAcceleratorAttributes({
+    @_s.required String acceleratorArn,
+  }) async {
+    ArgumentError.checkNotNull(acceleratorArn, 'acceleratorArn');
+    _s.validateStringLength(
+      'acceleratorArn',
+      acceleratorArn,
+      0,
+      255,
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'GlobalAccelerator_V20180706.DescribeCustomRoutingAcceleratorAttributes'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AcceleratorArn': acceleratorArn,
+      },
+    );
+
+    return DescribeCustomRoutingAcceleratorAttributesResponse.fromJson(
+        jsonResponse.body);
+  }
+
+  /// Describe an endpoint group for a custom routing accelerator.
+  ///
+  /// May throw [InvalidArgumentException].
+  /// May throw [EndpointGroupNotFoundException].
+  /// May throw [InternalServiceErrorException].
+  ///
+  /// Parameter [endpointGroupArn] :
+  /// The Amazon Resource Name (ARN) of the endpoint group to describe.
+  Future<DescribeCustomRoutingEndpointGroupResponse>
+      describeCustomRoutingEndpointGroup({
+    @_s.required String endpointGroupArn,
+  }) async {
+    ArgumentError.checkNotNull(endpointGroupArn, 'endpointGroupArn');
+    _s.validateStringLength(
+      'endpointGroupArn',
+      endpointGroupArn,
+      0,
+      255,
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'GlobalAccelerator_V20180706.DescribeCustomRoutingEndpointGroup'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'EndpointGroupArn': endpointGroupArn,
+      },
+    );
+
+    return DescribeCustomRoutingEndpointGroupResponse.fromJson(
+        jsonResponse.body);
+  }
+
+  /// The description of a listener for a custom routing accelerator.
+  ///
+  /// May throw [InvalidArgumentException].
+  /// May throw [ListenerNotFoundException].
+  /// May throw [InternalServiceErrorException].
+  ///
+  /// Parameter [listenerArn] :
+  /// The Amazon Resource Name (ARN) of the listener to describe.
+  Future<DescribeCustomRoutingListenerResponse> describeCustomRoutingListener({
+    @_s.required String listenerArn,
+  }) async {
+    ArgumentError.checkNotNull(listenerArn, 'listenerArn');
+    _s.validateStringLength(
+      'listenerArn',
+      listenerArn,
+      0,
+      255,
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'GlobalAccelerator_V20180706.DescribeCustomRoutingListener'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ListenerArn': listenerArn,
+      },
+    );
+
+    return DescribeCustomRoutingListenerResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Describe an endpoint group.
   ///
   /// May throw [InvalidArgumentException].
   /// May throw [EndpointGroupNotFoundException].
@@ -759,8 +1552,7 @@ class GlobalAccelerator {
     return DescribeEndpointGroupResponse.fromJson(jsonResponse.body);
   }
 
-  /// Describe a listener. To see an AWS CLI example of describing a listener,
-  /// scroll down to <b>Example</b>.
+  /// Describe a listener.
   ///
   /// May throw [InvalidArgumentException].
   /// May throw [ListenerNotFoundException].
@@ -797,9 +1589,7 @@ class GlobalAccelerator {
     return DescribeListenerResponse.fromJson(jsonResponse.body);
   }
 
-  /// List the accelerators for an AWS account. To see an AWS CLI example of
-  /// listing the accelerators for an AWS account, scroll down to
-  /// <b>Example</b>.
+  /// List the accelerators for an AWS account.
   ///
   /// May throw [InvalidArgumentException].
   /// May throw [InvalidNextTokenException].
@@ -851,9 +1641,6 @@ class GlobalAccelerator {
   /// href="https://docs.aws.amazon.com/global-accelerator/latest/api/ProvisionByoipCidr.html">ProvisionByoipCidr</a>,
   /// including the current state and a history of state changes.
   ///
-  /// To see an AWS CLI example of listing BYOIP CIDR addresses, scroll down to
-  /// <b>Example</b>.
-  ///
   /// May throw [InternalServiceErrorException].
   /// May throw [InvalidArgumentException].
   /// May throw [AccessDeniedException].
@@ -901,9 +1688,361 @@ class GlobalAccelerator {
     return ListByoipCidrsResponse.fromJson(jsonResponse.body);
   }
 
-  /// List the endpoint groups that are associated with a listener. To see an
-  /// AWS CLI example of listing the endpoint groups for listener, scroll down
-  /// to <b>Example</b>.
+  /// List the custom routing accelerators for an AWS account.
+  ///
+  /// May throw [InvalidArgumentException].
+  /// May throw [InvalidNextTokenException].
+  /// May throw [InternalServiceErrorException].
+  ///
+  /// Parameter [maxResults] :
+  /// The number of custom routing Global Accelerator objects that you want to
+  /// return with this call. The default value is 10.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of results. You receive this token from a
+  /// previous call.
+  Future<ListCustomRoutingAcceleratorsResponse> listCustomRoutingAccelerators({
+    int maxResults,
+    String nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      255,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'GlobalAccelerator_V20180706.ListCustomRoutingAccelerators'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListCustomRoutingAcceleratorsResponse.fromJson(jsonResponse.body);
+  }
+
+  /// List the endpoint groups that are associated with a listener for a custom
+  /// routing accelerator.
+  ///
+  /// May throw [ListenerNotFoundException].
+  /// May throw [InvalidNextTokenException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [InternalServiceErrorException].
+  ///
+  /// Parameter [listenerArn] :
+  /// The Amazon Resource Name (ARN) of the listener to list endpoint groups
+  /// for.
+  ///
+  /// Parameter [maxResults] :
+  /// The number of endpoint group objects that you want to return with this
+  /// call. The default value is 10.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of results. You receive this token from a
+  /// previous call.
+  Future<ListCustomRoutingEndpointGroupsResponse>
+      listCustomRoutingEndpointGroups({
+    @_s.required String listenerArn,
+    int maxResults,
+    String nextToken,
+  }) async {
+    ArgumentError.checkNotNull(listenerArn, 'listenerArn');
+    _s.validateStringLength(
+      'listenerArn',
+      listenerArn,
+      0,
+      255,
+      isRequired: true,
+    );
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      255,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'GlobalAccelerator_V20180706.ListCustomRoutingEndpointGroups'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ListenerArn': listenerArn,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListCustomRoutingEndpointGroupsResponse.fromJson(jsonResponse.body);
+  }
+
+  /// List the listeners for a custom routing accelerator.
+  ///
+  /// May throw [InvalidArgumentException].
+  /// May throw [AcceleratorNotFoundException].
+  /// May throw [InvalidNextTokenException].
+  /// May throw [InternalServiceErrorException].
+  ///
+  /// Parameter [acceleratorArn] :
+  /// The Amazon Resource Name (ARN) of the accelerator to list listeners for.
+  ///
+  /// Parameter [maxResults] :
+  /// The number of listener objects that you want to return with this call. The
+  /// default value is 10.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of results. You receive this token from a
+  /// previous call.
+  Future<ListCustomRoutingListenersResponse> listCustomRoutingListeners({
+    @_s.required String acceleratorArn,
+    int maxResults,
+    String nextToken,
+  }) async {
+    ArgumentError.checkNotNull(acceleratorArn, 'acceleratorArn');
+    _s.validateStringLength(
+      'acceleratorArn',
+      acceleratorArn,
+      0,
+      255,
+      isRequired: true,
+    );
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      255,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'GlobalAccelerator_V20180706.ListCustomRoutingListeners'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AcceleratorArn': acceleratorArn,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListCustomRoutingListenersResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Provides a complete mapping from the public accelerator IP address and
+  /// port to destination EC2 instance IP addresses and ports in the virtual
+  /// public cloud (VPC) subnet endpoint for a custom routing accelerator. For
+  /// each subnet endpoint that you add, Global Accelerator creates a new static
+  /// port mapping for the accelerator. The port mappings don't change after
+  /// Global Accelerator generates them, so you can retrieve and cache the full
+  /// mapping on your servers.
+  ///
+  /// If you remove a subnet from your accelerator, Global Accelerator removes
+  /// (reclaims) the port mappings. If you add a subnet to your accelerator,
+  /// Global Accelerator creates new port mappings (the existing ones don't
+  /// change). If you add or remove EC2 instances in your subnet, the port
+  /// mappings don't change, because the mappings are created when you add the
+  /// subnet to Global Accelerator.
+  ///
+  /// The mappings also include a flag for each destination denoting which
+  /// destination IP addresses and ports are allowed or denied traffic.
+  ///
+  /// May throw [InvalidArgumentException].
+  /// May throw [InvalidNextTokenException].
+  /// May throw [EndpointGroupNotFoundException].
+  /// May throw [AcceleratorNotFoundException].
+  /// May throw [InternalServiceErrorException].
+  ///
+  /// Parameter [acceleratorArn] :
+  /// The Amazon Resource Name (ARN) of the accelerator to list the custom
+  /// routing port mappings for.
+  ///
+  /// Parameter [endpointGroupArn] :
+  /// The Amazon Resource Name (ARN) of the endpoint group to list the custom
+  /// routing port mappings for.
+  ///
+  /// Parameter [maxResults] :
+  /// The number of destination port mappings that you want to return with this
+  /// call. The default value is 10.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of results. You receive this token from a
+  /// previous call.
+  Future<ListCustomRoutingPortMappingsResponse> listCustomRoutingPortMappings({
+    @_s.required String acceleratorArn,
+    String endpointGroupArn,
+    int maxResults,
+    String nextToken,
+  }) async {
+    ArgumentError.checkNotNull(acceleratorArn, 'acceleratorArn');
+    _s.validateStringLength(
+      'acceleratorArn',
+      acceleratorArn,
+      0,
+      255,
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'endpointGroupArn',
+      endpointGroupArn,
+      0,
+      255,
+    );
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      20000,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      255,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'GlobalAccelerator_V20180706.ListCustomRoutingPortMappings'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AcceleratorArn': acceleratorArn,
+        if (endpointGroupArn != null) 'EndpointGroupArn': endpointGroupArn,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListCustomRoutingPortMappingsResponse.fromJson(jsonResponse.body);
+  }
+
+  /// List the port mappings for a specific EC2 instance (destination) in a VPC
+  /// subnet endpoint. The response is the mappings for one destination IP
+  /// address. This is useful when your subnet endpoint has mappings that span
+  /// multiple custom routing accelerators in your account, or for scenarios
+  /// where you only want to list the port mappings for a specific destination
+  /// instance.
+  ///
+  /// May throw [InvalidArgumentException].
+  /// May throw [InvalidNextTokenException].
+  /// May throw [EndpointNotFoundException].
+  /// May throw [InternalServiceErrorException].
+  ///
+  /// Parameter [destinationAddress] :
+  /// The endpoint IP address in a virtual private cloud (VPC) subnet for which
+  /// you want to receive back port mappings.
+  ///
+  /// Parameter [endpointId] :
+  /// The ID for the virtual private cloud (VPC) subnet.
+  ///
+  /// Parameter [maxResults] :
+  /// The number of destination port mappings that you want to return with this
+  /// call. The default value is 10.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of results. You receive this token from a
+  /// previous call.
+  Future<ListCustomRoutingPortMappingsByDestinationResponse>
+      listCustomRoutingPortMappingsByDestination({
+    @_s.required String destinationAddress,
+    @_s.required String endpointId,
+    int maxResults,
+    String nextToken,
+  }) async {
+    ArgumentError.checkNotNull(destinationAddress, 'destinationAddress');
+    _s.validateStringLength(
+      'destinationAddress',
+      destinationAddress,
+      0,
+      255,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(endpointId, 'endpointId');
+    _s.validateStringLength(
+      'endpointId',
+      endpointId,
+      0,
+      255,
+      isRequired: true,
+    );
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      20000,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      255,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'GlobalAccelerator_V20180706.ListCustomRoutingPortMappingsByDestination'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'DestinationAddress': destinationAddress,
+        'EndpointId': endpointId,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListCustomRoutingPortMappingsByDestinationResponse.fromJson(
+        jsonResponse.body);
+  }
+
+  /// List the endpoint groups that are associated with a listener.
   ///
   /// May throw [ListenerNotFoundException].
   /// May throw [InvalidNextTokenException].
@@ -965,8 +2104,7 @@ class GlobalAccelerator {
     return ListEndpointGroupsResponse.fromJson(jsonResponse.body);
   }
 
-  /// List the listeners for an accelerator. To see an AWS CLI example of
-  /// listing the listeners for an accelerator, scroll down to <b>Example</b>.
+  /// List the listeners for an accelerator.
   ///
   /// May throw [InvalidArgumentException].
   /// May throw [AcceleratorNotFoundException].
@@ -1029,8 +2167,7 @@ class GlobalAccelerator {
     return ListListenersResponse.fromJson(jsonResponse.body);
   }
 
-  /// List all tags for an accelerator. To see an AWS CLI example of listing
-  /// tags for an accelerator, scroll down to <b>Example</b>.
+  /// List all tags for an accelerator.
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/global-accelerator/latest/dg/tagging-in-global-accelerator.html">Tagging
@@ -1079,9 +2216,6 @@ class GlobalAccelerator {
   /// using <a
   /// href="https://docs.aws.amazon.com/global-accelerator/latest/api/AdvertiseByoipCidr.html">
   /// AdvertiseByoipCidr</a>.
-  ///
-  /// To see an AWS CLI example of provisioning an address range for BYOIP,
-  /// scroll down to <b>Example</b>.
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/global-accelerator/latest/dg/using-byoip.html">Bring
@@ -1135,8 +2269,53 @@ class GlobalAccelerator {
     return ProvisionByoipCidrResponse.fromJson(jsonResponse.body);
   }
 
-  /// Add tags to an accelerator resource. To see an AWS CLI example of adding
-  /// tags to an accelerator, scroll down to <b>Example</b>.
+  /// Remove endpoints from a custom routing accelerator.
+  ///
+  /// May throw [EndpointGroupNotFoundException].
+  /// May throw [EndpointNotFoundException].
+  /// May throw [InternalServiceErrorException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [endpointGroupArn] :
+  /// The Amazon Resource Name (ARN) of the endpoint group to remove endpoints
+  /// from.
+  ///
+  /// Parameter [endpointIds] :
+  /// The IDs for the endpoints. For custom routing accelerators, endpoint IDs
+  /// are the virtual private cloud (VPC) subnet IDs.
+  Future<void> removeCustomRoutingEndpoints({
+    @_s.required String endpointGroupArn,
+    @_s.required List<String> endpointIds,
+  }) async {
+    ArgumentError.checkNotNull(endpointGroupArn, 'endpointGroupArn');
+    _s.validateStringLength(
+      'endpointGroupArn',
+      endpointGroupArn,
+      0,
+      255,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(endpointIds, 'endpointIds');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'GlobalAccelerator_V20180706.RemoveCustomRoutingEndpoints'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'EndpointGroupArn': endpointGroupArn,
+        'EndpointIds': endpointIds,
+      },
+    );
+  }
+
+  /// Add tags to an accelerator resource.
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/global-accelerator/latest/dg/tagging-in-global-accelerator.html">Tagging
@@ -1187,10 +2366,9 @@ class GlobalAccelerator {
   }
 
   /// Remove tags from a Global Accelerator resource. When you specify a tag
-  /// key, the action removes both that key and its associated value. To see an
-  /// AWS CLI example of removing tags from an accelerator, scroll down to
-  /// <b>Example</b>. The operation succeeds even if you attempt to remove tags
-  /// from an accelerator that was already removed.
+  /// key, the action removes both that key and its associated value. The
+  /// operation succeeds even if you attempt to remove tags from an accelerator
+  /// that was already removed.
   ///
   /// For more information, see <a
   /// href="https://docs.aws.amazon.com/global-accelerator/latest/dg/tagging-in-global-accelerator.html">Tagging
@@ -1239,11 +2417,11 @@ class GlobalAccelerator {
     return UntagResourceResponse.fromJson(jsonResponse.body);
   }
 
-  /// Update an accelerator. To see an AWS CLI example of updating an
-  /// accelerator, scroll down to <b>Example</b>.
+  /// Update an accelerator.
   /// <important>
-  /// You must specify the US West (Oregon) Region to create or update
-  /// accelerators.
+  /// Global Accelerator is a global service that supports endpoints in multiple
+  /// AWS Regions but you must specify the US West (Oregon) Region to create or
+  /// update accelerators.
   /// </important>
   ///
   /// May throw [AcceleratorNotFoundException].
@@ -1261,7 +2439,7 @@ class GlobalAccelerator {
   /// false, the accelerator can be deleted.
   ///
   /// Parameter [ipAddressType] :
-  /// The value for the address type must be IPv4.
+  /// The IP address type, which must be IPv4.
   ///
   /// Parameter [name] :
   /// The name of the accelerator. The name can have a maximum of 32 characters,
@@ -1308,9 +2486,7 @@ class GlobalAccelerator {
     return UpdateAcceleratorResponse.fromJson(jsonResponse.body);
   }
 
-  /// Update the attributes for an accelerator. To see an AWS CLI example of
-  /// updating an accelerator to enable flow logs, scroll down to
-  /// <b>Example</b>.
+  /// Update the attributes for an accelerator.
   ///
   /// May throw [AcceleratorNotFoundException].
   /// May throw [InternalServiceErrorException].
@@ -1393,8 +2569,213 @@ class GlobalAccelerator {
     return UpdateAcceleratorAttributesResponse.fromJson(jsonResponse.body);
   }
 
-  /// Update an endpoint group. To see an AWS CLI example of updating an
-  /// endpoint group, scroll down to <b>Example</b>.
+  /// Update a custom routing accelerator.
+  ///
+  /// May throw [AcceleratorNotFoundException].
+  /// May throw [InternalServiceErrorException].
+  /// May throw [InvalidArgumentException].
+  ///
+  /// Parameter [acceleratorArn] :
+  /// The Amazon Resource Name (ARN) of the accelerator to update.
+  ///
+  /// Parameter [enabled] :
+  /// Indicates whether an accelerator is enabled. The value is true or false.
+  /// The default value is true.
+  ///
+  /// If the value is set to true, the accelerator cannot be deleted. If set to
+  /// false, the accelerator can be deleted.
+  ///
+  /// Parameter [ipAddressType] :
+  /// The value for the address type must be IPv4.
+  ///
+  /// Parameter [name] :
+  /// The name of the accelerator. The name can have a maximum of 32 characters,
+  /// must contain only alphanumeric characters or hyphens (-), and must not
+  /// begin or end with a hyphen.
+  Future<UpdateCustomRoutingAcceleratorResponse>
+      updateCustomRoutingAccelerator({
+    @_s.required String acceleratorArn,
+    bool enabled,
+    IpAddressType ipAddressType,
+    String name,
+  }) async {
+    ArgumentError.checkNotNull(acceleratorArn, 'acceleratorArn');
+    _s.validateStringLength(
+      'acceleratorArn',
+      acceleratorArn,
+      0,
+      255,
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'name',
+      name,
+      0,
+      255,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'GlobalAccelerator_V20180706.UpdateCustomRoutingAccelerator'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AcceleratorArn': acceleratorArn,
+        if (enabled != null) 'Enabled': enabled,
+        if (ipAddressType != null) 'IpAddressType': ipAddressType.toValue(),
+        if (name != null) 'Name': name,
+      },
+    );
+
+    return UpdateCustomRoutingAcceleratorResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Update the attributes for a custom routing accelerator.
+  ///
+  /// May throw [AcceleratorNotFoundException].
+  /// May throw [InternalServiceErrorException].
+  /// May throw [InvalidArgumentException].
+  /// May throw [AccessDeniedException].
+  ///
+  /// Parameter [acceleratorArn] :
+  /// The Amazon Resource Name (ARN) of the custom routing accelerator to update
+  /// attributes for.
+  ///
+  /// Parameter [flowLogsEnabled] :
+  /// Update whether flow logs are enabled. The default value is false. If the
+  /// value is true, <code>FlowLogsS3Bucket</code> and
+  /// <code>FlowLogsS3Prefix</code> must be specified.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/global-accelerator/latest/dg/monitoring-global-accelerator.flow-logs.html">Flow
+  /// Logs</a> in the <i>AWS Global Accelerator Developer Guide</i>.
+  ///
+  /// Parameter [flowLogsS3Bucket] :
+  /// The name of the Amazon S3 bucket for the flow logs. Attribute is required
+  /// if <code>FlowLogsEnabled</code> is <code>true</code>. The bucket must
+  /// exist and have a bucket policy that grants AWS Global Accelerator
+  /// permission to write to the bucket.
+  ///
+  /// Parameter [flowLogsS3Prefix] :
+  /// Update the prefix for the location in the Amazon S3 bucket for the flow
+  /// logs. Attribute is required if <code>FlowLogsEnabled</code> is
+  /// <code>true</code>.
+  ///
+  /// If you don’t specify a prefix, the flow logs are stored in the root of the
+  /// bucket. If you specify slash (/) for the S3 bucket prefix, the log file
+  /// bucket folder structure will include a double slash (//), like the
+  /// following:
+  ///
+  /// DOC-EXAMPLE-BUCKET//AWSLogs/aws_account_id
+  Future<UpdateCustomRoutingAcceleratorAttributesResponse>
+      updateCustomRoutingAcceleratorAttributes({
+    @_s.required String acceleratorArn,
+    bool flowLogsEnabled,
+    String flowLogsS3Bucket,
+    String flowLogsS3Prefix,
+  }) async {
+    ArgumentError.checkNotNull(acceleratorArn, 'acceleratorArn');
+    _s.validateStringLength(
+      'acceleratorArn',
+      acceleratorArn,
+      0,
+      255,
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'flowLogsS3Bucket',
+      flowLogsS3Bucket,
+      0,
+      255,
+    );
+    _s.validateStringLength(
+      'flowLogsS3Prefix',
+      flowLogsS3Prefix,
+      0,
+      255,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'GlobalAccelerator_V20180706.UpdateCustomRoutingAcceleratorAttributes'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AcceleratorArn': acceleratorArn,
+        if (flowLogsEnabled != null) 'FlowLogsEnabled': flowLogsEnabled,
+        if (flowLogsS3Bucket != null) 'FlowLogsS3Bucket': flowLogsS3Bucket,
+        if (flowLogsS3Prefix != null) 'FlowLogsS3Prefix': flowLogsS3Prefix,
+      },
+    );
+
+    return UpdateCustomRoutingAcceleratorAttributesResponse.fromJson(
+        jsonResponse.body);
+  }
+
+  /// Update a listener for a custom routing accelerator.
+  ///
+  /// May throw [InvalidArgumentException].
+  /// May throw [InvalidPortRangeException].
+  /// May throw [ListenerNotFoundException].
+  /// May throw [InternalServiceErrorException].
+  /// May throw [LimitExceededException].
+  ///
+  /// Parameter [listenerArn] :
+  /// The Amazon Resource Name (ARN) of the listener to update.
+  ///
+  /// Parameter [portRanges] :
+  /// The updated port range to support for connections from clients to your
+  /// accelerator. If you remove ports that are currently being used by a subnet
+  /// endpoint, the call fails.
+  ///
+  /// Separately, you set port ranges for endpoints. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/global-accelerator/latest/dg/about-custom-routing-endpoints.html">About
+  /// endpoints for custom routing accelerators</a>.
+  Future<UpdateCustomRoutingListenerResponse> updateCustomRoutingListener({
+    @_s.required String listenerArn,
+    @_s.required List<PortRange> portRanges,
+  }) async {
+    ArgumentError.checkNotNull(listenerArn, 'listenerArn');
+    _s.validateStringLength(
+      'listenerArn',
+      listenerArn,
+      0,
+      255,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(portRanges, 'portRanges');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'GlobalAccelerator_V20180706.UpdateCustomRoutingListener'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ListenerArn': listenerArn,
+        'PortRanges': portRanges,
+      },
+    );
+
+    return UpdateCustomRoutingListenerResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Update an endpoint group. A resource must be valid and active when you add
+  /// it as an endpoint.
   ///
   /// May throw [InvalidArgumentException].
   /// May throw [EndpointGroupNotFoundException].
@@ -1406,7 +2787,8 @@ class GlobalAccelerator {
   /// The Amazon Resource Name (ARN) of the endpoint group.
   ///
   /// Parameter [endpointConfigurations] :
-  /// The list of endpoint objects.
+  /// The list of endpoint objects. A resource must be valid and active when you
+  /// add it as an endpoint.
   ///
   /// Parameter [healthCheckIntervalSeconds] :
   /// The time—10 seconds or 30 seconds—between each health check for an
@@ -1425,6 +2807,17 @@ class GlobalAccelerator {
   /// Parameter [healthCheckProtocol] :
   /// The protocol that AWS Global Accelerator uses to check the health of
   /// endpoints that are part of this endpoint group. The default value is TCP.
+  ///
+  /// Parameter [portOverrides] :
+  /// Override specific listener ports used to route traffic to endpoints that
+  /// are part of this endpoint group. For example, you can create a port
+  /// override in which the listener receives user traffic on ports 80 and 443,
+  /// but your accelerator routes that traffic to ports 1080 and 1443,
+  /// respectively, on the endpoints.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/global-accelerator/latest/dg/about-endpoint-groups-port-override.html">
+  /// Port overrides</a> in the <i>AWS Global Accelerator Developer Guide</i>.
   ///
   /// Parameter [thresholdCount] :
   /// The number of consecutive health checks required to set the state of a
@@ -1447,6 +2840,7 @@ class GlobalAccelerator {
     String healthCheckPath,
     int healthCheckPort,
     HealthCheckProtocol healthCheckProtocol,
+    List<PortOverride> portOverrides,
     int thresholdCount,
     double trafficDialPercentage,
   }) async {
@@ -1469,6 +2863,11 @@ class GlobalAccelerator {
       healthCheckPath,
       0,
       255,
+    );
+    _s.validateStringPattern(
+      'healthCheckPath',
+      healthCheckPath,
+      r'''^/[-a-zA-Z0-9@:%_\\+.~#?&/=]*$''',
     );
     _s.validateNumRange(
       'healthCheckPort',
@@ -1508,6 +2907,7 @@ class GlobalAccelerator {
         if (healthCheckPort != null) 'HealthCheckPort': healthCheckPort,
         if (healthCheckProtocol != null)
           'HealthCheckProtocol': healthCheckProtocol.toValue(),
+        if (portOverrides != null) 'PortOverrides': portOverrides,
         if (thresholdCount != null) 'ThresholdCount': thresholdCount,
         if (trafficDialPercentage != null)
           'TrafficDialPercentage': trafficDialPercentage,
@@ -1517,8 +2917,7 @@ class GlobalAccelerator {
     return UpdateEndpointGroupResponse.fromJson(jsonResponse.body);
   }
 
-  /// Update a listener. To see an AWS CLI example of updating listener, scroll
-  /// down to <b>Example</b>.
+  /// Update a listener.
   ///
   /// May throw [InvalidArgumentException].
   /// May throw [InvalidPortRangeException].
@@ -1532,7 +2931,7 @@ class GlobalAccelerator {
   /// Parameter [clientAffinity] :
   /// Client affinity lets you direct all requests from a user to the same
   /// endpoint, if you have stateful applications, regardless of the port and
-  /// protocol of the client request. Clienty affinity gives you control over
+  /// protocol of the client request. Client affinity gives you control over
   /// whether to always route each client to the same specific endpoint.
   ///
   /// AWS Global Accelerator uses a consistent-flow hashing algorithm to choose
@@ -1595,9 +2994,7 @@ class GlobalAccelerator {
 
   /// Stops advertising an address range that is provisioned as an address pool.
   /// You can perform this operation at most once every 10 seconds, even if you
-  /// specify different address ranges each time. To see an AWS CLI example of
-  /// withdrawing an address range for BYOIP so it will no longer be advertised
-  /// by AWS, scroll down to <b>Example</b>.
+  /// specify different address ranges each time.
   ///
   /// It can take a few minutes before traffic to the specified addresses stops
   /// routing to AWS because of propagation delays.
@@ -1781,6 +3178,30 @@ enum AcceleratorStatus {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class AddCustomRoutingEndpointsResponse {
+  /// The endpoint objects added to the custom routing accelerator.
+  @_s.JsonKey(name: 'EndpointDescriptions')
+  final List<CustomRoutingEndpointDescription> endpointDescriptions;
+
+  /// The Amazon Resource Name (ARN) of the endpoint group for the custom routing
+  /// endpoint.
+  @_s.JsonKey(name: 'EndpointGroupArn')
+  final String endpointGroupArn;
+
+  AddCustomRoutingEndpointsResponse({
+    this.endpointDescriptions,
+    this.endpointGroupArn,
+  });
+  factory AddCustomRoutingEndpointsResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$AddCustomRoutingEndpointsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class AdvertiseByoipCidrResponse {
   /// Information about the address range.
   @_s.JsonKey(name: 'ByoipCidr')
@@ -1865,8 +3286,8 @@ class ByoipCidr {
   @_s.JsonKey(name: 'Cidr')
   final String cidr;
 
-  /// A history of status changes for an IP address range that that you bring to
-  /// AWS Global Accelerator through bring your own IP address (BYOIP).
+  /// A history of status changes for an IP address range that you bring to AWS
+  /// Global Accelerator through bring your own IP address (BYOIP).
   @_s.JsonKey(name: 'Events')
   final List<ByoipCidrEvent> events;
 
@@ -2008,6 +3429,61 @@ class CreateAcceleratorResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class CreateCustomRoutingAcceleratorResponse {
+  /// The accelerator that is created.
+  @_s.JsonKey(name: 'Accelerator')
+  final CustomRoutingAccelerator accelerator;
+
+  CreateCustomRoutingAcceleratorResponse({
+    this.accelerator,
+  });
+  factory CreateCustomRoutingAcceleratorResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$CreateCustomRoutingAcceleratorResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class CreateCustomRoutingEndpointGroupResponse {
+  /// The information about the endpoint group created for a custom routing
+  /// accelerator.
+  @_s.JsonKey(name: 'EndpointGroup')
+  final CustomRoutingEndpointGroup endpointGroup;
+
+  CreateCustomRoutingEndpointGroupResponse({
+    this.endpointGroup,
+  });
+  factory CreateCustomRoutingEndpointGroupResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$CreateCustomRoutingEndpointGroupResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class CreateCustomRoutingListenerResponse {
+  /// The listener that you've created for a custom routing accelerator.
+  @_s.JsonKey(name: 'Listener')
+  final CustomRoutingListener listener;
+
+  CreateCustomRoutingListenerResponse({
+    this.listener,
+  });
+  factory CreateCustomRoutingListenerResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$CreateCustomRoutingListenerResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class CreateEndpointGroupResponse {
   /// The information about the endpoint group that was created.
   @_s.JsonKey(name: 'EndpointGroup')
@@ -2035,6 +3511,323 @@ class CreateListenerResponse {
   });
   factory CreateListenerResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateListenerResponseFromJson(json);
+}
+
+/// Attributes of a custom routing accelerator.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class CustomRoutingAccelerator {
+  /// The Amazon Resource Name (ARN) of the custom routing accelerator.
+  @_s.JsonKey(name: 'AcceleratorArn')
+  final String acceleratorArn;
+
+  /// The date and time that the accelerator was created.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedTime')
+  final DateTime createdTime;
+
+  /// The Domain Name System (DNS) name that Global Accelerator creates that
+  /// points to your accelerator's static IP addresses.
+  ///
+  /// The naming convention for the DNS name is the following: A lowercase letter
+  /// a, followed by a 16-bit random hex string, followed by
+  /// .awsglobalaccelerator.com. For example:
+  /// a1234567890abcdef.awsglobalaccelerator.com.
+  ///
+  /// For more information about the default DNS name, see <a
+  /// href="https://docs.aws.amazon.com/global-accelerator/latest/dg/about-accelerators.html#about-accelerators.dns-addressing">
+  /// Support for DNS Addressing in Global Accelerator</a> in the <i>AWS Global
+  /// Accelerator Developer Guide</i>.
+  @_s.JsonKey(name: 'DnsName')
+  final String dnsName;
+
+  /// Indicates whether the accelerator is enabled. The value is true or false.
+  /// The default value is true.
+  ///
+  /// If the value is set to true, the accelerator cannot be deleted. If set to
+  /// false, accelerator can be deleted.
+  @_s.JsonKey(name: 'Enabled')
+  final bool enabled;
+
+  /// The value for the address type must be IPv4.
+  @_s.JsonKey(name: 'IpAddressType')
+  final IpAddressType ipAddressType;
+
+  /// The static IP addresses that Global Accelerator associates with the
+  /// accelerator.
+  @_s.JsonKey(name: 'IpSets')
+  final List<IpSet> ipSets;
+
+  /// The date and time that the accelerator was last modified.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastModifiedTime')
+  final DateTime lastModifiedTime;
+
+  /// The name of the accelerator. The name must contain only alphanumeric
+  /// characters or hyphens (-), and must not begin or end with a hyphen.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// Describes the deployment status of the accelerator.
+  @_s.JsonKey(name: 'Status')
+  final CustomRoutingAcceleratorStatus status;
+
+  CustomRoutingAccelerator({
+    this.acceleratorArn,
+    this.createdTime,
+    this.dnsName,
+    this.enabled,
+    this.ipAddressType,
+    this.ipSets,
+    this.lastModifiedTime,
+    this.name,
+    this.status,
+  });
+  factory CustomRoutingAccelerator.fromJson(Map<String, dynamic> json) =>
+      _$CustomRoutingAcceleratorFromJson(json);
+}
+
+/// Attributes of a custom routing accelerator.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class CustomRoutingAcceleratorAttributes {
+  /// Indicates whether flow logs are enabled. The default value is false. If the
+  /// value is true, <code>FlowLogsS3Bucket</code> and
+  /// <code>FlowLogsS3Prefix</code> must be specified.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/global-accelerator/latest/dg/monitoring-global-accelerator.flow-logs.html">Flow
+  /// Logs</a> in the <i>AWS Global Accelerator Developer Guide</i>.
+  @_s.JsonKey(name: 'FlowLogsEnabled')
+  final bool flowLogsEnabled;
+
+  /// The name of the Amazon S3 bucket for the flow logs. Attribute is required if
+  /// <code>FlowLogsEnabled</code> is <code>true</code>. The bucket must exist and
+  /// have a bucket policy that grants AWS Global Accelerator permission to write
+  /// to the bucket.
+  @_s.JsonKey(name: 'FlowLogsS3Bucket')
+  final String flowLogsS3Bucket;
+
+  /// The prefix for the location in the Amazon S3 bucket for the flow logs.
+  /// Attribute is required if <code>FlowLogsEnabled</code> is <code>true</code>.
+  ///
+  /// If you don’t specify a prefix, the flow logs are stored in the root of the
+  /// bucket. If you specify slash (/) for the S3 bucket prefix, the log file
+  /// bucket folder structure will include a double slash (//), like the
+  /// following:
+  ///
+  /// DOC-EXAMPLE-BUCKET//AWSLogs/aws_account_id
+  @_s.JsonKey(name: 'FlowLogsS3Prefix')
+  final String flowLogsS3Prefix;
+
+  CustomRoutingAcceleratorAttributes({
+    this.flowLogsEnabled,
+    this.flowLogsS3Bucket,
+    this.flowLogsS3Prefix,
+  });
+  factory CustomRoutingAcceleratorAttributes.fromJson(
+          Map<String, dynamic> json) =>
+      _$CustomRoutingAcceleratorAttributesFromJson(json);
+}
+
+enum CustomRoutingAcceleratorStatus {
+  @_s.JsonValue('DEPLOYED')
+  deployed,
+  @_s.JsonValue('IN_PROGRESS')
+  inProgress,
+}
+
+/// For a custom routing accelerator, sets the port range and protocol for all
+/// endpoints (virtual private cloud subnets) in an endpoint group to accept
+/// client traffic on.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CustomRoutingDestinationConfiguration {
+  /// The first port, inclusive, in the range of ports for the endpoint group that
+  /// is associated with a custom routing accelerator.
+  @_s.JsonKey(name: 'FromPort')
+  final int fromPort;
+
+  /// The protocol for the endpoint group that is associated with a custom routing
+  /// accelerator. The protocol can be either TCP or UDP.
+  @_s.JsonKey(name: 'Protocols')
+  final List<CustomRoutingProtocol> protocols;
+
+  /// The last port, inclusive, in the range of ports for the endpoint group that
+  /// is associated with a custom routing accelerator.
+  @_s.JsonKey(name: 'ToPort')
+  final int toPort;
+
+  CustomRoutingDestinationConfiguration({
+    @_s.required this.fromPort,
+    @_s.required this.protocols,
+    @_s.required this.toPort,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CustomRoutingDestinationConfigurationToJson(this);
+}
+
+/// For a custom routing accelerator, describes the port range and protocol for
+/// all endpoints (virtual private cloud subnets) in an endpoint group to accept
+/// client traffic on.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class CustomRoutingDestinationDescription {
+  /// The first port, inclusive, in the range of ports for the endpoint group that
+  /// is associated with a custom routing accelerator.
+  @_s.JsonKey(name: 'FromPort')
+  final int fromPort;
+
+  /// The protocol for the endpoint group that is associated with a custom routing
+  /// accelerator. The protocol can be either TCP or UDP.
+  @_s.JsonKey(name: 'Protocols')
+  final List<Protocol> protocols;
+
+  /// The last port, inclusive, in the range of ports for the endpoint group that
+  /// is associated with a custom routing accelerator.
+  @_s.JsonKey(name: 'ToPort')
+  final int toPort;
+
+  CustomRoutingDestinationDescription({
+    this.fromPort,
+    this.protocols,
+    this.toPort,
+  });
+  factory CustomRoutingDestinationDescription.fromJson(
+          Map<String, dynamic> json) =>
+      _$CustomRoutingDestinationDescriptionFromJson(json);
+}
+
+enum CustomRoutingDestinationTrafficState {
+  @_s.JsonValue('ALLOW')
+  allow,
+  @_s.JsonValue('DENY')
+  deny,
+}
+
+/// The list of endpoint objects. For custom routing, this is a list of virtual
+/// private cloud (VPC) subnet IDs.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class CustomRoutingEndpointConfiguration {
+  /// An ID for the endpoint. For custom routing accelerators, this is the virtual
+  /// private cloud (VPC) subnet ID.
+  @_s.JsonKey(name: 'EndpointId')
+  final String endpointId;
+
+  CustomRoutingEndpointConfiguration({
+    this.endpointId,
+  });
+  Map<String, dynamic> toJson() =>
+      _$CustomRoutingEndpointConfigurationToJson(this);
+}
+
+/// A complex type for an endpoint for a custom routing accelerator. Each
+/// endpoint group can include one or more endpoints, which are virtual private
+/// cloud (VPC) subnets.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class CustomRoutingEndpointDescription {
+  /// An ID for the endpoint. For custom routing accelerators, this is the virtual
+  /// private cloud (VPC) subnet ID.
+  @_s.JsonKey(name: 'EndpointId')
+  final String endpointId;
+
+  CustomRoutingEndpointDescription({
+    this.endpointId,
+  });
+  factory CustomRoutingEndpointDescription.fromJson(
+          Map<String, dynamic> json) =>
+      _$CustomRoutingEndpointDescriptionFromJson(json);
+}
+
+/// A complex type for the endpoint group for a custom routing accelerator. An
+/// AWS Region can have only one endpoint group for a specific listener.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class CustomRoutingEndpointGroup {
+  /// For a custom routing accelerator, describes the port range and protocol for
+  /// all endpoints (virtual private cloud subnets) in an endpoint group to accept
+  /// client traffic on.
+  @_s.JsonKey(name: 'DestinationDescriptions')
+  final List<CustomRoutingDestinationDescription> destinationDescriptions;
+
+  /// For a custom routing accelerator, describes the endpoints (virtual private
+  /// cloud subnets) in an endpoint group to accept client traffic on.
+  @_s.JsonKey(name: 'EndpointDescriptions')
+  final List<CustomRoutingEndpointDescription> endpointDescriptions;
+
+  /// The Amazon Resource Name (ARN) of the endpoint group.
+  @_s.JsonKey(name: 'EndpointGroupArn')
+  final String endpointGroupArn;
+
+  /// The AWS Region where the endpoint group is located.
+  @_s.JsonKey(name: 'EndpointGroupRegion')
+  final String endpointGroupRegion;
+
+  CustomRoutingEndpointGroup({
+    this.destinationDescriptions,
+    this.endpointDescriptions,
+    this.endpointGroupArn,
+    this.endpointGroupRegion,
+  });
+  factory CustomRoutingEndpointGroup.fromJson(Map<String, dynamic> json) =>
+      _$CustomRoutingEndpointGroupFromJson(json);
+}
+
+/// A complex type for a listener for a custom routing accelerator.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class CustomRoutingListener {
+  /// The Amazon Resource Name (ARN) of the listener.
+  @_s.JsonKey(name: 'ListenerArn')
+  final String listenerArn;
+
+  /// The port range to support for connections from clients to your accelerator.
+  ///
+  /// Separately, you set port ranges for endpoints. For more information, see <a
+  /// href="https://docs.aws.amazon.com/global-accelerator/latest/dg/about-custom-routing-endpoints.html">About
+  /// endpoints for custom routing accelerators</a>.
+  @_s.JsonKey(name: 'PortRanges')
+  final List<PortRange> portRanges;
+
+  CustomRoutingListener({
+    this.listenerArn,
+    this.portRanges,
+  });
+  factory CustomRoutingListener.fromJson(Map<String, dynamic> json) =>
+      _$CustomRoutingListenerFromJson(json);
+}
+
+enum CustomRoutingProtocol {
+  @_s.JsonValue('TCP')
+  tcp,
+  @_s.JsonValue('UDP')
+  udp,
 }
 
 @_s.JsonSerializable(
@@ -2094,6 +3887,78 @@ class DescribeAcceleratorResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class DescribeCustomRoutingAcceleratorAttributesResponse {
+  /// The attributes of the custom routing accelerator.
+  @_s.JsonKey(name: 'AcceleratorAttributes')
+  final CustomRoutingAcceleratorAttributes acceleratorAttributes;
+
+  DescribeCustomRoutingAcceleratorAttributesResponse({
+    this.acceleratorAttributes,
+  });
+  factory DescribeCustomRoutingAcceleratorAttributesResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$DescribeCustomRoutingAcceleratorAttributesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DescribeCustomRoutingAcceleratorResponse {
+  /// The description of the custom routing accelerator.
+  @_s.JsonKey(name: 'Accelerator')
+  final CustomRoutingAccelerator accelerator;
+
+  DescribeCustomRoutingAcceleratorResponse({
+    this.accelerator,
+  });
+  factory DescribeCustomRoutingAcceleratorResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$DescribeCustomRoutingAcceleratorResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DescribeCustomRoutingEndpointGroupResponse {
+  /// The description of an endpoint group for a custom routing accelerator.
+  @_s.JsonKey(name: 'EndpointGroup')
+  final CustomRoutingEndpointGroup endpointGroup;
+
+  DescribeCustomRoutingEndpointGroupResponse({
+    this.endpointGroup,
+  });
+  factory DescribeCustomRoutingEndpointGroupResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$DescribeCustomRoutingEndpointGroupResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DescribeCustomRoutingListenerResponse {
+  /// The description of a listener for a custom routing accelerator.
+  @_s.JsonKey(name: 'Listener')
+  final CustomRoutingListener listener;
+
+  DescribeCustomRoutingListenerResponse({
+    this.listener,
+  });
+  factory DescribeCustomRoutingListenerResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$DescribeCustomRoutingListenerResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class DescribeEndpointGroupResponse {
   /// The description of an endpoint group.
   @_s.JsonKey(name: 'EndpointGroup')
@@ -2123,7 +3988,66 @@ class DescribeListenerResponse {
       _$DescribeListenerResponseFromJson(json);
 }
 
-/// A complex type for endpoints.
+/// The port mappings for a specified endpoint IP address (destination).
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DestinationPortMapping {
+  /// The Amazon Resource Name (ARN) of the custom routing accelerator that you
+  /// have port mappings for.
+  @_s.JsonKey(name: 'AcceleratorArn')
+  final String acceleratorArn;
+
+  /// The IP address/port combinations (sockets) that map to a given destination
+  /// socket address.
+  @_s.JsonKey(name: 'AcceleratorSocketAddresses')
+  final List<SocketAddress> acceleratorSocketAddresses;
+
+  /// The endpoint IP address/port combination for traffic received on the
+  /// accelerator socket address.
+  @_s.JsonKey(name: 'DestinationSocketAddress')
+  final SocketAddress destinationSocketAddress;
+
+  /// Indicates whether or not a port mapping destination can receive traffic. The
+  /// value is either ALLOW, if traffic is allowed to the destination, or DENY, if
+  /// traffic is not allowed to the destination.
+  @_s.JsonKey(name: 'DestinationTrafficState')
+  final CustomRoutingDestinationTrafficState destinationTrafficState;
+
+  /// The Amazon Resource Name (ARN) of the endpoint group.
+  @_s.JsonKey(name: 'EndpointGroupArn')
+  final String endpointGroupArn;
+
+  /// The AWS Region for the endpoint group.
+  @_s.JsonKey(name: 'EndpointGroupRegion')
+  final String endpointGroupRegion;
+
+  /// The ID for the virtual private cloud (VPC) subnet.
+  @_s.JsonKey(name: 'EndpointId')
+  final String endpointId;
+
+  /// The IP address type, which must be IPv4.
+  @_s.JsonKey(name: 'IpAddressType')
+  final IpAddressType ipAddressType;
+
+  DestinationPortMapping({
+    this.acceleratorArn,
+    this.acceleratorSocketAddresses,
+    this.destinationSocketAddress,
+    this.destinationTrafficState,
+    this.endpointGroupArn,
+    this.endpointGroupRegion,
+    this.endpointId,
+    this.ipAddressType,
+  });
+  factory DestinationPortMapping.fromJson(Map<String, dynamic> json) =>
+      _$DestinationPortMappingFromJson(json);
+}
+
+/// A complex type for endpoints. A resource must be valid and active when you
+/// add it as an endpoint.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -2149,7 +4073,8 @@ class EndpointConfiguration {
   /// An ID for the endpoint. If the endpoint is a Network Load Balancer or
   /// Application Load Balancer, this is the Amazon Resource Name (ARN) of the
   /// resource. If the endpoint is an Elastic IP address, this is the Elastic IP
-  /// address allocation ID. For EC2 instances, this is the EC2 instance ID.
+  /// address allocation ID. For Amazon EC2 instances, this is the EC2 instance
+  /// ID. A resource must be valid and active when you add it as an endpoint.
   ///
   /// An Application Load Balancer can be either internal or internet-facing.
   @_s.JsonKey(name: 'EndpointId')
@@ -2202,42 +4127,14 @@ class EndpointDescription {
   /// An ID for the endpoint. If the endpoint is a Network Load Balancer or
   /// Application Load Balancer, this is the Amazon Resource Name (ARN) of the
   /// resource. If the endpoint is an Elastic IP address, this is the Elastic IP
-  /// address allocation ID. For EC2 instances, this is the EC2 instance ID.
+  /// address allocation ID. For Amazon EC2 instances, this is the EC2 instance
+  /// ID.
   ///
   /// An Application Load Balancer can be either internal or internet-facing.
   @_s.JsonKey(name: 'EndpointId')
   final String endpointId;
 
-  /// The reason code associated with why the endpoint is not healthy. If the
-  /// endpoint state is healthy, a reason code is not provided.
-  ///
-  /// If the endpoint state is <b>unhealthy</b>, the reason code can be one of the
-  /// following values:
-  ///
-  /// <ul>
-  /// <li>
-  /// <b>Timeout</b>: The health check requests to the endpoint are timing out
-  /// before returning a status.
-  /// </li>
-  /// <li>
-  /// <b>Failed</b>: The health check failed, for example because the endpoint
-  /// response was invalid (malformed).
-  /// </li>
-  /// </ul>
-  /// If the endpoint state is <b>initial</b>, the reason code can be one of the
-  /// following values:
-  ///
-  /// <ul>
-  /// <li>
-  /// <b>ProvisioningInProgress</b>: The endpoint is in the process of being
-  /// provisioned.
-  /// </li>
-  /// <li>
-  /// <b>InitialHealthChecking</b>: Global Accelerator is still setting up the
-  /// minimum number of health checks for the endpoint that are required to
-  /// determine its health status.
-  /// </li>
-  /// </ul>
+  /// Returns a null result.
   @_s.JsonKey(name: 'HealthReason')
   final String healthReason;
 
@@ -2284,7 +4181,7 @@ class EndpointGroup {
   @_s.JsonKey(name: 'EndpointGroupArn')
   final String endpointGroupArn;
 
-  /// The AWS Region that this endpoint group belongs.
+  /// The AWS Region where the endpoint group is located.
   @_s.JsonKey(name: 'EndpointGroupRegion')
   final String endpointGroupRegion;
 
@@ -2313,6 +4210,14 @@ class EndpointGroup {
   @_s.JsonKey(name: 'HealthCheckProtocol')
   final HealthCheckProtocol healthCheckProtocol;
 
+  /// Allows you to override the destination ports used to route traffic to an
+  /// endpoint. Using a port override lets you to map a list of external
+  /// destination ports (that your users send traffic to) to a list of internal
+  /// destination ports that you want an application endpoint to receive traffic
+  /// on.
+  @_s.JsonKey(name: 'PortOverrides')
+  final List<PortOverride> portOverrides;
+
   /// The number of consecutive health checks required to set the state of a
   /// healthy endpoint to unhealthy, or to set an unhealthy endpoint to healthy.
   /// The default value is 3.
@@ -2338,6 +4243,7 @@ class EndpointGroup {
     this.healthCheckPath,
     this.healthCheckPort,
     this.healthCheckProtocol,
+    this.portOverrides,
     this.thresholdCount,
     this.trafficDialPercentage,
   });
@@ -2465,6 +4371,128 @@ class ListByoipCidrsResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class ListCustomRoutingAcceleratorsResponse {
+  /// The list of custom routing accelerators for a customer account.
+  @_s.JsonKey(name: 'Accelerators')
+  final List<CustomRoutingAccelerator> accelerators;
+
+  /// The token for the next set of results. You receive this token from a
+  /// previous call.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListCustomRoutingAcceleratorsResponse({
+    this.accelerators,
+    this.nextToken,
+  });
+  factory ListCustomRoutingAcceleratorsResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$ListCustomRoutingAcceleratorsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListCustomRoutingEndpointGroupsResponse {
+  /// The list of the endpoint groups associated with a listener for a custom
+  /// routing accelerator.
+  @_s.JsonKey(name: 'EndpointGroups')
+  final List<CustomRoutingEndpointGroup> endpointGroups;
+
+  /// The token for the next set of results. You receive this token from a
+  /// previous call.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListCustomRoutingEndpointGroupsResponse({
+    this.endpointGroups,
+    this.nextToken,
+  });
+  factory ListCustomRoutingEndpointGroupsResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$ListCustomRoutingEndpointGroupsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListCustomRoutingListenersResponse {
+  /// The list of listeners for a custom routing accelerator.
+  @_s.JsonKey(name: 'Listeners')
+  final List<CustomRoutingListener> listeners;
+
+  /// The token for the next set of results. You receive this token from a
+  /// previous call.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListCustomRoutingListenersResponse({
+    this.listeners,
+    this.nextToken,
+  });
+  factory ListCustomRoutingListenersResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$ListCustomRoutingListenersResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListCustomRoutingPortMappingsByDestinationResponse {
+  /// The port mappings for the endpoint IP address that you specified in the
+  /// request.
+  @_s.JsonKey(name: 'DestinationPortMappings')
+  final List<DestinationPortMapping> destinationPortMappings;
+
+  /// The token for the next set of results. You receive this token from a
+  /// previous call.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListCustomRoutingPortMappingsByDestinationResponse({
+    this.destinationPortMappings,
+    this.nextToken,
+  });
+  factory ListCustomRoutingPortMappingsByDestinationResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$ListCustomRoutingPortMappingsByDestinationResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListCustomRoutingPortMappingsResponse {
+  /// The token for the next set of results. You receive this token from a
+  /// previous call.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The port mappings for a custom routing accelerator.
+  @_s.JsonKey(name: 'PortMappings')
+  final List<PortMapping> portMappings;
+
+  ListCustomRoutingPortMappingsResponse({
+    this.nextToken,
+    this.portMappings,
+  });
+  factory ListCustomRoutingPortMappingsResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$ListCustomRoutingPortMappingsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class ListEndpointGroupsResponse {
   /// The list of the endpoint groups associated with a listener.
   @_s.JsonKey(name: 'EndpointGroups')
@@ -2532,7 +4560,7 @@ class ListTagsForResourceResponse {
 class Listener {
   /// Client affinity lets you direct all requests from a user to the same
   /// endpoint, if you have stateful applications, regardless of the port and
-  /// protocol of the client request. Clienty affinity gives you control over
+  /// protocol of the client request. Client affinity gives you control over
   /// whether to always route each client to the same specific endpoint.
   ///
   /// AWS Global Accelerator uses a consistent-flow hashing algorithm to choose
@@ -2574,6 +4602,92 @@ class Listener {
   });
   factory Listener.fromJson(Map<String, dynamic> json) =>
       _$ListenerFromJson(json);
+}
+
+/// Returns the ports and associated IP addresses and ports of Amazon EC2
+/// instances in your virtual private cloud (VPC) subnets. Custom routing is a
+/// port mapping protocol in AWS Global Accelerator that statically associates
+/// port ranges with VPC subnets, which allows Global Accelerator to route to
+/// specific instances and ports within one or more subnets.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class PortMapping {
+  /// The accelerator port.
+  @_s.JsonKey(name: 'AcceleratorPort')
+  final int acceleratorPort;
+
+  /// The EC2 instance IP address and port number in the virtual private cloud
+  /// (VPC) subnet.
+  @_s.JsonKey(name: 'DestinationSocketAddress')
+  final SocketAddress destinationSocketAddress;
+
+  /// Indicates whether or not a port mapping destination can receive traffic. The
+  /// value is either ALLOW, if traffic is allowed to the destination, or DENY, if
+  /// traffic is not allowed to the destination.
+  @_s.JsonKey(name: 'DestinationTrafficState')
+  final CustomRoutingDestinationTrafficState destinationTrafficState;
+
+  /// The Amazon Resource Name (ARN) of the endpoint group.
+  @_s.JsonKey(name: 'EndpointGroupArn')
+  final String endpointGroupArn;
+
+  /// The IP address of the VPC subnet (the subnet ID).
+  @_s.JsonKey(name: 'EndpointId')
+  final String endpointId;
+
+  /// The protocols supported by the endpoint group.
+  @_s.JsonKey(name: 'Protocols')
+  final List<CustomRoutingProtocol> protocols;
+
+  PortMapping({
+    this.acceleratorPort,
+    this.destinationSocketAddress,
+    this.destinationTrafficState,
+    this.endpointGroupArn,
+    this.endpointId,
+    this.protocols,
+  });
+  factory PortMapping.fromJson(Map<String, dynamic> json) =>
+      _$PortMappingFromJson(json);
+}
+
+/// Override specific listener ports used to route traffic to endpoints that are
+/// part of an endpoint group. For example, you can create a port override in
+/// which the listener receives user traffic on ports 80 and 443, but your
+/// accelerator routes that traffic to ports 1080 and 1443, respectively, on the
+/// endpoints.
+///
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/global-accelerator/latest/dg/about-endpoint-groups-port-override.html">
+/// Port overrides</a> in the <i>AWS Global Accelerator Developer Guide</i>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class PortOverride {
+  /// The endpoint port that you want a listener port to be mapped to. This is the
+  /// port on the endpoint, such as the Application Load Balancer or Amazon EC2
+  /// instance.
+  @_s.JsonKey(name: 'EndpointPort')
+  final int endpointPort;
+
+  /// The listener port that you want to map to a specific endpoint port. This is
+  /// the port that user traffic arrives to the Global Accelerator on.
+  @_s.JsonKey(name: 'ListenerPort')
+  final int listenerPort;
+
+  PortOverride({
+    this.endpointPort,
+    this.listenerPort,
+  });
+  factory PortOverride.fromJson(Map<String, dynamic> json) =>
+      _$PortOverrideFromJson(json);
+
+  Map<String, dynamic> toJson() => _$PortOverrideToJson(this);
 }
 
 /// A complex type for a range of ports for a listener.
@@ -2635,6 +4749,29 @@ class ProvisionByoipCidrResponse {
   });
   factory ProvisionByoipCidrResponse.fromJson(Map<String, dynamic> json) =>
       _$ProvisionByoipCidrResponseFromJson(json);
+}
+
+/// An IP address/port combination.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class SocketAddress {
+  /// The IP address for the socket address.
+  @_s.JsonKey(name: 'IpAddress')
+  final String ipAddress;
+
+  /// The port for the socket address.
+  @_s.JsonKey(name: 'Port')
+  final int port;
+
+  SocketAddress({
+    this.ipAddress,
+    this.port,
+  });
+  factory SocketAddress.fromJson(Map<String, dynamic> json) =>
+      _$SocketAddressFromJson(json);
 }
 
 /// A complex type that contains a <code>Tag</code> key and <code>Tag</code>
@@ -2717,6 +4854,60 @@ class UpdateAcceleratorResponse {
   });
   factory UpdateAcceleratorResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateAcceleratorResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class UpdateCustomRoutingAcceleratorAttributesResponse {
+  /// Updated custom routing accelerator.
+  @_s.JsonKey(name: 'AcceleratorAttributes')
+  final CustomRoutingAcceleratorAttributes acceleratorAttributes;
+
+  UpdateCustomRoutingAcceleratorAttributesResponse({
+    this.acceleratorAttributes,
+  });
+  factory UpdateCustomRoutingAcceleratorAttributesResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$UpdateCustomRoutingAcceleratorAttributesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class UpdateCustomRoutingAcceleratorResponse {
+  /// Information about the updated custom routing accelerator.
+  @_s.JsonKey(name: 'Accelerator')
+  final CustomRoutingAccelerator accelerator;
+
+  UpdateCustomRoutingAcceleratorResponse({
+    this.accelerator,
+  });
+  factory UpdateCustomRoutingAcceleratorResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$UpdateCustomRoutingAcceleratorResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class UpdateCustomRoutingListenerResponse {
+  /// Information for the updated listener for a custom routing accelerator.
+  @_s.JsonKey(name: 'Listener')
+  final CustomRoutingListener listener;
+
+  UpdateCustomRoutingListenerResponse({
+    this.listener,
+  });
+  factory UpdateCustomRoutingListenerResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$UpdateCustomRoutingListenerResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -2810,6 +5001,19 @@ class ByoipCidrNotFoundException extends _s.GenericAwsException {
       : super(type: type, code: 'ByoipCidrNotFoundException', message: message);
 }
 
+class ConflictException extends _s.GenericAwsException {
+  ConflictException({String type, String message})
+      : super(type: type, code: 'ConflictException', message: message);
+}
+
+class EndpointAlreadyExistsException extends _s.GenericAwsException {
+  EndpointAlreadyExistsException({String type, String message})
+      : super(
+            type: type,
+            code: 'EndpointAlreadyExistsException',
+            message: message);
+}
+
 class EndpointGroupAlreadyExistsException extends _s.GenericAwsException {
   EndpointGroupAlreadyExistsException({String type, String message})
       : super(
@@ -2824,6 +5028,11 @@ class EndpointGroupNotFoundException extends _s.GenericAwsException {
             type: type,
             code: 'EndpointGroupNotFoundException',
             message: message);
+}
+
+class EndpointNotFoundException extends _s.GenericAwsException {
+  EndpointNotFoundException({String type, String message})
+      : super(type: type, code: 'EndpointNotFoundException', message: message);
 }
 
 class IncorrectCidrStateException extends _s.GenericAwsException {
@@ -2878,10 +5087,16 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       AssociatedListenerFoundException(type: type, message: message),
   'ByoipCidrNotFoundException': (type, message) =>
       ByoipCidrNotFoundException(type: type, message: message),
+  'ConflictException': (type, message) =>
+      ConflictException(type: type, message: message),
+  'EndpointAlreadyExistsException': (type, message) =>
+      EndpointAlreadyExistsException(type: type, message: message),
   'EndpointGroupAlreadyExistsException': (type, message) =>
       EndpointGroupAlreadyExistsException(type: type, message: message),
   'EndpointGroupNotFoundException': (type, message) =>
       EndpointGroupNotFoundException(type: type, message: message),
+  'EndpointNotFoundException': (type, message) =>
+      EndpointNotFoundException(type: type, message: message),
   'IncorrectCidrStateException': (type, message) =>
       IncorrectCidrStateException(type: type, message: message),
   'InternalServiceErrorException': (type, message) =>

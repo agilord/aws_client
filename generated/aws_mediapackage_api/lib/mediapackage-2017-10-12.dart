@@ -45,6 +45,36 @@ class MediaPackage {
           endpointUrl: endpointUrl,
         );
 
+  /// Changes the Channel's properities to configure log subscription
+  ///
+  /// May throw [UnprocessableEntityException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [TooManyRequestsException].
+  ///
+  /// Parameter [id] :
+  /// The ID of the channel to log subscription.
+  Future<ConfigureLogsResponse> configureLogs({
+    @_s.required String id,
+    EgressAccessLogs egressAccessLogs,
+    IngressAccessLogs ingressAccessLogs,
+  }) async {
+    ArgumentError.checkNotNull(id, 'id');
+    final $payload = <String, dynamic>{
+      if (egressAccessLogs != null) 'egressAccessLogs': egressAccessLogs,
+      if (ingressAccessLogs != null) 'ingressAccessLogs': ingressAccessLogs,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/channels/${Uri.encodeComponent(id)}/configure_logs',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ConfigureLogsResponse.fromJson(response);
+  }
+
   /// Creates a new Channel.
   ///
   /// May throw [UnprocessableEntityException].
@@ -697,6 +727,8 @@ enum AdMarkers {
   scte35Enhanced,
   @_s.JsonValue('PASSTHROUGH')
   passthrough,
+  @_s.JsonValue('DATERANGE')
+  daterange,
 }
 
 /// This setting allows the delivery restriction flags on SCTE-35 segmentation
@@ -767,20 +799,26 @@ class Channel {
   /// A short text description of the Channel.
   @_s.JsonKey(name: 'description')
   final String description;
+  @_s.JsonKey(name: 'egressAccessLogs')
+  final EgressAccessLogs egressAccessLogs;
   @_s.JsonKey(name: 'hlsIngest')
   final HlsIngest hlsIngest;
 
   /// The ID of the Channel.
   @_s.JsonKey(name: 'id')
   final String id;
+  @_s.JsonKey(name: 'ingressAccessLogs')
+  final IngressAccessLogs ingressAccessLogs;
   @_s.JsonKey(name: 'tags')
   final Map<String, String> tags;
 
   Channel({
     this.arn,
     this.description,
+    this.egressAccessLogs,
     this.hlsIngest,
     this.id,
+    this.ingressAccessLogs,
     this.tags,
   });
   factory Channel.fromJson(Map<String, dynamic> json) =>
@@ -890,6 +928,45 @@ class CmafPackageCreateOrUpdateParameters {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class ConfigureLogsResponse {
+  /// The Amazon Resource Name (ARN) assigned to the Channel.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  /// A short text description of the Channel.
+  @_s.JsonKey(name: 'description')
+  final String description;
+  @_s.JsonKey(name: 'egressAccessLogs')
+  final EgressAccessLogs egressAccessLogs;
+  @_s.JsonKey(name: 'hlsIngest')
+  final HlsIngest hlsIngest;
+
+  /// The ID of the Channel.
+  @_s.JsonKey(name: 'id')
+  final String id;
+  @_s.JsonKey(name: 'ingressAccessLogs')
+  final IngressAccessLogs ingressAccessLogs;
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  ConfigureLogsResponse({
+    this.arn,
+    this.description,
+    this.egressAccessLogs,
+    this.hlsIngest,
+    this.id,
+    this.ingressAccessLogs,
+    this.tags,
+  });
+  factory ConfigureLogsResponse.fromJson(Map<String, dynamic> json) =>
+      _$ConfigureLogsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class CreateChannelResponse {
   /// The Amazon Resource Name (ARN) assigned to the Channel.
   @_s.JsonKey(name: 'arn')
@@ -898,20 +975,26 @@ class CreateChannelResponse {
   /// A short text description of the Channel.
   @_s.JsonKey(name: 'description')
   final String description;
+  @_s.JsonKey(name: 'egressAccessLogs')
+  final EgressAccessLogs egressAccessLogs;
   @_s.JsonKey(name: 'hlsIngest')
   final HlsIngest hlsIngest;
 
   /// The ID of the Channel.
   @_s.JsonKey(name: 'id')
   final String id;
+  @_s.JsonKey(name: 'ingressAccessLogs')
+  final IngressAccessLogs ingressAccessLogs;
   @_s.JsonKey(name: 'tags')
   final Map<String, String> tags;
 
   CreateChannelResponse({
     this.arn,
     this.description,
+    this.egressAccessLogs,
     this.hlsIngest,
     this.id,
+    this.ingressAccessLogs,
     this.tags,
   });
   factory CreateChannelResponse.fromJson(Map<String, dynamic> json) =>
@@ -1163,6 +1246,16 @@ class DashPackage {
   @_s.JsonKey(name: 'suggestedPresentationDelaySeconds')
   final int suggestedPresentationDelaySeconds;
 
+  /// Determines the type of UTCTiming included in the Media Presentation
+  /// Description (MPD)
+  @_s.JsonKey(name: 'utcTiming')
+  final UtcTiming utcTiming;
+
+  /// Specifies the value attribute of the UTCTiming field when utcTiming is set
+  /// to HTTP-ISO or HTTP-HEAD
+  @_s.JsonKey(name: 'utcTimingUri')
+  final String utcTimingUri;
+
   DashPackage({
     this.adTriggers,
     this.adsOnDeliveryRestrictions,
@@ -1177,6 +1270,8 @@ class DashPackage {
     this.segmentTemplateFormat,
     this.streamSelection,
     this.suggestedPresentationDelaySeconds,
+    this.utcTiming,
+    this.utcTimingUri,
   });
   factory DashPackage.fromJson(Map<String, dynamic> json) =>
       _$DashPackageFromJson(json);
@@ -1219,20 +1314,26 @@ class DescribeChannelResponse {
   /// A short text description of the Channel.
   @_s.JsonKey(name: 'description')
   final String description;
+  @_s.JsonKey(name: 'egressAccessLogs')
+  final EgressAccessLogs egressAccessLogs;
   @_s.JsonKey(name: 'hlsIngest')
   final HlsIngest hlsIngest;
 
   /// The ID of the Channel.
   @_s.JsonKey(name: 'id')
   final String id;
+  @_s.JsonKey(name: 'ingressAccessLogs')
+  final IngressAccessLogs ingressAccessLogs;
   @_s.JsonKey(name: 'tags')
   final Map<String, String> tags;
 
   DescribeChannelResponse({
     this.arn,
     this.description,
+    this.egressAccessLogs,
     this.hlsIngest,
     this.id,
+    this.ingressAccessLogs,
     this.tags,
   });
   factory DescribeChannelResponse.fromJson(Map<String, dynamic> json) =>
@@ -1390,6 +1491,26 @@ class DescribeOriginEndpointResponse {
       _$DescribeOriginEndpointResponseFromJson(json);
 }
 
+/// Configure egress access logging.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class EgressAccessLogs {
+  /// Customize the log group name.
+  @_s.JsonKey(name: 'logGroupName')
+  final String logGroupName;
+
+  EgressAccessLogs({
+    this.logGroupName,
+  });
+  factory EgressAccessLogs.fromJson(Map<String, dynamic> json) =>
+      _$EgressAccessLogsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$EgressAccessLogsToJson(this);
+}
+
 enum EncryptionMethod {
   @_s.JsonValue('AES_128')
   aes_128,
@@ -1537,6 +1658,11 @@ class HlsManifest {
   /// manifest.
   /// "SCTE35_ENHANCED" generates ad markers and blackout tags based on SCTE-35
   /// messages in the input source.
+  /// "DATERANGE" inserts EXT-X-DATERANGE tags to signal ad and program transition
+  /// events
+  /// in HLS and CMAF manifests. For this option, you must set a
+  /// programDateTimeIntervalSeconds value
+  /// that is greater than 0.
   @_s.JsonKey(name: 'adMarkers')
   final AdMarkers adMarkers;
 
@@ -1611,6 +1737,11 @@ class HlsManifestCreateOrUpdateParameters {
   /// manifest.
   /// "SCTE35_ENHANCED" generates ad markers and blackout tags based on SCTE-35
   /// messages in the input source.
+  /// "DATERANGE" inserts EXT-X-DATERANGE tags to signal ad and program transition
+  /// events
+  /// in HLS and CMAF manifests. For this option, you must set a
+  /// programDateTimeIntervalSeconds value
+  /// that is greater than 0.
   @_s.JsonKey(name: 'adMarkers')
   final AdMarkers adMarkers;
   @_s.JsonKey(name: 'adTriggers')
@@ -1681,6 +1812,11 @@ class HlsPackage {
   /// manifest.
   /// "SCTE35_ENHANCED" generates ad markers and blackout tags based on SCTE-35
   /// messages in the input source.
+  /// "DATERANGE" inserts EXT-X-DATERANGE tags to signal ad and program transition
+  /// events
+  /// in HLS and CMAF manifests. For this option, you must set a
+  /// programDateTimeIntervalSeconds value
+  /// that is greater than 0.
   @_s.JsonKey(name: 'adMarkers')
   final AdMarkers adMarkers;
   @_s.JsonKey(name: 'adTriggers')
@@ -1780,6 +1916,26 @@ class IngestEndpoint {
   });
   factory IngestEndpoint.fromJson(Map<String, dynamic> json) =>
       _$IngestEndpointFromJson(json);
+}
+
+/// Configure ingress access logging.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class IngressAccessLogs {
+  /// Customize the log group name.
+  @_s.JsonKey(name: 'logGroupName')
+  final String logGroupName;
+
+  IngressAccessLogs({
+    this.logGroupName,
+  });
+  factory IngressAccessLogs.fromJson(Map<String, dynamic> json) =>
+      _$IngressAccessLogsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$IngressAccessLogsToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -2065,20 +2221,26 @@ class RotateChannelCredentialsResponse {
   /// A short text description of the Channel.
   @_s.JsonKey(name: 'description')
   final String description;
+  @_s.JsonKey(name: 'egressAccessLogs')
+  final EgressAccessLogs egressAccessLogs;
   @_s.JsonKey(name: 'hlsIngest')
   final HlsIngest hlsIngest;
 
   /// The ID of the Channel.
   @_s.JsonKey(name: 'id')
   final String id;
+  @_s.JsonKey(name: 'ingressAccessLogs')
+  final IngressAccessLogs ingressAccessLogs;
   @_s.JsonKey(name: 'tags')
   final Map<String, String> tags;
 
   RotateChannelCredentialsResponse({
     this.arn,
     this.description,
+    this.egressAccessLogs,
     this.hlsIngest,
     this.id,
+    this.ingressAccessLogs,
     this.tags,
   });
   factory RotateChannelCredentialsResponse.fromJson(
@@ -2099,20 +2261,26 @@ class RotateIngestEndpointCredentialsResponse {
   /// A short text description of the Channel.
   @_s.JsonKey(name: 'description')
   final String description;
+  @_s.JsonKey(name: 'egressAccessLogs')
+  final EgressAccessLogs egressAccessLogs;
   @_s.JsonKey(name: 'hlsIngest')
   final HlsIngest hlsIngest;
 
   /// The ID of the Channel.
   @_s.JsonKey(name: 'id')
   final String id;
+  @_s.JsonKey(name: 'ingressAccessLogs')
+  final IngressAccessLogs ingressAccessLogs;
   @_s.JsonKey(name: 'tags')
   final Map<String, String> tags;
 
   RotateIngestEndpointCredentialsResponse({
     this.arn,
     this.description,
+    this.egressAccessLogs,
     this.hlsIngest,
     this.id,
+    this.ingressAccessLogs,
     this.tags,
   });
   factory RotateIngestEndpointCredentialsResponse.fromJson(
@@ -2266,20 +2434,26 @@ class UpdateChannelResponse {
   /// A short text description of the Channel.
   @_s.JsonKey(name: 'description')
   final String description;
+  @_s.JsonKey(name: 'egressAccessLogs')
+  final EgressAccessLogs egressAccessLogs;
   @_s.JsonKey(name: 'hlsIngest')
   final HlsIngest hlsIngest;
 
   /// The ID of the Channel.
   @_s.JsonKey(name: 'id')
   final String id;
+  @_s.JsonKey(name: 'ingressAccessLogs')
+  final IngressAccessLogs ingressAccessLogs;
   @_s.JsonKey(name: 'tags')
   final Map<String, String> tags;
 
   UpdateChannelResponse({
     this.arn,
     this.description,
+    this.egressAccessLogs,
     this.hlsIngest,
     this.id,
+    this.ingressAccessLogs,
     this.tags,
   });
   factory UpdateChannelResponse.fromJson(Map<String, dynamic> json) =>
@@ -2374,6 +2548,15 @@ class UpdateOriginEndpointResponse {
   });
   factory UpdateOriginEndpointResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateOriginEndpointResponseFromJson(json);
+}
+
+enum UtcTiming {
+  @_s.JsonValue('NONE')
+  none,
+  @_s.JsonValue('HTTP-HEAD')
+  httpHead,
+  @_s.JsonValue('HTTP-ISO')
+  httpIso,
 }
 
 enum AdTriggersElement {

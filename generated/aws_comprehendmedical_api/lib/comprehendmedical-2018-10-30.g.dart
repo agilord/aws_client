@@ -84,6 +84,7 @@ const _$RelationshipTypeEnumMap = {
   RelationshipType.testValue: 'TEST_VALUE',
   RelationshipType.testUnits: 'TEST_UNITS',
   RelationshipType.direction: 'DIRECTION',
+  RelationshipType.systemOrganSite: 'SYSTEM_ORGAN_SITE',
 };
 
 const _$EntitySubTypeEnumMap = {
@@ -197,9 +198,33 @@ DescribeEntitiesDetectionV2JobResponse
   );
 }
 
+DescribeICD10CMInferenceJobResponse
+    _$DescribeICD10CMInferenceJobResponseFromJson(Map<String, dynamic> json) {
+  return DescribeICD10CMInferenceJobResponse(
+    comprehendMedicalAsyncJobProperties:
+        json['ComprehendMedicalAsyncJobProperties'] == null
+            ? null
+            : ComprehendMedicalAsyncJobProperties.fromJson(
+                json['ComprehendMedicalAsyncJobProperties']
+                    as Map<String, dynamic>),
+  );
+}
+
 DescribePHIDetectionJobResponse _$DescribePHIDetectionJobResponseFromJson(
     Map<String, dynamic> json) {
   return DescribePHIDetectionJobResponse(
+    comprehendMedicalAsyncJobProperties:
+        json['ComprehendMedicalAsyncJobProperties'] == null
+            ? null
+            : ComprehendMedicalAsyncJobProperties.fromJson(
+                json['ComprehendMedicalAsyncJobProperties']
+                    as Map<String, dynamic>),
+  );
+}
+
+DescribeRxNormInferenceJobResponse _$DescribeRxNormInferenceJobResponseFromJson(
+    Map<String, dynamic> json) {
+  return DescribeRxNormInferenceJobResponse(
     comprehendMedicalAsyncJobProperties:
         json['ComprehendMedicalAsyncJobProperties'] == null
             ? null
@@ -413,9 +438,37 @@ ListEntitiesDetectionV2JobsResponse
   );
 }
 
+ListICD10CMInferenceJobsResponse _$ListICD10CMInferenceJobsResponseFromJson(
+    Map<String, dynamic> json) {
+  return ListICD10CMInferenceJobsResponse(
+    comprehendMedicalAsyncJobPropertiesList:
+        (json['ComprehendMedicalAsyncJobPropertiesList'] as List)
+            ?.map((e) => e == null
+                ? null
+                : ComprehendMedicalAsyncJobProperties.fromJson(
+                    e as Map<String, dynamic>))
+            ?.toList(),
+    nextToken: json['NextToken'] as String,
+  );
+}
+
 ListPHIDetectionJobsResponse _$ListPHIDetectionJobsResponseFromJson(
     Map<String, dynamic> json) {
   return ListPHIDetectionJobsResponse(
+    comprehendMedicalAsyncJobPropertiesList:
+        (json['ComprehendMedicalAsyncJobPropertiesList'] as List)
+            ?.map((e) => e == null
+                ? null
+                : ComprehendMedicalAsyncJobProperties.fromJson(
+                    e as Map<String, dynamic>))
+            ?.toList(),
+    nextToken: json['NextToken'] as String,
+  );
+}
+
+ListRxNormInferenceJobsResponse _$ListRxNormInferenceJobsResponseFromJson(
+    Map<String, dynamic> json) {
+  return ListRxNormInferenceJobsResponse(
     comprehendMedicalAsyncJobPropertiesList:
         (json['ComprehendMedicalAsyncJobPropertiesList'] as List)
             ?.map((e) => e == null
@@ -536,9 +589,23 @@ StartEntitiesDetectionV2JobResponse
   );
 }
 
+StartICD10CMInferenceJobResponse _$StartICD10CMInferenceJobResponseFromJson(
+    Map<String, dynamic> json) {
+  return StartICD10CMInferenceJobResponse(
+    jobId: json['JobId'] as String,
+  );
+}
+
 StartPHIDetectionJobResponse _$StartPHIDetectionJobResponseFromJson(
     Map<String, dynamic> json) {
   return StartPHIDetectionJobResponse(
+    jobId: json['JobId'] as String,
+  );
+}
+
+StartRxNormInferenceJobResponse _$StartRxNormInferenceJobResponseFromJson(
+    Map<String, dynamic> json) {
+  return StartRxNormInferenceJobResponse(
     jobId: json['JobId'] as String,
   );
 }
@@ -550,9 +617,23 @@ StopEntitiesDetectionV2JobResponse _$StopEntitiesDetectionV2JobResponseFromJson(
   );
 }
 
+StopICD10CMInferenceJobResponse _$StopICD10CMInferenceJobResponseFromJson(
+    Map<String, dynamic> json) {
+  return StopICD10CMInferenceJobResponse(
+    jobId: json['JobId'] as String,
+  );
+}
+
 StopPHIDetectionJobResponse _$StopPHIDetectionJobResponseFromJson(
     Map<String, dynamic> json) {
   return StopPHIDetectionJobResponse(
+    jobId: json['JobId'] as String,
+  );
+}
+
+StopRxNormInferenceJobResponse _$StopRxNormInferenceJobResponseFromJson(
+    Map<String, dynamic> json) {
+  return StopRxNormInferenceJobResponse(
     jobId: json['JobId'] as String,
   );
 }

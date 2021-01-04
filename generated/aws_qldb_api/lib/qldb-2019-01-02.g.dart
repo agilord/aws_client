@@ -6,6 +6,13 @@ part of 'qldb-2019-01-02.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+CancelJournalKinesisStreamResponse _$CancelJournalKinesisStreamResponseFromJson(
+    Map<String, dynamic> json) {
+  return CancelJournalKinesisStreamResponse(
+    streamId: json['StreamId'] as String,
+  );
+}
+
 CreateLedgerResponse _$CreateLedgerResponseFromJson(Map<String, dynamic> json) {
   return CreateLedgerResponse(
     arn: json['Arn'] as String,
@@ -55,6 +62,16 @@ const _$LedgerStateEnumMap = {
   LedgerState.deleting: 'DELETING',
   LedgerState.deleted: 'DELETED',
 };
+
+DescribeJournalKinesisStreamResponse
+    _$DescribeJournalKinesisStreamResponseFromJson(Map<String, dynamic> json) {
+  return DescribeJournalKinesisStreamResponse(
+    stream: json['Stream'] == null
+        ? null
+        : JournalKinesisStreamDescription.fromJson(
+            json['Stream'] as Map<String, dynamic>),
+  );
+}
 
 DescribeJournalS3ExportResponse _$DescribeJournalS3ExportResponseFromJson(
     Map<String, dynamic> json) {
@@ -117,6 +134,41 @@ GetRevisionResponse _$GetRevisionResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+JournalKinesisStreamDescription _$JournalKinesisStreamDescriptionFromJson(
+    Map<String, dynamic> json) {
+  return JournalKinesisStreamDescription(
+    kinesisConfiguration: json['KinesisConfiguration'] == null
+        ? null
+        : KinesisConfiguration.fromJson(
+            json['KinesisConfiguration'] as Map<String, dynamic>),
+    ledgerName: json['LedgerName'] as String,
+    roleArn: json['RoleArn'] as String,
+    status: _$enumDecodeNullable(_$StreamStatusEnumMap, json['Status']),
+    streamId: json['StreamId'] as String,
+    streamName: json['StreamName'] as String,
+    arn: json['Arn'] as String,
+    creationTime: const UnixDateTimeConverter().fromJson(json['CreationTime']),
+    errorCause: _$enumDecodeNullable(_$ErrorCauseEnumMap, json['ErrorCause']),
+    exclusiveEndTime:
+        const UnixDateTimeConverter().fromJson(json['ExclusiveEndTime']),
+    inclusiveStartTime:
+        const UnixDateTimeConverter().fromJson(json['InclusiveStartTime']),
+  );
+}
+
+const _$StreamStatusEnumMap = {
+  StreamStatus.active: 'ACTIVE',
+  StreamStatus.completed: 'COMPLETED',
+  StreamStatus.canceled: 'CANCELED',
+  StreamStatus.failed: 'FAILED',
+  StreamStatus.impaired: 'IMPAIRED',
+};
+
+const _$ErrorCauseEnumMap = {
+  ErrorCause.kinesisStreamNotFound: 'KINESIS_STREAM_NOT_FOUND',
+  ErrorCause.iamPermissionRevoked: 'IAM_PERMISSION_REVOKED',
+};
+
 JournalS3ExportDescription _$JournalS3ExportDescriptionFromJson(
     Map<String, dynamic> json) {
   return JournalS3ExportDescription(
@@ -143,12 +195,48 @@ const _$ExportStatusEnumMap = {
   ExportStatus.cancelled: 'CANCELLED',
 };
 
+KinesisConfiguration _$KinesisConfigurationFromJson(Map<String, dynamic> json) {
+  return KinesisConfiguration(
+    streamArn: json['StreamArn'] as String,
+    aggregationEnabled: json['AggregationEnabled'] as bool,
+  );
+}
+
+Map<String, dynamic> _$KinesisConfigurationToJson(
+    KinesisConfiguration instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('StreamArn', instance.streamArn);
+  writeNotNull('AggregationEnabled', instance.aggregationEnabled);
+  return val;
+}
+
 LedgerSummary _$LedgerSummaryFromJson(Map<String, dynamic> json) {
   return LedgerSummary(
     creationDateTime:
         const UnixDateTimeConverter().fromJson(json['CreationDateTime']),
     name: json['Name'] as String,
     state: _$enumDecodeNullable(_$LedgerStateEnumMap, json['State']),
+  );
+}
+
+ListJournalKinesisStreamsForLedgerResponse
+    _$ListJournalKinesisStreamsForLedgerResponseFromJson(
+        Map<String, dynamic> json) {
+  return ListJournalKinesisStreamsForLedgerResponse(
+    nextToken: json['NextToken'] as String,
+    streams: (json['Streams'] as List)
+        ?.map((e) => e == null
+            ? null
+            : JournalKinesisStreamDescription.fromJson(
+                e as Map<String, dynamic>))
+        ?.toList(),
   );
 }
 
@@ -254,6 +342,13 @@ Map<String, dynamic> _$S3ExportConfigurationToJson(
       'EncryptionConfiguration', instance.encryptionConfiguration?.toJson());
   writeNotNull('Prefix', instance.prefix);
   return val;
+}
+
+StreamJournalToKinesisResponse _$StreamJournalToKinesisResponseFromJson(
+    Map<String, dynamic> json) {
+  return StreamJournalToKinesisResponse(
+    streamId: json['StreamId'] as String,
+  );
 }
 
 TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {

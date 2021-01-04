@@ -10,7 +10,7 @@ serverless, so there is no infrastructure to set up or manage. You pay only
 for the queries you run. Athena scales automatically—executing queries in
 parallel—so results are fast, even with large datasets and complex queries.
 For more information, see <a
-href="http://docs.aws.amazon.com/athena/latest/ug/what-is.html">What is
+href="https://docs.aws.amazon.com/athena/latest/ug/what-is.html">What is
 Amazon Athena</a> in the <i>Amazon Athena User Guide</i>.
 
 If you connect to Athena using the JDBC driver, use version 1.1.0 of the

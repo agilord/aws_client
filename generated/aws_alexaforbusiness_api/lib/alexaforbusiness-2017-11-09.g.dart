@@ -651,6 +651,10 @@ const _$DeviceStatusDetailCodeEnumMap = {
   DeviceStatusDetailCode.networkProfileNotFound: 'NETWORK_PROFILE_NOT_FOUND',
   DeviceStatusDetailCode.invalidPasswordState: 'INVALID_PASSWORD_STATE',
   DeviceStatusDetailCode.passwordNotFound: 'PASSWORD_NOT_FOUND',
+  DeviceStatusDetailCode.passwordManagerAccessDenied:
+      'PASSWORD_MANAGER_ACCESS_DENIED',
+  DeviceStatusDetailCode.certificateAuthorityAccessDenied:
+      'CERTIFICATE_AUTHORITY_ACCESS_DENIED',
 };
 
 const _$FeatureEnumMap = {

@@ -108,6 +108,7 @@ const _$FailureReasonEnumMap = {
   FailureReason.pcaInvalidArgs: 'PCA_INVALID_ARGS',
   FailureReason.pcaInvalidDuration: 'PCA_INVALID_DURATION',
   FailureReason.pcaAccessDenied: 'PCA_ACCESS_DENIED',
+  FailureReason.slrNotFound: 'SLR_NOT_FOUND',
   FailureReason.other: 'OTHER',
 };
 

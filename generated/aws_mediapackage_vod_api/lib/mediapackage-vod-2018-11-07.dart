@@ -74,6 +74,7 @@ class MediaPackageVod {
     @_s.required String sourceArn,
     @_s.required String sourceRoleArn,
     String resourceId,
+    Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     ArgumentError.checkNotNull(packagingGroupId, 'packagingGroupId');
@@ -85,6 +86,7 @@ class MediaPackageVod {
       'sourceArn': sourceArn,
       'sourceRoleArn': sourceRoleArn,
       if (resourceId != null) 'resourceId': resourceId,
+      if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -116,6 +118,7 @@ class MediaPackageVod {
     DashPackage dashPackage,
     HlsPackage hlsPackage,
     MssPackage mssPackage,
+    Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     ArgumentError.checkNotNull(packagingGroupId, 'packagingGroupId');
@@ -126,6 +129,7 @@ class MediaPackageVod {
       if (dashPackage != null) 'dashPackage': dashPackage,
       if (hlsPackage != null) 'hlsPackage': hlsPackage,
       if (mssPackage != null) 'mssPackage': mssPackage,
+      if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -149,10 +153,14 @@ class MediaPackageVod {
   /// The ID of the PackagingGroup.
   Future<CreatePackagingGroupResponse> createPackagingGroup({
     @_s.required String id,
+    Authorization authorization,
+    Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(id, 'id');
     final $payload = <String, dynamic>{
       'id': id,
+      if (authorization != null) 'authorization': authorization,
+      if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -433,6 +441,106 @@ class MediaPackageVod {
     );
     return ListPackagingGroupsResponse.fromJson(response);
   }
+
+  /// Returns a list of the tags assigned to the specified resource.
+  ///
+  /// Parameter [resourceArn] :
+  /// The Amazon Resource Name (ARN) for the resource. You can get this from the
+  /// response to any request to the resource.
+  Future<ListTagsForResourceResponse> listTagsForResource({
+    @_s.required String resourceArn,
+  }) async {
+    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListTagsForResourceResponse.fromJson(response);
+  }
+
+  /// Adds tags to the specified resource. You can specify one or more tags to
+  /// add.
+  ///
+  /// Parameter [resourceArn] :
+  /// The Amazon Resource Name (ARN) for the resource. You can get this from the
+  /// response to any request to the resource.
+  ///
+  /// Parameter [tags] :
+  /// A collection of tags associated with a resource
+  Future<void> tagResource({
+    @_s.required String resourceArn,
+    @_s.required Map<String, String> tags,
+  }) async {
+    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
+    ArgumentError.checkNotNull(tags, 'tags');
+    final $payload = <String, dynamic>{
+      'tags': tags,
+    };
+    await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Removes tags from the specified resource. You can specify one or more tags
+  /// to remove.
+  ///
+  /// Parameter [resourceArn] :
+  /// The Amazon Resource Name (ARN) for the resource. You can get this from the
+  /// response to any request to the resource.
+  ///
+  /// Parameter [tagKeys] :
+  /// A comma-separated list of the tag keys to remove from the resource.
+  Future<void> untagResource({
+    @_s.required String resourceArn,
+    @_s.required List<String> tagKeys,
+  }) async {
+    ArgumentError.checkNotNull(resourceArn, 'resourceArn');
+    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
+    final $query = <String, List<String>>{
+      if (tagKeys != null) 'tagKeys': tagKeys,
+    };
+    await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/tags/${Uri.encodeComponent(resourceArn)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Updates a specific packaging group. You can't change the id attribute or
+  /// any other system-generated attributes.
+  ///
+  /// May throw [UnprocessableEntityException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [TooManyRequestsException].
+  ///
+  /// Parameter [id] :
+  /// The ID of a MediaPackage VOD PackagingGroup resource.
+  Future<UpdatePackagingGroupResponse> updatePackagingGroup({
+    @_s.required String id,
+    Authorization authorization,
+  }) async {
+    ArgumentError.checkNotNull(id, 'id');
+    final $payload = <String, dynamic>{
+      if (authorization != null) 'authorization': authorization,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/packaging_groups/${Uri.encodeComponent(id)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdatePackagingGroupResponse.fromJson(response);
+  }
 }
 
 enum AdMarkers {
@@ -478,6 +586,8 @@ class AssetShallow {
   /// The IAM role ARN used to access the source S3 bucket.
   @_s.JsonKey(name: 'sourceRoleArn')
   final String sourceRoleArn;
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
 
   AssetShallow({
     this.arn,
@@ -487,9 +597,37 @@ class AssetShallow {
     this.resourceId,
     this.sourceArn,
     this.sourceRoleArn,
+    this.tags,
   });
   factory AssetShallow.fromJson(Map<String, dynamic> json) =>
       _$AssetShallowFromJson(json);
+}
+
+/// CDN Authorization credentials
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class Authorization {
+  /// The Amazon Resource Name (ARN) for the secret in AWS Secrets Manager that is
+  /// used for CDN authorization.
+  @_s.JsonKey(name: 'cdnIdentifierSecret')
+  final String cdnIdentifierSecret;
+
+  /// The Amazon Resource Name (ARN) for the IAM role that allows MediaPackage to
+  /// communicate with AWS Secrets Manager.
+  @_s.JsonKey(name: 'secretsRoleArn')
+  final String secretsRoleArn;
+
+  Authorization({
+    @_s.required this.cdnIdentifierSecret,
+    @_s.required this.secretsRoleArn,
+  });
+  factory Authorization.fromJson(Map<String, dynamic> json) =>
+      _$AuthorizationFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AuthorizationToJson(this);
 }
 
 /// A CMAF encryption configuration.
@@ -577,6 +715,8 @@ class CreateAssetResponse {
   /// The IAM role_arn used to access the source S3 bucket.
   @_s.JsonKey(name: 'sourceRoleArn')
   final String sourceRoleArn;
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
 
   CreateAssetResponse({
     this.arn,
@@ -587,6 +727,7 @@ class CreateAssetResponse {
     this.resourceId,
     this.sourceArn,
     this.sourceRoleArn,
+    this.tags,
   });
   factory CreateAssetResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateAssetResponseFromJson(json);
@@ -617,6 +758,8 @@ class CreatePackagingConfigurationResponse {
   /// The ID of a PackagingGroup.
   @_s.JsonKey(name: 'packagingGroupId')
   final String packagingGroupId;
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
 
   CreatePackagingConfigurationResponse({
     this.arn,
@@ -626,6 +769,7 @@ class CreatePackagingConfigurationResponse {
     this.id,
     this.mssPackage,
     this.packagingGroupId,
+    this.tags,
   });
   factory CreatePackagingConfigurationResponse.fromJson(
           Map<String, dynamic> json) =>
@@ -641,6 +785,8 @@ class CreatePackagingGroupResponse {
   /// The ARN of the PackagingGroup.
   @_s.JsonKey(name: 'arn')
   final String arn;
+  @_s.JsonKey(name: 'authorization')
+  final Authorization authorization;
 
   /// The fully qualified domain name for Assets in the PackagingGroup.
   @_s.JsonKey(name: 'domainName')
@@ -649,11 +795,15 @@ class CreatePackagingGroupResponse {
   /// The ID of the PackagingGroup.
   @_s.JsonKey(name: 'id')
   final String id;
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
 
   CreatePackagingGroupResponse({
     this.arn,
+    this.authorization,
     this.domainName,
     this.id,
+    this.tags,
   });
   factory CreatePackagingGroupResponse.fromJson(Map<String, dynamic> json) =>
       _$CreatePackagingGroupResponseFromJson(json);
@@ -842,6 +992,8 @@ class DescribeAssetResponse {
   /// The IAM role_arn used to access the source S3 bucket.
   @_s.JsonKey(name: 'sourceRoleArn')
   final String sourceRoleArn;
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
 
   DescribeAssetResponse({
     this.arn,
@@ -852,6 +1004,7 @@ class DescribeAssetResponse {
     this.resourceId,
     this.sourceArn,
     this.sourceRoleArn,
+    this.tags,
   });
   factory DescribeAssetResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeAssetResponseFromJson(json);
@@ -882,6 +1035,8 @@ class DescribePackagingConfigurationResponse {
   /// The ID of a PackagingGroup.
   @_s.JsonKey(name: 'packagingGroupId')
   final String packagingGroupId;
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
 
   DescribePackagingConfigurationResponse({
     this.arn,
@@ -891,6 +1046,7 @@ class DescribePackagingConfigurationResponse {
     this.id,
     this.mssPackage,
     this.packagingGroupId,
+    this.tags,
   });
   factory DescribePackagingConfigurationResponse.fromJson(
           Map<String, dynamic> json) =>
@@ -906,6 +1062,8 @@ class DescribePackagingGroupResponse {
   /// The ARN of the PackagingGroup.
   @_s.JsonKey(name: 'arn')
   final String arn;
+  @_s.JsonKey(name: 'authorization')
+  final Authorization authorization;
 
   /// The fully qualified domain name for Assets in the PackagingGroup.
   @_s.JsonKey(name: 'domainName')
@@ -914,11 +1072,15 @@ class DescribePackagingGroupResponse {
   /// The ID of the PackagingGroup.
   @_s.JsonKey(name: 'id')
   final String id;
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
 
   DescribePackagingGroupResponse({
     this.arn,
+    this.authorization,
     this.domainName,
     this.id,
+    this.tags,
   });
   factory DescribePackagingGroupResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribePackagingGroupResponseFromJson(json);
@@ -1148,6 +1310,23 @@ class ListPackagingGroupsResponse {
       _$ListPackagingGroupsResponseFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListTagsForResourceResponse {
+  /// A collection of tags associated with a resource
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  ListTagsForResourceResponse({
+    this.tags,
+  });
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
+      _$ListTagsForResourceResponseFromJson(json);
+}
+
 enum ManifestLayout {
   @_s.JsonValue('FULL')
   full,
@@ -1251,6 +1430,8 @@ class PackagingConfiguration {
   /// The ID of a PackagingGroup.
   @_s.JsonKey(name: 'packagingGroupId')
   final String packagingGroupId;
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
 
   PackagingConfiguration({
     this.arn,
@@ -1260,6 +1441,7 @@ class PackagingConfiguration {
     this.id,
     this.mssPackage,
     this.packagingGroupId,
+    this.tags,
   });
   factory PackagingConfiguration.fromJson(Map<String, dynamic> json) =>
       _$PackagingConfigurationFromJson(json);
@@ -1275,6 +1457,8 @@ class PackagingGroup {
   /// The ARN of the PackagingGroup.
   @_s.JsonKey(name: 'arn')
   final String arn;
+  @_s.JsonKey(name: 'authorization')
+  final Authorization authorization;
 
   /// The fully qualified domain name for Assets in the PackagingGroup.
   @_s.JsonKey(name: 'domainName')
@@ -1283,11 +1467,15 @@ class PackagingGroup {
   /// The ID of the PackagingGroup.
   @_s.JsonKey(name: 'id')
   final String id;
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
 
   PackagingGroup({
     this.arn,
+    this.authorization,
     this.domainName,
     this.id,
+    this.tags,
   });
   factory PackagingGroup.fromJson(Map<String, dynamic> json) =>
       _$PackagingGroupFromJson(json);
@@ -1378,6 +1566,39 @@ class StreamSelection {
       _$StreamSelectionFromJson(json);
 
   Map<String, dynamic> toJson() => _$StreamSelectionToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class UpdatePackagingGroupResponse {
+  /// The ARN of the PackagingGroup.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+  @_s.JsonKey(name: 'authorization')
+  final Authorization authorization;
+
+  /// The fully qualified domain name for Assets in the PackagingGroup.
+  @_s.JsonKey(name: 'domainName')
+  final String domainName;
+
+  /// The ID of the PackagingGroup.
+  @_s.JsonKey(name: 'id')
+  final String id;
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  UpdatePackagingGroupResponse({
+    this.arn,
+    this.authorization,
+    this.domainName,
+    this.id,
+    this.tags,
+  });
+  factory UpdatePackagingGroupResponse.fromJson(Map<String, dynamic> json) =>
+      _$UpdatePackagingGroupResponseFromJson(json);
 }
 
 enum PeriodTriggersElement {

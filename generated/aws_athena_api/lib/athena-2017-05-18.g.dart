@@ -37,6 +37,14 @@ BatchGetQueryExecutionOutput _$BatchGetQueryExecutionOutputFromJson(
   );
 }
 
+Column _$ColumnFromJson(Map<String, dynamic> json) {
+  return Column(
+    name: json['Name'] as String,
+    comment: json['Comment'] as String,
+    type: json['Type'] as String,
+  );
+}
+
 ColumnInfo _$ColumnInfoFromJson(Map<String, dynamic> json) {
   return ColumnInfo(
     name: json['Name'] as String,
@@ -90,6 +98,11 @@ const _$ColumnNullableEnumMap = {
   ColumnNullable.unknown: 'UNKNOWN',
 };
 
+CreateDataCatalogOutput _$CreateDataCatalogOutputFromJson(
+    Map<String, dynamic> json) {
+  return CreateDataCatalogOutput();
+}
+
 CreateNamedQueryOutput _$CreateNamedQueryOutputFromJson(
     Map<String, dynamic> json) {
   return CreateNamedQueryOutput(
@@ -102,10 +115,49 @@ CreateWorkGroupOutput _$CreateWorkGroupOutputFromJson(
   return CreateWorkGroupOutput();
 }
 
+DataCatalog _$DataCatalogFromJson(Map<String, dynamic> json) {
+  return DataCatalog(
+    name: json['Name'] as String,
+    type: _$enumDecodeNullable(_$DataCatalogTypeEnumMap, json['Type']),
+    description: json['Description'] as String,
+    parameters: (json['Parameters'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(k, e as String),
+    ),
+  );
+}
+
+const _$DataCatalogTypeEnumMap = {
+  DataCatalogType.lambda: 'LAMBDA',
+  DataCatalogType.glue: 'GLUE',
+  DataCatalogType.hive: 'HIVE',
+};
+
+DataCatalogSummary _$DataCatalogSummaryFromJson(Map<String, dynamic> json) {
+  return DataCatalogSummary(
+    catalogName: json['CatalogName'] as String,
+    type: _$enumDecodeNullable(_$DataCatalogTypeEnumMap, json['Type']),
+  );
+}
+
+Database _$DatabaseFromJson(Map<String, dynamic> json) {
+  return Database(
+    name: json['Name'] as String,
+    description: json['Description'] as String,
+    parameters: (json['Parameters'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(k, e as String),
+    ),
+  );
+}
+
 Datum _$DatumFromJson(Map<String, dynamic> json) {
   return Datum(
     varCharValue: json['VarCharValue'] as String,
   );
+}
+
+DeleteDataCatalogOutput _$DeleteDataCatalogOutputFromJson(
+    Map<String, dynamic> json) {
+  return DeleteDataCatalogOutput();
 }
 
 DeleteNamedQueryOutput _$DeleteNamedQueryOutputFromJson(
@@ -149,6 +201,22 @@ const _$EncryptionOptionEnumMap = {
   EncryptionOption.cseKms: 'CSE_KMS',
 };
 
+GetDataCatalogOutput _$GetDataCatalogOutputFromJson(Map<String, dynamic> json) {
+  return GetDataCatalogOutput(
+    dataCatalog: json['DataCatalog'] == null
+        ? null
+        : DataCatalog.fromJson(json['DataCatalog'] as Map<String, dynamic>),
+  );
+}
+
+GetDatabaseOutput _$GetDatabaseOutputFromJson(Map<String, dynamic> json) {
+  return GetDatabaseOutput(
+    database: json['Database'] == null
+        ? null
+        : Database.fromJson(json['Database'] as Map<String, dynamic>),
+  );
+}
+
 GetNamedQueryOutput _$GetNamedQueryOutputFromJson(Map<String, dynamic> json) {
   return GetNamedQueryOutput(
     namedQuery: json['NamedQuery'] == null
@@ -178,11 +246,42 @@ GetQueryResultsOutput _$GetQueryResultsOutputFromJson(
   );
 }
 
+GetTableMetadataOutput _$GetTableMetadataOutputFromJson(
+    Map<String, dynamic> json) {
+  return GetTableMetadataOutput(
+    tableMetadata: json['TableMetadata'] == null
+        ? null
+        : TableMetadata.fromJson(json['TableMetadata'] as Map<String, dynamic>),
+  );
+}
+
 GetWorkGroupOutput _$GetWorkGroupOutputFromJson(Map<String, dynamic> json) {
   return GetWorkGroupOutput(
     workGroup: json['WorkGroup'] == null
         ? null
         : WorkGroup.fromJson(json['WorkGroup'] as Map<String, dynamic>),
+  );
+}
+
+ListDataCatalogsOutput _$ListDataCatalogsOutputFromJson(
+    Map<String, dynamic> json) {
+  return ListDataCatalogsOutput(
+    dataCatalogsSummary: (json['DataCatalogsSummary'] as List)
+        ?.map((e) => e == null
+            ? null
+            : DataCatalogSummary.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    nextToken: json['NextToken'] as String,
+  );
+}
+
+ListDatabasesOutput _$ListDatabasesOutputFromJson(Map<String, dynamic> json) {
+  return ListDatabasesOutput(
+    databaseList: (json['DatabaseList'] as List)
+        ?.map((e) =>
+            e == null ? null : Database.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    nextToken: json['NextToken'] as String,
   );
 }
 
@@ -201,6 +300,18 @@ ListQueryExecutionsOutput _$ListQueryExecutionsOutputFromJson(
     nextToken: json['NextToken'] as String,
     queryExecutionIds:
         (json['QueryExecutionIds'] as List)?.map((e) => e as String)?.toList(),
+  );
+}
+
+ListTableMetadataOutput _$ListTableMetadataOutputFromJson(
+    Map<String, dynamic> json) {
+  return ListTableMetadataOutput(
+    nextToken: json['NextToken'] as String,
+    tableMetadataList: (json['TableMetadataList'] as List)
+        ?.map((e) => e == null
+            ? null
+            : TableMetadata.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
   );
 }
 
@@ -270,6 +381,7 @@ const _$StatementTypeEnumMap = {
 QueryExecutionContext _$QueryExecutionContextFromJson(
     Map<String, dynamic> json) {
   return QueryExecutionContext(
+    catalog: json['Catalog'] as String,
     database: json['Database'] as String,
   );
 }
@@ -284,6 +396,7 @@ Map<String, dynamic> _$QueryExecutionContextToJson(
     }
   }
 
+  writeNotNull('Catalog', instance.catalog);
   writeNotNull('Database', instance.database);
   return val;
 }
@@ -406,6 +519,27 @@ StopQueryExecutionOutput _$StopQueryExecutionOutputFromJson(
   return StopQueryExecutionOutput();
 }
 
+TableMetadata _$TableMetadataFromJson(Map<String, dynamic> json) {
+  return TableMetadata(
+    name: json['Name'] as String,
+    columns: (json['Columns'] as List)
+        ?.map((e) =>
+            e == null ? null : Column.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    createTime: const UnixDateTimeConverter().fromJson(json['CreateTime']),
+    lastAccessTime:
+        const UnixDateTimeConverter().fromJson(json['LastAccessTime']),
+    parameters: (json['Parameters'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(k, e as String),
+    ),
+    partitionKeys: (json['PartitionKeys'] as List)
+        ?.map((e) =>
+            e == null ? null : Column.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    tableType: json['TableType'] as String,
+  );
+}
+
 Tag _$TagFromJson(Map<String, dynamic> json) {
   return Tag(
     key: json['Key'] as String,
@@ -451,6 +585,11 @@ UnprocessedQueryExecutionId _$UnprocessedQueryExecutionIdFromJson(
 
 UntagResourceOutput _$UntagResourceOutputFromJson(Map<String, dynamic> json) {
   return UntagResourceOutput();
+}
+
+UpdateDataCatalogOutput _$UpdateDataCatalogOutputFromJson(
+    Map<String, dynamic> json) {
+  return UpdateDataCatalogOutput();
 }
 
 UpdateWorkGroupOutput _$UpdateWorkGroupOutputFromJson(

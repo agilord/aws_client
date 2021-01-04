@@ -14,6 +14,7 @@ GetPersonalizedRankingResponse _$GetPersonalizedRankingResponseFromJson(
             ? null
             : PredictedItem.fromJson(e as Map<String, dynamic>))
         ?.toList(),
+    recommendationId: json['recommendationId'] as String,
   );
 }
 
@@ -25,6 +26,7 @@ GetRecommendationsResponse _$GetRecommendationsResponseFromJson(
             ? null
             : PredictedItem.fromJson(e as Map<String, dynamic>))
         ?.toList(),
+    recommendationId: json['recommendationId'] as String,
   );
 }
 

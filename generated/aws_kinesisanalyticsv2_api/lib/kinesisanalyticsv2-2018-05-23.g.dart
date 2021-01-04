@@ -307,12 +307,15 @@ const _$ApplicationStatusEnumMap = {
   ApplicationStatus.ready: 'READY',
   ApplicationStatus.running: 'RUNNING',
   ApplicationStatus.updating: 'UPDATING',
+  ApplicationStatus.autoscaling: 'AUTOSCALING',
+  ApplicationStatus.forceStopping: 'FORCE_STOPPING',
 };
 
 const _$RuntimeEnvironmentEnumMap = {
   RuntimeEnvironment.sql_1_0: 'SQL-1_0',
   RuntimeEnvironment.flink_1_6: 'FLINK-1_6',
   RuntimeEnvironment.flink_1_8: 'FLINK-1_8',
+  RuntimeEnvironment.flink_1_11: 'FLINK-1_11',
 };
 
 ApplicationRestoreConfiguration _$ApplicationRestoreConfigurationFromJson(
@@ -559,6 +562,13 @@ Map<String, dynamic> _$CodeContentUpdateToJson(CodeContentUpdate instance) {
   return val;
 }
 
+CreateApplicationPresignedUrlResponse
+    _$CreateApplicationPresignedUrlResponseFromJson(Map<String, dynamic> json) {
+  return CreateApplicationPresignedUrlResponse(
+    authorizedUrl: json['AuthorizedUrl'] as String,
+  );
+}
+
 CreateApplicationResponse _$CreateApplicationResponseFromJson(
     Map<String, dynamic> json) {
   return CreateApplicationResponse(
@@ -801,6 +811,13 @@ Map<String, dynamic> _$FlinkApplicationConfigurationUpdateToJson(
   writeNotNull('ParallelismConfigurationUpdate',
       instance.parallelismConfigurationUpdate?.toJson());
   return val;
+}
+
+FlinkRunConfiguration _$FlinkRunConfigurationFromJson(
+    Map<String, dynamic> json) {
+  return FlinkRunConfiguration(
+    allowNonRestoredState: json['AllowNonRestoredState'] as bool,
+  );
 }
 
 Map<String, dynamic> _$FlinkRunConfigurationToJson(
@@ -1635,6 +1652,12 @@ RunConfigurationDescription _$RunConfigurationDescriptionFromJson(
             ? null
             : ApplicationRestoreConfiguration.fromJson(
                 json['ApplicationRestoreConfigurationDescription']
+                    as Map<String, dynamic>),
+    flinkRunConfigurationDescription:
+        json['FlinkRunConfigurationDescription'] == null
+            ? null
+            : FlinkRunConfiguration.fromJson(
+                json['FlinkRunConfigurationDescription']
                     as Map<String, dynamic>),
   );
 }

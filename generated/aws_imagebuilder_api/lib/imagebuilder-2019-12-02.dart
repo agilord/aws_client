@@ -28,7 +28,7 @@ part 'imagebuilder-2019-12-02.g.dart';
 
 /// EC2 Image Builder is a fully managed AWS service that makes it easier to
 /// automate the creation, management, and deployment of customized, secure, and
-/// up-to-date “golden” server images that are pre-installed and pre-configured
+/// up-to-date "golden" server images that are pre-installed and pre-configured
 /// with software and settings to meet specific IT standards.
 class Imagebuilder {
   final _s.RestJsonProtocol _protocol;
@@ -111,6 +111,7 @@ class Imagebuilder {
   /// May throw [InvalidVersionNumberException].
   /// May throw [ResourceInUseException].
   /// May throw [InvalidParameterCombinationException].
+  /// May throw [ServiceQuotaExceededException].
   ///
   /// Parameter [clientToken] :
   /// The idempotency token of the component.
@@ -142,6 +143,11 @@ class Imagebuilder {
   /// Parameter [kmsKeyId] :
   /// The ID of the KMS key that should be used to encrypt this component.
   ///
+  /// Parameter [supportedOsVersions] :
+  /// The operating system (OS) version supported by the component. If the OS
+  /// information is available, a prefix match is performed against the parent
+  /// image OS version during image recipe creation.
+  ///
   /// Parameter [tags] :
   /// The tags of the component.
   ///
@@ -159,6 +165,7 @@ class Imagebuilder {
     String data,
     String description,
     String kmsKeyId,
+    List<String> supportedOsVersions,
     Map<String, String> tags,
     String uri,
   }) async {
@@ -197,6 +204,11 @@ class Imagebuilder {
       1,
       16000,
     );
+    _s.validateStringPattern(
+      'data',
+      data,
+      r'''[^\x00]+''',
+    );
     _s.validateStringLength(
       'description',
       description,
@@ -218,6 +230,8 @@ class Imagebuilder {
       if (data != null) 'data': data,
       if (description != null) 'description': description,
       if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
+      if (supportedOsVersions != null)
+        'supportedOsVersions': supportedOsVersions,
       if (tags != null) 'tags': tags,
       if (uri != null) 'uri': uri,
     };
@@ -228,6 +242,186 @@ class Imagebuilder {
       exceptionFnMap: _exceptionFns,
     );
     return CreateComponentResponse.fromJson(response);
+  }
+
+  /// Creates a new container recipe. Container recipes define how images are
+  /// configured, tested, and assessed.
+  ///
+  /// May throw [ServiceException].
+  /// May throw [ClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [InvalidRequestException].
+  /// May throw [IdempotentParameterMismatchException].
+  /// May throw [ForbiddenException].
+  /// May throw [CallRateLimitExceededException].
+  /// May throw [InvalidVersionNumberException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ResourceAlreadyExistsException].
+  /// May throw [ServiceQuotaExceededException].
+  ///
+  /// Parameter [clientToken] :
+  /// The client token used to make this request idempotent.
+  ///
+  /// Parameter [components] :
+  /// Components for build and test that are included in the container recipe.
+  ///
+  /// Parameter [containerType] :
+  /// The type of container to create.
+  ///
+  /// Parameter [dockerfileTemplateData] :
+  /// The Dockerfile template used to build your image as an inline data blob.
+  ///
+  /// Parameter [name] :
+  /// The name of the container recipe.
+  ///
+  /// Parameter [parentImage] :
+  /// The source image for the container recipe.
+  ///
+  /// Parameter [semanticVersion] :
+  /// The semantic version of the container recipe
+  /// (&lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;).
+  ///
+  /// Parameter [targetRepository] :
+  /// The destination repository for the container image.
+  ///
+  /// Parameter [description] :
+  /// The description of the container recipe.
+  ///
+  /// Parameter [dockerfileTemplateUri] :
+  /// The S3 URI for the Dockerfile that will be used to build your container
+  /// image.
+  ///
+  /// Parameter [imageOsVersionOverride] :
+  /// Specifies the operating system version for the source image.
+  ///
+  /// Parameter [kmsKeyId] :
+  /// Identifies which KMS key is used to encrypt the container image.
+  ///
+  /// Parameter [platformOverride] :
+  /// Specifies the operating system platform when you use a custom source
+  /// image.
+  ///
+  /// Parameter [tags] :
+  /// Tags that are attached to the container recipe.
+  ///
+  /// Parameter [workingDirectory] :
+  /// The working directory for use during build and test workflows.
+  Future<CreateContainerRecipeResponse> createContainerRecipe({
+    @_s.required String clientToken,
+    @_s.required List<ComponentConfiguration> components,
+    @_s.required ContainerType containerType,
+    @_s.required String dockerfileTemplateData,
+    @_s.required String name,
+    @_s.required String parentImage,
+    @_s.required String semanticVersion,
+    @_s.required TargetContainerRepository targetRepository,
+    String description,
+    String dockerfileTemplateUri,
+    String imageOsVersionOverride,
+    String kmsKeyId,
+    Platform platformOverride,
+    Map<String, String> tags,
+    String workingDirectory,
+  }) async {
+    ArgumentError.checkNotNull(clientToken, 'clientToken');
+    _s.validateStringLength(
+      'clientToken',
+      clientToken,
+      1,
+      36,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(components, 'components');
+    ArgumentError.checkNotNull(containerType, 'containerType');
+    ArgumentError.checkNotNull(
+        dockerfileTemplateData, 'dockerfileTemplateData');
+    _s.validateStringLength(
+      'dockerfileTemplateData',
+      dockerfileTemplateData,
+      1,
+      16000,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'dockerfileTemplateData',
+      dockerfileTemplateData,
+      r'''[^\x00]+''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(name, 'name');
+    _s.validateStringPattern(
+      'name',
+      name,
+      r'''^[-_A-Za-z-0-9][-_A-Za-z0-9 ]{1,126}[-_A-Za-z-0-9]$''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(parentImage, 'parentImage');
+    _s.validateStringLength(
+      'parentImage',
+      parentImage,
+      1,
+      1024,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(semanticVersion, 'semanticVersion');
+    _s.validateStringPattern(
+      'semanticVersion',
+      semanticVersion,
+      r'''^[0-9]+\.[0-9]+\.[0-9]+$''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(targetRepository, 'targetRepository');
+    _s.validateStringLength(
+      'description',
+      description,
+      1,
+      1024,
+    );
+    _s.validateStringLength(
+      'imageOsVersionOverride',
+      imageOsVersionOverride,
+      1,
+      1024,
+    );
+    _s.validateStringLength(
+      'kmsKeyId',
+      kmsKeyId,
+      1,
+      1024,
+    );
+    _s.validateStringLength(
+      'workingDirectory',
+      workingDirectory,
+      1,
+      1024,
+    );
+    final $payload = <String, dynamic>{
+      'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+      'components': components,
+      'containerType': containerType?.toValue() ?? '',
+      'dockerfileTemplateData': dockerfileTemplateData,
+      'name': name,
+      'parentImage': parentImage,
+      'semanticVersion': semanticVersion,
+      'targetRepository': targetRepository,
+      if (description != null) 'description': description,
+      if (dockerfileTemplateUri != null)
+        'dockerfileTemplateUri': dockerfileTemplateUri,
+      if (imageOsVersionOverride != null)
+        'imageOsVersionOverride': imageOsVersionOverride,
+      if (kmsKeyId != null) 'kmsKeyId': kmsKeyId,
+      if (platformOverride != null)
+        'platformOverride': platformOverride.toValue(),
+      if (tags != null) 'tags': tags,
+      if (workingDirectory != null) 'workingDirectory': workingDirectory,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/CreateContainerRecipe',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateContainerRecipeResponse.fromJson(response);
   }
 
   /// Creates a new distribution configuration. Distribution configurations
@@ -243,6 +437,7 @@ class Imagebuilder {
   /// May throw [ResourceInUseException].
   /// May throw [ResourceAlreadyExistsException].
   /// May throw [InvalidParameterCombinationException].
+  /// May throw [ServiceQuotaExceededException].
   ///
   /// Parameter [clientToken] :
   /// The idempotency token of the distribution configuration.
@@ -316,17 +511,18 @@ class Imagebuilder {
   /// May throw [ForbiddenException].
   /// May throw [CallRateLimitExceededException].
   /// May throw [ResourceInUseException].
+  /// May throw [ServiceQuotaExceededException].
   ///
   /// Parameter [clientToken] :
   /// The idempotency token used to make this request idempotent.
   ///
-  /// Parameter [imageRecipeArn] :
-  /// The Amazon Resource Name (ARN) of the image recipe that defines how images
-  /// are configured, tested, and assessed.
-  ///
   /// Parameter [infrastructureConfigurationArn] :
   /// The Amazon Resource Name (ARN) of the infrastructure configuration that
   /// defines the environment in which your image will be built and tested.
+  ///
+  /// Parameter [containerRecipeArn] :
+  /// The Amazon Resource Name (ARN) of the container recipe that defines how
+  /// images are configured and tested.
   ///
   /// Parameter [distributionConfigurationArn] :
   /// The Amazon Resource Name (ARN) of the distribution configuration that
@@ -338,6 +534,10 @@ class Imagebuilder {
   /// used to enhance the overall experience of using EC2 Image Builder. Enabled
   /// by default.
   ///
+  /// Parameter [imageRecipeArn] :
+  /// The Amazon Resource Name (ARN) of the image recipe that defines how images
+  /// are configured, tested, and assessed.
+  ///
   /// Parameter [imageTestsConfiguration] :
   /// The image tests configuration of the image.
   ///
@@ -345,10 +545,11 @@ class Imagebuilder {
   /// The tags of the image.
   Future<CreateImageResponse> createImage({
     @_s.required String clientToken,
-    @_s.required String imageRecipeArn,
     @_s.required String infrastructureConfigurationArn,
+    String containerRecipeArn,
     String distributionConfigurationArn,
     bool enhancedImageMetadataEnabled,
+    String imageRecipeArn,
     ImageTestsConfiguration imageTestsConfiguration,
     Map<String, String> tags,
   }) async {
@@ -360,13 +561,6 @@ class Imagebuilder {
       36,
       isRequired: true,
     );
-    ArgumentError.checkNotNull(imageRecipeArn, 'imageRecipeArn');
-    _s.validateStringPattern(
-      'imageRecipeArn',
-      imageRecipeArn,
-      r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):image-recipe/[a-z0-9-_]+/\d+\.\d+\.\d+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         infrastructureConfigurationArn, 'infrastructureConfigurationArn');
     _s.validateStringPattern(
@@ -376,18 +570,29 @@ class Imagebuilder {
       isRequired: true,
     );
     _s.validateStringPattern(
+      'containerRecipeArn',
+      containerRecipeArn,
+      r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):container-recipe/[a-z0-9-_]+/\d+\.\d+\.\d+$''',
+    );
+    _s.validateStringPattern(
       'distributionConfigurationArn',
       distributionConfigurationArn,
       r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):distribution-configuration/[a-z0-9-_]+$''',
     );
+    _s.validateStringPattern(
+      'imageRecipeArn',
+      imageRecipeArn,
+      r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):image-recipe/[a-z0-9-_]+/\d+\.\d+\.\d+$''',
+    );
     final $payload = <String, dynamic>{
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
-      'imageRecipeArn': imageRecipeArn,
       'infrastructureConfigurationArn': infrastructureConfigurationArn,
+      if (containerRecipeArn != null) 'containerRecipeArn': containerRecipeArn,
       if (distributionConfigurationArn != null)
         'distributionConfigurationArn': distributionConfigurationArn,
       if (enhancedImageMetadataEnabled != null)
         'enhancedImageMetadataEnabled': enhancedImageMetadataEnabled,
+      if (imageRecipeArn != null) 'imageRecipeArn': imageRecipeArn,
       if (imageTestsConfiguration != null)
         'imageTestsConfiguration': imageTestsConfiguration,
       if (tags != null) 'tags': tags,
@@ -413,13 +618,10 @@ class Imagebuilder {
   /// May throw [CallRateLimitExceededException].
   /// May throw [ResourceInUseException].
   /// May throw [ResourceAlreadyExistsException].
+  /// May throw [ServiceQuotaExceededException].
   ///
   /// Parameter [clientToken] :
   /// The idempotency token used to make this request idempotent.
-  ///
-  /// Parameter [imageRecipeArn] :
-  /// The Amazon Resource Name (ARN) of the image recipe that will be used to
-  /// configure images created by this image pipeline.
   ///
   /// Parameter [infrastructureConfigurationArn] :
   /// The Amazon Resource Name (ARN) of the infrastructure configuration that
@@ -427,6 +629,10 @@ class Imagebuilder {
   ///
   /// Parameter [name] :
   /// The name of the image pipeline.
+  ///
+  /// Parameter [containerRecipeArn] :
+  /// The Amazon Resource Name (ARN) of the container recipe that is used to
+  /// configure images created by this container pipeline.
   ///
   /// Parameter [description] :
   /// The description of the image pipeline.
@@ -441,6 +647,10 @@ class Imagebuilder {
   /// used to enhance the overall experience of using EC2 Image Builder. Enabled
   /// by default.
   ///
+  /// Parameter [imageRecipeArn] :
+  /// The Amazon Resource Name (ARN) of the image recipe that will be used to
+  /// configure images created by this image pipeline.
+  ///
   /// Parameter [imageTestsConfiguration] :
   /// The image test configuration of the image pipeline.
   ///
@@ -454,12 +664,13 @@ class Imagebuilder {
   /// The tags of the image pipeline.
   Future<CreateImagePipelineResponse> createImagePipeline({
     @_s.required String clientToken,
-    @_s.required String imageRecipeArn,
     @_s.required String infrastructureConfigurationArn,
     @_s.required String name,
+    String containerRecipeArn,
     String description,
     String distributionConfigurationArn,
     bool enhancedImageMetadataEnabled,
+    String imageRecipeArn,
     ImageTestsConfiguration imageTestsConfiguration,
     Schedule schedule,
     PipelineStatus status,
@@ -471,13 +682,6 @@ class Imagebuilder {
       clientToken,
       1,
       36,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(imageRecipeArn, 'imageRecipeArn');
-    _s.validateStringPattern(
-      'imageRecipeArn',
-      imageRecipeArn,
-      r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):image-recipe/[a-z0-9-_]+/\d+\.\d+\.\d+$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(
@@ -495,6 +699,11 @@ class Imagebuilder {
       r'''^[-_A-Za-z-0-9][-_A-Za-z0-9 ]{1,126}[-_A-Za-z-0-9]$''',
       isRequired: true,
     );
+    _s.validateStringPattern(
+      'containerRecipeArn',
+      containerRecipeArn,
+      r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):container-recipe/[a-z0-9-_]+/\d+\.\d+\.\d+$''',
+    );
     _s.validateStringLength(
       'description',
       description,
@@ -506,16 +715,22 @@ class Imagebuilder {
       distributionConfigurationArn,
       r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):distribution-configuration/[a-z0-9-_]+$''',
     );
+    _s.validateStringPattern(
+      'imageRecipeArn',
+      imageRecipeArn,
+      r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):image-recipe/[a-z0-9-_]+/\d+\.\d+\.\d+$''',
+    );
     final $payload = <String, dynamic>{
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
-      'imageRecipeArn': imageRecipeArn,
       'infrastructureConfigurationArn': infrastructureConfigurationArn,
       'name': name,
+      if (containerRecipeArn != null) 'containerRecipeArn': containerRecipeArn,
       if (description != null) 'description': description,
       if (distributionConfigurationArn != null)
         'distributionConfigurationArn': distributionConfigurationArn,
       if (enhancedImageMetadataEnabled != null)
         'enhancedImageMetadataEnabled': enhancedImageMetadataEnabled,
+      if (imageRecipeArn != null) 'imageRecipeArn': imageRecipeArn,
       if (imageTestsConfiguration != null)
         'imageTestsConfiguration': imageTestsConfiguration,
       if (schedule != null) 'schedule': schedule,
@@ -544,6 +759,7 @@ class Imagebuilder {
   /// May throw [InvalidVersionNumberException].
   /// May throw [ResourceInUseException].
   /// May throw [ResourceAlreadyExistsException].
+  /// May throw [ServiceQuotaExceededException].
   ///
   /// Parameter [clientToken] :
   /// The idempotency token used to make this request idempotent.
@@ -558,11 +774,9 @@ class Imagebuilder {
   /// The parent image of the image recipe. The value of the string can be the
   /// ARN of the parent image or an AMI ID. The format for the ARN follows this
   /// example:
-  /// <code>arn:aws:imagebuilder:us-west-2:aws:image/windows-server-2016-english-full-base-x86/2019.x.x</code>.
-  /// The ARN ends with <code>/20xx.x.x</code>, which communicates to EC2 Image
-  /// Builder that you want to use the latest AMI created in 20xx (year). You
-  /// can provide the specific version that you want to use, or you can use a
-  /// wildcard in all of the fields. If you enter an AMI ID for the string
+  /// <code>arn:aws:imagebuilder:us-west-2:aws:image/windows-server-2016-english-full-base-x86/xxxx.x.x</code>.
+  /// You can provide the specific version that you want to use, or you can use
+  /// a wildcard in all of the fields. If you enter an AMI ID for the string
   /// value, you must have access to the AMI, and the AMI must be in the same
   /// Region in which you are using Image Builder.
   ///
@@ -577,6 +791,9 @@ class Imagebuilder {
   ///
   /// Parameter [tags] :
   /// The tags of the image recipe.
+  ///
+  /// Parameter [workingDirectory] :
+  /// The working directory to be used during build and test workflows.
   Future<CreateImageRecipeResponse> createImageRecipe({
     @_s.required String clientToken,
     @_s.required List<ComponentConfiguration> components,
@@ -586,6 +803,7 @@ class Imagebuilder {
     List<InstanceBlockDeviceMapping> blockDeviceMappings,
     String description,
     Map<String, String> tags,
+    String workingDirectory,
   }) async {
     ArgumentError.checkNotNull(clientToken, 'clientToken');
     _s.validateStringLength(
@@ -624,6 +842,12 @@ class Imagebuilder {
       1,
       1024,
     );
+    _s.validateStringLength(
+      'workingDirectory',
+      workingDirectory,
+      1,
+      1024,
+    );
     final $payload = <String, dynamic>{
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       'components': components,
@@ -634,6 +858,7 @@ class Imagebuilder {
         'blockDeviceMappings': blockDeviceMappings,
       if (description != null) 'description': description,
       if (tags != null) 'tags': tags,
+      if (workingDirectory != null) 'workingDirectory': workingDirectory,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -657,6 +882,7 @@ class Imagebuilder {
   /// May throw [CallRateLimitExceededException].
   /// May throw [ResourceInUseException].
   /// May throw [ResourceAlreadyExistsException].
+  /// May throw [ServiceQuotaExceededException].
   ///
   /// Parameter [clientToken] :
   /// The idempotency token used to make this request idempotent.
@@ -682,6 +908,9 @@ class Imagebuilder {
   ///
   /// Parameter [logging] :
   /// The logging configuration of the infrastructure configuration.
+  ///
+  /// Parameter [resourceTags] :
+  /// The tags attached to the resource created by Image Builder.
   ///
   /// Parameter [securityGroupIds] :
   /// The security group IDs to associate with the instance used to customize
@@ -711,6 +940,7 @@ class Imagebuilder {
     List<String> instanceTypes,
     String keyPair,
     Logging logging,
+    Map<String, String> resourceTags,
     List<String> securityGroupIds,
     String snsTopicArn,
     String subnetId,
@@ -771,6 +1001,7 @@ class Imagebuilder {
       if (instanceTypes != null) 'instanceTypes': instanceTypes,
       if (keyPair != null) 'keyPair': keyPair,
       if (logging != null) 'logging': logging,
+      if (resourceTags != null) 'resourceTags': resourceTags,
       if (securityGroupIds != null) 'securityGroupIds': securityGroupIds,
       if (snsTopicArn != null) 'snsTopicArn': snsTopicArn,
       if (subnetId != null) 'subnetId': subnetId,
@@ -822,6 +1053,42 @@ class Imagebuilder {
       exceptionFnMap: _exceptionFns,
     );
     return DeleteComponentResponse.fromJson(response);
+  }
+
+  /// Deletes a container recipe.
+  ///
+  /// May throw [ServiceException].
+  /// May throw [ClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [CallRateLimitExceededException].
+  /// May throw [ResourceDependencyException].
+  ///
+  /// Parameter [containerRecipeArn] :
+  /// The Amazon Resource Name (ARN) of the container recipe to delete.
+  Future<DeleteContainerRecipeResponse> deleteContainerRecipe({
+    @_s.required String containerRecipeArn,
+  }) async {
+    ArgumentError.checkNotNull(containerRecipeArn, 'containerRecipeArn');
+    _s.validateStringPattern(
+      'containerRecipeArn',
+      containerRecipeArn,
+      r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):container-recipe/[a-z0-9-_]+/\d+\.\d+\.\d+$''',
+      isRequired: true,
+    );
+    final $query = <String, List<String>>{
+      if (containerRecipeArn != null)
+        'containerRecipeArn': [containerRecipeArn],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/DeleteContainerRecipe',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return DeleteContainerRecipeResponse.fromJson(response);
   }
 
   /// Deletes a distribution configuration.
@@ -1028,7 +1295,7 @@ class Imagebuilder {
     _s.validateStringPattern(
       'componentBuildVersionArn',
       componentBuildVersionArn,
-      r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):component/[a-z0-9-_]+/\d+\.\d+\.\d+/\d+$''',
+      r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):component/[a-z0-9-_]+/(?:(?:(\d+|x)\.(\d+|x)\.(\d+|x))|(?:\d+\.\d+\.\d+/\d+))$''',
       isRequired: true,
     );
     final $query = <String, List<String>>{
@@ -1078,6 +1345,77 @@ class Imagebuilder {
       exceptionFnMap: _exceptionFns,
     );
     return GetComponentPolicyResponse.fromJson(response);
+  }
+
+  /// Retrieves a container recipe.
+  ///
+  /// May throw [ServiceException].
+  /// May throw [ClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ForbiddenException].
+  /// May throw [CallRateLimitExceededException].
+  ///
+  /// Parameter [containerRecipeArn] :
+  /// The Amazon Resource Name (ARN) of the container recipe to retrieve.
+  Future<GetContainerRecipeResponse> getContainerRecipe({
+    @_s.required String containerRecipeArn,
+  }) async {
+    ArgumentError.checkNotNull(containerRecipeArn, 'containerRecipeArn');
+    _s.validateStringPattern(
+      'containerRecipeArn',
+      containerRecipeArn,
+      r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):container-recipe/[a-z0-9-_]+/\d+\.\d+\.\d+$''',
+      isRequired: true,
+    );
+    final $query = <String, List<String>>{
+      if (containerRecipeArn != null)
+        'containerRecipeArn': [containerRecipeArn],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/GetContainerRecipe',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetContainerRecipeResponse.fromJson(response);
+  }
+
+  /// Retrieves the policy for a container recipe.
+  ///
+  /// May throw [ServiceException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ForbiddenException].
+  /// May throw [CallRateLimitExceededException].
+  ///
+  /// Parameter [containerRecipeArn] :
+  /// The Amazon Resource Name (ARN) of the container recipe for the policy
+  /// being requested.
+  Future<GetContainerRecipePolicyResponse> getContainerRecipePolicy({
+    @_s.required String containerRecipeArn,
+  }) async {
+    ArgumentError.checkNotNull(containerRecipeArn, 'containerRecipeArn');
+    _s.validateStringPattern(
+      'containerRecipeArn',
+      containerRecipeArn,
+      r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):container-recipe/[a-z0-9-_]+/\d+\.\d+\.\d+$''',
+      isRequired: true,
+    );
+    final $query = <String, List<String>>{
+      if (containerRecipeArn != null)
+        'containerRecipeArn': [containerRecipeArn],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/GetContainerRecipePolicy',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetContainerRecipePolicyResponse.fromJson(response);
   }
 
   /// Gets a distribution configuration.
@@ -1135,7 +1473,7 @@ class Imagebuilder {
     _s.validateStringPattern(
       'imageBuildVersionArn',
       imageBuildVersionArn,
-      r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):image/[a-z0-9-_]+/\d+\.\d+\.\d+/\d+$''',
+      r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):image/[a-z0-9-_]+/(?:(?:(\d+|x)\.(\d+|x)\.(\d+|x))|(?:\d+\.\d+\.\d+/\d+))$''',
       isRequired: true,
     );
     final $query = <String, List<String>>{
@@ -1517,7 +1855,7 @@ class Imagebuilder {
       'nextToken',
       nextToken,
       1,
-      1024,
+      65535,
     );
     final $payload = <String, dynamic>{
       'componentVersionArn': componentVersionArn,
@@ -1544,6 +1882,10 @@ class Imagebuilder {
   /// May throw [ForbiddenException].
   /// May throw [CallRateLimitExceededException].
   ///
+  /// Parameter [byName] :
+  /// Returns the list of component build versions for the specified semantic
+  /// version.
+  ///
   /// Parameter [filters] :
   /// The filters.
   ///
@@ -1561,6 +1903,66 @@ class Imagebuilder {
   /// Amazon, or those components that have been shared with you by other
   /// customers.
   Future<ListComponentsResponse> listComponents({
+    bool byName,
+    List<Filter> filters,
+    int maxResults,
+    String nextToken,
+    Ownership owner,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      25,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      65535,
+    );
+    final $payload = <String, dynamic>{
+      if (byName != null) 'byName': byName,
+      if (filters != null) 'filters': filters,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+      if (owner != null) 'owner': owner.toValue(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/ListComponents',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListComponentsResponse.fromJson(response);
+  }
+
+  /// Returns a list of container recipes.
+  ///
+  /// May throw [ServiceException].
+  /// May throw [ClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidPaginationTokenException].
+  /// May throw [ForbiddenException].
+  /// May throw [CallRateLimitExceededException].
+  ///
+  /// Parameter [filters] :
+  /// Request filters that are used to narrow the list of container images that
+  /// are returned.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in the list.
+  ///
+  /// Parameter [nextToken] :
+  /// Provides a token for pagination, which determines where to begin the next
+  /// set of results when the current set reaches the maximum for one request.
+  ///
+  /// Parameter [owner] :
+  /// Returns container recipes belonging to the specified owner, that have been
+  /// shared with you. You can omit this field to return container recipes
+  /// belonging to your account.
+  Future<ListContainerRecipesResponse> listContainerRecipes({
     List<Filter> filters,
     int maxResults,
     String nextToken,
@@ -1587,10 +1989,10 @@ class Imagebuilder {
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri: '/ListComponents',
+      requestUri: '/ListContainerRecipes',
       exceptionFnMap: _exceptionFns,
     );
-    return ListComponentsResponse.fromJson(response);
+    return ListContainerRecipesResponse.fromJson(response);
   }
 
   /// Returns a list of distribution configurations.
@@ -1605,6 +2007,12 @@ class Imagebuilder {
   ///
   /// Parameter [filters] :
   /// The filters.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>name</code> - The name of this distribution configuration.
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [maxResults] :
   /// The maximum items to return in a request.
@@ -1628,7 +2036,7 @@ class Imagebuilder {
       'nextToken',
       nextToken,
       1,
-      1024,
+      65535,
     );
     final $payload = <String, dynamic>{
       if (filters != null) 'filters': filters,
@@ -1644,7 +2052,7 @@ class Imagebuilder {
     return ListDistributionConfigurationsResponse.fromJson(response);
   }
 
-  /// Returns a list of distribution configurations.
+  /// Returns a list of image build versions.
   ///
   /// May throw [ServiceException].
   /// May throw [ClientException].
@@ -1690,7 +2098,7 @@ class Imagebuilder {
       'nextToken',
       nextToken,
       1,
-      1024,
+      65535,
     );
     final $payload = <String, dynamic>{
       'imageVersionArn': imageVersionArn,
@@ -1754,7 +2162,7 @@ class Imagebuilder {
       'nextToken',
       nextToken,
       1,
-      1024,
+      65535,
     );
     final $payload = <String, dynamic>{
       'imagePipelineArn': imagePipelineArn,
@@ -1805,7 +2213,7 @@ class Imagebuilder {
       'nextToken',
       nextToken,
       1,
-      1024,
+      65535,
     );
     final $payload = <String, dynamic>{
       if (filters != null) 'filters': filters,
@@ -1863,7 +2271,7 @@ class Imagebuilder {
       'nextToken',
       nextToken,
       1,
-      1024,
+      65535,
     );
     final $payload = <String, dynamic>{
       if (filters != null) 'filters': filters,
@@ -1880,8 +2288,7 @@ class Imagebuilder {
     return ListImageRecipesResponse.fromJson(response);
   }
 
-  /// Returns the list of image build versions for the specified semantic
-  /// version.
+  /// Returns the list of images that you have access to.
   ///
   /// May throw [ServiceException].
   /// May throw [ClientException].
@@ -1891,8 +2298,14 @@ class Imagebuilder {
   /// May throw [ForbiddenException].
   /// May throw [CallRateLimitExceededException].
   ///
+  /// Parameter [byName] :
+  /// Requests a list of images with a specific recipe name.
+  ///
   /// Parameter [filters] :
   /// The filters.
+  ///
+  /// Parameter [includeDeprecated] :
+  /// Includes deprecated images in the response list.
   ///
   /// Parameter [maxResults] :
   /// The maximum items to return in a request.
@@ -1907,7 +2320,9 @@ class Imagebuilder {
   /// specify if you want to view images owned by yourself, by Amazon, or those
   /// images that have been shared with you by other customers.
   Future<ListImagesResponse> listImages({
+    bool byName,
     List<Filter> filters,
+    bool includeDeprecated,
     int maxResults,
     String nextToken,
     Ownership owner,
@@ -1922,10 +2337,12 @@ class Imagebuilder {
       'nextToken',
       nextToken,
       1,
-      1024,
+      65535,
     );
     final $payload = <String, dynamic>{
+      if (byName != null) 'byName': byName,
       if (filters != null) 'filters': filters,
+      if (includeDeprecated != null) 'includeDeprecated': includeDeprecated,
       if (maxResults != null) 'maxResults': maxResults,
       if (nextToken != null) 'nextToken': nextToken,
       if (owner != null) 'owner': owner.toValue(),
@@ -1974,7 +2391,7 @@ class Imagebuilder {
       'nextToken',
       nextToken,
       1,
-      1024,
+      65535,
     );
     final $payload = <String, dynamic>{
       if (filters != null) 'filters': filters,
@@ -2006,7 +2423,7 @@ class Imagebuilder {
     _s.validateStringPattern(
       'resourceArn',
       resourceArn,
-      r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):(?:image-recipe|infrastructure-configuration|distribution-configuration|component|image|image-pipeline)/[a-z0-9-_]+(?:/(?:(?:x|\d+)\.(?:x|\d+)\.(?:x|\d+))(?:/\d+)?)?$''',
+      r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):(?:image-recipe|container-recipe|infrastructure-configuration|distribution-configuration|component|image|image-pipeline)/[a-z0-9-_]+(?:/(?:(?:x|\d+)\.(?:x|\d+)\.(?:x|\d+))(?:/\d+)?)?$''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -2071,6 +2488,63 @@ class Imagebuilder {
       exceptionFnMap: _exceptionFns,
     );
     return PutComponentPolicyResponse.fromJson(response);
+  }
+
+  /// Applies a policy to a container image. We recommend that you call the RAM
+  /// API CreateResourceShare
+  /// (https://docs.aws.amazon.com/ram/latest/APIReference/API_CreateResourceShare.html)
+  /// to share resources. If you call the Image Builder API
+  /// <code>PutContainerImagePolicy</code>, you must also call the RAM API
+  /// PromoteResourceShareCreatedFromPolicy
+  /// (https://docs.aws.amazon.com/ram/latest/APIReference/API_PromoteResourceShareCreatedFromPolicy.html)
+  /// in order for the resource to be visible to all principals with whom the
+  /// resource is shared.
+  ///
+  /// May throw [ServiceException].
+  /// May throw [ClientException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ForbiddenException].
+  /// May throw [CallRateLimitExceededException].
+  ///
+  /// Parameter [containerRecipeArn] :
+  /// The Amazon Resource Name (ARN) of the container recipe that this policy
+  /// should be applied to.
+  ///
+  /// Parameter [policy] :
+  /// The policy to apply to the container recipe.
+  Future<PutContainerRecipePolicyResponse> putContainerRecipePolicy({
+    @_s.required String containerRecipeArn,
+    @_s.required String policy,
+  }) async {
+    ArgumentError.checkNotNull(containerRecipeArn, 'containerRecipeArn');
+    _s.validateStringPattern(
+      'containerRecipeArn',
+      containerRecipeArn,
+      r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):container-recipe/[a-z0-9-_]+/\d+\.\d+\.\d+$''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(policy, 'policy');
+    _s.validateStringLength(
+      'policy',
+      policy,
+      1,
+      30000,
+      isRequired: true,
+    );
+    final $payload = <String, dynamic>{
+      'containerRecipeArn': containerRecipeArn,
+      'policy': policy,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/PutContainerRecipePolicy',
+      exceptionFnMap: _exceptionFns,
+    );
+    return PutContainerRecipePolicyResponse.fromJson(response);
   }
 
   /// Applies a policy to an image. We recommend that you call the RAM API <a
@@ -2253,7 +2727,7 @@ class Imagebuilder {
     _s.validateStringPattern(
       'resourceArn',
       resourceArn,
-      r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):(?:image-recipe|infrastructure-configuration|distribution-configuration|component|image|image-pipeline)/[a-z0-9-_]+(?:/(?:(?:x|\d+)\.(?:x|\d+)\.(?:x|\d+))(?:/\d+)?)?$''',
+      r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):(?:image-recipe|container-recipe|infrastructure-configuration|distribution-configuration|component|image|image-pipeline)/[a-z0-9-_]+(?:/(?:(?:x|\d+)\.(?:x|\d+)\.(?:x|\d+))(?:/\d+)?)?$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
@@ -2288,7 +2762,7 @@ class Imagebuilder {
     _s.validateStringPattern(
       'resourceArn',
       resourceArn,
-      r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):(?:image-recipe|infrastructure-configuration|distribution-configuration|component|image|image-pipeline)/[a-z0-9-_]+(?:/(?:(?:x|\d+)\.(?:x|\d+)\.(?:x|\d+))(?:/\d+)?)?$''',
+      r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):(?:image-recipe|container-recipe|infrastructure-configuration|distribution-configuration|component|image|image-pipeline)/[a-z0-9-_]+(?:/(?:(?:x|\d+)\.(?:x|\d+)\.(?:x|\d+))(?:/\d+)?)?$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
@@ -2394,13 +2868,12 @@ class Imagebuilder {
   /// The Amazon Resource Name (ARN) of the image pipeline that you want to
   /// update.
   ///
-  /// Parameter [imageRecipeArn] :
-  /// The Amazon Resource Name (ARN) of the image recipe that will be used to
-  /// configure images updated by this image pipeline.
-  ///
   /// Parameter [infrastructureConfigurationArn] :
   /// The Amazon Resource Name (ARN) of the infrastructure configuration that
   /// will be used to build images updated by this image pipeline.
+  ///
+  /// Parameter [containerRecipeArn] :
+  /// The Amazon Resource Name (ARN) of the container pipeline to update.
   ///
   /// Parameter [description] :
   /// The description of the image pipeline.
@@ -2415,6 +2888,10 @@ class Imagebuilder {
   /// used to enhance the overall experience of using EC2 Image Builder. Enabled
   /// by default.
   ///
+  /// Parameter [imageRecipeArn] :
+  /// The Amazon Resource Name (ARN) of the image recipe that will be used to
+  /// configure images updated by this image pipeline.
+  ///
   /// Parameter [imageTestsConfiguration] :
   /// The image test configuration of the image pipeline.
   ///
@@ -2426,11 +2903,12 @@ class Imagebuilder {
   Future<UpdateImagePipelineResponse> updateImagePipeline({
     @_s.required String clientToken,
     @_s.required String imagePipelineArn,
-    @_s.required String imageRecipeArn,
     @_s.required String infrastructureConfigurationArn,
+    String containerRecipeArn,
     String description,
     String distributionConfigurationArn,
     bool enhancedImageMetadataEnabled,
+    String imageRecipeArn,
     ImageTestsConfiguration imageTestsConfiguration,
     Schedule schedule,
     PipelineStatus status,
@@ -2450,13 +2928,6 @@ class Imagebuilder {
       r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):image-pipeline/[a-z0-9-_]+$''',
       isRequired: true,
     );
-    ArgumentError.checkNotNull(imageRecipeArn, 'imageRecipeArn');
-    _s.validateStringPattern(
-      'imageRecipeArn',
-      imageRecipeArn,
-      r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):image-recipe/[a-z0-9-_]+/\d+\.\d+\.\d+$''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(
         infrastructureConfigurationArn, 'infrastructureConfigurationArn');
     _s.validateStringPattern(
@@ -2464,6 +2935,11 @@ class Imagebuilder {
       infrastructureConfigurationArn,
       r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):infrastructure-configuration/[a-z0-9-_]+$''',
       isRequired: true,
+    );
+    _s.validateStringPattern(
+      'containerRecipeArn',
+      containerRecipeArn,
+      r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):container-recipe/[a-z0-9-_]+/\d+\.\d+\.\d+$''',
     );
     _s.validateStringLength(
       'description',
@@ -2476,16 +2952,22 @@ class Imagebuilder {
       distributionConfigurationArn,
       r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):distribution-configuration/[a-z0-9-_]+$''',
     );
+    _s.validateStringPattern(
+      'imageRecipeArn',
+      imageRecipeArn,
+      r'''^arn:aws[^:]*:imagebuilder:[^:]+:(?:\d{12}|aws):image-recipe/[a-z0-9-_]+/\d+\.\d+\.\d+$''',
+    );
     final $payload = <String, dynamic>{
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
       'imagePipelineArn': imagePipelineArn,
-      'imageRecipeArn': imageRecipeArn,
       'infrastructureConfigurationArn': infrastructureConfigurationArn,
+      if (containerRecipeArn != null) 'containerRecipeArn': containerRecipeArn,
       if (description != null) 'description': description,
       if (distributionConfigurationArn != null)
         'distributionConfigurationArn': distributionConfigurationArn,
       if (enhancedImageMetadataEnabled != null)
         'enhancedImageMetadataEnabled': enhancedImageMetadataEnabled,
+      if (imageRecipeArn != null) 'imageRecipeArn': imageRecipeArn,
       if (imageTestsConfiguration != null)
         'imageTestsConfiguration': imageTestsConfiguration,
       if (schedule != null) 'schedule': schedule,
@@ -2539,6 +3021,9 @@ class Imagebuilder {
   /// Parameter [logging] :
   /// The logging configuration of the infrastructure configuration.
   ///
+  /// Parameter [resourceTags] :
+  /// The tags attached to the resource created by Image Builder.
+  ///
   /// Parameter [securityGroupIds] :
   /// The security group IDs to associate with the instance used to customize
   /// your EC2 AMI.
@@ -2563,6 +3048,7 @@ class Imagebuilder {
     List<String> instanceTypes,
     String keyPair,
     Logging logging,
+    Map<String, String> resourceTags,
     List<String> securityGroupIds,
     String snsTopicArn,
     String subnetId,
@@ -2623,6 +3109,7 @@ class Imagebuilder {
       if (instanceTypes != null) 'instanceTypes': instanceTypes,
       if (keyPair != null) 'keyPair': keyPair,
       if (logging != null) 'logging': logging,
+      if (resourceTags != null) 'resourceTags': resourceTags,
       if (securityGroupIds != null) 'securityGroupIds': securityGroupIds,
       if (snsTopicArn != null) 'snsTopicArn': snsTopicArn,
       if (subnetId != null) 'subnetId': subnetId,
@@ -2646,7 +3133,12 @@ class Imagebuilder {
     createFactory: true,
     createToJson: false)
 class Ami {
-  /// The description of the EC2 AMI.
+  /// The account ID of the owner of the AMI.
+  @_s.JsonKey(name: 'accountId')
+  final String accountId;
+
+  /// The description of the EC2 AMI. Minimum and maximum length are in
+  /// characters.
   @_s.JsonKey(name: 'description')
   final String description;
 
@@ -2665,6 +3157,7 @@ class Ami {
   final ImageState state;
 
   Ami({
+    this.accountId,
     this.description,
     this.image,
     this.name,
@@ -2685,9 +3178,14 @@ class AmiDistributionConfiguration {
   @_s.JsonKey(name: 'amiTags')
   final Map<String, String> amiTags;
 
-  /// The description of the distribution configuration.
+  /// The description of the distribution configuration. Minimum and maximum
+  /// length are in characters.
   @_s.JsonKey(name: 'description')
   final String description;
+
+  /// The KMS key identifier used to encrypt the distributed image.
+  @_s.JsonKey(name: 'kmsKeyId')
+  final String kmsKeyId;
 
   /// Launch permissions can be used to configure which AWS accounts can use the
   /// AMI to launch instances.
@@ -2698,11 +3196,17 @@ class AmiDistributionConfiguration {
   @_s.JsonKey(name: 'name')
   final String name;
 
+  /// The ID of an account to which you want to distribute an image.
+  @_s.JsonKey(name: 'targetAccountIds')
+  final List<String> targetAccountIds;
+
   AmiDistributionConfiguration({
     this.amiTags,
     this.description,
+    this.kmsKeyId,
     this.launchPermission,
     this.name,
+    this.targetAccountIds,
   });
   factory AmiDistributionConfiguration.fromJson(Map<String, dynamic> json) =>
       _$AmiDistributionConfigurationFromJson(json);
@@ -2785,6 +3289,12 @@ class Component {
   @_s.JsonKey(name: 'platform')
   final Platform platform;
 
+  /// The operating system (OS) version supported by the component. If the OS
+  /// information is available, a prefix match is performed against the parent
+  /// image OS version during image recipe creation.
+  @_s.JsonKey(name: 'supportedOsVersions')
+  final List<String> supportedOsVersions;
+
   /// The tags associated with the component.
   @_s.JsonKey(name: 'tags')
   final Map<String, String> tags;
@@ -2809,6 +3319,7 @@ class Component {
     this.name,
     this.owner,
     this.platform,
+    this.supportedOsVersions,
     this.tags,
     this.type,
     this.version,
@@ -2887,6 +3398,12 @@ class ComponentSummary {
   @_s.JsonKey(name: 'platform')
   final Platform platform;
 
+  /// The operating system (OS) version supported by the component. If the OS
+  /// information is available, a prefix match is performed against the parent
+  /// image OS version during image recipe creation.
+  @_s.JsonKey(name: 'supportedOsVersions')
+  final List<String> supportedOsVersions;
+
   /// The tags associated with the component.
   @_s.JsonKey(name: 'tags')
   final Map<String, String> tags;
@@ -2908,6 +3425,7 @@ class ComponentSummary {
     this.name,
     this.owner,
     this.platform,
+    this.supportedOsVersions,
     this.tags,
     this.type,
     this.version,
@@ -2966,6 +3484,12 @@ class ComponentVersion {
   @_s.JsonKey(name: 'platform')
   final Platform platform;
 
+  /// The operating system (OS) version supported by the component. If the OS
+  /// information is available, a prefix match is performed against the parent
+  /// image OS version during image recipe creation.
+  @_s.JsonKey(name: 'supportedOsVersions')
+  final List<String> supportedOsVersions;
+
   /// The type of the component denotes whether the component is used to build the
   /// image or only to test it.
   @_s.JsonKey(name: 'type')
@@ -2982,11 +3506,241 @@ class ComponentVersion {
     this.name,
     this.owner,
     this.platform,
+    this.supportedOsVersions,
     this.type,
     this.version,
   });
   factory ComponentVersion.fromJson(Map<String, dynamic> json) =>
       _$ComponentVersionFromJson(json);
+}
+
+/// A container encapsulates the runtime environment for an application.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class Container {
+  /// A list of URIs for containers created in the context Region.
+  @_s.JsonKey(name: 'imageUris')
+  final List<String> imageUris;
+
+  /// Containers and container images are Region-specific. This is the Region
+  /// context for the container.
+  @_s.JsonKey(name: 'region')
+  final String region;
+
+  Container({
+    this.imageUris,
+    this.region,
+  });
+  factory Container.fromJson(Map<String, dynamic> json) =>
+      _$ContainerFromJson(json);
+}
+
+/// Container distribution settings for encryption, licensing, and sharing in a
+/// specific Region.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class ContainerDistributionConfiguration {
+  /// The destination repository for the container distribution configuration.
+  @_s.JsonKey(name: 'targetRepository')
+  final TargetContainerRepository targetRepository;
+
+  /// Tags that are attached to the container distribution configuration.
+  @_s.JsonKey(name: 'containerTags')
+  final List<String> containerTags;
+
+  /// The description of the container distribution configuration.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  ContainerDistributionConfiguration({
+    @_s.required this.targetRepository,
+    this.containerTags,
+    this.description,
+  });
+  factory ContainerDistributionConfiguration.fromJson(
+          Map<String, dynamic> json) =>
+      _$ContainerDistributionConfigurationFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$ContainerDistributionConfigurationToJson(this);
+}
+
+/// A container recipe.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ContainerRecipe {
+  /// The Amazon Resource Name (ARN) of the container recipe.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  /// Components for build and test that are included in the container recipe.
+  @_s.JsonKey(name: 'components')
+  final List<ComponentConfiguration> components;
+
+  /// Specifies the type of container, such as Docker.
+  @_s.JsonKey(name: 'containerType')
+  final ContainerType containerType;
+
+  /// The date when this container recipe was created.
+  @_s.JsonKey(name: 'dateCreated')
+  final String dateCreated;
+
+  /// The description of the container recipe.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// Dockerfiles are text documents that are used to build Docker containers, and
+  /// ensure that they contain all of the elements required by the application
+  /// running inside. The template data consists of contextual variables where
+  /// Image Builder places build information or scripts, based on your container
+  /// image recipe.
+  @_s.JsonKey(name: 'dockerfileTemplateData')
+  final String dockerfileTemplateData;
+
+  /// A flag that indicates if the target container is encrypted.
+  @_s.JsonKey(name: 'encrypted')
+  final bool encrypted;
+
+  /// Identifies which KMS key is used to encrypt the container image for
+  /// distribution to the target Region.
+  @_s.JsonKey(name: 'kmsKeyId')
+  final String kmsKeyId;
+
+  /// The name of the container recipe.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// The owner of the container recipe.
+  @_s.JsonKey(name: 'owner')
+  final String owner;
+
+  /// The source image for the container recipe.
+  @_s.JsonKey(name: 'parentImage')
+  final String parentImage;
+
+  /// The system platform for the container, such as Windows or Linux.
+  @_s.JsonKey(name: 'platform')
+  final Platform platform;
+
+  /// Tags that are attached to the container recipe.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  /// The destination repository for the container image.
+  @_s.JsonKey(name: 'targetRepository')
+  final TargetContainerRepository targetRepository;
+
+  /// The semantic version of the container recipe
+  /// (&lt;major&gt;.&lt;minor&gt;.&lt;patch&gt;).
+  @_s.JsonKey(name: 'version')
+  final String version;
+
+  /// The working directory for use during build and test workflows.
+  @_s.JsonKey(name: 'workingDirectory')
+  final String workingDirectory;
+
+  ContainerRecipe({
+    this.arn,
+    this.components,
+    this.containerType,
+    this.dateCreated,
+    this.description,
+    this.dockerfileTemplateData,
+    this.encrypted,
+    this.kmsKeyId,
+    this.name,
+    this.owner,
+    this.parentImage,
+    this.platform,
+    this.tags,
+    this.targetRepository,
+    this.version,
+    this.workingDirectory,
+  });
+  factory ContainerRecipe.fromJson(Map<String, dynamic> json) =>
+      _$ContainerRecipeFromJson(json);
+}
+
+/// A summary of a container recipe
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ContainerRecipeSummary {
+  /// The Amazon Resource Name (ARN) of the container recipe.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  /// Specifies the type of container, such as "Docker".
+  @_s.JsonKey(name: 'containerType')
+  final ContainerType containerType;
+
+  /// The date when this container recipe was created.
+  @_s.JsonKey(name: 'dateCreated')
+  final String dateCreated;
+
+  /// The name of the container recipe.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// The owner of the container recipe.
+  @_s.JsonKey(name: 'owner')
+  final String owner;
+
+  /// The source image for the container recipe.
+  @_s.JsonKey(name: 'parentImage')
+  final String parentImage;
+
+  /// The system platform for the container, such as Windows or Linux.
+  @_s.JsonKey(name: 'platform')
+  final Platform platform;
+
+  /// Tags that are attached to the container recipe.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  ContainerRecipeSummary({
+    this.arn,
+    this.containerType,
+    this.dateCreated,
+    this.name,
+    this.owner,
+    this.parentImage,
+    this.platform,
+    this.tags,
+  });
+  factory ContainerRecipeSummary.fromJson(Map<String, dynamic> json) =>
+      _$ContainerRecipeSummaryFromJson(json);
+}
+
+enum ContainerRepositoryService {
+  @_s.JsonValue('ECR')
+  ecr,
+}
+
+enum ContainerType {
+  @_s.JsonValue('DOCKER')
+  docker,
+}
+
+extension on ContainerType {
+  String toValue() {
+    switch (this) {
+      case ContainerType.docker:
+        return 'DOCKER';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 @_s.JsonSerializable(
@@ -3015,6 +3769,34 @@ class CreateComponentResponse {
   });
   factory CreateComponentResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateComponentResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class CreateContainerRecipeResponse {
+  /// The client token used to make this request idempotent.
+  @_s.JsonKey(name: 'clientToken')
+  final String clientToken;
+
+  /// Returns the Amazon Resource Name (ARN) of the container recipe that the
+  /// request created.
+  @_s.JsonKey(name: 'containerRecipeArn')
+  final String containerRecipeArn;
+
+  /// The request ID that uniquely identifies this request.
+  @_s.JsonKey(name: 'requestId')
+  final String requestId;
+
+  CreateContainerRecipeResponse({
+    this.clientToken,
+    this.containerRecipeArn,
+    this.requestId,
+  });
+  factory CreateContainerRecipeResponse.fromJson(Map<String, dynamic> json) =>
+      _$CreateContainerRecipeResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -3187,6 +3969,28 @@ class DeleteComponentResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class DeleteContainerRecipeResponse {
+  /// The Amazon Resource Name (ARN) of the container recipe that was deleted.
+  @_s.JsonKey(name: 'containerRecipeArn')
+  final String containerRecipeArn;
+
+  /// The request ID that uniquely identifies this request.
+  @_s.JsonKey(name: 'requestId')
+  final String requestId;
+
+  DeleteContainerRecipeResponse({
+    this.containerRecipeArn,
+    this.requestId,
+  });
+  factory DeleteContainerRecipeResponse.fromJson(Map<String, dynamic> json) =>
+      _$DeleteContainerRecipeResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class DeleteDistributionConfigurationResponse {
   /// The Amazon Resource Name (ARN) of the distribution configuration that was
   /// deleted.
@@ -3311,6 +4115,11 @@ class Distribution {
   @_s.JsonKey(name: 'amiDistributionConfiguration')
   final AmiDistributionConfiguration amiDistributionConfiguration;
 
+  /// Container distribution settings for encryption, licensing, and sharing in a
+  /// specific Region.
+  @_s.JsonKey(name: 'containerDistributionConfiguration')
+  final ContainerDistributionConfiguration containerDistributionConfiguration;
+
   /// The License Manager Configuration to associate with the AMI in the specified
   /// Region.
   @_s.JsonKey(name: 'licenseConfigurationArns')
@@ -3319,6 +4128,7 @@ class Distribution {
   Distribution({
     @_s.required this.region,
     this.amiDistributionConfiguration,
+    this.containerDistributionConfiguration,
     this.licenseConfigurationArns,
   });
   factory Distribution.fromJson(Map<String, dynamic> json) =>
@@ -3407,6 +4217,10 @@ class DistributionConfigurationSummary {
   @_s.JsonKey(name: 'name')
   final String name;
 
+  /// A list of Regions where the container image is distributed to.
+  @_s.JsonKey(name: 'regions')
+  final List<String> regions;
+
   /// The tags associated with the distribution configuration.
   @_s.JsonKey(name: 'tags')
   final Map<String, String> tags;
@@ -3417,6 +4231,7 @@ class DistributionConfigurationSummary {
     this.dateUpdated,
     this.description,
     this.name,
+    this.regions,
     this.tags,
   });
   factory DistributionConfigurationSummary.fromJson(
@@ -3481,6 +4296,8 @@ enum EbsVolumeType {
   standard,
   @_s.JsonValue('io1')
   io1,
+  @_s.JsonValue('io2')
+  io2,
   @_s.JsonValue('gp2')
   gp2,
   @_s.JsonValue('sc1')
@@ -3555,6 +4372,51 @@ class GetComponentResponse {
   });
   factory GetComponentResponse.fromJson(Map<String, dynamic> json) =>
       _$GetComponentResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class GetContainerRecipePolicyResponse {
+  /// The container recipe policy object that is returned.
+  @_s.JsonKey(name: 'policy')
+  final String policy;
+
+  /// The request ID that uniquely identifies this request.
+  @_s.JsonKey(name: 'requestId')
+  final String requestId;
+
+  GetContainerRecipePolicyResponse({
+    this.policy,
+    this.requestId,
+  });
+  factory GetContainerRecipePolicyResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetContainerRecipePolicyResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class GetContainerRecipeResponse {
+  /// The container recipe object that is returned.
+  @_s.JsonKey(name: 'containerRecipe')
+  final ContainerRecipe containerRecipe;
+
+  /// The request ID that uniquely identifies this request.
+  @_s.JsonKey(name: 'requestId')
+  final String requestId;
+
+  GetContainerRecipeResponse({
+    this.containerRecipe,
+    this.requestId,
+  });
+  factory GetContainerRecipeResponse.fromJson(Map<String, dynamic> json) =>
+      _$GetContainerRecipeResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -3725,6 +4587,10 @@ class Image {
   @_s.JsonKey(name: 'arn')
   final String arn;
 
+  /// The container recipe used to create the container image type.
+  @_s.JsonKey(name: 'containerRecipe')
+  final ContainerRecipe containerRecipe;
+
   /// The date on which this image was created.
   @_s.JsonKey(name: 'dateCreated')
   final String dateCreated;
@@ -3786,12 +4652,17 @@ class Image {
   @_s.JsonKey(name: 'tags')
   final Map<String, String> tags;
 
+  /// Specifies whether this is an AMI or container image.
+  @_s.JsonKey(name: 'type')
+  final ImageType type;
+
   /// The semantic version of the image.
   @_s.JsonKey(name: 'version')
   final String version;
 
   Image({
     this.arn,
+    this.containerRecipe,
     this.dateCreated,
     this.distributionConfiguration,
     this.enhancedImageMetadataEnabled,
@@ -3806,6 +4677,7 @@ class Image {
     this.sourcePipelineName,
     this.state,
     this.tags,
+    this.type,
     this.version,
   });
   factory Image.fromJson(Map<String, dynamic> json) => _$ImageFromJson(json);
@@ -3821,6 +4693,11 @@ class ImagePipeline {
   /// The Amazon Resource Name (ARN) of the image pipeline.
   @_s.JsonKey(name: 'arn')
   final String arn;
+
+  /// The Amazon Resource Name (ARN) of the container recipe that is used for this
+  /// pipeline.
+  @_s.JsonKey(name: 'containerRecipeArn')
+  final String containerRecipeArn;
 
   /// The date on which this image pipeline was created.
   @_s.JsonKey(name: 'dateCreated')
@@ -3890,6 +4767,7 @@ class ImagePipeline {
 
   ImagePipeline({
     this.arn,
+    this.containerRecipeArn,
     this.dateCreated,
     this.dateLastRun,
     this.dateNextRun,
@@ -3957,9 +4835,18 @@ class ImageRecipe {
   @_s.JsonKey(name: 'tags')
   final Map<String, String> tags;
 
+  /// Specifies which type of image is created by the recipe - an AMI or a
+  /// container image.
+  @_s.JsonKey(name: 'type')
+  final ImageType type;
+
   /// The version of the image recipe.
   @_s.JsonKey(name: 'version')
   final String version;
+
+  /// The working directory to be used during build and test workflows.
+  @_s.JsonKey(name: 'workingDirectory')
+  final String workingDirectory;
 
   ImageRecipe({
     this.arn,
@@ -3972,7 +4859,9 @@ class ImageRecipe {
     this.parentImage,
     this.platform,
     this.tags,
+    this.type,
     this.version,
+    this.workingDirectory,
   });
   factory ImageRecipe.fromJson(Map<String, dynamic> json) =>
       _$ImageRecipeFromJson(json);
@@ -4118,6 +5007,10 @@ class ImageSummary {
   @_s.JsonKey(name: 'tags')
   final Map<String, String> tags;
 
+  /// Specifies whether this is an AMI or container image.
+  @_s.JsonKey(name: 'type')
+  final ImageType type;
+
   /// The version of the image.
   @_s.JsonKey(name: 'version')
   final String version;
@@ -4132,6 +5025,7 @@ class ImageSummary {
     this.platform,
     this.state,
     this.tags,
+    this.type,
     this.version,
   });
   factory ImageSummary.fromJson(Map<String, dynamic> json) =>
@@ -4161,6 +5055,13 @@ class ImageTestsConfiguration {
       _$ImageTestsConfigurationFromJson(json);
 
   Map<String, dynamic> toJson() => _$ImageTestsConfigurationToJson(this);
+}
+
+enum ImageType {
+  @_s.JsonValue('AMI')
+  ami,
+  @_s.JsonValue('DOCKER')
+  docker,
 }
 
 /// An image semantic version.
@@ -4195,6 +5096,10 @@ class ImageVersion {
   @_s.JsonKey(name: 'platform')
   final Platform platform;
 
+  /// Specifies whether this is an AMI or container image.
+  @_s.JsonKey(name: 'type')
+  final ImageType type;
+
   /// The semantic version of the image semantic version.
   @_s.JsonKey(name: 'version')
   final String version;
@@ -4206,6 +5111,7 @@ class ImageVersion {
     this.osVersion,
     this.owner,
     this.platform,
+    this.type,
     this.version,
   });
   factory ImageVersion.fromJson(Map<String, dynamic> json) =>
@@ -4282,6 +5188,10 @@ class InfrastructureConfiguration {
   @_s.JsonKey(name: 'name')
   final String name;
 
+  /// The tags attached to the resource created by Image Builder.
+  @_s.JsonKey(name: 'resourceTags')
+  final Map<String, String> resourceTags;
+
   /// The security group IDs of the infrastructure configuration.
   @_s.JsonKey(name: 'securityGroupIds')
   final List<String> securityGroupIds;
@@ -4314,6 +5224,7 @@ class InfrastructureConfiguration {
     this.keyPair,
     this.logging,
     this.name,
+    this.resourceTags,
     this.securityGroupIds,
     this.snsTopicArn,
     this.subnetId,
@@ -4351,6 +5262,10 @@ class InfrastructureConfigurationSummary {
   @_s.JsonKey(name: 'name')
   final String name;
 
+  /// The tags attached to the image created by Image Builder.
+  @_s.JsonKey(name: 'resourceTags')
+  final Map<String, String> resourceTags;
+
   /// The tags of the infrastructure configuration.
   @_s.JsonKey(name: 'tags')
   final Map<String, String> tags;
@@ -4361,6 +5276,7 @@ class InfrastructureConfigurationSummary {
     this.dateUpdated,
     this.description,
     this.name,
+    this.resourceTags,
     this.tags,
   });
   factory InfrastructureConfigurationSummary.fromJson(
@@ -4407,7 +5323,11 @@ class InstanceBlockDeviceMapping {
 /// modification request is sent to the <a
 /// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ModifyImageAttribute.html">EC2
 /// ModifyImageAttribute</a> API on behalf of the user for each Region they have
-/// selected to distribute the AMI.
+/// selected to distribute the AMI. To make an AMI public, set the launch
+/// permission authorized accounts to <code>all</code>. See the examples for
+/// making an AMI public at <a
+/// href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_ModifyImageAttribute.html">EC2
+/// ModifyImageAttribute</a>.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -4489,6 +5409,36 @@ class ListComponentsResponse {
   });
   factory ListComponentsResponse.fromJson(Map<String, dynamic> json) =>
       _$ListComponentsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListContainerRecipesResponse {
+  /// The list of container recipes returned for the request.
+  @_s.JsonKey(name: 'containerRecipeSummaryList')
+  final List<ContainerRecipeSummary> containerRecipeSummaryList;
+
+  /// The next token field is used for paginated responses. When this is not
+  /// empty, there are additional container recipes that the service has not
+  /// included in this response. Use this token with the next request to retrieve
+  /// additional list items.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// The request ID that uniquely identifies this request.
+  @_s.JsonKey(name: 'requestId')
+  final String requestId;
+
+  ListContainerRecipesResponse({
+    this.containerRecipeSummaryList,
+    this.nextToken,
+    this.requestId,
+  });
+  factory ListContainerRecipesResponse.fromJson(Map<String, dynamic> json) =>
+      _$ListContainerRecipesResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -4746,8 +5696,14 @@ class OutputResources {
   @_s.JsonKey(name: 'amis')
   final List<Ami> amis;
 
+  /// Container images that the pipeline has generated and stored in the output
+  /// repository.
+  @_s.JsonKey(name: 'containers')
+  final List<Container> containers;
+
   OutputResources({
     this.amis,
+    this.containers,
   });
   factory OutputResources.fromJson(Map<String, dynamic> json) =>
       _$OutputResourcesFromJson(json);
@@ -4849,6 +5805,30 @@ class PutComponentPolicyResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class PutContainerRecipePolicyResponse {
+  /// The Amazon Resource Name (ARN) of the container recipe that this policy was
+  /// applied to.
+  @_s.JsonKey(name: 'containerRecipeArn')
+  final String containerRecipeArn;
+
+  /// The request ID that uniquely identifies this request.
+  @_s.JsonKey(name: 'requestId')
+  final String requestId;
+
+  PutContainerRecipePolicyResponse({
+    this.containerRecipeArn,
+    this.requestId,
+  });
+  factory PutContainerRecipePolicyResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$PutContainerRecipePolicyResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class PutImagePolicyResponse {
   /// The Amazon Resource Name (ARN) of the image that this policy was applied to.
   @_s.JsonKey(name: 'imageArn')
@@ -4923,15 +5903,24 @@ class S3Logs {
 class Schedule {
   /// The condition configures when the pipeline should trigger a new image build.
   /// When the <code>pipelineExecutionStartCondition</code> is set to
-  /// <code>EXPRESSION_MATCH_AND_DEPENDENCY_UPDATES_AVAILABLE</code>, EC2 Image
-  /// Builder will build a new image only when there are known changes pending.
-  /// When it is set to <code>EXPRESSION_MATCH_ONLY</code>, it will build a new
-  /// image every time the CRON expression matches the current time.
+  /// <code>EXPRESSION_MATCH_AND_DEPENDENCY_UPDATES_AVAILABLE</code>, and you use
+  /// semantic version filters on the source image or components in your image
+  /// recipe, EC2 Image Builder will build a new image only when there are new
+  /// versions of the image or components in your recipe that match the semantic
+  /// version filter. When it is set to <code>EXPRESSION_MATCH_ONLY</code>, it
+  /// will build a new image every time the CRON expression matches the current
+  /// time. For semantic version syntax, see <a
+  /// href="https://docs.aws.amazon.com/imagebuilder/latest/APIReference/API_CreateComponent.html">CreateComponent</a>
+  /// in the <i> EC2 Image Builder API Reference</i>.
   @_s.JsonKey(name: 'pipelineExecutionStartCondition')
   final PipelineExecutionStartCondition pipelineExecutionStartCondition;
 
-  /// The expression determines how often EC2 Image Builder evaluates your
+  /// The cron expression determines how often EC2 Image Builder evaluates your
   /// <code>pipelineExecutionStartCondition</code>.
+  ///
+  /// For information on how to format a cron expression in Image Builder, see <a
+  /// href="https://docs.aws.amazon.com/imagebuilder/latest/userguide/image-builder-cron.html">Use
+  /// cron expressions in EC2 Image Builder</a>.
   @_s.JsonKey(name: 'scheduleExpression')
   final String scheduleExpression;
 
@@ -4983,6 +5972,32 @@ class TagResourceResponse {
   TagResourceResponse();
   factory TagResourceResponse.fromJson(Map<String, dynamic> json) =>
       _$TagResourceResponseFromJson(json);
+}
+
+/// The container repository where the output container image is stored.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class TargetContainerRepository {
+  /// The name of the container repository where the output container image is
+  /// stored. This name is prefixed by the repository location.
+  @_s.JsonKey(name: 'repositoryName')
+  final String repositoryName;
+
+  /// Specifies the service in which this image was registered.
+  @_s.JsonKey(name: 'service')
+  final ContainerRepositoryService service;
+
+  TargetContainerRepository({
+    @_s.required this.repositoryName,
+    @_s.required this.service,
+  });
+  factory TargetContainerRepository.fromJson(Map<String, dynamic> json) =>
+      _$TargetContainerRepositoryFromJson(json);
+
+  Map<String, dynamic> toJson() => _$TargetContainerRepositoryToJson(this);
 }
 
 @_s.JsonSerializable(
@@ -5179,6 +6194,14 @@ class ServiceException extends _s.GenericAwsException {
       : super(type: type, code: 'ServiceException', message: message);
 }
 
+class ServiceQuotaExceededException extends _s.GenericAwsException {
+  ServiceQuotaExceededException({String type, String message})
+      : super(
+            type: type,
+            code: 'ServiceQuotaExceededException',
+            message: message);
+}
+
 class ServiceUnavailableException extends _s.GenericAwsException {
   ServiceUnavailableException({String type, String message})
       : super(
@@ -5216,6 +6239,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       ResourceNotFoundException(type: type, message: message),
   'ServiceException': (type, message) =>
       ServiceException(type: type, message: message),
+  'ServiceQuotaExceededException': (type, message) =>
+      ServiceQuotaExceededException(type: type, message: message),
   'ServiceUnavailableException': (type, message) =>
       ServiceUnavailableException(type: type, message: message),
 };

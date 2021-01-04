@@ -46,6 +46,106 @@ class FSx {
           endpointUrl: endpointUrl,
         );
 
+  /// Use this action to associate one or more Domain Name Server (DNS) aliases
+  /// with an existing Amazon FSx for Windows File Server file system. A file
+  /// systen can have a maximum of 50 DNS aliases associated with it at any one
+  /// time. If you try to associate a DNS alias that is already associated with
+  /// the file system, FSx takes no action on that alias in the request. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/WindowsGuide/managing-dns-aliases.html">Working
+  /// with DNS Aliases</a> and <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/WindowsGuide/walkthrough05-file-system-custom-CNAME.html">Walkthrough
+  /// 5: Using DNS aliases to access your file system</a>, including additional
+  /// steps you must take to be able to access your file system using a DNS
+  /// alias.
+  ///
+  /// The system response shows the DNS aliases that Amazon FSx is attempting to
+  /// associate with the file system. Use the API operation to monitor the
+  /// status of the aliases Amazon FSx is associating with the file system.
+  ///
+  /// May throw [BadRequest].
+  /// May throw [FileSystemNotFound].
+  /// May throw [InternalServerError].
+  ///
+  /// Parameter [aliases] :
+  /// An array of one or more DNS alias names to associate with the file system.
+  /// The alias name has to comply with the following formatting requirements:
+  ///
+  /// <ul>
+  /// <li>
+  /// Formatted as a fully-qualified domain name (FQDN), <i>
+  /// <code>hostname.domain</code> </i>, for example,
+  /// <code>accounting.corp.example.com</code>.
+  /// </li>
+  /// <li>
+  /// Can contain alphanumeric characters and the hyphen (-).
+  /// </li>
+  /// <li>
+  /// Cannot start or end with a hyphen.
+  /// </li>
+  /// <li>
+  /// Can start with a numeric.
+  /// </li>
+  /// </ul>
+  /// For DNS alias names, Amazon FSx stores alphabetic characters as lowercase
+  /// letters (a-z), regardless of how you specify them: as uppercase letters,
+  /// lowercase letters, or the corresponding letters in escape codes.
+  ///
+  /// Parameter [fileSystemId] :
+  /// Specifies the file system with which you want to associate one or more DNS
+  /// aliases.
+  Future<AssociateFileSystemAliasesResponse> associateFileSystemAliases({
+    @_s.required List<String> aliases,
+    @_s.required String fileSystemId,
+    String clientRequestToken,
+  }) async {
+    ArgumentError.checkNotNull(aliases, 'aliases');
+    ArgumentError.checkNotNull(fileSystemId, 'fileSystemId');
+    _s.validateStringLength(
+      'fileSystemId',
+      fileSystemId,
+      11,
+      21,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'fileSystemId',
+      fileSystemId,
+      r'''^(fs-[0-9a-f]{8,})$''',
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'clientRequestToken',
+      clientRequestToken,
+      1,
+      63,
+    );
+    _s.validateStringPattern(
+      'clientRequestToken',
+      clientRequestToken,
+      r'''[A-za-z0-9_.-]{0,63}$''',
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSSimbaAPIService_v20180301.AssociateFileSystemAliases'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Aliases': aliases,
+        'FileSystemId': fileSystemId,
+        'ClientRequestToken':
+            clientRequestToken ?? _s.generateIdempotencyToken(),
+      },
+    );
+
+    return AssociateFileSystemAliasesResponse.fromJson(jsonResponse.body);
+  }
+
   /// Cancels an existing Amazon FSx for Lustre data repository task if that
   /// task is in either the <code>PENDING</code> or <code>EXECUTING</code>
   /// state. When you cancel a task, Amazon FSx does the following.
@@ -106,11 +206,31 @@ class FSx {
     return CancelDataRepositoryTaskResponse.fromJson(jsonResponse.body);
   }
 
-  /// Creates a backup of an existing Amazon FSx for Windows File Server file
-  /// system. Creating regular backups for your file system is a best practice
-  /// that complements the replication that Amazon FSx for Windows File Server
-  /// performs for your file system. It also enables you to restore from user
-  /// modification of data.
+  /// Creates a backup of an existing Amazon FSx file system. Creating regular
+  /// backups for your file system is a best practice, enabling you to restore a
+  /// file system from a backup if an issue arises with the original file
+  /// system.
+  ///
+  /// For Amazon FSx for Lustre file systems, you can create a backup only for
+  /// file systems with the following configuration:
+  ///
+  /// <ul>
+  /// <li>
+  /// a Persistent deployment type
+  /// </li>
+  /// <li>
+  /// is <i>not</i> linked to a data respository.
+  /// </li>
+  /// </ul>
+  /// For more information about backing up Amazon FSx for Lustre file systems,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/LustreGuide/using-backups-fsx.html">Working
+  /// with FSx for Lustre backups</a>.
+  ///
+  /// For more information about backing up Amazon FSx for Windows file systems,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/WindowsGuide/using-backups.html">Working
+  /// with FSx for Windows backups</a>.
   ///
   /// If a backup with the specified client request token exists, and the
   /// parameters match, this operation returns the description of the existing
@@ -136,11 +256,10 @@ class FSx {
   /// client request token and the initial call created a backup, the operation
   /// returns a successful result because all the parameters are the same.
   ///
-  /// The <code>CreateFileSystem</code> operation returns while the backup's
-  /// lifecycle state is still <code>CREATING</code>. You can check the file
-  /// system creation status by calling the <a>DescribeBackups</a> operation,
-  /// which returns the backup state along with other information.
-  /// <note> <p/> </note>
+  /// The <code>CreateBackup</code> operation returns while the backup's
+  /// lifecycle state is still <code>CREATING</code>. You can check the backup
+  /// creation status by calling the <a>DescribeBackups</a> operation, which
+  /// returns the backup state along with other information.
   ///
   /// May throw [BadRequest].
   /// May throw [UnsupportedOperation].
@@ -160,8 +279,11 @@ class FSx {
   /// SDK.
   ///
   /// Parameter [tags] :
-  /// The tags to apply to the backup at backup creation. The key value of the
-  /// <code>Name</code> tag appears in the console as the backup name.
+  /// (Optional) The tags to apply to the backup at backup creation. The key
+  /// value of the <code>Name</code> tag appears in the console as the backup
+  /// name. If you have set <code>CopyTagsToBackups</code> to true, and you
+  /// specify one or more tags using the <code>CreateBackup</code> action, no
+  /// existing file system tags are copied from the file system to the backup.
   Future<CreateBackupResponse> createBackup({
     @_s.required String fileSystemId,
     String clientRequestToken,
@@ -222,11 +344,11 @@ class FSx {
   /// <code>CreateDataRepositoryTask</code> operation will fail if a data
   /// repository is not linked to the FSx file system. To learn more about data
   /// repository tasks, see <a
-  /// href="https://docs.aws.amazon.com/fsx/latest/LustreGuide/data-repository-tasks.html">Using
-  /// Data Repository Tasks</a>. To learn more about linking a data repository
-  /// to your file system, see <a
-  /// href="https://docs.aws.amazon.com/fsx/latest/LustreGuide/export-data-repository.html#export-prefix">Setting
-  /// the Export Prefix</a>.
+  /// href="https://docs.aws.amazon.com/fsx/latest/LustreGuide/data-repository-tasks.html">Data
+  /// Repository Tasks</a>. To learn more about linking a data repository to
+  /// your file system, see <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/LustreGuide/create-fs-linked-data-repo.html">Linking
+  /// your file system to an S3 bucket</a>.
   ///
   /// May throw [BadRequest].
   /// May throw [UnsupportedOperation].
@@ -374,12 +496,17 @@ class FSx {
   ///
   /// <ul>
   /// <li>
-  /// For <code>SCRATCH_2</code> and <code>PERSISTENT_1</code> deployment types,
-  /// valid values are 1.2, 2.4, and increments of 2.4 TiB.
+  /// For <code>SCRATCH_2</code> and <code>PERSISTENT_1 SSD</code> deployment
+  /// types, valid values are 1200 GiB, 2400 GiB, and increments of 2400 GiB.
   /// </li>
   /// <li>
-  /// For <code>SCRATCH_1</code> deployment type, valid values are 1.2, 2.4, and
-  /// increments of 3.6 TiB.
+  /// For <code>PERSISTENT HDD</code> file systems, valid values are increments
+  /// of 6000 GiB for 12 MB/s/TiB file systems and increments of 1800 GiB for 40
+  /// MB/s/TiB file systems.
+  /// </li>
+  /// <li>
+  /// For <code>SCRATCH_1</code> deployment type, valid values are 1200 GiB,
+  /// 2400 GiB, and increments of 3600 GiB.
   /// </li>
   /// </ul>
   /// For Windows file systems:
@@ -408,10 +535,9 @@ class FSx {
   /// subnet ID. The file server is launched in that subnet's Availability Zone.
   ///
   /// Parameter [clientRequestToken] :
-  /// (Optional) A string of up to 64 ASCII characters that Amazon FSx uses to
-  /// ensure idempotent creation. This string is automatically filled on your
-  /// behalf when you use the AWS Command Line Interface (AWS CLI) or an AWS
-  /// SDK.
+  /// A string of up to 64 ASCII characters that Amazon FSx uses to ensure
+  /// idempotent creation. This string is automatically filled on your behalf
+  /// when you use the AWS Command Line Interface (AWS CLI) or an AWS SDK.
   ///
   /// Parameter [securityGroupIds] :
   /// A list of IDs specifying the security groups to apply to all network
@@ -419,23 +545,27 @@ class FSx {
   /// later requests to describe the file system.
   ///
   /// Parameter [storageType] :
-  /// Sets the storage type for the Amazon FSx for Windows file system you're
-  /// creating. Valid values are <code>SSD</code> and <code>HDD</code>.
+  /// Sets the storage type for the file system you're creating. Valid values
+  /// are <code>SSD</code> and <code>HDD</code>.
   ///
   /// <ul>
   /// <li>
   /// Set to <code>SSD</code> to use solid state drive storage. SSD is supported
-  /// on all Windows deployment types.
+  /// on all Windows and Lustre deployment types.
   /// </li>
   /// <li>
   /// Set to <code>HDD</code> to use hard disk drive storage. HDD is supported
   /// on <code>SINGLE_AZ_2</code> and <code>MULTI_AZ_1</code> Windows file
-  /// system deployment types.
+  /// system deployment types, and on <code>PERSISTENT</code> Lustre file system
+  /// deployment types.
   /// </li>
   /// </ul>
   /// Default value is <code>SSD</code>. For more information, see <a
-  /// href="https://docs.aws.amazon.com/fsx/latest/WindowsGuide/optimize-fsx-tco.html#saz-maz-storage-type">
-  /// Storage Type Options</a> in the <i>Amazon FSx for Windows User Guide</i>.
+  /// href="https://docs.aws.amazon.com/fsx/latest/WindowsGuide/optimize-fsx-costs.html#storage-type-options">
+  /// Storage Type Options</a> in the <i>Amazon FSx for Windows User Guide</i>
+  /// and <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/LustreGuide/what-is.html#storage-options">Multiple
+  /// Storage Options</a> in the <i>Amazon FSx for Lustre User Guide</i>.
   ///
   /// Parameter [tags] :
   /// The tags to apply to the file system being created. The key value of the
@@ -461,7 +591,7 @@ class FSx {
       'storageCapacity',
       storageCapacity,
       0,
-      1152921504606846976,
+      2147483647,
       isRequired: true,
     );
     ArgumentError.checkNotNull(subnetIds, 'subnetIds');
@@ -517,8 +647,7 @@ class FSx {
     return CreateFileSystemResponse.fromJson(jsonResponse.body);
   }
 
-  /// Creates a new Amazon FSx file system from an existing Amazon FSx for
-  /// Windows File Server backup.
+  /// Creates a new Amazon FSx file system from an existing Amazon FSx backup.
   ///
   /// If a file system with the specified client request token exists and the
   /// parameters match, this operation returns the description of the file
@@ -561,6 +690,7 @@ class FSx {
   /// May throw [ActiveDirectoryError].
   /// May throw [IncompatibleParameterError].
   /// May throw [InvalidNetworkSettings].
+  /// May throw [InvalidPerUnitStorageThroughput].
   /// May throw [ServiceLimitExceeded].
   /// May throw [BackupNotFound].
   /// May throw [InternalServerError].
@@ -579,10 +709,9 @@ class FSx {
   /// The file server is launched in that subnet's Availability Zone.
   ///
   /// Parameter [clientRequestToken] :
-  /// (Optional) A string of up to 64 ASCII characters that Amazon FSx uses to
-  /// ensure idempotent creation. This string is automatically filled on your
-  /// behalf when you use the AWS Command Line Interface (AWS CLI) or an AWS
-  /// SDK.
+  /// A string of up to 64 ASCII characters that Amazon FSx uses to ensure
+  /// idempotent creation. This string is automatically filled on your behalf
+  /// when you use the AWS Command Line Interface (AWS CLI) or an AWS SDK.
   ///
   /// Parameter [securityGroupIds] :
   /// A list of IDs for the security groups that apply to the specified network
@@ -625,6 +754,7 @@ class FSx {
     @_s.required String backupId,
     @_s.required List<String> subnetIds,
     String clientRequestToken,
+    CreateFileSystemLustreConfiguration lustreConfiguration,
     List<String> securityGroupIds,
     StorageType storageType,
     List<Tag> tags,
@@ -671,6 +801,8 @@ class FSx {
         'SubnetIds': subnetIds,
         'ClientRequestToken':
             clientRequestToken ?? _s.generateIdempotencyToken(),
+        if (lustreConfiguration != null)
+          'LustreConfiguration': lustreConfiguration,
         if (securityGroupIds != null) 'SecurityGroupIds': securityGroupIds,
         if (storageType != null) 'StorageType': storageType.toValue(),
         if (tags != null) 'Tags': tags,
@@ -682,9 +814,8 @@ class FSx {
     return CreateFileSystemFromBackupResponse.fromJson(jsonResponse.body);
   }
 
-  /// Deletes an Amazon FSx for Windows File Server backup, deleting its
-  /// contents. After deletion, the backup no longer exists, and its data is
-  /// gone.
+  /// Deletes an Amazon FSx backup, deleting its contents. After deletion, the
+  /// backup no longer exists, and its data is gone.
   ///
   /// The <code>DeleteBackup</code> call returns instantly. The backup will not
   /// show up in later <code>DescribeBackups</code> calls.
@@ -704,9 +835,9 @@ class FSx {
   /// The ID of the backup you want to delete.
   ///
   /// Parameter [clientRequestToken] :
-  /// (Optional) A string of up to 64 ASCII characters that Amazon FSx uses to
-  /// ensure idempotent deletion. This is automatically filled on your behalf
-  /// when using the AWS CLI or SDK.
+  /// A string of up to 64 ASCII characters that Amazon FSx uses to ensure
+  /// idempotent deletion. This is automatically filled on your behalf when
+  /// using the AWS CLI or SDK.
   Future<DeleteBackupResponse> deleteBackup({
     @_s.required String backupId,
     String clientRequestToken,
@@ -790,12 +921,13 @@ class FSx {
   /// The ID of the file system you want to delete.
   ///
   /// Parameter [clientRequestToken] :
-  /// (Optional) A string of up to 64 ASCII characters that Amazon FSx uses to
-  /// ensure idempotent deletion. This is automatically filled on your behalf
-  /// when using the AWS CLI or SDK.
+  /// A string of up to 64 ASCII characters that Amazon FSx uses to ensure
+  /// idempotent deletion. This is automatically filled on your behalf when
+  /// using the AWS CLI or SDK.
   Future<DeleteFileSystemResponse> deleteFileSystem({
     @_s.required String fileSystemId,
     String clientRequestToken,
+    DeleteFileSystemLustreConfiguration lustreConfiguration,
     DeleteFileSystemWindowsConfiguration windowsConfiguration,
   }) async {
     ArgumentError.checkNotNull(fileSystemId, 'fileSystemId');
@@ -837,6 +969,8 @@ class FSx {
         'FileSystemId': fileSystemId,
         'ClientRequestToken':
             clientRequestToken ?? _s.generateIdempotencyToken(),
+        if (lustreConfiguration != null)
+          'LustreConfiguration': lustreConfiguration,
         if (windowsConfiguration != null)
           'WindowsConfiguration': windowsConfiguration,
       },
@@ -845,10 +979,10 @@ class FSx {
     return DeleteFileSystemResponse.fromJson(jsonResponse.body);
   }
 
-  /// Returns the description of specific Amazon FSx for Windows File Server
-  /// backups, if a <code>BackupIds</code> value is provided for that backup.
-  /// Otherwise, it returns all backups owned by your AWS account in the AWS
-  /// Region of the endpoint that you're calling.
+  /// Returns the description of specific Amazon FSx backups, if a
+  /// <code>BackupIds</code> value is provided for that backup. Otherwise, it
+  /// returns all backups owned by your AWS account in the AWS Region of the
+  /// endpoint that you're calling.
   ///
   /// When retrieving all backups, you can optionally specify the
   /// <code>MaxResults</code> parameter to limit the number of backups in a
@@ -884,23 +1018,21 @@ class FSx {
   /// May throw [InternalServerError].
   ///
   /// Parameter [backupIds] :
-  /// (Optional) IDs of the backups you want to retrieve (String). This
-  /// overrides any filters. If any IDs are not found, BackupNotFound will be
-  /// thrown.
+  /// IDs of the backups you want to retrieve (String). This overrides any
+  /// filters. If any IDs are not found, BackupNotFound will be thrown.
   ///
   /// Parameter [filters] :
-  /// (Optional) Filters structure. Supported names are file-system-id and
-  /// backup-type.
+  /// Filters structure. Supported names are file-system-id and backup-type.
   ///
   /// Parameter [maxResults] :
-  /// (Optional) Maximum number of backups to return in the response (integer).
-  /// This parameter value must be greater than 0. The number of items that
-  /// Amazon FSx returns is the minimum of the <code>MaxResults</code> parameter
+  /// Maximum number of backups to return in the response (integer). This
+  /// parameter value must be greater than 0. The number of items that Amazon
+  /// FSx returns is the minimum of the <code>MaxResults</code> parameter
   /// specified in the request and the service's internal maximum number of
   /// items per page.
   ///
   /// Parameter [nextToken] :
-  /// (Optional) Opaque pagination token returned from a previous
+  /// Opaque pagination token returned from a previous
   /// <code>DescribeBackups</code> operation (String). If a token present, the
   /// action continues the list from where the returning call left off.
   Future<DescribeBackupsResponse> describeBackups({
@@ -913,7 +1045,7 @@ class FSx {
       'maxResults',
       maxResults,
       1,
-      1152921504606846976,
+      2147483647,
     );
     _s.validateStringLength(
       'nextToken',
@@ -985,7 +1117,7 @@ class FSx {
       'maxResults',
       maxResults,
       1,
-      1152921504606846976,
+      2147483647,
     );
     _s.validateStringLength(
       'nextToken',
@@ -1017,6 +1149,102 @@ class FSx {
     );
 
     return DescribeDataRepositoryTasksResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Returns the DNS aliases that are associated with the specified Amazon FSx
+  /// for Windows File Server file system. A history of all DNS aliases that
+  /// have been associated with and disassociated from the file system is
+  /// available in the list of <a>AdministrativeAction</a> provided in the
+  /// <a>DescribeFileSystems</a> operation response.
+  ///
+  /// May throw [BadRequest].
+  /// May throw [FileSystemNotFound].
+  /// May throw [InternalServerError].
+  ///
+  /// Parameter [fileSystemId] :
+  /// The ID of the file system to return the associated DNS aliases for
+  /// (String).
+  ///
+  /// Parameter [maxResults] :
+  /// Maximum number of DNS aliases to return in the response (integer). This
+  /// parameter value must be greater than 0. The number of items that Amazon
+  /// FSx returns is the minimum of the <code>MaxResults</code> parameter
+  /// specified in the request and the service's internal maximum number of
+  /// items per page.
+  ///
+  /// Parameter [nextToken] :
+  /// Opaque pagination token returned from a previous
+  /// <code>DescribeFileSystemAliases</code> operation (String). If a token is
+  /// included in the request, the action continues the list from where the
+  /// previous returning call left off.
+  Future<DescribeFileSystemAliasesResponse> describeFileSystemAliases({
+    @_s.required String fileSystemId,
+    String clientRequestToken,
+    int maxResults,
+    String nextToken,
+  }) async {
+    ArgumentError.checkNotNull(fileSystemId, 'fileSystemId');
+    _s.validateStringLength(
+      'fileSystemId',
+      fileSystemId,
+      11,
+      21,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'fileSystemId',
+      fileSystemId,
+      r'''^(fs-[0-9a-f]{8,})$''',
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'clientRequestToken',
+      clientRequestToken,
+      1,
+      63,
+    );
+    _s.validateStringPattern(
+      'clientRequestToken',
+      clientRequestToken,
+      r'''[A-za-z0-9_.-]{0,63}$''',
+    );
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      2147483647,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      255,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=)?$''',
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSSimbaAPIService_v20180301.DescribeFileSystemAliases'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'FileSystemId': fileSystemId,
+        'ClientRequestToken':
+            clientRequestToken ?? _s.generateIdempotencyToken(),
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return DescribeFileSystemAliasesResponse.fromJson(jsonResponse.body);
   }
 
   /// Returns the description of specific Amazon FSx file systems, if a
@@ -1057,18 +1285,17 @@ class FSx {
   /// May throw [InternalServerError].
   ///
   /// Parameter [fileSystemIds] :
-  /// (Optional) IDs of the file systems whose descriptions you want to retrieve
-  /// (String).
+  /// IDs of the file systems whose descriptions you want to retrieve (String).
   ///
   /// Parameter [maxResults] :
-  /// (Optional) Maximum number of file systems to return in the response
-  /// (integer). This parameter value must be greater than 0. The number of
-  /// items that Amazon FSx returns is the minimum of the
-  /// <code>MaxResults</code> parameter specified in the request and the
-  /// service's internal maximum number of items per page.
+  /// Maximum number of file systems to return in the response (integer). This
+  /// parameter value must be greater than 0. The number of items that Amazon
+  /// FSx returns is the minimum of the <code>MaxResults</code> parameter
+  /// specified in the request and the service's internal maximum number of
+  /// items per page.
   ///
   /// Parameter [nextToken] :
-  /// (Optional) Opaque pagination token returned from a previous
+  /// Opaque pagination token returned from a previous
   /// <code>DescribeFileSystems</code> operation (String). If a token present,
   /// the action continues the list from where the returning call left off.
   Future<DescribeFileSystemsResponse> describeFileSystems({
@@ -1080,7 +1307,7 @@ class FSx {
       'maxResults',
       maxResults,
       1,
-      1152921504606846976,
+      2147483647,
     );
     _s.validateStringLength(
       'nextToken',
@@ -1111,6 +1338,82 @@ class FSx {
     );
 
     return DescribeFileSystemsResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Use this action to disassociate, or remove, one or more Domain Name
+  /// Service (DNS) aliases from an Amazon FSx for Windows File Server file
+  /// system. If you attempt to disassociate a DNS alias that is not associated
+  /// with the file system, Amazon FSx responds with a 400 Bad Request. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/WindowsGuide/managing-dns-aliases.html">Working
+  /// with DNS Aliases</a>.
+  ///
+  /// The system generated response showing the DNS aliases that Amazon FSx is
+  /// attempting to disassociate from the file system. Use the API operation to
+  /// monitor the status of the aliases Amazon FSx is disassociating with the
+  /// file system.
+  ///
+  /// May throw [BadRequest].
+  /// May throw [FileSystemNotFound].
+  /// May throw [InternalServerError].
+  ///
+  /// Parameter [aliases] :
+  /// An array of one or more DNS alias names to disassociate, or remove, from
+  /// the file system.
+  ///
+  /// Parameter [fileSystemId] :
+  /// Specifies the file system from which to disassociate the DNS aliases.
+  Future<DisassociateFileSystemAliasesResponse> disassociateFileSystemAliases({
+    @_s.required List<String> aliases,
+    @_s.required String fileSystemId,
+    String clientRequestToken,
+  }) async {
+    ArgumentError.checkNotNull(aliases, 'aliases');
+    ArgumentError.checkNotNull(fileSystemId, 'fileSystemId');
+    _s.validateStringLength(
+      'fileSystemId',
+      fileSystemId,
+      11,
+      21,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'fileSystemId',
+      fileSystemId,
+      r'''^(fs-[0-9a-f]{8,})$''',
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'clientRequestToken',
+      clientRequestToken,
+      1,
+      63,
+    );
+    _s.validateStringPattern(
+      'clientRequestToken',
+      clientRequestToken,
+      r'''[A-za-z0-9_.-]{0,63}$''',
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'AWSSimbaAPIService_v20180301.DisassociateFileSystemAliases'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Aliases': aliases,
+        'FileSystemId': fileSystemId,
+        'ClientRequestToken':
+            clientRequestToken ?? _s.generateIdempotencyToken(),
+      },
+    );
+
+    return DisassociateFileSystemAliasesResponse.fromJson(jsonResponse.body);
   }
 
   /// Lists tags for an Amazon FSx file systems and backups in the case of
@@ -1154,14 +1457,13 @@ class FSx {
   /// The ARN of the Amazon FSx resource that will have its tags listed.
   ///
   /// Parameter [maxResults] :
-  /// (Optional) Maximum number of tags to return in the response (integer).
-  /// This parameter value must be greater than 0. The number of items that
-  /// Amazon FSx returns is the minimum of the <code>MaxResults</code> parameter
-  /// specified in the request and the service's internal maximum number of
-  /// items per page.
+  /// Maximum number of tags to return in the response (integer). This parameter
+  /// value must be greater than 0. The number of items that Amazon FSx returns
+  /// is the minimum of the <code>MaxResults</code> parameter specified in the
+  /// request and the service's internal maximum number of items per page.
   ///
   /// Parameter [nextToken] :
-  /// (Optional) Opaque pagination token returned from a previous
+  /// Opaque pagination token returned from a previous
   /// <code>ListTagsForResource</code> operation (String). If a token present,
   /// the action continues the list from where the returning call left off.
   Future<ListTagsForResourceResponse> listTagsForResource({
@@ -1187,7 +1489,7 @@ class FSx {
       'maxResults',
       maxResults,
       1,
-      1152921504606846976,
+      2147483647,
     );
     _s.validateStringLength(
       'nextToken',
@@ -1325,7 +1627,52 @@ class FSx {
     return UntagResourceResponse.fromJson(jsonResponse.body);
   }
 
-  /// Updates a file system configuration.
+  /// Use this operation to update the configuration of an existing Amazon FSx
+  /// file system. You can update multiple properties in a single request.
+  ///
+  /// For Amazon FSx for Windows File Server file systems, you can update the
+  /// following properties:
+  ///
+  /// <ul>
+  /// <li>
+  /// AutomaticBackupRetentionDays
+  /// </li>
+  /// <li>
+  /// DailyAutomaticBackupStartTime
+  /// </li>
+  /// <li>
+  /// SelfManagedActiveDirectoryConfiguration
+  /// </li>
+  /// <li>
+  /// StorageCapacity
+  /// </li>
+  /// <li>
+  /// ThroughputCapacity
+  /// </li>
+  /// <li>
+  /// WeeklyMaintenanceStartTime
+  /// </li>
+  /// </ul>
+  /// For Amazon FSx for Lustre file systems, you can update the following
+  /// properties:
+  ///
+  /// <ul>
+  /// <li>
+  /// AutoImportPolicy
+  /// </li>
+  /// <li>
+  /// AutomaticBackupRetentionDays
+  /// </li>
+  /// <li>
+  /// DailyAutomaticBackupStartTime
+  /// </li>
+  /// <li>
+  /// StorageCapacity
+  /// </li>
+  /// <li>
+  /// WeeklyMaintenanceStartTime
+  /// </li>
+  /// </ul>
   ///
   /// May throw [BadRequest].
   /// May throw [UnsupportedOperation].
@@ -1333,21 +1680,64 @@ class FSx {
   /// May throw [InternalServerError].
   /// May throw [FileSystemNotFound].
   /// May throw [MissingFileSystemConfiguration].
+  /// May throw [ServiceLimitExceeded].
+  ///
+  /// Parameter [fileSystemId] :
+  /// Identifies the file system that you are updating.
   ///
   /// Parameter [clientRequestToken] :
-  /// (Optional) A string of up to 64 ASCII characters that Amazon FSx uses to
-  /// ensure idempotent updates. This string is automatically filled on your
-  /// behalf when you use the AWS Command Line Interface (AWS CLI) or an AWS
-  /// SDK.
+  /// A string of up to 64 ASCII characters that Amazon FSx uses to ensure
+  /// idempotent updates. This string is automatically filled on your behalf
+  /// when you use the AWS Command Line Interface (AWS CLI) or an AWS SDK.
+  ///
+  /// Parameter [storageCapacity] :
+  /// Use this parameter to increase the storage capacity of an Amazon FSx file
+  /// system. Specifies the storage capacity target value, GiB, to increase the
+  /// storage capacity for the file system that you're updating. You cannot make
+  /// a storage capacity increase request if there is an existing storage
+  /// capacity increase request in progress.
+  ///
+  /// For Windows file systems, the storage capacity target value must be at
+  /// least 10 percent (%) greater than the current storage capacity value. In
+  /// order to increase storage capacity, the file system must have at least 16
+  /// MB/s of throughput capacity.
+  ///
+  /// For Lustre file systems, the storage capacity target value can be the
+  /// following:
+  ///
+  /// <ul>
+  /// <li>
+  /// For <code>SCRATCH_2</code> and <code>PERSISTENT_1 SSD</code> deployment
+  /// types, valid values are in multiples of 2400 GiB. The value must be
+  /// greater than the current storage capacity.
+  /// </li>
+  /// <li>
+  /// For <code>PERSISTENT HDD</code> file systems, valid values are multiples
+  /// of 6000 GiB for 12 MB/s/TiB file systems and multiples of 1800 GiB for 40
+  /// MB/s/TiB file systems. The values must be greater than the current storage
+  /// capacity.
+  /// </li>
+  /// <li>
+  /// For <code>SCRATCH_1</code> file systems, you cannot increase the storage
+  /// capacity.
+  /// </li>
+  /// </ul>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/WindowsGuide/managing-storage-capacity.html">Managing
+  /// storage capacity</a> in the <i>Amazon FSx for Windows File Server User
+  /// Guide</i> and <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/LustreGuide/managing-storage-capacity.html">Managing
+  /// storage and throughput capacity</a> in the <i>Amazon FSx for Lustre User
+  /// Guide</i>.
   ///
   /// Parameter [windowsConfiguration] :
-  /// The configuration update for this Microsoft Windows file system. The only
-  /// supported options are for backup and maintenance and for self-managed
-  /// Active Directory configuration.
+  /// The configuration updates for an Amazon FSx for Windows File Server file
+  /// system.
   Future<UpdateFileSystemResponse> updateFileSystem({
     @_s.required String fileSystemId,
     String clientRequestToken,
     UpdateFileSystemLustreConfiguration lustreConfiguration,
+    int storageCapacity,
     UpdateFileSystemWindowsConfiguration windowsConfiguration,
   }) async {
     ArgumentError.checkNotNull(fileSystemId, 'fileSystemId');
@@ -1375,6 +1765,12 @@ class FSx {
       clientRequestToken,
       r'''[A-za-z0-9_.-]{0,63}$''',
     );
+    _s.validateNumRange(
+      'storageCapacity',
+      storageCapacity,
+      0,
+      2147483647,
+    );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
       'X-Amz-Target': 'AWSSimbaAPIService_v20180301.UpdateFileSystem'
@@ -1391,6 +1787,7 @@ class FSx {
             clientRequestToken ?? _s.generateIdempotencyToken(),
         if (lustreConfiguration != null)
           'LustreConfiguration': lustreConfiguration,
+        if (storageCapacity != null) 'StorageCapacity': storageCapacity,
         if (windowsConfiguration != null)
           'WindowsConfiguration': windowsConfiguration,
       },
@@ -1425,8 +1822,287 @@ class ActiveDirectoryBackupAttributes {
       _$ActiveDirectoryBackupAttributesFromJson(json);
 }
 
-/// A backup of an Amazon FSx for Windows File Server file system. You can
-/// create a new file system from a backup to protect against data loss.
+/// Describes a specific Amazon FSx administrative action for the current
+/// Windows or Lustre file system.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class AdministrativeAction {
+  @_s.JsonKey(name: 'AdministrativeActionType')
+  final AdministrativeActionType administrativeActionType;
+  @_s.JsonKey(name: 'FailureDetails')
+  final AdministrativeActionFailureDetails failureDetails;
+
+  /// Provides the percent complete of a <code>STORAGE_OPTIMIZATION</code>
+  /// administrative action. Does not apply to any other administrative action
+  /// type.
+  @_s.JsonKey(name: 'ProgressPercent')
+  final int progressPercent;
+
+  /// Time that the administrative action request was received.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'RequestTime')
+  final DateTime requestTime;
+
+  /// Describes the status of the administrative action, as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>FAILED</code> - Amazon FSx failed to process the administrative action
+  /// successfully.
+  /// </li>
+  /// <li>
+  /// <code>IN_PROGRESS</code> - Amazon FSx is processing the administrative
+  /// action.
+  /// </li>
+  /// <li>
+  /// <code>PENDING</code> - Amazon FSx is waiting to process the administrative
+  /// action.
+  /// </li>
+  /// <li>
+  /// <code>COMPLETED</code> - Amazon FSx has finished processing the
+  /// administrative task.
+  /// </li>
+  /// <li>
+  /// <code>UPDATED_OPTIMIZING</code> - For a storage capacity increase update,
+  /// Amazon FSx has updated the file system with the new storage capacity, and is
+  /// now performing the storage optimization process. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/WindowsGuide/managing-storage-capacity.html">Managing
+  /// storage capacity</a> in the <i>Amazon FSx for Windows File Server User
+  /// Guide</i> and <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/LustreGuide/managing-storage-capacity.html">Managing
+  /// storage and throughput capacity</a> in the <i>Amazon FSx for Lustre User
+  /// Guide</i>.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Status')
+  final Status status;
+
+  /// Describes the target value for the administration action, provided in the
+  /// <code>UpdateFileSystem</code> operation. Returned for
+  /// <code>FILE_SYSTEM_UPDATE</code> administrative actions.
+  @_s.JsonKey(name: 'TargetFileSystemValues')
+  final FileSystem targetFileSystemValues;
+
+  AdministrativeAction({
+    this.administrativeActionType,
+    this.failureDetails,
+    this.progressPercent,
+    this.requestTime,
+    this.status,
+    this.targetFileSystemValues,
+  });
+  factory AdministrativeAction.fromJson(Map<String, dynamic> json) =>
+      _$AdministrativeActionFromJson(json);
+}
+
+/// Provides information about a failed administrative action.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class AdministrativeActionFailureDetails {
+  /// Error message providing details about the failed administrative action.
+  @_s.JsonKey(name: 'Message')
+  final String message;
+
+  AdministrativeActionFailureDetails({
+    this.message,
+  });
+  factory AdministrativeActionFailureDetails.fromJson(
+          Map<String, dynamic> json) =>
+      _$AdministrativeActionFailureDetailsFromJson(json);
+}
+
+/// Describes the type of administrative action, as follows:
+///
+/// <ul>
+/// <li>
+/// <code>FILE_SYSTEM_UPDATE</code> - A file system update administrative action
+/// initiated by the user from the Amazon FSx console, API (UpdateFileSystem),
+/// or CLI (update-file-system).
+/// </li>
+/// <li>
+/// <code>STORAGE_OPTIMIZATION</code> - Once the <code>FILE_SYSTEM_UPDATE</code>
+/// task to increase a file system's storage capacity completes successfully, a
+/// <code>STORAGE_OPTIMIZATION</code> task starts.
+///
+/// <ul>
+/// <li>
+/// For Windows, storage optimization is the process of migrating the file
+/// system data to the new, larger disks.
+/// </li>
+/// <li>
+/// For Lustre, storage optimization consists of rebalancing the data across the
+/// existing and newly added file servers.
+/// </li>
+/// </ul>
+/// You can track the storage optimization progress using the
+/// <code>ProgressPercent</code> property. When
+/// <code>STORAGE_OPTIMIZATION</code> completes successfully, the parent
+/// <code>FILE_SYSTEM_UPDATE</code> action status changes to
+/// <code>COMPLETED</code>. For more information, see <a
+/// href="https://docs.aws.amazon.com/fsx/latest/WindowsGuide/managing-storage-capacity.html">Managing
+/// storage capacity</a> in the <i>Amazon FSx for Windows File Server User
+/// Guide</i> and <a
+/// href="https://docs.aws.amazon.com/fsx/latest/LustreGuide/managing-storage-capacity.html">Managing
+/// storage and throughput capacity</a> in the <i>Amazon FSx for Lustre User
+/// Guide</i>.
+/// </li>
+/// <li>
+/// <code>FILE_SYSTEM_ALIAS_ASSOCIATION</code> - A file system update to
+/// associate a new DNS alias with the file system. For more information, see .
+/// </li>
+/// <li>
+/// <code>FILE_SYSTEM_ALIAS_DISASSOCIATION</code> - A file system update to
+/// disassociate a DNS alias from the file system. For more information, see .
+/// </li>
+/// </ul>
+enum AdministrativeActionType {
+  @_s.JsonValue('FILE_SYSTEM_UPDATE')
+  fileSystemUpdate,
+  @_s.JsonValue('STORAGE_OPTIMIZATION')
+  storageOptimization,
+  @_s.JsonValue('FILE_SYSTEM_ALIAS_ASSOCIATION')
+  fileSystemAliasAssociation,
+  @_s.JsonValue('FILE_SYSTEM_ALIAS_DISASSOCIATION')
+  fileSystemAliasDisassociation,
+}
+
+/// A DNS alias that is associated with the file system. You can use a DNS alias
+/// to access a file system using user-defined DNS names, in addition to the
+/// default DNS name that Amazon FSx assigns to the file system. For more
+/// information, see <a
+/// href="https://docs.aws.amazon.com/fsx/latest/WindowsGuide/managing-dns-aliases.html">DNS
+/// aliases</a> in the <i>FSx for Windows File Server User Guide</i>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class Alias {
+  /// Describes the state of the DNS alias.
+  ///
+  /// <ul>
+  /// <li>
+  /// AVAILABLE - The DNS alias is associated with an Amazon FSx file system.
+  /// </li>
+  /// <li>
+  /// CREATING - Amazon FSx is creating the DNS alias and associating it with the
+  /// file system.
+  /// </li>
+  /// <li>
+  /// CREATE_FAILED - Amazon FSx was unable to associate the DNS alias with the
+  /// file system.
+  /// </li>
+  /// <li>
+  /// DELETING - Amazon FSx is disassociating the DNS alias from the file system
+  /// and deleting it.
+  /// </li>
+  /// <li>
+  /// DELETE_FAILED - Amazon FSx was unable to disassocate the DNS alias from the
+  /// file system.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Lifecycle')
+  final AliasLifecycle lifecycle;
+
+  /// The name of the DNS alias. The alias name has to meet the following
+  /// requirements:
+  ///
+  /// <ul>
+  /// <li>
+  /// Formatted as a fully-qualified domain name (FQDN),
+  /// <code>hostname.domain</code>, for example,
+  /// <code>accounting.example.com</code>.
+  /// </li>
+  /// <li>
+  /// Can contain alphanumeric characters and the hyphen (-).
+  /// </li>
+  /// <li>
+  /// Cannot start or end with a hyphen.
+  /// </li>
+  /// <li>
+  /// Can start with a numeric.
+  /// </li>
+  /// </ul>
+  /// For DNS names, Amazon FSx stores alphabetic characters as lowercase letters
+  /// (a-z), regardless of how you specify them: as uppercase letters, lowercase
+  /// letters, or the corresponding letters in escape codes.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  Alias({
+    this.lifecycle,
+    this.name,
+  });
+  factory Alias.fromJson(Map<String, dynamic> json) => _$AliasFromJson(json);
+}
+
+enum AliasLifecycle {
+  @_s.JsonValue('AVAILABLE')
+  available,
+  @_s.JsonValue('CREATING')
+  creating,
+  @_s.JsonValue('DELETING')
+  deleting,
+  @_s.JsonValue('CREATE_FAILED')
+  createFailed,
+  @_s.JsonValue('DELETE_FAILED')
+  deleteFailed,
+}
+
+/// The system generated response showing the DNS aliases that Amazon FSx is
+/// attempting to associate with the file system. Use the API operation to
+/// monitor the status of the aliases Amazon FSx is associating with the file
+/// system. It can take up to 2.5 minutes for the alias status to change from
+/// <code>CREATING</code> to <code>AVAILABLE</code>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class AssociateFileSystemAliasesResponse {
+  /// An array of the DNS aliases that Amazon FSx is associating with the file
+  /// system.
+  @_s.JsonKey(name: 'Aliases')
+  final List<Alias> aliases;
+
+  AssociateFileSystemAliasesResponse({
+    this.aliases,
+  });
+  factory AssociateFileSystemAliasesResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$AssociateFileSystemAliasesResponseFromJson(json);
+}
+
+enum AutoImportPolicyType {
+  @_s.JsonValue('NONE')
+  none,
+  @_s.JsonValue('NEW')
+  $new,
+  @_s.JsonValue('NEW_CHANGED')
+  newChanged,
+}
+
+/// A backup of an Amazon FSx file system. For more information see:
+///
+/// <ul>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/fsx/latest/WindowsGuide/using-backups.html">Working
+/// with backups for Windows file systems</a>
+/// </li>
+/// <li>
+/// <a
+/// href="https://docs.aws.amazon.com/fsx/latest/LustreGuide/using-backups-fsx.html">Working
+/// with backups for Lustre file systems</a>
+/// </li>
+/// </ul>
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -1448,10 +2124,34 @@ class Backup {
   final FileSystem fileSystem;
 
   /// The lifecycle status of the backup.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>AVAILABLE</code> - The backup is fully available.
+  /// </li>
+  /// <li>
+  /// <code>PENDING</code> - For user-initiated backups on Lustre file systems
+  /// only; Amazon FSx has not started creating the backup.
+  /// </li>
+  /// <li>
+  /// <code>CREATING</code> - Amazon FSx is creating the backup.
+  /// </li>
+  /// <li>
+  /// <code>TRANSFERRING</code> - For user-initiated backups on Lustre file
+  /// systems only; Amazon FSx is transferring the backup to S3.
+  /// </li>
+  /// <li>
+  /// <code>DELETED</code> - Amazon FSx deleted the backup and it is no longer
+  /// available.
+  /// </li>
+  /// <li>
+  /// <code>FAILED</code> - Amazon FSx could not complete the backup.
+  /// </li>
+  /// </ul>
   @_s.JsonKey(name: 'Lifecycle')
   final BackupLifecycle lifecycle;
 
-  /// The type of the backup.
+  /// The type of the file system backup.
   @_s.JsonKey(name: 'Type')
   final BackupType type;
 
@@ -1464,9 +2164,8 @@ class Backup {
   @_s.JsonKey(name: 'FailureDetails')
   final BackupFailureDetails failureDetails;
 
-  /// The ID of the AWS Key Management Service (AWS KMS) key used to encrypt this
-  /// backup of the Amazon FSx for Windows file system's data at rest. Amazon FSx
-  /// for Lustre does not support KMS encryption.
+  /// The ID of the AWS Key Management Service (AWS KMS) key used to encrypt the
+  /// backup of the Amazon FSx file system's data at rest.
   @_s.JsonKey(name: 'KmsKeyId')
   final String kmsKeyId;
   @_s.JsonKey(name: 'ProgressPercent')
@@ -1516,15 +2215,43 @@ class BackupFailureDetails {
 }
 
 /// The lifecycle status of the backup.
+///
+/// <ul>
+/// <li>
+/// <code>AVAILABLE</code> - The backup is fully available.
+/// </li>
+/// <li>
+/// <code>PENDING</code> - For user-initiated backups on Lustre file systems
+/// only; Amazon FSx has not started creating the backup.
+/// </li>
+/// <li>
+/// <code>CREATING</code> - Amazon FSx is creating the new user-intiated backup
+/// </li>
+/// <li>
+/// <code>TRANSFERRING</code> - For user-initiated backups on Lustre file
+/// systems only; Amazon FSx is backing up the file system.
+/// </li>
+/// <li>
+/// <code>DELETED</code> - Amazon FSx deleted the backup and it is no longer
+/// available.
+/// </li>
+/// <li>
+/// <code>FAILED</code> - Amazon FSx could not complete the backup.
+/// </li>
+/// </ul>
 enum BackupLifecycle {
   @_s.JsonValue('AVAILABLE')
   available,
   @_s.JsonValue('CREATING')
   creating,
+  @_s.JsonValue('TRANSFERRING')
+  transferring,
   @_s.JsonValue('DELETED')
   deleted,
   @_s.JsonValue('FAILED')
   failed,
+  @_s.JsonValue('PENDING')
+  pending,
 }
 
 /// The type of the backup.
@@ -1533,6 +2260,8 @@ enum BackupType {
   automatic,
   @_s.JsonValue('USER_INITIATED')
   userInitiated,
+  @_s.JsonValue('AWS_BACKUP')
+  awsBackup,
 }
 
 @_s.JsonSerializable(
@@ -1709,11 +2438,61 @@ class CreateFileSystemFromBackupResponse {
     createFactory: false,
     createToJson: true)
 class CreateFileSystemLustreConfiguration {
-  /// (Optional) Choose <code>SCRATCH_1</code> and <code>SCRATCH_2</code>
-  /// deployment types when you need temporary storage and shorter-term processing
-  /// of data. The <code>SCRATCH_2</code> deployment type provides in-transit
-  /// encryption of data and higher burst throughput capacity than
-  /// <code>SCRATCH_1</code>.
+  /// (Optional) When you create your file system, your existing S3 objects appear
+  /// as file and directory listings. Use this property to choose how Amazon FSx
+  /// keeps your file and directory listings up to date as you add or modify
+  /// objects in your linked S3 bucket. <code>AutoImportPolicy</code> can have the
+  /// following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>NONE</code> - (Default) AutoImport is off. Amazon FSx only updates
+  /// file and directory listings from the linked S3 bucket when the file system
+  /// is created. FSx does not update file and directory listings for any new or
+  /// changed objects after choosing this option.
+  /// </li>
+  /// <li>
+  /// <code>NEW</code> - AutoImport is on. Amazon FSx automatically imports
+  /// directory listings of any new objects added to the linked S3 bucket that do
+  /// not currently exist in the FSx file system.
+  /// </li>
+  /// <li>
+  /// <code>NEW_CHANGED</code> - AutoImport is on. Amazon FSx automatically
+  /// imports file and directory listings of any new objects added to the S3
+  /// bucket and any existing objects that are changed in the S3 bucket after you
+  /// choose this option.
+  /// </li>
+  /// </ul>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/LustreGuide/autoimport-data-repo.html">Automatically
+  /// import updates from your S3 bucket</a>.
+  @_s.JsonKey(name: 'AutoImportPolicy')
+  final AutoImportPolicyType autoImportPolicy;
+  @_s.JsonKey(name: 'AutomaticBackupRetentionDays')
+  final int automaticBackupRetentionDays;
+
+  /// (Optional) Not available to use with file systems that are linked to a data
+  /// repository. A boolean flag indicating whether tags for the file system
+  /// should be copied to backups. The default value is false. If it's set to
+  /// true, all file system tags are copied to all automatic and user-initiated
+  /// backups when the user doesn't specify any backup-specific tags. If this
+  /// value is true, and you specify one or more backup tags, only the specified
+  /// tags are copied to backups. If you specify one or more tags when creating a
+  /// user-initiated backup, no tags are copied from the file system, regardless
+  /// of this value.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/LustreGuide/using-backups-fsx.html">Working
+  /// with backups</a>.
+  @_s.JsonKey(name: 'CopyTagsToBackups')
+  final bool copyTagsToBackups;
+  @_s.JsonKey(name: 'DailyAutomaticBackupStartTime')
+  final String dailyAutomaticBackupStartTime;
+
+  /// Choose <code>SCRATCH_1</code> and <code>SCRATCH_2</code> deployment types
+  /// when you need temporary storage and shorter-term processing of data. The
+  /// <code>SCRATCH_2</code> deployment type provides in-transit encryption of
+  /// data and higher burst throughput capacity than <code>SCRATCH_1</code>.
   ///
   /// Choose <code>PERSISTENT_1</code> deployment type for longer-term storage and
   /// workloads and encryption of data in transit. To learn more about deployment
@@ -1735,6 +2514,16 @@ class CreateFileSystemLustreConfiguration {
   /// Data in Transit</a>.
   @_s.JsonKey(name: 'DeploymentType')
   final LustreDeploymentType deploymentType;
+
+  /// The type of drive cache used by PERSISTENT_1 file systems that are
+  /// provisioned with HDD storage devices. This parameter is required when
+  /// storage type is HDD. Set to <code>READ</code>, improve the performance for
+  /// frequently accessed files and allows 20% of the total storage capacity of
+  /// the file system to be cached.
+  ///
+  /// This parameter is required when <code>StorageType</code> is set to HDD.
+  @_s.JsonKey(name: 'DriveCacheType')
+  final DriveCacheType driveCacheType;
 
   /// (Optional) The path in Amazon S3 where the root of your Amazon FSx file
   /// system is exported. The path must use the same Amazon S3 bucket as specified
@@ -1782,19 +2571,27 @@ class CreateFileSystemLustreConfiguration {
   /// MB/s/TiB. File system throughput capacity is calculated by multiplying ﬁle
   /// system storage capacity (TiB) by the PerUnitStorageThroughput (MB/s/TiB).
   /// For a 2.4 TiB ﬁle system, provisioning 50 MB/s/TiB of
-  /// PerUnitStorageThroughput yields 117 MB/s of ﬁle system throughput. You pay
+  /// PerUnitStorageThroughput yields 120 MB/s of ﬁle system throughput. You pay
   /// for the amount of throughput that you provision.
   ///
-  /// Valid values are 50, 100, 200.
+  /// Valid values for SSD storage: 50, 100, 200. Valid values for HDD storage:
+  /// 12, 40.
   @_s.JsonKey(name: 'PerUnitStorageThroughput')
   final int perUnitStorageThroughput;
 
-  /// The preferred time to perform weekly maintenance, in the UTC time zone.
+  /// (Optional) The preferred start time to perform weekly maintenance, formatted
+  /// d:HH:MM in the UTC time zone, where d is the weekday number, from 1 through
+  /// 7, beginning with Monday and ending with Sunday.
   @_s.JsonKey(name: 'WeeklyMaintenanceStartTime')
   final String weeklyMaintenanceStartTime;
 
   CreateFileSystemLustreConfiguration({
+    this.autoImportPolicy,
+    this.automaticBackupRetentionDays,
+    this.copyTagsToBackups,
+    this.dailyAutomaticBackupStartTime,
     this.deploymentType,
+    this.driveCacheType,
     this.exportPath,
     this.importPath,
     this.importedFileChunkSize,
@@ -1842,9 +2639,49 @@ class CreateFileSystemWindowsConfiguration {
   @_s.JsonKey(name: 'ActiveDirectoryId')
   final String activeDirectoryId;
 
+  /// An array of one or more DNS alias names that you want to associate with the
+  /// Amazon FSx file system. Aliases allow you to use existing DNS names to
+  /// access the data in your Amazon FSx file system. You can associate up to 50
+  /// aliases with a file system at any time. You can associate additional DNS
+  /// aliases after you create the file system using the
+  /// AssociateFileSystemAliases operation. You can remove DNS aliases from the
+  /// file system after it is created using the DisassociateFileSystemAliases
+  /// operation. You only need to specify the alias name in the request payload.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/WindowsGuide/managing-dns-aliases.html">Working
+  /// with DNS Aliases</a> and <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/WindowsGuide/walkthrough05-file-system-custom-CNAME.html">Walkthrough
+  /// 5: Using DNS aliases to access your file system</a>, including additional
+  /// steps you must take to be able to access your file system using a DNS alias.
+  ///
+  /// An alias name has to meet the following requirements:
+  ///
+  /// <ul>
+  /// <li>
+  /// Formatted as a fully-qualified domain name (FQDN),
+  /// <code>hostname.domain</code>, for example,
+  /// <code>accounting.example.com</code>.
+  /// </li>
+  /// <li>
+  /// Can contain alphanumeric characters and the hyphen (-).
+  /// </li>
+  /// <li>
+  /// Cannot start or end with a hyphen.
+  /// </li>
+  /// <li>
+  /// Can start with a numeric.
+  /// </li>
+  /// </ul>
+  /// For DNS alias names, Amazon FSx stores alphabetic characters as lowercase
+  /// letters (a-z), regardless of how you specify them: as uppercase letters,
+  /// lowercase letters, or the corresponding letters in escape codes.
+  @_s.JsonKey(name: 'Aliases')
+  final List<String> aliases;
+
   /// The number of days to retain automatic backups. The default is to retain
   /// backups for 7 days. Setting this value to 0 disables the creation of
-  /// automatic backups. The maximum retention period for backups is 35 days.
+  /// automatic backups. The maximum retention period for backups is 90 days.
   @_s.JsonKey(name: 'AutomaticBackupRetentionDays')
   final int automaticBackupRetentionDays;
 
@@ -1901,13 +2738,15 @@ class CreateFileSystemWindowsConfiguration {
       selfManagedActiveDirectoryConfiguration;
 
   /// The preferred start time to perform weekly maintenance, formatted d:HH:MM in
-  /// the UTC time zone.
+  /// the UTC time zone, where d is the weekday number, from 1 through 7,
+  /// beginning with Monday and ending with Sunday.
   @_s.JsonKey(name: 'WeeklyMaintenanceStartTime')
   final String weeklyMaintenanceStartTime;
 
   CreateFileSystemWindowsConfiguration({
     @_s.required this.throughputCapacity,
     this.activeDirectoryId,
+    this.aliases,
     this.automaticBackupRetentionDays,
     this.copyTagsToBackups,
     this.dailyAutomaticBackupStartTime,
@@ -1928,10 +2767,43 @@ class CreateFileSystemWindowsConfiguration {
     createFactory: true,
     createToJson: false)
 class DataRepositoryConfiguration {
+  /// Describes the file system's linked S3 data repository's
+  /// <code>AutoImportPolicy</code>. The AutoImportPolicy configures how Amazon
+  /// FSx keeps your file and directory listings up to date as you add or modify
+  /// objects in your linked S3 bucket. <code>AutoImportPolicy</code> can have the
+  /// following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>NONE</code> - (Default) AutoImport is off. Amazon FSx only updates
+  /// file and directory listings from the linked S3 bucket when the file system
+  /// is created. FSx does not update file and directory listings for any new or
+  /// changed objects after choosing this option.
+  /// </li>
+  /// <li>
+  /// <code>NEW</code> - AutoImport is on. Amazon FSx automatically imports
+  /// directory listings of any new objects added to the linked S3 bucket that do
+  /// not currently exist in the FSx file system.
+  /// </li>
+  /// <li>
+  /// <code>NEW_CHANGED</code> - AutoImport is on. Amazon FSx automatically
+  /// imports file and directory listings of any new objects added to the S3
+  /// bucket and any existing objects that are changed in the S3 bucket after you
+  /// choose this option.
+  /// </li>
+  /// </ul>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/LustreGuide/autoimport-data-repo.html">Automatically
+  /// import updates from your S3 bucket</a>.
+  @_s.JsonKey(name: 'AutoImportPolicy')
+  final AutoImportPolicyType autoImportPolicy;
+
   /// The export path to the Amazon S3 bucket (and prefix) that you are using to
   /// store new and changed Lustre file system files in S3.
   @_s.JsonKey(name: 'ExportPath')
   final String exportPath;
+  @_s.JsonKey(name: 'FailureDetails')
+  final DataRepositoryFailureDetails failureDetails;
 
   /// The import path to the Amazon S3 bucket (and optional prefix) that you're
   /// using as the data repository for your FSx for Lustre file system, for
@@ -1951,13 +2823,75 @@ class DataRepositoryConfiguration {
   @_s.JsonKey(name: 'ImportedFileChunkSize')
   final int importedFileChunkSize;
 
+  /// Describes the state of the file system's S3 durable data repository, if it
+  /// is configured with an S3 repository. The lifecycle can have the following
+  /// values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CREATING</code> - The data repository configuration between the FSx
+  /// file system and the linked S3 data repository is being created. The data
+  /// repository is unavailable.
+  /// </li>
+  /// <li>
+  /// <code>AVAILABLE</code> - The data repository is available for use.
+  /// </li>
+  /// <li>
+  /// <code>MISCONFIGURED</code> - Amazon FSx cannot automatically import updates
+  /// from the S3 bucket until the data repository configuration is corrected. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/LustreGuide/troubleshooting.html#troubleshooting-misconfigured-data-repository">Troubleshooting
+  /// a Misconfigured linked S3 bucket</a>.
+  /// </li>
+  /// <li>
+  /// <code>UPDATING</code> - The data repository is undergoing a customer
+  /// initiated update and availability may be impacted.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Lifecycle')
+  final DataRepositoryLifecycle lifecycle;
+
   DataRepositoryConfiguration({
+    this.autoImportPolicy,
     this.exportPath,
+    this.failureDetails,
     this.importPath,
     this.importedFileChunkSize,
+    this.lifecycle,
   });
   factory DataRepositoryConfiguration.fromJson(Map<String, dynamic> json) =>
       _$DataRepositoryConfigurationFromJson(json);
+}
+
+/// Provides detailed information about the data respository if its
+/// <code>Lifecycle</code> is set to <code>MISCONFIGURED</code>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DataRepositoryFailureDetails {
+  @_s.JsonKey(name: 'Message')
+  final String message;
+
+  DataRepositoryFailureDetails({
+    this.message,
+  });
+  factory DataRepositoryFailureDetails.fromJson(Map<String, dynamic> json) =>
+      _$DataRepositoryFailureDetailsFromJson(json);
+}
+
+enum DataRepositoryLifecycle {
+  @_s.JsonValue('CREATING')
+  creating,
+  @_s.JsonValue('AVAILABLE')
+  available,
+  @_s.JsonValue('MISCONFIGURED')
+  misconfigured,
+  @_s.JsonValue('UPDATING')
+  updating,
+  @_s.JsonValue('DELETING')
+  deleting,
 }
 
 /// A description of the data repository task. You use data repository tasks to
@@ -2237,6 +3171,61 @@ class DeleteBackupResponse {
       _$DeleteBackupResponseFromJson(json);
 }
 
+/// The configuration object for the Amazon FSx for Lustre file system being
+/// deleted in the <code>DeleteFileSystem</code> operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DeleteFileSystemLustreConfiguration {
+  /// Use if <code>SkipFinalBackup</code> is set to <code>false</code>, and you
+  /// want to apply an array of tags to the final backup. If you have set the file
+  /// system property <code>CopyTagsToBackups</code> to true, and you specify one
+  /// or more <code>FinalBackupTags</code> when deleting a file system, Amazon FSx
+  /// will not copy any existing file system tags to the backup.
+  @_s.JsonKey(name: 'FinalBackupTags')
+  final List<Tag> finalBackupTags;
+
+  /// Set <code>SkipFinalBackup</code> to false if you want to take a final backup
+  /// of the file system you are deleting. By default, Amazon FSx will not take a
+  /// final backup on your behalf when the <code>DeleteFileSystem</code> operation
+  /// is invoked. (Default = true)
+  @_s.JsonKey(name: 'SkipFinalBackup')
+  final bool skipFinalBackup;
+
+  DeleteFileSystemLustreConfiguration({
+    this.finalBackupTags,
+    this.skipFinalBackup,
+  });
+  Map<String, dynamic> toJson() =>
+      _$DeleteFileSystemLustreConfigurationToJson(this);
+}
+
+/// The response object for the Amazon FSx for Lustre file system being deleted
+/// in the <code>DeleteFileSystem</code> operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DeleteFileSystemLustreResponse {
+  /// The ID of the final backup for this file system.
+  @_s.JsonKey(name: 'FinalBackupId')
+  final String finalBackupId;
+
+  /// The set of tags applied to the final backup.
+  @_s.JsonKey(name: 'FinalBackupTags')
+  final List<Tag> finalBackupTags;
+
+  DeleteFileSystemLustreResponse({
+    this.finalBackupId,
+    this.finalBackupTags,
+  });
+  factory DeleteFileSystemLustreResponse.fromJson(Map<String, dynamic> json) =>
+      _$DeleteFileSystemLustreResponseFromJson(json);
+}
+
 /// The response object for the <code>DeleteFileSystem</code> operation.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2252,12 +3241,15 @@ class DeleteFileSystemResponse {
   /// <code>DELETING</code>.
   @_s.JsonKey(name: 'Lifecycle')
   final FileSystemLifecycle lifecycle;
+  @_s.JsonKey(name: 'LustreResponse')
+  final DeleteFileSystemLustreResponse lustreResponse;
   @_s.JsonKey(name: 'WindowsResponse')
   final DeleteFileSystemWindowsResponse windowsResponse;
 
   DeleteFileSystemResponse({
     this.fileSystemId,
     this.lifecycle,
+    this.lustreResponse,
     this.windowsResponse,
   });
   factory DeleteFileSystemResponse.fromJson(Map<String, dynamic> json) =>
@@ -2361,6 +3353,33 @@ class DescribeDataRepositoryTasksResponse {
       _$DescribeDataRepositoryTasksResponseFromJson(json);
 }
 
+/// The response object for <code>DescribeFileSystemAliases</code> operation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DescribeFileSystemAliasesResponse {
+  /// An array of one or more DNS aliases currently associated with the specified
+  /// file system.
+  @_s.JsonKey(name: 'Aliases')
+  final List<Alias> aliases;
+
+  /// Present if there are more DNS aliases than returned in the response
+  /// (String). You can use the <code>NextToken</code> value in a later request to
+  /// fetch additional descriptions.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  DescribeFileSystemAliasesResponse({
+    this.aliases,
+    this.nextToken,
+  });
+  factory DescribeFileSystemAliasesResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$DescribeFileSystemAliasesResponseFromJson(json);
+}
+
 /// The response object for <code>DescribeFileSystems</code> operation.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2386,6 +3405,36 @@ class DescribeFileSystemsResponse {
       _$DescribeFileSystemsResponseFromJson(json);
 }
 
+/// The system generated response showing the DNS aliases that Amazon FSx is
+/// attempting to disassociate from the file system. Use the API operation to
+/// monitor the status of the aliases Amazon FSx is removing from the file
+/// system.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DisassociateFileSystemAliasesResponse {
+  /// An array of one or more DNS aliases that Amazon FSx is attempting to
+  /// disassociate from the file system.
+  @_s.JsonKey(name: 'Aliases')
+  final List<Alias> aliases;
+
+  DisassociateFileSystemAliasesResponse({
+    this.aliases,
+  });
+  factory DisassociateFileSystemAliasesResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$DisassociateFileSystemAliasesResponseFromJson(json);
+}
+
+enum DriveCacheType {
+  @_s.JsonValue('NONE')
+  none,
+  @_s.JsonValue('READ')
+  read,
+}
+
 /// A description of a specific Amazon FSx file system.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2393,6 +3442,13 @@ class DescribeFileSystemsResponse {
     createFactory: true,
     createToJson: false)
 class FileSystem {
+  /// A list of administrative actions for the file system that are in process or
+  /// waiting to be processed. Administrative actions describe changes to the
+  /// Windows file system that you have initiated using the
+  /// <code>UpdateFileSystem</code> action.
+  @_s.JsonKey(name: 'AdministrativeActions')
+  final List<AdministrativeAction> administrativeActions;
+
   /// The time that the file system was created, in seconds (since
   /// 1970-01-01T00:00:00Z), also known as Unix time.
   @UnixDateTimeConverter()
@@ -2481,7 +3537,7 @@ class FileSystem {
   @_s.JsonKey(name: 'ResourceARN')
   final String resourceARN;
 
-  /// The storage capacity of the file system in gigabytes (GB).
+  /// The storage capacity of the file system in gibibytes (GiB).
   @_s.JsonKey(name: 'StorageCapacity')
   final int storageCapacity;
 
@@ -2521,6 +3577,7 @@ class FileSystem {
   final WindowsFileSystemConfiguration windowsConfiguration;
 
   FileSystem({
+    this.administrativeActions,
     this.creationTime,
     this.dNSName,
     this.failureDetails,
@@ -2637,6 +3694,8 @@ enum FilterName {
   fileSystemId,
   @_s.JsonValue('backup-type')
   backupType,
+  @_s.JsonValue('file-system-type')
+  fileSystemType,
 }
 
 /// The response object for <code>ListTagsForResource</code> operation.
@@ -2680,12 +3739,50 @@ enum LustreDeploymentType {
     createFactory: true,
     createToJson: false)
 class LustreFileSystemConfiguration {
+  @_s.JsonKey(name: 'AutomaticBackupRetentionDays')
+  final int automaticBackupRetentionDays;
+
+  /// A boolean flag indicating whether tags on the file system should be copied
+  /// to backups. If it's set to true, all tags on the file system are copied to
+  /// all automatic backups and any user-initiated backups where the user doesn't
+  /// specify any tags. If this value is true, and you specify one or more tags,
+  /// only the specified tags are copied to backups. If you specify one or more
+  /// tags when creating a user-initiated backup, no tags are copied from the file
+  /// system, regardless of this value. (Default = false)
+  @_s.JsonKey(name: 'CopyTagsToBackups')
+  final bool copyTagsToBackups;
+  @_s.JsonKey(name: 'DailyAutomaticBackupStartTime')
+  final String dailyAutomaticBackupStartTime;
   @_s.JsonKey(name: 'DataRepositoryConfiguration')
   final DataRepositoryConfiguration dataRepositoryConfiguration;
 
-  /// The deployment type of the FSX for Lustre file system.
+  /// The deployment type of the FSX for Lustre file system. <i>Scratch deployment
+  /// type</i> is designed for temporary storage and shorter-term processing of
+  /// data.
+  ///
+  /// <code>SCRATCH_1</code> and <code>SCRATCH_2</code> deployment types are best
+  /// suited for when you need temporary storage and shorter-term processing of
+  /// data. The <code>SCRATCH_2</code> deployment type provides in-transit
+  /// encryption of data and higher burst throughput capacity than
+  /// <code>SCRATCH_1</code>.
+  ///
+  /// The <code>PERSISTENT_1</code> deployment type is used for longer-term
+  /// storage and workloads and encryption of data in transit. To learn more about
+  /// deployment types, see <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/LustreGuide/lustre-deployment-types.html">
+  /// FSx for Lustre Deployment Options</a>. (Default = <code>SCRATCH_1</code>)
   @_s.JsonKey(name: 'DeploymentType')
   final LustreDeploymentType deploymentType;
+
+  /// The type of drive cache used by PERSISTENT_1 file systems that are
+  /// provisioned with HDD storage devices. This parameter is required when
+  /// storage type is HDD. Set to <code>READ</code>, improve the performance for
+  /// frequently accessed files and allows 20% of the total storage capacity of
+  /// the file system to be cached.
+  ///
+  /// This parameter is required when <code>StorageType</code> is set to HDD.
+  @_s.JsonKey(name: 'DriveCacheType')
+  final DriveCacheType driveCacheType;
 
   /// You use the <code>MountName</code> value when mounting the file system.
   ///
@@ -2700,17 +3797,26 @@ class LustreFileSystemConfiguration {
   /// write throughput per 1 tebibyte of storage provisioned. File system
   /// throughput capacity is equal to Storage capacity (TiB) *
   /// PerUnitStorageThroughput (MB/s/TiB). This option is only valid for
-  /// <code>PERSISTENT_1</code> deployment types. Valid values are 50, 100, 200.
+  /// <code>PERSISTENT_1</code> deployment types.
+  ///
+  /// Valid values for SSD storage: 50, 100, 200. Valid values for HDD storage:
+  /// 12, 40.
   @_s.JsonKey(name: 'PerUnitStorageThroughput')
   final int perUnitStorageThroughput;
 
-  /// The UTC time that you want to begin your weekly maintenance window.
+  /// The preferred start time to perform weekly maintenance, formatted d:HH:MM in
+  /// the UTC time zone. d is the weekday number, from 1 through 7, beginning with
+  /// Monday and ending with Sunday.
   @_s.JsonKey(name: 'WeeklyMaintenanceStartTime')
   final String weeklyMaintenanceStartTime;
 
   LustreFileSystemConfiguration({
+    this.automaticBackupRetentionDays,
+    this.copyTagsToBackups,
+    this.dailyAutomaticBackupStartTime,
     this.dataRepositoryConfiguration,
     this.deploymentType,
+    this.driveCacheType,
     this.mountName,
     this.perUnitStorageThroughput,
     this.weeklyMaintenanceStartTime,
@@ -2858,7 +3964,7 @@ class SelfManagedActiveDirectoryConfiguration {
 }
 
 /// The configuration that Amazon FSx uses to join the Windows File Server
-/// instance to the self-managed Microsoft Active Directory (AD) directory.
+/// instance to a self-managed Microsoft Active Directory (AD) directory.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -2889,6 +3995,19 @@ class SelfManagedActiveDirectoryConfigurationUpdates {
   });
   Map<String, dynamic> toJson() =>
       _$SelfManagedActiveDirectoryConfigurationUpdatesToJson(this);
+}
+
+enum Status {
+  @_s.JsonValue('FAILED')
+  failed,
+  @_s.JsonValue('IN_PROGRESS')
+  inProgress,
+  @_s.JsonValue('PENDING')
+  pending,
+  @_s.JsonValue('COMPLETED')
+  completed,
+  @_s.JsonValue('UPDATED_OPTIMIZING')
+  updatedOptimizing,
 }
 
 /// The storage type for your Amazon FSx file system.
@@ -2931,8 +4050,8 @@ class Tag {
   final String value;
 
   Tag({
-    this.key,
-    this.value,
+    @_s.required this.key,
+    @_s.required this.value,
   });
   factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
 
@@ -2971,11 +4090,51 @@ class UntagResourceResponse {
     createFactory: false,
     createToJson: true)
 class UpdateFileSystemLustreConfiguration {
-  /// The preferred time to perform weekly maintenance, in the UTC time zone.
+  /// (Optional) When you create your file system, your existing S3 objects appear
+  /// as file and directory listings. Use this property to choose how Amazon FSx
+  /// keeps your file and directory listing up to date as you add or modify
+  /// objects in your linked S3 bucket. <code>AutoImportPolicy</code> can have the
+  /// following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>NONE</code> - (Default) AutoImport is off. Amazon FSx only updates
+  /// file and directory listings from the linked S3 bucket when the file system
+  /// is created. FSx does not update the file and directory listing for any new
+  /// or changed objects after choosing this option.
+  /// </li>
+  /// <li>
+  /// <code>NEW</code> - AutoImport is on. Amazon FSx automatically imports
+  /// directory listings of any new objects added to the linked S3 bucket that do
+  /// not currently exist in the FSx file system.
+  /// </li>
+  /// <li>
+  /// <code>NEW_CHANGED</code> - AutoImport is on. Amazon FSx automatically
+  /// imports file and directory listings of any new objects added to the S3
+  /// bucket and any existing objects that are changed in the S3 bucket after you
+  /// choose this option.
+  /// </li>
+  /// </ul>
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/LustreGuide/autoimport-data-repo.html">Automatically
+  /// import updates from your S3 bucket</a>.
+  @_s.JsonKey(name: 'AutoImportPolicy')
+  final AutoImportPolicyType autoImportPolicy;
+  @_s.JsonKey(name: 'AutomaticBackupRetentionDays')
+  final int automaticBackupRetentionDays;
+  @_s.JsonKey(name: 'DailyAutomaticBackupStartTime')
+  final String dailyAutomaticBackupStartTime;
+
+  /// (Optional) The preferred start time to perform weekly maintenance, formatted
+  /// d:HH:MM in the UTC time zone. d is the weekday number, from 1 through 7,
+  /// beginning with Monday and ending with Sunday.
   @_s.JsonKey(name: 'WeeklyMaintenanceStartTime')
   final String weeklyMaintenanceStartTime;
 
   UpdateFileSystemLustreConfiguration({
+    this.autoImportPolicy,
+    this.automaticBackupRetentionDays,
+    this.dailyAutomaticBackupStartTime,
     this.weeklyMaintenanceStartTime,
   });
   Map<String, dynamic> toJson() =>
@@ -3000,33 +4159,49 @@ class UpdateFileSystemResponse {
       _$UpdateFileSystemResponseFromJson(json);
 }
 
-/// Updates the Microsoft Windows configuration for an existing Amazon FSx for
-/// Windows File Server file system. Amazon FSx overwrites existing properties
-/// with non-null values provided in the request. If you don't specify a
-/// non-null value for a property, that property is not updated.
+/// Updates the configuration for an existing Amazon FSx for Windows File Server
+/// file system. Amazon FSx only overwrites existing properties with non-null
+/// values provided in the request.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: false,
     createToJson: true)
 class UpdateFileSystemWindowsConfiguration {
-  /// The number of days to retain automatic backups. Setting this to 0 disables
-  /// automatic backups. You can retain automatic backups for a maximum of 35
-  /// days.
+  /// The number of days to retain automatic daily backups. Setting this to zero
+  /// (0) disables automatic daily backups. You can retain automatic daily backups
+  /// for a maximum of 90 days. For more information, see <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/WindowsGuide/using-backups.html#automatic-backups">Working
+  /// with Automatic Daily Backups</a>.
   @_s.JsonKey(name: 'AutomaticBackupRetentionDays')
   final int automaticBackupRetentionDays;
 
-  /// The preferred time to take daily automatic backups, in the UTC time zone.
+  /// The preferred time to start the daily automatic backup, in the UTC time
+  /// zone, for example, <code>02:00</code>
   @_s.JsonKey(name: 'DailyAutomaticBackupStartTime')
   final String dailyAutomaticBackupStartTime;
 
   /// The configuration Amazon FSx uses to join the Windows File Server instance
-  /// to the self-managed Microsoft AD directory.
+  /// to the self-managed Microsoft AD directory. You cannot make a self-managed
+  /// Microsoft AD update request if there is an existing self-managed Microsoft
+  /// AD update request in progress.
   @_s.JsonKey(name: 'SelfManagedActiveDirectoryConfiguration')
   final SelfManagedActiveDirectoryConfigurationUpdates
       selfManagedActiveDirectoryConfiguration;
 
-  /// The preferred time to perform weekly maintenance, in the UTC time zone.
+  /// Sets the target value for a file system's throughput capacity, in MB/s, that
+  /// you are updating the file system to. Valid values are 8, 16, 32, 64, 128,
+  /// 256, 512, 1024, 2048. You cannot make a throughput capacity update request
+  /// if there is an existing throughput capacity update request in progress. For
+  /// more information, see <a
+  /// href="https://docs.aws.amazon.com/fsx/latest/WindowsGuide/managing-throughput-capacity.html">Managing
+  /// Throughput Capacity</a>.
+  @_s.JsonKey(name: 'ThroughputCapacity')
+  final int throughputCapacity;
+
+  /// The preferred start time to perform weekly maintenance, formatted d:HH:MM in
+  /// the UTC time zone. Where d is the weekday number, from 1 through 7, with 1 =
+  /// Monday and 7 = Sunday.
   @_s.JsonKey(name: 'WeeklyMaintenanceStartTime')
   final String weeklyMaintenanceStartTime;
 
@@ -3034,6 +4209,7 @@ class UpdateFileSystemWindowsConfiguration {
     this.automaticBackupRetentionDays,
     this.dailyAutomaticBackupStartTime,
     this.selfManagedActiveDirectoryConfiguration,
+    this.throughputCapacity,
     this.weeklyMaintenanceStartTime,
   });
   Map<String, dynamic> toJson() =>
@@ -3060,9 +4236,11 @@ class WindowsFileSystemConfiguration {
   /// system should join when it's created.
   @_s.JsonKey(name: 'ActiveDirectoryId')
   final String activeDirectoryId;
+  @_s.JsonKey(name: 'Aliases')
+  final List<Alias> aliases;
 
   /// The number of days to retain automatic backups. Setting this to 0 disables
-  /// automatic backups. You can retain automatic backups for a maximum of 35
+  /// automatic backups. You can retain automatic backups for a maximum of 90
   /// days.
   @_s.JsonKey(name: 'AutomaticBackupRetentionDays')
   final int automaticBackupRetentionDays;
@@ -3158,12 +4336,15 @@ class WindowsFileSystemConfiguration {
   @_s.JsonKey(name: 'ThroughputCapacity')
   final int throughputCapacity;
 
-  /// The preferred time to perform weekly maintenance, in the UTC time zone.
+  /// The preferred start time to perform weekly maintenance, formatted d:HH:MM in
+  /// the UTC time zone. d is the weekday number, from 1 through 7, beginning with
+  /// Monday and ending with Sunday.
   @_s.JsonKey(name: 'WeeklyMaintenanceStartTime')
   final String weeklyMaintenanceStartTime;
 
   WindowsFileSystemConfiguration({
     this.activeDirectoryId,
+    this.aliases,
     this.automaticBackupRetentionDays,
     this.copyTagsToBackups,
     this.dailyAutomaticBackupStartTime,

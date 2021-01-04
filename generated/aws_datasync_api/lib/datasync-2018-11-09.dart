@@ -49,7 +49,7 @@ class DataSync {
 
   /// Cancels execution of a task.
   ///
-  /// When you cancel a task execution, the transfer of some files are abruptly
+  /// When you cancel a task execution, the transfer of some files is abruptly
   /// interrupted. The contents of files that are transferred to the destination
   /// might be incomplete or inconsistent with the source files. However, if you
   /// start a new task execution on the same task and you allow the task
@@ -105,9 +105,9 @@ class DataSync {
   /// Region where your target locations (in Amazon S3 or Amazon EFS) reside.
   /// Your tasks are created in this AWS Region.
   ///
-  /// You can activate the agent in a VPC (Virtual private Cloud) or provide the
+  /// You can activate the agent in a VPC (virtual private cloud) or provide the
   /// agent access to a VPC endpoint so you can run tasks without going over the
-  /// public Internet.
+  /// public internet.
   ///
   /// You can use an agent for more than one location. If a task uses multiple
   /// agents, all of them need to have status AVAILABLE for the task to run. If
@@ -165,11 +165,11 @@ class DataSync {
   /// </note>
   ///
   /// Parameter [vpcEndpointId] :
-  /// The ID of the VPC (Virtual Private Cloud) endpoint that the agent has
+  /// The ID of the VPC (virtual private cloud) endpoint that the agent has
   /// access to. This is the client-side VPC endpoint, also called a
   /// PrivateLink. If you don't have a PrivateLink VPC endpoint, see <a
   /// href="https://docs.aws.amazon.com/vpc/latest/userguide/endpoint-service.html#create-endpoint-service">Creating
-  /// a VPC Endpoint Service Configuration</a> in the AWS VPC User Guide.
+  /// a VPC Endpoint Service Configuration</a> in the Amazon VPC User Guide.
   ///
   /// VPC endpoint ID looks like this: <code>vpce-01234d5aff67890e1</code>.
   Future<CreateAgentResponse> createAgent({
@@ -275,7 +275,7 @@ class DataSync {
   /// the EFS destination. By default, AWS DataSync uses the root directory.
   /// <note>
   /// <code>Subdirectory</code> must be specified with forward slashes. For
-  /// example <code>/path/to/folder</code>.
+  /// example, <code>/path/to/folder</code>.
   /// </note>
   ///
   /// Parameter [tags] :
@@ -468,7 +468,7 @@ class DataSync {
   }
 
   /// Defines a file system on a Network File System (NFS) server that can be
-  /// read from or written to
+  /// read from or written to.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [InternalException].
@@ -477,10 +477,18 @@ class DataSync {
   /// Contains a list of Amazon Resource Names (ARNs) of agents that are used to
   /// connect to an NFS server.
   ///
+  /// If you are copying data to or from your AWS Snowcone device, see <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/create-nfs-location.html#nfs-on-snowcone">NFS
+  /// Server on AWS Snowcone</a> for more information.
+  ///
   /// Parameter [serverHostname] :
   /// The name of the NFS server. This value is the IP address or Domain Name
   /// Service (DNS) name of the NFS server. An agent that is installed
   /// on-premises uses this host name to mount the NFS server in a network.
+  ///
+  /// If you are copying data to or from your AWS Snowcone device, see <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/create-nfs-location.html#nfs-on-snowcone">NFS
+  /// Server on AWS Snowcone</a> for more information.
   /// <note>
   /// This name must either be DNS-compliant or must be an IP version 4 (IPv4)
   /// address.
@@ -493,7 +501,7 @@ class DataSync {
   /// that path. The path should be such that it can be mounted by other NFS
   /// clients in your network.
   ///
-  /// To see all the paths exported by your NFS server. run "<code>showmount -e
+  /// To see all the paths exported by your NFS server, run "<code>showmount -e
   /// nfs-server-name</code>" from an NFS client that has access to your server.
   /// You can specify any directory that appears in the results, and any
   /// subdirectory of that directory. Ensure that the NFS export is accessible
@@ -506,6 +514,10 @@ class DataSync {
   /// for all users. Doing either enables the agent to read the files. For the
   /// agent to access directories, you must additionally enable all execute
   /// access.
+  ///
+  /// If you are copying data to or from your AWS Snowcone device, see <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/create-nfs-location.html#nfs-on-snowcone">NFS
+  /// Server on AWS Snowcone</a> for more information.
   ///
   /// For information about NFS export configuration, see 18.7. The /etc/exports
   /// Configuration File in the Red Hat Enterprise Linux documentation.
@@ -575,32 +587,192 @@ class DataSync {
     return CreateLocationNfsResponse.fromJson(jsonResponse.body);
   }
 
+  /// Creates an endpoint for a self-managed object storage bucket. For more
+  /// information about self-managed object storage locations, see
+  /// <a>create-object-location</a>.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InternalException].
+  ///
+  /// Parameter [agentArns] :
+  /// The Amazon Resource Name (ARN) of the agents associated with the
+  /// self-managed object storage server location.
+  ///
+  /// Parameter [bucketName] :
+  /// The bucket on the self-managed object storage server that is used to read
+  /// data from.
+  ///
+  /// Parameter [serverHostname] :
+  /// The name of the self-managed object storage server. This value is the IP
+  /// address or Domain Name Service (DNS) name of the object storage server. An
+  /// agent uses this host name to mount the object storage server in a network.
+  ///
+  /// Parameter [accessKey] :
+  /// Optional. The access key is used if credentials are required to access the
+  /// self-managed object storage server. If your object storage requires a user
+  /// name and password to authenticate, use <code>AccessKey</code> and
+  /// <code>SecretKey</code> to provide the user name and password,
+  /// respectively.
+  ///
+  /// Parameter [secretKey] :
+  /// Optional. The secret key is used if credentials are required to access the
+  /// self-managed object storage server. If your object storage requires a user
+  /// name and password to authenticate, use <code>AccessKey</code> and
+  /// <code>SecretKey</code> to provide the user name and password,
+  /// respectively.
+  ///
+  /// Parameter [serverPort] :
+  /// The port that your self-managed object storage server accepts inbound
+  /// network traffic on. The server port is set by default to TCP 80 (HTTP) or
+  /// TCP 443 (HTTPS). You can specify a custom port if your self-managed object
+  /// storage server requires one.
+  ///
+  /// Parameter [serverProtocol] :
+  /// The protocol that the object storage server uses to communicate. Valid
+  /// values are HTTP or HTTPS.
+  ///
+  /// Parameter [subdirectory] :
+  /// The subdirectory in the self-managed object storage server that is used to
+  /// read data from.
+  ///
+  /// Parameter [tags] :
+  /// The key-value pair that represents the tag that you want to add to the
+  /// location. The value can be an empty string. We recommend using tags to
+  /// name your resources.
+  Future<CreateLocationObjectStorageResponse> createLocationObjectStorage({
+    @_s.required List<String> agentArns,
+    @_s.required String bucketName,
+    @_s.required String serverHostname,
+    String accessKey,
+    String secretKey,
+    int serverPort,
+    ObjectStorageServerProtocol serverProtocol,
+    String subdirectory,
+    List<TagListEntry> tags,
+  }) async {
+    ArgumentError.checkNotNull(agentArns, 'agentArns');
+    ArgumentError.checkNotNull(bucketName, 'bucketName');
+    _s.validateStringLength(
+      'bucketName',
+      bucketName,
+      3,
+      63,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'bucketName',
+      bucketName,
+      r'''^[a-zA-Z0-9_\-\+\./\(\)\$\p{Zs}]+$''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(serverHostname, 'serverHostname');
+    _s.validateStringLength(
+      'serverHostname',
+      serverHostname,
+      0,
+      255,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'serverHostname',
+      serverHostname,
+      r'''^(([a-zA-Z0-9\-]*[a-zA-Z0-9])\.)*([A-Za-z0-9\-]*[A-Za-z0-9])$''',
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'accessKey',
+      accessKey,
+      8,
+      200,
+    );
+    _s.validateStringPattern(
+      'accessKey',
+      accessKey,
+      r'''^.+$''',
+    );
+    _s.validateStringLength(
+      'secretKey',
+      secretKey,
+      8,
+      200,
+    );
+    _s.validateStringPattern(
+      'secretKey',
+      secretKey,
+      r'''^.+$''',
+    );
+    _s.validateNumRange(
+      'serverPort',
+      serverPort,
+      1,
+      65536,
+    );
+    _s.validateStringLength(
+      'subdirectory',
+      subdirectory,
+      0,
+      4096,
+    );
+    _s.validateStringPattern(
+      'subdirectory',
+      subdirectory,
+      r'''^[a-zA-Z0-9_\-\+\./\(\)\p{Zs}]*$''',
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'FmrsService.CreateLocationObjectStorage'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AgentArns': agentArns,
+        'BucketName': bucketName,
+        'ServerHostname': serverHostname,
+        if (accessKey != null) 'AccessKey': accessKey,
+        if (secretKey != null) 'SecretKey': secretKey,
+        if (serverPort != null) 'ServerPort': serverPort,
+        if (serverProtocol != null) 'ServerProtocol': serverProtocol.toValue(),
+        if (subdirectory != null) 'Subdirectory': subdirectory,
+        if (tags != null) 'Tags': tags,
+      },
+    );
+
+    return CreateLocationObjectStorageResponse.fromJson(jsonResponse.body);
+  }
+
   /// Creates an endpoint for an Amazon S3 bucket.
   ///
-  /// For AWS DataSync to access a destination S3 bucket, it needs an AWS
-  /// Identity and Access Management (IAM) role that has the required
-  /// permissions. You can set up the required permissions by creating an IAM
-  /// policy that grants the required permissions and attaching the policy to
-  /// the role. An example of such a policy is shown in the examples section.
-  ///
   /// For more information, see
-  /// https://docs.aws.amazon.com/datasync/latest/userguide/working-with-locations.html#create-s3-location
-  /// in the <i>AWS DataSync User Guide.</i>
+  /// https://docs.aws.amazon.com/datasync/latest/userguide/create-locations-cli.html#create-location-s3-cli
+  /// in the <i>AWS DataSync User Guide</i>.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [InternalException].
   ///
   /// Parameter [s3BucketArn] :
-  /// The Amazon Resource Name (ARN) of the Amazon S3 bucket.
+  /// The ARN of the Amazon S3 bucket. If the bucket is on an AWS Outpost, this
+  /// must be an access point ARN.
+  ///
+  /// Parameter [agentArns] :
+  /// If you are using DataSync on an AWS Outpost, specify the Amazon Resource
+  /// Names (ARNs) of the DataSync agents deployed on your Outpost. For more
+  /// information about launching a DataSync agent on an AWS Outpost, see
+  /// <a>outposts-agent</a>.
   ///
   /// Parameter [s3StorageClass] :
   /// The Amazon S3 storage class that you want to store your files in when this
-  /// location is used as a task destination. For more information about S3
-  /// storage classes, see <a
-  /// href="https://aws.amazon.com/s3/storage-classes/">Amazon S3 Storage
-  /// Classes</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.
-  /// Some storage classes have behaviors that can affect your S3 storage cost.
-  /// For detailed information, see <a>using-storage-classes</a>.
+  /// location is used as a task destination. For buckets in AWS Regions, the
+  /// storage class defaults to Standard. For buckets on AWS Outposts, the
+  /// storage class defaults to AWS S3 Outposts.
+  ///
+  /// For more information about S3 storage classes, see <a
+  /// href="http://aws.amazon.com/s3/storage-classes/">Amazon S3 Storage
+  /// Classes</a>. Some storage classes have behaviors that can affect your S3
+  /// storage cost. For detailed information, see <a>using-storage-classes</a>.
   ///
   /// Parameter [subdirectory] :
   /// A subdirectory in the Amazon S3 bucket. This subdirectory in Amazon S3 is
@@ -614,6 +786,7 @@ class DataSync {
   Future<CreateLocationS3Response> createLocationS3({
     @_s.required String s3BucketArn,
     @_s.required S3Config s3Config,
+    List<String> agentArns,
     S3StorageClass s3StorageClass,
     String subdirectory,
     List<TagListEntry> tags,
@@ -623,13 +796,13 @@ class DataSync {
       's3BucketArn',
       s3BucketArn,
       0,
-      76,
+      156,
       isRequired: true,
     );
     _s.validateStringPattern(
       's3BucketArn',
       s3BucketArn,
-      r'''^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):s3:::([^/]*)$''',
+      r'''^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):(s3|s3-outposts):[a-z\-0-9]*:[0-9]*:.*$''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(s3Config, 's3Config');
@@ -657,6 +830,7 @@ class DataSync {
       payload: {
         'S3BucketArn': s3BucketArn,
         'S3Config': s3Config,
+        if (agentArns != null) 'AgentArns': agentArns,
         if (s3StorageClass != null) 'S3StorageClass': s3StorageClass.toValue(),
         if (subdirectory != null) 'Subdirectory': subdirectory,
         if (tags != null) 'Tags': tags,
@@ -666,7 +840,7 @@ class DataSync {
     return CreateLocationS3Response.fromJson(jsonResponse.body);
   }
 
-  /// Defines a file system on an Server Message Block (SMB) server that can be
+  /// Defines a file system on a Server Message Block (SMB) server that can be
   /// read from or written to.
   ///
   /// May throw [InvalidRequestException].
@@ -697,7 +871,7 @@ class DataSync {
   /// clients in your network.
   /// <note>
   /// <code>Subdirectory</code> must be specified with forward slashes. For
-  /// example <code>/path/to/folder</code>.
+  /// example, <code>/path/to/folder</code>.
   /// </note>
   /// To transfer all the data in the folder you specified, DataSync needs to
   /// have permissions to mount the SMB share, as well as to access all the data
@@ -842,7 +1016,7 @@ class DataSync {
   /// remains in the CREATING status for more than a few minutes, it means that
   /// your agent might be having trouble mounting the source NFS file system.
   /// Check the task's ErrorCode and ErrorDetail. Mount issues are often caused
-  /// by either a misconfigured firewall or a mistyped NFS server host name.
+  /// by either a misconfigured firewall or a mistyped NFS server hostname.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [InternalException].
@@ -857,17 +1031,11 @@ class DataSync {
   /// The Amazon Resource Name (ARN) of the Amazon CloudWatch log group that is
   /// used to monitor and log events in the task.
   ///
-  /// For more information on these groups, see Working with Log Groups and Log
-  /// Streams in the <i>Amazon CloudWatch User Guide.</i>
-  ///
-  /// For more information about how to use CloudWatch Logs with DataSync, see
-  /// Monitoring Your Task in the <i>AWS DataSync User Guide.</i>
-  ///
   /// Parameter [excludes] :
   /// A list of filter rules that determines which files to exclude from a task.
   /// The list should contain a single filter string that consists of the
   /// patterns to exclude. The patterns are delimited by "|" (that is, a pipe),
-  /// for example, <code>"/folder1|/folder2"</code>
+  /// for example, <code>"/folder1|/folder2"</code>.
   ///
   ///
   ///
@@ -883,7 +1051,7 @@ class DataSync {
   /// permissions, data integrity verification, and so on.
   ///
   /// For each individual task execution, you can override these options by
-  /// specifying the <code>OverrideOptions</code> before starting a the task
+  /// specifying the <code>OverrideOptions</code> before starting the task
   /// execution. For more information, see the operation.
   ///
   /// Parameter [schedule] :
@@ -942,7 +1110,7 @@ class DataSync {
     _s.validateStringPattern(
       'cloudWatchLogGroupArn',
       cloudWatchLogGroupArn,
-      r'''^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):logs:[a-z\-0-9]*:[0-9]{12}:log-group:([^:\*]*)$''',
+      r'''^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):logs:[a-z\-0-9]*:[0-9]{12}:log-group:([^:\*]*)(:\*)?$''',
     );
     _s.validateStringLength(
       'name',
@@ -1244,13 +1412,13 @@ class DataSync {
     return DescribeLocationFsxWindowsResponse.fromJson(jsonResponse.body);
   }
 
-  /// Returns metadata, such as the path information, about a NFS location.
+  /// Returns metadata, such as the path information, about an NFS location.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [InternalException].
   ///
   /// Parameter [locationArn] :
-  /// The Amazon resource Name (ARN) of the NFS location to describe.
+  /// The Amazon Resource Name (ARN) of the NFS location to describe.
   Future<DescribeLocationNfsResponse> describeLocationNfs({
     @_s.required String locationArn,
   }) async {
@@ -1284,6 +1452,51 @@ class DataSync {
     );
 
     return DescribeLocationNfsResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Returns metadata about a self-managed object storage server location. For
+  /// more information about self-managed object storage locations, see
+  /// <a>create-object-location</a>.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InternalException].
+  ///
+  /// Parameter [locationArn] :
+  /// The Amazon Resource Name (ARN) of the self-managed object storage server
+  /// location that was described.
+  Future<DescribeLocationObjectStorageResponse> describeLocationObjectStorage({
+    @_s.required String locationArn,
+  }) async {
+    ArgumentError.checkNotNull(locationArn, 'locationArn');
+    _s.validateStringLength(
+      'locationArn',
+      locationArn,
+      0,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'locationArn',
+      locationArn,
+      r'''^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'FmrsService.DescribeLocationObjectStorage'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'LocationArn': locationArn,
+      },
+    );
+
+    return DescribeLocationObjectStorageResponse.fromJson(jsonResponse.body);
   }
 
   /// Returns metadata, such as bucket name, about an Amazon S3 bucket location.
@@ -1329,14 +1542,14 @@ class DataSync {
     return DescribeLocationS3Response.fromJson(jsonResponse.body);
   }
 
-  /// Returns metadata, such as the path and user information about a SMB
+  /// Returns metadata, such as the path and user information about an SMB
   /// location.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [InternalException].
   ///
   /// Parameter [locationArn] :
-  /// The Amazon resource Name (ARN) of the SMB location to describe.
+  /// The Amazon Resource Name (ARN) of the SMB location to describe.
   Future<DescribeLocationSmbResponse> describeLocationSmb({
     @_s.required String locationArn,
   }) async {
@@ -1518,7 +1731,7 @@ class DataSync {
     return ListAgentsResponse.fromJson(jsonResponse.body);
   }
 
-  /// Returns a lists of source and destination locations.
+  /// Returns a list of source and destination locations.
   ///
   /// If you have more locations than are returned in a response (that is, the
   /// response returns only a truncated list of your agents), the response
@@ -1528,6 +1741,12 @@ class DataSync {
   /// May throw [InvalidRequestException].
   /// May throw [InternalException].
   ///
+  /// Parameter [filters] :
+  /// You can use API filters to narrow down the list of resources returned by
+  /// <code>ListLocations</code>. For example, to retrieve all tasks on a
+  /// specific source location, you can use <code>ListLocations</code> with
+  /// filter name <code>LocationType S3</code> and <code>Operator Equals</code>.
+  ///
   /// Parameter [maxResults] :
   /// The maximum number of locations to return.
   ///
@@ -1535,6 +1754,7 @@ class DataSync {
   /// An opaque string that indicates the position at which to begin the next
   /// list of locations.
   Future<ListLocationsResponse> listLocations({
+    List<LocationFilter> filters,
     int maxResults,
     String nextToken,
   }) async {
@@ -1566,6 +1786,7 @@ class DataSync {
       // TODO queryParams
       headers: headers,
       payload: {
+        if (filters != null) 'Filters': filters,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
       },
@@ -1574,7 +1795,7 @@ class DataSync {
     return ListLocationsResponse.fromJson(jsonResponse.body);
   }
 
-  /// Returns all the tags associated with a specified resources.
+  /// Returns all the tags associated with a specified resource.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [InternalException].
@@ -1716,6 +1937,13 @@ class DataSync {
   /// May throw [InvalidRequestException].
   /// May throw [InternalException].
   ///
+  /// Parameter [filters] :
+  /// You can use API filters to narrow down the list of resources returned by
+  /// <code>ListTasks</code>. For example, to retrieve all tasks on a specific
+  /// source location, you can use <code>ListTasks</code> with filter name
+  /// <code>LocationId</code> and <code>Operator Equals</code> with the ARN for
+  /// the location.
+  ///
   /// Parameter [maxResults] :
   /// The maximum number of tasks to return.
   ///
@@ -1723,6 +1951,7 @@ class DataSync {
   /// An opaque string that indicates the position at which to begin the next
   /// list of tasks.
   Future<ListTasksResponse> listTasks({
+    List<TaskFilter> filters,
     int maxResults,
     String nextToken,
   }) async {
@@ -1754,6 +1983,7 @@ class DataSync {
       // TODO queryParams
       headers: headers,
       payload: {
+        if (filters != null) 'Filters': filters,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
       },
@@ -2038,7 +2268,7 @@ class DataSync {
     _s.validateStringPattern(
       'cloudWatchLogGroupArn',
       cloudWatchLogGroupArn,
-      r'''^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):logs:[a-z\-0-9]*:[0-9]{12}:log-group:([^:\*]*)$''',
+      r'''^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):logs:[a-z\-0-9]*:[0-9]{12}:log-group:([^:\*]*)(:\*)?$''',
     );
     _s.validateStringLength(
       'name',
@@ -2073,6 +2303,63 @@ class DataSync {
     );
 
     return UpdateTaskResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Updates execution of a task.
+  ///
+  /// You can modify bandwidth throttling for a task execution that is running
+  /// or queued. For more information, see <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/working-with-task-executions.html#adjust-bandwidth-throttling">Adjusting
+  /// Bandwidth Throttling for a Task Execution</a>.
+  /// <note>
+  /// The only <code>Option</code> that can be modified by
+  /// <code>UpdateTaskExecution</code> is <code> <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/API_Options.html#DataSync-Type-Options-BytesPerSecond">BytesPerSecond</a>
+  /// </code>.
+  /// </note>
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InternalException].
+  ///
+  /// Parameter [taskExecutionArn] :
+  /// The Amazon Resource Name (ARN) of the specific task execution that is
+  /// being updated.
+  Future<void> updateTaskExecution({
+    @_s.required Options options,
+    @_s.required String taskExecutionArn,
+  }) async {
+    ArgumentError.checkNotNull(options, 'options');
+    ArgumentError.checkNotNull(taskExecutionArn, 'taskExecutionArn');
+    _s.validateStringLength(
+      'taskExecutionArn',
+      taskExecutionArn,
+      0,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'taskExecutionArn',
+      taskExecutionArn,
+      r'''^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\-0-9]*:[0-9]{12}:task/task-[0-9a-f]{17}/execution/exec-[0-9a-f]{17}$''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'FmrsService.UpdateTaskExecution'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Options': options,
+        'TaskExecutionArn': taskExecutionArn,
+      },
+    );
+
+    return UpdateTaskExecutionResponse.fromJson(jsonResponse.body);
   }
 }
 
@@ -2207,6 +2494,26 @@ class CreateLocationNfsResponse {
       _$CreateLocationNfsResponseFromJson(json);
 }
 
+/// CreateLocationObjectStorageResponse
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class CreateLocationObjectStorageResponse {
+  /// The Amazon Resource Name (ARN) of the agents associated with the
+  /// self-managed object storage server location.
+  @_s.JsonKey(name: 'LocationArn')
+  final String locationArn;
+
+  CreateLocationObjectStorageResponse({
+    this.locationArn,
+  });
+  factory CreateLocationObjectStorageResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$CreateLocationObjectStorageResponseFromJson(json);
+}
+
 /// CreateLocationS3Response
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2313,7 +2620,7 @@ class DescribeAgentResponse {
   final DateTime creationTime;
 
   /// The type of endpoint that your agent is connected to. If the endpoint is a
-  /// VPC endpoint, the agent is not accessible over the public Internet.
+  /// VPC endpoint, the agent is not accessible over the public internet.
   @_s.JsonKey(name: 'EndpointType')
   final EndpointType endpointType;
 
@@ -2366,7 +2673,7 @@ class DescribeLocationEfsResponse {
   @_s.JsonKey(name: 'Ec2Config')
   final Ec2Config ec2Config;
 
-  /// The Amazon resource Name (ARN) of the EFS location that was described.
+  /// The Amazon Resource Name (ARN) of the EFS location that was described.
   @_s.JsonKey(name: 'LocationArn')
   final String locationArn;
 
@@ -2399,7 +2706,7 @@ class DescribeLocationFsxWindowsResponse {
   @_s.JsonKey(name: 'Domain')
   final String domain;
 
-  /// The Amazon resource Name (ARN) of the FSx for Windows location that was
+  /// The Amazon Resource Name (ARN) of the FSx for Windows location that was
   /// described.
   @_s.JsonKey(name: 'LocationArn')
   final String locationArn;
@@ -2409,7 +2716,7 @@ class DescribeLocationFsxWindowsResponse {
   final String locationUri;
 
   /// The Amazon Resource Names (ARNs) of the security groups that are configured
-  /// for the for the FSx for Windows file system.
+  /// for the FSx for Windows file system.
   @_s.JsonKey(name: 'SecurityGroupArns')
   final List<String> securityGroupArns;
 
@@ -2443,7 +2750,7 @@ class DescribeLocationNfsResponse {
   @_s.JsonKey(name: 'CreationTime')
   final DateTime creationTime;
 
-  /// The Amazon resource Name (ARN) of the NFS location that was described.
+  /// The Amazon Resource Name (ARN) of the NFS location that was described.
   @_s.JsonKey(name: 'LocationArn')
   final String locationArn;
 
@@ -2468,6 +2775,65 @@ class DescribeLocationNfsResponse {
       _$DescribeLocationNfsResponseFromJson(json);
 }
 
+/// DescribeLocationObjectStorageResponse
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DescribeLocationObjectStorageResponse {
+  /// Optional. The access key is used if credentials are required to access the
+  /// self-managed object storage server. If your object storage requires a user
+  /// name and password to authenticate, use <code>AccessKey</code> and
+  /// <code>SecretKey</code> to provide the user name and password, respectively.
+  @_s.JsonKey(name: 'AccessKey')
+  final String accessKey;
+
+  /// The Amazon Resource Name (ARN) of the agents associated with the
+  /// self-managed object storage server location.
+  @_s.JsonKey(name: 'AgentArns')
+  final List<String> agentArns;
+
+  /// The time that the self-managed object storage server agent was created.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationTime')
+  final DateTime creationTime;
+
+  /// The Amazon Resource Name (ARN) of the self-managed object storage server
+  /// location to describe.
+  @_s.JsonKey(name: 'LocationArn')
+  final String locationArn;
+
+  /// The URL of the source self-managed object storage server location that was
+  /// described.
+  @_s.JsonKey(name: 'LocationUri')
+  final String locationUri;
+
+  /// The port that your self-managed object storage server accepts inbound
+  /// network traffic on. The server port is set by default to TCP 80 (HTTP) or
+  /// TCP 443 (HTTPS).
+  @_s.JsonKey(name: 'ServerPort')
+  final int serverPort;
+
+  /// The protocol that the object storage server uses to communicate. Valid
+  /// values are HTTP or HTTPS.
+  @_s.JsonKey(name: 'ServerProtocol')
+  final ObjectStorageServerProtocol serverProtocol;
+
+  DescribeLocationObjectStorageResponse({
+    this.accessKey,
+    this.agentArns,
+    this.creationTime,
+    this.locationArn,
+    this.locationUri,
+    this.serverPort,
+    this.serverProtocol,
+  });
+  factory DescribeLocationObjectStorageResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$DescribeLocationObjectStorageResponseFromJson(json);
+}
+
 /// DescribeLocationS3Response
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2475,12 +2841,18 @@ class DescribeLocationNfsResponse {
     createFactory: true,
     createToJson: false)
 class DescribeLocationS3Response {
+  /// If you are using DataSync on an AWS Outpost, the Amazon Resource Name (ARNs)
+  /// of the EC2 agents deployed on your Outpost. For more information about
+  /// launching a DataSync agent on an AWS Outpost, see <a>outposts-agent</a>.
+  @_s.JsonKey(name: 'AgentArns')
+  final List<String> agentArns;
+
   /// The time that the Amazon S3 bucket location was created.
   @UnixDateTimeConverter()
   @_s.JsonKey(name: 'CreationTime')
   final DateTime creationTime;
 
-  /// The Amazon Resource Name (ARN) of the Amazon S3 bucket location.
+  /// The Amazon Resource Name (ARN) of the Amazon S3 bucket or access point.
   @_s.JsonKey(name: 'LocationArn')
   final String locationArn;
 
@@ -2493,14 +2865,14 @@ class DescribeLocationS3Response {
   /// The Amazon S3 storage class that you chose to store your files in when this
   /// location is used as a task destination. For more information about S3
   /// storage classes, see <a
-  /// href="https://aws.amazon.com/s3/storage-classes/">Amazon S3 Storage
-  /// Classes</a> in the <i>Amazon Simple Storage Service Developer Guide</i>.
-  /// Some storage classes have behaviors that can affect your S3 storage cost.
-  /// For detailed information, see <a>using-storage-classes</a>.
+  /// href="http://aws.amazon.com/s3/storage-classes/">Amazon S3 Storage
+  /// Classes</a>. Some storage classes have behaviors that can affect your S3
+  /// storage cost. For detailed information, see <a>using-storage-classes</a>.
   @_s.JsonKey(name: 'S3StorageClass')
   final S3StorageClass s3StorageClass;
 
   DescribeLocationS3Response({
+    this.agentArns,
     this.creationTime,
     this.locationArn,
     this.locationUri,
@@ -2532,7 +2904,7 @@ class DescribeLocationSmbResponse {
   @_s.JsonKey(name: 'Domain')
   final String domain;
 
-  /// The Amazon resource Name (ARN) of the SMB location that was described.
+  /// The Amazon Resource Name (ARN) of the SMB location that was described.
   @_s.JsonKey(name: 'LocationArn')
   final String locationArn;
 
@@ -2753,7 +3125,7 @@ class DescribeTaskResponse {
   /// The status of the task that was described.
   ///
   /// For detailed information about task execution statuses, see Understanding
-  /// Task Statuses in the <i>AWS DataSync User Guide.</i>
+  /// Task Statuses in the <i>AWS DataSync User Guide</i>.
   @_s.JsonKey(name: 'Status')
   final TaskStatus status;
 
@@ -2988,6 +3360,50 @@ class ListTasksResponse {
       _$ListTasksResponseFromJson(json);
 }
 
+/// You can use API filters to narrow down the list of resources returned by
+/// <code>ListLocations</code>. For example, to retrieve all your Amazon S3
+/// locations, you can use <code>ListLocations</code> with filter name
+/// <code>LocationType S3</code> and <code>Operator Equals</code>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class LocationFilter {
+  /// The name of the filter being used. Each API call supports a list of filters
+  /// that are available for it (for example, <code>LocationType</code> for
+  /// <code>ListLocations</code>).
+  @_s.JsonKey(name: 'Name')
+  final LocationFilterName name;
+
+  /// The operator that is used to compare filter values (for example,
+  /// <code>Equals</code> or <code>Contains</code>). For more about API filtering
+  /// operators, see <a>query-resources</a>.
+  @_s.JsonKey(name: 'Operator')
+  final Operator operator;
+
+  /// The values that you want to filter for. For example, you might want to
+  /// display only Amazon S3 locations.
+  @_s.JsonKey(name: 'Values')
+  final List<String> values;
+
+  LocationFilter({
+    @_s.required this.name,
+    @_s.required this.operator,
+    @_s.required this.values,
+  });
+  Map<String, dynamic> toJson() => _$LocationFilterToJson(this);
+}
+
+enum LocationFilterName {
+  @_s.JsonValue('LocationUri')
+  locationUri,
+  @_s.JsonValue('LocationType')
+  locationType,
+  @_s.JsonValue('CreationTime')
+  creationTime,
+}
+
 /// Represents a single entry in a list of locations.
 /// <code>LocationListEntry</code> returns an array that contains a list of
 /// locations when the <a>ListLocations</a> operation is called.
@@ -3106,6 +3522,25 @@ enum NfsVersion {
   nfs4_1,
 }
 
+enum ObjectStorageServerProtocol {
+  @_s.JsonValue('HTTPS')
+  https,
+  @_s.JsonValue('HTTP')
+  http,
+}
+
+extension on ObjectStorageServerProtocol {
+  String toValue() {
+    switch (this) {
+      case ObjectStorageServerProtocol.https:
+        return 'HTTPS';
+      case ObjectStorageServerProtocol.http:
+        return 'HTTP';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// A list of Amazon Resource Names (ARNs) of agents to use for a Network File
 /// System (NFS) location.
 @_s.JsonSerializable(
@@ -3114,7 +3549,7 @@ enum NfsVersion {
     createFactory: true,
     createToJson: true)
 class OnPremConfig {
-  /// ARNs)of the agents to use for an NFS location.
+  /// ARNs of the agents to use for an NFS location.
   @_s.JsonKey(name: 'AgentArns')
   final List<String> agentArns;
 
@@ -3125,6 +3560,29 @@ class OnPremConfig {
       _$OnPremConfigFromJson(json);
 
   Map<String, dynamic> toJson() => _$OnPremConfigToJson(this);
+}
+
+enum Operator {
+  @_s.JsonValue('Equals')
+  equals,
+  @_s.JsonValue('NotEquals')
+  notEquals,
+  @_s.JsonValue('In')
+  $in,
+  @_s.JsonValue('LessThanOrEqual')
+  lessThanOrEqual,
+  @_s.JsonValue('LessThan')
+  lessThan,
+  @_s.JsonValue('GreaterThanOrEqual')
+  greaterThanOrEqual,
+  @_s.JsonValue('GreaterThan')
+  greaterThan,
+  @_s.JsonValue('Contains')
+  contains,
+  @_s.JsonValue('NotContains')
+  notContains,
+  @_s.JsonValue('BeginsWith')
+  beginsWith,
 }
 
 /// Represents the options that are available to control the behavior of a
@@ -3182,11 +3640,14 @@ class Options {
   @_s.JsonKey(name: 'Gid')
   final Gid gid;
 
-  /// A value that determines the type of logs DataSync will deliver to your AWS
-  /// CloudWatch Logs file. If set to <code>OFF</code>, no logs will be delivered.
-  /// <code>BASIC</code> will deliver a few logs per transfer operation and
-  /// <code>TRANSFER</code> will deliver a verbose log that contains logs for
-  /// every file that is transferred.
+  /// A value that determines the type of logs that DataSync publishes to a log
+  /// stream in the Amazon CloudWatch log group that you provide. For more
+  /// information about providing a log group for DataSync, see <a
+  /// href="https://docs.aws.amazon.com/datasync/latest/userguide/API_CreateTask.html#DataSync-CreateTask-request-CloudWatchLogGroupArn">CloudWatchLogGroupArn</a>.
+  /// If set to <code>OFF</code>, no logs are published. <code>BASIC</code>
+  /// publishes logs on errors for individual files transferred, and
+  /// <code>TRANSFER</code> publishes logs for every file or object that is
+  /// transferred and integrity checked.
   @_s.JsonKey(name: 'LogLevel')
   final LogLevel logLevel;
 
@@ -3269,10 +3730,23 @@ class Options {
   /// tasks. If set to <code>ENABLED</code>, the tasks will be queued. The default
   /// is <code>ENABLED</code>.
   ///
-  /// If you use the same agent to run multiple tasks you can enable the tasks to
-  /// run in series. For more information see <a>queue-task-execution</a>.
+  /// If you use the same agent to run multiple tasks, you can enable the tasks to
+  /// run in series. For more information, see <a>queue-task-execution</a>.
   @_s.JsonKey(name: 'TaskQueueing')
   final TaskQueueing taskQueueing;
+
+  /// A value that determines whether DataSync transfers only the data and
+  /// metadata that differ between the source and the destination location, or
+  /// whether DataSync transfers all the content from the source, without
+  /// comparing to the destination location.
+  ///
+  /// CHANGED: DataSync copies only data or metadata that is new or different
+  /// content from the source location to the destination location.
+  ///
+  /// ALL: DataSync copies all source location content to the destination, without
+  /// comparing to existing content on the destination.
+  @_s.JsonKey(name: 'TransferMode')
+  final TransferMode transferMode;
 
   /// The user ID (UID) of the file's owner.
   ///
@@ -3287,16 +3761,21 @@ class Options {
 
   /// A value that determines whether a data integrity verification should be
   /// performed at the end of a task execution after all data and metadata have
-  /// been transferred.
+  /// been transferred. For more information, see <a>create-task</a>
   ///
   /// Default value: POINT_IN_TIME_CONSISTENT.
   ///
-  /// POINT_IN_TIME_CONSISTENT: Perform verification (recommended).
+  /// ONLY_FILES_TRANSFERRED (recommended): Perform verification only on files
+  /// that were transferred.
   ///
-  /// ONLY_FILES_TRANSFERRED: Perform verification on only files that were
-  /// transferred.
+  /// POINT_IN_TIME_CONSISTENT: Scan the entire source and entire destination at
+  /// the end of the transfer to verify that source and destination are fully
+  /// synchronized. This option isn't supported when transferring to S3 Glacier or
+  /// S3 Glacier Deep Archive storage classes.
   ///
-  /// NONE: Skip verification.
+  /// NONE: No additional verification is done at the end of the transfer, but all
+  /// data transmissions are integrity-checked with checksum verification during
+  /// the transfer.
   @_s.JsonKey(name: 'VerifyMode')
   final VerifyMode verifyMode;
 
@@ -3311,6 +3790,7 @@ class Options {
     this.preserveDeletedFiles,
     this.preserveDevices,
     this.taskQueueing,
+    this.transferMode,
     this.uid,
     this.verifyMode,
   });
@@ -3357,7 +3837,7 @@ enum PreserveDevices {
   preserve,
 }
 
-/// The VPC endpoint, subnet and security group that an agent uses to access IP
+/// The VPC endpoint, subnet, and security group that an agent uses to access IP
 /// addresses in a VPC (Virtual Private Cloud).
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3369,7 +3849,7 @@ class PrivateLinkConfig {
   /// addresses in a <a
   /// href="https://docs.aws.amazon.com/vpc/latest/userguide/endpoint-service.html">PrivateLink</a>.
   /// An agent that is configured with this endpoint will not be accessible over
-  /// the public Internet.
+  /// the public internet.
   @_s.JsonKey(name: 'PrivateLinkEndpoint')
   final String privateLinkEndpoint;
 
@@ -3386,7 +3866,7 @@ class PrivateLinkConfig {
 
   /// The ID of the VPC endpoint that is configured for an agent. An agent that is
   /// configured with a VPC endpoint will not be accessible over the public
-  /// Internet.
+  /// internet.
   @_s.JsonKey(name: 'VpcEndpointId')
   final String vpcEndpointId;
 
@@ -3438,6 +3918,8 @@ enum S3StorageClass {
   glacier,
   @_s.JsonValue('DEEP_ARCHIVE')
   deepArchive,
+  @_s.JsonValue('OUTPOSTS')
+  outposts,
 }
 
 extension on S3StorageClass {
@@ -3455,6 +3937,8 @@ extension on S3StorageClass {
         return 'GLACIER';
       case S3StorageClass.deepArchive:
         return 'DEEP_ARCHIVE';
+      case S3StorageClass.outposts:
+        return 'OUTPOSTS';
     }
     throw Exception('Unknown enum value: $this');
   }
@@ -3614,7 +4098,7 @@ class TaskExecutionResultDetail {
   @_s.JsonKey(name: 'TransferDuration')
   final int transferDuration;
 
-  /// The status of the TRANSFERRING Phase.
+  /// The status of the TRANSFERRING phase.
   @_s.JsonKey(name: 'TransferStatus')
   final PhaseStatus transferStatus;
 
@@ -3623,7 +4107,7 @@ class TaskExecutionResultDetail {
   @_s.JsonKey(name: 'VerifyDuration')
   final int verifyDuration;
 
-  /// The status of the VERIFYING Phase.
+  /// The status of the VERIFYING phase.
   @_s.JsonKey(name: 'VerifyStatus')
   final PhaseStatus verifyStatus;
 
@@ -3657,6 +4141,49 @@ enum TaskExecutionStatus {
   success,
   @_s.JsonValue('ERROR')
   error,
+}
+
+/// You can use API filters to narrow down the list of resources returned by
+/// <code>ListTasks</code>. For example, to retrieve all tasks on a source
+/// location, you can use <code>ListTasks</code> with filter name
+/// <code>LocationId</code> and <code>Operator Equals</code> with the ARN for
+/// the location.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TaskFilter {
+  /// The name of the filter being used. Each API call supports a list of filters
+  /// that are available for it. For example, <code>LocationId</code> for
+  /// <code>ListTasks</code>.
+  @_s.JsonKey(name: 'Name')
+  final TaskFilterName name;
+
+  /// The operator that is used to compare filter values (for example,
+  /// <code>Equals</code> or <code>Contains</code>). For more about API filtering
+  /// operators, see <a>query-resources</a>.
+  @_s.JsonKey(name: 'Operator')
+  final Operator operator;
+
+  /// The values that you want to filter for. For example, you might want to
+  /// display only tasks for a specific destination location.
+  @_s.JsonKey(name: 'Values')
+  final List<String> values;
+
+  TaskFilter({
+    @_s.required this.name,
+    @_s.required this.operator,
+    @_s.required this.values,
+  });
+  Map<String, dynamic> toJson() => _$TaskFilterToJson(this);
+}
+
+enum TaskFilterName {
+  @_s.JsonValue('LocationId')
+  locationId,
+  @_s.JsonValue('CreationTime')
+  creationTime,
 }
 
 /// Represents a single entry in a list of tasks. <code>TaskListEntry</code>
@@ -3734,6 +4261,13 @@ enum TaskStatus {
   unavailable,
 }
 
+enum TransferMode {
+  @_s.JsonValue('CHANGED')
+  changed,
+  @_s.JsonValue('ALL')
+  all,
+}
+
 enum Uid {
   @_s.JsonValue('NONE')
   none,
@@ -3765,6 +4299,17 @@ class UpdateAgentResponse {
   UpdateAgentResponse();
   factory UpdateAgentResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateAgentResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class UpdateTaskExecutionResponse {
+  UpdateTaskExecutionResponse();
+  factory UpdateTaskExecutionResponse.fromJson(Map<String, dynamic> json) =>
+      _$UpdateTaskExecutionResponseFromJson(json);
 }
 
 @_s.JsonSerializable(

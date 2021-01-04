@@ -3,7 +3,7 @@
 **Warning: This is a generated library, some operations may not work.**
 
 *About the service:*
-AWS EventBridge Schemas
+Amazon EventBridge Schema Registry
 
 ## Links
 

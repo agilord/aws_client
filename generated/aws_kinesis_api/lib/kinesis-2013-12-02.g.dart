@@ -6,6 +6,17 @@ part of 'kinesis-2013-12-02.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+ChildShard _$ChildShardFromJson(Map<String, dynamic> json) {
+  return ChildShard(
+    hashKeyRange: json['HashKeyRange'] == null
+        ? null
+        : HashKeyRange.fromJson(json['HashKeyRange'] as Map<String, dynamic>),
+    parentShards:
+        (json['ParentShards'] as List)?.map((e) => e as String)?.toList(),
+    shardId: json['ShardId'] as String,
+  );
+}
+
 Consumer _$ConsumerFromJson(Map<String, dynamic> json) {
   return Consumer(
     consumerARN: json['ConsumerARN'] as String,
@@ -137,25 +148,15 @@ EnhancedMonitoringOutput _$EnhancedMonitoringOutputFromJson(
   );
 }
 
-ExpiredIteratorException _$ExpiredIteratorExceptionFromJson(
-    Map<String, dynamic> json) {
-  return ExpiredIteratorException(
-    message: json['message'] as String,
-  );
-}
-
-ExpiredNextTokenException _$ExpiredNextTokenExceptionFromJson(
-    Map<String, dynamic> json) {
-  return ExpiredNextTokenException(
-    message: json['message'] as String,
-  );
-}
-
 GetRecordsOutput _$GetRecordsOutputFromJson(Map<String, dynamic> json) {
   return GetRecordsOutput(
     records: (json['Records'] as List)
         ?.map((e) =>
             e == null ? null : Record.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    childShards: (json['ChildShards'] as List)
+        ?.map((e) =>
+            e == null ? null : ChildShard.fromJson(e as Map<String, dynamic>))
         ?.toList(),
     millisBehindLatest: json['MillisBehindLatest'] as int,
     nextShardIterator: json['NextShardIterator'] as String,
@@ -173,66 +174,6 @@ HashKeyRange _$HashKeyRangeFromJson(Map<String, dynamic> json) {
   return HashKeyRange(
     endingHashKey: json['EndingHashKey'] as String,
     startingHashKey: json['StartingHashKey'] as String,
-  );
-}
-
-InternalFailureException _$InternalFailureExceptionFromJson(
-    Map<String, dynamic> json) {
-  return InternalFailureException(
-    message: json['message'] as String,
-  );
-}
-
-InvalidArgumentException _$InvalidArgumentExceptionFromJson(
-    Map<String, dynamic> json) {
-  return InvalidArgumentException(
-    message: json['message'] as String,
-  );
-}
-
-KMSAccessDeniedException _$KMSAccessDeniedExceptionFromJson(
-    Map<String, dynamic> json) {
-  return KMSAccessDeniedException(
-    message: json['message'] as String,
-  );
-}
-
-KMSDisabledException _$KMSDisabledExceptionFromJson(Map<String, dynamic> json) {
-  return KMSDisabledException(
-    message: json['message'] as String,
-  );
-}
-
-KMSInvalidStateException _$KMSInvalidStateExceptionFromJson(
-    Map<String, dynamic> json) {
-  return KMSInvalidStateException(
-    message: json['message'] as String,
-  );
-}
-
-KMSNotFoundException _$KMSNotFoundExceptionFromJson(Map<String, dynamic> json) {
-  return KMSNotFoundException(
-    message: json['message'] as String,
-  );
-}
-
-KMSOptInRequired _$KMSOptInRequiredFromJson(Map<String, dynamic> json) {
-  return KMSOptInRequired(
-    message: json['message'] as String,
-  );
-}
-
-KMSThrottlingException _$KMSThrottlingExceptionFromJson(
-    Map<String, dynamic> json) {
-  return KMSThrottlingException(
-    message: json['message'] as String,
-  );
-}
-
-LimitExceededException _$LimitExceededExceptionFromJson(
-    Map<String, dynamic> json) {
-  return LimitExceededException(
-    message: json['message'] as String,
   );
 }
 
@@ -272,14 +213,6 @@ ListTagsForStreamOutput _$ListTagsForStreamOutputFromJson(
     tags: (json['Tags'] as List)
         ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
         ?.toList(),
-  );
-}
-
-ProvisionedThroughputExceededException
-    _$ProvisionedThroughputExceededExceptionFromJson(
-        Map<String, dynamic> json) {
-  return ProvisionedThroughputExceededException(
-    message: json['message'] as String,
   );
 }
 
@@ -357,20 +290,6 @@ RegisterStreamConsumerOutput _$RegisterStreamConsumerOutputFromJson(
   );
 }
 
-ResourceInUseException _$ResourceInUseExceptionFromJson(
-    Map<String, dynamic> json) {
-  return ResourceInUseException(
-    message: json['message'] as String,
-  );
-}
-
-ResourceNotFoundException _$ResourceNotFoundExceptionFromJson(
-    Map<String, dynamic> json) {
-  return ResourceNotFoundException(
-    message: json['message'] as String,
-  );
-}
-
 SequenceNumberRange _$SequenceNumberRangeFromJson(Map<String, dynamic> json) {
   return SequenceNumberRange(
     startingSequenceNumber: json['StartingSequenceNumber'] as String,
@@ -392,6 +311,31 @@ Shard _$ShardFromJson(Map<String, dynamic> json) {
     parentShardId: json['ParentShardId'] as String,
   );
 }
+
+Map<String, dynamic> _$ShardFilterToJson(ShardFilter instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Type', _$ShardFilterTypeEnumMap[instance.type]);
+  writeNotNull('ShardId', instance.shardId);
+  writeNotNull(
+      'Timestamp', const UnixDateTimeConverter().toJson(instance.timestamp));
+  return val;
+}
+
+const _$ShardFilterTypeEnumMap = {
+  ShardFilterType.afterShardId: 'AFTER_SHARD_ID',
+  ShardFilterType.atTrimHorizon: 'AT_TRIM_HORIZON',
+  ShardFilterType.fromTrimHorizon: 'FROM_TRIM_HORIZON',
+  ShardFilterType.atLatest: 'AT_LATEST',
+  ShardFilterType.atTimestamp: 'AT_TIMESTAMP',
+  ShardFilterType.fromTimestamp: 'FROM_TIMESTAMP',
+};
 
 StreamDescription _$StreamDescriptionFromJson(Map<String, dynamic> json) {
   return StreamDescription(

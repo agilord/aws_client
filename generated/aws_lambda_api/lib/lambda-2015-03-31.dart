@@ -405,7 +405,7 @@ class Lambda {
   ///
   /// Parameter [routingConfig] :
   /// The <a
-  /// href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-traffic-shifting-using-aliases.html">routing
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-aliases.html#configuring-alias-routing">routing
   /// configuration</a> of the alias.
   Future<AliasConfiguration> createAlias({
     @_s.required String functionName,
@@ -478,6 +478,51 @@ class Lambda {
     return AliasConfiguration.fromJson(response);
   }
 
+  /// Creates a code signing configuration. A <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-trustedcode.html">code
+  /// signing configuration</a> defines a list of allowed signing profiles and
+  /// defines the code-signing validation policy (action to be taken if
+  /// deployment validation checks fail).
+  ///
+  /// May throw [ServiceException].
+  /// May throw [InvalidParameterValueException].
+  ///
+  /// Parameter [allowedPublishers] :
+  /// Signing profiles for this code signing configuration.
+  ///
+  /// Parameter [codeSigningPolicies] :
+  /// The code signing policies define the actions to take if the validation
+  /// checks fail.
+  ///
+  /// Parameter [description] :
+  /// Descriptive name for this code signing configuration.
+  Future<CreateCodeSigningConfigResponse> createCodeSigningConfig({
+    @_s.required AllowedPublishers allowedPublishers,
+    CodeSigningPolicies codeSigningPolicies,
+    String description,
+  }) async {
+    ArgumentError.checkNotNull(allowedPublishers, 'allowedPublishers');
+    _s.validateStringLength(
+      'description',
+      description,
+      0,
+      256,
+    );
+    final $payload = <String, dynamic>{
+      'AllowedPublishers': allowedPublishers,
+      if (codeSigningPolicies != null)
+        'CodeSigningPolicies': codeSigningPolicies,
+      if (description != null) 'Description': description,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/2020-04-22/code-signing-configs/',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateCodeSigningConfigResponse.fromJson(response);
+  }
+
   /// Creates a mapping between an event source and an AWS Lambda function.
   /// Lambda reads items from the event source and triggers the function.
   ///
@@ -497,6 +542,19 @@ class Lambda {
   /// <a href="https://docs.aws.amazon.com/lambda/latest/dg/with-sqs.html">Using
   /// AWS Lambda with Amazon SQS</a>
   /// </li>
+  /// <li>
+  /// <a href="https://docs.aws.amazon.com/lambda/latest/dg/with-mq.html">Using
+  /// AWS Lambda with Amazon MQ</a>
+  /// </li>
+  /// <li>
+  /// <a href="https://docs.aws.amazon.com/lambda/latest/dg/with-msk.html">Using
+  /// AWS Lambda with Amazon MSK</a>
+  /// </li>
+  /// <li>
+  /// <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/kafka-smaa.html">Using
+  /// AWS Lambda with Self-Managed Apache Kafka</a>
+  /// </li>
   /// </ul>
   /// The following error handling options are only available for stream sources
   /// (DynamoDB and Kinesis):
@@ -512,11 +570,13 @@ class Lambda {
   /// </li>
   /// <li>
   /// <code>MaximumRecordAgeInSeconds</code> - Discard records older than the
-  /// specified age.
+  /// specified age. The default value is infinite (-1). When set to infinite
+  /// (-1), failed records are retried until the record expires
   /// </li>
   /// <li>
   /// <code>MaximumRetryAttempts</code> - Discard records after the specified
-  /// number of retries.
+  /// number of retries. The default value is infinite (-1). When set to
+  /// infinite (-1), failed records are retried until the record expires.
   /// </li>
   /// <li>
   /// <code>ParallelizationFactor</code> - Process multiple batches from each
@@ -529,21 +589,6 @@ class Lambda {
   /// May throw [ResourceConflictException].
   /// May throw [TooManyRequestsException].
   /// May throw [ResourceNotFoundException].
-  ///
-  /// Parameter [eventSourceArn] :
-  /// The Amazon Resource Name (ARN) of the event source.
-  ///
-  /// <ul>
-  /// <li>
-  /// <b>Amazon Kinesis</b> - The ARN of the data stream or a stream consumer.
-  /// </li>
-  /// <li>
-  /// <b>Amazon DynamoDB Streams</b> - The ARN of the stream.
-  /// </li>
-  /// <li>
-  /// <b>Amazon Simple Queue Service</b> - The ARN of the queue.
-  /// </li>
-  /// </ul>
   ///
   /// Parameter [functionName] :
   /// The name of the Lambda function.
@@ -579,7 +624,15 @@ class Lambda {
   /// <b>Amazon DynamoDB Streams</b> - Default 100. Max 1,000.
   /// </li>
   /// <li>
-  /// <b>Amazon Simple Queue Service</b> - Default 10. Max 10.
+  /// <b>Amazon Simple Queue Service</b> - Default 10. For standard queues the
+  /// max is 10,000. For FIFO queues the max is 10.
+  /// </li>
+  /// <li>
+  /// <b>Amazon Managed Streaming for Apache Kafka</b> - Default 100. Max
+  /// 10,000.
+  /// </li>
+  /// <li>
+  /// <b>Self-Managed Apache Kafka</b> - Default 100. Max 10,000.
   /// </li>
   /// </ul>
   ///
@@ -592,52 +645,92 @@ class Lambda {
   /// discarded records.
   ///
   /// Parameter [enabled] :
-  /// Disables the event source mapping to pause polling and invocation.
+  /// If true, the event source mapping is active. Set to false to pause polling
+  /// and invocation.
+  ///
+  /// Parameter [eventSourceArn] :
+  /// The Amazon Resource Name (ARN) of the event source.
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Amazon Kinesis</b> - The ARN of the data stream or a stream consumer.
+  /// </li>
+  /// <li>
+  /// <b>Amazon DynamoDB Streams</b> - The ARN of the stream.
+  /// </li>
+  /// <li>
+  /// <b>Amazon Simple Queue Service</b> - The ARN of the queue.
+  /// </li>
+  /// <li>
+  /// <b>Amazon Managed Streaming for Apache Kafka</b> - The ARN of the cluster.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [functionResponseTypes] :
+  /// (Streams) A list of current response type enums applied to the event
+  /// source mapping.
   ///
   /// Parameter [maximumBatchingWindowInSeconds] :
-  /// (Streams) The maximum amount of time to gather records before invoking the
-  /// function, in seconds.
+  /// (Streams and SQS standard queues) The maximum amount of time to gather
+  /// records before invoking the function, in seconds.
   ///
   /// Parameter [maximumRecordAgeInSeconds] :
-  /// (Streams) The maximum age of a record that Lambda sends to a function for
-  /// processing.
+  /// (Streams) Discard records older than the specified age. The default value
+  /// is infinite (-1).
   ///
   /// Parameter [maximumRetryAttempts] :
-  /// (Streams) The maximum number of times to retry when the function returns
-  /// an error.
+  /// (Streams) Discard records after the specified number of retries. The
+  /// default value is infinite (-1). When set to infinite (-1), failed records
+  /// will be retried until the record expires.
   ///
   /// Parameter [parallelizationFactor] :
   /// (Streams) The number of batches to process from each shard concurrently.
   ///
+  /// Parameter [queues] :
+  /// (MQ) The name of the Amazon MQ broker destination queue to consume.
+  ///
+  /// Parameter [selfManagedEventSource] :
+  /// The Self-Managed Apache Kafka cluster to send records.
+  ///
+  /// Parameter [sourceAccessConfigurations] :
+  /// An array of the authentication protocol, or the VPC components to secure
+  /// your event source.
+  ///
   /// Parameter [startingPosition] :
   /// The position in a stream from which to start reading. Required for Amazon
-  /// Kinesis and Amazon DynamoDB Streams sources. <code>AT_TIMESTAMP</code> is
-  /// only supported for Amazon Kinesis streams.
+  /// Kinesis, Amazon DynamoDB, and Amazon MSK Streams sources.
+  /// <code>AT_TIMESTAMP</code> is only supported for Amazon Kinesis streams.
   ///
   /// Parameter [startingPositionTimestamp] :
   /// With <code>StartingPosition</code> set to <code>AT_TIMESTAMP</code>, the
   /// time from which to start reading.
+  ///
+  /// Parameter [topics] :
+  /// The name of the Kafka topic.
+  ///
+  /// Parameter [tumblingWindowInSeconds] :
+  /// (Streams) The duration of a processing window in seconds. The range is
+  /// between 1 second up to 15 minutes.
   Future<EventSourceMappingConfiguration> createEventSourceMapping({
-    @_s.required String eventSourceArn,
     @_s.required String functionName,
     int batchSize,
     bool bisectBatchOnFunctionError,
     DestinationConfig destinationConfig,
     bool enabled,
+    String eventSourceArn,
+    List<FunctionResponseType> functionResponseTypes,
     int maximumBatchingWindowInSeconds,
     int maximumRecordAgeInSeconds,
     int maximumRetryAttempts,
     int parallelizationFactor,
+    List<String> queues,
+    SelfManagedEventSource selfManagedEventSource,
+    List<SourceAccessConfiguration> sourceAccessConfigurations,
     EventSourcePosition startingPosition,
     DateTime startingPositionTimestamp,
+    List<String> topics,
+    int tumblingWindowInSeconds,
   }) async {
-    ArgumentError.checkNotNull(eventSourceArn, 'eventSourceArn');
-    _s.validateStringPattern(
-      'eventSourceArn',
-      eventSourceArn,
-      r'''arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\-])+:([a-z]{2}(-gov)?-[a-z]+-\d{1})?:(\d{12})?:(.*)''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(functionName, 'functionName');
     _s.validateStringLength(
       'functionName',
@@ -658,6 +751,11 @@ class Lambda {
       1,
       10000,
     );
+    _s.validateStringPattern(
+      'eventSourceArn',
+      eventSourceArn,
+      r'''arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\-])+:([a-z]{2}(-gov)?-[a-z]+-\d{1})?:(\d{12})?:(.*)''',
+    );
     _s.validateNumRange(
       'maximumBatchingWindowInSeconds',
       maximumBatchingWindowInSeconds,
@@ -667,13 +765,13 @@ class Lambda {
     _s.validateNumRange(
       'maximumRecordAgeInSeconds',
       maximumRecordAgeInSeconds,
-      60,
+      -1,
       604800,
     );
     _s.validateNumRange(
       'maximumRetryAttempts',
       maximumRetryAttempts,
-      0,
+      -1,
       10000,
     );
     _s.validateNumRange(
@@ -682,14 +780,23 @@ class Lambda {
       1,
       10,
     );
+    _s.validateNumRange(
+      'tumblingWindowInSeconds',
+      tumblingWindowInSeconds,
+      0,
+      900,
+    );
     final $payload = <String, dynamic>{
-      'EventSourceArn': eventSourceArn,
       'FunctionName': functionName,
       if (batchSize != null) 'BatchSize': batchSize,
       if (bisectBatchOnFunctionError != null)
         'BisectBatchOnFunctionError': bisectBatchOnFunctionError,
       if (destinationConfig != null) 'DestinationConfig': destinationConfig,
       if (enabled != null) 'Enabled': enabled,
+      if (eventSourceArn != null) 'EventSourceArn': eventSourceArn,
+      if (functionResponseTypes != null)
+        'FunctionResponseTypes':
+            functionResponseTypes.map((e) => e?.toValue() ?? '').toList(),
       if (maximumBatchingWindowInSeconds != null)
         'MaximumBatchingWindowInSeconds': maximumBatchingWindowInSeconds,
       if (maximumRecordAgeInSeconds != null)
@@ -698,11 +805,19 @@ class Lambda {
         'MaximumRetryAttempts': maximumRetryAttempts,
       if (parallelizationFactor != null)
         'ParallelizationFactor': parallelizationFactor,
+      if (queues != null) 'Queues': queues,
+      if (selfManagedEventSource != null)
+        'SelfManagedEventSource': selfManagedEventSource,
+      if (sourceAccessConfigurations != null)
+        'SourceAccessConfigurations': sourceAccessConfigurations,
       if (startingPosition != null)
         'StartingPosition': startingPosition.toValue(),
       if (startingPositionTimestamp != null)
         'StartingPositionTimestamp':
             unixTimestampToJson(startingPositionTimestamp),
+      if (topics != null) 'Topics': topics,
+      if (tumblingWindowInSeconds != null)
+        'TumblingWindowInSeconds': tumblingWindowInSeconds,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -714,13 +829,13 @@ class Lambda {
   }
 
   /// Creates a Lambda function. To create a function, you need a <a
-  /// href="https://docs.aws.amazon.com/lambda/latest/dg/deployment-package-v2.html">deployment
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/gettingstarted-package.html">deployment
   /// package</a> and an <a
   /// href="https://docs.aws.amazon.com/lambda/latest/dg/intro-permission-model.html#lambda-intro-execution-role">execution
-  /// role</a>. The deployment package contains your function code. The
-  /// execution role grants the function permission to use AWS services, such as
-  /// Amazon CloudWatch Logs for log streaming and AWS X-Ray for request
-  /// tracing.
+  /// role</a>. The deployment package is a .zip file archive or container image
+  /// that contains your function code. The execution role grants the function
+  /// permission to use AWS services, such as Amazon CloudWatch Logs for log
+  /// streaming and AWS X-Ray for request tracing.
   ///
   /// When you create a function, Lambda provisions an instance of the function
   /// and its supporting resources. If your function connects to a VPC, this
@@ -747,6 +862,14 @@ class Lambda {
   /// (<a>TagResource</a>) and per-function concurrency limits
   /// (<a>PutFunctionConcurrency</a>).
   ///
+  /// You can use code signing if your deployment package is a .zip file
+  /// archive. To enable code signing for this function, specify the ARN of a
+  /// code-signing configuration. When a user attempts to deploy a code package
+  /// with <a>UpdateFunctionCode</a>, Lambda checks that the code package has a
+  /// valid signature from a trusted publisher. The code-signing configuration
+  /// includes set set of signing profiles, which define the trusted publishers
+  /// for this function.
+  ///
   /// If another account or an AWS service invokes your function, use
   /// <a>AddPermission</a> to grant permission by creating a resource-based IAM
   /// policy. You can grant permissions at the function level, on a version, or
@@ -765,6 +888,9 @@ class Lambda {
   /// May throw [ResourceConflictException].
   /// May throw [TooManyRequestsException].
   /// May throw [CodeStorageExceededException].
+  /// May throw [CodeVerificationFailedException].
+  /// May throw [InvalidCodeSignatureException].
+  /// May throw [CodeSigningConfigNotFoundException].
   ///
   /// Parameter [code] :
   /// The code for the function.
@@ -788,20 +914,13 @@ class Lambda {
   /// The length constraint applies only to the full ARN. If you specify only
   /// the function name, it is limited to 64 characters in length.
   ///
-  /// Parameter [handler] :
-  /// The name of the method within your code that Lambda calls to execute your
-  /// function. The format includes the file name. It can also include
-  /// namespaces and other qualifiers, depending on the runtime. For more
-  /// information, see <a
-  /// href="https://docs.aws.amazon.com/lambda/latest/dg/programming-model-v2.html">Programming
-  /// Model</a>.
-  ///
   /// Parameter [role] :
   /// The Amazon Resource Name (ARN) of the function's execution role.
   ///
-  /// Parameter [runtime] :
-  /// The identifier of the function's <a
-  /// href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html">runtime</a>.
+  /// Parameter [codeSigningConfigArn] :
+  /// To enable code signing for this function, specify the ARN of a
+  /// code-signing configuration. A code-signing configuration includes a set of
+  /// signing profiles, which define the trusted publishers for this function.
   ///
   /// Parameter [deadLetterConfig] :
   /// A dead letter queue configuration that specifies the queue or topic where
@@ -817,6 +936,20 @@ class Lambda {
   /// Environment variables that are accessible from function code during
   /// execution.
   ///
+  /// Parameter [fileSystemConfigs] :
+  /// Connection settings for an Amazon EFS file system.
+  ///
+  /// Parameter [handler] :
+  /// The name of the method within your code that Lambda calls to execute your
+  /// function. The format includes the file name. It can also include
+  /// namespaces and other qualifiers, depending on the runtime. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/programming-model-v2.html">Programming
+  /// Model</a>.
+  ///
+  /// Parameter [imageConfig] :
+  /// Configuration values that override the container image Dockerfile.
+  ///
   /// Parameter [kMSKeyArn] :
   /// The ARN of the AWS Key Management Service (AWS KMS) key that's used to
   /// encrypt your function's environment variables. If it's not provided, AWS
@@ -829,12 +962,20 @@ class Lambda {
   /// layer by its ARN, including the version.
   ///
   /// Parameter [memorySize] :
-  /// The amount of memory that your function has access to. Increasing the
+  /// The amount of memory available to the function at runtime. Increasing the
   /// function's memory also increases its CPU allocation. The default value is
-  /// 128 MB. The value must be a multiple of 64 MB.
+  /// 128 MB. The value can be any multiple of 1 MB.
+  ///
+  /// Parameter [packageType] :
+  /// The type of deployment package. Set to <code>Image</code> for container
+  /// image and set <code>Zip</code> for ZIP archive.
   ///
   /// Parameter [publish] :
   /// Set to true to publish the first version of the function during creation.
+  ///
+  /// Parameter [runtime] :
+  /// The identifier of the function's <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html">runtime</a>.
   ///
   /// Parameter [tags] :
   /// A list of <a
@@ -859,16 +1000,20 @@ class Lambda {
   Future<FunctionConfiguration> createFunction({
     @_s.required FunctionCode code,
     @_s.required String functionName,
-    @_s.required String handler,
     @_s.required String role,
-    @_s.required Runtime runtime,
+    String codeSigningConfigArn,
     DeadLetterConfig deadLetterConfig,
     String description,
     Environment environment,
+    List<FileSystemConfig> fileSystemConfigs,
+    String handler,
+    ImageConfig imageConfig,
     String kMSKeyArn,
     List<String> layers,
     int memorySize,
+    PackageType packageType,
     bool publish,
+    Runtime runtime,
     Map<String, String> tags,
     int timeout,
     TracingConfig tracingConfig,
@@ -889,20 +1034,6 @@ class Lambda {
       r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
       isRequired: true,
     );
-    ArgumentError.checkNotNull(handler, 'handler');
-    _s.validateStringLength(
-      'handler',
-      handler,
-      0,
-      128,
-      isRequired: true,
-    );
-    _s.validateStringPattern(
-      'handler',
-      handler,
-      r'''[^\s]+''',
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(role, 'role');
     _s.validateStringPattern(
       'role',
@@ -910,12 +1041,33 @@ class Lambda {
       r'''arn:(aws[a-zA-Z-]*)?:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+''',
       isRequired: true,
     );
-    ArgumentError.checkNotNull(runtime, 'runtime');
+    _s.validateStringLength(
+      'codeSigningConfigArn',
+      codeSigningConfigArn,
+      0,
+      200,
+    );
+    _s.validateStringPattern(
+      'codeSigningConfigArn',
+      codeSigningConfigArn,
+      r'''arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\d{1}:\d{12}:code-signing-config:csc-[a-z0-9]{17}''',
+    );
     _s.validateStringLength(
       'description',
       description,
       0,
       256,
+    );
+    _s.validateStringLength(
+      'handler',
+      handler,
+      0,
+      128,
+    );
+    _s.validateStringPattern(
+      'handler',
+      handler,
+      r'''[^\s]+''',
     );
     _s.validateStringPattern(
       'kMSKeyArn',
@@ -926,7 +1078,7 @@ class Lambda {
       'memorySize',
       memorySize,
       128,
-      3008,
+      10240,
     );
     _s.validateNumRange(
       'timeout',
@@ -937,16 +1089,21 @@ class Lambda {
     final $payload = <String, dynamic>{
       'Code': code,
       'FunctionName': functionName,
-      'Handler': handler,
       'Role': role,
-      'Runtime': runtime?.toValue() ?? '',
+      if (codeSigningConfigArn != null)
+        'CodeSigningConfigArn': codeSigningConfigArn,
       if (deadLetterConfig != null) 'DeadLetterConfig': deadLetterConfig,
       if (description != null) 'Description': description,
       if (environment != null) 'Environment': environment,
+      if (fileSystemConfigs != null) 'FileSystemConfigs': fileSystemConfigs,
+      if (handler != null) 'Handler': handler,
+      if (imageConfig != null) 'ImageConfig': imageConfig,
       if (kMSKeyArn != null) 'KMSKeyArn': kMSKeyArn,
       if (layers != null) 'Layers': layers,
       if (memorySize != null) 'MemorySize': memorySize,
+      if (packageType != null) 'PackageType': packageType.toValue(),
       if (publish != null) 'Publish': publish,
+      if (runtime != null) 'Runtime': runtime.toValue(),
       if (tags != null) 'Tags': tags,
       if (timeout != null) 'Timeout': timeout,
       if (tracingConfig != null) 'TracingConfig': tracingConfig,
@@ -1029,6 +1186,43 @@ class Lambda {
           '/2015-03-31/functions/${Uri.encodeComponent(functionName)}/aliases/${Uri.encodeComponent(name)}',
       exceptionFnMap: _exceptionFns,
     );
+  }
+
+  /// Deletes the code signing configuration. You can delete the code signing
+  /// configuration only if no function is using it.
+  ///
+  /// May throw [ServiceException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ResourceConflictException].
+  ///
+  /// Parameter [codeSigningConfigArn] :
+  /// The The Amazon Resource Name (ARN) of the code signing configuration.
+  Future<void> deleteCodeSigningConfig({
+    @_s.required String codeSigningConfigArn,
+  }) async {
+    ArgumentError.checkNotNull(codeSigningConfigArn, 'codeSigningConfigArn');
+    _s.validateStringLength(
+      'codeSigningConfigArn',
+      codeSigningConfigArn,
+      0,
+      200,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'codeSigningConfigArn',
+      codeSigningConfigArn,
+      r'''arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\d{1}:\d{12}:code-signing-config:csc-[a-z0-9]{17}''',
+      isRequired: true,
+    );
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/2020-04-22/code-signing-configs/${Uri.encodeComponent(codeSigningConfigArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DeleteCodeSigningConfigResponse.fromJson(response);
   }
 
   /// Deletes an <a
@@ -1137,6 +1331,59 @@ class Lambda {
       method: 'DELETE',
       requestUri: '/2015-03-31/functions/${Uri.encodeComponent(functionName)}',
       queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Removes the code signing configuration from the function.
+  ///
+  /// May throw [InvalidParameterValueException].
+  /// May throw [CodeSigningConfigNotFoundException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ResourceConflictException].
+  ///
+  /// Parameter [functionName] :
+  /// The name of the Lambda function.
+  /// <p class="title"> <b>Name formats</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Function name</b> - <code>MyFunction</code>.
+  /// </li>
+  /// <li>
+  /// <b>Function ARN</b> -
+  /// <code>arn:aws:lambda:us-west-2:123456789012:function:MyFunction</code>.
+  /// </li>
+  /// <li>
+  /// <b>Partial ARN</b> - <code>123456789012:function:MyFunction</code>.
+  /// </li>
+  /// </ul>
+  /// The length constraint applies only to the full ARN. If you specify only
+  /// the function name, it is limited to 64 characters in length.
+  Future<void> deleteFunctionCodeSigningConfig({
+    @_s.required String functionName,
+  }) async {
+    ArgumentError.checkNotNull(functionName, 'functionName');
+    _s.validateStringLength(
+      'functionName',
+      functionName,
+      1,
+      140,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'functionName',
+      functionName,
+      r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
+      isRequired: true,
+    );
+    await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/2020-06-30/functions/${Uri.encodeComponent(functionName)}/code-signing-config',
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1472,6 +1719,41 @@ class Lambda {
     return AliasConfiguration.fromJson(response);
   }
 
+  /// Returns information about the specified code signing configuration.
+  ///
+  /// May throw [ServiceException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [codeSigningConfigArn] :
+  /// The The Amazon Resource Name (ARN) of the code signing configuration.
+  Future<GetCodeSigningConfigResponse> getCodeSigningConfig({
+    @_s.required String codeSigningConfigArn,
+  }) async {
+    ArgumentError.checkNotNull(codeSigningConfigArn, 'codeSigningConfigArn');
+    _s.validateStringLength(
+      'codeSigningConfigArn',
+      codeSigningConfigArn,
+      0,
+      200,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'codeSigningConfigArn',
+      codeSigningConfigArn,
+      r'''arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\d{1}:\d{12}:code-signing-config:csc-[a-z0-9]{17}''',
+      isRequired: true,
+    );
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/2020-04-22/code-signing-configs/${Uri.encodeComponent(codeSigningConfigArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetCodeSigningConfigResponse.fromJson(response);
+  }
+
   /// Returns details about an event source mapping. You can get the identifier
   /// of a mapping from the output of <a>ListEventSourceMappings</a>.
   ///
@@ -1570,6 +1852,58 @@ class Lambda {
       exceptionFnMap: _exceptionFns,
     );
     return GetFunctionResponse.fromJson(response);
+  }
+
+  /// Returns the code signing configuration for the specified function.
+  ///
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ServiceException].
+  /// May throw [TooManyRequestsException].
+  ///
+  /// Parameter [functionName] :
+  /// The name of the Lambda function.
+  /// <p class="title"> <b>Name formats</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Function name</b> - <code>MyFunction</code>.
+  /// </li>
+  /// <li>
+  /// <b>Function ARN</b> -
+  /// <code>arn:aws:lambda:us-west-2:123456789012:function:MyFunction</code>.
+  /// </li>
+  /// <li>
+  /// <b>Partial ARN</b> - <code>123456789012:function:MyFunction</code>.
+  /// </li>
+  /// </ul>
+  /// The length constraint applies only to the full ARN. If you specify only
+  /// the function name, it is limited to 64 characters in length.
+  Future<GetFunctionCodeSigningConfigResponse> getFunctionCodeSigningConfig({
+    @_s.required String functionName,
+  }) async {
+    ArgumentError.checkNotNull(functionName, 'functionName');
+    _s.validateStringLength(
+      'functionName',
+      functionName,
+      1,
+      140,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'functionName',
+      functionName,
+      r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
+      isRequired: true,
+    );
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/2020-06-30/functions/${Uri.encodeComponent(functionName)}/code-signing-config',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetFunctionCodeSigningConfigResponse.fromJson(response);
   }
 
   /// Returns details about the reserved concurrency configuration for a
@@ -2124,6 +2458,10 @@ class Lambda {
   /// May throw [EC2UnexpectedException].
   /// May throw [SubnetIPAddressLimitReachedException].
   /// May throw [ENILimitReachedException].
+  /// May throw [EFSMountConnectivityException].
+  /// May throw [EFSMountFailureException].
+  /// May throw [EFSMountTimeoutException].
+  /// May throw [EFSIOException].
   /// May throw [EC2ThrottledException].
   /// May throw [EC2AccessDeniedException].
   /// May throw [InvalidSubnetIDException].
@@ -2404,6 +2742,45 @@ class Lambda {
     return ListAliasesResponse.fromJson(response);
   }
 
+  /// Returns a list of <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/configuring-codesigning.html">code
+  /// signing configurations</a>. A request returns up to 10,000 configurations
+  /// per call. You can use the <code>MaxItems</code> parameter to return fewer
+  /// configurations per call.
+  ///
+  /// May throw [ServiceException].
+  /// May throw [InvalidParameterValueException].
+  ///
+  /// Parameter [marker] :
+  /// Specify the pagination token that's returned by a previous request to
+  /// retrieve the next page of results.
+  ///
+  /// Parameter [maxItems] :
+  /// Maximum number of items to return.
+  Future<ListCodeSigningConfigsResponse> listCodeSigningConfigs({
+    String marker,
+    int maxItems,
+  }) async {
+    _s.validateNumRange(
+      'maxItems',
+      maxItems,
+      1,
+      10000,
+    );
+    final $query = <String, List<String>>{
+      if (marker != null) 'Marker': [marker],
+      if (maxItems != null) 'MaxItems': [maxItems.toString()],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/2020-04-22/code-signing-configs/',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListCodeSigningConfigsResponse.fromJson(response);
+  }
+
   /// Lists event source mappings. Specify an <code>EventSourceArn</code> to
   /// only show event source mappings for a single event source.
   ///
@@ -2424,6 +2801,9 @@ class Lambda {
   /// </li>
   /// <li>
   /// <b>Amazon Simple Queue Service</b> - The ARN of the queue.
+  /// </li>
+  /// <li>
+  /// <b>Amazon Managed Streaming for Apache Kafka</b> - The ARN of the cluster.
   /// </li>
   /// </ul>
   ///
@@ -2637,6 +3017,64 @@ class Lambda {
       exceptionFnMap: _exceptionFns,
     );
     return ListFunctionsResponse.fromJson(response);
+  }
+
+  /// List the functions that use the specified code signing configuration. You
+  /// can use this method prior to deleting a code signing configuration, to
+  /// verify that no functions are using it.
+  ///
+  /// May throw [ServiceException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [codeSigningConfigArn] :
+  /// The The Amazon Resource Name (ARN) of the code signing configuration.
+  ///
+  /// Parameter [marker] :
+  /// Specify the pagination token that's returned by a previous request to
+  /// retrieve the next page of results.
+  ///
+  /// Parameter [maxItems] :
+  /// Maximum number of items to return.
+  Future<ListFunctionsByCodeSigningConfigResponse>
+      listFunctionsByCodeSigningConfig({
+    @_s.required String codeSigningConfigArn,
+    String marker,
+    int maxItems,
+  }) async {
+    ArgumentError.checkNotNull(codeSigningConfigArn, 'codeSigningConfigArn');
+    _s.validateStringLength(
+      'codeSigningConfigArn',
+      codeSigningConfigArn,
+      0,
+      200,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'codeSigningConfigArn',
+      codeSigningConfigArn,
+      r'''arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\d{1}:\d{12}:code-signing-config:csc-[a-z0-9]{17}''',
+      isRequired: true,
+    );
+    _s.validateNumRange(
+      'maxItems',
+      maxItems,
+      1,
+      10000,
+    );
+    final $query = <String, List<String>>{
+      if (marker != null) 'Marker': [marker],
+      if (maxItems != null) 'MaxItems': [maxItems.toString()],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/2020-04-22/code-signing-configs/${Uri.encodeComponent(codeSigningConfigArn)}/functions',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListFunctionsByCodeSigningConfigResponse.fromJson(response);
   }
 
   /// Lists the versions of an <a
@@ -3125,6 +3563,83 @@ class Lambda {
     return FunctionConfiguration.fromJson(response);
   }
 
+  /// Update the code signing configuration for the function. Changes to the
+  /// code signing configuration take effect the next time a user tries to
+  /// deploy a code package to the function.
+  ///
+  /// May throw [ServiceException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ResourceConflictException].
+  /// May throw [CodeSigningConfigNotFoundException].
+  ///
+  /// Parameter [codeSigningConfigArn] :
+  /// The The Amazon Resource Name (ARN) of the code signing configuration.
+  ///
+  /// Parameter [functionName] :
+  /// The name of the Lambda function.
+  /// <p class="title"> <b>Name formats</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Function name</b> - <code>MyFunction</code>.
+  /// </li>
+  /// <li>
+  /// <b>Function ARN</b> -
+  /// <code>arn:aws:lambda:us-west-2:123456789012:function:MyFunction</code>.
+  /// </li>
+  /// <li>
+  /// <b>Partial ARN</b> - <code>123456789012:function:MyFunction</code>.
+  /// </li>
+  /// </ul>
+  /// The length constraint applies only to the full ARN. If you specify only
+  /// the function name, it is limited to 64 characters in length.
+  Future<PutFunctionCodeSigningConfigResponse> putFunctionCodeSigningConfig({
+    @_s.required String codeSigningConfigArn,
+    @_s.required String functionName,
+  }) async {
+    ArgumentError.checkNotNull(codeSigningConfigArn, 'codeSigningConfigArn');
+    _s.validateStringLength(
+      'codeSigningConfigArn',
+      codeSigningConfigArn,
+      0,
+      200,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'codeSigningConfigArn',
+      codeSigningConfigArn,
+      r'''arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\d{1}:\d{12}:code-signing-config:csc-[a-z0-9]{17}''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(functionName, 'functionName');
+    _s.validateStringLength(
+      'functionName',
+      functionName,
+      1,
+      140,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'functionName',
+      functionName,
+      r'''(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\d{1}:)?(\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\$LATEST|[a-zA-Z0-9-_]+))?''',
+      isRequired: true,
+    );
+    final $payload = <String, dynamic>{
+      'CodeSigningConfigArn': codeSigningConfigArn,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/2020-06-30/functions/${Uri.encodeComponent(functionName)}/code-signing-config',
+      exceptionFnMap: _exceptionFns,
+    );
+    return PutFunctionCodeSigningConfigResponse.fromJson(response);
+  }
+
   /// Sets the maximum number of simultaneous executions for a function, and
   /// reserves capacity for that concurrency level.
   ///
@@ -3214,7 +3729,7 @@ class Lambda {
   /// already exists for a function, version, or alias, this operation
   /// overwrites it. If you exclude any settings, they are removed. To set one
   /// option without affecting existing settings for other options, use
-  /// <a>PutFunctionEventInvokeConfig</a>.
+  /// <a>UpdateFunctionEventInvokeConfig</a>.
   ///
   /// By default, Lambda retries an asynchronous invocation twice if the
   /// function returns an error. It retains events in a queue for up to six
@@ -3739,7 +4254,7 @@ class Lambda {
   ///
   /// Parameter [routingConfig] :
   /// The <a
-  /// href="https://docs.aws.amazon.com/lambda/latest/dg/lambda-traffic-shifting-using-aliases.html">routing
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-aliases.html#configuring-alias-routing">routing
   /// configuration</a> of the alias.
   Future<AliasConfiguration> updateAlias({
     @_s.required String functionName,
@@ -3810,6 +4325,67 @@ class Lambda {
     return AliasConfiguration.fromJson(response);
   }
 
+  /// Update the code signing configuration. Changes to the code signing
+  /// configuration take effect the next time a user tries to deploy a code
+  /// package to the function.
+  ///
+  /// May throw [ServiceException].
+  /// May throw [InvalidParameterValueException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [codeSigningConfigArn] :
+  /// The The Amazon Resource Name (ARN) of the code signing configuration.
+  ///
+  /// Parameter [allowedPublishers] :
+  /// Signing profiles for this code signing configuration.
+  ///
+  /// Parameter [codeSigningPolicies] :
+  /// The code signing policy.
+  ///
+  /// Parameter [description] :
+  /// Descriptive name for this code signing configuration.
+  Future<UpdateCodeSigningConfigResponse> updateCodeSigningConfig({
+    @_s.required String codeSigningConfigArn,
+    AllowedPublishers allowedPublishers,
+    CodeSigningPolicies codeSigningPolicies,
+    String description,
+  }) async {
+    ArgumentError.checkNotNull(codeSigningConfigArn, 'codeSigningConfigArn');
+    _s.validateStringLength(
+      'codeSigningConfigArn',
+      codeSigningConfigArn,
+      0,
+      200,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'codeSigningConfigArn',
+      codeSigningConfigArn,
+      r'''arn:(aws[a-zA-Z-]*)?:lambda:[a-z]{2}((-gov)|(-iso(b?)))?-[a-z]+-\d{1}:\d{12}:code-signing-config:csc-[a-z0-9]{17}''',
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'description',
+      description,
+      0,
+      256,
+    );
+    final $payload = <String, dynamic>{
+      if (allowedPublishers != null) 'AllowedPublishers': allowedPublishers,
+      if (codeSigningPolicies != null)
+        'CodeSigningPolicies': codeSigningPolicies,
+      if (description != null) 'Description': description,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/2020-04-22/code-signing-configs/${Uri.encodeComponent(codeSigningConfigArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateCodeSigningConfigResponse.fromJson(response);
+  }
+
   /// Updates an event source mapping. You can change the function that AWS
   /// Lambda invokes, or pause invocation and resume later from the same
   /// location.
@@ -3828,11 +4404,13 @@ class Lambda {
   /// </li>
   /// <li>
   /// <code>MaximumRecordAgeInSeconds</code> - Discard records older than the
-  /// specified age.
+  /// specified age. The default value is infinite (-1). When set to infinite
+  /// (-1), failed records are retried until the record expires
   /// </li>
   /// <li>
   /// <code>MaximumRetryAttempts</code> - Discard records after the specified
-  /// number of retries.
+  /// number of retries. The default value is infinite (-1). When set to
+  /// infinite (-1), failed records are retried until the record expires.
   /// </li>
   /// <li>
   /// <code>ParallelizationFactor</code> - Process multiple batches from each
@@ -3861,7 +4439,15 @@ class Lambda {
   /// <b>Amazon DynamoDB Streams</b> - Default 100. Max 1,000.
   /// </li>
   /// <li>
-  /// <b>Amazon Simple Queue Service</b> - Default 10. Max 10.
+  /// <b>Amazon Simple Queue Service</b> - Default 10. For standard queues the
+  /// max is 10,000. For FIFO queues the max is 10.
+  /// </li>
+  /// <li>
+  /// <b>Amazon Managed Streaming for Apache Kafka</b> - Default 100. Max
+  /// 10,000.
+  /// </li>
+  /// <li>
+  /// <b>Self-Managed Apache Kafka</b> - Default 100. Max 10,000.
   /// </li>
   /// </ul>
   ///
@@ -3874,7 +4460,8 @@ class Lambda {
   /// discarded records.
   ///
   /// Parameter [enabled] :
-  /// Disables the event source mapping to pause polling and invocation.
+  /// If true, the event source mapping is active. Set to false to pause polling
+  /// and invocation.
   ///
   /// Parameter [functionName] :
   /// The name of the Lambda function.
@@ -3899,20 +4486,33 @@ class Lambda {
   /// The length constraint applies only to the full ARN. If you specify only
   /// the function name, it's limited to 64 characters in length.
   ///
+  /// Parameter [functionResponseTypes] :
+  /// (Streams) A list of current response type enums applied to the event
+  /// source mapping.
+  ///
   /// Parameter [maximumBatchingWindowInSeconds] :
-  /// (Streams) The maximum amount of time to gather records before invoking the
-  /// function, in seconds.
+  /// (Streams and SQS standard queues) The maximum amount of time to gather
+  /// records before invoking the function, in seconds.
   ///
   /// Parameter [maximumRecordAgeInSeconds] :
-  /// (Streams) The maximum age of a record that Lambda sends to a function for
-  /// processing.
+  /// (Streams) Discard records older than the specified age. The default value
+  /// is infinite (-1).
   ///
   /// Parameter [maximumRetryAttempts] :
-  /// (Streams) The maximum number of times to retry when the function returns
-  /// an error.
+  /// (Streams) Discard records after the specified number of retries. The
+  /// default value is infinite (-1). When set to infinite (-1), failed records
+  /// will be retried until the record expires.
   ///
   /// Parameter [parallelizationFactor] :
   /// (Streams) The number of batches to process from each shard concurrently.
+  ///
+  /// Parameter [sourceAccessConfigurations] :
+  /// An array of the authentication protocol, or the VPC components to secure
+  /// your event source.
+  ///
+  /// Parameter [tumblingWindowInSeconds] :
+  /// (Streams) The duration of a processing window in seconds. The range is
+  /// between 1 second up to 15 minutes.
   Future<EventSourceMappingConfiguration> updateEventSourceMapping({
     @_s.required String uuid,
     int batchSize,
@@ -3920,10 +4520,13 @@ class Lambda {
     DestinationConfig destinationConfig,
     bool enabled,
     String functionName,
+    List<FunctionResponseType> functionResponseTypes,
     int maximumBatchingWindowInSeconds,
     int maximumRecordAgeInSeconds,
     int maximumRetryAttempts,
     int parallelizationFactor,
+    List<SourceAccessConfiguration> sourceAccessConfigurations,
+    int tumblingWindowInSeconds,
   }) async {
     ArgumentError.checkNotNull(uuid, 'uuid');
     _s.validateNumRange(
@@ -3952,13 +4555,13 @@ class Lambda {
     _s.validateNumRange(
       'maximumRecordAgeInSeconds',
       maximumRecordAgeInSeconds,
-      60,
+      -1,
       604800,
     );
     _s.validateNumRange(
       'maximumRetryAttempts',
       maximumRetryAttempts,
-      0,
+      -1,
       10000,
     );
     _s.validateNumRange(
@@ -3967,6 +4570,12 @@ class Lambda {
       1,
       10,
     );
+    _s.validateNumRange(
+      'tumblingWindowInSeconds',
+      tumblingWindowInSeconds,
+      0,
+      900,
+    );
     final $payload = <String, dynamic>{
       if (batchSize != null) 'BatchSize': batchSize,
       if (bisectBatchOnFunctionError != null)
@@ -3974,6 +4583,9 @@ class Lambda {
       if (destinationConfig != null) 'DestinationConfig': destinationConfig,
       if (enabled != null) 'Enabled': enabled,
       if (functionName != null) 'FunctionName': functionName,
+      if (functionResponseTypes != null)
+        'FunctionResponseTypes':
+            functionResponseTypes.map((e) => e?.toValue() ?? '').toList(),
       if (maximumBatchingWindowInSeconds != null)
         'MaximumBatchingWindowInSeconds': maximumBatchingWindowInSeconds,
       if (maximumRecordAgeInSeconds != null)
@@ -3982,6 +4594,10 @@ class Lambda {
         'MaximumRetryAttempts': maximumRetryAttempts,
       if (parallelizationFactor != null)
         'ParallelizationFactor': parallelizationFactor,
+      if (sourceAccessConfigurations != null)
+        'SourceAccessConfigurations': sourceAccessConfigurations,
+      if (tumblingWindowInSeconds != null)
+        'TumblingWindowInSeconds': tumblingWindowInSeconds,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -3993,10 +4609,19 @@ class Lambda {
     return EventSourceMappingConfiguration.fromJson(response);
   }
 
-  /// Updates a Lambda function's code.
+  /// Updates a Lambda function's code. If code signing is enabled for the
+  /// function, the code package must be signed by a trusted publisher. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/lambda/latest/dg/configuration-trustedcode.html">Configuring
+  /// code signing</a>.
   ///
   /// The function's code is locked when you publish a version. You can't modify
   /// the code of a published version, only the unpublished version.
+  /// <note>
+  /// For a function defined as a container image, Lambda resolves the image tag
+  /// to an image digest. In Amazon ECR, if you update the image tag to a new
+  /// image, Lambda does not automatically update the function.
+  /// </note>
   ///
   /// May throw [ServiceException].
   /// May throw [ResourceNotFoundException].
@@ -4005,6 +4630,9 @@ class Lambda {
   /// May throw [CodeStorageExceededException].
   /// May throw [PreconditionFailedException].
   /// May throw [ResourceConflictException].
+  /// May throw [CodeVerificationFailedException].
+  /// May throw [InvalidCodeSignatureException].
+  /// May throw [CodeSigningConfigNotFoundException].
   ///
   /// Parameter [functionName] :
   /// The name of the Lambda function.
@@ -4028,6 +4656,9 @@ class Lambda {
   /// Parameter [dryRun] :
   /// Set to true to validate the request parameters and access permissions
   /// without modifying the function code.
+  ///
+  /// Parameter [imageUri] :
+  /// URI of a container image in the Amazon ECR registry.
   ///
   /// Parameter [publish] :
   /// Set to true to publish a new version of the function after updating the
@@ -4056,6 +4687,7 @@ class Lambda {
   Future<FunctionConfiguration> updateFunctionCode({
     @_s.required String functionName,
     bool dryRun,
+    String imageUri,
     bool publish,
     String revisionId,
     String s3Bucket,
@@ -4102,6 +4734,7 @@ class Lambda {
     );
     final $payload = <String, dynamic>{
       if (dryRun != null) 'DryRun': dryRun,
+      if (imageUri != null) 'ImageUri': imageUri,
       if (publish != null) 'Publish': publish,
       if (revisionId != null) 'RevisionId': revisionId,
       if (s3Bucket != null) 'S3Bucket': s3Bucket,
@@ -4147,6 +4780,9 @@ class Lambda {
   /// May throw [TooManyRequestsException].
   /// May throw [ResourceConflictException].
   /// May throw [PreconditionFailedException].
+  /// May throw [CodeVerificationFailedException].
+  /// May throw [InvalidCodeSignatureException].
+  /// May throw [CodeSigningConfigNotFoundException].
   ///
   /// Parameter [functionName] :
   /// The name of the Lambda function.
@@ -4181,6 +4817,9 @@ class Lambda {
   /// Environment variables that are accessible from function code during
   /// execution.
   ///
+  /// Parameter [fileSystemConfigs] :
+  /// Connection settings for an Amazon EFS file system.
+  ///
   /// Parameter [handler] :
   /// The name of the method within your code that Lambda calls to execute your
   /// function. The format includes the file name. It can also include
@@ -4188,6 +4827,9 @@ class Lambda {
   /// information, see <a
   /// href="https://docs.aws.amazon.com/lambda/latest/dg/programming-model-v2.html">Programming
   /// Model</a>.
+  ///
+  /// Parameter [imageConfig] :
+  /// Configuration values that override the container image Dockerfile.
   ///
   /// Parameter [kMSKeyArn] :
   /// The ARN of the AWS Key Management Service (AWS KMS) key that's used to
@@ -4201,9 +4843,9 @@ class Lambda {
   /// layer by its ARN, including the version.
   ///
   /// Parameter [memorySize] :
-  /// The amount of memory that your function has access to. Increasing the
+  /// The amount of memory available to the function at runtime. Increasing the
   /// function's memory also increases its CPU allocation. The default value is
-  /// 128 MB. The value must be a multiple of 64 MB.
+  /// 128 MB. The value can be any multiple of 1 MB.
   ///
   /// Parameter [revisionId] :
   /// Only update the function if the revision ID matches the ID that's
@@ -4237,7 +4879,9 @@ class Lambda {
     DeadLetterConfig deadLetterConfig,
     String description,
     Environment environment,
+    List<FileSystemConfig> fileSystemConfigs,
     String handler,
+    ImageConfig imageConfig,
     String kMSKeyArn,
     List<String> layers,
     int memorySize,
@@ -4288,7 +4932,7 @@ class Lambda {
       'memorySize',
       memorySize,
       128,
-      3008,
+      10240,
     );
     _s.validateStringPattern(
       'role',
@@ -4305,7 +4949,9 @@ class Lambda {
       if (deadLetterConfig != null) 'DeadLetterConfig': deadLetterConfig,
       if (description != null) 'Description': description,
       if (environment != null) 'Environment': environment,
+      if (fileSystemConfigs != null) 'FileSystemConfigs': fileSystemConfigs,
       if (handler != null) 'Handler': handler,
+      if (imageConfig != null) 'ImageConfig': imageConfig,
       if (kMSKeyArn != null) 'KMSKeyArn': kMSKeyArn,
       if (layers != null) 'Layers': layers,
       if (memorySize != null) 'MemorySize': memorySize,
@@ -4615,8 +5261,7 @@ class AliasConfiguration {
     createFactory: true,
     createToJson: true)
 class AliasRoutingConfiguration {
-  /// The name of the second alias, and the percentage of traffic that's routed to
-  /// it.
+  /// The second version, and the percentage of traffic that's routed to it.
   @_s.JsonKey(name: 'AdditionalVersionWeights')
   final Map<String, double> additionalVersionWeights;
 
@@ -4627,6 +5272,106 @@ class AliasRoutingConfiguration {
       _$AliasRoutingConfigurationFromJson(json);
 
   Map<String, dynamic> toJson() => _$AliasRoutingConfigurationToJson(this);
+}
+
+/// List of signing profiles that can sign a code package.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AllowedPublishers {
+  /// The Amazon Resource Name (ARN) for each of the signing profiles. A signing
+  /// profile defines a trusted user who can sign a code package.
+  @_s.JsonKey(name: 'SigningProfileVersionArns')
+  final List<String> signingProfileVersionArns;
+
+  AllowedPublishers({
+    @_s.required this.signingProfileVersionArns,
+  });
+  factory AllowedPublishers.fromJson(Map<String, dynamic> json) =>
+      _$AllowedPublishersFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AllowedPublishersToJson(this);
+}
+
+/// Details about a Code signing configuration.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class CodeSigningConfig {
+  /// List of allowed publishers.
+  @_s.JsonKey(name: 'AllowedPublishers')
+  final AllowedPublishers allowedPublishers;
+
+  /// The Amazon Resource Name (ARN) of the Code signing configuration.
+  @_s.JsonKey(name: 'CodeSigningConfigArn')
+  final String codeSigningConfigArn;
+
+  /// Unique identifer for the Code signing configuration.
+  @_s.JsonKey(name: 'CodeSigningConfigId')
+  final String codeSigningConfigId;
+
+  /// The code signing policy controls the validation failure action for signature
+  /// mismatch or expiry.
+  @_s.JsonKey(name: 'CodeSigningPolicies')
+  final CodeSigningPolicies codeSigningPolicies;
+
+  /// The date and time that the Code signing configuration was last modified, in
+  /// ISO-8601 format (YYYY-MM-DDThh:mm:ss.sTZD).
+  @_s.JsonKey(name: 'LastModified')
+  final String lastModified;
+
+  /// Code signing configuration description.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  CodeSigningConfig({
+    @_s.required this.allowedPublishers,
+    @_s.required this.codeSigningConfigArn,
+    @_s.required this.codeSigningConfigId,
+    @_s.required this.codeSigningPolicies,
+    @_s.required this.lastModified,
+    this.description,
+  });
+  factory CodeSigningConfig.fromJson(Map<String, dynamic> json) =>
+      _$CodeSigningConfigFromJson(json);
+}
+
+/// Code signing configuration policies specifies the validation failure action
+/// for signature mismatch or expiry.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class CodeSigningPolicies {
+  /// Code signing configuration policy for deployment validation failure. If you
+  /// set the policy to <code>Enforce</code>, Lambda blocks the deployment request
+  /// if signature validation checks fail. If you set the policy to
+  /// <code>Warn</code>, Lambda allows the deployment and creates a CloudWatch
+  /// log.
+  ///
+  /// Default value: <code>Warn</code>
+  @_s.JsonKey(name: 'UntrustedArtifactOnDeployment')
+  final CodeSigningPolicy untrustedArtifactOnDeployment;
+
+  CodeSigningPolicies({
+    this.untrustedArtifactOnDeployment,
+  });
+  factory CodeSigningPolicies.fromJson(Map<String, dynamic> json) =>
+      _$CodeSigningPoliciesFromJson(json);
+
+  Map<String, dynamic> toJson() => _$CodeSigningPoliciesToJson(this);
+}
+
+enum CodeSigningPolicy {
+  @_s.JsonValue('Warn')
+  warn,
+  @_s.JsonValue('Enforce')
+  enforce,
 }
 
 @_s.JsonSerializable(
@@ -4649,6 +5394,23 @@ class Concurrency {
       _$ConcurrencyFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class CreateCodeSigningConfigResponse {
+  /// The code signing configuration.
+  @_s.JsonKey(name: 'CodeSigningConfig')
+  final CodeSigningConfig codeSigningConfig;
+
+  CreateCodeSigningConfigResponse({
+    @_s.required this.codeSigningConfig,
+  });
+  factory CreateCodeSigningConfigResponse.fromJson(Map<String, dynamic> json) =>
+      _$CreateCodeSigningConfigResponseFromJson(json);
+}
+
 /// The <a
 /// href="https://docs.aws.amazon.com/lambda/latest/dg/invocation-async.html#dlq">dead-letter
 /// queue</a> for failed asynchronous invocations.
@@ -4669,6 +5431,17 @@ class DeadLetterConfig {
       _$DeadLetterConfigFromJson(json);
 
   Map<String, dynamic> toJson() => _$DeadLetterConfigToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DeleteCodeSigningConfigResponse {
+  DeleteCodeSigningConfigResponse();
+  factory DeleteCodeSigningConfigResponse.fromJson(Map<String, dynamic> json) =>
+      _$DeleteCodeSigningConfigResponseFromJson(json);
 }
 
 /// A configuration object that specifies the destination of an event after
@@ -4695,6 +5468,11 @@ class DestinationConfig {
       _$DestinationConfigFromJson(json);
 
   Map<String, dynamic> toJson() => _$DestinationConfigToJson(this);
+}
+
+enum EndPointType {
+  @_s.JsonValue('KAFKA_BOOTSTRAP_SERVERS')
+  kafkaBootstrapServers,
 }
 
 /// A function's environment variable settings.
@@ -4775,7 +5553,7 @@ class EventSourceMappingConfiguration {
   final int batchSize;
 
   /// (Streams) If the function returns an error, split the batch in two and
-  /// retry.
+  /// retry. The default value is false.
   @_s.JsonKey(name: 'BisectBatchOnFunctionError')
   final bool bisectBatchOnFunctionError;
 
@@ -4792,6 +5570,11 @@ class EventSourceMappingConfiguration {
   @_s.JsonKey(name: 'FunctionArn')
   final String functionArn;
 
+  /// (Streams) A list of current response type enums applied to the event source
+  /// mapping.
+  @_s.JsonKey(name: 'FunctionResponseTypes')
+  final List<FunctionResponseType> functionResponseTypes;
+
   /// The date that the event source mapping was last updated, or its state
   /// changed.
   @UnixDateTimeConverter()
@@ -4802,24 +5585,52 @@ class EventSourceMappingConfiguration {
   @_s.JsonKey(name: 'LastProcessingResult')
   final String lastProcessingResult;
 
-  /// (Streams) The maximum amount of time to gather records before invoking the
-  /// function, in seconds.
+  /// (Streams and SQS standard queues) The maximum amount of time to gather
+  /// records before invoking the function, in seconds. The default value is zero.
   @_s.JsonKey(name: 'MaximumBatchingWindowInSeconds')
   final int maximumBatchingWindowInSeconds;
 
-  /// (Streams) The maximum age of a record that Lambda sends to a function for
-  /// processing.
+  /// (Streams) Discard records older than the specified age. The default value is
+  /// infinite (-1). When set to infinite (-1), failed records are retried until
+  /// the record expires.
   @_s.JsonKey(name: 'MaximumRecordAgeInSeconds')
   final int maximumRecordAgeInSeconds;
 
-  /// (Streams) The maximum number of times to retry when the function returns an
-  /// error.
+  /// (Streams) Discard records after the specified number of retries. The default
+  /// value is infinite (-1). When set to infinite (-1), failed records are
+  /// retried until the record expires.
   @_s.JsonKey(name: 'MaximumRetryAttempts')
   final int maximumRetryAttempts;
 
-  /// (Streams) The number of batches to process from each shard concurrently.
+  /// (Streams) The number of batches to process from each shard concurrently. The
+  /// default value is 1.
   @_s.JsonKey(name: 'ParallelizationFactor')
   final int parallelizationFactor;
+
+  /// (MQ) The name of the Amazon MQ broker destination queue to consume.
+  @_s.JsonKey(name: 'Queues')
+  final List<String> queues;
+
+  /// The Self-Managed Apache Kafka cluster for your event source.
+  @_s.JsonKey(name: 'SelfManagedEventSource')
+  final SelfManagedEventSource selfManagedEventSource;
+
+  /// An array of the authentication protocol, or the VPC components to secure
+  /// your event source.
+  @_s.JsonKey(name: 'SourceAccessConfigurations')
+  final List<SourceAccessConfiguration> sourceAccessConfigurations;
+
+  /// The position in a stream from which to start reading. Required for Amazon
+  /// Kinesis, Amazon DynamoDB, and Amazon MSK Streams sources.
+  /// <code>AT_TIMESTAMP</code> is only supported for Amazon Kinesis streams.
+  @_s.JsonKey(name: 'StartingPosition')
+  final EventSourcePosition startingPosition;
+
+  /// With <code>StartingPosition</code> set to <code>AT_TIMESTAMP</code>, the
+  /// time from which to start reading.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'StartingPositionTimestamp')
+  final DateTime startingPositionTimestamp;
 
   /// The state of the event source mapping. It can be one of the following:
   /// <code>Creating</code>, <code>Enabling</code>, <code>Enabled</code>,
@@ -4833,6 +5644,15 @@ class EventSourceMappingConfiguration {
   @_s.JsonKey(name: 'StateTransitionReason')
   final String stateTransitionReason;
 
+  /// The name of the Kafka topic.
+  @_s.JsonKey(name: 'Topics')
+  final List<String> topics;
+
+  /// (Streams) The duration of a processing window in seconds. The range is
+  /// between 1 second up to 15 minutes.
+  @_s.JsonKey(name: 'TumblingWindowInSeconds')
+  final int tumblingWindowInSeconds;
+
   /// The identifier of the event source mapping.
   @_s.JsonKey(name: 'UUID')
   final String uuid;
@@ -4843,14 +5663,22 @@ class EventSourceMappingConfiguration {
     this.destinationConfig,
     this.eventSourceArn,
     this.functionArn,
+    this.functionResponseTypes,
     this.lastModified,
     this.lastProcessingResult,
     this.maximumBatchingWindowInSeconds,
     this.maximumRecordAgeInSeconds,
     this.maximumRetryAttempts,
     this.parallelizationFactor,
+    this.queues,
+    this.selfManagedEventSource,
+    this.sourceAccessConfigurations,
+    this.startingPosition,
+    this.startingPositionTimestamp,
     this.state,
     this.stateTransitionReason,
+    this.topics,
+    this.tumblingWindowInSeconds,
     this.uuid,
   });
   factory EventSourceMappingConfiguration.fromJson(Map<String, dynamic> json) =>
@@ -4880,14 +5708,47 @@ extension on EventSourcePosition {
   }
 }
 
+/// Details about the connection between a Lambda function and an Amazon EFS
+/// file system.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class FileSystemConfig {
+  /// The Amazon Resource Name (ARN) of the Amazon EFS access point that provides
+  /// access to the file system.
+  @_s.JsonKey(name: 'Arn')
+  final String arn;
+
+  /// The path where the function can access the file system, starting with
+  /// <code>/mnt/</code>.
+  @_s.JsonKey(name: 'LocalMountPath')
+  final String localMountPath;
+
+  FileSystemConfig({
+    @_s.required this.arn,
+    @_s.required this.localMountPath,
+  });
+  factory FileSystemConfig.fromJson(Map<String, dynamic> json) =>
+      _$FileSystemConfigFromJson(json);
+
+  Map<String, dynamic> toJson() => _$FileSystemConfigToJson(this);
+}
+
 /// The code for the Lambda function. You can specify either an object in Amazon
-/// S3, or upload a deployment package directly.
+/// S3, upload a .zip file archive deployment package directly, or specify the
+/// URI of a container image.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: false,
     createToJson: true)
 class FunctionCode {
+  /// URI of a container image in the Amazon ECR registry.
+  @_s.JsonKey(name: 'ImageUri')
+  final String imageUri;
+
   /// An Amazon S3 bucket in the same AWS Region as your function. The bucket can
   /// be in a different AWS account.
   @_s.JsonKey(name: 'S3Bucket')
@@ -4908,6 +5769,7 @@ class FunctionCode {
   final Uint8List zipFile;
 
   FunctionCode({
+    this.imageUri,
     this.s3Bucket,
     this.s3Key,
     this.s3ObjectVersion,
@@ -4923,6 +5785,10 @@ class FunctionCode {
     createFactory: true,
     createToJson: false)
 class FunctionCodeLocation {
+  /// URI of a container image in the Amazon ECR registry.
+  @_s.JsonKey(name: 'ImageUri')
+  final String imageUri;
+
   /// A presigned URL that you can use to download the deployment package.
   @_s.JsonKey(name: 'Location')
   final String location;
@@ -4931,9 +5797,15 @@ class FunctionCodeLocation {
   @_s.JsonKey(name: 'RepositoryType')
   final String repositoryType;
 
+  /// The resolved URI for the image.
+  @_s.JsonKey(name: 'ResolvedImageUri')
+  final String resolvedImageUri;
+
   FunctionCodeLocation({
+    this.imageUri,
     this.location,
     this.repositoryType,
+    this.resolvedImageUri,
   });
   factory FunctionCodeLocation.fromJson(Map<String, dynamic> json) =>
       _$FunctionCodeLocationFromJson(json);
@@ -4966,6 +5838,10 @@ class FunctionConfiguration {
   @_s.JsonKey(name: 'Environment')
   final EnvironmentResponse environment;
 
+  /// Connection settings for an Amazon EFS file system.
+  @_s.JsonKey(name: 'FileSystemConfigs')
+  final List<FileSystemConfig> fileSystemConfigs;
+
   /// The function's Amazon Resource Name (ARN).
   @_s.JsonKey(name: 'FunctionArn')
   final String functionArn;
@@ -4977,6 +5853,10 @@ class FunctionConfiguration {
   /// The function that Lambda calls to begin executing your function.
   @_s.JsonKey(name: 'Handler')
   final String handler;
+
+  /// The function's image configuration values.
+  @_s.JsonKey(name: 'ImageConfigResponse')
+  final ImageConfigResponse imageConfigResponse;
 
   /// The KMS key that's used to encrypt the function's environment variables.
   /// This key is only returned if you've configured a customer managed CMK.
@@ -5012,9 +5892,14 @@ class FunctionConfiguration {
   @_s.JsonKey(name: 'MasterArn')
   final String masterArn;
 
-  /// The memory that's allocated to the function.
+  /// The amount of memory available to the function at runtime.
   @_s.JsonKey(name: 'MemorySize')
   final int memorySize;
+
+  /// The type of deployment package. Set to <code>Image</code> for container
+  /// image and set <code>Zip</code> for .zip file archive.
+  @_s.JsonKey(name: 'PackageType')
+  final PackageType packageType;
 
   /// The latest updated revision of the function or alias.
   @_s.JsonKey(name: 'RevisionId')
@@ -5027,6 +5912,14 @@ class FunctionConfiguration {
   /// The runtime environment for the Lambda function.
   @_s.JsonKey(name: 'Runtime')
   final Runtime runtime;
+
+  /// The ARN of the signing job.
+  @_s.JsonKey(name: 'SigningJobArn')
+  final String signingJobArn;
+
+  /// The ARN of the signing profile version.
+  @_s.JsonKey(name: 'SigningProfileVersionArn')
+  final String signingProfileVersionArn;
 
   /// The current state of the function. When the state is <code>Inactive</code>,
   /// you can reactivate the function by invoking it.
@@ -5042,7 +5935,8 @@ class FunctionConfiguration {
   @_s.JsonKey(name: 'StateReasonCode')
   final StateReasonCode stateReasonCode;
 
-  /// The amount of time that Lambda allows a function to run before stopping it.
+  /// The amount of time in seconds that Lambda allows a function to run before
+  /// stopping it.
   @_s.JsonKey(name: 'Timeout')
   final int timeout;
 
@@ -5064,9 +5958,11 @@ class FunctionConfiguration {
     this.deadLetterConfig,
     this.description,
     this.environment,
+    this.fileSystemConfigs,
     this.functionArn,
     this.functionName,
     this.handler,
+    this.imageConfigResponse,
     this.kMSKeyArn,
     this.lastModified,
     this.lastUpdateStatus,
@@ -5075,9 +5971,12 @@ class FunctionConfiguration {
     this.layers,
     this.masterArn,
     this.memorySize,
+    this.packageType,
     this.revisionId,
     this.role,
     this.runtime,
+    this.signingJobArn,
+    this.signingProfileVersionArn,
     this.state,
     this.stateReason,
     this.stateReasonCode,
@@ -5145,6 +6044,21 @@ class FunctionEventInvokeConfig {
       _$FunctionEventInvokeConfigFromJson(json);
 }
 
+enum FunctionResponseType {
+  @_s.JsonValue('ReportBatchItemFailures')
+  reportBatchItemFailures,
+}
+
+extension on FunctionResponseType {
+  String toValue() {
+    switch (this) {
+      case FunctionResponseType.reportBatchItemFailures:
+        return 'ReportBatchItemFailures';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 enum FunctionVersion {
   @_s.JsonValue('ALL')
   all,
@@ -5180,6 +6094,62 @@ class GetAccountSettingsResponse {
   });
   factory GetAccountSettingsResponse.fromJson(Map<String, dynamic> json) =>
       _$GetAccountSettingsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class GetCodeSigningConfigResponse {
+  /// The code signing configuration
+  @_s.JsonKey(name: 'CodeSigningConfig')
+  final CodeSigningConfig codeSigningConfig;
+
+  GetCodeSigningConfigResponse({
+    @_s.required this.codeSigningConfig,
+  });
+  factory GetCodeSigningConfigResponse.fromJson(Map<String, dynamic> json) =>
+      _$GetCodeSigningConfigResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class GetFunctionCodeSigningConfigResponse {
+  /// The The Amazon Resource Name (ARN) of the code signing configuration.
+  @_s.JsonKey(name: 'CodeSigningConfigArn')
+  final String codeSigningConfigArn;
+
+  /// The name of the Lambda function.
+  /// <p class="title"> <b>Name formats</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Function name</b> - <code>MyFunction</code>.
+  /// </li>
+  /// <li>
+  /// <b>Function ARN</b> -
+  /// <code>arn:aws:lambda:us-west-2:123456789012:function:MyFunction</code>.
+  /// </li>
+  /// <li>
+  /// <b>Partial ARN</b> - <code>123456789012:function:MyFunction</code>.
+  /// </li>
+  /// </ul>
+  /// The length constraint applies only to the full ARN. If you specify only the
+  /// function name, it is limited to 64 characters in length.
+  @_s.JsonKey(name: 'FunctionName')
+  final String functionName;
+
+  GetFunctionCodeSigningConfigResponse({
+    @_s.required this.codeSigningConfigArn,
+    @_s.required this.functionName,
+  });
+  factory GetFunctionCodeSigningConfigResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetFunctionCodeSigningConfigResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -5378,6 +6348,86 @@ class GetProvisionedConcurrencyConfigResponse {
       _$GetProvisionedConcurrencyConfigResponseFromJson(json);
 }
 
+/// Configuration values that override the container image Dockerfile settings.
+/// See <a
+/// href="https://docs.aws.amazon.com/lambda/latest/dg/images-parms.html">Container
+/// settings</a>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class ImageConfig {
+  /// Specifies parameters that you want to pass in with ENTRYPOINT.
+  @_s.JsonKey(name: 'Command')
+  final List<String> command;
+
+  /// Specifies the entry point to their application, which is typically the
+  /// location of the runtime executable.
+  @_s.JsonKey(name: 'EntryPoint')
+  final List<String> entryPoint;
+
+  /// Specifies the working directory.
+  @_s.JsonKey(name: 'WorkingDirectory')
+  final String workingDirectory;
+
+  ImageConfig({
+    this.command,
+    this.entryPoint,
+    this.workingDirectory,
+  });
+  factory ImageConfig.fromJson(Map<String, dynamic> json) =>
+      _$ImageConfigFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ImageConfigToJson(this);
+}
+
+/// Error response to GetFunctionConfiguration.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ImageConfigError {
+  /// Error code.
+  @_s.JsonKey(name: 'ErrorCode')
+  final String errorCode;
+
+  /// Error message.
+  @_s.JsonKey(name: 'Message')
+  final String message;
+
+  ImageConfigError({
+    this.errorCode,
+    this.message,
+  });
+  factory ImageConfigError.fromJson(Map<String, dynamic> json) =>
+      _$ImageConfigErrorFromJson(json);
+}
+
+/// Response to GetFunctionConfiguration request.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ImageConfigResponse {
+  /// Error response to GetFunctionConfiguration.
+  @_s.JsonKey(name: 'Error')
+  final ImageConfigError error;
+
+  /// Configuration values that override the container image Dockerfile.
+  @_s.JsonKey(name: 'ImageConfig')
+  final ImageConfig imageConfig;
+
+  ImageConfigResponse({
+    this.error,
+    this.imageConfig,
+  });
+  factory ImageConfigResponse.fromJson(Map<String, dynamic> json) =>
+      _$ImageConfigResponseFromJson(json);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -5488,6 +6538,12 @@ enum LastUpdateStatusReasonCode {
   invalidSubnet,
   @_s.JsonValue('InvalidSecurityGroup')
   invalidSecurityGroup,
+  @_s.JsonValue('ImageDeleted')
+  imageDeleted,
+  @_s.JsonValue('ImageAccessDenied')
+  imageAccessDenied,
+  @_s.JsonValue('InvalidImage')
+  invalidImage,
 }
 
 /// An <a
@@ -5507,9 +6563,19 @@ class Layer {
   @_s.JsonKey(name: 'CodeSize')
   final int codeSize;
 
+  /// The Amazon Resource Name (ARN) of a signing job.
+  @_s.JsonKey(name: 'SigningJobArn')
+  final String signingJobArn;
+
+  /// The Amazon Resource Name (ARN) for a signing profile version.
+  @_s.JsonKey(name: 'SigningProfileVersionArn')
+  final String signingProfileVersionArn;
+
   Layer({
     this.arn,
     this.codeSize,
+    this.signingJobArn,
+    this.signingProfileVersionArn,
   });
   factory Layer.fromJson(Map<String, dynamic> json) => _$LayerFromJson(json);
 }
@@ -5572,10 +6638,20 @@ class LayerVersionContentOutput {
   @_s.JsonKey(name: 'Location')
   final String location;
 
+  /// The Amazon Resource Name (ARN) of a signing job.
+  @_s.JsonKey(name: 'SigningJobArn')
+  final String signingJobArn;
+
+  /// The Amazon Resource Name (ARN) for a signing profile version.
+  @_s.JsonKey(name: 'SigningProfileVersionArn')
+  final String signingProfileVersionArn;
+
   LayerVersionContentOutput({
     this.codeSha256,
     this.codeSize,
     this.location,
+    this.signingJobArn,
+    this.signingProfileVersionArn,
   });
   factory LayerVersionContentOutput.fromJson(Map<String, dynamic> json) =>
       _$LayerVersionContentOutputFromJson(json);
@@ -5684,6 +6760,28 @@ class ListAliasesResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class ListCodeSigningConfigsResponse {
+  /// The code signing configurations
+  @_s.JsonKey(name: 'CodeSigningConfigs')
+  final List<CodeSigningConfig> codeSigningConfigs;
+
+  /// The pagination token that's included if more results are available.
+  @_s.JsonKey(name: 'NextMarker')
+  final String nextMarker;
+
+  ListCodeSigningConfigsResponse({
+    this.codeSigningConfigs,
+    this.nextMarker,
+  });
+  factory ListCodeSigningConfigsResponse.fromJson(Map<String, dynamic> json) =>
+      _$ListCodeSigningConfigsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class ListEventSourceMappingsResponse {
   /// A list of event source mappings.
   @_s.JsonKey(name: 'EventSourceMappings')
@@ -5723,6 +6821,29 @@ class ListFunctionEventInvokeConfigsResponse {
   factory ListFunctionEventInvokeConfigsResponse.fromJson(
           Map<String, dynamic> json) =>
       _$ListFunctionEventInvokeConfigsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListFunctionsByCodeSigningConfigResponse {
+  /// The function ARNs.
+  @_s.JsonKey(name: 'FunctionArns')
+  final List<String> functionArns;
+
+  /// The pagination token that's included if more results are available.
+  @_s.JsonKey(name: 'NextMarker')
+  final String nextMarker;
+
+  ListFunctionsByCodeSigningConfigResponse({
+    this.functionArns,
+    this.nextMarker,
+  });
+  factory ListFunctionsByCodeSigningConfigResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$ListFunctionsByCodeSigningConfigResponseFromJson(json);
 }
 
 /// A list of Lambda functions.
@@ -5914,6 +7035,25 @@ class OnSuccess {
   Map<String, dynamic> toJson() => _$OnSuccessToJson(this);
 }
 
+enum PackageType {
+  @_s.JsonValue('Zip')
+  zip,
+  @_s.JsonValue('Image')
+  image,
+}
+
+extension on PackageType {
+  String toValue() {
+    switch (this) {
+      case PackageType.zip:
+        return 'Zip';
+      case PackageType.image:
+        return 'Image';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Details about the provisioned concurrency configuration for a function alias
 /// or version.
 @_s.JsonSerializable(
@@ -6035,6 +7175,45 @@ class PublishLayerVersionResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class PutFunctionCodeSigningConfigResponse {
+  /// The The Amazon Resource Name (ARN) of the code signing configuration.
+  @_s.JsonKey(name: 'CodeSigningConfigArn')
+  final String codeSigningConfigArn;
+
+  /// The name of the Lambda function.
+  /// <p class="title"> <b>Name formats</b>
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>Function name</b> - <code>MyFunction</code>.
+  /// </li>
+  /// <li>
+  /// <b>Function ARN</b> -
+  /// <code>arn:aws:lambda:us-west-2:123456789012:function:MyFunction</code>.
+  /// </li>
+  /// <li>
+  /// <b>Partial ARN</b> - <code>123456789012:function:MyFunction</code>.
+  /// </li>
+  /// </ul>
+  /// The length constraint applies only to the full ARN. If you specify only the
+  /// function name, it is limited to 64 characters in length.
+  @_s.JsonKey(name: 'FunctionName')
+  final String functionName;
+
+  PutFunctionCodeSigningConfigResponse({
+    @_s.required this.codeSigningConfigArn,
+    @_s.required this.functionName,
+  });
+  factory PutFunctionCodeSigningConfigResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$PutFunctionCodeSigningConfigResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class PutProvisionedConcurrencyConfigResponse {
   /// The amount of provisioned concurrency allocated.
   @_s.JsonKey(name: 'AllocatedProvisionedConcurrentExecutions')
@@ -6091,6 +7270,8 @@ enum Runtime {
   nodejs12X,
   @_s.JsonValue('java8')
   java8,
+  @_s.JsonValue('java8.al2')
+  java8Al2,
   @_s.JsonValue('java11')
   java11,
   @_s.JsonValue('python2.7')
@@ -6119,6 +7300,8 @@ enum Runtime {
   ruby2_7,
   @_s.JsonValue('provided')
   provided,
+  @_s.JsonValue('provided.al2')
+  providedAl2,
 }
 
 extension on Runtime {
@@ -6138,6 +7321,8 @@ extension on Runtime {
         return 'nodejs12.x';
       case Runtime.java8:
         return 'java8';
+      case Runtime.java8Al2:
+        return 'java8.al2';
       case Runtime.java11:
         return 'java11';
       case Runtime.python2_7:
@@ -6166,9 +7351,98 @@ extension on Runtime {
         return 'ruby2.7';
       case Runtime.provided:
         return 'provided';
+      case Runtime.providedAl2:
+        return 'provided.al2';
     }
     throw Exception('Unknown enum value: $this');
   }
+}
+
+/// The Self-Managed Apache Kafka cluster for your event source.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class SelfManagedEventSource {
+  /// The list of bootstrap servers for your Kafka brokers in the following
+  /// format: <code>"KAFKA_BOOTSTRAP_SERVERS":
+  /// ["abc.xyz.com:xxxx","abc2.xyz.com:xxxx"]</code>.
+  @_s.JsonKey(name: 'Endpoints')
+  final Map<EndPointType, List<String>> endpoints;
+
+  SelfManagedEventSource({
+    this.endpoints,
+  });
+  factory SelfManagedEventSource.fromJson(Map<String, dynamic> json) =>
+      _$SelfManagedEventSourceFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SelfManagedEventSourceToJson(this);
+}
+
+/// You can specify the authentication protocol, or the VPC components to secure
+/// access to your event source.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class SourceAccessConfiguration {
+  /// The type of authentication protocol or the VPC components for your event
+  /// source. For example: <code>"Type":"SASL_SCRAM_512_AUTH"</code>.
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>BASIC_AUTH</code> - (MQ) The Secrets Manager secret that stores your
+  /// broker credentials.
+  /// </li>
+  /// <li>
+  /// <code>VPC_SUBNET</code> - The subnets associated with your VPC. Lambda
+  /// connects to these subnets to fetch data from your Kafka cluster.
+  /// </li>
+  /// <li>
+  /// <code>VPC_SECURITY_GROUP</code> - The VPC security group used to manage
+  /// access to your Kafka brokers.
+  /// </li>
+  /// <li>
+  /// <code>SASL_SCRAM_256_AUTH</code> - The ARN of your secret key used for SASL
+  /// SCRAM-256 authentication of your Kafka brokers.
+  /// </li>
+  /// <li>
+  /// <code>SASL_SCRAM_512_AUTH</code> - The ARN of your secret key used for SASL
+  /// SCRAM-512 authentication of your Kafka brokers.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Type')
+  final SourceAccessType type;
+
+  /// The value for your chosen configuration in <code>Type</code>. For example:
+  /// <code>"URI":
+  /// "arn:aws:secretsmanager:us-east-1:01234567890:secret:MyBrokerSecretName"</code>.
+  @_s.JsonKey(name: 'URI')
+  final String uri;
+
+  SourceAccessConfiguration({
+    this.type,
+    this.uri,
+  });
+  factory SourceAccessConfiguration.fromJson(Map<String, dynamic> json) =>
+      _$SourceAccessConfigurationFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SourceAccessConfigurationToJson(this);
+}
+
+enum SourceAccessType {
+  @_s.JsonValue('BASIC_AUTH')
+  basicAuth,
+  @_s.JsonValue('VPC_SUBNET')
+  vpcSubnet,
+  @_s.JsonValue('VPC_SECURITY_GROUP')
+  vpcSecurityGroup,
+  @_s.JsonValue('SASL_SCRAM_512_AUTH')
+  saslScram_512Auth,
+  @_s.JsonValue('SASL_SCRAM_256_AUTH')
+  saslScram_256Auth,
 }
 
 enum State {
@@ -6203,6 +7477,12 @@ enum StateReasonCode {
   invalidSubnet,
   @_s.JsonValue('InvalidSecurityGroup')
   invalidSecurityGroup,
+  @_s.JsonValue('ImageDeleted')
+  imageDeleted,
+  @_s.JsonValue('ImageAccessDenied')
+  imageAccessDenied,
+  @_s.JsonValue('InvalidImage')
+  invalidImage,
 }
 
 /// The function's AWS X-Ray tracing configuration. To sample and record
@@ -6246,6 +7526,23 @@ enum TracingMode {
   active,
   @_s.JsonValue('PassThrough')
   passThrough,
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class UpdateCodeSigningConfigResponse {
+  /// The code signing configuration
+  @_s.JsonKey(name: 'CodeSigningConfig')
+  final CodeSigningConfig codeSigningConfig;
+
+  UpdateCodeSigningConfigResponse({
+    @_s.required this.codeSigningConfig,
+  });
+  factory UpdateCodeSigningConfigResponse.fromJson(Map<String, dynamic> json) =>
+      _$UpdateCodeSigningConfigResponseFromJson(json);
 }
 
 /// The VPC security groups and subnets that are attached to a Lambda function.
@@ -6301,10 +7598,26 @@ class VpcConfigResponse {
       _$VpcConfigResponseFromJson(json);
 }
 
+class CodeSigningConfigNotFoundException extends _s.GenericAwsException {
+  CodeSigningConfigNotFoundException({String type, String message})
+      : super(
+            type: type,
+            code: 'CodeSigningConfigNotFoundException',
+            message: message);
+}
+
 class CodeStorageExceededException extends _s.GenericAwsException {
   CodeStorageExceededException({String type, String message})
       : super(
             type: type, code: 'CodeStorageExceededException', message: message);
+}
+
+class CodeVerificationFailedException extends _s.GenericAwsException {
+  CodeVerificationFailedException({String type, String message})
+      : super(
+            type: type,
+            code: 'CodeVerificationFailedException',
+            message: message);
 }
 
 class EC2AccessDeniedException extends _s.GenericAwsException {
@@ -6322,9 +7635,40 @@ class EC2UnexpectedException extends _s.GenericAwsException {
       : super(type: type, code: 'EC2UnexpectedException', message: message);
 }
 
+class EFSIOException extends _s.GenericAwsException {
+  EFSIOException({String type, String message})
+      : super(type: type, code: 'EFSIOException', message: message);
+}
+
+class EFSMountConnectivityException extends _s.GenericAwsException {
+  EFSMountConnectivityException({String type, String message})
+      : super(
+            type: type,
+            code: 'EFSMountConnectivityException',
+            message: message);
+}
+
+class EFSMountFailureException extends _s.GenericAwsException {
+  EFSMountFailureException({String type, String message})
+      : super(type: type, code: 'EFSMountFailureException', message: message);
+}
+
+class EFSMountTimeoutException extends _s.GenericAwsException {
+  EFSMountTimeoutException({String type, String message})
+      : super(type: type, code: 'EFSMountTimeoutException', message: message);
+}
+
 class ENILimitReachedException extends _s.GenericAwsException {
   ENILimitReachedException({String type, String message})
       : super(type: type, code: 'ENILimitReachedException', message: message);
+}
+
+class InvalidCodeSignatureException extends _s.GenericAwsException {
+  InvalidCodeSignatureException({String type, String message})
+      : super(
+            type: type,
+            code: 'InvalidCodeSignatureException',
+            message: message);
 }
 
 class InvalidParameterValueException extends _s.GenericAwsException {
@@ -6461,16 +7805,30 @@ class UnsupportedMediaTypeException extends _s.GenericAwsException {
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{
+  'CodeSigningConfigNotFoundException': (type, message) =>
+      CodeSigningConfigNotFoundException(type: type, message: message),
   'CodeStorageExceededException': (type, message) =>
       CodeStorageExceededException(type: type, message: message),
+  'CodeVerificationFailedException': (type, message) =>
+      CodeVerificationFailedException(type: type, message: message),
   'EC2AccessDeniedException': (type, message) =>
       EC2AccessDeniedException(type: type, message: message),
   'EC2ThrottledException': (type, message) =>
       EC2ThrottledException(type: type, message: message),
   'EC2UnexpectedException': (type, message) =>
       EC2UnexpectedException(type: type, message: message),
+  'EFSIOException': (type, message) =>
+      EFSIOException(type: type, message: message),
+  'EFSMountConnectivityException': (type, message) =>
+      EFSMountConnectivityException(type: type, message: message),
+  'EFSMountFailureException': (type, message) =>
+      EFSMountFailureException(type: type, message: message),
+  'EFSMountTimeoutException': (type, message) =>
+      EFSMountTimeoutException(type: type, message: message),
   'ENILimitReachedException': (type, message) =>
       ENILimitReachedException(type: type, message: message),
+  'InvalidCodeSignatureException': (type, message) =>
+      InvalidCodeSignatureException(type: type, message: message),
   'InvalidParameterValueException': (type, message) =>
       InvalidParameterValueException(type: type, message: message),
   'InvalidRequestContentException': (type, message) =>

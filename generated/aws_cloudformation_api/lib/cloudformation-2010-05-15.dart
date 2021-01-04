@@ -274,6 +274,9 @@ class CloudFormation {
   /// the change set by using the <a>ExecuteChangeSet</a> action. AWS
   /// CloudFormation doesn't make changes until you execute the change set.
   ///
+  /// To create a change set for the entire stack hierachy, set
+  /// <code>IncludeNestedStacks</code> to <code>True</code>.
+  ///
   /// May throw [AlreadyExistsException].
   /// May throw [InsufficientCapabilitiesException].
   /// May throw [LimitExceededException].
@@ -388,11 +391,10 @@ class CloudFormation {
   /// This capacity does not apply to creating change sets, and specifying it
   /// when creating change sets has no effect.
   ///
-  /// Also, change sets do not currently support nested stacks. If you want to
-  /// create a stack from a stack template that contains macros <i>and</i>
-  /// nested stacks, you must create or update the stack directly from the
-  /// template using the <a>CreateStack</a> or <a>UpdateStack</a> action, and
-  /// specifying this capability.
+  /// If you want to create a stack from a stack template that contains macros
+  /// <i>and</i> nested stacks, you must create or update the stack directly
+  /// from the template using the <a>CreateStack</a> or <a>UpdateStack</a>
+  /// action, and specifying this capability.
   /// </note>
   /// For more information on macros, see <a
   /// href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/template-macros.html">Using
@@ -426,6 +428,11 @@ class CloudFormation {
   ///
   /// Parameter [description] :
   /// A description to help you identify this change set.
+  ///
+  /// Parameter [includeNestedStacks] :
+  /// Creates a change set for the all nested stacks specified in the template.
+  /// The default behavior of this action is set to <code>False</code>. To
+  /// include nested sets in a change set, specify <code>True</code>.
   ///
   /// Parameter [notificationARNs] :
   /// The Amazon Resource Names (ARNs) of Amazon Simple Notification Service
@@ -506,6 +513,7 @@ class CloudFormation {
     ChangeSetType changeSetType,
     String clientToken,
     String description,
+    bool includeNestedStacks,
     List<String> notificationARNs,
     List<Parameter> parameters,
     List<String> resourceTypes,
@@ -583,6 +591,7 @@ class CloudFormation {
     changeSetType?.also((arg) => $request['ChangeSetType'] = arg.toValue());
     clientToken?.also((arg) => $request['ClientToken'] = arg);
     description?.also((arg) => $request['Description'] = arg);
+    includeNestedStacks?.also((arg) => $request['IncludeNestedStacks'] = arg);
     notificationARNs?.also((arg) => $request['NotificationARNs'] = arg);
     parameters?.also((arg) => $request['Parameters'] = arg);
     resourceTypes?.also((arg) => $request['ResourceTypes'] = arg);
@@ -719,10 +728,9 @@ class CloudFormation {
   /// href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-aws-serverless.html">AWS::Serverless</a>
   /// transforms, which are macros hosted by AWS CloudFormation.
   ///
-  /// Change sets do not currently support nested stacks. If you want to create
-  /// a stack from a stack template that contains macros <i>and</i> nested
-  /// stacks, you must create the stack directly from the template using this
-  /// capability.
+  /// If you want to create a stack from a stack template that contains macros
+  /// <i>and</i> nested stacks, you must create the stack directly from the
+  /// template using this capability.
   /// <important>
   /// You should only create stacks directly from a stack template that contains
   /// macros if you know what processing the macro performs.
@@ -1423,6 +1431,12 @@ class CloudFormation {
   /// If the call successfully completes, AWS CloudFormation successfully
   /// deleted the change set.
   ///
+  /// If <code>IncludeNestedStacks</code> specifies <code>True</code> during the
+  /// creation of the nested change set, then <code>DeleteChangeSet</code> will
+  /// delete all change sets that belong to the stacks hierarchy and will also
+  /// delete all change sets for nested stacks with the status of
+  /// <code>REVIEW_IN_PROGRESS</code>.
+  ///
   /// May throw [InvalidChangeSetStatusException].
   ///
   /// Parameter [changeSetName] :
@@ -1755,12 +1769,12 @@ class CloudFormation {
       'typeName',
       typeName,
       10,
-      196,
+      204,
     );
     _s.validateStringPattern(
       'typeName',
       typeName,
-      r'''[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}''',
+      r'''[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}(::MODULE){0,1}''',
     );
     _s.validateStringLength(
       'versionId',
@@ -2479,12 +2493,12 @@ class CloudFormation {
       'typeName',
       typeName,
       10,
-      196,
+      204,
     );
     _s.validateStringPattern(
       'typeName',
       typeName,
-      r'''[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}''',
+      r'''[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}(::MODULE){0,1}''',
     );
     _s.validateStringLength(
       'versionId',
@@ -2868,6 +2882,9 @@ class CloudFormation {
   /// If a stack policy is associated with the stack, AWS CloudFormation
   /// enforces the policy during the update. You can't specify a temporary stack
   /// policy that overrides the current policy.
+  ///
+  /// To create a change set for the entire stack hierachy,
+  /// <code>IncludeNestedStacks</code> must have been set to <code>True</code>.
   ///
   /// May throw [InvalidChangeSetStatusException].
   /// May throw [ChangeSetNotFoundException].
@@ -3292,13 +3309,17 @@ class CloudFormation {
 
   /// Returns summary information about stack instances that are associated with
   /// the specified stack set. You can filter for stack instances that are
-  /// associated with a specific AWS account name or Region.
+  /// associated with a specific AWS account name or Region, or that have a
+  /// specific status.
   ///
   /// May throw [StackSetNotFoundException].
   ///
   /// Parameter [stackSetName] :
   /// The name or unique ID of the stack set that you want to list stack
   /// instances for.
+  ///
+  /// Parameter [filters] :
+  /// The status that stack instances are filtered by.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to be returned with a single call. If the
@@ -3321,6 +3342,7 @@ class CloudFormation {
   /// The name of the Region where you want to list stack instances.
   Future<ListStackInstancesOutput> listStackInstances({
     @_s.required String stackSetName,
+    List<StackInstanceFilter> filters,
     int maxResults,
     String nextToken,
     String stackInstanceAccount,
@@ -3351,6 +3373,7 @@ class CloudFormation {
     );
     final $request = <String, dynamic>{};
     $request['StackSetName'] = stackSetName;
+    filters?.also((arg) => $request['Filters'] = arg);
     maxResults?.also((arg) => $request['MaxResults'] = arg);
     nextToken?.also((arg) => $request['NextToken'] = arg);
     stackInstanceAccount?.also((arg) => $request['StackInstanceAccount'] = arg);
@@ -3732,12 +3755,12 @@ class CloudFormation {
       'typeName',
       typeName,
       10,
-      196,
+      204,
     );
     _s.validateStringPattern(
       'typeName',
       typeName,
-      r'''[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}''',
+      r'''[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}(::MODULE){0,1}''',
     );
     final $request = <String, dynamic>{};
     maxResults?.also((arg) => $request['MaxResults'] = arg);
@@ -3853,12 +3876,12 @@ class CloudFormation {
       'typeName',
       typeName,
       10,
-      196,
+      204,
     );
     _s.validateStringPattern(
       'typeName',
       typeName,
-      r'''[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}''',
+      r'''[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}(::MODULE){0,1}''',
     );
     final $request = <String, dynamic>{};
     arn?.also((arg) => $request['Arn'] = arg);
@@ -3941,6 +3964,9 @@ class CloudFormation {
   /// </li>
   /// </ul>
   ///
+  /// Parameter [type] :
+  /// The type of extension.
+  ///
   /// Parameter [visibility] :
   /// The scope at which the type is visible and usable in CloudFormation
   /// operations.
@@ -3964,6 +3990,7 @@ class CloudFormation {
     int maxResults,
     String nextToken,
     ProvisioningType provisioningType,
+    RegistryType type,
     Visibility visibility,
   }) async {
     _s.validateNumRange(
@@ -3985,6 +4012,7 @@ class CloudFormation {
     nextToken?.also((arg) => $request['NextToken'] = arg);
     provisioningType
         ?.also((arg) => $request['ProvisioningType'] = arg.toValue());
+    type?.also((arg) => $request['Type'] = arg.toValue());
     visibility?.also((arg) => $request['Visibility'] = arg.toValue());
     final $result = await _protocol.send(
       $request,
@@ -4148,12 +4176,14 @@ class CloudFormation {
   /// href="https://docs.aws.amazon.com/cloudformation-cli/latest/userguide/resource-type-cli-submit.html">submit</a>
   /// in the <i>CloudFormation CLI User Guide</i>.
   /// <note>
-  /// As part of registering a resource provider type, CloudFormation must be
-  /// able to access the S3 bucket which contains the schema handler package for
-  /// that resource provider. For more information, see <a
-  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/registry.html#registry-register-permissions">IAM
-  /// Permissions for Registering a Resource Provider</a> in the <i>AWS
-  /// CloudFormation User Guide</i>.
+  /// The user registering the resource provider type must be able to access the
+  /// the schema handler package in the S3 bucket. That is, the user needs to
+  /// have <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/API/API_GetObject.html">GetObject</a>
+  /// permissions for the schema handler package. For more information, see <a
+  /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazons3.html">Actions,
+  /// Resources, and Condition Keys for Amazon S3</a> in the <i>AWS Identity and
+  /// Access Management User Guide</i>.
   /// </note>
   ///
   /// Parameter [typeName] :
@@ -4193,14 +4223,16 @@ class CloudFormation {
   /// request, even if the request is submitted multiple times.
   ///
   /// Parameter [executionRoleArn] :
-  /// The Amazon Resource Name (ARN) of the IAM execution role to use to
-  /// register the type. If your resource type calls AWS APIs in any of its
-  /// handlers, you must create an <i> <a
+  /// The Amazon Resource Name (ARN) of the IAM role for CloudFormation to
+  /// assume when invoking the resource provider. If your resource type calls
+  /// AWS APIs in any of its handlers, you must create an <i> <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html">IAM
   /// execution role</a> </i> that includes the necessary permissions to call
-  /// those AWS APIs, and provision that execution role in your account.
-  /// CloudFormation then assumes that execution role to provide your resource
-  /// type with the appropriate credentials.
+  /// those AWS APIs, and provision that execution role in your account. When
+  /// CloudFormation needs to invoke the resource provider handler,
+  /// CloudFormation assumes this execution role to create a temporary session
+  /// token, which it then passes to the resource provider handler, thereby
+  /// supplying your resource provider with the appropriate credentials.
   ///
   /// Parameter [loggingConfig] :
   /// Specifies logging configuration information for a type.
@@ -4230,13 +4262,13 @@ class CloudFormation {
       'typeName',
       typeName,
       10,
-      196,
+      204,
       isRequired: true,
     );
     _s.validateStringPattern(
       'typeName',
       typeName,
-      r'''[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}''',
+      r'''[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}(::MODULE){0,1}''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -4383,12 +4415,12 @@ class CloudFormation {
       'typeName',
       typeName,
       10,
-      196,
+      204,
     );
     _s.validateStringPattern(
       'typeName',
       typeName,
-      r'''[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}''',
+      r'''[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}::[A-Za-z0-9]{2,64}(::MODULE){0,1}''',
     );
     _s.validateStringLength(
       'versionId',
@@ -4651,10 +4683,9 @@ class CloudFormation {
   /// href="http://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/transform-aws-serverless.html">AWS::Serverless</a>
   /// transforms, which are macros hosted by AWS CloudFormation.
   ///
-  /// Change sets do not currently support nested stacks. If you want to update
-  /// a stack from a stack template that contains macros <i>and</i> nested
-  /// stacks, you must update the stack directly from the template using this
-  /// capability.
+  /// If you want to update a stack from a stack template that contains macros
+  /// <i>and</i> nested stacks, you must update the stack directly from the
+  /// template using this capability.
   /// <important>
   /// You should only update stacks directly from a stack template that contains
   /// macros if you know what processing the macro performs.
@@ -5872,6 +5903,8 @@ enum ChangeAction {
   remove,
   @_s.JsonValue('Import')
   import,
+  @_s.JsonValue('Dynamic')
+  dynamic,
 }
 
 extension on String {
@@ -5885,6 +5918,8 @@ extension on String {
         return ChangeAction.remove;
       case 'Import':
         return ChangeAction.import;
+      case 'Dynamic':
+        return ChangeAction.dynamic;
     }
     throw Exception('Unknown enum value: $this');
   }
@@ -5897,8 +5932,14 @@ enum ChangeSetStatus {
   createInProgress,
   @_s.JsonValue('CREATE_COMPLETE')
   createComplete,
+  @_s.JsonValue('DELETE_PENDING')
+  deletePending,
+  @_s.JsonValue('DELETE_IN_PROGRESS')
+  deleteInProgress,
   @_s.JsonValue('DELETE_COMPLETE')
   deleteComplete,
+  @_s.JsonValue('DELETE_FAILED')
+  deleteFailed,
   @_s.JsonValue('FAILED')
   failed,
 }
@@ -5912,8 +5953,14 @@ extension on String {
         return ChangeSetStatus.createInProgress;
       case 'CREATE_COMPLETE':
         return ChangeSetStatus.createComplete;
+      case 'DELETE_PENDING':
+        return ChangeSetStatus.deletePending;
+      case 'DELETE_IN_PROGRESS':
+        return ChangeSetStatus.deleteInProgress;
       case 'DELETE_COMPLETE':
         return ChangeSetStatus.deleteComplete;
+      case 'DELETE_FAILED':
+        return ChangeSetStatus.deleteFailed;
       case 'FAILED':
         return ChangeSetStatus.failed;
     }
@@ -5944,6 +5991,16 @@ class ChangeSetSummary {
   /// updated.
   final ExecutionStatus executionStatus;
 
+  /// Specifies the current setting of <code>IncludeNestedStacks</code> for the
+  /// change set.
+  final bool includeNestedStacks;
+
+  /// The parent change set ID.
+  final String parentChangeSetId;
+
+  /// The root change set ID.
+  final String rootChangeSetId;
+
   /// The ID of the stack with which the change set is associated.
   final String stackId;
 
@@ -5965,6 +6022,9 @@ class ChangeSetSummary {
     this.creationTime,
     this.description,
     this.executionStatus,
+    this.includeNestedStacks,
+    this.parentChangeSetId,
+    this.rootChangeSetId,
     this.stackId,
     this.stackName,
     this.status,
@@ -5979,6 +6039,9 @@ class ChangeSetSummary {
       executionStatus: _s
           .extractXmlStringValue(elem, 'ExecutionStatus')
           ?.toExecutionStatus(),
+      includeNestedStacks: _s.extractXmlBoolValue(elem, 'IncludeNestedStacks'),
+      parentChangeSetId: _s.extractXmlStringValue(elem, 'ParentChangeSetId'),
+      rootChangeSetId: _s.extractXmlStringValue(elem, 'RootChangeSetId'),
       stackId: _s.extractXmlStringValue(elem, 'StackId'),
       stackName: _s.extractXmlStringValue(elem, 'StackName'),
       status: _s.extractXmlStringValue(elem, 'Status')?.toChangeSetStatus(),
@@ -6178,8 +6241,8 @@ class DeleteStackSetOutput {
 
 /// [<code>Service-managed</code> permissions] The AWS Organizations accounts to
 /// which StackSets deploys. StackSets does not deploy stack instances to the
-/// organization master account, even if the master account is in your
-/// organization or in an OU in your organization.
+/// organization management account, even if the organization management account
+/// is in your organization or in an OU in your organization.
 ///
 /// For update operations, you can specify either <code>Accounts</code> or
 /// <code>OrganizationalUnitIds</code>. For create and delete operations,
@@ -6314,6 +6377,9 @@ class DescribeChangeSetOutput {
   /// updated.
   final ExecutionStatus executionStatus;
 
+  /// Verifies if <code>IncludeNestedStacks</code> is set to <code>True</code>.
+  final bool includeNestedStacks;
+
   /// If the output exceeds 1 MB, a string that identifies the next page of
   /// changes. If there is no additional page, this value is null.
   final String nextToken;
@@ -6329,10 +6395,18 @@ class DescribeChangeSetOutput {
   /// data type.
   final List<Parameter> parameters;
 
+  /// Specifies the change set ID of the parent change set in the current nested
+  /// change set hierarchy.
+  final String parentChangeSetId;
+
   /// The rollback triggers for AWS CloudFormation to monitor during stack
   /// creation and updating operations, and for the specified monitoring period
   /// afterwards.
   final RollbackConfiguration rollbackConfiguration;
+
+  /// Specifies the change set ID of the root change set in the current nested
+  /// change set hierarchy.
+  final String rootChangeSetId;
 
   /// The ARN of the stack that is associated with the change set.
   final String stackId;
@@ -6361,10 +6435,13 @@ class DescribeChangeSetOutput {
     this.creationTime,
     this.description,
     this.executionStatus,
+    this.includeNestedStacks,
     this.nextToken,
     this.notificationARNs,
     this.parameters,
+    this.parentChangeSetId,
     this.rollbackConfiguration,
+    this.rootChangeSetId,
     this.stackId,
     this.stackName,
     this.status,
@@ -6386,6 +6463,7 @@ class DescribeChangeSetOutput {
       executionStatus: _s
           .extractXmlStringValue(elem, 'ExecutionStatus')
           ?.toExecutionStatus(),
+      includeNestedStacks: _s.extractXmlBoolValue(elem, 'IncludeNestedStacks'),
       nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
       notificationARNs: _s
           .extractXmlChild(elem, 'NotificationARNs')
@@ -6394,9 +6472,11 @@ class DescribeChangeSetOutput {
           .findElements('member')
           .map((c) => Parameter.fromXml(c))
           .toList()),
+      parentChangeSetId: _s.extractXmlStringValue(elem, 'ParentChangeSetId'),
       rollbackConfiguration: _s
           .extractXmlChild(elem, 'RollbackConfiguration')
           ?.let((e) => RollbackConfiguration.fromXml(e)),
+      rootChangeSetId: _s.extractXmlStringValue(elem, 'RootChangeSetId'),
       stackId: _s.extractXmlStringValue(elem, 'StackId'),
       stackName: _s.extractXmlStringValue(elem, 'StackName'),
       status: _s.extractXmlStringValue(elem, 'Status')?.toChangeSetStatus(),
@@ -6719,6 +6799,9 @@ class DescribeTypeOutput {
   /// type with the appropriate credentials.
   final String executionRoleArn;
 
+  /// Whether the specified type version is set as the default version.
+  final bool isDefaultVersion;
+
   /// When the specified type version was registered.
   final DateTime lastUpdated;
 
@@ -6805,6 +6888,7 @@ class DescribeTypeOutput {
     this.description,
     this.documentationUrl,
     this.executionRoleArn,
+    this.isDefaultVersion,
     this.lastUpdated,
     this.loggingConfig,
     this.provisioningType,
@@ -6825,6 +6909,7 @@ class DescribeTypeOutput {
       description: _s.extractXmlStringValue(elem, 'Description'),
       documentationUrl: _s.extractXmlStringValue(elem, 'DocumentationUrl'),
       executionRoleArn: _s.extractXmlStringValue(elem, 'ExecutionRoleArn'),
+      isDefaultVersion: _s.extractXmlBoolValue(elem, 'IsDefaultVersion'),
       lastUpdated: _s.extractXmlDateTimeValue(elem, 'LastUpdated'),
       loggingConfig: _s
           .extractXmlChild(elem, 'LoggingConfig')
@@ -7657,6 +7742,52 @@ class LoggingConfig {
   Map<String, dynamic> toJson() => _$LoggingConfigToJson(this);
 }
 
+/// Contains information about the module from which the resource was created,
+/// if the resource was created from a module included in the stack template.
+///
+/// For more information on modules, see <a
+/// href="AWSCloudFormation/latest/UserGuide/modules.html">Using modules to
+/// encapsulate and reuse resource configurations</a> in the <i>CloudFormation
+/// User Guide</i>.
+class ModuleInfo {
+  /// A concantenated list of the logical IDs of the module or modules containing
+  /// the resource. Modules are listed starting with the inner-most nested module,
+  /// and separated by <code>/</code>.
+  ///
+  /// In the following example, the resource was created from a module,
+  /// <code>moduleA</code>, that is nested inside a parent module,
+  /// <code>moduleB</code>.
+  ///
+  /// <code>moduleA/moduleB</code>
+  ///
+  /// For more information, see <a
+  /// href="AWSCloudFormation/latest/UserGuide/modules.html#module-ref-resources">Referencing
+  /// resources in a module</a> in the <i>CloudFormation User Guide</i>.
+  final String logicalIdHierarchy;
+
+  /// A concantenated list of the the module type or types containing the
+  /// resource. Module types are listed starting with the inner-most nested
+  /// module, and separated by <code>/</code>.
+  ///
+  /// In the following example, the resource was created from a module of type
+  /// <code>AWS::First::Example::MODULE</code>, that is nested inside a parent
+  /// module of type <code>AWS::Second::Example::MODULE</code>.
+  ///
+  /// <code>AWS::First::Example::MODULE/AWS::Second::Example::MODULE</code>
+  final String typeHierarchy;
+
+  ModuleInfo({
+    this.logicalIdHierarchy,
+    this.typeHierarchy,
+  });
+  factory ModuleInfo.fromXml(_s.XmlElement elem) {
+    return ModuleInfo(
+      logicalIdHierarchy: _s.extractXmlStringValue(elem, 'LogicalIdHierarchy'),
+      typeHierarchy: _s.extractXmlStringValue(elem, 'TypeHierarchy'),
+    );
+  }
+}
+
 enum OnFailure {
   @_s.JsonValue('DO_NOTHING')
   doNothing,
@@ -8090,6 +8221,8 @@ extension on String {
 enum RegistryType {
   @_s.JsonValue('RESOURCE')
   resource,
+  @_s.JsonValue('MODULE')
+  module,
 }
 
 extension on RegistryType {
@@ -8097,6 +8230,8 @@ extension on RegistryType {
     switch (this) {
       case RegistryType.resource:
         return 'RESOURCE';
+      case RegistryType.module:
+        return 'MODULE';
     }
     throw Exception('Unknown enum value: $this');
   }
@@ -8107,6 +8242,8 @@ extension on String {
     switch (this) {
       case 'RESOURCE':
         return RegistryType.resource;
+      case 'MODULE':
+        return RegistryType.module;
     }
     throw Exception('Unknown enum value: $this');
   }
@@ -8199,8 +8336,13 @@ extension on String {
 class ResourceChange {
   /// The action that AWS CloudFormation takes on the resource, such as
   /// <code>Add</code> (adds a new resource), <code>Modify</code> (changes a
-  /// resource), or <code>Remove</code> (deletes a resource).
+  /// resource), <code>Remove</code> (deletes a resource), <code>Import</code>
+  /// (imports a resource), or <code>Dynamic</code> (exact action for the resource
+  /// cannot be determined).
   final ChangeAction action;
+
+  /// The change set ID of the nested change set.
+  final String changeSetId;
 
   /// For the <code>Modify</code> action, a list of
   /// <code>ResourceChangeDetail</code> structures that describes the changes that
@@ -8209,6 +8351,10 @@ class ResourceChange {
 
   /// The resource's logical ID, which is defined in the stack's template.
   final String logicalResourceId;
+
+  /// Contains information about the module from which the resource was created,
+  /// if the resource was created from a module included in the stack template.
+  final ModuleInfo moduleInfo;
 
   /// The resource's physical ID (resource name). Resources that you are adding
   /// don't have physical IDs because they haven't been created.
@@ -8243,8 +8389,10 @@ class ResourceChange {
 
   ResourceChange({
     this.action,
+    this.changeSetId,
     this.details,
     this.logicalResourceId,
+    this.moduleInfo,
     this.physicalResourceId,
     this.replacement,
     this.resourceType,
@@ -8253,11 +8401,15 @@ class ResourceChange {
   factory ResourceChange.fromXml(_s.XmlElement elem) {
     return ResourceChange(
       action: _s.extractXmlStringValue(elem, 'Action')?.toChangeAction(),
+      changeSetId: _s.extractXmlStringValue(elem, 'ChangeSetId'),
       details: _s.extractXmlChild(elem, 'Details')?.let((elem) => elem
           .findElements('member')
           .map((c) => ResourceChangeDetail.fromXml(c))
           .toList()),
       logicalResourceId: _s.extractXmlStringValue(elem, 'LogicalResourceId'),
+      moduleInfo: _s
+          .extractXmlChild(elem, 'ModuleInfo')
+          ?.let((e) => ModuleInfo.fromXml(e)),
       physicalResourceId: _s.extractXmlStringValue(elem, 'PhysicalResourceId'),
       replacement:
           _s.extractXmlStringValue(elem, 'Replacement')?.toReplacement(),
@@ -8561,7 +8713,9 @@ class ResourceToImport {
   final Map<String, String> resourceIdentifier;
 
   /// The type of resource to import into your stack, such as
-  /// <code>AWS::S3::Bucket</code>.
+  /// <code>AWS::S3::Bucket</code>. For a list of supported resource types, see <a
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/resource-import-supported-resources.html">Resources
+  /// that support import operations</a> in the AWS CloudFormation User Guide.
   @_s.JsonKey(name: 'ResourceType')
   final String resourceType;
 
@@ -9148,7 +9302,9 @@ class StackInstance {
   /// instance on which drift detection has not yet been performed.
   final DateTime lastDriftCheckTimestamp;
 
-  /// Reserved for internal use. No data returned.
+  /// [<code>Service-managed</code> permissions] The organization root ID or
+  /// organizational unit (OU) IDs that you specified for <a
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_DeploymentTargets.html">DeploymentTargets</a>.
   final String organizationalUnitId;
 
   /// A list of parameters from the stack set template whose values have been
@@ -9160,6 +9316,9 @@ class StackInstance {
 
   /// The ID of the stack instance.
   final String stackId;
+
+  /// The detailed status of the stack instance.
+  final StackInstanceComprehensiveStatus stackInstanceStatus;
 
   /// The name or unique ID of the stack set that the stack instance is associated
   /// with.
@@ -9210,6 +9369,7 @@ class StackInstance {
     this.parameterOverrides,
     this.region,
     this.stackId,
+    this.stackInstanceStatus,
     this.stackSetId,
     this.status,
     this.statusReason,
@@ -9230,10 +9390,135 @@ class StackInstance {
               .toList()),
       region: _s.extractXmlStringValue(elem, 'Region'),
       stackId: _s.extractXmlStringValue(elem, 'StackId'),
+      stackInstanceStatus: _s
+          .extractXmlChild(elem, 'StackInstanceStatus')
+          ?.let((e) => StackInstanceComprehensiveStatus.fromXml(e)),
       stackSetId: _s.extractXmlStringValue(elem, 'StackSetId'),
       status: _s.extractXmlStringValue(elem, 'Status')?.toStackInstanceStatus(),
       statusReason: _s.extractXmlStringValue(elem, 'StatusReason'),
     );
+  }
+}
+
+/// The detailed status of the stack instance.
+class StackInstanceComprehensiveStatus {
+  /// <ul>
+  /// <li>
+  /// <code>CANCELLED</code>: The operation in the specified account and Region
+  /// has been cancelled. This is either because a user has stopped the stack set
+  /// operation, or because the failure tolerance of the stack set operation has
+  /// been exceeded.
+  /// </li>
+  /// <li>
+  /// <code>FAILED</code>: The operation in the specified account and Region
+  /// failed. If the stack set operation fails in enough accounts within a Region,
+  /// the failure tolerance for the stack set operation as a whole might be
+  /// exceeded.
+  /// </li>
+  /// <li>
+  /// <code>INOPERABLE</code>: A <code>DeleteStackInstances</code> operation has
+  /// failed and left the stack in an unstable state. Stacks in this state are
+  /// excluded from further <code>UpdateStackSet</code> operations. You might need
+  /// to perform a <code>DeleteStackInstances</code> operation, with
+  /// <code>RetainStacks</code> set to <code>true</code>, to delete the stack
+  /// instance, and then delete the stack manually.
+  /// </li>
+  /// <li>
+  /// <code>PENDING</code>: The operation in the specified account and Region has
+  /// yet to start.
+  /// </li>
+  /// <li>
+  /// <code>RUNNING</code>: The operation in the specified account and Region is
+  /// currently in progress.
+  /// </li>
+  /// <li>
+  /// <code>SUCCEEDED</code>: The operation in the specified account and Region
+  /// completed successfully.
+  /// </li>
+  /// </ul>
+  final StackInstanceDetailedStatus detailedStatus;
+
+  StackInstanceComprehensiveStatus({
+    this.detailedStatus,
+  });
+  factory StackInstanceComprehensiveStatus.fromXml(_s.XmlElement elem) {
+    return StackInstanceComprehensiveStatus(
+      detailedStatus: _s
+          .extractXmlStringValue(elem, 'DetailedStatus')
+          ?.toStackInstanceDetailedStatus(),
+    );
+  }
+}
+
+enum StackInstanceDetailedStatus {
+  @_s.JsonValue('PENDING')
+  pending,
+  @_s.JsonValue('RUNNING')
+  running,
+  @_s.JsonValue('SUCCEEDED')
+  succeeded,
+  @_s.JsonValue('FAILED')
+  failed,
+  @_s.JsonValue('CANCELLED')
+  cancelled,
+  @_s.JsonValue('INOPERABLE')
+  inoperable,
+}
+
+extension on String {
+  StackInstanceDetailedStatus toStackInstanceDetailedStatus() {
+    switch (this) {
+      case 'PENDING':
+        return StackInstanceDetailedStatus.pending;
+      case 'RUNNING':
+        return StackInstanceDetailedStatus.running;
+      case 'SUCCEEDED':
+        return StackInstanceDetailedStatus.succeeded;
+      case 'FAILED':
+        return StackInstanceDetailedStatus.failed;
+      case 'CANCELLED':
+        return StackInstanceDetailedStatus.cancelled;
+      case 'INOPERABLE':
+        return StackInstanceDetailedStatus.inoperable;
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
+/// The status that stack instances are filtered by.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StackInstanceFilter {
+  /// The type of filter to apply.
+  @_s.JsonKey(name: 'Name')
+  final StackInstanceFilterName name;
+
+  /// The status to filter by.
+  @_s.JsonKey(name: 'Values')
+  final String values;
+
+  StackInstanceFilter({
+    this.name,
+    this.values,
+  });
+  Map<String, dynamic> toJson() => _$StackInstanceFilterToJson(this);
+}
+
+enum StackInstanceFilterName {
+  @_s.JsonValue('DETAILED_STATUS')
+  detailedStatus,
+}
+
+extension on String {
+  StackInstanceFilterName toStackInstanceFilterName() {
+    switch (this) {
+      case 'DETAILED_STATUS':
+        return StackInstanceFilterName.detailedStatus;
+    }
+    throw Exception('Unknown enum value: $this');
   }
 }
 
@@ -9295,7 +9580,9 @@ class StackInstanceSummary {
   /// instance on which drift detection has not yet been performed.
   final DateTime lastDriftCheckTimestamp;
 
-  /// Reserved for internal use. No data returned.
+  /// [<code>Service-managed</code> permissions] The organization root ID or
+  /// organizational unit (OU) IDs that you specified for <a
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_DeploymentTargets.html">DeploymentTargets</a>.
   final String organizationalUnitId;
 
   /// The name of the AWS Region that the stack instance is associated with.
@@ -9303,6 +9590,9 @@ class StackInstanceSummary {
 
   /// The ID of the stack instance.
   final String stackId;
+
+  /// The detailed status of the stack instance.
+  final StackInstanceComprehensiveStatus stackInstanceStatus;
 
   /// The name or unique ID of the stack set that the stack instance is associated
   /// with.
@@ -9352,6 +9642,7 @@ class StackInstanceSummary {
     this.organizationalUnitId,
     this.region,
     this.stackId,
+    this.stackInstanceStatus,
     this.stackSetId,
     this.status,
     this.statusReason,
@@ -9367,6 +9658,9 @@ class StackInstanceSummary {
           _s.extractXmlStringValue(elem, 'OrganizationalUnitId'),
       region: _s.extractXmlStringValue(elem, 'Region'),
       stackId: _s.extractXmlStringValue(elem, 'StackId'),
+      stackInstanceStatus: _s
+          .extractXmlChild(elem, 'StackInstanceStatus')
+          ?.let((e) => StackInstanceComprehensiveStatus.fromXml(e)),
       stackSetId: _s.extractXmlStringValue(elem, 'StackSetId'),
       status: _s.extractXmlStringValue(elem, 'Status')?.toStackInstanceStatus(),
       statusReason: _s.extractXmlStringValue(elem, 'StatusReason'),
@@ -9401,6 +9695,10 @@ class StackResource {
   /// Unregulated Configuration Changes to Stacks and Resources</a>.
   final StackResourceDriftInformation driftInformation;
 
+  /// Contains information about the module from which the resource was created,
+  /// if the resource was created from a module included in the stack template.
+  final ModuleInfo moduleInfo;
+
   /// The name or unique identifier that corresponds to a physical instance ID of
   /// a resource supported by AWS CloudFormation.
   final String physicalResourceId;
@@ -9421,6 +9719,7 @@ class StackResource {
     @_s.required this.timestamp,
     this.description,
     this.driftInformation,
+    this.moduleInfo,
     this.physicalResourceId,
     this.resourceStatusReason,
     this.stackId,
@@ -9437,6 +9736,9 @@ class StackResource {
       driftInformation: _s
           .extractXmlChild(elem, 'DriftInformation')
           ?.let((e) => StackResourceDriftInformation.fromXml(e)),
+      moduleInfo: _s
+          .extractXmlChild(elem, 'ModuleInfo')
+          ?.let((e) => ModuleInfo.fromXml(e)),
       physicalResourceId: _s.extractXmlStringValue(elem, 'PhysicalResourceId'),
       resourceStatusReason:
           _s.extractXmlStringValue(elem, 'ResourceStatusReason'),
@@ -9479,6 +9781,10 @@ class StackResourceDetail {
   /// Attribute</a> in the AWS CloudFormation User Guide.
   final String metadata;
 
+  /// Contains information about the module from which the resource was created,
+  /// if the resource was created from a module included in the stack template.
+  final ModuleInfo moduleInfo;
+
   /// The name or unique identifier that corresponds to a physical instance ID of
   /// a resource supported by AWS CloudFormation.
   final String physicalResourceId;
@@ -9500,6 +9806,7 @@ class StackResourceDetail {
     this.description,
     this.driftInformation,
     this.metadata,
+    this.moduleInfo,
     this.physicalResourceId,
     this.resourceStatusReason,
     this.stackId,
@@ -9518,6 +9825,9 @@ class StackResourceDetail {
           .extractXmlChild(elem, 'DriftInformation')
           ?.let((e) => StackResourceDriftInformation.fromXml(e)),
       metadata: _s.extractXmlStringValue(elem, 'Metadata'),
+      moduleInfo: _s
+          .extractXmlChild(elem, 'ModuleInfo')
+          ?.let((e) => ModuleInfo.fromXml(e)),
       physicalResourceId: _s.extractXmlStringValue(elem, 'PhysicalResourceId'),
       resourceStatusReason:
           _s.extractXmlStringValue(elem, 'ResourceStatusReason'),
@@ -9596,6 +9906,10 @@ class StackResourceDrift {
   /// <code>DELETED</code>, this structure will not be present.
   final String expectedProperties;
 
+  /// Contains information about the module from which the resource was created,
+  /// if the resource was created from a module included in the stack template.
+  final ModuleInfo moduleInfo;
+
   /// The name or unique identifier that corresponds to a physical instance ID of
   /// a resource supported by AWS CloudFormation.
   final String physicalResourceId;
@@ -9620,6 +9934,7 @@ class StackResourceDrift {
     @_s.required this.timestamp,
     this.actualProperties,
     this.expectedProperties,
+    this.moduleInfo,
     this.physicalResourceId,
     this.physicalResourceIdContext,
     this.propertyDifferences,
@@ -9635,6 +9950,9 @@ class StackResourceDrift {
       timestamp: _s.extractXmlDateTimeValue(elem, 'Timestamp'),
       actualProperties: _s.extractXmlStringValue(elem, 'ActualProperties'),
       expectedProperties: _s.extractXmlStringValue(elem, 'ExpectedProperties'),
+      moduleInfo: _s
+          .extractXmlChild(elem, 'ModuleInfo')
+          ?.let((e) => ModuleInfo.fromXml(e)),
       physicalResourceId: _s.extractXmlStringValue(elem, 'PhysicalResourceId'),
       physicalResourceIdContext: _s
           .extractXmlChild(elem, 'PhysicalResourceIdContext')
@@ -9822,6 +10140,10 @@ class StackResourceSummary {
   /// Unregulated Configuration Changes to Stacks and Resources</a>.
   final StackResourceDriftInformationSummary driftInformation;
 
+  /// Contains information about the module from which the resource was created,
+  /// if the resource was created from a module included in the stack template.
+  final ModuleInfo moduleInfo;
+
   /// The name or unique identifier that corresponds to a physical instance ID of
   /// the resource.
   final String physicalResourceId;
@@ -9835,6 +10157,7 @@ class StackResourceSummary {
     @_s.required this.resourceStatus,
     @_s.required this.resourceType,
     this.driftInformation,
+    this.moduleInfo,
     this.physicalResourceId,
     this.resourceStatusReason,
   });
@@ -9849,6 +10172,9 @@ class StackResourceSummary {
       driftInformation: _s
           .extractXmlChild(elem, 'DriftInformation')
           ?.let((e) => StackResourceDriftInformationSummary.fromXml(e)),
+      moduleInfo: _s
+          .extractXmlChild(elem, 'ModuleInfo')
+          ?.let((e) => ModuleInfo.fromXml(e)),
       physicalResourceId: _s.extractXmlStringValue(elem, 'PhysicalResourceId'),
       resourceStatusReason:
           _s.extractXmlStringValue(elem, 'ResourceStatusReason'),
@@ -9896,7 +10222,9 @@ class StackSet {
   /// groups can include in their stack sets.
   final String executionRoleName;
 
-  /// Reserved for internal use. No data returned.
+  /// [<code>Service-managed</code> permissions] The organization root ID or
+  /// organizational unit (OU) IDs that you specified for <a
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_DeploymentTargets.html">DeploymentTargets</a>.
   final List<String> organizationalUnitIds;
 
   /// A list of input parameters for a stack set.
@@ -10406,9 +10734,9 @@ class StackSetOperationPreferences {
   final int failureTolerancePercentage;
 
   /// The maximum number of accounts in which to perform this operation at one
-  /// time. This is dependent on the value of
-  /// <code>FailureToleranceCount</code>—<code>MaxConcurrentCount</code> is at
-  /// most one more than the <code>FailureToleranceCount</code> .
+  /// time. This is dependent on the value of <code>FailureToleranceCount</code>.
+  /// <code>MaxConcurrentCount</code> is at most one more than the
+  /// <code>FailureToleranceCount</code>.
   ///
   /// Note that this setting lets you specify the <i>maximum</i> for operations.
   /// For large deployments, under certain circumstances the actual number of
@@ -10507,7 +10835,9 @@ class StackSetOperationResultSummary {
   /// present, before proceeding with stack set operations in an account
   final AccountGateResult accountGateResult;
 
-  /// Reserved for internal use. No data returned.
+  /// [<code>Service-managed</code> permissions] The organization root ID or
+  /// organizational unit (OU) IDs that you specified for <a
+  /// href="https://docs.aws.amazon.com/AWSCloudFormation/latest/APIReference/API_DeploymentTargets.html">DeploymentTargets</a>.
   final String organizationalUnitId;
 
   /// The name of the AWS Region for this operation result.
@@ -11216,6 +11546,9 @@ class TypeVersionSummary {
   /// The description of the type version.
   final String description;
 
+  /// Whether the specified type version is set as the default version.
+  final bool isDefaultVersion;
+
   /// When the version was registered.
   final DateTime timeCreated;
 
@@ -11233,6 +11566,7 @@ class TypeVersionSummary {
   TypeVersionSummary({
     this.arn,
     this.description,
+    this.isDefaultVersion,
     this.timeCreated,
     this.type,
     this.typeName,
@@ -11242,6 +11576,7 @@ class TypeVersionSummary {
     return TypeVersionSummary(
       arn: _s.extractXmlStringValue(elem, 'Arn'),
       description: _s.extractXmlStringValue(elem, 'Description'),
+      isDefaultVersion: _s.extractXmlBoolValue(elem, 'IsDefaultVersion'),
       timeCreated: _s.extractXmlDateTimeValue(elem, 'TimeCreated'),
       type: _s.extractXmlStringValue(elem, 'Type')?.toRegistryType(),
       typeName: _s.extractXmlStringValue(elem, 'TypeName'),

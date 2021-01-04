@@ -79,11 +79,7 @@ class Rekognition {
   /// set the quality bar by specifying <code>LOW</code>, <code>MEDIUM</code>,
   /// or <code>HIGH</code>. If you do not want to filter detected faces, specify
   /// <code>NONE</code>. The default value is <code>NONE</code>.
-  /// <note>
-  /// To use quality filtering, you need a collection associated with version 3
-  /// of the face model or higher. To get the version of the face model
-  /// associated with a collection, call <a>DescribeCollection</a>.
-  /// </note>
+  ///
   /// If the image doesn't contain Exif metadata, <code>CompareFaces</code>
   /// returns orientation information for the source and target images. Use
   /// these values to display the images with the correct image orientation.
@@ -612,8 +608,8 @@ class Rekognition {
   }
 
   /// Deletes an Amazon Rekognition Custom Labels project. To delete a project
-  /// you must first delete all versions of the model associated with the
-  /// project. To delete a version of a model, see <a>DeleteProjectVersion</a>.
+  /// you must first delete all models associated with the project. To delete a
+  /// model, see <a>DeleteProjectVersion</a>.
   ///
   /// This operation requires permissions to perform the
   /// <code>rekognition:DeleteProject</code> action.
@@ -663,12 +659,13 @@ class Rekognition {
     return DeleteProjectResponse.fromJson(jsonResponse.body);
   }
 
-  /// Deletes a version of a model.
+  /// Deletes an Amazon Rekognition Custom Labels model.
   ///
-  /// You must first stop the model before you can delete it. To check if a
-  /// model is running, use the <code>Status</code> field returned from
+  /// You can't delete a model if it is running or if it is training. To check
+  /// the status of a model, use the <code>Status</code> field returned from
   /// <a>DescribeProjectVersions</a>. To stop a running model call
-  /// <a>StopProjectVersion</a>.
+  /// <a>StopProjectVersion</a>. If the model is training, wait until it
+  /// finishes.
   ///
   /// This operation requires permissions to perform the
   /// <code>rekognition:DeleteProjectVersion</code> action.
@@ -856,7 +853,11 @@ class Rekognition {
   /// Parameter [versionNames] :
   /// A list of model version names that you want to describe. You can add up to
   /// 10 model version names to the list. If you don't specify a value, all
-  /// model descriptions are returned.
+  /// model descriptions are returned. A version name is part of a model
+  /// (ProjectVersion) ARN. For example,
+  /// <code>my-model.2020-01-21T09.10.15</code> is the version name in the
+  /// following ARN.
+  /// <code>arn:aws:rekognition:us-east-1:123456789012:project/getting-started/version/<i>my-model.2020-01-21T09.10.15</i>/1234567890123</code>.
   Future<DescribeProjectVersionsResponse> describeProjectVersions({
     @_s.required String projectArn,
     int maxResults,
@@ -1435,6 +1436,97 @@ class Rekognition {
     );
 
     return DetectModerationLabelsResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Detects Personal Protective Equipment (PPE) worn by people detected in an
+  /// image. Amazon Rekognition can detect the following types of PPE.
+  ///
+  /// <ul>
+  /// <li>
+  /// Face cover
+  /// </li>
+  /// <li>
+  /// Hand cover
+  /// </li>
+  /// <li>
+  /// Head cover
+  /// </li>
+  /// </ul>
+  /// You pass the input image as base64-encoded image bytes or as a reference
+  /// to an image in an Amazon S3 bucket. The image must be either a PNG or JPG
+  /// formatted file.
+  ///
+  /// <code>DetectProtectiveEquipment</code> detects PPE worn by up to 15
+  /// persons detected in an image.
+  ///
+  /// For each person detected in the image the API returns an array of body
+  /// parts (face, head, left-hand, right-hand). For each body part, an array of
+  /// detected items of PPE is returned, including an indicator of whether or
+  /// not the PPE covers the body part. The API returns the confidence it has in
+  /// each detection (person, PPE, body part and body part coverage). It also
+  /// returns a bounding box (<a>BoundingBox</a>) for each detected person and
+  /// each detected item of PPE.
+  ///
+  /// You can optionally request a summary of detected PPE items with the
+  /// <code>SummarizationAttributes</code> input parameter. The summary provides
+  /// the following information.
+  ///
+  /// <ul>
+  /// <li>
+  /// The persons detected as wearing all of the types of PPE that you specify.
+  /// </li>
+  /// <li>
+  /// The persons detected as not wearing all of the types PPE that you specify.
+  /// </li>
+  /// <li>
+  /// The persons detected where PPE adornment could not be determined.
+  /// </li>
+  /// </ul>
+  /// This is a stateless API operation. That is, the operation does not persist
+  /// any data.
+  ///
+  /// This operation requires permissions to perform the
+  /// <code>rekognition:DetectProtectiveEquipment</code> action.
+  ///
+  /// May throw [InvalidS3ObjectException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ImageTooLargeException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerError].
+  /// May throw [ThrottlingException].
+  /// May throw [ProvisionedThroughputExceededException].
+  /// May throw [InvalidImageFormatException].
+  ///
+  /// Parameter [image] :
+  /// The image in which you want to detect PPE on detected persons. The image
+  /// can be passed as image bytes or you can reference an image stored in an
+  /// Amazon S3 bucket.
+  ///
+  /// Parameter [summarizationAttributes] :
+  /// An array of PPE types that you want to summarize.
+  Future<DetectProtectiveEquipmentResponse> detectProtectiveEquipment({
+    @_s.required Image image,
+    ProtectiveEquipmentSummarizationAttributes summarizationAttributes,
+  }) async {
+    ArgumentError.checkNotNull(image, 'image');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'RekognitionService.DetectProtectiveEquipment'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Image': image,
+        if (summarizationAttributes != null)
+          'SummarizationAttributes': summarizationAttributes,
+      },
+    );
+
+    return DetectProtectiveEquipmentResponse.fromJson(jsonResponse.body);
   }
 
   /// Detects text in the input image and converts it into machine-readable
@@ -2286,6 +2378,118 @@ class Rekognition {
     return GetPersonTrackingResponse.fromJson(jsonResponse.body);
   }
 
+  /// Gets the segment detection results of a Amazon Rekognition Video analysis
+  /// started by <a>StartSegmentDetection</a>.
+  ///
+  /// Segment detection with Amazon Rekognition Video is an asynchronous
+  /// operation. You start segment detection by calling
+  /// <a>StartSegmentDetection</a> which returns a job identifier
+  /// (<code>JobId</code>). When the segment detection operation finishes,
+  /// Amazon Rekognition publishes a completion status to the Amazon Simple
+  /// Notification Service topic registered in the initial call to
+  /// <code>StartSegmentDetection</code>. To get the results of the segment
+  /// detection operation, first check that the status value published to the
+  /// Amazon SNS topic is <code>SUCCEEDED</code>. if so, call
+  /// <code>GetSegmentDetection</code> and pass the job identifier
+  /// (<code>JobId</code>) from the initial call of
+  /// <code>StartSegmentDetection</code>.
+  ///
+  /// <code>GetSegmentDetection</code> returns detected segments in an array
+  /// (<code>Segments</code>) of <a>SegmentDetection</a> objects.
+  /// <code>Segments</code> is sorted by the segment types specified in the
+  /// <code>SegmentTypes</code> input parameter of
+  /// <code>StartSegmentDetection</code>. Each element of the array includes the
+  /// detected segment, the precentage confidence in the acuracy of the detected
+  /// segment, the type of the segment, and the frame in which the segment was
+  /// detected.
+  ///
+  /// Use <code>SelectedSegmentTypes</code> to find out the type of segment
+  /// detection requested in the call to <code>StartSegmentDetection</code>.
+  ///
+  /// Use the <code>MaxResults</code> parameter to limit the number of segment
+  /// detections returned. If there are more results than specified in
+  /// <code>MaxResults</code>, the value of <code>NextToken</code> in the
+  /// operation response contains a pagination token for getting the next set of
+  /// results. To get the next page of results, call
+  /// <code>GetSegmentDetection</code> and populate the <code>NextToken</code>
+  /// request parameter with the token value returned from the previous call to
+  /// <code>GetSegmentDetection</code>.
+  ///
+  /// For more information, see Detecting Video Segments in Stored Video in the
+  /// Amazon Rekognition Developer Guide.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerError].
+  /// May throw [InvalidParameterException].
+  /// May throw [InvalidPaginationTokenException].
+  /// May throw [ProvisionedThroughputExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [jobId] :
+  /// Job identifier for the text detection operation for which you want results
+  /// returned. You get the job identifer from an initial call to
+  /// <code>StartSegmentDetection</code>.
+  ///
+  /// Parameter [maxResults] :
+  /// Maximum number of results to return per paginated call. The largest value
+  /// you can specify is 1000.
+  ///
+  /// Parameter [nextToken] :
+  /// If the response is truncated, Amazon Rekognition Video returns this token
+  /// that you can use in the subsequent request to retrieve the next set of
+  /// text.
+  Future<GetSegmentDetectionResponse> getSegmentDetection({
+    @_s.required String jobId,
+    int maxResults,
+    String nextToken,
+  }) async {
+    ArgumentError.checkNotNull(jobId, 'jobId');
+    _s.validateStringLength(
+      'jobId',
+      jobId,
+      1,
+      64,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'jobId',
+      jobId,
+      r'''^[a-zA-Z0-9-_]+$''',
+      isRequired: true,
+    );
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1152921504606846976,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      255,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'RekognitionService.GetSegmentDetection'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'JobId': jobId,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return GetSegmentDetectionResponse.fromJson(jsonResponse.body);
+  }
+
   /// Gets the text detection results of a Amazon Rekognition Video analysis
   /// started by <a>StartTextDetection</a>.
   ///
@@ -2327,8 +2531,8 @@ class Rekognition {
   /// May throw [ThrottlingException].
   ///
   /// Parameter [jobId] :
-  /// Job identifier for the label detection operation for which you want
-  /// results returned. You get the job identifer from an initial call to
+  /// Job identifier for the text detection operation for which you want results
+  /// returned. You get the job identifer from an initial call to
   /// <code>StartTextDetection</code>.
   ///
   /// Parameter [maxResults] :
@@ -2424,7 +2628,7 @@ class Rekognition {
   /// For more information, see Model Versioning in the Amazon Rekognition
   /// Developer Guide.
   ///
-  /// If you provide the optional <code>ExternalImageID</code> for the input
+  /// If you provide the optional <code>ExternalImageId</code> for the input
   /// image you provided, Amazon Rekognition associates this ID with all faces
   /// that it detects. When you call the <a>ListFaces</a> operation, the
   /// response returns the external ID. You can use this external image ID to
@@ -2519,6 +2723,7 @@ class Rekognition {
   /// May throw [ProvisionedThroughputExceededException].
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidImageFormatException].
+  /// May throw [ServiceQuotaExceededException].
   ///
   /// Parameter [collectionId] :
   /// The ID of an existing collection to which you want to add the faces that
@@ -2843,11 +3048,11 @@ class Rekognition {
   /// information, see Recognizing Celebrities in the Amazon Rekognition
   /// Developer Guide.
   ///
-  /// <code>RecognizeCelebrities</code> returns the 100 largest faces in the
+  /// <code>RecognizeCelebrities</code> returns the 64 largest faces in the
   /// image. It lists recognized celebrities in the <code>CelebrityFaces</code>
   /// array and unrecognized faces in the <code>UnrecognizedFaces</code> array.
   /// <code>RecognizeCelebrities</code> doesn't return celebrities whose faces
-  /// aren't among the largest 100 faces in the image.
+  /// aren't among the largest 64 faces in the image.
   ///
   /// For each celebrity recognized, <code>RecognizeCelebrities</code> returns a
   /// <code>Celebrity</code> object. The <code>Celebrity</code> object contains
@@ -3918,6 +4123,121 @@ class Rekognition {
     return StartProjectVersionResponse.fromJson(jsonResponse.body);
   }
 
+  /// Starts asynchronous detection of segment detection in a stored video.
+  ///
+  /// Amazon Rekognition Video can detect segments in a video stored in an
+  /// Amazon S3 bucket. Use <a>Video</a> to specify the bucket name and the
+  /// filename of the video. <code>StartSegmentDetection</code> returns a job
+  /// identifier (<code>JobId</code>) which you use to get the results of the
+  /// operation. When segment detection is finished, Amazon Rekognition Video
+  /// publishes a completion status to the Amazon Simple Notification Service
+  /// topic that you specify in <code>NotificationChannel</code>.
+  ///
+  /// You can use the <code>Filters</code> (<a>StartSegmentDetectionFilters</a>)
+  /// input parameter to specify the minimum detection confidence returned in
+  /// the response. Within <code>Filters</code>, use <code>ShotFilter</code>
+  /// (<a>StartShotDetectionFilter</a>) to filter detected shots. Use
+  /// <code>TechnicalCueFilter</code> (<a>StartTechnicalCueDetectionFilter</a>)
+  /// to filter technical cues.
+  ///
+  /// To get the results of the segment detection operation, first check that
+  /// the status value published to the Amazon SNS topic is
+  /// <code>SUCCEEDED</code>. if so, call <a>GetSegmentDetection</a> and pass
+  /// the job identifier (<code>JobId</code>) from the initial call to
+  /// <code>StartSegmentDetection</code>.
+  ///
+  /// For more information, see Detecting Video Segments in Stored Video in the
+  /// Amazon Rekognition Developer Guide.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [IdempotentParameterMismatchException].
+  /// May throw [InvalidParameterException].
+  /// May throw [InvalidS3ObjectException].
+  /// May throw [InternalServerError].
+  /// May throw [VideoTooLargeException].
+  /// May throw [ProvisionedThroughputExceededException].
+  /// May throw [LimitExceededException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [segmentTypes] :
+  /// An array of segment types to detect in the video. Valid values are
+  /// TECHNICAL_CUE and SHOT.
+  ///
+  /// Parameter [clientRequestToken] :
+  /// Idempotent token used to identify the start request. If you use the same
+  /// token with multiple <code>StartSegmentDetection</code> requests, the same
+  /// <code>JobId</code> is returned. Use <code>ClientRequestToken</code> to
+  /// prevent the same job from being accidently started more than once.
+  ///
+  /// Parameter [filters] :
+  /// Filters for technical cue or shot detection.
+  ///
+  /// Parameter [jobTag] :
+  /// An identifier you specify that's returned in the completion notification
+  /// that's published to your Amazon Simple Notification Service topic. For
+  /// example, you can use <code>JobTag</code> to group related jobs and
+  /// identify them in the completion notification.
+  ///
+  /// Parameter [notificationChannel] :
+  /// The ARN of the Amazon SNS topic to which you want Amazon Rekognition Video
+  /// to publish the completion status of the segment detection operation.
+  Future<StartSegmentDetectionResponse> startSegmentDetection({
+    @_s.required List<SegmentType> segmentTypes,
+    @_s.required Video video,
+    String clientRequestToken,
+    StartSegmentDetectionFilters filters,
+    String jobTag,
+    NotificationChannel notificationChannel,
+  }) async {
+    ArgumentError.checkNotNull(segmentTypes, 'segmentTypes');
+    ArgumentError.checkNotNull(video, 'video');
+    _s.validateStringLength(
+      'clientRequestToken',
+      clientRequestToken,
+      1,
+      64,
+    );
+    _s.validateStringPattern(
+      'clientRequestToken',
+      clientRequestToken,
+      r'''^[a-zA-Z0-9-_]+$''',
+    );
+    _s.validateStringLength(
+      'jobTag',
+      jobTag,
+      1,
+      256,
+    );
+    _s.validateStringPattern(
+      'jobTag',
+      jobTag,
+      r'''[a-zA-Z0-9_.\-:]+''',
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'RekognitionService.StartSegmentDetection'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'SegmentTypes': segmentTypes?.map((e) => e?.toValue() ?? '')?.toList(),
+        'Video': video,
+        if (clientRequestToken != null)
+          'ClientRequestToken': clientRequestToken,
+        if (filters != null) 'Filters': filters,
+        if (jobTag != null) 'JobTag': jobTag,
+        if (notificationChannel != null)
+          'NotificationChannel': notificationChannel,
+      },
+    );
+
+    return StartSegmentDetectionResponse.fromJson(jsonResponse.body);
+  }
+
   /// Starts processing a stream processor. You create a stream processor by
   /// calling <a>CreateStreamProcessor</a>. To tell
   /// <code>StartStreamProcessor</code> which stream processor to start, use the
@@ -4194,7 +4514,8 @@ class AgeRange {
 }
 
 /// Assets are the images that you use to train and evaluate a model version.
-/// Assets are referenced by Sagemaker GroundTruth manifest files.
+/// Assets can also contain validation information that you use to debug a
+/// failed model training.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -4231,6 +4552,41 @@ extension on Attribute {
   }
 }
 
+/// Metadata information about an audio stream. An array of
+/// <code>AudioMetadata</code> objects for the audio streams found in a stored
+/// video is returned by <a>GetSegmentDetection</a>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class AudioMetadata {
+  /// The audio codec used to encode or decode the audio stream.
+  @_s.JsonKey(name: 'Codec')
+  final String codec;
+
+  /// The duration of the audio stream in milliseconds.
+  @_s.JsonKey(name: 'DurationMillis')
+  final int durationMillis;
+
+  /// The number of audio channels in the segment.
+  @_s.JsonKey(name: 'NumberOfChannels')
+  final int numberOfChannels;
+
+  /// The sample rate for the audio stream.
+  @_s.JsonKey(name: 'SampleRate')
+  final int sampleRate;
+
+  AudioMetadata({
+    this.codec,
+    this.durationMillis,
+    this.numberOfChannels,
+    this.sampleRate,
+  });
+  factory AudioMetadata.fromJson(Map<String, dynamic> json) =>
+      _$AudioMetadataFromJson(json);
+}
+
 /// Indicates whether or not the face has a beard, and the confidence level in
 /// the determination.
 @_s.JsonSerializable(
@@ -4254,10 +4610,22 @@ class Beard {
   factory Beard.fromJson(Map<String, dynamic> json) => _$BeardFromJson(json);
 }
 
-/// Identifies the bounding box around the label, face, or text. The
-/// <code>left</code> (x-coordinate) and <code>top</code> (y-coordinate) are
-/// coordinates representing the top and left sides of the bounding box. Note
-/// that the upper-left corner of the image is the origin (0,0).
+enum BodyPart {
+  @_s.JsonValue('FACE')
+  face,
+  @_s.JsonValue('HEAD')
+  head,
+  @_s.JsonValue('LEFT_HAND')
+  leftHand,
+  @_s.JsonValue('RIGHT_HAND')
+  rightHand,
+}
+
+/// Identifies the bounding box around the label, face, text or personal
+/// protective equipment. The <code>left</code> (x-coordinate) and
+/// <code>top</code> (y-coordinate) are coordinates representing the top and
+/// left sides of the bounding box. Note that the upper-left corner of the image
+/// is the origin (0,0).
 ///
 /// The <code>top</code> and <code>left</code> values returned are ratios of the
 /// overall image size. For example, if the input image is 700x200 pixels, and
@@ -4649,6 +5017,32 @@ extension on ContentModerationSortBy {
     }
     throw Exception('Unknown enum value: $this');
   }
+}
+
+/// Information about an item of Personal Protective Equipment covering a
+/// corresponding body part. For more information, see
+/// <a>DetectProtectiveEquipment</a>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class CoversBodyPart {
+  /// The confidence that Amazon Rekognition has in the value of
+  /// <code>Value</code>.
+  @_s.JsonKey(name: 'Confidence')
+  final double confidence;
+
+  /// True if the PPE covers the corresponding body part, otherwise false.
+  @_s.JsonKey(name: 'Value')
+  final bool value;
+
+  CoversBodyPart({
+    this.confidence,
+    this.value,
+  });
+  factory CoversBodyPart.fromJson(Map<String, dynamic> json) =>
+      _$CoversBodyPartFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -5124,6 +5518,37 @@ class DetectModerationLabelsResponse {
       _$DetectModerationLabelsResponseFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DetectProtectiveEquipmentResponse {
+  /// An array of persons detected in the image (including persons not wearing
+  /// PPE).
+  @_s.JsonKey(name: 'Persons')
+  final List<ProtectiveEquipmentPerson> persons;
+
+  /// The version number of the PPE detection model used to detect PPE in the
+  /// image.
+  @_s.JsonKey(name: 'ProtectiveEquipmentModelVersion')
+  final String protectiveEquipmentModelVersion;
+
+  /// Summary information for the types of PPE specified in the
+  /// <code>SummarizationAttributes</code> input parameter.
+  @_s.JsonKey(name: 'Summary')
+  final ProtectiveEquipmentSummary summary;
+
+  DetectProtectiveEquipmentResponse({
+    this.persons,
+    this.protectiveEquipmentModelVersion,
+    this.summary,
+  });
+  factory DetectProtectiveEquipmentResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$DetectProtectiveEquipmentResponseFromJson(json);
+}
+
 /// A set of optional parameters that you can use to set the criteria that the
 /// text must meet to be included in your response. <code>WordFilter</code>
 /// looks at a word’s height, width, and minimum confidence.
@@ -5252,6 +5677,42 @@ enum EmotionName {
   unknown,
   @_s.JsonValue('FEAR')
   fear,
+}
+
+/// Information about an item of Personal Protective Equipment (PPE) detected by
+/// <a>DetectProtectiveEquipment</a>. For more information, see
+/// <a>DetectProtectiveEquipment</a>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class EquipmentDetection {
+  /// A bounding box surrounding the item of detected PPE.
+  @_s.JsonKey(name: 'BoundingBox')
+  final BoundingBox boundingBox;
+
+  /// The confidence that Amazon Rekognition has that the bounding box
+  /// (<code>BoundingBox</code>) contains an item of PPE.
+  @_s.JsonKey(name: 'Confidence')
+  final double confidence;
+
+  /// Information about the body part covered by the detected PPE.
+  @_s.JsonKey(name: 'CoversBodyPart')
+  final CoversBodyPart coversBodyPart;
+
+  /// The type of detected PPE.
+  @_s.JsonKey(name: 'Type')
+  final ProtectiveEquipmentType type;
+
+  EquipmentDetection({
+    this.boundingBox,
+    this.confidence,
+    this.coversBodyPart,
+    this.type,
+  });
+  factory EquipmentDetection.fromJson(Map<String, dynamic> json) =>
+      _$EquipmentDetectionFromJson(json);
 }
 
 /// The evaluation results for the training of a model.
@@ -6013,6 +6474,71 @@ class GetPersonTrackingResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class GetSegmentDetectionResponse {
+  /// An array of objects. There can be multiple audio streams. Each
+  /// <code>AudioMetadata</code> object contains metadata for a single audio
+  /// stream. Audio information in an <code>AudioMetadata</code> objects includes
+  /// the audio codec, the number of audio channels, the duration of the audio
+  /// stream, and the sample rate. Audio metadata is returned in each page of
+  /// information returned by <code>GetSegmentDetection</code>.
+  @_s.JsonKey(name: 'AudioMetadata')
+  final List<AudioMetadata> audioMetadata;
+
+  /// Current status of the segment detection job.
+  @_s.JsonKey(name: 'JobStatus')
+  final VideoJobStatus jobStatus;
+
+  /// If the previous response was incomplete (because there are more labels to
+  /// retrieve), Amazon Rekognition Video returns a pagination token in the
+  /// response. You can use this pagination token to retrieve the next set of
+  /// text.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// An array of segments detected in a video. The array is sorted by the segment
+  /// types (TECHNICAL_CUE or SHOT) specified in the <code>SegmentTypes</code>
+  /// input parameter of <code>StartSegmentDetection</code>. Within each segment
+  /// type the array is sorted by timestamp values.
+  @_s.JsonKey(name: 'Segments')
+  final List<SegmentDetection> segments;
+
+  /// An array containing the segment types requested in the call to
+  /// <code>StartSegmentDetection</code>.
+  @_s.JsonKey(name: 'SelectedSegmentTypes')
+  final List<SegmentTypeInfo> selectedSegmentTypes;
+
+  /// If the job fails, <code>StatusMessage</code> provides a descriptive error
+  /// message.
+  @_s.JsonKey(name: 'StatusMessage')
+  final String statusMessage;
+
+  /// Currently, Amazon Rekognition Video returns a single object in the
+  /// <code>VideoMetadata</code> array. The object contains information about the
+  /// video stream in the input file that Amazon Rekognition Video chose to
+  /// analyze. The <code>VideoMetadata</code> object includes the video codec,
+  /// video format and other information. Video metadata is returned in each page
+  /// of information returned by <code>GetSegmentDetection</code>.
+  @_s.JsonKey(name: 'VideoMetadata')
+  final List<VideoMetadata> videoMetadata;
+
+  GetSegmentDetectionResponse({
+    this.audioMetadata,
+    this.jobStatus,
+    this.nextToken,
+    this.segments,
+    this.selectedSegmentTypes,
+    this.statusMessage,
+    this.videoMetadata,
+  });
+  factory GetSegmentDetectionResponse.fromJson(Map<String, dynamic> json) =>
+      _$GetSegmentDetectionResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class GetTextDetectionResponse {
   /// Current status of the text detection job.
   @_s.JsonKey(name: 'JobStatus')
@@ -6052,7 +6578,8 @@ class GetTextDetectionResponse {
       _$GetTextDetectionResponseFromJson(json);
 }
 
-/// The S3 bucket that contains the Ground Truth manifest file.
+/// The S3 bucket that contains an Amazon Sagemaker Ground Truth format manifest
+/// file.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -6110,7 +6637,10 @@ class HumanLoopActivationOutput {
     createFactory: false,
     createToJson: true)
 class HumanLoopConfig {
-  /// The Amazon Resource Name (ARN) of the flow definition.
+  /// The Amazon Resource Name (ARN) of the flow definition. You can create a flow
+  /// definition by using the Amazon Sagemaker <a
+  /// href="https://docs.aws.amazon.com/sagemaker/latest/dg/API_CreateFlowDefinition.html">CreateFlowDefinition</a>
+  /// Operation.
   @_s.JsonKey(name: 'FlowDefinitionArn')
   final String flowDefinitionArn;
 
@@ -6454,15 +6984,17 @@ class Landmark {
   @_s.JsonKey(name: 'Type')
   final LandmarkType type;
 
-  /// The x-coordinate from the top left of the landmark expressed as the ratio of
-  /// the width of the image. For example, if the image is 700 x 200 and the
-  /// x-coordinate of the landmark is at 350 pixels, this value is 0.5.
+  /// The x-coordinate of the landmark expressed as a ratio of the width of the
+  /// image. The x-coordinate is measured from the left-side of the image. For
+  /// example, if the image is 700 pixels wide and the x-coordinate of the
+  /// landmark is at 350 pixels, this value is 0.5.
   @_s.JsonKey(name: 'X')
   final double x;
 
-  /// The y-coordinate from the top left of the landmark expressed as the ratio of
-  /// the height of the image. For example, if the image is 700 x 200 and the
-  /// y-coordinate of the landmark is at 100 pixels, this value is 0.5.
+  /// The y-coordinate of the landmark expressed as a ratio of the height of the
+  /// image. The y-coordinate is measured from the top of the image. For example,
+  /// if the image height is 200 pixels and the y-coordinate of the landmark is at
+  /// 50 pixels, this value is 0.25.
   @_s.JsonKey(name: 'Y')
   final double y;
 
@@ -7019,6 +7551,11 @@ class ProjectVersionDescription {
   @_s.JsonKey(name: 'EvaluationResult')
   final EvaluationResult evaluationResult;
 
+  /// The location of the summary manifest. The summary manifest provides
+  /// aggregate data validation results for the training and test datasets.
+  @_s.JsonKey(name: 'ManifestSummary')
+  final GroundTruthManifest manifestSummary;
+
   /// The minimum number of inference units used by the model. For more
   /// information, see <a>StartProjectVersion</a>.
   @_s.JsonKey(name: 'MinInferenceUnits')
@@ -7040,11 +7577,11 @@ class ProjectVersionDescription {
   @_s.JsonKey(name: 'StatusMessage')
   final String statusMessage;
 
-  /// The manifest file that represents the testing results.
+  /// Contains information about the testing results.
   @_s.JsonKey(name: 'TestingDataResult')
   final TestingDataResult testingDataResult;
 
-  /// The manifest file that represents the training results.
+  /// Contains information about the training results.
   @_s.JsonKey(name: 'TrainingDataResult')
   final TrainingDataResult trainingDataResult;
 
@@ -7057,6 +7594,7 @@ class ProjectVersionDescription {
     this.billableTrainingTimeInSeconds,
     this.creationTimestamp,
     this.evaluationResult,
+    this.manifestSummary,
     this.minInferenceUnits,
     this.outputConfig,
     this.projectVersionArn,
@@ -7089,6 +7627,181 @@ enum ProjectVersionStatus {
   stopped,
   @_s.JsonValue('DELETING')
   deleting,
+}
+
+/// Information about a body part detected by <a>DetectProtectiveEquipment</a>
+/// that contains PPE. An array of <code>ProtectiveEquipmentBodyPart</code>
+/// objects is returned for each person detected by
+/// <code>DetectProtectiveEquipment</code>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ProtectiveEquipmentBodyPart {
+  /// The confidence that Amazon Rekognition has in the detection accuracy of the
+  /// detected body part.
+  @_s.JsonKey(name: 'Confidence')
+  final double confidence;
+
+  /// An array of Personal Protective Equipment items detected around a body part.
+  @_s.JsonKey(name: 'EquipmentDetections')
+  final List<EquipmentDetection> equipmentDetections;
+
+  /// The detected body part.
+  @_s.JsonKey(name: 'Name')
+  final BodyPart name;
+
+  ProtectiveEquipmentBodyPart({
+    this.confidence,
+    this.equipmentDetections,
+    this.name,
+  });
+  factory ProtectiveEquipmentBodyPart.fromJson(Map<String, dynamic> json) =>
+      _$ProtectiveEquipmentBodyPartFromJson(json);
+}
+
+/// A person detected by a call to <a>DetectProtectiveEquipment</a>. The API
+/// returns all persons detected in the input image in an array of
+/// <code>ProtectiveEquipmentPerson</code> objects.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ProtectiveEquipmentPerson {
+  /// An array of body parts detected on a person's body (including body parts
+  /// without PPE).
+  @_s.JsonKey(name: 'BodyParts')
+  final List<ProtectiveEquipmentBodyPart> bodyParts;
+
+  /// A bounding box around the detected person.
+  @_s.JsonKey(name: 'BoundingBox')
+  final BoundingBox boundingBox;
+
+  /// The confidence that Amazon Rekognition has that the bounding box contains a
+  /// person.
+  @_s.JsonKey(name: 'Confidence')
+  final double confidence;
+
+  /// The identifier for the detected person. The identifier is only unique for a
+  /// single call to <code>DetectProtectiveEquipment</code>.
+  @_s.JsonKey(name: 'Id')
+  final int id;
+
+  ProtectiveEquipmentPerson({
+    this.bodyParts,
+    this.boundingBox,
+    this.confidence,
+    this.id,
+  });
+  factory ProtectiveEquipmentPerson.fromJson(Map<String, dynamic> json) =>
+      _$ProtectiveEquipmentPersonFromJson(json);
+}
+
+/// Specifies summary attributes to return from a call to
+/// <a>DetectProtectiveEquipment</a>. You can specify which types of PPE to
+/// summarize. You can also specify a minimum confidence value for detections.
+/// Summary information is returned in the <code>Summary</code>
+/// (<a>ProtectiveEquipmentSummary</a>) field of the response from
+/// <code>DetectProtectiveEquipment</code>. The summary includes which persons
+/// in an image were detected wearing the requested types of person protective
+/// equipment (PPE), which persons were detected as not wearing PPE, and the
+/// persons in which a determination could not be made. For more information,
+/// see <a>ProtectiveEquipmentSummary</a>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ProtectiveEquipmentSummarizationAttributes {
+  /// The minimum confidence level for which you want summary information. The
+  /// confidence level applies to person detection, body part detection, equipment
+  /// detection, and body part coverage. Amazon Rekognition doesn't return summary
+  /// information with a confidence than this specified value. There isn't a
+  /// default value.
+  ///
+  /// Specify a <code>MinConfidence</code> value that is between 50-100% as
+  /// <code>DetectProtectiveEquipment</code> returns predictions only where the
+  /// detection confidence is between 50% - 100%. If you specify a value that is
+  /// less than 50%, the results are the same specifying a value of 50%.
+  ///
+  ///
+  @_s.JsonKey(name: 'MinConfidence')
+  final double minConfidence;
+
+  /// An array of personal protective equipment types for which you want summary
+  /// information. If a person is detected wearing a required requipment type, the
+  /// person's ID is added to the <code>PersonsWithRequiredEquipment</code> array
+  /// field returned in <a>ProtectiveEquipmentSummary</a> by
+  /// <code>DetectProtectiveEquipment</code>.
+  @_s.JsonKey(name: 'RequiredEquipmentTypes')
+  final List<ProtectiveEquipmentType> requiredEquipmentTypes;
+
+  ProtectiveEquipmentSummarizationAttributes({
+    @_s.required this.minConfidence,
+    @_s.required this.requiredEquipmentTypes,
+  });
+  Map<String, dynamic> toJson() =>
+      _$ProtectiveEquipmentSummarizationAttributesToJson(this);
+}
+
+/// Summary information for required items of personal protective equipment
+/// (PPE) detected on persons by a call to <a>DetectProtectiveEquipment</a>. You
+/// specify the required type of PPE in the <code>SummarizationAttributes</code>
+/// (<a>ProtectiveEquipmentSummarizationAttributes</a>) input parameter. The
+/// summary includes which persons were detected wearing the required personal
+/// protective equipment (<code>PersonsWithRequiredEquipment</code>), which
+/// persons were detected as not wearing the required PPE
+/// (<code>PersonsWithoutRequiredEquipment</code>), and the persons in which a
+/// determination could not be made (<code>PersonsIndeterminate</code>).
+///
+/// To get a total for each category, use the size of the field array. For
+/// example, to find out how many people were detected as wearing the specified
+/// PPE, use the size of the <code>PersonsWithRequiredEquipment</code> array. If
+/// you want to find out more about a person, such as the location
+/// (<a>BoundingBox</a>) of the person on the image, use the person ID in each
+/// array element. Each person ID matches the ID field of a
+/// <a>ProtectiveEquipmentPerson</a> object returned in the <code>Persons</code>
+/// array by <code>DetectProtectiveEquipment</code>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ProtectiveEquipmentSummary {
+  /// An array of IDs for persons where it was not possible to determine if they
+  /// are wearing personal protective equipment.
+  @_s.JsonKey(name: 'PersonsIndeterminate')
+  final List<int> personsIndeterminate;
+
+  /// An array of IDs for persons who are wearing detected personal protective
+  /// equipment.
+  @_s.JsonKey(name: 'PersonsWithRequiredEquipment')
+  final List<int> personsWithRequiredEquipment;
+
+  /// An array of IDs for persons who are not wearing all of the types of PPE
+  /// specified in the RequiredEquipmentTypes field of the detected personal
+  /// protective equipment.
+  @_s.JsonKey(name: 'PersonsWithoutRequiredEquipment')
+  final List<int> personsWithoutRequiredEquipment;
+
+  ProtectiveEquipmentSummary({
+    this.personsIndeterminate,
+    this.personsWithRequiredEquipment,
+    this.personsWithoutRequiredEquipment,
+  });
+  factory ProtectiveEquipmentSummary.fromJson(Map<String, dynamic> json) =>
+      _$ProtectiveEquipmentSummaryFromJson(json);
+}
+
+enum ProtectiveEquipmentType {
+  @_s.JsonValue('FACE_COVER')
+  faceCover,
+  @_s.JsonValue('HAND_COVER')
+  handCover,
+  @_s.JsonValue('HEAD_COVER')
+  headCover,
 }
 
 enum QualityFilter {
@@ -7146,7 +7859,7 @@ enum Reason {
     createToJson: false)
 class RecognizeCelebritiesResponse {
   /// Details about each celebrity found in the image. Amazon Rekognition can
-  /// detect a maximum of 15 celebrities in an image.
+  /// detect a maximum of 64 celebrities in an image.
   @_s.JsonKey(name: 'CelebrityFaces')
   final List<Celebrity> celebrityFaces;
 
@@ -7305,6 +8018,146 @@ class SearchFacesResponse {
       _$SearchFacesResponseFromJson(json);
 }
 
+/// A technical cue or shot detection segment detected in a video. An array of
+/// <code>SegmentDetection</code> objects containing all segments detected in a
+/// stored video is returned by <a>GetSegmentDetection</a>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class SegmentDetection {
+  /// The duration of the detected segment in milliseconds.
+  @_s.JsonKey(name: 'DurationMillis')
+  final int durationMillis;
+
+  /// The duration of the timecode for the detected segment in SMPTE format.
+  @_s.JsonKey(name: 'DurationSMPTE')
+  final String durationSMPTE;
+
+  /// The frame-accurate SMPTE timecode, from the start of a video, for the end of
+  /// a detected segment. <code>EndTimecode</code> is in <i>HH:MM:SS:fr</i> format
+  /// (and <i>;fr</i> for drop frame-rates).
+  @_s.JsonKey(name: 'EndTimecodeSMPTE')
+  final String endTimecodeSMPTE;
+
+  /// The end time of the detected segment, in milliseconds, from the start of the
+  /// video. This value is rounded down.
+  @_s.JsonKey(name: 'EndTimestampMillis')
+  final int endTimestampMillis;
+
+  /// If the segment is a shot detection, contains information about the shot
+  /// detection.
+  @_s.JsonKey(name: 'ShotSegment')
+  final ShotSegment shotSegment;
+
+  /// The frame-accurate SMPTE timecode, from the start of a video, for the start
+  /// of a detected segment. <code>StartTimecode</code> is in <i>HH:MM:SS:fr</i>
+  /// format (and <i>;fr</i> for drop frame-rates).
+  @_s.JsonKey(name: 'StartTimecodeSMPTE')
+  final String startTimecodeSMPTE;
+
+  /// The start time of the detected segment in milliseconds from the start of the
+  /// video. This value is rounded down. For example, if the actual timestamp is
+  /// 100.6667 milliseconds, Amazon Rekognition Video returns a value of 100
+  /// millis.
+  @_s.JsonKey(name: 'StartTimestampMillis')
+  final int startTimestampMillis;
+
+  /// If the segment is a technical cue, contains information about the technical
+  /// cue.
+  @_s.JsonKey(name: 'TechnicalCueSegment')
+  final TechnicalCueSegment technicalCueSegment;
+
+  /// The type of the segment. Valid values are <code>TECHNICAL_CUE</code> and
+  /// <code>SHOT</code>.
+  @_s.JsonKey(name: 'Type')
+  final SegmentType type;
+
+  SegmentDetection({
+    this.durationMillis,
+    this.durationSMPTE,
+    this.endTimecodeSMPTE,
+    this.endTimestampMillis,
+    this.shotSegment,
+    this.startTimecodeSMPTE,
+    this.startTimestampMillis,
+    this.technicalCueSegment,
+    this.type,
+  });
+  factory SegmentDetection.fromJson(Map<String, dynamic> json) =>
+      _$SegmentDetectionFromJson(json);
+}
+
+enum SegmentType {
+  @_s.JsonValue('TECHNICAL_CUE')
+  technicalCue,
+  @_s.JsonValue('SHOT')
+  shot,
+}
+
+extension on SegmentType {
+  String toValue() {
+    switch (this) {
+      case SegmentType.technicalCue:
+        return 'TECHNICAL_CUE';
+      case SegmentType.shot:
+        return 'SHOT';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
+/// Information about the type of a segment requested in a call to
+/// <a>StartSegmentDetection</a>. An array of <code>SegmentTypeInfo</code>
+/// objects is returned by the response from <a>GetSegmentDetection</a>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class SegmentTypeInfo {
+  /// The version of the model used to detect segments.
+  @_s.JsonKey(name: 'ModelVersion')
+  final String modelVersion;
+
+  /// The type of a segment (technical cue or shot detection).
+  @_s.JsonKey(name: 'Type')
+  final SegmentType type;
+
+  SegmentTypeInfo({
+    this.modelVersion,
+    this.type,
+  });
+  factory SegmentTypeInfo.fromJson(Map<String, dynamic> json) =>
+      _$SegmentTypeInfoFromJson(json);
+}
+
+/// Information about a shot detection segment detected in a video. For more
+/// information, see <a>SegmentDetection</a>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ShotSegment {
+  /// The confidence that Amazon Rekognition Video has in the accuracy of the
+  /// detected segment.
+  @_s.JsonKey(name: 'Confidence')
+  final double confidence;
+
+  /// An Identifier for a shot detection segment detected in a video.
+  @_s.JsonKey(name: 'Index')
+  final int index;
+
+  ShotSegment({
+    this.confidence,
+    this.index,
+  });
+  factory ShotSegment.fromJson(Map<String, dynamic> json) =>
+      _$ShotSegmentFromJson(json);
+}
+
 /// Indicates whether or not the face is smiling, and the confidence level in
 /// the determination.
 @_s.JsonSerializable(
@@ -7456,6 +8309,74 @@ class StartProjectVersionResponse {
       _$StartProjectVersionResponseFromJson(json);
 }
 
+/// Filters applied to the technical cue or shot detection segments. For more
+/// information, see <a>StartSegmentDetection</a>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartSegmentDetectionFilters {
+  /// Filters that are specific to shot detections.
+  @_s.JsonKey(name: 'ShotFilter')
+  final StartShotDetectionFilter shotFilter;
+
+  /// Filters that are specific to technical cues.
+  @_s.JsonKey(name: 'TechnicalCueFilter')
+  final StartTechnicalCueDetectionFilter technicalCueFilter;
+
+  StartSegmentDetectionFilters({
+    this.shotFilter,
+    this.technicalCueFilter,
+  });
+  Map<String, dynamic> toJson() => _$StartSegmentDetectionFiltersToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class StartSegmentDetectionResponse {
+  /// Unique identifier for the segment detection job. The <code>JobId</code> is
+  /// returned from <code>StartSegmentDetection</code>.
+  @_s.JsonKey(name: 'JobId')
+  final String jobId;
+
+  StartSegmentDetectionResponse({
+    this.jobId,
+  });
+  factory StartSegmentDetectionResponse.fromJson(Map<String, dynamic> json) =>
+      _$StartSegmentDetectionResponseFromJson(json);
+}
+
+/// Filters for the shot detection segments returned by
+/// <code>GetSegmentDetection</code>. For more information, see
+/// <a>StartSegmentDetectionFilters</a>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartShotDetectionFilter {
+  /// Specifies the minimum confidence that Amazon Rekognition Video must have in
+  /// order to return a detected segment. Confidence represents how certain Amazon
+  /// Rekognition is that a segment is correctly identified. 0 is the lowest
+  /// confidence. 100 is the highest confidence. Amazon Rekognition Video doesn't
+  /// return any segments with a confidence level lower than this specified value.
+  ///
+  /// If you don't specify <code>MinSegmentConfidence</code>, the
+  /// <code>GetSegmentDetection</code> returns segments with confidence values
+  /// greater than or equal to 50 percent.
+  @_s.JsonKey(name: 'MinSegmentConfidence')
+  final double minSegmentConfidence;
+
+  StartShotDetectionFilter({
+    this.minSegmentConfidence,
+  });
+  Map<String, dynamic> toJson() => _$StartShotDetectionFilterToJson(this);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -7465,6 +8386,33 @@ class StartStreamProcessorResponse {
   StartStreamProcessorResponse();
   factory StartStreamProcessorResponse.fromJson(Map<String, dynamic> json) =>
       _$StartStreamProcessorResponseFromJson(json);
+}
+
+/// Filters for the technical segments returned by <a>GetSegmentDetection</a>.
+/// For more information, see <a>StartSegmentDetectionFilters</a>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class StartTechnicalCueDetectionFilter {
+  /// Specifies the minimum confidence that Amazon Rekognition Video must have in
+  /// order to return a detected segment. Confidence represents how certain Amazon
+  /// Rekognition is that a segment is correctly identified. 0 is the lowest
+  /// confidence. 100 is the highest confidence. Amazon Rekognition Video doesn't
+  /// return any segments with a confidence level lower than this specified value.
+  ///
+  /// If you don't specify <code>MinSegmentConfidence</code>,
+  /// <code>GetSegmentDetection</code> returns segments with confidence values
+  /// greater than or equal to 50 percent.
+  @_s.JsonKey(name: 'MinSegmentConfidence')
+  final double minSegmentConfidence;
+
+  StartTechnicalCueDetectionFilter({
+    this.minSegmentConfidence,
+  });
+  Map<String, dynamic> toJson() =>
+      _$StartTechnicalCueDetectionFilterToJson(this);
 }
 
 /// Set of optional parameters that let you set the criteria text must meet to
@@ -7690,6 +8638,40 @@ class Sunglasses {
       _$SunglassesFromJson(json);
 }
 
+/// Information about a technical cue segment. For more information, see
+/// <a>SegmentDetection</a>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class TechnicalCueSegment {
+  /// The confidence that Amazon Rekognition Video has in the accuracy of the
+  /// detected segment.
+  @_s.JsonKey(name: 'Confidence')
+  final double confidence;
+
+  /// The type of the technical cue.
+  @_s.JsonKey(name: 'Type')
+  final TechnicalCueType type;
+
+  TechnicalCueSegment({
+    this.confidence,
+    this.type,
+  });
+  factory TechnicalCueSegment.fromJson(Map<String, dynamic> json) =>
+      _$TechnicalCueSegmentFromJson(json);
+}
+
+enum TechnicalCueType {
+  @_s.JsonValue('ColorBars')
+  colorBars,
+  @_s.JsonValue('EndCredits')
+  endCredits,
+  @_s.JsonValue('BlackFrames')
+  blackFrames,
+}
+
 /// The dataset used for testing. Optionally, if <code>AutoCreate</code> is set,
 /// Amazon Rekognition Custom Labels creates a testing dataset using an 80/20
 /// split of the training dataset.
@@ -7718,8 +8700,8 @@ class TestingData {
   Map<String, dynamic> toJson() => _$TestingDataToJson(this);
 }
 
-/// A Sagemaker Groundtruth format manifest file representing the dataset used
-/// for testing.
+/// Sagemaker Groundtruth format manifest files for the input, output and
+/// validation datasets that are used and created during testing.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -7735,9 +8717,15 @@ class TestingDataResult {
   @_s.JsonKey(name: 'Output')
   final TestingData output;
 
+  /// The location of the data validation manifest. The data validation manifest
+  /// is created for the test dataset during model training.
+  @_s.JsonKey(name: 'Validation')
+  final ValidationData validation;
+
   TestingDataResult({
     this.input,
     this.output,
+    this.validation,
   });
   factory TestingDataResult.fromJson(Map<String, dynamic> json) =>
       _$TestingDataResultFromJson(json);
@@ -7857,8 +8845,8 @@ class TrainingData {
   Map<String, dynamic> toJson() => _$TrainingDataToJson(this);
 }
 
-/// A Sagemaker Groundtruth format manifest file that represents the dataset
-/// used for training.
+/// Sagemaker Groundtruth format manifest files for the input, output and
+/// validation datasets that are used and created during testing.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -7874,9 +8862,15 @@ class TrainingDataResult {
   @_s.JsonKey(name: 'Output')
   final TrainingData output;
 
+  /// The location of the data validation manifest. The data validation manifest
+  /// is created for the training dataset during model training.
+  @_s.JsonKey(name: 'Validation')
+  final ValidationData validation;
+
   TrainingDataResult({
     this.input,
     this.output,
+    this.validation,
   });
   factory TrainingDataResult.fromJson(Map<String, dynamic> json) =>
       _$TrainingDataResultFromJson(json);
@@ -7930,6 +8924,37 @@ class UnindexedFace {
   });
   factory UnindexedFace.fromJson(Map<String, dynamic> json) =>
       _$UnindexedFaceFromJson(json);
+}
+
+/// Contains the Amazon S3 bucket location of the validation data for a model
+/// training job.
+///
+/// The validation data includes error information for individual JSON lines in
+/// the dataset. For more information, see Debugging a Failed Model Training in
+/// the Amazon Rekognition Custom Labels Developer Guide.
+///
+/// You get the <code>ValidationData</code> object for the training dataset
+/// (<a>TrainingDataResult</a>) and the test dataset (<a>TestingDataResult</a>)
+/// by calling <a>DescribeProjectVersions</a>.
+///
+/// The assets array contains a single <a>Asset</a> object. The
+/// <a>GroundTruthManifest</a> field of the Asset object contains the S3 bucket
+/// location of the validation data.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ValidationData {
+  /// The assets that comprise the validation data.
+  @_s.JsonKey(name: 'Assets')
+  final List<Asset> assets;
+
+  ValidationData({
+    this.assets,
+  });
+  factory ValidationData.fromJson(Map<String, dynamic> json) =>
+      _$ValidationDataFromJson(json);
 }
 
 /// Video file stored in an Amazon S3 bucket. Amazon Rekognition video start
@@ -8097,6 +9122,14 @@ class ResourceNotReadyException extends _s.GenericAwsException {
       : super(type: type, code: 'ResourceNotReadyException', message: message);
 }
 
+class ServiceQuotaExceededException extends _s.GenericAwsException {
+  ServiceQuotaExceededException({String type, String message})
+      : super(
+            type: type,
+            code: 'ServiceQuotaExceededException',
+            message: message);
+}
+
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String type, String message})
       : super(type: type, code: 'ThrottlingException', message: message);
@@ -8138,6 +9171,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       ResourceNotFoundException(type: type, message: message),
   'ResourceNotReadyException': (type, message) =>
       ResourceNotReadyException(type: type, message: message),
+  'ServiceQuotaExceededException': (type, message) =>
+      ServiceQuotaExceededException(type: type, message: message),
   'ThrottlingException': (type, message) =>
       ThrottlingException(type: type, message: message),
   'VideoTooLargeException': (type, message) =>

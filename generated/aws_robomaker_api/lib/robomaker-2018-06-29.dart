@@ -45,6 +45,31 @@ class RoboMaker {
           endpointUrl: endpointUrl,
         );
 
+  /// Deletes one or more worlds in a batch operation.
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [worlds] :
+  /// A list of Amazon Resource Names (arns) that correspond to worlds to
+  /// delete.
+  Future<BatchDeleteWorldsResponse> batchDeleteWorlds({
+    @_s.required List<String> worlds,
+  }) async {
+    ArgumentError.checkNotNull(worlds, 'worlds');
+    final $payload = <String, dynamic>{
+      'worlds': worlds,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/batchDeleteWorlds',
+      exceptionFnMap: _exceptionFns,
+    );
+    return BatchDeleteWorldsResponse.fromJson(response);
+  }
+
   /// Describes one or more simulation jobs.
   ///
   /// May throw [ResourceNotFoundException].
@@ -184,6 +209,82 @@ class RoboMaker {
       exceptionFnMap: _exceptionFns,
     );
     return CancelSimulationJobBatchResponse.fromJson(response);
+  }
+
+  /// Cancels the specified export job.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InvalidParameterException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [job] :
+  /// The Amazon Resource Name (arn) of the world export job to cancel.
+  Future<void> cancelWorldExportJob({
+    @_s.required String job,
+  }) async {
+    ArgumentError.checkNotNull(job, 'job');
+    _s.validateStringLength(
+      'job',
+      job,
+      1,
+      1224,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'job',
+      job,
+      r'''arn:.*''',
+      isRequired: true,
+    );
+    final $payload = <String, dynamic>{
+      'job': job,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/cancelWorldExportJob',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CancelWorldExportJobResponse.fromJson(response);
+  }
+
+  /// Cancels the specified world generator job.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InvalidParameterException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [job] :
+  /// The Amazon Resource Name (arn) of the world generator job to cancel.
+  Future<void> cancelWorldGenerationJob({
+    @_s.required String job,
+  }) async {
+    ArgumentError.checkNotNull(job, 'job');
+    _s.validateStringLength(
+      'job',
+      job,
+      1,
+      1224,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'job',
+      job,
+      r'''arn:.*''',
+      isRequired: true,
+    );
+    final $payload = <String, dynamic>{
+      'job': job,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/cancelWorldGenerationJob',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CancelWorldGenerationJobResponse.fromJson(response);
   }
 
   /// Deploys a specific version of a robot application to robots in a fleet.
@@ -768,6 +869,238 @@ class RoboMaker {
     return CreateSimulationJobResponse.fromJson(response);
   }
 
+  /// Creates a world export job.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InvalidParameterException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [IdempotentParameterMismatchException].
+  /// May throw [ServiceUnavailableException].
+  ///
+  /// Parameter [iamRole] :
+  /// The IAM role that the world export process uses to access the Amazon S3
+  /// bucket and put the export.
+  ///
+  /// Parameter [worlds] :
+  /// A list of Amazon Resource Names (arns) that correspond to worlds to
+  /// export.
+  ///
+  /// Parameter [clientRequestToken] :
+  /// Unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the request.
+  ///
+  /// Parameter [tags] :
+  /// A map that contains tag keys and tag values that are attached to the world
+  /// export job.
+  Future<CreateWorldExportJobResponse> createWorldExportJob({
+    @_s.required String iamRole,
+    @_s.required OutputLocation outputLocation,
+    @_s.required List<String> worlds,
+    String clientRequestToken,
+    Map<String, String> tags,
+  }) async {
+    ArgumentError.checkNotNull(iamRole, 'iamRole');
+    _s.validateStringLength(
+      'iamRole',
+      iamRole,
+      1,
+      255,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'iamRole',
+      iamRole,
+      r'''arn:aws:iam::\w+:role/.*''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(outputLocation, 'outputLocation');
+    ArgumentError.checkNotNull(worlds, 'worlds');
+    _s.validateStringLength(
+      'clientRequestToken',
+      clientRequestToken,
+      1,
+      64,
+    );
+    _s.validateStringPattern(
+      'clientRequestToken',
+      clientRequestToken,
+      r'''[a-zA-Z0-9_\-=]*''',
+    );
+    final $payload = <String, dynamic>{
+      'iamRole': iamRole,
+      'outputLocation': outputLocation,
+      'worlds': worlds,
+      'clientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
+      if (tags != null) 'tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/createWorldExportJob',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateWorldExportJobResponse.fromJson(response);
+  }
+
+  /// Creates worlds using the specified template.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InvalidParameterException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [LimitExceededException].
+  /// May throw [IdempotentParameterMismatchException].
+  /// May throw [ServiceUnavailableException].
+  ///
+  /// Parameter [template] :
+  /// The Amazon Resource Name (arn) of the world template describing the worlds
+  /// you want to create.
+  ///
+  /// Parameter [worldCount] :
+  /// Information about the world count.
+  ///
+  /// Parameter [clientRequestToken] :
+  /// Unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the request.
+  ///
+  /// Parameter [tags] :
+  /// A map that contains tag keys and tag values that are attached to the world
+  /// generator job.
+  ///
+  /// Parameter [worldTags] :
+  /// A map that contains tag keys and tag values that are attached to the
+  /// generated worlds.
+  Future<CreateWorldGenerationJobResponse> createWorldGenerationJob({
+    @_s.required String template,
+    @_s.required WorldCount worldCount,
+    String clientRequestToken,
+    Map<String, String> tags,
+    Map<String, String> worldTags,
+  }) async {
+    ArgumentError.checkNotNull(template, 'template');
+    _s.validateStringLength(
+      'template',
+      template,
+      1,
+      1224,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'template',
+      template,
+      r'''arn:.*''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(worldCount, 'worldCount');
+    _s.validateStringLength(
+      'clientRequestToken',
+      clientRequestToken,
+      1,
+      64,
+    );
+    _s.validateStringPattern(
+      'clientRequestToken',
+      clientRequestToken,
+      r'''[a-zA-Z0-9_\-=]*''',
+    );
+    final $payload = <String, dynamic>{
+      'template': template,
+      'worldCount': worldCount,
+      'clientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
+      if (tags != null) 'tags': tags,
+      if (worldTags != null) 'worldTags': worldTags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/createWorldGenerationJob',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateWorldGenerationJobResponse.fromJson(response);
+  }
+
+  /// Creates a world template.
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceAlreadyExistsException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [LimitExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [clientRequestToken] :
+  /// Unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the request.
+  ///
+  /// Parameter [name] :
+  /// The name of the world template.
+  ///
+  /// Parameter [tags] :
+  /// A map that contains tag keys and tag values that are attached to the world
+  /// template.
+  ///
+  /// Parameter [templateBody] :
+  /// The world template body.
+  ///
+  /// Parameter [templateLocation] :
+  /// The location of the world template.
+  Future<CreateWorldTemplateResponse> createWorldTemplate({
+    String clientRequestToken,
+    String name,
+    Map<String, String> tags,
+    String templateBody,
+    TemplateLocation templateLocation,
+  }) async {
+    _s.validateStringLength(
+      'clientRequestToken',
+      clientRequestToken,
+      1,
+      64,
+    );
+    _s.validateStringPattern(
+      'clientRequestToken',
+      clientRequestToken,
+      r'''[a-zA-Z0-9_\-=]*''',
+    );
+    _s.validateStringLength(
+      'name',
+      name,
+      0,
+      255,
+    );
+    _s.validateStringPattern(
+      'name',
+      name,
+      r'''.*''',
+    );
+    _s.validateStringLength(
+      'templateBody',
+      templateBody,
+      1,
+      262144,
+    );
+    _s.validateStringPattern(
+      'templateBody',
+      templateBody,
+      r'''[\S\s]+''',
+    );
+    final $payload = <String, dynamic>{
+      if (clientRequestToken != null) 'clientRequestToken': clientRequestToken,
+      if (name != null) 'name': name,
+      if (tags != null) 'tags': tags,
+      if (templateBody != null) 'templateBody': templateBody,
+      if (templateLocation != null) 'templateLocation': templateLocation,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/createWorldTemplate',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateWorldTemplateResponse.fromJson(response);
+  }
+
   /// Deletes a fleet.
   ///
   /// May throw [InvalidParameterException].
@@ -946,6 +1279,44 @@ class RoboMaker {
       exceptionFnMap: _exceptionFns,
     );
     return DeleteSimulationApplicationResponse.fromJson(response);
+  }
+
+  /// Deletes a world template.
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [template] :
+  /// The Amazon Resource Name (arn) of the world template you want to delete.
+  Future<void> deleteWorldTemplate({
+    @_s.required String template,
+  }) async {
+    ArgumentError.checkNotNull(template, 'template');
+    _s.validateStringLength(
+      'template',
+      template,
+      1,
+      1224,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'template',
+      template,
+      r'''arn:.*''',
+      isRequired: true,
+    );
+    final $payload = <String, dynamic>{
+      'template': template,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/deleteWorldTemplate',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DeleteWorldTemplateResponse.fromJson(response);
   }
 
   /// Deregisters a robot.
@@ -1302,6 +1673,209 @@ class RoboMaker {
     return DescribeSimulationJobBatchResponse.fromJson(response);
   }
 
+  /// Describes a world.
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [world] :
+  /// The Amazon Resource Name (arn) of the world you want to describe.
+  Future<DescribeWorldResponse> describeWorld({
+    @_s.required String world,
+  }) async {
+    ArgumentError.checkNotNull(world, 'world');
+    _s.validateStringLength(
+      'world',
+      world,
+      1,
+      1224,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'world',
+      world,
+      r'''arn:.*''',
+      isRequired: true,
+    );
+    final $payload = <String, dynamic>{
+      'world': world,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/describeWorld',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeWorldResponse.fromJson(response);
+  }
+
+  /// Describes a world export job.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InvalidParameterException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [job] :
+  /// The Amazon Resource Name (arn) of the world export job to describe.
+  Future<DescribeWorldExportJobResponse> describeWorldExportJob({
+    @_s.required String job,
+  }) async {
+    ArgumentError.checkNotNull(job, 'job');
+    _s.validateStringLength(
+      'job',
+      job,
+      1,
+      1224,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'job',
+      job,
+      r'''arn:.*''',
+      isRequired: true,
+    );
+    final $payload = <String, dynamic>{
+      'job': job,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/describeWorldExportJob',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeWorldExportJobResponse.fromJson(response);
+  }
+
+  /// Describes a world generation job.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InvalidParameterException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [job] :
+  /// The Amazon Resource Name (arn) of the world generation job to describe.
+  Future<DescribeWorldGenerationJobResponse> describeWorldGenerationJob({
+    @_s.required String job,
+  }) async {
+    ArgumentError.checkNotNull(job, 'job');
+    _s.validateStringLength(
+      'job',
+      job,
+      1,
+      1224,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'job',
+      job,
+      r'''arn:.*''',
+      isRequired: true,
+    );
+    final $payload = <String, dynamic>{
+      'job': job,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/describeWorldGenerationJob',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeWorldGenerationJobResponse.fromJson(response);
+  }
+
+  /// Describes a world template.
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [template] :
+  /// The Amazon Resource Name (arn) of the world template you want to describe.
+  Future<DescribeWorldTemplateResponse> describeWorldTemplate({
+    @_s.required String template,
+  }) async {
+    ArgumentError.checkNotNull(template, 'template');
+    _s.validateStringLength(
+      'template',
+      template,
+      1,
+      1224,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'template',
+      template,
+      r'''arn:.*''',
+      isRequired: true,
+    );
+    final $payload = <String, dynamic>{
+      'template': template,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/describeWorldTemplate',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeWorldTemplateResponse.fromJson(response);
+  }
+
+  /// Gets the world template body.
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [generationJob] :
+  /// The Amazon Resource Name (arn) of the world generator job.
+  ///
+  /// Parameter [template] :
+  /// The Amazon Resource Name (arn) of the world template.
+  Future<GetWorldTemplateBodyResponse> getWorldTemplateBody({
+    String generationJob,
+    String template,
+  }) async {
+    _s.validateStringLength(
+      'generationJob',
+      generationJob,
+      1,
+      1224,
+    );
+    _s.validateStringPattern(
+      'generationJob',
+      generationJob,
+      r'''arn:.*''',
+    );
+    _s.validateStringLength(
+      'template',
+      template,
+      1,
+      1224,
+    );
+    _s.validateStringPattern(
+      'template',
+      template,
+      r'''arn:.*''',
+    );
+    final $payload = <String, dynamic>{
+      if (generationJob != null) 'generationJob': generationJob,
+      if (template != null) 'template': template,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/getWorldTemplateBody',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetWorldTemplateBodyResponse.fromJson(response);
+  }
+
   /// Returns a list of deployment jobs for a fleet. You can optionally provide
   /// filters to retrieve specific deployment jobs.
   ///
@@ -1330,11 +1904,13 @@ class RoboMaker {
   /// 200 results and a <code>nextToken</code> value if applicable.
   ///
   /// Parameter [nextToken] :
-  /// The <code>nextToken</code> value returned from a previous paginated
-  /// <code>ListDeploymentJobs</code> request where <code>maxResults</code> was
-  /// used and the results exceeded the value of that parameter. Pagination
-  /// continues from the end of the previous results that returned the
-  /// <code>nextToken</code> value.
+  /// If the previous paginated request did not return all of the remaining
+  /// results, the response object's <code>nextToken</code> parameter value is
+  /// set to a token. To retrieve the next set of results, call
+  /// <code>ListDeploymentJobs</code> again and assign that token to the request
+  /// object's <code>nextToken</code> parameter. If there are no remaining
+  /// results, the previous response object's NextToken parameter is set to
+  /// null.
   Future<ListDeploymentJobsResponse> listDeploymentJobs({
     List<Filter> filters,
     int maxResults,
@@ -1391,11 +1967,13 @@ class RoboMaker {
   /// <code>nextToken</code> value if applicable.
   ///
   /// Parameter [nextToken] :
-  /// The <code>nextToken</code> value returned from a previous paginated
-  /// <code>ListFleets</code> request where <code>maxResults</code> was used and
-  /// the results exceeded the value of that parameter. Pagination continues
-  /// from the end of the previous results that returned the
-  /// <code>nextToken</code> value.
+  /// If the previous paginated request did not return all of the remaining
+  /// results, the response object's <code>nextToken</code> parameter value is
+  /// set to a token. To retrieve the next set of results, call
+  /// <code>ListFleets</code> again and assign that token to the request
+  /// object's <code>nextToken</code> parameter. If there are no remaining
+  /// results, the previous response object's NextToken parameter is set to
+  /// null.
   /// <note>
   /// This token should be treated as an opaque identifier that is only used to
   /// retrieve the next items in a list and not for other programmatic purposes.
@@ -1455,11 +2033,13 @@ class RoboMaker {
   /// to 100 results and a <code>nextToken</code> value if applicable.
   ///
   /// Parameter [nextToken] :
-  /// The <code>nextToken</code> value returned from a previous paginated
-  /// <code>ListRobotApplications</code> request where <code>maxResults</code>
-  /// was used and the results exceeded the value of that parameter. Pagination
-  /// continues from the end of the previous results that returned the
-  /// <code>nextToken</code> value.
+  /// If the previous paginated request did not return all of the remaining
+  /// results, the response object's <code>nextToken</code> parameter value is
+  /// set to a token. To retrieve the next set of results, call
+  /// <code>ListRobotApplications</code> again and assign that token to the
+  /// request object's <code>nextToken</code> parameter. If there are no
+  /// remaining results, the previous response object's NextToken parameter is
+  /// set to null.
   ///
   /// Parameter [versionQualifier] :
   /// The version qualifier of the robot application.
@@ -1534,11 +2114,13 @@ class RoboMaker {
   /// <code>nextToken</code> value if applicable.
   ///
   /// Parameter [nextToken] :
-  /// The <code>nextToken</code> value returned from a previous paginated
-  /// <code>ListRobots</code> request where <code>maxResults</code> was used and
-  /// the results exceeded the value of that parameter. Pagination continues
-  /// from the end of the previous results that returned the
-  /// <code>nextToken</code> value.
+  /// If the previous paginated request did not return all of the remaining
+  /// results, the response object's <code>nextToken</code> parameter value is
+  /// set to a token. To retrieve the next set of results, call
+  /// <code>ListRobots</code> again and assign that token to the request
+  /// object's <code>nextToken</code> parameter. If there are no remaining
+  /// results, the previous response object's NextToken parameter is set to
+  /// null.
   Future<ListRobotsResponse> listRobots({
     List<Filter> filters,
     int maxResults,
@@ -1595,11 +2177,13 @@ class RoboMaker {
   /// applicable.
   ///
   /// Parameter [nextToken] :
-  /// The <code>nextToken</code> value returned from a previous paginated
-  /// <code>ListSimulationApplications</code> request where
-  /// <code>maxResults</code> was used and the results exceeded the value of
-  /// that parameter. Pagination continues from the end of the previous results
-  /// that returned the <code>nextToken</code> value.
+  /// If the previous paginated request did not return all of the remaining
+  /// results, the response object's <code>nextToken</code> parameter value is
+  /// set to a token. To retrieve the next set of results, call
+  /// <code>ListSimulationApplications</code> again and assign that token to the
+  /// request object's <code>nextToken</code> parameter. If there are no
+  /// remaining results, the previous response object's NextToken parameter is
+  /// set to null.
   ///
   /// Parameter [versionQualifier] :
   /// The version qualifier of the simulation application.
@@ -1664,11 +2248,13 @@ class RoboMaker {
   /// <code>nextToken</code> value.
   ///
   /// Parameter [nextToken] :
-  /// The <code>nextToken</code> value returned from a previous paginated
-  /// <code>ListSimulationJobBatches</code> request where
-  /// <code>maxResults</code> was used and the results exceeded the value of
-  /// that parameter. Pagination continues from the end of the previous results
-  /// that returned the <code>nextToken</code> value.
+  /// If the previous paginated request did not return all of the remaining
+  /// results, the response object's <code>nextToken</code> parameter value is
+  /// set to a token. To retrieve the next set of results, call
+  /// <code>ListSimulationJobBatches</code> again and assign that token to the
+  /// request object's <code>nextToken</code> parameter. If there are no
+  /// remaining results, the previous response object's NextToken parameter is
+  /// set to null.
   Future<ListSimulationJobBatchesResponse> listSimulationJobBatches({
     List<Filter> filters,
     int maxResults,
@@ -1728,15 +2314,13 @@ class RoboMaker {
   /// up to 1000 results and a <code>nextToken</code> value if applicable.
   ///
   /// Parameter [nextToken] :
-  /// The <code>nextToken</code> value returned from a previous paginated
-  /// <code>ListSimulationJobs</code> request where <code>maxResults</code> was
-  /// used and the results exceeded the value of that parameter. Pagination
-  /// continues from the end of the previous results that returned the
-  /// <code>nextToken</code> value.
-  /// <note>
-  /// This token should be treated as an opaque identifier that is only used to
-  /// retrieve the next items in a list and not for other programmatic purposes.
-  /// </note>
+  /// If the previous paginated request did not return all of the remaining
+  /// results, the response object's <code>nextToken</code> parameter value is
+  /// set to a token. To retrieve the next set of results, call
+  /// <code>ListSimulationJobs</code> again and assign that token to the request
+  /// object's <code>nextToken</code> parameter. If there are no remaining
+  /// results, the previous response object's NextToken parameter is set to
+  /// null.
   Future<ListSimulationJobsResponse> listSimulationJobs({
     List<Filter> filters,
     int maxResults,
@@ -1800,6 +2384,231 @@ class RoboMaker {
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsForResourceResponse.fromJson(response);
+  }
+
+  /// Lists world export jobs.
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [filters] :
+  /// Optional filters to limit results. You can use
+  /// <code>generationJobId</code> and <code>templateId</code>.
+  ///
+  /// Parameter [maxResults] :
+  /// When this parameter is used, <code>ListWorldExportJobs</code> only returns
+  /// <code>maxResults</code> results in a single page along with a
+  /// <code>nextToken</code> response element. The remaining results of the
+  /// initial request can be seen by sending another
+  /// <code>ListWorldExportJobs</code> request with the returned
+  /// <code>nextToken</code> value. This value can be between 1 and 100. If this
+  /// parameter is not used, then <code>ListWorldExportJobs</code> returns up to
+  /// 100 results and a <code>nextToken</code> value if applicable.
+  ///
+  /// Parameter [nextToken] :
+  /// If the previous paginated request did not return all of the remaining
+  /// results, the response object's <code>nextToken</code> parameter value is
+  /// set to a token. To retrieve the next set of results, call
+  /// <code>ListWorldExportJobs</code> again and assign that token to the
+  /// request object's <code>nextToken</code> parameter. If there are no
+  /// remaining results, the previous response object's NextToken parameter is
+  /// set to null.
+  Future<ListWorldExportJobsResponse> listWorldExportJobs({
+    List<Filter> filters,
+    int maxResults,
+    String nextToken,
+  }) async {
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      2048,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''[a-zA-Z0-9_.\-\/+=]*''',
+    );
+    final $payload = <String, dynamic>{
+      if (filters != null) 'filters': filters,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/listWorldExportJobs',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListWorldExportJobsResponse.fromJson(response);
+  }
+
+  /// Lists world generator jobs.
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [filters] :
+  /// Optional filters to limit results. You can use <code>status</code> and
+  /// <code>templateId</code>.
+  ///
+  /// Parameter [maxResults] :
+  /// When this parameter is used, <code>ListWorldGeneratorJobs</code> only
+  /// returns <code>maxResults</code> results in a single page along with a
+  /// <code>nextToken</code> response element. The remaining results of the
+  /// initial request can be seen by sending another
+  /// <code>ListWorldGeneratorJobs</code> request with the returned
+  /// <code>nextToken</code> value. This value can be between 1 and 100. If this
+  /// parameter is not used, then <code>ListWorldGeneratorJobs</code> returns up
+  /// to 100 results and a <code>nextToken</code> value if applicable.
+  ///
+  /// Parameter [nextToken] :
+  /// If the previous paginated request did not return all of the remaining
+  /// results, the response object's <code>nextToken</code> parameter value is
+  /// set to a token. To retrieve the next set of results, call
+  /// <code>ListWorldGenerationJobsRequest</code> again and assign that token to
+  /// the request object's <code>nextToken</code> parameter. If there are no
+  /// remaining results, the previous response object's NextToken parameter is
+  /// set to null.
+  Future<ListWorldGenerationJobsResponse> listWorldGenerationJobs({
+    List<Filter> filters,
+    int maxResults,
+    String nextToken,
+  }) async {
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      2048,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''[a-zA-Z0-9_.\-\/+=]*''',
+    );
+    final $payload = <String, dynamic>{
+      if (filters != null) 'filters': filters,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/listWorldGenerationJobs',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListWorldGenerationJobsResponse.fromJson(response);
+  }
+
+  /// Lists world templates.
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [maxResults] :
+  /// When this parameter is used, <code>ListWorldTemplates</code> only returns
+  /// <code>maxResults</code> results in a single page along with a
+  /// <code>nextToken</code> response element. The remaining results of the
+  /// initial request can be seen by sending another
+  /// <code>ListWorldTemplates</code> request with the returned
+  /// <code>nextToken</code> value. This value can be between 1 and 100. If this
+  /// parameter is not used, then <code>ListWorldTemplates</code> returns up to
+  /// 100 results and a <code>nextToken</code> value if applicable.
+  ///
+  /// Parameter [nextToken] :
+  /// If the previous paginated request did not return all of the remaining
+  /// results, the response object's <code>nextToken</code> parameter value is
+  /// set to a token. To retrieve the next set of results, call
+  /// <code>ListWorldTemplates</code> again and assign that token to the request
+  /// object's <code>nextToken</code> parameter. If there are no remaining
+  /// results, the previous response object's NextToken parameter is set to
+  /// null.
+  Future<ListWorldTemplatesResponse> listWorldTemplates({
+    int maxResults,
+    String nextToken,
+  }) async {
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      2048,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''[a-zA-Z0-9_.\-\/+=]*''',
+    );
+    final $payload = <String, dynamic>{
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/listWorldTemplates',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListWorldTemplatesResponse.fromJson(response);
+  }
+
+  /// Lists worlds.
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [filters] :
+  /// Optional filters to limit results. You can use <code>status</code>.
+  ///
+  /// Parameter [maxResults] :
+  /// When this parameter is used, <code>ListWorlds</code> only returns
+  /// <code>maxResults</code> results in a single page along with a
+  /// <code>nextToken</code> response element. The remaining results of the
+  /// initial request can be seen by sending another <code>ListWorlds</code>
+  /// request with the returned <code>nextToken</code> value. This value can be
+  /// between 1 and 100. If this parameter is not used, then
+  /// <code>ListWorlds</code> returns up to 100 results and a
+  /// <code>nextToken</code> value if applicable.
+  ///
+  /// Parameter [nextToken] :
+  /// If the previous paginated request did not return all of the remaining
+  /// results, the response object's <code>nextToken</code> parameter value is
+  /// set to a token. To retrieve the next set of results, call
+  /// <code>ListWorlds</code> again and assign that token to the request
+  /// object's <code>nextToken</code> parameter. If there are no remaining
+  /// results, the previous response object's NextToken parameter is set to
+  /// null.
+  Future<ListWorldsResponse> listWorlds({
+    List<Filter> filters,
+    int maxResults,
+    String nextToken,
+  }) async {
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      2048,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''[a-zA-Z0-9_.\-\/+=]*''',
+    );
+    final $payload = <String, dynamic>{
+      if (filters != null) 'filters': filters,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/listWorlds',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListWorldsResponse.fromJson(response);
   }
 
   /// Registers a robot with a fleet.
@@ -2267,6 +3076,81 @@ class RoboMaker {
     );
     return UpdateSimulationApplicationResponse.fromJson(response);
   }
+
+  /// Updates a world template.
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [template] :
+  /// The Amazon Resource Name (arn) of the world template to update.
+  ///
+  /// Parameter [name] :
+  /// The name of the template.
+  ///
+  /// Parameter [templateBody] :
+  /// The world template body.
+  ///
+  /// Parameter [templateLocation] :
+  /// The location of the world template.
+  Future<UpdateWorldTemplateResponse> updateWorldTemplate({
+    @_s.required String template,
+    String name,
+    String templateBody,
+    TemplateLocation templateLocation,
+  }) async {
+    ArgumentError.checkNotNull(template, 'template');
+    _s.validateStringLength(
+      'template',
+      template,
+      1,
+      1224,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'template',
+      template,
+      r'''arn:.*''',
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'name',
+      name,
+      0,
+      255,
+    );
+    _s.validateStringPattern(
+      'name',
+      name,
+      r'''.*''',
+    );
+    _s.validateStringLength(
+      'templateBody',
+      templateBody,
+      1,
+      262144,
+    );
+    _s.validateStringPattern(
+      'templateBody',
+      templateBody,
+      r'''[\S\s]+''',
+    );
+    final $payload = <String, dynamic>{
+      'template': template,
+      if (name != null) 'name': name,
+      if (templateBody != null) 'templateBody': templateBody,
+      if (templateLocation != null) 'templateLocation': templateLocation,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/updateWorldTemplate',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateWorldTemplateResponse.fromJson(response);
+  }
 }
 
 enum Architecture {
@@ -2290,6 +3174,24 @@ extension on Architecture {
     }
     throw Exception('Unknown enum value: $this');
   }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class BatchDeleteWorldsResponse {
+  /// A list of unprocessed worlds associated with the call. These worlds were not
+  /// deleted.
+  @_s.JsonKey(name: 'unprocessedWorlds')
+  final List<String> unprocessedWorlds;
+
+  BatchDeleteWorldsResponse({
+    this.unprocessedWorlds,
+  });
+  factory BatchDeleteWorldsResponse.fromJson(Map<String, dynamic> json) =>
+      _$BatchDeleteWorldsResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -2386,6 +3288,29 @@ class CancelSimulationJobResponse {
       _$CancelSimulationJobResponseFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class CancelWorldExportJobResponse {
+  CancelWorldExportJobResponse();
+  factory CancelWorldExportJobResponse.fromJson(Map<String, dynamic> json) =>
+      _$CancelWorldExportJobResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class CancelWorldGenerationJobResponse {
+  CancelWorldGenerationJobResponse();
+  factory CancelWorldGenerationJobResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$CancelWorldGenerationJobResponseFromJson(json);
+}
+
 /// Compute information for the simulation job.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2396,7 +3321,7 @@ class Compute {
   /// The simulation unit limit. Your simulation is allocated CPU and memory
   /// proportional to the supplied simulation unit limit. A simulation unit is 1
   /// vcpu and 2GB of memory. You are only billed for the SU utilization you
-  /// consume up to the maximim value provided.
+  /// consume up to the maximim value provided. The default is 15.
   @_s.JsonKey(name: 'simulationUnitLimit')
   final int simulationUnitLimit;
 
@@ -2419,7 +3344,7 @@ class ComputeResponse {
   /// The simulation unit limit. Your simulation is allocated CPU and memory
   /// proportional to the supplied simulation unit limit. A simulation unit is 1
   /// vcpu and 2GB of memory. You are only billed for the SU utilization you
-  /// consume up to the maximim value provided.
+  /// consume up to the maximim value provided. The default is 15.
   @_s.JsonKey(name: 'simulationUnitLimit')
   final int simulationUnitLimit;
 
@@ -2968,6 +3893,225 @@ class CreateSimulationJobResponse {
       _$CreateSimulationJobResponseFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class CreateWorldExportJobResponse {
+  /// The Amazon Resource Name (ARN) of the world export job.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  /// Unique, case-sensitive identifier that you provide to ensure the idempotency
+  /// of the request.
+  @_s.JsonKey(name: 'clientRequestToken')
+  final String clientRequestToken;
+
+  /// The time, in milliseconds since the epoch, when the world export job was
+  /// created.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdAt')
+  final DateTime createdAt;
+
+  /// The failure code of the world export job if it failed:
+  /// <dl> <dt>InternalServiceError</dt> <dd>
+  /// Internal service error.
+  /// </dd> <dt>LimitExceeded</dt> <dd>
+  /// The requested resource exceeds the maximum number allowed, or the number of
+  /// concurrent stream requests exceeds the maximum number allowed.
+  /// </dd> <dt>ResourceNotFound</dt> <dd>
+  /// The specified resource could not be found.
+  /// </dd> <dt>RequestThrottled</dt> <dd>
+  /// The request was throttled.
+  /// </dd> <dt>InvalidInput</dt> <dd>
+  /// An input parameter in the request is not valid.
+  /// </dd> <dt>AllWorldGenerationFailed</dt> <dd>
+  /// All of the worlds in the world generation job failed. This can happen if
+  /// your <code>worldCount</code> is greater than 50 or less than 1.
+  /// </dd> </dl>
+  /// For more information about troubleshooting WorldForge, see <a
+  /// href="https://docs.aws.amazon.com/robomaker/latest/dg/troubleshooting-worldforge.html">Troubleshooting
+  /// Simulation WorldForge</a>.
+  @_s.JsonKey(name: 'failureCode')
+  final WorldExportJobErrorCode failureCode;
+
+  /// The IAM role that the world export process uses to access the Amazon S3
+  /// bucket and put the export.
+  @_s.JsonKey(name: 'iamRole')
+  final String iamRole;
+  @_s.JsonKey(name: 'outputLocation')
+  final OutputLocation outputLocation;
+
+  /// The status of the world export job.
+  /// <dl> <dt>Pending</dt> <dd>
+  /// The world export job request is pending.
+  /// </dd> <dt>Running</dt> <dd>
+  /// The world export job is running.
+  /// </dd> <dt>Completed</dt> <dd>
+  /// The world export job completed.
+  /// </dd> <dt>Failed</dt> <dd>
+  /// The world export job failed. See <code>failureCode</code> for more
+  /// information.
+  /// </dd> <dt>Canceled</dt> <dd>
+  /// The world export job was cancelled.
+  /// </dd> <dt>Canceling</dt> <dd>
+  /// The world export job is being cancelled.
+  /// </dd> </dl>
+  @_s.JsonKey(name: 'status')
+  final WorldExportJobStatus status;
+
+  /// A map that contains tag keys and tag values that are attached to the world
+  /// export job.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  CreateWorldExportJobResponse({
+    this.arn,
+    this.clientRequestToken,
+    this.createdAt,
+    this.failureCode,
+    this.iamRole,
+    this.outputLocation,
+    this.status,
+    this.tags,
+  });
+  factory CreateWorldExportJobResponse.fromJson(Map<String, dynamic> json) =>
+      _$CreateWorldExportJobResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class CreateWorldGenerationJobResponse {
+  /// The Amazon Resource Name (ARN) of the world generator job.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  /// Unique, case-sensitive identifier that you provide to ensure the idempotency
+  /// of the request.
+  @_s.JsonKey(name: 'clientRequestToken')
+  final String clientRequestToken;
+
+  /// The time, in milliseconds since the epoch, when the world generator job was
+  /// created.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdAt')
+  final DateTime createdAt;
+
+  /// The failure code of the world generator job if it failed:
+  /// <dl> <dt>InternalServiceError</dt> <dd>
+  /// Internal service error.
+  /// </dd> <dt>LimitExceeded</dt> <dd>
+  /// The requested resource exceeds the maximum number allowed, or the number of
+  /// concurrent stream requests exceeds the maximum number allowed.
+  /// </dd> <dt>ResourceNotFound</dt> <dd>
+  /// The specified resource could not be found.
+  /// </dd> <dt>RequestThrottled</dt> <dd>
+  /// The request was throttled.
+  /// </dd> <dt>InvalidInput</dt> <dd>
+  /// An input parameter in the request is not valid.
+  /// </dd> </dl>
+  @_s.JsonKey(name: 'failureCode')
+  final WorldGenerationJobErrorCode failureCode;
+
+  /// The status of the world generator job.
+  /// <dl> <dt>Pending</dt> <dd>
+  /// The world generator job request is pending.
+  /// </dd> <dt>Running</dt> <dd>
+  /// The world generator job is running.
+  /// </dd> <dt>Completed</dt> <dd>
+  /// The world generator job completed.
+  /// </dd> <dt>Failed</dt> <dd>
+  /// The world generator job failed. See <code>failureCode</code> for more
+  /// information.
+  /// </dd> <dt>PartialFailed</dt> <dd>
+  /// Some worlds did not generate.
+  /// </dd> <dt>Canceled</dt> <dd>
+  /// The world generator job was cancelled.
+  /// </dd> <dt>Canceling</dt> <dd>
+  /// The world generator job is being cancelled.
+  /// </dd> </dl>
+  @_s.JsonKey(name: 'status')
+  final WorldGenerationJobStatus status;
+
+  /// A map that contains tag keys and tag values that are attached to the world
+  /// generator job.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  /// The Amazon Resource Name (arn) of the world template.
+  @_s.JsonKey(name: 'template')
+  final String template;
+
+  /// Information about the world count.
+  @_s.JsonKey(name: 'worldCount')
+  final WorldCount worldCount;
+
+  /// A map that contains tag keys and tag values that are attached to the
+  /// generated worlds.
+  @_s.JsonKey(name: 'worldTags')
+  final Map<String, String> worldTags;
+
+  CreateWorldGenerationJobResponse({
+    this.arn,
+    this.clientRequestToken,
+    this.createdAt,
+    this.failureCode,
+    this.status,
+    this.tags,
+    this.template,
+    this.worldCount,
+    this.worldTags,
+  });
+  factory CreateWorldGenerationJobResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$CreateWorldGenerationJobResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class CreateWorldTemplateResponse {
+  /// The Amazon Resource Name (ARN) of the world template.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  /// Unique, case-sensitive identifier that you provide to ensure the idempotency
+  /// of the request.
+  @_s.JsonKey(name: 'clientRequestToken')
+  final String clientRequestToken;
+
+  /// The time, in milliseconds since the epoch, when the world template was
+  /// created.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdAt')
+  final DateTime createdAt;
+
+  /// The name of the world template.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// A map that contains tag keys and tag values that are attached to the world
+  /// template.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  CreateWorldTemplateResponse({
+    this.arn,
+    this.clientRequestToken,
+    this.createdAt,
+    this.name,
+    this.tags,
+  });
+  factory CreateWorldTemplateResponse.fromJson(Map<String, dynamic> json) =>
+      _$CreateWorldTemplateResponseFromJson(json);
+}
+
 /// Information about a data source.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3069,6 +4213,17 @@ class DeleteSimulationApplicationResponse {
   factory DeleteSimulationApplicationResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DeleteSimulationApplicationResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DeleteWorldTemplateResponse {
+  DeleteWorldTemplateResponse();
+  factory DeleteWorldTemplateResponse.fromJson(Map<String, dynamic> json) =>
+      _$DeleteWorldTemplateResponseFromJson(json);
 }
 
 /// Information about a deployment application configuration.
@@ -3887,6 +5042,286 @@ class DescribeSimulationJobResponse {
       _$DescribeSimulationJobResponseFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DescribeWorldExportJobResponse {
+  /// The Amazon Resource Name (ARN) of the world export job.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  /// Unique, case-sensitive identifier that you provide to ensure the idempotency
+  /// of the request.
+  @_s.JsonKey(name: 'clientRequestToken')
+  final String clientRequestToken;
+
+  /// The time, in milliseconds since the epoch, when the world export job was
+  /// created.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdAt')
+  final DateTime createdAt;
+
+  /// The failure code of the world export job if it failed:
+  /// <dl> <dt>InternalServiceError</dt> <dd>
+  /// Internal service error.
+  /// </dd> <dt>LimitExceeded</dt> <dd>
+  /// The requested resource exceeds the maximum number allowed, or the number of
+  /// concurrent stream requests exceeds the maximum number allowed.
+  /// </dd> <dt>ResourceNotFound</dt> <dd>
+  /// The specified resource could not be found.
+  /// </dd> <dt>RequestThrottled</dt> <dd>
+  /// The request was throttled.
+  /// </dd> <dt>InvalidInput</dt> <dd>
+  /// An input parameter in the request is not valid.
+  /// </dd> </dl>
+  @_s.JsonKey(name: 'failureCode')
+  final WorldExportJobErrorCode failureCode;
+
+  /// The reason why the world export job failed.
+  @_s.JsonKey(name: 'failureReason')
+  final String failureReason;
+
+  /// The IAM role that the world export process uses to access the Amazon S3
+  /// bucket and put the export.
+  @_s.JsonKey(name: 'iamRole')
+  final String iamRole;
+  @_s.JsonKey(name: 'outputLocation')
+  final OutputLocation outputLocation;
+
+  /// The status of the world export job.
+  /// <dl> <dt>Pending</dt> <dd>
+  /// The world export job request is pending.
+  /// </dd> <dt>Running</dt> <dd>
+  /// The world export job is running.
+  /// </dd> <dt>Completed</dt> <dd>
+  /// The world export job completed.
+  /// </dd> <dt>Failed</dt> <dd>
+  /// The world export job failed. See <code>failureCode</code> and
+  /// <code>failureReason</code> for more information.
+  /// </dd> <dt>Canceled</dt> <dd>
+  /// The world export job was cancelled.
+  /// </dd> <dt>Canceling</dt> <dd>
+  /// The world export job is being cancelled.
+  /// </dd> </dl>
+  @_s.JsonKey(name: 'status')
+  final WorldExportJobStatus status;
+
+  /// A map that contains tag keys and tag values that are attached to the world
+  /// export job.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  /// A list of Amazon Resource Names (arns) that correspond to worlds to be
+  /// exported.
+  @_s.JsonKey(name: 'worlds')
+  final List<String> worlds;
+
+  DescribeWorldExportJobResponse({
+    this.arn,
+    this.clientRequestToken,
+    this.createdAt,
+    this.failureCode,
+    this.failureReason,
+    this.iamRole,
+    this.outputLocation,
+    this.status,
+    this.tags,
+    this.worlds,
+  });
+  factory DescribeWorldExportJobResponse.fromJson(Map<String, dynamic> json) =>
+      _$DescribeWorldExportJobResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DescribeWorldGenerationJobResponse {
+  /// The Amazon Resource Name (ARN) of the world generation job.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  /// Unique, case-sensitive identifier that you provide to ensure the idempotency
+  /// of the request.
+  @_s.JsonKey(name: 'clientRequestToken')
+  final String clientRequestToken;
+
+  /// The time, in milliseconds since the epoch, when the world generation job was
+  /// created.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdAt')
+  final DateTime createdAt;
+
+  /// The failure code of the world generation job if it failed:
+  /// <dl> <dt>InternalServiceError</dt> <dd>
+  /// Internal service error.
+  /// </dd> <dt>LimitExceeded</dt> <dd>
+  /// The requested resource exceeds the maximum number allowed, or the number of
+  /// concurrent stream requests exceeds the maximum number allowed.
+  /// </dd> <dt>ResourceNotFound</dt> <dd>
+  /// The specified resource could not be found.
+  /// </dd> <dt>RequestThrottled</dt> <dd>
+  /// The request was throttled.
+  /// </dd> <dt>InvalidInput</dt> <dd>
+  /// An input parameter in the request is not valid.
+  /// </dd> </dl>
+  @_s.JsonKey(name: 'failureCode')
+  final WorldGenerationJobErrorCode failureCode;
+
+  /// The reason why the world generation job failed.
+  @_s.JsonKey(name: 'failureReason')
+  final String failureReason;
+
+  /// Summary information about finished worlds.
+  @_s.JsonKey(name: 'finishedWorldsSummary')
+  final FinishedWorldsSummary finishedWorldsSummary;
+
+  /// The status of the world generation job:
+  /// <dl> <dt>Pending</dt> <dd>
+  /// The world generation job request is pending.
+  /// </dd> <dt>Running</dt> <dd>
+  /// The world generation job is running.
+  /// </dd> <dt>Completed</dt> <dd>
+  /// The world generation job completed.
+  /// </dd> <dt>Failed</dt> <dd>
+  /// The world generation job failed. See <code>failureCode</code> for more
+  /// information.
+  /// </dd> <dt>PartialFailed</dt> <dd>
+  /// Some worlds did not generate.
+  /// </dd> <dt>Canceled</dt> <dd>
+  /// The world generation job was cancelled.
+  /// </dd> <dt>Canceling</dt> <dd>
+  /// The world generation job is being cancelled.
+  /// </dd> </dl>
+  @_s.JsonKey(name: 'status')
+  final WorldGenerationJobStatus status;
+
+  /// A map that contains tag keys and tag values that are attached to the world
+  /// generation job.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  /// The Amazon Resource Name (arn) of the world template.
+  @_s.JsonKey(name: 'template')
+  final String template;
+
+  /// Information about the world count.
+  @_s.JsonKey(name: 'worldCount')
+  final WorldCount worldCount;
+
+  /// A map that contains tag keys and tag values that are attached to the
+  /// generated worlds.
+  @_s.JsonKey(name: 'worldTags')
+  final Map<String, String> worldTags;
+
+  DescribeWorldGenerationJobResponse({
+    this.arn,
+    this.clientRequestToken,
+    this.createdAt,
+    this.failureCode,
+    this.failureReason,
+    this.finishedWorldsSummary,
+    this.status,
+    this.tags,
+    this.template,
+    this.worldCount,
+    this.worldTags,
+  });
+  factory DescribeWorldGenerationJobResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$DescribeWorldGenerationJobResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DescribeWorldResponse {
+  /// The Amazon Resource Name (arn) of the world.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  /// The time, in milliseconds since the epoch, when the world was created.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdAt')
+  final DateTime createdAt;
+
+  /// The Amazon Resource Name (arn) of the world generation job that generated
+  /// the world.
+  @_s.JsonKey(name: 'generationJob')
+  final String generationJob;
+
+  /// A map that contains tag keys and tag values that are attached to the world.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  /// The world template.
+  @_s.JsonKey(name: 'template')
+  final String template;
+
+  DescribeWorldResponse({
+    this.arn,
+    this.createdAt,
+    this.generationJob,
+    this.tags,
+    this.template,
+  });
+  factory DescribeWorldResponse.fromJson(Map<String, dynamic> json) =>
+      _$DescribeWorldResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DescribeWorldTemplateResponse {
+  /// The Amazon Resource Name (ARN) of the world template.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  /// Unique, case-sensitive identifier that you provide to ensure the idempotency
+  /// of the request.
+  @_s.JsonKey(name: 'clientRequestToken')
+  final String clientRequestToken;
+
+  /// The time, in milliseconds since the epoch, when the world template was
+  /// created.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdAt')
+  final DateTime createdAt;
+
+  /// The time, in milliseconds since the epoch, when the world template was last
+  /// updated.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastUpdatedAt')
+  final DateTime lastUpdatedAt;
+
+  /// The name of the world template.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// A map that contains tag keys and tag values that are attached to the world
+  /// template.
+  @_s.JsonKey(name: 'tags')
+  final Map<String, String> tags;
+
+  DescribeWorldTemplateResponse({
+    this.arn,
+    this.clientRequestToken,
+    this.createdAt,
+    this.lastUpdatedAt,
+    this.name,
+    this.tags,
+  });
+  factory DescribeWorldTemplateResponse.fromJson(Map<String, dynamic> json) =>
+      _$DescribeWorldTemplateResponseFromJson(json);
+}
+
 /// Information about a failed create simulation job request.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3942,6 +5377,29 @@ extension on FailureBehavior {
   }
 }
 
+/// Information about worlds that failed.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class FailureSummary {
+  /// The worlds that failed.
+  @_s.JsonKey(name: 'failures')
+  final List<WorldFailure> failures;
+
+  /// The total number of failures.
+  @_s.JsonKey(name: 'totalFailureCount')
+  final int totalFailureCount;
+
+  FailureSummary({
+    this.failures,
+    this.totalFailureCount,
+  });
+  factory FailureSummary.fromJson(Map<String, dynamic> json) =>
+      _$FailureSummaryFromJson(json);
+}
+
 /// Information about a filter.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3962,6 +5420,34 @@ class Filter {
     this.values,
   });
   Map<String, dynamic> toJson() => _$FilterToJson(this);
+}
+
+/// Information about worlds that finished.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class FinishedWorldsSummary {
+  /// Information about worlds that failed.
+  @_s.JsonKey(name: 'failureSummary')
+  final FailureSummary failureSummary;
+
+  /// The total number of finished worlds.
+  @_s.JsonKey(name: 'finishedCount')
+  final int finishedCount;
+
+  /// A list of worlds that succeeded.
+  @_s.JsonKey(name: 'succeededWorlds')
+  final List<String> succeededWorlds;
+
+  FinishedWorldsSummary({
+    this.failureSummary,
+    this.finishedCount,
+    this.succeededWorlds,
+  });
+  factory FinishedWorldsSummary.fromJson(Map<String, dynamic> json) =>
+      _$FinishedWorldsSummaryFromJson(json);
 }
 
 /// Information about a fleet.
@@ -4006,6 +5492,23 @@ class Fleet {
     this.name,
   });
   factory Fleet.fromJson(Map<String, dynamic> json) => _$FleetFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class GetWorldTemplateBodyResponse {
+  /// The world template body.
+  @_s.JsonKey(name: 'templateBody')
+  final String templateBody;
+
+  GetWorldTemplateBodyResponse({
+    this.templateBody,
+  });
+  factory GetWorldTemplateBodyResponse.fromJson(Map<String, dynamic> json) =>
+      _$GetWorldTemplateBodyResponseFromJson(json);
 }
 
 /// Information about a launch configuration.
@@ -4062,11 +5565,12 @@ class ListDeploymentJobsResponse {
   @_s.JsonKey(name: 'deploymentJobs')
   final List<DeploymentJob> deploymentJobs;
 
-  /// The <code>nextToken</code> value to include in a future
-  /// <code>ListDeploymentJobs</code> request. When the results of a
-  /// <code>ListDeploymentJobs</code> request exceed <code>maxResults</code>, this
-  /// value can be used to retrieve the next page of results. This value is
-  /// <code>null</code> when there are no more results to return.
+  /// If the previous paginated request did not return all of the remaining
+  /// results, the response object's <code>nextToken</code> parameter value is set
+  /// to a token. To retrieve the next set of results, call
+  /// <code>ListDeploymentJobs</code> again and assign that token to the request
+  /// object's <code>nextToken</code> parameter. If there are no remaining
+  /// results, the previous response object's NextToken parameter is set to null.
   @_s.JsonKey(name: 'nextToken')
   final String nextToken;
 
@@ -4088,11 +5592,12 @@ class ListFleetsResponse {
   @_s.JsonKey(name: 'fleetDetails')
   final List<Fleet> fleetDetails;
 
-  /// The <code>nextToken</code> value to include in a future
-  /// <code>ListDeploymentJobs</code> request. When the results of a
-  /// <code>ListFleets</code> request exceed <code>maxResults</code>, this value
-  /// can be used to retrieve the next page of results. This value is
-  /// <code>null</code> when there are no more results to return.
+  /// If the previous paginated request did not return all of the remaining
+  /// results, the response object's <code>nextToken</code> parameter value is set
+  /// to a token. To retrieve the next set of results, call
+  /// <code>ListFleets</code> again and assign that token to the request object's
+  /// <code>nextToken</code> parameter. If there are no remaining results, the
+  /// previous response object's NextToken parameter is set to null.
   @_s.JsonKey(name: 'nextToken')
   final String nextToken;
 
@@ -4110,11 +5615,12 @@ class ListFleetsResponse {
     createFactory: true,
     createToJson: false)
 class ListRobotApplicationsResponse {
-  /// The <code>nextToken</code> value to include in a future
-  /// <code>ListRobotApplications</code> request. When the results of a
-  /// <code>ListRobotApplications</code> request exceed <code>maxResults</code>,
-  /// this value can be used to retrieve the next page of results. This value is
-  /// <code>null</code> when there are no more results to return.
+  /// If the previous paginated request did not return all of the remaining
+  /// results, the response object's <code>nextToken</code> parameter value is set
+  /// to a token. To retrieve the next set of results, call
+  /// <code>ListRobotApplications</code> again and assign that token to the
+  /// request object's <code>nextToken</code> parameter. If there are no remaining
+  /// results, the previous response object's NextToken parameter is set to null.
   @_s.JsonKey(name: 'nextToken')
   final String nextToken;
 
@@ -4136,11 +5642,12 @@ class ListRobotApplicationsResponse {
     createFactory: true,
     createToJson: false)
 class ListRobotsResponse {
-  /// The <code>nextToken</code> value to include in a future
-  /// <code>ListRobots</code> request. When the results of a
-  /// <code>ListRobot</code> request exceed <code>maxResults</code>, this value
-  /// can be used to retrieve the next page of results. This value is
-  /// <code>null</code> when there are no more results to return.
+  /// If the previous paginated request did not return all of the remaining
+  /// results, the response object's <code>nextToken</code> parameter value is set
+  /// to a token. To retrieve the next set of results, call
+  /// <code>ListRobots</code> again and assign that token to the request object's
+  /// <code>nextToken</code> parameter. If there are no remaining results, the
+  /// previous response object's NextToken parameter is set to null.
   @_s.JsonKey(name: 'nextToken')
   final String nextToken;
 
@@ -4162,11 +5669,12 @@ class ListRobotsResponse {
     createFactory: true,
     createToJson: false)
 class ListSimulationApplicationsResponse {
-  /// The <code>nextToken</code> value to include in a future
-  /// <code>ListSimulationApplications</code> request. When the results of a
-  /// <code>ListRobot</code> request exceed <code>maxResults</code>, this value
-  /// can be used to retrieve the next page of results. This value is
-  /// <code>null</code> when there are no more results to return.
+  /// If the previous paginated request did not return all of the remaining
+  /// results, the response object's <code>nextToken</code> parameter value is set
+  /// to a token. To retrieve the next set of results, call
+  /// <code>ListSimulationApplications</code> again and assign that token to the
+  /// request object's <code>nextToken</code> parameter. If there are no remaining
+  /// results, the previous response object's NextToken parameter is set to null.
   @_s.JsonKey(name: 'nextToken')
   final String nextToken;
 
@@ -4190,12 +5698,12 @@ class ListSimulationApplicationsResponse {
     createFactory: true,
     createToJson: false)
 class ListSimulationJobBatchesResponse {
-  /// The <code>nextToken</code> value to include in a future
-  /// <code>ListSimulationJobBatches</code> request. When the results of a
-  /// <code>ListSimulationJobBatches</code> request exceed
-  /// <code>maxResults</code>, this value can be used to retrieve the next page of
-  /// results. This value is <code>null</code> when there are no more results to
-  /// return.
+  /// If the previous paginated request did not return all of the remaining
+  /// results, the response object's <code>nextToken</code> parameter value is set
+  /// to a token. To retrieve the next set of results, call
+  /// <code>ListSimulationJobBatches</code> again and assign that token to the
+  /// request object's <code>nextToken</code> parameter. If there are no remaining
+  /// results, the previous response object's NextToken parameter is set to null.
   @_s.JsonKey(name: 'nextToken')
   final String nextToken;
 
@@ -4222,11 +5730,12 @@ class ListSimulationJobsResponse {
   @_s.JsonKey(name: 'simulationJobSummaries')
   final List<SimulationJobSummary> simulationJobSummaries;
 
-  /// The <code>nextToken</code> value to include in a future
-  /// <code>ListSimulationJobs</code> request. When the results of a
-  /// <code>ListRobot</code> request exceed <code>maxResults</code>, this value
-  /// can be used to retrieve the next page of results. This value is
-  /// <code>null</code> when there are no more results to return.
+  /// If the previous paginated request did not return all of the remaining
+  /// results, the response object's <code>nextToken</code> parameter value is set
+  /// to a token. To retrieve the next set of results, call
+  /// <code>ListSimulationJobs</code> again and assign that token to the request
+  /// object's <code>nextToken</code> parameter. If there are no remaining
+  /// results, the previous response object's NextToken parameter is set to null.
   @_s.JsonKey(name: 'nextToken')
   final String nextToken;
 
@@ -4253,6 +5762,115 @@ class ListTagsForResourceResponse {
   });
   factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
       _$ListTagsForResourceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListWorldExportJobsResponse {
+  /// Summary information for world export jobs.
+  @_s.JsonKey(name: 'worldExportJobSummaries')
+  final List<WorldExportJobSummary> worldExportJobSummaries;
+
+  /// If the previous paginated request did not return all of the remaining
+  /// results, the response object's <code>nextToken</code> parameter value is set
+  /// to a token. To retrieve the next set of results, call
+  /// <code>ListWorldExportJobsRequest</code> again and assign that token to the
+  /// request object's <code>nextToken</code> parameter. If there are no remaining
+  /// results, the previous response object's NextToken parameter is set to null.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListWorldExportJobsResponse({
+    @_s.required this.worldExportJobSummaries,
+    this.nextToken,
+  });
+  factory ListWorldExportJobsResponse.fromJson(Map<String, dynamic> json) =>
+      _$ListWorldExportJobsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListWorldGenerationJobsResponse {
+  /// Summary information for world generator jobs.
+  @_s.JsonKey(name: 'worldGenerationJobSummaries')
+  final List<WorldGenerationJobSummary> worldGenerationJobSummaries;
+
+  /// If the previous paginated request did not return all of the remaining
+  /// results, the response object's <code>nextToken</code> parameter value is set
+  /// to a token. To retrieve the next set of results, call
+  /// <code>ListWorldGeneratorJobsRequest</code> again and assign that token to
+  /// the request object's <code>nextToken</code> parameter. If there are no
+  /// remaining results, the previous response object's NextToken parameter is set
+  /// to null.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListWorldGenerationJobsResponse({
+    @_s.required this.worldGenerationJobSummaries,
+    this.nextToken,
+  });
+  factory ListWorldGenerationJobsResponse.fromJson(Map<String, dynamic> json) =>
+      _$ListWorldGenerationJobsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListWorldTemplatesResponse {
+  /// If the previous paginated request did not return all of the remaining
+  /// results, the response object's <code>nextToken</code> parameter value is set
+  /// to a token. To retrieve the next set of results, call
+  /// <code>ListWorldTemplates</code> again and assign that token to the request
+  /// object's <code>nextToken</code> parameter. If there are no remaining
+  /// results, the previous response object's NextToken parameter is set to null.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// Summary information for templates.
+  @_s.JsonKey(name: 'templateSummaries')
+  final List<TemplateSummary> templateSummaries;
+
+  ListWorldTemplatesResponse({
+    this.nextToken,
+    this.templateSummaries,
+  });
+  factory ListWorldTemplatesResponse.fromJson(Map<String, dynamic> json) =>
+      _$ListWorldTemplatesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListWorldsResponse {
+  /// If the previous paginated request did not return all of the remaining
+  /// results, the response object's <code>nextToken</code> parameter value is set
+  /// to a token. To retrieve the next set of results, call
+  /// <code>ListWorlds</code> again and assign that token to the request object's
+  /// <code>nextToken</code> parameter. If there are no remaining results, the
+  /// previous response object's NextToken parameter is set to null.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// Summary information for worlds.
+  @_s.JsonKey(name: 'worldSummaries')
+  final List<WorldSummary> worldSummaries;
+
+  ListWorldsResponse({
+    this.nextToken,
+    this.worldSummaries,
+  });
+  factory ListWorldsResponse.fromJson(Map<String, dynamic> json) =>
+      _$ListWorldsResponseFromJson(json);
 }
 
 /// The logging configuration.
@@ -4819,10 +6437,15 @@ class SimulationApplicationConfig {
   @_s.JsonKey(name: 'applicationVersion')
   final String applicationVersion;
 
+  /// A list of world configurations.
+  @_s.JsonKey(name: 'worldConfigs')
+  final List<WorldConfig> worldConfigs;
+
   SimulationApplicationConfig({
     @_s.required this.application,
     @_s.required this.launchConfig,
     this.applicationVersion,
+    this.worldConfigs,
   });
   factory SimulationApplicationConfig.fromJson(Map<String, dynamic> json) =>
       _$SimulationApplicationConfigFromJson(json);
@@ -5620,6 +7243,64 @@ class TagResourceResponse {
       _$TagResourceResponseFromJson(json);
 }
 
+/// Information about a template location.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TemplateLocation {
+  /// The Amazon S3 bucket name.
+  @_s.JsonKey(name: 's3Bucket')
+  final String s3Bucket;
+
+  /// The list of S3 keys identifying the data source files.
+  @_s.JsonKey(name: 's3Key')
+  final String s3Key;
+
+  TemplateLocation({
+    @_s.required this.s3Bucket,
+    @_s.required this.s3Key,
+  });
+  Map<String, dynamic> toJson() => _$TemplateLocationToJson(this);
+}
+
+/// Summary information for a template.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class TemplateSummary {
+  /// The Amazon Resource Name (ARN) of the template.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  /// The time, in milliseconds since the epoch, when the template was created.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdAt')
+  final DateTime createdAt;
+
+  /// The time, in milliseconds since the epoch, when the template was last
+  /// updated.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastUpdatedAt')
+  final DateTime lastUpdatedAt;
+
+  /// The name of the template.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  TemplateSummary({
+    this.arn,
+    this.createdAt,
+    this.lastUpdatedAt,
+    this.name,
+  });
+  factory TemplateSummary.fromJson(Map<String, dynamic> json) =>
+      _$TemplateSummaryFromJson(json);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -5740,6 +7421,42 @@ class UpdateSimulationApplicationResponse {
       _$UpdateSimulationApplicationResponseFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class UpdateWorldTemplateResponse {
+  /// The Amazon Resource Name (arn) of the world template.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  /// The time, in milliseconds since the epoch, when the world template was
+  /// created.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdAt')
+  final DateTime createdAt;
+
+  /// The time, in milliseconds since the epoch, when the world template was last
+  /// updated.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastUpdatedAt')
+  final DateTime lastUpdatedAt;
+
+  /// The name of the world template.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  UpdateWorldTemplateResponse({
+    this.arn,
+    this.createdAt,
+    this.lastUpdatedAt,
+    this.name,
+  });
+  factory UpdateWorldTemplateResponse.fromJson(Map<String, dynamic> json) =>
+      _$UpdateWorldTemplateResponseFromJson(json);
+}
+
 /// If your simulation job accesses resources in a VPC, you provide this
 /// parameter identifying the list of security group IDs and subnet IDs. These
 /// must belong to the same VPC. You must provide at least one security group
@@ -5804,6 +7521,312 @@ class VPCConfigResponse {
   });
   factory VPCConfigResponse.fromJson(Map<String, dynamic> json) =>
       _$VPCConfigResponseFromJson(json);
+}
+
+/// Configuration information for a world.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class WorldConfig {
+  /// The world generated by Simulation WorldForge.
+  @_s.JsonKey(name: 'world')
+  final String world;
+
+  WorldConfig({
+    this.world,
+  });
+  factory WorldConfig.fromJson(Map<String, dynamic> json) =>
+      _$WorldConfigFromJson(json);
+
+  Map<String, dynamic> toJson() => _$WorldConfigToJson(this);
+}
+
+/// The number of worlds that will be created. You can configure the number of
+/// unique floorplans and the number of unique interiors for each floor plan.
+/// For example, if you want 1 world with 20 unique interiors, you set
+/// <code>floorplanCount = 1</code> and <code>interiorCountPerFloorplan =
+/// 20</code>. This will result in 20 worlds (<code>floorplanCount</code> *
+/// <code>interiorCountPerFloorplan)</code>.
+///
+/// If you set <code>floorplanCount = 4</code> and
+/// <code>interiorCountPerFloorplan = 5</code>, there will be 20 worlds with 5
+/// unique floor plans.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class WorldCount {
+  /// The number of unique floorplans.
+  @_s.JsonKey(name: 'floorplanCount')
+  final int floorplanCount;
+
+  /// The number of unique interiors per floorplan.
+  @_s.JsonKey(name: 'interiorCountPerFloorplan')
+  final int interiorCountPerFloorplan;
+
+  WorldCount({
+    this.floorplanCount,
+    this.interiorCountPerFloorplan,
+  });
+  factory WorldCount.fromJson(Map<String, dynamic> json) =>
+      _$WorldCountFromJson(json);
+
+  Map<String, dynamic> toJson() => _$WorldCountToJson(this);
+}
+
+enum WorldExportJobErrorCode {
+  @_s.JsonValue('InternalServiceError')
+  internalServiceError,
+  @_s.JsonValue('LimitExceeded')
+  limitExceeded,
+  @_s.JsonValue('ResourceNotFound')
+  resourceNotFound,
+  @_s.JsonValue('RequestThrottled')
+  requestThrottled,
+  @_s.JsonValue('InvalidInput')
+  invalidInput,
+  @_s.JsonValue('AccessDenied')
+  accessDenied,
+}
+
+enum WorldExportJobStatus {
+  @_s.JsonValue('Pending')
+  pending,
+  @_s.JsonValue('Running')
+  running,
+  @_s.JsonValue('Completed')
+  completed,
+  @_s.JsonValue('Failed')
+  failed,
+  @_s.JsonValue('Canceling')
+  canceling,
+  @_s.JsonValue('Canceled')
+  canceled,
+}
+
+/// Information about a world export job.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class WorldExportJobSummary {
+  /// The Amazon Resource Name (ARN) of the world export job.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  /// The time, in milliseconds since the epoch, when the world export job was
+  /// created.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdAt')
+  final DateTime createdAt;
+
+  /// The status of the world export job.
+  /// <dl> <dt>Pending</dt> <dd>
+  /// The world export job request is pending.
+  /// </dd> <dt>Running</dt> <dd>
+  /// The world export job is running.
+  /// </dd> <dt>Completed</dt> <dd>
+  /// The world export job completed.
+  /// </dd> <dt>Failed</dt> <dd>
+  /// The world export job failed. See <code>failureCode</code> for more
+  /// information.
+  /// </dd> <dt>Canceled</dt> <dd>
+  /// The world export job was cancelled.
+  /// </dd> <dt>Canceling</dt> <dd>
+  /// The world export job is being cancelled.
+  /// </dd> </dl>
+  @_s.JsonKey(name: 'status')
+  final WorldExportJobStatus status;
+
+  /// A list of worlds.
+  @_s.JsonKey(name: 'worlds')
+  final List<String> worlds;
+
+  WorldExportJobSummary({
+    this.arn,
+    this.createdAt,
+    this.status,
+    this.worlds,
+  });
+  factory WorldExportJobSummary.fromJson(Map<String, dynamic> json) =>
+      _$WorldExportJobSummaryFromJson(json);
+}
+
+/// Information about a failed world.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class WorldFailure {
+  /// The failure code of the world export job if it failed:
+  /// <dl> <dt>InternalServiceError</dt> <dd>
+  /// Internal service error.
+  /// </dd> <dt>LimitExceeded</dt> <dd>
+  /// The requested resource exceeds the maximum number allowed, or the number of
+  /// concurrent stream requests exceeds the maximum number allowed.
+  /// </dd> <dt>ResourceNotFound</dt> <dd>
+  /// The specified resource could not be found.
+  /// </dd> <dt>RequestThrottled</dt> <dd>
+  /// The request was throttled.
+  /// </dd> <dt>InvalidInput</dt> <dd>
+  /// An input parameter in the request is not valid.
+  /// </dd> </dl>
+  @_s.JsonKey(name: 'failureCode')
+  final WorldGenerationJobErrorCode failureCode;
+
+  /// The number of failed worlds.
+  @_s.JsonKey(name: 'failureCount')
+  final int failureCount;
+
+  /// The sample reason why the world failed. World errors are aggregated. A
+  /// sample is used as the <code>sampleFailureReason</code>.
+  @_s.JsonKey(name: 'sampleFailureReason')
+  final String sampleFailureReason;
+
+  WorldFailure({
+    this.failureCode,
+    this.failureCount,
+    this.sampleFailureReason,
+  });
+  factory WorldFailure.fromJson(Map<String, dynamic> json) =>
+      _$WorldFailureFromJson(json);
+}
+
+enum WorldGenerationJobErrorCode {
+  @_s.JsonValue('InternalServiceError')
+  internalServiceError,
+  @_s.JsonValue('LimitExceeded')
+  limitExceeded,
+  @_s.JsonValue('ResourceNotFound')
+  resourceNotFound,
+  @_s.JsonValue('RequestThrottled')
+  requestThrottled,
+  @_s.JsonValue('InvalidInput')
+  invalidInput,
+  @_s.JsonValue('AllWorldGenerationFailed')
+  allWorldGenerationFailed,
+}
+
+enum WorldGenerationJobStatus {
+  @_s.JsonValue('Pending')
+  pending,
+  @_s.JsonValue('Running')
+  running,
+  @_s.JsonValue('Completed')
+  completed,
+  @_s.JsonValue('Failed')
+  failed,
+  @_s.JsonValue('PartialFailed')
+  partialFailed,
+  @_s.JsonValue('Canceling')
+  canceling,
+  @_s.JsonValue('Canceled')
+  canceled,
+}
+
+/// Information about a world generator job.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class WorldGenerationJobSummary {
+  /// The Amazon Resource Name (ARN) of the world generator job.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  /// The time, in milliseconds since the epoch, when the world generator job was
+  /// created.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdAt')
+  final DateTime createdAt;
+
+  /// The number of worlds that failed.
+  @_s.JsonKey(name: 'failedWorldCount')
+  final int failedWorldCount;
+
+  /// The status of the world generator job:
+  /// <dl> <dt>Pending</dt> <dd>
+  /// The world generator job request is pending.
+  /// </dd> <dt>Running</dt> <dd>
+  /// The world generator job is running.
+  /// </dd> <dt>Completed</dt> <dd>
+  /// The world generator job completed.
+  /// </dd> <dt>Failed</dt> <dd>
+  /// The world generator job failed. See <code>failureCode</code> for more
+  /// information.
+  /// </dd> <dt>PartialFailed</dt> <dd>
+  /// Some worlds did not generate.
+  /// </dd> <dt>Canceled</dt> <dd>
+  /// The world generator job was cancelled.
+  /// </dd> <dt>Canceling</dt> <dd>
+  /// The world generator job is being cancelled.
+  /// </dd> </dl>
+  @_s.JsonKey(name: 'status')
+  final WorldGenerationJobStatus status;
+
+  /// The number of worlds that were generated.
+  @_s.JsonKey(name: 'succeededWorldCount')
+  final int succeededWorldCount;
+
+  /// The Amazon Resource Name (arn) of the world template.
+  @_s.JsonKey(name: 'template')
+  final String template;
+
+  /// Information about the world count.
+  @_s.JsonKey(name: 'worldCount')
+  final WorldCount worldCount;
+
+  WorldGenerationJobSummary({
+    this.arn,
+    this.createdAt,
+    this.failedWorldCount,
+    this.status,
+    this.succeededWorldCount,
+    this.template,
+    this.worldCount,
+  });
+  factory WorldGenerationJobSummary.fromJson(Map<String, dynamic> json) =>
+      _$WorldGenerationJobSummaryFromJson(json);
+}
+
+/// Information about a world.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class WorldSummary {
+  /// The Amazon Resource Name (ARN) of the world.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  /// The time, in milliseconds since the epoch, when the world was created.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdAt')
+  final DateTime createdAt;
+
+  /// The Amazon Resource Name (arn) of the world generation job.
+  @_s.JsonKey(name: 'generationJob')
+  final String generationJob;
+
+  /// The Amazon Resource Name (arn) of the world template.
+  @_s.JsonKey(name: 'template')
+  final String template;
+
+  WorldSummary({
+    this.arn,
+    this.createdAt,
+    this.generationJob,
+    this.template,
+  });
+  factory WorldSummary.fromJson(Map<String, dynamic> json) =>
+      _$WorldSummaryFromJson(json);
 }
 
 class ConcurrentDeploymentException extends _s.GenericAwsException {

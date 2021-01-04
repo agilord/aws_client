@@ -111,8 +111,8 @@ class Kinesis {
   ///
   /// You specify and control the number of shards that a stream is composed of.
   /// Each shard can support reads up to five transactions per second, up to a
-  /// maximum data read total of 2 MB per second. Each shard can support writes
-  /// up to 1,000 records per second, up to a maximum data write total of 1 MB
+  /// maximum data read total of 2 MiB per second. Each shard can support writes
+  /// up to 1,000 records per second, up to a maximum data write total of 1 MiB
   /// per second. If the amount of data input increases or decreases, you can
   /// add or remove shards.
   ///
@@ -142,10 +142,10 @@ class Kinesis {
   /// </li>
   /// </ul>
   /// For the default shard limit for an AWS account, see <a
-  /// href="http://docs.aws.amazon.com/kinesis/latest/dev/service-sizes-and-limits.html">Amazon
+  /// href="https://docs.aws.amazon.com/kinesis/latest/dev/service-sizes-and-limits.html">Amazon
   /// Kinesis Data Streams Limits</a> in the <i>Amazon Kinesis Data Streams
   /// Developer Guide</i>. To increase this limit, <a
-  /// href="http://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html">contact
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html">contact
   /// AWS Support</a>.
   ///
   /// You can use <code>DescribeStream</code> to check the stream status, which
@@ -163,8 +163,6 @@ class Kinesis {
   /// stream is a function of the number of shards; more shards are required for
   /// greater provisioned throughput.
   ///
-  /// DefaultShardLimit;
-  ///
   /// Parameter [streamName] :
   /// A name to identify the stream. The stream name is scoped to the AWS
   /// account used by the application that creates the stream. It is also scoped
@@ -180,7 +178,7 @@ class Kinesis {
       'shardCount',
       shardCount,
       1,
-      100000,
+      1152921504606846976,
       isRequired: true,
     );
     ArgumentError.checkNotNull(streamName, 'streamName');
@@ -238,13 +236,6 @@ class Kinesis {
     @_s.required String streamName,
   }) async {
     ArgumentError.checkNotNull(retentionPeriodHours, 'retentionPeriodHours');
-    _s.validateNumRange(
-      'retentionPeriodHours',
-      retentionPeriodHours,
-      1,
-      168,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(streamName, 'streamName');
     _s.validateStringLength(
       'streamName',
@@ -357,7 +348,7 @@ class Kinesis {
   /// all the consumers that are currently registered with a given data stream.
   /// The description of a consumer contains its name and ARN.
   ///
-  /// This operation has a limit of five transactions per second per account.
+  /// This operation has a limit of five transactions per second per stream.
   ///
   /// May throw [LimitExceededException].
   /// May throw [ResourceNotFoundException].
@@ -414,7 +405,7 @@ class Kinesis {
     _s.validateStringPattern(
       'streamARN',
       streamARN,
-      r'''arn:aws.*:kinesis:.*:\d{12}:stream/.*''',
+      r'''arn:aws.*:kinesis:.*:\d{12}:stream/.+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -470,7 +461,7 @@ class Kinesis {
   ///
   /// You can limit the number of shards returned by each call. For more
   /// information, see <a
-  /// href="http://docs.aws.amazon.com/kinesis/latest/dev/kinesis-using-sdk-java-retrieve-shards.html">Retrieving
+  /// href="https://docs.aws.amazon.com/kinesis/latest/dev/kinesis-using-sdk-java-retrieve-shards.html">Retrieving
   /// Shards from a Stream</a> in the <i>Amazon Kinesis Data Streams Developer
   /// Guide</i>.
   ///
@@ -559,7 +550,7 @@ class Kinesis {
   /// list of the descriptions of all the consumers that are currently
   /// registered with a given data stream.
   ///
-  /// This operation has a limit of 20 transactions per second per account.
+  /// This operation has a limit of 20 transactions per second per stream.
   ///
   /// May throw [LimitExceededException].
   /// May throw [ResourceNotFoundException].
@@ -612,7 +603,7 @@ class Kinesis {
     _s.validateStringPattern(
       'streamARN',
       streamARN,
-      r'''arn:aws.*:kinesis:.*:\d{12}:stream/.*''',
+      r'''arn:aws.*:kinesis:.*:\d{12}:stream/.+''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -640,6 +631,9 @@ class Kinesis {
   /// The information returned includes the stream name, Amazon Resource Name
   /// (ARN), status, record retention period, approximate creation time,
   /// monitoring, encryption details, and open shard count.
+  ///
+  /// <a>DescribeStreamSummary</a> has a limit of 20 transactions per second per
+  /// account.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [LimitExceededException].
@@ -721,7 +715,7 @@ class Kinesis {
   /// </li>
   /// </ul>
   /// For more information, see <a
-  /// href="http://docs.aws.amazon.com/kinesis/latest/dev/monitoring-with-cloudwatch.html">Monitoring
+  /// href="https://docs.aws.amazon.com/kinesis/latest/dev/monitoring-with-cloudwatch.html">Monitoring
   /// the Amazon Kinesis Data Streams Service with Amazon CloudWatch</a> in the
   /// <i>Amazon Kinesis Data Streams Developer Guide</i>.
   ///
@@ -807,7 +801,7 @@ class Kinesis {
   /// </li>
   /// </ul>
   /// For more information, see <a
-  /// href="http://docs.aws.amazon.com/kinesis/latest/dev/monitoring-with-cloudwatch.html">Monitoring
+  /// href="https://docs.aws.amazon.com/kinesis/latest/dev/monitoring-with-cloudwatch.html">Monitoring
   /// the Amazon Kinesis Data Streams Service with Amazon CloudWatch</a> in the
   /// <i>Amazon Kinesis Data Streams Developer Guide</i>.
   ///
@@ -863,7 +857,7 @@ class Kinesis {
   ///
   /// You can scale by provisioning multiple shards per stream while considering
   /// service limits (for more information, see <a
-  /// href="http://docs.aws.amazon.com/kinesis/latest/dev/service-sizes-and-limits.html">Amazon
+  /// href="https://docs.aws.amazon.com/kinesis/latest/dev/service-sizes-and-limits.html">Amazon
   /// Kinesis Data Streams Limits</a> in the <i>Amazon Kinesis Data Streams
   /// Developer Guide</i>). Your application should have one thread per shard,
   /// each reading continuously from its stream. To read from a stream
@@ -901,7 +895,7 @@ class Kinesis {
   /// To detect whether the application is falling behind in processing, you can
   /// use the <code>MillisBehindLatest</code> response attribute. You can also
   /// monitor the stream using CloudWatch metrics and other mechanisms (see <a
-  /// href="http://docs.aws.amazon.com/kinesis/latest/dev/monitoring.html">Monitoring</a>
+  /// href="https://docs.aws.amazon.com/kinesis/latest/dev/monitoring.html">Monitoring</a>
   /// in the <i>Amazon Kinesis Data Streams Developer Guide</i>).
   ///
   /// Each Amazon Kinesis record includes a value,
@@ -915,7 +909,7 @@ class Kinesis {
   /// increasing. For example, records in a shard or across a stream might have
   /// time stamps that are out of order.
   ///
-  /// This operation has a limit of five transactions per second per account.
+  /// This operation has a limit of five transactions per second per shard.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidArgumentException].
@@ -936,7 +930,7 @@ class Kinesis {
   /// Parameter [limit] :
   /// The maximum number of records to return. Specify a value of up to 10,000.
   /// If you specify a value that is greater than 10,000, <a>GetRecords</a>
-  /// throws <code>InvalidArgumentException</code>.
+  /// throws <code>InvalidArgumentException</code>. The default value is 10,000.
   Future<GetRecordsOutput> getRecords({
     @_s.required String shardIterator,
     int limit,
@@ -1010,7 +1004,7 @@ class Kinesis {
   /// If a <a>GetShardIterator</a> request is made too often, you receive a
   /// <code>ProvisionedThroughputExceededException</code>. For more information
   /// about throughput limits, see <a>GetRecords</a>, and <a
-  /// href="http://docs.aws.amazon.com/kinesis/latest/dev/service-sizes-and-limits.html">Streams
+  /// href="https://docs.aws.amazon.com/kinesis/latest/dev/service-sizes-and-limits.html">Streams
   /// Limits</a> in the <i>Amazon Kinesis Data Streams Developer Guide</i>.
   ///
   /// If the shard is closed, <a>GetShardIterator</a> returns a valid iterator
@@ -1167,13 +1161,6 @@ class Kinesis {
     @_s.required String streamName,
   }) async {
     ArgumentError.checkNotNull(retentionPeriodHours, 'retentionPeriodHours');
-    _s.validateNumRange(
-      'retentionPeriodHours',
-      retentionPeriodHours,
-      1,
-      168,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(streamName, 'streamName');
     _s.validateStringLength(
       'streamName',
@@ -1236,7 +1223,7 @@ class Kinesis {
   /// Parameter [maxResults] :
   /// The maximum number of shards to return in a single call to
   /// <code>ListShards</code>. The minimum value you can specify for this
-  /// parameter is 1, and the maximum is 1,000, which is also the default.
+  /// parameter is 1, and the maximum is 10,000, which is also the default.
   ///
   /// When the number of shards to be listed is greater than the value of
   /// <code>MaxResults</code>, the response contains a <code>NextToken</code>
@@ -1290,6 +1277,7 @@ class Kinesis {
     String exclusiveStartShardId,
     int maxResults,
     String nextToken,
+    ShardFilter shardFilter,
     DateTime streamCreationTimestamp,
     String streamName,
   }) async {
@@ -1342,6 +1330,7 @@ class Kinesis {
           'ExclusiveStartShardId': exclusiveStartShardId,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
+        if (shardFilter != null) 'ShardFilter': shardFilter,
         if (streamCreationTimestamp != null)
           'StreamCreationTimestamp':
               unixTimestampToJson(streamCreationTimestamp),
@@ -1355,7 +1344,7 @@ class Kinesis {
   /// Lists the consumers registered to receive data from a stream using
   /// enhanced fan-out, and provides information about each consumer.
   ///
-  /// This operation has a limit of 10 transactions per second per account.
+  /// This operation has a limit of 5 transactions per second per stream.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidArgumentException].
@@ -1429,7 +1418,7 @@ class Kinesis {
     _s.validateStringPattern(
       'streamARN',
       streamARN,
-      r'''arn:aws.*:kinesis:.*:\d{12}:stream/.*''',
+      r'''arn:aws.*:kinesis:.*:\d{12}:stream/.+''',
       isRequired: true,
     );
     _s.validateNumRange(
@@ -1621,7 +1610,7 @@ class Kinesis {
   /// overall capacity of a stream because of excess capacity that is not being
   /// used. You must specify the shard to be merged and the adjacent shard for a
   /// stream. For more information about merging shards, see <a
-  /// href="http://docs.aws.amazon.com/kinesis/latest/dev/kinesis-using-sdk-java-resharding-merge.html">Merge
+  /// href="https://docs.aws.amazon.com/kinesis/latest/dev/kinesis-using-sdk-java-resharding-merge.html">Merge
   /// Two Shards</a> in the <i>Amazon Kinesis Data Streams Developer Guide</i>.
   ///
   /// If the stream is in the <code>ACTIVE</code> state, you can call
@@ -1735,7 +1724,7 @@ class Kinesis {
   /// <code>PutRecord</code> to send data into the stream for real-time
   /// ingestion and subsequent processing, one record at a time. Each shard can
   /// support writes up to 1,000 records per second, up to a maximum data write
-  /// total of 1 MB per second.
+  /// total of 1 MiB per second.
   ///
   /// You must specify the name of the stream that captures, stores, and
   /// transports the data; a partition key; and the data blob itself.
@@ -1756,7 +1745,7 @@ class Kinesis {
   /// the partition key to determine the shard by explicitly specifying a hash
   /// value using the <code>ExplicitHashKey</code> parameter. For more
   /// information, see <a
-  /// href="http://docs.aws.amazon.com/kinesis/latest/dev/developing-producers-with-sdk.html#kinesis-using-sdk-java-add-data-to-stream">Adding
+  /// href="https://docs.aws.amazon.com/kinesis/latest/dev/developing-producers-with-sdk.html#kinesis-using-sdk-java-add-data-to-stream">Adding
   /// Data to a Stream</a> in the <i>Amazon Kinesis Data Streams Developer
   /// Guide</i>.
   ///
@@ -1768,10 +1757,13 @@ class Kinesis {
   /// increasing ordering, write serially to a shard and use the
   /// <code>SequenceNumberForOrdering</code> parameter. For more information,
   /// see <a
-  /// href="http://docs.aws.amazon.com/kinesis/latest/dev/developing-producers-with-sdk.html#kinesis-using-sdk-java-add-data-to-stream">Adding
+  /// href="https://docs.aws.amazon.com/kinesis/latest/dev/developing-producers-with-sdk.html#kinesis-using-sdk-java-add-data-to-stream">Adding
   /// Data to a Stream</a> in the <i>Amazon Kinesis Data Streams Developer
   /// Guide</i>.
-  ///
+  /// <important>
+  /// After you write a record to a stream, you cannot modify that record or its
+  /// order within the stream.
+  /// </important>
   /// If a <code>PutRecord</code> request cannot be processed because of
   /// insufficient provisioned throughput on the shard involved in the request,
   /// <code>PutRecord</code> throws
@@ -1796,7 +1788,7 @@ class Kinesis {
   /// The data blob to put into the record, which is base64-encoded when the
   /// blob is serialized. When the data blob (the payload before
   /// base64-encoding) is added to the partition key size, the total size must
-  /// not exceed the maximum record size (1 MB).
+  /// not exceed the maximum record size (1 MiB).
   ///
   /// Parameter [partitionKey] :
   /// Determines which shard in the stream the data record is assigned to.
@@ -1890,10 +1882,10 @@ class Kinesis {
   /// operation to send data into the stream for data ingestion and processing.
   ///
   /// Each <code>PutRecords</code> request can support up to 500 records. Each
-  /// record in the request can be as large as 1 MB, up to a limit of 5 MB for
+  /// record in the request can be as large as 1 MiB, up to a limit of 5 MiB for
   /// the entire request, including partition keys. Each shard can support
   /// writes up to 1,000 records per second, up to a maximum data write total of
-  /// 1 MB per second.
+  /// 1 MiB per second.
   ///
   /// You must specify the name of the stream that captures, stores, and
   /// transports the data; and an array of request <code>Records</code>, with
@@ -1910,7 +1902,7 @@ class Kinesis {
   /// integer values and to map associated data records to shards. As a result
   /// of this hashing mechanism, all data records with the same partition key
   /// map to the same shard within the stream. For more information, see <a
-  /// href="http://docs.aws.amazon.com/kinesis/latest/dev/developing-producers-with-sdk.html#kinesis-using-sdk-java-add-data-to-stream">Adding
+  /// href="https://docs.aws.amazon.com/kinesis/latest/dev/developing-producers-with-sdk.html#kinesis-using-sdk-java-add-data-to-stream">Adding
   /// Data to a Stream</a> in the <i>Amazon Kinesis Data Streams Developer
   /// Guide</i>.
   ///
@@ -1919,7 +1911,7 @@ class Kinesis {
   /// to shard mapping. This parameter allows a data producer to determine
   /// explicitly the shard where the record is stored. For more information, see
   /// <a
-  /// href="http://docs.aws.amazon.com/kinesis/latest/dev/developing-producers-with-sdk.html#kinesis-using-sdk-java-putrecords">Adding
+  /// href="https://docs.aws.amazon.com/kinesis/latest/dev/developing-producers-with-sdk.html#kinesis-using-sdk-java-putrecords">Adding
   /// Multiple Records with PutRecords</a> in the <i>Amazon Kinesis Data Streams
   /// Developer Guide</i>.
   ///
@@ -1933,7 +1925,11 @@ class Kinesis {
   /// The response <code>Records</code> array includes both successfully and
   /// unsuccessfully processed records. Kinesis Data Streams attempts to process
   /// all records in each <code>PutRecords</code> request. A single record
-  /// failure does not stop the processing of subsequent records.
+  /// failure does not stop the processing of subsequent records. As a result,
+  /// PutRecords doesn't guarantee the ordering of records. If you need to read
+  /// records in the same order they are written to the stream, use
+  /// <a>PutRecord</a> instead of <code>PutRecords</code>, and write to the same
+  /// shard.
   ///
   /// A successfully processed record includes <code>ShardId</code> and
   /// <code>SequenceNumber</code> values. The <code>ShardId</code> parameter
@@ -1951,10 +1947,13 @@ class Kinesis {
   /// the account ID, stream name, and shard ID of the record that was
   /// throttled. For more information about partially successful responses, see
   /// <a
-  /// href="http://docs.aws.amazon.com/kinesis/latest/dev/kinesis-using-sdk-java-add-data-to-stream.html#kinesis-using-sdk-java-putrecords">Adding
+  /// href="https://docs.aws.amazon.com/kinesis/latest/dev/kinesis-using-sdk-java-add-data-to-stream.html#kinesis-using-sdk-java-putrecords">Adding
   /// Multiple Records with PutRecords</a> in the <i>Amazon Kinesis Data Streams
   /// Developer Guide</i>.
-  ///
+  /// <important>
+  /// After you write a record to a stream, you cannot modify that record or its
+  /// order within the stream.
+  /// </important>
   /// By default, data records are accessible for 24 hours from the time that
   /// they are added to a stream. You can use
   /// <a>IncreaseStreamRetentionPeriod</a> or
@@ -2014,14 +2013,24 @@ class Kinesis {
   }
 
   /// Registers a consumer with a Kinesis data stream. When you use this
-  /// operation, the consumer you register can read data from the stream at a
-  /// rate of up to 2 MiB per second. This rate is unaffected by the total
-  /// number of consumers that read from the same stream.
+  /// operation, the consumer you register can then call <a>SubscribeToShard</a>
+  /// to receive data from the stream using enhanced fan-out, at a rate of up to
+  /// 2 MiB per second for every shard you subscribe to. This rate is unaffected
+  /// by the total number of consumers that read from the same stream.
   ///
-  /// You can register up to 5 consumers per stream. A given consumer can only
-  /// be registered with one stream.
+  /// You can register up to 20 consumers per stream. A given consumer can only
+  /// be registered with one stream at a time.
   ///
-  /// This operation has a limit of five transactions per second per account.
+  /// For an example of how to use this operations, see <a
+  /// href="/streams/latest/dev/building-enhanced-consumers-api.html">Enhanced
+  /// Fan-Out Using the Kinesis Data Streams API</a>.
+  ///
+  /// The use of this operation has a limit of five transactions per second per
+  /// account. Also, only 5 consumers can be created simultaneously. In other
+  /// words, you cannot have more than 5 consumers in a <code>CREATING</code>
+  /// status at the same time. Registering a 6th consumer while there are 5 in a
+  /// <code>CREATING</code> status results in a
+  /// <code>LimitExceededException</code>.
   ///
   /// May throw [InvalidArgumentException].
   /// May throw [LimitExceededException].
@@ -2066,7 +2075,7 @@ class Kinesis {
     _s.validateStringPattern(
       'streamARN',
       streamARN,
-      r'''arn:aws.*:kinesis:.*:\d{12}:stream/.*''',
+      r'''arn:aws.*:kinesis:.*:\d{12}:stream/.+''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -2161,7 +2170,7 @@ class Kinesis {
   /// the new hash key might be the average of the beginning and ending hash
   /// key, but it can be any hash key value in the range being mapped into the
   /// shard. For more information, see <a
-  /// href="http://docs.aws.amazon.com/kinesis/latest/dev/kinesis-using-sdk-java-resharding-split.html">Split
+  /// href="https://docs.aws.amazon.com/kinesis/latest/dev/kinesis-using-sdk-java-resharding-split.html">Split
   /// a Shard</a> in the <i>Amazon Kinesis Data Streams Developer Guide</i>.
   ///
   /// You can use <a>DescribeStream</a> to determine the shard ID and hash key
@@ -2189,10 +2198,10 @@ class Kinesis {
   /// <code>LimitExceededException</code>.
   ///
   /// For the default shard limit for an AWS account, see <a
-  /// href="http://docs.aws.amazon.com/kinesis/latest/dev/service-sizes-and-limits.html">Kinesis
+  /// href="https://docs.aws.amazon.com/kinesis/latest/dev/service-sizes-and-limits.html">Kinesis
   /// Data Streams Limits</a> in the <i>Amazon Kinesis Data Streams Developer
   /// Guide</i>. To increase this limit, <a
-  /// href="http://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html">contact
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html">contact
   /// AWS Support</a>.
   ///
   /// If you try to operate on too many streams simultaneously using
@@ -2510,15 +2519,21 @@ class Kinesis {
   ///
   /// To update the shard count, Kinesis Data Streams performs splits or merges
   /// on individual shards. This can cause short-lived shards to be created, in
-  /// addition to the final shards. We recommend that you double or halve the
-  /// shard count, as this results in the fewest number of splits or merges.
+  /// addition to the final shards. These short-lived shards count towards your
+  /// total shard limit for your account in the Region.
+  ///
+  /// When using this operation, we recommend that you specify a target shard
+  /// count that is a multiple of 25% (25%, 50%, 75%, 100%). You can specify any
+  /// target value within your shard limit. However, if you specify a target
+  /// that isn't a multiple of 25%, the scaling action might take longer to
+  /// complete.
   ///
   /// This operation has the following default limits. By default, you cannot do
   /// the following:
   ///
   /// <ul>
   /// <li>
-  /// Scale more than twice per rolling 24-hour period per stream
+  /// Scale more than ten times per rolling 24-hour period per stream
   /// </li>
   /// <li>
   /// Scale up to more than double your current shard count for a stream
@@ -2538,7 +2553,7 @@ class Kinesis {
   /// </li>
   /// </ul>
   /// For the default limits for an AWS account, see <a
-  /// href="http://docs.aws.amazon.com/kinesis/latest/dev/service-sizes-and-limits.html">Streams
+  /// href="https://docs.aws.amazon.com/kinesis/latest/dev/service-sizes-and-limits.html">Streams
   /// Limits</a> in the <i>Amazon Kinesis Data Streams Developer Guide</i>. To
   /// request an increase in the call rate limit, the shard limit for this API,
   /// or your overall shard limit, use the <a
@@ -2557,7 +2572,26 @@ class Kinesis {
   /// The name of the stream.
   ///
   /// Parameter [targetShardCount] :
-  /// The new number of shards.
+  /// The new number of shards. This value has the following default limits. By
+  /// default, you cannot do the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// Set this value to more than double your current shard count for a stream.
+  /// </li>
+  /// <li>
+  /// Set this value below half your current shard count for a stream.
+  /// </li>
+  /// <li>
+  /// Set this value to more than 500 shards in a stream (the default limit for
+  /// shard count per stream is 500 per account per region), unless you request
+  /// a limit increase.
+  /// </li>
+  /// <li>
+  /// Scale a stream with more than 500 shards down unless you set this value to
+  /// less than 500 shards.
+  /// </li>
+  /// </ul>
   Future<UpdateShardCountOutput> updateShardCount({
     @_s.required ScalingType scalingType,
     @_s.required String streamName,
@@ -2583,7 +2617,7 @@ class Kinesis {
       'targetShardCount',
       targetShardCount,
       1,
-      100000,
+      1152921504606846976,
       isRequired: true,
     );
     final headers = <String, String>{
@@ -2607,7 +2641,30 @@ class Kinesis {
   }
 }
 
-/// An object that represents the details of the consumer you registered.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ChildShard {
+  @_s.JsonKey(name: 'HashKeyRange')
+  final HashKeyRange hashKeyRange;
+  @_s.JsonKey(name: 'ParentShards')
+  final List<String> parentShards;
+  @_s.JsonKey(name: 'ShardId')
+  final String shardId;
+
+  ChildShard({
+    @_s.required this.hashKeyRange,
+    @_s.required this.parentShards,
+    @_s.required this.shardId,
+  });
+  factory ChildShard.fromJson(Map<String, dynamic> json) =>
+      _$ChildShardFromJson(json);
+}
+
+/// An object that represents the details of the consumer you registered. This
+/// type of object is returned by <a>RegisterStreamConsumer</a>.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -2649,7 +2706,8 @@ class Consumer {
       _$ConsumerFromJson(json);
 }
 
-/// An object that represents the details of a registered consumer.
+/// An object that represents the details of a registered consumer. This type of
+/// object is returned by <a>DescribeStreamConsumer</a>.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -2839,7 +2897,7 @@ class EnhancedMetrics {
   /// </li>
   /// </ul>
   /// For more information, see <a
-  /// href="http://docs.aws.amazon.com/kinesis/latest/dev/monitoring-with-cloudwatch.html">Monitoring
+  /// href="https://docs.aws.amazon.com/kinesis/latest/dev/monitoring-with-cloudwatch.html">Monitoring
   /// the Amazon Kinesis Data Streams Service with Amazon CloudWatch</a> in the
   /// <i>Amazon Kinesis Data Streams Developer Guide</i>.
   @_s.JsonKey(name: 'ShardLevelMetrics')
@@ -2883,41 +2941,6 @@ class EnhancedMonitoringOutput {
       _$EnhancedMonitoringOutputFromJson(json);
 }
 
-/// The provided iterator exceeds the maximum age allowed.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class ExpiredIteratorException implements _s.AwsException {
-  /// A message that provides information about the error.
-  @_s.JsonKey(name: 'message')
-  final String message;
-
-  ExpiredIteratorException({
-    this.message,
-  });
-  factory ExpiredIteratorException.fromJson(Map<String, dynamic> json) =>
-      _$ExpiredIteratorExceptionFromJson(json);
-}
-
-/// The pagination token passed to the operation is expired.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class ExpiredNextTokenException implements _s.AwsException {
-  @_s.JsonKey(name: 'message')
-  final String message;
-
-  ExpiredNextTokenException({
-    this.message,
-  });
-  factory ExpiredNextTokenException.fromJson(Map<String, dynamic> json) =>
-      _$ExpiredNextTokenExceptionFromJson(json);
-}
-
 /// Represents the output for <a>GetRecords</a>.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2928,6 +2951,8 @@ class GetRecordsOutput {
   /// The data records retrieved from the shard.
   @_s.JsonKey(name: 'Records')
   final List<Record> records;
+  @_s.JsonKey(name: 'ChildShards')
+  final List<ChildShard> childShards;
 
   /// The number of milliseconds the <a>GetRecords</a> response is from the tip of
   /// the stream, indicating how far behind current time the consumer is. A value
@@ -2944,6 +2969,7 @@ class GetRecordsOutput {
 
   GetRecordsOutput({
     @_s.required this.records,
+    this.childShards,
     this.millisBehindLatest,
     this.nextShardIterator,
   });
@@ -2993,178 +3019,6 @@ class HashKeyRange {
   });
   factory HashKeyRange.fromJson(Map<String, dynamic> json) =>
       _$HashKeyRangeFromJson(json);
-}
-
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class InternalFailureException implements _s.AwsException {
-  @_s.JsonKey(name: 'message')
-  final String message;
-
-  InternalFailureException({
-    this.message,
-  });
-  factory InternalFailureException.fromJson(Map<String, dynamic> json) =>
-      _$InternalFailureExceptionFromJson(json);
-}
-
-/// A specified parameter exceeds its restrictions, is not supported, or can't
-/// be used. For more information, see the returned message.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class InvalidArgumentException implements _s.AwsException {
-  /// A message that provides information about the error.
-  @_s.JsonKey(name: 'message')
-  final String message;
-
-  InvalidArgumentException({
-    this.message,
-  });
-  factory InvalidArgumentException.fromJson(Map<String, dynamic> json) =>
-      _$InvalidArgumentExceptionFromJson(json);
-}
-
-/// The ciphertext references a key that doesn't exist or that you don't have
-/// access to.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class KMSAccessDeniedException implements _s.AwsException {
-  /// A message that provides information about the error.
-  @_s.JsonKey(name: 'message')
-  final String message;
-
-  KMSAccessDeniedException({
-    this.message,
-  });
-  factory KMSAccessDeniedException.fromJson(Map<String, dynamic> json) =>
-      _$KMSAccessDeniedExceptionFromJson(json);
-}
-
-/// The request was rejected because the specified customer master key (CMK)
-/// isn't enabled.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class KMSDisabledException implements _s.AwsException {
-  /// A message that provides information about the error.
-  @_s.JsonKey(name: 'message')
-  final String message;
-
-  KMSDisabledException({
-    this.message,
-  });
-  factory KMSDisabledException.fromJson(Map<String, dynamic> json) =>
-      _$KMSDisabledExceptionFromJson(json);
-}
-
-/// The request was rejected because the state of the specified resource isn't
-/// valid for this request. For more information, see <a
-/// href="http://docs.aws.amazon.com/kms/latest/developerguide/key-state.html">How
-/// Key State Affects Use of a Customer Master Key</a> in the <i>AWS Key
-/// Management Service Developer Guide</i>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class KMSInvalidStateException implements _s.AwsException {
-  /// A message that provides information about the error.
-  @_s.JsonKey(name: 'message')
-  final String message;
-
-  KMSInvalidStateException({
-    this.message,
-  });
-  factory KMSInvalidStateException.fromJson(Map<String, dynamic> json) =>
-      _$KMSInvalidStateExceptionFromJson(json);
-}
-
-/// The request was rejected because the specified entity or resource can't be
-/// found.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class KMSNotFoundException implements _s.AwsException {
-  /// A message that provides information about the error.
-  @_s.JsonKey(name: 'message')
-  final String message;
-
-  KMSNotFoundException({
-    this.message,
-  });
-  factory KMSNotFoundException.fromJson(Map<String, dynamic> json) =>
-      _$KMSNotFoundExceptionFromJson(json);
-}
-
-/// The AWS access key ID needs a subscription for the service.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class KMSOptInRequired implements _s.AwsException {
-  /// A message that provides information about the error.
-  @_s.JsonKey(name: 'message')
-  final String message;
-
-  KMSOptInRequired({
-    this.message,
-  });
-  factory KMSOptInRequired.fromJson(Map<String, dynamic> json) =>
-      _$KMSOptInRequiredFromJson(json);
-}
-
-/// The request was denied due to request throttling. For more information about
-/// throttling, see <a
-/// href="http://docs.aws.amazon.com/kms/latest/developerguide/limits.html#requests-per-second">Limits</a>
-/// in the <i>AWS Key Management Service Developer Guide</i>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class KMSThrottlingException implements _s.AwsException {
-  /// A message that provides information about the error.
-  @_s.JsonKey(name: 'message')
-  final String message;
-
-  KMSThrottlingException({
-    this.message,
-  });
-  factory KMSThrottlingException.fromJson(Map<String, dynamic> json) =>
-      _$KMSThrottlingExceptionFromJson(json);
-}
-
-/// The requested resource exceeds the maximum number allowed, or the number of
-/// concurrent stream requests exceeds the maximum number allowed.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class LimitExceededException implements _s.AwsException {
-  /// A message that provides information about the error.
-  @_s.JsonKey(name: 'message')
-  final String message;
-
-  LimitExceededException({
-    this.message,
-  });
-  factory LimitExceededException.fromJson(Map<String, dynamic> json) =>
-      _$LimitExceededExceptionFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -3338,32 +3192,6 @@ extension on MetricsName {
   }
 }
 
-/// The request rate for the stream is too high, or the requested data is too
-/// large for the available throughput. Reduce the frequency or size of your
-/// requests. For more information, see <a
-/// href="http://docs.aws.amazon.com/kinesis/latest/dev/service-sizes-and-limits.html">Streams
-/// Limits</a> in the <i>Amazon Kinesis Data Streams Developer Guide</i>, and <a
-/// href="http://docs.aws.amazon.com/general/latest/gr/api-retries.html">Error
-/// Retries and Exponential Backoff in AWS</a> in the <i>AWS General
-/// Reference</i>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class ProvisionedThroughputExceededException implements _s.AwsException {
-  /// A message that provides information about the error.
-  @_s.JsonKey(name: 'message')
-  final String message;
-
-  ProvisionedThroughputExceededException({
-    this.message,
-  });
-  factory ProvisionedThroughputExceededException.fromJson(
-          Map<String, dynamic> json) =>
-      _$ProvisionedThroughputExceededExceptionFromJson(json);
-}
-
 /// Represents the output for <code>PutRecord</code>.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3461,7 +3289,7 @@ class PutRecordsRequestEntry {
   /// The data blob to put into the record, which is base64-encoded when the blob
   /// is serialized. When the data blob (the payload before base64-encoding) is
   /// added to the partition key size, the total size must not exceed the maximum
-  /// record size (1 MB).
+  /// record size (1 MiB).
   @Uint8ListConverter()
   @_s.JsonKey(name: 'Data')
   final Uint8List data;
@@ -3545,7 +3373,7 @@ class Record {
   /// Data Streams, which does not inspect, interpret, or change the data in the
   /// blob in any way. When the data blob (the payload before base64-encoding) is
   /// added to the partition key size, the total size must not exceed the maximum
-  /// record size (1 MB).
+  /// record size (1 MiB).
   @Uint8ListConverter()
   @_s.JsonKey(name: 'Data')
   final Uint8List data;
@@ -3605,44 +3433,6 @@ class RegisterStreamConsumerOutput {
   });
   factory RegisterStreamConsumerOutput.fromJson(Map<String, dynamic> json) =>
       _$RegisterStreamConsumerOutputFromJson(json);
-}
-
-/// The resource is not available for this operation. For successful operation,
-/// the resource must be in the <code>ACTIVE</code> state.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class ResourceInUseException implements _s.AwsException {
-  /// A message that provides information about the error.
-  @_s.JsonKey(name: 'message')
-  final String message;
-
-  ResourceInUseException({
-    this.message,
-  });
-  factory ResourceInUseException.fromJson(Map<String, dynamic> json) =>
-      _$ResourceInUseExceptionFromJson(json);
-}
-
-/// The requested resource could not be found. The stream might not be specified
-/// correctly.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class ResourceNotFoundException implements _s.AwsException {
-  /// A message that provides information about the error.
-  @_s.JsonKey(name: 'message')
-  final String message;
-
-  ResourceNotFoundException({
-    this.message,
-  });
-  factory ResourceNotFoundException.fromJson(Map<String, dynamic> json) =>
-      _$ResourceNotFoundExceptionFromJson(json);
 }
 
 enum ScalingType {
@@ -3722,6 +3512,43 @@ class Shard {
   factory Shard.fromJson(Map<String, dynamic> json) => _$ShardFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ShardFilter {
+  @_s.JsonKey(name: 'Type')
+  final ShardFilterType type;
+  @_s.JsonKey(name: 'ShardId')
+  final String shardId;
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'Timestamp')
+  final DateTime timestamp;
+
+  ShardFilter({
+    @_s.required this.type,
+    this.shardId,
+    this.timestamp,
+  });
+  Map<String, dynamic> toJson() => _$ShardFilterToJson(this);
+}
+
+enum ShardFilterType {
+  @_s.JsonValue('AFTER_SHARD_ID')
+  afterShardId,
+  @_s.JsonValue('AT_TRIM_HORIZON')
+  atTrimHorizon,
+  @_s.JsonValue('FROM_TRIM_HORIZON')
+  fromTrimHorizon,
+  @_s.JsonValue('AT_LATEST')
+  atLatest,
+  @_s.JsonValue('AT_TIMESTAMP')
+  atTimestamp,
+  @_s.JsonValue('FROM_TIMESTAMP')
+  fromTimestamp,
+}
+
 enum ShardIteratorType {
   @_s.JsonValue('AT_SEQUENCE_NUMBER')
   atSequenceNumber,
@@ -3769,7 +3596,8 @@ class StreamDescription {
   @_s.JsonKey(name: 'HasMoreShards')
   final bool hasMoreShards;
 
-  /// The current retention period, in hours.
+  /// The current retention period, in hours. Minimum value of 24. Maximum value
+  /// of 168.
   @_s.JsonKey(name: 'RetentionPeriodHours')
   final int retentionPeriodHours;
 
@@ -4063,32 +3891,99 @@ class UpdateShardCountOutput {
       _$UpdateShardCountOutputFromJson(json);
 }
 
+class ExpiredIteratorException extends _s.GenericAwsException {
+  ExpiredIteratorException({String type, String message})
+      : super(type: type, code: 'ExpiredIteratorException', message: message);
+}
+
+class ExpiredNextTokenException extends _s.GenericAwsException {
+  ExpiredNextTokenException({String type, String message})
+      : super(type: type, code: 'ExpiredNextTokenException', message: message);
+}
+
+class InvalidArgumentException extends _s.GenericAwsException {
+  InvalidArgumentException({String type, String message})
+      : super(type: type, code: 'InvalidArgumentException', message: message);
+}
+
+class KMSAccessDeniedException extends _s.GenericAwsException {
+  KMSAccessDeniedException({String type, String message})
+      : super(type: type, code: 'KMSAccessDeniedException', message: message);
+}
+
+class KMSDisabledException extends _s.GenericAwsException {
+  KMSDisabledException({String type, String message})
+      : super(type: type, code: 'KMSDisabledException', message: message);
+}
+
+class KMSInvalidStateException extends _s.GenericAwsException {
+  KMSInvalidStateException({String type, String message})
+      : super(type: type, code: 'KMSInvalidStateException', message: message);
+}
+
+class KMSNotFoundException extends _s.GenericAwsException {
+  KMSNotFoundException({String type, String message})
+      : super(type: type, code: 'KMSNotFoundException', message: message);
+}
+
+class KMSOptInRequired extends _s.GenericAwsException {
+  KMSOptInRequired({String type, String message})
+      : super(type: type, code: 'KMSOptInRequired', message: message);
+}
+
+class KMSThrottlingException extends _s.GenericAwsException {
+  KMSThrottlingException({String type, String message})
+      : super(type: type, code: 'KMSThrottlingException', message: message);
+}
+
+class LimitExceededException extends _s.GenericAwsException {
+  LimitExceededException({String type, String message})
+      : super(type: type, code: 'LimitExceededException', message: message);
+}
+
+class ProvisionedThroughputExceededException extends _s.GenericAwsException {
+  ProvisionedThroughputExceededException({String type, String message})
+      : super(
+            type: type,
+            code: 'ProvisionedThroughputExceededException',
+            message: message);
+}
+
+class ResourceInUseException extends _s.GenericAwsException {
+  ResourceInUseException({String type, String message})
+      : super(type: type, code: 'ResourceInUseException', message: message);
+}
+
+class ResourceNotFoundException extends _s.GenericAwsException {
+  ResourceNotFoundException({String type, String message})
+      : super(type: type, code: 'ResourceNotFoundException', message: message);
+}
+
 final _exceptionFns = <String, _s.AwsExceptionFn>{
   'ExpiredIteratorException': (type, message) =>
-      ExpiredIteratorException(message: message),
+      ExpiredIteratorException(type: type, message: message),
   'ExpiredNextTokenException': (type, message) =>
-      ExpiredNextTokenException(message: message),
-  'InternalFailureException': (type, message) =>
-      InternalFailureException(message: message),
+      ExpiredNextTokenException(type: type, message: message),
   'InvalidArgumentException': (type, message) =>
-      InvalidArgumentException(message: message),
+      InvalidArgumentException(type: type, message: message),
   'KMSAccessDeniedException': (type, message) =>
-      KMSAccessDeniedException(message: message),
+      KMSAccessDeniedException(type: type, message: message),
   'KMSDisabledException': (type, message) =>
-      KMSDisabledException(message: message),
+      KMSDisabledException(type: type, message: message),
   'KMSInvalidStateException': (type, message) =>
-      KMSInvalidStateException(message: message),
+      KMSInvalidStateException(type: type, message: message),
   'KMSNotFoundException': (type, message) =>
-      KMSNotFoundException(message: message),
-  'KMSOptInRequired': (type, message) => KMSOptInRequired(message: message),
+      KMSNotFoundException(type: type, message: message),
+  'KMSOptInRequired': (type, message) =>
+      KMSOptInRequired(type: type, message: message),
   'KMSThrottlingException': (type, message) =>
-      KMSThrottlingException(message: message),
+      KMSThrottlingException(type: type, message: message),
   'LimitExceededException': (type, message) =>
-      LimitExceededException(message: message),
+      LimitExceededException(type: type, message: message),
   'ProvisionedThroughputExceededException': (type, message) =>
-      ProvisionedThroughputExceededException(message: message),
+      ProvisionedThroughputExceededException(type: type, message: message),
   'ResourceInUseException': (type, message) =>
-      ResourceInUseException(message: message),
+      ResourceInUseException(type: type, message: message),
   'ResourceNotFoundException': (type, message) =>
-      ResourceNotFoundException(message: message),
+      ResourceNotFoundException(type: type, message: message),
 };

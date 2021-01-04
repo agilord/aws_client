@@ -148,6 +148,18 @@ class MarketplaceCommerceAnalytics {
   /// From 2017-09-15 to present: Available monthly on the 15th day of the month
   /// by 24:00 UTC.
   /// </li>
+  /// <li> <strong>disbursed_amount_by_product_with_uncollected_funds</strong>
+  /// This data set is deprecated. Download related reports from AMMP instead!
+  /// </li>
+  /// <li> <strong>customer_profile_by_industry</strong>
+  /// This data set is deprecated. Download related reports from AMMP instead!
+  /// </li>
+  /// <li> <strong>customer_profile_by_revenue</strong>
+  /// This data set is deprecated. Download related reports from AMMP instead!
+  /// </li>
+  /// <li> <strong>customer_profile_by_geography</strong>
+  /// This data set is deprecated. Download related reports from AMMP instead!
+  /// </li>
   /// </ul>
   ///
   /// Parameter [destinationS3BucketName] :

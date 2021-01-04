@@ -26,7 +26,7 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
 part 'secretsmanager-2017-10-17.g.dart';
 
-/// AWS Secrets Manager is a web service that enables you to store, manage, and
+/// AWS Secrets Manager provides a service to enable you to store, manage, and
 /// retrieve, secrets.
 class SecretsManager {
   final _s.JsonProtocol _protocol;
@@ -47,20 +47,20 @@ class SecretsManager {
         );
 
   /// Disables automatic scheduled rotation and cancels the rotation of a secret
-  /// if one is currently in progress.
+  /// if currently in progress.
   ///
   /// To re-enable scheduled rotation, call <a>RotateSecret</a> with
   /// <code>AutomaticallyRotateAfterDays</code> set to a value greater than 0.
-  /// This will immediately rotate your secret and then enable the automatic
+  /// This immediately rotates your secret and then enables the automatic
   /// schedule.
   /// <note>
-  /// If you cancel a rotation that is in progress, it can leave the
-  /// <code>VersionStage</code> labels in an unexpected state. Depending on what
-  /// step of the rotation was in progress, you might need to remove the staging
+  /// If you cancel a rotation while in progress, it can leave the
+  /// <code>VersionStage</code> labels in an unexpected state. Depending on the
+  /// step of the rotation in progress, you might need to remove the staging
   /// label <code>AWSPENDING</code> from the partially created version,
   /// specified by the <code>VersionId</code> response value. You should also
   /// evaluate the partially rotated new version to see if it should be deleted,
-  /// which you can do by removing all staging labels from the new version's
+  /// which you can do by removing all staging labels from the new version
   /// <code>VersionStage</code> field.
   /// </note>
   /// To successfully start a rotation, the staging label
@@ -68,13 +68,13 @@ class SecretsManager {
   ///
   /// <ul>
   /// <li>
-  /// Not be attached to any version at all
+  /// Not attached to any version at all
   /// </li>
   /// <li>
   /// Attached to the same version as the staging label <code>AWSCURRENT</code>
   /// </li>
   /// </ul>
-  /// If the staging label <code>AWSPENDING</code> is attached to a different
+  /// If the staging label <code>AWSPENDING</code> attached to a different
   /// version than the version with <code>AWSCURRENT</code> then the attempt to
   /// rotate fails.
   ///
@@ -113,9 +113,8 @@ class SecretsManager {
   /// May throw [InvalidRequestException].
   ///
   /// Parameter [secretId] :
-  /// Specifies the secret for which you want to cancel a rotation request. You
-  /// can specify either the Amazon Resource Name (ARN) or the friendly name of
-  /// the secret.
+  /// Specifies the secret to cancel a rotation request. You can specify either
+  /// the Amazon Resource Name (ARN) or the friendly name of the secret.
   /// <note>
   /// If you specify an ARN, we generally recommend that you specify a complete
   /// ARN. You can specify a partial ARN too—for example, if you don’t include
@@ -127,7 +126,13 @@ class SecretsManager {
   /// to use that as a partial ARN, then those characters cause Secrets Manager
   /// to assume that you’re specifying a complete ARN. This confusion can cause
   /// unexpected results. To avoid this situation, we recommend that you don’t
-  /// create secret names that end with a hyphen followed by six characters.
+  /// create secret names ending with a hyphen followed by six characters.
+  ///
+  /// If you specify an incomplete ARN without the random suffix, and instead
+  /// provide the 'friendly name', you <i>must</i> not include the random
+  /// suffix. If you do include the random suffix added by Secrets Manager, you
+  /// receive either a <i>ResourceNotFoundException</i> or an
+  /// <i>AccessDeniedException</i> error, depending on your permissions.
   /// </note>
   Future<CancelRotateSecretResponse> cancelRotateSecret({
     @_s.required String secretId,
@@ -168,8 +173,8 @@ class SecretsManager {
   /// "staging labels" that identify where the version is in the rotation cycle.
   /// The <code>SecretVersionsToStages</code> field of the secret contains the
   /// mapping of staging labels to the active versions of the secret. Versions
-  /// without a staging label are considered deprecated and are not included in
-  /// the list.
+  /// without a staging label are considered deprecated and not included in the
+  /// list.
   ///
   /// You provide the secret data to be encrypted by putting text in either the
   /// <code>SecretString</code> parameter or binary data in the
@@ -180,7 +185,7 @@ class SecretsManager {
   /// <note>
   /// <ul>
   /// <li>
-  /// If you call an operation that needs to encrypt or decrypt the
+  /// If you call an operation to encrypt or decrypt the
   /// <code>SecretString</code> or <code>SecretBinary</code> for a secret in the
   /// same account as the calling user and that secret doesn't specify a AWS KMS
   /// encryption key, Secrets Manager uses the account's default AWS managed
@@ -188,15 +193,15 @@ class SecretsManager {
   /// If this key doesn't already exist in your account then Secrets Manager
   /// creates it for you automatically. All users and roles in the same AWS
   /// account automatically have access to use the default CMK. Note that if an
-  /// Secrets Manager API call results in AWS having to create the account's
-  /// AWS-managed CMK, it can result in a one-time significant delay in
-  /// returning the result.
+  /// Secrets Manager API call results in AWS creating the account's AWS-managed
+  /// CMK, it can result in a one-time significant delay in returning the
+  /// result.
   /// </li>
   /// <li>
-  /// If the secret is in a different AWS account from the credentials calling
-  /// an API that requires encryption or decryption of the secret value then you
-  /// must create and use a custom AWS KMS CMK because you can't access the
-  /// default CMK for the account using credentials from a different AWS
+  /// If the secret resides in a different AWS account from the credentials
+  /// calling an API that requires encryption or decryption of the secret value
+  /// then you must create and use a custom AWS KMS CMK because you can't access
+  /// the default CMK for the account using credentials from a different AWS
   /// account. Store the ARN of the CMK in the secret when you create the secret
   /// or when you update it by including it in the <code>KMSKeyId</code>. If you
   /// call an API that must encrypt or decrypt <code>SecretString</code> or
@@ -219,11 +224,11 @@ class SecretsManager {
   /// <li>
   /// kms:GenerateDataKey - needed only if you use a customer-managed AWS KMS
   /// key to encrypt the secret. You do not need this permission to use the
-  /// account's default AWS managed CMK for Secrets Manager.
+  /// account default AWS managed CMK for Secrets Manager.
   /// </li>
   /// <li>
   /// kms:Decrypt - needed only if you use a customer-managed AWS KMS key to
-  /// encrypt the secret. You do not need this permission to use the account's
+  /// encrypt the secret. You do not need this permission to use the account
   /// default AWS managed CMK for Secrets Manager.
   /// </li>
   /// <li>
@@ -275,10 +280,10 @@ class SecretsManager {
   /// The secret name must be ASCII letters, digits, or the following characters
   /// : /_+=.@-
   /// <note>
-  /// Don't end your secret name with a hyphen followed by six characters. If
+  /// Do not end your secret name with a hyphen followed by six characters. If
   /// you do so, you risk confusion and unexpected results when searching for a
-  /// secret by partial ARN. This is because Secrets Manager automatically adds
-  /// a hyphen and six random characters at the end of the ARN.
+  /// secret by partial ARN. Secrets Manager automatically adds a hyphen and six
+  /// random characters at the end of the ARN.
   /// </note>
   ///
   /// Parameter [clientRequestToken] :
@@ -293,7 +298,7 @@ class SecretsManager {
   /// you don't use the SDK and instead generate a raw HTTP request to the
   /// Secrets Manager service endpoint, then you must generate a
   /// <code>ClientRequestToken</code> yourself for the new version and include
-  /// that value in the request.
+  /// the value in the request.
   /// </note>
   /// This value helps ensure idempotency. Secrets Manager uses this value to
   /// prevent the accidental creation of duplicate versions if there are
@@ -308,10 +313,9 @@ class SecretsManager {
   /// a version of the secret then a new version of the secret is created.
   /// </li>
   /// <li>
-  /// If a version with this value already exists and that version's
+  /// If a version with this value already exists and the version
   /// <code>SecretString</code> and <code>SecretBinary</code> values are the
-  /// same as those in the request, then the request is ignored (the operation
-  /// is idempotent).
+  /// same as those in the request, then the request is ignored.
   /// </li>
   /// <li>
   /// If a version with this value already exists and that version's
@@ -342,10 +346,10 @@ class SecretsManager {
   /// time it needs to encrypt a version's <code>SecretString</code> or
   /// <code>SecretBinary</code> fields.
   /// <important>
-  /// You can use the account's default CMK to encrypt and decrypt only if you
+  /// You can use the account default CMK to encrypt and decrypt only if you
   /// call this operation using credentials from the same account that owns the
-  /// secret. If the secret is in a different account, then you must create a
-  /// custom CMK and specify the ARN in this field.
+  /// secret. If the secret resides in a different account, then you must create
+  /// a custom CMK and specify the ARN in this field.
   /// </important>
   ///
   /// Parameter [secretBinary] :
@@ -380,7 +384,7 @@ class SecretsManager {
   /// href="https://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#cli-using-param-json">Using
   /// JSON for Parameters</a> in the <i>AWS CLI User Guide</i>. For example:
   ///
-  /// <code>[{"username":"bob"},{"password":"abc123xyz456"}]</code>
+  /// <code>{"username":"bob","password":"abc123xyz456"}</code>
   ///
   /// If your command-line tool or SDK requires quotation marks around the
   /// parameter, you should use single quotes to avoid confusion with the double
@@ -434,16 +438,15 @@ class SecretsManager {
   /// </li>
   /// <li>
   /// Do not use the <code>aws:</code> prefix in your tag names or values
-  /// because it is reserved for AWS use. You can't edit or delete tag names or
+  /// because AWS reserves it for AWS use. You can't edit or delete tag names or
   /// values with this prefix. Tags with this prefix do not count against your
   /// tags per secret limit.
   /// </li>
   /// <li>
-  /// If your tagging schema will be used across multiple services and
-  /// resources, remember that other services might have restrictions on allowed
-  /// characters. Generally allowed characters are: letters, spaces, and numbers
-  /// representable in UTF-8, plus the following special characters: + - = . _ :
-  /// / @.
+  /// If you use your tagging schema across multiple services and resources,
+  /// remember other services might have restrictions on allowed characters.
+  /// Generally allowed characters: letters, spaces, and numbers representable
+  /// in UTF-8, plus the following special characters: + - = . _ : / @.
   /// </li>
   /// </ul>
   Future<CreateSecretResponse> createSecret({
@@ -512,8 +515,7 @@ class SecretsManager {
     return CreateSecretResponse.fromJson(jsonResponse.body);
   }
 
-  /// Deletes the resource-based permission policy that's attached to the
-  /// secret.
+  /// Deletes the resource-based permission policy attached to the secret.
   ///
   /// <b>Minimum permissions</b>
   ///
@@ -558,7 +560,13 @@ class SecretsManager {
   /// to use that as a partial ARN, then those characters cause Secrets Manager
   /// to assume that you’re specifying a complete ARN. This confusion can cause
   /// unexpected results. To avoid this situation, we recommend that you don’t
-  /// create secret names that end with a hyphen followed by six characters.
+  /// create secret names ending with a hyphen followed by six characters.
+  ///
+  /// If you specify an incomplete ARN without the random suffix, and instead
+  /// provide the 'friendly name', you <i>must</i> not include the random
+  /// suffix. If you do include the random suffix added by Secrets Manager, you
+  /// receive either a <i>ResourceNotFoundException</i> or an
+  /// <i>AccessDeniedException</i> error, depending on your permissions.
   /// </note>
   Future<DeleteResourcePolicyResponse> deleteResourcePolicy({
     @_s.required String secretId,
@@ -661,7 +669,13 @@ class SecretsManager {
   /// to use that as a partial ARN, then those characters cause Secrets Manager
   /// to assume that you’re specifying a complete ARN. This confusion can cause
   /// unexpected results. To avoid this situation, we recommend that you don’t
-  /// create secret names that end with a hyphen followed by six characters.
+  /// create secret names ending with a hyphen followed by six characters.
+  ///
+  /// If you specify an incomplete ARN without the random suffix, and instead
+  /// provide the 'friendly name', you <i>must</i> not include the random
+  /// suffix. If you do include the random suffix added by Secrets Manager, you
+  /// receive either a <i>ResourceNotFoundException</i> or an
+  /// <i>AccessDeniedException</i> error, depending on your permissions.
   /// </note>
   ///
   /// Parameter [forceDeleteWithoutRecovery] :
@@ -724,8 +738,8 @@ class SecretsManager {
   }
 
   /// Retrieves the details of a secret. It does not include the encrypted
-  /// fields. Only those fields that are populated with a value are returned in
-  /// the response.
+  /// fields. Secrets Manager only returns fields populated with a value in the
+  /// response.
   ///
   /// <b>Minimum permissions</b>
   ///
@@ -772,7 +786,13 @@ class SecretsManager {
   /// to use that as a partial ARN, then those characters cause Secrets Manager
   /// to assume that you’re specifying a complete ARN. This confusion can cause
   /// unexpected results. To avoid this situation, we recommend that you don’t
-  /// create secret names that end with a hyphen followed by six characters.
+  /// create secret names ending with a hyphen followed by six characters.
+  ///
+  /// If you specify an incomplete ARN without the random suffix, and instead
+  /// provide the 'friendly name', you <i>must</i> not include the random
+  /// suffix. If you do include the random suffix added by Secrets Manager, you
+  /// receive either a <i>ResourceNotFoundException</i> or an
+  /// <i>AccessDeniedException</i> error, depending on your permissions.
   /// </note>
   Future<DescribeSecretResponse> describeSecret({
     @_s.required String secretId,
@@ -917,10 +937,10 @@ class SecretsManager {
     return GetRandomPasswordResponse.fromJson(jsonResponse.body);
   }
 
-  /// Retrieves the JSON text of the resource-based policy document that's
-  /// attached to the specified secret. The JSON request string input and
-  /// response output are shown formatted with white space and line breaks for
-  /// better readability. Submit your input as a single line JSON string.
+  /// Retrieves the JSON text of the resource-based policy document attached to
+  /// the specified secret. The JSON request string input and response output
+  /// displays formatted code with white space and line breaks for better
+  /// readability. Submit your input as a single line JSON string.
   ///
   /// <b>Minimum permissions</b>
   ///
@@ -938,7 +958,7 @@ class SecretsManager {
   /// To attach a resource policy to a secret, use <a>PutResourcePolicy</a>.
   /// </li>
   /// <li>
-  /// To delete the resource-based policy that's attached to a secret, use
+  /// To delete the resource-based policy attached to a secret, use
   /// <a>DeleteResourcePolicy</a>.
   /// </li>
   /// <li>
@@ -965,7 +985,13 @@ class SecretsManager {
   /// to use that as a partial ARN, then those characters cause Secrets Manager
   /// to assume that you’re specifying a complete ARN. This confusion can cause
   /// unexpected results. To avoid this situation, we recommend that you don’t
-  /// create secret names that end with a hyphen followed by six characters.
+  /// create secret names ending with a hyphen followed by six characters.
+  ///
+  /// If you specify an incomplete ARN without the random suffix, and instead
+  /// provide the 'friendly name', you <i>must</i> not include the random
+  /// suffix. If you do include the random suffix added by Secrets Manager, you
+  /// receive either a <i>ResourceNotFoundException</i> or an
+  /// <i>AccessDeniedException</i> error, depending on your permissions.
   /// </note>
   Future<GetResourcePolicyResponse> getResourcePolicy({
     @_s.required String secretId,
@@ -1048,7 +1074,13 @@ class SecretsManager {
   /// to use that as a partial ARN, then those characters cause Secrets Manager
   /// to assume that you’re specifying a complete ARN. This confusion can cause
   /// unexpected results. To avoid this situation, we recommend that you don’t
-  /// create secret names that end with a hyphen followed by six characters.
+  /// create secret names ending with a hyphen followed by six characters.
+  ///
+  /// If you specify an incomplete ARN without the random suffix, and instead
+  /// provide the 'friendly name', you <i>must</i> not include the random
+  /// suffix. If you do include the random suffix added by Secrets Manager, you
+  /// receive either a <i>ResourceNotFoundException</i> or an
+  /// <i>AccessDeniedException</i> error, depending on your permissions.
   /// </note>
   ///
   /// Parameter [versionId] :
@@ -1127,7 +1159,7 @@ class SecretsManager {
   /// Always check the <code>NextToken</code> response parameter when calling
   /// any of the <code>List*</code> operations. These operations can
   /// occasionally return an empty or shorter than expected list of results even
-  /// when there are more results available. When this happens, the
+  /// when there more results become available. When this happens, the
   /// <code>NextToken</code> response parameter contains a value to pass to the
   /// next call to the same API to request the next part of the list.
   /// </note>
@@ -1167,7 +1199,13 @@ class SecretsManager {
   /// to use that as a partial ARN, then those characters cause Secrets Manager
   /// to assume that you’re specifying a complete ARN. This confusion can cause
   /// unexpected results. To avoid this situation, we recommend that you don’t
-  /// create secret names that end with a hyphen followed by six characters.
+  /// create secret names ending with a hyphen followed by six characters.
+  ///
+  /// If you specify an incomplete ARN without the random suffix, and instead
+  /// provide the 'friendly name', you <i>must</i> not include the random
+  /// suffix. If you do include the random suffix added by Secrets Manager, you
+  /// receive either a <i>ResourceNotFoundException</i> or an
+  /// <i>AccessDeniedException</i> error, depending on your permissions.
   /// </note>
   ///
   /// Parameter [includeDeprecated] :
@@ -1176,7 +1214,7 @@ class SecretsManager {
   /// deprecated and are subject to deletion by Secrets Manager as needed.
   ///
   /// Parameter [maxResults] :
-  /// (Optional) Limits the number of results that you want to include in the
+  /// (Optional) Limits the number of results you want to include in the
   /// response. If you don't include this parameter, it defaults to a value
   /// that's specific to the operation. If additional items exist beyond the
   /// maximum you specify, the <code>NextToken</code> response element is
@@ -1189,10 +1227,10 @@ class SecretsManager {
   ///
   /// Parameter [nextToken] :
   /// (Optional) Use this parameter in a request if you receive a
-  /// <code>NextToken</code> response in a previous request that indicates that
-  /// there's more output available. In a subsequent call, set it to the value
-  /// of the previous call's <code>NextToken</code> response to indicate where
-  /// the output should continue from.
+  /// <code>NextToken</code> response in a previous request indicating there's
+  /// more output available. In a subsequent call, set it to the value of the
+  /// previous call <code>NextToken</code> response to indicate where the output
+  /// should continue from.
   Future<ListSecretVersionIdsResponse> listSecretVersionIds({
     @_s.required String secretId,
     bool includeDeprecated,
@@ -1250,7 +1288,7 @@ class SecretsManager {
   /// Always check the <code>NextToken</code> response parameter when calling
   /// any of the <code>List*</code> operations. These operations can
   /// occasionally return an empty or shorter than expected list of results even
-  /// when there are more results available. When this happens, the
+  /// when there more results become available. When this happens, the
   /// <code>NextToken</code> response parameter contains a value to pass to the
   /// next call to the same API to request the next part of the list.
   /// </note>
@@ -1276,8 +1314,11 @@ class SecretsManager {
   /// May throw [InvalidNextTokenException].
   /// May throw [InternalServiceError].
   ///
+  /// Parameter [filters] :
+  /// Lists the secret request filters.
+  ///
   /// Parameter [maxResults] :
-  /// (Optional) Limits the number of results that you want to include in the
+  /// (Optional) Limits the number of results you want to include in the
   /// response. If you don't include this parameter, it defaults to a value
   /// that's specific to the operation. If additional items exist beyond the
   /// maximum you specify, the <code>NextToken</code> response element is
@@ -1290,13 +1331,18 @@ class SecretsManager {
   ///
   /// Parameter [nextToken] :
   /// (Optional) Use this parameter in a request if you receive a
-  /// <code>NextToken</code> response in a previous request that indicates that
-  /// there's more output available. In a subsequent call, set it to the value
-  /// of the previous call's <code>NextToken</code> response to indicate where
-  /// the output should continue from.
+  /// <code>NextToken</code> response in a previous request indicating there's
+  /// more output available. In a subsequent call, set it to the value of the
+  /// previous call <code>NextToken</code> response to indicate where the output
+  /// should continue from.
+  ///
+  /// Parameter [sortOrder] :
+  /// Lists secrets in the requested order.
   Future<ListSecretsResponse> listSecrets({
+    List<Filter> filters,
     int maxResults,
     String nextToken,
+    SortOrderType sortOrder,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -1321,8 +1367,10 @@ class SecretsManager {
       // TODO queryParams
       headers: headers,
       payload: {
+        if (filters != null) 'Filters': filters,
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
+        if (sortOrder != null) 'SortOrder': sortOrder.toValue(),
       },
     );
 
@@ -1355,7 +1403,7 @@ class SecretsManager {
   ///
   /// <ul>
   /// <li>
-  /// To retrieve the resource policy that's attached to a secret, use
+  /// To retrieve the resource policy attached to a secret, use
   /// <a>GetResourcePolicy</a>.
   /// </li>
   /// <li>
@@ -1372,6 +1420,7 @@ class SecretsManager {
   /// May throw [InvalidParameterException].
   /// May throw [InternalServiceError].
   /// May throw [InvalidRequestException].
+  /// May throw [PublicPolicyException].
   ///
   /// Parameter [resourcePolicy] :
   /// A JSON-formatted string that's constructed according to the grammar and
@@ -1396,11 +1445,22 @@ class SecretsManager {
   /// to use that as a partial ARN, then those characters cause Secrets Manager
   /// to assume that you’re specifying a complete ARN. This confusion can cause
   /// unexpected results. To avoid this situation, we recommend that you don’t
-  /// create secret names that end with a hyphen followed by six characters.
+  /// create secret names ending with a hyphen followed by six characters.
+  ///
+  /// If you specify an incomplete ARN without the random suffix, and instead
+  /// provide the 'friendly name', you <i>must</i> not include the random
+  /// suffix. If you do include the random suffix added by Secrets Manager, you
+  /// receive either a <i>ResourceNotFoundException</i> or an
+  /// <i>AccessDeniedException</i> error, depending on your permissions.
   /// </note>
+  ///
+  /// Parameter [blockPublicPolicy] :
+  /// Makes an optional API call to Zelkova to validate the Resource Policy to
+  /// prevent broad access to your secret.
   Future<PutResourcePolicyResponse> putResourcePolicy({
     @_s.required String resourcePolicy,
     @_s.required String secretId,
+    bool blockPublicPolicy,
   }) async {
     ArgumentError.checkNotNull(resourcePolicy, 'resourcePolicy');
     _s.validateStringLength(
@@ -1431,6 +1491,7 @@ class SecretsManager {
       payload: {
         'ResourcePolicy': resourcePolicy,
         'SecretId': secretId,
+        if (blockPublicPolicy != null) 'BlockPublicPolicy': blockPublicPolicy,
       },
     );
 
@@ -1476,7 +1537,7 @@ class SecretsManager {
   /// </ul> <note>
   /// <ul>
   /// <li>
-  /// If you call an operation that needs to encrypt or decrypt the
+  /// If you call an operation to encrypt or decrypt the
   /// <code>SecretString</code> or <code>SecretBinary</code> for a secret in the
   /// same account as the calling user and that secret doesn't specify a AWS KMS
   /// encryption key, Secrets Manager uses the account's default AWS managed
@@ -1484,15 +1545,15 @@ class SecretsManager {
   /// If this key doesn't already exist in your account then Secrets Manager
   /// creates it for you automatically. All users and roles in the same AWS
   /// account automatically have access to use the default CMK. Note that if an
-  /// Secrets Manager API call results in AWS having to create the account's
-  /// AWS-managed CMK, it can result in a one-time significant delay in
-  /// returning the result.
+  /// Secrets Manager API call results in AWS creating the account's AWS-managed
+  /// CMK, it can result in a one-time significant delay in returning the
+  /// result.
   /// </li>
   /// <li>
-  /// If the secret is in a different AWS account from the credentials calling
-  /// an API that requires encryption or decryption of the secret value then you
-  /// must create and use a custom AWS KMS CMK because you can't access the
-  /// default CMK for the account using credentials from a different AWS
+  /// If the secret resides in a different AWS account from the credentials
+  /// calling an API that requires encryption or decryption of the secret value
+  /// then you must create and use a custom AWS KMS CMK because you can't access
+  /// the default CMK for the account using credentials from a different AWS
   /// account. Store the ARN of the CMK in the secret when you create the secret
   /// or when you update it by including it in the <code>KMSKeyId</code>. If you
   /// call an API that must encrypt or decrypt <code>SecretString</code> or
@@ -1558,7 +1619,13 @@ class SecretsManager {
   /// to use that as a partial ARN, then those characters cause Secrets Manager
   /// to assume that you’re specifying a complete ARN. This confusion can cause
   /// unexpected results. To avoid this situation, we recommend that you don’t
-  /// create secret names that end with a hyphen followed by six characters.
+  /// create secret names ending with a hyphen followed by six characters.
+  ///
+  /// If you specify an incomplete ARN without the random suffix, and instead
+  /// provide the 'friendly name', you <i>must</i> not include the random
+  /// suffix. If you do include the random suffix added by Secrets Manager, you
+  /// receive either a <i>ResourceNotFoundException</i> or an
+  /// <i>AccessDeniedException</i> error, depending on your permissions.
   /// </note>
   ///
   /// Parameter [clientRequestToken] :
@@ -1591,7 +1658,7 @@ class SecretsManager {
   /// idempotent).
   /// </li>
   /// <li>
-  /// If a version with this value already exists and that version's
+  /// If a version with this value already exists and the version of the
   /// <code>SecretString</code> and <code>SecretBinary</code> values are
   /// different from those in the request then the request fails because you
   /// cannot modify an existing secret version. You can only create new versions
@@ -1743,7 +1810,13 @@ class SecretsManager {
   /// to use that as a partial ARN, then those characters cause Secrets Manager
   /// to assume that you’re specifying a complete ARN. This confusion can cause
   /// unexpected results. To avoid this situation, we recommend that you don’t
-  /// create secret names that end with a hyphen followed by six characters.
+  /// create secret names ending with a hyphen followed by six characters.
+  ///
+  /// If you specify an incomplete ARN without the random suffix, and instead
+  /// provide the 'friendly name', you <i>must</i> not include the random
+  /// suffix. If you do include the random suffix added by Secrets Manager, you
+  /// receive either a <i>ResourceNotFoundException</i> or an
+  /// <i>AccessDeniedException</i> error, depending on your permissions.
   /// </note>
   Future<RestoreSecretResponse> restoreSecret({
     @_s.required String secretId,
@@ -1794,8 +1867,8 @@ class SecretsManager {
   /// Secrets in AWS Secrets Manager</a> in the <i>AWS Secrets Manager User
   /// Guide</i>.
   ///
-  /// Secrets Manager schedules the next rotation when the previous one is
-  /// complete. Secrets Manager schedules the date by adding the rotation
+  /// Secrets Manager schedules the next rotation when the previous one
+  /// completes. Secrets Manager schedules the date by adding the rotation
   /// interval (number of days) to the actual date of the last rotation. The
   /// service chooses the hour within that 24-hour date window randomly. The
   /// minute is also chosen somewhat randomly, but weighted towards the top of
@@ -1814,10 +1887,10 @@ class SecretsManager {
   /// of the secret.
   /// </li>
   /// </ul>
-  /// If instead the <code>AWSPENDING</code> staging label is present but is not
-  /// attached to the same version as <code>AWSCURRENT</code> then any later
-  /// invocation of <code>RotateSecret</code> assumes that a previous rotation
-  /// request is still in progress and returns an error.
+  /// If the <code>AWSPENDING</code> staging label is present but not attached
+  /// to the same version as <code>AWSCURRENT</code> then any later invocation
+  /// of <code>RotateSecret</code> assumes that a previous rotation request is
+  /// still in progress and returns an error.
   ///
   /// <b>Minimum permissions</b>
   ///
@@ -1868,7 +1941,13 @@ class SecretsManager {
   /// to use that as a partial ARN, then those characters cause Secrets Manager
   /// to assume that you’re specifying a complete ARN. This confusion can cause
   /// unexpected results. To avoid this situation, we recommend that you don’t
-  /// create secret names that end with a hyphen followed by six characters.
+  /// create secret names ending with a hyphen followed by six characters.
+  ///
+  /// If you specify an incomplete ARN without the random suffix, and instead
+  /// provide the 'friendly name', you <i>must</i> not include the random
+  /// suffix. If you do include the random suffix added by Secrets Manager, you
+  /// receive either a <i>ResourceNotFoundException</i> or an
+  /// <i>AccessDeniedException</i> error, depending on your permissions.
   /// </note>
   ///
   /// Parameter [clientRequestToken] :
@@ -1882,9 +1961,9 @@ class SecretsManager {
   /// service endpoint, then you must generate a <code>ClientRequestToken</code>
   /// yourself for new versions and include that value in the request.
   ///
-  /// You only need to specify your own value if you are implementing your own
-  /// retry logic and want to ensure that a given secret is not created twice.
-  /// We recommend that you generate a <a
+  /// You only need to specify your own value if you implement your own retry
+  /// logic and want to ensure that a given secret is not created twice. We
+  /// recommend that you generate a <a
   /// href="https://wikipedia.org/wiki/Universally_unique_identifier">UUID-type</a>
   /// value to ensure uniqueness within the specified secret.
   ///
@@ -1970,16 +2049,15 @@ class SecretsManager {
   /// </li>
   /// <li>
   /// Do not use the <code>aws:</code> prefix in your tag names or values
-  /// because it is reserved for AWS use. You can't edit or delete tag names or
+  /// because AWS reserves it for AWS use. You can't edit or delete tag names or
   /// values with this prefix. Tags with this prefix do not count against your
   /// tags per secret limit.
   /// </li>
   /// <li>
-  /// If your tagging schema will be used across multiple services and
-  /// resources, remember that other services might have restrictions on allowed
-  /// characters. Generally allowed characters are: letters, spaces, and numbers
-  /// representable in UTF-8, plus the following special characters: + - = . _ :
-  /// / @.
+  /// If you use your tagging schema across multiple services and resources,
+  /// remember other services might have restrictions on allowed characters.
+  /// Generally allowed characters: letters, spaces, and numbers representable
+  /// in UTF-8, plus the following special characters: + - = . _ : / @.
   /// </li>
   /// </ul> <important>
   /// If you use tags as part of your security strategy, then adding or removing
@@ -2028,7 +2106,13 @@ class SecretsManager {
   /// to use that as a partial ARN, then those characters cause Secrets Manager
   /// to assume that you’re specifying a complete ARN. This confusion can cause
   /// unexpected results. To avoid this situation, we recommend that you don’t
-  /// create secret names that end with a hyphen followed by six characters.
+  /// create secret names ending with a hyphen followed by six characters.
+  ///
+  /// If you specify an incomplete ARN without the random suffix, and instead
+  /// provide the 'friendly name', you <i>must</i> not include the random
+  /// suffix. If you do include the random suffix added by Secrets Manager, you
+  /// receive either a <i>ResourceNotFoundException</i> or an
+  /// <i>AccessDeniedException</i> error, depending on your permissions.
   /// </note>
   ///
   /// Parameter [tags] :
@@ -2123,7 +2207,13 @@ class SecretsManager {
   /// to use that as a partial ARN, then those characters cause Secrets Manager
   /// to assume that you’re specifying a complete ARN. This confusion can cause
   /// unexpected results. To avoid this situation, we recommend that you don’t
-  /// create secret names that end with a hyphen followed by six characters.
+  /// create secret names ending with a hyphen followed by six characters.
+  ///
+  /// If you specify an incomplete ARN without the random suffix, and instead
+  /// provide the 'friendly name', you <i>must</i> not include the random
+  /// suffix. If you do include the random suffix added by Secrets Manager, you
+  /// receive either a <i>ResourceNotFoundException</i> or an
+  /// <i>AccessDeniedException</i> error, depending on your permissions.
   /// </note>
   ///
   /// Parameter [tagKeys] :
@@ -2193,7 +2283,7 @@ class SecretsManager {
   /// </ul> <note>
   /// <ul>
   /// <li>
-  /// If you call an operation that needs to encrypt or decrypt the
+  /// If you call an operation to encrypt or decrypt the
   /// <code>SecretString</code> or <code>SecretBinary</code> for a secret in the
   /// same account as the calling user and that secret doesn't specify a AWS KMS
   /// encryption key, Secrets Manager uses the account's default AWS managed
@@ -2201,15 +2291,15 @@ class SecretsManager {
   /// If this key doesn't already exist in your account then Secrets Manager
   /// creates it for you automatically. All users and roles in the same AWS
   /// account automatically have access to use the default CMK. Note that if an
-  /// Secrets Manager API call results in AWS having to create the account's
-  /// AWS-managed CMK, it can result in a one-time significant delay in
-  /// returning the result.
+  /// Secrets Manager API call results in AWS creating the account's AWS-managed
+  /// CMK, it can result in a one-time significant delay in returning the
+  /// result.
   /// </li>
   /// <li>
-  /// If the secret is in a different AWS account from the credentials calling
-  /// an API that requires encryption or decryption of the secret value then you
-  /// must create and use a custom AWS KMS CMK because you can't access the
-  /// default CMK for the account using credentials from a different AWS
+  /// If the secret resides in a different AWS account from the credentials
+  /// calling an API that requires encryption or decryption of the secret value
+  /// then you must create and use a custom AWS KMS CMK because you can't access
+  /// the default CMK for the account using credentials from a different AWS
   /// account. Store the ARN of the CMK in the secret when you create the secret
   /// or when you update it by including it in the <code>KMSKeyId</code>. If you
   /// call an API that must encrypt or decrypt <code>SecretString</code> or
@@ -2282,7 +2372,13 @@ class SecretsManager {
   /// to use that as a partial ARN, then those characters cause Secrets Manager
   /// to assume that you’re specifying a complete ARN. This confusion can cause
   /// unexpected results. To avoid this situation, we recommend that you don’t
-  /// create secret names that end with a hyphen followed by six characters.
+  /// create secret names ending with a hyphen followed by six characters.
+  ///
+  /// If you specify an incomplete ARN without the random suffix, and instead
+  /// provide the 'friendly name', you <i>must</i> not include the random
+  /// suffix. If you do include the random suffix added by Secrets Manager, you
+  /// receive either a <i>ResourceNotFoundException</i> or an
+  /// <i>AccessDeniedException</i> error, depending on your permissions.
   /// </note>
   ///
   /// Parameter [clientRequestToken] :
@@ -2497,7 +2593,7 @@ class SecretsManager {
   /// May throw [InternalServiceError].
   ///
   /// Parameter [secretId] :
-  /// Specifies the secret with the version whose list of staging labels you
+  /// Specifies the secret with the version with the list of staging labels you
   /// want to modify. You can specify either the Amazon Resource Name (ARN) or
   /// the friendly name of the secret.
   /// <note>
@@ -2511,15 +2607,21 @@ class SecretsManager {
   /// to use that as a partial ARN, then those characters cause Secrets Manager
   /// to assume that you’re specifying a complete ARN. This confusion can cause
   /// unexpected results. To avoid this situation, we recommend that you don’t
-  /// create secret names that end with a hyphen followed by six characters.
+  /// create secret names ending with a hyphen followed by six characters.
+  ///
+  /// If you specify an incomplete ARN without the random suffix, and instead
+  /// provide the 'friendly name', you <i>must</i> not include the random
+  /// suffix. If you do include the random suffix added by Secrets Manager, you
+  /// receive either a <i>ResourceNotFoundException</i> or an
+  /// <i>AccessDeniedException</i> error, depending on your permissions.
   /// </note>
   ///
   /// Parameter [versionStage] :
   /// The staging label to add to this version.
   ///
   /// Parameter [moveToVersionId] :
-  /// (Optional) The secret version ID that you want to add the staging label
-  /// to. If you want to remove a label from a version, then do not specify this
+  /// (Optional) The secret version ID that you want to add the staging label.
+  /// If you want to remove a label from a version, then do not specify this
   /// parameter.
   ///
   /// If the staging label is already attached to a different version of the
@@ -2588,6 +2690,81 @@ class SecretsManager {
 
     return UpdateSecretVersionStageResponse.fromJson(jsonResponse.body);
   }
+
+  /// Validates the JSON text of the resource-based policy document attached to
+  /// the specified secret. The JSON request string input and response output
+  /// displays formatted code with white space and line breaks for better
+  /// readability. Submit your input as a single line JSON string. A
+  /// resource-based policy is optional.
+  ///
+  /// May throw [MalformedPolicyDocumentException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InvalidParameterException].
+  /// May throw [InternalServiceError].
+  /// May throw [InvalidRequestException].
+  ///
+  /// Parameter [resourcePolicy] :
+  /// Identifies the Resource Policy attached to the secret.
+  ///
+  /// Parameter [secretId] :
+  /// The identifier for the secret that you want to validate a resource policy.
+  /// You can specify either the Amazon Resource Name (ARN) or the friendly name
+  /// of the secret.
+  /// <note>
+  /// If you specify an ARN, we generally recommend that you specify a complete
+  /// ARN. You can specify a partial ARN too—for example, if you don’t include
+  /// the final hyphen and six random characters that Secrets Manager adds at
+  /// the end of the ARN when you created the secret. A partial ARN match can
+  /// work as long as it uniquely matches only one secret. However, if your
+  /// secret has a name that ends in a hyphen followed by six characters (before
+  /// Secrets Manager adds the hyphen and six characters to the ARN) and you try
+  /// to use that as a partial ARN, then those characters cause Secrets Manager
+  /// to assume that you’re specifying a complete ARN. This confusion can cause
+  /// unexpected results. To avoid this situation, we recommend that you don’t
+  /// create secret names ending with a hyphen followed by six characters.
+  ///
+  /// If you specify an incomplete ARN without the random suffix, and instead
+  /// provide the 'friendly name', you <i>must</i> not include the random
+  /// suffix. If you do include the random suffix added by Secrets Manager, you
+  /// receive either a <i>ResourceNotFoundException</i> or an
+  /// <i>AccessDeniedException</i> error, depending on your permissions.
+  /// </note>
+  Future<ValidateResourcePolicyResponse> validateResourcePolicy({
+    @_s.required String resourcePolicy,
+    String secretId,
+  }) async {
+    ArgumentError.checkNotNull(resourcePolicy, 'resourcePolicy');
+    _s.validateStringLength(
+      'resourcePolicy',
+      resourcePolicy,
+      1,
+      20480,
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'secretId',
+      secretId,
+      1,
+      2048,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'secretsmanager.ValidateResourcePolicy'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ResourcePolicy': resourcePolicy,
+        if (secretId != null) 'SecretId': secretId,
+      },
+    );
+
+    return ValidateResourcePolicyResponse.fromJson(jsonResponse.body);
+  }
 }
 
 @_s.JsonSerializable(
@@ -2604,9 +2781,9 @@ class CancelRotateSecretResponse {
   @_s.JsonKey(name: 'Name')
   final String name;
 
-  /// The unique identifier of the version of the secret that was created during
-  /// the rotation. This version might not be complete, and should be evaluated
-  /// for possible deletion. At the very least, you should remove the
+  /// The unique identifier of the version of the secret created during the
+  /// rotation. This version might not be complete, and should be evaluated for
+  /// possible deletion. At the very least, you should remove the
   /// <code>VersionStage</code> value <code>AWSPENDING</code> to enable this
   /// version to be deleted. Failing to clean up a cancelled rotation can block
   /// you from successfully starting future rotations.
@@ -2644,8 +2821,8 @@ class CreateSecretResponse {
   @_s.JsonKey(name: 'Name')
   final String name;
 
-  /// The unique identifier that's associated with the version of the secret you
-  /// just created.
+  /// The unique identifier associated with the version of the secret you just
+  /// created.
   @_s.JsonKey(name: 'VersionId')
   final String versionId;
 
@@ -2721,6 +2898,11 @@ class DescribeSecretResponse {
   /// The ARN of the secret.
   @_s.JsonKey(name: 'ARN')
   final String arn;
+
+  /// The date that the secret was created.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedDate')
+  final DateTime createdDate;
 
   /// This value exists if the secret is scheduled for deletion. Some time after
   /// the specified date and time, Secrets Manager deletes the secret and all of
@@ -2808,6 +2990,7 @@ class DescribeSecretResponse {
 
   DescribeSecretResponse({
     this.arn,
+    this.createdDate,
     this.deletedDate,
     this.description,
     this.kmsKeyId,
@@ -2824,6 +3007,41 @@ class DescribeSecretResponse {
   });
   factory DescribeSecretResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeSecretResponseFromJson(json);
+}
+
+/// Allows you to filter your list of secrets.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class Filter {
+  /// Filters your list of secrets by a specific key.
+  @_s.JsonKey(name: 'Key')
+  final FilterNameStringType key;
+
+  /// Filters your list of secrets by a specific value.
+  @_s.JsonKey(name: 'Values')
+  final List<String> values;
+
+  Filter({
+    this.key,
+    this.values,
+  });
+  Map<String, dynamic> toJson() => _$FilterToJson(this);
+}
+
+enum FilterNameStringType {
+  @_s.JsonValue('description')
+  description,
+  @_s.JsonValue('name')
+  name,
+  @_s.JsonValue('tag-key')
+  tagKey,
+  @_s.JsonValue('tag-value')
+  tagValue,
+  @_s.JsonValue('all')
+  all,
 }
 
 @_s.JsonSerializable(
@@ -2974,13 +3192,13 @@ class ListSecretVersionIdsResponse {
   final String name;
 
   /// If present in the response, this value indicates that there's more output
-  /// available than what's included in the current response. This can occur even
-  /// when the response includes no values at all, such as when you ask for a
-  /// filtered view of a very long list. Use this value in the
-  /// <code>NextToken</code> request parameter in a subsequent call to the
-  /// operation to continue processing and get the next part of the output. You
-  /// should repeat this until the <code>NextToken</code> response element comes
-  /// back empty (as <code>null</code>).
+  /// available than included in the current response. This can occur even when
+  /// the response includes no values at all, such as when you ask for a filtered
+  /// view of a very long list. Use this value in the <code>NextToken</code>
+  /// request parameter in a subsequent call to the operation to continue
+  /// processing and get the next part of the output. You should repeat this until
+  /// the <code>NextToken</code> response element comes back empty (as
+  /// <code>null</code>).
   @_s.JsonKey(name: 'NextToken')
   final String nextToken;
 
@@ -3005,13 +3223,13 @@ class ListSecretVersionIdsResponse {
     createToJson: false)
 class ListSecretsResponse {
   /// If present in the response, this value indicates that there's more output
-  /// available than what's included in the current response. This can occur even
-  /// when the response includes no values at all, such as when you ask for a
-  /// filtered view of a very long list. Use this value in the
-  /// <code>NextToken</code> request parameter in a subsequent call to the
-  /// operation to continue processing and get the next part of the output. You
-  /// should repeat this until the <code>NextToken</code> response element comes
-  /// back empty (as <code>null</code>).
+  /// available than included in the current response. This can occur even when
+  /// the response includes no values at all, such as when you ask for a filtered
+  /// view of a very long list. Use this value in the <code>NextToken</code>
+  /// request parameter in a subsequent call to the operation to continue
+  /// processing and get the next part of the output. You should repeat this until
+  /// the <code>NextToken</code> response element comes back empty (as
+  /// <code>null</code>).
   @_s.JsonKey(name: 'NextToken')
   final String nextToken;
 
@@ -3033,12 +3251,12 @@ class ListSecretsResponse {
     createFactory: true,
     createToJson: false)
 class PutResourcePolicyResponse {
-  /// The ARN of the secret that the resource-based policy was retrieved for.
+  /// The ARN of the secret retrieved by the resource-based policy.
   @_s.JsonKey(name: 'ARN')
   final String arn;
 
-  /// The friendly name of the secret that the resource-based policy was retrieved
-  /// for.
+  /// The friendly name of the secret that the retrieved by the resource-based
+  /// policy.
   @_s.JsonKey(name: 'Name')
   final String name;
 
@@ -3182,7 +3400,12 @@ class SecretListEntry {
   @_s.JsonKey(name: 'ARN')
   final String arn;
 
-  /// The date and time on which this secret was deleted. Not present on active
+  /// The date and time when a secret was created.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedDate')
+  final DateTime createdDate;
+
+  /// The date and time the deletion of the secret occurred. Not present on active
   /// secrets. The secret can be recovered until the number of days in the
   /// recovery window has passed, as specified in the
   /// <code>RecoveryWindowInDays</code> parameter of the <a>DeleteSecret</a>
@@ -3195,11 +3418,11 @@ class SecretListEntry {
   @_s.JsonKey(name: 'Description')
   final String description;
 
-  /// The ARN or alias of the AWS KMS customer master key (CMK) that's used to
-  /// encrypt the <code>SecretString</code> and <code>SecretBinary</code> fields
-  /// in each version of the secret. If you don't provide a key, then Secrets
-  /// Manager defaults to encrypting the secret fields with the default KMS CMK
-  /// (the one named <code>awssecretsmanager</code>) for this account.
+  /// The ARN or alias of the AWS KMS customer master key (CMK) used to encrypt
+  /// the <code>SecretString</code> and <code>SecretBinary</code> fields in each
+  /// version of the secret. If you don't provide a key, then Secrets Manager
+  /// defaults to encrypting the secret fields with the default KMS CMK, the key
+  /// named <code>awssecretsmanager</code>, for this account.
   @_s.JsonKey(name: 'KmsKeyId')
   final String kmsKeyId;
 
@@ -3236,9 +3459,9 @@ class SecretListEntry {
   @_s.JsonKey(name: 'RotationEnabled')
   final bool rotationEnabled;
 
-  /// The ARN of an AWS Lambda function that's invoked by Secrets Manager to
-  /// rotate and expire the secret either automatically per the schedule or
-  /// manually by a call to <a>RotateSecret</a>.
+  /// The ARN of an AWS Lambda function invoked by Secrets Manager to rotate and
+  /// expire the secret either automatically per the schedule or manually by a
+  /// call to <a>RotateSecret</a>.
   @_s.JsonKey(name: 'RotationLambdaARN')
   final String rotationLambdaARN;
 
@@ -3247,9 +3470,9 @@ class SecretListEntry {
   final RotationRulesType rotationRules;
 
   /// A list of all of the currently assigned <code>SecretVersionStage</code>
-  /// staging labels and the <code>SecretVersionId</code> that each is attached
-  /// to. Staging labels are used to keep track of the different versions during
-  /// the rotation process.
+  /// staging labels and the <code>SecretVersionId</code> attached to each one.
+  /// Staging labels are used to keep track of the different versions during the
+  /// rotation process.
   /// <note>
   /// A version that does not have any <code>SecretVersionStage</code> is
   /// considered deprecated and subject to deletion. Such versions are not
@@ -3258,14 +3481,14 @@ class SecretListEntry {
   @_s.JsonKey(name: 'SecretVersionsToStages')
   final Map<String, List<String>> secretVersionsToStages;
 
-  /// The list of user-defined tags that are associated with the secret. To add
-  /// tags to a secret, use <a>TagResource</a>. To remove tags, use
-  /// <a>UntagResource</a>.
+  /// The list of user-defined tags associated with the secret. To add tags to a
+  /// secret, use <a>TagResource</a>. To remove tags, use <a>UntagResource</a>.
   @_s.JsonKey(name: 'Tags')
   final List<Tag> tags;
 
   SecretListEntry({
     this.arn,
+    this.createdDate,
     this.deletedDate,
     this.description,
     this.kmsKeyId,
@@ -3321,6 +3544,25 @@ class SecretVersionsListEntry {
       _$SecretVersionsListEntryFromJson(json);
 }
 
+enum SortOrderType {
+  @_s.JsonValue('asc')
+  asc,
+  @_s.JsonValue('desc')
+  desc,
+}
+
+extension on SortOrderType {
+  String toValue() {
+    switch (this) {
+      case SortOrderType.asc:
+        return 'asc';
+      case SortOrderType.desc:
+        return 'desc';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// A structure that contains information about a tag.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3332,7 +3574,7 @@ class Tag {
   @_s.JsonKey(name: 'Key')
   final String key;
 
-  /// The string value that's associated with the key of the tag.
+  /// The string value associated with the key of the tag.
   @_s.JsonKey(name: 'Value')
   final String value;
 
@@ -3387,11 +3629,11 @@ class UpdateSecretResponse {
     createFactory: true,
     createToJson: false)
 class UpdateSecretVersionStageResponse {
-  /// The ARN of the secret with the staging label that was modified.
+  /// The ARN of the secret with the modified staging label.
   @_s.JsonKey(name: 'ARN')
   final String arn;
 
-  /// The friendly name of the secret with the staging label that was modified.
+  /// The friendly name of the secret with the modified staging label.
   @_s.JsonKey(name: 'Name')
   final String name;
 
@@ -3402,6 +3644,52 @@ class UpdateSecretVersionStageResponse {
   factory UpdateSecretVersionStageResponse.fromJson(
           Map<String, dynamic> json) =>
       _$UpdateSecretVersionStageResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ValidateResourcePolicyResponse {
+  /// Returns a message stating that your Reource Policy passed validation.
+  @_s.JsonKey(name: 'PolicyValidationPassed')
+  final bool policyValidationPassed;
+
+  /// Returns an error message if your policy doesn't pass validatation.
+  @_s.JsonKey(name: 'ValidationErrors')
+  final List<ValidationErrorsEntry> validationErrors;
+
+  ValidateResourcePolicyResponse({
+    this.policyValidationPassed,
+    this.validationErrors,
+  });
+  factory ValidateResourcePolicyResponse.fromJson(Map<String, dynamic> json) =>
+      _$ValidateResourcePolicyResponseFromJson(json);
+}
+
+/// Displays errors that occurred during validation of the resource policy.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ValidationErrorsEntry {
+  /// Checks the name of the policy.
+  @_s.JsonKey(name: 'CheckName')
+  final String checkName;
+
+  /// Displays error messages if validation encounters problems during validation
+  /// of the resource policy.
+  @_s.JsonKey(name: 'ErrorMessage')
+  final String errorMessage;
+
+  ValidationErrorsEntry({
+    this.checkName,
+    this.errorMessage,
+  });
+  factory ValidationErrorsEntry.fromJson(Map<String, dynamic> json) =>
+      _$ValidationErrorsEntryFromJson(json);
 }
 
 class DecryptionFailure extends _s.GenericAwsException {
@@ -3453,6 +3741,11 @@ class PreconditionNotMetException extends _s.GenericAwsException {
             type: type, code: 'PreconditionNotMetException', message: message);
 }
 
+class PublicPolicyException extends _s.GenericAwsException {
+  PublicPolicyException({String type, String message})
+      : super(type: type, code: 'PublicPolicyException', message: message);
+}
+
 class ResourceExistsException extends _s.GenericAwsException {
   ResourceExistsException({String type, String message})
       : super(type: type, code: 'ResourceExistsException', message: message);
@@ -3482,6 +3775,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       MalformedPolicyDocumentException(type: type, message: message),
   'PreconditionNotMetException': (type, message) =>
       PreconditionNotMetException(type: type, message: message),
+  'PublicPolicyException': (type, message) =>
+      PublicPolicyException(type: type, message: message),
   'ResourceExistsException': (type, message) =>
       ResourceExistsException(type: type, message: message),
   'ResourceNotFoundException': (type, message) =>

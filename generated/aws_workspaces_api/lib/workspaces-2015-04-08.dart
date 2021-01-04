@@ -45,6 +45,74 @@ class WorkSpaces {
           endpointUrl: endpointUrl,
         );
 
+  /// Associates the specified connection alias with the specified directory to
+  /// enable cross-Region redirection. For more information, see <a
+  /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/cross-region-redirection.html">
+  /// Cross-Region Redirection for Amazon WorkSpaces</a>.
+  /// <note>
+  /// Before performing this operation, call <a
+  /// href="https://docs.aws.amazon.com/workspaces/latest/api/API_DescribeConnectionAliases.html">
+  /// DescribeConnectionAliases</a> to make sure that the current state of the
+  /// connection alias is <code>CREATED</code>.
+  /// </note>
+  ///
+  /// May throw [ResourceAssociatedException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InvalidParameterValuesException].
+  /// May throw [InvalidResourceStateException].
+  /// May throw [OperationNotSupportedException].
+  ///
+  /// Parameter [aliasId] :
+  /// The identifier of the connection alias.
+  ///
+  /// Parameter [resourceId] :
+  /// The identifier of the directory to associate the connection alias with.
+  Future<AssociateConnectionAliasResult> associateConnectionAlias({
+    @_s.required String aliasId,
+    @_s.required String resourceId,
+  }) async {
+    ArgumentError.checkNotNull(aliasId, 'aliasId');
+    _s.validateStringLength(
+      'aliasId',
+      aliasId,
+      13,
+      68,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'aliasId',
+      aliasId,
+      r'''^wsca-[0-9a-z]{8,63}$''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(resourceId, 'resourceId');
+    _s.validateStringLength(
+      'resourceId',
+      resourceId,
+      1,
+      1152921504606846976,
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkspacesService.AssociateConnectionAlias'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AliasId': aliasId,
+        'ResourceId': resourceId,
+      },
+    );
+
+    return AssociateConnectionAliasResult.fromJson(jsonResponse.body);
+  }
+
   /// Associates the specified IP access control group with the specified
   /// directory.
   ///
@@ -146,7 +214,24 @@ class WorkSpaces {
   }
 
   /// Copies the specified image from the specified Region to the current
+  /// Region. For more information about copying images, see <a
+  /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/copy-custom-image.html">
+  /// Copy a Custom WorkSpaces Image</a>.
+  /// <note>
+  /// In the China (Ningxia) Region, you can copy images only within the same
   /// Region.
+  ///
+  /// In the AWS GovCloud (US-West) Region, to copy images to and from other AWS
+  /// Regions, contact AWS Support.
+  /// </note> <important>
+  /// Before copying a shared image, be sure to verify that it has been shared
+  /// from the correct AWS account. To determine if an image has been shared and
+  /// to see the AWS account ID that owns an image, use the <a
+  /// href="https://docs.aws.amazon.com/workspaces/latest/api/API_DescribeWorkspaceImages.html">DescribeWorkSpaceImages</a>
+  /// and <a
+  /// href="https://docs.aws.amazon.com/workspaces/latest/api/API_DescribeWorkspaceImagePermissions.html">DescribeWorkspaceImagePermissions</a>
+  /// API operations.
+  /// </important>
   ///
   /// May throw [ResourceLimitExceededException].
   /// May throw [ResourceAlreadyExistsException].
@@ -245,6 +330,67 @@ class WorkSpaces {
     return CopyWorkspaceImageResult.fromJson(jsonResponse.body);
   }
 
+  /// Creates the specified connection alias for use with cross-Region
+  /// redirection. For more information, see <a
+  /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/cross-region-redirection.html">
+  /// Cross-Region Redirection for Amazon WorkSpaces</a>.
+  ///
+  /// May throw [ResourceAlreadyExistsException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterValuesException].
+  /// May throw [ResourceLimitExceededException].
+  /// May throw [InvalidResourceStateException].
+  /// May throw [OperationNotSupportedException].
+  ///
+  /// Parameter [connectionString] :
+  /// A connection string in the form of a fully qualified domain name (FQDN),
+  /// such as <code>www.example.com</code>.
+  /// <important>
+  /// After you create a connection string, it is always associated to your AWS
+  /// account. You cannot recreate the same connection string with a different
+  /// account, even if you delete all instances of it from the original account.
+  /// The connection string is globally reserved for your account.
+  /// </important>
+  ///
+  /// Parameter [tags] :
+  /// The tags to associate with the connection alias.
+  Future<CreateConnectionAliasResult> createConnectionAlias({
+    @_s.required String connectionString,
+    List<Tag> tags,
+  }) async {
+    ArgumentError.checkNotNull(connectionString, 'connectionString');
+    _s.validateStringLength(
+      'connectionString',
+      connectionString,
+      1,
+      255,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'connectionString',
+      connectionString,
+      r'''^[.0-9a-zA-Z\-]{1,255}$''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkspacesService.CreateConnectionAlias'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ConnectionString': connectionString,
+        if (tags != null) 'Tags': tags,
+      },
+    );
+
+    return CreateConnectionAliasResult.fromJson(jsonResponse.body);
+  }
+
   /// Creates an IP access control group.
   ///
   /// An IP access control group provides you with the ability to control the IP
@@ -312,13 +458,11 @@ class WorkSpaces {
   ///
   /// Parameter [resourceId] :
   /// The identifier of the WorkSpaces resource. The supported resource types
-  /// are WorkSpaces, registered directories, images, custom bundles, and IP
-  /// access control groups.
+  /// are WorkSpaces, registered directories, images, custom bundles, IP access
+  /// control groups, and connection aliases.
   ///
   /// Parameter [tags] :
-  /// The tags. Each WorkSpaces resource can have a maximum of 50 tags. If you
-  /// want to add new tags to a set of existing tags, you must submit all of the
-  /// existing tags along with the new ones.
+  /// The tags. Each WorkSpaces resource can have a maximum of 50 tags.
   Future<void> createTags({
     @_s.required String resourceId,
     @_s.required List<Tag> tags,
@@ -383,6 +527,69 @@ class WorkSpaces {
     return CreateWorkspacesResult.fromJson(jsonResponse.body);
   }
 
+  /// Deletes the specified connection alias. For more information, see <a
+  /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/cross-region-redirection.html">
+  /// Cross-Region Redirection for Amazon WorkSpaces</a>.
+  /// <important>
+  /// <b>If you will no longer be using a fully qualified domain name (FQDN) as
+  /// the registration code for your WorkSpaces users, you must take certain
+  /// precautions to prevent potential security issues.</b> For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/cross-region-redirection.html#cross-region-redirection-security-considerations">
+  /// Security Considerations if You Stop Using Cross-Region Redirection</a>.
+  /// </important> <note>
+  /// To delete a connection alias that has been shared, the shared account must
+  /// first disassociate the connection alias from any directories it has been
+  /// associated with. Then you must unshare the connection alias from the
+  /// account it has been shared with. You can delete a connection alias only
+  /// after it is no longer shared with any accounts or associated with any
+  /// directories.
+  /// </note>
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ResourceAssociatedException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterValuesException].
+  /// May throw [InvalidResourceStateException].
+  /// May throw [OperationNotSupportedException].
+  ///
+  /// Parameter [aliasId] :
+  /// The identifier of the connection alias to delete.
+  Future<void> deleteConnectionAlias({
+    @_s.required String aliasId,
+  }) async {
+    ArgumentError.checkNotNull(aliasId, 'aliasId');
+    _s.validateStringLength(
+      'aliasId',
+      aliasId,
+      13,
+      68,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'aliasId',
+      aliasId,
+      r'''^wsca-[0-9a-z]{8,63}$''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkspacesService.DeleteConnectionAlias'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AliasId': aliasId,
+      },
+    );
+
+    return DeleteConnectionAliasResult.fromJson(jsonResponse.body);
+  }
+
   /// Deletes the specified IP access control group.
   ///
   /// You cannot delete an IP access control group that is associated with a
@@ -430,8 +637,8 @@ class WorkSpaces {
   ///
   /// Parameter [resourceId] :
   /// The identifier of the WorkSpaces resource. The supported resource types
-  /// are WorkSpaces, registered directories, images, custom bundles, and IP
-  /// access control groups.
+  /// are WorkSpaces, registered directories, images, custom bundles, IP access
+  /// control groups, and connection aliases.
   ///
   /// Parameter [tagKeys] :
   /// The tag keys.
@@ -469,7 +676,7 @@ class WorkSpaces {
 
   /// Deletes the specified image from your account. To delete an image, you
   /// must first delete any bundles that are associated with the image and
-  /// un-share the image if it is shared with other accounts.
+  /// unshare the image if it is shared with other accounts.
   ///
   /// May throw [ResourceAssociatedException].
   /// May throw [InvalidResourceStateException].
@@ -509,6 +716,21 @@ class WorkSpaces {
   /// returns before the WorkSpace directory is deregistered. If any WorkSpaces
   /// are registered to this directory, you must remove them before you can
   /// deregister the directory.
+  /// <note>
+  /// Simple AD and AD Connector are made available to you free of charge to use
+  /// with WorkSpaces. If there are no WorkSpaces being used with your Simple AD
+  /// or AD Connector directory for 30 consecutive days, this directory will be
+  /// automatically deregistered for use with Amazon WorkSpaces, and you will be
+  /// charged for this directory as per the <a
+  /// href="http://aws.amazon.com/directoryservice/pricing/">AWS Directory
+  /// Services pricing terms</a>.
+  ///
+  /// To delete empty directories, see <a
+  /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/delete-workspaces-directory.html">
+  /// Delete the Directory for Your WorkSpaces</a>. If you delete your Simple AD
+  /// or AD Connector directory, you can always create a new one when you want
+  /// to start using WorkSpaces again.
+  /// </note>
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InvalidParameterValuesException].
@@ -590,7 +812,7 @@ class WorkSpaces {
       'nextToken',
       nextToken,
       1,
-      63,
+      2048,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -641,6 +863,144 @@ class WorkSpaces {
     return DescribeClientPropertiesResult.fromJson(jsonResponse.body);
   }
 
+  /// Describes the permissions that the owner of a connection alias has granted
+  /// to another AWS account for the specified connection alias. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/cross-region-redirection.html">
+  /// Cross-Region Redirection for Amazon WorkSpaces</a>.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterValuesException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [OperationNotSupportedException].
+  ///
+  /// Parameter [aliasId] :
+  /// The identifier of the connection alias.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return.
+  ///
+  /// Parameter [nextToken] :
+  /// If you received a <code>NextToken</code> from a previous call that was
+  /// paginated, provide this token to receive the next set of results.
+  Future<DescribeConnectionAliasPermissionsResult>
+      describeConnectionAliasPermissions({
+    @_s.required String aliasId,
+    int maxResults,
+    String nextToken,
+  }) async {
+    ArgumentError.checkNotNull(aliasId, 'aliasId');
+    _s.validateStringLength(
+      'aliasId',
+      aliasId,
+      13,
+      68,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'aliasId',
+      aliasId,
+      r'''^wsca-[0-9a-z]{8,63}$''',
+      isRequired: true,
+    );
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      25,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      2048,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkspacesService.DescribeConnectionAliasPermissions'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AliasId': aliasId,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return DescribeConnectionAliasPermissionsResult.fromJson(jsonResponse.body);
+  }
+
+  /// Retrieves a list that describes the connection aliases used for
+  /// cross-Region redirection. For more information, see <a
+  /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/cross-region-redirection.html">
+  /// Cross-Region Redirection for Amazon WorkSpaces</a>.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterValuesException].
+  /// May throw [OperationNotSupportedException].
+  ///
+  /// Parameter [aliasIds] :
+  /// The identifiers of the connection aliases to describe.
+  ///
+  /// Parameter [limit] :
+  /// The maximum number of connection aliases to return.
+  ///
+  /// Parameter [nextToken] :
+  /// If you received a <code>NextToken</code> from a previous call that was
+  /// paginated, provide this token to receive the next set of results.
+  ///
+  /// Parameter [resourceId] :
+  /// The identifier of the directory associated with the connection alias.
+  Future<DescribeConnectionAliasesResult> describeConnectionAliases({
+    List<String> aliasIds,
+    int limit,
+    String nextToken,
+    String resourceId,
+  }) async {
+    _s.validateNumRange(
+      'limit',
+      limit,
+      1,
+      25,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      2048,
+    );
+    _s.validateStringLength(
+      'resourceId',
+      resourceId,
+      1,
+      1152921504606846976,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkspacesService.DescribeConnectionAliases'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (aliasIds != null) 'AliasIds': aliasIds,
+        if (limit != null) 'Limit': limit,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (resourceId != null) 'ResourceId': resourceId,
+      },
+    );
+
+    return DescribeConnectionAliasesResult.fromJson(jsonResponse.body);
+  }
+
   /// Describes one or more of your IP access control groups.
   ///
   /// May throw [InvalidParameterValuesException].
@@ -670,7 +1030,7 @@ class WorkSpaces {
       'nextToken',
       nextToken,
       1,
-      63,
+      2048,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -698,8 +1058,8 @@ class WorkSpaces {
   ///
   /// Parameter [resourceId] :
   /// The identifier of the WorkSpaces resource. The supported resource types
-  /// are WorkSpaces, registered directories, images, custom bundles, and IP
-  /// access control groups.
+  /// are WorkSpaces, registered directories, images, custom bundles, IP access
+  /// control groups, and connection aliases.
   Future<DescribeTagsResult> describeTags({
     @_s.required String resourceId,
   }) async {
@@ -758,7 +1118,7 @@ class WorkSpaces {
       'nextToken',
       nextToken,
       1,
-      63,
+      2048,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -810,7 +1170,7 @@ class WorkSpaces {
       'nextToken',
       nextToken,
       1,
-      63,
+      2048,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -832,6 +1192,67 @@ class WorkSpaces {
     return DescribeWorkspaceDirectoriesResult.fromJson(jsonResponse.body);
   }
 
+  /// Describes the permissions that the owner of an image has granted to other
+  /// AWS accounts for an image.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterValuesException].
+  ///
+  /// Parameter [imageId] :
+  /// The identifier of the image.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of items to return.
+  ///
+  /// Parameter [nextToken] :
+  /// If you received a <code>NextToken</code> from a previous call that was
+  /// paginated, provide this token to receive the next set of results.
+  Future<DescribeWorkspaceImagePermissionsResult>
+      describeWorkspaceImagePermissions({
+    @_s.required String imageId,
+    int maxResults,
+    String nextToken,
+  }) async {
+    ArgumentError.checkNotNull(imageId, 'imageId');
+    _s.validateStringPattern(
+      'imageId',
+      imageId,
+      r'''wsi-[0-9a-z]{9,63}$''',
+      isRequired: true,
+    );
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      25,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      2048,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkspacesService.DescribeWorkspaceImagePermissions'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ImageId': imageId,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return DescribeWorkspaceImagePermissionsResult.fromJson(jsonResponse.body);
+  }
+
   /// Retrieves a list that describes one or more specified images, if the image
   /// identifiers are provided. Otherwise, all images in the account are
   /// described.
@@ -841,6 +1262,9 @@ class WorkSpaces {
   /// Parameter [imageIds] :
   /// The identifier of the image.
   ///
+  /// Parameter [imageType] :
+  /// The type (owned or shared) of the image.
+  ///
   /// Parameter [maxResults] :
   /// The maximum number of items to return.
   ///
@@ -849,6 +1273,7 @@ class WorkSpaces {
   /// paginated, provide this token to receive the next set of results.
   Future<DescribeWorkspaceImagesResult> describeWorkspaceImages({
     List<String> imageIds,
+    ImageType imageType,
     int maxResults,
     String nextToken,
   }) async {
@@ -862,7 +1287,7 @@ class WorkSpaces {
       'nextToken',
       nextToken,
       1,
-      63,
+      2048,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -876,6 +1301,7 @@ class WorkSpaces {
       headers: headers,
       payload: {
         if (imageIds != null) 'ImageIds': imageIds,
+        if (imageType != null) 'ImageType': imageType.toValue(),
         if (maxResults != null) 'MaxResults': maxResults,
         if (nextToken != null) 'NextToken': nextToken,
       },
@@ -991,7 +1417,7 @@ class WorkSpaces {
       'nextToken',
       nextToken,
       1,
-      63,
+      2048,
     );
     _s.validateStringLength(
       'userName',
@@ -1041,7 +1467,7 @@ class WorkSpaces {
       'nextToken',
       nextToken,
       1,
-      63,
+      2048,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1060,6 +1486,61 @@ class WorkSpaces {
     );
 
     return DescribeWorkspacesConnectionStatusResult.fromJson(jsonResponse.body);
+  }
+
+  /// Disassociates a connection alias from a directory. Disassociating a
+  /// connection alias disables cross-Region redirection between two directories
+  /// in different AWS Regions. For more information, see <a
+  /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/cross-region-redirection.html">
+  /// Cross-Region Redirection for Amazon WorkSpaces</a>.
+  /// <note>
+  /// Before performing this operation, call <a
+  /// href="https://docs.aws.amazon.com/workspaces/latest/api/API_DescribeConnectionAliases.html">
+  /// DescribeConnectionAliases</a> to make sure that the current state of the
+  /// connection alias is <code>CREATED</code>.
+  /// </note>
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InvalidParameterValuesException].
+  /// May throw [InvalidResourceStateException].
+  /// May throw [OperationNotSupportedException].
+  ///
+  /// Parameter [aliasId] :
+  /// The identifier of the connection alias to disassociate.
+  Future<void> disassociateConnectionAlias({
+    @_s.required String aliasId,
+  }) async {
+    ArgumentError.checkNotNull(aliasId, 'aliasId');
+    _s.validateStringLength(
+      'aliasId',
+      aliasId,
+      13,
+      68,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'aliasId',
+      aliasId,
+      r'''^wsca-[0-9a-z]{8,63}$''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkspacesService.DisassociateConnectionAlias'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AliasId': aliasId,
+      },
+    );
+
+    return DisassociateConnectionAliasResult.fromJson(jsonResponse.body);
   }
 
   /// Disassociates the specified IP access control group from the specified
@@ -1113,9 +1594,12 @@ class WorkSpaces {
     return DisassociateIpGroupsResult.fromJson(jsonResponse.body);
   }
 
-  /// Imports the specified Windows 7 or Windows 10 Bring Your Own License
-  /// (BYOL) image into Amazon WorkSpaces. The image must be an already licensed
-  /// EC2 image that is in your AWS account, and you must own the image.
+  /// Imports the specified Windows 10 Bring Your Own License (BYOL) image into
+  /// Amazon WorkSpaces. The image must be an already licensed Amazon EC2 image
+  /// that is in your AWS account, and you must own the image. For more
+  /// information about creating BYOL images, see <a
+  /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/byol-windows-images.html">
+  /// Bring Your Own Windows Desktop Licenses</a>.
   ///
   /// May throw [ResourceLimitExceededException].
   /// May throw [ResourceAlreadyExistsException].
@@ -1134,7 +1618,26 @@ class WorkSpaces {
   /// The name of the WorkSpace image.
   ///
   /// Parameter [ingestionProcess] :
-  /// The ingestion process to be used when importing the image.
+  /// The ingestion process to be used when importing the image, depending on
+  /// which protocol you want to use for your BYOL Workspace image, either PCoIP
+  /// or WorkSpaces Streaming Protocol (WSP). To use WSP, specify a value that
+  /// ends in <code>_WSP</code>. To use PCoIP, specify a value that does not end
+  /// in <code>_WSP</code>.
+  ///
+  /// For non-GPU-enabled bundles (bundles other than Graphics or GraphicsPro),
+  /// specify <code>BYOL_REGULAR</code> or <code>BYOL_REGULAR_WSP</code>,
+  /// depending on the protocol.
+  ///
+  /// Parameter [applications] :
+  /// If specified, the version of Microsoft Office to subscribe to. Valid only
+  /// for Windows 10 BYOL images. For more information about subscribing to
+  /// Office for BYOL images, see <a
+  /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/byol-windows-images.html">
+  /// Bring Your Own Windows Desktop Licenses</a>.
+  /// <note>
+  /// Although this parameter is an array, only one item is allowed at this
+  /// time.
+  /// </note>
   ///
   /// Parameter [tags] :
   /// The tags. Each WorkSpaces resource can have a maximum of 50 tags.
@@ -1143,6 +1646,7 @@ class WorkSpaces {
     @_s.required String imageDescription,
     @_s.required String imageName,
     @_s.required WorkspaceImageIngestionProcess ingestionProcess,
+    List<Application> applications,
     List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(ec2ImageId, 'ec2ImageId');
@@ -1196,6 +1700,8 @@ class WorkSpaces {
         'ImageDescription': imageDescription,
         'ImageName': imageName,
         'IngestionProcess': ingestionProcess?.toValue() ?? '',
+        if (applications != null)
+          'Applications': applications.map((e) => e?.toValue() ?? '').toList(),
         if (tags != null) 'Tags': tags,
       },
     );
@@ -1206,6 +1712,10 @@ class WorkSpaces {
   /// Retrieves a list of IP address ranges, specified as IPv4 CIDR blocks, that
   /// you can use for the network management interface when you enable Bring
   /// Your Own License (BYOL).
+  ///
+  /// This operation can be run only by AWS accounts that are enabled for BYOL.
+  /// If your account isn't enabled for BYOL, you'll receive an
+  /// <code>AccessDeniedException</code> error.
   ///
   /// The management network interface is connected to a secure Amazon
   /// WorkSpaces management network. It is used for interactive streaming of the
@@ -1250,7 +1760,7 @@ class WorkSpaces {
       'nextToken',
       nextToken,
       1,
-      63,
+      2048,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1540,6 +2050,7 @@ class WorkSpaces {
   /// May throw [AccessDeniedException].
   /// May throw [InvalidParameterValuesException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [OperationNotSupportedException].
   ///
   /// Parameter [resourceId] :
   /// The identifier of the directory.
@@ -1585,7 +2096,10 @@ class WorkSpaces {
     return ModifyWorkspaceCreationPropertiesResult.fromJson(jsonResponse.body);
   }
 
-  /// Modifies the specified WorkSpace properties.
+  /// Modifies the specified WorkSpace properties. For important information
+  /// about how to modify the size of the root and user volumes, see <a
+  /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/modify-workspaces.html">
+  /// Modify a WorkSpace</a>.
   ///
   /// May throw [InvalidParameterValuesException].
   /// May throw [InvalidResourceStateException].
@@ -1715,7 +2229,8 @@ class WorkSpaces {
   /// Rebuilds the specified WorkSpace.
   ///
   /// You cannot rebuild a WorkSpace unless its state is <code>AVAILABLE</code>,
-  /// <code>ERROR</code>, <code>UNHEALTHY</code>, or <code>STOPPED</code>.
+  /// <code>ERROR</code>, <code>UNHEALTHY</code>, <code>STOPPED</code>, or
+  /// <code>REBOOTING</code>.
   ///
   /// Rebuilding a WorkSpace is a potentially destructive action that can result
   /// in the loss of data. For more information, see <a
@@ -2001,16 +2516,38 @@ class WorkSpaces {
   }
 
   /// Terminates the specified WorkSpaces.
-  ///
+  /// <important>
   /// Terminating a WorkSpace is a permanent action and cannot be undone. The
   /// user's data is destroyed. If you need to archive any user data, contact
-  /// Amazon Web Services before terminating the WorkSpace.
-  ///
+  /// AWS Support before terminating the WorkSpace.
+  /// </important>
   /// You can terminate a WorkSpace that is in any state except
   /// <code>SUSPENDED</code>.
   ///
   /// This operation is asynchronous and returns before the WorkSpaces have been
-  /// completely terminated.
+  /// completely terminated. After a WorkSpace is terminated, the
+  /// <code>TERMINATED</code> state is returned only briefly before the
+  /// WorkSpace directory metadata is cleaned up, so this state is rarely
+  /// returned. To confirm that a WorkSpace is terminated, check for the
+  /// WorkSpace ID by using <a
+  /// href="https://docs.aws.amazon.com/workspaces/latest/api/API_DescribeWorkspaces.html">
+  /// DescribeWorkSpaces</a>. If the WorkSpace ID isn't returned, then the
+  /// WorkSpace has been successfully terminated.
+  /// <note>
+  /// Simple AD and AD Connector are made available to you free of charge to use
+  /// with WorkSpaces. If there are no WorkSpaces being used with your Simple AD
+  /// or AD Connector directory for 30 consecutive days, this directory will be
+  /// automatically deregistered for use with Amazon WorkSpaces, and you will be
+  /// charged for this directory as per the <a
+  /// href="http://aws.amazon.com/directoryservice/pricing/">AWS Directory
+  /// Services pricing terms</a>.
+  ///
+  /// To delete empty directories, see <a
+  /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/delete-workspaces-directory.html">
+  /// Delete the Directory for Your WorkSpaces</a>. If you delete your Simple AD
+  /// or AD Connector directory, you can always create a new one when you want
+  /// to start using WorkSpaces again.
+  /// </note>
   ///
   /// Parameter [terminateWorkspaceRequests] :
   /// The WorkSpaces to terminate. You can specify up to 25 WorkSpaces.
@@ -2035,6 +2572,86 @@ class WorkSpaces {
     );
 
     return TerminateWorkspacesResult.fromJson(jsonResponse.body);
+  }
+
+  /// Shares or unshares a connection alias with one account by specifying
+  /// whether that account has permission to associate the connection alias with
+  /// a directory. If the association permission is granted, the connection
+  /// alias is shared with that account. If the association permission is
+  /// revoked, the connection alias is unshared with the account. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/cross-region-redirection.html">
+  /// Cross-Region Redirection for Amazon WorkSpaces</a>.
+  /// <note>
+  /// <ul>
+  /// <li>
+  /// Before performing this operation, call <a
+  /// href="https://docs.aws.amazon.com/workspaces/latest/api/API_DescribeConnectionAliases.html">
+  /// DescribeConnectionAliases</a> to make sure that the current state of the
+  /// connection alias is <code>CREATED</code>.
+  /// </li>
+  /// <li>
+  /// To delete a connection alias that has been shared, the shared account must
+  /// first disassociate the connection alias from any directories it has been
+  /// associated with. Then you must unshare the connection alias from the
+  /// account it has been shared with. You can delete a connection alias only
+  /// after it is no longer shared with any accounts or associated with any
+  /// directories.
+  /// </li>
+  /// </ul> </note>
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterValuesException].
+  /// May throw [ResourceLimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ResourceAssociatedException].
+  /// May throw [InvalidResourceStateException].
+  /// May throw [OperationNotSupportedException].
+  ///
+  /// Parameter [aliasId] :
+  /// The identifier of the connection alias that you want to update permissions
+  /// for.
+  ///
+  /// Parameter [connectionAliasPermission] :
+  /// Indicates whether to share or unshare the connection alias with the
+  /// specified AWS account.
+  Future<void> updateConnectionAliasPermission({
+    @_s.required String aliasId,
+    @_s.required ConnectionAliasPermission connectionAliasPermission,
+  }) async {
+    ArgumentError.checkNotNull(aliasId, 'aliasId');
+    _s.validateStringLength(
+      'aliasId',
+      aliasId,
+      13,
+      68,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'aliasId',
+      aliasId,
+      r'''^wsca-[0-9a-z]{8,63}$''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(
+        connectionAliasPermission, 'connectionAliasPermission');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkspacesService.UpdateConnectionAliasPermission'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AliasId': aliasId,
+        'ConnectionAliasPermission': connectionAliasPermission,
+      },
+    );
+
+    return UpdateConnectionAliasPermissionResult.fromJson(jsonResponse.body);
   }
 
   /// Replaces the current rules of the specified IP access control group with
@@ -2080,6 +2697,97 @@ class WorkSpaces {
     );
 
     return UpdateRulesOfIpGroupResult.fromJson(jsonResponse.body);
+  }
+
+  /// Shares or unshares an image with one account in the same AWS Region by
+  /// specifying whether that account has permission to copy the image. If the
+  /// copy image permission is granted, the image is shared with that account.
+  /// If the copy image permission is revoked, the image is unshared with the
+  /// account.
+  ///
+  /// After an image has been shared, the recipient account can copy the image
+  /// to other AWS Regions as needed.
+  /// <note>
+  /// In the China (Ningxia) Region, you can copy images only within the same
+  /// Region.
+  ///
+  /// In the AWS GovCloud (US-West) Region, to copy images to and from other AWS
+  /// Regions, contact AWS Support.
+  /// </note>
+  /// For more information about sharing images, see <a
+  /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/share-custom-image.html">
+  /// Share or Unshare a Custom WorkSpaces Image</a>.
+  /// <note>
+  /// <ul>
+  /// <li>
+  /// To delete an image that has been shared, you must unshare the image before
+  /// you delete it.
+  /// </li>
+  /// <li>
+  /// Sharing Bring Your Own License (BYOL) images across AWS accounts isn't
+  /// supported at this time in the AWS GovCloud (US-West) Region. To share BYOL
+  /// images across accounts in the AWS GovCloud (US-West) Region, contact AWS
+  /// Support.
+  /// </li>
+  /// </ul> </note>
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ResourceUnavailableException].
+  /// May throw [AccessDeniedException].
+  /// May throw [InvalidParameterValuesException].
+  /// May throw [OperationNotSupportedException].
+  ///
+  /// Parameter [allowCopyImage] :
+  /// The permission to copy the image. This permission can be revoked only
+  /// after an image has been shared.
+  ///
+  /// Parameter [imageId] :
+  /// The identifier of the image.
+  ///
+  /// Parameter [sharedAccountId] :
+  /// The identifier of the AWS account to share or unshare the image with.
+  /// <important>
+  /// Before sharing the image, confirm that you are sharing to the correct AWS
+  /// account ID.
+  /// </important>
+  Future<void> updateWorkspaceImagePermission({
+    @_s.required bool allowCopyImage,
+    @_s.required String imageId,
+    @_s.required String sharedAccountId,
+  }) async {
+    ArgumentError.checkNotNull(allowCopyImage, 'allowCopyImage');
+    ArgumentError.checkNotNull(imageId, 'imageId');
+    _s.validateStringPattern(
+      'imageId',
+      imageId,
+      r'''wsi-[0-9a-z]{9,63}$''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(sharedAccountId, 'sharedAccountId');
+    _s.validateStringPattern(
+      'sharedAccountId',
+      sharedAccountId,
+      r'''^\d{12}$''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'WorkspacesService.UpdateWorkspaceImagePermission'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AllowCopyImage': allowCopyImage,
+        'ImageId': imageId,
+        'SharedAccountId': sharedAccountId,
+      },
+    );
+
+    return UpdateWorkspaceImagePermissionResult.fromJson(jsonResponse.body);
   }
 }
 
@@ -2138,6 +2846,44 @@ class AccountModification {
       _$AccountModificationFromJson(json);
 }
 
+enum Application {
+  @_s.JsonValue('Microsoft_Office_2016')
+  microsoftOffice_2016,
+  @_s.JsonValue('Microsoft_Office_2019')
+  microsoftOffice_2019,
+}
+
+extension on Application {
+  String toValue() {
+    switch (this) {
+      case Application.microsoftOffice_2016:
+        return 'Microsoft_Office_2016';
+      case Application.microsoftOffice_2019:
+        return 'Microsoft_Office_2019';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class AssociateConnectionAliasResult {
+  /// The identifier of the connection alias association. You use the connection
+  /// identifier in the DNS TXT record when you're configuring your DNS routing
+  /// policies.
+  @_s.JsonKey(name: 'ConnectionIdentifier')
+  final String connectionIdentifier;
+
+  AssociateConnectionAliasResult({
+    this.connectionIdentifier,
+  });
+  factory AssociateConnectionAliasResult.fromJson(Map<String, dynamic> json) =>
+      _$AssociateConnectionAliasResultFromJson(json);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -2147,6 +2893,19 @@ class AssociateIpGroupsResult {
   AssociateIpGroupsResult();
   factory AssociateIpGroupsResult.fromJson(Map<String, dynamic> json) =>
       _$AssociateIpGroupsResultFromJson(json);
+}
+
+enum AssociationStatus {
+  @_s.JsonValue('NOT_ASSOCIATED')
+  notAssociated,
+  @_s.JsonValue('ASSOCIATED_WITH_OWNER_ACCOUNT')
+  associatedWithOwnerAccount,
+  @_s.JsonValue('ASSOCIATED_WITH_SHARED_ACCOUNT')
+  associatedWithSharedAccount,
+  @_s.JsonValue('PENDING_ASSOCIATION')
+  pendingAssociation,
+  @_s.JsonValue('PENDING_DISASSOCIATION')
+  pendingDisassociation,
 }
 
 @_s.JsonSerializable(
@@ -2240,6 +2999,126 @@ class ComputeType {
       _$ComputeTypeFromJson(json);
 }
 
+/// Describes a connection alias. Connection aliases are used for cross-Region
+/// redirection. For more information, see <a
+/// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/cross-region-redirection.html">
+/// Cross-Region Redirection for Amazon WorkSpaces</a>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ConnectionAlias {
+  /// The identifier of the connection alias.
+  @_s.JsonKey(name: 'AliasId')
+  final String aliasId;
+
+  /// The association status of the connection alias.
+  @_s.JsonKey(name: 'Associations')
+  final List<ConnectionAliasAssociation> associations;
+
+  /// The connection string specified for the connection alias. The connection
+  /// string must be in the form of a fully qualified domain name (FQDN), such as
+  /// <code>www.example.com</code>.
+  @_s.JsonKey(name: 'ConnectionString')
+  final String connectionString;
+
+  /// The identifier of the AWS account that owns the connection alias.
+  @_s.JsonKey(name: 'OwnerAccountId')
+  final String ownerAccountId;
+
+  /// The current state of the connection alias.
+  @_s.JsonKey(name: 'State')
+  final ConnectionAliasState state;
+
+  ConnectionAlias({
+    this.aliasId,
+    this.associations,
+    this.connectionString,
+    this.ownerAccountId,
+    this.state,
+  });
+  factory ConnectionAlias.fromJson(Map<String, dynamic> json) =>
+      _$ConnectionAliasFromJson(json);
+}
+
+/// Describes a connection alias association that is used for cross-Region
+/// redirection. For more information, see <a
+/// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/cross-region-redirection.html">
+/// Cross-Region Redirection for Amazon WorkSpaces</a>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ConnectionAliasAssociation {
+  /// The identifier of the AWS account that associated the connection alias with
+  /// a directory.
+  @_s.JsonKey(name: 'AssociatedAccountId')
+  final String associatedAccountId;
+
+  /// The association status of the connection alias.
+  @_s.JsonKey(name: 'AssociationStatus')
+  final AssociationStatus associationStatus;
+
+  /// The identifier of the connection alias association. You use the connection
+  /// identifier in the DNS TXT record when you're configuring your DNS routing
+  /// policies.
+  @_s.JsonKey(name: 'ConnectionIdentifier')
+  final String connectionIdentifier;
+
+  /// The identifier of the directory associated with a connection alias.
+  @_s.JsonKey(name: 'ResourceId')
+  final String resourceId;
+
+  ConnectionAliasAssociation({
+    this.associatedAccountId,
+    this.associationStatus,
+    this.connectionIdentifier,
+    this.resourceId,
+  });
+  factory ConnectionAliasAssociation.fromJson(Map<String, dynamic> json) =>
+      _$ConnectionAliasAssociationFromJson(json);
+}
+
+/// Describes the permissions for a connection alias. Connection aliases are
+/// used for cross-Region redirection. For more information, see <a
+/// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/cross-region-redirection.html">
+/// Cross-Region Redirection for Amazon WorkSpaces</a>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class ConnectionAliasPermission {
+  /// Indicates whether the specified AWS account is allowed to associate the
+  /// connection alias with a directory.
+  @_s.JsonKey(name: 'AllowAssociation')
+  final bool allowAssociation;
+
+  /// The identifier of the AWS account that the connection alias is shared with.
+  @_s.JsonKey(name: 'SharedAccountId')
+  final String sharedAccountId;
+
+  ConnectionAliasPermission({
+    @_s.required this.allowAssociation,
+    @_s.required this.sharedAccountId,
+  });
+  factory ConnectionAliasPermission.fromJson(Map<String, dynamic> json) =>
+      _$ConnectionAliasPermissionFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ConnectionAliasPermissionToJson(this);
+}
+
+enum ConnectionAliasState {
+  @_s.JsonValue('CREATING')
+  creating,
+  @_s.JsonValue('CREATED')
+  created,
+  @_s.JsonValue('DELETING')
+  deleting,
+}
+
 enum ConnectionState {
   @_s.JsonValue('CONNECTED')
   connected,
@@ -2264,6 +3143,23 @@ class CopyWorkspaceImageResult {
   });
   factory CopyWorkspaceImageResult.fromJson(Map<String, dynamic> json) =>
       _$CopyWorkspaceImageResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class CreateConnectionAliasResult {
+  /// The identifier of the connection alias.
+  @_s.JsonKey(name: 'AliasId')
+  final String aliasId;
+
+  CreateConnectionAliasResult({
+    this.aliasId,
+  });
+  factory CreateConnectionAliasResult.fromJson(Map<String, dynamic> json) =>
+      _$CreateConnectionAliasResultFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -2362,8 +3258,10 @@ enum DedicatedTenancySupportResultEnum {
     createFactory: true,
     createToJson: false)
 class DefaultWorkspaceCreationProperties {
-  /// The identifier of any security groups to apply to WorkSpaces when they are
-  /// created.
+  /// The identifier of the default security group to apply to WorkSpaces when
+  /// they are created. For more information, see <a
+  /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/amazon-workspaces-security-groups.html">
+  /// Security Groups for Your WorkSpaces</a>.
   @_s.JsonKey(name: 'CustomSecurityGroupId')
   final String customSecurityGroupId;
 
@@ -2413,6 +3311,17 @@ class DefaultWorkspaceCreationProperties {
   factory DefaultWorkspaceCreationProperties.fromJson(
           Map<String, dynamic> json) =>
       _$DefaultWorkspaceCreationPropertiesFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DeleteConnectionAliasResult {
+  DeleteConnectionAliasResult();
+  factory DeleteConnectionAliasResult.fromJson(Map<String, dynamic> json) =>
+      _$DeleteConnectionAliasResultFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -2534,6 +3443,58 @@ class DescribeClientPropertiesResult {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class DescribeConnectionAliasPermissionsResult {
+  /// The identifier of the connection alias.
+  @_s.JsonKey(name: 'AliasId')
+  final String aliasId;
+
+  /// The permissions associated with a connection alias.
+  @_s.JsonKey(name: 'ConnectionAliasPermissions')
+  final List<ConnectionAliasPermission> connectionAliasPermissions;
+
+  /// The token to use to retrieve the next set of results, or null if no more
+  /// results are available.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  DescribeConnectionAliasPermissionsResult({
+    this.aliasId,
+    this.connectionAliasPermissions,
+    this.nextToken,
+  });
+  factory DescribeConnectionAliasPermissionsResult.fromJson(
+          Map<String, dynamic> json) =>
+      _$DescribeConnectionAliasPermissionsResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DescribeConnectionAliasesResult {
+  /// Information about the specified connection aliases.
+  @_s.JsonKey(name: 'ConnectionAliases')
+  final List<ConnectionAlias> connectionAliases;
+
+  /// The token to use to retrieve the next set of results, or null if no more
+  /// results are available.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  DescribeConnectionAliasesResult({
+    this.connectionAliases,
+    this.nextToken,
+  });
+  factory DescribeConnectionAliasesResult.fromJson(Map<String, dynamic> json) =>
+      _$DescribeConnectionAliasesResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class DescribeIpGroupsResult {
   /// The token to use to retrieve the next set of results, or null if no more
   /// results are available.
@@ -2615,6 +3576,35 @@ class DescribeWorkspaceDirectoriesResult {
   factory DescribeWorkspaceDirectoriesResult.fromJson(
           Map<String, dynamic> json) =>
       _$DescribeWorkspaceDirectoriesResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DescribeWorkspaceImagePermissionsResult {
+  /// The identifier of the image.
+  @_s.JsonKey(name: 'ImageId')
+  final String imageId;
+
+  /// The identifiers of the AWS accounts that the image has been shared with.
+  @_s.JsonKey(name: 'ImagePermissions')
+  final List<ImagePermission> imagePermissions;
+
+  /// The token to use to retrieve the next set of results, or null if no more
+  /// results are available.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  DescribeWorkspaceImagePermissionsResult({
+    this.imageId,
+    this.imagePermissions,
+    this.nextToken,
+  });
+  factory DescribeWorkspaceImagePermissionsResult.fromJson(
+          Map<String, dynamic> json) =>
+      _$DescribeWorkspaceImagePermissionsResultFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -2720,6 +3710,18 @@ class DescribeWorkspacesResult {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class DisassociateConnectionAliasResult {
+  DisassociateConnectionAliasResult();
+  factory DisassociateConnectionAliasResult.fromJson(
+          Map<String, dynamic> json) =>
+      _$DisassociateConnectionAliasResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class DisassociateIpGroupsResult {
   DisassociateIpGroupsResult();
   factory DisassociateIpGroupsResult.fromJson(Map<String, dynamic> json) =>
@@ -2785,6 +3787,46 @@ class FailedWorkspaceChangeRequest {
   });
   factory FailedWorkspaceChangeRequest.fromJson(Map<String, dynamic> json) =>
       _$FailedWorkspaceChangeRequestFromJson(json);
+}
+
+/// Describes the AWS accounts that have been granted permission to use a shared
+/// image. For more information about sharing images, see <a
+/// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/share-custom-image.html">
+/// Share or Unshare a Custom WorkSpaces Image</a>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ImagePermission {
+  /// The identifier of the AWS account that an image has been shared with.
+  @_s.JsonKey(name: 'SharedAccountId')
+  final String sharedAccountId;
+
+  ImagePermission({
+    this.sharedAccountId,
+  });
+  factory ImagePermission.fromJson(Map<String, dynamic> json) =>
+      _$ImagePermissionFromJson(json);
+}
+
+enum ImageType {
+  @_s.JsonValue('OWNED')
+  owned,
+  @_s.JsonValue('SHARED')
+  shared,
+}
+
+extension on ImageType {
+  String toValue() {
+    switch (this) {
+      case ImageType.owned:
+        return 'OWNED';
+      case ImageType.shared:
+        return 'SHARED';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 @_s.JsonSerializable(
@@ -3389,10 +4431,34 @@ class TerminateWorkspacesResult {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class UpdateConnectionAliasPermissionResult {
+  UpdateConnectionAliasPermissionResult();
+  factory UpdateConnectionAliasPermissionResult.fromJson(
+          Map<String, dynamic> json) =>
+      _$UpdateConnectionAliasPermissionResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class UpdateRulesOfIpGroupResult {
   UpdateRulesOfIpGroupResult();
   factory UpdateRulesOfIpGroupResult.fromJson(Map<String, dynamic> json) =>
       _$UpdateRulesOfIpGroupResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class UpdateWorkspaceImagePermissionResult {
+  UpdateWorkspaceImagePermissionResult();
+  factory UpdateWorkspaceImagePermissionResult.fromJson(
+          Map<String, dynamic> json) =>
+      _$UpdateWorkspaceImagePermissionResultFromJson(json);
 }
 
 /// Describes the user storage for a WorkSpace bundle.
@@ -3424,7 +4490,10 @@ class Workspace {
   @_s.JsonKey(name: 'BundleId')
   final String bundleId;
 
-  /// The name of the WorkSpace, as seen by the operating system.
+  /// The name of the WorkSpace, as seen by the operating system. The format of
+  /// this name varies. For more information, see <a
+  /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/launch-workspaces-tutorials.html">
+  /// Launch a WorkSpace</a>.
   @_s.JsonKey(name: 'ComputerName')
   final String computerName;
 
@@ -3454,6 +4523,15 @@ class Workspace {
   final bool rootVolumeEncryptionEnabled;
 
   /// The operational state of the WorkSpace.
+  /// <note>
+  /// After a WorkSpace is terminated, the <code>TERMINATED</code> state is
+  /// returned only briefly before the WorkSpace directory metadata is cleaned up,
+  /// so this state is rarely returned. To confirm that a WorkSpace is terminated,
+  /// check for the WorkSpace ID by using <a
+  /// href="https://docs.aws.amazon.com/workspaces/latest/api/API_DescribeWorkspaces.html">
+  /// DescribeWorkSpaces</a>. If the WorkSpace ID isn't returned, then the
+  /// WorkSpace has been successfully terminated.
+  /// </note>
   @_s.JsonKey(name: 'State')
   final WorkspaceState state;
 
@@ -3679,7 +4757,25 @@ class WorkspaceCreationProperties {
   @_s.JsonKey(name: 'CustomSecurityGroupId')
   final String customSecurityGroupId;
 
-  /// The default organizational unit (OU) for your WorkSpace directories.
+  /// The default organizational unit (OU) for your WorkSpaces directories. This
+  /// string must be the full Lightweight Directory Access Protocol (LDAP)
+  /// distinguished name for the target domain and OU. It must be in the form
+  /// <code>"OU=<i>value</i>,DC=<i>value</i>,DC=<i>value</i>"</code>, where
+  /// <i>value</i> is any string of characters, and the number of domain
+  /// components (DCs) is two or more. For example,
+  /// <code>OU=WorkSpaces_machines,DC=machines,DC=example,DC=com</code>.
+  /// <important>
+  /// <ul>
+  /// <li>
+  /// To avoid errors, certain characters in the distinguished name must be
+  /// escaped. For more information, see <a
+  /// href="https://docs.microsoft.com/previous-versions/windows/desktop/ldap/distinguished-names">
+  /// Distinguished Names</a> in the Microsoft documentation.
+  /// </li>
+  /// <li>
+  /// The API doesn't validate whether the OU exists.
+  /// </li>
+  /// </ul> </important>
   @_s.JsonKey(name: 'DefaultOu')
   final String defaultOu;
 
@@ -3694,6 +4790,26 @@ class WorkspaceCreationProperties {
   @_s.JsonKey(name: 'EnableMaintenanceMode')
   final bool enableMaintenanceMode;
 
+  /// Indicates whether Amazon WorkDocs is enabled for your WorkSpaces.
+  /// <note>
+  /// If WorkDocs is already enabled for a WorkSpaces directory and you disable
+  /// it, new WorkSpaces launched in the directory will not have WorkDocs enabled.
+  /// However, WorkDocs remains enabled for any existing WorkSpaces, unless you
+  /// either disable users' access to WorkDocs or you delete the WorkDocs site. To
+  /// disable users' access to WorkDocs, see <a
+  /// href="https://docs.aws.amazon.com/workdocs/latest/adminguide/inactive-user.html">Disabling
+  /// Users</a> in the <i>Amazon WorkDocs Administration Guide</i>. To delete a
+  /// WorkDocs site, see <a
+  /// href="https://docs.aws.amazon.com/workdocs/latest/adminguide/manage-sites.html">Deleting
+  /// a Site</a> in the <i>Amazon WorkDocs Administration Guide</i>.
+  ///
+  /// If you enable WorkDocs on a directory that already has existing WorkSpaces,
+  /// the existing WorkSpaces and any new WorkSpaces that are launched in the
+  /// directory will have WorkDocs enabled.
+  /// </note>
+  @_s.JsonKey(name: 'EnableWorkDocs')
+  final bool enableWorkDocs;
+
   /// Indicates whether users are local administrators of their WorkSpaces.
   @_s.JsonKey(name: 'UserEnabledAsLocalAdministrator')
   final bool userEnabledAsLocalAdministrator;
@@ -3703,6 +4819,7 @@ class WorkspaceCreationProperties {
     this.defaultOu,
     this.enableInternetAccess,
     this.enableMaintenanceMode,
+    this.enableWorkDocs,
     this.userEnabledAsLocalAdministrator,
   });
   Map<String, dynamic> toJson() => _$WorkspaceCreationPropertiesToJson(this);
@@ -3754,7 +4871,14 @@ class WorkspaceDirectory {
   @_s.JsonKey(name: 'SelfservicePermissions')
   final SelfservicePermissions selfservicePermissions;
 
-  /// The state of the directory's registration with Amazon WorkSpaces.
+  /// The state of the directory's registration with Amazon WorkSpaces. After a
+  /// directory is deregistered, the <code>DEREGISTERED</code> state is returned
+  /// very briefly before the directory metadata is cleaned up, so this state is
+  /// rarely returned. To confirm that a directory is deregistered, check for the
+  /// directory ID by using <a
+  /// href="https://docs.aws.amazon.com/workspaces/latest/api/API_DescribeWorkspaceDirectories.html">
+  /// DescribeWorkspaceDirectories</a>. If the directory ID isn't returned, then
+  /// the directory has been successfully deregistered.
   @_s.JsonKey(name: 'State')
   final WorkspaceDirectoryState state;
 
@@ -3836,6 +4960,13 @@ enum WorkspaceDirectoryType {
     createFactory: true,
     createToJson: false)
 class WorkspaceImage {
+  /// The date when the image was created. If the image has been shared, the AWS
+  /// account that the image has been shared with sees the original creation date
+  /// of the image.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'Created')
+  final DateTime created;
+
   /// The description of the image.
   @_s.JsonKey(name: 'Description')
   final String description;
@@ -3860,6 +4991,10 @@ class WorkspaceImage {
   @_s.JsonKey(name: 'OperatingSystem')
   final OperatingSystem operatingSystem;
 
+  /// The identifier of the AWS account that owns the image.
+  @_s.JsonKey(name: 'OwnerAccountId')
+  final String ownerAccountId;
+
   /// Specifies whether the image is running on dedicated hardware. When Bring
   /// Your Own License (BYOL) is enabled, this value is set to
   /// <code>DEDICATED</code>. For more information, see <a
@@ -3873,12 +5008,14 @@ class WorkspaceImage {
   final WorkspaceImageState state;
 
   WorkspaceImage({
+    this.created,
     this.description,
     this.errorCode,
     this.errorMessage,
     this.imageId,
     this.name,
     this.operatingSystem,
+    this.ownerAccountId,
     this.requiredTenancy,
     this.state,
   });
@@ -3893,6 +5030,8 @@ enum WorkspaceImageIngestionProcess {
   byolGraphics,
   @_s.JsonValue('BYOL_GRAPHICSPRO')
   byolGraphicspro,
+  @_s.JsonValue('BYOL_REGULAR_WSP')
+  byolRegularWsp,
 }
 
 extension on WorkspaceImageIngestionProcess {
@@ -3904,6 +5043,8 @@ extension on WorkspaceImageIngestionProcess {
         return 'BYOL_GRAPHICS';
       case WorkspaceImageIngestionProcess.byolGraphicspro:
         return 'BYOL_GRAPHICSPRO';
+      case WorkspaceImageIngestionProcess.byolRegularWsp:
+        return 'BYOL_REGULAR_WSP';
     }
     throw Exception('Unknown enum value: $this');
   }
@@ -3938,7 +5079,10 @@ class WorkspaceProperties {
   @_s.JsonKey(name: 'ComputeTypeName')
   final Compute computeTypeName;
 
-  /// The size of the root volume.
+  /// The size of the root volume. For important information about how to modify
+  /// the size of the root and user volumes, see <a
+  /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/modify-workspaces.html">Modify
+  /// a WorkSpace</a>.
   @_s.JsonKey(name: 'RootVolumeSizeGib')
   final int rootVolumeSizeGib;
 
@@ -3953,7 +5097,10 @@ class WorkspaceProperties {
   @_s.JsonKey(name: 'RunningModeAutoStopTimeoutInMinutes')
   final int runningModeAutoStopTimeoutInMinutes;
 
-  /// The size of the user storage.
+  /// The size of the user storage. For important information about how to modify
+  /// the size of the root and user volumes, see <a
+  /// href="https://docs.aws.amazon.com/workspaces/latest/adminguide/modify-workspaces.html">Modify
+  /// a WorkSpace</a>.
   @_s.JsonKey(name: 'UserVolumeSizeGib')
   final int userVolumeSizeGib;
 

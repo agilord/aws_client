@@ -65,6 +65,7 @@ class EFS {
   ///
   /// May throw [BadRequest].
   /// May throw [AccessPointAlreadyExists].
+  /// May throw [IncorrectFileSystemLifeCycleState].
   /// May throw [InternalServerError].
   /// May throw [FileSystemNotFound].
   /// May throw [AccessPointLimitExceeded].
@@ -109,6 +110,19 @@ class EFS {
       isRequired: true,
     );
     ArgumentError.checkNotNull(fileSystemId, 'fileSystemId');
+    _s.validateStringLength(
+      'fileSystemId',
+      fileSystemId,
+      0,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'fileSystemId',
+      fileSystemId,
+      r'''^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$''',
+      isRequired: true,
+    );
     final $payload = <String, dynamic>{
       'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
       'FileSystemId': fileSystemId,
@@ -284,11 +298,22 @@ class EFS {
       64,
       isRequired: true,
     );
+    _s.validateStringPattern(
+      'creationToken',
+      creationToken,
+      r'''.+''',
+      isRequired: true,
+    );
     _s.validateStringLength(
       'kmsKeyId',
       kmsKeyId,
-      1,
+      0,
       2048,
+    );
+    _s.validateStringPattern(
+      'kmsKeyId',
+      kmsKeyId,
+      r'''^([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|alias/[a-zA-Z0-9/_-]+|(arn:aws[-a-z]*:kms:[a-z0-9-]+:\d{12}:((key/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})|(alias/[a-zA-Z0-9/_-]+))))$''',
     );
     _s.validateNumRange(
       'provisionedThroughputInMibps',
@@ -485,7 +510,44 @@ class EFS {
     List<String> securityGroups,
   }) async {
     ArgumentError.checkNotNull(fileSystemId, 'fileSystemId');
+    _s.validateStringLength(
+      'fileSystemId',
+      fileSystemId,
+      0,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'fileSystemId',
+      fileSystemId,
+      r'''^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$''',
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(subnetId, 'subnetId');
+    _s.validateStringLength(
+      'subnetId',
+      subnetId,
+      15,
+      47,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'subnetId',
+      subnetId,
+      r'''^subnet-[0-9a-f]{8,40}$''',
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'ipAddress',
+      ipAddress,
+      7,
+      15,
+    );
+    _s.validateStringPattern(
+      'ipAddress',
+      ipAddress,
+      r'''^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$''',
+    );
     final $payload = <String, dynamic>{
       'FileSystemId': fileSystemId,
       'SubnetId': subnetId,
@@ -528,6 +590,19 @@ class EFS {
     @_s.required List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(fileSystemId, 'fileSystemId');
+    _s.validateStringLength(
+      'fileSystemId',
+      fileSystemId,
+      0,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'fileSystemId',
+      fileSystemId,
+      r'''^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$''',
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(tags, 'tags');
     final $payload = <String, dynamic>{
       'Tags': tags,
@@ -597,6 +672,19 @@ class EFS {
     @_s.required String fileSystemId,
   }) async {
     ArgumentError.checkNotNull(fileSystemId, 'fileSystemId');
+    _s.validateStringLength(
+      'fileSystemId',
+      fileSystemId,
+      0,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'fileSystemId',
+      fileSystemId,
+      r'''^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$''',
+      isRequired: true,
+    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -627,6 +715,19 @@ class EFS {
     @_s.required String fileSystemId,
   }) async {
     ArgumentError.checkNotNull(fileSystemId, 'fileSystemId');
+    _s.validateStringLength(
+      'fileSystemId',
+      fileSystemId,
+      0,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'fileSystemId',
+      fileSystemId,
+      r'''^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$''',
+      isRequired: true,
+    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -681,6 +782,19 @@ class EFS {
     @_s.required String mountTargetId,
   }) async {
     ArgumentError.checkNotNull(mountTargetId, 'mountTargetId');
+    _s.validateStringLength(
+      'mountTargetId',
+      mountTargetId,
+      13,
+      45,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'mountTargetId',
+      mountTargetId,
+      r'''^fsmt-[0-9a-f]{8,40}$''',
+      isRequired: true,
+    );
     await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -715,6 +829,19 @@ class EFS {
     @_s.required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(fileSystemId, 'fileSystemId');
+    _s.validateStringLength(
+      'fileSystemId',
+      fileSystemId,
+      0,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'fileSystemId',
+      fileSystemId,
+      r'''^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$''',
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
     final $payload = <String, dynamic>{
       'TagKeys': tagKeys,
@@ -766,6 +893,17 @@ class EFS {
     int maxResults,
     String nextToken,
   }) async {
+    _s.validateStringLength(
+      'fileSystemId',
+      fileSystemId,
+      0,
+      128,
+    );
+    _s.validateStringPattern(
+      'fileSystemId',
+      fileSystemId,
+      r'''^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$''',
+    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -788,6 +926,44 @@ class EFS {
     return DescribeAccessPointsResponse.fromJson(response);
   }
 
+  /// Returns the backup policy for the specified EFS file system.
+  ///
+  /// May throw [BadRequest].
+  /// May throw [FileSystemNotFound].
+  /// May throw [InternalServerError].
+  /// May throw [PolicyNotFound].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [fileSystemId] :
+  /// Specifies which EFS file system to retrieve the <code>BackupPolicy</code>
+  /// for.
+  Future<BackupPolicyDescription> describeBackupPolicy({
+    @_s.required String fileSystemId,
+  }) async {
+    ArgumentError.checkNotNull(fileSystemId, 'fileSystemId');
+    _s.validateStringLength(
+      'fileSystemId',
+      fileSystemId,
+      0,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'fileSystemId',
+      fileSystemId,
+      r'''^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$''',
+      isRequired: true,
+    );
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/2015-02-01/file-systems/${Uri.encodeComponent(fileSystemId)}/backup-policy',
+      exceptionFnMap: _exceptionFns,
+    );
+    return BackupPolicyDescription.fromJson(response);
+  }
+
   /// Returns the <code>FileSystemPolicy</code> for the specified EFS file
   /// system.
   ///
@@ -805,6 +981,19 @@ class EFS {
     @_s.required String fileSystemId,
   }) async {
     ArgumentError.checkNotNull(fileSystemId, 'fileSystemId');
+    _s.validateStringLength(
+      'fileSystemId',
+      fileSystemId,
+      0,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'fileSystemId',
+      fileSystemId,
+      r'''^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$''',
+      isRequired: true,
+    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -877,6 +1066,33 @@ class EFS {
       1,
       64,
     );
+    _s.validateStringPattern(
+      'creationToken',
+      creationToken,
+      r'''.+''',
+    );
+    _s.validateStringLength(
+      'fileSystemId',
+      fileSystemId,
+      0,
+      128,
+    );
+    _s.validateStringPattern(
+      'fileSystemId',
+      fileSystemId,
+      r'''^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$''',
+    );
+    _s.validateStringLength(
+      'marker',
+      marker,
+      1,
+      128,
+    );
+    _s.validateStringPattern(
+      'marker',
+      marker,
+      r'''.+''',
+    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
@@ -920,6 +1136,19 @@ class EFS {
     @_s.required String fileSystemId,
   }) async {
     ArgumentError.checkNotNull(fileSystemId, 'fileSystemId');
+    _s.validateStringLength(
+      'fileSystemId',
+      fileSystemId,
+      0,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'fileSystemId',
+      fileSystemId,
+      r'''^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$''',
+      isRequired: true,
+    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -960,6 +1189,19 @@ class EFS {
     @_s.required String mountTargetId,
   }) async {
     ArgumentError.checkNotNull(mountTargetId, 'mountTargetId');
+    _s.validateStringLength(
+      'mountTargetId',
+      mountTargetId,
+      13,
+      45,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'mountTargetId',
+      mountTargetId,
+      r'''^fsmt-[0-9a-f]{8,40}$''',
+      isRequired: true,
+    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -1022,11 +1264,44 @@ class EFS {
     int maxItems,
     String mountTargetId,
   }) async {
+    _s.validateStringLength(
+      'fileSystemId',
+      fileSystemId,
+      0,
+      128,
+    );
+    _s.validateStringPattern(
+      'fileSystemId',
+      fileSystemId,
+      r'''^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$''',
+    );
+    _s.validateStringLength(
+      'marker',
+      marker,
+      1,
+      128,
+    );
+    _s.validateStringPattern(
+      'marker',
+      marker,
+      r'''.+''',
+    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
       1,
       1152921504606846976,
+    );
+    _s.validateStringLength(
+      'mountTargetId',
+      mountTargetId,
+      13,
+      45,
+    );
+    _s.validateStringPattern(
+      'mountTargetId',
+      mountTargetId,
+      r'''^fsmt-[0-9a-f]{8,40}$''',
     );
     final $query = <String, List<String>>{
       if (accessPointId != null) 'AccessPointId': [accessPointId],
@@ -1077,6 +1352,30 @@ class EFS {
     int maxItems,
   }) async {
     ArgumentError.checkNotNull(fileSystemId, 'fileSystemId');
+    _s.validateStringLength(
+      'fileSystemId',
+      fileSystemId,
+      0,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'fileSystemId',
+      fileSystemId,
+      r'''^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$''',
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'marker',
+      marker,
+      1,
+      128,
+    );
+    _s.validateStringPattern(
+      'marker',
+      marker,
+      r'''.+''',
+    );
     _s.validateNumRange(
       'maxItems',
       maxItems,
@@ -1187,6 +1486,19 @@ class EFS {
     List<String> securityGroups,
   }) async {
     ArgumentError.checkNotNull(mountTargetId, 'mountTargetId');
+    _s.validateStringLength(
+      'mountTargetId',
+      mountTargetId,
+      13,
+      45,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'mountTargetId',
+      mountTargetId,
+      r'''^fsmt-[0-9a-f]{8,40}$''',
+      isRequired: true,
+    );
     final $payload = <String, dynamic>{
       if (securityGroups != null) 'SecurityGroups': securityGroups,
     };
@@ -1197,6 +1509,52 @@ class EFS {
           '/2015-02-01/mount-targets/${Uri.encodeComponent(mountTargetId)}/security-groups',
       exceptionFnMap: _exceptionFns,
     );
+  }
+
+  /// Updates the file system's backup policy. Use this action to start or stop
+  /// automatic backups of the file system.
+  ///
+  /// May throw [BadRequest].
+  /// May throw [FileSystemNotFound].
+  /// May throw [IncorrectFileSystemLifeCycleState].
+  /// May throw [InternalServerError].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [backupPolicy] :
+  /// The backup policy included in the <code>PutBackupPolicy</code> request.
+  ///
+  /// Parameter [fileSystemId] :
+  /// Specifies which EFS file system to update the backup policy for.
+  Future<BackupPolicyDescription> putBackupPolicy({
+    @_s.required BackupPolicy backupPolicy,
+    @_s.required String fileSystemId,
+  }) async {
+    ArgumentError.checkNotNull(backupPolicy, 'backupPolicy');
+    ArgumentError.checkNotNull(fileSystemId, 'fileSystemId');
+    _s.validateStringLength(
+      'fileSystemId',
+      fileSystemId,
+      0,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'fileSystemId',
+      fileSystemId,
+      r'''^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$''',
+      isRequired: true,
+    );
+    final $payload = <String, dynamic>{
+      'BackupPolicy': backupPolicy,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/2015-02-01/file-systems/${Uri.encodeComponent(fileSystemId)}/backup-policy',
+      exceptionFnMap: _exceptionFns,
+    );
+    return BackupPolicyDescription.fromJson(response);
   }
 
   /// Applies an Amazon EFS <code>FileSystemPolicy</code> to an Amazon EFS file
@@ -1244,6 +1602,19 @@ class EFS {
     bool bypassPolicyLockoutSafetyCheck,
   }) async {
     ArgumentError.checkNotNull(fileSystemId, 'fileSystemId');
+    _s.validateStringLength(
+      'fileSystemId',
+      fileSystemId,
+      0,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'fileSystemId',
+      fileSystemId,
+      r'''^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$''',
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(policy, 'policy');
     final $payload = <String, dynamic>{
       'Policy': policy,
@@ -1317,6 +1688,19 @@ class EFS {
     @_s.required List<LifecyclePolicy> lifecyclePolicies,
   }) async {
     ArgumentError.checkNotNull(fileSystemId, 'fileSystemId');
+    _s.validateStringLength(
+      'fileSystemId',
+      fileSystemId,
+      0,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'fileSystemId',
+      fileSystemId,
+      r'''^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$''',
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(lifecyclePolicies, 'lifecyclePolicies');
     final $payload = <String, dynamic>{
       'LifecyclePolicies': lifecyclePolicies,
@@ -1384,17 +1768,19 @@ class EFS {
   /// specified EFS resource.
   Future<void> untagResource({
     @_s.required String resourceId,
-    List<String> tagKeys,
+    @_s.required List<String> tagKeys,
   }) async {
     ArgumentError.checkNotNull(resourceId, 'resourceId');
-    final $payload = <String, dynamic>{
-      if (tagKeys != null) 'TagKeys': tagKeys,
+    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
+    final $query = <String, List<String>>{
+      if (tagKeys != null) 'tagKeys': tagKeys,
     };
     await _protocol.send(
-      payload: $payload,
+      payload: null,
       method: 'DELETE',
       requestUri:
           '/2015-02-01/resource-tags/${Uri.encodeComponent(resourceId)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -1432,6 +1818,19 @@ class EFS {
     ThroughputMode throughputMode,
   }) async {
     ArgumentError.checkNotNull(fileSystemId, 'fileSystemId');
+    _s.validateStringLength(
+      'fileSystemId',
+      fileSystemId,
+      0,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'fileSystemId',
+      fileSystemId,
+      r'''^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$''',
+      isRequired: true,
+    );
     _s.validateNumRange(
       'provisionedThroughputInMibps',
       provisionedThroughputInMibps,
@@ -1520,6 +1919,64 @@ class AccessPointDescription {
   });
   factory AccessPointDescription.fromJson(Map<String, dynamic> json) =>
       _$AccessPointDescriptionFromJson(json);
+}
+
+/// The backup policy for the file system, showing the curent status. If
+/// <code>ENABLED</code>, the file system is being backed up.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class BackupPolicy {
+  /// Describes the status of the file system's backup policy.
+  ///
+  /// <ul>
+  /// <li>
+  /// <i> <code>ENABLED</code> - EFS is automatically backing up the file
+  /// system.</i>
+  /// </li>
+  /// <li>
+  /// <i> <code>ENABLING</code> - EFS is turning on automatic backups for the file
+  /// system.</i>
+  /// </li>
+  /// <li>
+  /// <i> <code>DISABLED</code> - automatic back ups are turned off for the file
+  /// system.</i>
+  /// </li>
+  /// <li>
+  /// <i> <code>DISABLED</code> - EFS is turning off automatic backups for the
+  /// file system.</i>
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Status')
+  final Status status;
+
+  BackupPolicy({
+    @_s.required this.status,
+  });
+  factory BackupPolicy.fromJson(Map<String, dynamic> json) =>
+      _$BackupPolicyFromJson(json);
+
+  Map<String, dynamic> toJson() => _$BackupPolicyToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class BackupPolicyDescription {
+  /// Describes the file system's backup policy, indicating whether automatic
+  /// backups are turned on or off..
+  @_s.JsonKey(name: 'BackupPolicy')
+  final BackupPolicy backupPolicy;
+
+  BackupPolicyDescription({
+    this.backupPolicy,
+  });
+  factory BackupPolicyDescription.fromJson(Map<String, dynamic> json) =>
+      _$BackupPolicyDescriptionFromJson(json);
 }
 
 /// Required if the <code>RootDirectory</code> &gt; <code>Path</code> specified
@@ -1762,6 +2219,13 @@ class FileSystemDescription {
   @_s.JsonKey(name: 'Encrypted')
   final bool encrypted;
 
+  /// The Amazon Resource Name (ARN) for the EFS file system, in the format
+  /// <code>arn:aws:elasticfilesystem:<i>region</i>:<i>account-id</i>:file-system/<i>file-system-id</i>
+  /// </code>. Example with sample data:
+  /// <code>arn:aws:elasticfilesystem:us-west-2:1111333322228888:file-system/fs-01234567</code>
+  @_s.JsonKey(name: 'FileSystemArn')
+  final String fileSystemArn;
+
   /// The ID of an AWS Key Management Service (AWS KMS) customer master key (CMK)
   /// that was used to protect the encrypted file system.
   @_s.JsonKey(name: 'KmsKeyId')
@@ -1805,6 +2269,7 @@ class FileSystemDescription {
     @_s.required this.sizeInBytes,
     @_s.required this.tags,
     this.encrypted,
+    this.fileSystemArn,
     this.kmsKeyId,
     this.name,
     this.provisionedThroughputInMibps,
@@ -2010,6 +2475,10 @@ class MountTargetDescription {
   @_s.JsonKey(name: 'OwnerId')
   final String ownerId;
 
+  /// The Virtual Private Cloud (VPC) ID that the mount target is configured in.
+  @_s.JsonKey(name: 'VpcId')
+  final String vpcId;
+
   MountTargetDescription({
     @_s.required this.fileSystemId,
     @_s.required this.lifeCycleState,
@@ -2020,6 +2489,7 @@ class MountTargetDescription {
     this.ipAddress,
     this.networkInterfaceId,
     this.ownerId,
+    this.vpcId,
   });
   factory MountTargetDescription.fromJson(Map<String, dynamic> json) =>
       _$MountTargetDescriptionFromJson(json);
@@ -2119,6 +2589,17 @@ class RootDirectory {
       _$RootDirectoryFromJson(json);
 
   Map<String, dynamic> toJson() => _$RootDirectoryToJson(this);
+}
+
+enum Status {
+  @_s.JsonValue('ENABLED')
+  enabled,
+  @_s.JsonValue('ENABLING')
+  enabling,
+  @_s.JsonValue('DISABLED')
+  disabled,
+  @_s.JsonValue('DISABLING')
+  disabling,
 }
 
 /// A tag is a key-value pair. Allowed characters are letters, white space, and
@@ -2319,6 +2800,11 @@ class UnsupportedAvailabilityZone extends _s.GenericAwsException {
             type: type, code: 'UnsupportedAvailabilityZone', message: message);
 }
 
+class ValidationException extends _s.GenericAwsException {
+  ValidationException({String type, String message})
+      : super(type: type, code: 'ValidationException', message: message);
+}
+
 final _exceptionFns = <String, _s.AwsExceptionFn>{
   'AccessPointAlreadyExists': (type, message) =>
       AccessPointAlreadyExists(type: type, message: message),
@@ -2371,4 +2857,6 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       TooManyRequests(type: type, message: message),
   'UnsupportedAvailabilityZone': (type, message) =>
       UnsupportedAvailabilityZone(type: type, message: message),
+  'ValidationException': (type, message) =>
+      ValidationException(type: type, message: message),
 };

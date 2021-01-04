@@ -57,7 +57,7 @@ class KinesisVideo {
   ///
   /// Parameter [channelName] :
   /// A name for the signaling channel that you are creating. It must be unique
-  /// for each account and region.
+  /// for each AWS account and AWS Region.
   ///
   /// Parameter [channelType] :
   /// A type of the signaling channel that you are creating. Currently,
@@ -68,7 +68,7 @@ class KinesisVideo {
   /// <code>SINGLE_MASTER</code> channel type.
   ///
   /// Parameter [tags] :
-  /// A set of tags (key/value pairs) that you want to associate with this
+  /// A set of tags (key-value pairs) that you want to associate with this
   /// channel.
   Future<CreateSignalingChannelOutput> createSignalingChannel({
     @_s.required String channelName,
@@ -226,6 +226,11 @@ class KinesisVideo {
       1,
       2048,
     );
+    _s.validateStringPattern(
+      'kmsKeyId',
+      kmsKeyId,
+      r'''.+''',
+    );
     _s.validateStringLength(
       'mediaType',
       mediaType,
@@ -264,15 +269,17 @@ class KinesisVideo {
   /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
   /// May throw [VersionMismatchException].
+  /// May throw [ResourceInUseException].
   ///
   /// Parameter [channelARN] :
-  /// The ARN of the signaling channel that you want to delete.
+  /// The Amazon Resource Name (ARN) of the signaling channel that you want to
+  /// delete.
   ///
   /// Parameter [currentVersion] :
   /// The current version of the signaling channel that you want to delete. You
   /// can obtain the current version by invoking the
   /// <code>DescribeSignalingChannel</code> or
-  /// <code>ListSignalingChannels</code> APIs.
+  /// <code>ListSignalingChannels</code> API operations.
   Future<void> deleteSignalingChannel({
     @_s.required String channelARN,
     String currentVersion,
@@ -336,6 +343,7 @@ class KinesisVideo {
   /// May throw [ResourceNotFoundException].
   /// May throw [NotAuthorizedException].
   /// May throw [VersionMismatchException].
+  /// May throw [ResourceInUseException].
   ///
   /// Parameter [streamARN] :
   /// The Amazon Resource Name (ARN) of the stream that you want to delete.
@@ -392,8 +400,8 @@ class KinesisVideo {
   }
 
   /// Returns the most current information about the signaling channel. You must
-  /// specify either the name or the ARN of the channel that you want to
-  /// describe.
+  /// specify either the name or the Amazon Resource Name (ARN) of the channel
+  /// that you want to describe.
   ///
   /// May throw [InvalidArgumentException].
   /// May throw [ClientLimitExceededException].
@@ -572,10 +580,9 @@ class KinesisVideo {
   /// properties.
   ///
   /// <code>Protocols</code> is used to determine the communication mechanism.
-  /// For example, specifying <code>WSS</code> as the protocol, results in this
-  /// API producing a secure websocket endpoint, and specifying
-  /// <code>HTTPS</code> as the protocol, results in this API generating an
-  /// HTTPS endpoint.
+  /// For example, if you specify <code>WSS</code> as the protocol, this API
+  /// produces a secure websocket endpoint. If you specify <code>HTTPS</code> as
+  /// the protocol, this API generates an HTTPS endpoint.
   ///
   /// <code>Role</code> determines the messaging permissions. A
   /// <code>MASTER</code> role results in this API generating an endpoint that a
@@ -590,7 +597,8 @@ class KinesisVideo {
   /// May throw [AccessDeniedException].
   ///
   /// Parameter [channelARN] :
-  /// The ARN of the signalling channel for which you want to get an endpoint.
+  /// The Amazon Resource Name (ARN) of the signalling channel for which you
+  /// want to get an endpoint.
   ///
   /// Parameter [singleMasterChannelEndpointConfiguration] :
   /// A structure containing the endpoint configuration for the
@@ -753,12 +761,14 @@ class KinesisVideo {
   /// May throw [AccessDeniedException].
   ///
   /// Parameter [resourceARN] :
-  /// The ARN of the signaling channel for which you want to list tags.
+  /// The Amazon Resource Name (ARN) of the signaling channel for which you want
+  /// to list tags.
   ///
   /// Parameter [nextToken] :
-  /// If you specify this parameter and the result of a ListTagsForResource call
-  /// is truncated, the response includes a token that you can use in the next
-  /// request to fetch the next batch of tags.
+  /// If you specify this parameter and the result of a
+  /// <code>ListTagsForResource</code> call is truncated, the response includes
+  /// a token that you can use in the next request to fetch the next batch of
+  /// tags.
   Future<ListTagsForResourceOutput> listTagsForResource({
     @_s.required String resourceARN,
     String nextToken,
@@ -892,7 +902,8 @@ class KinesisVideo {
   /// May throw [TagsPerResourceExceededLimitException].
   ///
   /// Parameter [resourceARN] :
-  /// The ARN of the signaling channel to which you want to add tags.
+  /// The Amazon Resource Name (ARN) of the signaling channel to which you want
+  /// to add tags.
   ///
   /// Parameter [tags] :
   /// A list of tags to associate with the specified signaling channel. Each tag
@@ -1014,7 +1025,8 @@ class KinesisVideo {
   /// May throw [AccessDeniedException].
   ///
   /// Parameter [resourceARN] :
-  /// The ARN of the signaling channel from which you want to remove tags.
+  /// The Amazon Resource Name (ARN) of the signaling channel from which you
+  /// want to remove tags.
   ///
   /// Parameter [tagKeyList] :
   /// A list of the keys of the tags that you want to remove.
@@ -1241,9 +1253,9 @@ class KinesisVideo {
   /// and takes time to complete.
   ///
   /// If the <code>MessageTtlSeconds</code> value is updated (either increased
-  /// or reduced), then it only applies to new messages sent via this channel
-  /// after it's been updated. Existing messages are still expire as per the
-  /// previous <code>MessageTtlSeconds</code> value.
+  /// or reduced), it only applies to new messages sent via this channel after
+  /// it's been updated. Existing messages are still expired as per the previous
+  /// <code>MessageTtlSeconds</code> value.
   ///
   /// May throw [InvalidArgumentException].
   /// May throw [ClientLimitExceededException].
@@ -1253,7 +1265,8 @@ class KinesisVideo {
   /// May throw [VersionMismatchException].
   ///
   /// Parameter [channelARN] :
-  /// The ARN of the signaling channel that you want to update.
+  /// The Amazon Resource Name (ARN) of the signaling channel that you want to
+  /// update.
   ///
   /// Parameter [currentVersion] :
   /// The current version of the signaling channel that you want to update.
@@ -1457,6 +1470,8 @@ enum APIName {
   getHlsStreamingSessionUrl,
   @_s.JsonValue('GET_DASH_STREAMING_SESSION_URL')
   getDashStreamingSessionUrl,
+  @_s.JsonValue('GET_CLIP')
+  getClip,
 }
 
 extension on APIName {
@@ -1474,6 +1489,8 @@ extension on APIName {
         return 'GET_HLS_STREAMING_SESSION_URL';
       case APIName.getDashStreamingSessionUrl:
         return 'GET_DASH_STREAMING_SESSION_URL';
+      case APIName.getClip:
+        return 'GET_CLIP';
     }
     throw Exception('Unknown enum value: $this');
   }
@@ -1486,7 +1503,7 @@ extension on APIName {
     createFactory: true,
     createToJson: false)
 class ChannelInfo {
-  /// The ARN of the signaling channel.
+  /// The Amazon Resource Name (ARN) of the signaling channel.
   @_s.JsonKey(name: 'ChannelARN')
   final String channelARN;
 
@@ -1596,7 +1613,7 @@ enum ComparisonOperator {
     createFactory: true,
     createToJson: false)
 class CreateSignalingChannelOutput {
-  /// The ARN of the created channel.
+  /// The Amazon Resource Name (ARN) of the created channel.
   @_s.JsonKey(name: 'ChannelARN')
   final String channelARN;
 
@@ -1769,9 +1786,9 @@ class ListStreamsOutput {
     createFactory: true,
     createToJson: false)
 class ListTagsForResourceOutput {
-  /// If you specify this parameter and the result of a ListTagsForResource call
-  /// is truncated, the response includes a token that you can use in the next
-  /// request to fetch the next set of tags.
+  /// If you specify this parameter and the result of a
+  /// <code>ListTagsForResource</code> call is truncated, the response includes a
+  /// token that you can use in the next request to fetch the next set of tags.
   @_s.JsonKey(name: 'NextToken')
   final String nextToken;
 

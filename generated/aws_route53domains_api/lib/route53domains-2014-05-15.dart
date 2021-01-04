@@ -45,6 +45,123 @@ class Route53Domains {
           endpointUrl: endpointUrl,
         );
 
+  /// Accepts the transfer of a domain from another AWS account to the current
+  /// AWS account. You initiate a transfer between AWS accounts using <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_TransferDomainToAnotherAwsAccount.html">TransferDomainToAnotherAwsAccount</a>.
+  ///
+  /// Use either <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_ListOperations.html">ListOperations</a>
+  /// or <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html">GetOperationDetail</a>
+  /// to determine whether the operation succeeded. <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html">GetOperationDetail</a>
+  /// provides additional information, for example, <code>Domain Transfer from
+  /// Aws Account 111122223333 has been cancelled</code>.
+  ///
+  /// May throw [InvalidInput].
+  /// May throw [OperationLimitExceeded].
+  /// May throw [DomainLimitExceeded].
+  ///
+  /// Parameter [domainName] :
+  /// The name of the domain that was specified when another AWS account
+  /// submitted a <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_TransferDomainToAnotherAwsAccount.html">TransferDomainToAnotherAwsAccount</a>
+  /// request.
+  ///
+  /// Parameter [password] :
+  /// The password that was returned by the <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_TransferDomainToAnotherAwsAccount.html">TransferDomainToAnotherAwsAccount</a>
+  /// request.
+  Future<AcceptDomainTransferFromAnotherAwsAccountResponse>
+      acceptDomainTransferFromAnotherAwsAccount({
+    @_s.required String domainName,
+    @_s.required String password,
+  }) async {
+    ArgumentError.checkNotNull(domainName, 'domainName');
+    _s.validateStringLength(
+      'domainName',
+      domainName,
+      0,
+      255,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(password, 'password');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'Route53Domains_v20140515.AcceptDomainTransferFromAnotherAwsAccount'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'DomainName': domainName,
+        'Password': password,
+      },
+    );
+
+    return AcceptDomainTransferFromAnotherAwsAccountResponse.fromJson(
+        jsonResponse.body);
+  }
+
+  /// Cancels the transfer of a domain from the current AWS account to another
+  /// AWS account. You initiate a transfer between AWS accounts using <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_TransferDomainToAnotherAwsAccount.html">TransferDomainToAnotherAwsAccount</a>.
+  /// <important>
+  /// You must cancel the transfer before the other AWS account accepts the
+  /// transfer using <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_AcceptDomainTransferFromAnotherAwsAccount.html">AcceptDomainTransferFromAnotherAwsAccount</a>.
+  /// </important>
+  /// Use either <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_ListOperations.html">ListOperations</a>
+  /// or <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html">GetOperationDetail</a>
+  /// to determine whether the operation succeeded. <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html">GetOperationDetail</a>
+  /// provides additional information, for example, <code>Domain Transfer from
+  /// Aws Account 111122223333 has been cancelled</code>.
+  ///
+  /// May throw [InvalidInput].
+  /// May throw [OperationLimitExceeded].
+  ///
+  /// Parameter [domainName] :
+  /// The name of the domain for which you want to cancel the transfer to
+  /// another AWS account.
+  Future<CancelDomainTransferToAnotherAwsAccountResponse>
+      cancelDomainTransferToAnotherAwsAccount({
+    @_s.required String domainName,
+  }) async {
+    ArgumentError.checkNotNull(domainName, 'domainName');
+    _s.validateStringLength(
+      'domainName',
+      domainName,
+      0,
+      255,
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'Route53Domains_v20140515.CancelDomainTransferToAnotherAwsAccount'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'DomainName': domainName,
+      },
+    );
+
+    return CancelDomainTransferToAnotherAwsAccountResponse.fromJson(
+        jsonResponse.body);
+  }
+
   /// This operation checks the availability of one domain name. Note that if
   /// the availability status of a domain is pending, you must submit another
   /// request to determine the availability of the domain name.
@@ -53,11 +170,38 @@ class Route53Domains {
   /// May throw [UnsupportedTLD].
   ///
   /// Parameter [domainName] :
-  /// The name of the domain that you want to get availability for.
+  /// The name of the domain that you want to get availability for. The
+  /// top-level domain (TLD), such as .com, must be a TLD that Route 53
+  /// supports. For a list of supported TLDs, see <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/registrar-tld-list.html">Domains
+  /// that You Can Register with Amazon Route 53</a> in the <i>Amazon Route 53
+  /// Developer Guide</i>.
   ///
-  /// Constraints: The domain name can contain only the letters a through z, the
-  /// numbers 0 through 9, and hyphen (-). Internationalized Domain Names are
-  /// not supported.
+  /// The domain name can contain only the following characters:
+  ///
+  /// <ul>
+  /// <li>
+  /// Letters a through z. Domain names are not case sensitive.
+  /// </li>
+  /// <li>
+  /// Numbers 0 through 9.
+  /// </li>
+  /// <li>
+  /// Hyphen (-). You can't specify a hyphen at the beginning or end of a label.
+  /// </li>
+  /// <li>
+  /// Period (.) to separate the labels in the name, such as the <code>.</code>
+  /// in <code>example.com</code>.
+  /// </li>
+  /// </ul>
+  /// Internationalized domain names are not supported for some top-level
+  /// domains. To determine whether the TLD that you want to use supports
+  /// internationalized domain names, see <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/registrar-tld-list.html">Domains
+  /// that You Can Register with Amazon Route 53</a>. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DomainNameFormat.html#domain-name-format-idns">Formatting
+  /// Internationalized Domain Names</a>.
   ///
   /// Parameter [idnLangCode] :
   /// Reserved for future use.
@@ -104,11 +248,30 @@ class Route53Domains {
   /// May throw [UnsupportedTLD].
   ///
   /// Parameter [domainName] :
-  /// The name of the domain that you want to transfer to Amazon Route 53.
+  /// The name of the domain that you want to transfer to Route 53. The
+  /// top-level domain (TLD), such as .com, must be a TLD that Route 53
+  /// supports. For a list of supported TLDs, see <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/registrar-tld-list.html">Domains
+  /// that You Can Register with Amazon Route 53</a> in the <i>Amazon Route 53
+  /// Developer Guide</i>.
   ///
-  /// Constraints: The domain name can contain only the letters a through z, the
-  /// numbers 0 through 9, and hyphen (-). Internationalized Domain Names are
-  /// not supported.
+  /// The domain name can contain only the following characters:
+  ///
+  /// <ul>
+  /// <li>
+  /// Letters a through z. Domain names are not case sensitive.
+  /// </li>
+  /// <li>
+  /// Numbers 0 through 9.
+  /// </li>
+  /// <li>
+  /// Hyphen (-). You can't specify a hyphen at the beginning or end of a label.
+  /// </li>
+  /// <li>
+  /// Period (.) to separate the labels in the name, such as the <code>.</code>
+  /// in <code>example.com</code>.
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [authCode] :
   /// If the registrar for the top-level domain (TLD) requires an authorization
@@ -285,11 +448,10 @@ class Route53Domains {
   ///
   /// The period during which you can renew a domain name varies by TLD. For a
   /// list of TLDs and their renewal policies, see <a
-  /// href="http://wiki.gandi.net/en/domains/renew#renewal_restoration_and_deletion_times">"Renewal,
-  /// restoration, and deletion times"</a> on the website for our registrar
-  /// associate, Gandi. Amazon Route 53 requires that you renew before the end
-  /// of the renewal period that is listed on the Gandi website so we can
-  /// complete processing before the deadline.
+  /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/registrar-tld-list.html">Domains
+  /// That You Can Register with Amazon Route 53</a> in the <i>Amazon Route 53
+  /// Developer Guide</i>. Route 53 requires that you renew before the end of
+  /// the renewal period so we can complete processing before the deadline.
   ///
   /// May throw [InvalidInput].
   /// May throw [UnsupportedTLD].
@@ -450,31 +612,53 @@ class Route53Domains {
   }
 
   /// The GetDomainSuggestions operation returns a list of suggested domain
-  /// names given a string, which can either be a domain name or simply a word
-  /// or phrase (without spaces).
+  /// names.
   ///
   /// May throw [InvalidInput].
   /// May throw [UnsupportedTLD].
   ///
   /// Parameter [domainName] :
   /// A domain name that you want to use as the basis for a list of possible
-  /// domain names. The domain name must contain a top-level domain (TLD), such
-  /// as .com, that Amazon Route 53 supports. For a list of TLDs, see <a
-  /// href="http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/registrar-tld-list.html">Domains
+  /// domain names. The top-level domain (TLD), such as .com, must be a TLD that
+  /// Route 53 supports. For a list of supported TLDs, see <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/registrar-tld-list.html">Domains
   /// that You Can Register with Amazon Route 53</a> in the <i>Amazon Route 53
   /// Developer Guide</i>.
   ///
+  /// The domain name can contain only the following characters:
+  ///
+  /// <ul>
+  /// <li>
+  /// Letters a through z. Domain names are not case sensitive.
+  /// </li>
+  /// <li>
+  /// Numbers 0 through 9.
+  /// </li>
+  /// <li>
+  /// Hyphen (-). You can't specify a hyphen at the beginning or end of a label.
+  /// </li>
+  /// <li>
+  /// Period (.) to separate the labels in the name, such as the <code>.</code>
+  /// in <code>example.com</code>.
+  /// </li>
+  /// </ul>
+  /// Internationalized domain names are not supported for some top-level
+  /// domains. To determine whether the TLD that you want to use supports
+  /// internationalized domain names, see <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/registrar-tld-list.html">Domains
+  /// that You Can Register with Amazon Route 53</a>.
+  ///
   /// Parameter [onlyAvailable] :
-  /// If <code>OnlyAvailable</code> is <code>true</code>, Amazon Route 53
-  /// returns only domain names that are available. If
-  /// <code>OnlyAvailable</code> is <code>false</code>, Amazon Route 53 returns
-  /// domain names without checking whether they're available to be registered.
-  /// To determine whether the domain is available, you can call
-  /// <code>checkDomainAvailability</code> for each suggestion.
+  /// If <code>OnlyAvailable</code> is <code>true</code>, Route 53 returns only
+  /// domain names that are available. If <code>OnlyAvailable</code> is
+  /// <code>false</code>, Route 53 returns domain names without checking whether
+  /// they're available to be registered. To determine whether the domain is
+  /// available, you can call <code>checkDomainAvailability</code> for each
+  /// suggestion.
   ///
   /// Parameter [suggestionCount] :
-  /// The number of suggested domain names that you want Amazon Route 53 to
-  /// return.
+  /// The number of suggested domain names that you want Route 53 to return.
+  /// Specify a value between 1 and 50.
   Future<GetDomainSuggestionsResponse> getDomainSuggestions({
     @_s.required String domainName,
     @_s.required bool onlyAvailable,
@@ -517,8 +701,7 @@ class Route53Domains {
   ///
   /// Parameter [operationId] :
   /// The identifier for the operation for which you want to get the status.
-  /// Amazon Route 53 returned the identifier in the response to the original
-  /// request.
+  /// Route 53 returned the identifier in the response to the original request.
   Future<GetOperationDetailResponse> getOperationDetail({
     @_s.required String operationId,
   }) async {
@@ -604,8 +787,9 @@ class Route53Domains {
     return ListDomainsResponse.fromJson(jsonResponse.body);
   }
 
-  /// This operation returns the operation IDs of operations that are not yet
-  /// complete.
+  /// Returns information about all of the operations that return an operation
+  /// ID and that have ever been performed on domains that were registered by
+  /// the current account.
   ///
   /// May throw [InvalidInput].
   ///
@@ -626,7 +810,7 @@ class Route53Domains {
   /// Parameter [submittedSince] :
   /// An optional parameter that lets you get information about all the
   /// operations that you submitted after a specified date and time. Specify the
-  /// date and time in Coordinated Universal time (UTC).
+  /// date and time in Unix time format and Coordinated Universal time (UTC).
   Future<ListOperationsResponse> listOperations({
     String marker,
     int maxItems,
@@ -715,10 +899,9 @@ class Route53Domains {
   ///
   /// <ul>
   /// <li>
-  /// Creates a Amazon Route 53 hosted zone that has the same name as the
-  /// domain. Amazon Route 53 assigns four name servers to your hosted zone and
-  /// automatically updates your domain registration with the names of these
-  /// name servers.
+  /// Creates a Route 53 hosted zone that has the same name as the domain. Route
+  /// 53 assigns four name servers to your hosted zone and automatically updates
+  /// your domain registration with the names of these name servers.
   /// </li>
   /// <li>
   /// Enables autorenew, so your domain registration will renew automatically
@@ -752,30 +935,63 @@ class Route53Domains {
   /// May throw [OperationLimitExceeded].
   ///
   /// Parameter [adminContact] :
-  /// Provides detailed contact information.
+  /// Provides detailed contact information. For information about the values
+  /// that you specify for each element, see <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_ContactDetail.html">ContactDetail</a>.
   ///
   /// Parameter [domainName] :
-  /// The domain name that you want to register.
+  /// The domain name that you want to register. The top-level domain (TLD),
+  /// such as .com, must be a TLD that Route 53 supports. For a list of
+  /// supported TLDs, see <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/registrar-tld-list.html">Domains
+  /// that You Can Register with Amazon Route 53</a> in the <i>Amazon Route 53
+  /// Developer Guide</i>.
   ///
-  /// Constraints: The domain name can contain only the letters a through z, the
-  /// numbers 0 through 9, and hyphen (-). Internationalized Domain Names are
-  /// not supported.
+  /// The domain name can contain only the following characters:
+  ///
+  /// <ul>
+  /// <li>
+  /// Letters a through z. Domain names are not case sensitive.
+  /// </li>
+  /// <li>
+  /// Numbers 0 through 9.
+  /// </li>
+  /// <li>
+  /// Hyphen (-). You can't specify a hyphen at the beginning or end of a label.
+  /// </li>
+  /// <li>
+  /// Period (.) to separate the labels in the name, such as the <code>.</code>
+  /// in <code>example.com</code>.
+  /// </li>
+  /// </ul>
+  /// Internationalized domain names are not supported for some top-level
+  /// domains. To determine whether the TLD that you want to use supports
+  /// internationalized domain names, see <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/registrar-tld-list.html">Domains
+  /// that You Can Register with Amazon Route 53</a>. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DomainNameFormat.html#domain-name-format-idns">Formatting
+  /// Internationalized Domain Names</a>.
   ///
   /// Parameter [durationInYears] :
   /// The number of years that you want to register the domain for. Domains are
   /// registered for a minimum of one year. The maximum period depends on the
   /// top-level domain. For the range of valid values for your domain, see <a
-  /// href="http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/registrar-tld-list.html">Domains
+  /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/registrar-tld-list.html">Domains
   /// that You Can Register with Amazon Route 53</a> in the <i>Amazon Route 53
   /// Developer Guide</i>.
   ///
   /// Default: 1
   ///
   /// Parameter [registrantContact] :
-  /// Provides detailed contact information.
+  /// Provides detailed contact information. For information about the values
+  /// that you specify for each element, see <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_ContactDetail.html">ContactDetail</a>.
   ///
   /// Parameter [techContact] :
-  /// Provides detailed contact information.
+  /// Provides detailed contact information. For information about the values
+  /// that you specify for each element, see <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_ContactDetail.html">ContactDetail</a>.
   ///
   /// Parameter [autoRenew] :
   /// Indicates whether the domain will be automatically renewed
@@ -883,6 +1099,59 @@ class Route53Domains {
     return RegisterDomainResponse.fromJson(jsonResponse.body);
   }
 
+  /// Rejects the transfer of a domain from another AWS account to the current
+  /// AWS account. You initiate a transfer between AWS accounts using <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_TransferDomainToAnotherAwsAccount.html">TransferDomainToAnotherAwsAccount</a>.
+  ///
+  /// Use either <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_ListOperations.html">ListOperations</a>
+  /// or <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html">GetOperationDetail</a>
+  /// to determine whether the operation succeeded. <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html">GetOperationDetail</a>
+  /// provides additional information, for example, <code>Domain Transfer from
+  /// Aws Account 111122223333 has been cancelled</code>.
+  ///
+  /// May throw [InvalidInput].
+  /// May throw [OperationLimitExceeded].
+  ///
+  /// Parameter [domainName] :
+  /// The name of the domain that was specified when another AWS account
+  /// submitted a <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_TransferDomainToAnotherAwsAccount.html">TransferDomainToAnotherAwsAccount</a>
+  /// request.
+  Future<RejectDomainTransferFromAnotherAwsAccountResponse>
+      rejectDomainTransferFromAnotherAwsAccount({
+    @_s.required String domainName,
+  }) async {
+    ArgumentError.checkNotNull(domainName, 'domainName');
+    _s.validateStringLength(
+      'domainName',
+      domainName,
+      0,
+      255,
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'Route53Domains_v20140515.RejectDomainTransferFromAnotherAwsAccount'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'DomainName': domainName,
+      },
+    );
+
+    return RejectDomainTransferFromAnotherAwsAccountResponse.fromJson(
+        jsonResponse.body);
+  }
+
   /// This operation renews a domain for the specified number of years. The cost
   /// of renewing your domain is billed to your AWS account.
   ///
@@ -890,8 +1159,9 @@ class Route53Domains {
   /// expiration date. Some TLD registries delete domains before the expiration
   /// date if you haven't renewed far enough in advance. For more information
   /// about renewing domain registration, see <a
-  /// href="http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/domain-renew.html">Renewing
-  /// Registration for a Domain</a> in the Amazon Route 53 Developer Guide.
+  /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/domain-renew.html">Renewing
+  /// Registration for a Domain</a> in the <i>Amazon Route 53 Developer
+  /// Guide</i>.
   ///
   /// May throw [InvalidInput].
   /// May throw [UnsupportedTLD].
@@ -910,7 +1180,7 @@ class Route53Domains {
   /// The number of years that you want to renew the domain for. The maximum
   /// number of years depends on the top-level domain. For the range of valid
   /// values for your domain, see <a
-  /// href="http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/registrar-tld-list.html">Domains
+  /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/registrar-tld-list.html">Domains
   /// that You Can Register with Amazon Route 53</a> in the <i>Amazon Route 53
   /// Developer Guide</i>.
   ///
@@ -965,7 +1235,7 @@ class Route53Domains {
   /// May throw [UnsupportedTLD].
   ///
   /// Parameter [domainName] :
-  /// The name of the domain for which you want Amazon Route 53 to resend a
+  /// The name of the domain for which you want Route 53 to resend a
   /// confirmation email to the registrant contact.
   Future<ResendContactReachabilityEmailResponse>
       resendContactReachabilityEmail({
@@ -1032,24 +1302,42 @@ class Route53Domains {
     return RetrieveDomainAuthCodeResponse.fromJson(jsonResponse.body);
   }
 
-  /// This operation transfers a domain from another registrar to Amazon Route
-  /// 53. When the transfer is complete, the domain is registered either with
-  /// Amazon Registrar (for .com, .net, and .org domains) or with our registrar
+  /// Transfers a domain from another registrar to Amazon Route 53. When the
+  /// transfer is complete, the domain is registered either with Amazon
+  /// Registrar (for .com, .net, and .org domains) or with our registrar
   /// associate, Gandi (for all other TLDs).
   ///
+  /// For more information about transferring domains, see the following topics:
+  ///
+  /// <ul>
+  /// <li>
   /// For transfer requirements, a detailed procedure, and information about
-  /// viewing the status of a domain transfer, see <a
-  /// href="http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/domain-transfer-to-route-53.html">Transferring
+  /// viewing the status of a domain that you're transferring to Route 53, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/domain-transfer-to-route-53.html">Transferring
   /// Registration for a Domain to Amazon Route 53</a> in the <i>Amazon Route 53
   /// Developer Guide</i>.
-  ///
+  /// </li>
+  /// <li>
+  /// For information about how to transfer a domain from one AWS account to
+  /// another, see <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_TransferDomainToAnotherAwsAccount.html">TransferDomainToAnotherAwsAccount</a>.
+  /// </li>
+  /// <li>
+  /// For information about how to transfer a domain to another domain
+  /// registrar, see <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/domain-transfer-from-route-53.html">Transferring
+  /// a Domain from Amazon Route 53 to Another Registrar</a> in the <i>Amazon
+  /// Route 53 Developer Guide</i>.
+  /// </li>
+  /// </ul>
   /// If the registrar for your domain is also the DNS service provider for the
-  /// domain, we highly recommend that you consider transferring your DNS
-  /// service to Amazon Route 53 or to another DNS service provider before you
-  /// transfer your registration. Some registrars provide free DNS service when
-  /// you purchase a domain registration. When you transfer the registration,
-  /// the previous registrar will not renew your domain registration and could
-  /// end your DNS service at any time.
+  /// domain, we highly recommend that you transfer your DNS service to Route 53
+  /// or to another DNS service provider before you transfer your registration.
+  /// Some registrars provide free DNS service when you purchase a domain
+  /// registration. When you transfer the registration, the previous registrar
+  /// will not renew your domain registration and could end your DNS service at
+  /// any time.
   /// <important>
   /// If the registrar for your domain is also the DNS service provider for the
   /// domain and you don't transfer DNS service to another provider, your
@@ -1072,11 +1360,30 @@ class Route53Domains {
   /// Provides detailed contact information.
   ///
   /// Parameter [domainName] :
-  /// The name of the domain that you want to transfer to Amazon Route 53.
+  /// The name of the domain that you want to transfer to Route 53. The
+  /// top-level domain (TLD), such as .com, must be a TLD that Route 53
+  /// supports. For a list of supported TLDs, see <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/registrar-tld-list.html">Domains
+  /// that You Can Register with Amazon Route 53</a> in the <i>Amazon Route 53
+  /// Developer Guide</i>.
   ///
-  /// Constraints: The domain name can contain only the letters a through z, the
-  /// numbers 0 through 9, and hyphen (-). Internationalized Domain Names are
-  /// not supported.
+  /// The domain name can contain only the following characters:
+  ///
+  /// <ul>
+  /// <li>
+  /// Letters a through z. Domain names are not case sensitive.
+  /// </li>
+  /// <li>
+  /// Numbers 0 through 9.
+  /// </li>
+  /// <li>
+  /// Hyphen (-). You can't specify a hyphen at the beginning or end of a label.
+  /// </li>
+  /// <li>
+  /// Period (.) to separate the labels in the name, such as the <code>.</code>
+  /// in <code>example.com</code>.
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [durationInYears] :
   /// The number of years that you want to register the domain for. Domains are
@@ -1213,6 +1520,96 @@ class Route53Domains {
     return TransferDomainResponse.fromJson(jsonResponse.body);
   }
 
+  /// Transfers a domain from the current AWS account to another AWS account.
+  /// Note the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// The AWS account that you're transferring the domain to must accept the
+  /// transfer. If the other account doesn't accept the transfer within 3 days,
+  /// we cancel the transfer. See <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_AcceptDomainTransferFromAnotherAwsAccount.html">AcceptDomainTransferFromAnotherAwsAccount</a>.
+  /// </li>
+  /// <li>
+  /// You can cancel the transfer before the other account accepts it. See <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_CancelDomainTransferToAnotherAwsAccount.html">CancelDomainTransferToAnotherAwsAccount</a>.
+  /// </li>
+  /// <li>
+  /// The other account can reject the transfer. See <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_RejectDomainTransferFromAnotherAwsAccount.html">RejectDomainTransferFromAnotherAwsAccount</a>.
+  /// </li>
+  /// </ul> <important>
+  /// When you transfer a domain from one AWS account to another, Route 53
+  /// doesn't transfer the hosted zone that is associated with the domain. DNS
+  /// resolution isn't affected if the domain and the hosted zone are owned by
+  /// separate accounts, so transferring the hosted zone is optional. For
+  /// information about transferring the hosted zone to another AWS account, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/hosted-zones-migrating.html">Migrating
+  /// a Hosted Zone to a Different AWS Account</a> in the <i>Amazon Route 53
+  /// Developer Guide</i>.
+  /// </important>
+  /// Use either <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_ListOperations.html">ListOperations</a>
+  /// or <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html">GetOperationDetail</a>
+  /// to determine whether the operation succeeded. <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html">GetOperationDetail</a>
+  /// provides additional information, for example, <code>Domain Transfer from
+  /// Aws Account 111122223333 has been cancelled</code>.
+  ///
+  /// May throw [InvalidInput].
+  /// May throw [OperationLimitExceeded].
+  /// May throw [DuplicateRequest].
+  ///
+  /// Parameter [accountId] :
+  /// The account ID of the AWS account that you want to transfer the domain to,
+  /// for example, <code>111122223333</code>.
+  ///
+  /// Parameter [domainName] :
+  /// The name of the domain that you want to transfer from the current AWS
+  /// account to another account.
+  Future<TransferDomainToAnotherAwsAccountResponse>
+      transferDomainToAnotherAwsAccount({
+    @_s.required String accountId,
+    @_s.required String domainName,
+  }) async {
+    ArgumentError.checkNotNull(accountId, 'accountId');
+    _s.validateStringPattern(
+      'accountId',
+      accountId,
+      r'''^(\d{12})$''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(domainName, 'domainName');
+    _s.validateStringLength(
+      'domainName',
+      domainName,
+      0,
+      255,
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'Route53Domains_v20140515.TransferDomainToAnotherAwsAccount'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'AccountId': accountId,
+        'DomainName': domainName,
+      },
+    );
+
+    return TransferDomainToAnotherAwsAccountResponse.fromJson(
+        jsonResponse.body);
+  }
+
   /// This operation updates the contact information for a particular domain.
   /// You must specify information for at least one contact: registrant,
   /// administrator, or technical.
@@ -1282,10 +1679,22 @@ class Route53Domains {
   ///
   /// This operation affects only the contact information for the specified
   /// contact type (registrant, administrator, or tech). If the request
-  /// succeeds, Amazon Route 53 returns an operation ID that you can use with
-  /// <a>GetOperationDetail</a> to track the progress and completion of the
-  /// action. If the request doesn't complete successfully, the domain
-  /// registrant will be notified by email.
+  /// succeeds, Amazon Route 53 returns an operation ID that you can use with <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html">GetOperationDetail</a>
+  /// to track the progress and completion of the action. If the request doesn't
+  /// complete successfully, the domain registrant will be notified by email.
+  /// <important>
+  /// By disabling the privacy service via API, you consent to the publication
+  /// of the contact information provided for this domain via the public WHOIS
+  /// database. You certify that you are the registrant of this domain name and
+  /// have the authority to make this decision. You may withdraw your consent at
+  /// any time by enabling privacy protection using either
+  /// <code>UpdateDomainContactPrivacy</code> or the Route 53 console. Enabling
+  /// privacy protection removes the contact information provided for this
+  /// domain from the WHOIS database. For more information on our privacy
+  /// practices, see <a
+  /// href="https://aws.amazon.com/privacy/">https://aws.amazon.com/privacy/</a>.
+  /// </important>
   ///
   /// May throw [InvalidInput].
   /// May throw [DuplicateRequest].
@@ -1465,8 +1874,8 @@ class Route53Domains {
   ///
   /// Parameter [end] :
   /// The end date and time for the time period for which you want a list of
-  /// billing records. Specify the date and time in Coordinated Universal time
-  /// (UTC).
+  /// billing records. Specify the date and time in Unix time format and
+  /// Coordinated Universal time (UTC).
   ///
   /// Parameter [marker] :
   /// For an initial request for a list of billing records, omit this element.
@@ -1488,8 +1897,8 @@ class Route53Domains {
   ///
   /// Parameter [start] :
   /// The beginning date and time for the time period for which you want a list
-  /// of billing records. Specify the date and time in Coordinated Universal
-  /// time (UTC).
+  /// of billing records. Specify the date and time in Unix time format and
+  /// Coordinated Universal time (UTC).
   Future<ViewBillingResponse> viewBilling({
     DateTime end,
     String marker,
@@ -1530,6 +1939,28 @@ class Route53Domains {
   }
 }
 
+/// The AcceptDomainTransferFromAnotherAwsAccount response includes the
+/// following element.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class AcceptDomainTransferFromAnotherAwsAccountResponse {
+  /// Identifier for tracking the progress of the request. To query the operation
+  /// status, use <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html">GetOperationDetail</a>.
+  @_s.JsonKey(name: 'OperationId')
+  final String operationId;
+
+  AcceptDomainTransferFromAnotherAwsAccountResponse({
+    this.operationId,
+  });
+  factory AcceptDomainTransferFromAnotherAwsAccountResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$AcceptDomainTransferFromAnotherAwsAccountResponseFromJson(json);
+}
+
 /// Information for one billing record.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -1546,8 +1977,8 @@ class BillingRecord {
   /// name contains characters other than a-z, 0-9, and - (hyphen), such as an
   /// internationalized domain name, then this value is in Punycode. For more
   /// information, see <a
-  /// href="http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DomainNameFormat.html">DNS
-  /// Domain Name Format</a> in the <i>Amazon Route 53 Developer Guidezzz</i>.
+  /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/DomainNameFormat.html">DNS
+  /// Domain Name Format</a> in the <i>Amazon Route 53 Developer Guide</i>.
   @_s.JsonKey(name: 'DomainName')
   final String domainName;
 
@@ -1576,6 +2007,29 @@ class BillingRecord {
       _$BillingRecordFromJson(json);
 }
 
+/// The <code>CancelDomainTransferToAnotherAwsAccount</code> response includes
+/// the following element.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class CancelDomainTransferToAnotherAwsAccountResponse {
+  /// The identifier that <code>TransferDomainToAnotherAwsAccount</code> returned
+  /// to track the progress of the request. Because the transfer request was
+  /// canceled, the value is no longer valid, and you can't use
+  /// <code>GetOperationDetail</code> to query the operation status.
+  @_s.JsonKey(name: 'OperationId')
+  final String operationId;
+
+  CancelDomainTransferToAnotherAwsAccountResponse({
+    this.operationId,
+  });
+  factory CancelDomainTransferToAnotherAwsAccountResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$CancelDomainTransferToAnotherAwsAccountResponseFromJson(json);
+}
+
 /// The CheckDomainAvailability response includes the following elements.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -1596,9 +2050,9 @@ class CheckDomainAvailabilityResponse {
   /// The domain name is available and can be preordered.
   /// </dd> <dt>DONT_KNOW</dt> <dd>
   /// The TLD registry didn't reply with a definitive answer about whether the
-  /// domain name is available. Amazon Route 53 can return this response for a
-  /// variety of reasons, for example, the registry is performing maintenance. Try
-  /// again later.
+  /// domain name is available. Route 53 can return this response for a variety of
+  /// reasons, for example, the registry is performing maintenance. Try again
+  /// later.
   /// </dd> <dt>PENDING</dt> <dd>
   /// The TLD registry didn't return a response in the expected amount of time.
   /// When the response is delayed, it usually takes just a few extra seconds. You
@@ -1630,7 +2084,7 @@ class CheckDomainAvailabilityResponse {
     createToJson: false)
 class CheckDomainTransferabilityResponse {
   /// A complex type that contains information about whether the specified domain
-  /// can be transferred to Amazon Route 53.
+  /// can be transferred to Route 53.
   @_s.JsonKey(name: 'Transferability')
   final DomainTransferability transferability;
 
@@ -1662,9 +2116,26 @@ class ContactDetail {
   final String city;
 
   /// Indicates whether the contact is a person, company, association, or public
-  /// organization. If you choose an option other than <code>PERSON</code>, you
-  /// must enter an organization name, and you can't enable privacy protection for
-  /// the contact.
+  /// organization. Note the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// If you specify a value other than <code>PERSON</code>, you must also specify
+  /// a value for <code>OrganizationName</code>.
+  /// </li>
+  /// <li>
+  /// For some TLDs, the privacy protection available depends on the value that
+  /// you specify for <code>Contact Type</code>. For the privacy protection
+  /// settings for your TLD, see <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/registrar-tld-list.html">Domains
+  /// that You Can Register with Amazon Route 53</a> in the <i>Amazon Route 53
+  /// Developer Guide</i>
+  /// </li>
+  /// <li>
+  /// For .es domains, if you specify <code>PERSON</code>, you must specify
+  /// <code>INDIVIDUAL</code> for the value of <code>ES_LEGAL_FORM</code>.
+  /// </li>
+  /// </ul>
   @_s.JsonKey(name: 'ContactType')
   final ContactType contactType;
 
@@ -2242,8 +2713,9 @@ class DisableDomainAutoRenewResponse {
     createFactory: true,
     createToJson: false)
 class DisableDomainTransferLockResponse {
-  /// Identifier for tracking the progress of the request. To use this ID to query
-  /// the operation status, use <a>GetOperationDetail</a>.
+  /// Identifier for tracking the progress of the request. To query the operation
+  /// status, use <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html">GetOperationDetail</a>.
   @_s.JsonKey(name: 'OperationId')
   final String operationId;
 
@@ -2274,24 +2746,6 @@ enum DomainAvailability {
   dontKnow,
 }
 
-/// The number of domains has exceeded the allowed threshold for the account.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class DomainLimitExceeded implements _s.AwsException {
-  /// The number of domains has exceeded the allowed threshold for the account.
-  @_s.JsonKey(name: 'message')
-  final String message;
-
-  DomainLimitExceeded({
-    this.message,
-  });
-  factory DomainLimitExceeded.fromJson(Map<String, dynamic> json) =>
-      _$DomainLimitExceededFromJson(json);
-}
-
 /// Information about one suggested domain name.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2313,9 +2767,9 @@ class DomainSuggestion {
   /// The domain name is available and can be preordered.
   /// </dd> <dt>DONT_KNOW</dt> <dd>
   /// The TLD registry didn't reply with a definitive answer about whether the
-  /// domain name is available. Amazon Route 53 can return this response for a
-  /// variety of reasons, for example, the registry is performing maintenance. Try
-  /// again later.
+  /// domain name is available. Route 53 can return this response for a variety of
+  /// reasons, for example, the registry is performing maintenance. Try again
+  /// later.
   /// </dd> <dt>PENDING</dt> <dd>
   /// The TLD registry didn't return a response in the expected amount of time.
   /// When the response is delayed, it usually takes just a few extra seconds. You
@@ -2359,7 +2813,8 @@ class DomainSummary {
   @_s.JsonKey(name: 'AutoRenew')
   final bool autoRenew;
 
-  /// Expiration date of the domain in Coordinated Universal Time (UTC).
+  /// Expiration date of the domain in Unix time format and Coordinated Universal
+  /// Time (UTC).
   @UnixDateTimeConverter()
   @_s.JsonKey(name: 'Expiry')
   final DateTime expiry;
@@ -2380,7 +2835,7 @@ class DomainSummary {
 }
 
 /// A complex type that contains information about whether the specified domain
-/// can be transferred to Amazon Route 53.
+/// can be transferred to Route 53.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -2395,24 +2850,6 @@ class DomainTransferability {
   });
   factory DomainTransferability.fromJson(Map<String, dynamic> json) =>
       _$DomainTransferabilityFromJson(json);
-}
-
-/// The request is already in progress for the domain.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class DuplicateRequest implements _s.AwsException {
-  /// The request is already in progress for the domain.
-  @_s.JsonKey(name: 'message')
-  final String message;
-
-  DuplicateRequest({
-    this.message,
-  });
-  factory DuplicateRequest.fromJson(Map<String, dynamic> json) =>
-      _$DuplicateRequestFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -2453,58 +2890,534 @@ class EnableDomainTransferLockResponse {
     createFactory: true,
     createToJson: true)
 class ExtraParam {
-  /// Name of the additional parameter required by the top-level domain. Here are
-  /// the top-level domains that require additional parameters and which
-  /// parameters they require:
+  /// The name of an additional parameter that is required by a top-level domain.
+  /// Here are the top-level domains that require additional parameters and the
+  /// names of the parameters that they require:
+  /// <dl> <dt>.com.au and .net.au</dt> <dd>
+  /// <ul>
+  /// <li>
+  /// <code>AU_ID_NUMBER</code>
+  /// </li>
+  /// <li>
+  /// <code>AU_ID_TYPE</code>
+  ///
+  /// Valid values include the following:
   ///
   /// <ul>
   /// <li>
-  /// <b>.com.au and .net.au:</b> <code>AU_ID_NUMBER</code> and
-  /// <code>AU_ID_TYPE</code>
+  /// <code>ABN</code> (Australian business number)
   /// </li>
   /// <li>
-  /// <b>.ca:</b> <code>BRAND_NUMBER</code>, <code>CA_LEGAL_TYPE</code>, and
+  /// <code>ACN</code> (Australian company number)
+  /// </li>
+  /// <li>
+  /// <code>TM</code> (Trademark number)
+  /// </li>
+  /// </ul> </li>
+  /// </ul> </dd> <dt>.ca</dt> <dd>
+  /// <ul>
+  /// <li>
+  /// <code>BRAND_NUMBER</code>
+  /// </li>
+  /// <li>
   /// <code>CA_BUSINESS_ENTITY_TYPE</code>
+  ///
+  /// Valid values include the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>BANK</code> (Bank)
   /// </li>
   /// <li>
-  /// <b>.es:</b> <code>ES_IDENTIFICATION</code>,
-  /// <code>ES_IDENTIFICATION_TYPE</code>, and <code>ES_LEGAL_FORM</code>
+  /// <code>COMMERCIAL_COMPANY</code> (Commercial company)
   /// </li>
   /// <li>
-  /// <b>.fi:</b> <code>BIRTH_DATE_IN_YYYY_MM_DD</code>,
-  /// <code>FI_BUSINESS_NUMBER</code>, <code>FI_ID_NUMBER</code>,
-  /// <code>FI_NATIONALITY</code>, and <code>FI_ORGANIZATION_TYPE</code>
+  /// <code>COMPANY</code> (Company)
   /// </li>
   /// <li>
-  /// <b>.fr:</b> <code>BRAND_NUMBER</code>, <code>BIRTH_DEPARTMENT</code>,
-  /// <code>BIRTH_DATE_IN_YYYY_MM_DD</code>, <code>BIRTH_COUNTRY</code>, and
+  /// <code>COOPERATION</code> (Cooperation)
+  /// </li>
+  /// <li>
+  /// <code>COOPERATIVE</code> (Cooperative)
+  /// </li>
+  /// <li>
+  /// <code>COOPRIX</code> (Cooprix)
+  /// </li>
+  /// <li>
+  /// <code>CORP</code> (Corporation)
+  /// </li>
+  /// <li>
+  /// <code>CREDIT_UNION</code> (Credit union)
+  /// </li>
+  /// <li>
+  /// <code>FOMIA</code> (Federation of mutual insurance associations)
+  /// </li>
+  /// <li>
+  /// <code>INC</code> (Incorporated)
+  /// </li>
+  /// <li>
+  /// <code>LTD</code> (Limited)
+  /// </li>
+  /// <li>
+  /// <code>LTEE</code> (Limitée)
+  /// </li>
+  /// <li>
+  /// <code>LLC</code> (Limited liability corporation)
+  /// </li>
+  /// <li>
+  /// <code>LLP</code> (Limited liability partnership)
+  /// </li>
+  /// <li>
+  /// <code>LTE</code> (Lte.)
+  /// </li>
+  /// <li>
+  /// <code>MBA</code> (Mutual benefit association)
+  /// </li>
+  /// <li>
+  /// <code>MIC</code> (Mutual insurance company)
+  /// </li>
+  /// <li>
+  /// <code>NFP</code> (Not-for-profit corporation)
+  /// </li>
+  /// <li>
+  /// <code>SA</code> (S.A.)
+  /// </li>
+  /// <li>
+  /// <code>SAVINGS_COMPANY</code> (Savings company)
+  /// </li>
+  /// <li>
+  /// <code>SAVINGS_UNION</code> (Savings union)
+  /// </li>
+  /// <li>
+  /// <code>SARL</code> (Société à responsabilité limitée)
+  /// </li>
+  /// <li>
+  /// <code>TRUST</code> (Trust)
+  /// </li>
+  /// <li>
+  /// <code>ULC</code> (Unlimited liability corporation)
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// <code>CA_LEGAL_TYPE</code>
+  ///
+  /// When <code>ContactType</code> is <code>PERSON</code>, valid values include
+  /// the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ABO</code> (Aboriginal Peoples indigenous to Canada)
+  /// </li>
+  /// <li>
+  /// <code>CCT</code> (Canadian citizen)
+  /// </li>
+  /// <li>
+  /// <code>LGR</code> (Legal Representative of a Canadian Citizen or Permanent
+  /// Resident)
+  /// </li>
+  /// <li>
+  /// <code>RES</code> (Permanent resident of Canada)
+  /// </li>
+  /// </ul>
+  /// When <code>ContactType</code> is a value other than <code>PERSON</code>,
+  /// valid values include the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ASS</code> (Canadian unincorporated association)
+  /// </li>
+  /// <li>
+  /// <code>CCO</code> (Canadian corporation)
+  /// </li>
+  /// <li>
+  /// <code>EDU</code> (Canadian educational institution)
+  /// </li>
+  /// <li>
+  /// <code>GOV</code> (Government or government entity in Canada)
+  /// </li>
+  /// <li>
+  /// <code>HOP</code> (Canadian Hospital)
+  /// </li>
+  /// <li>
+  /// <code>INB</code> (Indian Band recognized by the Indian Act of Canada)
+  /// </li>
+  /// <li>
+  /// <code>LAM</code> (Canadian Library, Archive, or Museum)
+  /// </li>
+  /// <li>
+  /// <code>MAJ</code> (Her/His Majesty the Queen/King)
+  /// </li>
+  /// <li>
+  /// <code>OMK</code> (Official mark registered in Canada)
+  /// </li>
+  /// <li>
+  /// <code>PLT</code> (Canadian Political Party)
+  /// </li>
+  /// <li>
+  /// <code>PRT</code> (Partnership Registered in Canada)
+  /// </li>
+  /// <li>
+  /// <code>TDM</code> (Trademark registered in Canada)
+  /// </li>
+  /// <li>
+  /// <code>TRD</code> (Canadian Trade Union)
+  /// </li>
+  /// <li>
+  /// <code>TRS</code> (Trust established in Canada)
+  /// </li>
+  /// </ul> </li>
+  /// </ul> </dd> <dt>.es</dt> <dd>
+  /// <ul>
+  /// <li>
+  /// <code>ES_IDENTIFICATION</code>
+  ///
+  /// Specify the applicable value:
+  ///
+  /// <ul>
+  /// <li>
+  /// <b>For contacts inside Spain:</b> Enter your passport ID.
+  /// </li>
+  /// <li>
+  /// <b>For contacts outside of Spain:</b> Enter the VAT identification number
+  /// for the company.
+  /// <note>
+  /// For .es domains, the value of <code>ContactType</code> must be
+  /// <code>PERSON</code>.
+  /// </note> </li>
+  /// </ul> </li>
+  /// <li>
+  /// <code>ES_IDENTIFICATION_TYPE</code>
+  ///
+  /// Valid values include the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>DNI_AND_NIF</code> (For Spanish contacts)
+  /// </li>
+  /// <li>
+  /// <code>NIE</code> (For foreigners with legal residence)
+  /// </li>
+  /// <li>
+  /// <code>OTHER</code> (For contacts outside of Spain)
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// <code>ES_LEGAL_FORM</code>
+  ///
+  /// Valid values include the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ASSOCIATION</code>
+  /// </li>
+  /// <li>
+  /// <code>CENTRAL_GOVERNMENT_BODY</code>
+  /// </li>
+  /// <li>
+  /// <code>CIVIL_SOCIETY</code>
+  /// </li>
+  /// <li>
+  /// <code>COMMUNITY_OF_OWNERS</code>
+  /// </li>
+  /// <li>
+  /// <code>COMMUNITY_PROPERTY</code>
+  /// </li>
+  /// <li>
+  /// <code>CONSULATE</code>
+  /// </li>
+  /// <li>
+  /// <code>COOPERATIVE</code>
+  /// </li>
+  /// <li>
+  /// <code>DESIGNATION_OF_ORIGIN_SUPERVISORY_COUNCIL</code>
+  /// </li>
+  /// <li>
+  /// <code>ECONOMIC_INTEREST_GROUP</code>
+  /// </li>
+  /// <li>
+  /// <code>EMBASSY</code>
+  /// </li>
+  /// <li>
+  /// <code>ENTITY_MANAGING_NATURAL_AREAS</code>
+  /// </li>
+  /// <li>
+  /// <code>FARM_PARTNERSHIP</code>
+  /// </li>
+  /// <li>
+  /// <code>FOUNDATION</code>
+  /// </li>
+  /// <li>
+  /// <code>GENERAL_AND_LIMITED_PARTNERSHIP</code>
+  /// </li>
+  /// <li>
+  /// <code>GENERAL_PARTNERSHIP</code>
+  /// </li>
+  /// <li>
+  /// <code>INDIVIDUAL</code>
+  /// </li>
+  /// <li>
+  /// <code>LIMITED_COMPANY</code>
+  /// </li>
+  /// <li>
+  /// <code>LOCAL_AUTHORITY</code>
+  /// </li>
+  /// <li>
+  /// <code>LOCAL_PUBLIC_ENTITY</code>
+  /// </li>
+  /// <li>
+  /// <code>MUTUAL_INSURANCE_COMPANY</code>
+  /// </li>
+  /// <li>
+  /// <code>NATIONAL_PUBLIC_ENTITY</code>
+  /// </li>
+  /// <li>
+  /// <code>ORDER_OR_RELIGIOUS_INSTITUTION</code>
+  /// </li>
+  /// <li>
+  /// <code>OTHERS (Only for contacts outside of Spain)</code>
+  /// </li>
+  /// <li>
+  /// <code>POLITICAL_PARTY</code>
+  /// </li>
+  /// <li>
+  /// <code>PROFESSIONAL_ASSOCIATION</code>
+  /// </li>
+  /// <li>
+  /// <code>PUBLIC_LAW_ASSOCIATION</code>
+  /// </li>
+  /// <li>
+  /// <code>PUBLIC_LIMITED_COMPANY</code>
+  /// </li>
+  /// <li>
+  /// <code>REGIONAL_GOVERNMENT_BODY</code>
+  /// </li>
+  /// <li>
+  /// <code>REGIONAL_PUBLIC_ENTITY</code>
+  /// </li>
+  /// <li>
+  /// <code>SAVINGS_BANK</code>
+  /// </li>
+  /// <li>
+  /// <code>SPANISH_OFFICE</code>
+  /// </li>
+  /// <li>
+  /// <code>SPORTS_ASSOCIATION</code>
+  /// </li>
+  /// <li>
+  /// <code>SPORTS_FEDERATION</code>
+  /// </li>
+  /// <li>
+  /// <code>SPORTS_LIMITED_COMPANY</code>
+  /// </li>
+  /// <li>
+  /// <code>TEMPORARY_ALLIANCE_OF_ENTERPRISES</code>
+  /// </li>
+  /// <li>
+  /// <code>TRADE_UNION</code>
+  /// </li>
+  /// <li>
+  /// <code>WORKER_OWNED_COMPANY</code>
+  /// </li>
+  /// <li>
+  /// <code>WORKER_OWNED_LIMITED_COMPANY</code>
+  /// </li>
+  /// </ul> </li>
+  /// </ul> </dd> <dt>.fi</dt> <dd>
+  /// <ul>
+  /// <li>
+  /// <code>BIRTH_DATE_IN_YYYY_MM_DD</code>
+  /// </li>
+  /// <li>
+  /// <code>FI_BUSINESS_NUMBER</code>
+  /// </li>
+  /// <li>
+  /// <code>FI_ID_NUMBER</code>
+  /// </li>
+  /// <li>
+  /// <code>FI_NATIONALITY</code>
+  ///
+  /// Valid values include the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>FINNISH</code>
+  /// </li>
+  /// <li>
+  /// <code>NOT_FINNISH</code>
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// <code>FI_ORGANIZATION_TYPE</code>
+  ///
+  /// Valid values include the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>COMPANY</code>
+  /// </li>
+  /// <li>
+  /// <code>CORPORATION</code>
+  /// </li>
+  /// <li>
+  /// <code>GOVERNMENT</code>
+  /// </li>
+  /// <li>
+  /// <code>INSTITUTION</code>
+  /// </li>
+  /// <li>
+  /// <code>POLITICAL_PARTY</code>
+  /// </li>
+  /// <li>
+  /// <code>PUBLIC_COMMUNITY</code>
+  /// </li>
+  /// <li>
+  /// <code>TOWNSHIP</code>
+  /// </li>
+  /// </ul> </li>
+  /// </ul> </dd> <dt>.fr</dt> <dd>
+  /// <ul>
+  /// <li>
   /// <code>BIRTH_CITY</code>
   /// </li>
   /// <li>
-  /// <b>.it:</b> <code>BIRTH_COUNTRY</code>, <code>IT_PIN</code>, and
-  /// <code>IT_REGISTRANT_ENTITY_TYPE</code>
+  /// <code>BIRTH_COUNTRY</code>
   /// </li>
   /// <li>
-  /// <b>.ru:</b> <code>BIRTH_DATE_IN_YYYY_MM_DD</code> and
+  /// <code>BIRTH_DATE_IN_YYYY_MM_DD</code>
+  /// </li>
+  /// <li>
+  /// <code>BIRTH_DEPARTMENT</code>: Specify the INSEE code that corresponds with
+  /// the department where the contact was born. If the contact was born somewhere
+  /// other than France or its overseas departments, specify <code>99</code>. For
+  /// more information, including a list of departments and the corresponding
+  /// INSEE numbers, see the Wikipedia entry <a
+  /// href="https://en.wikipedia.org/wiki/Departments_of_France">Departments of
+  /// France</a>.
+  /// </li>
+  /// <li>
+  /// <code>BRAND_NUMBER</code>
+  /// </li>
+  /// </ul> </dd> <dt>.it</dt> <dd>
+  /// <ul>
+  /// <li>
+  /// <code>IT_NATIONALITY</code>
+  /// </li>
+  /// <li>
+  /// <code>IT_PIN</code>
+  /// </li>
+  /// <li>
+  /// <code>IT_REGISTRANT_ENTITY_TYPE</code>
+  ///
+  /// Valid values include the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>FOREIGNERS</code>
+  /// </li>
+  /// <li>
+  /// <code>FREELANCE_WORKERS</code> (Freelance workers and professionals)
+  /// </li>
+  /// <li>
+  /// <code>ITALIAN_COMPANIES</code> (Italian companies and one-person companies)
+  /// </li>
+  /// <li>
+  /// <code>NON_PROFIT_ORGANIZATIONS</code>
+  /// </li>
+  /// <li>
+  /// <code>OTHER_SUBJECTS</code>
+  /// </li>
+  /// <li>
+  /// <code>PUBLIC_ORGANIZATIONS</code>
+  /// </li>
+  /// </ul> </li>
+  /// </ul> </dd> <dt>.ru</dt> <dd>
+  /// <ul>
+  /// <li>
+  /// <code>BIRTH_DATE_IN_YYYY_MM_DD</code>
+  /// </li>
+  /// <li>
   /// <code>RU_PASSPORT_DATA</code>
   /// </li>
+  /// </ul> </dd> <dt>.se</dt> <dd>
+  /// <ul>
   /// <li>
-  /// <b>.se:</b> <code>BIRTH_COUNTRY</code> and <code>SE_ID_NUMBER</code>
+  /// <code>BIRTH_COUNTRY</code>
   /// </li>
   /// <li>
-  /// <b>.sg:</b> <code>SG_ID_NUMBER</code>
+  /// <code>SE_ID_NUMBER</code>
+  /// </li>
+  /// </ul> </dd> <dt>.sg</dt> <dd>
+  /// <ul>
+  /// <li>
+  /// <code>SG_ID_NUMBER</code>
+  /// </li>
+  /// </ul> </dd> <dt>.co.uk, .me.uk, and .org.uk</dt> <dd>
+  /// <ul>
+  /// <li>
+  /// <code>UK_CONTACT_TYPE</code>
+  ///
+  /// Valid values include the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>CRC</code> (UK Corporation by Royal Charter)
   /// </li>
   /// <li>
-  /// <b>.co.uk, .me.uk, and .org.uk:</b> <code>UK_CONTACT_TYPE</code> and
+  /// <code>FCORP</code> (Non-UK Corporation)
+  /// </li>
+  /// <li>
+  /// <code>FIND</code> (Non-UK Individual, representing self)
+  /// </li>
+  /// <li>
+  /// <code>FOTHER</code> (Non-UK Entity that does not fit into any other
+  /// category)
+  /// </li>
+  /// <li>
+  /// <code>GOV</code> (UK Government Body)
+  /// </li>
+  /// <li>
+  /// <code>IND</code> (UK Individual (representing self))
+  /// </li>
+  /// <li>
+  /// <code>IP</code> (UK Industrial/Provident Registered Company)
+  /// </li>
+  /// <li>
+  /// <code>LLP</code> (UK Limited Liability Partnership)
+  /// </li>
+  /// <li>
+  /// <code>LTD</code> (UK Limited Company)
+  /// </li>
+  /// <li>
+  /// <code>OTHER</code> (UK Entity that does not fit into any other category)
+  /// </li>
+  /// <li>
+  /// <code>PLC</code> (UK Public Limited Company)
+  /// </li>
+  /// <li>
+  /// <code>PTNR</code> (UK Partnership)
+  /// </li>
+  /// <li>
+  /// <code>RCHAR</code> (UK Registered Charity)
+  /// </li>
+  /// <li>
+  /// <code>SCH</code> (UK School)
+  /// </li>
+  /// <li>
+  /// <code>STAT</code> (UK Statutory Body)
+  /// </li>
+  /// <li>
+  /// <code>STRA</code> (UK Sole Trader)
+  /// </li>
+  /// </ul> </li>
+  /// <li>
   /// <code>UK_COMPANY_NUMBER</code>
   /// </li>
-  /// </ul>
-  /// In addition, many TLDs require <code>VAT_NUMBER</code>.
+  /// </ul> </dd> </dl>
+  /// In addition, many TLDs require a <code>VAT_NUMBER</code>.
   @_s.JsonKey(name: 'Name')
   final ExtraParamName name;
 
-  /// Values corresponding to the additional parameter names required by some
-  /// top-level domains.
+  /// The value that corresponds with the name of an extra parameter.
   @_s.JsonKey(name: 'Value')
   final String value;
 
@@ -2541,6 +3454,10 @@ enum ExtraParamName {
   caLegalType,
   @_s.JsonValue('CA_BUSINESS_ENTITY_TYPE')
   caBusinessEntityType,
+  @_s.JsonValue('CA_LEGAL_REPRESENTATIVE')
+  caLegalRepresentative,
+  @_s.JsonValue('CA_LEGAL_REPRESENTATIVE_CAPACITY')
+  caLegalRepresentativeCapacity,
   @_s.JsonValue('ES_IDENTIFICATION')
   esIdentification,
   @_s.JsonValue('ES_IDENTIFICATION_TYPE')
@@ -2555,6 +3472,8 @@ enum ExtraParamName {
   fiNationality,
   @_s.JsonValue('FI_ORGANIZATION_TYPE')
   fiOrganizationType,
+  @_s.JsonValue('IT_NATIONALITY')
+  itNationality,
   @_s.JsonValue('IT_PIN')
   itPin,
   @_s.JsonValue('IT_REGISTRANT_ENTITY_TYPE')
@@ -2655,7 +3574,8 @@ class GetDomainDetailResponse {
   final bool autoRenew;
 
   /// The date when the domain was created as found in the response to a WHOIS
-  /// query. The date and time is in Coordinated Universal time (UTC).
+  /// query. The date and time is in Unix time format and Coordinated Universal
+  /// time (UTC).
   @UnixDateTimeConverter()
   @_s.JsonKey(name: 'CreationDate')
   final DateTime creationDate;
@@ -2665,7 +3585,7 @@ class GetDomainDetailResponse {
   final String dnsSec;
 
   /// The date when the registration for the domain is set to expire. The date and
-  /// time is in Coordinated Universal time (UTC).
+  /// time is in Unix time format and Coordinated Universal time (UTC).
   @UnixDateTimeConverter()
   @_s.JsonKey(name: 'ExpirationDate')
   final DateTime expirationDate;
@@ -2694,8 +3614,8 @@ class GetDomainDetailResponse {
   @_s.JsonKey(name: 'RegistryDomainId')
   final String registryDomainId;
 
-  /// Reseller of the domain. Domains registered or transferred using Amazon Route
-  /// 53 domains will have <code>"Amazon"</code> as the reseller.
+  /// Reseller of the domain. Domains registered or transferred using Route 53
+  /// domains will have <code>"Amazon"</code> as the reseller.
   @_s.JsonKey(name: 'Reseller')
   final String reseller;
 
@@ -2727,7 +3647,8 @@ class GetDomainDetailResponse {
   final bool techPrivacy;
 
   /// The last updated date of the domain as found in the response to a WHOIS
-  /// query. The date and time is in Coordinated Universal time (UTC).
+  /// query. The date and time is in Unix time format and Coordinated Universal
+  /// time (UTC).
   @UnixDateTimeConverter()
   @_s.JsonKey(name: 'UpdatedDate')
   final DateTime updatedDate;
@@ -2825,30 +3746,6 @@ class GetOperationDetailResponse {
   });
   factory GetOperationDetailResponse.fromJson(Map<String, dynamic> json) =>
       _$GetOperationDetailResponseFromJson(json);
-}
-
-/// The requested item is not acceptable. For example, for an OperationId it
-/// might refer to the ID of an operation that is already completed. For a
-/// domain name, it might not be a valid domain name or belong to the requester
-/// account.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class InvalidInput implements _s.AwsException {
-  /// The requested item is not acceptable. For example, for an OperationId it
-  /// might refer to the ID of an operation that is already completed. For a
-  /// domain name, it might not be a valid domain name or belong to the requester
-  /// account.
-  @_s.JsonKey(name: 'message')
-  final String message;
-
-  InvalidInput({
-    this.message,
-  });
-  factory InvalidInput.fromJson(Map<String, dynamic> json) =>
-      _$InvalidInputFromJson(json);
 }
 
 /// The ListDomains response includes the following elements.
@@ -2951,26 +3848,6 @@ class Nameserver {
   Map<String, dynamic> toJson() => _$NameserverToJson(this);
 }
 
-/// The number of operations or jobs running exceeded the allowed threshold for
-/// the account.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class OperationLimitExceeded implements _s.AwsException {
-  /// The number of operations or jobs running exceeded the allowed threshold for
-  /// the account.
-  @_s.JsonKey(name: 'message')
-  final String message;
-
-  OperationLimitExceeded({
-    this.message,
-  });
-  factory OperationLimitExceeded.fromJson(Map<String, dynamic> json) =>
-      _$OperationLimitExceededFromJson(json);
-}
-
 enum OperationStatus {
   @_s.JsonValue('SUBMITTED')
   submitted,
@@ -3051,6 +3928,10 @@ enum OperationType {
   renewDomain,
   @_s.JsonValue('PUSH_DOMAIN')
   pushDomain,
+  @_s.JsonValue('INTERNAL_TRANSFER_OUT_DOMAIN')
+  internalTransferOutDomain,
+  @_s.JsonValue('INTERNAL_TRANSFER_IN_DOMAIN')
+  internalTransferInDomain,
 }
 
 enum ReachabilityStatus {
@@ -3069,8 +3950,9 @@ enum ReachabilityStatus {
     createFactory: true,
     createToJson: false)
 class RegisterDomainResponse {
-  /// Identifier for tracking the progress of the request. To use this ID to query
-  /// the operation status, use <a>GetOperationDetail</a>.
+  /// Identifier for tracking the progress of the request. To query the operation
+  /// status, use <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html">GetOperationDetail</a>.
   @_s.JsonKey(name: 'OperationId')
   final String operationId;
 
@@ -3081,14 +3963,38 @@ class RegisterDomainResponse {
       _$RegisterDomainResponseFromJson(json);
 }
 
+/// The RejectDomainTransferFromAnotherAwsAccount response includes the
+/// following element.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class RejectDomainTransferFromAnotherAwsAccountResponse {
+  /// The identifier that <code>TransferDomainToAnotherAwsAccount</code> returned
+  /// to track the progress of the request. Because the transfer request was
+  /// rejected, the value is no longer valid, and you can't use
+  /// <code>GetOperationDetail</code> to query the operation status.
+  @_s.JsonKey(name: 'OperationId')
+  final String operationId;
+
+  RejectDomainTransferFromAnotherAwsAccountResponse({
+    this.operationId,
+  });
+  factory RejectDomainTransferFromAnotherAwsAccountResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$RejectDomainTransferFromAnotherAwsAccountResponseFromJson(json);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class RenewDomainResponse {
-  /// The identifier for tracking the progress of the request. To use this ID to
-  /// query the operation status, use <a>GetOperationDetail</a>.
+  /// Identifier for tracking the progress of the request. To query the operation
+  /// status, use <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html">GetOperationDetail</a>.
   @_s.JsonKey(name: 'OperationId')
   final String operationId;
 
@@ -3148,24 +4054,6 @@ class RetrieveDomainAuthCodeResponse {
       _$RetrieveDomainAuthCodeResponseFromJson(json);
 }
 
-/// The top-level domain does not support this operation.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class TLDRulesViolation implements _s.AwsException {
-  /// The top-level domain does not support this operation.
-  @_s.JsonKey(name: 'message')
-  final String message;
-
-  TLDRulesViolation({
-    this.message,
-  });
-  factory TLDRulesViolation.fromJson(Map<String, dynamic> json) =>
-      _$TLDRulesViolationFromJson(json);
-}
-
 /// Each tag includes the following elements.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3198,15 +4086,16 @@ class Tag {
   Map<String, dynamic> toJson() => _$TagToJson(this);
 }
 
-/// The TranserDomain response includes the following element.
+/// The TransferDomain response includes the following element.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class TransferDomainResponse {
-  /// Identifier for tracking the progress of the request. To use this ID to query
-  /// the operation status, use <a>GetOperationDetail</a>.
+  /// Identifier for tracking the progress of the request. To query the operation
+  /// status, use <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html">GetOperationDetail</a>.
   @_s.JsonKey(name: 'OperationId')
   final String operationId;
 
@@ -3217,16 +4106,48 @@ class TransferDomainResponse {
       _$TransferDomainResponseFromJson(json);
 }
 
-/// Whether the domain name can be transferred to Amazon Route 53.
+/// The <code>TransferDomainToAnotherAwsAccount</code> response includes the
+/// following elements.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class TransferDomainToAnotherAwsAccountResponse {
+  /// Identifier for tracking the progress of the request. To query the operation
+  /// status, use <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html">GetOperationDetail</a>.
+  @_s.JsonKey(name: 'OperationId')
+  final String operationId;
+
+  /// To finish transferring a domain to another AWS account, the account that the
+  /// domain is being transferred to must submit an <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_AcceptDomainTransferFromAnotherAwsAccount.html">AcceptDomainTransferFromAnotherAwsAccount</a>
+  /// request. The request must include the value of the <code>Password</code>
+  /// element that was returned in the
+  /// <code>TransferDomainToAnotherAwsAccount</code> response.
+  @_s.JsonKey(name: 'Password')
+  final String password;
+
+  TransferDomainToAnotherAwsAccountResponse({
+    this.operationId,
+    this.password,
+  });
+  factory TransferDomainToAnotherAwsAccountResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$TransferDomainToAnotherAwsAccountResponseFromJson(json);
+}
+
+/// Whether the domain name can be transferred to Route 53.
 /// <note>
 /// You can transfer only domains that have a value of <code>TRANSFERABLE</code>
 /// for <code>Transferable</code>.
 /// </note>
 /// Valid values:
 /// <dl> <dt>TRANSFERABLE</dt> <dd>
-/// The domain name can be transferred to Amazon Route 53.
+/// The domain name can be transferred to Route 53.
 /// </dd> <dt>UNTRANSFERRABLE</dt> <dd>
-/// The domain name can't be transferred to Amazon Route 53.
+/// The domain name can't be transferred to Route 53.
 /// </dd> <dt>DONT_KNOW</dt> <dd>
 /// Reserved for future use.
 /// </dd> </dl>
@@ -3237,24 +4158,6 @@ enum Transferable {
   untransferable,
   @_s.JsonValue('DONT_KNOW')
   dontKnow,
-}
-
-/// Amazon Route 53 does not support this top-level domain (TLD).
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class UnsupportedTLD implements _s.AwsException {
-  /// Amazon Route 53 does not support this top-level domain (TLD).
-  @_s.JsonKey(name: 'message')
-  final String message;
-
-  UnsupportedTLD({
-    this.message,
-  });
-  factory UnsupportedTLD.fromJson(Map<String, dynamic> json) =>
-      _$UnsupportedTLDFromJson(json);
 }
 
 /// The UpdateDomainContactPrivacy response includes the following element.
@@ -3284,8 +4187,9 @@ class UpdateDomainContactPrivacyResponse {
     createFactory: true,
     createToJson: false)
 class UpdateDomainContactResponse {
-  /// Identifier for tracking the progress of the request. To use this ID to query
-  /// the operation status, use <a>GetOperationDetail</a>.
+  /// Identifier for tracking the progress of the request. To query the operation
+  /// status, use <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html">GetOperationDetail</a>.
   @_s.JsonKey(name: 'OperationId')
   final String operationId;
 
@@ -3303,8 +4207,9 @@ class UpdateDomainContactResponse {
     createFactory: true,
     createToJson: false)
 class UpdateDomainNameserversResponse {
-  /// Identifier for tracking the progress of the request. To use this ID to query
-  /// the operation status, use <a>GetOperationDetail</a>.
+  /// Identifier for tracking the progress of the request. To query the operation
+  /// status, use <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_domains_GetOperationDetail.html">GetOperationDetail</a>.
   @_s.JsonKey(name: 'OperationId')
   final String operationId;
 
@@ -3351,13 +4256,46 @@ class ViewBillingResponse {
       _$ViewBillingResponseFromJson(json);
 }
 
+class DomainLimitExceeded extends _s.GenericAwsException {
+  DomainLimitExceeded({String type, String message})
+      : super(type: type, code: 'DomainLimitExceeded', message: message);
+}
+
+class DuplicateRequest extends _s.GenericAwsException {
+  DuplicateRequest({String type, String message})
+      : super(type: type, code: 'DuplicateRequest', message: message);
+}
+
+class InvalidInput extends _s.GenericAwsException {
+  InvalidInput({String type, String message})
+      : super(type: type, code: 'InvalidInput', message: message);
+}
+
+class OperationLimitExceeded extends _s.GenericAwsException {
+  OperationLimitExceeded({String type, String message})
+      : super(type: type, code: 'OperationLimitExceeded', message: message);
+}
+
+class TLDRulesViolation extends _s.GenericAwsException {
+  TLDRulesViolation({String type, String message})
+      : super(type: type, code: 'TLDRulesViolation', message: message);
+}
+
+class UnsupportedTLD extends _s.GenericAwsException {
+  UnsupportedTLD({String type, String message})
+      : super(type: type, code: 'UnsupportedTLD', message: message);
+}
+
 final _exceptionFns = <String, _s.AwsExceptionFn>{
   'DomainLimitExceeded': (type, message) =>
-      DomainLimitExceeded(message: message),
-  'DuplicateRequest': (type, message) => DuplicateRequest(message: message),
-  'InvalidInput': (type, message) => InvalidInput(message: message),
+      DomainLimitExceeded(type: type, message: message),
+  'DuplicateRequest': (type, message) =>
+      DuplicateRequest(type: type, message: message),
+  'InvalidInput': (type, message) => InvalidInput(type: type, message: message),
   'OperationLimitExceeded': (type, message) =>
-      OperationLimitExceeded(message: message),
-  'TLDRulesViolation': (type, message) => TLDRulesViolation(message: message),
-  'UnsupportedTLD': (type, message) => UnsupportedTLD(message: message),
+      OperationLimitExceeded(type: type, message: message),
+  'TLDRulesViolation': (type, message) =>
+      TLDRulesViolation(type: type, message: message),
+  'UnsupportedTLD': (type, message) =>
+      UnsupportedTLD(type: type, message: message),
 };

@@ -29,7 +29,7 @@ part 'streams-dynamodb-2012-08-10.g.dart';
 /// Amazon DynamoDB Streams provides API actions for accessing streams and
 /// processing stream records. To learn more about application development with
 /// Streams, see <a
-/// href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Streams.html">Capturing
+/// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Streams.html">Capturing
 /// Table Activity with DynamoDB Streams</a> in the Amazon DynamoDB Developer
 /// Guide.
 class DynamoDBStreams {
@@ -359,58 +359,87 @@ class DynamoDBStreams {
   }
 }
 
-/// Represents the data for an attribute. You can set one, and only one, of the
-/// elements.
+/// Represents the data for an attribute.
 ///
-/// Each attribute in an item is a name-value pair. An attribute can be
-/// single-valued or multi-valued set. For example, a book item can have title
-/// and authors attributes. Each book has one title but can have many authors.
-/// The multi-valued attribute is a set; duplicate values are not allowed.
+/// Each attribute value is described as a name-value pair. The name is the data
+/// type, and the value is the data itself.
+///
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/HowItWorks.NamingRulesDataTypes.html#HowItWorks.DataTypes">Data
+/// Types</a> in the <i>Amazon DynamoDB Developer Guide</i>.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class AttributeValue {
-  /// A Binary data type.
+  /// An attribute of type Binary. For example:
+  ///
+  /// <code>"B": "dGhpcyB0ZXh0IGlzIGJhc2U2NC1lbmNvZGVk"</code>
   @Uint8ListConverter()
   @_s.JsonKey(name: 'B')
   final Uint8List b;
 
-  /// A Boolean data type.
+  /// An attribute of type Boolean. For example:
+  ///
+  /// <code>"BOOL": true</code>
   @_s.JsonKey(name: 'BOOL')
   final bool boolValue;
 
-  /// A Binary Set data type.
+  /// An attribute of type Binary Set. For example:
+  ///
+  /// <code>"BS": ["U3Vubnk=", "UmFpbnk=", "U25vd3k="]</code>
   @Uint8ListListConverter()
   @_s.JsonKey(name: 'BS')
   final List<Uint8List> bs;
 
-  /// A List data type.
+  /// An attribute of type List. For example:
+  ///
+  /// <code>"L": [ {"S": "Cookies"} , {"S": "Coffee"}, {"N", "3.14159"}]</code>
   @_s.JsonKey(name: 'L')
   final List<AttributeValue> l;
 
-  /// A Map data type.
+  /// An attribute of type Map. For example:
+  ///
+  /// <code>"M": {"Name": {"S": "Joe"}, "Age": {"N": "35"}}</code>
   @_s.JsonKey(name: 'M')
   final Map<String, AttributeValue> m;
 
-  /// A Number data type.
+  /// An attribute of type Number. For example:
+  ///
+  /// <code>"N": "123.45"</code>
+  ///
+  /// Numbers are sent across the network to DynamoDB as strings, to maximize
+  /// compatibility across languages and libraries. However, DynamoDB treats them
+  /// as number type attributes for mathematical operations.
   @_s.JsonKey(name: 'N')
   final String n;
 
-  /// A Number Set data type.
+  /// An attribute of type Number Set. For example:
+  ///
+  /// <code>"NS": ["42.2", "-19", "7.5", "3.14"]</code>
+  ///
+  /// Numbers are sent across the network to DynamoDB as strings, to maximize
+  /// compatibility across languages and libraries. However, DynamoDB treats them
+  /// as number type attributes for mathematical operations.
   @_s.JsonKey(name: 'NS')
   final List<String> ns;
 
-  /// A Null data type.
+  /// An attribute of type Null. For example:
+  ///
+  /// <code>"NULL": true</code>
   @_s.JsonKey(name: 'NULL')
   final bool nullValue;
 
-  /// A String data type.
+  /// An attribute of type String. For example:
+  ///
+  /// <code>"S": "Hello"</code>
   @_s.JsonKey(name: 'S')
   final String s;
 
-  /// A String Set data type.
+  /// An attribute of type String Set. For example:
+  ///
+  /// <code>"SS": ["Giraffe", "Hippo" ,"Zebra"]</code>
   @_s.JsonKey(name: 'SS')
   final List<String> ss;
 
@@ -449,26 +478,6 @@ class DescribeStreamOutput {
   });
   factory DescribeStreamOutput.fromJson(Map<String, dynamic> json) =>
       _$DescribeStreamOutputFromJson(json);
-}
-
-/// The shard iterator has expired and can no longer be used to retrieve stream
-/// records. A shard iterator expires 15 minutes after it is retrieved using the
-/// <code>GetShardIterator</code> action.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class ExpiredIteratorException implements _s.AwsException {
-  /// The provided iterator exceeds the maximum age allowed.
-  @_s.JsonKey(name: 'message')
-  final String message;
-
-  ExpiredIteratorException({
-    this.message,
-  });
-  factory ExpiredIteratorException.fromJson(Map<String, dynamic> json) =>
-      _$ExpiredIteratorExceptionFromJson(json);
 }
 
 /// Represents the output of a <code>GetRecords</code> operation.
@@ -541,45 +550,19 @@ class Identity {
       _$IdentityFromJson(json);
 }
 
-/// An error occurred on the server side.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class InternalServerError implements _s.AwsException {
-  /// The server encountered an internal error trying to fulfill the request.
-  @_s.JsonKey(name: 'message')
-  final String message;
-
-  InternalServerError({
-    this.message,
-  });
-  factory InternalServerError.fromJson(Map<String, dynamic> json) =>
-      _$InternalServerErrorFromJson(json);
-}
-
 /// Represents <i>a single element</i> of a key schema. A key schema specifies
 /// the attributes that make up the primary key of a table, or the key
 /// attributes of an index.
 ///
 /// A <code>KeySchemaElement</code> represents exactly one attribute of the
-/// primary key. For example, a simple primary key (partition key) would be
-/// represented by one <code>KeySchemaElement</code>. A composite primary key
-/// (partition key and sort key) would require one <code>KeySchemaElement</code>
-/// for the partition key, and another <code>KeySchemaElement</code> for the
-/// sort key.
-/// <note>
-/// The partition key of an item is also known as its <i>hash attribute</i>. The
-/// term "hash attribute" derives from DynamoDB's usage of an internal hash
-/// function to evenly distribute data items across partitions, based on their
-/// partition key values.
+/// primary key. For example, a simple primary key would be represented by one
+/// <code>KeySchemaElement</code> (for the partition key). A composite primary
+/// key would require one <code>KeySchemaElement</code> for the partition key,
+/// and another <code>KeySchemaElement</code> for the sort key.
 ///
-/// The sort key of an item is also known as its <i>range attribute</i>. The
-/// term "range attribute" derives from the way DynamoDB stores items with the
-/// same partition key physically close together, in sorted order by the sort
-/// key value.
-/// </note>
+/// A <code>KeySchemaElement</code> must be a scalar, top-level attribute (not a
+/// nested attribute). The data type must be one of String, Number, or Binary.
+/// The attribute cannot be nested within a List or a Map.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -590,8 +573,26 @@ class KeySchemaElement {
   @_s.JsonKey(name: 'AttributeName')
   final String attributeName;
 
-  /// The attribute data, consisting of the data type and the attribute value
-  /// itself.
+  /// The role that this key attribute will assume:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>HASH</code> - partition key
+  /// </li>
+  /// <li>
+  /// <code>RANGE</code> - sort key
+  /// </li>
+  /// </ul> <note>
+  /// The partition key of an item is also known as its <i>hash attribute</i>. The
+  /// term "hash attribute" derives from DynamoDB's usage of an internal hash
+  /// function to evenly distribute data items across partitions, based on their
+  /// partition key values.
+  ///
+  /// The sort key of an item is also known as its <i>range attribute</i>. The
+  /// term "range attribute" derives from the way DynamoDB stores items with the
+  /// same partition key physically close together, in sorted order by the sort
+  /// key value.
+  /// </note>
   @_s.JsonKey(name: 'KeyType')
   final KeyType keyType;
 
@@ -608,30 +609,6 @@ enum KeyType {
   hash,
   @_s.JsonValue('RANGE')
   range,
-}
-
-/// Your request rate is too high. The AWS SDKs for DynamoDB automatically retry
-/// requests that receive this exception. Your request is eventually successful,
-/// unless your retry queue is too large to finish. Reduce the frequency of
-/// requests and use exponential backoff. For more information, go to <a
-/// href="http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/ErrorHandling.html#APIRetries">Error
-/// Retries and Exponential Backoff</a> in the <i>Amazon DynamoDB Developer
-/// Guide</i>.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class LimitExceededException implements _s.AwsException {
-  /// Too many operations for a given subscriber.
-  @_s.JsonKey(name: 'message')
-  final String message;
-
-  LimitExceededException({
-    this.message,
-  });
-  factory LimitExceededException.fromJson(Map<String, dynamic> json) =>
-      _$LimitExceededExceptionFromJson(json);
 }
 
 /// Represents the output of a <code>ListStreams</code> operation.
@@ -760,24 +737,6 @@ class Record {
   factory Record.fromJson(Map<String, dynamic> json) => _$RecordFromJson(json);
 }
 
-/// The operation tried to access a nonexistent stream.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class ResourceNotFoundException implements _s.AwsException {
-  /// The resource which is being requested does not exist.
-  @_s.JsonKey(name: 'message')
-  final String message;
-
-  ResourceNotFoundException({
-    this.message,
-  });
-  factory ResourceNotFoundException.fromJson(Map<String, dynamic> json) =>
-      _$ResourceNotFoundExceptionFromJson(json);
-}
-
 /// The beginning and ending sequence numbers for the stream records contained
 /// within a shard.
 @_s.JsonSerializable(
@@ -786,11 +745,13 @@ class ResourceNotFoundException implements _s.AwsException {
     createFactory: true,
     createToJson: false)
 class SequenceNumberRange {
-  /// The last sequence number.
+  /// The last sequence number for the stream records contained within a shard.
+  /// String contains numeric characters only.
   @_s.JsonKey(name: 'EndingSequenceNumber')
   final String endingSequenceNumber;
 
-  /// The first sequence number.
+  /// The first sequence number for the stream records contained within a shard.
+  /// String contains numeric characters only.
   @_s.JsonKey(name: 'StartingSequenceNumber')
   final String startingSequenceNumber;
 
@@ -1115,50 +1076,40 @@ enum StreamViewType {
   keysOnly,
 }
 
-/// The operation attempted to read past the oldest stream record in a shard.
-///
-/// In DynamoDB Streams, there is a 24 hour limit on data retention. Stream
-/// records whose age exceeds this limit are subject to removal (trimming) from
-/// the stream. You might receive a TrimmedDataAccessException if:
-///
-/// <ul>
-/// <li>
-/// You request a shard iterator with a sequence number older than the trim
-/// point (24 hours).
-/// </li>
-/// <li>
-/// You obtain a shard iterator, but before you use the iterator in a
-/// <code>GetRecords</code> request, a stream record in the shard exceeds the 24
-/// hour period and is trimmed. This causes the iterator to access a record that
-/// no longer exists.
-/// </li>
-/// </ul>
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class TrimmedDataAccessException implements _s.AwsException {
-  /// "The data you are trying to access has been trimmed.
-  @_s.JsonKey(name: 'message')
-  final String message;
+class ExpiredIteratorException extends _s.GenericAwsException {
+  ExpiredIteratorException({String type, String message})
+      : super(type: type, code: 'ExpiredIteratorException', message: message);
+}
 
-  TrimmedDataAccessException({
-    this.message,
-  });
-  factory TrimmedDataAccessException.fromJson(Map<String, dynamic> json) =>
-      _$TrimmedDataAccessExceptionFromJson(json);
+class InternalServerError extends _s.GenericAwsException {
+  InternalServerError({String type, String message})
+      : super(type: type, code: 'InternalServerError', message: message);
+}
+
+class LimitExceededException extends _s.GenericAwsException {
+  LimitExceededException({String type, String message})
+      : super(type: type, code: 'LimitExceededException', message: message);
+}
+
+class ResourceNotFoundException extends _s.GenericAwsException {
+  ResourceNotFoundException({String type, String message})
+      : super(type: type, code: 'ResourceNotFoundException', message: message);
+}
+
+class TrimmedDataAccessException extends _s.GenericAwsException {
+  TrimmedDataAccessException({String type, String message})
+      : super(type: type, code: 'TrimmedDataAccessException', message: message);
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{
   'ExpiredIteratorException': (type, message) =>
-      ExpiredIteratorException(message: message),
+      ExpiredIteratorException(type: type, message: message),
   'InternalServerError': (type, message) =>
-      InternalServerError(message: message),
+      InternalServerError(type: type, message: message),
   'LimitExceededException': (type, message) =>
-      LimitExceededException(message: message),
+      LimitExceededException(type: type, message: message),
   'ResourceNotFoundException': (type, message) =>
-      ResourceNotFoundException(message: message),
+      ResourceNotFoundException(type: type, message: message),
   'TrimmedDataAccessException': (type, message) =>
-      TrimmedDataAccessException(message: message),
+      TrimmedDataAccessException(type: type, message: message),
 };

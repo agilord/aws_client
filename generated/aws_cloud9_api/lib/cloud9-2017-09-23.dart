@@ -78,6 +78,9 @@ class Cloud9 {
   /// href="http://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">Client
   /// Tokens</a> in the <i>Amazon EC2 API Reference</i>.
   ///
+  /// Parameter [connectionType] :
+  /// The connection type used for connecting to an Amazon EC2 environment.
+  ///
   /// Parameter [description] :
   /// The description of the environment to create.
   ///
@@ -98,6 +101,7 @@ class Cloud9 {
     @_s.required String name,
     int automaticStopTimeMinutes,
     String clientRequestToken,
+    ConnectionType connectionType,
     String description,
     String ownerArn,
     String subnetId,
@@ -170,6 +174,7 @@ class Cloud9 {
           'automaticStopTimeMinutes': automaticStopTimeMinutes,
         if (clientRequestToken != null)
           'clientRequestToken': clientRequestToken,
+        if (connectionType != null) 'connectionType': connectionType.toValue(),
         if (description != null) 'description': description,
         if (ownerArn != null) 'ownerArn': ownerArn,
         if (subnetId != null) 'subnetId': subnetId,
@@ -610,6 +615,7 @@ class Cloud9 {
   /// May throw [NotFoundException].
   /// May throw [InternalServerErrorException].
   /// May throw [BadRequestException].
+  /// May throw [ConcurrentAccessException].
   ///
   /// Parameter [resourceARN] :
   /// The Amazon Resource Name (ARN) of the AWS Cloud9 development environment
@@ -653,6 +659,7 @@ class Cloud9 {
   /// May throw [NotFoundException].
   /// May throw [InternalServerErrorException].
   /// May throw [BadRequestException].
+  /// May throw [ConcurrentAccessException].
   ///
   /// Parameter [resourceARN] :
   /// The Amazon Resource Name (ARN) of the AWS Cloud9 development environment
@@ -827,6 +834,25 @@ class Cloud9 {
   }
 }
 
+enum ConnectionType {
+  @_s.JsonValue('CONNECT_SSH')
+  connectSsh,
+  @_s.JsonValue('CONNECT_SSM')
+  connectSsm,
+}
+
+extension on ConnectionType {
+  String toValue() {
+    switch (this) {
+      case ConnectionType.connectSsh:
+        return 'CONNECT_SSH';
+      case ConnectionType.connectSsm:
+        return 'CONNECT_SSM';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -985,6 +1011,10 @@ class Environment {
   @_s.JsonKey(name: 'arn')
   final String arn;
 
+  /// The connection type used for connecting to an Amazon EC2 environment.
+  @_s.JsonKey(name: 'connectionType')
+  final ConnectionType connectionType;
+
   /// The description for the environment.
   @_s.JsonKey(name: 'description')
   final String description;
@@ -1021,6 +1051,7 @@ class Environment {
 
   Environment({
     this.arn,
+    this.connectionType,
     this.description,
     this.id,
     this.lifecycle,
@@ -1341,6 +1372,11 @@ class BadRequestException extends _s.GenericAwsException {
       : super(type: type, code: 'BadRequestException', message: message);
 }
 
+class ConcurrentAccessException extends _s.GenericAwsException {
+  ConcurrentAccessException({String type, String message})
+      : super(type: type, code: 'ConcurrentAccessException', message: message);
+}
+
 class ConflictException extends _s.GenericAwsException {
   ConflictException({String type, String message})
       : super(type: type, code: 'ConflictException', message: message);
@@ -1375,6 +1411,8 @@ class TooManyRequestsException extends _s.GenericAwsException {
 final _exceptionFns = <String, _s.AwsExceptionFn>{
   'BadRequestException': (type, message) =>
       BadRequestException(type: type, message: message),
+  'ConcurrentAccessException': (type, message) =>
+      ConcurrentAccessException(type: type, message: message),
   'ConflictException': (type, message) =>
       ConflictException(type: type, message: message),
   'ForbiddenException': (type, message) =>

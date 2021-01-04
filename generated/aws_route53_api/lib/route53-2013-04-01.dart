@@ -32,32 +32,62 @@ class Route53 {
           endpointUrl: endpointUrl,
         );
 
-  /// Associates an Amazon VPC with a private hosted zone.
-  /// <note>
-  /// To perform the association, the VPC and the private hosted zone must
-  /// already exist. Also, you can't convert a public hosted zone into a private
-  /// hosted zone.
-  /// </note>
-  /// If you want to associate a VPC that was created by one AWS account with a
-  /// private hosted zone that was created by a different account, do one of the
-  /// following:
+  /// Activates a key signing key (KSK) so that it can be used for signing by
+  /// DNSSEC. This operation changes the KSK status to <code>ACTIVE</code>.
   ///
-  /// <ul>
-  /// <li>
-  /// Use the AWS account that created the private hosted zone to submit a <a
-  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_CreateVPCAssociationAuthorization.html">CreateVPCAssociationAuthorization</a>
-  /// request. Then use the account that created the VPC to submit an
+  /// May throw [ConcurrentModification].
+  /// May throw [NoSuchKeySigningKey].
+  /// May throw [InvalidKeySigningKeyStatus].
+  /// May throw [InvalidSigningStatus].
+  /// May throw [InvalidKMSArn].
+  ///
+  /// Parameter [hostedZoneId] :
+  /// A unique string used to identify a hosted zone.
+  ///
+  /// Parameter [name] :
+  /// An alphanumeric string used to identify a key signing key (KSK).
+  Future<ActivateKeySigningKeyResponse> activateKeySigningKey({
+    @_s.required String hostedZoneId,
+    @_s.required String name,
+  }) async {
+    ArgumentError.checkNotNull(hostedZoneId, 'hostedZoneId');
+    _s.validateStringLength(
+      'hostedZoneId',
+      hostedZoneId,
+      0,
+      32,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(name, 'name');
+    _s.validateStringLength(
+      'name',
+      name,
+      3,
+      128,
+      isRequired: true,
+    );
+    final $result = await _protocol.send(
+      method: 'POST',
+      requestUri:
+          '/2013-04-01/keysigningkey/${Uri.encodeComponent(hostedZoneId)}/${Uri.encodeComponent(name)}/activate',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ActivateKeySigningKeyResponse.fromXml($result.body);
+  }
+
+  /// Associates an Amazon VPC with a private hosted zone.
+  /// <important>
+  /// To perform the association, the VPC and the private hosted zone must
+  /// already exist. You can't convert a public hosted zone into a private
+  /// hosted zone.
+  /// </important> <note>
+  /// If you want to associate a VPC that was created by using one AWS account
+  /// with a private hosted zone that was created by using a different account,
+  /// the AWS account that created the private hosted zone must first submit a
+  /// <code>CreateVPCAssociationAuthorization</code> request. Then the account
+  /// that created the VPC must submit an
   /// <code>AssociateVPCWithHostedZone</code> request.
-  /// </li>
-  /// <li>
-  /// If a subnet in the VPC was shared with another account, you can use the
-  /// account that the subnet was shared with to submit an
-  /// <code>AssociateVPCWithHostedZone</code> request. For more information
-  /// about sharing subnets, see <a
-  /// href="https://docs.aws.amazon.com/vpc/latest/userguide/vpc-sharing.html">Working
-  /// with Shared VPCs</a>.
-  /// </li>
-  /// </ul>
+  /// </note>
   ///
   /// May throw [NoSuchHostedZone].
   /// May throw [NotAuthorizedException].
@@ -66,6 +96,7 @@ class Route53 {
   /// May throw [PublicZoneVPCAssociation].
   /// May throw [ConflictingDomainExists].
   /// May throw [LimitsExceeded].
+  /// May throw [PriorRequestNotComplete].
   ///
   /// Parameter [hostedZoneId] :
   /// The ID of the private hosted zone that you want to associate an Amazon VPC
@@ -118,30 +149,34 @@ class Route53 {
   /// create a resource record set that routes traffic for test.example.com to a
   /// web server that has an IP address of 192.0.2.44.
   ///
+  /// <b>Deleting Resource Record Sets</b>
+  ///
+  /// To delete a resource record set, you must specify all the same values that
+  /// you specified when you created it.
+  ///
   /// <b>Change Batches and Transactional Changes</b>
   ///
   /// The request body must include a document with a
   /// <code>ChangeResourceRecordSetsRequest</code> element. The request body
   /// contains a list of change items, known as a change batch. Change batches
-  /// are considered transactional changes. When using the Amazon Route 53 API
-  /// to change resource record sets, Route 53 either makes all or none of the
-  /// changes in a change batch request. This ensures that Route 53 never
-  /// partially implements the intended changes to the resource record sets in a
-  /// hosted zone.
+  /// are considered transactional changes. Route 53 validates the changes in
+  /// the request and then either makes all or none of the changes in the change
+  /// batch request. This ensures that DNS routing isn't adversely affected by
+  /// partial changes to the resource record sets in a hosted zone.
   ///
-  /// For example, a change batch request that deletes the <code>CNAME</code>
-  /// record for www.example.com and creates an alias resource record set for
-  /// www.example.com. Route 53 deletes the first resource record set and
-  /// creates the second resource record set in a single operation. If either
-  /// the <code>DELETE</code> or the <code>CREATE</code> action fails, then both
-  /// changes (plus any other changes in the batch) fail, and the original
+  /// For example, suppose a change batch request contains two changes: it
+  /// deletes the <code>CNAME</code> resource record set for www.example.com and
+  /// creates an alias resource record set for www.example.com. If validation
+  /// for both records succeeds, Route 53 deletes the first resource record set
+  /// and creates the second resource record set in a single operation. If
+  /// validation for either the <code>DELETE</code> or the <code>CREATE</code>
+  /// action fails, then the request is canceled, and the original
   /// <code>CNAME</code> record continues to exist.
-  /// <important>
-  /// Due to the nature of transactional changes, you can't delete the same
-  /// resource record set more than once in a single change batch. If you
-  /// attempt to delete the same change batch more than once, Route 53 returns
-  /// an <code>InvalidChangeBatch</code> error.
-  /// </important>
+  /// <note>
+  /// If you try to delete the same resource record set more than once in a
+  /// single change batch, Route 53 returns an <code>InvalidChangeBatch</code>
+  /// error.
+  /// </note>
   /// <b>Traffic Flow</b>
   ///
   /// To create resource record sets for complex routing configurations, use
@@ -609,6 +644,145 @@ class Route53 {
           .extractXmlChild($elem, 'HostedZone')
           ?.let((e) => HostedZone.fromXml(e)),
       vpc: _s.extractXmlChild($elem, 'VPC')?.let((e) => VPC.fromXml(e)),
+      location: _s.extractHeaderStringValue($result.headers, 'Location'),
+    );
+  }
+
+  /// Creates a new key signing key (KSK) associated with a hosted zone. You can
+  /// only have two KSKs per hosted zone.
+  ///
+  /// May throw [NoSuchHostedZone].
+  /// May throw [InvalidArgument].
+  /// May throw [InvalidInput].
+  /// May throw [InvalidKMSArn].
+  /// May throw [InvalidKeySigningKeyStatus].
+  /// May throw [InvalidSigningStatus].
+  /// May throw [InvalidKeySigningKeyName].
+  /// May throw [KeySigningKeyAlreadyExists].
+  /// May throw [TooManyKeySigningKeys].
+  /// May throw [ConcurrentModification].
+  ///
+  /// Parameter [callerReference] :
+  /// A unique string that identifies the request.
+  ///
+  /// Parameter [hostedZoneId] :
+  /// The unique string (ID) used to identify a hosted zone.
+  ///
+  /// Parameter [keyManagementServiceArn] :
+  /// The Amazon resource name (ARN) for a customer managed key (CMK) in AWS Key
+  /// Management Service (KMS). The <code>KeyManagementServiceArn</code> must be
+  /// unique for each key signing key (KSK) in a single hosted zone. To see an
+  /// example of <code>KeyManagementServiceArn</code> that grants the correct
+  /// permissions for DNSSEC, scroll down to <b>Example</b>.
+  ///
+  /// You must configure the CMK as follows:
+  /// <dl> <dt>Status</dt> <dd>
+  /// Enabled
+  /// </dd> <dt>Key spec</dt> <dd>
+  /// ECC_NIST_P256
+  /// </dd> <dt>Key usage</dt> <dd>
+  /// Sign and verify
+  /// </dd> <dt>Key policy</dt> <dd>
+  /// The key policy must give permission for the following actions:
+  ///
+  /// <ul>
+  /// <li>
+  /// DescribeKey
+  /// </li>
+  /// <li>
+  /// GetPublicKey
+  /// </li>
+  /// <li>
+  /// Sign
+  /// </li>
+  /// </ul>
+  /// The key policy must also include the Amazon Route 53 service in the
+  /// principal for your account. Specify the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>"Service": "api-service.dnssec.route53.aws.internal"</code>
+  /// </li>
+  /// </ul> </dd> </dl>
+  /// For more information about working with CMK in KMS, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html">AWS
+  /// Key Management Service concepts</a>.
+  ///
+  /// Parameter [name] :
+  /// An alphanumeric string used to identify a key signing key (KSK).
+  /// <code>Name</code> must be unique for each key signing key in the same
+  /// hosted zone.
+  ///
+  /// Parameter [status] :
+  /// A string specifying the initial status of the key signing key (KSK). You
+  /// can set the value to <code>ACTIVE</code> or <code>INACTIVE</code>.
+  Future<CreateKeySigningKeyResponse> createKeySigningKey({
+    @_s.required String callerReference,
+    @_s.required String hostedZoneId,
+    @_s.required String keyManagementServiceArn,
+    @_s.required String name,
+    @_s.required String status,
+  }) async {
+    ArgumentError.checkNotNull(callerReference, 'callerReference');
+    _s.validateStringLength(
+      'callerReference',
+      callerReference,
+      1,
+      128,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(hostedZoneId, 'hostedZoneId');
+    _s.validateStringLength(
+      'hostedZoneId',
+      hostedZoneId,
+      0,
+      32,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(
+        keyManagementServiceArn, 'keyManagementServiceArn');
+    ArgumentError.checkNotNull(name, 'name');
+    _s.validateStringLength(
+      'name',
+      name,
+      3,
+      128,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(status, 'status');
+    _s.validateStringLength(
+      'status',
+      status,
+      5,
+      150,
+      isRequired: true,
+    );
+    final $result = await _protocol.sendRaw(
+      method: 'POST',
+      requestUri: '/2013-04-01/keysigningkey',
+      payload: CreateKeySigningKeyRequest(
+              callerReference: callerReference,
+              hostedZoneId: hostedZoneId,
+              keyManagementServiceArn: keyManagementServiceArn,
+              name: name,
+              status: status)
+          .toXml(
+        'CreateKeySigningKeyRequest',
+        attributes: [
+          _s.XmlAttribute(_s.XmlName('xmlns'),
+              'https://route53.amazonaws.com/doc/2013-04-01/'),
+        ],
+      ),
+      exceptionFnMap: _exceptionFns,
+    );
+    final $elem = await _s.xmlFromResponse($result);
+    return CreateKeySigningKeyResponse(
+      changeInfo: _s
+          .extractXmlChild($elem, 'ChangeInfo')
+          ?.let((e) => ChangeInfo.fromXml(e)),
+      keySigningKey: _s
+          .extractXmlChild($elem, 'KeySigningKey')
+          ?.let((e) => KeySigningKey.fromXml(e)),
       location: _s.extractHeaderStringValue($result.headers, 'Location'),
     );
   }
@@ -1231,6 +1405,51 @@ class Route53 {
     return CreateVPCAssociationAuthorizationResponse.fromXml($result.body);
   }
 
+  /// Deactivates a key signing key (KSK) so that it will not be used for
+  /// signing by DNSSEC. This operation changes the KSK status to
+  /// <code>INACTIVE</code>.
+  ///
+  /// May throw [ConcurrentModification].
+  /// May throw [NoSuchKeySigningKey].
+  /// May throw [InvalidKeySigningKeyStatus].
+  /// May throw [InvalidSigningStatus].
+  /// May throw [KeySigningKeyInUse].
+  /// May throw [KeySigningKeyInParentDSRecord].
+  ///
+  /// Parameter [hostedZoneId] :
+  /// A unique string used to identify a hosted zone.
+  ///
+  /// Parameter [name] :
+  /// An alphanumeric string used to identify a key signing key (KSK).
+  Future<DeactivateKeySigningKeyResponse> deactivateKeySigningKey({
+    @_s.required String hostedZoneId,
+    @_s.required String name,
+  }) async {
+    ArgumentError.checkNotNull(hostedZoneId, 'hostedZoneId');
+    _s.validateStringLength(
+      'hostedZoneId',
+      hostedZoneId,
+      0,
+      32,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(name, 'name');
+    _s.validateStringLength(
+      'name',
+      name,
+      3,
+      128,
+      isRequired: true,
+    );
+    final $result = await _protocol.send(
+      method: 'POST',
+      requestUri:
+          '/2013-04-01/keysigningkey/${Uri.encodeComponent(hostedZoneId)}/${Uri.encodeComponent(name)}/deactivate',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DeactivateKeySigningKeyResponse.fromXml($result.body);
+  }
+
   /// Deletes a health check.
   /// <important>
   /// Amazon Route 53 does not prevent you from deleting a health check even if
@@ -1358,6 +1577,50 @@ class Route53 {
     return DeleteHostedZoneResponse.fromXml($result.body);
   }
 
+  /// Deletes a key signing key (KSK). Before you can delete a KSK, you must
+  /// deactivate it. The KSK must be deactived before you can delete it
+  /// regardless of whether the hosted zone is enabled for DNSSEC signing.
+  ///
+  /// May throw [ConcurrentModification].
+  /// May throw [NoSuchKeySigningKey].
+  /// May throw [InvalidKeySigningKeyStatus].
+  /// May throw [InvalidSigningStatus].
+  /// May throw [InvalidKMSArn].
+  ///
+  /// Parameter [hostedZoneId] :
+  /// A unique string used to identify a hosted zone.
+  ///
+  /// Parameter [name] :
+  /// An alphanumeric string used to identify a key signing key (KSK).
+  Future<DeleteKeySigningKeyResponse> deleteKeySigningKey({
+    @_s.required String hostedZoneId,
+    @_s.required String name,
+  }) async {
+    ArgumentError.checkNotNull(hostedZoneId, 'hostedZoneId');
+    _s.validateStringLength(
+      'hostedZoneId',
+      hostedZoneId,
+      0,
+      32,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(name, 'name');
+    _s.validateStringLength(
+      'name',
+      name,
+      3,
+      128,
+      isRequired: true,
+    );
+    final $result = await _protocol.send(
+      method: 'DELETE',
+      requestUri:
+          '/2013-04-01/keysigningkey/${Uri.encodeComponent(hostedZoneId)}/${Uri.encodeComponent(name)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DeleteKeySigningKeyResponse.fromXml($result.body);
+  }
+
   /// Deletes a configuration for DNS query logging. If you delete a
   /// configuration, Amazon Route 53 stops sending query logs to CloudWatch
   /// Logs. Route 53 doesn't delete any logs that are already in CloudWatch
@@ -1427,6 +1690,25 @@ class Route53 {
   }
 
   /// Deletes a traffic policy.
+  ///
+  /// When you delete a traffic policy, Route 53 sets a flag on the policy to
+  /// indicate that it has been deleted. However, Route 53 never fully deletes
+  /// the traffic policy. Note the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// Deleted traffic policies aren't listed if you run <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_ListTrafficPolicies.html">ListTrafficPolicies</a>.
+  /// </li>
+  /// <li>
+  /// There's no way to get a list of deleted policies.
+  /// </li>
+  /// <li>
+  /// If you retain the ID of the policy, you can get information about the
+  /// policy, including the traffic policy document, by running <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_GetTrafficPolicy.html">GetTrafficPolicy</a>.
+  /// </li>
+  /// </ul>
   ///
   /// May throw [NoSuchTrafficPolicy].
   /// May throw [InvalidInput].
@@ -1561,12 +1843,45 @@ class Route53 {
     );
   }
 
-  /// Disassociates a VPC from a Amazon Route 53 private hosted zone. Note the
-  /// following:
+  /// Disables DNSSEC signing in a specific hosted zone. This action does not
+  /// deactivate any key signing keys (KSKs) that are active in the hosted zone.
+  ///
+  /// May throw [NoSuchHostedZone].
+  /// May throw [InvalidArgument].
+  /// May throw [ConcurrentModification].
+  /// May throw [KeySigningKeyInParentDSRecord].
+  /// May throw [DNSSECNotFound].
+  /// May throw [InvalidKeySigningKeyStatus].
+  /// May throw [InvalidKMSArn].
+  ///
+  /// Parameter [hostedZoneId] :
+  /// A unique string used to identify a hosted zone.
+  Future<DisableHostedZoneDNSSECResponse> disableHostedZoneDNSSEC({
+    @_s.required String hostedZoneId,
+  }) async {
+    ArgumentError.checkNotNull(hostedZoneId, 'hostedZoneId');
+    _s.validateStringLength(
+      'hostedZoneId',
+      hostedZoneId,
+      0,
+      32,
+      isRequired: true,
+    );
+    final $result = await _protocol.send(
+      method: 'POST',
+      requestUri:
+          '/2013-04-01/hostedzone/${Uri.encodeComponent(hostedZoneId)}/disable-dnssec',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DisableHostedZoneDNSSECResponse.fromXml($result.body);
+  }
+
+  /// Disassociates an Amazon Virtual Private Cloud (Amazon VPC) from an Amazon
+  /// Route 53 private hosted zone. Note the following:
   ///
   /// <ul>
   /// <li>
-  /// You can't disassociate the last VPC from a private hosted zone.
+  /// You can't disassociate the last Amazon VPC from a private hosted zone.
   /// </li>
   /// <li>
   /// You can't convert a private hosted zone into a public hosted zone.
@@ -1574,7 +1889,21 @@ class Route53 {
   /// <li>
   /// You can submit a <code>DisassociateVPCFromHostedZone</code> request using
   /// either the account that created the hosted zone or the account that
-  /// created the VPC.
+  /// created the Amazon VPC.
+  /// </li>
+  /// <li>
+  /// Some services, such as AWS Cloud Map and Amazon Elastic File System
+  /// (Amazon EFS) automatically create hosted zones and associate VPCs with the
+  /// hosted zones. A service can create a hosted zone using your account or
+  /// using its own account. You can disassociate a VPC from a hosted zone only
+  /// if the service created the hosted zone using your account.
+  ///
+  /// When you run <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_ListHostedZonesByVPC.html">DisassociateVPCFromHostedZone</a>,
+  /// if the hosted zone has a value for <code>OwningAccount</code>, you can use
+  /// <code>DisassociateVPCFromHostedZone</code>. If the hosted zone has a value
+  /// for <code>OwningService</code>, you can't use
+  /// <code>DisassociateVPCFromHostedZone</code>.
   /// </li>
   /// </ul>
   ///
@@ -1624,6 +1953,39 @@ class Route53 {
       exceptionFnMap: _exceptionFns,
     );
     return DisassociateVPCFromHostedZoneResponse.fromXml($result.body);
+  }
+
+  /// Enables DNSSEC signing in a specific hosted zone.
+  ///
+  /// May throw [NoSuchHostedZone].
+  /// May throw [InvalidArgument].
+  /// May throw [ConcurrentModification].
+  /// May throw [KeySigningKeyWithActiveStatusNotFound].
+  /// May throw [InvalidKMSArn].
+  /// May throw [HostedZonePartiallyDelegated].
+  /// May throw [DNSSECNotFound].
+  /// May throw [InvalidKeySigningKeyStatus].
+  ///
+  /// Parameter [hostedZoneId] :
+  /// A unique string used to identify a hosted zone.
+  Future<EnableHostedZoneDNSSECResponse> enableHostedZoneDNSSEC({
+    @_s.required String hostedZoneId,
+  }) async {
+    ArgumentError.checkNotNull(hostedZoneId, 'hostedZoneId');
+    _s.validateStringLength(
+      'hostedZoneId',
+      hostedZoneId,
+      0,
+      32,
+      isRequired: true,
+    );
+    final $result = await _protocol.send(
+      method: 'POST',
+      requestUri:
+          '/2013-04-01/hostedzone/${Uri.encodeComponent(hostedZoneId)}/enable-dnssec',
+      exceptionFnMap: _exceptionFns,
+    );
+    return EnableHostedZoneDNSSECResponse.fromXml($result.body);
   }
 
   /// Gets the specified limit for the current account, for example, the maximum
@@ -1740,6 +2102,34 @@ class Route53 {
       exceptionFnMap: _exceptionFns,
     );
     return GetCheckerIpRangesResponse.fromXml($result.body);
+  }
+
+  /// Returns information about DNSSEC for a specific hosted zone, including the
+  /// key signing keys (KSKs) and zone signing keys (ZSKs) in the hosted zone.
+  ///
+  /// May throw [NoSuchHostedZone].
+  /// May throw [InvalidArgument].
+  ///
+  /// Parameter [hostedZoneId] :
+  /// A unique string used to identify a hosted zone.
+  Future<GetDNSSECResponse> getDNSSEC({
+    @_s.required String hostedZoneId,
+  }) async {
+    ArgumentError.checkNotNull(hostedZoneId, 'hostedZoneId');
+    _s.validateStringLength(
+      'hostedZoneId',
+      hostedZoneId,
+      0,
+      32,
+      isRequired: true,
+    );
+    final $result = await _protocol.send(
+      method: 'GET',
+      requestUri:
+          '/2013-04-01/hostedzone/${Uri.encodeComponent(hostedZoneId)}/dnssec',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetDNSSECResponse.fromXml($result.body);
   }
 
   /// Gets information about whether a specified geographic location is
@@ -2156,6 +2546,10 @@ class Route53 {
   }
 
   /// Gets information about a specific traffic policy version.
+  ///
+  /// For information about how of deleting a traffic policy affects the
+  /// response from <code>GetTrafficPolicy</code>, see <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_DeleteTrafficPolicy.html">DeleteTrafficPolicy</a>.
   ///
   /// May throw [NoSuchTrafficPolicy].
   /// May throw [InvalidInput].
@@ -2581,6 +2975,89 @@ class Route53 {
     return ListHostedZonesByNameResponse.fromXml($result.body);
   }
 
+  /// Lists all the private hosted zones that a specified VPC is associated
+  /// with, regardless of which AWS account or AWS service owns the hosted
+  /// zones. The <code>HostedZoneOwner</code> structure in the response contains
+  /// one of the following values:
+  ///
+  /// <ul>
+  /// <li>
+  /// An <code>OwningAccount</code> element, which contains the account number
+  /// of either the current AWS account or another AWS account. Some services,
+  /// such as AWS Cloud Map, create hosted zones using the current account.
+  /// </li>
+  /// <li>
+  /// An <code>OwningService</code> element, which identifies the AWS service
+  /// that created and owns the hosted zone. For example, if a hosted zone was
+  /// created by Amazon Elastic File System (Amazon EFS), the value of
+  /// <code>Owner</code> is <code>efs.amazonaws.com</code>.
+  /// </li>
+  /// </ul>
+  ///
+  /// May throw [InvalidInput].
+  /// May throw [InvalidPaginationToken].
+  ///
+  /// Parameter [vPCId] :
+  /// The ID of the Amazon VPC that you want to list hosted zones for.
+  ///
+  /// Parameter [vPCRegion] :
+  /// For the Amazon VPC that you specified for <code>VPCId</code>, the AWS
+  /// Region that you created the VPC in.
+  ///
+  /// Parameter [maxItems] :
+  /// (Optional) The maximum number of hosted zones that you want Amazon Route
+  /// 53 to return. If the specified VPC is associated with more than
+  /// <code>MaxItems</code> hosted zones, the response includes a
+  /// <code>NextToken</code> element. <code>NextToken</code> contains an
+  /// encrypted token that identifies the first hosted zone that Route 53 will
+  /// return if you submit another request.
+  ///
+  /// Parameter [nextToken] :
+  /// If the previous response included a <code>NextToken</code> element, the
+  /// specified VPC is associated with more hosted zones. To get more hosted
+  /// zones, submit another <code>ListHostedZonesByVPC</code> request.
+  ///
+  /// For the value of <code>NextToken</code>, specify the value of
+  /// <code>NextToken</code> from the previous response.
+  ///
+  /// If the previous response didn't include a <code>NextToken</code> element,
+  /// there are no more hosted zones to get.
+  Future<ListHostedZonesByVPCResponse> listHostedZonesByVPC({
+    @_s.required String vPCId,
+    @_s.required VPCRegion vPCRegion,
+    String maxItems,
+    String nextToken,
+  }) async {
+    ArgumentError.checkNotNull(vPCId, 'vPCId');
+    _s.validateStringLength(
+      'vPCId',
+      vPCId,
+      0,
+      1024,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(vPCRegion, 'vPCRegion');
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      0,
+      1024,
+    );
+    final $query = <String, List<String>>{
+      if (vPCId != null) 'vpcid': [vPCId],
+      if (vPCRegion != null) 'vpcregion': [vPCRegion.toValue()],
+      if (maxItems != null) 'maxitems': [maxItems],
+      if (nextToken != null) 'nexttoken': [nextToken],
+    };
+    final $result = await _protocol.send(
+      method: 'GET',
+      requestUri: '/2013-04-01/hostedzonesbyvpc',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListHostedZonesByVPCResponse.fromXml($result.body);
+  }
+
   /// Lists the configurations for DNS query logging that are associated with
   /// the current AWS account or the configuration that is associated with a
   /// specified hosted zone.
@@ -2642,7 +3119,7 @@ class Route53 {
       'nextToken',
       nextToken,
       0,
-      256,
+      1024,
     );
     final $query = <String, List<String>>{
       if (hostedZoneId != null) 'hostedzoneid': [hostedZoneId],
@@ -2985,6 +3462,10 @@ class Route53 {
   /// Gets information about the latest version for every traffic policy that is
   /// associated with the current AWS account. Policies are listed in the order
   /// that they were created in.
+  ///
+  /// For information about how of deleting a traffic policy affects the
+  /// response from <code>ListTrafficPolicies</code>, see <a
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_DeleteTrafficPolicy.html">DeleteTrafficPolicy</a>.
   ///
   /// May throw [InvalidInput].
   ///
@@ -3475,7 +3956,7 @@ class Route53 {
       'nextToken',
       nextToken,
       0,
-      256,
+      1024,
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxresults': [maxResults],
@@ -4404,6 +4885,21 @@ extension on String {
   }
 }
 
+class ActivateKeySigningKeyResponse {
+  final ChangeInfo changeInfo;
+
+  ActivateKeySigningKeyResponse({
+    @_s.required this.changeInfo,
+  });
+  factory ActivateKeySigningKeyResponse.fromXml(_s.XmlElement elem) {
+    return ActivateKeySigningKeyResponse(
+      changeInfo: _s
+          .extractXmlChild(elem, 'ChangeInfo')
+          ?.let((e) => ChangeInfo.fromXml(e)),
+    );
+  }
+}
+
 /// A complex type that identifies the CloudWatch alarm that you want Amazon
 /// Route 53 health checkers to use to determine whether the specified health
 /// check is healthy.
@@ -5309,6 +5805,12 @@ enum CloudWatchRegion {
   saEast_1,
   cnNorthwest_1,
   cnNorth_1,
+  afSouth_1,
+  euSouth_1,
+  usGovWest_1,
+  usGovEast_1,
+  usIsoEast_1,
+  usIsobEast_1,
 }
 
 extension on CloudWatchRegion {
@@ -5356,6 +5858,18 @@ extension on CloudWatchRegion {
         return 'cn-northwest-1';
       case CloudWatchRegion.cnNorth_1:
         return 'cn-north-1';
+      case CloudWatchRegion.afSouth_1:
+        return 'af-south-1';
+      case CloudWatchRegion.euSouth_1:
+        return 'eu-south-1';
+      case CloudWatchRegion.usGovWest_1:
+        return 'us-gov-west-1';
+      case CloudWatchRegion.usGovEast_1:
+        return 'us-gov-east-1';
+      case CloudWatchRegion.usIsoEast_1:
+        return 'us-iso-east-1';
+      case CloudWatchRegion.usIsobEast_1:
+        return 'us-isob-east-1';
     }
     throw Exception('Unknown enum value: $this');
   }
@@ -5406,6 +5920,18 @@ extension on String {
         return CloudWatchRegion.cnNorthwest_1;
       case 'cn-north-1':
         return CloudWatchRegion.cnNorth_1;
+      case 'af-south-1':
+        return CloudWatchRegion.afSouth_1;
+      case 'eu-south-1':
+        return CloudWatchRegion.euSouth_1;
+      case 'us-gov-west-1':
+        return CloudWatchRegion.usGovWest_1;
+      case 'us-gov-east-1':
+        return CloudWatchRegion.usGovEast_1;
+      case 'us-iso-east-1':
+        return CloudWatchRegion.usIsoEast_1;
+      case 'us-isob-east-1':
+        return CloudWatchRegion.usIsobEast_1;
     }
     throw Exception('Unknown enum value: $this');
   }
@@ -5624,6 +6150,105 @@ class CreateHostedZoneResponse {
     @_s.required this.hostedZone,
     @_s.required this.location,
     this.vpc,
+  });
+}
+
+class CreateKeySigningKeyRequest {
+  /// A unique string that identifies the request.
+  final String callerReference;
+
+  /// The unique string (ID) used to identify a hosted zone.
+  final String hostedZoneId;
+
+  /// The Amazon resource name (ARN) for a customer managed key (CMK) in AWS Key
+  /// Management Service (KMS). The <code>KeyManagementServiceArn</code> must be
+  /// unique for each key signing key (KSK) in a single hosted zone. To see an
+  /// example of <code>KeyManagementServiceArn</code> that grants the correct
+  /// permissions for DNSSEC, scroll down to <b>Example</b>.
+  ///
+  /// You must configure the CMK as follows:
+  /// <dl> <dt>Status</dt> <dd>
+  /// Enabled
+  /// </dd> <dt>Key spec</dt> <dd>
+  /// ECC_NIST_P256
+  /// </dd> <dt>Key usage</dt> <dd>
+  /// Sign and verify
+  /// </dd> <dt>Key policy</dt> <dd>
+  /// The key policy must give permission for the following actions:
+  ///
+  /// <ul>
+  /// <li>
+  /// DescribeKey
+  /// </li>
+  /// <li>
+  /// GetPublicKey
+  /// </li>
+  /// <li>
+  /// Sign
+  /// </li>
+  /// </ul>
+  /// The key policy must also include the Amazon Route 53 service in the
+  /// principal for your account. Specify the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>"Service": "api-service.dnssec.route53.aws.internal"</code>
+  /// </li>
+  /// </ul> </dd> </dl>
+  /// For more information about working with CMK in KMS, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html">AWS
+  /// Key Management Service concepts</a>.
+  final String keyManagementServiceArn;
+
+  /// An alphanumeric string used to identify a key signing key (KSK).
+  /// <code>Name</code> must be unique for each key signing key in the same hosted
+  /// zone.
+  final String name;
+
+  /// A string specifying the initial status of the key signing key (KSK). You can
+  /// set the value to <code>ACTIVE</code> or <code>INACTIVE</code>.
+  final String status;
+
+  CreateKeySigningKeyRequest({
+    @_s.required this.callerReference,
+    @_s.required this.hostedZoneId,
+    @_s.required this.keyManagementServiceArn,
+    @_s.required this.name,
+    @_s.required this.status,
+  });
+  _s.XmlElement toXml(String elemName, {List<_s.XmlAttribute> attributes}) {
+    final $children = <_s.XmlNode>[
+      _s.encodeXmlStringValue('CallerReference', callerReference),
+      _s.encodeXmlStringValue('HostedZoneId', hostedZoneId),
+      _s.encodeXmlStringValue(
+          'KeyManagementServiceArn', keyManagementServiceArn),
+      _s.encodeXmlStringValue('Name', name),
+      _s.encodeXmlStringValue('Status', status),
+    ];
+    final $attributes = <_s.XmlAttribute>[
+      ...?attributes,
+    ];
+    return _s.XmlElement(
+      _s.XmlName(elemName),
+      $attributes,
+      $children.where((e) => e != null),
+    );
+  }
+}
+
+class CreateKeySigningKeyResponse {
+  final ChangeInfo changeInfo;
+
+  /// The key signing key (KSK) that the request creates.
+  final KeySigningKey keySigningKey;
+
+  /// The unique URL representing the new key signing key (KSK).
+  final String location;
+
+  CreateKeySigningKeyResponse({
+    @_s.required this.changeInfo,
+    @_s.required this.keySigningKey,
+    @_s.required this.location,
   });
 }
 
@@ -5953,6 +6578,51 @@ class CreateVPCAssociationAuthorizationResponse {
   }
 }
 
+/// A string repesenting the status of DNSSEC signing.
+class DNSSECStatus {
+  /// Indicates your hosted zone signging status: <code>SIGNING</code>,
+  /// <code>NOT_SIGNING</code>, or <code>INTERNAL_FAILURE</code>. If the status is
+  /// <code>INTERNAL_FAILURE</code>, see <code>StatusMessage</code> for
+  /// information about steps that you can take to correct the problem.
+  ///
+  /// A status <code>INTERNAL_FAILURE</code> means there was an error during a
+  /// request. Before you can continue to work with DNSSEC signing, including
+  /// working with key signing keys (KSKs), you must correct the problem by
+  /// enabling or disabling DNSSEC signing for the hosted zone.
+  final String serveSignature;
+
+  /// The status message provided for the following DNSSEC signing status:
+  /// <code>INTERNAL_FAILURE</code>. The status message includes information about
+  /// what the problem might be and steps that you can take to correct the issue.
+  final String statusMessage;
+
+  DNSSECStatus({
+    this.serveSignature,
+    this.statusMessage,
+  });
+  factory DNSSECStatus.fromXml(_s.XmlElement elem) {
+    return DNSSECStatus(
+      serveSignature: _s.extractXmlStringValue(elem, 'ServeSignature'),
+      statusMessage: _s.extractXmlStringValue(elem, 'StatusMessage'),
+    );
+  }
+}
+
+class DeactivateKeySigningKeyResponse {
+  final ChangeInfo changeInfo;
+
+  DeactivateKeySigningKeyResponse({
+    @_s.required this.changeInfo,
+  });
+  factory DeactivateKeySigningKeyResponse.fromXml(_s.XmlElement elem) {
+    return DeactivateKeySigningKeyResponse(
+      changeInfo: _s
+          .extractXmlChild(elem, 'ChangeInfo')
+          ?.let((e) => ChangeInfo.fromXml(e)),
+    );
+  }
+}
+
 /// A complex type that lists the name servers in a delegation set, as well as
 /// the <code>CallerReference</code> and the <code>ID</code> for the delegation
 /// set.
@@ -6006,6 +6676,21 @@ class DeleteHostedZoneResponse {
   });
   factory DeleteHostedZoneResponse.fromXml(_s.XmlElement elem) {
     return DeleteHostedZoneResponse(
+      changeInfo: _s
+          .extractXmlChild(elem, 'ChangeInfo')
+          ?.let((e) => ChangeInfo.fromXml(e)),
+    );
+  }
+}
+
+class DeleteKeySigningKeyResponse {
+  final ChangeInfo changeInfo;
+
+  DeleteKeySigningKeyResponse({
+    @_s.required this.changeInfo,
+  });
+  factory DeleteKeySigningKeyResponse.fromXml(_s.XmlElement elem) {
+    return DeleteKeySigningKeyResponse(
       changeInfo: _s
           .extractXmlChild(elem, 'ChangeInfo')
           ?.let((e) => ChangeInfo.fromXml(e)),
@@ -6118,6 +6803,21 @@ class Dimension {
   }
 }
 
+class DisableHostedZoneDNSSECResponse {
+  final ChangeInfo changeInfo;
+
+  DisableHostedZoneDNSSECResponse({
+    @_s.required this.changeInfo,
+  });
+  factory DisableHostedZoneDNSSECResponse.fromXml(_s.XmlElement elem) {
+    return DisableHostedZoneDNSSECResponse(
+      changeInfo: _s
+          .extractXmlChild(elem, 'ChangeInfo')
+          ?.let((e) => ChangeInfo.fromXml(e)),
+    );
+  }
+}
+
 /// A complex type that contains information about the VPC that you want to
 /// disassociate from a specified private hosted zone.
 class DisassociateVPCFromHostedZoneRequest {
@@ -6164,6 +6864,21 @@ class DisassociateVPCFromHostedZoneResponse {
   });
   factory DisassociateVPCFromHostedZoneResponse.fromXml(_s.XmlElement elem) {
     return DisassociateVPCFromHostedZoneResponse(
+      changeInfo: _s
+          .extractXmlChild(elem, 'ChangeInfo')
+          ?.let((e) => ChangeInfo.fromXml(e)),
+    );
+  }
+}
+
+class EnableHostedZoneDNSSECResponse {
+  final ChangeInfo changeInfo;
+
+  EnableHostedZoneDNSSECResponse({
+    @_s.required this.changeInfo,
+  });
+  factory EnableHostedZoneDNSSECResponse.fromXml(_s.XmlElement elem) {
+    return EnableHostedZoneDNSSECResponse(
       changeInfo: _s
           .extractXmlChild(elem, 'ChangeInfo')
           ?.let((e) => ChangeInfo.fromXml(e)),
@@ -6359,6 +7074,31 @@ class GetCheckerIpRangesResponse {
       checkerIpRanges: _s
           .extractXmlChild(elem, 'CheckerIpRanges')
           ?.let((elem) => _s.extractXmlStringListValues(elem, 'member')),
+    );
+  }
+}
+
+class GetDNSSECResponse {
+  /// The key signing keys (KSKs) in your account.
+  final List<KeySigningKey> keySigningKeys;
+
+  /// A string repesenting the status of DNSSEC.
+  final DNSSECStatus status;
+
+  GetDNSSECResponse({
+    @_s.required this.keySigningKeys,
+    @_s.required this.status,
+  });
+  factory GetDNSSECResponse.fromXml(_s.XmlElement elem) {
+    return GetDNSSECResponse(
+      keySigningKeys: _s.extractXmlChild(elem, 'KeySigningKeys')?.let((elem) =>
+          elem
+              .findElements('member')
+              .map((c) => KeySigningKey.fromXml(c))
+              .toList()),
+      status: _s
+          .extractXmlChild(elem, 'Status')
+          ?.let((e) => DNSSECStatus.fromXml(e)),
     );
   }
 }
@@ -7483,6 +8223,72 @@ extension on String {
   }
 }
 
+/// A complex type that identifies a hosted zone that a specified Amazon VPC is
+/// associated with and the owner of the hosted zone. If there is a value for
+/// <code>OwningAccount</code>, there is no value for
+/// <code>OwningService</code>, and vice versa.
+class HostedZoneOwner {
+  /// If the hosted zone was created by an AWS account, or was created by an AWS
+  /// service that creates hosted zones using the current account,
+  /// <code>OwningAccount</code> contains the account ID of that account. For
+  /// example, when you use AWS Cloud Map to create a hosted zone, Cloud Map
+  /// creates the hosted zone using the current AWS account.
+  final String owningAccount;
+
+  /// If an AWS service uses its own account to create a hosted zone and associate
+  /// the specified VPC with that hosted zone, <code>OwningService</code> contains
+  /// an abbreviation that identifies the service. For example, if Amazon Elastic
+  /// File System (Amazon EFS) created a hosted zone and associated a VPC with the
+  /// hosted zone, the value of <code>OwningService</code> is
+  /// <code>efs.amazonaws.com</code>.
+  final String owningService;
+
+  HostedZoneOwner({
+    this.owningAccount,
+    this.owningService,
+  });
+  factory HostedZoneOwner.fromXml(_s.XmlElement elem) {
+    return HostedZoneOwner(
+      owningAccount: _s.extractXmlStringValue(elem, 'OwningAccount'),
+      owningService: _s.extractXmlStringValue(elem, 'OwningService'),
+    );
+  }
+}
+
+/// In the response to a <code>ListHostedZonesByVPC</code> request, the
+/// <code>HostedZoneSummaries</code> element contains one
+/// <code>HostedZoneSummary</code> element for each hosted zone that the
+/// specified Amazon VPC is associated with. Each <code>HostedZoneSummary</code>
+/// element contains the hosted zone name and ID, and information about who owns
+/// the hosted zone.
+class HostedZoneSummary {
+  /// The Route 53 hosted zone ID of a private hosted zone that the specified VPC
+  /// is associated with.
+  final String hostedZoneId;
+
+  /// The name of the private hosted zone, such as <code>example.com</code>.
+  final String name;
+
+  /// The owner of a private hosted zone that the specified VPC is associated
+  /// with. The owner can be either an AWS account or an AWS service.
+  final HostedZoneOwner owner;
+
+  HostedZoneSummary({
+    @_s.required this.hostedZoneId,
+    @_s.required this.name,
+    @_s.required this.owner,
+  });
+  factory HostedZoneSummary.fromXml(_s.XmlElement elem) {
+    return HostedZoneSummary(
+      hostedZoneId: _s.extractXmlStringValue(elem, 'HostedZoneId'),
+      name: _s.extractXmlStringValue(elem, 'Name'),
+      owner: _s
+          .extractXmlChild(elem, 'Owner')
+          ?.let((e) => HostedZoneOwner.fromXml(e)),
+    );
+  }
+}
+
 enum InsufficientDataHealthStatus {
   healthy,
   unhealthy,
@@ -7514,6 +8320,175 @@ extension on String {
         return InsufficientDataHealthStatus.lastKnownStatus;
     }
     throw Exception('Unknown enum value: $this');
+  }
+}
+
+/// A key signing key (KSK) is a complex type that represents a public/private
+/// key pair. The private key is used to generate a digital signature for the
+/// zone signing key (ZSK). The public key is stored in the DNS and is used to
+/// authenticate the ZSK. A KSK is always associated with a hosted zone; it
+/// cannot exist by itself.
+class KeySigningKey {
+  /// The date when the key signing key (KSK) was created.
+  final DateTime createdDate;
+
+  /// A string that represents a DNSKEY record.
+  final String dNSKEYRecord;
+
+  /// A string that represents a delegation signer (DS) record.
+  final String dSRecord;
+
+  /// A string used to represent the delegation signer digest algorithm. This
+  /// value must follow the guidelines provided by <a
+  /// href="https://tools.ietf.org/html/rfc8624#section-3.3">RFC-8624 Section
+  /// 3.3</a>.
+  final String digestAlgorithmMnemonic;
+
+  /// An integer used to represent the delegation signer digest algorithm. This
+  /// value must follow the guidelines provided by <a
+  /// href="https://tools.ietf.org/html/rfc8624#section-3.3">RFC-8624 Section
+  /// 3.3</a>.
+  final int digestAlgorithmType;
+
+  /// A cryptographic digest of a DNSKEY resource record (RR). DNSKEY records are
+  /// used to publish the public key that resolvers can use to verify DNSSEC
+  /// signatures that are used to secure certain kinds of information provided by
+  /// the DNS system.
+  final String digestValue;
+
+  /// An integer that specifies how the key is used. For key signing key (KSK),
+  /// this value is always 257.
+  final int flag;
+
+  /// An integer used to identify the DNSSEC record for the domain name. The
+  /// process used to calculate the value is described in <a
+  /// href="https://tools.ietf.org/rfc/rfc4034.txt">RFC-4034 Appendix B</a>.
+  final int keyTag;
+
+  /// The Amazon resource name (ARN) used to identify the customer managed key
+  /// (CMK) in AWS Key Management Service (KMS). The <code>KmsArn</code> must be
+  /// unique for each key signing key (KSK) in a single hosted zone.
+  ///
+  /// You must configure the CMK as follows:
+  /// <dl> <dt>Status</dt> <dd>
+  /// Enabled
+  /// </dd> <dt>Key spec</dt> <dd>
+  /// ECC_NIST_P256
+  /// </dd> <dt>Key usage</dt> <dd>
+  /// Sign and verify
+  /// </dd> <dt>Key policy</dt> <dd>
+  /// The key policy must give permission for the following actions:
+  ///
+  /// <ul>
+  /// <li>
+  /// DescribeKey
+  /// </li>
+  /// <li>
+  /// GetPublicKey
+  /// </li>
+  /// <li>
+  /// Sign
+  /// </li>
+  /// </ul>
+  /// The key policy must also include the Amazon Route 53 service in the
+  /// principal for your account. Specify the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>"Service": "api-service.dnssec.route53.aws.internal"</code>
+  /// </li>
+  /// </ul> </dd> </dl>
+  /// For more information about working with the customer managed key (CMK) in
+  /// KMS, see <a
+  /// href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html">AWS
+  /// Key Management Service concepts</a>.
+  final String kmsArn;
+
+  /// The last time that the key signing key (KSK) was changed.
+  final DateTime lastModifiedDate;
+
+  /// An alphanumeric string used to identify a key signing key (KSK).
+  /// <code>Name</code> must be unique for each key signing key in the same hosted
+  /// zone.
+  final String name;
+
+  /// The public key, represented as a Base64 encoding, as required by <a
+  /// href="https://tools.ietf.org/rfc/rfc4034.txt"> RFC-4034 Page 5</a>.
+  final String publicKey;
+
+  /// A string used to represent the signing algorithm. This value must follow the
+  /// guidelines provided by <a
+  /// href="https://tools.ietf.org/html/rfc8624#section-3.1">RFC-8624 Section
+  /// 3.1</a>.
+  final String signingAlgorithmMnemonic;
+
+  /// An integer used to represent the signing algorithm. This value must follow
+  /// the guidelines provided by <a
+  /// href="https://tools.ietf.org/html/rfc8624#section-3.1">RFC-8624 Section
+  /// 3.1</a>.
+  final int signingAlgorithmType;
+
+  /// A string that represents the current key signing key (KSK) status.
+  ///
+  /// Status can have one of the following values:
+  /// <dl> <dt>ACTIVE</dt> <dd>
+  /// The KSK is being used for signing.
+  /// </dd> <dt>INACTIVE</dt> <dd>
+  /// The KSK is not being used for signing.
+  /// </dd> <dt>ACTION_NEEDED</dt> <dd>
+  /// There is an error in the KSK that requires you to take action to resolve.
+  /// </dd> <dt>INTERNAL_FAILURE</dt> <dd>
+  /// There was an error during a request. Before you can continue to work with
+  /// DNSSEC signing, including actions that involve this KSK, you must correct
+  /// the problem. For example, you may need to activate or deactivate the KSK.
+  /// </dd> </dl>
+  final String status;
+
+  /// The status message provided for the following key signing key (KSK)
+  /// statuses: <code>ACTION_NEEDED</code> or <code>INTERNAL_FAILURE</code>. The
+  /// status message includes information about what the problem might be and
+  /// steps that you can take to correct the issue.
+  final String statusMessage;
+
+  KeySigningKey({
+    this.createdDate,
+    this.dNSKEYRecord,
+    this.dSRecord,
+    this.digestAlgorithmMnemonic,
+    this.digestAlgorithmType,
+    this.digestValue,
+    this.flag,
+    this.keyTag,
+    this.kmsArn,
+    this.lastModifiedDate,
+    this.name,
+    this.publicKey,
+    this.signingAlgorithmMnemonic,
+    this.signingAlgorithmType,
+    this.status,
+    this.statusMessage,
+  });
+  factory KeySigningKey.fromXml(_s.XmlElement elem) {
+    return KeySigningKey(
+      createdDate: _s.extractXmlDateTimeValue(elem, 'CreatedDate'),
+      dNSKEYRecord: _s.extractXmlStringValue(elem, 'DNSKEYRecord'),
+      dSRecord: _s.extractXmlStringValue(elem, 'DSRecord'),
+      digestAlgorithmMnemonic:
+          _s.extractXmlStringValue(elem, 'DigestAlgorithmMnemonic'),
+      digestAlgorithmType: _s.extractXmlIntValue(elem, 'DigestAlgorithmType'),
+      digestValue: _s.extractXmlStringValue(elem, 'DigestValue'),
+      flag: _s.extractXmlIntValue(elem, 'Flag'),
+      keyTag: _s.extractXmlIntValue(elem, 'KeyTag'),
+      kmsArn: _s.extractXmlStringValue(elem, 'KmsArn'),
+      lastModifiedDate: _s.extractXmlDateTimeValue(elem, 'LastModifiedDate'),
+      name: _s.extractXmlStringValue(elem, 'Name'),
+      publicKey: _s.extractXmlStringValue(elem, 'PublicKey'),
+      signingAlgorithmMnemonic:
+          _s.extractXmlStringValue(elem, 'SigningAlgorithmMnemonic'),
+      signingAlgorithmType: _s.extractXmlIntValue(elem, 'SigningAlgorithmType'),
+      status: _s.extractXmlStringValue(elem, 'Status'),
+      statusMessage: _s.extractXmlStringValue(elem, 'StatusMessage'),
+    );
   }
 }
 
@@ -7727,6 +8702,39 @@ class ListHostedZonesByNameResponse {
       hostedZoneId: _s.extractXmlStringValue(elem, 'HostedZoneId'),
       nextDNSName: _s.extractXmlStringValue(elem, 'NextDNSName'),
       nextHostedZoneId: _s.extractXmlStringValue(elem, 'NextHostedZoneId'),
+    );
+  }
+}
+
+class ListHostedZonesByVPCResponse {
+  /// A list that contains one <code>HostedZoneSummary</code> element for each
+  /// hosted zone that the specified Amazon VPC is associated with. Each
+  /// <code>HostedZoneSummary</code> element contains the hosted zone name and ID,
+  /// and information about who owns the hosted zone.
+  final List<HostedZoneSummary> hostedZoneSummaries;
+
+  /// The value that you specified for <code>MaxItems</code> in the most recent
+  /// <code>ListHostedZonesByVPC</code> request.
+  final String maxItems;
+
+  /// The value that you specified for <code>NextToken</code> in the most recent
+  /// <code>ListHostedZonesByVPC</code> request.
+  final String nextToken;
+
+  ListHostedZonesByVPCResponse({
+    @_s.required this.hostedZoneSummaries,
+    @_s.required this.maxItems,
+    this.nextToken,
+  });
+  factory ListHostedZonesByVPCResponse.fromXml(_s.XmlElement elem) {
+    return ListHostedZonesByVPCResponse(
+      hostedZoneSummaries: _s.extractXmlChild(elem, 'HostedZoneSummaries')?.let(
+          (elem) => elem
+              .findElements('HostedZoneSummary')
+              .map((c) => HostedZoneSummary.fromXml(c))
+              .toList()),
+      maxItems: _s.extractXmlStringValue(elem, 'MaxItems'),
+      nextToken: _s.extractXmlStringValue(elem, 'NextToken'),
     );
   }
 }
@@ -8363,6 +9371,7 @@ enum RRType {
   spf,
   aaaa,
   caa,
+  ds,
 }
 
 extension on RRType {
@@ -8392,6 +9401,8 @@ extension on RRType {
         return 'AAAA';
       case RRType.caa:
         return 'CAA';
+      case RRType.ds:
+        return 'DS';
     }
     throw Exception('Unknown enum value: $this');
   }
@@ -8424,6 +9435,8 @@ extension on String {
         return RRType.aaaa;
       case 'CAA':
         return RRType.caa;
+      case 'DS':
+        return RRType.ds;
     }
     throw Exception('Unknown enum value: $this');
   }
@@ -9228,6 +10241,8 @@ enum ResourceRecordSetRegion {
   apEast_1,
   meSouth_1,
   apSouth_1,
+  afSouth_1,
+  euSouth_1,
 }
 
 extension on ResourceRecordSetRegion {
@@ -9275,6 +10290,10 @@ extension on ResourceRecordSetRegion {
         return 'me-south-1';
       case ResourceRecordSetRegion.apSouth_1:
         return 'ap-south-1';
+      case ResourceRecordSetRegion.afSouth_1:
+        return 'af-south-1';
+      case ResourceRecordSetRegion.euSouth_1:
+        return 'eu-south-1';
     }
     throw Exception('Unknown enum value: $this');
   }
@@ -9325,6 +10344,10 @@ extension on String {
         return ResourceRecordSetRegion.meSouth_1;
       case 'ap-south-1':
         return ResourceRecordSetRegion.apSouth_1;
+      case 'af-south-1':
+        return ResourceRecordSetRegion.afSouth_1;
+      case 'eu-south-1':
+        return ResourceRecordSetRegion.euSouth_1;
     }
     throw Exception('Unknown enum value: $this');
   }
@@ -10461,6 +11484,10 @@ enum VPCRegion {
   euCentral_1,
   apEast_1,
   meSouth_1,
+  usGovWest_1,
+  usGovEast_1,
+  usIsoEast_1,
+  usIsobEast_1,
   apSoutheast_1,
   apSoutheast_2,
   apSouth_1,
@@ -10471,6 +11498,8 @@ enum VPCRegion {
   saEast_1,
   caCentral_1,
   cnNorth_1,
+  afSouth_1,
+  euSouth_1,
 }
 
 extension on VPCRegion {
@@ -10496,6 +11525,14 @@ extension on VPCRegion {
         return 'ap-east-1';
       case VPCRegion.meSouth_1:
         return 'me-south-1';
+      case VPCRegion.usGovWest_1:
+        return 'us-gov-west-1';
+      case VPCRegion.usGovEast_1:
+        return 'us-gov-east-1';
+      case VPCRegion.usIsoEast_1:
+        return 'us-iso-east-1';
+      case VPCRegion.usIsobEast_1:
+        return 'us-isob-east-1';
       case VPCRegion.apSoutheast_1:
         return 'ap-southeast-1';
       case VPCRegion.apSoutheast_2:
@@ -10516,6 +11553,10 @@ extension on VPCRegion {
         return 'ca-central-1';
       case VPCRegion.cnNorth_1:
         return 'cn-north-1';
+      case VPCRegion.afSouth_1:
+        return 'af-south-1';
+      case VPCRegion.euSouth_1:
+        return 'eu-south-1';
     }
     throw Exception('Unknown enum value: $this');
   }
@@ -10544,6 +11585,14 @@ extension on String {
         return VPCRegion.apEast_1;
       case 'me-south-1':
         return VPCRegion.meSouth_1;
+      case 'us-gov-west-1':
+        return VPCRegion.usGovWest_1;
+      case 'us-gov-east-1':
+        return VPCRegion.usGovEast_1;
+      case 'us-iso-east-1':
+        return VPCRegion.usIsoEast_1;
+      case 'us-isob-east-1':
+        return VPCRegion.usIsobEast_1;
       case 'ap-southeast-1':
         return VPCRegion.apSoutheast_1;
       case 'ap-southeast-2':
@@ -10564,6 +11613,10 @@ extension on String {
         return VPCRegion.caCentral_1;
       case 'cn-north-1':
         return VPCRegion.cnNorth_1;
+      case 'af-south-1':
+        return VPCRegion.afSouth_1;
+      case 'eu-south-1':
+        return VPCRegion.euSouth_1;
     }
     throw Exception('Unknown enum value: $this');
   }
@@ -10582,6 +11635,11 @@ class ConflictingDomainExists extends _s.GenericAwsException {
 class ConflictingTypes extends _s.GenericAwsException {
   ConflictingTypes({String type, String message})
       : super(type: type, code: 'ConflictingTypes', message: message);
+}
+
+class DNSSECNotFound extends _s.GenericAwsException {
+  DNSSECNotFound({String type, String message})
+      : super(type: type, code: 'DNSSECNotFound', message: message);
 }
 
 class DelegationSetAlreadyCreated extends _s.GenericAwsException {
@@ -10646,6 +11704,12 @@ class HostedZoneNotPrivate extends _s.GenericAwsException {
       : super(type: type, code: 'HostedZoneNotPrivate', message: message);
 }
 
+class HostedZonePartiallyDelegated extends _s.GenericAwsException {
+  HostedZonePartiallyDelegated({String type, String message})
+      : super(
+            type: type, code: 'HostedZonePartiallyDelegated', message: message);
+}
+
 class IncompatibleVersion extends _s.GenericAwsException {
   IncompatibleVersion({String type, String message})
       : super(type: type, code: 'IncompatibleVersion', message: message);
@@ -10679,9 +11743,29 @@ class InvalidInput extends _s.GenericAwsException {
       : super(type: type, code: 'InvalidInput', message: message);
 }
 
+class InvalidKMSArn extends _s.GenericAwsException {
+  InvalidKMSArn({String type, String message})
+      : super(type: type, code: 'InvalidKMSArn', message: message);
+}
+
+class InvalidKeySigningKeyName extends _s.GenericAwsException {
+  InvalidKeySigningKeyName({String type, String message})
+      : super(type: type, code: 'InvalidKeySigningKeyName', message: message);
+}
+
+class InvalidKeySigningKeyStatus extends _s.GenericAwsException {
+  InvalidKeySigningKeyStatus({String type, String message})
+      : super(type: type, code: 'InvalidKeySigningKeyStatus', message: message);
+}
+
 class InvalidPaginationToken extends _s.GenericAwsException {
   InvalidPaginationToken({String type, String message})
       : super(type: type, code: 'InvalidPaginationToken', message: message);
+}
+
+class InvalidSigningStatus extends _s.GenericAwsException {
+  InvalidSigningStatus({String type, String message})
+      : super(type: type, code: 'InvalidSigningStatus', message: message);
 }
 
 class InvalidTrafficPolicyDocument extends _s.GenericAwsException {
@@ -10693,6 +11777,32 @@ class InvalidTrafficPolicyDocument extends _s.GenericAwsException {
 class InvalidVPCId extends _s.GenericAwsException {
   InvalidVPCId({String type, String message})
       : super(type: type, code: 'InvalidVPCId', message: message);
+}
+
+class KeySigningKeyAlreadyExists extends _s.GenericAwsException {
+  KeySigningKeyAlreadyExists({String type, String message})
+      : super(type: type, code: 'KeySigningKeyAlreadyExists', message: message);
+}
+
+class KeySigningKeyInParentDSRecord extends _s.GenericAwsException {
+  KeySigningKeyInParentDSRecord({String type, String message})
+      : super(
+            type: type,
+            code: 'KeySigningKeyInParentDSRecord',
+            message: message);
+}
+
+class KeySigningKeyInUse extends _s.GenericAwsException {
+  KeySigningKeyInUse({String type, String message})
+      : super(type: type, code: 'KeySigningKeyInUse', message: message);
+}
+
+class KeySigningKeyWithActiveStatusNotFound extends _s.GenericAwsException {
+  KeySigningKeyWithActiveStatusNotFound({String type, String message})
+      : super(
+            type: type,
+            code: 'KeySigningKeyWithActiveStatusNotFound',
+            message: message);
 }
 
 class LastVPCAssociation extends _s.GenericAwsException {
@@ -10734,6 +11844,11 @@ class NoSuchHealthCheck extends _s.GenericAwsException {
 class NoSuchHostedZone extends _s.GenericAwsException {
   NoSuchHostedZone({String type, String message})
       : super(type: type, code: 'NoSuchHostedZone', message: message);
+}
+
+class NoSuchKeySigningKey extends _s.GenericAwsException {
+  NoSuchKeySigningKey({String type, String message})
+      : super(type: type, code: 'NoSuchKeySigningKey', message: message);
 }
 
 class NoSuchQueryLoggingConfig extends _s.GenericAwsException {
@@ -10788,6 +11903,11 @@ class TooManyHealthChecks extends _s.GenericAwsException {
 class TooManyHostedZones extends _s.GenericAwsException {
   TooManyHostedZones({String type, String message})
       : super(type: type, code: 'TooManyHostedZones', message: message);
+}
+
+class TooManyKeySigningKeys extends _s.GenericAwsException {
+  TooManyKeySigningKeys({String type, String message})
+      : super(type: type, code: 'TooManyKeySigningKeys', message: message);
 }
 
 class TooManyTrafficPolicies extends _s.GenericAwsException {
@@ -10858,6 +11978,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       ConflictingDomainExists(type: type, message: message),
   'ConflictingTypes': (type, message) =>
       ConflictingTypes(type: type, message: message),
+  'DNSSECNotFound': (type, message) =>
+      DNSSECNotFound(type: type, message: message),
   'DelegationSetAlreadyCreated': (type, message) =>
       DelegationSetAlreadyCreated(type: type, message: message),
   'DelegationSetAlreadyReusable': (type, message) =>
@@ -10882,6 +12004,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       HostedZoneNotFound(type: type, message: message),
   'HostedZoneNotPrivate': (type, message) =>
       HostedZoneNotPrivate(type: type, message: message),
+  'HostedZonePartiallyDelegated': (type, message) =>
+      HostedZonePartiallyDelegated(type: type, message: message),
   'IncompatibleVersion': (type, message) =>
       IncompatibleVersion(type: type, message: message),
   'InsufficientCloudWatchLogsResourcePolicy': (type, message) =>
@@ -10893,11 +12017,27 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
   'InvalidDomainName': (type, message) =>
       InvalidDomainName(type: type, message: message),
   'InvalidInput': (type, message) => InvalidInput(type: type, message: message),
+  'InvalidKMSArn': (type, message) =>
+      InvalidKMSArn(type: type, message: message),
+  'InvalidKeySigningKeyName': (type, message) =>
+      InvalidKeySigningKeyName(type: type, message: message),
+  'InvalidKeySigningKeyStatus': (type, message) =>
+      InvalidKeySigningKeyStatus(type: type, message: message),
   'InvalidPaginationToken': (type, message) =>
       InvalidPaginationToken(type: type, message: message),
+  'InvalidSigningStatus': (type, message) =>
+      InvalidSigningStatus(type: type, message: message),
   'InvalidTrafficPolicyDocument': (type, message) =>
       InvalidTrafficPolicyDocument(type: type, message: message),
   'InvalidVPCId': (type, message) => InvalidVPCId(type: type, message: message),
+  'KeySigningKeyAlreadyExists': (type, message) =>
+      KeySigningKeyAlreadyExists(type: type, message: message),
+  'KeySigningKeyInParentDSRecord': (type, message) =>
+      KeySigningKeyInParentDSRecord(type: type, message: message),
+  'KeySigningKeyInUse': (type, message) =>
+      KeySigningKeyInUse(type: type, message: message),
+  'KeySigningKeyWithActiveStatusNotFound': (type, message) =>
+      KeySigningKeyWithActiveStatusNotFound(type: type, message: message),
   'LastVPCAssociation': (type, message) =>
       LastVPCAssociation(type: type, message: message),
   'LimitsExceeded': (type, message) =>
@@ -10913,6 +12053,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       NoSuchHealthCheck(type: type, message: message),
   'NoSuchHostedZone': (type, message) =>
       NoSuchHostedZone(type: type, message: message),
+  'NoSuchKeySigningKey': (type, message) =>
+      NoSuchKeySigningKey(type: type, message: message),
   'NoSuchQueryLoggingConfig': (type, message) =>
       NoSuchQueryLoggingConfig(type: type, message: message),
   'NoSuchTrafficPolicy': (type, message) =>
@@ -10933,6 +12075,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       TooManyHealthChecks(type: type, message: message),
   'TooManyHostedZones': (type, message) =>
       TooManyHostedZones(type: type, message: message),
+  'TooManyKeySigningKeys': (type, message) =>
+      TooManyKeySigningKeys(type: type, message: message),
   'TooManyTrafficPolicies': (type, message) =>
       TooManyTrafficPolicies(type: type, message: message),
   'TooManyTrafficPolicyInstances': (type, message) =>

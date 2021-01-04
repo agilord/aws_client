@@ -13,6 +13,13 @@ CreateExportTaskResponse _$CreateExportTaskResponseFromJson(
   );
 }
 
+DeleteQueryDefinitionResponse _$DeleteQueryDefinitionResponseFromJson(
+    Map<String, dynamic> json) {
+  return DeleteQueryDefinitionResponse(
+    success: json['success'] as bool,
+  );
+}
+
 DescribeDestinationsResponse _$DescribeDestinationsResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeDestinationsResponse(
@@ -75,6 +82,18 @@ DescribeQueriesResponse _$DescribeQueriesResponseFromJson(
     queries: (json['queries'] as List)
         ?.map((e) =>
             e == null ? null : QueryInfo.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+DescribeQueryDefinitionsResponse _$DescribeQueryDefinitionsResponseFromJson(
+    Map<String, dynamic> json) {
+  return DescribeQueryDefinitionsResponse(
+    nextToken: json['nextToken'] as String,
+    queryDefinitions: (json['queryDefinitions'] as List)
+        ?.map((e) => e == null
+            ? null
+            : QueryDefinition.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
 }
@@ -405,6 +424,13 @@ PutLogEventsResponse _$PutLogEventsResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+PutQueryDefinitionResponse _$PutQueryDefinitionResponseFromJson(
+    Map<String, dynamic> json) {
+  return PutQueryDefinitionResponse(
+    queryDefinitionId: json['queryDefinitionId'] as String,
+  );
+}
+
 PutResourcePolicyResponse _$PutResourcePolicyResponseFromJson(
     Map<String, dynamic> json) {
   return PutResourcePolicyResponse(
@@ -412,6 +438,17 @@ PutResourcePolicyResponse _$PutResourcePolicyResponseFromJson(
         ? null
         : ResourcePolicy.fromJson(
             json['resourcePolicy'] as Map<String, dynamic>),
+  );
+}
+
+QueryDefinition _$QueryDefinitionFromJson(Map<String, dynamic> json) {
+  return QueryDefinition(
+    lastModified: json['lastModified'] as int,
+    logGroupNames:
+        (json['logGroupNames'] as List)?.map((e) => e as String)?.toList(),
+    name: json['name'] as String,
+    queryDefinitionId: json['queryDefinitionId'] as String,
+    queryString: json['queryString'] as String,
   );
 }
 

@@ -249,6 +249,57 @@ class MediaConnect {
     return DescribeFlowResponse.fromJson(response);
   }
 
+  /// Displays the details of an offering. The response includes the offering
+  /// description, duration, outbound bandwidth, price, and Amazon Resource Name
+  /// (ARN).
+  ///
+  /// May throw [NotFoundException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  ///
+  /// Parameter [offeringArn] :
+  /// The Amazon Resource Name (ARN) of the offering.
+  Future<DescribeOfferingResponse> describeOffering({
+    @_s.required String offeringArn,
+  }) async {
+    ArgumentError.checkNotNull(offeringArn, 'offeringArn');
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/v1/offerings/${Uri.encodeComponent(offeringArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeOfferingResponse.fromJson(response);
+  }
+
+  /// Displays the details of a reservation. The response includes the
+  /// reservation name, state, start date and time, and the details of the
+  /// offering that make up the rest of the reservation (such as price,
+  /// duration, and outbound bandwidth).
+  ///
+  /// May throw [NotFoundException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  ///
+  /// Parameter [reservationArn] :
+  /// The Amazon Resource Name (ARN) of the reservation.
+  Future<DescribeReservationResponse> describeReservation({
+    @_s.required String reservationArn,
+  }) async {
+    ArgumentError.checkNotNull(reservationArn, 'reservationArn');
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/v1/reservations/${Uri.encodeComponent(reservationArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeReservationResponse.fromJson(response);
+  }
+
   /// Grants entitlements to an existing flow.
   ///
   /// May throw [GrantFlowEntitlements420Exception].
@@ -376,6 +427,103 @@ class MediaConnect {
     return ListFlowsResponse.fromJson(response);
   }
 
+  /// Displays a list of all offerings that are available to this account in the
+  /// current AWS Region. If you have an active reservation (which means you've
+  /// purchased an offering that has already started and hasn't expired yet),
+  /// your account isn't eligible for other offerings.
+  ///
+  /// May throw [ServiceUnavailableException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return per API request. For example, you
+  /// submit a ListOfferings request with MaxResults set at 5. Although 20 items
+  /// match your request, the service returns no more than the first 5 items.
+  /// (The service also returns a NextToken value that you can use to fetch the
+  /// next batch of results.) The service might return fewer results than the
+  /// MaxResults value. If MaxResults is not included in the request, the
+  /// service defaults to pagination with a maximum of 10 results per page.
+  ///
+  /// Parameter [nextToken] :
+  /// The token that identifies which batch of results that you want to see. For
+  /// example, you submit a ListOfferings request with MaxResults set at 5. The
+  /// service returns the first batch of results (up to 5) and a NextToken
+  /// value. To see the next batch of results, you can submit the ListOfferings
+  /// request a second time and specify the NextToken value.
+  Future<ListOfferingsResponse> listOfferings({
+    int maxResults,
+    String nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/v1/offerings',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListOfferingsResponse.fromJson(response);
+  }
+
+  /// Displays a list of all reservations that have been purchased by this
+  /// account in the current AWS Region. This list includes all reservations in
+  /// all states (such as active and expired).
+  ///
+  /// May throw [ServiceUnavailableException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return per API request. For example, you
+  /// submit a ListReservations request with MaxResults set at 5. Although 20
+  /// items match your request, the service returns no more than the first 5
+  /// items. (The service also returns a NextToken value that you can use to
+  /// fetch the next batch of results.) The service might return fewer results
+  /// than the MaxResults value. If MaxResults is not included in the request,
+  /// the service defaults to pagination with a maximum of 10 results per page.
+  ///
+  /// Parameter [nextToken] :
+  /// The token that identifies which batch of results that you want to see. For
+  /// example, you submit a ListReservations request with MaxResults set at 5.
+  /// The service returns the first batch of results (up to 5) and a NextToken
+  /// value. To see the next batch of results, you can submit the ListOfferings
+  /// request a second time and specify the NextToken value.
+  Future<ListReservationsResponse> listReservations({
+    int maxResults,
+    String nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/v1/reservations',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListReservationsResponse.fromJson(response);
+  }
+
   /// List all tags on an AWS Elemental MediaConnect resource
   ///
   /// May throw [NotFoundException].
@@ -396,6 +544,50 @@ class MediaConnect {
       exceptionFnMap: _exceptionFns,
     );
     return ListTagsForResourceResponse.fromJson(response);
+  }
+
+  /// Submits a request to purchase an offering. If you already have an active
+  /// reservation, you can't purchase another offering.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [NotFoundException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [TooManyRequestsException].
+  ///
+  /// Parameter [offeringArn] :
+  /// The Amazon Resource Name (ARN) of the offering.
+  ///
+  /// Parameter [reservationName] :
+  /// The name that you want to use for the reservation.
+  ///
+  /// Parameter [start] :
+  /// The date and time that you want the reservation to begin, in Coordinated
+  /// Universal Time (UTC). You can specify any date and time between 12:00am on
+  /// the first day of the current month to the current time on today's date,
+  /// inclusive. Specify the start in a 24-hour notation. Use the following
+  /// format: YYYY-MM-DDTHH:mm:SSZ, where T and Z are literal characters. For
+  /// example, to specify 11:30pm on March 5, 2020, enter 2020-03-05T23:30:00Z.
+  Future<PurchaseOfferingResponse> purchaseOffering({
+    @_s.required String offeringArn,
+    @_s.required String reservationName,
+    @_s.required String start,
+  }) async {
+    ArgumentError.checkNotNull(offeringArn, 'offeringArn');
+    ArgumentError.checkNotNull(reservationName, 'reservationName');
+    ArgumentError.checkNotNull(start, 'start');
+    final $payload = <String, dynamic>{
+      'reservationName': reservationName,
+      'start': start,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/v1/offerings/${Uri.encodeComponent(offeringArn)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return PurchaseOfferingResponse.fromJson(response);
   }
 
   /// Removes an output from an existing flow. This request can be made only on
@@ -696,6 +888,12 @@ class MediaConnect {
   /// The type of encryption that will be used on the output associated with
   /// this entitlement.
   ///
+  /// Parameter [entitlementStatus] :
+  /// An indication of whether you want to enable the entitlement to allow
+  /// access, or disable it to stop streaming content to the subscriber’s flow
+  /// temporarily. If you don’t specify the entitlementStatus field in your
+  /// request, MediaConnect leaves the value unchanged.
+  ///
   /// Parameter [subscribers] :
   /// The AWS account IDs that you want to share your content with. The
   /// receiving accounts (subscribers) will be allowed to create their own flow
@@ -705,6 +903,7 @@ class MediaConnect {
     @_s.required String flowArn,
     String description,
     UpdateEncryption encryption,
+    EntitlementStatus entitlementStatus,
     List<String> subscribers,
   }) async {
     ArgumentError.checkNotNull(entitlementArn, 'entitlementArn');
@@ -712,6 +911,8 @@ class MediaConnect {
     final $payload = <String, dynamic>{
       if (description != null) 'description': description,
       if (encryption != null) 'encryption': encryption,
+      if (entitlementStatus != null)
+        'entitlementStatus': entitlementStatus.toValue(),
       if (subscribers != null) 'subscribers': subscribers,
     };
     final response = await _protocol.send(
@@ -1116,6 +1317,43 @@ class DescribeFlowResponse {
       _$DescribeFlowResponseFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DescribeOfferingResponse {
+  @_s.JsonKey(name: 'offering')
+  final Offering offering;
+
+  DescribeOfferingResponse({
+    this.offering,
+  });
+  factory DescribeOfferingResponse.fromJson(Map<String, dynamic> json) =>
+      _$DescribeOfferingResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DescribeReservationResponse {
+  @_s.JsonKey(name: 'reservation')
+  final Reservation reservation;
+
+  DescribeReservationResponse({
+    this.reservation,
+  });
+  factory DescribeReservationResponse.fromJson(Map<String, dynamic> json) =>
+      _$DescribeReservationResponseFromJson(json);
+}
+
+enum DurationUnits {
+  @_s.JsonValue('MONTHS')
+  months,
+}
+
 /// Information about the encryption of the flow.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -1227,6 +1465,10 @@ class Entitlement {
   @_s.JsonKey(name: 'encryption')
   final Encryption encryption;
 
+  /// An indication of whether the entitlement is enabled.
+  @_s.JsonKey(name: 'entitlementStatus')
+  final EntitlementStatus entitlementStatus;
+
   Entitlement({
     @_s.required this.entitlementArn,
     @_s.required this.name,
@@ -1234,9 +1476,29 @@ class Entitlement {
     this.dataTransferSubscriberFeePercent,
     this.description,
     this.encryption,
+    this.entitlementStatus,
   });
   factory Entitlement.fromJson(Map<String, dynamic> json) =>
       _$EntitlementFromJson(json);
+}
+
+enum EntitlementStatus {
+  @_s.JsonValue('ENABLED')
+  enabled,
+  @_s.JsonValue('DISABLED')
+  disabled,
+}
+
+extension on EntitlementStatus {
+  String toValue() {
+    switch (this) {
+      case EntitlementStatus.enabled:
+        return 'ENABLED';
+      case EntitlementStatus.disabled:
+        return 'DISABLED';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// The settings for source failover
@@ -1360,6 +1622,12 @@ class GrantEntitlementRequest {
   @_s.JsonKey(name: 'encryption')
   final Encryption encryption;
 
+  /// An indication of whether the new entitlement should be enabled or disabled
+  /// as soon as it is created. If you don’t specify the entitlementStatus field
+  /// in your request, MediaConnect sets it to ENABLED.
+  @_s.JsonKey(name: 'entitlementStatus')
+  final EntitlementStatus entitlementStatus;
+
   /// The name of the entitlement. This value must be unique within the current
   /// flow.
   @_s.JsonKey(name: 'name')
@@ -1370,6 +1638,7 @@ class GrantEntitlementRequest {
     this.dataTransferSubscriberFeePercent,
     this.description,
     this.encryption,
+    this.entitlementStatus,
     this.name,
   });
   Map<String, dynamic> toJson() => _$GrantEntitlementRequestToJson(this);
@@ -1455,6 +1724,60 @@ class ListFlowsResponse {
   });
   factory ListFlowsResponse.fromJson(Map<String, dynamic> json) =>
       _$ListFlowsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListOfferingsResponse {
+  /// The token that identifies which batch of results that you want to see. For
+  /// example, you submit a ListOfferings request with MaxResults set at 5. The
+  /// service returns the first batch of results (up to 5) and a NextToken value.
+  /// To see the next batch of results, you can submit the ListOfferings request a
+  /// second time and specify the NextToken value.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// A list of offerings that are available to this account in the current AWS
+  /// Region.
+  @_s.JsonKey(name: 'offerings')
+  final List<Offering> offerings;
+
+  ListOfferingsResponse({
+    this.nextToken,
+    this.offerings,
+  });
+  factory ListOfferingsResponse.fromJson(Map<String, dynamic> json) =>
+      _$ListOfferingsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListReservationsResponse {
+  /// The token that identifies which batch of results that you want to see. For
+  /// example, you submit a ListReservations request with MaxResults set at 5. The
+  /// service returns the first batch of results (up to 5) and a NextToken value.
+  /// To see the next batch of results, you can submit the ListReservations
+  /// request a second time and specify the NextToken value.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// A list of all reservations that have been purchased by this account in the
+  /// current AWS Region.
+  @_s.JsonKey(name: 'reservations')
+  final List<Reservation> reservations;
+
+  ListReservationsResponse({
+    this.nextToken,
+    this.reservations,
+  });
+  factory ListReservationsResponse.fromJson(Map<String, dynamic> json) =>
+      _$ListReservationsResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -1570,6 +1893,64 @@ class Messages {
       _$MessagesFromJson(json);
 }
 
+/// A savings plan that reserves a certain amount of outbound bandwidth usage at
+/// a discounted rate each month over a period of time.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class Offering {
+  /// The type of currency that is used for billing. The currencyCode used for all
+  /// reservations is US dollars.
+  @_s.JsonKey(name: 'currencyCode')
+  final String currencyCode;
+
+  /// The length of time that your reservation would be active.
+  @_s.JsonKey(name: 'duration')
+  final int duration;
+
+  /// The unit of measurement for the duration of the offering.
+  @_s.JsonKey(name: 'durationUnits')
+  final DurationUnits durationUnits;
+
+  /// The Amazon Resource Name (ARN) that MediaConnect assigns to the offering.
+  @_s.JsonKey(name: 'offeringArn')
+  final String offeringArn;
+
+  /// A description of the offering.
+  @_s.JsonKey(name: 'offeringDescription')
+  final String offeringDescription;
+
+  /// The cost of a single unit. This value, in combination with priceUnits, makes
+  /// up the rate.
+  @_s.JsonKey(name: 'pricePerUnit')
+  final String pricePerUnit;
+
+  /// The unit of measurement that is used for billing. This value, in combination
+  /// with pricePerUnit, makes up the rate.
+  @_s.JsonKey(name: 'priceUnits')
+  final PriceUnits priceUnits;
+
+  /// A definition of the amount of outbound bandwidth that you would be reserving
+  /// if you purchase the offering.
+  @_s.JsonKey(name: 'resourceSpecification')
+  final ResourceSpecification resourceSpecification;
+
+  Offering({
+    @_s.required this.currencyCode,
+    @_s.required this.duration,
+    @_s.required this.durationUnits,
+    @_s.required this.offeringArn,
+    @_s.required this.offeringDescription,
+    @_s.required this.pricePerUnit,
+    @_s.required this.priceUnits,
+    @_s.required this.resourceSpecification,
+  });
+  factory Offering.fromJson(Map<String, dynamic> json) =>
+      _$OfferingFromJson(json);
+}
+
 /// The settings for an output.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -1641,6 +2022,11 @@ class Output {
   factory Output.fromJson(Map<String, dynamic> json) => _$OutputFromJson(json);
 }
 
+enum PriceUnits {
+  @_s.JsonValue('HOURLY')
+  hourly,
+}
+
 enum Protocol {
   @_s.JsonValue('zixi-push')
   zixiPush,
@@ -1670,6 +2056,22 @@ extension on Protocol {
     }
     throw Exception('Unknown enum value: $this');
   }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class PurchaseOfferingResponse {
+  @_s.JsonKey(name: 'reservation')
+  final Reservation reservation;
+
+  PurchaseOfferingResponse({
+    this.reservation,
+  });
+  factory PurchaseOfferingResponse.fromJson(Map<String, dynamic> json) =>
+      _$PurchaseOfferingResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -1742,6 +2144,142 @@ class RemoveFlowVpcInterfaceResponse {
   });
   factory RemoveFlowVpcInterfaceResponse.fromJson(Map<String, dynamic> json) =>
       _$RemoveFlowVpcInterfaceResponseFromJson(json);
+}
+
+/// A pricing agreement for a discounted rate for a specific outbound bandwidth
+/// that your MediaConnect account will use each month over a specific time
+/// period. The discounted rate in the reservation applies to outbound bandwidth
+/// for all flows from your account until your account reaches the amount of
+/// bandwidth in your reservation. If you use more outbound bandwidth than the
+/// agreed upon amount in a single month, the overage is charged at the
+/// on-demand rate.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class Reservation {
+  /// The type of currency that is used for billing. The currencyCode used for
+  /// your reservation is US dollars.
+  @_s.JsonKey(name: 'currencyCode')
+  final String currencyCode;
+
+  /// The length of time that this reservation is active. MediaConnect defines
+  /// this value in the offering.
+  @_s.JsonKey(name: 'duration')
+  final int duration;
+
+  /// The unit of measurement for the duration of the reservation. MediaConnect
+  /// defines this value in the offering.
+  @_s.JsonKey(name: 'durationUnits')
+  final DurationUnits durationUnits;
+
+  /// The day and time that this reservation expires. This value is calculated
+  /// based on the start date and time that you set and the offering's duration.
+  @_s.JsonKey(name: 'end')
+  final String end;
+
+  /// The Amazon Resource Name (ARN) that MediaConnect assigns to the offering.
+  @_s.JsonKey(name: 'offeringArn')
+  final String offeringArn;
+
+  /// A description of the offering. MediaConnect defines this value in the
+  /// offering.
+  @_s.JsonKey(name: 'offeringDescription')
+  final String offeringDescription;
+
+  /// The cost of a single unit. This value, in combination with priceUnits, makes
+  /// up the rate. MediaConnect defines this value in the offering.
+  @_s.JsonKey(name: 'pricePerUnit')
+  final String pricePerUnit;
+
+  /// The unit of measurement that is used for billing. This value, in combination
+  /// with pricePerUnit, makes up the rate. MediaConnect defines this value in the
+  /// offering.
+  @_s.JsonKey(name: 'priceUnits')
+  final PriceUnits priceUnits;
+
+  /// The Amazon Resource Name (ARN) that MediaConnect assigns to the reservation
+  /// when you purchase an offering.
+  @_s.JsonKey(name: 'reservationArn')
+  final String reservationArn;
+
+  /// The name that you assigned to the reservation when you purchased the
+  /// offering.
+  @_s.JsonKey(name: 'reservationName')
+  final String reservationName;
+
+  /// The status of your reservation.
+  @_s.JsonKey(name: 'reservationState')
+  final ReservationState reservationState;
+
+  /// A definition of the amount of outbound bandwidth that you would be reserving
+  /// if you purchase the offering. MediaConnect defines the values that make up
+  /// the resourceSpecification in the offering.
+  @_s.JsonKey(name: 'resourceSpecification')
+  final ResourceSpecification resourceSpecification;
+
+  /// The day and time that the reservation becomes active. You set this value
+  /// when you purchase the offering.
+  @_s.JsonKey(name: 'start')
+  final String start;
+
+  Reservation({
+    @_s.required this.currencyCode,
+    @_s.required this.duration,
+    @_s.required this.durationUnits,
+    @_s.required this.end,
+    @_s.required this.offeringArn,
+    @_s.required this.offeringDescription,
+    @_s.required this.pricePerUnit,
+    @_s.required this.priceUnits,
+    @_s.required this.reservationArn,
+    @_s.required this.reservationName,
+    @_s.required this.reservationState,
+    @_s.required this.resourceSpecification,
+    @_s.required this.start,
+  });
+  factory Reservation.fromJson(Map<String, dynamic> json) =>
+      _$ReservationFromJson(json);
+}
+
+enum ReservationState {
+  @_s.JsonValue('ACTIVE')
+  active,
+  @_s.JsonValue('EXPIRED')
+  expired,
+  @_s.JsonValue('PROCESSING')
+  processing,
+  @_s.JsonValue('CANCELED')
+  canceled,
+}
+
+/// A definition of what is being billed for, including the type and amount.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ResourceSpecification {
+  /// The type of resource and the unit that is being billed for.
+  @_s.JsonKey(name: 'resourceType')
+  final ResourceType resourceType;
+
+  /// The amount of outbound bandwidth that is discounted in the offering.
+  @_s.JsonKey(name: 'reservedBitrate')
+  final int reservedBitrate;
+
+  ResourceSpecification({
+    @_s.required this.resourceType,
+    this.reservedBitrate,
+  });
+  factory ResourceSpecification.fromJson(Map<String, dynamic> json) =>
+      _$ResourceSpecificationFromJson(json);
+}
+
+enum ResourceType {
+  @_s.JsonValue('Mbps_Outbound_Bandwidth')
+  mbpsOutboundBandwidth,
 }
 
 @_s.JsonSerializable(
@@ -2142,6 +2680,7 @@ class UpdateFailoverConfig {
     createFactory: true,
     createToJson: false)
 class UpdateFlowEntitlementResponse {
+  /// The new configuration of the entitlement that you updated.
   @_s.JsonKey(name: 'entitlement')
   final Entitlement entitlement;
 
@@ -2166,6 +2705,8 @@ class UpdateFlowOutputResponse {
   /// The ARN of the flow that is associated with the updated output.
   @_s.JsonKey(name: 'flowArn')
   final String flowArn;
+
+  /// The new settings of the output that you updated.
   @_s.JsonKey(name: 'output')
   final Output output;
 

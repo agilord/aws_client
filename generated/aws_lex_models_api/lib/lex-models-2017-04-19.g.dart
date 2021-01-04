@@ -116,9 +116,16 @@ BuiltinIntentMetadata _$BuiltinIntentMetadataFromJson(
 }
 
 const _$LocaleEnumMap = {
-  Locale.enUs: 'en-US',
-  Locale.enGb: 'en-GB',
   Locale.deDe: 'de-DE',
+  Locale.enAu: 'en-AU',
+  Locale.enGb: 'en-GB',
+  Locale.enUs: 'en-US',
+  Locale.es_419: 'es-419',
+  Locale.esEs: 'es-ES',
+  Locale.esUs: 'es-US',
+  Locale.frFr: 'fr-FR',
+  Locale.frCa: 'fr-CA',
+  Locale.itIt: 'it-IT',
 };
 
 BuiltinIntentSlot _$BuiltinIntentSlotFromJson(Map<String, dynamic> json) {
@@ -200,6 +207,7 @@ CreateBotVersionResponse _$CreateBotVersionResponseFromJson(
     createdDate: const UnixDateTimeConverter().fromJson(json['createdDate']),
     description: json['description'] as String,
     detectSentiment: json['detectSentiment'] as bool,
+    enableModelImprovements: json['enableModelImprovements'] as bool,
     failureReason: json['failureReason'] as String,
     idleSessionTTLInSeconds: json['idleSessionTTLInSeconds'] as int,
     intents: (json['intents'] as List)
@@ -240,9 +248,22 @@ CreateIntentVersionResponse _$CreateIntentVersionResponseFromJson(
         ? null
         : FulfillmentActivity.fromJson(
             json['fulfillmentActivity'] as Map<String, dynamic>),
+    inputContexts: (json['inputContexts'] as List)
+        ?.map((e) =>
+            e == null ? null : InputContext.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    kendraConfiguration: json['kendraConfiguration'] == null
+        ? null
+        : KendraConfiguration.fromJson(
+            json['kendraConfiguration'] as Map<String, dynamic>),
     lastUpdatedDate:
         const UnixDateTimeConverter().fromJson(json['lastUpdatedDate']),
     name: json['name'] as String,
+    outputContexts: (json['outputContexts'] as List)
+        ?.map((e) => e == null
+            ? null
+            : OutputContext.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
     parentIntentSignature: json['parentIntentSignature'] as String,
     rejectionStatement: json['rejectionStatement'] == null
         ? null
@@ -435,6 +456,7 @@ GetBotResponse _$GetBotResponseFromJson(Map<String, dynamic> json) {
     createdDate: const UnixDateTimeConverter().fromJson(json['createdDate']),
     description: json['description'] as String,
     detectSentiment: json['detectSentiment'] as bool,
+    enableModelImprovements: json['enableModelImprovements'] as bool,
     failureReason: json['failureReason'] as String,
     idleSessionTTLInSeconds: json['idleSessionTTLInSeconds'] as int,
     intents: (json['intents'] as List)
@@ -445,6 +467,8 @@ GetBotResponse _$GetBotResponseFromJson(Map<String, dynamic> json) {
         const UnixDateTimeConverter().fromJson(json['lastUpdatedDate']),
     locale: _$enumDecodeNullable(_$LocaleEnumMap, json['locale']),
     name: json['name'] as String,
+    nluIntentConfidenceThreshold:
+        (json['nluIntentConfidenceThreshold'] as num)?.toDouble(),
     status: _$enumDecodeNullable(_$StatusEnumMap, json['status']),
     version: json['version'] as String,
     voiceId: json['voiceId'] as String,
@@ -592,9 +616,22 @@ GetIntentResponse _$GetIntentResponseFromJson(Map<String, dynamic> json) {
         ? null
         : FulfillmentActivity.fromJson(
             json['fulfillmentActivity'] as Map<String, dynamic>),
+    inputContexts: (json['inputContexts'] as List)
+        ?.map((e) =>
+            e == null ? null : InputContext.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    kendraConfiguration: json['kendraConfiguration'] == null
+        ? null
+        : KendraConfiguration.fromJson(
+            json['kendraConfiguration'] as Map<String, dynamic>),
     lastUpdatedDate:
         const UnixDateTimeConverter().fromJson(json['lastUpdatedDate']),
     name: json['name'] as String,
+    outputContexts: (json['outputContexts'] as List)
+        ?.map((e) => e == null
+            ? null
+            : OutputContext.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
     parentIntentSignature: json['parentIntentSignature'] as String,
     rejectionStatement: json['rejectionStatement'] == null
         ? null
@@ -693,6 +730,25 @@ GetUtterancesViewResponse _$GetUtterancesViewResponseFromJson(
   );
 }
 
+InputContext _$InputContextFromJson(Map<String, dynamic> json) {
+  return InputContext(
+    name: json['name'] as String,
+  );
+}
+
+Map<String, dynamic> _$InputContextToJson(InputContext instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('name', instance.name);
+  return val;
+}
+
 Intent _$IntentFromJson(Map<String, dynamic> json) {
   return Intent(
     intentName: json['intentName'] as String,
@@ -723,6 +779,29 @@ IntentMetadata _$IntentMetadataFromJson(Map<String, dynamic> json) {
     name: json['name'] as String,
     version: json['version'] as String,
   );
+}
+
+KendraConfiguration _$KendraConfigurationFromJson(Map<String, dynamic> json) {
+  return KendraConfiguration(
+    kendraIndex: json['kendraIndex'] as String,
+    role: json['role'] as String,
+    queryFilterString: json['queryFilterString'] as String,
+  );
+}
+
+Map<String, dynamic> _$KendraConfigurationToJson(KendraConfiguration instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('kendraIndex', instance.kendraIndex);
+  writeNotNull('role', instance.role);
+  writeNotNull('queryFilterString', instance.queryFilterString);
+  return val;
 }
 
 ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
@@ -801,6 +880,29 @@ const _$ContentTypeEnumMap = {
   ContentType.customPayload: 'CustomPayload',
 };
 
+OutputContext _$OutputContextFromJson(Map<String, dynamic> json) {
+  return OutputContext(
+    name: json['name'] as String,
+    timeToLiveInSeconds: json['timeToLiveInSeconds'] as int,
+    turnsToLive: json['turnsToLive'] as int,
+  );
+}
+
+Map<String, dynamic> _$OutputContextToJson(OutputContext instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('name', instance.name);
+  writeNotNull('timeToLiveInSeconds', instance.timeToLiveInSeconds);
+  writeNotNull('turnsToLive', instance.turnsToLive);
+  return val;
+}
+
 Prompt _$PromptFromJson(Map<String, dynamic> json) {
   return Prompt(
     maxAttempts: json['maxAttempts'] as int,
@@ -862,6 +964,7 @@ PutBotResponse _$PutBotResponseFromJson(Map<String, dynamic> json) {
     createdDate: const UnixDateTimeConverter().fromJson(json['createdDate']),
     description: json['description'] as String,
     detectSentiment: json['detectSentiment'] as bool,
+    enableModelImprovements: json['enableModelImprovements'] as bool,
     failureReason: json['failureReason'] as String,
     idleSessionTTLInSeconds: json['idleSessionTTLInSeconds'] as int,
     intents: (json['intents'] as List)
@@ -872,6 +975,8 @@ PutBotResponse _$PutBotResponseFromJson(Map<String, dynamic> json) {
         const UnixDateTimeConverter().fromJson(json['lastUpdatedDate']),
     locale: _$enumDecodeNullable(_$LocaleEnumMap, json['locale']),
     name: json['name'] as String,
+    nluIntentConfidenceThreshold:
+        (json['nluIntentConfidenceThreshold'] as num)?.toDouble(),
     status: _$enumDecodeNullable(_$StatusEnumMap, json['status']),
     tags: (json['tags'] as List)
         ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
@@ -905,9 +1010,22 @@ PutIntentResponse _$PutIntentResponseFromJson(Map<String, dynamic> json) {
         ? null
         : FulfillmentActivity.fromJson(
             json['fulfillmentActivity'] as Map<String, dynamic>),
+    inputContexts: (json['inputContexts'] as List)
+        ?.map((e) =>
+            e == null ? null : InputContext.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    kendraConfiguration: json['kendraConfiguration'] == null
+        ? null
+        : KendraConfiguration.fromJson(
+            json['kendraConfiguration'] as Map<String, dynamic>),
     lastUpdatedDate:
         const UnixDateTimeConverter().fromJson(json['lastUpdatedDate']),
     name: json['name'] as String,
+    outputContexts: (json['outputContexts'] as List)
+        ?.map((e) => e == null
+            ? null
+            : OutputContext.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
     parentIntentSignature: json['parentIntentSignature'] as String,
     rejectionStatement: json['rejectionStatement'] == null
         ? null
@@ -954,6 +1072,10 @@ Slot _$SlotFromJson(Map<String, dynamic> json) {
     name: json['name'] as String,
     slotConstraint:
         _$enumDecodeNullable(_$SlotConstraintEnumMap, json['slotConstraint']),
+    defaultValueSpec: json['defaultValueSpec'] == null
+        ? null
+        : SlotDefaultValueSpec.fromJson(
+            json['defaultValueSpec'] as Map<String, dynamic>),
     description: json['description'] as String,
     obfuscationSetting: _$enumDecodeNullable(
         _$ObfuscationSettingEnumMap, json['obfuscationSetting']),
@@ -982,6 +1104,7 @@ Map<String, dynamic> _$SlotToJson(Slot instance) {
   writeNotNull('name', instance.name);
   writeNotNull(
       'slotConstraint', _$SlotConstraintEnumMap[instance.slotConstraint]);
+  writeNotNull('defaultValueSpec', instance.defaultValueSpec?.toJson());
   writeNotNull('description', instance.description);
   writeNotNull('obfuscationSetting',
       _$ObfuscationSettingEnumMap[instance.obfuscationSetting]);
@@ -1004,6 +1127,50 @@ const _$ObfuscationSettingEnumMap = {
   ObfuscationSetting.none: 'NONE',
   ObfuscationSetting.defaultObfuscation: 'DEFAULT_OBFUSCATION',
 };
+
+SlotDefaultValue _$SlotDefaultValueFromJson(Map<String, dynamic> json) {
+  return SlotDefaultValue(
+    defaultValue: json['defaultValue'] as String,
+  );
+}
+
+Map<String, dynamic> _$SlotDefaultValueToJson(SlotDefaultValue instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('defaultValue', instance.defaultValue);
+  return val;
+}
+
+SlotDefaultValueSpec _$SlotDefaultValueSpecFromJson(Map<String, dynamic> json) {
+  return SlotDefaultValueSpec(
+    defaultValueList: (json['defaultValueList'] as List)
+        ?.map((e) => e == null
+            ? null
+            : SlotDefaultValue.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+Map<String, dynamic> _$SlotDefaultValueSpecToJson(
+    SlotDefaultValueSpec instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('defaultValueList',
+      instance.defaultValueList?.map((e) => e?.toJson())?.toList());
+  return val;
+}
 
 SlotTypeConfiguration _$SlotTypeConfigurationFromJson(
     Map<String, dynamic> json) {

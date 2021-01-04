@@ -43,6 +43,7 @@ DescribeSecretResponse _$DescribeSecretResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeSecretResponse(
     arn: json['ARN'] as String,
+    createdDate: const UnixDateTimeConverter().fromJson(json['CreatedDate']),
     deletedDate: const UnixDateTimeConverter().fromJson(json['DeletedDate']),
     description: json['Description'] as String,
     kmsKeyId: json['KmsKeyId'] as String,
@@ -69,6 +70,28 @@ DescribeSecretResponse _$DescribeSecretResponseFromJson(
     ),
   );
 }
+
+Map<String, dynamic> _$FilterToJson(Filter instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Key', _$FilterNameStringTypeEnumMap[instance.key]);
+  writeNotNull('Values', instance.values);
+  return val;
+}
+
+const _$FilterNameStringTypeEnumMap = {
+  FilterNameStringType.description: 'description',
+  FilterNameStringType.name: 'name',
+  FilterNameStringType.tagKey: 'tag-key',
+  FilterNameStringType.tagValue: 'tag-value',
+  FilterNameStringType.all: 'all',
+};
 
 GetRandomPasswordResponse _$GetRandomPasswordResponseFromJson(
     Map<String, dynamic> json) {
@@ -183,6 +206,7 @@ Map<String, dynamic> _$RotationRulesTypeToJson(RotationRulesType instance) {
 SecretListEntry _$SecretListEntryFromJson(Map<String, dynamic> json) {
   return SecretListEntry(
     arn: json['ARN'] as String,
+    createdDate: const UnixDateTimeConverter().fromJson(json['CreatedDate']),
     deletedDate: const UnixDateTimeConverter().fromJson(json['DeletedDate']),
     description: json['Description'] as String,
     kmsKeyId: json['KmsKeyId'] as String,
@@ -256,5 +280,25 @@ UpdateSecretVersionStageResponse _$UpdateSecretVersionStageResponseFromJson(
   return UpdateSecretVersionStageResponse(
     arn: json['ARN'] as String,
     name: json['Name'] as String,
+  );
+}
+
+ValidateResourcePolicyResponse _$ValidateResourcePolicyResponseFromJson(
+    Map<String, dynamic> json) {
+  return ValidateResourcePolicyResponse(
+    policyValidationPassed: json['PolicyValidationPassed'] as bool,
+    validationErrors: (json['ValidationErrors'] as List)
+        ?.map((e) => e == null
+            ? null
+            : ValidationErrorsEntry.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+ValidationErrorsEntry _$ValidationErrorsEntryFromJson(
+    Map<String, dynamic> json) {
+  return ValidationErrorsEntry(
+    checkName: json['CheckName'] as String,
+    errorMessage: json['ErrorMessage'] as String,
   );
 }

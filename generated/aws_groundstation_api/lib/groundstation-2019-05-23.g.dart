@@ -6,6 +6,13 @@ part of 'groundstation-2019-05-23.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+AntennaDemodDecodeDetails _$AntennaDemodDecodeDetailsFromJson(
+    Map<String, dynamic> json) {
+  return AntennaDemodDecodeDetails(
+    outputNode: json['outputNode'] as String,
+  );
+}
+
 AntennaDownlinkConfig _$AntennaDownlinkConfigFromJson(
     Map<String, dynamic> json) {
   return AntennaDownlinkConfig(
@@ -72,6 +79,7 @@ AntennaUplinkConfig _$AntennaUplinkConfigFromJson(Map<String, dynamic> json) {
     targetEirp: json['targetEirp'] == null
         ? null
         : Eirp.fromJson(json['targetEirp'] as Map<String, dynamic>),
+    transmitDisabled: json['transmitDisabled'] as bool,
   );
 }
 
@@ -86,7 +94,21 @@ Map<String, dynamic> _$AntennaUplinkConfigToJson(AntennaUplinkConfig instance) {
 
   writeNotNull('spectrumConfig', instance.spectrumConfig?.toJson());
   writeNotNull('targetEirp', instance.targetEirp?.toJson());
+  writeNotNull('transmitDisabled', instance.transmitDisabled);
   return val;
+}
+
+ConfigDetails _$ConfigDetailsFromJson(Map<String, dynamic> json) {
+  return ConfigDetails(
+    antennaDemodDecodeDetails: json['antennaDemodDecodeDetails'] == null
+        ? null
+        : AntennaDemodDecodeDetails.fromJson(
+            json['antennaDemodDecodeDetails'] as Map<String, dynamic>),
+    endpointDetails: json['endpointDetails'] == null
+        ? null
+        : EndpointDetails.fromJson(
+            json['endpointDetails'] as Map<String, dynamic>),
+  );
 }
 
 ConfigIdResponse _$ConfigIdResponseFromJson(Map<String, dynamic> json) {
@@ -230,6 +252,7 @@ ContactData _$ContactDataFromJson(Map<String, dynamic> json) {
 const _$ContactStatusEnumMap = {
   ContactStatus.available: 'AVAILABLE',
   ContactStatus.awsCancelled: 'AWS_CANCELLED',
+  ContactStatus.awsFailed: 'AWS_FAILED',
   ContactStatus.cancelled: 'CANCELLED',
   ContactStatus.cancelling: 'CANCELLING',
   ContactStatus.completed: 'COMPLETED',
@@ -248,11 +271,24 @@ ContactIdResponse _$ContactIdResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+DataflowDetail _$DataflowDetailFromJson(Map<String, dynamic> json) {
+  return DataflowDetail(
+    destination: json['destination'] == null
+        ? null
+        : Destination.fromJson(json['destination'] as Map<String, dynamic>),
+    errorMessage: json['errorMessage'] as String,
+    source: json['source'] == null
+        ? null
+        : Source.fromJson(json['source'] as Map<String, dynamic>),
+  );
+}
+
 DataflowEndpoint _$DataflowEndpointFromJson(Map<String, dynamic> json) {
   return DataflowEndpoint(
     address: json['address'] == null
         ? null
         : SocketAddress.fromJson(json['address'] as Map<String, dynamic>),
+    mtu: json['mtu'] as int,
     name: json['name'] as String,
     status: _$enumDecodeNullable(_$EndpointStatusEnumMap, json['status']),
   );
@@ -268,6 +304,7 @@ Map<String, dynamic> _$DataflowEndpointToJson(DataflowEndpoint instance) {
   }
 
   writeNotNull('address', instance.address?.toJson());
+  writeNotNull('mtu', instance.mtu);
   writeNotNull('name', instance.name);
   writeNotNull('status', _$EndpointStatusEnumMap[instance.status]);
   return val;
@@ -363,6 +400,11 @@ DescribeContactResponse _$DescribeContactResponseFromJson(
     contactId: json['contactId'] as String,
     contactStatus:
         _$enumDecodeNullable(_$ContactStatusEnumMap, json['contactStatus']),
+    dataflowList: (json['dataflowList'] as List)
+        ?.map((e) => e == null
+            ? null
+            : DataflowDetail.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
     endTime: const UnixDateTimeConverter().fromJson(json['endTime']),
     errorMessage: json['errorMessage'] as String,
     groundStation: json['groundStation'] as String,
@@ -380,6 +422,18 @@ DescribeContactResponse _$DescribeContactResponseFromJson(
     tags: (json['tags'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
+  );
+}
+
+Destination _$DestinationFromJson(Map<String, dynamic> json) {
+  return Destination(
+    configDetails: json['configDetails'] == null
+        ? null
+        : ConfigDetails.fromJson(json['configDetails'] as Map<String, dynamic>),
+    configId: json['configId'] as String,
+    configType:
+        _$enumDecodeNullable(_$ConfigCapabilityTypeEnumMap, json['configType']),
+    dataflowDestinationRegion: json['dataflowDestinationRegion'] as String,
   );
 }
 
@@ -731,6 +785,18 @@ Map<String, dynamic> _$SocketAddressToJson(SocketAddress instance) {
   writeNotNull('name', instance.name);
   writeNotNull('port', instance.port);
   return val;
+}
+
+Source _$SourceFromJson(Map<String, dynamic> json) {
+  return Source(
+    configDetails: json['configDetails'] == null
+        ? null
+        : ConfigDetails.fromJson(json['configDetails'] as Map<String, dynamic>),
+    configId: json['configId'] as String,
+    configType:
+        _$enumDecodeNullable(_$ConfigCapabilityTypeEnumMap, json['configType']),
+    dataflowSourceRegion: json['dataflowSourceRegion'] as String,
+  );
 }
 
 SpectrumConfig _$SpectrumConfigFromJson(Map<String, dynamic> json) {

@@ -96,7 +96,13 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "Status": {"shape": "ChangeSetStatus", "flattened": false},
       "StatusReason": {"shape": "ChangeSetStatusReason", "flattened": false},
       "CreationTime": {"shape": "CreationTime", "flattened": false},
-      "Description": {"shape": "Description", "flattened": false}
+      "Description": {"shape": "Description", "flattened": false},
+      "IncludeNestedStacks": {
+        "shape": "IncludeNestedStacks",
+        "flattened": false
+      },
+      "ParentChangeSetId": {"shape": "ChangeSetId", "flattened": false},
+      "RootChangeSetId": {"shape": "ChangeSetId", "flattened": false}
     },
     "flattened": false
   },
@@ -149,7 +155,11 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "ClientToken": {"shape": "ClientToken", "flattened": false},
       "Description": {"shape": "Description", "flattened": false},
       "ChangeSetType": {"shape": "ChangeSetType", "flattened": false},
-      "ResourcesToImport": {"shape": "ResourcesToImport", "flattened": false}
+      "ResourcesToImport": {"shape": "ResourcesToImport", "flattened": false},
+      "IncludeNestedStacks": {
+        "shape": "IncludeNestedStacks",
+        "flattened": false
+      }
     },
     "flattened": false
   },
@@ -377,7 +387,13 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "Capabilities": {"shape": "Capabilities", "flattened": false},
       "Tags": {"shape": "Tags", "flattened": false},
       "Changes": {"shape": "Changes", "flattened": false},
-      "NextToken": {"shape": "NextToken", "flattened": false}
+      "NextToken": {"shape": "NextToken", "flattened": false},
+      "IncludeNestedStacks": {
+        "shape": "IncludeNestedStacks",
+        "flattened": false
+      },
+      "ParentChangeSetId": {"shape": "ChangeSetId", "flattened": false},
+      "RootChangeSetId": {"shape": "ChangeSetId", "flattened": false}
     },
     "flattened": false
   },
@@ -568,6 +584,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "Type": {"shape": "RegistryType", "flattened": false},
       "TypeName": {"shape": "TypeName", "flattened": false},
       "DefaultVersionId": {"shape": "TypeVersionId", "flattened": false},
+      "IsDefaultVersion": {"shape": "IsDefaultVersion", "flattened": false},
       "Description": {"shape": "Description", "flattened": false},
       "Schema": {"shape": "TypeSchema", "flattened": false},
       "ProvisioningType": {"shape": "ProvisioningType", "flattened": false},
@@ -776,6 +793,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   },
   "InProgressStackInstancesCount": {"type": "integer", "flattened": false},
   "InSyncStackInstancesCount": {"type": "integer", "flattened": false},
+  "IncludeNestedStacks": {"type": "boolean", "flattened": false},
+  "IsDefaultVersion": {"type": "boolean", "flattened": false},
   "Key": {"type": "string", "flattened": false},
   "LastUpdatedTime": {"type": "timestamp", "flattened": false},
   "LimitName": {"type": "string", "flattened": false},
@@ -833,6 +852,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "StackSetName": {"shape": "StackSetName", "flattened": false},
       "NextToken": {"shape": "NextToken", "flattened": false},
       "MaxResults": {"shape": "MaxResults", "flattened": false},
+      "Filters": {"shape": "StackInstanceFilters", "flattened": false},
       "StackInstanceAccount": {"shape": "Account", "flattened": false},
       "StackInstanceRegion": {"shape": "Region", "flattened": false}
     },
@@ -991,6 +1011,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "Visibility": {"shape": "Visibility", "flattened": false},
       "ProvisioningType": {"shape": "ProvisioningType", "flattened": false},
       "DeprecatedStatus": {"shape": "DeprecatedStatus", "flattened": false},
+      "Type": {"shape": "RegistryType", "flattened": false},
       "MaxResults": {"shape": "MaxResults", "flattened": false},
       "NextToken": {"shape": "NextToken", "flattened": false}
     },
@@ -1013,6 +1034,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     },
     "flattened": false
   },
+  "LogicalIdHierarchy": {"type": "string", "flattened": false},
   "LogicalResourceId": {"type": "string", "flattened": false},
   "LogicalResourceIds": {
     "type": "list",
@@ -1023,6 +1045,14 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   "MaxConcurrentPercentage": {"type": "integer", "flattened": false},
   "MaxResults": {"type": "integer", "flattened": false},
   "Metadata": {"type": "string", "flattened": false},
+  "ModuleInfo": {
+    "type": "structure",
+    "members": {
+      "TypeHierarchy": {"shape": "TypeHierarchy", "flattened": false},
+      "LogicalIdHierarchy": {"shape": "LogicalIdHierarchy", "flattened": false}
+    },
+    "flattened": false
+  },
   "MonitoringTimeInMinutes": {"type": "integer", "flattened": false},
   "NextToken": {"type": "string", "flattened": false},
   "NoEcho": {"type": "boolean", "flattened": false},
@@ -1207,7 +1237,9 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "ResourceType": {"shape": "ResourceType", "flattened": false},
       "Replacement": {"shape": "Replacement", "flattened": false},
       "Scope": {"shape": "Scope", "flattened": false},
-      "Details": {"shape": "ResourceChangeDetails", "flattened": false}
+      "Details": {"shape": "ResourceChangeDetails", "flattened": false},
+      "ChangeSetId": {"shape": "ChangeSetId", "flattened": false},
+      "ModuleInfo": {"shape": "ModuleInfo", "flattened": false}
     },
     "flattened": false
   },
@@ -1466,6 +1498,10 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "StackId": {"shape": "StackId", "flattened": false},
       "ParameterOverrides": {"shape": "Parameters", "flattened": false},
       "Status": {"shape": "StackInstanceStatus", "flattened": false},
+      "StackInstanceStatus": {
+        "shape": "StackInstanceComprehensiveStatus",
+        "flattened": false
+      },
       "StatusReason": {"shape": "Reason", "flattened": false},
       "OrganizationalUnitId": {
         "shape": "OrganizationalUnitId",
@@ -1474,6 +1510,32 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "DriftStatus": {"shape": "StackDriftStatus", "flattened": false},
       "LastDriftCheckTimestamp": {"shape": "Timestamp", "flattened": false}
     },
+    "flattened": false
+  },
+  "StackInstanceComprehensiveStatus": {
+    "type": "structure",
+    "members": {
+      "DetailedStatus": {
+        "shape": "StackInstanceDetailedStatus",
+        "flattened": false
+      }
+    },
+    "flattened": false
+  },
+  "StackInstanceDetailedStatus": {"type": "string", "flattened": false},
+  "StackInstanceFilter": {
+    "type": "structure",
+    "members": {
+      "Name": {"shape": "StackInstanceFilterName", "flattened": false},
+      "Values": {"shape": "StackInstanceFilterValues", "flattened": false}
+    },
+    "flattened": false
+  },
+  "StackInstanceFilterName": {"type": "string", "flattened": false},
+  "StackInstanceFilterValues": {"type": "string", "flattened": false},
+  "StackInstanceFilters": {
+    "type": "list",
+    "member": {"shape": "StackInstanceFilter"},
     "flattened": false
   },
   "StackInstanceStatus": {"type": "string", "flattened": false},
@@ -1491,6 +1553,10 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "StackId": {"shape": "StackId", "flattened": false},
       "Status": {"shape": "StackInstanceStatus", "flattened": false},
       "StatusReason": {"shape": "Reason", "flattened": false},
+      "StackInstanceStatus": {
+        "shape": "StackInstanceComprehensiveStatus",
+        "flattened": false
+      },
       "OrganizationalUnitId": {
         "shape": "OrganizationalUnitId",
         "flattened": false
@@ -1524,7 +1590,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "DriftInformation": {
         "shape": "StackResourceDriftInformation",
         "flattened": false
-      }
+      },
+      "ModuleInfo": {"shape": "ModuleInfo", "flattened": false}
     },
     "flattened": false
   },
@@ -1547,7 +1614,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "DriftInformation": {
         "shape": "StackResourceDriftInformation",
         "flattened": false
-      }
+      },
+      "ModuleInfo": {"shape": "ModuleInfo", "flattened": false}
     },
     "flattened": false
   },
@@ -1572,7 +1640,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "shape": "StackResourceDriftStatus",
         "flattened": false
       },
-      "Timestamp": {"shape": "Timestamp", "flattened": false}
+      "Timestamp": {"shape": "Timestamp", "flattened": false},
+      "ModuleInfo": {"shape": "ModuleInfo", "flattened": false}
     },
     "flattened": false
   },
@@ -1629,7 +1698,8 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "DriftInformation": {
         "shape": "StackResourceDriftInformationSummary",
         "flattened": false
-      }
+      },
+      "ModuleInfo": {"shape": "ModuleInfo", "flattened": false}
     },
     "flattened": false
   },
@@ -1910,6 +1980,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
   },
   "Type": {"type": "string", "flattened": false},
   "TypeArn": {"type": "string", "flattened": false},
+  "TypeHierarchy": {"type": "string", "flattened": false},
   "TypeName": {"type": "string", "flattened": false},
   "TypeSchema": {"type": "string", "flattened": false},
   "TypeSummaries": {
@@ -1941,6 +2012,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "Type": {"shape": "RegistryType", "flattened": false},
       "TypeName": {"shape": "TypeName", "flattened": false},
       "VersionId": {"shape": "TypeVersionId", "flattened": false},
+      "IsDefaultVersion": {"shape": "IsDefaultVersion", "flattened": false},
       "Arn": {"shape": "TypeArn", "flattened": false},
       "TimeCreated": {"shape": "Timestamp", "flattened": false},
       "Description": {"shape": "Description", "flattened": false}

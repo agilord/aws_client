@@ -321,7 +321,7 @@ class Comprehend {
   }
 
   /// Creates a new document classifier that you can use to categorize
-  /// documents. To create a classifier you provide a set of training documents
+  /// documents. To create a classifier, you provide a set of training documents
   /// that labeled with the categories that you want to use. After the
   /// classifier is trained you can use it to categorize a set of labeled
   /// documents into the categories. For more information, see
@@ -560,7 +560,7 @@ class Comprehend {
     _s.validateStringPattern(
       'modelArn',
       modelArn,
-      r'''arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:document-classifier/[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
+      r'''arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:(document-classifier|entity-recognizer)/[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -620,8 +620,10 @@ class Comprehend {
   /// recognizer being created.
   ///
   /// Parameter [languageCode] :
-  /// The language of the input documents. All documents must be in the same
-  /// language. Only English ("en") is currently supported.
+  /// You can specify any of the following languages supported by Amazon
+  /// Comprehend: English ("en"), Spanish ("es"), French ("fr"), Italian ("it"),
+  /// German ("de"), or Portuguese ("pt"). All documents must be in the same
+  /// language.
   ///
   /// Parameter [recognizerName] :
   /// The name given to the newly created recognizer. Recognizer names can be a
@@ -824,7 +826,7 @@ class Comprehend {
     _s.validateStringPattern(
       'endpointArn',
       endpointArn,
-      r'''arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:document-classifier-endpoint/[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
+      r'''arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:(document-classifier-endpoint|entity-recognizer-endpoint)/[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1065,7 +1067,7 @@ class Comprehend {
     _s.validateStringPattern(
       'endpointArn',
       endpointArn,
-      r'''arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:document-classifier-endpoint/[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
+      r'''arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:(document-classifier-endpoint|entity-recognizer-endpoint)/[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1177,6 +1179,50 @@ class Comprehend {
     return DescribeEntityRecognizerResponse.fromJson(jsonResponse.body);
   }
 
+  /// Gets the status and details of an events detection job.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [JobNotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [jobId] :
+  /// The identifier of the events detection job.
+  Future<DescribeEventsDetectionJobResponse> describeEventsDetectionJob({
+    @_s.required String jobId,
+  }) async {
+    ArgumentError.checkNotNull(jobId, 'jobId');
+    _s.validateStringLength(
+      'jobId',
+      jobId,
+      1,
+      32,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'jobId',
+      jobId,
+      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Comprehend_20171127.DescribeEventsDetectionJob'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'JobId': jobId,
+      },
+    );
+
+    return DescribeEventsDetectionJobResponse.fromJson(jsonResponse.body);
+  }
+
   /// Gets the properties associated with a key phrases detection job. Use this
   /// operation to get the status of a detection job.
   ///
@@ -1222,6 +1268,53 @@ class Comprehend {
     );
 
     return DescribeKeyPhrasesDetectionJobResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Gets the properties associated with a PII entities detection job. For
+  /// example, you can use this operation to get the job status.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [JobNotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [jobId] :
+  /// The identifier that Amazon Comprehend generated for the job. The operation
+  /// returns this identifier in its response.
+  Future<DescribePiiEntitiesDetectionJobResponse>
+      describePiiEntitiesDetectionJob({
+    @_s.required String jobId,
+  }) async {
+    ArgumentError.checkNotNull(jobId, 'jobId');
+    _s.validateStringLength(
+      'jobId',
+      jobId,
+      1,
+      32,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'jobId',
+      jobId,
+      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Comprehend_20171127.DescribePiiEntitiesDetectionJob'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'JobId': jobId,
+      },
+    );
+
+    return DescribePiiEntitiesDetectionJobResponse.fromJson(jsonResponse.body);
   }
 
   /// Gets the properties associated with a sentiment detection job. Use this
@@ -1360,23 +1453,38 @@ class Comprehend {
   /// more information, about named entities, see <a>how-entities</a>.
   ///
   /// May throw [InvalidRequestException].
+  /// May throw [ResourceUnavailableException].
   /// May throw [TextSizeLimitExceededException].
   /// May throw [UnsupportedLanguageException].
   /// May throw [InternalServerException].
+  ///
+  /// Parameter [text] :
+  /// A UTF-8 text string. Each string must contain fewer that 5,000 bytes of
+  /// UTF-8 encoded characters.
+  ///
+  /// Parameter [endpointArn] :
+  /// The Amazon Resource Name of an endpoint that is associated with a custom
+  /// entity recognition model. Provide an endpoint if you want to detect
+  /// entities by using your own custom model instead of the default model that
+  /// is used by Amazon Comprehend.
+  ///
+  /// If you specify an endpoint, Amazon Comprehend uses the language of your
+  /// custom model, and it ignores any language code that you provide in your
+  /// request.
   ///
   /// Parameter [languageCode] :
   /// The language of the input documents. You can specify any of the primary
   /// languages supported by Amazon Comprehend. All documents must be in the
   /// same language.
   ///
-  /// Parameter [text] :
-  /// A UTF-8 text string. Each string must contain fewer that 5,000 bytes of
-  /// UTF-8 encoded characters.
+  /// If your request includes the endpoint for a custom entity recognition
+  /// model, Amazon Comprehend uses the language of your custom model, and it
+  /// ignores any language code that you specify here.
   Future<DetectEntitiesResponse> detectEntities({
-    @_s.required LanguageCode languageCode,
     @_s.required String text,
+    String endpointArn,
+    LanguageCode languageCode,
   }) async {
-    ArgumentError.checkNotNull(languageCode, 'languageCode');
     ArgumentError.checkNotNull(text, 'text');
     _s.validateStringLength(
       'text',
@@ -1384,6 +1492,17 @@ class Comprehend {
       1,
       1152921504606846976,
       isRequired: true,
+    );
+    _s.validateStringLength(
+      'endpointArn',
+      endpointArn,
+      0,
+      256,
+    );
+    _s.validateStringPattern(
+      'endpointArn',
+      endpointArn,
+      r'''arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:entity-recognizer-endpoint/[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1396,8 +1515,9 @@ class Comprehend {
       // TODO queryParams
       headers: headers,
       payload: {
-        'LanguageCode': languageCode?.toValue() ?? '',
         'Text': text,
+        if (endpointArn != null) 'EndpointArn': endpointArn,
+        if (languageCode != null) 'LanguageCode': languageCode.toValue(),
       },
     );
 
@@ -1449,6 +1569,52 @@ class Comprehend {
     );
 
     return DetectKeyPhrasesResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Inspects the input text for entities that contain personally identifiable
+  /// information (PII) and returns information about them.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [TextSizeLimitExceededException].
+  /// May throw [UnsupportedLanguageException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [languageCode] :
+  /// The language of the input documents.
+  ///
+  /// Parameter [text] :
+  /// A UTF-8 text string. Each string must contain fewer that 5,000 bytes of
+  /// UTF-8 encoded characters.
+  Future<DetectPiiEntitiesResponse> detectPiiEntities({
+    @_s.required LanguageCode languageCode,
+    @_s.required String text,
+  }) async {
+    ArgumentError.checkNotNull(languageCode, 'languageCode');
+    ArgumentError.checkNotNull(text, 'text');
+    _s.validateStringLength(
+      'text',
+      text,
+      1,
+      1152921504606846976,
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Comprehend_20171127.DetectPiiEntities'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'LanguageCode': languageCode?.toValue() ?? '',
+        'Text': text,
+      },
+    );
+
+    return DetectPiiEntitiesResponse.fromJson(jsonResponse.body);
   }
 
   /// Inspects text and returns an inference of the prevailing sentiment
@@ -1884,6 +2050,60 @@ class Comprehend {
     return ListEntityRecognizersResponse.fromJson(jsonResponse.body);
   }
 
+  /// Gets a list of the events detection jobs that you have submitted.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [InvalidFilterException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [filter] :
+  /// Filters the jobs that are returned. You can filter jobs on their name,
+  /// status, or the date and time that they were submitted. You can only set
+  /// one filter at a time.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in each page.
+  ///
+  /// Parameter [nextToken] :
+  /// Identifies the next page of results to return.
+  Future<ListEventsDetectionJobsResponse> listEventsDetectionJobs({
+    EventsDetectionJobFilter filter,
+    int maxResults,
+    String nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      500,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1152921504606846976,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Comprehend_20171127.ListEventsDetectionJobs'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (filter != null) 'Filter': filter,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListEventsDetectionJobsResponse.fromJson(jsonResponse.body);
+  }
+
   /// Get a list of key phrase detection jobs that you have submitted.
   ///
   /// May throw [InvalidRequestException].
@@ -1936,6 +2156,60 @@ class Comprehend {
     );
 
     return ListKeyPhrasesDetectionJobsResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Gets a list of the PII entity detection jobs that you have submitted.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [InvalidFilterException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [filter] :
+  /// Filters the jobs that are returned. You can filter jobs on their name,
+  /// status, or the date and time that they were submitted. You can only set
+  /// one filter at a time.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in each page.
+  ///
+  /// Parameter [nextToken] :
+  /// Identifies the next page of results to return.
+  Future<ListPiiEntitiesDetectionJobsResponse> listPiiEntitiesDetectionJobs({
+    PiiEntitiesDetectionJobFilter filter,
+    int maxResults,
+    String nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      500,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1152921504606846976,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Comprehend_20171127.ListPiiEntitiesDetectionJobs'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (filter != null) 'Filter': filter,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListPiiEntitiesDetectionJobsResponse.fromJson(jsonResponse.body);
   }
 
   /// Gets a list of sentiment detection jobs that you have submitted.
@@ -2529,6 +2803,109 @@ class Comprehend {
     return StartEntitiesDetectionJobResponse.fromJson(jsonResponse.body);
   }
 
+  /// Starts an asynchronous event detection job for a collection of documents.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [KmsKeyValidationException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [dataAccessRoleArn] :
+  /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management
+  /// (IAM) role that grants Amazon Comprehend read access to your input data.
+  ///
+  /// Parameter [inputDataConfig] :
+  /// Specifies the format and location of the input data for the job.
+  ///
+  /// Parameter [languageCode] :
+  /// The language code of the input documents.
+  ///
+  /// Parameter [outputDataConfig] :
+  /// Specifies where to send the output files.
+  ///
+  /// Parameter [targetEventTypes] :
+  /// The types of events to detect in the input documents.
+  ///
+  /// Parameter [clientRequestToken] :
+  /// An unique identifier for the request. If you don't set the client request
+  /// token, Amazon Comprehend generates one.
+  ///
+  /// Parameter [jobName] :
+  /// The identifier of the events detection job.
+  Future<StartEventsDetectionJobResponse> startEventsDetectionJob({
+    @_s.required String dataAccessRoleArn,
+    @_s.required InputDataConfig inputDataConfig,
+    @_s.required LanguageCode languageCode,
+    @_s.required OutputDataConfig outputDataConfig,
+    @_s.required List<String> targetEventTypes,
+    String clientRequestToken,
+    String jobName,
+  }) async {
+    ArgumentError.checkNotNull(dataAccessRoleArn, 'dataAccessRoleArn');
+    _s.validateStringLength(
+      'dataAccessRoleArn',
+      dataAccessRoleArn,
+      20,
+      2048,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'dataAccessRoleArn',
+      dataAccessRoleArn,
+      r'''arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(inputDataConfig, 'inputDataConfig');
+    ArgumentError.checkNotNull(languageCode, 'languageCode');
+    ArgumentError.checkNotNull(outputDataConfig, 'outputDataConfig');
+    ArgumentError.checkNotNull(targetEventTypes, 'targetEventTypes');
+    _s.validateStringLength(
+      'clientRequestToken',
+      clientRequestToken,
+      1,
+      64,
+    );
+    _s.validateStringPattern(
+      'clientRequestToken',
+      clientRequestToken,
+      r'''^[a-zA-Z0-9-]+$''',
+    );
+    _s.validateStringLength(
+      'jobName',
+      jobName,
+      1,
+      256,
+    );
+    _s.validateStringPattern(
+      'jobName',
+      jobName,
+      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Comprehend_20171127.StartEventsDetectionJob'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'DataAccessRoleArn': dataAccessRoleArn,
+        'InputDataConfig': inputDataConfig,
+        'LanguageCode': languageCode?.toValue() ?? '',
+        'OutputDataConfig': outputDataConfig,
+        'TargetEventTypes': targetEventTypes,
+        'ClientRequestToken':
+            clientRequestToken ?? _s.generateIdempotencyToken(),
+        if (jobName != null) 'JobName': jobName,
+      },
+    );
+
+    return StartEventsDetectionJobResponse.fromJson(jsonResponse.body);
+  }
+
   /// Starts an asynchronous key phrase detection job for a collection of
   /// documents. Use the operation to track the status of a job.
   ///
@@ -2662,6 +3039,122 @@ class Comprehend {
     );
 
     return StartKeyPhrasesDetectionJobResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Starts an asynchronous PII entity detection job for a collection of
+  /// documents.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [KmsKeyValidationException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [dataAccessRoleArn] :
+  /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management
+  /// (IAM) role that grants Amazon Comprehend read access to your input data.
+  ///
+  /// Parameter [inputDataConfig] :
+  /// The input properties for a PII entities detection job.
+  ///
+  /// Parameter [languageCode] :
+  /// The language of the input documents.
+  ///
+  /// Parameter [mode] :
+  /// Specifies whether the output provides the locations (offsets) of PII
+  /// entities or a file in which PII entities are redacted.
+  ///
+  /// Parameter [outputDataConfig] :
+  /// Provides conﬁguration parameters for the output of PII entity detection
+  /// jobs.
+  ///
+  /// Parameter [clientRequestToken] :
+  /// A unique identifier for the request. If you don't set the client request
+  /// token, Amazon Comprehend generates one.
+  ///
+  /// Parameter [jobName] :
+  /// The identifier of the job.
+  ///
+  /// Parameter [redactionConfig] :
+  /// Provides configuration parameters for PII entity redaction.
+  ///
+  /// This parameter is required if you set the <code>Mode</code> parameter to
+  /// <code>ONLY_REDACTION</code>. In that case, you must provide a
+  /// <code>RedactionConfig</code> definition that includes the
+  /// <code>PiiEntityTypes</code> parameter.
+  Future<StartPiiEntitiesDetectionJobResponse> startPiiEntitiesDetectionJob({
+    @_s.required String dataAccessRoleArn,
+    @_s.required InputDataConfig inputDataConfig,
+    @_s.required LanguageCode languageCode,
+    @_s.required PiiEntitiesDetectionMode mode,
+    @_s.required OutputDataConfig outputDataConfig,
+    String clientRequestToken,
+    String jobName,
+    RedactionConfig redactionConfig,
+  }) async {
+    ArgumentError.checkNotNull(dataAccessRoleArn, 'dataAccessRoleArn');
+    _s.validateStringLength(
+      'dataAccessRoleArn',
+      dataAccessRoleArn,
+      20,
+      2048,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'dataAccessRoleArn',
+      dataAccessRoleArn,
+      r'''arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(inputDataConfig, 'inputDataConfig');
+    ArgumentError.checkNotNull(languageCode, 'languageCode');
+    ArgumentError.checkNotNull(mode, 'mode');
+    ArgumentError.checkNotNull(outputDataConfig, 'outputDataConfig');
+    _s.validateStringLength(
+      'clientRequestToken',
+      clientRequestToken,
+      1,
+      64,
+    );
+    _s.validateStringPattern(
+      'clientRequestToken',
+      clientRequestToken,
+      r'''^[a-zA-Z0-9-]+$''',
+    );
+    _s.validateStringLength(
+      'jobName',
+      jobName,
+      1,
+      256,
+    );
+    _s.validateStringPattern(
+      'jobName',
+      jobName,
+      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Comprehend_20171127.StartPiiEntitiesDetectionJob'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'DataAccessRoleArn': dataAccessRoleArn,
+        'InputDataConfig': inputDataConfig,
+        'LanguageCode': languageCode?.toValue() ?? '',
+        'Mode': mode?.toValue() ?? '',
+        'OutputDataConfig': outputDataConfig,
+        'ClientRequestToken':
+            clientRequestToken ?? _s.generateIdempotencyToken(),
+        if (jobName != null) 'JobName': jobName,
+        if (redactionConfig != null) 'RedactionConfig': redactionConfig,
+      },
+    );
+
+    return StartPiiEntitiesDetectionJobResponse.fromJson(jsonResponse.body);
   }
 
   /// Starts an asynchronous sentiment detection job for a collection of
@@ -3054,6 +3547,49 @@ class Comprehend {
     return StopEntitiesDetectionJobResponse.fromJson(jsonResponse.body);
   }
 
+  /// Stops an events detection job in progress.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [JobNotFoundException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [jobId] :
+  /// The identifier of the events detection job to stop.
+  Future<StopEventsDetectionJobResponse> stopEventsDetectionJob({
+    @_s.required String jobId,
+  }) async {
+    ArgumentError.checkNotNull(jobId, 'jobId');
+    _s.validateStringLength(
+      'jobId',
+      jobId,
+      1,
+      32,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'jobId',
+      jobId,
+      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Comprehend_20171127.StopEventsDetectionJob'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'JobId': jobId,
+      },
+    );
+
+    return StopEventsDetectionJobResponse.fromJson(jsonResponse.body);
+  }
+
   /// Stops a key phrases detection job in progress.
   ///
   /// If the job state is <code>IN_PROGRESS</code> the job is marked for
@@ -3108,6 +3644,49 @@ class Comprehend {
     );
 
     return StopKeyPhrasesDetectionJobResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Stops a PII entities detection job in progress.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [JobNotFoundException].
+  /// May throw [InternalServerException].
+  ///
+  /// Parameter [jobId] :
+  /// The identifier of the PII entities detection job to stop.
+  Future<StopPiiEntitiesDetectionJobResponse> stopPiiEntitiesDetectionJob({
+    @_s.required String jobId,
+  }) async {
+    ArgumentError.checkNotNull(jobId, 'jobId');
+    _s.validateStringLength(
+      'jobId',
+      jobId,
+      1,
+      32,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'jobId',
+      jobId,
+      r'''^([\p{L}\p{Z}\p{N}_.:/=+\-%@]*)$''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Comprehend_20171127.StopPiiEntitiesDetectionJob'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'JobId': jobId,
+      },
+    );
+
+    return StopPiiEntitiesDetectionJobResponse.fromJson(jsonResponse.body);
   }
 
   /// Stops a sentiment detection job in progress.
@@ -3422,7 +4001,7 @@ class Comprehend {
     _s.validateStringPattern(
       'endpointArn',
       endpointArn,
-      r'''arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:document-classifier-endpoint/[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
+      r'''arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:(document-classifier-endpoint|entity-recognizer-endpoint)/[a-zA-Z0-9](-*[a-zA-Z0-9])*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -3443,6 +4022,44 @@ class Comprehend {
 
     return UpdateEndpointResponse.fromJson(jsonResponse.body);
   }
+}
+
+/// An augmented manifest file that provides training data for your custom
+/// model. An augmented manifest file is a labeled dataset that is produced by
+/// Amazon SageMaker Ground Truth.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AugmentedManifestsListItem {
+  /// The JSON attribute that contains the annotations for your training
+  /// documents. The number of attribute names that you specify depends on whether
+  /// your augmented manifest file is the output of a single labeling job or a
+  /// chained labeling job.
+  ///
+  /// If your file is the output of a single labeling job, specify the
+  /// LabelAttributeName key that was used when the job was created in Ground
+  /// Truth.
+  ///
+  /// If your file is the output of a chained labeling job, specify the
+  /// LabelAttributeName key for one or more jobs in the chain. Each
+  /// LabelAttributeName key provides the annotations from an individual job.
+  @_s.JsonKey(name: 'AttributeNames')
+  final List<String> attributeNames;
+
+  /// The Amazon S3 location of the augmented manifest file.
+  @_s.JsonKey(name: 'S3Uri')
+  final String s3Uri;
+
+  AugmentedManifestsListItem({
+    @_s.required this.attributeNames,
+    @_s.required this.s3Uri,
+  });
+  factory AugmentedManifestsListItem.fromJson(Map<String, dynamic> json) =>
+      _$AugmentedManifestsListItemFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AugmentedManifestsListItemToJson(this);
 }
 
 /// The result of calling the operation. The operation returns one object for
@@ -3840,7 +4457,8 @@ class ClassifierMetadata {
   final int numberOfLabels;
 
   /// The number of documents in the input data that were used to test the
-  /// classifier. Typically this is 10 to 20 percent of the input documents.
+  /// classifier. Typically this is 10 to 20 percent of the input documents, up to
+  /// 10,000 documents.
   @_s.JsonKey(name: 'NumberOfTestDocuments')
   final int numberOfTestDocuments;
 
@@ -3874,7 +4492,7 @@ class ClassifyDocumentResponse {
 
   /// The labels used the document being analyzed. These are used for multi-label
   /// trained models. Individual labels represent different categories that are
-  /// related in some manner and are not multually exclusive. For example, a movie
+  /// related in some manner and are not mutually exclusive. For example, a movie
   /// can be just an action movie, or it can be an action movie, a science fiction
   /// movie, and a comedy, all at the same time.
   @_s.JsonKey(name: 'Labels')
@@ -4091,6 +4709,25 @@ class DescribeEntityRecognizerResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class DescribeEventsDetectionJobResponse {
+  /// An object that contains the properties associated with an event detection
+  /// job.
+  @_s.JsonKey(name: 'EventsDetectionJobProperties')
+  final EventsDetectionJobProperties eventsDetectionJobProperties;
+
+  DescribeEventsDetectionJobResponse({
+    this.eventsDetectionJobProperties,
+  });
+  factory DescribeEventsDetectionJobResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$DescribeEventsDetectionJobResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class DescribeKeyPhrasesDetectionJobResponse {
   /// An object that contains the properties associated with a key phrases
   /// detection job.
@@ -4103,6 +4740,23 @@ class DescribeKeyPhrasesDetectionJobResponse {
   factory DescribeKeyPhrasesDetectionJobResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DescribeKeyPhrasesDetectionJobResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DescribePiiEntitiesDetectionJobResponse {
+  @_s.JsonKey(name: 'PiiEntitiesDetectionJobProperties')
+  final PiiEntitiesDetectionJobProperties piiEntitiesDetectionJobProperties;
+
+  DescribePiiEntitiesDetectionJobResponse({
+    this.piiEntitiesDetectionJobProperties,
+  });
+  factory DescribePiiEntitiesDetectionJobResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$DescribePiiEntitiesDetectionJobResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -4173,7 +4827,12 @@ class DetectEntitiesResponse {
   /// A collection of entities identified in the input text. For each entity, the
   /// response provides the entity text, entity type, where the entity text begins
   /// and ends, and the level of confidence that Amazon Comprehend has in the
-  /// detection. For a list of entity types, see <a>how-entities</a>.
+  /// detection.
+  ///
+  /// If your request uses a custom entity recognition model, Amazon Comprehend
+  /// detects the entities that the model is trained to recognize. Otherwise, it
+  /// detects the default entity types. For a list of default entity types, see
+  /// <a>how-entities</a>.
   @_s.JsonKey(name: 'Entities')
   final List<Entity> entities;
 
@@ -4202,6 +4861,26 @@ class DetectKeyPhrasesResponse {
   });
   factory DetectKeyPhrasesResponse.fromJson(Map<String, dynamic> json) =>
       _$DetectKeyPhrasesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DetectPiiEntitiesResponse {
+  /// A collection of PII entities identified in the input text. For each entity,
+  /// the response provides the entity type, where the entity text begins and
+  /// ends, and the level of confidence that Amazon Comprehend has in the
+  /// detection.
+  @_s.JsonKey(name: 'Entities')
+  final List<PiiEntity> entities;
+
+  DetectPiiEntitiesResponse({
+    this.entities,
+  });
+  factory DetectPiiEntitiesResponse.fromJson(Map<String, dynamic> json) =>
+      _$DetectPiiEntitiesResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -4291,14 +4970,14 @@ class DocumentClassificationJobFilter {
   final JobStatus jobStatus;
 
   /// Filters the list of jobs based on the time that the job was submitted for
-  /// processing. Returns only jobs submitted before the specified time. Jobs are
+  /// processing. Returns only jobs submitted after the specified time. Jobs are
   /// returned in descending order, newest to oldest.
   @UnixDateTimeConverter()
   @_s.JsonKey(name: 'SubmitTimeAfter')
   final DateTime submitTimeAfter;
 
   /// Filters the list of jobs based on the time that the job was submitted for
-  /// processing. Returns only jobs submitted after the specified time. Jobs are
+  /// processing. Returns only jobs submitted before the specified time. Jobs are
   /// returned in ascending order, oldest to newest.
   @UnixDateTimeConverter()
   @_s.JsonKey(name: 'SubmitTimeBefore')
@@ -4412,6 +5091,13 @@ class DocumentClassificationJobProperties {
       _$DocumentClassificationJobPropertiesFromJson(json);
 }
 
+enum DocumentClassifierDataFormat {
+  @_s.JsonValue('COMPREHEND_CSV')
+  comprehendCsv,
+  @_s.JsonValue('AUGMENTED_MANIFEST')
+  augmentedManifest,
+}
+
 /// Provides information for filtering a list of document classifiers. You can
 /// only specify one filtering parameter in a request. For more information, see
 /// the operation.
@@ -4459,17 +5145,38 @@ class DocumentClassifierFilter {
     createFactory: true,
     createToJson: true)
 class DocumentClassifierInputDataConfig {
-  /// The Amazon S3 URI for the input data. The S3 bucket must be in the same
-  /// region as the API endpoint that you are calling. The URI can point to a
-  /// single input file or it can provide the prefix for a collection of input
-  /// files.
+  /// A list of augmented manifest files that provide training data for your
+  /// custom model. An augmented manifest file is a labeled dataset that is
+  /// produced by Amazon SageMaker Ground Truth.
   ///
-  /// For example, if you use the URI <code>S3://bucketName/prefix</code>, if the
-  /// prefix is a single file, Amazon Comprehend uses that file as input. If more
-  /// than one file begins with the prefix, Amazon Comprehend uses all of them as
-  /// input.
-  @_s.JsonKey(name: 'S3Uri')
-  final String s3Uri;
+  /// This parameter is required if you set <code>DataFormat</code> to
+  /// <code>AUGMENTED_MANIFEST</code>.
+  @_s.JsonKey(name: 'AugmentedManifests')
+  final List<AugmentedManifestsListItem> augmentedManifests;
+
+  /// The format of your training data:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>COMPREHEND_CSV</code>: A two-column CSV file, where labels are
+  /// provided in the first column, and documents are provided in the second. If
+  /// you use this value, you must provide the <code>S3Uri</code> parameter in
+  /// your request.
+  /// </li>
+  /// <li>
+  /// <code>AUGMENTED_MANIFEST</code>: A labeled dataset that is produced by
+  /// Amazon SageMaker Ground Truth. This file is in JSON lines format. Each line
+  /// is a complete JSON object that contains a training document and its
+  /// associated labels.
+  ///
+  /// If you use this value, you must provide the <code>AugmentedManifests</code>
+  /// parameter in your request.
+  /// </li>
+  /// </ul>
+  /// If you don't specify a value, Amazon Comprehend uses
+  /// <code>COMPREHEND_CSV</code> as the default.
+  @_s.JsonKey(name: 'DataFormat')
+  final DocumentClassifierDataFormat dataFormat;
 
   /// Indicates the delimiter used to separate each label for training a
   /// multi-label classifier. The default delimiter between labels is a pipe (|).
@@ -4481,9 +5188,26 @@ class DocumentClassifierInputDataConfig {
   @_s.JsonKey(name: 'LabelDelimiter')
   final String labelDelimiter;
 
+  /// The Amazon S3 URI for the input data. The S3 bucket must be in the same
+  /// region as the API endpoint that you are calling. The URI can point to a
+  /// single input file or it can provide the prefix for a collection of input
+  /// files.
+  ///
+  /// For example, if you use the URI <code>S3://bucketName/prefix</code>, if the
+  /// prefix is a single file, Amazon Comprehend uses that file as input. If more
+  /// than one file begins with the prefix, Amazon Comprehend uses all of them as
+  /// input.
+  ///
+  /// This parameter is required if you set <code>DataFormat</code> to
+  /// <code>COMPREHEND_CSV</code>.
+  @_s.JsonKey(name: 'S3Uri')
+  final String s3Uri;
+
   DocumentClassifierInputDataConfig({
-    @_s.required this.s3Uri,
+    this.augmentedManifests,
+    this.dataFormat,
     this.labelDelimiter,
+    this.s3Uri,
   });
   factory DocumentClassifierInputDataConfig.fromJson(
           Map<String, dynamic> json) =>
@@ -4879,9 +5603,9 @@ class DominantLanguageDetectionJobProperties {
       _$DominantLanguageDetectionJobPropertiesFromJson(json);
 }
 
-/// The filter used to determine which endpoints are are returned. You can
-/// filter jobs on their name, model, status, or the date and time that they
-/// were created. You can only set one filter at a time.
+/// The filter used to determine which endpoints are returned. You can filter
+/// jobs on their name, model, status, or the date and time that they were
+/// created. You can only set one filter at a time.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -5205,6 +5929,13 @@ class EntityRecognizerAnnotations {
   Map<String, dynamic> toJson() => _$EntityRecognizerAnnotationsToJson(this);
 }
 
+enum EntityRecognizerDataFormat {
+  @_s.JsonValue('COMPREHEND_CSV')
+  comprehendCsv,
+  @_s.JsonValue('AUGMENTED_MANIFEST')
+  augmentedManifest,
+}
+
 /// Describes the training documents submitted with an entity recognizer.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -5325,27 +6056,79 @@ class EntityRecognizerFilter {
     createFactory: true,
     createToJson: true)
 class EntityRecognizerInputDataConfig {
-  /// S3 location of the documents folder for an entity recognizer
-  @_s.JsonKey(name: 'Documents')
-  final EntityRecognizerDocuments documents;
-
-  /// The entity types in the input data for an entity recognizer. A maximum of 12
-  /// entity types can be used at one time to train an entity recognizer.
+  /// The entity types in the labeled training data that Amazon Comprehend uses to
+  /// train the custom entity recognizer. Any entity types that you don't specify
+  /// are ignored.
+  ///
+  /// A maximum of 25 entity types can be used at one time to train an entity
+  /// recognizer. Entity types must not contain the following invalid characters:
+  /// \n (line break), \\n (escaped line break), \r (carriage return), \\r
+  /// (escaped carriage return), \t (tab), \\t (escaped tab), space, and ,
+  /// (comma).
   @_s.JsonKey(name: 'EntityTypes')
   final List<EntityTypesListItem> entityTypes;
 
-  /// S3 location of the annotations file for an entity recognizer.
+  /// The S3 location of the CSV file that annotates your training documents.
   @_s.JsonKey(name: 'Annotations')
   final EntityRecognizerAnnotations annotations;
 
-  /// S3 location of the entity list for an entity recognizer.
+  /// A list of augmented manifest files that provide training data for your
+  /// custom model. An augmented manifest file is a labeled dataset that is
+  /// produced by Amazon SageMaker Ground Truth.
+  ///
+  /// This parameter is required if you set <code>DataFormat</code> to
+  /// <code>AUGMENTED_MANIFEST</code>.
+  @_s.JsonKey(name: 'AugmentedManifests')
+  final List<AugmentedManifestsListItem> augmentedManifests;
+
+  /// The format of your training data:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>COMPREHEND_CSV</code>: A CSV file that supplements your training
+  /// documents. The CSV file contains information about the custom entities that
+  /// your trained model will detect. The required format of the file depends on
+  /// whether you are providing annotations or an entity list.
+  ///
+  /// If you use this value, you must provide your CSV file by using either the
+  /// <code>Annotations</code> or <code>EntityList</code> parameters. You must
+  /// provide your training documents by using the <code>Documents</code>
+  /// parameter.
+  /// </li>
+  /// <li>
+  /// <code>AUGMENTED_MANIFEST</code>: A labeled dataset that is produced by
+  /// Amazon SageMaker Ground Truth. This file is in JSON lines format. Each line
+  /// is a complete JSON object that contains a training document and its labels.
+  /// Each label annotates a named entity in the training document.
+  ///
+  /// If you use this value, you must provide the <code>AugmentedManifests</code>
+  /// parameter in your request.
+  /// </li>
+  /// </ul>
+  /// If you don't specify a value, Amazon Comprehend uses
+  /// <code>COMPREHEND_CSV</code> as the default.
+  @_s.JsonKey(name: 'DataFormat')
+  final EntityRecognizerDataFormat dataFormat;
+
+  /// The S3 location of the folder that contains the training documents for your
+  /// custom entity recognizer.
+  ///
+  /// This parameter is required if you set <code>DataFormat</code> to
+  /// <code>COMPREHEND_CSV</code>.
+  @_s.JsonKey(name: 'Documents')
+  final EntityRecognizerDocuments documents;
+
+  /// The S3 location of the CSV file that has the entity list for your custom
+  /// entity recognizer.
   @_s.JsonKey(name: 'EntityList')
   final EntityRecognizerEntityList entityList;
 
   EntityRecognizerInputDataConfig({
-    @_s.required this.documents,
     @_s.required this.entityTypes,
     this.annotations,
+    this.augmentedManifests,
+    this.dataFormat,
+    this.documents,
     this.entityList,
   });
   factory EntityRecognizerInputDataConfig.fromJson(Map<String, dynamic> json) =>
@@ -5553,10 +6336,10 @@ enum EntityType {
     createFactory: true,
     createToJson: false)
 class EntityTypesEvaluationMetrics {
-  /// A measure of how accurate the recognizer results are for for a specific
-  /// entity type in the test data. It is derived from the <code>Precision</code>
-  /// and <code>Recall</code> values. The <code>F1Score</code> is the harmonic
-  /// average of the two scores. The highest score is 1, and the worst score is 0.
+  /// A measure of how accurate the recognizer results are for a specific entity
+  /// type in the test data. It is derived from the <code>Precision</code> and
+  /// <code>Recall</code> values. The <code>F1Score</code> is the harmonic average
+  /// of the two scores. The highest score is 1, and the worst score is 0.
   @_s.JsonKey(name: 'F1Score')
   final double f1Score;
 
@@ -5581,14 +6364,20 @@ class EntityTypesEvaluationMetrics {
       _$EntityTypesEvaluationMetricsFromJson(json);
 }
 
-/// Information about an individual item on a list of entity types.
+/// An entity type within a labeled training dataset that Amazon Comprehend uses
+/// to train a custom entity recognizer.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: true)
 class EntityTypesListItem {
-  /// Entity type of an item on an entity type list.
+  /// An entity type within a labeled training dataset that Amazon Comprehend uses
+  /// to train a custom entity recognizer.
+  ///
+  /// Entity types must not contain the following invalid characters: \n (line
+  /// break), \\n (escaped line break, \r (carriage return), \\r (escaped carriage
+  /// return), \t (tab), \\t (escaped tab), space, and , (comma).
   @_s.JsonKey(name: 'Type')
   final String type;
 
@@ -5599,6 +6388,118 @@ class EntityTypesListItem {
       _$EntityTypesListItemFromJson(json);
 
   Map<String, dynamic> toJson() => _$EntityTypesListItemToJson(this);
+}
+
+/// Provides information for filtering a list of event detection jobs.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class EventsDetectionJobFilter {
+  /// Filters on the name of the events detection job.
+  @_s.JsonKey(name: 'JobName')
+  final String jobName;
+
+  /// Filters the list of jobs based on job status. Returns only jobs with the
+  /// specified status.
+  @_s.JsonKey(name: 'JobStatus')
+  final JobStatus jobStatus;
+
+  /// Filters the list of jobs based on the time that the job was submitted for
+  /// processing. Returns only jobs submitted after the specified time. Jobs are
+  /// returned in descending order, newest to oldest.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'SubmitTimeAfter')
+  final DateTime submitTimeAfter;
+
+  /// Filters the list of jobs based on the time that the job was submitted for
+  /// processing. Returns only jobs submitted before the specified time. Jobs are
+  /// returned in ascending order, oldest to newest.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'SubmitTimeBefore')
+  final DateTime submitTimeBefore;
+
+  EventsDetectionJobFilter({
+    this.jobName,
+    this.jobStatus,
+    this.submitTimeAfter,
+    this.submitTimeBefore,
+  });
+  Map<String, dynamic> toJson() => _$EventsDetectionJobFilterToJson(this);
+}
+
+/// Provides information about an events detection job.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class EventsDetectionJobProperties {
+  /// The Amazon Resource Name (ARN) of the AWS Identify and Access Management
+  /// (IAM) role that grants Amazon Comprehend read access to your input data.
+  @_s.JsonKey(name: 'DataAccessRoleArn')
+  final String dataAccessRoleArn;
+
+  /// The time that the events detection job completed.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'EndTime')
+  final DateTime endTime;
+
+  /// The input data configuration that you supplied when you created the events
+  /// detection job.
+  @_s.JsonKey(name: 'InputDataConfig')
+  final InputDataConfig inputDataConfig;
+
+  /// The identifier assigned to the events detection job.
+  @_s.JsonKey(name: 'JobId')
+  final String jobId;
+
+  /// The name you assigned the events detection job.
+  @_s.JsonKey(name: 'JobName')
+  final String jobName;
+
+  /// The current status of the events detection job.
+  @_s.JsonKey(name: 'JobStatus')
+  final JobStatus jobStatus;
+
+  /// The language code of the input documents.
+  @_s.JsonKey(name: 'LanguageCode')
+  final LanguageCode languageCode;
+
+  /// A description of the status of the events detection job.
+  @_s.JsonKey(name: 'Message')
+  final String message;
+
+  /// The output data configuration that you supplied when you created the events
+  /// detection job.
+  @_s.JsonKey(name: 'OutputDataConfig')
+  final OutputDataConfig outputDataConfig;
+
+  /// The time that the events detection job was submitted for processing.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'SubmitTime')
+  final DateTime submitTime;
+
+  /// The types of events that are detected by the job.
+  @_s.JsonKey(name: 'TargetEventTypes')
+  final List<String> targetEventTypes;
+
+  EventsDetectionJobProperties({
+    this.dataAccessRoleArn,
+    this.endTime,
+    this.inputDataConfig,
+    this.jobId,
+    this.jobName,
+    this.jobStatus,
+    this.languageCode,
+    this.message,
+    this.outputDataConfig,
+    this.submitTime,
+    this.targetEventTypes,
+  });
+  factory EventsDetectionJobProperties.fromJson(Map<String, dynamic> json) =>
+      _$EventsDetectionJobPropertiesFromJson(json);
 }
 
 /// The input properties for a topic detection job.
@@ -6050,6 +6951,28 @@ class ListEntityRecognizersResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class ListEventsDetectionJobsResponse {
+  /// A list containing the properties of each job that is returned.
+  @_s.JsonKey(name: 'EventsDetectionJobPropertiesList')
+  final List<EventsDetectionJobProperties> eventsDetectionJobPropertiesList;
+
+  /// Identifies the next page of results to return.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListEventsDetectionJobsResponse({
+    this.eventsDetectionJobPropertiesList,
+    this.nextToken,
+  });
+  factory ListEventsDetectionJobsResponse.fromJson(Map<String, dynamic> json) =>
+      _$ListEventsDetectionJobsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class ListKeyPhrasesDetectionJobsResponse {
   /// A list containing the properties of each job that is returned.
   @_s.JsonKey(name: 'KeyPhrasesDetectionJobPropertiesList')
@@ -6067,6 +6990,30 @@ class ListKeyPhrasesDetectionJobsResponse {
   factory ListKeyPhrasesDetectionJobsResponse.fromJson(
           Map<String, dynamic> json) =>
       _$ListKeyPhrasesDetectionJobsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListPiiEntitiesDetectionJobsResponse {
+  /// Identifies the next page of results to return.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// A list containing the properties of each job that is returned.
+  @_s.JsonKey(name: 'PiiEntitiesDetectionJobPropertiesList')
+  final List<PiiEntitiesDetectionJobProperties>
+      piiEntitiesDetectionJobPropertiesList;
+
+  ListPiiEntitiesDetectionJobsResponse({
+    this.nextToken,
+    this.piiEntitiesDetectionJobPropertiesList,
+  });
+  factory ListPiiEntitiesDetectionJobsResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$ListPiiEntitiesDetectionJobsResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -6276,6 +7223,307 @@ enum PartOfSpeechTagType {
   sym,
   @_s.JsonValue('VERB')
   verb,
+}
+
+/// Provides information for filtering a list of PII entity detection jobs.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class PiiEntitiesDetectionJobFilter {
+  /// Filters on the name of the job.
+  @_s.JsonKey(name: 'JobName')
+  final String jobName;
+
+  /// Filters the list of jobs based on job status. Returns only jobs with the
+  /// specified status.
+  @_s.JsonKey(name: 'JobStatus')
+  final JobStatus jobStatus;
+
+  /// Filters the list of jobs based on the time that the job was submitted for
+  /// processing. Returns only jobs submitted after the specified time. Jobs are
+  /// returned in descending order, newest to oldest.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'SubmitTimeAfter')
+  final DateTime submitTimeAfter;
+
+  /// Filters the list of jobs based on the time that the job was submitted for
+  /// processing. Returns only jobs submitted before the specified time. Jobs are
+  /// returned in ascending order, oldest to newest.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'SubmitTimeBefore')
+  final DateTime submitTimeBefore;
+
+  PiiEntitiesDetectionJobFilter({
+    this.jobName,
+    this.jobStatus,
+    this.submitTimeAfter,
+    this.submitTimeBefore,
+  });
+  Map<String, dynamic> toJson() => _$PiiEntitiesDetectionJobFilterToJson(this);
+}
+
+/// Provides information about a PII entities detection job.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class PiiEntitiesDetectionJobProperties {
+  /// The Amazon Resource Name (ARN) that gives Amazon Comprehend read access to
+  /// your input data.
+  @_s.JsonKey(name: 'DataAccessRoleArn')
+  final String dataAccessRoleArn;
+
+  /// The time that the PII entities detection job completed.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'EndTime')
+  final DateTime endTime;
+
+  /// The input properties for a PII entities detection job.
+  @_s.JsonKey(name: 'InputDataConfig')
+  final InputDataConfig inputDataConfig;
+
+  /// The identifier assigned to the PII entities detection job.
+  @_s.JsonKey(name: 'JobId')
+  final String jobId;
+
+  /// The name that you assigned the PII entities detection job.
+  @_s.JsonKey(name: 'JobName')
+  final String jobName;
+
+  /// The current status of the PII entities detection job. If the status is
+  /// <code>FAILED</code>, the <code>Message</code> field shows the reason for the
+  /// failure.
+  @_s.JsonKey(name: 'JobStatus')
+  final JobStatus jobStatus;
+
+  /// The language code of the input documents
+  @_s.JsonKey(name: 'LanguageCode')
+  final LanguageCode languageCode;
+
+  /// A description of the status of a job.
+  @_s.JsonKey(name: 'Message')
+  final String message;
+
+  /// Specifies whether the output provides the locations (offsets) of PII
+  /// entities or a file in which PII entities are redacted.
+  @_s.JsonKey(name: 'Mode')
+  final PiiEntitiesDetectionMode mode;
+
+  /// The output data configuration that you supplied when you created the PII
+  /// entities detection job.
+  @_s.JsonKey(name: 'OutputDataConfig')
+  final PiiOutputDataConfig outputDataConfig;
+
+  /// Provides configuration parameters for PII entity redaction.
+  ///
+  /// This parameter is required if you set the <code>Mode</code> parameter to
+  /// <code>ONLY_REDACTION</code>. In that case, you must provide a
+  /// <code>RedactionConfig</code> definition that includes the
+  /// <code>PiiEntityTypes</code> parameter.
+  @_s.JsonKey(name: 'RedactionConfig')
+  final RedactionConfig redactionConfig;
+
+  /// The time that the PII entities detection job was submitted for processing.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'SubmitTime')
+  final DateTime submitTime;
+
+  PiiEntitiesDetectionJobProperties({
+    this.dataAccessRoleArn,
+    this.endTime,
+    this.inputDataConfig,
+    this.jobId,
+    this.jobName,
+    this.jobStatus,
+    this.languageCode,
+    this.message,
+    this.mode,
+    this.outputDataConfig,
+    this.redactionConfig,
+    this.submitTime,
+  });
+  factory PiiEntitiesDetectionJobProperties.fromJson(
+          Map<String, dynamic> json) =>
+      _$PiiEntitiesDetectionJobPropertiesFromJson(json);
+}
+
+enum PiiEntitiesDetectionMaskMode {
+  @_s.JsonValue('MASK')
+  mask,
+  @_s.JsonValue('REPLACE_WITH_PII_ENTITY_TYPE')
+  replaceWithPiiEntityType,
+}
+
+enum PiiEntitiesDetectionMode {
+  @_s.JsonValue('ONLY_REDACTION')
+  onlyRedaction,
+  @_s.JsonValue('ONLY_OFFSETS')
+  onlyOffsets,
+}
+
+extension on PiiEntitiesDetectionMode {
+  String toValue() {
+    switch (this) {
+      case PiiEntitiesDetectionMode.onlyRedaction:
+        return 'ONLY_REDACTION';
+      case PiiEntitiesDetectionMode.onlyOffsets:
+        return 'ONLY_OFFSETS';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
+/// Provides information about a PII entity.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class PiiEntity {
+  /// A character offset in the input text that shows where the PII entity begins
+  /// (the first character is at position 0). The offset returns the position of
+  /// each UTF-8 code point in the string. A <i>code point</i> is the abstract
+  /// character from a particular graphical representation. For example, a
+  /// multi-byte UTF-8 character maps to a single code point.
+  @_s.JsonKey(name: 'BeginOffset')
+  final int beginOffset;
+
+  /// A character offset in the input text that shows where the PII entity ends.
+  /// The offset returns the position of each UTF-8 code point in the string. A
+  /// <i>code point</i> is the abstract character from a particular graphical
+  /// representation. For example, a multi-byte UTF-8 character maps to a single
+  /// code point.
+  @_s.JsonKey(name: 'EndOffset')
+  final int endOffset;
+
+  /// The level of confidence that Amazon Comprehend has in the accuracy of the
+  /// detection.
+  @_s.JsonKey(name: 'Score')
+  final double score;
+
+  /// The entity's type.
+  @_s.JsonKey(name: 'Type')
+  final PiiEntityType type;
+
+  PiiEntity({
+    this.beginOffset,
+    this.endOffset,
+    this.score,
+    this.type,
+  });
+  factory PiiEntity.fromJson(Map<String, dynamic> json) =>
+      _$PiiEntityFromJson(json);
+}
+
+enum PiiEntityType {
+  @_s.JsonValue('BANK_ACCOUNT_NUMBER')
+  bankAccountNumber,
+  @_s.JsonValue('BANK_ROUTING')
+  bankRouting,
+  @_s.JsonValue('CREDIT_DEBIT_NUMBER')
+  creditDebitNumber,
+  @_s.JsonValue('CREDIT_DEBIT_CVV')
+  creditDebitCvv,
+  @_s.JsonValue('CREDIT_DEBIT_EXPIRY')
+  creditDebitExpiry,
+  @_s.JsonValue('PIN')
+  pin,
+  @_s.JsonValue('EMAIL')
+  email,
+  @_s.JsonValue('ADDRESS')
+  address,
+  @_s.JsonValue('NAME')
+  name,
+  @_s.JsonValue('PHONE')
+  phone,
+  @_s.JsonValue('SSN')
+  ssn,
+  @_s.JsonValue('DATE_TIME')
+  dateTime,
+  @_s.JsonValue('PASSPORT_NUMBER')
+  passportNumber,
+  @_s.JsonValue('DRIVER_ID')
+  driverId,
+  @_s.JsonValue('URL')
+  url,
+  @_s.JsonValue('AGE')
+  age,
+  @_s.JsonValue('USERNAME')
+  username,
+  @_s.JsonValue('PASSWORD')
+  password,
+  @_s.JsonValue('AWS_ACCESS_KEY')
+  awsAccessKey,
+  @_s.JsonValue('AWS_SECRET_KEY')
+  awsSecretKey,
+  @_s.JsonValue('IP_ADDRESS')
+  ipAddress,
+  @_s.JsonValue('MAC_ADDRESS')
+  macAddress,
+  @_s.JsonValue('ALL')
+  all,
+}
+
+/// Provides configuration parameters for the output of PII entity detection
+/// jobs.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class PiiOutputDataConfig {
+  /// When you use the <code>PiiOutputDataConfig</code> object with asynchronous
+  /// operations, you specify the Amazon S3 location where you want to write the
+  /// output data.
+  @_s.JsonKey(name: 'S3Uri')
+  final String s3Uri;
+
+  /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses
+  /// to encrypt the output results from an analysis job.
+  @_s.JsonKey(name: 'KmsKeyId')
+  final String kmsKeyId;
+
+  PiiOutputDataConfig({
+    @_s.required this.s3Uri,
+    this.kmsKeyId,
+  });
+  factory PiiOutputDataConfig.fromJson(Map<String, dynamic> json) =>
+      _$PiiOutputDataConfigFromJson(json);
+}
+
+/// Provides configuration parameters for PII entity redaction.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class RedactionConfig {
+  /// A character that replaces each character in the redacted PII entity.
+  @_s.JsonKey(name: 'MaskCharacter')
+  final String maskCharacter;
+
+  /// Specifies whether the PII entity is redacted with the mask character or the
+  /// entity type.
+  @_s.JsonKey(name: 'MaskMode')
+  final PiiEntitiesDetectionMaskMode maskMode;
+
+  /// An array of the types of PII entities that Amazon Comprehend detects in the
+  /// input text for your request.
+  @_s.JsonKey(name: 'PiiEntityTypes')
+  final List<PiiEntityType> piiEntityTypes;
+
+  RedactionConfig({
+    this.maskCharacter,
+    this.maskMode,
+    this.piiEntityTypes,
+  });
+  factory RedactionConfig.fromJson(Map<String, dynamic> json) =>
+      _$RedactionConfigFromJson(json);
+
+  Map<String, dynamic> toJson() => _$RedactionConfigToJson(this);
 }
 
 /// Provides information for filtering a list of dominant language detection
@@ -6600,6 +7848,29 @@ class StartEntitiesDetectionJobResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class StartEventsDetectionJobResponse {
+  /// An unique identifier for the request. If you don't set the client request
+  /// token, Amazon Comprehend generates one.
+  @_s.JsonKey(name: 'JobId')
+  final String jobId;
+
+  /// The status of the events detection job.
+  @_s.JsonKey(name: 'JobStatus')
+  final JobStatus jobStatus;
+
+  StartEventsDetectionJobResponse({
+    this.jobId,
+    this.jobStatus,
+  });
+  factory StartEventsDetectionJobResponse.fromJson(Map<String, dynamic> json) =>
+      _$StartEventsDetectionJobResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class StartKeyPhrasesDetectionJobResponse {
   /// The identifier generated for the job. To get the status of a job, use this
   /// identifier with the operation.
@@ -6632,6 +7903,29 @@ class StartKeyPhrasesDetectionJobResponse {
   factory StartKeyPhrasesDetectionJobResponse.fromJson(
           Map<String, dynamic> json) =>
       _$StartKeyPhrasesDetectionJobResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class StartPiiEntitiesDetectionJobResponse {
+  /// The identifier generated for the job.
+  @_s.JsonKey(name: 'JobId')
+  final String jobId;
+
+  /// The status of the job.
+  @_s.JsonKey(name: 'JobStatus')
+  final JobStatus jobStatus;
+
+  StartPiiEntitiesDetectionJobResponse({
+    this.jobId,
+    this.jobStatus,
+  });
+  factory StartPiiEntitiesDetectionJobResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$StartPiiEntitiesDetectionJobResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -6767,6 +8061,28 @@ class StopEntitiesDetectionJobResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class StopEventsDetectionJobResponse {
+  /// The identifier of the events detection job to stop.
+  @_s.JsonKey(name: 'JobId')
+  final String jobId;
+
+  /// The status of the events detection job.
+  @_s.JsonKey(name: 'JobStatus')
+  final JobStatus jobStatus;
+
+  StopEventsDetectionJobResponse({
+    this.jobId,
+    this.jobStatus,
+  });
+  factory StopEventsDetectionJobResponse.fromJson(Map<String, dynamic> json) =>
+      _$StopEventsDetectionJobResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class StopKeyPhrasesDetectionJobResponse {
   /// The identifier of the key phrases detection job to stop.
   @_s.JsonKey(name: 'JobId')
@@ -6785,6 +8101,29 @@ class StopKeyPhrasesDetectionJobResponse {
   factory StopKeyPhrasesDetectionJobResponse.fromJson(
           Map<String, dynamic> json) =>
       _$StopKeyPhrasesDetectionJobResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class StopPiiEntitiesDetectionJobResponse {
+  /// The identifier of the PII entities detection job to stop.
+  @_s.JsonKey(name: 'JobId')
+  final String jobId;
+
+  /// The status of the PII entities detection job.
+  @_s.JsonKey(name: 'JobStatus')
+  final JobStatus jobStatus;
+
+  StopPiiEntitiesDetectionJobResponse({
+    this.jobId,
+    this.jobStatus,
+  });
+  factory StopPiiEntitiesDetectionJobResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$StopPiiEntitiesDetectionJobResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -7120,8 +8459,8 @@ class UpdateEndpointResponse {
 }
 
 /// Configuration parameters for an optional private Virtual Private Cloud (VPC)
-/// containing the resources you are using for the job. For For more
-/// information, see <a
+/// containing the resources you are using for the job. For more information,
+/// see <a
 /// href="https://docs.aws.amazon.com/vpc/latest/userguide/what-is-amazon-vpc.html">Amazon
 /// VPC</a>.
 @_s.JsonSerializable(

@@ -28,11 +28,21 @@ part 'managedblockchain-2018-09-24.g.dart';
 
 /// <p/>
 /// Amazon Managed Blockchain is a fully managed service for creating and
-/// managing blockchain networks using open source frameworks. Blockchain allows
+/// managing blockchain networks using open-source frameworks. Blockchain allows
 /// you to build applications where multiple parties can securely and
 /// transparently run transactions and share data without the need for a
-/// trusted, central authority. Currently, Managed Blockchain supports the
-/// Hyperledger Fabric open source framework.
+/// trusted, central authority.
+///
+/// Managed Blockchain supports the Hyperledger Fabric and Ethereum open-source
+/// frameworks. Because of fundamental differences between the frameworks, some
+/// API actions or data types may only apply in the context of one framework and
+/// not the other. For example, actions related to Hyperledger Fabric network
+/// members such as <code>CreateMember</code> and <code>DeleteMember</code> do
+/// not apply to Ethereum.
+///
+/// The description for each action indicates the framework or frameworks to
+/// which it applies. Data types and properties that apply only in the context
+/// of a particular framework are similarly indicated.
 class ManagedBlockchain {
   final _s.RestJsonProtocol _protocol;
   ManagedBlockchain({
@@ -52,6 +62,8 @@ class ManagedBlockchain {
         );
 
   /// Creates a member within a Managed Blockchain network.
+  ///
+  /// Applies only to Hyperledger Fabric.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [AccessDeniedException].
@@ -124,6 +136,8 @@ class ManagedBlockchain {
   }
 
   /// Creates a new blockchain network using Amazon Managed Blockchain.
+  ///
+  /// Applies only to Hyperledger Fabric.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [AccessDeniedException].
@@ -230,7 +244,9 @@ class ManagedBlockchain {
     return CreateNetworkOutput.fromJson(response);
   }
 
-  /// Creates a peer node in a member.
+  /// Creates a node on the specified blockchain network.
+  ///
+  /// Applies to Hyperledger Fabric and Ethereum.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [AccessDeniedException].
@@ -248,19 +264,35 @@ class ManagedBlockchain {
   /// request directly using an HTTP client. It is generated automatically if
   /// you use an AWS SDK or the AWS CLI.
   ///
-  /// Parameter [memberId] :
-  /// The unique identifier of the member that owns this node.
-  ///
   /// Parameter [networkId] :
-  /// The unique identifier of the network in which this node runs.
+  /// The unique identifier of the network for the node.
+  ///
+  /// Ethereum public networks have the following <code>NetworkId</code>s:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>n-ethereum-mainnet</code>
+  /// </li>
+  /// <li>
+  /// <code>n-ethereum-rinkeby</code>
+  /// </li>
+  /// <li>
+  /// <code>n-ethereum-ropsten</code>
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [nodeConfiguration] :
   /// The properties of a node configuration.
+  ///
+  /// Parameter [memberId] :
+  /// The unique identifier of the member that owns this node.
+  ///
+  /// Applies only to Hyperledger Fabric.
   Future<CreateNodeOutput> createNode({
     @_s.required String clientRequestToken,
-    @_s.required String memberId,
     @_s.required String networkId,
     @_s.required NodeConfiguration nodeConfiguration,
+    String memberId,
   }) async {
     ArgumentError.checkNotNull(clientRequestToken, 'clientRequestToken');
     _s.validateStringLength(
@@ -268,14 +300,6 @@ class ManagedBlockchain {
       clientRequestToken,
       1,
       64,
-      isRequired: true,
-    );
-    ArgumentError.checkNotNull(memberId, 'memberId');
-    _s.validateStringLength(
-      'memberId',
-      memberId,
-      1,
-      32,
       isRequired: true,
     );
     ArgumentError.checkNotNull(networkId, 'networkId');
@@ -287,15 +311,21 @@ class ManagedBlockchain {
       isRequired: true,
     );
     ArgumentError.checkNotNull(nodeConfiguration, 'nodeConfiguration');
+    _s.validateStringLength(
+      'memberId',
+      memberId,
+      1,
+      32,
+    );
     final $payload = <String, dynamic>{
       'ClientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
       'NodeConfiguration': nodeConfiguration,
+      if (memberId != null) 'MemberId': memberId,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'POST',
-      requestUri:
-          '/networks/${Uri.encodeComponent(networkId)}/members/${Uri.encodeComponent(memberId)}/nodes',
+      requestUri: '/networks/${Uri.encodeComponent(networkId)}/nodes',
       exceptionFnMap: _exceptionFns,
     );
     return CreateNodeOutput.fromJson(response);
@@ -304,6 +334,8 @@ class ManagedBlockchain {
   /// Creates a proposal for a change to the network that other members of the
   /// network can vote on, for example, a proposal to add a new member to the
   /// network. Any member can create a proposal.
+  ///
+  /// Applies only to Hyperledger Fabric.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [AccessDeniedException].
@@ -398,6 +430,8 @@ class ManagedBlockchain {
   /// <code>MemberId</code> is the last member in a network specified by the
   /// last AWS account, the network is deleted also.
   ///
+  /// Applies only to Hyperledger Fabric.
+  ///
   /// May throw [InvalidRequestException].
   /// May throw [AccessDeniedException].
   /// May throw [ResourceNotFoundException].
@@ -440,8 +474,10 @@ class ManagedBlockchain {
     return DeleteMemberOutput.fromJson(response);
   }
 
-  /// Deletes a peer node from a member that your AWS account owns. All data on
-  /// the node is lost and cannot be recovered.
+  /// Deletes a node that your AWS account owns. All data on the node is lost
+  /// and cannot be recovered.
+  ///
+  /// Applies to Hyperledger Fabric and Ethereum.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [AccessDeniedException].
@@ -450,27 +486,35 @@ class ManagedBlockchain {
   /// May throw [ThrottlingException].
   /// May throw [InternalServiceErrorException].
   ///
-  /// Parameter [memberId] :
-  /// The unique identifier of the member that owns this node.
-  ///
   /// Parameter [networkId] :
-  /// The unique identifier of the network that the node belongs to.
+  /// The unique identifier of the network that the node is on.
+  ///
+  /// Ethereum public networks have the following <code>NetworkId</code>s:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>n-ethereum-mainnet</code>
+  /// </li>
+  /// <li>
+  /// <code>n-ethereum-rinkeby</code>
+  /// </li>
+  /// <li>
+  /// <code>n-ethereum-ropsten</code>
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [nodeId] :
   /// The unique identifier of the node.
+  ///
+  /// Parameter [memberId] :
+  /// The unique identifier of the member that owns this node.
+  ///
+  /// Applies only to Hyperledger Fabric and is required for Hyperledger Fabric.
   Future<void> deleteNode({
-    @_s.required String memberId,
     @_s.required String networkId,
     @_s.required String nodeId,
+    String memberId,
   }) async {
-    ArgumentError.checkNotNull(memberId, 'memberId');
-    _s.validateStringLength(
-      'memberId',
-      memberId,
-      1,
-      32,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(networkId, 'networkId');
     _s.validateStringLength(
       'networkId',
@@ -487,17 +531,29 @@ class ManagedBlockchain {
       32,
       isRequired: true,
     );
+    _s.validateStringLength(
+      'memberId',
+      memberId,
+      1,
+      32,
+    );
+    final $query = <String, List<String>>{
+      if (memberId != null) 'memberId': [memberId],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
       requestUri:
-          '/networks/${Uri.encodeComponent(networkId)}/members/${Uri.encodeComponent(memberId)}/nodes/${Uri.encodeComponent(nodeId)}',
+          '/networks/${Uri.encodeComponent(networkId)}/nodes/${Uri.encodeComponent(nodeId)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return DeleteNodeOutput.fromJson(response);
   }
 
   /// Returns detailed information about a member.
+  ///
+  /// Applies only to Hyperledger Fabric.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [AccessDeniedException].
@@ -542,6 +598,8 @@ class ManagedBlockchain {
 
   /// Returns detailed information about a network.
   ///
+  /// Applies to Hyperledger Fabric and Ethereum.
+  ///
   /// May throw [InvalidRequestException].
   /// May throw [AccessDeniedException].
   /// May throw [ResourceNotFoundException].
@@ -570,7 +628,9 @@ class ManagedBlockchain {
     return GetNetworkOutput.fromJson(response);
   }
 
-  /// Returns detailed information about a peer node.
+  /// Returns detailed information about a node.
+  ///
+  /// Applies to Hyperledger Fabric and Ethereum.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [AccessDeniedException].
@@ -578,27 +638,21 @@ class ManagedBlockchain {
   /// May throw [ThrottlingException].
   /// May throw [InternalServiceErrorException].
   ///
-  /// Parameter [memberId] :
-  /// The unique identifier of the member that owns the node.
-  ///
   /// Parameter [networkId] :
-  /// The unique identifier of the network to which the node belongs.
+  /// The unique identifier of the network that the node is on.
   ///
   /// Parameter [nodeId] :
   /// The unique identifier of the node.
+  ///
+  /// Parameter [memberId] :
+  /// The unique identifier of the member that owns the node.
+  ///
+  /// Applies only to Hyperledger Fabric and is required for Hyperledger Fabric.
   Future<GetNodeOutput> getNode({
-    @_s.required String memberId,
     @_s.required String networkId,
     @_s.required String nodeId,
+    String memberId,
   }) async {
-    ArgumentError.checkNotNull(memberId, 'memberId');
-    _s.validateStringLength(
-      'memberId',
-      memberId,
-      1,
-      32,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(networkId, 'networkId');
     _s.validateStringLength(
       'networkId',
@@ -615,17 +669,29 @@ class ManagedBlockchain {
       32,
       isRequired: true,
     );
+    _s.validateStringLength(
+      'memberId',
+      memberId,
+      1,
+      32,
+    );
+    final $query = <String, List<String>>{
+      if (memberId != null) 'memberId': [memberId],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri:
-          '/networks/${Uri.encodeComponent(networkId)}/members/${Uri.encodeComponent(memberId)}/nodes/${Uri.encodeComponent(nodeId)}',
+          '/networks/${Uri.encodeComponent(networkId)}/nodes/${Uri.encodeComponent(nodeId)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return GetNodeOutput.fromJson(response);
   }
 
   /// Returns detailed information about a proposal.
+  ///
+  /// Applies only to Hyperledger Fabric.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [AccessDeniedException].
@@ -668,7 +734,9 @@ class ManagedBlockchain {
     return GetProposalOutput.fromJson(response);
   }
 
-  /// Returns a listing of all invitations made on the specified network.
+  /// Returns a list of all invitations for the current AWS account.
+  ///
+  /// Applies only to Hyperledger Fabric.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [AccessDeniedException].
@@ -712,8 +780,10 @@ class ManagedBlockchain {
     return ListInvitationsOutput.fromJson(response);
   }
 
-  /// Returns a listing of the members in a network and properties of their
+  /// Returns a list of the members in a network and properties of their
   /// configurations.
+  ///
+  /// Applies only to Hyperledger Fabric.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [AccessDeniedException].
@@ -787,7 +857,9 @@ class ManagedBlockchain {
   }
 
   /// Returns information about the networks in which the current AWS account
-  /// has members.
+  /// participates.
+  ///
+  /// Applies to Hyperledger Fabric and Ethereum.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [AccessDeniedException].
@@ -810,6 +882,8 @@ class ManagedBlockchain {
   /// Parameter [status] :
   /// An optional status specifier. If provided, only networks currently in this
   /// status are listed.
+  ///
+  /// Applies only to Hyperledger Fabric.
   Future<ListNetworksOutput> listNetworks({
     Framework framework,
     int maxResults,
@@ -848,19 +922,23 @@ class ManagedBlockchain {
 
   /// Returns information about the nodes within a network.
   ///
+  /// Applies to Hyperledger Fabric and Ethereum.
+  ///
   /// May throw [InvalidRequestException].
   /// May throw [AccessDeniedException].
   /// May throw [ThrottlingException].
   /// May throw [InternalServiceErrorException].
-  ///
-  /// Parameter [memberId] :
-  /// The unique identifier of the member who owns the nodes to list.
   ///
   /// Parameter [networkId] :
   /// The unique identifier of the network for which to list nodes.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of nodes to list.
+  ///
+  /// Parameter [memberId] :
+  /// The unique identifier of the member who owns the nodes to list.
+  ///
+  /// Applies only to Hyperledger Fabric and is required for Hyperledger Fabric.
   ///
   /// Parameter [nextToken] :
   /// The pagination token that indicates the next set of results to retrieve.
@@ -869,20 +947,12 @@ class ManagedBlockchain {
   /// An optional status specifier. If provided, only nodes currently in this
   /// status are listed.
   Future<ListNodesOutput> listNodes({
-    @_s.required String memberId,
     @_s.required String networkId,
     int maxResults,
+    String memberId,
     String nextToken,
     NodeStatus status,
   }) async {
-    ArgumentError.checkNotNull(memberId, 'memberId');
-    _s.validateStringLength(
-      'memberId',
-      memberId,
-      1,
-      32,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(networkId, 'networkId');
     _s.validateStringLength(
       'networkId',
@@ -898,6 +968,12 @@ class ManagedBlockchain {
       20,
     );
     _s.validateStringLength(
+      'memberId',
+      memberId,
+      1,
+      32,
+    );
+    _s.validateStringLength(
       'nextToken',
       nextToken,
       0,
@@ -905,22 +981,24 @@ class ManagedBlockchain {
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (memberId != null) 'memberId': [memberId],
       if (nextToken != null) 'nextToken': [nextToken],
       if (status != null) 'status': [status.toValue()],
     };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
-      requestUri:
-          '/networks/${Uri.encodeComponent(networkId)}/members/${Uri.encodeComponent(memberId)}/nodes',
+      requestUri: '/networks/${Uri.encodeComponent(networkId)}/nodes',
       queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListNodesOutput.fromJson(response);
   }
 
-  /// Returns the listing of votes for a specified proposal, including the value
-  /// of each vote and the unique identifier of the member that cast the vote.
+  /// Returns the list of votes for a specified proposal, including the value of
+  /// each vote and the unique identifier of the member that cast the vote.
+  ///
+  /// Applies only to Hyperledger Fabric.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [AccessDeniedException].
@@ -987,7 +1065,9 @@ class ManagedBlockchain {
     return ListProposalVotesOutput.fromJson(response);
   }
 
-  /// Returns a listing of proposals for the network.
+  /// Returns a list of proposals for the network.
+  ///
+  /// Applies only to Hyperledger Fabric.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
@@ -1046,6 +1126,8 @@ class ManagedBlockchain {
   /// principal in an AWS account that has received an invitation to create a
   /// member and join a network.
   ///
+  /// Applies only to Hyperledger Fabric.
+  ///
   /// May throw [InvalidRequestException].
   /// May throw [IllegalActionException].
   /// May throw [AccessDeniedException].
@@ -1077,6 +1159,8 @@ class ManagedBlockchain {
 
   /// Updates a member configuration with new parameters.
   ///
+  /// Applies only to Hyperledger Fabric.
+  ///
   /// May throw [InvalidRequestException].
   /// May throw [AccessDeniedException].
   /// May throw [ResourceNotFoundException].
@@ -1084,11 +1168,11 @@ class ManagedBlockchain {
   /// May throw [InternalServiceErrorException].
   ///
   /// Parameter [memberId] :
-  /// The unique ID of the member.
+  /// The unique identifier of the member.
   ///
   /// Parameter [networkId] :
-  /// The unique ID of the Managed Blockchain network to which the member
-  /// belongs.
+  /// The unique identifier of the Managed Blockchain network to which the
+  /// member belongs.
   ///
   /// Parameter [logPublishingConfiguration] :
   /// Configuration properties for publishing to Amazon CloudWatch Logs.
@@ -1129,37 +1213,33 @@ class ManagedBlockchain {
 
   /// Updates a node configuration with new parameters.
   ///
+  /// Applies only to Hyperledger Fabric.
+  ///
   /// May throw [InvalidRequestException].
   /// May throw [AccessDeniedException].
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
   /// May throw [InternalServiceErrorException].
   ///
-  /// Parameter [memberId] :
-  /// The unique ID of the member that owns the node.
-  ///
   /// Parameter [networkId] :
-  /// The unique ID of the Managed Blockchain network to which the node belongs.
+  /// The unique identifier of the network that the node is on.
   ///
   /// Parameter [nodeId] :
-  /// The unique ID of the node.
+  /// The unique identifier of the node.
   ///
   /// Parameter [logPublishingConfiguration] :
   /// Configuration properties for publishing to Amazon CloudWatch Logs.
+  ///
+  /// Parameter [memberId] :
+  /// The unique identifier of the member that owns the node.
+  ///
+  /// Applies only to Hyperledger Fabric.
   Future<void> updateNode({
-    @_s.required String memberId,
     @_s.required String networkId,
     @_s.required String nodeId,
     NodeLogPublishingConfiguration logPublishingConfiguration,
+    String memberId,
   }) async {
-    ArgumentError.checkNotNull(memberId, 'memberId');
-    _s.validateStringLength(
-      'memberId',
-      memberId,
-      1,
-      32,
-      isRequired: true,
-    );
     ArgumentError.checkNotNull(networkId, 'networkId');
     _s.validateStringLength(
       'networkId',
@@ -1176,15 +1256,22 @@ class ManagedBlockchain {
       32,
       isRequired: true,
     );
+    _s.validateStringLength(
+      'memberId',
+      memberId,
+      1,
+      32,
+    );
     final $payload = <String, dynamic>{
       if (logPublishingConfiguration != null)
         'LogPublishingConfiguration': logPublishingConfiguration,
+      if (memberId != null) 'MemberId': memberId,
     };
     final response = await _protocol.send(
       payload: $payload,
       method: 'PATCH',
       requestUri:
-          '/networks/${Uri.encodeComponent(networkId)}/members/${Uri.encodeComponent(memberId)}/nodes/${Uri.encodeComponent(nodeId)}',
+          '/networks/${Uri.encodeComponent(networkId)}/nodes/${Uri.encodeComponent(nodeId)}',
       exceptionFnMap: _exceptionFns,
     );
     return UpdateNodeOutput.fromJson(response);
@@ -1193,6 +1280,8 @@ class ManagedBlockchain {
   /// Casts a vote for a specified <code>ProposalId</code> on behalf of a
   /// member. The member to vote as, specified by <code>VoterMemberId</code>,
   /// must be in the same AWS account as the principal that calls the action.
+  ///
+  /// Applies only to Hyperledger Fabric.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [IllegalActionException].
@@ -1263,6 +1352,8 @@ class ManagedBlockchain {
 /// the percentage of <code>YES</code> votes and the duration of the proposal.
 /// The policy applies to all proposals and is specified when the network is
 /// created.
+///
+/// Applies only to Hyperledger Fabric.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -1410,6 +1501,8 @@ enum Edition {
 enum Framework {
   @_s.JsonValue('HYPERLEDGER_FABRIC')
   hyperledgerFabric,
+  @_s.JsonValue('ETHEREUM')
+  ethereum,
 }
 
 extension on Framework {
@@ -1417,6 +1510,8 @@ extension on Framework {
     switch (this) {
       case Framework.hyperledgerFabric:
         return 'HYPERLEDGER_FABRIC';
+      case Framework.ethereum:
+        return 'ETHEREUM';
     }
     throw Exception('Unknown enum value: $this');
   }
@@ -1491,6 +1586,8 @@ class GetProposalOutput {
 }
 
 /// An invitation to an AWS account to create a member and join the network.
+///
+/// Applies only to Hyperledger Fabric.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -1570,6 +1667,8 @@ enum InvitationStatus {
 /// An action to invite a specific AWS account to create a member and join the
 /// network. The <code>InviteAction</code> is carried out when a
 /// <code>Proposal</code> is <code>APPROVED</code>.
+///
+/// Applies only to Hyperledger Fabric.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -1690,7 +1789,7 @@ class ListProposalVotesOutput {
   @_s.JsonKey(name: 'NextToken')
   final String nextToken;
 
-  /// The listing of votes.
+  /// The list of votes.
   @_s.JsonKey(name: 'ProposalVotes')
   final List<VoteSummary> proposalVotes;
 
@@ -1765,6 +1864,8 @@ class LogConfigurations {
 }
 
 /// Member configuration properties.
+///
+/// Applies only to Hyperledger Fabric.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -1846,6 +1947,8 @@ class Member {
 }
 
 /// Configuration properties of the member.
+///
+/// Applies only to Hyperledger Fabric.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -1864,7 +1967,8 @@ class MemberConfiguration {
   @_s.JsonKey(name: 'Description')
   final String description;
 
-  /// <p/>
+  /// Configuration properties for logging events associated with a member of a
+  /// Managed Blockchain network.
   @_s.JsonKey(name: 'LogPublishingConfiguration')
   final MemberLogPublishingConfiguration logPublishingConfiguration;
 
@@ -1912,8 +2016,9 @@ class MemberFabricConfiguration {
   /// The password for the member's initial administrative user. The
   /// <code>AdminPassword</code> must be at least eight characters long and no
   /// more than 32 characters. It must contain at least one uppercase letter, one
-  /// lowercase letter, and one digit. It cannot have a single quote(‘), double
-  /// quote(“), forward slash(/), backward slash(\), @, or a space.
+  /// lowercase letter, and one digit. It cannot have a single quotation mark (‘),
+  /// a double quotation marks (“), a forward slash(/), a backward slash(\), @, or
+  /// a space.
   @_s.JsonKey(name: 'AdminPassword')
   final String adminPassword;
 
@@ -2052,6 +2157,8 @@ extension on MemberStatus {
 }
 
 /// A summary of configuration properties for a member.
+///
+/// Applies only to Hyperledger Fabric.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -2189,6 +2296,37 @@ class Network {
       _$NetworkFromJson(json);
 }
 
+/// Attributes of Ethereum for a network.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class NetworkEthereumAttributes {
+  /// The Ethereum <code>CHAIN_ID</code> associated with the Ethereum network.
+  /// Chain IDs are as follows:
+  ///
+  /// <ul>
+  /// <li>
+  /// mainnet = <code>1</code>
+  /// </li>
+  /// <li>
+  /// rinkeby = <code>4</code>
+  /// </li>
+  /// <li>
+  /// ropsten = <code>3</code>
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'ChainId')
+  final String chainId;
+
+  NetworkEthereumAttributes({
+    this.chainId,
+  });
+  factory NetworkEthereumAttributes.fromJson(Map<String, dynamic> json) =>
+      _$NetworkEthereumAttributesFromJson(json);
+}
+
 /// Attributes of Hyperledger Fabric for a network.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2243,12 +2381,18 @@ class NetworkFabricConfiguration {
     createFactory: true,
     createToJson: false)
 class NetworkFrameworkAttributes {
+  /// Attributes of an Ethereum network for Managed Blockchain resources
+  /// participating in an Ethereum network.
+  @_s.JsonKey(name: 'Ethereum')
+  final NetworkEthereumAttributes ethereum;
+
   /// Attributes of Hyperledger Fabric for a Managed Blockchain network that uses
   /// Hyperledger Fabric.
   @_s.JsonKey(name: 'Fabric')
   final NetworkFabricAttributes fabric;
 
   NetworkFrameworkAttributes({
+    this.ethereum,
     this.fabric,
   });
   factory NetworkFrameworkAttributes.fromJson(Map<String, dynamic> json) =>
@@ -2354,7 +2498,7 @@ class NetworkSummary {
       _$NetworkSummaryFromJson(json);
 }
 
-/// Configuration properties of a peer node.
+/// Configuration properties of a node.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -2382,17 +2526,27 @@ class Node {
   @_s.JsonKey(name: 'InstanceType')
   final String instanceType;
 
-  /// <p/>
+  /// Configuration properties for logging events associated with a peer node on a
+  /// Hyperledger Fabric network on Managed Blockchain.
   @_s.JsonKey(name: 'LogPublishingConfiguration')
   final NodeLogPublishingConfiguration logPublishingConfiguration;
 
   /// The unique identifier of the member to which the node belongs.
+  ///
+  /// Applies only to Hyperledger Fabric.
   @_s.JsonKey(name: 'MemberId')
   final String memberId;
 
-  /// The unique identifier of the network that the node is in.
+  /// The unique identifier of the network that the node is on.
   @_s.JsonKey(name: 'NetworkId')
   final String networkId;
+
+  /// The state database that the node uses. Values are <code>LevelDB</code> or
+  /// <code>CouchDB</code>.
+  ///
+  /// Applies only to Hyperledger Fabric.
+  @_s.JsonKey(name: 'StateDB')
+  final StateDBType stateDB;
 
   /// The status of the node.
   @_s.JsonKey(name: 'Status')
@@ -2407,40 +2561,85 @@ class Node {
     this.logPublishingConfiguration,
     this.memberId,
     this.networkId,
+    this.stateDB,
     this.status,
   });
   factory Node.fromJson(Map<String, dynamic> json) => _$NodeFromJson(json);
 }
 
-/// Configuration properties of a peer node.
+/// Configuration properties of a node.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: false,
     createToJson: true)
 class NodeConfiguration {
-  /// The Availability Zone in which the node exists.
-  @_s.JsonKey(name: 'AvailabilityZone')
-  final String availabilityZone;
-
   /// The Amazon Managed Blockchain instance type for the node.
   @_s.JsonKey(name: 'InstanceType')
   final String instanceType;
 
-  /// <p/>
+  /// The Availability Zone in which the node exists.
+  @_s.JsonKey(name: 'AvailabilityZone')
+  final String availabilityZone;
+
+  /// Configuration properties for logging events associated with a peer node on a
+  /// Hyperledger Fabric network on Managed Blockchain.
   @_s.JsonKey(name: 'LogPublishingConfiguration')
   final NodeLogPublishingConfiguration logPublishingConfiguration;
 
+  /// The state database that the node uses. Values are <code>LevelDB</code> or
+  /// <code>CouchDB</code>. When using an Amazon Managed Blockchain network with
+  /// Hyperledger Fabric version 1.4 or later, the default is
+  /// <code>CouchDB</code>.
+  ///
+  /// Applies only to Hyperledger Fabric.
+  @_s.JsonKey(name: 'StateDB')
+  final StateDBType stateDB;
+
   NodeConfiguration({
-    @_s.required this.availabilityZone,
     @_s.required this.instanceType,
+    this.availabilityZone,
     this.logPublishingConfiguration,
+    this.stateDB,
   });
   Map<String, dynamic> toJson() => _$NodeConfigurationToJson(this);
 }
 
-/// Attributes of Hyperledger Fabric for a peer node on a Managed Blockchain
-/// network that uses Hyperledger Fabric.
+/// Attributes of an Ethereum node.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class NodeEthereumAttributes {
+  /// The endpoint on which the Ethereum node listens to run Ethereum JSON-RPC
+  /// methods over HTTP connections from a client. Use this endpoint in client
+  /// code for smart contracts when using an HTTP connection. Connections to this
+  /// endpoint are authenticated using <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature
+  /// Version 4</a>.
+  @_s.JsonKey(name: 'HttpEndpoint')
+  final String httpEndpoint;
+
+  /// The endpoint on which the Ethereum node listens to run Ethereum JSON-RPC
+  /// methods over WebSockets connections from a client. Use this endpoint in
+  /// client code for smart contracts when using a WebSockets connection.
+  /// Connections to this endpoint are authenticated using <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature
+  /// Version 4</a>.
+  @_s.JsonKey(name: 'WebSocketEndpoint')
+  final String webSocketEndpoint;
+
+  NodeEthereumAttributes({
+    this.httpEndpoint,
+    this.webSocketEndpoint,
+  });
+  factory NodeEthereumAttributes.fromJson(Map<String, dynamic> json) =>
+      _$NodeEthereumAttributesFromJson(json);
+}
+
+/// Attributes of Hyperledger Fabric for a peer node on a Hyperledger Fabric
+/// network on Managed Blockchain.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -2500,7 +2699,7 @@ class NodeFabricLogPublishingConfiguration {
       _$NodeFabricLogPublishingConfigurationToJson(this);
 }
 
-/// Attributes relevant to a peer node on a Managed Blockchain network for the
+/// Attributes relevant to a node on a Managed Blockchain network for the
 /// blockchain framework that the network uses.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2508,20 +2707,26 @@ class NodeFabricLogPublishingConfiguration {
     createFactory: true,
     createToJson: false)
 class NodeFrameworkAttributes {
+  /// Attributes of Ethereum for a node on a Managed Blockchain network that uses
+  /// Ethereum.
+  @_s.JsonKey(name: 'Ethereum')
+  final NodeEthereumAttributes ethereum;
+
   /// Attributes of Hyperledger Fabric for a peer node on a Managed Blockchain
   /// network that uses Hyperledger Fabric.
   @_s.JsonKey(name: 'Fabric')
   final NodeFabricAttributes fabric;
 
   NodeFrameworkAttributes({
+    this.ethereum,
     this.fabric,
   });
   factory NodeFrameworkAttributes.fromJson(Map<String, dynamic> json) =>
       _$NodeFrameworkAttributesFromJson(json);
 }
 
-/// Configuration properties for logging events associated with a peer node
-/// owned by a member in a Managed Blockchain network.
+/// Configuration properties for logging events associated with a peer node on a
+/// Hyperledger Fabric network on Managed Blockchain.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -2548,6 +2753,8 @@ enum NodeStatus {
   creating,
   @_s.JsonValue('AVAILABLE')
   available,
+  @_s.JsonValue('UNHEALTHY')
+  unhealthy,
   @_s.JsonValue('CREATE_FAILED')
   createFailed,
   @_s.JsonValue('UPDATING')
@@ -2567,6 +2774,8 @@ extension on NodeStatus {
         return 'CREATING';
       case NodeStatus.available:
         return 'AVAILABLE';
+      case NodeStatus.unhealthy:
+        return 'UNHEALTHY';
       case NodeStatus.createFailed:
         return 'CREATE_FAILED';
       case NodeStatus.updating:
@@ -2582,7 +2791,7 @@ extension on NodeStatus {
   }
 }
 
-/// A summary of configuration properties for a peer node.
+/// A summary of configuration properties for a node.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -2622,6 +2831,8 @@ class NodeSummary {
 }
 
 /// Properties of a proposal on a Managed Blockchain network.
+///
+/// Applies only to Hyperledger Fabric.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -2735,6 +2946,8 @@ class Proposal {
 }
 
 /// The actions to carry out if a proposal is <code>APPROVED</code>.
+///
+/// Applies only to Hyperledger Fabric.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -2776,6 +2989,8 @@ enum ProposalStatus {
 }
 
 /// Properties of a proposal.
+///
+/// Applies only to Hyperledger Fabric.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -2873,6 +3088,8 @@ class RejectInvitationOutput {
 /// An action to remove a member from a Managed Blockchain network as the result
 /// of a removal proposal that is <code>APPROVED</code>. The member and all
 /// associated resources are deleted from the network.
+///
+/// Applies only to Hyperledger Fabric.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -2890,6 +3107,13 @@ class RemoveAction {
       _$RemoveActionFromJson(json);
 
   Map<String, dynamic> toJson() => _$RemoveActionToJson(this);
+}
+
+enum StateDBType {
+  @_s.JsonValue('LevelDB')
+  levelDB,
+  @_s.JsonValue('CouchDB')
+  couchDB,
 }
 
 enum ThresholdComparator {
@@ -2933,6 +3157,8 @@ class VoteOnProposalOutput {
 }
 
 /// Properties of an individual vote that a member cast for a proposal.
+///
+/// Applies only to Hyperledger Fabric.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -2980,6 +3206,8 @@ extension on VoteValue {
 }
 
 /// The voting rules for the network to decide if a proposal is accepted
+///
+/// Applies only to Hyperledger Fabric.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,

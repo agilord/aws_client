@@ -60,9 +60,9 @@ class PersonalizeRuntime {
   /// personalized ranking.
   ///
   /// Parameter [inputList] :
-  /// A list of items (itemId's) to rank. If an item was not included in the
-  /// training dataset, the item is appended to the end of the reranked list.
-  /// The maximum is 500.
+  /// A list of items (by <code>itemId</code>) to rank. If an item was not
+  /// included in the training dataset, the item is appended to the end of the
+  /// reranked list. The maximum is 500.
   ///
   /// Parameter [userId] :
   /// The user for which you want the campaign to provide a personalized
@@ -73,11 +73,37 @@ class PersonalizeRuntime {
   /// metadata includes any interaction information that might be relevant when
   /// getting a user's recommendations, such as the user's current location or
   /// device type.
+  ///
+  /// Parameter [filterArn] :
+  /// The Amazon Resource Name (ARN) of a filter you created to include items or
+  /// exclude items from recommendations for a given user. For more information,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/personalize/latest/dg/filter.html">Filtering
+  /// Recommendations</a>.
+  ///
+  /// Parameter [filterValues] :
+  /// The values to use when filtering recommendations. For each placeholder
+  /// parameter in your filter expression, provide the parameter name (in
+  /// matching case) as a key and the filter value(s) as the corresponding
+  /// value. Separate multiple values for one parameter with a comma.
+  ///
+  /// For filter expressions that use an <code>INCLUDE</code> element to include
+  /// items, you must provide values for all parameters that are defined in the
+  /// expression. For filters with expressions that use an <code>EXCLUDE</code>
+  /// element to exclude items, you can omit the <code>filter-values</code>.In
+  /// this case, Amazon Personalize doesn't use that portion of the expression
+  /// to filter recommendations.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/personalize/latest/dg/filter.html">Filtering
+  /// Recommendations</a>.
   Future<GetPersonalizedRankingResponse> getPersonalizedRanking({
     @_s.required String campaignArn,
     @_s.required List<String> inputList,
     @_s.required String userId,
     Map<String, String> context,
+    String filterArn,
+    Map<String, String> filterValues,
   }) async {
     ArgumentError.checkNotNull(campaignArn, 'campaignArn');
     _s.validateStringLength(
@@ -102,11 +128,24 @@ class PersonalizeRuntime {
       256,
       isRequired: true,
     );
+    _s.validateStringLength(
+      'filterArn',
+      filterArn,
+      0,
+      256,
+    );
+    _s.validateStringPattern(
+      'filterArn',
+      filterArn,
+      r'''arn:([a-z\d-]+):personalize:.*:.*:.+''',
+    );
     final $payload = <String, dynamic>{
       'campaignArn': campaignArn,
       'inputList': inputList,
       'userId': userId,
       if (context != null) 'context': context,
+      if (filterArn != null) 'filterArn': filterArn,
+      if (filterValues != null) 'filterValues': filterValues,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -146,6 +185,32 @@ class PersonalizeRuntime {
   /// getting a user's recommendations, such as the user's current location or
   /// device type.
   ///
+  /// Parameter [filterArn] :
+  /// The ARN of the filter to apply to the returned recommendations. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/personalize/latest/dg/filter.html">Filtering
+  /// Recommendations</a>.
+  ///
+  /// When using this parameter, be sure the filter resource is
+  /// <code>ACTIVE</code>.
+  ///
+  /// Parameter [filterValues] :
+  /// The values to use when filtering recommendations. For each placeholder
+  /// parameter in your filter expression, provide the parameter name (in
+  /// matching case) as a key and the filter value(s) as the corresponding
+  /// value. Separate multiple values for one parameter with a comma.
+  ///
+  /// For filter expressions that use an <code>INCLUDE</code> element to include
+  /// items, you must provide values for all parameters that are defined in the
+  /// expression. For filters with expressions that use an <code>EXCLUDE</code>
+  /// element to exclude items, you can omit the <code>filter-values</code>.In
+  /// this case, Amazon Personalize doesn't use that portion of the expression
+  /// to filter recommendations.
+  ///
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/personalize/latest/dg/filter.html">Filtering
+  /// Recommendations</a>.
+  ///
   /// Parameter [itemId] :
   /// The item ID to provide recommendations for.
   ///
@@ -161,6 +226,8 @@ class PersonalizeRuntime {
   Future<GetRecommendationsResponse> getRecommendations({
     @_s.required String campaignArn,
     Map<String, String> context,
+    String filterArn,
+    Map<String, String> filterValues,
     String itemId,
     int numResults,
     String userId,
@@ -178,6 +245,17 @@ class PersonalizeRuntime {
       campaignArn,
       r'''arn:([a-z\d-]+):personalize:.*:.*:.+''',
       isRequired: true,
+    );
+    _s.validateStringLength(
+      'filterArn',
+      filterArn,
+      0,
+      256,
+    );
+    _s.validateStringPattern(
+      'filterArn',
+      filterArn,
+      r'''arn:([a-z\d-]+):personalize:.*:.*:.+''',
     );
     _s.validateStringLength(
       'itemId',
@@ -200,6 +278,8 @@ class PersonalizeRuntime {
     final $payload = <String, dynamic>{
       'campaignArn': campaignArn,
       if (context != null) 'context': context,
+      if (filterArn != null) 'filterArn': filterArn,
+      if (filterValues != null) 'filterValues': filterValues,
       if (itemId != null) 'itemId': itemId,
       if (numResults != null) 'numResults': numResults,
       if (userId != null) 'userId': userId,
@@ -225,8 +305,13 @@ class GetPersonalizedRankingResponse {
   @_s.JsonKey(name: 'personalizedRanking')
   final List<PredictedItem> personalizedRanking;
 
+  /// The ID of the recommendation.
+  @_s.JsonKey(name: 'recommendationId')
+  final String recommendationId;
+
   GetPersonalizedRankingResponse({
     this.personalizedRanking,
+    this.recommendationId,
   });
   factory GetPersonalizedRankingResponse.fromJson(Map<String, dynamic> json) =>
       _$GetPersonalizedRankingResponseFromJson(json);
@@ -243,8 +328,13 @@ class GetRecommendationsResponse {
   @_s.JsonKey(name: 'itemList')
   final List<PredictedItem> itemList;
 
+  /// The ID of the recommendation.
+  @_s.JsonKey(name: 'recommendationId')
+  final String recommendationId;
+
   GetRecommendationsResponse({
     this.itemList,
+    this.recommendationId,
   });
   factory GetRecommendationsResponse.fromJson(Map<String, dynamic> json) =>
       _$GetRecommendationsResponseFromJson(json);
@@ -263,8 +353,9 @@ class PredictedItem {
   @_s.JsonKey(name: 'itemId')
   final String itemId;
 
-  /// A numeric representation of the model's certainty in the item's suitability.
-  /// For more information on scoring logic, see <a>how-scores-work</a>.
+  /// A numeric representation of the model's certainty that the item will be the
+  /// next user selection. For more information on scoring logic, see
+  /// <a>how-scores-work</a>.
   @_s.JsonKey(name: 'score')
   final double score;
 

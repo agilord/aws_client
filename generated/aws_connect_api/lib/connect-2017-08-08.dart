@@ -38,7 +38,17 @@ part 'connect-2017-08-08.g.dart';
 /// create and limits to the number of requests that you can make per second.
 /// For more information, see <a
 /// href="https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html">Amazon
-/// Connect Service Limits</a> in the <i>Amazon Connect Administrator Guide</i>.
+/// Connect Service Quotas</a> in the <i>Amazon Connect Administrator Guide</i>.
+///
+/// To connect programmatically to an AWS service, you use an endpoint. For a
+/// list of Amazon Connect endpoints, see <a
+/// href="https://docs.aws.amazon.com/general/latest/gr/connect_region.html">Amazon
+/// Connect Endpoints</a>.
+/// <note>
+/// Working with contact flows? Check out the <a
+/// href="https://docs.aws.amazon.com/connect/latest/adminguide/flow-language.html">Amazon
+/// Connect Flow language</a>.
+/// </note>
 class Connect {
   final _s.RestJsonProtocol _protocol;
   Connect({
@@ -57,7 +67,771 @@ class Connect {
           endpointUrl: endpointUrl,
         );
 
+  /// This API is in preview release for Amazon Connect and is subject to
+  /// change.
+  ///
+  /// Associates an approved origin to an Amazon Connect instance.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ResourceConflictException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance.
+  ///
+  /// Parameter [origin] :
+  /// The domain to add to your allow list.
+  Future<void> associateApprovedOrigin({
+    @_s.required String instanceId,
+    @_s.required String origin,
+  }) async {
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    _s.validateStringLength(
+      'instanceId',
+      instanceId,
+      1,
+      100,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(origin, 'origin');
+    _s.validateStringLength(
+      'origin',
+      origin,
+      0,
+      267,
+      isRequired: true,
+    );
+    final $payload = <String, dynamic>{
+      'Origin': origin,
+    };
+    await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/instance/${Uri.encodeComponent(instanceId)}/approved-origin',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// This API is in preview release for Amazon Connect and is subject to
+  /// change.
+  ///
+  /// Associates a storage resource type for the first time. You can only
+  /// associate one type of storage configuration in a single call. This means,
+  /// for example, that you can't define an instance with multiple S3 buckets
+  /// for storing chat transcripts.
+  ///
+  /// This API does not create a resource that doesn't exist. It only associates
+  /// it to the instance. Ensure that the resource being specified in the
+  /// storage configuration, like an Amazon S3 bucket, exists when being used
+  /// for association.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ResourceConflictException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance.
+  ///
+  /// Parameter [resourceType] :
+  /// A valid resource type.
+  ///
+  /// Parameter [storageConfig] :
+  /// A valid storage type.
+  Future<AssociateInstanceStorageConfigResponse>
+      associateInstanceStorageConfig({
+    @_s.required String instanceId,
+    @_s.required InstanceStorageResourceType resourceType,
+    @_s.required InstanceStorageConfig storageConfig,
+  }) async {
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    _s.validateStringLength(
+      'instanceId',
+      instanceId,
+      1,
+      100,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(resourceType, 'resourceType');
+    ArgumentError.checkNotNull(storageConfig, 'storageConfig');
+    final $payload = <String, dynamic>{
+      'ResourceType': resourceType?.toValue() ?? '',
+      'StorageConfig': storageConfig,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/instance/${Uri.encodeComponent(instanceId)}/storage-config',
+      exceptionFnMap: _exceptionFns,
+    );
+    return AssociateInstanceStorageConfigResponse.fromJson(response);
+  }
+
+  /// This API is in preview release for Amazon Connect and is subject to
+  /// change.
+  ///
+  /// Allows the specified Amazon Connect instance to access the specified
+  /// Lambda function.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ResourceConflictException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [functionArn] :
+  /// The Amazon Resource Name (ARN) for the Lambda function being associated.
+  /// Maximum number of characters allowed is 140.
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance.
+  Future<void> associateLambdaFunction({
+    @_s.required String functionArn,
+    @_s.required String instanceId,
+  }) async {
+    ArgumentError.checkNotNull(functionArn, 'functionArn');
+    _s.validateStringLength(
+      'functionArn',
+      functionArn,
+      1,
+      140,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    _s.validateStringLength(
+      'instanceId',
+      instanceId,
+      1,
+      100,
+      isRequired: true,
+    );
+    final $payload = <String, dynamic>{
+      'FunctionArn': functionArn,
+    };
+    await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/instance/${Uri.encodeComponent(instanceId)}/lambda-function',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// This API is in preview release for Amazon Connect and is subject to
+  /// change.
+  ///
+  /// Allows the specified Amazon Connect instance to access the specified
+  /// Amazon Lex bot.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ResourceConflictException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance.
+  ///
+  /// Parameter [lexBot] :
+  /// The Amazon Lex box to associate with the instance.
+  Future<void> associateLexBot({
+    @_s.required String instanceId,
+    @_s.required LexBot lexBot,
+  }) async {
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    _s.validateStringLength(
+      'instanceId',
+      instanceId,
+      1,
+      100,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(lexBot, 'lexBot');
+    final $payload = <String, dynamic>{
+      'LexBot': lexBot,
+    };
+    await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/instance/${Uri.encodeComponent(instanceId)}/lex-bot',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Associates a set of queues with a routing profile.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance.
+  ///
+  /// Parameter [queueConfigs] :
+  /// The queues to associate with this routing profile.
+  ///
+  /// Parameter [routingProfileId] :
+  /// The identifier of the routing profile.
+  Future<void> associateRoutingProfileQueues({
+    @_s.required String instanceId,
+    @_s.required List<RoutingProfileQueueConfig> queueConfigs,
+    @_s.required String routingProfileId,
+  }) async {
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    _s.validateStringLength(
+      'instanceId',
+      instanceId,
+      1,
+      100,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(queueConfigs, 'queueConfigs');
+    ArgumentError.checkNotNull(routingProfileId, 'routingProfileId');
+    final $payload = <String, dynamic>{
+      'QueueConfigs': queueConfigs,
+    };
+    await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/routing-profiles/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(routingProfileId)}/associate-queues',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// This API is in preview release for Amazon Connect and is subject to
+  /// change.
+  ///
+  /// Associates a security key to the instance.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ResourceConflictException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance.
+  ///
+  /// Parameter [key] :
+  /// A valid security key in PEM format.
+  Future<AssociateSecurityKeyResponse> associateSecurityKey({
+    @_s.required String instanceId,
+    @_s.required String key,
+  }) async {
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    _s.validateStringLength(
+      'instanceId',
+      instanceId,
+      1,
+      100,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(key, 'key');
+    _s.validateStringLength(
+      'key',
+      key,
+      1,
+      1024,
+      isRequired: true,
+    );
+    final $payload = <String, dynamic>{
+      'Key': key,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/instance/${Uri.encodeComponent(instanceId)}/security-key',
+      exceptionFnMap: _exceptionFns,
+    );
+    return AssociateSecurityKeyResponse.fromJson(response);
+  }
+
+  /// Creates a contact flow for the specified Amazon Connect instance.
+  ///
+  /// You can also create and update contact flows using the <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/flow-language.html">Amazon
+  /// Connect Flow language</a>.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidContactFlowException].
+  /// May throw [InvalidParameterException].
+  /// May throw [DuplicateResourceException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [content] :
+  /// The content of the contact flow.
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance.
+  ///
+  /// Parameter [name] :
+  /// The name of the contact flow.
+  ///
+  /// Parameter [type] :
+  /// The type of the contact flow. For descriptions of the available types, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/create-contact-flow.html#contact-flow-types">Choose
+  /// a Contact Flow Type</a> in the <i>Amazon Connect Administrator Guide</i>.
+  ///
+  /// Parameter [description] :
+  /// The description of the contact flow.
+  ///
+  /// Parameter [tags] :
+  /// One or more tags.
+  Future<CreateContactFlowResponse> createContactFlow({
+    @_s.required String content,
+    @_s.required String instanceId,
+    @_s.required String name,
+    @_s.required ContactFlowType type,
+    String description,
+    Map<String, String> tags,
+  }) async {
+    ArgumentError.checkNotNull(content, 'content');
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    _s.validateStringLength(
+      'instanceId',
+      instanceId,
+      1,
+      100,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(name, 'name');
+    _s.validateStringLength(
+      'name',
+      name,
+      1,
+      1152921504606846976,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(type, 'type');
+    final $payload = <String, dynamic>{
+      'Content': content,
+      'Name': name,
+      'Type': type?.toValue() ?? '',
+      if (description != null) 'Description': description,
+      if (tags != null) 'Tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/contact-flows/${Uri.encodeComponent(instanceId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateContactFlowResponse.fromJson(response);
+  }
+
+  /// This API is in preview release for Amazon Connect and is subject to
+  /// change.
+  ///
+  /// Initiates an Amazon Connect instance with all the supported channels
+  /// enabled. It does not attach any storage (such as Amazon S3, or Kinesis) or
+  /// allow for any configurations on features such as Contact Lens for Amazon
+  /// Connect.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [identityManagementType] :
+  /// The type of identity management for your Amazon Connect users.
+  ///
+  /// Parameter [inboundCallsEnabled] :
+  /// Whether your contact center handles incoming contacts.
+  ///
+  /// Parameter [outboundCallsEnabled] :
+  /// Whether your contact center allows outbound calls.
+  ///
+  /// Parameter [clientToken] :
+  /// The idempotency token.
+  ///
+  /// Parameter [directoryId] :
+  /// The identifier for the directory.
+  ///
+  /// Parameter [instanceAlias] :
+  /// The name for your instance.
+  Future<CreateInstanceResponse> createInstance({
+    @_s.required DirectoryType identityManagementType,
+    @_s.required bool inboundCallsEnabled,
+    @_s.required bool outboundCallsEnabled,
+    String clientToken,
+    String directoryId,
+    String instanceAlias,
+  }) async {
+    ArgumentError.checkNotNull(
+        identityManagementType, 'identityManagementType');
+    ArgumentError.checkNotNull(inboundCallsEnabled, 'inboundCallsEnabled');
+    ArgumentError.checkNotNull(outboundCallsEnabled, 'outboundCallsEnabled');
+    _s.validateStringLength(
+      'clientToken',
+      clientToken,
+      0,
+      500,
+    );
+    _s.validateStringLength(
+      'directoryId',
+      directoryId,
+      12,
+      12,
+    );
+    _s.validateStringPattern(
+      'directoryId',
+      directoryId,
+      r'''^d-[0-9a-f]{10}$''',
+    );
+    _s.validateStringLength(
+      'instanceAlias',
+      instanceAlias,
+      1,
+      62,
+    );
+    _s.validateStringPattern(
+      'instanceAlias',
+      instanceAlias,
+      r'''^(?!d-)([\da-zA-Z]+)([-]*[\da-zA-Z])*$''',
+    );
+    final $payload = <String, dynamic>{
+      'IdentityManagementType': identityManagementType?.toValue() ?? '',
+      'InboundCallsEnabled': inboundCallsEnabled,
+      'OutboundCallsEnabled': outboundCallsEnabled,
+      if (clientToken != null) 'ClientToken': clientToken,
+      if (directoryId != null) 'DirectoryId': directoryId,
+      if (instanceAlias != null) 'InstanceAlias': instanceAlias,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/instance',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateInstanceResponse.fromJson(response);
+  }
+
+  /// This API is in preview release for Amazon Connect and is subject to
+  /// change.
+  ///
+  /// Create an AppIntegration association with an Amazon Connect instance.
+  ///
+  /// May throw [DuplicateResourceException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance.
+  ///
+  /// Parameter [integrationArn] :
+  /// The Amazon Resource Name (ARN) of the integration.
+  ///
+  /// Parameter [integrationType] :
+  /// The type of information to be ingested.
+  ///
+  /// Parameter [sourceApplicationName] :
+  /// The name of the external application.
+  ///
+  /// Parameter [sourceApplicationUrl] :
+  /// The URL for the external application.
+  ///
+  /// Parameter [sourceType] :
+  /// The type of the data source.
+  Future<CreateIntegrationAssociationResponse> createIntegrationAssociation({
+    @_s.required String instanceId,
+    @_s.required String integrationArn,
+    @_s.required IntegrationType integrationType,
+    @_s.required String sourceApplicationName,
+    @_s.required String sourceApplicationUrl,
+    @_s.required SourceType sourceType,
+  }) async {
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    _s.validateStringLength(
+      'instanceId',
+      instanceId,
+      1,
+      100,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(integrationArn, 'integrationArn');
+    ArgumentError.checkNotNull(integrationType, 'integrationType');
+    ArgumentError.checkNotNull(sourceApplicationName, 'sourceApplicationName');
+    _s.validateStringLength(
+      'sourceApplicationName',
+      sourceApplicationName,
+      1,
+      100,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'sourceApplicationName',
+      sourceApplicationName,
+      r'''^[a-zA-Z0-9_ -]+$''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(sourceApplicationUrl, 'sourceApplicationUrl');
+    _s.validateStringLength(
+      'sourceApplicationUrl',
+      sourceApplicationUrl,
+      1,
+      2000,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(sourceType, 'sourceType');
+    final $payload = <String, dynamic>{
+      'IntegrationArn': integrationArn,
+      'IntegrationType': integrationType?.toValue() ?? '',
+      'SourceApplicationName': sourceApplicationName,
+      'SourceApplicationUrl': sourceApplicationUrl,
+      'SourceType': sourceType?.toValue() ?? '',
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/instance/${Uri.encodeComponent(instanceId)}/integration-associations',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateIntegrationAssociationResponse.fromJson(response);
+  }
+
+  /// This API is in preview release for Amazon Connect and is subject to
+  /// change.
+  ///
+  /// Creates a quick connect for the specified Amazon Connect instance.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [DuplicateResourceException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [LimitExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance.
+  ///
+  /// Parameter [name] :
+  /// The name of the quick connect.
+  ///
+  /// Parameter [quickConnectConfig] :
+  /// Configuration settings for the quick connect.
+  ///
+  /// Parameter [description] :
+  /// The description of the quick connect.
+  ///
+  /// Parameter [tags] :
+  /// One or more tags.
+  Future<CreateQuickConnectResponse> createQuickConnect({
+    @_s.required String instanceId,
+    @_s.required String name,
+    @_s.required QuickConnectConfig quickConnectConfig,
+    String description,
+    Map<String, String> tags,
+  }) async {
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    _s.validateStringLength(
+      'instanceId',
+      instanceId,
+      1,
+      100,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(name, 'name');
+    _s.validateStringLength(
+      'name',
+      name,
+      1,
+      127,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(quickConnectConfig, 'quickConnectConfig');
+    _s.validateStringLength(
+      'description',
+      description,
+      0,
+      250,
+    );
+    final $payload = <String, dynamic>{
+      'Name': name,
+      'QuickConnectConfig': quickConnectConfig,
+      if (description != null) 'Description': description,
+      if (tags != null) 'Tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/quick-connects/${Uri.encodeComponent(instanceId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateQuickConnectResponse.fromJson(response);
+  }
+
+  /// Creates a new routing profile.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [DuplicateResourceException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [LimitExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [defaultOutboundQueueId] :
+  /// The default outbound queue for the routing profile.
+  ///
+  /// Parameter [description] :
+  /// Description of the routing profile. Must not be more than 250 characters.
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance.
+  ///
+  /// Parameter [mediaConcurrencies] :
+  /// The channels agents can handle in the Contact Control Panel (CCP) for this
+  /// routing profile.
+  ///
+  /// Parameter [name] :
+  /// The name of the routing profile. Must not be more than 127 characters.
+  ///
+  /// Parameter [queueConfigs] :
+  /// The inbound queues associated with the routing profile. If no queue is
+  /// added, the agent can only make outbound calls.
+  ///
+  /// Parameter [tags] :
+  /// One or more tags.
+  Future<CreateRoutingProfileResponse> createRoutingProfile({
+    @_s.required String defaultOutboundQueueId,
+    @_s.required String description,
+    @_s.required String instanceId,
+    @_s.required List<MediaConcurrency> mediaConcurrencies,
+    @_s.required String name,
+    List<RoutingProfileQueueConfig> queueConfigs,
+    Map<String, String> tags,
+  }) async {
+    ArgumentError.checkNotNull(
+        defaultOutboundQueueId, 'defaultOutboundQueueId');
+    ArgumentError.checkNotNull(description, 'description');
+    _s.validateStringLength(
+      'description',
+      description,
+      1,
+      250,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    _s.validateStringLength(
+      'instanceId',
+      instanceId,
+      1,
+      100,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(mediaConcurrencies, 'mediaConcurrencies');
+    ArgumentError.checkNotNull(name, 'name');
+    _s.validateStringLength(
+      'name',
+      name,
+      1,
+      127,
+      isRequired: true,
+    );
+    final $payload = <String, dynamic>{
+      'DefaultOutboundQueueId': defaultOutboundQueueId,
+      'Description': description,
+      'MediaConcurrencies': mediaConcurrencies,
+      'Name': name,
+      if (queueConfigs != null) 'QueueConfigs': queueConfigs,
+      if (tags != null) 'Tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/routing-profiles/${Uri.encodeComponent(instanceId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateRoutingProfileResponse.fromJson(response);
+  }
+
+  /// This API is in preview release for Amazon Connect and is subject to
+  /// change.
+  ///
+  /// Creates a use case for an AppIntegration association.
+  ///
+  /// May throw [DuplicateResourceException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance.
+  ///
+  /// Parameter [integrationAssociationId] :
+  /// The identifier for the AppIntegration association.
+  ///
+  /// Parameter [useCaseType] :
+  /// The type of use case to associate to the AppIntegration association. Each
+  /// AppIntegration association can have only one of each use case type.
+  Future<CreateUseCaseResponse> createUseCase({
+    @_s.required String instanceId,
+    @_s.required String integrationAssociationId,
+    @_s.required UseCaseType useCaseType,
+  }) async {
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    _s.validateStringLength(
+      'instanceId',
+      instanceId,
+      1,
+      100,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(
+        integrationAssociationId, 'integrationAssociationId');
+    _s.validateStringLength(
+      'integrationAssociationId',
+      integrationAssociationId,
+      1,
+      200,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(useCaseType, 'useCaseType');
+    final $payload = <String, dynamic>{
+      'UseCaseType': useCaseType?.toValue() ?? '',
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/instance/${Uri.encodeComponent(instanceId)}/integration-associations/${Uri.encodeComponent(integrationAssociationId)}/use-cases',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateUseCaseResponse.fromJson(response);
+  }
+
   /// Creates a user account for the specified Amazon Connect instance.
+  ///
+  /// For information about how to create user accounts using the Amazon Connect
+  /// console, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/user-management.html">Add
+  /// Users</a> in the <i>Amazon Connect Administrator Guide</i>.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [InvalidParameterException].
@@ -166,7 +940,231 @@ class Connect {
     return CreateUserResponse.fromJson(response);
   }
 
+  /// Creates a new user hierarchy group.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [DuplicateResourceException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance.
+  ///
+  /// Parameter [name] :
+  /// The name of the user hierarchy group. Must not be more than 100
+  /// characters.
+  ///
+  /// Parameter [parentGroupId] :
+  /// The identifier for the parent hierarchy group. The user hierarchy is
+  /// created at level one if the parent group ID is null.
+  Future<CreateUserHierarchyGroupResponse> createUserHierarchyGroup({
+    @_s.required String instanceId,
+    @_s.required String name,
+    String parentGroupId,
+  }) async {
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    _s.validateStringLength(
+      'instanceId',
+      instanceId,
+      1,
+      100,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(name, 'name');
+    final $payload = <String, dynamic>{
+      'Name': name,
+      if (parentGroupId != null) 'ParentGroupId': parentGroupId,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/user-hierarchy-groups/${Uri.encodeComponent(instanceId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateUserHierarchyGroupResponse.fromJson(response);
+  }
+
+  /// This API is in preview release for Amazon Connect and is subject to
+  /// change.
+  ///
+  /// Deletes the Amazon Connect instance.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidRequestException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance.
+  Future<void> deleteInstance({
+    @_s.required String instanceId,
+  }) async {
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    _s.validateStringLength(
+      'instanceId',
+      instanceId,
+      1,
+      100,
+      isRequired: true,
+    );
+    await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/instance/${Uri.encodeComponent(instanceId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// This API is in preview release for Amazon Connect and is subject to
+  /// change.
+  ///
+  /// Deletes an AppIntegration association from an Amazon Connect instance. The
+  /// association must not have any use cases associated with it.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance.
+  ///
+  /// Parameter [integrationAssociationId] :
+  /// The identifier for the AppIntegration association.
+  Future<void> deleteIntegrationAssociation({
+    @_s.required String instanceId,
+    @_s.required String integrationAssociationId,
+  }) async {
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    _s.validateStringLength(
+      'instanceId',
+      instanceId,
+      1,
+      100,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(
+        integrationAssociationId, 'integrationAssociationId');
+    _s.validateStringLength(
+      'integrationAssociationId',
+      integrationAssociationId,
+      1,
+      200,
+      isRequired: true,
+    );
+    await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/instance/${Uri.encodeComponent(instanceId)}/integration-associations/${Uri.encodeComponent(integrationAssociationId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// This API is in preview release for Amazon Connect and is subject to
+  /// change.
+  ///
+  /// Deletes a quick connect.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance.
+  ///
+  /// Parameter [quickConnectId] :
+  /// The identifier for the quick connect.
+  Future<void> deleteQuickConnect({
+    @_s.required String instanceId,
+    @_s.required String quickConnectId,
+  }) async {
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    _s.validateStringLength(
+      'instanceId',
+      instanceId,
+      1,
+      100,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(quickConnectId, 'quickConnectId');
+    await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/quick-connects/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(quickConnectId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// This API is in preview release for Amazon Connect and is subject to
+  /// change.
+  ///
+  /// Deletes a use case from an AppIntegration association.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance.
+  ///
+  /// Parameter [integrationAssociationId] :
+  /// The identifier for the AppIntegration association.
+  ///
+  /// Parameter [useCaseId] :
+  /// The identifier for the use case.
+  Future<void> deleteUseCase({
+    @_s.required String instanceId,
+    @_s.required String integrationAssociationId,
+    @_s.required String useCaseId,
+  }) async {
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    _s.validateStringLength(
+      'instanceId',
+      instanceId,
+      1,
+      100,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(
+        integrationAssociationId, 'integrationAssociationId');
+    _s.validateStringLength(
+      'integrationAssociationId',
+      integrationAssociationId,
+      1,
+      200,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(useCaseId, 'useCaseId');
+    _s.validateStringLength(
+      'useCaseId',
+      useCaseId,
+      1,
+      200,
+      isRequired: true,
+    );
+    await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/instance/${Uri.encodeComponent(instanceId)}/integration-associations/${Uri.encodeComponent(integrationAssociationId)}/use-cases/${Uri.encodeComponent(useCaseId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Deletes a user account from the specified Amazon Connect instance.
+  ///
+  /// For information about what happens to a user's data when their account is
+  /// deleted, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/delete-users.html">Delete
+  /// Users from Your Amazon Connect Instance</a> in the <i>Amazon Connect
+  /// Administrator Guide</i>.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [InvalidParameterException].
@@ -199,6 +1197,300 @@ class Connect {
           '/users/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(userId)}',
       exceptionFnMap: _exceptionFns,
     );
+  }
+
+  /// Deletes an existing user hierarchy group. It must not be associated with
+  /// any agents or have any active child groups.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [hierarchyGroupId] :
+  /// The identifier of the hierarchy group.
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance.
+  Future<void> deleteUserHierarchyGroup({
+    @_s.required String hierarchyGroupId,
+    @_s.required String instanceId,
+  }) async {
+    ArgumentError.checkNotNull(hierarchyGroupId, 'hierarchyGroupId');
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    _s.validateStringLength(
+      'instanceId',
+      instanceId,
+      1,
+      100,
+      isRequired: true,
+    );
+    await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/user-hierarchy-groups/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(hierarchyGroupId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Describes the specified contact flow.
+  ///
+  /// You can also create and update contact flows using the <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/flow-language.html">Amazon
+  /// Connect Flow language</a>.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ContactFlowNotPublishedException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [contactFlowId] :
+  /// The identifier of the contact flow.
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance.
+  Future<DescribeContactFlowResponse> describeContactFlow({
+    @_s.required String contactFlowId,
+    @_s.required String instanceId,
+  }) async {
+    ArgumentError.checkNotNull(contactFlowId, 'contactFlowId');
+    _s.validateStringLength(
+      'contactFlowId',
+      contactFlowId,
+      0,
+      500,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    _s.validateStringLength(
+      'instanceId',
+      instanceId,
+      1,
+      100,
+      isRequired: true,
+    );
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/contact-flows/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(contactFlowId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeContactFlowResponse.fromJson(response);
+  }
+
+  /// This API is in preview release for Amazon Connect and is subject to
+  /// change.
+  ///
+  /// Returns the current state of the specified instance identifier. It tracks
+  /// the instance while it is being created and returns an error status if
+  /// applicable.
+  ///
+  /// If an instance is not created successfully, the instance status reason
+  /// field returns details relevant to the reason. The instance in a failed
+  /// state is returned only for 24 hours after the CreateInstance API was
+  /// invoked.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance.
+  Future<DescribeInstanceResponse> describeInstance({
+    @_s.required String instanceId,
+  }) async {
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    _s.validateStringLength(
+      'instanceId',
+      instanceId,
+      1,
+      100,
+      isRequired: true,
+    );
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/instance/${Uri.encodeComponent(instanceId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeInstanceResponse.fromJson(response);
+  }
+
+  /// This API is in preview release for Amazon Connect and is subject to
+  /// change.
+  ///
+  /// Describes the specified instance attribute.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [attributeType] :
+  /// The type of attribute.
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance.
+  Future<DescribeInstanceAttributeResponse> describeInstanceAttribute({
+    @_s.required InstanceAttributeType attributeType,
+    @_s.required String instanceId,
+  }) async {
+    ArgumentError.checkNotNull(attributeType, 'attributeType');
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    _s.validateStringLength(
+      'instanceId',
+      instanceId,
+      1,
+      100,
+      isRequired: true,
+    );
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/instance/${Uri.encodeComponent(instanceId)}/attribute/${Uri.encodeComponent(attributeType.toValue())}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeInstanceAttributeResponse.fromJson(response);
+  }
+
+  /// This API is in preview release for Amazon Connect and is subject to
+  /// change.
+  ///
+  /// Retrieves the current storage configurations for the specified resource
+  /// type, association ID, and instance ID.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [associationId] :
+  /// The existing association identifier that uniquely identifies the resource
+  /// type and storage config for the given instance ID.
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance.
+  ///
+  /// Parameter [resourceType] :
+  /// A valid resource type.
+  Future<DescribeInstanceStorageConfigResponse> describeInstanceStorageConfig({
+    @_s.required String associationId,
+    @_s.required String instanceId,
+    @_s.required InstanceStorageResourceType resourceType,
+  }) async {
+    ArgumentError.checkNotNull(associationId, 'associationId');
+    _s.validateStringLength(
+      'associationId',
+      associationId,
+      1,
+      100,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    _s.validateStringLength(
+      'instanceId',
+      instanceId,
+      1,
+      100,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(resourceType, 'resourceType');
+    final $query = <String, List<String>>{
+      if (resourceType != null) 'resourceType': [resourceType.toValue()],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/instance/${Uri.encodeComponent(instanceId)}/storage-config/${Uri.encodeComponent(associationId)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeInstanceStorageConfigResponse.fromJson(response);
+  }
+
+  /// This API is in preview release for Amazon Connect and is subject to
+  /// change.
+  ///
+  /// Describes the quick connect.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance.
+  ///
+  /// Parameter [quickConnectId] :
+  /// The identifier for the quick connect.
+  Future<DescribeQuickConnectResponse> describeQuickConnect({
+    @_s.required String instanceId,
+    @_s.required String quickConnectId,
+  }) async {
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    _s.validateStringLength(
+      'instanceId',
+      instanceId,
+      1,
+      100,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(quickConnectId, 'quickConnectId');
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/quick-connects/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(quickConnectId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeQuickConnectResponse.fromJson(response);
+  }
+
+  /// Describes the specified routing profile.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance.
+  ///
+  /// Parameter [routingProfileId] :
+  /// The identifier of the routing profile.
+  Future<DescribeRoutingProfileResponse> describeRoutingProfile({
+    @_s.required String instanceId,
+    @_s.required String routingProfileId,
+  }) async {
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    _s.validateStringLength(
+      'instanceId',
+      instanceId,
+      1,
+      100,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(routingProfileId, 'routingProfileId');
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/routing-profiles/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(routingProfileId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeRoutingProfileResponse.fromJson(response);
   }
 
   /// Describes the specified user account. You can find the instance ID in the
@@ -308,6 +1600,312 @@ class Connect {
     return DescribeUserHierarchyStructureResponse.fromJson(response);
   }
 
+  /// This API is in preview release for Amazon Connect and is subject to
+  /// change.
+  ///
+  /// Revokes access to integrated applications from Amazon Connect.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance.
+  ///
+  /// Parameter [origin] :
+  /// The domain URL of the integrated application.
+  Future<void> disassociateApprovedOrigin({
+    @_s.required String instanceId,
+    @_s.required String origin,
+  }) async {
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    _s.validateStringLength(
+      'instanceId',
+      instanceId,
+      1,
+      100,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(origin, 'origin');
+    _s.validateStringLength(
+      'origin',
+      origin,
+      0,
+      267,
+      isRequired: true,
+    );
+    final $query = <String, List<String>>{
+      if (origin != null) 'origin': [origin],
+    };
+    await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/instance/${Uri.encodeComponent(instanceId)}/approved-origin',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// This API is in preview release for Amazon Connect and is subject to
+  /// change.
+  ///
+  /// Removes the storage type configurations for the specified resource type
+  /// and association ID.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [associationId] :
+  /// The existing association identifier that uniquely identifies the resource
+  /// type and storage config for the given instance ID.
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance.
+  ///
+  /// Parameter [resourceType] :
+  /// A valid resource type.
+  Future<void> disassociateInstanceStorageConfig({
+    @_s.required String associationId,
+    @_s.required String instanceId,
+    @_s.required InstanceStorageResourceType resourceType,
+  }) async {
+    ArgumentError.checkNotNull(associationId, 'associationId');
+    _s.validateStringLength(
+      'associationId',
+      associationId,
+      1,
+      100,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    _s.validateStringLength(
+      'instanceId',
+      instanceId,
+      1,
+      100,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(resourceType, 'resourceType');
+    final $query = <String, List<String>>{
+      if (resourceType != null) 'resourceType': [resourceType.toValue()],
+    };
+    await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/instance/${Uri.encodeComponent(instanceId)}/storage-config/${Uri.encodeComponent(associationId)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// This API is in preview release for Amazon Connect and is subject to
+  /// change.
+  ///
+  /// Remove the Lambda function from the drop-down options available in the
+  /// relevant contact flow blocks.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [functionArn] :
+  /// The Amazon Resource Name (ARN) of the Lambda function being disassociated.
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance..
+  Future<void> disassociateLambdaFunction({
+    @_s.required String functionArn,
+    @_s.required String instanceId,
+  }) async {
+    ArgumentError.checkNotNull(functionArn, 'functionArn');
+    _s.validateStringLength(
+      'functionArn',
+      functionArn,
+      1,
+      140,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    _s.validateStringLength(
+      'instanceId',
+      instanceId,
+      1,
+      100,
+      isRequired: true,
+    );
+    final $query = <String, List<String>>{
+      if (functionArn != null) 'functionArn': [functionArn],
+    };
+    await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/instance/${Uri.encodeComponent(instanceId)}/lambda-function',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// This API is in preview release for Amazon Connect and is subject to
+  /// change.
+  ///
+  /// Revokes authorization from the specified instance to access the specified
+  /// Amazon Lex bot.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [botName] :
+  /// The name of the Amazon Lex bot. Maximum character limit of 50.
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance.
+  ///
+  /// Parameter [lexRegion] :
+  /// The Region in which the Amazon Lex bot has been created.
+  Future<void> disassociateLexBot({
+    @_s.required String botName,
+    @_s.required String instanceId,
+    @_s.required String lexRegion,
+  }) async {
+    ArgumentError.checkNotNull(botName, 'botName');
+    _s.validateStringLength(
+      'botName',
+      botName,
+      0,
+      50,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    _s.validateStringLength(
+      'instanceId',
+      instanceId,
+      1,
+      100,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(lexRegion, 'lexRegion');
+    _s.validateStringLength(
+      'lexRegion',
+      lexRegion,
+      0,
+      60,
+      isRequired: true,
+    );
+    final $query = <String, List<String>>{
+      if (botName != null) 'botName': [botName],
+      if (lexRegion != null) 'lexRegion': [lexRegion],
+    };
+    await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/instance/${Uri.encodeComponent(instanceId)}/lex-bot',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Disassociates a set of queues from a routing profile.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance.
+  ///
+  /// Parameter [queueReferences] :
+  /// The queues to disassociate from this routing profile.
+  ///
+  /// Parameter [routingProfileId] :
+  /// The identifier of the routing profile.
+  Future<void> disassociateRoutingProfileQueues({
+    @_s.required String instanceId,
+    @_s.required List<RoutingProfileQueueReference> queueReferences,
+    @_s.required String routingProfileId,
+  }) async {
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    _s.validateStringLength(
+      'instanceId',
+      instanceId,
+      1,
+      100,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(queueReferences, 'queueReferences');
+    ArgumentError.checkNotNull(routingProfileId, 'routingProfileId');
+    final $payload = <String, dynamic>{
+      'QueueReferences': queueReferences,
+    };
+    await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/routing-profiles/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(routingProfileId)}/disassociate-queues',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// This API is in preview release for Amazon Connect and is subject to
+  /// change.
+  ///
+  /// Deletes the specified security key.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [associationId] :
+  /// The existing association identifier that uniquely identifies the resource
+  /// type and storage config for the given instance ID.
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance.
+  Future<void> disassociateSecurityKey({
+    @_s.required String associationId,
+    @_s.required String instanceId,
+  }) async {
+    ArgumentError.checkNotNull(associationId, 'associationId');
+    _s.validateStringLength(
+      'associationId',
+      associationId,
+      1,
+      100,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    _s.validateStringLength(
+      'instanceId',
+      instanceId,
+      1,
+      100,
+      isRequired: true,
+    );
+    await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/instance/${Uri.encodeComponent(instanceId)}/security-key/${Uri.encodeComponent(associationId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Retrieves the contact attributes for the specified contact.
   ///
   /// May throw [InvalidRequestException].
@@ -351,9 +1949,9 @@ class Connect {
 
   /// Gets the real-time metric data from the specified Amazon Connect instance.
   ///
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-reports.html">Real-time
-  /// Metrics Reports</a> in the <i>Amazon Connect Administrator Guide</i>.
+  /// For a description of each metric, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html">Real-time
+  /// Metrics Definitions</a> in the <i>Amazon Connect Administrator Guide</i>.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [InvalidParameterException].
@@ -363,41 +1961,95 @@ class Connect {
   ///
   /// Parameter [currentMetrics] :
   /// The metrics to retrieve. Specify the name and unit for each metric. The
-  /// following metrics are available:
+  /// following metrics are available. For a description of all the metrics, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html">Real-time
+  /// Metrics Definitions</a> in the <i>Amazon Connect Administrator Guide</i>.
   /// <dl> <dt>AGENTS_AFTER_CONTACT_WORK</dt> <dd>
   /// Unit: COUNT
+  ///
+  /// Name in real-time metrics report: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#aftercallwork-real-time">ACW</a>
   /// </dd> <dt>AGENTS_AVAILABLE</dt> <dd>
   /// Unit: COUNT
+  ///
+  /// Name in real-time metrics report: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#available-real-time">Available</a>
   /// </dd> <dt>AGENTS_ERROR</dt> <dd>
   /// Unit: COUNT
+  ///
+  /// Name in real-time metrics report: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#error-real-time">Error</a>
   /// </dd> <dt>AGENTS_NON_PRODUCTIVE</dt> <dd>
   /// Unit: COUNT
+  ///
+  /// Name in real-time metrics report: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#non-productive-time-real-time">NPT
+  /// (Non-Productive Time)</a>
   /// </dd> <dt>AGENTS_ON_CALL</dt> <dd>
   /// Unit: COUNT
+  ///
+  /// Name in real-time metrics report: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#on-call-real-time">On
+  /// contact</a>
   /// </dd> <dt>AGENTS_ON_CONTACT</dt> <dd>
   /// Unit: COUNT
+  ///
+  /// Name in real-time metrics report: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#on-call-real-time">On
+  /// contact</a>
   /// </dd> <dt>AGENTS_ONLINE</dt> <dd>
   /// Unit: COUNT
+  ///
+  /// Name in real-time metrics report: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#online-real-time">Online</a>
   /// </dd> <dt>AGENTS_STAFFED</dt> <dd>
   /// Unit: COUNT
+  ///
+  /// Name in real-time metrics report: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#staffed-real-time">Staffed</a>
   /// </dd> <dt>CONTACTS_IN_QUEUE</dt> <dd>
   /// Unit: COUNT
+  ///
+  /// Name in real-time metrics report: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#in-queue-real-time">In
+  /// queue</a>
   /// </dd> <dt>CONTACTS_SCHEDULED</dt> <dd>
   /// Unit: COUNT
+  ///
+  /// Name in real-time metrics report: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#scheduled-real-time">Scheduled</a>
   /// </dd> <dt>OLDEST_CONTACT_AGE</dt> <dd>
   /// Unit: SECONDS
+  ///
+  /// When you use groupings, Unit says SECONDS but the Value is returned in
+  /// MILLISECONDS. For example, if you get a response like this:
+  ///
+  /// <code>{ "Metric": { "Name": "OLDEST_CONTACT_AGE", "Unit": "SECONDS" },
+  /// "Value": 24113.0 </code>}
+  ///
+  /// The actual OLDEST_CONTACT_AGE is 24 seconds.
+  ///
+  /// Name in real-time metrics report: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#oldest-real-time">Oldest</a>
   /// </dd> <dt>SLOTS_ACTIVE</dt> <dd>
   /// Unit: COUNT
+  ///
+  /// Name in real-time metrics report: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#active-real-time">Active</a>
   /// </dd> <dt>SLOTS_AVAILABLE</dt> <dd>
   /// Unit: COUNT
+  ///
+  /// Name in real-time metrics report: <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html#availability-real-time">Availability</a>
   /// </dd> </dl>
   ///
   /// Parameter [filters] :
   /// The queues, up to 100, or channels, to use to filter the metrics returned.
   /// Metric data is retrieved only for the resources associated with the queues
   /// or channels included in the filter. You can include both queue IDs and
-  /// queue ARNs in the same request. The only supported channel is
-  /// <code>VOICE</code>.
+  /// queue ARNs in the same request. VOICE, CHAT, and TASK channels are
+  /// supported.
   ///
   /// Parameter [instanceId] :
   /// The identifier of the Amazon Connect instance.
@@ -406,8 +2058,8 @@ class Connect {
   /// The grouping applied to the metrics returned. For example, when grouped by
   /// <code>QUEUE</code>, the metrics returned apply to each queue rather than
   /// aggregated for all queues. If you group by <code>CHANNEL</code>, you
-  /// should include a Channels filter. The only supported channel is
-  /// <code>VOICE</code>.
+  /// should include a Channels filter. VOICE, CHAT, and TASK channels are
+  /// supported.
   ///
   /// If no <code>Grouping</code> is included in the request, a summary of
   /// metrics is returned.
@@ -496,9 +2148,9 @@ class Connect {
 
   /// Gets historical metric data from the specified Amazon Connect instance.
   ///
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics.html">Historical
-  /// Metrics Reports</a> in the <i>Amazon Connect Administrator Guide</i>.
+  /// For a description of each historical metric, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html">Historical
+  /// Metrics Definitions</a> in the <i>Amazon Connect Administrator Guide</i>.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [InvalidParameterException].
@@ -518,12 +2170,15 @@ class Connect {
   /// The queues, up to 100, or channels, to use to filter the metrics returned.
   /// Metric data is retrieved only for the resources associated with the queues
   /// or channels included in the filter. You can include both queue IDs and
-  /// queue ARNs in the same request. The only supported channel is
-  /// <code>VOICE</code>.
+  /// queue ARNs in the same request. VOICE, CHAT, and TASK channels are
+  /// supported.
   ///
   /// Parameter [historicalMetrics] :
   /// The metrics to retrieve. Specify the name, unit, and statistic for each
-  /// metric. The following historical metrics are available:
+  /// metric. The following historical metrics are available. For a description
+  /// of each metric, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html">Historical
+  /// Metrics Definitions</a> in the <i>Amazon Connect Administrator Guide</i>.
   /// <dl> <dt>ABANDON_TIME</dt> <dd>
   /// Unit: SECONDS
   ///
@@ -705,8 +2360,71 @@ class Connect {
     return GetMetricDataResponse.fromJson(response);
   }
 
+  /// This API is in preview release for Amazon Connect and is subject to
+  /// change.
+  ///
+  /// Returns a paginated list of all approved origins associated with the
+  /// instance.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximimum number of results to return per page.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of results. Use the value returned in the
+  /// previous response in the next request to retrieve the next set of results.
+  Future<ListApprovedOriginsResponse> listApprovedOrigins({
+    @_s.required String instanceId,
+    int maxResults,
+    String nextToken,
+  }) async {
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    _s.validateStringLength(
+      'instanceId',
+      instanceId,
+      1,
+      100,
+      isRequired: true,
+    );
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      25,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/instance/${Uri.encodeComponent(instanceId)}/approved-origins',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListApprovedOriginsResponse.fromJson(response);
+  }
+
   /// Provides information about the contact flows for the specified Amazon
   /// Connect instance.
+  ///
+  /// You can also create and update contact flows using the <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/flow-language.html">Amazon
+  /// Connect Flow language</a>.
+  ///
+  /// For more information about contact flows, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/concepts-contact-flows.html">Contact
+  /// Flows</a> in the <i>Amazon Connect Administrator Guide</i>.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [InvalidParameterException].
@@ -766,6 +2484,11 @@ class Connect {
   /// Provides information about the hours of operation for the specified Amazon
   /// Connect instance.
   ///
+  /// For more information about hours of operation, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/set-hours-operation.html">Set
+  /// the Hours of Operation for a Queue</a> in the <i>Amazon Connect
+  /// Administrator Guide</i>.
+  ///
   /// May throw [InvalidRequestException].
   /// May throw [InvalidParameterException].
   /// May throw [ResourceNotFoundException].
@@ -815,8 +2538,331 @@ class Connect {
     return ListHoursOfOperationsResponse.fromJson(response);
   }
 
+  /// This API is in preview release for Amazon Connect and is subject to
+  /// change.
+  ///
+  /// Returns a paginated list of all attribute types for the given instance.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximimum number of results to return per page.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of results. Use the value returned in the
+  /// previous response in the next request to retrieve the next set of results.
+  Future<ListInstanceAttributesResponse> listInstanceAttributes({
+    @_s.required String instanceId,
+    int maxResults,
+    String nextToken,
+  }) async {
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    _s.validateStringLength(
+      'instanceId',
+      instanceId,
+      1,
+      100,
+      isRequired: true,
+    );
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      7,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/instance/${Uri.encodeComponent(instanceId)}/attributes',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListInstanceAttributesResponse.fromJson(response);
+  }
+
+  /// This API is in preview release for Amazon Connect and is subject to
+  /// change.
+  ///
+  /// Returns a paginated list of storage configs for the identified instance
+  /// and resource type.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance.
+  ///
+  /// Parameter [resourceType] :
+  /// A valid resource type.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximimum number of results to return per page.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of results. Use the value returned in the
+  /// previous response in the next request to retrieve the next set of results.
+  Future<ListInstanceStorageConfigsResponse> listInstanceStorageConfigs({
+    @_s.required String instanceId,
+    @_s.required InstanceStorageResourceType resourceType,
+    int maxResults,
+    String nextToken,
+  }) async {
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    _s.validateStringLength(
+      'instanceId',
+      instanceId,
+      1,
+      100,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(resourceType, 'resourceType');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      10,
+    );
+    final $query = <String, List<String>>{
+      if (resourceType != null) 'resourceType': [resourceType.toValue()],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/instance/${Uri.encodeComponent(instanceId)}/storage-configs',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListInstanceStorageConfigsResponse.fromJson(response);
+  }
+
+  /// This API is in preview release for Amazon Connect and is subject to
+  /// change.
+  ///
+  /// Return a list of instances which are in active state, creation-in-progress
+  /// state, and failed state. Instances that aren't successfully created (they
+  /// are in a failed state) are returned only for 24 hours after the
+  /// CreateInstance API was invoked.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximimum number of results to return per page.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of results. Use the value returned in the
+  /// previous response in the next request to retrieve the next set of results.
+  Future<ListInstancesResponse> listInstances({
+    int maxResults,
+    String nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      10,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/instance',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListInstancesResponse.fromJson(response);
+  }
+
+  /// This API is in preview release for Amazon Connect and is subject to
+  /// change.
+  ///
+  /// Provides summary information about the AppIntegration associations for the
+  /// specified Amazon Connect instance.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximimum number of results to return per page.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of results. Use the value returned in the
+  /// previous response in the next request to retrieve the next set of results.
+  Future<ListIntegrationAssociationsResponse> listIntegrationAssociations({
+    @_s.required String instanceId,
+    int maxResults,
+    String nextToken,
+  }) async {
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    _s.validateStringLength(
+      'instanceId',
+      instanceId,
+      1,
+      100,
+      isRequired: true,
+    );
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/instance/${Uri.encodeComponent(instanceId)}/integration-associations',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListIntegrationAssociationsResponse.fromJson(response);
+  }
+
+  /// This API is in preview release for Amazon Connect and is subject to
+  /// change.
+  ///
+  /// Returns a paginated list of all the Lambda functions that show up in the
+  /// drop-down options in the relevant contact flow blocks.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximimum number of results to return per page.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of results. Use the value returned in the
+  /// previous response in the next request to retrieve the next set of results.
+  Future<ListLambdaFunctionsResponse> listLambdaFunctions({
+    @_s.required String instanceId,
+    int maxResults,
+    String nextToken,
+  }) async {
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    _s.validateStringLength(
+      'instanceId',
+      instanceId,
+      1,
+      100,
+      isRequired: true,
+    );
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      25,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/instance/${Uri.encodeComponent(instanceId)}/lambda-functions',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListLambdaFunctionsResponse.fromJson(response);
+  }
+
+  /// This API is in preview release for Amazon Connect and is subject to
+  /// change.
+  ///
+  /// Returns a paginated list of all the Amazon Lex bots currently associated
+  /// with the instance.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximimum number of results to return per page.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of results. Use the value returned in the
+  /// previous response in the next request to retrieve the next set of results.
+  Future<ListLexBotsResponse> listLexBots({
+    @_s.required String instanceId,
+    int maxResults,
+    String nextToken,
+  }) async {
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    _s.validateStringLength(
+      'instanceId',
+      instanceId,
+      1,
+      100,
+      isRequired: true,
+    );
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      25,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/instance/${Uri.encodeComponent(instanceId)}/lex-bots',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListLexBotsResponse.fromJson(response);
+  }
+
   /// Provides information about the phone numbers for the specified Amazon
   /// Connect instance.
+  ///
+  /// For more information about phone numbers, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/contact-center-phone-number.html">Set
+  /// Up Phone Numbers for Your Contact Center</a> in the <i>Amazon Connect
+  /// Administrator Guide</i>.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [InvalidParameterException].
@@ -880,8 +2926,63 @@ class Connect {
     return ListPhoneNumbersResponse.fromJson(response);
   }
 
+  /// Provides information about the prompts for the specified Amazon Connect
+  /// instance.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return per page.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of results. Use the value returned in the
+  /// previous response in the next request to retrieve the next set of results.
+  Future<ListPromptsResponse> listPrompts({
+    @_s.required String instanceId,
+    int maxResults,
+    String nextToken,
+  }) async {
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    _s.validateStringLength(
+      'instanceId',
+      instanceId,
+      1,
+      100,
+      isRequired: true,
+    );
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/prompts-summary/${Uri.encodeComponent(instanceId)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListPromptsResponse.fromJson(response);
+  }
+
   /// Provides information about the queues for the specified Amazon Connect
   /// instance.
+  ///
+  /// For more information about queues, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/concepts-queues-standard-and-agent.html">Queues:
+  /// Standard and Agent</a> in the <i>Amazon Connect Administrator Guide</i>.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [InvalidParameterException].
@@ -937,8 +3038,133 @@ class Connect {
     return ListQueuesResponse.fromJson(response);
   }
 
+  /// This API is in preview release for Amazon Connect and is subject to
+  /// change.
+  ///
+  /// Provides information about the quick connects for the specified Amazon
+  /// Connect instance.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximimum number of results to return per page.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of results. Use the value returned in the
+  /// previous response in the next request to retrieve the next set of results.
+  ///
+  /// Parameter [quickConnectTypes] :
+  /// The type of quick connect. In the Amazon Connect console, when you create
+  /// a quick connect, you are prompted to assign one of the following types:
+  /// Agent (USER), External (PHONE_NUMBER), or Queue (QUEUE).
+  Future<ListQuickConnectsResponse> listQuickConnects({
+    @_s.required String instanceId,
+    int maxResults,
+    String nextToken,
+    List<QuickConnectType> quickConnectTypes,
+  }) async {
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    _s.validateStringLength(
+      'instanceId',
+      instanceId,
+      1,
+      100,
+      isRequired: true,
+    );
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+      if (quickConnectTypes != null)
+        'QuickConnectTypes':
+            quickConnectTypes.map((e) => e?.toValue() ?? '').toList(),
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/quick-connects/${Uri.encodeComponent(instanceId)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListQuickConnectsResponse.fromJson(response);
+  }
+
+  /// List the queues associated with a routing profile.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance.
+  ///
+  /// Parameter [routingProfileId] :
+  /// The identifier of the routing profile.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximimum number of results to return per page.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of results. Use the value returned in the
+  /// previous response in the next request to retrieve the next set of results.
+  Future<ListRoutingProfileQueuesResponse> listRoutingProfileQueues({
+    @_s.required String instanceId,
+    @_s.required String routingProfileId,
+    int maxResults,
+    String nextToken,
+  }) async {
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    _s.validateStringLength(
+      'instanceId',
+      instanceId,
+      1,
+      100,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(routingProfileId, 'routingProfileId');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/routing-profiles/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(routingProfileId)}/queues',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListRoutingProfileQueuesResponse.fromJson(response);
+  }
+
   /// Provides summary information about the routing profiles for the specified
   /// Amazon Connect instance.
+  ///
+  /// For more information about routing profiles, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/concepts-routing.html">Routing
+  /// Profiles</a> and <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/routing-profiles.html">Create
+  /// a Routing Profile</a> in the <i>Amazon Connect Administrator Guide</i>.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [InvalidParameterException].
@@ -989,8 +3215,66 @@ class Connect {
     return ListRoutingProfilesResponse.fromJson(response);
   }
 
+  /// This API is in preview release for Amazon Connect and is subject to
+  /// change.
+  ///
+  /// Returns a paginated list of all security keys associated with the
+  /// instance.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximimum number of results to return per page.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of results. Use the value returned in the
+  /// previous response in the next request to retrieve the next set of results.
+  Future<ListSecurityKeysResponse> listSecurityKeys({
+    @_s.required String instanceId,
+    int maxResults,
+    String nextToken,
+  }) async {
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    _s.validateStringLength(
+      'instanceId',
+      instanceId,
+      1,
+      100,
+      isRequired: true,
+    );
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      2,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/instance/${Uri.encodeComponent(instanceId)}/security-keys',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListSecurityKeysResponse.fromJson(response);
+  }
+
   /// Provides summary information about the security profiles for the specified
   /// Amazon Connect instance.
+  ///
+  /// For more information about security profiles, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/connect-security-profiles.html">Security
+  /// Profiles</a> in the <i>Amazon Connect Administrator Guide</i>.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [InvalidParameterException].
@@ -1043,6 +3327,11 @@ class Connect {
 
   /// Lists the tags for the specified resource.
   ///
+  /// For sample policies that use tags, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/security_iam_id-based-policy-examples.html">Amazon
+  /// Connect Identity-Based Policy Examples</a> in the <i>Amazon Connect
+  /// Administrator Guide</i>.
+  ///
   /// May throw [InvalidRequestException].
   /// May throw [InvalidParameterException].
   /// May throw [InternalServiceException].
@@ -1064,8 +3353,78 @@ class Connect {
     return ListTagsForResourceResponse.fromJson(response);
   }
 
+  /// This API is in preview release for Amazon Connect and is subject to
+  /// change.
+  ///
+  /// List the use cases.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance.
+  ///
+  /// Parameter [integrationAssociationId] :
+  /// The identifier for the integration association.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximimum number of results to return per page.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of results. Use the value returned in the
+  /// previous response in the next request to retrieve the next set of results.
+  Future<ListUseCasesResponse> listUseCases({
+    @_s.required String instanceId,
+    @_s.required String integrationAssociationId,
+    int maxResults,
+    String nextToken,
+  }) async {
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    _s.validateStringLength(
+      'instanceId',
+      instanceId,
+      1,
+      100,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(
+        integrationAssociationId, 'integrationAssociationId');
+    _s.validateStringLength(
+      'integrationAssociationId',
+      integrationAssociationId,
+      1,
+      200,
+      isRequired: true,
+    );
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      100,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/instance/${Uri.encodeComponent(instanceId)}/integration-associations/${Uri.encodeComponent(integrationAssociationId)}/use-cases',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListUseCasesResponse.fromJson(response);
+  }
+
   /// Provides summary information about the hierarchy groups for the specified
   /// Amazon Connect instance.
+  ///
+  /// For more information about agent hierarchies, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/agent-hierarchy.html">Set
+  /// Up Agent Hierarchies</a> in the <i>Amazon Connect Administrator Guide</i>.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [InvalidParameterException].
@@ -1167,6 +3526,67 @@ class Connect {
     return ListUsersResponse.fromJson(response);
   }
 
+  /// When a contact is being recorded, and the recording has been suspended
+  /// using SuspendContactRecording, this API resumes recording the call.
+  ///
+  /// Only voice recordings are supported at this time.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [contactId] :
+  /// The identifier of the contact.
+  ///
+  /// Parameter [initialContactId] :
+  /// The identifier of the contact. This is the identifier of the contact
+  /// associated with the first interaction with the contact center.
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance.
+  Future<void> resumeContactRecording({
+    @_s.required String contactId,
+    @_s.required String initialContactId,
+    @_s.required String instanceId,
+  }) async {
+    ArgumentError.checkNotNull(contactId, 'contactId');
+    _s.validateStringLength(
+      'contactId',
+      contactId,
+      1,
+      256,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(initialContactId, 'initialContactId');
+    _s.validateStringLength(
+      'initialContactId',
+      initialContactId,
+      1,
+      256,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    _s.validateStringLength(
+      'instanceId',
+      instanceId,
+      1,
+      100,
+      isRequired: true,
+    );
+    final $payload = <String, dynamic>{
+      'ContactId': contactId,
+      'InitialContactId': initialContactId,
+      'InstanceId': instanceId,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/contact/resume-recording',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ResumeContactRecordingResponse.fromJson(response);
+  }
+
   /// Initiates a contact flow to start a new chat for the customer. Response of
   /// this API provides a token required to obtain credentials from the <a
   /// href="https://docs.aws.amazon.com/connect-participant/latest/APIReference/API_CreateParticipantConnection.html">CreateParticipantConnection</a>
@@ -1178,6 +3598,24 @@ class Connect {
   /// href="https://docs.aws.amazon.com/connect-participant/latest/APIReference/API_CreateParticipantConnection.html">CreateParticipantConnection</a>
   /// with WEBSOCKET and CONNECTION_CREDENTIALS.
   ///
+  /// A 429 error occurs in two situations:
+  ///
+  /// <ul>
+  /// <li>
+  /// API rate limit is exceeded. API TPS throttling returns a
+  /// <code>TooManyRequests</code> exception from the API Gateway.
+  /// </li>
+  /// <li>
+  /// The <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html">quota
+  /// for concurrent active chats</a> is exceeded. Active chat throttling
+  /// returns a <code>LimitExceededException</code>.
+  /// </li>
+  /// </ul>
+  /// For more information about how chat works, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/chat.html">Chat</a>
+  /// in the <i>Amazon Connect Administrator Guide</i>.
+  ///
   /// May throw [InvalidRequestException].
   /// May throw [InvalidParameterException].
   /// May throw [ResourceNotFoundException].
@@ -1185,7 +3623,14 @@ class Connect {
   /// May throw [LimitExceededException].
   ///
   /// Parameter [contactFlowId] :
-  /// The identifier of the contact flow for the chat.
+  /// The identifier of the contact flow for initiating the chat. To see the
+  /// ContactFlowId in the Amazon Connect console user interface, on the
+  /// navigation menu go to <b>Routing</b>, <b>Contact Flows</b>. Choose the
+  /// contact flow. On the contact flow page, under the name of the contact
+  /// flow, choose <b>Show additional flow information</b>. The ContactFlowId is
+  /// the last part of the ARN, shown here in bold:
+  ///
+  /// arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/<b>846ec553-a005-41c0-8341-xxxxxxxxxxxx</b>
   ///
   /// Parameter [instanceId] :
   /// The identifier of the Amazon Connect instance.
@@ -1256,10 +3701,104 @@ class Connect {
     return StartChatContactResponse.fromJson(response);
   }
 
-  /// Initiates a contact flow to place an outbound call to a customer.
+  /// This API starts recording the contact when the agent joins the call.
+  /// StartContactRecording is a one-time action. For example, if you use
+  /// StopContactRecording to stop recording an ongoing call, you can't use
+  /// StartContactRecording to restart it. For scenarios where the recording has
+  /// started and you want to suspend and resume it, such as when collecting
+  /// sensitive information (for example, a credit card number), use
+  /// SuspendContactRecording and ResumeContactRecording.
+  ///
+  /// You can use this API to override the recording behavior configured in the
+  /// <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/set-recording-behavior.html">Set
+  /// recording behavior</a> block.
+  ///
+  /// Only voice recordings are supported at this time.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [contactId] :
+  /// The identifier of the contact.
+  ///
+  /// Parameter [initialContactId] :
+  /// The identifier of the contact. This is the identifier of the contact
+  /// associated with the first interaction with the contact center.
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance.
+  ///
+  /// Parameter [voiceRecordingConfiguration] :
+  /// Who is being recorded.
+  Future<void> startContactRecording({
+    @_s.required String contactId,
+    @_s.required String initialContactId,
+    @_s.required String instanceId,
+    @_s.required VoiceRecordingConfiguration voiceRecordingConfiguration,
+  }) async {
+    ArgumentError.checkNotNull(contactId, 'contactId');
+    _s.validateStringLength(
+      'contactId',
+      contactId,
+      1,
+      256,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(initialContactId, 'initialContactId');
+    _s.validateStringLength(
+      'initialContactId',
+      initialContactId,
+      1,
+      256,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    _s.validateStringLength(
+      'instanceId',
+      instanceId,
+      1,
+      100,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(
+        voiceRecordingConfiguration, 'voiceRecordingConfiguration');
+    final $payload = <String, dynamic>{
+      'ContactId': contactId,
+      'InitialContactId': initialContactId,
+      'InstanceId': instanceId,
+      'VoiceRecordingConfiguration': voiceRecordingConfiguration,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/contact/start-recording',
+      exceptionFnMap: _exceptionFns,
+    );
+    return StartContactRecordingResponse.fromJson(response);
+  }
+
+  /// This API places an outbound call to a contact, and then initiates the
+  /// contact flow. It performs the actions in the contact flow that's specified
+  /// (in <code>ContactFlowId</code>).
+  ///
+  /// Agents are not involved in initiating the outbound API (that is, dialing
+  /// the contact). If the contact flow places an outbound call to a contact,
+  /// and then puts the contact in queue, that's when the call is routed to the
+  /// agent, like any other inbound case.
   ///
   /// There is a 60 second dialing timeout for this operation. If the call is
   /// not connected after 60 seconds, it fails.
+  /// <note>
+  /// UK numbers with a 447 prefix are not allowed by default. Before you can
+  /// dial these UK mobile numbers, you must submit a service quota increase
+  /// request. For more information, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html">Amazon
+  /// Connect Service Quotas</a> in the <i>Amazon Connect Administrator
+  /// Guide</i>.
+  /// </note>
   ///
   /// May throw [InvalidRequestException].
   /// May throw [InvalidParameterException].
@@ -1270,7 +3809,14 @@ class Connect {
   /// May throw [OutboundContactNotPermittedException].
   ///
   /// Parameter [contactFlowId] :
-  /// The identifier of the contact flow for the outbound call.
+  /// The identifier of the contact flow for the outbound call. To see the
+  /// ContactFlowId in the Amazon Connect console user interface, on the
+  /// navigation menu go to <b>Routing</b>, <b>Contact Flows</b>. Choose the
+  /// contact flow. On the contact flow page, under the name of the contact
+  /// flow, choose <b>Show additional flow information</b>. The ContactFlowId is
+  /// the last part of the ARN, shown here in bold:
+  ///
+  /// arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/<b>846ec553-a005-41c0-8341-xxxxxxxxxxxx</b>
   ///
   /// Parameter [destinationPhoneNumber] :
   /// The phone number of the customer, in E.164 format.
@@ -1354,6 +3900,126 @@ class Connect {
     return StartOutboundVoiceContactResponse.fromJson(response);
   }
 
+  /// Initiates a contact flow to start a new task.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [contactFlowId] :
+  /// The identifier of the contact flow for initiating the tasks. To see the
+  /// ContactFlowId in the Amazon Connect console user interface, on the
+  /// navigation menu go to <b>Routing</b>, <b>Contact Flows</b>. Choose the
+  /// contact flow. On the contact flow page, under the name of the contact
+  /// flow, choose <b>Show additional flow information</b>. The ContactFlowId is
+  /// the last part of the ARN, shown here in bold:
+  ///
+  /// arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/<b>846ec553-a005-41c0-8341-xxxxxxxxxxxx</b>
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance.
+  ///
+  /// Parameter [name] :
+  /// The name of a task that is shown to an agent in the Contact Control Panel
+  /// (CCP).
+  ///
+  /// Parameter [attributes] :
+  /// A custom key-value pair using an attribute map. The attributes are
+  /// standard Amazon Connect attributes, and can be accessed in contact flows
+  /// just like any other contact attributes.
+  ///
+  /// There can be up to 32,768 UTF-8 bytes across all key-value pairs per
+  /// contact. Attribute keys can include only alphanumeric, dash, and
+  /// underscore characters.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the request.
+  ///
+  /// Parameter [description] :
+  /// A description of the task that is shown to an agent in the Contact Control
+  /// Panel (CCP).
+  ///
+  /// Parameter [previousContactId] :
+  /// The identifier of the previous chat, voice, or task contact.
+  ///
+  /// Parameter [references] :
+  /// A formatted URL that is shown to an agent in the Contact Control Panel
+  /// (CCP).
+  Future<StartTaskContactResponse> startTaskContact({
+    @_s.required String contactFlowId,
+    @_s.required String instanceId,
+    @_s.required String name,
+    Map<String, String> attributes,
+    String clientToken,
+    String description,
+    String previousContactId,
+    Map<String, Reference> references,
+  }) async {
+    ArgumentError.checkNotNull(contactFlowId, 'contactFlowId');
+    _s.validateStringLength(
+      'contactFlowId',
+      contactFlowId,
+      0,
+      500,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    _s.validateStringLength(
+      'instanceId',
+      instanceId,
+      1,
+      100,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(name, 'name');
+    _s.validateStringLength(
+      'name',
+      name,
+      0,
+      512,
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'clientToken',
+      clientToken,
+      0,
+      500,
+    );
+    _s.validateStringLength(
+      'description',
+      description,
+      0,
+      4096,
+    );
+    _s.validateStringLength(
+      'previousContactId',
+      previousContactId,
+      1,
+      256,
+    );
+    final $payload = <String, dynamic>{
+      'ContactFlowId': contactFlowId,
+      'InstanceId': instanceId,
+      'Name': name,
+      if (attributes != null) 'Attributes': attributes,
+      'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (description != null) 'Description': description,
+      if (previousContactId != null) 'PreviousContactId': previousContactId,
+      if (references != null) 'References': references,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/contact/task',
+      exceptionFnMap: _exceptionFns,
+    );
+    return StartTaskContactResponse.fromJson(response);
+  }
+
   /// Ends the specified contact.
   ///
   /// May throw [InvalidRequestException].
@@ -1400,9 +4066,147 @@ class Connect {
     return StopContactResponse.fromJson(response);
   }
 
+  /// When a contact is being recorded, this API stops recording the call.
+  /// StopContactRecording is a one-time action. If you use StopContactRecording
+  /// to stop recording an ongoing call, you can't use StartContactRecording to
+  /// restart it. For scenarios where the recording has started and you want to
+  /// suspend it for sensitive information (for example, to collect a credit
+  /// card number), and then restart it, use SuspendContactRecording and
+  /// ResumeContactRecording.
+  ///
+  /// Only voice recordings are supported at this time.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [contactId] :
+  /// The identifier of the contact.
+  ///
+  /// Parameter [initialContactId] :
+  /// The identifier of the contact. This is the identifier of the contact
+  /// associated with the first interaction with the contact center.
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance.
+  Future<void> stopContactRecording({
+    @_s.required String contactId,
+    @_s.required String initialContactId,
+    @_s.required String instanceId,
+  }) async {
+    ArgumentError.checkNotNull(contactId, 'contactId');
+    _s.validateStringLength(
+      'contactId',
+      contactId,
+      1,
+      256,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(initialContactId, 'initialContactId');
+    _s.validateStringLength(
+      'initialContactId',
+      initialContactId,
+      1,
+      256,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    _s.validateStringLength(
+      'instanceId',
+      instanceId,
+      1,
+      100,
+      isRequired: true,
+    );
+    final $payload = <String, dynamic>{
+      'ContactId': contactId,
+      'InitialContactId': initialContactId,
+      'InstanceId': instanceId,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/contact/stop-recording',
+      exceptionFnMap: _exceptionFns,
+    );
+    return StopContactRecordingResponse.fromJson(response);
+  }
+
+  /// When a contact is being recorded, this API suspends recording the call.
+  /// For example, you might suspend the call recording while collecting
+  /// sensitive information, such as a credit card number. Then use
+  /// ResumeContactRecording to restart recording.
+  ///
+  /// The period of time that the recording is suspended is filled with silence
+  /// in the final recording.
+  ///
+  /// Only voice recordings are supported at this time.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [contactId] :
+  /// The identifier of the contact.
+  ///
+  /// Parameter [initialContactId] :
+  /// The identifier of the contact. This is the identifier of the contact
+  /// associated with the first interaction with the contact center.
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance.
+  Future<void> suspendContactRecording({
+    @_s.required String contactId,
+    @_s.required String initialContactId,
+    @_s.required String instanceId,
+  }) async {
+    ArgumentError.checkNotNull(contactId, 'contactId');
+    _s.validateStringLength(
+      'contactId',
+      contactId,
+      1,
+      256,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(initialContactId, 'initialContactId');
+    _s.validateStringLength(
+      'initialContactId',
+      initialContactId,
+      1,
+      256,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    _s.validateStringLength(
+      'instanceId',
+      instanceId,
+      1,
+      100,
+      isRequired: true,
+    );
+    final $payload = <String, dynamic>{
+      'ContactId': contactId,
+      'InitialContactId': initialContactId,
+      'InstanceId': instanceId,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/contact/suspend-recording',
+      exceptionFnMap: _exceptionFns,
+    );
+    return SuspendContactRecordingResponse.fromJson(response);
+  }
+
   /// Adds the specified tags to the specified resource.
   ///
-  /// The supported resource type is users.
+  /// The supported resource types are users, routing profiles, quick connects,
+  /// and contact flows.
+  ///
+  /// For sample policies that use tags, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/security_iam_id-based-policy-examples.html">Amazon
+  /// Connect Identity-Based Policy Examples</a> in the <i>Amazon Connect
+  /// Administrator Guide</i>.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [InvalidParameterException].
@@ -1542,6 +4346,551 @@ class Connect {
     return UpdateContactAttributesResponse.fromJson(response);
   }
 
+  /// Updates the specified contact flow.
+  ///
+  /// You can also create and update contact flows using the <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/flow-language.html">Amazon
+  /// Connect Flow language</a>.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidContactFlowException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [contactFlowId] :
+  /// The identifier of the contact flow.
+  ///
+  /// Parameter [content] :
+  /// The JSON string that represents contact flow’s content. For an example,
+  /// see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/flow-language-example.html">Example
+  /// contact flow in Amazon Connect Flow language</a> in the <i>Amazon Connect
+  /// Administrator Guide</i>.
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance.
+  Future<void> updateContactFlowContent({
+    @_s.required String contactFlowId,
+    @_s.required String content,
+    @_s.required String instanceId,
+  }) async {
+    ArgumentError.checkNotNull(contactFlowId, 'contactFlowId');
+    _s.validateStringLength(
+      'contactFlowId',
+      contactFlowId,
+      0,
+      500,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(content, 'content');
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    _s.validateStringLength(
+      'instanceId',
+      instanceId,
+      1,
+      100,
+      isRequired: true,
+    );
+    final $payload = <String, dynamic>{
+      'Content': content,
+    };
+    await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/contact-flows/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(contactFlowId)}/content',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// The name of the contact flow.
+  ///
+  /// You can also create and update contact flows using the <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/flow-language.html">Amazon
+  /// Connect Flow language</a>.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [DuplicateResourceException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [contactFlowId] :
+  /// The identifier of the contact flow.
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance.
+  ///
+  /// Parameter [description] :
+  /// The description of the contact flow.
+  ///
+  /// Parameter [name] :
+  /// The name of the contact flow.
+  Future<void> updateContactFlowName({
+    @_s.required String contactFlowId,
+    @_s.required String instanceId,
+    String description,
+    String name,
+  }) async {
+    ArgumentError.checkNotNull(contactFlowId, 'contactFlowId');
+    _s.validateStringLength(
+      'contactFlowId',
+      contactFlowId,
+      0,
+      500,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    _s.validateStringLength(
+      'instanceId',
+      instanceId,
+      1,
+      100,
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'name',
+      name,
+      1,
+      1152921504606846976,
+    );
+    final $payload = <String, dynamic>{
+      if (description != null) 'Description': description,
+      if (name != null) 'Name': name,
+    };
+    await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/contact-flows/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(contactFlowId)}/name',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// This API is in preview release for Amazon Connect and is subject to
+  /// change.
+  ///
+  /// Updates the value for the specified attribute type.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [attributeType] :
+  /// The type of attribute.
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance.
+  ///
+  /// Parameter [value] :
+  /// The value for the attribute. Maximum character limit is 100.
+  Future<void> updateInstanceAttribute({
+    @_s.required InstanceAttributeType attributeType,
+    @_s.required String instanceId,
+    @_s.required String value,
+  }) async {
+    ArgumentError.checkNotNull(attributeType, 'attributeType');
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    _s.validateStringLength(
+      'instanceId',
+      instanceId,
+      1,
+      100,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(value, 'value');
+    _s.validateStringLength(
+      'value',
+      value,
+      1,
+      100,
+      isRequired: true,
+    );
+    final $payload = <String, dynamic>{
+      'Value': value,
+    };
+    await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/instance/${Uri.encodeComponent(instanceId)}/attribute/${Uri.encodeComponent(attributeType.toValue())}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// This API is in preview release for Amazon Connect and is subject to
+  /// change.
+  ///
+  /// Updates an existing configuration for a resource type. This API is
+  /// idempotent.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InternalServiceException].
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ThrottlingException].
+  ///
+  /// Parameter [associationId] :
+  /// The existing association identifier that uniquely identifies the resource
+  /// type and storage config for the given instance ID.
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance.
+  ///
+  /// Parameter [resourceType] :
+  /// A valid resource type.
+  Future<void> updateInstanceStorageConfig({
+    @_s.required String associationId,
+    @_s.required String instanceId,
+    @_s.required InstanceStorageResourceType resourceType,
+    @_s.required InstanceStorageConfig storageConfig,
+  }) async {
+    ArgumentError.checkNotNull(associationId, 'associationId');
+    _s.validateStringLength(
+      'associationId',
+      associationId,
+      1,
+      100,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    _s.validateStringLength(
+      'instanceId',
+      instanceId,
+      1,
+      100,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(resourceType, 'resourceType');
+    ArgumentError.checkNotNull(storageConfig, 'storageConfig');
+    final $query = <String, List<String>>{
+      if (resourceType != null) 'resourceType': [resourceType.toValue()],
+    };
+    final $payload = <String, dynamic>{
+      'StorageConfig': storageConfig,
+    };
+    await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/instance/${Uri.encodeComponent(instanceId)}/storage-config/${Uri.encodeComponent(associationId)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// This API is in preview release for Amazon Connect and is subject to
+  /// change.
+  ///
+  /// Updates the configuration settings for the specified quick connect.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance.
+  ///
+  /// Parameter [quickConnectConfig] :
+  /// Information about the configuration settings for the quick connect.
+  ///
+  /// Parameter [quickConnectId] :
+  /// The identifier for the quick connect.
+  Future<void> updateQuickConnectConfig({
+    @_s.required String instanceId,
+    @_s.required QuickConnectConfig quickConnectConfig,
+    @_s.required String quickConnectId,
+  }) async {
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    _s.validateStringLength(
+      'instanceId',
+      instanceId,
+      1,
+      100,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(quickConnectConfig, 'quickConnectConfig');
+    ArgumentError.checkNotNull(quickConnectId, 'quickConnectId');
+    final $payload = <String, dynamic>{
+      'QuickConnectConfig': quickConnectConfig,
+    };
+    await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/quick-connects/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(quickConnectId)}/config',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// This API is in preview release for Amazon Connect and is subject to
+  /// change.
+  ///
+  /// Updates the name and description of a quick connect. The request accepts
+  /// the following data in JSON format. At least Name or Description must be
+  /// provided.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance.
+  ///
+  /// Parameter [quickConnectId] :
+  /// The identifier for the quick connect.
+  ///
+  /// Parameter [description] :
+  /// The description of the quick connect.
+  ///
+  /// Parameter [name] :
+  /// The name of the quick connect.
+  Future<void> updateQuickConnectName({
+    @_s.required String instanceId,
+    @_s.required String quickConnectId,
+    String description,
+    String name,
+  }) async {
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    _s.validateStringLength(
+      'instanceId',
+      instanceId,
+      1,
+      100,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(quickConnectId, 'quickConnectId');
+    _s.validateStringLength(
+      'description',
+      description,
+      0,
+      250,
+    );
+    _s.validateStringLength(
+      'name',
+      name,
+      1,
+      127,
+    );
+    final $payload = <String, dynamic>{
+      if (description != null) 'Description': description,
+      if (name != null) 'Name': name,
+    };
+    await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/quick-connects/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(quickConnectId)}/name',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Updates the channels that agents can handle in the Contact Control Panel
+  /// (CCP) for a routing profile.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance.
+  ///
+  /// Parameter [mediaConcurrencies] :
+  /// The channels agents can handle in the Contact Control Panel (CCP).
+  ///
+  /// Parameter [routingProfileId] :
+  /// The identifier of the routing profile.
+  Future<void> updateRoutingProfileConcurrency({
+    @_s.required String instanceId,
+    @_s.required List<MediaConcurrency> mediaConcurrencies,
+    @_s.required String routingProfileId,
+  }) async {
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    _s.validateStringLength(
+      'instanceId',
+      instanceId,
+      1,
+      100,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(mediaConcurrencies, 'mediaConcurrencies');
+    ArgumentError.checkNotNull(routingProfileId, 'routingProfileId');
+    final $payload = <String, dynamic>{
+      'MediaConcurrencies': mediaConcurrencies,
+    };
+    await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/routing-profiles/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(routingProfileId)}/concurrency',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Updates the default outbound queue of a routing profile.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [defaultOutboundQueueId] :
+  /// The identifier for the default outbound queue.
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance.
+  ///
+  /// Parameter [routingProfileId] :
+  /// The identifier of the routing profile.
+  Future<void> updateRoutingProfileDefaultOutboundQueue({
+    @_s.required String defaultOutboundQueueId,
+    @_s.required String instanceId,
+    @_s.required String routingProfileId,
+  }) async {
+    ArgumentError.checkNotNull(
+        defaultOutboundQueueId, 'defaultOutboundQueueId');
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    _s.validateStringLength(
+      'instanceId',
+      instanceId,
+      1,
+      100,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(routingProfileId, 'routingProfileId');
+    final $payload = <String, dynamic>{
+      'DefaultOutboundQueueId': defaultOutboundQueueId,
+    };
+    await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/routing-profiles/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(routingProfileId)}/default-outbound-queue',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Updates the name and description of a routing profile. The request accepts
+  /// the following data in JSON format. At least <code>Name</code> or
+  /// <code>Description</code> must be provided.
+  ///
+  /// May throw [DuplicateResourceException].
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance.
+  ///
+  /// Parameter [routingProfileId] :
+  /// The identifier of the routing profile.
+  ///
+  /// Parameter [description] :
+  /// The description of the routing profile. Must not be more than 250
+  /// characters.
+  ///
+  /// Parameter [name] :
+  /// The name of the routing profile. Must not be more than 127 characters.
+  Future<void> updateRoutingProfileName({
+    @_s.required String instanceId,
+    @_s.required String routingProfileId,
+    String description,
+    String name,
+  }) async {
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    _s.validateStringLength(
+      'instanceId',
+      instanceId,
+      1,
+      100,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(routingProfileId, 'routingProfileId');
+    _s.validateStringLength(
+      'description',
+      description,
+      1,
+      250,
+    );
+    _s.validateStringLength(
+      'name',
+      name,
+      1,
+      127,
+    );
+    final $payload = <String, dynamic>{
+      if (description != null) 'Description': description,
+      if (name != null) 'Name': name,
+    };
+    await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/routing-profiles/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(routingProfileId)}/name',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Updates the properties associated with a set of queues for a routing
+  /// profile.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance.
+  ///
+  /// Parameter [queueConfigs] :
+  /// The queues to be updated for this routing profile. Queues must first be
+  /// associated to the routing profile. You can do this using
+  /// AssociateRoutingProfileQueues.
+  ///
+  /// Parameter [routingProfileId] :
+  /// The identifier of the routing profile.
+  Future<void> updateRoutingProfileQueues({
+    @_s.required String instanceId,
+    @_s.required List<RoutingProfileQueueConfig> queueConfigs,
+    @_s.required String routingProfileId,
+  }) async {
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    _s.validateStringLength(
+      'instanceId',
+      instanceId,
+      1,
+      100,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(queueConfigs, 'queueConfigs');
+    ArgumentError.checkNotNull(routingProfileId, 'routingProfileId');
+    final $payload = <String, dynamic>{
+      'QueueConfigs': queueConfigs,
+    };
+    await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/routing-profiles/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(routingProfileId)}/queues',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Assigns the specified hierarchy group to the specified user.
   ///
   /// May throw [InvalidRequestException].
@@ -1584,7 +4933,103 @@ class Connect {
     );
   }
 
+  /// Updates the name of the user hierarchy group.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [DuplicateResourceException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [hierarchyGroupId] :
+  /// The identifier of the hierarchy group.
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance.
+  ///
+  /// Parameter [name] :
+  /// The name of the hierarchy group. Must not be more than 100 characters.
+  Future<void> updateUserHierarchyGroupName({
+    @_s.required String hierarchyGroupId,
+    @_s.required String instanceId,
+    @_s.required String name,
+  }) async {
+    ArgumentError.checkNotNull(hierarchyGroupId, 'hierarchyGroupId');
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    _s.validateStringLength(
+      'instanceId',
+      instanceId,
+      1,
+      100,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(name, 'name');
+    final $payload = <String, dynamic>{
+      'Name': name,
+    };
+    await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/user-hierarchy-groups/${Uri.encodeComponent(instanceId)}/${Uri.encodeComponent(hierarchyGroupId)}/name',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Updates the user hierarchy structure: add, remove, and rename user
+  /// hierarchy levels.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ResourceInUseException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalServiceException].
+  ///
+  /// Parameter [hierarchyStructure] :
+  /// The hierarchy levels to update.
+  ///
+  /// Parameter [instanceId] :
+  /// The identifier of the Amazon Connect instance.
+  Future<void> updateUserHierarchyStructure({
+    @_s.required HierarchyStructureUpdate hierarchyStructure,
+    @_s.required String instanceId,
+  }) async {
+    ArgumentError.checkNotNull(hierarchyStructure, 'hierarchyStructure');
+    ArgumentError.checkNotNull(instanceId, 'instanceId');
+    _s.validateStringLength(
+      'instanceId',
+      instanceId,
+      1,
+      100,
+      isRequired: true,
+    );
+    final $payload = <String, dynamic>{
+      'HierarchyStructure': hierarchyStructure,
+    };
+    await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/user-hierarchy-structure/${Uri.encodeComponent(instanceId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
   /// Updates the identity information for the specified user.
+  /// <important>
+  /// Someone with the ability to invoke <code>UpdateUserIndentityInfo</code>
+  /// can change the login credentials of other users by changing their email
+  /// address. This poses a security risk to your organization. They can change
+  /// the email address of a user to the attacker's email address, and then
+  /// reset the password through email. We strongly recommend limiting who has
+  /// the ability to invoke <code>UpdateUserIndentityInfo</code>. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/security-profile-best-practices.html">Best
+  /// Practices for Security Profiles</a> in the <i>Amazon Connect Administrator
+  /// Guide</i>.
+  /// </important>
   ///
   /// May throw [InvalidRequestException].
   /// May throw [InvalidParameterException].
@@ -1757,11 +5202,73 @@ class Connect {
   }
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class AssociateInstanceStorageConfigResponse {
+  /// The existing association identifier that uniquely identifies the resource
+  /// type and storage config for the given instance ID.
+  @_s.JsonKey(name: 'AssociationId')
+  final String associationId;
+
+  AssociateInstanceStorageConfigResponse({
+    this.associationId,
+  });
+  factory AssociateInstanceStorageConfigResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$AssociateInstanceStorageConfigResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class AssociateSecurityKeyResponse {
+  /// The existing association identifier that uniquely identifies the resource
+  /// type and storage config for the given instance ID.
+  @_s.JsonKey(name: 'AssociationId')
+  final String associationId;
+
+  AssociateSecurityKeyResponse({
+    this.associationId,
+  });
+  factory AssociateSecurityKeyResponse.fromJson(Map<String, dynamic> json) =>
+      _$AssociateSecurityKeyResponseFromJson(json);
+}
+
+/// A toggle for an individual feature at the instance level.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class Attribute {
+  /// The type of attribute.
+  @_s.JsonKey(name: 'AttributeType')
+  final InstanceAttributeType attributeType;
+
+  /// The value of the attribute.
+  @_s.JsonKey(name: 'Value')
+  final String value;
+
+  Attribute({
+    this.attributeType,
+    this.value,
+  });
+  factory Attribute.fromJson(Map<String, dynamic> json) =>
+      _$AttributeFromJson(json);
+}
+
 enum Channel {
   @_s.JsonValue('VOICE')
   voice,
   @_s.JsonValue('CHAT')
   chat,
+  @_s.JsonValue('TASK')
+  task,
 }
 
 /// A chat message.
@@ -1791,7 +5298,62 @@ enum Comparison {
   lt,
 }
 
+/// Contains information about a contact flow.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ContactFlow {
+  /// The Amazon Resource Name (ARN) of the contact flow.
+  @_s.JsonKey(name: 'Arn')
+  final String arn;
+
+  /// The content of the contact flow.
+  @_s.JsonKey(name: 'Content')
+  final String content;
+
+  /// The description of the contact flow.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The identifier of the contact flow.
+  @_s.JsonKey(name: 'Id')
+  final String id;
+
+  /// The name of the contact flow.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// One or more tags.
+  @_s.JsonKey(name: 'Tags')
+  final Map<String, String> tags;
+
+  /// The type of the contact flow. For descriptions of the available types, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/create-contact-flow.html#contact-flow-types">Choose
+  /// a Contact Flow Type</a> in the <i>Amazon Connect Administrator Guide</i>.
+  @_s.JsonKey(name: 'Type')
+  final ContactFlowType type;
+
+  ContactFlow({
+    this.arn,
+    this.content,
+    this.description,
+    this.id,
+    this.name,
+    this.tags,
+    this.type,
+  });
+  factory ContactFlow.fromJson(Map<String, dynamic> json) =>
+      _$ContactFlowFromJson(json);
+}
+
 /// Contains summary information about a contact flow.
+///
+/// You can also create and update contact flows using the <a
+/// href="https://docs.aws.amazon.com/connect/latest/adminguide/flow-language.html">Amazon
+/// Connect Flow language</a>.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -1876,6 +5438,162 @@ extension on ContactFlowType {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class CreateContactFlowResponse {
+  /// The Amazon Resource Name (ARN) of the contact flow.
+  @_s.JsonKey(name: 'ContactFlowArn')
+  final String contactFlowArn;
+
+  /// The identifier of the contact flow.
+  @_s.JsonKey(name: 'ContactFlowId')
+  final String contactFlowId;
+
+  CreateContactFlowResponse({
+    this.contactFlowArn,
+    this.contactFlowId,
+  });
+  factory CreateContactFlowResponse.fromJson(Map<String, dynamic> json) =>
+      _$CreateContactFlowResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class CreateInstanceResponse {
+  /// The Amazon Resource Name (ARN) of the instance.
+  @_s.JsonKey(name: 'Arn')
+  final String arn;
+
+  /// The identifier for the instance.
+  @_s.JsonKey(name: 'Id')
+  final String id;
+
+  CreateInstanceResponse({
+    this.arn,
+    this.id,
+  });
+  factory CreateInstanceResponse.fromJson(Map<String, dynamic> json) =>
+      _$CreateInstanceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class CreateIntegrationAssociationResponse {
+  /// The Amazon Resource Name (ARN) for the association.
+  @_s.JsonKey(name: 'IntegrationAssociationArn')
+  final String integrationAssociationArn;
+
+  /// The identifier for the association.
+  @_s.JsonKey(name: 'IntegrationAssociationId')
+  final String integrationAssociationId;
+
+  CreateIntegrationAssociationResponse({
+    this.integrationAssociationArn,
+    this.integrationAssociationId,
+  });
+  factory CreateIntegrationAssociationResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$CreateIntegrationAssociationResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class CreateQuickConnectResponse {
+  /// The Amazon Resource Name (ARN) for the quick connect.
+  @_s.JsonKey(name: 'QuickConnectARN')
+  final String quickConnectARN;
+
+  /// The identifier for the quick connect.
+  @_s.JsonKey(name: 'QuickConnectId')
+  final String quickConnectId;
+
+  CreateQuickConnectResponse({
+    this.quickConnectARN,
+    this.quickConnectId,
+  });
+  factory CreateQuickConnectResponse.fromJson(Map<String, dynamic> json) =>
+      _$CreateQuickConnectResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class CreateRoutingProfileResponse {
+  /// The Amazon Resource Name (ARN) of the routing profile.
+  @_s.JsonKey(name: 'RoutingProfileArn')
+  final String routingProfileArn;
+
+  /// The identifier of the routing profile.
+  @_s.JsonKey(name: 'RoutingProfileId')
+  final String routingProfileId;
+
+  CreateRoutingProfileResponse({
+    this.routingProfileArn,
+    this.routingProfileId,
+  });
+  factory CreateRoutingProfileResponse.fromJson(Map<String, dynamic> json) =>
+      _$CreateRoutingProfileResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class CreateUseCaseResponse {
+  /// The Amazon Resource Name (ARN) for the use case.
+  @_s.JsonKey(name: 'UseCaseArn')
+  final String useCaseArn;
+
+  /// The identifier of the use case.
+  @_s.JsonKey(name: 'UseCaseId')
+  final String useCaseId;
+
+  CreateUseCaseResponse({
+    this.useCaseArn,
+    this.useCaseId,
+  });
+  factory CreateUseCaseResponse.fromJson(Map<String, dynamic> json) =>
+      _$CreateUseCaseResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class CreateUserHierarchyGroupResponse {
+  /// The Amazon Resource Name (ARN) of the hierarchy group.
+  @_s.JsonKey(name: 'HierarchyGroupArn')
+  final String hierarchyGroupArn;
+
+  /// The identifier of the hierarchy group.
+  @_s.JsonKey(name: 'HierarchyGroupId')
+  final String hierarchyGroupId;
+
+  CreateUserHierarchyGroupResponse({
+    this.hierarchyGroupArn,
+    this.hierarchyGroupId,
+  });
+  factory CreateUserHierarchyGroupResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$CreateUserHierarchyGroupResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class CreateUserResponse {
   /// The Amazon Resource Name (ARN) of the user account.
   @_s.JsonKey(name: 'UserArn')
@@ -1929,7 +5647,10 @@ class Credentials {
       _$CredentialsFromJson(json);
 }
 
-/// Contains information about a real-time metric.
+/// Contains information about a real-time metric. For a description of each
+/// metric, see <a
+/// href="https://docs.aws.amazon.com/connect/latest/adminguide/real-time-metrics-definitions.html">Real-time
+/// Metrics Definitions</a> in the <i>Amazon Connect Administrator Guide</i>.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -2035,6 +5756,110 @@ class CurrentMetricResult {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class DescribeContactFlowResponse {
+  /// Information about the contact flow.
+  @_s.JsonKey(name: 'ContactFlow')
+  final ContactFlow contactFlow;
+
+  DescribeContactFlowResponse({
+    this.contactFlow,
+  });
+  factory DescribeContactFlowResponse.fromJson(Map<String, dynamic> json) =>
+      _$DescribeContactFlowResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DescribeInstanceAttributeResponse {
+  /// The type of attribute.
+  @_s.JsonKey(name: 'Attribute')
+  final Attribute attribute;
+
+  DescribeInstanceAttributeResponse({
+    this.attribute,
+  });
+  factory DescribeInstanceAttributeResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$DescribeInstanceAttributeResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DescribeInstanceResponse {
+  /// The name of the instance.
+  @_s.JsonKey(name: 'Instance')
+  final Instance instance;
+
+  DescribeInstanceResponse({
+    this.instance,
+  });
+  factory DescribeInstanceResponse.fromJson(Map<String, dynamic> json) =>
+      _$DescribeInstanceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DescribeInstanceStorageConfigResponse {
+  /// A valid storage type.
+  @_s.JsonKey(name: 'StorageConfig')
+  final InstanceStorageConfig storageConfig;
+
+  DescribeInstanceStorageConfigResponse({
+    this.storageConfig,
+  });
+  factory DescribeInstanceStorageConfigResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$DescribeInstanceStorageConfigResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DescribeQuickConnectResponse {
+  /// Information about the quick connect.
+  @_s.JsonKey(name: 'QuickConnect')
+  final QuickConnect quickConnect;
+
+  DescribeQuickConnectResponse({
+    this.quickConnect,
+  });
+  factory DescribeQuickConnectResponse.fromJson(Map<String, dynamic> json) =>
+      _$DescribeQuickConnectResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DescribeRoutingProfileResponse {
+  /// The routing profile.
+  @_s.JsonKey(name: 'RoutingProfile')
+  final RoutingProfile routingProfile;
+
+  DescribeRoutingProfileResponse({
+    this.routingProfile,
+  });
+  factory DescribeRoutingProfileResponse.fromJson(Map<String, dynamic> json) =>
+      _$DescribeRoutingProfileResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class DescribeUserHierarchyGroupResponse {
   /// Information about the hierarchy group.
   @_s.JsonKey(name: 'HierarchyGroup')
@@ -2104,6 +5929,59 @@ class Dimensions {
   });
   factory Dimensions.fromJson(Map<String, dynamic> json) =>
       _$DimensionsFromJson(json);
+}
+
+enum DirectoryType {
+  @_s.JsonValue('SAML')
+  saml,
+  @_s.JsonValue('CONNECT_MANAGED')
+  connectManaged,
+  @_s.JsonValue('EXISTING_DIRECTORY')
+  existingDirectory,
+}
+
+extension on DirectoryType {
+  String toValue() {
+    switch (this) {
+      case DirectoryType.saml:
+        return 'SAML';
+      case DirectoryType.connectManaged:
+        return 'CONNECT_MANAGED';
+      case DirectoryType.existingDirectory:
+        return 'EXISTING_DIRECTORY';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
+/// The encryption configuration.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class EncryptionConfig {
+  /// The type of encryption.
+  @_s.JsonKey(name: 'EncryptionType')
+  final EncryptionType encryptionType;
+
+  /// The identifier of the encryption key.
+  @_s.JsonKey(name: 'KeyId')
+  final String keyId;
+
+  EncryptionConfig({
+    @_s.required this.encryptionType,
+    @_s.required this.keyId,
+  });
+  factory EncryptionConfig.fromJson(Map<String, dynamic> json) =>
+      _$EncryptionConfigFromJson(json);
+
+  Map<String, dynamic> toJson() => _$EncryptionConfigToJson(this);
+}
+
+enum EncryptionType {
+  @_s.JsonValue('KMS')
+  kms,
 }
 
 /// Contains the filter to apply when retrieving metrics.
@@ -2338,6 +6216,23 @@ class HierarchyLevel {
       _$HierarchyLevelFromJson(json);
 }
 
+/// Contains information about the hierarchy level to update.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class HierarchyLevelUpdate {
+  /// The name of the user hierarchy level. Must not be more than 50 characters.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  HierarchyLevelUpdate({
+    @_s.required this.name,
+  });
+  Map<String, dynamic> toJson() => _$HierarchyLevelUpdateToJson(this);
+}
+
 /// Contains information about the levels of a hierarchy group.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2414,7 +6309,47 @@ class HierarchyStructure {
       _$HierarchyStructureFromJson(json);
 }
 
-/// Contains information about a historical metric.
+/// Contains information about the level hierarchy to update.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class HierarchyStructureUpdate {
+  /// The update for level five.
+  @_s.JsonKey(name: 'LevelFive')
+  final HierarchyLevelUpdate levelFive;
+
+  /// The update for level four.
+  @_s.JsonKey(name: 'LevelFour')
+  final HierarchyLevelUpdate levelFour;
+
+  /// The update for level one.
+  @_s.JsonKey(name: 'LevelOne')
+  final HierarchyLevelUpdate levelOne;
+
+  /// The update for level three.
+  @_s.JsonKey(name: 'LevelThree')
+  final HierarchyLevelUpdate levelThree;
+
+  /// The update for level two.
+  @_s.JsonKey(name: 'LevelTwo')
+  final HierarchyLevelUpdate levelTwo;
+
+  HierarchyStructureUpdate({
+    this.levelFive,
+    this.levelFour,
+    this.levelOne,
+    this.levelThree,
+    this.levelTwo,
+  });
+  Map<String, dynamic> toJson() => _$HierarchyStructureUpdateToJson(this);
+}
+
+/// Contains information about a historical metric. For a description of each
+/// metric, see <a
+/// href="https://docs.aws.amazon.com/connect/latest/adminguide/historical-metrics-definitions.html">Historical
+/// Metrics Definitions</a> in the <i>Amazon Connect Administrator Guide</i>.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -2577,6 +6512,464 @@ class HoursOfOperationSummary {
       _$HoursOfOperationSummaryFromJson(json);
 }
 
+/// The Amazon Connect instance.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class Instance {
+  /// The Amazon Resource Name (ARN) of the instance.
+  @_s.JsonKey(name: 'Arn')
+  final String arn;
+
+  /// When the instance was created.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedTime')
+  final DateTime createdTime;
+
+  /// The identifier of the Amazon Connect instance.
+  @_s.JsonKey(name: 'Id')
+  final String id;
+
+  /// The identity management type.
+  @_s.JsonKey(name: 'IdentityManagementType')
+  final DirectoryType identityManagementType;
+
+  /// Whether inbound calls are enabled.
+  @_s.JsonKey(name: 'InboundCallsEnabled')
+  final bool inboundCallsEnabled;
+
+  /// The alias of instance.
+  @_s.JsonKey(name: 'InstanceAlias')
+  final String instanceAlias;
+
+  /// The state of the instance.
+  @_s.JsonKey(name: 'InstanceStatus')
+  final InstanceStatus instanceStatus;
+
+  /// Whether outbound calls are enabled.
+  @_s.JsonKey(name: 'OutboundCallsEnabled')
+  final bool outboundCallsEnabled;
+
+  /// The service role of the instance.
+  @_s.JsonKey(name: 'ServiceRole')
+  final String serviceRole;
+
+  /// Relevant details why the instance was not successfully created.
+  @_s.JsonKey(name: 'StatusReason')
+  final InstanceStatusReason statusReason;
+
+  Instance({
+    this.arn,
+    this.createdTime,
+    this.id,
+    this.identityManagementType,
+    this.inboundCallsEnabled,
+    this.instanceAlias,
+    this.instanceStatus,
+    this.outboundCallsEnabled,
+    this.serviceRole,
+    this.statusReason,
+  });
+  factory Instance.fromJson(Map<String, dynamic> json) =>
+      _$InstanceFromJson(json);
+}
+
+enum InstanceAttributeType {
+  @_s.JsonValue('INBOUND_CALLS')
+  inboundCalls,
+  @_s.JsonValue('OUTBOUND_CALLS')
+  outboundCalls,
+  @_s.JsonValue('CONTACTFLOW_LOGS')
+  contactflowLogs,
+  @_s.JsonValue('CONTACT_LENS')
+  contactLens,
+  @_s.JsonValue('AUTO_RESOLVE_BEST_VOICES')
+  autoResolveBestVoices,
+  @_s.JsonValue('USE_CUSTOM_TTS_VOICES')
+  useCustomTtsVoices,
+  @_s.JsonValue('EARLY_MEDIA')
+  earlyMedia,
+}
+
+extension on InstanceAttributeType {
+  String toValue() {
+    switch (this) {
+      case InstanceAttributeType.inboundCalls:
+        return 'INBOUND_CALLS';
+      case InstanceAttributeType.outboundCalls:
+        return 'OUTBOUND_CALLS';
+      case InstanceAttributeType.contactflowLogs:
+        return 'CONTACTFLOW_LOGS';
+      case InstanceAttributeType.contactLens:
+        return 'CONTACT_LENS';
+      case InstanceAttributeType.autoResolveBestVoices:
+        return 'AUTO_RESOLVE_BEST_VOICES';
+      case InstanceAttributeType.useCustomTtsVoices:
+        return 'USE_CUSTOM_TTS_VOICES';
+      case InstanceAttributeType.earlyMedia:
+        return 'EARLY_MEDIA';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
+enum InstanceStatus {
+  @_s.JsonValue('CREATION_IN_PROGRESS')
+  creationInProgress,
+  @_s.JsonValue('ACTIVE')
+  active,
+  @_s.JsonValue('CREATION_FAILED')
+  creationFailed,
+}
+
+/// Relevant details why the instance was not successfully created.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class InstanceStatusReason {
+  /// The message.
+  @_s.JsonKey(name: 'Message')
+  final String message;
+
+  InstanceStatusReason({
+    this.message,
+  });
+  factory InstanceStatusReason.fromJson(Map<String, dynamic> json) =>
+      _$InstanceStatusReasonFromJson(json);
+}
+
+/// The storage configuration for the instance.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class InstanceStorageConfig {
+  /// A valid storage type.
+  @_s.JsonKey(name: 'StorageType')
+  final StorageType storageType;
+
+  /// The existing association identifier that uniquely identifies the resource
+  /// type and storage config for the given instance ID.
+  @_s.JsonKey(name: 'AssociationId')
+  final String associationId;
+
+  /// The configuration of the Kinesis Firehose delivery stream.
+  @_s.JsonKey(name: 'KinesisFirehoseConfig')
+  final KinesisFirehoseConfig kinesisFirehoseConfig;
+
+  /// The configuration of the Kinesis data stream.
+  @_s.JsonKey(name: 'KinesisStreamConfig')
+  final KinesisStreamConfig kinesisStreamConfig;
+
+  /// The configuration of the Kinesis video stream.
+  @_s.JsonKey(name: 'KinesisVideoStreamConfig')
+  final KinesisVideoStreamConfig kinesisVideoStreamConfig;
+
+  /// The S3 configuration.
+  @_s.JsonKey(name: 'S3Config')
+  final S3Config s3Config;
+
+  InstanceStorageConfig({
+    @_s.required this.storageType,
+    this.associationId,
+    this.kinesisFirehoseConfig,
+    this.kinesisStreamConfig,
+    this.kinesisVideoStreamConfig,
+    this.s3Config,
+  });
+  factory InstanceStorageConfig.fromJson(Map<String, dynamic> json) =>
+      _$InstanceStorageConfigFromJson(json);
+
+  Map<String, dynamic> toJson() => _$InstanceStorageConfigToJson(this);
+}
+
+enum InstanceStorageResourceType {
+  @_s.JsonValue('CHAT_TRANSCRIPTS')
+  chatTranscripts,
+  @_s.JsonValue('CALL_RECORDINGS')
+  callRecordings,
+  @_s.JsonValue('SCHEDULED_REPORTS')
+  scheduledReports,
+  @_s.JsonValue('MEDIA_STREAMS')
+  mediaStreams,
+  @_s.JsonValue('CONTACT_TRACE_RECORDS')
+  contactTraceRecords,
+  @_s.JsonValue('AGENT_EVENTS')
+  agentEvents,
+}
+
+extension on InstanceStorageResourceType {
+  String toValue() {
+    switch (this) {
+      case InstanceStorageResourceType.chatTranscripts:
+        return 'CHAT_TRANSCRIPTS';
+      case InstanceStorageResourceType.callRecordings:
+        return 'CALL_RECORDINGS';
+      case InstanceStorageResourceType.scheduledReports:
+        return 'SCHEDULED_REPORTS';
+      case InstanceStorageResourceType.mediaStreams:
+        return 'MEDIA_STREAMS';
+      case InstanceStorageResourceType.contactTraceRecords:
+        return 'CONTACT_TRACE_RECORDS';
+      case InstanceStorageResourceType.agentEvents:
+        return 'AGENT_EVENTS';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
+/// Information about the instance.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class InstanceSummary {
+  /// The Amazon Resource Name (ARN) of the instance.
+  @_s.JsonKey(name: 'Arn')
+  final String arn;
+
+  /// When the instance was created.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedTime')
+  final DateTime createdTime;
+
+  /// The identifier of the instance.
+  @_s.JsonKey(name: 'Id')
+  final String id;
+
+  /// The identity management type of the instance.
+  @_s.JsonKey(name: 'IdentityManagementType')
+  final DirectoryType identityManagementType;
+
+  /// Whether inbound calls are enabled.
+  @_s.JsonKey(name: 'InboundCallsEnabled')
+  final bool inboundCallsEnabled;
+
+  /// The alias of the instance.
+  @_s.JsonKey(name: 'InstanceAlias')
+  final String instanceAlias;
+
+  /// The state of the instance.
+  @_s.JsonKey(name: 'InstanceStatus')
+  final InstanceStatus instanceStatus;
+
+  /// Whether outbound calls are enabled.
+  @_s.JsonKey(name: 'OutboundCallsEnabled')
+  final bool outboundCallsEnabled;
+
+  /// The service role of the instance.
+  @_s.JsonKey(name: 'ServiceRole')
+  final String serviceRole;
+
+  InstanceSummary({
+    this.arn,
+    this.createdTime,
+    this.id,
+    this.identityManagementType,
+    this.inboundCallsEnabled,
+    this.instanceAlias,
+    this.instanceStatus,
+    this.outboundCallsEnabled,
+    this.serviceRole,
+  });
+  factory InstanceSummary.fromJson(Map<String, dynamic> json) =>
+      _$InstanceSummaryFromJson(json);
+}
+
+/// Contains summary information about the associated AppIntegrations.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class IntegrationAssociationSummary {
+  /// The identifier of the Amazon Connect instance.
+  @_s.JsonKey(name: 'InstanceId')
+  final String instanceId;
+
+  /// The Amazon Resource Name (ARN) for the AppIntegration.
+  @_s.JsonKey(name: 'IntegrationArn')
+  final String integrationArn;
+
+  /// The Amazon Resource Name (ARN) for the AppIntegration association.
+  @_s.JsonKey(name: 'IntegrationAssociationArn')
+  final String integrationAssociationArn;
+
+  /// The identifier for the AppIntegration association.
+  @_s.JsonKey(name: 'IntegrationAssociationId')
+  final String integrationAssociationId;
+
+  /// The integration type.
+  @_s.JsonKey(name: 'IntegrationType')
+  final IntegrationType integrationType;
+
+  /// The user-provided, friendly name for the external application.
+  @_s.JsonKey(name: 'SourceApplicationName')
+  final String sourceApplicationName;
+
+  /// The URL for the external application.
+  @_s.JsonKey(name: 'SourceApplicationUrl')
+  final String sourceApplicationUrl;
+
+  /// The name of the source.
+  @_s.JsonKey(name: 'SourceType')
+  final SourceType sourceType;
+
+  IntegrationAssociationSummary({
+    this.instanceId,
+    this.integrationArn,
+    this.integrationAssociationArn,
+    this.integrationAssociationId,
+    this.integrationType,
+    this.sourceApplicationName,
+    this.sourceApplicationUrl,
+    this.sourceType,
+  });
+  factory IntegrationAssociationSummary.fromJson(Map<String, dynamic> json) =>
+      _$IntegrationAssociationSummaryFromJson(json);
+}
+
+enum IntegrationType {
+  @_s.JsonValue('EVENT')
+  event,
+}
+
+extension on IntegrationType {
+  String toValue() {
+    switch (this) {
+      case IntegrationType.event:
+        return 'EVENT';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
+/// Configuration information of a Kinesis Firehose delivery stream.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class KinesisFirehoseConfig {
+  /// The Amazon Resource Name (ARN) of the delivery stream.
+  @_s.JsonKey(name: 'FirehoseArn')
+  final String firehoseArn;
+
+  KinesisFirehoseConfig({
+    @_s.required this.firehoseArn,
+  });
+  factory KinesisFirehoseConfig.fromJson(Map<String, dynamic> json) =>
+      _$KinesisFirehoseConfigFromJson(json);
+
+  Map<String, dynamic> toJson() => _$KinesisFirehoseConfigToJson(this);
+}
+
+/// Configuration information of a Kinesis data stream.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class KinesisStreamConfig {
+  /// The Amazon Resource Name (ARN) of the data stream.
+  @_s.JsonKey(name: 'StreamArn')
+  final String streamArn;
+
+  KinesisStreamConfig({
+    @_s.required this.streamArn,
+  });
+  factory KinesisStreamConfig.fromJson(Map<String, dynamic> json) =>
+      _$KinesisStreamConfigFromJson(json);
+
+  Map<String, dynamic> toJson() => _$KinesisStreamConfigToJson(this);
+}
+
+/// Configuration information of a Kinesis video stream.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class KinesisVideoStreamConfig {
+  /// The encryption configuration.
+  @_s.JsonKey(name: 'EncryptionConfig')
+  final EncryptionConfig encryptionConfig;
+
+  /// The prefix of the video stream.
+  @_s.JsonKey(name: 'Prefix')
+  final String prefix;
+
+  /// The number of hours data is retained in the stream. Kinesis Video Streams
+  /// retains the data in a data store that is associated with the stream.
+  ///
+  /// The default value is 0, indicating that the stream does not persist data.
+  @_s.JsonKey(name: 'RetentionPeriodHours')
+  final int retentionPeriodHours;
+
+  KinesisVideoStreamConfig({
+    @_s.required this.encryptionConfig,
+    @_s.required this.prefix,
+    @_s.required this.retentionPeriodHours,
+  });
+  factory KinesisVideoStreamConfig.fromJson(Map<String, dynamic> json) =>
+      _$KinesisVideoStreamConfigFromJson(json);
+
+  Map<String, dynamic> toJson() => _$KinesisVideoStreamConfigToJson(this);
+}
+
+/// Configuration information of an Amazon Lex bot.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class LexBot {
+  /// The Region the Amazon Lex bot was created in.
+  @_s.JsonKey(name: 'LexRegion')
+  final String lexRegion;
+
+  /// The name of the Amazon Lex bot.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  LexBot({
+    this.lexRegion,
+    this.name,
+  });
+  factory LexBot.fromJson(Map<String, dynamic> json) => _$LexBotFromJson(json);
+
+  Map<String, dynamic> toJson() => _$LexBotToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListApprovedOriginsResponse {
+  /// If there are additional results, this is the token for the next set of
+  /// results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The approved origins.
+  @_s.JsonKey(name: 'Origins')
+  final List<String> origins;
+
+  ListApprovedOriginsResponse({
+    this.nextToken,
+    this.origins,
+  });
+  factory ListApprovedOriginsResponse.fromJson(Map<String, dynamic> json) =>
+      _$ListApprovedOriginsResponseFromJson(json);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -2628,6 +7021,147 @@ class ListHoursOfOperationsResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class ListInstanceAttributesResponse {
+  /// The attribute types.
+  @_s.JsonKey(name: 'Attributes')
+  final List<Attribute> attributes;
+
+  /// If there are additional results, this is the token for the next set of
+  /// results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListInstanceAttributesResponse({
+    this.attributes,
+    this.nextToken,
+  });
+  factory ListInstanceAttributesResponse.fromJson(Map<String, dynamic> json) =>
+      _$ListInstanceAttributesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListInstanceStorageConfigsResponse {
+  /// If there are additional results, this is the token for the next set of
+  /// results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// A valid storage type.
+  @_s.JsonKey(name: 'StorageConfigs')
+  final List<InstanceStorageConfig> storageConfigs;
+
+  ListInstanceStorageConfigsResponse({
+    this.nextToken,
+    this.storageConfigs,
+  });
+  factory ListInstanceStorageConfigsResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$ListInstanceStorageConfigsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListInstancesResponse {
+  /// Information about the instances.
+  @_s.JsonKey(name: 'InstanceSummaryList')
+  final List<InstanceSummary> instanceSummaryList;
+
+  /// If there are additional results, this is the token for the next set of
+  /// results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListInstancesResponse({
+    this.instanceSummaryList,
+    this.nextToken,
+  });
+  factory ListInstancesResponse.fromJson(Map<String, dynamic> json) =>
+      _$ListInstancesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListIntegrationAssociationsResponse {
+  /// The AppIntegration associations.
+  @_s.JsonKey(name: 'IntegrationAssociationSummaryList')
+  final List<IntegrationAssociationSummary> integrationAssociationSummaryList;
+
+  /// If there are additional results, this is the token for the next set of
+  /// results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListIntegrationAssociationsResponse({
+    this.integrationAssociationSummaryList,
+    this.nextToken,
+  });
+  factory ListIntegrationAssociationsResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$ListIntegrationAssociationsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListLambdaFunctionsResponse {
+  /// The Lambdafunction ARNs associated with the specified instance.
+  @_s.JsonKey(name: 'LambdaFunctions')
+  final List<String> lambdaFunctions;
+
+  /// If there are additional results, this is the token for the next set of
+  /// results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListLambdaFunctionsResponse({
+    this.lambdaFunctions,
+    this.nextToken,
+  });
+  factory ListLambdaFunctionsResponse.fromJson(Map<String, dynamic> json) =>
+      _$ListLambdaFunctionsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListLexBotsResponse {
+  /// The the names and regions of the Amazon Lex bots associated with the
+  /// specified instance.
+  @_s.JsonKey(name: 'LexBots')
+  final List<LexBot> lexBots;
+
+  /// If there are additional results, this is the token for the next set of
+  /// results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListLexBotsResponse({
+    this.lexBots,
+    this.nextToken,
+  });
+  factory ListLexBotsResponse.fromJson(Map<String, dynamic> json) =>
+      _$ListLexBotsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class ListPhoneNumbersResponse {
   /// If there are additional results, this is the token for the next set of
   /// results.
@@ -2644,6 +7178,29 @@ class ListPhoneNumbersResponse {
   });
   factory ListPhoneNumbersResponse.fromJson(Map<String, dynamic> json) =>
       _$ListPhoneNumbersResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListPromptsResponse {
+  /// If there are additional results, this is the token for the next set of
+  /// results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// Information about the prompts.
+  @_s.JsonKey(name: 'PromptSummaryList')
+  final List<PromptSummary> promptSummaryList;
+
+  ListPromptsResponse({
+    this.nextToken,
+    this.promptSummaryList,
+  });
+  factory ListPromptsResponse.fromJson(Map<String, dynamic> json) =>
+      _$ListPromptsResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -2674,6 +7231,54 @@ class ListQueuesResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class ListQuickConnectsResponse {
+  /// If there are additional results, this is the token for the next set of
+  /// results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// Information about the quick connects.
+  @_s.JsonKey(name: 'QuickConnectSummaryList')
+  final List<QuickConnectSummary> quickConnectSummaryList;
+
+  ListQuickConnectsResponse({
+    this.nextToken,
+    this.quickConnectSummaryList,
+  });
+  factory ListQuickConnectsResponse.fromJson(Map<String, dynamic> json) =>
+      _$ListQuickConnectsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListRoutingProfileQueuesResponse {
+  /// If there are additional results, this is the token for the next set of
+  /// results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// Information about the routing profiles.
+  @_s.JsonKey(name: 'RoutingProfileQueueConfigSummaryList')
+  final List<RoutingProfileQueueConfigSummary>
+      routingProfileQueueConfigSummaryList;
+
+  ListRoutingProfileQueuesResponse({
+    this.nextToken,
+    this.routingProfileQueueConfigSummaryList,
+  });
+  factory ListRoutingProfileQueuesResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$ListRoutingProfileQueuesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class ListRoutingProfilesResponse {
   /// If there are additional results, this is the token for the next set of
   /// results.
@@ -2690,6 +7295,29 @@ class ListRoutingProfilesResponse {
   });
   factory ListRoutingProfilesResponse.fromJson(Map<String, dynamic> json) =>
       _$ListRoutingProfilesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListSecurityKeysResponse {
+  /// If there are additional results, this is the token for the next set of
+  /// results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The security keys.
+  @_s.JsonKey(name: 'SecurityKeys')
+  final List<SecurityKey> securityKeys;
+
+  ListSecurityKeysResponse({
+    this.nextToken,
+    this.securityKeys,
+  });
+  factory ListSecurityKeysResponse.fromJson(Map<String, dynamic> json) =>
+      _$ListSecurityKeysResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -2737,6 +7365,29 @@ class ListTagsForResourceResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class ListUseCasesResponse {
+  /// If there are additional results, this is the token for the next set of
+  /// results.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// The use cases.
+  @_s.JsonKey(name: 'UseCaseSummaryList')
+  final List<UseCase> useCaseSummaryList;
+
+  ListUseCasesResponse({
+    this.nextToken,
+    this.useCaseSummaryList,
+  });
+  factory ListUseCasesResponse.fromJson(Map<String, dynamic> json) =>
+      _$ListUseCasesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class ListUserHierarchyGroupsResponse {
   /// If there are additional results, this is the token for the next set of
   /// results.
@@ -2776,6 +7427,32 @@ class ListUsersResponse {
   });
   factory ListUsersResponse.fromJson(Map<String, dynamic> json) =>
       _$ListUsersResponseFromJson(json);
+}
+
+/// Contains information about which channels are supported, and how many
+/// contacts an agent can have on a channel simultaneously.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class MediaConcurrency {
+  /// The channels that agents can handle in the Contact Control Panel (CCP).
+  @_s.JsonKey(name: 'Channel')
+  final Channel channel;
+
+  /// The number of contacts an agent can have on a channel simultaneously.
+  @_s.JsonKey(name: 'Concurrency')
+  final int concurrency;
+
+  MediaConcurrency({
+    @_s.required this.channel,
+    @_s.required this.concurrency,
+  });
+  factory MediaConcurrency.fromJson(Map<String, dynamic> json) =>
+      _$MediaConcurrencyFromJson(json);
+
+  Map<String, dynamic> toJson() => _$MediaConcurrencyToJson(this);
 }
 
 /// The customer's details.
@@ -3754,6 +8431,26 @@ extension on PhoneNumberCountryCode {
   }
 }
 
+/// Contains information about a phone number for a quick connect.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class PhoneNumberQuickConnectConfig {
+  /// The phone number in E.164 format.
+  @_s.JsonKey(name: 'PhoneNumber')
+  final String phoneNumber;
+
+  PhoneNumberQuickConnectConfig({
+    @_s.required this.phoneNumber,
+  });
+  factory PhoneNumberQuickConnectConfig.fromJson(Map<String, dynamic> json) =>
+      _$PhoneNumberQuickConnectConfigFromJson(json);
+
+  Map<String, dynamic> toJson() => _$PhoneNumberQuickConnectConfigToJson(this);
+}
+
 /// Contains summary information about a phone number for a contact center.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3816,6 +8513,60 @@ enum PhoneType {
   softPhone,
   @_s.JsonValue('DESK_PHONE')
   deskPhone,
+}
+
+/// Contains information about the prompt.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class PromptSummary {
+  /// The Amazon Resource Name (ARN) of the prompt.
+  @_s.JsonKey(name: 'Arn')
+  final String arn;
+
+  /// The identifier of the prompt.
+  @_s.JsonKey(name: 'Id')
+  final String id;
+
+  /// The name of the prompt.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  PromptSummary({
+    this.arn,
+    this.id,
+    this.name,
+  });
+  factory PromptSummary.fromJson(Map<String, dynamic> json) =>
+      _$PromptSummaryFromJson(json);
+}
+
+/// Contains information about a queue for a quick connect. The contact flow
+/// must be of type Transfer to Queue.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class QueueQuickConnectConfig {
+  /// The identifier of the contact flow.
+  @_s.JsonKey(name: 'ContactFlowId')
+  final String contactFlowId;
+
+  /// The identifier of the queue.
+  @_s.JsonKey(name: 'QueueId')
+  final String queueId;
+
+  QueueQuickConnectConfig({
+    @_s.required this.contactFlowId,
+    @_s.required this.queueId,
+  });
+  factory QueueQuickConnectConfig.fromJson(Map<String, dynamic> json) =>
+      _$QueueQuickConnectConfigFromJson(json);
+
+  Map<String, dynamic> toJson() => _$QueueQuickConnectConfigToJson(this);
 }
 
 /// Contains information about a queue resource for which metrics are returned.
@@ -3893,6 +8644,346 @@ extension on QueueType {
   }
 }
 
+/// Contains information about a quick connect.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class QuickConnect {
+  /// The description.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The name of the quick connect.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The Amazon Resource Name (ARN) of the quick connect.
+  @_s.JsonKey(name: 'QuickConnectARN')
+  final String quickConnectARN;
+
+  /// Contains information about the quick connect.
+  @_s.JsonKey(name: 'QuickConnectConfig')
+  final QuickConnectConfig quickConnectConfig;
+
+  /// The identifier for the quick connect.
+  @_s.JsonKey(name: 'QuickConnectId')
+  final String quickConnectId;
+
+  /// One or more tags.
+  @_s.JsonKey(name: 'Tags')
+  final Map<String, String> tags;
+
+  QuickConnect({
+    this.description,
+    this.name,
+    this.quickConnectARN,
+    this.quickConnectConfig,
+    this.quickConnectId,
+    this.tags,
+  });
+  factory QuickConnect.fromJson(Map<String, dynamic> json) =>
+      _$QuickConnectFromJson(json);
+}
+
+/// Contains configuration settings for a quick connect.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class QuickConnectConfig {
+  /// The type of quick connect. In the Amazon Connect console, when you create a
+  /// quick connect, you are prompted to assign one of the following types: Agent
+  /// (USER), External (PHONE_NUMBER), or Queue (QUEUE).
+  @_s.JsonKey(name: 'QuickConnectType')
+  final QuickConnectType quickConnectType;
+
+  /// The phone configuration. This is required only if QuickConnectType is
+  /// PHONE_NUMBER.
+  @_s.JsonKey(name: 'PhoneConfig')
+  final PhoneNumberQuickConnectConfig phoneConfig;
+
+  /// The queue configuration. This is required only if QuickConnectType is QUEUE.
+  @_s.JsonKey(name: 'QueueConfig')
+  final QueueQuickConnectConfig queueConfig;
+
+  /// The user configuration. This is required only if QuickConnectType is USER.
+  @_s.JsonKey(name: 'UserConfig')
+  final UserQuickConnectConfig userConfig;
+
+  QuickConnectConfig({
+    @_s.required this.quickConnectType,
+    this.phoneConfig,
+    this.queueConfig,
+    this.userConfig,
+  });
+  factory QuickConnectConfig.fromJson(Map<String, dynamic> json) =>
+      _$QuickConnectConfigFromJson(json);
+
+  Map<String, dynamic> toJson() => _$QuickConnectConfigToJson(this);
+}
+
+/// Contains summary information about a quick connect.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class QuickConnectSummary {
+  /// The Amazon Resource Name (ARN).
+  @_s.JsonKey(name: 'Arn')
+  final String arn;
+
+  /// The identifier for the quick connect.
+  @_s.JsonKey(name: 'Id')
+  final String id;
+
+  /// The name.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The type of quick connect. In the Amazon Connect console, when you create a
+  /// quick connect, you are prompted to assign one of the following types: Agent
+  /// (USER), External (PHONE_NUMBER), or Queue (QUEUE).
+  @_s.JsonKey(name: 'QuickConnectType')
+  final QuickConnectType quickConnectType;
+
+  QuickConnectSummary({
+    this.arn,
+    this.id,
+    this.name,
+    this.quickConnectType,
+  });
+  factory QuickConnectSummary.fromJson(Map<String, dynamic> json) =>
+      _$QuickConnectSummaryFromJson(json);
+}
+
+enum QuickConnectType {
+  @_s.JsonValue('USER')
+  user,
+  @_s.JsonValue('QUEUE')
+  queue,
+  @_s.JsonValue('PHONE_NUMBER')
+  phoneNumber,
+}
+
+extension on QuickConnectType {
+  String toValue() {
+    switch (this) {
+      case QuickConnectType.user:
+        return 'USER';
+      case QuickConnectType.queue:
+        return 'QUEUE';
+      case QuickConnectType.phoneNumber:
+        return 'PHONE_NUMBER';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
+/// A link that an agent selects to complete a given task. You can have up to
+/// 4,096 UTF-8 bytes across all references for a contact.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class Reference {
+  /// A valid URL.
+  @_s.JsonKey(name: 'Type')
+  final ReferenceType type;
+
+  /// A formatted URL that will be shown to an agent in the Contact Control Panel
+  /// (CCP)
+  @_s.JsonKey(name: 'Value')
+  final String value;
+
+  Reference({
+    @_s.required this.type,
+    @_s.required this.value,
+  });
+  Map<String, dynamic> toJson() => _$ReferenceToJson(this);
+}
+
+enum ReferenceType {
+  @_s.JsonValue('URL')
+  url,
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ResumeContactRecordingResponse {
+  ResumeContactRecordingResponse();
+  factory ResumeContactRecordingResponse.fromJson(Map<String, dynamic> json) =>
+      _$ResumeContactRecordingResponseFromJson(json);
+}
+
+/// Contains information about a routing profile.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class RoutingProfile {
+  /// The identifier of the default outbound queue for this routing profile.
+  @_s.JsonKey(name: 'DefaultOutboundQueueId')
+  final String defaultOutboundQueueId;
+
+  /// The description of the routing profile.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// The identifier of the Amazon Connect instance.
+  @_s.JsonKey(name: 'InstanceId')
+  final String instanceId;
+
+  /// The channels agents can handle in the Contact Control Panel (CCP) for this
+  /// routing profile.
+  @_s.JsonKey(name: 'MediaConcurrencies')
+  final List<MediaConcurrency> mediaConcurrencies;
+
+  /// The name of the routing profile.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The Amazon Resource Name (ARN) of the routing profile.
+  @_s.JsonKey(name: 'RoutingProfileArn')
+  final String routingProfileArn;
+
+  /// The identifier of the routing profile.
+  @_s.JsonKey(name: 'RoutingProfileId')
+  final String routingProfileId;
+
+  /// One or more tags.
+  @_s.JsonKey(name: 'Tags')
+  final Map<String, String> tags;
+
+  RoutingProfile({
+    this.defaultOutboundQueueId,
+    this.description,
+    this.instanceId,
+    this.mediaConcurrencies,
+    this.name,
+    this.routingProfileArn,
+    this.routingProfileId,
+    this.tags,
+  });
+  factory RoutingProfile.fromJson(Map<String, dynamic> json) =>
+      _$RoutingProfileFromJson(json);
+}
+
+/// Contains information about the queue and channel for which priority and
+/// delay can be set.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RoutingProfileQueueConfig {
+  /// The delay, in seconds, a contact should be in the queue before they are
+  /// routed to an available agent. For more information, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/concepts-routing-profiles-priority.html">Queues:
+  /// priority and delay</a> in the <i>Amazon Connect Administrator Guide</i>.
+  @_s.JsonKey(name: 'Delay')
+  final int delay;
+
+  /// The order in which contacts are to be handled for the queue. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/concepts-routing-profiles-priority.html">Queues:
+  /// priority and delay</a>.
+  @_s.JsonKey(name: 'Priority')
+  final int priority;
+
+  /// Contains information about a queue resource.
+  @_s.JsonKey(name: 'QueueReference')
+  final RoutingProfileQueueReference queueReference;
+
+  RoutingProfileQueueConfig({
+    @_s.required this.delay,
+    @_s.required this.priority,
+    @_s.required this.queueReference,
+  });
+  Map<String, dynamic> toJson() => _$RoutingProfileQueueConfigToJson(this);
+}
+
+/// Contains summary information about a routing profile queue.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class RoutingProfileQueueConfigSummary {
+  /// The channels this queue supports.
+  @_s.JsonKey(name: 'Channel')
+  final Channel channel;
+
+  /// The delay, in seconds, that a contact should be in the queue before they are
+  /// routed to an available agent. For more information, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/concepts-routing-profiles-priority.html">Queues:
+  /// priority and delay</a> in the <i>Amazon Connect Administrator Guide</i>.
+  @_s.JsonKey(name: 'Delay')
+  final int delay;
+
+  /// The order in which contacts are to be handled for the queue. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/concepts-routing-profiles-priority.html">Queues:
+  /// priority and delay</a>.
+  @_s.JsonKey(name: 'Priority')
+  final int priority;
+
+  /// The Amazon Resource Name (ARN) of the queue.
+  @_s.JsonKey(name: 'QueueArn')
+  final String queueArn;
+
+  /// The identifier of the queue.
+  @_s.JsonKey(name: 'QueueId')
+  final String queueId;
+
+  /// The name of the queue.
+  @_s.JsonKey(name: 'QueueName')
+  final String queueName;
+
+  RoutingProfileQueueConfigSummary({
+    @_s.required this.channel,
+    @_s.required this.delay,
+    @_s.required this.priority,
+    @_s.required this.queueArn,
+    @_s.required this.queueId,
+    @_s.required this.queueName,
+  });
+  factory RoutingProfileQueueConfigSummary.fromJson(
+          Map<String, dynamic> json) =>
+      _$RoutingProfileQueueConfigSummaryFromJson(json);
+}
+
+/// Contains the channel and queue identifier for a routing profile.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class RoutingProfileQueueReference {
+  /// The channels agents can handle in the Contact Control Panel (CCP) for this
+  /// routing profile.
+  @_s.JsonKey(name: 'Channel')
+  final Channel channel;
+
+  /// The identifier of the queue.
+  @_s.JsonKey(name: 'QueueId')
+  final String queueId;
+
+  RoutingProfileQueueReference({
+    @_s.required this.channel,
+    @_s.required this.queueId,
+  });
+  Map<String, dynamic> toJson() => _$RoutingProfileQueueReferenceToJson(this);
+}
+
 /// Contains summary information about a routing profile.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3921,6 +9012,66 @@ class RoutingProfileSummary {
       _$RoutingProfileSummaryFromJson(json);
 }
 
+/// Information about the S3 storage type.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class S3Config {
+  /// The S3 bucket name.
+  @_s.JsonKey(name: 'BucketName')
+  final String bucketName;
+
+  /// The S3 bucket prefix.
+  @_s.JsonKey(name: 'BucketPrefix')
+  final String bucketPrefix;
+
+  /// The S3 encryption configuration.
+  @_s.JsonKey(name: 'EncryptionConfig')
+  final EncryptionConfig encryptionConfig;
+
+  S3Config({
+    @_s.required this.bucketName,
+    @_s.required this.bucketPrefix,
+    this.encryptionConfig,
+  });
+  factory S3Config.fromJson(Map<String, dynamic> json) =>
+      _$S3ConfigFromJson(json);
+
+  Map<String, dynamic> toJson() => _$S3ConfigToJson(this);
+}
+
+/// Configuration information of the security key.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class SecurityKey {
+  /// The existing association identifier that uniquely identifies the resource
+  /// type and storage config for the given instance ID.
+  @_s.JsonKey(name: 'AssociationId')
+  final String associationId;
+
+  /// When the security key was created.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreationTime')
+  final DateTime creationTime;
+
+  /// The key of the security key.
+  @_s.JsonKey(name: 'Key')
+  final String key;
+
+  SecurityKey({
+    this.associationId,
+    this.creationTime,
+    this.key,
+  });
+  factory SecurityKey.fromJson(Map<String, dynamic> json) =>
+      _$SecurityKeyFromJson(json);
+}
+
 /// Contains information about a security profile.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3947,6 +9098,25 @@ class SecurityProfileSummary {
   });
   factory SecurityProfileSummary.fromJson(Map<String, dynamic> json) =>
       _$SecurityProfileSummaryFromJson(json);
+}
+
+enum SourceType {
+  @_s.JsonValue('SALESFORCE')
+  salesforce,
+  @_s.JsonValue('ZENDESK')
+  zendesk,
+}
+
+extension on SourceType {
+  String toValue() {
+    switch (this) {
+      case SourceType.salesforce:
+        return 'SALESFORCE';
+      case SourceType.zendesk:
+        return 'ZENDESK';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 @_s.JsonSerializable(
@@ -3984,6 +9154,17 @@ class StartChatContactResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class StartContactRecordingResponse {
+  StartContactRecordingResponse();
+  factory StartContactRecordingResponse.fromJson(Map<String, dynamic> json) =>
+      _$StartContactRecordingResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class StartOutboundVoiceContactResponse {
   /// The identifier of this contact within the Amazon Connect instance.
   @_s.JsonKey(name: 'ContactId')
@@ -3995,6 +9176,23 @@ class StartOutboundVoiceContactResponse {
   factory StartOutboundVoiceContactResponse.fromJson(
           Map<String, dynamic> json) =>
       _$StartOutboundVoiceContactResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class StartTaskContactResponse {
+  /// The identifier of this contact within the Amazon Connect instance.
+  @_s.JsonKey(name: 'ContactId')
+  final String contactId;
+
+  StartTaskContactResponse({
+    this.contactId,
+  });
+  factory StartTaskContactResponse.fromJson(Map<String, dynamic> json) =>
+      _$StartTaskContactResponseFromJson(json);
 }
 
 enum Statistic {
@@ -4011,10 +9209,43 @@ enum Statistic {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class StopContactRecordingResponse {
+  StopContactRecordingResponse();
+  factory StopContactRecordingResponse.fromJson(Map<String, dynamic> json) =>
+      _$StopContactRecordingResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class StopContactResponse {
   StopContactResponse();
   factory StopContactResponse.fromJson(Map<String, dynamic> json) =>
       _$StopContactResponseFromJson(json);
+}
+
+enum StorageType {
+  @_s.JsonValue('S3')
+  s3,
+  @_s.JsonValue('KINESIS_VIDEO_STREAM')
+  kinesisVideoStream,
+  @_s.JsonValue('KINESIS_STREAM')
+  kinesisStream,
+  @_s.JsonValue('KINESIS_FIREHOSE')
+  kinesisFirehose,
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class SuspendContactRecordingResponse {
+  SuspendContactRecordingResponse();
+  factory SuspendContactRecordingResponse.fromJson(Map<String, dynamic> json) =>
+      _$SuspendContactRecordingResponseFromJson(json);
 }
 
 /// Contains information about the threshold for service level metrics.
@@ -4060,6 +9291,50 @@ class UpdateContactAttributesResponse {
   UpdateContactAttributesResponse();
   factory UpdateContactAttributesResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateContactAttributesResponseFromJson(json);
+}
+
+/// Contains the use case.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class UseCase {
+  /// The Amazon Resource Name (ARN) for the use case.
+  @_s.JsonKey(name: 'UseCaseArn')
+  final String useCaseArn;
+
+  /// The identifier for the use case.
+  @_s.JsonKey(name: 'UseCaseId')
+  final String useCaseId;
+
+  /// The type of use case to associate to the AppIntegration association. Each
+  /// AppIntegration association can have only one of each use case type.
+  @_s.JsonKey(name: 'UseCaseType')
+  final UseCaseType useCaseType;
+
+  UseCase({
+    this.useCaseArn,
+    this.useCaseId,
+    this.useCaseType,
+  });
+  factory UseCase.fromJson(Map<String, dynamic> json) =>
+      _$UseCaseFromJson(json);
+}
+
+enum UseCaseType {
+  @_s.JsonValue('RULES_EVALUATION')
+  rulesEvaluation,
+}
+
+extension on UseCaseType {
+  String toValue() {
+    switch (this) {
+      case UseCaseType.rulesEvaluation:
+        return 'RULES_EVALUATION';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Contains information about a user account for a Amazon Connect instance.
@@ -4193,6 +9468,32 @@ class UserPhoneConfig {
   Map<String, dynamic> toJson() => _$UserPhoneConfigToJson(this);
 }
 
+/// Contains information about the quick connect configuration settings for a
+/// user. The contact flow must be of type Transfer to Agent.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class UserQuickConnectConfig {
+  /// The identifier of the contact flow.
+  @_s.JsonKey(name: 'ContactFlowId')
+  final String contactFlowId;
+
+  /// The identifier of the user.
+  @_s.JsonKey(name: 'UserId')
+  final String userId;
+
+  UserQuickConnectConfig({
+    @_s.required this.contactFlowId,
+    @_s.required this.userId,
+  });
+  factory UserQuickConnectConfig.fromJson(Map<String, dynamic> json) =>
+      _$UserQuickConnectConfigFromJson(json);
+
+  Map<String, dynamic> toJson() => _$UserQuickConnectConfigToJson(this);
+}
+
 /// Contains summary information about a user.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -4221,6 +9522,40 @@ class UserSummary {
       _$UserSummaryFromJson(json);
 }
 
+/// Contains information about the recording configuration settings.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class VoiceRecordingConfiguration {
+  /// Identifies which track is being recorded.
+  @_s.JsonKey(name: 'VoiceRecordingTrack')
+  final VoiceRecordingTrack voiceRecordingTrack;
+
+  VoiceRecordingConfiguration({
+    this.voiceRecordingTrack,
+  });
+  Map<String, dynamic> toJson() => _$VoiceRecordingConfigurationToJson(this);
+}
+
+enum VoiceRecordingTrack {
+  @_s.JsonValue('FROM_AGENT')
+  fromAgent,
+  @_s.JsonValue('TO_AGENT')
+  toAgent,
+  @_s.JsonValue('ALL')
+  all,
+}
+
+class ContactFlowNotPublishedException extends _s.GenericAwsException {
+  ContactFlowNotPublishedException({String type, String message})
+      : super(
+            type: type,
+            code: 'ContactFlowNotPublishedException',
+            message: message);
+}
+
 class ContactNotFoundException extends _s.GenericAwsException {
   ContactNotFoundException({String type, String message})
       : super(type: type, code: 'ContactNotFoundException', message: message);
@@ -4242,6 +9577,12 @@ class DuplicateResourceException extends _s.GenericAwsException {
 class InternalServiceException extends _s.GenericAwsException {
   InternalServiceException({String type, String message})
       : super(type: type, code: 'InternalServiceException', message: message);
+}
+
+class InvalidContactFlowException extends _s.GenericAwsException {
+  InvalidContactFlowException({String type, String message})
+      : super(
+            type: type, code: 'InvalidContactFlowException', message: message);
 }
 
 class InvalidParameterException extends _s.GenericAwsException {
@@ -4267,9 +9608,27 @@ class OutboundContactNotPermittedException extends _s.GenericAwsException {
             message: message);
 }
 
+class ResourceConflictException extends _s.GenericAwsException {
+  ResourceConflictException({String type, String message})
+      : super(type: type, code: 'ResourceConflictException', message: message);
+}
+
+class ResourceInUseException extends _s.GenericAwsException {
+  ResourceInUseException({String type, String message})
+      : super(type: type, code: 'ResourceInUseException', message: message);
+}
+
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String type, String message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
+}
+
+class ServiceQuotaExceededException extends _s.GenericAwsException {
+  ServiceQuotaExceededException({String type, String message})
+      : super(
+            type: type,
+            code: 'ServiceQuotaExceededException',
+            message: message);
 }
 
 class ThrottlingException extends _s.GenericAwsException {
@@ -4283,6 +9642,8 @@ class UserNotFoundException extends _s.GenericAwsException {
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{
+  'ContactFlowNotPublishedException': (type, message) =>
+      ContactFlowNotPublishedException(type: type, message: message),
   'ContactNotFoundException': (type, message) =>
       ContactNotFoundException(type: type, message: message),
   'DestinationNotAllowedException': (type, message) =>
@@ -4291,6 +9652,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       DuplicateResourceException(type: type, message: message),
   'InternalServiceException': (type, message) =>
       InternalServiceException(type: type, message: message),
+  'InvalidContactFlowException': (type, message) =>
+      InvalidContactFlowException(type: type, message: message),
   'InvalidParameterException': (type, message) =>
       InvalidParameterException(type: type, message: message),
   'InvalidRequestException': (type, message) =>
@@ -4299,8 +9662,14 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       LimitExceededException(type: type, message: message),
   'OutboundContactNotPermittedException': (type, message) =>
       OutboundContactNotPermittedException(type: type, message: message),
+  'ResourceConflictException': (type, message) =>
+      ResourceConflictException(type: type, message: message),
+  'ResourceInUseException': (type, message) =>
+      ResourceInUseException(type: type, message: message),
   'ResourceNotFoundException': (type, message) =>
       ResourceNotFoundException(type: type, message: message),
+  'ServiceQuotaExceededException': (type, message) =>
+      ServiceQuotaExceededException(type: type, message: message),
   'ThrottlingException': (type, message) =>
       ThrottlingException(type: type, message: message),
   'UserNotFoundException': (type, message) =>

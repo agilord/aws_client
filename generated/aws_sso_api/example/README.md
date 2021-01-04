@@ -1,8 +1,8 @@
 ```dart
-import 'package:aws_sso_api/sso-2019-06-10.dart';
+import 'package:aws_sso_api/sso-admin-2020-07-20.dart';
 
 void main() {
-  final service = SSO(region: 'eu-west-1');
-  // See documentation on how to use SSO
+  final service = SSOAdmin(region: 'eu-west-1');
+  // See documentation on how to use SSOAdmin
 }
 ```

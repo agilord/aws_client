@@ -84,6 +84,9 @@ ComputeEnvironmentDetail _$ComputeEnvironmentDetailFromJson(
     state: _$enumDecodeNullable(_$CEStateEnumMap, json['state']),
     status: _$enumDecodeNullable(_$CEStatusEnumMap, json['status']),
     statusReason: json['statusReason'] as String,
+    tags: (json['tags'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(k, e as String),
+    ),
     type: _$enumDecodeNullable(_$CETypeEnumMap, json['type']),
   );
 }
@@ -164,23 +167,28 @@ Map<String, dynamic> _$ComputeEnvironmentOrderToJson(
 
 ComputeResource _$ComputeResourceFromJson(Map<String, dynamic> json) {
   return ComputeResource(
-    instanceRole: json['instanceRole'] as String,
-    instanceTypes:
-        (json['instanceTypes'] as List)?.map((e) => e as String)?.toList(),
     maxvCpus: json['maxvCpus'] as int,
-    minvCpus: json['minvCpus'] as int,
     subnets: (json['subnets'] as List)?.map((e) => e as String)?.toList(),
     type: _$enumDecodeNullable(_$CRTypeEnumMap, json['type']),
     allocationStrategy: _$enumDecodeNullable(
         _$CRAllocationStrategyEnumMap, json['allocationStrategy']),
     bidPercentage: json['bidPercentage'] as int,
     desiredvCpus: json['desiredvCpus'] as int,
+    ec2Configuration: (json['ec2Configuration'] as List)
+        ?.map((e) => e == null
+            ? null
+            : Ec2Configuration.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
     ec2KeyPair: json['ec2KeyPair'] as String,
     imageId: json['imageId'] as String,
+    instanceRole: json['instanceRole'] as String,
+    instanceTypes:
+        (json['instanceTypes'] as List)?.map((e) => e as String)?.toList(),
     launchTemplate: json['launchTemplate'] == null
         ? null
         : LaunchTemplateSpecification.fromJson(
             json['launchTemplate'] as Map<String, dynamic>),
+    minvCpus: json['minvCpus'] as int,
     placementGroup: json['placementGroup'] as String,
     securityGroupIds:
         (json['securityGroupIds'] as List)?.map((e) => e as String)?.toList(),
@@ -200,19 +208,21 @@ Map<String, dynamic> _$ComputeResourceToJson(ComputeResource instance) {
     }
   }
 
-  writeNotNull('instanceRole', instance.instanceRole);
-  writeNotNull('instanceTypes', instance.instanceTypes);
   writeNotNull('maxvCpus', instance.maxvCpus);
-  writeNotNull('minvCpus', instance.minvCpus);
   writeNotNull('subnets', instance.subnets);
   writeNotNull('type', _$CRTypeEnumMap[instance.type]);
   writeNotNull('allocationStrategy',
       _$CRAllocationStrategyEnumMap[instance.allocationStrategy]);
   writeNotNull('bidPercentage', instance.bidPercentage);
   writeNotNull('desiredvCpus', instance.desiredvCpus);
+  writeNotNull('ec2Configuration',
+      instance.ec2Configuration?.map((e) => e?.toJson())?.toList());
   writeNotNull('ec2KeyPair', instance.ec2KeyPair);
   writeNotNull('imageId', instance.imageId);
+  writeNotNull('instanceRole', instance.instanceRole);
+  writeNotNull('instanceTypes', instance.instanceTypes);
   writeNotNull('launchTemplate', instance.launchTemplate?.toJson());
+  writeNotNull('minvCpus', instance.minvCpus);
   writeNotNull('placementGroup', instance.placementGroup);
   writeNotNull('securityGroupIds', instance.securityGroupIds);
   writeNotNull('spotIamFleetRole', instance.spotIamFleetRole);
@@ -223,6 +233,8 @@ Map<String, dynamic> _$ComputeResourceToJson(ComputeResource instance) {
 const _$CRTypeEnumMap = {
   CRType.ec2: 'EC2',
   CRType.spot: 'SPOT',
+  CRType.fargate: 'FARGATE',
+  CRType.fargateSpot: 'FARGATE_SPOT',
 };
 
 const _$CRAllocationStrategyEnumMap = {
@@ -244,6 +256,8 @@ Map<String, dynamic> _$ComputeResourceUpdateToJson(
   writeNotNull('desiredvCpus', instance.desiredvCpus);
   writeNotNull('maxvCpus', instance.maxvCpus);
   writeNotNull('minvCpus', instance.minvCpus);
+  writeNotNull('securityGroupIds', instance.securityGroupIds);
+  writeNotNull('subnets', instance.subnets);
   return val;
 }
 
@@ -255,7 +269,12 @@ ContainerDetail _$ContainerDetailFromJson(Map<String, dynamic> json) {
         ?.map((e) =>
             e == null ? null : KeyValuePair.fromJson(e as Map<String, dynamic>))
         ?.toList(),
+    executionRoleArn: json['executionRoleArn'] as String,
     exitCode: json['exitCode'] as int,
+    fargatePlatformConfiguration: json['fargatePlatformConfiguration'] == null
+        ? null
+        : FargatePlatformConfiguration.fromJson(
+            json['fargatePlatformConfiguration'] as Map<String, dynamic>),
     image: json['image'] as String,
     instanceType: json['instanceType'] as String,
     jobRoleArn: json['jobRoleArn'] as String,
@@ -263,12 +282,20 @@ ContainerDetail _$ContainerDetailFromJson(Map<String, dynamic> json) {
         ? null
         : LinuxParameters.fromJson(
             json['linuxParameters'] as Map<String, dynamic>),
+    logConfiguration: json['logConfiguration'] == null
+        ? null
+        : LogConfiguration.fromJson(
+            json['logConfiguration'] as Map<String, dynamic>),
     logStreamName: json['logStreamName'] as String,
     memory: json['memory'] as int,
     mountPoints: (json['mountPoints'] as List)
         ?.map((e) =>
             e == null ? null : MountPoint.fromJson(e as Map<String, dynamic>))
         ?.toList(),
+    networkConfiguration: json['networkConfiguration'] == null
+        ? null
+        : NetworkConfiguration.fromJson(
+            json['networkConfiguration'] as Map<String, dynamic>),
     networkInterfaces: (json['networkInterfaces'] as List)
         ?.map((e) => e == null
             ? null
@@ -281,6 +308,10 @@ ContainerDetail _$ContainerDetailFromJson(Map<String, dynamic> json) {
         ?.map((e) => e == null
             ? null
             : ResourceRequirement.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    secrets: (json['secrets'] as List)
+        ?.map((e) =>
+            e == null ? null : Secret.fromJson(e as Map<String, dynamic>))
         ?.toList(),
     taskArn: json['taskArn'] as String,
     ulimits: (json['ulimits'] as List)
@@ -323,6 +354,11 @@ ContainerProperties _$ContainerPropertiesFromJson(Map<String, dynamic> json) {
         ?.map((e) =>
             e == null ? null : KeyValuePair.fromJson(e as Map<String, dynamic>))
         ?.toList(),
+    executionRoleArn: json['executionRoleArn'] as String,
+    fargatePlatformConfiguration: json['fargatePlatformConfiguration'] == null
+        ? null
+        : FargatePlatformConfiguration.fromJson(
+            json['fargatePlatformConfiguration'] as Map<String, dynamic>),
     image: json['image'] as String,
     instanceType: json['instanceType'] as String,
     jobRoleArn: json['jobRoleArn'] as String,
@@ -330,17 +366,29 @@ ContainerProperties _$ContainerPropertiesFromJson(Map<String, dynamic> json) {
         ? null
         : LinuxParameters.fromJson(
             json['linuxParameters'] as Map<String, dynamic>),
+    logConfiguration: json['logConfiguration'] == null
+        ? null
+        : LogConfiguration.fromJson(
+            json['logConfiguration'] as Map<String, dynamic>),
     memory: json['memory'] as int,
     mountPoints: (json['mountPoints'] as List)
         ?.map((e) =>
             e == null ? null : MountPoint.fromJson(e as Map<String, dynamic>))
         ?.toList(),
+    networkConfiguration: json['networkConfiguration'] == null
+        ? null
+        : NetworkConfiguration.fromJson(
+            json['networkConfiguration'] as Map<String, dynamic>),
     privileged: json['privileged'] as bool,
     readonlyRootFilesystem: json['readonlyRootFilesystem'] as bool,
     resourceRequirements: (json['resourceRequirements'] as List)
         ?.map((e) => e == null
             ? null
             : ResourceRequirement.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    secrets: (json['secrets'] as List)
+        ?.map((e) =>
+            e == null ? null : Secret.fromJson(e as Map<String, dynamic>))
         ?.toList(),
     ulimits: (json['ulimits'] as List)
         ?.map((e) =>
@@ -367,17 +415,23 @@ Map<String, dynamic> _$ContainerPropertiesToJson(ContainerProperties instance) {
   writeNotNull('command', instance.command);
   writeNotNull(
       'environment', instance.environment?.map((e) => e?.toJson())?.toList());
+  writeNotNull('executionRoleArn', instance.executionRoleArn);
+  writeNotNull('fargatePlatformConfiguration',
+      instance.fargatePlatformConfiguration?.toJson());
   writeNotNull('image', instance.image);
   writeNotNull('instanceType', instance.instanceType);
   writeNotNull('jobRoleArn', instance.jobRoleArn);
   writeNotNull('linuxParameters', instance.linuxParameters?.toJson());
+  writeNotNull('logConfiguration', instance.logConfiguration?.toJson());
   writeNotNull('memory', instance.memory);
   writeNotNull(
       'mountPoints', instance.mountPoints?.map((e) => e?.toJson())?.toList());
+  writeNotNull('networkConfiguration', instance.networkConfiguration?.toJson());
   writeNotNull('privileged', instance.privileged);
   writeNotNull('readonlyRootFilesystem', instance.readonlyRootFilesystem);
   writeNotNull('resourceRequirements',
       instance.resourceRequirements?.map((e) => e?.toJson())?.toList());
+  writeNotNull('secrets', instance.secrets?.map((e) => e?.toJson())?.toList());
   writeNotNull('ulimits', instance.ulimits?.map((e) => e?.toJson())?.toList());
   writeNotNull('user', instance.user);
   writeNotNull('vcpus', instance.vcpus);
@@ -503,6 +557,78 @@ const _$DeviceCgroupPermissionEnumMap = {
   DeviceCgroupPermission.mknod: 'MKNOD',
 };
 
+Ec2Configuration _$Ec2ConfigurationFromJson(Map<String, dynamic> json) {
+  return Ec2Configuration(
+    imageType: json['imageType'] as String,
+    imageIdOverride: json['imageIdOverride'] as String,
+  );
+}
+
+Map<String, dynamic> _$Ec2ConfigurationToJson(Ec2Configuration instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('imageType', instance.imageType);
+  writeNotNull('imageIdOverride', instance.imageIdOverride);
+  return val;
+}
+
+EvaluateOnExit _$EvaluateOnExitFromJson(Map<String, dynamic> json) {
+  return EvaluateOnExit(
+    action: _$enumDecodeNullable(_$RetryActionEnumMap, json['action']),
+    onExitCode: json['onExitCode'] as String,
+    onReason: json['onReason'] as String,
+    onStatusReason: json['onStatusReason'] as String,
+  );
+}
+
+Map<String, dynamic> _$EvaluateOnExitToJson(EvaluateOnExit instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('action', _$RetryActionEnumMap[instance.action]);
+  writeNotNull('onExitCode', instance.onExitCode);
+  writeNotNull('onReason', instance.onReason);
+  writeNotNull('onStatusReason', instance.onStatusReason);
+  return val;
+}
+
+const _$RetryActionEnumMap = {
+  RetryAction.retry: 'RETRY',
+  RetryAction.exit: 'EXIT',
+};
+
+FargatePlatformConfiguration _$FargatePlatformConfigurationFromJson(
+    Map<String, dynamic> json) {
+  return FargatePlatformConfiguration(
+    platformVersion: json['platformVersion'] as String,
+  );
+}
+
+Map<String, dynamic> _$FargatePlatformConfigurationToJson(
+    FargatePlatformConfiguration instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('platformVersion', instance.platformVersion);
+  return val;
+}
+
 Host _$HostFromJson(Map<String, dynamic> json) {
   return Host(
     sourcePath: json['sourcePath'] as String,
@@ -539,15 +665,27 @@ JobDefinition _$JobDefinitionFromJson(Map<String, dynamic> json) {
     parameters: (json['parameters'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
+    platformCapabilities: (json['platformCapabilities'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$PlatformCapabilityEnumMap, e))
+        ?.toList(),
+    propagateTags: json['propagateTags'] as bool,
     retryStrategy: json['retryStrategy'] == null
         ? null
         : RetryStrategy.fromJson(json['retryStrategy'] as Map<String, dynamic>),
     status: json['status'] as String,
+    tags: (json['tags'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(k, e as String),
+    ),
     timeout: json['timeout'] == null
         ? null
         : JobTimeout.fromJson(json['timeout'] as Map<String, dynamic>),
   );
 }
+
+const _$PlatformCapabilityEnumMap = {
+  PlatformCapability.ec2: 'EC2',
+  PlatformCapability.fargate: 'FARGATE',
+};
 
 JobDependency _$JobDependencyFromJson(Map<String, dynamic> json) {
   return JobDependency(
@@ -601,6 +739,7 @@ JobDetail _$JobDetailFromJson(Map<String, dynamic> json) {
             ? null
             : JobDependency.fromJson(e as Map<String, dynamic>))
         ?.toList(),
+    jobArn: json['jobArn'] as String,
     nodeDetails: json['nodeDetails'] == null
         ? null
         : NodeDetails.fromJson(json['nodeDetails'] as Map<String, dynamic>),
@@ -611,11 +750,18 @@ JobDetail _$JobDetailFromJson(Map<String, dynamic> json) {
     parameters: (json['parameters'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
+    platformCapabilities: (json['platformCapabilities'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$PlatformCapabilityEnumMap, e))
+        ?.toList(),
+    propagateTags: json['propagateTags'] as bool,
     retryStrategy: json['retryStrategy'] == null
         ? null
         : RetryStrategy.fromJson(json['retryStrategy'] as Map<String, dynamic>),
     statusReason: json['statusReason'] as String,
     stoppedAt: json['stoppedAt'] as int,
+    tags: (json['tags'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(k, e as String),
+    ),
     timeout: json['timeout'] == null
         ? null
         : JobTimeout.fromJson(json['timeout'] as Map<String, dynamic>),
@@ -645,6 +791,9 @@ JobQueueDetail _$JobQueueDetailFromJson(Map<String, dynamic> json) {
     state: _$enumDecodeNullable(_$JQStateEnumMap, json['state']),
     status: _$enumDecodeNullable(_$JQStatusEnumMap, json['status']),
     statusReason: json['statusReason'] as String,
+    tags: (json['tags'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(k, e as String),
+    ),
   );
 }
 
@@ -674,6 +823,7 @@ JobSummary _$JobSummaryFromJson(Map<String, dynamic> json) {
         ? null
         : ContainerSummary.fromJson(json['container'] as Map<String, dynamic>),
     createdAt: json['createdAt'] as int,
+    jobArn: json['jobArn'] as String,
     nodeProperties: json['nodeProperties'] == null
         ? null
         : NodePropertiesSummary.fromJson(
@@ -756,6 +906,14 @@ LinuxParameters _$LinuxParametersFromJson(Map<String, dynamic> json) {
         ?.map((e) =>
             e == null ? null : Device.fromJson(e as Map<String, dynamic>))
         ?.toList(),
+    initProcessEnabled: json['initProcessEnabled'] as bool,
+    maxSwap: json['maxSwap'] as int,
+    sharedMemorySize: json['sharedMemorySize'] as int,
+    swappiness: json['swappiness'] as int,
+    tmpfs: (json['tmpfs'] as List)
+        ?.map(
+            (e) => e == null ? null : Tmpfs.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
   );
 }
 
@@ -769,6 +927,11 @@ Map<String, dynamic> _$LinuxParametersToJson(LinuxParameters instance) {
   }
 
   writeNotNull('devices', instance.devices?.map((e) => e?.toJson())?.toList());
+  writeNotNull('initProcessEnabled', instance.initProcessEnabled);
+  writeNotNull('maxSwap', instance.maxSwap);
+  writeNotNull('sharedMemorySize', instance.sharedMemorySize);
+  writeNotNull('swappiness', instance.swappiness);
+  writeNotNull('tmpfs', instance.tmpfs?.map((e) => e?.toJson())?.toList());
   return val;
 }
 
@@ -781,6 +944,54 @@ ListJobsResponse _$ListJobsResponseFromJson(Map<String, dynamic> json) {
     nextToken: json['nextToken'] as String,
   );
 }
+
+ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
+    Map<String, dynamic> json) {
+  return ListTagsForResourceResponse(
+    tags: (json['tags'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(k, e as String),
+    ),
+  );
+}
+
+LogConfiguration _$LogConfigurationFromJson(Map<String, dynamic> json) {
+  return LogConfiguration(
+    logDriver: _$enumDecodeNullable(_$LogDriverEnumMap, json['logDriver']),
+    options: (json['options'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(k, e as String),
+    ),
+    secretOptions: (json['secretOptions'] as List)
+        ?.map((e) =>
+            e == null ? null : Secret.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+Map<String, dynamic> _$LogConfigurationToJson(LogConfiguration instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('logDriver', _$LogDriverEnumMap[instance.logDriver]);
+  writeNotNull('options', instance.options);
+  writeNotNull('secretOptions',
+      instance.secretOptions?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
+const _$LogDriverEnumMap = {
+  LogDriver.jsonFile: 'json-file',
+  LogDriver.syslog: 'syslog',
+  LogDriver.journald: 'journald',
+  LogDriver.gelf: 'gelf',
+  LogDriver.fluentd: 'fluentd',
+  LogDriver.awslogs: 'awslogs',
+  LogDriver.splunk: 'splunk',
+};
 
 MountPoint _$MountPointFromJson(Map<String, dynamic> json) {
   return MountPoint(
@@ -804,6 +1015,33 @@ Map<String, dynamic> _$MountPointToJson(MountPoint instance) {
   writeNotNull('sourceVolume', instance.sourceVolume);
   return val;
 }
+
+NetworkConfiguration _$NetworkConfigurationFromJson(Map<String, dynamic> json) {
+  return NetworkConfiguration(
+    assignPublicIp:
+        _$enumDecodeNullable(_$AssignPublicIpEnumMap, json['assignPublicIp']),
+  );
+}
+
+Map<String, dynamic> _$NetworkConfigurationToJson(
+    NetworkConfiguration instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'assignPublicIp', _$AssignPublicIpEnumMap[instance.assignPublicIp]);
+  return val;
+}
+
+const _$AssignPublicIpEnumMap = {
+  AssignPublicIp.enabled: 'ENABLED',
+  AssignPublicIp.disabled: 'DISABLED',
+};
 
 NetworkInterface _$NetworkInterfaceFromJson(Map<String, dynamic> json) {
   return NetworkInterface(
@@ -943,11 +1181,18 @@ Map<String, dynamic> _$ResourceRequirementToJson(ResourceRequirement instance) {
 
 const _$ResourceTypeEnumMap = {
   ResourceType.gpu: 'GPU',
+  ResourceType.vcpu: 'VCPU',
+  ResourceType.memory: 'MEMORY',
 };
 
 RetryStrategy _$RetryStrategyFromJson(Map<String, dynamic> json) {
   return RetryStrategy(
     attempts: json['attempts'] as int,
+    evaluateOnExit: (json['evaluateOnExit'] as List)
+        ?.map((e) => e == null
+            ? null
+            : EvaluateOnExit.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
   );
 }
 
@@ -961,6 +1206,29 @@ Map<String, dynamic> _$RetryStrategyToJson(RetryStrategy instance) {
   }
 
   writeNotNull('attempts', instance.attempts);
+  writeNotNull('evaluateOnExit',
+      instance.evaluateOnExit?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
+Secret _$SecretFromJson(Map<String, dynamic> json) {
+  return Secret(
+    name: json['name'] as String,
+    valueFrom: json['valueFrom'] as String,
+  );
+}
+
+Map<String, dynamic> _$SecretToJson(Secret instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('name', instance.name);
+  writeNotNull('valueFrom', instance.valueFrom);
   return val;
 }
 
@@ -968,11 +1236,40 @@ SubmitJobResponse _$SubmitJobResponseFromJson(Map<String, dynamic> json) {
   return SubmitJobResponse(
     jobId: json['jobId'] as String,
     jobName: json['jobName'] as String,
+    jobArn: json['jobArn'] as String,
   );
+}
+
+TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
+  return TagResourceResponse();
 }
 
 TerminateJobResponse _$TerminateJobResponseFromJson(Map<String, dynamic> json) {
   return TerminateJobResponse();
+}
+
+Tmpfs _$TmpfsFromJson(Map<String, dynamic> json) {
+  return Tmpfs(
+    containerPath: json['containerPath'] as String,
+    size: json['size'] as int,
+    mountOptions:
+        (json['mountOptions'] as List)?.map((e) => e as String)?.toList(),
+  );
+}
+
+Map<String, dynamic> _$TmpfsToJson(Tmpfs instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('containerPath', instance.containerPath);
+  writeNotNull('size', instance.size);
+  writeNotNull('mountOptions', instance.mountOptions);
+  return val;
 }
 
 Ulimit _$UlimitFromJson(Map<String, dynamic> json) {
@@ -996,6 +1293,11 @@ Map<String, dynamic> _$UlimitToJson(Ulimit instance) {
   writeNotNull('name', instance.name);
   writeNotNull('softLimit', instance.softLimit);
   return val;
+}
+
+UntagResourceResponse _$UntagResourceResponseFromJson(
+    Map<String, dynamic> json) {
+  return UntagResourceResponse();
 }
 
 UpdateComputeEnvironmentResponse _$UpdateComputeEnvironmentResponseFromJson(

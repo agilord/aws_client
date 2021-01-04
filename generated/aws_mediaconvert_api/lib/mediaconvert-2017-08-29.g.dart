@@ -296,6 +296,46 @@ AssociateCertificateResponse _$AssociateCertificateResponseFromJson(
   return AssociateCertificateResponse();
 }
 
+AudioChannelTaggingSettings _$AudioChannelTaggingSettingsFromJson(
+    Map<String, dynamic> json) {
+  return AudioChannelTaggingSettings(
+    channelTag:
+        _$enumDecodeNullable(_$AudioChannelTagEnumMap, json['channelTag']),
+  );
+}
+
+Map<String, dynamic> _$AudioChannelTaggingSettingsToJson(
+    AudioChannelTaggingSettings instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('channelTag', _$AudioChannelTagEnumMap[instance.channelTag]);
+  return val;
+}
+
+const _$AudioChannelTagEnumMap = {
+  AudioChannelTag.l: 'L',
+  AudioChannelTag.r: 'R',
+  AudioChannelTag.c: 'C',
+  AudioChannelTag.lfe: 'LFE',
+  AudioChannelTag.ls: 'LS',
+  AudioChannelTag.rs: 'RS',
+  AudioChannelTag.lc: 'LC',
+  AudioChannelTag.rc: 'RC',
+  AudioChannelTag.cs: 'CS',
+  AudioChannelTag.lsd: 'LSD',
+  AudioChannelTag.rsd: 'RSD',
+  AudioChannelTag.tcs: 'TCS',
+  AudioChannelTag.vhl: 'VHL',
+  AudioChannelTag.vhc: 'VHC',
+  AudioChannelTag.vhr: 'VHR',
+};
+
 AudioCodecSettings _$AudioCodecSettingsFromJson(Map<String, dynamic> json) {
   return AudioCodecSettings(
     aacSettings: json['aacSettings'] == null
@@ -321,6 +361,13 @@ AudioCodecSettings _$AudioCodecSettingsFromJson(Map<String, dynamic> json) {
     mp3Settings: json['mp3Settings'] == null
         ? null
         : Mp3Settings.fromJson(json['mp3Settings'] as Map<String, dynamic>),
+    opusSettings: json['opusSettings'] == null
+        ? null
+        : OpusSettings.fromJson(json['opusSettings'] as Map<String, dynamic>),
+    vorbisSettings: json['vorbisSettings'] == null
+        ? null
+        : VorbisSettings.fromJson(
+            json['vorbisSettings'] as Map<String, dynamic>),
     wavSettings: json['wavSettings'] == null
         ? null
         : WavSettings.fromJson(json['wavSettings'] as Map<String, dynamic>),
@@ -344,6 +391,8 @@ Map<String, dynamic> _$AudioCodecSettingsToJson(AudioCodecSettings instance) {
   writeNotNull('eac3Settings', instance.eac3Settings?.toJson());
   writeNotNull('mp2Settings', instance.mp2Settings?.toJson());
   writeNotNull('mp3Settings', instance.mp3Settings?.toJson());
+  writeNotNull('opusSettings', instance.opusSettings?.toJson());
+  writeNotNull('vorbisSettings', instance.vorbisSettings?.toJson());
   writeNotNull('wavSettings', instance.wavSettings?.toJson());
   return val;
 }
@@ -357,11 +406,17 @@ const _$AudioCodecEnumMap = {
   AudioCodec.ac3: 'AC3',
   AudioCodec.eac3: 'EAC3',
   AudioCodec.eac3Atmos: 'EAC3_ATMOS',
+  AudioCodec.vorbis: 'VORBIS',
+  AudioCodec.opus: 'OPUS',
   AudioCodec.passthrough: 'PASSTHROUGH',
 };
 
 AudioDescription _$AudioDescriptionFromJson(Map<String, dynamic> json) {
   return AudioDescription(
+    audioChannelTaggingSettings: json['audioChannelTaggingSettings'] == null
+        ? null
+        : AudioChannelTaggingSettings.fromJson(
+            json['audioChannelTaggingSettings'] as Map<String, dynamic>),
     audioNormalizationSettings: json['audioNormalizationSettings'] == null
         ? null
         : AudioNormalizationSettings.fromJson(
@@ -395,6 +450,8 @@ Map<String, dynamic> _$AudioDescriptionToJson(AudioDescription instance) {
     }
   }
 
+  writeNotNull('audioChannelTaggingSettings',
+      instance.audioChannelTaggingSettings?.toJson());
   writeNotNull('audioNormalizationSettings',
       instance.audioNormalizationSettings?.toJson());
   writeNotNull('audioSourceName', instance.audioSourceName);
@@ -751,6 +808,54 @@ Map<String, dynamic> _$AudioSelectorGroupToJson(AudioSelectorGroup instance) {
   return val;
 }
 
+AutomatedAbrSettings _$AutomatedAbrSettingsFromJson(Map<String, dynamic> json) {
+  return AutomatedAbrSettings(
+    maxAbrBitrate: json['maxAbrBitrate'] as int,
+    maxRenditions: json['maxRenditions'] as int,
+    minAbrBitrate: json['minAbrBitrate'] as int,
+  );
+}
+
+Map<String, dynamic> _$AutomatedAbrSettingsToJson(
+    AutomatedAbrSettings instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('maxAbrBitrate', instance.maxAbrBitrate);
+  writeNotNull('maxRenditions', instance.maxRenditions);
+  writeNotNull('minAbrBitrate', instance.minAbrBitrate);
+  return val;
+}
+
+AutomatedEncodingSettings _$AutomatedEncodingSettingsFromJson(
+    Map<String, dynamic> json) {
+  return AutomatedEncodingSettings(
+    abrSettings: json['abrSettings'] == null
+        ? null
+        : AutomatedAbrSettings.fromJson(
+            json['abrSettings'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$AutomatedEncodingSettingsToJson(
+    AutomatedEncodingSettings instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('abrSettings', instance.abrSettings?.toJson());
+  return val;
+}
+
 Av1QvbrSettings _$Av1QvbrSettingsFromJson(Map<String, dynamic> json) {
   return Av1QvbrSettings(
     qvbrQualityLevel: json['qvbrQualityLevel'] as int,
@@ -852,6 +957,7 @@ const _$Av1FramerateControlEnumMap = {
 const _$Av1FramerateConversionAlgorithmEnumMap = {
   Av1FramerateConversionAlgorithm.duplicateDrop: 'DUPLICATE_DROP',
   Av1FramerateConversionAlgorithm.interpolate: 'INTERPOLATE',
+  Av1FramerateConversionAlgorithm.frameformer: 'FRAMEFORMER',
 };
 
 const _$Av1RateControlModeEnumMap = {
@@ -881,6 +987,84 @@ Map<String, dynamic> _$AvailBlankingToJson(AvailBlanking instance) {
   writeNotNull('availBlankingImage', instance.availBlankingImage);
   return val;
 }
+
+AvcIntraSettings _$AvcIntraSettingsFromJson(Map<String, dynamic> json) {
+  return AvcIntraSettings(
+    avcIntraClass:
+        _$enumDecodeNullable(_$AvcIntraClassEnumMap, json['avcIntraClass']),
+    framerateControl: _$enumDecodeNullable(
+        _$AvcIntraFramerateControlEnumMap, json['framerateControl']),
+    framerateConversionAlgorithm: _$enumDecodeNullable(
+        _$AvcIntraFramerateConversionAlgorithmEnumMap,
+        json['framerateConversionAlgorithm']),
+    framerateDenominator: json['framerateDenominator'] as int,
+    framerateNumerator: json['framerateNumerator'] as int,
+    interlaceMode: _$enumDecodeNullable(
+        _$AvcIntraInterlaceModeEnumMap, json['interlaceMode']),
+    slowPal: _$enumDecodeNullable(_$AvcIntraSlowPalEnumMap, json['slowPal']),
+    telecine: _$enumDecodeNullable(_$AvcIntraTelecineEnumMap, json['telecine']),
+  );
+}
+
+Map<String, dynamic> _$AvcIntraSettingsToJson(AvcIntraSettings instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('avcIntraClass', _$AvcIntraClassEnumMap[instance.avcIntraClass]);
+  writeNotNull('framerateControl',
+      _$AvcIntraFramerateControlEnumMap[instance.framerateControl]);
+  writeNotNull(
+      'framerateConversionAlgorithm',
+      _$AvcIntraFramerateConversionAlgorithmEnumMap[
+          instance.framerateConversionAlgorithm]);
+  writeNotNull('framerateDenominator', instance.framerateDenominator);
+  writeNotNull('framerateNumerator', instance.framerateNumerator);
+  writeNotNull(
+      'interlaceMode', _$AvcIntraInterlaceModeEnumMap[instance.interlaceMode]);
+  writeNotNull('slowPal', _$AvcIntraSlowPalEnumMap[instance.slowPal]);
+  writeNotNull('telecine', _$AvcIntraTelecineEnumMap[instance.telecine]);
+  return val;
+}
+
+const _$AvcIntraClassEnumMap = {
+  AvcIntraClass.class_50: 'CLASS_50',
+  AvcIntraClass.class_100: 'CLASS_100',
+  AvcIntraClass.class_200: 'CLASS_200',
+};
+
+const _$AvcIntraFramerateControlEnumMap = {
+  AvcIntraFramerateControl.initializeFromSource: 'INITIALIZE_FROM_SOURCE',
+  AvcIntraFramerateControl.specified: 'SPECIFIED',
+};
+
+const _$AvcIntraFramerateConversionAlgorithmEnumMap = {
+  AvcIntraFramerateConversionAlgorithm.duplicateDrop: 'DUPLICATE_DROP',
+  AvcIntraFramerateConversionAlgorithm.interpolate: 'INTERPOLATE',
+  AvcIntraFramerateConversionAlgorithm.frameformer: 'FRAMEFORMER',
+};
+
+const _$AvcIntraInterlaceModeEnumMap = {
+  AvcIntraInterlaceMode.progressive: 'PROGRESSIVE',
+  AvcIntraInterlaceMode.topField: 'TOP_FIELD',
+  AvcIntraInterlaceMode.bottomField: 'BOTTOM_FIELD',
+  AvcIntraInterlaceMode.followTopField: 'FOLLOW_TOP_FIELD',
+  AvcIntraInterlaceMode.followBottomField: 'FOLLOW_BOTTOM_FIELD',
+};
+
+const _$AvcIntraSlowPalEnumMap = {
+  AvcIntraSlowPal.disabled: 'DISABLED',
+  AvcIntraSlowPal.enabled: 'ENABLED',
+};
+
+const _$AvcIntraTelecineEnumMap = {
+  AvcIntraTelecine.none: 'NONE',
+  AvcIntraTelecine.hard: 'HARD',
+};
 
 BurninDestinationSettings _$BurninDestinationSettingsFromJson(
     Map<String, dynamic> json) {
@@ -1507,6 +1691,8 @@ const _$CmafWriteSegmentTimelineInRepresentationEnumMap = {
 
 CmfcSettings _$CmfcSettingsFromJson(Map<String, dynamic> json) {
   return CmfcSettings(
+    audioDuration:
+        _$enumDecodeNullable(_$CmfcAudioDurationEnumMap, json['audioDuration']),
     scte35Esam:
         _$enumDecodeNullable(_$CmfcScte35EsamEnumMap, json['scte35Esam']),
     scte35Source:
@@ -1523,11 +1709,18 @@ Map<String, dynamic> _$CmfcSettingsToJson(CmfcSettings instance) {
     }
   }
 
+  writeNotNull(
+      'audioDuration', _$CmfcAudioDurationEnumMap[instance.audioDuration]);
   writeNotNull('scte35Esam', _$CmfcScte35EsamEnumMap[instance.scte35Esam]);
   writeNotNull(
       'scte35Source', _$CmfcScte35SourceEnumMap[instance.scte35Source]);
   return val;
 }
+
+const _$CmfcAudioDurationEnumMap = {
+  CmfcAudioDuration.defaultCodecDuration: 'DEFAULT_CODEC_DURATION',
+  CmfcAudioDuration.matchVideoDuration: 'MATCH_VIDEO_DURATION',
+};
 
 const _$CmfcScte35EsamEnumMap = {
   CmfcScte35Esam.insert: 'INSERT',
@@ -1604,6 +1797,9 @@ ContainerSettings _$ContainerSettingsFromJson(Map<String, dynamic> json) {
     mpdSettings: json['mpdSettings'] == null
         ? null
         : MpdSettings.fromJson(json['mpdSettings'] as Map<String, dynamic>),
+    mxfSettings: json['mxfSettings'] == null
+        ? null
+        : MxfSettings.fromJson(json['mxfSettings'] as Map<String, dynamic>),
   );
 }
 
@@ -1624,6 +1820,7 @@ Map<String, dynamic> _$ContainerSettingsToJson(ContainerSettings instance) {
   writeNotNull('movSettings', instance.movSettings?.toJson());
   writeNotNull('mp4Settings', instance.mp4Settings?.toJson());
   writeNotNull('mpdSettings', instance.mpdSettings?.toJson());
+  writeNotNull('mxfSettings', instance.mxfSettings?.toJson());
   return val;
 }
 
@@ -1637,6 +1834,7 @@ const _$ContainerTypeEnumMap = {
   ContainerType.mp4: 'MP4',
   ContainerType.mpd: 'MPD',
   ContainerType.mxf: 'MXF',
+  ContainerType.webm: 'WEBM',
   ContainerType.raw: 'RAW',
 };
 
@@ -1754,6 +1952,7 @@ DashIsoGroupSettings _$DashIsoGroupSettingsFromJson(Map<String, dynamic> json) {
     hbbtvCompliance: _$enumDecodeNullable(
         _$DashIsoHbbtvComplianceEnumMap, json['hbbtvCompliance']),
     minBufferTime: json['minBufferTime'] as int,
+    minFinalSegmentLength: (json['minFinalSegmentLength'] as num)?.toDouble(),
     mpdProfile:
         _$enumDecodeNullable(_$DashIsoMpdProfileEnumMap, json['mpdProfile']),
     segmentControl: _$enumDecodeNullable(
@@ -1785,6 +1984,7 @@ Map<String, dynamic> _$DashIsoGroupSettingsToJson(
   writeNotNull('hbbtvCompliance',
       _$DashIsoHbbtvComplianceEnumMap[instance.hbbtvCompliance]);
   writeNotNull('minBufferTime', instance.minBufferTime);
+  writeNotNull('minFinalSegmentLength', instance.minFinalSegmentLength);
   writeNotNull('mpdProfile', _$DashIsoMpdProfileEnumMap[instance.mpdProfile]);
   writeNotNull('segmentControl',
       _$DashIsoSegmentControlEnumMap[instance.segmentControl]);
@@ -2937,6 +3137,7 @@ Map<String, dynamic> _$H264SettingsToJson(H264Settings instance) {
 
 const _$H264AdaptiveQuantizationEnumMap = {
   H264AdaptiveQuantization.off: 'OFF',
+  H264AdaptiveQuantization.auto: 'AUTO',
   H264AdaptiveQuantization.low: 'LOW',
   H264AdaptiveQuantization.medium: 'MEDIUM',
   H264AdaptiveQuantization.high: 'HIGH',
@@ -3001,6 +3202,7 @@ const _$H264FramerateControlEnumMap = {
 const _$H264FramerateConversionAlgorithmEnumMap = {
   H264FramerateConversionAlgorithm.duplicateDrop: 'DUPLICATE_DROP',
   H264FramerateConversionAlgorithm.interpolate: 'INTERPOLATE',
+  H264FramerateConversionAlgorithm.frameformer: 'FRAMEFORMER',
 };
 
 const _$H264GopBReferenceEnumMap = {
@@ -3323,6 +3525,7 @@ const _$H265FramerateControlEnumMap = {
 const _$H265FramerateConversionAlgorithmEnumMap = {
   H265FramerateConversionAlgorithm.duplicateDrop: 'DUPLICATE_DROP',
   H265FramerateConversionAlgorithm.interpolate: 'INTERPOLATE',
+  H265FramerateConversionAlgorithm.frameformer: 'FRAMEFORMER',
 };
 
 const _$H265GopBReferenceEnumMap = {
@@ -3586,6 +3789,8 @@ HlsGroupSettings _$HlsGroupSettingsFromJson(Map<String, dynamic> json) {
             ? null
             : HlsAdditionalManifest.fromJson(e as Map<String, dynamic>))
         ?.toList(),
+    audioOnlyHeader: _$enumDecodeNullable(
+        _$HlsAudioOnlyHeaderEnumMap, json['audioOnlyHeader']),
     baseUrl: json['baseUrl'] as String,
     captionLanguageMappings: (json['captionLanguageMappings'] as List)
         ?.map((e) => e == null
@@ -3646,6 +3851,8 @@ Map<String, dynamic> _$HlsGroupSettingsToJson(HlsGroupSettings instance) {
       instance.adMarkers?.map((e) => _$HlsAdMarkersEnumMap[e])?.toList());
   writeNotNull('additionalManifests',
       instance.additionalManifests?.map((e) => e?.toJson())?.toList());
+  writeNotNull(
+      'audioOnlyHeader', _$HlsAudioOnlyHeaderEnumMap[instance.audioOnlyHeader]);
   writeNotNull('baseUrl', instance.baseUrl);
   writeNotNull('captionLanguageMappings',
       instance.captionLanguageMappings?.map((e) => e?.toJson())?.toList());
@@ -3687,6 +3894,11 @@ Map<String, dynamic> _$HlsGroupSettingsToJson(HlsGroupSettings instance) {
 const _$HlsAdMarkersEnumMap = {
   HlsAdMarkers.elemental: 'ELEMENTAL',
   HlsAdMarkers.elementalScte35: 'ELEMENTAL_SCTE35',
+};
+
+const _$HlsAudioOnlyHeaderEnumMap = {
+  HlsAudioOnlyHeader.include: 'INCLUDE',
+  HlsAudioOnlyHeader.exclude: 'EXCLUDE',
 };
 
 const _$HlsCaptionLanguageSettingEnumMap = {
@@ -3940,6 +4152,8 @@ Input _$InputFromJson(Map<String, dynamic> json) {
             ? null
             : InputClipping.fromJson(e as Map<String, dynamic>))
         ?.toList(),
+    inputScanType:
+        _$enumDecodeNullable(_$InputScanTypeEnumMap, json['inputScanType']),
     position: json['position'] == null
         ? null
         : Rectangle.fromJson(json['position'] as Map<String, dynamic>),
@@ -3985,6 +4199,7 @@ Map<String, dynamic> _$InputToJson(Input instance) {
   writeNotNull('imageInserter', instance.imageInserter?.toJson());
   writeNotNull('inputClippings',
       instance.inputClippings?.map((e) => e?.toJson())?.toList());
+  writeNotNull('inputScanType', _$InputScanTypeEnumMap[instance.inputScanType]);
   writeNotNull('position', instance.position?.toJson());
   writeNotNull('programNumber', instance.programNumber);
   writeNotNull('psiControl', _$InputPsiControlEnumMap[instance.psiControl]);
@@ -4010,6 +4225,11 @@ const _$InputFilterEnableEnumMap = {
   InputFilterEnable.auto: 'AUTO',
   InputFilterEnable.disable: 'DISABLE',
   InputFilterEnable.force: 'FORCE',
+};
+
+const _$InputScanTypeEnumMap = {
+  InputScanType.auto: 'AUTO',
+  InputScanType.psf: 'PSF',
 };
 
 const _$InputPsiControlEnumMap = {
@@ -4118,6 +4338,8 @@ InputTemplate _$InputTemplateFromJson(Map<String, dynamic> json) {
             ? null
             : InputClipping.fromJson(e as Map<String, dynamic>))
         ?.toList(),
+    inputScanType:
+        _$enumDecodeNullable(_$InputScanTypeEnumMap, json['inputScanType']),
     position: json['position'] == null
         ? null
         : Rectangle.fromJson(json['position'] as Map<String, dynamic>),
@@ -4159,6 +4381,7 @@ Map<String, dynamic> _$InputTemplateToJson(InputTemplate instance) {
   writeNotNull('imageInserter', instance.imageInserter?.toJson());
   writeNotNull('inputClippings',
       instance.inputClippings?.map((e) => e?.toJson())?.toList());
+  writeNotNull('inputScanType', _$InputScanTypeEnumMap[instance.inputScanType]);
   writeNotNull('position', instance.position?.toJson());
   writeNotNull('programNumber', instance.programNumber);
   writeNotNull('psiControl', _$InputPsiControlEnumMap[instance.psiControl]);
@@ -4344,6 +4567,10 @@ JobSettings _$JobSettingsFromJson(Map<String, dynamic> json) {
         ? null
         : NielsenConfiguration.fromJson(
             json['nielsenConfiguration'] as Map<String, dynamic>),
+    nielsenNonLinearWatermark: json['nielsenNonLinearWatermark'] == null
+        ? null
+        : NielsenNonLinearWatermarkSettings.fromJson(
+            json['nielsenNonLinearWatermark'] as Map<String, dynamic>),
     outputGroups: (json['outputGroups'] as List)
         ?.map((e) =>
             e == null ? null : OutputGroup.fromJson(e as Map<String, dynamic>))
@@ -4374,6 +4601,8 @@ Map<String, dynamic> _$JobSettingsToJson(JobSettings instance) {
   writeNotNull('inputs', instance.inputs?.map((e) => e?.toJson())?.toList());
   writeNotNull('motionImageInserter', instance.motionImageInserter?.toJson());
   writeNotNull('nielsenConfiguration', instance.nielsenConfiguration?.toJson());
+  writeNotNull('nielsenNonLinearWatermark',
+      instance.nielsenNonLinearWatermark?.toJson());
   writeNotNull(
       'outputGroups', instance.outputGroups?.map((e) => e?.toJson())?.toList());
   writeNotNull('timecodeConfig', instance.timecodeConfig?.toJson());
@@ -4438,6 +4667,10 @@ JobTemplateSettings _$JobTemplateSettingsFromJson(Map<String, dynamic> json) {
         ? null
         : NielsenConfiguration.fromJson(
             json['nielsenConfiguration'] as Map<String, dynamic>),
+    nielsenNonLinearWatermark: json['nielsenNonLinearWatermark'] == null
+        ? null
+        : NielsenNonLinearWatermarkSettings.fromJson(
+            json['nielsenNonLinearWatermark'] as Map<String, dynamic>),
     outputGroups: (json['outputGroups'] as List)
         ?.map((e) =>
             e == null ? null : OutputGroup.fromJson(e as Map<String, dynamic>))
@@ -4468,6 +4701,8 @@ Map<String, dynamic> _$JobTemplateSettingsToJson(JobTemplateSettings instance) {
   writeNotNull('inputs', instance.inputs?.map((e) => e?.toJson())?.toList());
   writeNotNull('motionImageInserter', instance.motionImageInserter?.toJson());
   writeNotNull('nielsenConfiguration', instance.nielsenConfiguration?.toJson());
+  writeNotNull('nielsenNonLinearWatermark',
+      instance.nielsenNonLinearWatermark?.toJson());
   writeNotNull(
       'outputGroups', instance.outputGroups?.map((e) => e?.toJson())?.toList());
   writeNotNull('timecodeConfig', instance.timecodeConfig?.toJson());
@@ -4548,6 +4783,8 @@ M2tsSettings _$M2tsSettingsFromJson(Map<String, dynamic> json) {
   return M2tsSettings(
     audioBufferModel: _$enumDecodeNullable(
         _$M2tsAudioBufferModelEnumMap, json['audioBufferModel']),
+    audioDuration:
+        _$enumDecodeNullable(_$M2tsAudioDurationEnumMap, json['audioDuration']),
     audioFramesPerPes: json['audioFramesPerPes'] as int,
     audioPids: (json['audioPids'] as List)?.map((e) => e as int)?.toList(),
     bitrate: json['bitrate'] as int,
@@ -4618,6 +4855,8 @@ Map<String, dynamic> _$M2tsSettingsToJson(M2tsSettings instance) {
 
   writeNotNull('audioBufferModel',
       _$M2tsAudioBufferModelEnumMap[instance.audioBufferModel]);
+  writeNotNull(
+      'audioDuration', _$M2tsAudioDurationEnumMap[instance.audioDuration]);
   writeNotNull('audioFramesPerPes', instance.audioFramesPerPes);
   writeNotNull('audioPids', instance.audioPids);
   writeNotNull('bitrate', instance.bitrate);
@@ -4665,6 +4904,11 @@ Map<String, dynamic> _$M2tsSettingsToJson(M2tsSettings instance) {
 const _$M2tsAudioBufferModelEnumMap = {
   M2tsAudioBufferModel.dvb: 'DVB',
   M2tsAudioBufferModel.atsc: 'ATSC',
+};
+
+const _$M2tsAudioDurationEnumMap = {
+  M2tsAudioDuration.defaultCodecDuration: 'DEFAULT_CODEC_DURATION',
+  M2tsAudioDuration.matchVideoDuration: 'MATCH_VIDEO_DURATION',
 };
 
 const _$M2tsBufferModelEnumMap = {
@@ -4728,6 +4972,8 @@ const _$M2tsSegmentationStyleEnumMap = {
 
 M3u8Settings _$M3u8SettingsFromJson(Map<String, dynamic> json) {
   return M3u8Settings(
+    audioDuration:
+        _$enumDecodeNullable(_$M3u8AudioDurationEnumMap, json['audioDuration']),
     audioFramesPerPes: json['audioFramesPerPes'] as int,
     audioPids: (json['audioPids'] as List)?.map((e) => e as int)?.toList(),
     nielsenId3:
@@ -4760,6 +5006,8 @@ Map<String, dynamic> _$M3u8SettingsToJson(M3u8Settings instance) {
     }
   }
 
+  writeNotNull(
+      'audioDuration', _$M3u8AudioDurationEnumMap[instance.audioDuration]);
   writeNotNull('audioFramesPerPes', instance.audioFramesPerPes);
   writeNotNull('audioPids', instance.audioPids);
   writeNotNull('nielsenId3', _$M3u8NielsenId3EnumMap[instance.nielsenId3]);
@@ -4779,6 +5027,11 @@ Map<String, dynamic> _$M3u8SettingsToJson(M3u8Settings instance) {
   writeNotNull('videoPid', instance.videoPid);
   return val;
 }
+
+const _$M3u8AudioDurationEnumMap = {
+  M3u8AudioDuration.defaultCodecDuration: 'DEFAULT_CODEC_DURATION',
+  M3u8AudioDuration.matchVideoDuration: 'MATCH_VIDEO_DURATION',
+};
 
 const _$M3u8NielsenId3EnumMap = {
   M3u8NielsenId3.insert: 'INSERT',
@@ -5009,6 +5262,8 @@ const _$Mp3RateControlModeEnumMap = {
 
 Mp4Settings _$Mp4SettingsFromJson(Map<String, dynamic> json) {
   return Mp4Settings(
+    audioDuration:
+        _$enumDecodeNullable(_$CmfcAudioDurationEnumMap, json['audioDuration']),
     cslgAtom: _$enumDecodeNullable(_$Mp4CslgAtomEnumMap, json['cslgAtom']),
     cttsVersion: json['cttsVersion'] as int,
     freeSpaceBox:
@@ -5028,6 +5283,8 @@ Map<String, dynamic> _$Mp4SettingsToJson(Mp4Settings instance) {
     }
   }
 
+  writeNotNull(
+      'audioDuration', _$CmfcAudioDurationEnumMap[instance.audioDuration]);
   writeNotNull('cslgAtom', _$Mp4CslgAtomEnumMap[instance.cslgAtom]);
   writeNotNull('cttsVersion', instance.cttsVersion);
   writeNotNull('freeSpaceBox', _$Mp4FreeSpaceBoxEnumMap[instance.freeSpaceBox]);
@@ -5054,6 +5311,11 @@ const _$Mp4MoovPlacementEnumMap = {
 
 MpdSettings _$MpdSettingsFromJson(Map<String, dynamic> json) {
   return MpdSettings(
+    accessibilityCaptionHints: _$enumDecodeNullable(
+        _$MpdAccessibilityCaptionHintsEnumMap,
+        json['accessibilityCaptionHints']),
+    audioDuration:
+        _$enumDecodeNullable(_$MpdAudioDurationEnumMap, json['audioDuration']),
     captionContainerType: _$enumDecodeNullable(
         _$MpdCaptionContainerTypeEnumMap, json['captionContainerType']),
     scte35Esam:
@@ -5072,12 +5334,28 @@ Map<String, dynamic> _$MpdSettingsToJson(MpdSettings instance) {
     }
   }
 
+  writeNotNull(
+      'accessibilityCaptionHints',
+      _$MpdAccessibilityCaptionHintsEnumMap[
+          instance.accessibilityCaptionHints]);
+  writeNotNull(
+      'audioDuration', _$MpdAudioDurationEnumMap[instance.audioDuration]);
   writeNotNull('captionContainerType',
       _$MpdCaptionContainerTypeEnumMap[instance.captionContainerType]);
   writeNotNull('scte35Esam', _$MpdScte35EsamEnumMap[instance.scte35Esam]);
   writeNotNull('scte35Source', _$MpdScte35SourceEnumMap[instance.scte35Source]);
   return val;
 }
+
+const _$MpdAccessibilityCaptionHintsEnumMap = {
+  MpdAccessibilityCaptionHints.include: 'INCLUDE',
+  MpdAccessibilityCaptionHints.exclude: 'EXCLUDE',
+};
+
+const _$MpdAudioDurationEnumMap = {
+  MpdAudioDuration.defaultCodecDuration: 'DEFAULT_CODEC_DURATION',
+  MpdAudioDuration.matchVideoDuration: 'MATCH_VIDEO_DURATION',
+};
 
 const _$MpdCaptionContainerTypeEnumMap = {
   MpdCaptionContainerType.raw: 'RAW',
@@ -5247,6 +5525,7 @@ const _$Mpeg2FramerateControlEnumMap = {
 const _$Mpeg2FramerateConversionAlgorithmEnumMap = {
   Mpeg2FramerateConversionAlgorithm.duplicateDrop: 'DUPLICATE_DROP',
   Mpeg2FramerateConversionAlgorithm.interpolate: 'INTERPOLATE',
+  Mpeg2FramerateConversionAlgorithm.frameformer: 'FRAMEFORMER',
 };
 
 const _$Mpeg2GopSizeUnitsEnumMap = {
@@ -5423,6 +5702,75 @@ const _$MsSmoothManifestEncodingEnumMap = {
   MsSmoothManifestEncoding.utf16: 'UTF16',
 };
 
+MxfSettings _$MxfSettingsFromJson(Map<String, dynamic> json) {
+  return MxfSettings(
+    afdSignaling:
+        _$enumDecodeNullable(_$MxfAfdSignalingEnumMap, json['afdSignaling']),
+    profile: _$enumDecodeNullable(_$MxfProfileEnumMap, json['profile']),
+  );
+}
+
+Map<String, dynamic> _$MxfSettingsToJson(MxfSettings instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('afdSignaling', _$MxfAfdSignalingEnumMap[instance.afdSignaling]);
+  writeNotNull('profile', _$MxfProfileEnumMap[instance.profile]);
+  return val;
+}
+
+const _$MxfAfdSignalingEnumMap = {
+  MxfAfdSignaling.noCopy: 'NO_COPY',
+  MxfAfdSignaling.copyFromVideo: 'COPY_FROM_VIDEO',
+};
+
+const _$MxfProfileEnumMap = {
+  MxfProfile.d_10: 'D_10',
+  MxfProfile.xdcam: 'XDCAM',
+  MxfProfile.op1a: 'OP1A',
+};
+
+NexGuardFileMarkerSettings _$NexGuardFileMarkerSettingsFromJson(
+    Map<String, dynamic> json) {
+  return NexGuardFileMarkerSettings(
+    license: json['license'] as String,
+    payload: json['payload'] as int,
+    preset: json['preset'] as String,
+    strength:
+        _$enumDecodeNullable(_$WatermarkingStrengthEnumMap, json['strength']),
+  );
+}
+
+Map<String, dynamic> _$NexGuardFileMarkerSettingsToJson(
+    NexGuardFileMarkerSettings instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('license', instance.license);
+  writeNotNull('payload', instance.payload);
+  writeNotNull('preset', instance.preset);
+  writeNotNull('strength', _$WatermarkingStrengthEnumMap[instance.strength]);
+  return val;
+}
+
+const _$WatermarkingStrengthEnumMap = {
+  WatermarkingStrength.lightest: 'LIGHTEST',
+  WatermarkingStrength.lighter: 'LIGHTER',
+  WatermarkingStrength.$default: 'DEFAULT',
+  WatermarkingStrength.stronger: 'STRONGER',
+  WatermarkingStrength.strongest: 'STRONGEST',
+};
+
 NielsenConfiguration _$NielsenConfigurationFromJson(Map<String, dynamic> json) {
   return NielsenConfiguration(
     breakoutCode: json['breakoutCode'] as int,
@@ -5444,6 +5792,79 @@ Map<String, dynamic> _$NielsenConfigurationToJson(
   writeNotNull('distributorId', instance.distributorId);
   return val;
 }
+
+NielsenNonLinearWatermarkSettings _$NielsenNonLinearWatermarkSettingsFromJson(
+    Map<String, dynamic> json) {
+  return NielsenNonLinearWatermarkSettings(
+    activeWatermarkProcess: _$enumDecodeNullable(
+        _$NielsenActiveWatermarkProcessTypeEnumMap,
+        json['activeWatermarkProcess']),
+    adiFilename: json['adiFilename'] as String,
+    assetId: json['assetId'] as String,
+    assetName: json['assetName'] as String,
+    cbetSourceId: json['cbetSourceId'] as String,
+    episodeId: json['episodeId'] as String,
+    metadataDestination: json['metadataDestination'] as String,
+    sourceId: json['sourceId'] as int,
+    sourceWatermarkStatus: _$enumDecodeNullable(
+        _$NielsenSourceWatermarkStatusTypeEnumMap,
+        json['sourceWatermarkStatus']),
+    ticServerUrl: json['ticServerUrl'] as String,
+    uniqueTicPerAudioTrack: _$enumDecodeNullable(
+        _$NielsenUniqueTicPerAudioTrackTypeEnumMap,
+        json['uniqueTicPerAudioTrack']),
+  );
+}
+
+Map<String, dynamic> _$NielsenNonLinearWatermarkSettingsToJson(
+    NielsenNonLinearWatermarkSettings instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'activeWatermarkProcess',
+      _$NielsenActiveWatermarkProcessTypeEnumMap[
+          instance.activeWatermarkProcess]);
+  writeNotNull('adiFilename', instance.adiFilename);
+  writeNotNull('assetId', instance.assetId);
+  writeNotNull('assetName', instance.assetName);
+  writeNotNull('cbetSourceId', instance.cbetSourceId);
+  writeNotNull('episodeId', instance.episodeId);
+  writeNotNull('metadataDestination', instance.metadataDestination);
+  writeNotNull('sourceId', instance.sourceId);
+  writeNotNull(
+      'sourceWatermarkStatus',
+      _$NielsenSourceWatermarkStatusTypeEnumMap[
+          instance.sourceWatermarkStatus]);
+  writeNotNull('ticServerUrl', instance.ticServerUrl);
+  writeNotNull(
+      'uniqueTicPerAudioTrack',
+      _$NielsenUniqueTicPerAudioTrackTypeEnumMap[
+          instance.uniqueTicPerAudioTrack]);
+  return val;
+}
+
+const _$NielsenActiveWatermarkProcessTypeEnumMap = {
+  NielsenActiveWatermarkProcessType.naes2AndNw: 'NAES2_AND_NW',
+  NielsenActiveWatermarkProcessType.cbet: 'CBET',
+  NielsenActiveWatermarkProcessType.naes2AndNwAndCbet: 'NAES2_AND_NW_AND_CBET',
+};
+
+const _$NielsenSourceWatermarkStatusTypeEnumMap = {
+  NielsenSourceWatermarkStatusType.clean: 'CLEAN',
+  NielsenSourceWatermarkStatusType.watermarked: 'WATERMARKED',
+};
+
+const _$NielsenUniqueTicPerAudioTrackTypeEnumMap = {
+  NielsenUniqueTicPerAudioTrackType.reserveUniqueTicsPerTrack:
+      'RESERVE_UNIQUE_TICS_PER_TRACK',
+  NielsenUniqueTicPerAudioTrackType.sameTicsPerTrack: 'SAME_TICS_PER_TRACK',
+};
 
 NoiseReducer _$NoiseReducerFromJson(Map<String, dynamic> json) {
   return NoiseReducer(
@@ -5542,6 +5963,9 @@ NoiseReducerTemporalFilterSettings _$NoiseReducerTemporalFilterSettingsFromJson(
     Map<String, dynamic> json) {
   return NoiseReducerTemporalFilterSettings(
     aggressiveMode: json['aggressiveMode'] as int,
+    postTemporalSharpening: _$enumDecodeNullable(
+        _$NoiseFilterPostTemporalSharpeningEnumMap,
+        json['postTemporalSharpening']),
     speed: json['speed'] as int,
     strength: json['strength'] as int,
   );
@@ -5558,8 +5982,41 @@ Map<String, dynamic> _$NoiseReducerTemporalFilterSettingsToJson(
   }
 
   writeNotNull('aggressiveMode', instance.aggressiveMode);
+  writeNotNull(
+      'postTemporalSharpening',
+      _$NoiseFilterPostTemporalSharpeningEnumMap[
+          instance.postTemporalSharpening]);
   writeNotNull('speed', instance.speed);
   writeNotNull('strength', instance.strength);
+  return val;
+}
+
+const _$NoiseFilterPostTemporalSharpeningEnumMap = {
+  NoiseFilterPostTemporalSharpening.disabled: 'DISABLED',
+  NoiseFilterPostTemporalSharpening.enabled: 'ENABLED',
+  NoiseFilterPostTemporalSharpening.auto: 'AUTO',
+};
+
+OpusSettings _$OpusSettingsFromJson(Map<String, dynamic> json) {
+  return OpusSettings(
+    bitrate: json['bitrate'] as int,
+    channels: json['channels'] as int,
+    sampleRate: json['sampleRate'] as int,
+  );
+}
+
+Map<String, dynamic> _$OpusSettingsToJson(OpusSettings instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('bitrate', instance.bitrate);
+  writeNotNull('channels', instance.channels);
+  writeNotNull('sampleRate', instance.sampleRate);
   return val;
 }
 
@@ -5647,6 +6104,10 @@ OutputDetail _$OutputDetailFromJson(Map<String, dynamic> json) {
 
 OutputGroup _$OutputGroupFromJson(Map<String, dynamic> json) {
   return OutputGroup(
+    automatedEncodingSettings: json['automatedEncodingSettings'] == null
+        ? null
+        : AutomatedEncodingSettings.fromJson(
+            json['automatedEncodingSettings'] as Map<String, dynamic>),
     customName: json['customName'] as String,
     name: json['name'] as String,
     outputGroupSettings: json['outputGroupSettings'] == null
@@ -5669,6 +6130,8 @@ Map<String, dynamic> _$OutputGroupToJson(OutputGroup instance) {
     }
   }
 
+  writeNotNull('automatedEncodingSettings',
+      instance.automatedEncodingSettings?.toJson());
   writeNotNull('customName', instance.customName);
   writeNotNull('name', instance.name);
   writeNotNull('outputGroupSettings', instance.outputGroupSettings?.toJson());
@@ -5756,6 +6219,29 @@ Map<String, dynamic> _$OutputSettingsToJson(OutputSettings instance) {
   }
 
   writeNotNull('hlsSettings', instance.hlsSettings?.toJson());
+  return val;
+}
+
+PartnerWatermarking _$PartnerWatermarkingFromJson(Map<String, dynamic> json) {
+  return PartnerWatermarking(
+    nexguardFileMarkerSettings: json['nexguardFileMarkerSettings'] == null
+        ? null
+        : NexGuardFileMarkerSettings.fromJson(
+            json['nexguardFileMarkerSettings'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$PartnerWatermarkingToJson(PartnerWatermarking instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('nexguardFileMarkerSettings',
+      instance.nexguardFileMarkerSettings?.toJson());
   return val;
 }
 
@@ -5881,6 +6367,7 @@ const _$ProresFramerateControlEnumMap = {
 const _$ProresFramerateConversionAlgorithmEnumMap = {
   ProresFramerateConversionAlgorithm.duplicateDrop: 'DUPLICATE_DROP',
   ProresFramerateConversionAlgorithm.interpolate: 'INTERPOLATE',
+  ProresFramerateConversionAlgorithm.frameformer: 'FRAMEFORMER',
 };
 
 const _$ProresInterlaceModeEnumMap = {
@@ -6487,11 +6974,89 @@ UpdateQueueResponse _$UpdateQueueResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+Vc3Settings _$Vc3SettingsFromJson(Map<String, dynamic> json) {
+  return Vc3Settings(
+    framerateControl: _$enumDecodeNullable(
+        _$Vc3FramerateControlEnumMap, json['framerateControl']),
+    framerateConversionAlgorithm: _$enumDecodeNullable(
+        _$Vc3FramerateConversionAlgorithmEnumMap,
+        json['framerateConversionAlgorithm']),
+    framerateDenominator: json['framerateDenominator'] as int,
+    framerateNumerator: json['framerateNumerator'] as int,
+    interlaceMode:
+        _$enumDecodeNullable(_$Vc3InterlaceModeEnumMap, json['interlaceMode']),
+    slowPal: _$enumDecodeNullable(_$Vc3SlowPalEnumMap, json['slowPal']),
+    telecine: _$enumDecodeNullable(_$Vc3TelecineEnumMap, json['telecine']),
+    vc3Class: _$enumDecodeNullable(_$Vc3ClassEnumMap, json['vc3Class']),
+  );
+}
+
+Map<String, dynamic> _$Vc3SettingsToJson(Vc3Settings instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('framerateControl',
+      _$Vc3FramerateControlEnumMap[instance.framerateControl]);
+  writeNotNull(
+      'framerateConversionAlgorithm',
+      _$Vc3FramerateConversionAlgorithmEnumMap[
+          instance.framerateConversionAlgorithm]);
+  writeNotNull('framerateDenominator', instance.framerateDenominator);
+  writeNotNull('framerateNumerator', instance.framerateNumerator);
+  writeNotNull(
+      'interlaceMode', _$Vc3InterlaceModeEnumMap[instance.interlaceMode]);
+  writeNotNull('slowPal', _$Vc3SlowPalEnumMap[instance.slowPal]);
+  writeNotNull('telecine', _$Vc3TelecineEnumMap[instance.telecine]);
+  writeNotNull('vc3Class', _$Vc3ClassEnumMap[instance.vc3Class]);
+  return val;
+}
+
+const _$Vc3FramerateControlEnumMap = {
+  Vc3FramerateControl.initializeFromSource: 'INITIALIZE_FROM_SOURCE',
+  Vc3FramerateControl.specified: 'SPECIFIED',
+};
+
+const _$Vc3FramerateConversionAlgorithmEnumMap = {
+  Vc3FramerateConversionAlgorithm.duplicateDrop: 'DUPLICATE_DROP',
+  Vc3FramerateConversionAlgorithm.interpolate: 'INTERPOLATE',
+  Vc3FramerateConversionAlgorithm.frameformer: 'FRAMEFORMER',
+};
+
+const _$Vc3InterlaceModeEnumMap = {
+  Vc3InterlaceMode.interlaced: 'INTERLACED',
+  Vc3InterlaceMode.progressive: 'PROGRESSIVE',
+};
+
+const _$Vc3SlowPalEnumMap = {
+  Vc3SlowPal.disabled: 'DISABLED',
+  Vc3SlowPal.enabled: 'ENABLED',
+};
+
+const _$Vc3TelecineEnumMap = {
+  Vc3Telecine.none: 'NONE',
+  Vc3Telecine.hard: 'HARD',
+};
+
+const _$Vc3ClassEnumMap = {
+  Vc3Class.class_145_8bit: 'CLASS_145_8BIT',
+  Vc3Class.class_220_8bit: 'CLASS_220_8BIT',
+  Vc3Class.class_220_10bit: 'CLASS_220_10BIT',
+};
+
 VideoCodecSettings _$VideoCodecSettingsFromJson(Map<String, dynamic> json) {
   return VideoCodecSettings(
     av1Settings: json['av1Settings'] == null
         ? null
         : Av1Settings.fromJson(json['av1Settings'] as Map<String, dynamic>),
+    avcIntraSettings: json['avcIntraSettings'] == null
+        ? null
+        : AvcIntraSettings.fromJson(
+            json['avcIntraSettings'] as Map<String, dynamic>),
     codec: _$enumDecodeNullable(_$VideoCodecEnumMap, json['codec']),
     frameCaptureSettings: json['frameCaptureSettings'] == null
         ? null
@@ -6510,6 +7075,15 @@ VideoCodecSettings _$VideoCodecSettingsFromJson(Map<String, dynamic> json) {
         ? null
         : ProresSettings.fromJson(
             json['proresSettings'] as Map<String, dynamic>),
+    vc3Settings: json['vc3Settings'] == null
+        ? null
+        : Vc3Settings.fromJson(json['vc3Settings'] as Map<String, dynamic>),
+    vp8Settings: json['vp8Settings'] == null
+        ? null
+        : Vp8Settings.fromJson(json['vp8Settings'] as Map<String, dynamic>),
+    vp9Settings: json['vp9Settings'] == null
+        ? null
+        : Vp9Settings.fromJson(json['vp9Settings'] as Map<String, dynamic>),
   );
 }
 
@@ -6523,22 +7097,30 @@ Map<String, dynamic> _$VideoCodecSettingsToJson(VideoCodecSettings instance) {
   }
 
   writeNotNull('av1Settings', instance.av1Settings?.toJson());
+  writeNotNull('avcIntraSettings', instance.avcIntraSettings?.toJson());
   writeNotNull('codec', _$VideoCodecEnumMap[instance.codec]);
   writeNotNull('frameCaptureSettings', instance.frameCaptureSettings?.toJson());
   writeNotNull('h264Settings', instance.h264Settings?.toJson());
   writeNotNull('h265Settings', instance.h265Settings?.toJson());
   writeNotNull('mpeg2Settings', instance.mpeg2Settings?.toJson());
   writeNotNull('proresSettings', instance.proresSettings?.toJson());
+  writeNotNull('vc3Settings', instance.vc3Settings?.toJson());
+  writeNotNull('vp8Settings', instance.vp8Settings?.toJson());
+  writeNotNull('vp9Settings', instance.vp9Settings?.toJson());
   return val;
 }
 
 const _$VideoCodecEnumMap = {
-  VideoCodec.frameCapture: 'FRAME_CAPTURE',
   VideoCodec.av1: 'AV1',
+  VideoCodec.avcIntra: 'AVC_INTRA',
+  VideoCodec.frameCapture: 'FRAME_CAPTURE',
   VideoCodec.h_264: 'H_264',
   VideoCodec.h_265: 'H_265',
   VideoCodec.mpeg2: 'MPEG2',
   VideoCodec.prores: 'PRORES',
+  VideoCodec.vc3: 'VC3',
+  VideoCodec.vp8: 'VP8',
+  VideoCodec.vp9: 'VP9',
 };
 
 VideoDescription _$VideoDescriptionFromJson(Map<String, dynamic> json) {
@@ -6669,6 +7251,10 @@ VideoPreprocessor _$VideoPreprocessorFromJson(Map<String, dynamic> json) {
     noiseReducer: json['noiseReducer'] == null
         ? null
         : NoiseReducer.fromJson(json['noiseReducer'] as Map<String, dynamic>),
+    partnerWatermarking: json['partnerWatermarking'] == null
+        ? null
+        : PartnerWatermarking.fromJson(
+            json['partnerWatermarking'] as Map<String, dynamic>),
     timecodeBurnin: json['timecodeBurnin'] == null
         ? null
         : TimecodeBurnin.fromJson(
@@ -6690,6 +7276,7 @@ Map<String, dynamic> _$VideoPreprocessorToJson(VideoPreprocessor instance) {
   writeNotNull('dolbyVision', instance.dolbyVision?.toJson());
   writeNotNull('imageInserter', instance.imageInserter?.toJson());
   writeNotNull('noiseReducer', instance.noiseReducer?.toJson());
+  writeNotNull('partnerWatermarking', instance.partnerWatermarking?.toJson());
   writeNotNull('timecodeBurnin', instance.timecodeBurnin?.toJson());
   return val;
 }
@@ -6754,6 +7341,189 @@ const _$InputRotateEnumMap = {
   InputRotate.degrees_180: 'DEGREES_180',
   InputRotate.degrees_270: 'DEGREES_270',
   InputRotate.auto: 'AUTO',
+};
+
+VorbisSettings _$VorbisSettingsFromJson(Map<String, dynamic> json) {
+  return VorbisSettings(
+    channels: json['channels'] as int,
+    sampleRate: json['sampleRate'] as int,
+    vbrQuality: json['vbrQuality'] as int,
+  );
+}
+
+Map<String, dynamic> _$VorbisSettingsToJson(VorbisSettings instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('channels', instance.channels);
+  writeNotNull('sampleRate', instance.sampleRate);
+  writeNotNull('vbrQuality', instance.vbrQuality);
+  return val;
+}
+
+Vp8Settings _$Vp8SettingsFromJson(Map<String, dynamic> json) {
+  return Vp8Settings(
+    bitrate: json['bitrate'] as int,
+    framerateControl: _$enumDecodeNullable(
+        _$Vp8FramerateControlEnumMap, json['framerateControl']),
+    framerateConversionAlgorithm: _$enumDecodeNullable(
+        _$Vp8FramerateConversionAlgorithmEnumMap,
+        json['framerateConversionAlgorithm']),
+    framerateDenominator: json['framerateDenominator'] as int,
+    framerateNumerator: json['framerateNumerator'] as int,
+    gopSize: (json['gopSize'] as num)?.toDouble(),
+    hrdBufferSize: json['hrdBufferSize'] as int,
+    maxBitrate: json['maxBitrate'] as int,
+    parControl:
+        _$enumDecodeNullable(_$Vp8ParControlEnumMap, json['parControl']),
+    parDenominator: json['parDenominator'] as int,
+    parNumerator: json['parNumerator'] as int,
+    qualityTuningLevel: _$enumDecodeNullable(
+        _$Vp8QualityTuningLevelEnumMap, json['qualityTuningLevel']),
+    rateControlMode: _$enumDecodeNullable(
+        _$Vp8RateControlModeEnumMap, json['rateControlMode']),
+  );
+}
+
+Map<String, dynamic> _$Vp8SettingsToJson(Vp8Settings instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('bitrate', instance.bitrate);
+  writeNotNull('framerateControl',
+      _$Vp8FramerateControlEnumMap[instance.framerateControl]);
+  writeNotNull(
+      'framerateConversionAlgorithm',
+      _$Vp8FramerateConversionAlgorithmEnumMap[
+          instance.framerateConversionAlgorithm]);
+  writeNotNull('framerateDenominator', instance.framerateDenominator);
+  writeNotNull('framerateNumerator', instance.framerateNumerator);
+  writeNotNull('gopSize', instance.gopSize);
+  writeNotNull('hrdBufferSize', instance.hrdBufferSize);
+  writeNotNull('maxBitrate', instance.maxBitrate);
+  writeNotNull('parControl', _$Vp8ParControlEnumMap[instance.parControl]);
+  writeNotNull('parDenominator', instance.parDenominator);
+  writeNotNull('parNumerator', instance.parNumerator);
+  writeNotNull('qualityTuningLevel',
+      _$Vp8QualityTuningLevelEnumMap[instance.qualityTuningLevel]);
+  writeNotNull(
+      'rateControlMode', _$Vp8RateControlModeEnumMap[instance.rateControlMode]);
+  return val;
+}
+
+const _$Vp8FramerateControlEnumMap = {
+  Vp8FramerateControl.initializeFromSource: 'INITIALIZE_FROM_SOURCE',
+  Vp8FramerateControl.specified: 'SPECIFIED',
+};
+
+const _$Vp8FramerateConversionAlgorithmEnumMap = {
+  Vp8FramerateConversionAlgorithm.duplicateDrop: 'DUPLICATE_DROP',
+  Vp8FramerateConversionAlgorithm.interpolate: 'INTERPOLATE',
+  Vp8FramerateConversionAlgorithm.frameformer: 'FRAMEFORMER',
+};
+
+const _$Vp8ParControlEnumMap = {
+  Vp8ParControl.initializeFromSource: 'INITIALIZE_FROM_SOURCE',
+  Vp8ParControl.specified: 'SPECIFIED',
+};
+
+const _$Vp8QualityTuningLevelEnumMap = {
+  Vp8QualityTuningLevel.multiPass: 'MULTI_PASS',
+  Vp8QualityTuningLevel.multiPassHq: 'MULTI_PASS_HQ',
+};
+
+const _$Vp8RateControlModeEnumMap = {
+  Vp8RateControlMode.vbr: 'VBR',
+};
+
+Vp9Settings _$Vp9SettingsFromJson(Map<String, dynamic> json) {
+  return Vp9Settings(
+    bitrate: json['bitrate'] as int,
+    framerateControl: _$enumDecodeNullable(
+        _$Vp9FramerateControlEnumMap, json['framerateControl']),
+    framerateConversionAlgorithm: _$enumDecodeNullable(
+        _$Vp9FramerateConversionAlgorithmEnumMap,
+        json['framerateConversionAlgorithm']),
+    framerateDenominator: json['framerateDenominator'] as int,
+    framerateNumerator: json['framerateNumerator'] as int,
+    gopSize: (json['gopSize'] as num)?.toDouble(),
+    hrdBufferSize: json['hrdBufferSize'] as int,
+    maxBitrate: json['maxBitrate'] as int,
+    parControl:
+        _$enumDecodeNullable(_$Vp9ParControlEnumMap, json['parControl']),
+    parDenominator: json['parDenominator'] as int,
+    parNumerator: json['parNumerator'] as int,
+    qualityTuningLevel: _$enumDecodeNullable(
+        _$Vp9QualityTuningLevelEnumMap, json['qualityTuningLevel']),
+    rateControlMode: _$enumDecodeNullable(
+        _$Vp9RateControlModeEnumMap, json['rateControlMode']),
+  );
+}
+
+Map<String, dynamic> _$Vp9SettingsToJson(Vp9Settings instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('bitrate', instance.bitrate);
+  writeNotNull('framerateControl',
+      _$Vp9FramerateControlEnumMap[instance.framerateControl]);
+  writeNotNull(
+      'framerateConversionAlgorithm',
+      _$Vp9FramerateConversionAlgorithmEnumMap[
+          instance.framerateConversionAlgorithm]);
+  writeNotNull('framerateDenominator', instance.framerateDenominator);
+  writeNotNull('framerateNumerator', instance.framerateNumerator);
+  writeNotNull('gopSize', instance.gopSize);
+  writeNotNull('hrdBufferSize', instance.hrdBufferSize);
+  writeNotNull('maxBitrate', instance.maxBitrate);
+  writeNotNull('parControl', _$Vp9ParControlEnumMap[instance.parControl]);
+  writeNotNull('parDenominator', instance.parDenominator);
+  writeNotNull('parNumerator', instance.parNumerator);
+  writeNotNull('qualityTuningLevel',
+      _$Vp9QualityTuningLevelEnumMap[instance.qualityTuningLevel]);
+  writeNotNull(
+      'rateControlMode', _$Vp9RateControlModeEnumMap[instance.rateControlMode]);
+  return val;
+}
+
+const _$Vp9FramerateControlEnumMap = {
+  Vp9FramerateControl.initializeFromSource: 'INITIALIZE_FROM_SOURCE',
+  Vp9FramerateControl.specified: 'SPECIFIED',
+};
+
+const _$Vp9FramerateConversionAlgorithmEnumMap = {
+  Vp9FramerateConversionAlgorithm.duplicateDrop: 'DUPLICATE_DROP',
+  Vp9FramerateConversionAlgorithm.interpolate: 'INTERPOLATE',
+  Vp9FramerateConversionAlgorithm.frameformer: 'FRAMEFORMER',
+};
+
+const _$Vp9ParControlEnumMap = {
+  Vp9ParControl.initializeFromSource: 'INITIALIZE_FROM_SOURCE',
+  Vp9ParControl.specified: 'SPECIFIED',
+};
+
+const _$Vp9QualityTuningLevelEnumMap = {
+  Vp9QualityTuningLevel.multiPass: 'MULTI_PASS',
+  Vp9QualityTuningLevel.multiPassHq: 'MULTI_PASS_HQ',
+};
+
+const _$Vp9RateControlModeEnumMap = {
+  Vp9RateControlMode.vbr: 'VBR',
 };
 
 WavSettings _$WavSettingsFromJson(Map<String, dynamic> json) {

@@ -1146,6 +1146,16 @@ GetSubscriptionDefinitionVersionResponse
   );
 }
 
+GetThingRuntimeConfigurationResponse
+    _$GetThingRuntimeConfigurationResponseFromJson(Map<String, dynamic> json) {
+  return GetThingRuntimeConfigurationResponse(
+    runtimeConfiguration: json['RuntimeConfiguration'] == null
+        ? null
+        : RuntimeConfiguration.fromJson(
+            json['RuntimeConfiguration'] as Map<String, dynamic>),
+  );
+}
+
 GroupCertificateAuthorityProperties
     _$GroupCertificateAuthorityPropertiesFromJson(Map<String, dynamic> json) {
   return GroupCertificateAuthorityProperties(
@@ -1773,6 +1783,15 @@ Map<String, dynamic> _$ResourceDownloadOwnerSettingToJson(
   return val;
 }
 
+RuntimeConfiguration _$RuntimeConfigurationFromJson(Map<String, dynamic> json) {
+  return RuntimeConfiguration(
+    telemetryConfiguration: json['TelemetryConfiguration'] == null
+        ? null
+        : TelemetryConfiguration.fromJson(
+            json['TelemetryConfiguration'] as Map<String, dynamic>),
+  );
+}
+
 S3MachineLearningModelResourceData _$S3MachineLearningModelResourceDataFromJson(
     Map<String, dynamic> json) {
   return S3MachineLearningModelResourceData(
@@ -1920,6 +1939,39 @@ Map<String, dynamic> _$SubscriptionDefinitionVersionToJson(
   return val;
 }
 
+TelemetryConfiguration _$TelemetryConfigurationFromJson(
+    Map<String, dynamic> json) {
+  return TelemetryConfiguration(
+    telemetry: _$enumDecodeNullable(_$TelemetryEnumMap, json['Telemetry']),
+    configurationSyncStatus: _$enumDecodeNullable(
+        _$ConfigurationSyncStatusEnumMap, json['ConfigurationSyncStatus']),
+  );
+}
+
+const _$TelemetryEnumMap = {
+  Telemetry.on: 'On',
+  Telemetry.off: 'Off',
+};
+
+const _$ConfigurationSyncStatusEnumMap = {
+  ConfigurationSyncStatus.inSync: 'InSync',
+  ConfigurationSyncStatus.outOfSync: 'OutOfSync',
+};
+
+Map<String, dynamic> _$TelemetryConfigurationUpdateToJson(
+    TelemetryConfigurationUpdate instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Telemetry', _$TelemetryEnumMap[instance.telemetry]);
+  return val;
+}
+
 UpdateConnectivityInfoResponse _$UpdateConnectivityInfoResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateConnectivityInfoResponse(
@@ -1977,6 +2029,12 @@ UpdateResourceDefinitionResponse _$UpdateResourceDefinitionResponseFromJson(
 UpdateSubscriptionDefinitionResponse
     _$UpdateSubscriptionDefinitionResponseFromJson(Map<String, dynamic> json) {
   return UpdateSubscriptionDefinitionResponse();
+}
+
+UpdateThingRuntimeConfigurationResponse
+    _$UpdateThingRuntimeConfigurationResponseFromJson(
+        Map<String, dynamic> json) {
+  return UpdateThingRuntimeConfigurationResponse();
 }
 
 VersionInformation _$VersionInformationFromJson(Map<String, dynamic> json) {

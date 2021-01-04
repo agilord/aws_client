@@ -455,6 +455,7 @@ Network _$NetworkFromJson(Map<String, dynamic> json) {
 
 const _$FrameworkEnumMap = {
   Framework.hyperledgerFabric: 'HYPERLEDGER_FABRIC',
+  Framework.ethereum: 'ETHEREUM',
 };
 
 const _$NetworkStatusEnumMap = {
@@ -464,6 +465,13 @@ const _$NetworkStatusEnumMap = {
   NetworkStatus.deleting: 'DELETING',
   NetworkStatus.deleted: 'DELETED',
 };
+
+NetworkEthereumAttributes _$NetworkEthereumAttributesFromJson(
+    Map<String, dynamic> json) {
+  return NetworkEthereumAttributes(
+    chainId: json['ChainId'] as String,
+  );
+}
 
 NetworkFabricAttributes _$NetworkFabricAttributesFromJson(
     Map<String, dynamic> json) {
@@ -495,6 +503,10 @@ Map<String, dynamic> _$NetworkFabricConfigurationToJson(
 NetworkFrameworkAttributes _$NetworkFrameworkAttributesFromJson(
     Map<String, dynamic> json) {
   return NetworkFrameworkAttributes(
+    ethereum: json['Ethereum'] == null
+        ? null
+        : NetworkEthereumAttributes.fromJson(
+            json['Ethereum'] as Map<String, dynamic>),
     fabric: json['Fabric'] == null
         ? null
         : NetworkFabricAttributes.fromJson(
@@ -544,13 +556,20 @@ Node _$NodeFromJson(Map<String, dynamic> json) {
             json['LogPublishingConfiguration'] as Map<String, dynamic>),
     memberId: json['MemberId'] as String,
     networkId: json['NetworkId'] as String,
+    stateDB: _$enumDecodeNullable(_$StateDBTypeEnumMap, json['StateDB']),
     status: _$enumDecodeNullable(_$NodeStatusEnumMap, json['Status']),
   );
 }
 
+const _$StateDBTypeEnumMap = {
+  StateDBType.levelDB: 'LevelDB',
+  StateDBType.couchDB: 'CouchDB',
+};
+
 const _$NodeStatusEnumMap = {
   NodeStatus.creating: 'CREATING',
   NodeStatus.available: 'AVAILABLE',
+  NodeStatus.unhealthy: 'UNHEALTHY',
   NodeStatus.createFailed: 'CREATE_FAILED',
   NodeStatus.updating: 'UPDATING',
   NodeStatus.deleting: 'DELETING',
@@ -567,11 +586,20 @@ Map<String, dynamic> _$NodeConfigurationToJson(NodeConfiguration instance) {
     }
   }
 
-  writeNotNull('AvailabilityZone', instance.availabilityZone);
   writeNotNull('InstanceType', instance.instanceType);
+  writeNotNull('AvailabilityZone', instance.availabilityZone);
   writeNotNull('LogPublishingConfiguration',
       instance.logPublishingConfiguration?.toJson());
+  writeNotNull('StateDB', _$StateDBTypeEnumMap[instance.stateDB]);
   return val;
+}
+
+NodeEthereumAttributes _$NodeEthereumAttributesFromJson(
+    Map<String, dynamic> json) {
+  return NodeEthereumAttributes(
+    httpEndpoint: json['HttpEndpoint'] as String,
+    webSocketEndpoint: json['WebSocketEndpoint'] as String,
+  );
 }
 
 NodeFabricAttributes _$NodeFabricAttributesFromJson(Map<String, dynamic> json) {
@@ -612,6 +640,10 @@ Map<String, dynamic> _$NodeFabricLogPublishingConfigurationToJson(
 NodeFrameworkAttributes _$NodeFrameworkAttributesFromJson(
     Map<String, dynamic> json) {
   return NodeFrameworkAttributes(
+    ethereum: json['Ethereum'] == null
+        ? null
+        : NodeEthereumAttributes.fromJson(
+            json['Ethereum'] as Map<String, dynamic>),
     fabric: json['Fabric'] == null
         ? null
         : NodeFabricAttributes.fromJson(json['Fabric'] as Map<String, dynamic>),

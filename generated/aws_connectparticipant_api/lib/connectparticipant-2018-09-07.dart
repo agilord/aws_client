@@ -52,11 +52,68 @@ class ConnectParticipant {
           endpointUrl: endpointUrl,
         );
 
+  /// Allows you to confirm that the attachment has been uploaded using the
+  /// pre-signed URL provided in StartAttachmentUpload API.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  /// May throw [ServiceQuotaExceededException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [attachmentIds] :
+  /// A list of unique identifiers for the attachments.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique, case-sensitive identifier that you provide to ensure the
+  /// idempotency of the request.
+  ///
+  /// Parameter [connectionToken] :
+  /// The authentication token associated with the participant's connection.
+  Future<void> completeAttachmentUpload({
+    @_s.required List<String> attachmentIds,
+    @_s.required String clientToken,
+    @_s.required String connectionToken,
+  }) async {
+    ArgumentError.checkNotNull(attachmentIds, 'attachmentIds');
+    ArgumentError.checkNotNull(clientToken, 'clientToken');
+    _s.validateStringLength(
+      'clientToken',
+      clientToken,
+      1,
+      500,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(connectionToken, 'connectionToken');
+    _s.validateStringLength(
+      'connectionToken',
+      connectionToken,
+      1,
+      1000,
+      isRequired: true,
+    );
+    final headers = <String, String>{};
+    connectionToken?.let((v) => headers['X-Amz-Bearer'] = v.toString());
+    final $payload = <String, dynamic>{
+      'AttachmentIds': attachmentIds,
+      'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/participant/complete-attachment-upload',
+      headers: headers,
+      exceptionFnMap: _exceptionFns,
+    );
+    return CompleteAttachmentUploadResponse.fromJson(response);
+  }
+
   /// Creates the participant's connection. Note that ParticipantToken is used
   /// for invoking this API instead of ConnectionToken.
   ///
   /// The participant token is valid for the lifetime of the participant – until
-  /// the they are part of a contact.
+  /// they are part of a contact.
   ///
   /// The response URL for <code>WEBSOCKET</code> Type has a connect expiry
   /// timeout of 100s. Clients must manually connect to the returned websocket
@@ -70,6 +127,11 @@ class ConnectParticipant {
   /// Upon websocket URL expiry, as specified in the response ConnectionExpiry
   /// parameter, clients need to call this API again to obtain a new websocket
   /// URL and perform the same steps as before.
+  /// <note>
+  /// The Amazon Connect Participant Service APIs do not use <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature
+  /// Version 4 authentication</a>.
+  /// </note>
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
@@ -77,8 +139,10 @@ class ConnectParticipant {
   /// May throw [ValidationException].
   ///
   /// Parameter [participantToken] :
-  /// Participant Token as obtained from <a
-  /// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_StartChatContactResponse.html">StartChatContact</a>
+  /// This is a header parameter.
+  ///
+  /// The Participant Token as obtained from <a
+  /// href="https://docs.aws.amazon.com/connect/latest/APIReference/API_StartChatContact.html">StartChatContact</a>
   /// API response.
   ///
   /// Parameter [type] :
@@ -113,6 +177,10 @@ class ConnectParticipant {
 
   /// Disconnects a participant. Note that ConnectionToken is used for invoking
   /// this API instead of ParticipantToken.
+  ///
+  /// The Amazon Connect Participant Service APIs do not use <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature
+  /// Version 4 authentication</a>.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
@@ -158,8 +226,61 @@ class ConnectParticipant {
     return DisconnectParticipantResponse.fromJson(response);
   }
 
-  /// Retrieves a transcript of the session. Note that ConnectionToken is used
-  /// for invoking this API instead of ParticipantToken.
+  /// Provides a pre-signed URL for download of a completed attachment. This is
+  /// an asynchronous API for use with active contacts.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  ///
+  /// Parameter [attachmentId] :
+  /// A unique identifier for the attachment.
+  ///
+  /// Parameter [connectionToken] :
+  /// The authentication token associated with the participant's connection.
+  Future<GetAttachmentResponse> getAttachment({
+    @_s.required String attachmentId,
+    @_s.required String connectionToken,
+  }) async {
+    ArgumentError.checkNotNull(attachmentId, 'attachmentId');
+    _s.validateStringLength(
+      'attachmentId',
+      attachmentId,
+      1,
+      256,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(connectionToken, 'connectionToken');
+    _s.validateStringLength(
+      'connectionToken',
+      connectionToken,
+      1,
+      1000,
+      isRequired: true,
+    );
+    final headers = <String, String>{};
+    connectionToken?.let((v) => headers['X-Amz-Bearer'] = v.toString());
+    final $payload = <String, dynamic>{
+      'AttachmentId': attachmentId,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/participant/attachment',
+      headers: headers,
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetAttachmentResponse.fromJson(response);
+  }
+
+  /// Retrieves a transcript of the session, including details about any
+  /// attachments. Note that ConnectionToken is used for invoking this API
+  /// instead of ParticipantToken.
+  ///
+  /// The Amazon Connect Participant Service APIs do not use <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature
+  /// Version 4 authentication</a>.
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
@@ -247,6 +368,10 @@ class ConnectParticipant {
   /// Sends an event. Note that ConnectionToken is used for invoking this API
   /// instead of ParticipantToken.
   ///
+  /// The Amazon Connect Participant Service APIs do not use <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature
+  /// Version 4 authentication</a>.
+  ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
   /// May throw [ThrottlingException].
@@ -327,6 +452,11 @@ class ConnectParticipant {
 
   /// Sends a message. Note that ConnectionToken is used for invoking this API
   /// instead of ParticipantToken.
+  /// <note>
+  /// The Amazon Connect Participant Service APIs do not use <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature
+  /// Version 4 authentication</a>.
+  /// </note>
   ///
   /// May throw [AccessDeniedException].
   /// May throw [InternalServerException].
@@ -397,15 +527,178 @@ class ConnectParticipant {
     );
     return SendMessageResponse.fromJson(response);
   }
+
+  /// Provides a pre-signed Amazon S3 URL in response for uploading the file
+  /// directly to S3.
+  ///
+  /// May throw [AccessDeniedException].
+  /// May throw [InternalServerException].
+  /// May throw [ThrottlingException].
+  /// May throw [ValidationException].
+  /// May throw [ServiceQuotaExceededException].
+  ///
+  /// Parameter [attachmentName] :
+  /// A case-sensitive name of the attachment being uploaded.
+  ///
+  /// Parameter [attachmentSizeInBytes] :
+  /// The size of the attachment in bytes.
+  ///
+  /// Parameter [clientToken] :
+  /// A unique case sensitive identifier to support idempotency of request.
+  ///
+  /// Parameter [connectionToken] :
+  /// The authentication token associated with the participant's connection.
+  ///
+  /// Parameter [contentType] :
+  /// Describes the MIME file type of the attachment. For a list of supported
+  /// file types, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html#feature-limits">Feature
+  /// specifications</a> in the <i>Amazon Connect Administrator Guide</i>.
+  Future<StartAttachmentUploadResponse> startAttachmentUpload({
+    @_s.required String attachmentName,
+    @_s.required int attachmentSizeInBytes,
+    @_s.required String clientToken,
+    @_s.required String connectionToken,
+    @_s.required String contentType,
+  }) async {
+    ArgumentError.checkNotNull(attachmentName, 'attachmentName');
+    _s.validateStringLength(
+      'attachmentName',
+      attachmentName,
+      1,
+      256,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(attachmentSizeInBytes, 'attachmentSizeInBytes');
+    _s.validateNumRange(
+      'attachmentSizeInBytes',
+      attachmentSizeInBytes,
+      1,
+      1152921504606846976,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(clientToken, 'clientToken');
+    _s.validateStringLength(
+      'clientToken',
+      clientToken,
+      1,
+      500,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(connectionToken, 'connectionToken');
+    _s.validateStringLength(
+      'connectionToken',
+      connectionToken,
+      1,
+      1000,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(contentType, 'contentType');
+    _s.validateStringLength(
+      'contentType',
+      contentType,
+      1,
+      255,
+      isRequired: true,
+    );
+    final headers = <String, String>{};
+    connectionToken?.let((v) => headers['X-Amz-Bearer'] = v.toString());
+    final $payload = <String, dynamic>{
+      'AttachmentName': attachmentName,
+      'AttachmentSizeInBytes': attachmentSizeInBytes,
+      'ClientToken': clientToken ?? _s.generateIdempotencyToken(),
+      'ContentType': contentType,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/participant/start-attachment-upload',
+      headers: headers,
+      exceptionFnMap: _exceptionFns,
+    );
+    return StartAttachmentUploadResponse.fromJson(response);
+  }
+}
+
+enum ArtifactStatus {
+  @_s.JsonValue('APPROVED')
+  approved,
+  @_s.JsonValue('REJECTED')
+  rejected,
+  @_s.JsonValue('IN_PROGRESS')
+  inProgress,
+}
+
+/// The case-insensitive input to indicate standard MIME type that describes the
+/// format of the file that will be uploaded.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class AttachmentItem {
+  /// A unique identifier for the attachment.
+  @_s.JsonKey(name: 'AttachmentId')
+  final String attachmentId;
+
+  /// A case-sensitive name of the attachment being uploaded.
+  @_s.JsonKey(name: 'AttachmentName')
+  final String attachmentName;
+
+  /// Describes the MIME file type of the attachment. For a list of supported file
+  /// types, see <a
+  /// href="https://docs.aws.amazon.com/connect/latest/adminguide/amazon-connect-service-limits.html#feature-limits">Feature
+  /// specifications</a> in the <i>Amazon Connect Administrator Guide</i>.
+  @_s.JsonKey(name: 'ContentType')
+  final String contentType;
+
+  /// Status of the attachment.
+  @_s.JsonKey(name: 'Status')
+  final ArtifactStatus status;
+
+  AttachmentItem({
+    this.attachmentId,
+    this.attachmentName,
+    this.contentType,
+    this.status,
+  });
+  factory AttachmentItem.fromJson(Map<String, dynamic> json) =>
+      _$AttachmentItemFromJson(json);
 }
 
 enum ChatItemType {
+  @_s.JsonValue('TYPING')
+  typing,
+  @_s.JsonValue('PARTICIPANT_JOINED')
+  participantJoined,
+  @_s.JsonValue('PARTICIPANT_LEFT')
+  participantLeft,
+  @_s.JsonValue('CHAT_ENDED')
+  chatEnded,
+  @_s.JsonValue('TRANSFER_SUCCEEDED')
+  transferSucceeded,
+  @_s.JsonValue('TRANSFER_FAILED')
+  transferFailed,
   @_s.JsonValue('MESSAGE')
   message,
   @_s.JsonValue('EVENT')
   event,
+  @_s.JsonValue('ATTACHMENT')
+  attachment,
   @_s.JsonValue('CONNECTION_ACK')
   connectionAck,
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class CompleteAttachmentUploadResponse {
+  CompleteAttachmentUploadResponse();
+  factory CompleteAttachmentUploadResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$CompleteAttachmentUploadResponseFromJson(json);
 }
 
 /// Connection credentials.
@@ -493,6 +786,30 @@ class DisconnectParticipantResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class GetAttachmentResponse {
+  /// The pre-signed URL using which file would be downloaded from Amazon S3 by
+  /// the API caller.
+  @_s.JsonKey(name: 'Url')
+  final String url;
+
+  /// The expiration time of the URL in ISO timestamp. It's specified in ISO 8601
+  /// format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.
+  @_s.JsonKey(name: 'UrlExpiry')
+  final String urlExpiry;
+
+  GetAttachmentResponse({
+    this.url,
+    this.urlExpiry,
+  });
+  factory GetAttachmentResponse.fromJson(Map<String, dynamic> json) =>
+      _$GetAttachmentResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class GetTranscriptResponse {
   /// The initial contact ID for the contact.
   @_s.JsonKey(name: 'InitialContactId')
@@ -530,6 +847,10 @@ class Item {
   @_s.JsonKey(name: 'AbsoluteTime')
   final String absoluteTime;
 
+  /// Provides information about the attachments.
+  @_s.JsonKey(name: 'Attachments')
+  final List<AttachmentItem> attachments;
+
   /// The content of the message or event.
   @_s.JsonKey(name: 'Content')
   final String content;
@@ -560,6 +881,7 @@ class Item {
 
   Item({
     this.absoluteTime,
+    this.attachments,
     this.content,
     this.contentType,
     this.displayName,
@@ -668,6 +990,28 @@ extension on SortKey {
   }
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class StartAttachmentUploadResponse {
+  /// A unique identifier for the attachment.
+  @_s.JsonKey(name: 'AttachmentId')
+  final String attachmentId;
+
+  /// Fields to be used while uploading the attachment.
+  @_s.JsonKey(name: 'UploadMetadata')
+  final UploadMetadata uploadMetadata;
+
+  StartAttachmentUploadResponse({
+    this.attachmentId,
+    this.uploadMetadata,
+  });
+  factory StartAttachmentUploadResponse.fromJson(Map<String, dynamic> json) =>
+      _$StartAttachmentUploadResponseFromJson(json);
+}
+
 /// A filtering option for where to start. For example, if you sent 100
 /// messages, start with message 50.
 @_s.JsonSerializable(
@@ -697,6 +1041,36 @@ class StartPosition {
     this.mostRecent,
   });
   Map<String, dynamic> toJson() => _$StartPositionToJson(this);
+}
+
+/// Fields to be used while uploading the attachment.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class UploadMetadata {
+  /// The headers to be provided while uploading the file to the URL.
+  @_s.JsonKey(name: 'HeadersToInclude')
+  final Map<String, String> headersToInclude;
+
+  /// The pre-signed URL using which file would be downloaded from Amazon S3 by
+  /// the API caller.
+  @_s.JsonKey(name: 'Url')
+  final String url;
+
+  /// The expiration time of the URL in ISO timestamp. It's specified in ISO 8601
+  /// format: yyyy-MM-ddThh:mm:ss.SSSZ. For example, 2019-11-08T02:41:28.172Z.
+  @_s.JsonKey(name: 'UrlExpiry')
+  final String urlExpiry;
+
+  UploadMetadata({
+    this.headersToInclude,
+    this.url,
+    this.urlExpiry,
+  });
+  factory UploadMetadata.fromJson(Map<String, dynamic> json) =>
+      _$UploadMetadataFromJson(json);
 }
 
 /// The websocket for the participant's connection.
@@ -730,9 +1104,22 @@ class AccessDeniedException extends _s.GenericAwsException {
       : super(type: type, code: 'AccessDeniedException', message: message);
 }
 
+class ConflictException extends _s.GenericAwsException {
+  ConflictException({String type, String message})
+      : super(type: type, code: 'ConflictException', message: message);
+}
+
 class InternalServerException extends _s.GenericAwsException {
   InternalServerException({String type, String message})
       : super(type: type, code: 'InternalServerException', message: message);
+}
+
+class ServiceQuotaExceededException extends _s.GenericAwsException {
+  ServiceQuotaExceededException({String type, String message})
+      : super(
+            type: type,
+            code: 'ServiceQuotaExceededException',
+            message: message);
 }
 
 class ThrottlingException extends _s.GenericAwsException {
@@ -748,8 +1135,12 @@ class ValidationException extends _s.GenericAwsException {
 final _exceptionFns = <String, _s.AwsExceptionFn>{
   'AccessDeniedException': (type, message) =>
       AccessDeniedException(type: type, message: message),
+  'ConflictException': (type, message) =>
+      ConflictException(type: type, message: message),
   'InternalServerException': (type, message) =>
       InternalServerException(type: type, message: message),
+  'ServiceQuotaExceededException': (type, message) =>
+      ServiceQuotaExceededException(type: type, message: message),
   'ThrottlingException': (type, message) =>
       ThrottlingException(type: type, message: message),
   'ValidationException': (type, message) =>

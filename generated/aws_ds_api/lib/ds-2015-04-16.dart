@@ -235,6 +235,68 @@ class DirectoryService {
     return AddIpRoutesResult.fromJson(jsonResponse.body);
   }
 
+  /// Adds two domain controllers in the specified Region for the specified
+  /// directory.
+  ///
+  /// May throw [DirectoryUnavailableException].
+  /// May throw [InvalidParameterException].
+  /// May throw [EntityDoesNotExistException].
+  /// May throw [DirectoryAlreadyInRegionException].
+  /// May throw [UnsupportedOperationException].
+  /// May throw [DirectoryDoesNotExistException].
+  /// May throw [RegionLimitExceededException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ClientException].
+  /// May throw [ServiceException].
+  ///
+  /// Parameter [directoryId] :
+  /// The identifier of the directory to which you want to add Region
+  /// replication.
+  ///
+  /// Parameter [regionName] :
+  /// The name of the Region where you want to add domain controllers for
+  /// replication. For example, <code>us-east-1</code>.
+  Future<void> addRegion({
+    @_s.required String directoryId,
+    @_s.required String regionName,
+    @_s.required DirectoryVpcSettings vPCSettings,
+  }) async {
+    ArgumentError.checkNotNull(directoryId, 'directoryId');
+    _s.validateStringPattern(
+      'directoryId',
+      directoryId,
+      r'''^d-[0-9a-f]{10}$''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(regionName, 'regionName');
+    _s.validateStringLength(
+      'regionName',
+      regionName,
+      8,
+      32,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(vPCSettings, 'vPCSettings');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'DirectoryService_20150416.AddRegion'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'DirectoryId': directoryId,
+        'RegionName': regionName,
+        'VPCSettings': vPCSettings,
+      },
+    );
+
+    return AddRegionResult.fromJson(jsonResponse.body);
+  }
+
   /// Adds or overwrites one or more tags for the specified directory. Each
   /// directory can have a maximum of 50 tags. Each tag consists of a key and
   /// optional value. Tag keys must be unique to each resource.
@@ -410,7 +472,7 @@ class DirectoryService {
     _s.validateStringPattern(
       'shortName',
       shortName,
-      r'''^[^\\/:*?\"\<\>|.]+[^\\/:*?\"<>|]*$''',
+      r'''^[^\\/:*?"<>|.]+[^\\/:*?"<>|]*$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -503,8 +565,7 @@ class DirectoryService {
     return CreateAliasResult.fromJson(jsonResponse.body);
   }
 
-  /// Creates a computer account in the specified directory, and joins the
-  /// computer to the directory.
+  /// Creates an Active Directory computer object in the specified directory.
   ///
   /// May throw [AuthenticationFailedException].
   /// May throw [DirectoryUnavailableException].
@@ -692,6 +753,38 @@ class DirectoryService {
   /// If you need to change the password for the administrator account, you can
   /// use the <a>ResetUserPassword</a> API call.
   ///
+  /// The regex pattern for this string is made up of the following conditions:
+  ///
+  /// <ul>
+  /// <li>
+  /// Length (?=^.{8,64}$) – Must be between 8 and 64 characters
+  /// </li>
+  /// </ul>
+  /// AND any 3 of the following password complexity rules required by Active
+  /// Directory:
+  ///
+  /// <ul>
+  /// <li>
+  /// Numbers and upper case and lowercase (?=.*\d)(?=.*[A-Z])(?=.*[a-z])
+  /// </li>
+  /// <li>
+  /// Numbers and special characters and lower case
+  /// (?=.*\d)(?=.*[^A-Za-z0-9\s])(?=.*[a-z])
+  /// </li>
+  /// <li>
+  /// Special characters and upper case and lower case
+  /// (?=.*[^A-Za-z0-9\s])(?=.*[A-Z])(?=.*[a-z])
+  /// </li>
+  /// <li>
+  /// Numbers and upper case and special characters
+  /// (?=.*\d)(?=.*[A-Z])(?=.*[^A-Za-z0-9\s])
+  /// </li>
+  /// </ul>
+  /// For additional information about how Active Directory passwords are
+  /// enforced, see <a
+  /// href="https://docs.microsoft.com/en-us/windows/security/threat-protection/security-policy-settings/password-must-meet-complexity-requirements">Password
+  /// must meet complexity requirements</a> on the Microsoft website.
+  ///
   /// Parameter [size] :
   /// The size of the directory.
   ///
@@ -745,7 +838,7 @@ class DirectoryService {
     _s.validateStringPattern(
       'shortName',
       shortName,
-      r'''^[^\\/:*?\"\<\>|.]+[^\\/:*?\"<>|]*$''',
+      r'''^[^\\/:*?"<>|.]+[^\\/:*?"<>|]*$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -922,7 +1015,7 @@ class DirectoryService {
     _s.validateStringPattern(
       'shortName',
       shortName,
-      r'''^[^\\/:*?\"\<\>|.]+[^\\/:*?\"<>|]*$''',
+      r'''^[^\\/:*?"<>|.]+[^\\/:*?"<>|]*$''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -1328,8 +1421,8 @@ class DirectoryService {
     return DeleteTrustResult.fromJson(jsonResponse.body);
   }
 
-  /// Deletes from the system the certificate that was registered for a secured
-  /// LDAP connection.
+  /// Deletes from the system the certificate that was registered for secure
+  /// LDAP or client certificate authentication.
   ///
   /// May throw [DirectoryUnavailableException].
   /// May throw [DirectoryDoesNotExistException].
@@ -1440,8 +1533,8 @@ class DirectoryService {
     return DeregisterEventTopicResult.fromJson(jsonResponse.body);
   }
 
-  /// Displays information about the certificate registered for a secured LDAP
-  /// connection.
+  /// Displays information about the certificate registered for secure LDAP or
+  /// client certificate authentication.
   ///
   /// May throw [DirectoryDoesNotExistException].
   /// May throw [UnsupportedOperationException].
@@ -1785,6 +1878,64 @@ class DirectoryService {
     return DescribeLDAPSSettingsResult.fromJson(jsonResponse.body);
   }
 
+  /// Provides information about the Regions that are configured for
+  /// multi-Region replication.
+  ///
+  /// May throw [InvalidParameterException].
+  /// May throw [DirectoryDoesNotExistException].
+  /// May throw [UnsupportedOperationException].
+  /// May throw [InvalidNextTokenException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ClientException].
+  /// May throw [ServiceException].
+  ///
+  /// Parameter [directoryId] :
+  /// The identifier of the directory.
+  ///
+  /// Parameter [nextToken] :
+  /// The <code>DescribeRegionsResult.NextToken</code> value from a previous
+  /// call to <a>DescribeRegions</a>. Pass null if this is the first call.
+  ///
+  /// Parameter [regionName] :
+  /// The name of the Region. For example, <code>us-east-1</code>.
+  Future<DescribeRegionsResult> describeRegions({
+    @_s.required String directoryId,
+    String nextToken,
+    String regionName,
+  }) async {
+    ArgumentError.checkNotNull(directoryId, 'directoryId');
+    _s.validateStringPattern(
+      'directoryId',
+      directoryId,
+      r'''^d-[0-9a-f]{10}$''',
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'regionName',
+      regionName,
+      8,
+      32,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'DirectoryService_20150416.DescribeRegions'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'DirectoryId': directoryId,
+        if (nextToken != null) 'NextToken': nextToken,
+        if (regionName != null) 'RegionName': regionName,
+      },
+    );
+
+    return DescribeRegionsResult.fromJson(jsonResponse.body);
+  }
+
   /// Returns the shared directories in your account.
   ///
   /// May throw [EntityDoesNotExistException].
@@ -1987,6 +2138,53 @@ class DirectoryService {
     return DescribeTrustsResult.fromJson(jsonResponse.body);
   }
 
+  /// Disables alternative client authentication methods for the specified
+  /// directory.
+  ///
+  /// May throw [DirectoryDoesNotExistException].
+  /// May throw [UnsupportedOperationException].
+  /// May throw [InvalidClientAuthStatusException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ClientException].
+  /// May throw [ServiceException].
+  ///
+  /// Parameter [directoryId] :
+  /// The identifier of the directory
+  ///
+  /// Parameter [type] :
+  /// The type of client authentication to disable. Currently, only the
+  /// parameter, <code>SmartCard</code> is supported.
+  Future<void> disableClientAuthentication({
+    @_s.required String directoryId,
+    @_s.required ClientAuthenticationType type,
+  }) async {
+    ArgumentError.checkNotNull(directoryId, 'directoryId');
+    _s.validateStringPattern(
+      'directoryId',
+      directoryId,
+      r'''^d-[0-9a-f]{10}$''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(type, 'type');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'DirectoryService_20150416.DisableClientAuthentication'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'DirectoryId': directoryId,
+        'Type': type?.toValue() ?? '',
+      },
+    );
+
+    return DisableClientAuthenticationResult.fromJson(jsonResponse.body);
+  }
+
   /// Deactivates LDAP secure calls for the specified directory.
   ///
   /// May throw [DirectoryUnavailableException].
@@ -2145,6 +2343,56 @@ class DirectoryService {
     );
 
     return DisableSsoResult.fromJson(jsonResponse.body);
+  }
+
+  /// Enables alternative client authentication methods for the specified
+  /// directory.
+  ///
+  /// May throw [DirectoryDoesNotExistException].
+  /// May throw [UnsupportedOperationException].
+  /// May throw [InvalidClientAuthStatusException].
+  /// May throw [AccessDeniedException].
+  /// May throw [NoAvailableCertificateException].
+  /// May throw [ClientException].
+  /// May throw [ServiceException].
+  ///
+  /// Parameter [directoryId] :
+  /// The identifier of the specified directory.
+  ///
+  /// Parameter [type] :
+  /// The type of client authentication to enable. Currently only the value
+  /// <code>SmartCard</code> is supported. Smart card authentication in AD
+  /// Connector requires that you enable Kerberos Constrained Delegation for the
+  /// Service User to the LDAP service in the on-premises AD.
+  Future<void> enableClientAuthentication({
+    @_s.required String directoryId,
+    @_s.required ClientAuthenticationType type,
+  }) async {
+    ArgumentError.checkNotNull(directoryId, 'directoryId');
+    _s.validateStringPattern(
+      'directoryId',
+      directoryId,
+      r'''^d-[0-9a-f]{10}$''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(type, 'type');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'DirectoryService_20150416.EnableClientAuthentication'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'DirectoryId': directoryId,
+        'Type': type?.toValue() ?? '',
+      },
+    );
+
+    return EnableClientAuthenticationResult.fromJson(jsonResponse.body);
   }
 
   /// Activates the switch for the specific directory to always use LDAP secure
@@ -2378,7 +2626,7 @@ class DirectoryService {
   }
 
   /// For the specified directory, lists all the certificates registered for a
-  /// secured LDAP connection.
+  /// secure LDAP or client certificate authentication.
   ///
   /// May throw [DirectoryDoesNotExistException].
   /// May throw [UnsupportedOperationException].
@@ -2658,7 +2906,8 @@ class DirectoryService {
     return ListTagsForResourceResult.fromJson(jsonResponse.body);
   }
 
-  /// Registers a certificate for secured LDAP connection.
+  /// Registers a certificate for a secure LDAP or client certificate
+  /// authentication.
   ///
   /// May throw [DirectoryUnavailableException].
   /// May throw [DirectoryDoesNotExistException].
@@ -2675,9 +2924,20 @@ class DirectoryService {
   ///
   /// Parameter [directoryId] :
   /// The identifier of the directory.
+  ///
+  /// Parameter [clientCertAuthSettings] :
+  /// A <code>ClientCertAuthSettings</code> object that contains client
+  /// certificate authentication settings.
+  ///
+  /// Parameter [type] :
+  /// The function that the registered certificate performs. Valid values
+  /// include <code>ClientLDAPS</code> or <code>ClientCertAuth</code>. The
+  /// default value is <code>ClientLDAPS</code>.
   Future<RegisterCertificateResult> registerCertificate({
     @_s.required String certificateData,
     @_s.required String directoryId,
+    ClientCertAuthSettings clientCertAuthSettings,
+    CertificateType type,
   }) async {
     ArgumentError.checkNotNull(certificateData, 'certificateData');
     _s.validateStringLength(
@@ -2707,6 +2967,9 @@ class DirectoryService {
       payload: {
         'CertificateData': certificateData,
         'DirectoryId': directoryId,
+        if (clientCertAuthSettings != null)
+          'ClientCertAuthSettings': clientCertAuthSettings,
+        if (type != null) 'Type': type.toValue(),
       },
     );
 
@@ -2858,6 +3121,48 @@ class DirectoryService {
     );
 
     return RemoveIpRoutesResult.fromJson(jsonResponse.body);
+  }
+
+  /// Stops all replication and removes the domain controllers from the
+  /// specified Region. You cannot remove the primary Region with this
+  /// operation. Instead, use the <code>DeleteDirectory</code> API.
+  ///
+  /// May throw [DirectoryUnavailableException].
+  /// May throw [DirectoryDoesNotExistException].
+  /// May throw [UnsupportedOperationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ClientException].
+  /// May throw [ServiceException].
+  ///
+  /// Parameter [directoryId] :
+  /// The identifier of the directory for which you want to remove Region
+  /// replication.
+  Future<void> removeRegion({
+    @_s.required String directoryId,
+  }) async {
+    ArgumentError.checkNotNull(directoryId, 'directoryId');
+    _s.validateStringPattern(
+      'directoryId',
+      directoryId,
+      r'''^d-[0-9a-f]{10}$''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'DirectoryService_20150416.RemoveRegion'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'DirectoryId': directoryId,
+      },
+    );
+
+    return RemoveRegionResult.fromJson(jsonResponse.body);
   }
 
   /// Removes tags from a directory.
@@ -3553,6 +3858,17 @@ class AddIpRoutesResult {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class AddRegionResult {
+  AddRegionResult();
+  factory AddRegionResult.fromJson(Map<String, dynamic> json) =>
+      _$AddRegionResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class AddTagsToResourceResult {
   AddTagsToResourceResult();
   factory AddTagsToResourceResult.fromJson(Map<String, dynamic> json) =>
@@ -3606,6 +3922,11 @@ class Certificate {
   @_s.JsonKey(name: 'CertificateId')
   final String certificateId;
 
+  /// A <code>ClientCertAuthSettings</code> object that contains client
+  /// certificate authentication settings.
+  @_s.JsonKey(name: 'ClientCertAuthSettings')
+  final ClientCertAuthSettings clientCertAuthSettings;
+
   /// The common name for the certificate.
   @_s.JsonKey(name: 'CommonName')
   final String commonName;
@@ -3628,13 +3949,21 @@ class Certificate {
   @_s.JsonKey(name: 'StateReason')
   final String stateReason;
 
+  /// The function that the registered certificate performs. Valid values include
+  /// <code>ClientLDAPS</code> or <code>ClientCertAuth</code>. The default value
+  /// is <code>ClientLDAPS</code>.
+  @_s.JsonKey(name: 'Type')
+  final CertificateType type;
+
   Certificate({
     this.certificateId,
+    this.clientCertAuthSettings,
     this.commonName,
     this.expiryDateTime,
     this.registeredDateTime,
     this.state,
     this.stateReason,
+    this.type,
   });
   factory Certificate.fromJson(Map<String, dynamic> json) =>
       _$CertificateFromJson(json);
@@ -3664,11 +3993,18 @@ class CertificateInfo {
   @_s.JsonKey(name: 'State')
   final CertificateState state;
 
+  /// The function that the registered certificate performs. Valid values include
+  /// <code>ClientLDAPS</code> or <code>ClientCertAuth</code>. The default value
+  /// is <code>ClientLDAPS</code>.
+  @_s.JsonKey(name: 'Type')
+  final CertificateType type;
+
   CertificateInfo({
     this.certificateId,
     this.commonName,
     this.expiryDateTime,
     this.state,
+    this.type,
   });
   factory CertificateInfo.fromJson(Map<String, dynamic> json) =>
       _$CertificateInfoFromJson(json);
@@ -3687,6 +4023,64 @@ enum CertificateState {
   deregistered,
   @_s.JsonValue('DeregisterFailed')
   deregisterFailed,
+}
+
+enum CertificateType {
+  @_s.JsonValue('ClientCertAuth')
+  clientCertAuth,
+  @_s.JsonValue('ClientLDAPS')
+  clientLDAPS,
+}
+
+extension on CertificateType {
+  String toValue() {
+    switch (this) {
+      case CertificateType.clientCertAuth:
+        return 'ClientCertAuth';
+      case CertificateType.clientLDAPS:
+        return 'ClientLDAPS';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
+enum ClientAuthenticationType {
+  @_s.JsonValue('SmartCard')
+  smartCard,
+}
+
+extension on ClientAuthenticationType {
+  String toValue() {
+    switch (this) {
+      case ClientAuthenticationType.smartCard:
+        return 'SmartCard';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
+/// Contains information about the client certificate authentication settings
+/// for the <code>RegisterCertificate</code> and
+/// <code>DescribeCertificate</code> operations.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class ClientCertAuthSettings {
+  /// Specifies the URL of the default OCSP server used to check for revocation
+  /// status. A secondary value to any OCSP address found in the AIA extension of
+  /// the user certificate.
+  @_s.JsonKey(name: 'OCSPUrl')
+  final String oCSPUrl;
+
+  ClientCertAuthSettings({
+    this.oCSPUrl,
+  });
+  factory ClientCertAuthSettings.fromJson(Map<String, dynamic> json) =>
+      _$ClientCertAuthSettingsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ClientCertAuthSettingsToJson(this);
 }
 
 /// Contains information about a computer account in a directory.
@@ -4150,6 +4544,31 @@ class DescribeLDAPSSettingsResult {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class DescribeRegionsResult {
+  /// If not null, more results are available. Pass this value for the
+  /// <code>NextToken</code> parameter in a subsequent call to
+  /// <a>DescribeRegions</a> to retrieve the next set of items.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// List of Region information related to the directory for each replicated
+  /// Region.
+  @_s.JsonKey(name: 'RegionsDescription')
+  final List<RegionDescription> regionsDescription;
+
+  DescribeRegionsResult({
+    this.nextToken,
+    this.regionsDescription,
+  });
+  factory DescribeRegionsResult.fromJson(Map<String, dynamic> json) =>
+      _$DescribeRegionsResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class DescribeSharedDirectoriesResult {
   /// If not null, token that indicates that more results are available. Pass this
   /// value for the <code>NextToken</code> parameter in a subsequent call to
@@ -4393,6 +4812,10 @@ class DirectoryDescription {
   @_s.JsonKey(name: 'RadiusStatus')
   final RadiusStatus radiusStatus;
 
+  /// Lists the Regions where the directory has replicated.
+  @_s.JsonKey(name: 'RegionsInfo')
+  final RegionsInfo regionsInfo;
+
   /// The method used when sharing a directory to determine whether the directory
   /// should be shared within your AWS organization (<code>ORGANIZATIONS</code>)
   /// or with any AWS account by sending a shared directory request
@@ -4461,6 +4884,7 @@ class DirectoryDescription {
     this.ownerDirectoryDescription,
     this.radiusSettings,
     this.radiusStatus,
+    this.regionsInfo,
     this.shareMethod,
     this.shareNotes,
     this.shareStatus,
@@ -4615,7 +5039,7 @@ enum DirectoryType {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
-    createFactory: false,
+    createFactory: true,
     createToJson: true)
 class DirectoryVpcSettings {
   /// The identifiers of the subnets for the directory servers. The two subnets
@@ -4632,6 +5056,9 @@ class DirectoryVpcSettings {
     @_s.required this.subnetIds,
     @_s.required this.vpcId,
   });
+  factory DirectoryVpcSettings.fromJson(Map<String, dynamic> json) =>
+      _$DirectoryVpcSettingsFromJson(json);
+
   Map<String, dynamic> toJson() => _$DirectoryVpcSettingsToJson(this);
 }
 
@@ -4666,6 +5093,18 @@ class DirectoryVpcSettingsDescription {
   });
   factory DirectoryVpcSettingsDescription.fromJson(Map<String, dynamic> json) =>
       _$DirectoryVpcSettingsDescriptionFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DisableClientAuthenticationResult {
+  DisableClientAuthenticationResult();
+  factory DisableClientAuthenticationResult.fromJson(
+          Map<String, dynamic> json) =>
+      _$DisableClientAuthenticationResultFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -4783,6 +5222,18 @@ enum DomainControllerStatus {
   deleted,
   @_s.JsonValue('Failed')
   failed,
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class EnableClientAuthenticationResult {
+  EnableClientAuthenticationResult();
+  factory EnableClientAuthenticationResult.fromJson(
+          Map<String, dynamic> json) =>
+      _$EnableClientAuthenticationResultFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -5271,8 +5722,9 @@ class RadiusSettings {
   @_s.JsonKey(name: 'RadiusRetries')
   final int radiusRetries;
 
-  /// An array of strings that contains the IP addresses of the RADIUS server
-  /// endpoints, or the IP addresses of your RADIUS server load balancer.
+  /// An array of strings that contains the fully qualified domain name (FQDN) or
+  /// IP addresses of the RADIUS server endpoints, or the FQDN or IP addresses of
+  /// your RADIUS server load balancer.
   @_s.JsonKey(name: 'RadiusServers')
   final List<String> radiusServers;
 
@@ -5311,6 +5763,99 @@ enum RadiusStatus {
   completed,
   @_s.JsonValue('Failed')
   failed,
+}
+
+/// The replicated Region information for a directory.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class RegionDescription {
+  /// The desired number of domain controllers in the specified Region for the
+  /// specified directory.
+  @_s.JsonKey(name: 'DesiredNumberOfDomainControllers')
+  final int desiredNumberOfDomainControllers;
+
+  /// The identifier of the directory.
+  @_s.JsonKey(name: 'DirectoryId')
+  final String directoryId;
+
+  /// The date and time that the Region description was last updated.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastUpdatedDateTime')
+  final DateTime lastUpdatedDateTime;
+
+  /// Specifies when the Region replication began.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LaunchTime')
+  final DateTime launchTime;
+
+  /// The name of the Region. For example, <code>us-east-1</code>.
+  @_s.JsonKey(name: 'RegionName')
+  final String regionName;
+
+  /// Specifies whether the Region is the primary Region or an additional Region.
+  @_s.JsonKey(name: 'RegionType')
+  final RegionType regionType;
+
+  /// The status of the replication process for the specified Region.
+  @_s.JsonKey(name: 'Status')
+  final DirectoryStage status;
+
+  /// The date and time that the Region status was last updated.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'StatusLastUpdatedDateTime')
+  final DateTime statusLastUpdatedDateTime;
+  @_s.JsonKey(name: 'VpcSettings')
+  final DirectoryVpcSettings vpcSettings;
+
+  RegionDescription({
+    this.desiredNumberOfDomainControllers,
+    this.directoryId,
+    this.lastUpdatedDateTime,
+    this.launchTime,
+    this.regionName,
+    this.regionType,
+    this.status,
+    this.statusLastUpdatedDateTime,
+    this.vpcSettings,
+  });
+  factory RegionDescription.fromJson(Map<String, dynamic> json) =>
+      _$RegionDescriptionFromJson(json);
+}
+
+enum RegionType {
+  @_s.JsonValue('Primary')
+  primary,
+  @_s.JsonValue('Additional')
+  additional,
+}
+
+/// Provides information about the Regions that are configured for multi-Region
+/// replication.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class RegionsInfo {
+  /// Lists the Regions where the directory has been replicated, excluding the
+  /// primary Region.
+  @_s.JsonKey(name: 'AdditionalRegions')
+  final List<String> additionalRegions;
+
+  /// The Region where the AWS Managed Microsoft AD directory was originally
+  /// created.
+  @_s.JsonKey(name: 'PrimaryRegion')
+  final String primaryRegion;
+
+  RegionsInfo({
+    this.additionalRegions,
+    this.primaryRegion,
+  });
+  factory RegionsInfo.fromJson(Map<String, dynamic> json) =>
+      _$RegionsInfoFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -5368,6 +5913,17 @@ class RemoveIpRoutesResult {
   RemoveIpRoutesResult();
   factory RemoveIpRoutesResult.fromJson(Map<String, dynamic> json) =>
       _$RemoveIpRoutesResultFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class RemoveRegionResult {
+  RemoveRegionResult();
+  factory RemoveRegionResult.fromJson(Map<String, dynamic> json) =>
+      _$RemoveRegionResultFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -6104,6 +6660,14 @@ class ClientException extends _s.GenericAwsException {
       : super(type: type, code: 'ClientException', message: message);
 }
 
+class DirectoryAlreadyInRegionException extends _s.GenericAwsException {
+  DirectoryAlreadyInRegionException({String type, String message})
+      : super(
+            type: type,
+            code: 'DirectoryAlreadyInRegionException',
+            message: message);
+}
+
 class DirectoryAlreadySharedException extends _s.GenericAwsException {
   DirectoryAlreadySharedException({String type, String message})
       : super(
@@ -6176,6 +6740,14 @@ class InvalidCertificateException extends _s.GenericAwsException {
             type: type, code: 'InvalidCertificateException', message: message);
 }
 
+class InvalidClientAuthStatusException extends _s.GenericAwsException {
+  InvalidClientAuthStatusException({String type, String message})
+      : super(
+            type: type,
+            code: 'InvalidClientAuthStatusException',
+            message: message);
+}
+
 class InvalidLDAPSStatusException extends _s.GenericAwsException {
   InvalidLDAPSStatusException({String type, String message})
       : super(
@@ -6221,6 +6793,12 @@ class NoAvailableCertificateException extends _s.GenericAwsException {
 class OrganizationsException extends _s.GenericAwsException {
   OrganizationsException({String type, String message})
       : super(type: type, code: 'OrganizationsException', message: message);
+}
+
+class RegionLimitExceededException extends _s.GenericAwsException {
+  RegionLimitExceededException({String type, String message})
+      : super(
+            type: type, code: 'RegionLimitExceededException', message: message);
 }
 
 class ServiceException extends _s.GenericAwsException {
@@ -6275,6 +6853,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       CertificateLimitExceededException(type: type, message: message),
   'ClientException': (type, message) =>
       ClientException(type: type, message: message),
+  'DirectoryAlreadyInRegionException': (type, message) =>
+      DirectoryAlreadyInRegionException(type: type, message: message),
   'DirectoryAlreadySharedException': (type, message) =>
       DirectoryAlreadySharedException(type: type, message: message),
   'DirectoryDoesNotExistException': (type, message) =>
@@ -6295,6 +6875,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       InsufficientPermissionsException(type: type, message: message),
   'InvalidCertificateException': (type, message) =>
       InvalidCertificateException(type: type, message: message),
+  'InvalidClientAuthStatusException': (type, message) =>
+      InvalidClientAuthStatusException(type: type, message: message),
   'InvalidLDAPSStatusException': (type, message) =>
       InvalidLDAPSStatusException(type: type, message: message),
   'InvalidNextTokenException': (type, message) =>
@@ -6311,6 +6893,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       NoAvailableCertificateException(type: type, message: message),
   'OrganizationsException': (type, message) =>
       OrganizationsException(type: type, message: message),
+  'RegionLimitExceededException': (type, message) =>
+      RegionLimitExceededException(type: type, message: message),
   'ServiceException': (type, message) =>
       ServiceException(type: type, message: message),
   'ShareLimitExceededException': (type, message) =>

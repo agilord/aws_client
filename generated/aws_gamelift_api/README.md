@@ -3,8 +3,11 @@
 **Warning: This is a generated library, some operations may not work.**
 
 *About the service:*
-Amazon GameLift provides a range of multiplayer game hosting solutions. As a
-fully managed service, GameLift helps you:
+GameLift provides solutions for hosting session-based multiplayer game
+servers in the cloud, including tools for deploying, operating, and scaling
+game servers. Built on AWS global computing infrastructure, GameLift helps
+you deliver high-performance, high-reliability, low-cost game servers while
+dynamically scaling your resource usage to meet player demand.
 
 ## Links
 

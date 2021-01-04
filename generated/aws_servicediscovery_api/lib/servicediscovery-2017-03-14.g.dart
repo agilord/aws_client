@@ -362,6 +362,15 @@ ListServicesResponse _$ListServicesResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
+    Map<String, dynamic> json) {
+  return ListTagsForResourceResponse(
+    tags: (json['Tags'] as List)
+        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
 Namespace _$NamespaceFromJson(Map<String, dynamic> json) {
   return Namespace(
     arn: json['Arn'] as String,
@@ -545,8 +554,8 @@ Map<String, dynamic> _$ServiceChangeToJson(ServiceChange instance) {
     }
   }
 
-  writeNotNull('DnsConfig', instance.dnsConfig?.toJson());
   writeNotNull('Description', instance.description);
+  writeNotNull('DnsConfig', instance.dnsConfig?.toJson());
   writeNotNull('HealthCheckConfig', instance.healthCheckConfig?.toJson());
   return val;
 }
@@ -590,6 +599,36 @@ ServiceSummary _$ServiceSummaryFromJson(Map<String, dynamic> json) {
     instanceCount: json['InstanceCount'] as int,
     name: json['Name'] as String,
   );
+}
+
+Tag _$TagFromJson(Map<String, dynamic> json) {
+  return Tag(
+    key: json['Key'] as String,
+    value: json['Value'] as String,
+  );
+}
+
+Map<String, dynamic> _$TagToJson(Tag instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Key', instance.key);
+  writeNotNull('Value', instance.value);
+  return val;
+}
+
+TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
+  return TagResourceResponse();
+}
+
+UntagResourceResponse _$UntagResourceResponseFromJson(
+    Map<String, dynamic> json) {
+  return UntagResourceResponse();
 }
 
 UpdateServiceResponse _$UpdateServiceResponseFromJson(

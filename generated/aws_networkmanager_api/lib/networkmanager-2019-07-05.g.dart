@@ -6,6 +6,27 @@ part of 'networkmanager-2019-07-05.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+AWSLocation _$AWSLocationFromJson(Map<String, dynamic> json) {
+  return AWSLocation(
+    subnetArn: json['SubnetArn'] as String,
+    zone: json['Zone'] as String,
+  );
+}
+
+Map<String, dynamic> _$AWSLocationToJson(AWSLocation instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('SubnetArn', instance.subnetArn);
+  writeNotNull('Zone', instance.zone);
+  return val;
+}
+
 AssociateCustomerGatewayResponse _$AssociateCustomerGatewayResponseFromJson(
     Map<String, dynamic> json) {
   return AssociateCustomerGatewayResponse(
@@ -23,6 +44,19 @@ AssociateLinkResponse _$AssociateLinkResponseFromJson(
         ? null
         : LinkAssociation.fromJson(
             json['LinkAssociation'] as Map<String, dynamic>),
+  );
+}
+
+AssociateTransitGatewayConnectPeerResponse
+    _$AssociateTransitGatewayConnectPeerResponseFromJson(
+        Map<String, dynamic> json) {
+  return AssociateTransitGatewayConnectPeerResponse(
+    transitGatewayConnectPeerAssociation:
+        json['TransitGatewayConnectPeerAssociation'] == null
+            ? null
+            : TransitGatewayConnectPeerAssociation.fromJson(
+                json['TransitGatewayConnectPeerAssociation']
+                    as Map<String, dynamic>),
   );
 }
 
@@ -45,6 +79,72 @@ Map<String, dynamic> _$BandwidthToJson(Bandwidth instance) {
   writeNotNull('DownloadSpeed', instance.downloadSpeed);
   writeNotNull('UploadSpeed', instance.uploadSpeed);
   return val;
+}
+
+Connection _$ConnectionFromJson(Map<String, dynamic> json) {
+  return Connection(
+    connectedDeviceId: json['ConnectedDeviceId'] as String,
+    connectedLinkId: json['ConnectedLinkId'] as String,
+    connectionArn: json['ConnectionArn'] as String,
+    connectionId: json['ConnectionId'] as String,
+    createdAt: const UnixDateTimeConverter().fromJson(json['CreatedAt']),
+    description: json['Description'] as String,
+    deviceId: json['DeviceId'] as String,
+    globalNetworkId: json['GlobalNetworkId'] as String,
+    linkId: json['LinkId'] as String,
+    state: _$enumDecodeNullable(_$ConnectionStateEnumMap, json['State']),
+    tags: (json['Tags'] as List)
+        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+T _$enumDecode<T>(
+  Map<T, dynamic> enumValues,
+  dynamic source, {
+  T unknownValue,
+}) {
+  if (source == null) {
+    throw ArgumentError('A value must be provided. Supported values: '
+        '${enumValues.values.join(', ')}');
+  }
+
+  final value = enumValues.entries
+      .singleWhere((e) => e.value == source, orElse: () => null)
+      ?.key;
+
+  if (value == null && unknownValue == null) {
+    throw ArgumentError('`$source` is not one of the supported values: '
+        '${enumValues.values.join(', ')}');
+  }
+  return value ?? unknownValue;
+}
+
+T _$enumDecodeNullable<T>(
+  Map<T, dynamic> enumValues,
+  dynamic source, {
+  T unknownValue,
+}) {
+  if (source == null) {
+    return null;
+  }
+  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+}
+
+const _$ConnectionStateEnumMap = {
+  ConnectionState.pending: 'PENDING',
+  ConnectionState.available: 'AVAILABLE',
+  ConnectionState.deleting: 'DELETING',
+  ConnectionState.updating: 'UPDATING',
+};
+
+CreateConnectionResponse _$CreateConnectionResponseFromJson(
+    Map<String, dynamic> json) {
+  return CreateConnectionResponse(
+    connection: json['Connection'] == null
+        ? null
+        : Connection.fromJson(json['Connection'] as Map<String, dynamic>),
+  );
 }
 
 CreateDeviceResponse _$CreateDeviceResponseFromJson(Map<String, dynamic> json) {
@@ -92,44 +192,21 @@ CustomerGatewayAssociation _$CustomerGatewayAssociationFromJson(
   );
 }
 
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
-}) {
-  if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
-}
-
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
-}) {
-  if (source == null) {
-    return null;
-  }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
-}
-
 const _$CustomerGatewayAssociationStateEnumMap = {
   CustomerGatewayAssociationState.pending: 'PENDING',
   CustomerGatewayAssociationState.available: 'AVAILABLE',
   CustomerGatewayAssociationState.deleting: 'DELETING',
   CustomerGatewayAssociationState.deleted: 'DELETED',
 };
+
+DeleteConnectionResponse _$DeleteConnectionResponseFromJson(
+    Map<String, dynamic> json) {
+  return DeleteConnectionResponse(
+    connection: json['Connection'] == null
+        ? null
+        : Connection.fromJson(json['Connection'] as Map<String, dynamic>),
+  );
+}
 
 DeleteDeviceResponse _$DeleteDeviceResponseFromJson(Map<String, dynamic> json) {
   return DeleteDeviceResponse(
@@ -188,6 +265,9 @@ DescribeGlobalNetworksResponse _$DescribeGlobalNetworksResponseFromJson(
 
 Device _$DeviceFromJson(Map<String, dynamic> json) {
   return Device(
+    awsLocation: json['AWSLocation'] == null
+        ? null
+        : AWSLocation.fromJson(json['AWSLocation'] as Map<String, dynamic>),
     createdAt: const UnixDateTimeConverter().fromJson(json['CreatedAt']),
     description: json['Description'] as String,
     deviceArn: json['DeviceArn'] as String,
@@ -232,6 +312,30 @@ DisassociateLinkResponse _$DisassociateLinkResponseFromJson(
         ? null
         : LinkAssociation.fromJson(
             json['LinkAssociation'] as Map<String, dynamic>),
+  );
+}
+
+DisassociateTransitGatewayConnectPeerResponse
+    _$DisassociateTransitGatewayConnectPeerResponseFromJson(
+        Map<String, dynamic> json) {
+  return DisassociateTransitGatewayConnectPeerResponse(
+    transitGatewayConnectPeerAssociation:
+        json['TransitGatewayConnectPeerAssociation'] == null
+            ? null
+            : TransitGatewayConnectPeerAssociation.fromJson(
+                json['TransitGatewayConnectPeerAssociation']
+                    as Map<String, dynamic>),
+  );
+}
+
+GetConnectionsResponse _$GetConnectionsResponseFromJson(
+    Map<String, dynamic> json) {
+  return GetConnectionsResponse(
+    connections: (json['Connections'] as List)
+        ?.map((e) =>
+            e == null ? null : Connection.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    nextToken: json['NextToken'] as String,
   );
 }
 
@@ -287,6 +391,21 @@ GetSitesResponse _$GetSitesResponseFromJson(Map<String, dynamic> json) {
         ?.map(
             (e) => e == null ? null : Site.fromJson(e as Map<String, dynamic>))
         ?.toList(),
+  );
+}
+
+GetTransitGatewayConnectPeerAssociationsResponse
+    _$GetTransitGatewayConnectPeerAssociationsResponseFromJson(
+        Map<String, dynamic> json) {
+  return GetTransitGatewayConnectPeerAssociationsResponse(
+    nextToken: json['NextToken'] as String,
+    transitGatewayConnectPeerAssociations:
+        (json['TransitGatewayConnectPeerAssociations'] as List)
+            ?.map((e) => e == null
+                ? null
+                : TransitGatewayConnectPeerAssociation.fromJson(
+                    e as Map<String, dynamic>))
+            ?.toList(),
   );
 }
 
@@ -458,6 +577,26 @@ TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
   return TagResourceResponse();
 }
 
+TransitGatewayConnectPeerAssociation
+    _$TransitGatewayConnectPeerAssociationFromJson(Map<String, dynamic> json) {
+  return TransitGatewayConnectPeerAssociation(
+    deviceId: json['DeviceId'] as String,
+    globalNetworkId: json['GlobalNetworkId'] as String,
+    linkId: json['LinkId'] as String,
+    state: _$enumDecodeNullable(
+        _$TransitGatewayConnectPeerAssociationStateEnumMap, json['State']),
+    transitGatewayConnectPeerArn:
+        json['TransitGatewayConnectPeerArn'] as String,
+  );
+}
+
+const _$TransitGatewayConnectPeerAssociationStateEnumMap = {
+  TransitGatewayConnectPeerAssociationState.pending: 'PENDING',
+  TransitGatewayConnectPeerAssociationState.available: 'AVAILABLE',
+  TransitGatewayConnectPeerAssociationState.deleting: 'DELETING',
+  TransitGatewayConnectPeerAssociationState.deleted: 'DELETED',
+};
+
 TransitGatewayRegistration _$TransitGatewayRegistrationFromJson(
     Map<String, dynamic> json) {
   return TransitGatewayRegistration(
@@ -490,6 +629,15 @@ const _$TransitGatewayRegistrationStateEnumMap = {
 UntagResourceResponse _$UntagResourceResponseFromJson(
     Map<String, dynamic> json) {
   return UntagResourceResponse();
+}
+
+UpdateConnectionResponse _$UpdateConnectionResponseFromJson(
+    Map<String, dynamic> json) {
+  return UpdateConnectionResponse(
+    connection: json['Connection'] == null
+        ? null
+        : Connection.fromJson(json['Connection'] as Map<String, dynamic>),
+  );
 }
 
 UpdateDeviceResponse _$UpdateDeviceResponseFromJson(Map<String, dynamic> json) {

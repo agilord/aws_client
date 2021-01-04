@@ -26,10 +26,11 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
 part 'mq-2017-11-27.g.dart';
 
-/// Amazon MQ is a managed message broker service for Apache ActiveMQ that makes
-/// it easy to set up and operate message brokers in the cloud. A message broker
-/// allows software applications and components to communicate using various
-/// programming languages, operating systems, and formal messaging protocols.
+/// Amazon MQ is a managed message broker service for Apache ActiveMQ and
+/// RabbitMQ that makes it easy to set up and operate message brokers in the
+/// cloud. A message broker allows software applications and components to
+/// communicate using various programming languages, operating systems, and
+/// formal messaging protocols.
 class MQ {
   final _s.RestJsonProtocol _protocol;
   MQ({
@@ -55,6 +56,9 @@ class MQ {
   /// May throw [InternalServerErrorException].
   /// May throw [ConflictException].
   /// May throw [ForbiddenException].
+  ///
+  /// Parameter [authenticationStrategy] :
+  /// The authentication strategy used to secure the broker.
   ///
   /// Parameter [autoMinorVersionUpgrade] :
   /// Required. Enables automatic upgrades to new minor versions for brokers, as
@@ -84,7 +88,7 @@ class MQ {
   ///
   /// Parameter [engineType] :
   /// Required. The type of broker engine. Note: Currently, Amazon MQ supports
-  /// only ACTIVEMQ.
+  /// ACTIVEMQ and RABBITMQ.
   ///
   /// Parameter [engineVersion] :
   /// Required. The version of the broker engine. For a list of supported engine
@@ -93,6 +97,10 @@ class MQ {
   ///
   /// Parameter [hostInstanceType] :
   /// Required. The broker's instance type.
+  ///
+  /// Parameter [ldapServerMetadata] :
+  /// The metadata of the LDAP server used to authenticate and authorize
+  /// connections to the broker.
   ///
   /// Parameter [logs] :
   /// Enables Amazon CloudWatch logging for brokers.
@@ -112,20 +120,27 @@ class MQ {
   /// The broker's storage type.
   ///
   /// Parameter [subnetIds] :
-  /// The list of groups (2 maximum) that define which subnets and IP ranges the
-  /// broker can use from different Availability Zones. A SINGLE_INSTANCE
-  /// deployment requires one subnet (for example, the default subnet). An
-  /// ACTIVE_STANDBY_MULTI_AZ deployment requires two subnets.
+  /// The list of groups that define which subnets and IP ranges the broker can
+  /// use from different Availability Zones. A SINGLE_INSTANCE deployment
+  /// requires one subnet (for example, the default subnet). An
+  /// ACTIVE_STANDBY_MULTI_AZ deployment (ACTIVEMQ) requires two subnets. A
+  /// CLUSTER_MULTI_AZ deployment (RABBITMQ) has no subnet requirements when
+  /// deployed with public accessibility, deployment without public
+  /// accessibility requires at least one subnet.
   ///
   /// Parameter [tags] :
   /// Create tags when creating the broker.
   ///
   /// Parameter [users] :
-  /// Required. The list of ActiveMQ users (persons or applications) who can
-  /// access queues and topics. This value can contain only alphanumeric
-  /// characters, dashes, periods, underscores, and tildes (- . _ ~). This value
-  /// must be 2-100 characters long.
+  /// Required. The list of broker users (persons or applications) who can
+  /// access queues and topics. For RabbitMQ brokers, one and only one
+  /// administrative user is accepted and created when a broker is first
+  /// provisioned. All subsequent broker users are created by making RabbitMQ
+  /// API calls directly to brokers or via the RabbitMQ Web Console. This value
+  /// can contain only alphanumeric characters, dashes, periods, underscores,
+  /// and tildes (- . _ ~). This value must be 2-100 characters long.
   Future<CreateBrokerResponse> createBroker({
+    AuthenticationStrategy authenticationStrategy,
     bool autoMinorVersionUpgrade,
     String brokerName,
     ConfigurationId configuration,
@@ -135,6 +150,7 @@ class MQ {
     EngineType engineType,
     String engineVersion,
     String hostInstanceType,
+    LdapServerMetadataInput ldapServerMetadata,
     Logs logs,
     WeeklyStartTime maintenanceWindowStartTime,
     bool publiclyAccessible,
@@ -145,6 +161,8 @@ class MQ {
     List<User> users,
   }) async {
     final $payload = <String, dynamic>{
+      if (authenticationStrategy != null)
+        'authenticationStrategy': authenticationStrategy.toValue(),
       if (autoMinorVersionUpgrade != null)
         'autoMinorVersionUpgrade': autoMinorVersionUpgrade,
       if (brokerName != null) 'brokerName': brokerName,
@@ -155,6 +173,7 @@ class MQ {
       if (engineType != null) 'engineType': engineType.toValue(),
       if (engineVersion != null) 'engineVersion': engineVersion,
       if (hostInstanceType != null) 'hostInstanceType': hostInstanceType,
+      if (ldapServerMetadata != null) 'ldapServerMetadata': ldapServerMetadata,
       if (logs != null) 'logs': logs,
       if (maintenanceWindowStartTime != null)
         'maintenanceWindowStartTime': maintenanceWindowStartTime,
@@ -182,9 +201,12 @@ class MQ {
   /// May throw [ConflictException].
   /// May throw [ForbiddenException].
   ///
+  /// Parameter [authenticationStrategy] :
+  /// The authentication strategy associated with the configuration.
+  ///
   /// Parameter [engineType] :
   /// Required. The type of broker engine. Note: Currently, Amazon MQ supports
-  /// only ACTIVEMQ.
+  /// ACTIVEMQ and RABBITMQ.
   ///
   /// Parameter [engineVersion] :
   /// Required. The version of the broker engine. For a list of supported engine
@@ -199,12 +221,15 @@ class MQ {
   /// Parameter [tags] :
   /// Create tags when creating the configuration.
   Future<CreateConfigurationResponse> createConfiguration({
+    AuthenticationStrategy authenticationStrategy,
     EngineType engineType,
     String engineVersion,
     String name,
     Map<String, String> tags,
   }) async {
     final $payload = <String, dynamic>{
+      if (authenticationStrategy != null)
+        'authenticationStrategy': authenticationStrategy.toValue(),
       if (engineType != null) 'engineType': engineType.toValue(),
       if (engineVersion != null) 'engineVersion': engineVersion,
       if (name != null) 'name': name,
@@ -308,10 +333,7 @@ class MQ {
   /// May throw [ForbiddenException].
   ///
   /// Parameter [brokerId] :
-  /// The name of the broker. This value must be unique in your AWS account,
-  /// 1-50 characters long, must contain only letters, numbers, dashes, and
-  /// underscores, and must not contain whitespaces, brackets, wildcard
-  /// characters, or special characters.
+  /// The unique ID that Amazon MQ generates for the broker.
   Future<DeleteBrokerResponse> deleteBroker({
     @_s.required String brokerId,
   }) async {
@@ -799,10 +821,10 @@ class MQ {
   /// May throw [ForbiddenException].
   ///
   /// Parameter [brokerId] :
-  /// The name of the broker. This value must be unique in your AWS account,
-  /// 1-50 characters long, must contain only letters, numbers, dashes, and
-  /// underscores, and must not contain whitespaces, brackets, wildcard
-  /// characters, or special characters.
+  /// The unique ID that Amazon MQ generates for the broker.
+  ///
+  /// Parameter [authenticationStrategy] :
+  /// The authentication strategy used to secure the broker.
   ///
   /// Parameter [autoMinorVersionUpgrade] :
   /// Enables automatic upgrades to new minor versions for brokers, as Apache
@@ -822,6 +844,10 @@ class MQ {
   /// supported instance types, see
   /// https://docs.aws.amazon.com/amazon-mq/latest/developer-guide//broker.html#broker-instance-types
   ///
+  /// Parameter [ldapServerMetadata] :
+  /// The metadata of the LDAP server used to authenticate and authorize
+  /// connections to the broker.
+  ///
   /// Parameter [logs] :
   /// Enables Amazon CloudWatch logging for brokers.
   ///
@@ -830,20 +856,25 @@ class MQ {
   /// connections to brokers.
   Future<UpdateBrokerResponse> updateBroker({
     @_s.required String brokerId,
+    AuthenticationStrategy authenticationStrategy,
     bool autoMinorVersionUpgrade,
     ConfigurationId configuration,
     String engineVersion,
     String hostInstanceType,
+    LdapServerMetadataInput ldapServerMetadata,
     Logs logs,
     List<String> securityGroups,
   }) async {
     ArgumentError.checkNotNull(brokerId, 'brokerId');
     final $payload = <String, dynamic>{
+      if (authenticationStrategy != null)
+        'authenticationStrategy': authenticationStrategy.toValue(),
       if (autoMinorVersionUpgrade != null)
         'autoMinorVersionUpgrade': autoMinorVersionUpgrade,
       if (configuration != null) 'configuration': configuration,
       if (engineVersion != null) 'engineVersion': engineVersion,
       if (hostInstanceType != null) 'hostInstanceType': hostInstanceType,
+      if (ldapServerMetadata != null) 'ldapServerMetadata': ldapServerMetadata,
       if (logs != null) 'logs': logs,
       if (securityGroups != null) 'securityGroups': securityGroups,
     };
@@ -944,6 +975,26 @@ class MQ {
   }
 }
 
+/// The authentication strategy used to secure the broker.
+enum AuthenticationStrategy {
+  @_s.JsonValue('SIMPLE')
+  simple,
+  @_s.JsonValue('LDAP')
+  ldap,
+}
+
+extension on AuthenticationStrategy {
+  String toValue() {
+    switch (this) {
+      case AuthenticationStrategy.simple:
+        return 'SIMPLE';
+      case AuthenticationStrategy.ldap:
+        return 'LDAP';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// Name of the availability zone.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -992,7 +1043,7 @@ class BrokerEngineType {
     createFactory: true,
     createToJson: false)
 class BrokerInstance {
-  /// The URL of the broker's ActiveMQ Web Console.
+  /// The URL of the broker's Web Console.
   @_s.JsonKey(name: 'consoleURL')
   final String consoleURL;
 
@@ -1001,7 +1052,7 @@ class BrokerInstance {
   final List<String> endpoints;
 
   /// The IP address of the Elastic Network Interface (ENI) attached to the
-  /// broker.
+  /// broker. Does not apply to RabbitMQ brokers
   @_s.JsonKey(name: 'ipAddress')
   final String ipAddress;
 
@@ -1071,7 +1122,8 @@ enum BrokerState {
   rebootInProgress,
 }
 
-/// The storage type of the broker.
+/// The broker's storage type. <important>EFS is currently not Supported for
+/// RabbitMQ engine type.</important>
 enum BrokerStorageType {
   @_s.JsonValue('EBS')
   ebs,
@@ -1126,6 +1178,10 @@ class BrokerSummary {
   @_s.JsonKey(name: 'deploymentMode')
   final DeploymentMode deploymentMode;
 
+  /// Required. The type of broker engine.
+  @_s.JsonKey(name: 'engineType')
+  final EngineType engineType;
+
   /// The broker's instance type.
   @_s.JsonKey(name: 'hostInstanceType')
   final String hostInstanceType;
@@ -1137,6 +1193,7 @@ class BrokerSummary {
     this.brokerState,
     this.created,
     this.deploymentMode,
+    this.engineType,
     this.hostInstanceType,
   });
   factory BrokerSummary.fromJson(Map<String, dynamic> json) =>
@@ -1164,6 +1221,10 @@ class Configuration {
   @_s.JsonKey(name: 'arn')
   final String arn;
 
+  /// The authentication strategy associated with the configuration.
+  @_s.JsonKey(name: 'authenticationStrategy')
+  final AuthenticationStrategy authenticationStrategy;
+
   /// Required. The date and time of the configuration revision.
   @IsoDateTimeConverter()
   @_s.JsonKey(name: 'created')
@@ -1174,7 +1235,7 @@ class Configuration {
   final String description;
 
   /// Required. The type of broker engine. Note: Currently, Amazon MQ supports
-  /// only ACTIVEMQ.
+  /// ACTIVEMQ and RABBITMQ.
   @_s.JsonKey(name: 'engineType')
   final EngineType engineType;
 
@@ -1204,6 +1265,7 @@ class Configuration {
 
   Configuration({
     this.arn,
+    this.authenticationStrategy,
     this.created,
     this.description,
     this.engineType,
@@ -1217,7 +1279,8 @@ class Configuration {
       _$ConfigurationFromJson(json);
 }
 
-/// A list of information about the configuration.
+/// A list of information about the configuration. <important>Does not apply to
+/// RabbitMQ brokers.</important>
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -1331,6 +1394,10 @@ class CreateConfigurationResponse {
   @_s.JsonKey(name: 'arn')
   final String arn;
 
+  /// The authentication strategy associated with the configuration.
+  @_s.JsonKey(name: 'authenticationStrategy')
+  final AuthenticationStrategy authenticationStrategy;
+
   /// Required. The date and time of the configuration.
   @IsoDateTimeConverter()
   @_s.JsonKey(name: 'created')
@@ -1352,6 +1419,7 @@ class CreateConfigurationResponse {
 
   CreateConfigurationResponse({
     this.arn,
+    this.authenticationStrategy,
     this.created,
     this.id,
     this.latestRevision,
@@ -1423,6 +1491,8 @@ enum DeploymentMode {
   singleInstance,
   @_s.JsonValue('ACTIVE_STANDBY_MULTI_AZ')
   activeStandbyMultiAz,
+  @_s.JsonValue('CLUSTER_MULTI_AZ')
+  clusterMultiAz,
 }
 
 extension on DeploymentMode {
@@ -1432,6 +1502,8 @@ extension on DeploymentMode {
         return 'SINGLE_INSTANCE';
       case DeploymentMode.activeStandbyMultiAz:
         return 'ACTIVE_STANDBY_MULTI_AZ';
+      case DeploymentMode.clusterMultiAz:
+        return 'CLUSTER_MULTI_AZ';
     }
     throw Exception('Unknown enum value: $this');
   }
@@ -1503,6 +1575,10 @@ class DescribeBrokerInstanceOptionsResponse {
     createFactory: true,
     createToJson: false)
 class DescribeBrokerResponse {
+  /// The authentication strategy used to secure the broker.
+  @_s.JsonKey(name: 'authenticationStrategy')
+  final AuthenticationStrategy authenticationStrategy;
+
   /// Required. Enables automatic upgrades to new minor versions for brokers, as
   /// Apache releases the versions. The automatic upgrades occur during the
   /// maintenance window of the broker or after a manual broker reboot.
@@ -1550,7 +1626,7 @@ class DescribeBrokerResponse {
   final EncryptionOptions encryptionOptions;
 
   /// Required. The type of broker engine. Note: Currently, Amazon MQ supports
-  /// only ACTIVEMQ.
+  /// ACTIVEMQ and RABBITMQ.
   @_s.JsonKey(name: 'engineType')
   final EngineType engineType;
 
@@ -1564,6 +1640,11 @@ class DescribeBrokerResponse {
   @_s.JsonKey(name: 'hostInstanceType')
   final String hostInstanceType;
 
+  /// The metadata of the LDAP server used to authenticate and authorize
+  /// connections to the broker.
+  @_s.JsonKey(name: 'ldapServerMetadata')
+  final LdapServerMetadataOutput ldapServerMetadata;
+
   /// The list of information about logs currently enabled and pending to be
   /// deployed for the specified broker.
   @_s.JsonKey(name: 'logs')
@@ -1572,6 +1653,11 @@ class DescribeBrokerResponse {
   /// The parameters that determine the WeeklyStartTime.
   @_s.JsonKey(name: 'maintenanceWindowStartTime')
   final WeeklyStartTime maintenanceWindowStartTime;
+
+  /// The authentication strategy that will be applied when the broker is
+  /// rebooted.
+  @_s.JsonKey(name: 'pendingAuthenticationStrategy')
+  final AuthenticationStrategy pendingAuthenticationStrategy;
 
   /// The version of the broker engine to upgrade to. For a list of supported
   /// engine versions, see
@@ -1584,6 +1670,11 @@ class DescribeBrokerResponse {
   /// https://docs.aws.amazon.com/amazon-mq/latest/developer-guide//broker.html#broker-instance-types
   @_s.JsonKey(name: 'pendingHostInstanceType')
   final String pendingHostInstanceType;
+
+  /// The metadata of the LDAP server that will be used to authenticate and
+  /// authorize connections to the broker once it is rebooted.
+  @_s.JsonKey(name: 'pendingLdapServerMetadata')
+  final LdapServerMetadataOutput pendingLdapServerMetadata;
 
   /// The list of pending security groups to authorize connections to brokers.
   @_s.JsonKey(name: 'pendingSecurityGroups')
@@ -1603,10 +1694,13 @@ class DescribeBrokerResponse {
   @_s.JsonKey(name: 'storageType')
   final BrokerStorageType storageType;
 
-  /// The list of groups (2 maximum) that define which subnets and IP ranges the
-  /// broker can use from different Availability Zones. A SINGLE_INSTANCE
-  /// deployment requires one subnet (for example, the default subnet). An
-  /// ACTIVE_STANDBY_MULTI_AZ deployment requires two subnets.
+  /// The list of groups that define which subnets and IP ranges the broker can
+  /// use from different Availability Zones. A SINGLE_INSTANCE deployment requires
+  /// one subnet (for example, the default subnet). An ACTIVE_STANDBY_MULTI_AZ
+  /// deployment (ACTIVEMQ) requires two subnets. A CLUSTER_MULTI_AZ deployment
+  /// (RABBITMQ) has no subnet requirements when deployed with public
+  /// accessibility, deployment without public accessibility requires at least one
+  /// subnet.
   @_s.JsonKey(name: 'subnetIds')
   final List<String> subnetIds;
 
@@ -1614,11 +1708,12 @@ class DescribeBrokerResponse {
   @_s.JsonKey(name: 'tags')
   final Map<String, String> tags;
 
-  /// The list of all ActiveMQ usernames for the specified broker.
+  /// The list of all broker usernames for the specified broker.
   @_s.JsonKey(name: 'users')
   final List<UserSummary> users;
 
   DescribeBrokerResponse({
+    this.authenticationStrategy,
     this.autoMinorVersionUpgrade,
     this.brokerArn,
     this.brokerId,
@@ -1632,10 +1727,13 @@ class DescribeBrokerResponse {
     this.engineType,
     this.engineVersion,
     this.hostInstanceType,
+    this.ldapServerMetadata,
     this.logs,
     this.maintenanceWindowStartTime,
+    this.pendingAuthenticationStrategy,
     this.pendingEngineVersion,
     this.pendingHostInstanceType,
+    this.pendingLdapServerMetadata,
     this.pendingSecurityGroups,
     this.publiclyAccessible,
     this.securityGroups,
@@ -1658,6 +1756,10 @@ class DescribeConfigurationResponse {
   @_s.JsonKey(name: 'arn')
   final String arn;
 
+  /// The authentication strategy associated with the configuration.
+  @_s.JsonKey(name: 'authenticationStrategy')
+  final AuthenticationStrategy authenticationStrategy;
+
   /// Required. The date and time of the configuration revision.
   @IsoDateTimeConverter()
   @_s.JsonKey(name: 'created')
@@ -1668,7 +1770,7 @@ class DescribeConfigurationResponse {
   final String description;
 
   /// Required. The type of broker engine. Note: Currently, Amazon MQ supports
-  /// only ACTIVEMQ.
+  /// ACTIVEMQ and RABBITMQ.
   @_s.JsonKey(name: 'engineType')
   final EngineType engineType;
 
@@ -1698,6 +1800,7 @@ class DescribeConfigurationResponse {
 
   DescribeConfigurationResponse({
     this.arn,
+    this.authenticationStrategy,
     this.created,
     this.description,
     this.engineType,
@@ -1797,9 +1900,9 @@ class EncryptionOptions {
   @_s.JsonKey(name: 'useAwsOwnedKey')
   final bool useAwsOwnedKey;
 
-  /// The customer master key (CMK) to use for the AWS Key Management Service
-  /// (KMS). This key is used to encrypt your data at rest. If not provided,
-  /// Amazon MQ will use a default CMK to encrypt your data.
+  /// The symmetric customer master key (CMK) to use for the AWS Key Management
+  /// Service (KMS). This key is used to encrypt your data at rest. If not
+  /// provided, Amazon MQ will use a default CMK to encrypt your data.
   @_s.JsonKey(name: 'kmsKeyId')
   final String kmsKeyId;
 
@@ -1813,11 +1916,13 @@ class EncryptionOptions {
   Map<String, dynamic> toJson() => _$EncryptionOptionsToJson(this);
 }
 
-/// The type of broker engine. Note: Currently, Amazon MQ supports only
-/// ActiveMQ.
+/// The type of broker engine. Note: Currently, Amazon MQ supports ActiveMQ and
+/// RabbitMQ.
 enum EngineType {
   @_s.JsonValue('ACTIVEMQ')
   activemq,
+  @_s.JsonValue('RABBITMQ')
+  rabbitmq,
 }
 
 extension on EngineType {
@@ -1825,6 +1930,8 @@ extension on EngineType {
     switch (this) {
       case EngineType.activemq:
         return 'ACTIVEMQ';
+      case EngineType.rabbitmq:
+        return 'RABBITMQ';
     }
     throw Exception('Unknown enum value: $this');
   }
@@ -1846,6 +1953,144 @@ class EngineVersion {
   });
   factory EngineVersion.fromJson(Map<String, dynamic> json) =>
       _$EngineVersionFromJson(json);
+}
+
+/// The metadata of the LDAP server used to authenticate and authorize
+/// connections to the broker.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class LdapServerMetadataInput {
+  /// Fully qualified domain name of the LDAP server. Optional failover server.
+  @_s.JsonKey(name: 'hosts')
+  final List<String> hosts;
+
+  /// Fully qualified name of the directory to search for a user’s groups.
+  @_s.JsonKey(name: 'roleBase')
+  final String roleBase;
+
+  /// Specifies the LDAP attribute that identifies the group name attribute in the
+  /// object returned from the group membership query.
+  @_s.JsonKey(name: 'roleName')
+  final String roleName;
+
+  /// The search criteria for groups.
+  @_s.JsonKey(name: 'roleSearchMatching')
+  final String roleSearchMatching;
+
+  /// The directory search scope for the role. If set to true, scope is to search
+  /// the entire sub-tree.
+  @_s.JsonKey(name: 'roleSearchSubtree')
+  final bool roleSearchSubtree;
+
+  /// Service account password.
+  @_s.JsonKey(name: 'serviceAccountPassword')
+  final String serviceAccountPassword;
+
+  /// Service account username.
+  @_s.JsonKey(name: 'serviceAccountUsername')
+  final String serviceAccountUsername;
+
+  /// Fully qualified name of the directory where you want to search for users.
+  @_s.JsonKey(name: 'userBase')
+  final String userBase;
+
+  /// Specifies the name of the LDAP attribute for the user group membership.
+  @_s.JsonKey(name: 'userRoleName')
+  final String userRoleName;
+
+  /// The search criteria for users.
+  @_s.JsonKey(name: 'userSearchMatching')
+  final String userSearchMatching;
+
+  /// The directory search scope for the user. If set to true, scope is to search
+  /// the entire sub-tree.
+  @_s.JsonKey(name: 'userSearchSubtree')
+  final bool userSearchSubtree;
+
+  LdapServerMetadataInput({
+    this.hosts,
+    this.roleBase,
+    this.roleName,
+    this.roleSearchMatching,
+    this.roleSearchSubtree,
+    this.serviceAccountPassword,
+    this.serviceAccountUsername,
+    this.userBase,
+    this.userRoleName,
+    this.userSearchMatching,
+    this.userSearchSubtree,
+  });
+  Map<String, dynamic> toJson() => _$LdapServerMetadataInputToJson(this);
+}
+
+/// The metadata of the LDAP server used to authenticate and authorize
+/// connections to the broker.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class LdapServerMetadataOutput {
+  /// Fully qualified domain name of the LDAP server. Optional failover server.
+  @_s.JsonKey(name: 'hosts')
+  final List<String> hosts;
+
+  /// Fully qualified name of the directory to search for a user’s groups.
+  @_s.JsonKey(name: 'roleBase')
+  final String roleBase;
+
+  /// Specifies the LDAP attribute that identifies the group name attribute in the
+  /// object returned from the group membership query.
+  @_s.JsonKey(name: 'roleName')
+  final String roleName;
+
+  /// The search criteria for groups.
+  @_s.JsonKey(name: 'roleSearchMatching')
+  final String roleSearchMatching;
+
+  /// The directory search scope for the role. If set to true, scope is to search
+  /// the entire sub-tree.
+  @_s.JsonKey(name: 'roleSearchSubtree')
+  final bool roleSearchSubtree;
+
+  /// Service account username.
+  @_s.JsonKey(name: 'serviceAccountUsername')
+  final String serviceAccountUsername;
+
+  /// Fully qualified name of the directory where you want to search for users.
+  @_s.JsonKey(name: 'userBase')
+  final String userBase;
+
+  /// Specifies the name of the LDAP attribute for the user group membership.
+  @_s.JsonKey(name: 'userRoleName')
+  final String userRoleName;
+
+  /// The search criteria for users.
+  @_s.JsonKey(name: 'userSearchMatching')
+  final String userSearchMatching;
+
+  /// The directory search scope for the user. If set to true, scope is to search
+  /// the entire sub-tree.
+  @_s.JsonKey(name: 'userSearchSubtree')
+  final bool userSearchSubtree;
+
+  LdapServerMetadataOutput({
+    this.hosts,
+    this.roleBase,
+    this.roleName,
+    this.roleSearchMatching,
+    this.roleSearchSubtree,
+    this.serviceAccountUsername,
+    this.userBase,
+    this.userRoleName,
+    this.userSearchMatching,
+    this.userSearchSubtree,
+  });
+  factory LdapServerMetadataOutput.fromJson(Map<String, dynamic> json) =>
+      _$LdapServerMetadataOutputFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -1994,7 +2239,7 @@ class ListUsersResponse {
     createToJson: true)
 class Logs {
   /// Enables audit logging. Every user management action made using JMX or the
-  /// ActiveMQ Web Console is logged.
+  /// ActiveMQ Web Console is logged. Does not apply to RabbitMQ brokers.
   @_s.JsonKey(name: 'audit')
   final bool audit;
 
@@ -2133,6 +2378,10 @@ enum SanitizationWarningReason {
     createFactory: true,
     createToJson: false)
 class UpdateBrokerResponse {
+  /// The authentication strategy used to secure the broker.
+  @_s.JsonKey(name: 'authenticationStrategy')
+  final AuthenticationStrategy authenticationStrategy;
+
   /// The new value of automatic upgrades to new minor version for brokers.
   @_s.JsonKey(name: 'autoMinorVersionUpgrade')
   final bool autoMinorVersionUpgrade;
@@ -2157,6 +2406,11 @@ class UpdateBrokerResponse {
   @_s.JsonKey(name: 'hostInstanceType')
   final String hostInstanceType;
 
+  /// The metadata of the LDAP server used to authenticate and authorize
+  /// connections to the broker.
+  @_s.JsonKey(name: 'ldapServerMetadata')
+  final LdapServerMetadataOutput ldapServerMetadata;
+
   /// The list of information about logs to be enabled for the specified broker.
   @_s.JsonKey(name: 'logs')
   final Logs logs;
@@ -2167,11 +2421,13 @@ class UpdateBrokerResponse {
   final List<String> securityGroups;
 
   UpdateBrokerResponse({
+    this.authenticationStrategy,
     this.autoMinorVersionUpgrade,
     this.brokerId,
     this.configuration,
     this.engineVersion,
     this.hostInstanceType,
+    this.ldapServerMetadata,
     this.logs,
     this.securityGroups,
   });
@@ -2236,14 +2492,15 @@ class UpdateUserResponse {
       _$UpdateUserResponseFromJson(json);
 }
 
-/// An ActiveMQ user associated with the broker.
+/// A user associated with the broker.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: false,
     createToJson: true)
 class User {
-  /// Enables access to the the ActiveMQ Web Console for the ActiveMQ user.
+  /// Enables access to the ActiveMQ Web Console for the ActiveMQ user (Does not
+  /// apply to RabbitMQ brokers).
   @_s.JsonKey(name: 'consoleAccess')
   final bool consoleAccess;
 
@@ -2253,13 +2510,13 @@ class User {
   @_s.JsonKey(name: 'groups')
   final List<String> groups;
 
-  /// Required. The password of the ActiveMQ user. This value must be at least 12
+  /// Required. The password of the broker user. This value must be at least 12
   /// characters long, must contain at least 4 unique characters, and must not
   /// contain commas.
   @_s.JsonKey(name: 'password')
   final String password;
 
-  /// Required. The username of the ActiveMQ user. This value can contain only
+  /// Required. The username of the broker user. This value can contain only
   /// alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~).
   /// This value must be 2-100 characters long.
   @_s.JsonKey(name: 'username')
@@ -2305,18 +2562,18 @@ class UserPendingChanges {
       _$UserPendingChangesFromJson(json);
 }
 
-/// Returns a list of all ActiveMQ users.
+/// Returns a list of all broker users.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UserSummary {
-  /// The type of change pending for the ActiveMQ user.
+  /// The type of change pending for the broker user.
   @_s.JsonKey(name: 'pendingChange')
   final ChangeType pendingChange;
 
-  /// Required. The username of the ActiveMQ user. This value can contain only
+  /// Required. The username of the broker user. This value can contain only
   /// alphanumeric characters, dashes, periods, underscores, and tildes (- . _ ~).
   /// This value must be 2-100 characters long.
   @_s.JsonKey(name: 'username')

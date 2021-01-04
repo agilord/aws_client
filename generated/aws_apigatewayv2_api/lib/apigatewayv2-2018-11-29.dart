@@ -81,6 +81,13 @@ class ApiGatewayV2 {
   /// Parameter [description] :
   /// The description of the API.
   ///
+  /// Parameter [disableExecuteApiEndpoint] :
+  /// Specifies whether clients can invoke your API by using the default
+  /// execute-api endpoint. By default, clients can invoke your API with the
+  /// default https://{api_id}.execute-api.{region}.amazonaws.com endpoint. To
+  /// require that clients use a custom domain name to invoke your API, disable
+  /// the default endpoint.
+  ///
   /// Parameter [disableSchemaValidation] :
   /// Avoid validating models when creating a deployment. Supported only for
   /// WebSocket APIs.
@@ -120,6 +127,7 @@ class ApiGatewayV2 {
     Cors corsConfiguration,
     String credentialsArn,
     String description,
+    bool disableExecuteApiEndpoint,
     bool disableSchemaValidation,
     String routeKey,
     String routeSelectionExpression,
@@ -137,6 +145,8 @@ class ApiGatewayV2 {
       if (corsConfiguration != null) 'corsConfiguration': corsConfiguration,
       if (credentialsArn != null) 'credentialsArn': credentialsArn,
       if (description != null) 'description': description,
+      if (disableExecuteApiEndpoint != null)
+        'disableExecuteApiEndpoint': disableExecuteApiEndpoint,
       if (disableSchemaValidation != null)
         'disableSchemaValidation': disableSchemaValidation,
       if (routeKey != null) 'routeKey': routeKey,
@@ -208,30 +218,35 @@ class ApiGatewayV2 {
   /// The API identifier.
   ///
   /// Parameter [authorizerType] :
-  /// The authorizer type. For WebSocket APIs, specify REQUEST for a Lambda
-  /// function using incoming request parameters. For HTTP APIs, specify JWT to
-  /// use JSON Web Tokens.
+  /// The authorizer type. Specify REQUEST for a Lambda function using incoming
+  /// request parameters. Specify JWT to use JSON Web Tokens (supported only for
+  /// HTTP APIs).
   ///
   /// Parameter [identitySource] :
   /// The identity source for which authorization is requested.
   ///
   /// For a REQUEST authorizer, this is optional. The value is a set of one or
-  /// more mapping expressions of the specified request parameters. Currently,
-  /// the identity source can be headers, query string parameters, stage
-  /// variables, and context parameters. For example, if an Auth header and a
-  /// Name query string parameter are defined as identity sources, this value is
-  /// route.request.header.Auth, route.request.querystring.Name. These
-  /// parameters will be used to perform runtime validation for Lambda-based
-  /// authorizers by verifying all of the identity-related request parameters
-  /// are present in the request, not null, and non-empty. Only when this is
-  /// true does the authorizer invoke the authorizer Lambda function. Otherwise,
-  /// it returns a 401 Unauthorized response without calling the Lambda
-  /// function.
+  /// more mapping expressions of the specified request parameters. The identity
+  /// source can be headers, query string parameters, stage variables, and
+  /// context parameters. For example, if an Auth header and a Name query string
+  /// parameter are defined as identity sources, this value is
+  /// route.request.header.Auth, route.request.querystring.Name for WebSocket
+  /// APIs. For HTTP APIs, use selection expressions prefixed with $, for
+  /// example, $request.header.Auth, $request.querystring.Name. These parameters
+  /// are used to perform runtime validation for Lambda-based authorizers by
+  /// verifying all of the identity-related request parameters are present in
+  /// the request, not null, and non-empty. Only when this is true does the
+  /// authorizer invoke the authorizer Lambda function. Otherwise, it returns a
+  /// 401 Unauthorized response without calling the Lambda function. For HTTP
+  /// APIs, identity sources are also used as the cache key when caching is
+  /// enabled. To learn more, see <a
+  /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-lambda-authorizer.html">Working
+  /// with AWS Lambda authorizers for HTTP APIs</a>.
   ///
   /// For JWT, a single entry that specifies where to extract the JSON Web Token
-  /// (JWT )from inbound requests. Currently only header-based and query
+  /// (JWT) from inbound requests. Currently only header-based and query
   /// parameter-based selections are supported, for example
-  /// "$request.header.Authorization".
+  /// $request.header.Authorization.
   ///
   /// Parameter [name] :
   /// The name of the authorizer.
@@ -240,12 +255,21 @@ class ApiGatewayV2 {
   /// Specifies the required credentials as an IAM role for API Gateway to
   /// invoke the authorizer. To specify an IAM role for API Gateway to assume,
   /// use the role's Amazon Resource Name (ARN). To use resource-based
-  /// permissions on the Lambda function, specify null. Supported only for
-  /// REQUEST authorizers.
+  /// permissions on the Lambda function, don't specify this parameter.
+  /// Supported only for REQUEST authorizers.
+  ///
+  /// Parameter [authorizerPayloadFormatVersion] :
+  /// Specifies the format of the payload sent to an HTTP API Lambda authorizer.
+  /// Required for HTTP API Lambda authorizers. Supported values are 1.0 and
+  /// 2.0. To learn more, see <a
+  /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-lambda-authorizer.html">Working
+  /// with AWS Lambda authorizers for HTTP APIs</a>.
   ///
   /// Parameter [authorizerResultTtlInSeconds] :
-  /// Authorizer caching is not currently supported. Don't specify this value
-  /// for authorizers.
+  /// The time to live (TTL) for cached authorizer results, in seconds. If it
+  /// equals 0, authorization caching is disabled. If it is greater than 0, API
+  /// Gateway caches authorizer responses. The maximum value is 3600, or 1 hour.
+  /// Supported only for HTTP API Lambda authorizers.
   ///
   /// Parameter [authorizerUri] :
   /// The authorizer's Uniform Resource Identifier (URI). For REQUEST
@@ -260,6 +284,14 @@ class ApiGatewayV2 {
   /// /2015-03-31/functions/[FunctionARN]/invocations. Supported only for
   /// REQUEST authorizers.
   ///
+  /// Parameter [enableSimpleResponses] :
+  /// Specifies whether a Lambda authorizer returns a response in a simple
+  /// format. By default, a Lambda authorizer must return an IAM policy. If
+  /// enabled, the Lambda authorizer can return a boolean value instead of an
+  /// IAM policy. Supported only for HTTP APIs. To learn more, see <a
+  /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-lambda-authorizer.html">Working
+  /// with AWS Lambda authorizers for HTTP APIs</a>
+  ///
   /// Parameter [identityValidationExpression] :
   /// This parameter is not used.
   ///
@@ -272,8 +304,10 @@ class ApiGatewayV2 {
     @_s.required List<String> identitySource,
     @_s.required String name,
     String authorizerCredentialsArn,
+    String authorizerPayloadFormatVersion,
     int authorizerResultTtlInSeconds,
     String authorizerUri,
+    bool enableSimpleResponses,
     String identityValidationExpression,
     JWTConfiguration jwtConfiguration,
   }) async {
@@ -293,9 +327,13 @@ class ApiGatewayV2 {
       'name': name,
       if (authorizerCredentialsArn != null)
         'authorizerCredentialsArn': authorizerCredentialsArn,
+      if (authorizerPayloadFormatVersion != null)
+        'authorizerPayloadFormatVersion': authorizerPayloadFormatVersion,
       if (authorizerResultTtlInSeconds != null)
         'authorizerResultTtlInSeconds': authorizerResultTtlInSeconds,
       if (authorizerUri != null) 'authorizerUri': authorizerUri,
+      if (enableSimpleResponses != null)
+        'enableSimpleResponses': enableSimpleResponses,
       if (identityValidationExpression != null)
         'identityValidationExpression': identityValidationExpression,
       if (jwtConfiguration != null) 'jwtConfiguration': jwtConfiguration,
@@ -357,11 +395,15 @@ class ApiGatewayV2 {
   /// Parameter [domainNameConfigurations] :
   /// The domain name configurations.
   ///
+  /// Parameter [mutualTlsAuthentication] :
+  /// The mutual TLS authentication configuration for a custom domain name.
+  ///
   /// Parameter [tags] :
   /// The collection of tags associated with a domain name.
   Future<CreateDomainNameResponse> createDomainName({
     @_s.required String domainName,
     List<DomainNameConfiguration> domainNameConfigurations,
+    MutualTlsAuthenticationInput mutualTlsAuthentication,
     Map<String, String> tags,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
@@ -369,6 +411,8 @@ class ApiGatewayV2 {
       'domainName': domainName,
       if (domainNameConfigurations != null)
         'domainNameConfigurations': domainNameConfigurations,
+      if (mutualTlsAuthentication != null)
+        'mutualTlsAuthentication': mutualTlsAuthentication,
       if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
@@ -399,9 +443,9 @@ class ApiGatewayV2 {
   /// integration. With any other AWS service action, this is known as AWS
   /// integration. Supported only for WebSocket APIs.
   ///
-  /// AWS_PROXY: for integrating the route or method request with the Lambda
-  /// function-invoking action with the client request passed through as-is.
-  /// This integration is also referred to as Lambda proxy integration.
+  /// AWS_PROXY: for integrating the route or method request with a Lambda
+  /// function or other AWS service action. This integration is also referred to
+  /// as a Lambda proxy integration.
   ///
   /// HTTP: for integrating the route or method request with an HTTP endpoint.
   /// This integration is also referred to as the HTTP custom integration.
@@ -455,6 +499,12 @@ class ApiGatewayV2 {
   /// Parameter [integrationMethod] :
   /// Specifies the integration's HTTP method type.
   ///
+  /// Parameter [integrationSubtype] :
+  /// Supported only for HTTP API AWS_PROXY integrations. Specifies the AWS
+  /// service action to invoke. To learn more, see <a
+  /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-develop-integrations-aws-services-reference.html">Integration
+  /// subtype reference</a>.
+  ///
   /// Parameter [integrationUri] :
   /// For a Lambda integration, specify the URI of a Lambda function.
   ///
@@ -492,25 +542,55 @@ class ApiGatewayV2 {
   /// HTTP APIs.
   ///
   /// Parameter [requestParameters] :
-  /// A key-value map specifying request parameters that are passed from the
-  /// method request to the backend. The key is an integration request parameter
-  /// name and the associated value is a method request parameter value or
-  /// static value that must be enclosed within single quotes and pre-encoded as
-  /// required by the backend. The method request parameter value must match the
-  /// pattern of
+  /// For WebSocket APIs, a key-value map specifying request parameters that are
+  /// passed from the method request to the backend. The key is an integration
+  /// request parameter name and the associated value is a method request
+  /// parameter value or static value that must be enclosed within single quotes
+  /// and pre-encoded as required by the backend. The method request parameter
+  /// value must match the pattern of
   /// method.request.<replaceable>{location}</replaceable>.<replaceable>{name}</replaceable>
   /// , where
   /// <replaceable>{location}</replaceable>
   /// is querystring, path, or header; and
   /// <replaceable>{name}</replaceable>
-  /// must be a valid and unique method request parameter name. Supported only
-  /// for WebSocket APIs.
+  /// must be a valid and unique method request parameter name.
+  ///
+  /// For HTTP API integrations with a specified integrationSubtype, request
+  /// parameters are a key-value map specifying parameters that are passed to
+  /// AWS_PROXY integrations. You can provide static values, or map request
+  /// data, stage variables, or context variables that are evaluated at runtime.
+  /// To learn more, see <a
+  /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-develop-integrations-aws-services.html">Working
+  /// with AWS service integrations for HTTP APIs</a>.
+  ///
+  /// For HTTP API integrations without a specified integrationSubtype request
+  /// parameters are a key-value map specifying how to transform HTTP requests
+  /// before sending them to the backend. The key should follow the pattern
+  /// &lt;action&gt;:&lt;header|querystring|path&gt;.&lt;location&gt; where
+  /// action can be append, overwrite or remove. For values, you can provide
+  /// static values, or map request data, stage variables, or context variables
+  /// that are evaluated at runtime. To learn more, see <a
+  /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-parameter-mapping.html">Transforming
+  /// API requests and responses</a>.
   ///
   /// Parameter [requestTemplates] :
   /// Represents a map of Velocity templates that are applied on the request
   /// payload based on the value of the Content-Type header sent by the client.
   /// The content type value is the key in this map, and the template (as a
   /// String) is the value. Supported only for WebSocket APIs.
+  ///
+  /// Parameter [responseParameters] :
+  /// Supported only for HTTP APIs. You use response parameters to transform the
+  /// HTTP response from a backend integration before returning the response to
+  /// clients. Specify a key-value map from a selection key to response
+  /// parameters. The selection key must be a valid HTTP status code within the
+  /// range of 200-599. Response parameters are a key-value map. The key must
+  /// match pattern &lt;action&gt;:&lt;header&gt;.&lt;location&gt; or
+  /// overwrite.statuscode. The action can be append, overwrite or remove. The
+  /// value can be a static value, or map to response data, stage variables, or
+  /// context variables that are evaluated at runtime. To learn more, see <a
+  /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-parameter-mapping.html">Transforming
+  /// API requests and responses</a>.
   ///
   /// Parameter [templateSelectionExpression] :
   /// The template selection expression for the integration.
@@ -533,11 +613,13 @@ class ApiGatewayV2 {
     String credentialsArn,
     String description,
     String integrationMethod,
+    String integrationSubtype,
     String integrationUri,
     PassthroughBehavior passthroughBehavior,
     String payloadFormatVersion,
     Map<String, String> requestParameters,
     Map<String, String> requestTemplates,
+    Map<String, Map<String, String>> responseParameters,
     String templateSelectionExpression,
     int timeoutInMillis,
     TlsConfigInput tlsConfig,
@@ -559,6 +641,7 @@ class ApiGatewayV2 {
       if (credentialsArn != null) 'credentialsArn': credentialsArn,
       if (description != null) 'description': description,
       if (integrationMethod != null) 'integrationMethod': integrationMethod,
+      if (integrationSubtype != null) 'integrationSubtype': integrationSubtype,
       if (integrationUri != null) 'integrationUri': integrationUri,
       if (passthroughBehavior != null)
         'passthroughBehavior': passthroughBehavior.toValue(),
@@ -566,6 +649,7 @@ class ApiGatewayV2 {
         'payloadFormatVersion': payloadFormatVersion,
       if (requestParameters != null) 'requestParameters': requestParameters,
       if (requestTemplates != null) 'requestTemplates': requestTemplates,
+      if (responseParameters != null) 'responseParameters': responseParameters,
       if (templateSelectionExpression != null)
         'templateSelectionExpression': templateSelectionExpression,
       if (timeoutInMillis != null) 'timeoutInMillis': timeoutInMillis,
@@ -736,7 +820,8 @@ class ApiGatewayV2 {
   /// The authorization type for the route. For WebSocket APIs, valid values are
   /// NONE for open access, AWS_IAM for using AWS IAM permissions, and CUSTOM
   /// for using a Lambda authorizer For HTTP APIs, valid values are NONE for
-  /// open access, or JWT for using JSON Web Tokens.
+  /// open access, JWT for using JSON Web Tokens, AWS_IAM for using AWS IAM
+  /// permissions, and CUSTOM for using a Lambda authorizer.
   ///
   /// Parameter [authorizerId] :
   /// The identifier of the Authorizer resource to be associated with this
@@ -1437,6 +1522,34 @@ class ApiGatewayV2 {
     );
     return ExportApiResponse(
       body: await response.stream.toBytes(),
+    );
+  }
+
+  /// Resets all authorizer cache entries on a stage. Supported only for HTTP
+  /// APIs.
+  ///
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
+  ///
+  /// Parameter [apiId] :
+  /// The API identifier.
+  ///
+  /// Parameter [stageName] :
+  /// The stage name. Stage names can contain only alphanumeric characters,
+  /// hyphens, and underscores, or be $default. Maximum length is 128
+  /// characters.
+  Future<void> resetAuthorizersCache({
+    @_s.required String apiId,
+    @_s.required String stageName,
+  }) async {
+    ArgumentError.checkNotNull(apiId, 'apiId');
+    ArgumentError.checkNotNull(stageName, 'stageName');
+    await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/v2/apis/${Uri.encodeComponent(apiId)}/stages/${Uri.encodeComponent(stageName)}/cache/authorizers',
+      exceptionFnMap: _exceptionFns,
     );
   }
 
@@ -2389,12 +2502,20 @@ class ApiGatewayV2 {
   /// use the role's Amazon Resource Name (ARN). To require that the caller's
   /// identity be passed through from the request, specify
   /// arn:aws:iam::*:user/*. To use resource-based permissions on supported AWS
-  /// services, specify null. Currently, this property is not used for HTTP
-  /// integrations. If provided, this value replaces the credentials associated
-  /// with the quick create integration. Supported only for HTTP APIs.
+  /// services, don't specify this parameter. Currently, this property is not
+  /// used for HTTP integrations. If provided, this value replaces the
+  /// credentials associated with the quick create integration. Supported only
+  /// for HTTP APIs.
   ///
   /// Parameter [description] :
   /// The description of the API.
+  ///
+  /// Parameter [disableExecuteApiEndpoint] :
+  /// Specifies whether clients can invoke your API by using the default
+  /// execute-api endpoint. By default, clients can invoke your API with the
+  /// default https://{api_id}.execute-api.{region}.amazonaws.com endpoint. To
+  /// require that clients use a custom domain name to invoke your API, disable
+  /// the default endpoint.
   ///
   /// Parameter [disableSchemaValidation] :
   /// Avoid validating models when creating a deployment. Supported only for
@@ -2431,6 +2552,7 @@ class ApiGatewayV2 {
     Cors corsConfiguration,
     String credentialsArn,
     String description,
+    bool disableExecuteApiEndpoint,
     bool disableSchemaValidation,
     String name,
     String routeKey,
@@ -2445,6 +2567,8 @@ class ApiGatewayV2 {
       if (corsConfiguration != null) 'corsConfiguration': corsConfiguration,
       if (credentialsArn != null) 'credentialsArn': credentialsArn,
       if (description != null) 'description': description,
+      if (disableExecuteApiEndpoint != null)
+        'disableExecuteApiEndpoint': disableExecuteApiEndpoint,
       if (disableSchemaValidation != null)
         'disableSchemaValidation': disableSchemaValidation,
       if (name != null) 'name': name,
@@ -2526,16 +2650,25 @@ class ApiGatewayV2 {
   /// Specifies the required credentials as an IAM role for API Gateway to
   /// invoke the authorizer. To specify an IAM role for API Gateway to assume,
   /// use the role's Amazon Resource Name (ARN). To use resource-based
-  /// permissions on the Lambda function, specify null.
+  /// permissions on the Lambda function, don't specify this parameter.
+  ///
+  /// Parameter [authorizerPayloadFormatVersion] :
+  /// Specifies the format of the payload sent to an HTTP API Lambda authorizer.
+  /// Required for HTTP API Lambda authorizers. Supported values are 1.0 and
+  /// 2.0. To learn more, see <a
+  /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-lambda-authorizer.html">Working
+  /// with AWS Lambda authorizers for HTTP APIs</a>.
   ///
   /// Parameter [authorizerResultTtlInSeconds] :
-  /// Authorizer caching is not currently supported. Don't specify this value
-  /// for authorizers.
+  /// The time to live (TTL) for cached authorizer results, in seconds. If it
+  /// equals 0, authorization caching is disabled. If it is greater than 0, API
+  /// Gateway caches authorizer responses. The maximum value is 3600, or 1 hour.
+  /// Supported only for HTTP API Lambda authorizers.
   ///
   /// Parameter [authorizerType] :
-  /// The authorizer type. For WebSocket APIs, specify REQUEST for a Lambda
-  /// function using incoming request parameters. For HTTP APIs, specify JWT to
-  /// use JSON Web Tokens.
+  /// The authorizer type. Specify REQUEST for a Lambda function using incoming
+  /// request parameters. Specify JWT to use JSON Web Tokens (supported only for
+  /// HTTP APIs).
   ///
   /// Parameter [authorizerUri] :
   /// The authorizer's Uniform Resource Identifier (URI). For REQUEST
@@ -2550,26 +2683,39 @@ class ApiGatewayV2 {
   /// /2015-03-31/functions/[FunctionARN]/invocations. Supported only for
   /// REQUEST authorizers.
   ///
+  /// Parameter [enableSimpleResponses] :
+  /// Specifies whether a Lambda authorizer returns a response in a simple
+  /// format. By default, a Lambda authorizer must return an IAM policy. If
+  /// enabled, the Lambda authorizer can return a boolean value instead of an
+  /// IAM policy. Supported only for HTTP APIs. To learn more, see <a
+  /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-lambda-authorizer.html">Working
+  /// with AWS Lambda authorizers for HTTP APIs</a>
+  ///
   /// Parameter [identitySource] :
   /// The identity source for which authorization is requested.
   ///
   /// For a REQUEST authorizer, this is optional. The value is a set of one or
-  /// more mapping expressions of the specified request parameters. Currently,
-  /// the identity source can be headers, query string parameters, stage
-  /// variables, and context parameters. For example, if an Auth header and a
-  /// Name query string parameter are defined as identity sources, this value is
-  /// route.request.header.Auth, route.request.querystring.Name. These
-  /// parameters will be used to perform runtime validation for Lambda-based
-  /// authorizers by verifying all of the identity-related request parameters
-  /// are present in the request, not null, and non-empty. Only when this is
-  /// true does the authorizer invoke the authorizer Lambda function. Otherwise,
-  /// it returns a 401 Unauthorized response without calling the Lambda
-  /// function.
+  /// more mapping expressions of the specified request parameters. The identity
+  /// source can be headers, query string parameters, stage variables, and
+  /// context parameters. For example, if an Auth header and a Name query string
+  /// parameter are defined as identity sources, this value is
+  /// route.request.header.Auth, route.request.querystring.Name for WebSocket
+  /// APIs. For HTTP APIs, use selection expressions prefixed with $, for
+  /// example, $request.header.Auth, $request.querystring.Name. These parameters
+  /// are used to perform runtime validation for Lambda-based authorizers by
+  /// verifying all of the identity-related request parameters are present in
+  /// the request, not null, and non-empty. Only when this is true does the
+  /// authorizer invoke the authorizer Lambda function. Otherwise, it returns a
+  /// 401 Unauthorized response without calling the Lambda function. For HTTP
+  /// APIs, identity sources are also used as the cache key when caching is
+  /// enabled. To learn more, see <a
+  /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-lambda-authorizer.html">Working
+  /// with AWS Lambda authorizers for HTTP APIs</a>.
   ///
   /// For JWT, a single entry that specifies where to extract the JSON Web Token
   /// (JWT) from inbound requests. Currently only header-based and query
   /// parameter-based selections are supported, for example
-  /// "$request.header.Authorization".
+  /// $request.header.Authorization.
   ///
   /// Parameter [identityValidationExpression] :
   /// This parameter is not used.
@@ -2584,9 +2730,11 @@ class ApiGatewayV2 {
     @_s.required String apiId,
     @_s.required String authorizerId,
     String authorizerCredentialsArn,
+    String authorizerPayloadFormatVersion,
     int authorizerResultTtlInSeconds,
     AuthorizerType authorizerType,
     String authorizerUri,
+    bool enableSimpleResponses,
     List<String> identitySource,
     String identityValidationExpression,
     JWTConfiguration jwtConfiguration,
@@ -2603,10 +2751,14 @@ class ApiGatewayV2 {
     final $payload = <String, dynamic>{
       if (authorizerCredentialsArn != null)
         'authorizerCredentialsArn': authorizerCredentialsArn,
+      if (authorizerPayloadFormatVersion != null)
+        'authorizerPayloadFormatVersion': authorizerPayloadFormatVersion,
       if (authorizerResultTtlInSeconds != null)
         'authorizerResultTtlInSeconds': authorizerResultTtlInSeconds,
       if (authorizerType != null) 'authorizerType': authorizerType.toValue(),
       if (authorizerUri != null) 'authorizerUri': authorizerUri,
+      if (enableSimpleResponses != null)
+        'enableSimpleResponses': enableSimpleResponses,
       if (identitySource != null) 'identitySource': identitySource,
       if (identityValidationExpression != null)
         'identityValidationExpression': identityValidationExpression,
@@ -2670,14 +2822,20 @@ class ApiGatewayV2 {
   ///
   /// Parameter [domainNameConfigurations] :
   /// The domain name configurations.
+  ///
+  /// Parameter [mutualTlsAuthentication] :
+  /// The mutual TLS authentication configuration for a custom domain name.
   Future<UpdateDomainNameResponse> updateDomainName({
     @_s.required String domainName,
     List<DomainNameConfiguration> domainNameConfigurations,
+    MutualTlsAuthenticationInput mutualTlsAuthentication,
   }) async {
     ArgumentError.checkNotNull(domainName, 'domainName');
     final $payload = <String, dynamic>{
       if (domainNameConfigurations != null)
         'domainNameConfigurations': domainNameConfigurations,
+      if (mutualTlsAuthentication != null)
+        'mutualTlsAuthentication': mutualTlsAuthentication,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2740,6 +2898,12 @@ class ApiGatewayV2 {
   /// Parameter [integrationMethod] :
   /// Specifies the integration's HTTP method type.
   ///
+  /// Parameter [integrationSubtype] :
+  /// Supported only for HTTP API AWS_PROXY integrations. Specifies the AWS
+  /// service action to invoke. To learn more, see <a
+  /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-develop-integrations-aws-services-reference.html">Integration
+  /// subtype reference</a>.
+  ///
   /// Parameter [integrationType] :
   /// The integration type of an integration. One of the following:
   ///
@@ -2749,9 +2913,9 @@ class ApiGatewayV2 {
   /// integration. With any other AWS service action, this is known as AWS
   /// integration. Supported only for WebSocket APIs.
   ///
-  /// AWS_PROXY: for integrating the route or method request with the Lambda
-  /// function-invoking action with the client request passed through as-is.
-  /// This integration is also referred to as Lambda proxy integration.
+  /// AWS_PROXY: for integrating the route or method request with a Lambda
+  /// function or other AWS service action. This integration is also referred to
+  /// as a Lambda proxy integration.
   ///
   /// HTTP: for integrating the route or method request with an HTTP endpoint.
   /// This integration is also referred to as the HTTP custom integration.
@@ -2803,25 +2967,55 @@ class ApiGatewayV2 {
   /// HTTP APIs.
   ///
   /// Parameter [requestParameters] :
-  /// A key-value map specifying request parameters that are passed from the
-  /// method request to the backend. The key is an integration request parameter
-  /// name and the associated value is a method request parameter value or
-  /// static value that must be enclosed within single quotes and pre-encoded as
-  /// required by the backend. The method request parameter value must match the
-  /// pattern of
+  /// For WebSocket APIs, a key-value map specifying request parameters that are
+  /// passed from the method request to the backend. The key is an integration
+  /// request parameter name and the associated value is a method request
+  /// parameter value or static value that must be enclosed within single quotes
+  /// and pre-encoded as required by the backend. The method request parameter
+  /// value must match the pattern of
   /// method.request.<replaceable>{location}</replaceable>.<replaceable>{name}</replaceable>
   /// , where
   /// <replaceable>{location}</replaceable>
   /// is querystring, path, or header; and
   /// <replaceable>{name}</replaceable>
-  /// must be a valid and unique method request parameter name. Supported only
-  /// for WebSocket APIs.
+  /// must be a valid and unique method request parameter name.
+  ///
+  /// For HTTP API integrations with a specified integrationSubtype, request
+  /// parameters are a key-value map specifying parameters that are passed to
+  /// AWS_PROXY integrations. You can provide static values, or map request
+  /// data, stage variables, or context variables that are evaluated at runtime.
+  /// To learn more, see <a
+  /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-develop-integrations-aws-services.html">Working
+  /// with AWS service integrations for HTTP APIs</a>.
+  ///
+  /// For HTTP API integrations, without a specified integrationSubtype request
+  /// parameters are a key-value map specifying how to transform HTTP requests
+  /// before sending them to the backend. The key should follow the pattern
+  /// &lt;action&gt;:&lt;header|querystring|path&gt;.&lt;location&gt; where
+  /// action can be append, overwrite or remove. For values, you can provide
+  /// static values, or map request data, stage variables, or context variables
+  /// that are evaluated at runtime. To learn more, see <a
+  /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-parameter-mapping.">Transforming
+  /// API requests and responses</a>.
   ///
   /// Parameter [requestTemplates] :
   /// Represents a map of Velocity templates that are applied on the request
   /// payload based on the value of the Content-Type header sent by the client.
   /// The content type value is the key in this map, and the template (as a
   /// String) is the value. Supported only for WebSocket APIs.
+  ///
+  /// Parameter [responseParameters] :
+  /// Supported only for HTTP APIs. You use response parameters to transform the
+  /// HTTP response from a backend integration before returning the response to
+  /// clients. Specify a key-value map from a selection key to response
+  /// parameters. The selection key must be a valid HTTP status code within the
+  /// range of 200-599. Response parameters are a key-value map. The key must
+  /// match pattern &lt;action&gt;:&lt;header&gt;.&lt;location&gt; or
+  /// overwrite.statuscode. The action can be append, overwrite or remove. The
+  /// value can be a static value, or map to response data, stage variables, or
+  /// context variables that are evaluated at runtime. To learn more, see <a
+  /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-parameter-mapping.html">Transforming
+  /// API requests and responses</a>.
   ///
   /// Parameter [templateSelectionExpression] :
   /// The template selection expression for the integration.
@@ -2844,12 +3038,14 @@ class ApiGatewayV2 {
     String credentialsArn,
     String description,
     String integrationMethod,
+    String integrationSubtype,
     IntegrationType integrationType,
     String integrationUri,
     PassthroughBehavior passthroughBehavior,
     String payloadFormatVersion,
     Map<String, String> requestParameters,
     Map<String, String> requestTemplates,
+    Map<String, Map<String, String>> responseParameters,
     String templateSelectionExpression,
     int timeoutInMillis,
     TlsConfigInput tlsConfig,
@@ -2870,6 +3066,7 @@ class ApiGatewayV2 {
       if (credentialsArn != null) 'credentialsArn': credentialsArn,
       if (description != null) 'description': description,
       if (integrationMethod != null) 'integrationMethod': integrationMethod,
+      if (integrationSubtype != null) 'integrationSubtype': integrationSubtype,
       if (integrationType != null) 'integrationType': integrationType.toValue(),
       if (integrationUri != null) 'integrationUri': integrationUri,
       if (passthroughBehavior != null)
@@ -2878,6 +3075,7 @@ class ApiGatewayV2 {
         'payloadFormatVersion': payloadFormatVersion,
       if (requestParameters != null) 'requestParameters': requestParameters,
       if (requestTemplates != null) 'requestTemplates': requestTemplates,
+      if (responseParameters != null) 'responseParameters': responseParameters,
       if (templateSelectionExpression != null)
         'templateSelectionExpression': templateSelectionExpression,
       if (timeoutInMillis != null) 'timeoutInMillis': timeoutInMillis,
@@ -3061,7 +3259,8 @@ class ApiGatewayV2 {
   /// The authorization type for the route. For WebSocket APIs, valid values are
   /// NONE for open access, AWS_IAM for using AWS IAM permissions, and CUSTOM
   /// for using a Lambda authorizer For HTTP APIs, valid values are NONE for
-  /// open access, or JWT for using JSON Web Tokens.
+  /// open access, JWT for using JSON Web Tokens, AWS_IAM for using AWS IAM
+  /// permissions, and CUSTOM for using a Lambda authorizer.
   ///
   /// Parameter [authorizerId] :
   /// The identifier of the Authorizer resource to be associated with this
@@ -3202,8 +3401,9 @@ class ApiGatewayV2 {
   /// The API identifier.
   ///
   /// Parameter [stageName] :
-  /// The stage name. Stage names can only contain alphanumeric characters,
-  /// hyphens, and underscores. Maximum length is 128 characters.
+  /// The stage name. Stage names can contain only alphanumeric characters,
+  /// hyphens, and underscores, or be $default. Maximum length is 128
+  /// characters.
   ///
   /// Parameter [accessLogSettings] :
   /// Settings for logging access in this stage.
@@ -3351,6 +3551,12 @@ class Api {
   @_s.JsonKey(name: 'apiEndpoint')
   final String apiEndpoint;
 
+  /// Specifies whether an API is managed by API Gateway. You can't update or
+  /// delete a managed API by using API Gateway. A managed API can be deleted only
+  /// through the tooling or service that created it.
+  @_s.JsonKey(name: 'apiGatewayManaged')
+  final bool apiGatewayManaged;
+
   /// The API ID.
   @_s.JsonKey(name: 'apiId')
   final String apiId;
@@ -3373,6 +3579,14 @@ class Api {
   /// The description of the API.
   @_s.JsonKey(name: 'description')
   final String description;
+
+  /// Specifies whether clients can invoke your API by using the default
+  /// execute-api endpoint. By default, clients can invoke your API with the
+  /// default https://{api_id}.execute-api.{region}.amazonaws.com endpoint. To
+  /// require that clients use a custom domain name to invoke your API, disable
+  /// the default endpoint.
+  @_s.JsonKey(name: 'disableExecuteApiEndpoint')
+  final bool disableExecuteApiEndpoint;
 
   /// Avoid validating models when creating a deployment. Supported only for
   /// WebSocket APIs.
@@ -3403,11 +3617,13 @@ class Api {
     @_s.required this.protocolType,
     @_s.required this.routeSelectionExpression,
     this.apiEndpoint,
+    this.apiGatewayManaged,
     this.apiId,
     this.apiKeySelectionExpression,
     this.corsConfiguration,
     this.createdDate,
     this.description,
+    this.disableExecuteApiEndpoint,
     this.disableSchemaValidation,
     this.importInfo,
     this.tags,
@@ -3452,8 +3668,9 @@ class ApiMapping {
 
 /// The authorization type. For WebSocket APIs, valid values are NONE for open
 /// access, AWS_IAM for using AWS IAM permissions, and CUSTOM for using a Lambda
-/// authorizer. For HTTP APIs, valid values are NONE for open access, or JWT for
-/// using JSON Web Tokens.
+/// authorizer. For HTTP APIs, valid values are NONE for open access, JWT for
+/// using JSON Web Tokens, AWS_IAM for using AWS IAM permissions, and CUSTOM for
+/// using a Lambda authorizer.
 enum AuthorizationType {
   @_s.JsonValue('NONE')
   none,
@@ -3495,7 +3712,8 @@ class Authorizer {
   /// Specifies the required credentials as an IAM role for API Gateway to invoke
   /// the authorizer. To specify an IAM role for API Gateway to assume, use the
   /// role's Amazon Resource Name (ARN). To use resource-based permissions on the
-  /// Lambda function, specify null. Supported only for REQUEST authorizers.
+  /// Lambda function, don't specify this parameter. Supported only for REQUEST
+  /// authorizers.
   @_s.JsonKey(name: 'authorizerCredentialsArn')
   final String authorizerCredentialsArn;
 
@@ -3503,18 +3721,28 @@ class Authorizer {
   @_s.JsonKey(name: 'authorizerId')
   final String authorizerId;
 
-  /// Authorizer caching is not currently supported. Don't specify this value for
-  /// authorizers.
+  /// Specifies the format of the payload sent to an HTTP API Lambda authorizer.
+  /// Required for HTTP API Lambda authorizers. Supported values are 1.0 and 2.0.
+  /// To learn more, see <a
+  /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-lambda-authorizer.html">Working
+  /// with AWS Lambda authorizers for HTTP APIs</a>.
+  @_s.JsonKey(name: 'authorizerPayloadFormatVersion')
+  final String authorizerPayloadFormatVersion;
+
+  /// The time to live (TTL) for cached authorizer results, in seconds. If it
+  /// equals 0, authorization caching is disabled. If it is greater than 0, API
+  /// Gateway caches authorizer responses. The maximum value is 3600, or 1 hour.
+  /// Supported only for HTTP API Lambda authorizers.
   @_s.JsonKey(name: 'authorizerResultTtlInSeconds')
   final int authorizerResultTtlInSeconds;
 
-  /// The authorizer type. For WebSocket APIs, specify REQUEST for a Lambda
-  /// function using incoming request parameters. For HTTP APIs, specify JWT to
-  /// use JSON Web Tokens.
+  /// The authorizer type. Specify REQUEST for a Lambda function using incoming
+  /// request parameters. Specify JWT to use JSON Web Tokens (supported only for
+  /// HTTP APIs).
   @_s.JsonKey(name: 'authorizerType')
   final AuthorizerType authorizerType;
 
-  /// The authorizer's Uniform Resource Identifier (URI). ForREQUEST authorizers,
+  /// The authorizer's Uniform Resource Identifier (URI). For REQUEST authorizers,
   /// this must be a well-formed Lambda function URI, for example,
   /// arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-2:<replaceable>{account_id}</replaceable>:function:<replaceable>{lambda_function_name}</replaceable>/invocations.
   /// In general, the URI has this form:
@@ -3528,24 +3756,38 @@ class Authorizer {
   @_s.JsonKey(name: 'authorizerUri')
   final String authorizerUri;
 
+  /// Specifies whether a Lambda authorizer returns a response in a simple format.
+  /// If enabled, the Lambda authorizer can return a boolean value instead of an
+  /// IAM policy. Supported only for HTTP APIs. To learn more, see <a
+  /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-lambda-authorizer.html">Working
+  /// with AWS Lambda authorizers for HTTP APIs</a>
+  @_s.JsonKey(name: 'enableSimpleResponses')
+  final bool enableSimpleResponses;
+
   /// The identity source for which authorization is requested.
   ///
   /// For a REQUEST authorizer, this is optional. The value is a set of one or
-  /// more mapping expressions of the specified request parameters. Currently, the
-  /// identity source can be headers, query string parameters, stage variables,
-  /// and context parameters. For example, if an Auth header and a Name query
-  /// string parameter are defined as identity sources, this value is
-  /// route.request.header.Auth, route.request.querystring.Name. These parameters
-  /// will be used to perform runtime validation for Lambda-based authorizers by
-  /// verifying all of the identity-related request parameters are present in the
-  /// request, not null, and non-empty. Only when this is true does the authorizer
-  /// invoke the authorizer Lambda function. Otherwise, it returns a 401
-  /// Unauthorized response without calling the Lambda function.
+  /// more mapping expressions of the specified request parameters. The identity
+  /// source can be headers, query string parameters, stage variables, and context
+  /// parameters. For example, if an Auth header and a Name query string parameter
+  /// are defined as identity sources, this value is route.request.header.Auth,
+  /// route.request.querystring.Name for WebSocket APIs. For HTTP APIs, use
+  /// selection expressions prefixed with $, for example, $request.header.Auth,
+  /// $request.querystring.Name. These parameters are used to perform runtime
+  /// validation for Lambda-based authorizers by verifying all of the
+  /// identity-related request parameters are present in the request, not null,
+  /// and non-empty. Only when this is true does the authorizer invoke the
+  /// authorizer Lambda function. Otherwise, it returns a 401 Unauthorized
+  /// response without calling the Lambda function. For HTTP APIs, identity
+  /// sources are also used as the cache key when caching is enabled. To learn
+  /// more, see <a
+  /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-lambda-authorizer.html">Working
+  /// with AWS Lambda authorizers for HTTP APIs</a>.
   ///
   /// For JWT, a single entry that specifies where to extract the JSON Web Token
   /// (JWT) from inbound requests. Currently only header-based and query
   /// parameter-based selections are supported, for example
-  /// "$request.header.Authorization".
+  /// $request.header.Authorization.
   @_s.JsonKey(name: 'identitySource')
   final List<String> identitySource;
 
@@ -3562,9 +3804,11 @@ class Authorizer {
     @_s.required this.name,
     this.authorizerCredentialsArn,
     this.authorizerId,
+    this.authorizerPayloadFormatVersion,
     this.authorizerResultTtlInSeconds,
     this.authorizerType,
     this.authorizerUri,
+    this.enableSimpleResponses,
     this.identitySource,
     this.identityValidationExpression,
     this.jwtConfiguration,
@@ -3573,9 +3817,9 @@ class Authorizer {
       _$AuthorizerFromJson(json);
 }
 
-/// The authorizer type. For WebSocket APIs, specify REQUEST for a Lambda
-/// function using incoming request parameters. For HTTP APIs, specify JWT to
-/// use JSON Web Tokens.
+/// The authorizer type. Specify REQUEST for a Lambda function using incoming
+/// request parameters. Specify JWT to use JSON Web Tokens (supported only for
+/// HTTP APIs).
 enum AuthorizerType {
   @_s.JsonValue('REQUEST')
   request,
@@ -3729,6 +3973,12 @@ class CreateApiResponse {
   @_s.JsonKey(name: 'apiEndpoint')
   final String apiEndpoint;
 
+  /// Specifies whether an API is managed by API Gateway. You can't update or
+  /// delete a managed API by using API Gateway. A managed API can be deleted only
+  /// through the tooling or service that created it.
+  @_s.JsonKey(name: 'apiGatewayManaged')
+  final bool apiGatewayManaged;
+
   /// The API ID.
   @_s.JsonKey(name: 'apiId')
   final String apiId;
@@ -3751,6 +4001,14 @@ class CreateApiResponse {
   /// The description of the API.
   @_s.JsonKey(name: 'description')
   final String description;
+
+  /// Specifies whether clients can invoke your API by using the default
+  /// execute-api endpoint. By default, clients can invoke your API with the
+  /// default https://{api_id}.execute-api.{region}.amazonaws.com endpoint. To
+  /// require that clients use a custom domain name to invoke your API, disable
+  /// the default endpoint.
+  @_s.JsonKey(name: 'disableExecuteApiEndpoint')
+  final bool disableExecuteApiEndpoint;
 
   /// Avoid validating models when creating a deployment. Supported only for
   /// WebSocket APIs.
@@ -3793,11 +4051,13 @@ class CreateApiResponse {
 
   CreateApiResponse({
     this.apiEndpoint,
+    this.apiGatewayManaged,
     this.apiId,
     this.apiKeySelectionExpression,
     this.corsConfiguration,
     this.createdDate,
     this.description,
+    this.disableExecuteApiEndpoint,
     this.disableSchemaValidation,
     this.importInfo,
     this.name,
@@ -3820,7 +4080,8 @@ class CreateAuthorizerResponse {
   /// Specifies the required credentials as an IAM role for API Gateway to invoke
   /// the authorizer. To specify an IAM role for API Gateway to assume, use the
   /// role's Amazon Resource Name (ARN). To use resource-based permissions on the
-  /// Lambda function, specify null. Supported only for REQUEST authorizers.
+  /// Lambda function, don't specify this parameter. Supported only for REQUEST
+  /// authorizers.
   @_s.JsonKey(name: 'authorizerCredentialsArn')
   final String authorizerCredentialsArn;
 
@@ -3828,18 +4089,28 @@ class CreateAuthorizerResponse {
   @_s.JsonKey(name: 'authorizerId')
   final String authorizerId;
 
-  /// Authorizer caching is not currently supported. Don't specify this value for
-  /// authorizers.
+  /// Specifies the format of the payload sent to an HTTP API Lambda authorizer.
+  /// Required for HTTP API Lambda authorizers. Supported values are 1.0 and 2.0.
+  /// To learn more, see <a
+  /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-lambda-authorizer.html">Working
+  /// with AWS Lambda authorizers for HTTP APIs</a>.
+  @_s.JsonKey(name: 'authorizerPayloadFormatVersion')
+  final String authorizerPayloadFormatVersion;
+
+  /// The time to live (TTL) for cached authorizer results, in seconds. If it
+  /// equals 0, authorization caching is disabled. If it is greater than 0, API
+  /// Gateway caches authorizer responses. The maximum value is 3600, or 1 hour.
+  /// Supported only for HTTP API Lambda authorizers.
   @_s.JsonKey(name: 'authorizerResultTtlInSeconds')
   final int authorizerResultTtlInSeconds;
 
-  /// The authorizer type. For WebSocket APIs, specify REQUEST for a Lambda
-  /// function using incoming request parameters. For HTTP APIs, specify JWT to
-  /// use JSON Web Tokens.
+  /// The authorizer type. Specify REQUEST for a Lambda function using incoming
+  /// request parameters. Specify JWT to use JSON Web Tokens (supported only for
+  /// HTTP APIs).
   @_s.JsonKey(name: 'authorizerType')
   final AuthorizerType authorizerType;
 
-  /// The authorizer's Uniform Resource Identifier (URI). ForREQUEST authorizers,
+  /// The authorizer's Uniform Resource Identifier (URI). For REQUEST authorizers,
   /// this must be a well-formed Lambda function URI, for example,
   /// arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-2:<replaceable>{account_id}</replaceable>:function:<replaceable>{lambda_function_name}</replaceable>/invocations.
   /// In general, the URI has this form:
@@ -3853,24 +4124,38 @@ class CreateAuthorizerResponse {
   @_s.JsonKey(name: 'authorizerUri')
   final String authorizerUri;
 
+  /// Specifies whether a Lambda authorizer returns a response in a simple format.
+  /// If enabled, the Lambda authorizer can return a boolean value instead of an
+  /// IAM policy. Supported only for HTTP APIs. To learn more, see <a
+  /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-lambda-authorizer.html">Working
+  /// with AWS Lambda authorizers for HTTP APIs</a>
+  @_s.JsonKey(name: 'enableSimpleResponses')
+  final bool enableSimpleResponses;
+
   /// The identity source for which authorization is requested.
   ///
   /// For a REQUEST authorizer, this is optional. The value is a set of one or
-  /// more mapping expressions of the specified request parameters. Currently, the
-  /// identity source can be headers, query string parameters, stage variables,
-  /// and context parameters. For example, if an Auth header and a Name query
-  /// string parameter are defined as identity sources, this value is
-  /// route.request.header.Auth, route.request.querystring.Name. These parameters
-  /// will be used to perform runtime validation for Lambda-based authorizers by
-  /// verifying all of the identity-related request parameters are present in the
-  /// request, not null, and non-empty. Only when this is true does the authorizer
-  /// invoke the authorizer Lambda function. Otherwise, it returns a 401
-  /// Unauthorized response without calling the Lambda function.
+  /// more mapping expressions of the specified request parameters. The identity
+  /// source can be headers, query string parameters, stage variables, and context
+  /// parameters. For example, if an Auth header and a Name query string parameter
+  /// are defined as identity sources, this value is route.request.header.Auth,
+  /// route.request.querystring.Name for WebSocket APIs. For HTTP APIs, use
+  /// selection expressions prefixed with $, for example, $request.header.Auth,
+  /// $request.querystring.Name. These parameters are used to perform runtime
+  /// validation for Lambda-based authorizers by verifying all of the
+  /// identity-related request parameters are present in the request, not null,
+  /// and non-empty. Only when this is true does the authorizer invoke the
+  /// authorizer Lambda function. Otherwise, it returns a 401 Unauthorized
+  /// response without calling the Lambda function. For HTTP APIs, identity
+  /// sources are also used as the cache key when caching is enabled. To learn
+  /// more, see <a
+  /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-lambda-authorizer.html">Working
+  /// with AWS Lambda authorizers for HTTP APIs</a>.
   ///
   /// For JWT, a single entry that specifies where to extract the JSON Web Token
   /// (JWT) from inbound requests. Currently only header-based and query
   /// parameter-based selections are supported, for example
-  /// "$request.header.Authorization".
+  /// $request.header.Authorization.
   @_s.JsonKey(name: 'identitySource')
   final List<String> identitySource;
 
@@ -3890,9 +4175,11 @@ class CreateAuthorizerResponse {
   CreateAuthorizerResponse({
     this.authorizerCredentialsArn,
     this.authorizerId,
+    this.authorizerPayloadFormatVersion,
     this.authorizerResultTtlInSeconds,
     this.authorizerType,
     this.authorizerUri,
+    this.enableSimpleResponses,
     this.identitySource,
     this.identityValidationExpression,
     this.jwtConfiguration,
@@ -3963,6 +4250,10 @@ class CreateDomainNameResponse {
   @_s.JsonKey(name: 'domainNameConfigurations')
   final List<DomainNameConfiguration> domainNameConfigurations;
 
+  /// The mutual TLS authentication configuration for a custom domain name.
+  @_s.JsonKey(name: 'mutualTlsAuthentication')
+  final MutualTlsAuthentication mutualTlsAuthentication;
+
   /// The collection of tags associated with a domain name.
   @_s.JsonKey(name: 'tags')
   final Map<String, String> tags;
@@ -3971,6 +4262,7 @@ class CreateDomainNameResponse {
     this.apiMappingSelectionExpression,
     this.domainName,
     this.domainNameConfigurations,
+    this.mutualTlsAuthentication,
     this.tags,
   });
   factory CreateDomainNameResponse.fromJson(Map<String, dynamic> json) =>
@@ -4045,6 +4337,13 @@ class CreateIntegrationResult {
   @_s.JsonKey(name: 'integrationResponseSelectionExpression')
   final String integrationResponseSelectionExpression;
 
+  /// Supported only for HTTP API AWS_PROXY integrations. Specifies the AWS
+  /// service action to invoke. To learn more, see <a
+  /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-develop-integrations-aws-services-reference.html">Integration
+  /// subtype reference</a>.
+  @_s.JsonKey(name: 'integrationSubtype')
+  final String integrationSubtype;
+
   /// The integration type of an integration. One of the following:
   ///
   /// AWS: for integrating the route or method request with an AWS service action,
@@ -4053,9 +4352,9 @@ class CreateIntegrationResult {
   /// integration. With any other AWS service action, this is known as AWS
   /// integration. Supported only for WebSocket APIs.
   ///
-  /// AWS_PROXY: for integrating the route or method request with the Lambda
-  /// function-invoking action with the client request passed through as-is. This
-  /// integration is also referred to as Lambda proxy integration.
+  /// AWS_PROXY: for integrating the route or method request with a Lambda
+  /// function or other AWS service action. This integration is also referred to
+  /// as a Lambda proxy integration.
   ///
   /// HTTP: for integrating the route or method request with an HTTP endpoint.
   /// This integration is also referred to as the HTTP custom integration.
@@ -4110,18 +4409,36 @@ class CreateIntegrationResult {
   @_s.JsonKey(name: 'payloadFormatVersion')
   final String payloadFormatVersion;
 
-  /// A key-value map specifying request parameters that are passed from the
-  /// method request to the backend. The key is an integration request parameter
-  /// name and the associated value is a method request parameter value or static
-  /// value that must be enclosed within single quotes and pre-encoded as required
-  /// by the backend. The method request parameter value must match the pattern of
+  /// For WebSocket APIs, a key-value map specifying request parameters that are
+  /// passed from the method request to the backend. The key is an integration
+  /// request parameter name and the associated value is a method request
+  /// parameter value or static value that must be enclosed within single quotes
+  /// and pre-encoded as required by the backend. The method request parameter
+  /// value must match the pattern of
   /// method.request.<replaceable>{location}</replaceable>.<replaceable>{name}</replaceable>
   /// , where
   /// <replaceable>{location}</replaceable>
   /// is querystring, path, or header; and
   /// <replaceable>{name}</replaceable>
-  /// must be a valid and unique method request parameter name. Supported only for
-  /// WebSocket APIs.
+  /// must be a valid and unique method request parameter name.
+  ///
+  /// For HTTP API integrations with a specified integrationSubtype, request
+  /// parameters are a key-value map specifying parameters that are passed to
+  /// AWS_PROXY integrations. You can provide static values, or map request data,
+  /// stage variables, or context variables that are evaluated at runtime. To
+  /// learn more, see <a
+  /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-develop-integrations-aws-services.html">Working
+  /// with AWS service integrations for HTTP APIs</a>.
+  ///
+  /// For HTTP API itegrations, without a specified integrationSubtype request
+  /// parameters are a key-value map specifying how to transform HTTP requests
+  /// before sending them to backend integrations. The key should follow the
+  /// pattern &lt;action&gt;:&lt;header|querystring|path&gt;.&lt;location&gt;. The
+  /// action can be append, overwrite or remove. For values, you can provide
+  /// static values, or map request data, stage variables, or context variables
+  /// that are evaluated at runtime. To learn more, see <a
+  /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-parameter-mapping.html">Transforming
+  /// API requests and responses</a>.
   @_s.JsonKey(name: 'requestParameters')
   final Map<String, String> requestParameters;
 
@@ -4131,6 +4448,20 @@ class CreateIntegrationResult {
   /// String) is the value. Supported only for WebSocket APIs.
   @_s.JsonKey(name: 'requestTemplates')
   final Map<String, String> requestTemplates;
+
+  /// Supported only for HTTP APIs. You use response parameters to transform the
+  /// HTTP response from a backend integration before returning the response to
+  /// clients. Specify a key-value map from a selection key to response
+  /// parameters. The selection key must be a valid HTTP status code within the
+  /// range of 200-599. Response parameters are a key-value map. The key must
+  /// match pattern &lt;action&gt;:&lt;header&gt;.&lt;location&gt; or
+  /// overwrite.statuscode. The action can be append, overwrite or remove. The
+  /// value can be a static value, or map to response data, stage variables, or
+  /// context variables that are evaluated at runtime. To learn more, see <a
+  /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-parameter-mapping.html">Transforming
+  /// API requests and responses</a>.
+  @_s.JsonKey(name: 'responseParameters')
+  final Map<String, Map<String, String>> responseParameters;
 
   /// The template selection expression for the integration. Supported only for
   /// WebSocket APIs.
@@ -4159,12 +4490,14 @@ class CreateIntegrationResult {
     this.integrationId,
     this.integrationMethod,
     this.integrationResponseSelectionExpression,
+    this.integrationSubtype,
     this.integrationType,
     this.integrationUri,
     this.passthroughBehavior,
     this.payloadFormatVersion,
     this.requestParameters,
     this.requestTemplates,
+    this.responseParameters,
     this.templateSelectionExpression,
     this.timeoutInMillis,
     this.tlsConfig,
@@ -4310,7 +4643,8 @@ class CreateRouteResult {
   /// The authorization type for the route. For WebSocket APIs, valid values are
   /// NONE for open access, AWS_IAM for using AWS IAM permissions, and CUSTOM for
   /// using a Lambda authorizer For HTTP APIs, valid values are NONE for open
-  /// access, or JWT for using JSON Web Tokens.
+  /// access, JWT for using JSON Web Tokens, AWS_IAM for using AWS IAM
+  /// permissions, and CUSTOM for using a Lambda authorizer.
   @_s.JsonKey(name: 'authorizationType')
   final AuthorizationType authorizationType;
 
@@ -4648,6 +4982,10 @@ class DomainName {
   @_s.JsonKey(name: 'domainNameConfigurations')
   final List<DomainNameConfiguration> domainNameConfigurations;
 
+  /// The mutual TLS authentication configuration for a custom domain name.
+  @_s.JsonKey(name: 'mutualTlsAuthentication')
+  final MutualTlsAuthentication mutualTlsAuthentication;
+
   /// The collection of tags associated with a domain name.
   @_s.JsonKey(name: 'tags')
   final Map<String, String> tags;
@@ -4656,6 +4994,7 @@ class DomainName {
     @_s.required this.domainName,
     this.apiMappingSelectionExpression,
     this.domainNameConfigurations,
+    this.mutualTlsAuthentication,
     this.tags,
   });
   factory DomainName.fromJson(Map<String, dynamic> json) =>
@@ -4834,6 +5173,12 @@ class GetApiResponse {
   @_s.JsonKey(name: 'apiEndpoint')
   final String apiEndpoint;
 
+  /// Specifies whether an API is managed by API Gateway. You can't update or
+  /// delete a managed API by using API Gateway. A managed API can be deleted only
+  /// through the tooling or service that created it.
+  @_s.JsonKey(name: 'apiGatewayManaged')
+  final bool apiGatewayManaged;
+
   /// The API ID.
   @_s.JsonKey(name: 'apiId')
   final String apiId;
@@ -4856,6 +5201,14 @@ class GetApiResponse {
   /// The description of the API.
   @_s.JsonKey(name: 'description')
   final String description;
+
+  /// Specifies whether clients can invoke your API by using the default
+  /// execute-api endpoint. By default, clients can invoke your API with the
+  /// default https://{api_id}.execute-api.{region}.amazonaws.com endpoint. To
+  /// require that clients use a custom domain name to invoke your API, disable
+  /// the default endpoint.
+  @_s.JsonKey(name: 'disableExecuteApiEndpoint')
+  final bool disableExecuteApiEndpoint;
 
   /// Avoid validating models when creating a deployment. Supported only for
   /// WebSocket APIs.
@@ -4898,11 +5251,13 @@ class GetApiResponse {
 
   GetApiResponse({
     this.apiEndpoint,
+    this.apiGatewayManaged,
     this.apiId,
     this.apiKeySelectionExpression,
     this.corsConfiguration,
     this.createdDate,
     this.description,
+    this.disableExecuteApiEndpoint,
     this.disableSchemaValidation,
     this.importInfo,
     this.name,
@@ -4948,7 +5303,8 @@ class GetAuthorizerResponse {
   /// Specifies the required credentials as an IAM role for API Gateway to invoke
   /// the authorizer. To specify an IAM role for API Gateway to assume, use the
   /// role's Amazon Resource Name (ARN). To use resource-based permissions on the
-  /// Lambda function, specify null. Supported only for REQUEST authorizers.
+  /// Lambda function, don't specify this parameter. Supported only for REQUEST
+  /// authorizers.
   @_s.JsonKey(name: 'authorizerCredentialsArn')
   final String authorizerCredentialsArn;
 
@@ -4956,18 +5312,28 @@ class GetAuthorizerResponse {
   @_s.JsonKey(name: 'authorizerId')
   final String authorizerId;
 
-  /// Authorizer caching is not currently supported. Don't specify this value for
-  /// authorizers.
+  /// Specifies the format of the payload sent to an HTTP API Lambda authorizer.
+  /// Required for HTTP API Lambda authorizers. Supported values are 1.0 and 2.0.
+  /// To learn more, see <a
+  /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-lambda-authorizer.html">Working
+  /// with AWS Lambda authorizers for HTTP APIs</a>.
+  @_s.JsonKey(name: 'authorizerPayloadFormatVersion')
+  final String authorizerPayloadFormatVersion;
+
+  /// The time to live (TTL) for cached authorizer results, in seconds. If it
+  /// equals 0, authorization caching is disabled. If it is greater than 0, API
+  /// Gateway caches authorizer responses. The maximum value is 3600, or 1 hour.
+  /// Supported only for HTTP API Lambda authorizers.
   @_s.JsonKey(name: 'authorizerResultTtlInSeconds')
   final int authorizerResultTtlInSeconds;
 
-  /// The authorizer type. For WebSocket APIs, specify REQUEST for a Lambda
-  /// function using incoming request parameters. For HTTP APIs, specify JWT to
-  /// use JSON Web Tokens.
+  /// The authorizer type. Specify REQUEST for a Lambda function using incoming
+  /// request parameters. Specify JWT to use JSON Web Tokens (supported only for
+  /// HTTP APIs).
   @_s.JsonKey(name: 'authorizerType')
   final AuthorizerType authorizerType;
 
-  /// The authorizer's Uniform Resource Identifier (URI). ForREQUEST authorizers,
+  /// The authorizer's Uniform Resource Identifier (URI). For REQUEST authorizers,
   /// this must be a well-formed Lambda function URI, for example,
   /// arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-2:<replaceable>{account_id}</replaceable>:function:<replaceable>{lambda_function_name}</replaceable>/invocations.
   /// In general, the URI has this form:
@@ -4981,24 +5347,38 @@ class GetAuthorizerResponse {
   @_s.JsonKey(name: 'authorizerUri')
   final String authorizerUri;
 
+  /// Specifies whether a Lambda authorizer returns a response in a simple format.
+  /// If enabled, the Lambda authorizer can return a boolean value instead of an
+  /// IAM policy. Supported only for HTTP APIs. To learn more, see <a
+  /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-lambda-authorizer.html">Working
+  /// with AWS Lambda authorizers for HTTP APIs</a>
+  @_s.JsonKey(name: 'enableSimpleResponses')
+  final bool enableSimpleResponses;
+
   /// The identity source for which authorization is requested.
   ///
   /// For a REQUEST authorizer, this is optional. The value is a set of one or
-  /// more mapping expressions of the specified request parameters. Currently, the
-  /// identity source can be headers, query string parameters, stage variables,
-  /// and context parameters. For example, if an Auth header and a Name query
-  /// string parameter are defined as identity sources, this value is
-  /// route.request.header.Auth, route.request.querystring.Name. These parameters
-  /// will be used to perform runtime validation for Lambda-based authorizers by
-  /// verifying all of the identity-related request parameters are present in the
-  /// request, not null, and non-empty. Only when this is true does the authorizer
-  /// invoke the authorizer Lambda function. Otherwise, it returns a 401
-  /// Unauthorized response without calling the Lambda function.
+  /// more mapping expressions of the specified request parameters. The identity
+  /// source can be headers, query string parameters, stage variables, and context
+  /// parameters. For example, if an Auth header and a Name query string parameter
+  /// are defined as identity sources, this value is route.request.header.Auth,
+  /// route.request.querystring.Name for WebSocket APIs. For HTTP APIs, use
+  /// selection expressions prefixed with $, for example, $request.header.Auth,
+  /// $request.querystring.Name. These parameters are used to perform runtime
+  /// validation for Lambda-based authorizers by verifying all of the
+  /// identity-related request parameters are present in the request, not null,
+  /// and non-empty. Only when this is true does the authorizer invoke the
+  /// authorizer Lambda function. Otherwise, it returns a 401 Unauthorized
+  /// response without calling the Lambda function. For HTTP APIs, identity
+  /// sources are also used as the cache key when caching is enabled. To learn
+  /// more, see <a
+  /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-lambda-authorizer.html">Working
+  /// with AWS Lambda authorizers for HTTP APIs</a>.
   ///
   /// For JWT, a single entry that specifies where to extract the JSON Web Token
   /// (JWT) from inbound requests. Currently only header-based and query
   /// parameter-based selections are supported, for example
-  /// "$request.header.Authorization".
+  /// $request.header.Authorization.
   @_s.JsonKey(name: 'identitySource')
   final List<String> identitySource;
 
@@ -5018,9 +5398,11 @@ class GetAuthorizerResponse {
   GetAuthorizerResponse({
     this.authorizerCredentialsArn,
     this.authorizerId,
+    this.authorizerPayloadFormatVersion,
     this.authorizerResultTtlInSeconds,
     this.authorizerType,
     this.authorizerUri,
+    this.enableSimpleResponses,
     this.identitySource,
     this.identityValidationExpression,
     this.jwtConfiguration,
@@ -5137,6 +5519,10 @@ class GetDomainNameResponse {
   @_s.JsonKey(name: 'domainNameConfigurations')
   final List<DomainNameConfiguration> domainNameConfigurations;
 
+  /// The mutual TLS authentication configuration for a custom domain name.
+  @_s.JsonKey(name: 'mutualTlsAuthentication')
+  final MutualTlsAuthentication mutualTlsAuthentication;
+
   /// The collection of tags associated with a domain name.
   @_s.JsonKey(name: 'tags')
   final Map<String, String> tags;
@@ -5145,6 +5531,7 @@ class GetDomainNameResponse {
     this.apiMappingSelectionExpression,
     this.domainName,
     this.domainNameConfigurations,
+    this.mutualTlsAuthentication,
     this.tags,
   });
   factory GetDomainNameResponse.fromJson(Map<String, dynamic> json) =>
@@ -5242,6 +5629,13 @@ class GetIntegrationResult {
   @_s.JsonKey(name: 'integrationResponseSelectionExpression')
   final String integrationResponseSelectionExpression;
 
+  /// Supported only for HTTP API AWS_PROXY integrations. Specifies the AWS
+  /// service action to invoke. To learn more, see <a
+  /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-develop-integrations-aws-services-reference.html">Integration
+  /// subtype reference</a>.
+  @_s.JsonKey(name: 'integrationSubtype')
+  final String integrationSubtype;
+
   /// The integration type of an integration. One of the following:
   ///
   /// AWS: for integrating the route or method request with an AWS service action,
@@ -5250,9 +5644,9 @@ class GetIntegrationResult {
   /// integration. With any other AWS service action, this is known as AWS
   /// integration. Supported only for WebSocket APIs.
   ///
-  /// AWS_PROXY: for integrating the route or method request with the Lambda
-  /// function-invoking action with the client request passed through as-is. This
-  /// integration is also referred to as Lambda proxy integration.
+  /// AWS_PROXY: for integrating the route or method request with a Lambda
+  /// function or other AWS service action. This integration is also referred to
+  /// as a Lambda proxy integration.
   ///
   /// HTTP: for integrating the route or method request with an HTTP endpoint.
   /// This integration is also referred to as the HTTP custom integration.
@@ -5307,18 +5701,36 @@ class GetIntegrationResult {
   @_s.JsonKey(name: 'payloadFormatVersion')
   final String payloadFormatVersion;
 
-  /// A key-value map specifying request parameters that are passed from the
-  /// method request to the backend. The key is an integration request parameter
-  /// name and the associated value is a method request parameter value or static
-  /// value that must be enclosed within single quotes and pre-encoded as required
-  /// by the backend. The method request parameter value must match the pattern of
+  /// For WebSocket APIs, a key-value map specifying request parameters that are
+  /// passed from the method request to the backend. The key is an integration
+  /// request parameter name and the associated value is a method request
+  /// parameter value or static value that must be enclosed within single quotes
+  /// and pre-encoded as required by the backend. The method request parameter
+  /// value must match the pattern of
   /// method.request.<replaceable>{location}</replaceable>.<replaceable>{name}</replaceable>
   /// , where
   /// <replaceable>{location}</replaceable>
   /// is querystring, path, or header; and
   /// <replaceable>{name}</replaceable>
-  /// must be a valid and unique method request parameter name. Supported only for
-  /// WebSocket APIs.
+  /// must be a valid and unique method request parameter name.
+  ///
+  /// For HTTP API integrations with a specified integrationSubtype, request
+  /// parameters are a key-value map specifying parameters that are passed to
+  /// AWS_PROXY integrations. You can provide static values, or map request data,
+  /// stage variables, or context variables that are evaluated at runtime. To
+  /// learn more, see <a
+  /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-develop-integrations-aws-services.html">Working
+  /// with AWS service integrations for HTTP APIs</a>.
+  ///
+  /// For HTTP API itegrations, without a specified integrationSubtype request
+  /// parameters are a key-value map specifying how to transform HTTP requests
+  /// before sending them to backend integrations. The key should follow the
+  /// pattern &lt;action&gt;:&lt;header|querystring|path&gt;.&lt;location&gt;. The
+  /// action can be append, overwrite or remove. For values, you can provide
+  /// static values, or map request data, stage variables, or context variables
+  /// that are evaluated at runtime. To learn more, see <a
+  /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-parameter-mapping.html">Transforming
+  /// API requests and responses</a>.
   @_s.JsonKey(name: 'requestParameters')
   final Map<String, String> requestParameters;
 
@@ -5328,6 +5740,20 @@ class GetIntegrationResult {
   /// String) is the value. Supported only for WebSocket APIs.
   @_s.JsonKey(name: 'requestTemplates')
   final Map<String, String> requestTemplates;
+
+  /// Supported only for HTTP APIs. You use response parameters to transform the
+  /// HTTP response from a backend integration before returning the response to
+  /// clients. Specify a key-value map from a selection key to response
+  /// parameters. The selection key must be a valid HTTP status code within the
+  /// range of 200-599. Response parameters are a key-value map. The key must
+  /// match pattern &lt;action&gt;:&lt;header&gt;.&lt;location&gt; or
+  /// overwrite.statuscode. The action can be append, overwrite or remove. The
+  /// value can be a static value, or map to response data, stage variables, or
+  /// context variables that are evaluated at runtime. To learn more, see <a
+  /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-parameter-mapping.html">Transforming
+  /// API requests and responses</a>.
+  @_s.JsonKey(name: 'responseParameters')
+  final Map<String, Map<String, String>> responseParameters;
 
   /// The template selection expression for the integration. Supported only for
   /// WebSocket APIs.
@@ -5356,12 +5782,14 @@ class GetIntegrationResult {
     this.integrationId,
     this.integrationMethod,
     this.integrationResponseSelectionExpression,
+    this.integrationSubtype,
     this.integrationType,
     this.integrationUri,
     this.passthroughBehavior,
     this.payloadFormatVersion,
     this.requestParameters,
     this.requestTemplates,
+    this.responseParameters,
     this.templateSelectionExpression,
     this.timeoutInMillis,
     this.tlsConfig,
@@ -5592,7 +6020,8 @@ class GetRouteResult {
   /// The authorization type for the route. For WebSocket APIs, valid values are
   /// NONE for open access, AWS_IAM for using AWS IAM permissions, and CUSTOM for
   /// using a Lambda authorizer For HTTP APIs, valid values are NONE for open
-  /// access, or JWT for using JSON Web Tokens.
+  /// access, JWT for using JSON Web Tokens, AWS_IAM for using AWS IAM
+  /// permissions, and CUSTOM for using a Lambda authorizer.
   @_s.JsonKey(name: 'authorizationType')
   final AuthorizationType authorizationType;
 
@@ -5964,6 +6393,12 @@ class ImportApiResponse {
   @_s.JsonKey(name: 'apiEndpoint')
   final String apiEndpoint;
 
+  /// Specifies whether an API is managed by API Gateway. You can't update or
+  /// delete a managed API by using API Gateway. A managed API can be deleted only
+  /// through the tooling or service that created it.
+  @_s.JsonKey(name: 'apiGatewayManaged')
+  final bool apiGatewayManaged;
+
   /// The API ID.
   @_s.JsonKey(name: 'apiId')
   final String apiId;
@@ -5986,6 +6421,14 @@ class ImportApiResponse {
   /// The description of the API.
   @_s.JsonKey(name: 'description')
   final String description;
+
+  /// Specifies whether clients can invoke your API by using the default
+  /// execute-api endpoint. By default, clients can invoke your API with the
+  /// default https://{api_id}.execute-api.{region}.amazonaws.com endpoint. To
+  /// require that clients use a custom domain name to invoke your API, disable
+  /// the default endpoint.
+  @_s.JsonKey(name: 'disableExecuteApiEndpoint')
+  final bool disableExecuteApiEndpoint;
 
   /// Avoid validating models when creating a deployment. Supported only for
   /// WebSocket APIs.
@@ -6028,11 +6471,13 @@ class ImportApiResponse {
 
   ImportApiResponse({
     this.apiEndpoint,
+    this.apiGatewayManaged,
     this.apiId,
     this.apiKeySelectionExpression,
     this.corsConfiguration,
     this.createdDate,
     this.description,
+    this.disableExecuteApiEndpoint,
     this.disableSchemaValidation,
     this.importInfo,
     this.name,
@@ -6115,6 +6560,13 @@ class Integration {
   @_s.JsonKey(name: 'integrationResponseSelectionExpression')
   final String integrationResponseSelectionExpression;
 
+  /// Supported only for HTTP API AWS_PROXY integrations. Specifies the AWS
+  /// service action to invoke. To learn more, see <a
+  /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-develop-integrations-aws-services-reference.html">Integration
+  /// subtype reference</a>.
+  @_s.JsonKey(name: 'integrationSubtype')
+  final String integrationSubtype;
+
   /// The integration type of an integration. One of the following:
   ///
   /// AWS: for integrating the route or method request with an AWS service action,
@@ -6123,9 +6575,9 @@ class Integration {
   /// integration. With any other AWS service action, this is known as AWS
   /// integration. Supported only for WebSocket APIs.
   ///
-  /// AWS_PROXY: for integrating the route or method request with the Lambda
-  /// function-invoking action with the client request passed through as-is. This
-  /// integration is also referred to as Lambda proxy integration.
+  /// AWS_PROXY: for integrating the route or method request with a Lambda
+  /// function or other AWS service action. This integration is also referred to
+  /// as a Lambda proxy integration.
   ///
   /// HTTP: for integrating the route or method request with an HTTP endpoint.
   /// This integration is also referred to as the HTTP custom integration.
@@ -6180,18 +6632,36 @@ class Integration {
   @_s.JsonKey(name: 'payloadFormatVersion')
   final String payloadFormatVersion;
 
-  /// A key-value map specifying request parameters that are passed from the
-  /// method request to the backend. The key is an integration request parameter
-  /// name and the associated value is a method request parameter value or static
-  /// value that must be enclosed within single quotes and pre-encoded as required
-  /// by the backend. The method request parameter value must match the pattern of
+  /// For WebSocket APIs, a key-value map specifying request parameters that are
+  /// passed from the method request to the backend. The key is an integration
+  /// request parameter name and the associated value is a method request
+  /// parameter value or static value that must be enclosed within single quotes
+  /// and pre-encoded as required by the backend. The method request parameter
+  /// value must match the pattern of
   /// method.request.<replaceable>{location}</replaceable>.<replaceable>{name}</replaceable>
   /// , where
   /// <replaceable>{location}</replaceable>
   /// is querystring, path, or header; and
   /// <replaceable>{name}</replaceable>
-  /// must be a valid and unique method request parameter name. Supported only for
-  /// WebSocket APIs.
+  /// must be a valid and unique method request parameter name.
+  ///
+  /// For HTTP API integrations with a specified integrationSubtype, request
+  /// parameters are a key-value map specifying parameters that are passed to
+  /// AWS_PROXY integrations. You can provide static values, or map request data,
+  /// stage variables, or context variables that are evaluated at runtime. To
+  /// learn more, see <a
+  /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-develop-integrations-aws-services.html">Working
+  /// with AWS service integrations for HTTP APIs</a>.
+  ///
+  /// For HTTP API itegrations, without a specified integrationSubtype request
+  /// parameters are a key-value map specifying how to transform HTTP requests
+  /// before sending them to backend integrations. The key should follow the
+  /// pattern &lt;action&gt;:&lt;header|querystring|path&gt;.&lt;location&gt;. The
+  /// action can be append, overwrite or remove. For values, you can provide
+  /// static values, or map request data, stage variables, or context variables
+  /// that are evaluated at runtime. To learn more, see <a
+  /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-parameter-mapping.html">Transforming
+  /// API requests and responses</a>.
   @_s.JsonKey(name: 'requestParameters')
   final Map<String, String> requestParameters;
 
@@ -6201,6 +6671,20 @@ class Integration {
   /// String) is the value. Supported only for WebSocket APIs.
   @_s.JsonKey(name: 'requestTemplates')
   final Map<String, String> requestTemplates;
+
+  /// Supported only for HTTP APIs. You use response parameters to transform the
+  /// HTTP response from a backend integration before returning the response to
+  /// clients. Specify a key-value map from a selection key to response
+  /// parameters. The selection key must be a valid HTTP status code within the
+  /// range of 200-599. Response parameters are a key-value map. The key must
+  /// match pattern &lt;action&gt;:&lt;header&gt;.&lt;location&gt; or
+  /// overwrite.statuscode. The action can be append, overwrite or remove. The
+  /// value can be a static value, or map to response data, stage variables, or
+  /// context variables that are evaluated at runtime. To learn more, see <a
+  /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-parameter-mapping.html">Transforming
+  /// API requests and responses</a>.
+  @_s.JsonKey(name: 'responseParameters')
+  final Map<String, Map<String, String>> responseParameters;
 
   /// The template selection expression for the integration. Supported only for
   /// WebSocket APIs.
@@ -6229,12 +6713,14 @@ class Integration {
     this.integrationId,
     this.integrationMethod,
     this.integrationResponseSelectionExpression,
+    this.integrationSubtype,
     this.integrationType,
     this.integrationUri,
     this.passthroughBehavior,
     this.payloadFormatVersion,
     this.requestParameters,
     this.requestTemplates,
+    this.responseParameters,
     this.templateSelectionExpression,
     this.timeoutInMillis,
     this.tlsConfig,
@@ -6426,6 +6912,72 @@ class Model {
   factory Model.fromJson(Map<String, dynamic> json) => _$ModelFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class MutualTlsAuthentication {
+  /// An Amazon S3 URL that specifies the truststore for mutual TLS
+  /// authentication, for example,
+  /// s3://<replaceable>bucket-name</replaceable>/<replaceable>key-name</replaceable>.
+  /// The truststore can contain certificates from public or private certificate
+  /// authorities. To update the truststore, upload a new version to S3, and then
+  /// update your custom domain name to use the new version. To update the
+  /// truststore, you must have permissions to access the S3 object.
+  @_s.JsonKey(name: 'truststoreUri')
+  final String truststoreUri;
+
+  /// The version of the S3 object that contains your truststore. To specify a
+  /// version, you must have versioning enabled for the S3 bucket.
+  @_s.JsonKey(name: 'truststoreVersion')
+  final String truststoreVersion;
+
+  /// A list of warnings that API Gateway returns while processing your
+  /// truststore. Invalid certificates produce warnings. Mutual TLS is still
+  /// enabled, but some clients might not be able to access your API. To resolve
+  /// warnings, upload a new truststore to S3, and then update you domain name to
+  /// use the new version.
+  @_s.JsonKey(name: 'truststoreWarnings')
+  final List<String> truststoreWarnings;
+
+  MutualTlsAuthentication({
+    this.truststoreUri,
+    this.truststoreVersion,
+    this.truststoreWarnings,
+  });
+  factory MutualTlsAuthentication.fromJson(Map<String, dynamic> json) =>
+      _$MutualTlsAuthenticationFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class MutualTlsAuthenticationInput {
+  /// An Amazon S3 URL that specifies the truststore for mutual TLS
+  /// authentication, for example,
+  /// s3://<replaceable>bucket-name</replaceable>/<replaceable>key-name</replaceable>.
+  /// The truststore can contain certificates from public or private certificate
+  /// authorities. To update the truststore, upload a new version to S3, and then
+  /// update your custom domain name to use the new version. To update the
+  /// truststore, you must have permissions to access the S3 object.
+  @_s.JsonKey(name: 'truststoreUri')
+  final String truststoreUri;
+
+  /// The version of the S3 object that contains your truststore. To specify a
+  /// version, you must have versioning enabled for the S3 bucket.
+  @_s.JsonKey(name: 'truststoreVersion')
+  final String truststoreVersion;
+
+  MutualTlsAuthenticationInput({
+    this.truststoreUri,
+    this.truststoreVersion,
+  });
+  Map<String, dynamic> toJson() => _$MutualTlsAuthenticationInputToJson(this);
+}
+
 /// Validation constraints imposed on parameters of a request (path, query
 /// string, headers).
 @_s.JsonSerializable(
@@ -6504,6 +7056,12 @@ class ReimportApiResponse {
   @_s.JsonKey(name: 'apiEndpoint')
   final String apiEndpoint;
 
+  /// Specifies whether an API is managed by API Gateway. You can't update or
+  /// delete a managed API by using API Gateway. A managed API can be deleted only
+  /// through the tooling or service that created it.
+  @_s.JsonKey(name: 'apiGatewayManaged')
+  final bool apiGatewayManaged;
+
   /// The API ID.
   @_s.JsonKey(name: 'apiId')
   final String apiId;
@@ -6526,6 +7084,14 @@ class ReimportApiResponse {
   /// The description of the API.
   @_s.JsonKey(name: 'description')
   final String description;
+
+  /// Specifies whether clients can invoke your API by using the default
+  /// execute-api endpoint. By default, clients can invoke your API with the
+  /// default https://{api_id}.execute-api.{region}.amazonaws.com endpoint. To
+  /// require that clients use a custom domain name to invoke your API, disable
+  /// the default endpoint.
+  @_s.JsonKey(name: 'disableExecuteApiEndpoint')
+  final bool disableExecuteApiEndpoint;
 
   /// Avoid validating models when creating a deployment. Supported only for
   /// WebSocket APIs.
@@ -6568,11 +7134,13 @@ class ReimportApiResponse {
 
   ReimportApiResponse({
     this.apiEndpoint,
+    this.apiGatewayManaged,
     this.apiId,
     this.apiKeySelectionExpression,
     this.corsConfiguration,
     this.createdDate,
     this.description,
+    this.disableExecuteApiEndpoint,
     this.disableSchemaValidation,
     this.importInfo,
     this.name,
@@ -6622,7 +7190,8 @@ class Route {
   /// The authorization type for the route. For WebSocket APIs, valid values are
   /// NONE for open access, AWS_IAM for using AWS IAM permissions, and CUSTOM for
   /// using a Lambda authorizer For HTTP APIs, valid values are NONE for open
-  /// access, or JWT for using JSON Web Tokens.
+  /// access, JWT for using JSON Web Tokens, AWS_IAM for using AWS IAM
+  /// permissions, and CUSTOM for using a Lambda authorizer.
   @_s.JsonKey(name: 'authorizationType')
   final AuthorizationType authorizationType;
 
@@ -6963,6 +7532,12 @@ class UpdateApiResponse {
   @_s.JsonKey(name: 'apiEndpoint')
   final String apiEndpoint;
 
+  /// Specifies whether an API is managed by API Gateway. You can't update or
+  /// delete a managed API by using API Gateway. A managed API can be deleted only
+  /// through the tooling or service that created it.
+  @_s.JsonKey(name: 'apiGatewayManaged')
+  final bool apiGatewayManaged;
+
   /// The API ID.
   @_s.JsonKey(name: 'apiId')
   final String apiId;
@@ -6985,6 +7560,14 @@ class UpdateApiResponse {
   /// The description of the API.
   @_s.JsonKey(name: 'description')
   final String description;
+
+  /// Specifies whether clients can invoke your API by using the default
+  /// execute-api endpoint. By default, clients can invoke your API with the
+  /// default https://{api_id}.execute-api.{region}.amazonaws.com endpoint. To
+  /// require that clients use a custom domain name to invoke your API, disable
+  /// the default endpoint.
+  @_s.JsonKey(name: 'disableExecuteApiEndpoint')
+  final bool disableExecuteApiEndpoint;
 
   /// Avoid validating models when creating a deployment. Supported only for
   /// WebSocket APIs.
@@ -7027,11 +7610,13 @@ class UpdateApiResponse {
 
   UpdateApiResponse({
     this.apiEndpoint,
+    this.apiGatewayManaged,
     this.apiId,
     this.apiKeySelectionExpression,
     this.corsConfiguration,
     this.createdDate,
     this.description,
+    this.disableExecuteApiEndpoint,
     this.disableSchemaValidation,
     this.importInfo,
     this.name,
@@ -7054,7 +7639,8 @@ class UpdateAuthorizerResponse {
   /// Specifies the required credentials as an IAM role for API Gateway to invoke
   /// the authorizer. To specify an IAM role for API Gateway to assume, use the
   /// role's Amazon Resource Name (ARN). To use resource-based permissions on the
-  /// Lambda function, specify null. Supported only for REQUEST authorizers.
+  /// Lambda function, don't specify this parameter. Supported only for REQUEST
+  /// authorizers.
   @_s.JsonKey(name: 'authorizerCredentialsArn')
   final String authorizerCredentialsArn;
 
@@ -7062,18 +7648,28 @@ class UpdateAuthorizerResponse {
   @_s.JsonKey(name: 'authorizerId')
   final String authorizerId;
 
-  /// Authorizer caching is not currently supported. Don't specify this value for
-  /// authorizers.
+  /// Specifies the format of the payload sent to an HTTP API Lambda authorizer.
+  /// Required for HTTP API Lambda authorizers. Supported values are 1.0 and 2.0.
+  /// To learn more, see <a
+  /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-lambda-authorizer.html">Working
+  /// with AWS Lambda authorizers for HTTP APIs</a>.
+  @_s.JsonKey(name: 'authorizerPayloadFormatVersion')
+  final String authorizerPayloadFormatVersion;
+
+  /// The time to live (TTL) for cached authorizer results, in seconds. If it
+  /// equals 0, authorization caching is disabled. If it is greater than 0, API
+  /// Gateway caches authorizer responses. The maximum value is 3600, or 1 hour.
+  /// Supported only for HTTP API Lambda authorizers.
   @_s.JsonKey(name: 'authorizerResultTtlInSeconds')
   final int authorizerResultTtlInSeconds;
 
-  /// The authorizer type. For WebSocket APIs, specify REQUEST for a Lambda
-  /// function using incoming request parameters. For HTTP APIs, specify JWT to
-  /// use JSON Web Tokens.
+  /// The authorizer type. Specify REQUEST for a Lambda function using incoming
+  /// request parameters. Specify JWT to use JSON Web Tokens (supported only for
+  /// HTTP APIs).
   @_s.JsonKey(name: 'authorizerType')
   final AuthorizerType authorizerType;
 
-  /// The authorizer's Uniform Resource Identifier (URI). ForREQUEST authorizers,
+  /// The authorizer's Uniform Resource Identifier (URI). For REQUEST authorizers,
   /// this must be a well-formed Lambda function URI, for example,
   /// arn:aws:apigateway:us-west-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-west-2:<replaceable>{account_id}</replaceable>:function:<replaceable>{lambda_function_name}</replaceable>/invocations.
   /// In general, the URI has this form:
@@ -7087,24 +7683,38 @@ class UpdateAuthorizerResponse {
   @_s.JsonKey(name: 'authorizerUri')
   final String authorizerUri;
 
+  /// Specifies whether a Lambda authorizer returns a response in a simple format.
+  /// If enabled, the Lambda authorizer can return a boolean value instead of an
+  /// IAM policy. Supported only for HTTP APIs. To learn more, see <a
+  /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-lambda-authorizer.html">Working
+  /// with AWS Lambda authorizers for HTTP APIs</a>
+  @_s.JsonKey(name: 'enableSimpleResponses')
+  final bool enableSimpleResponses;
+
   /// The identity source for which authorization is requested.
   ///
   /// For a REQUEST authorizer, this is optional. The value is a set of one or
-  /// more mapping expressions of the specified request parameters. Currently, the
-  /// identity source can be headers, query string parameters, stage variables,
-  /// and context parameters. For example, if an Auth header and a Name query
-  /// string parameter are defined as identity sources, this value is
-  /// route.request.header.Auth, route.request.querystring.Name. These parameters
-  /// will be used to perform runtime validation for Lambda-based authorizers by
-  /// verifying all of the identity-related request parameters are present in the
-  /// request, not null, and non-empty. Only when this is true does the authorizer
-  /// invoke the authorizer Lambda function. Otherwise, it returns a 401
-  /// Unauthorized response without calling the Lambda function.
+  /// more mapping expressions of the specified request parameters. The identity
+  /// source can be headers, query string parameters, stage variables, and context
+  /// parameters. For example, if an Auth header and a Name query string parameter
+  /// are defined as identity sources, this value is route.request.header.Auth,
+  /// route.request.querystring.Name for WebSocket APIs. For HTTP APIs, use
+  /// selection expressions prefixed with $, for example, $request.header.Auth,
+  /// $request.querystring.Name. These parameters are used to perform runtime
+  /// validation for Lambda-based authorizers by verifying all of the
+  /// identity-related request parameters are present in the request, not null,
+  /// and non-empty. Only when this is true does the authorizer invoke the
+  /// authorizer Lambda function. Otherwise, it returns a 401 Unauthorized
+  /// response without calling the Lambda function. For HTTP APIs, identity
+  /// sources are also used as the cache key when caching is enabled. To learn
+  /// more, see <a
+  /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-lambda-authorizer.html">Working
+  /// with AWS Lambda authorizers for HTTP APIs</a>.
   ///
   /// For JWT, a single entry that specifies where to extract the JSON Web Token
   /// (JWT) from inbound requests. Currently only header-based and query
   /// parameter-based selections are supported, for example
-  /// "$request.header.Authorization".
+  /// $request.header.Authorization.
   @_s.JsonKey(name: 'identitySource')
   final List<String> identitySource;
 
@@ -7124,9 +7734,11 @@ class UpdateAuthorizerResponse {
   UpdateAuthorizerResponse({
     this.authorizerCredentialsArn,
     this.authorizerId,
+    this.authorizerPayloadFormatVersion,
     this.authorizerResultTtlInSeconds,
     this.authorizerType,
     this.authorizerUri,
+    this.enableSimpleResponses,
     this.identitySource,
     this.identityValidationExpression,
     this.jwtConfiguration,
@@ -7197,6 +7809,10 @@ class UpdateDomainNameResponse {
   @_s.JsonKey(name: 'domainNameConfigurations')
   final List<DomainNameConfiguration> domainNameConfigurations;
 
+  /// The mutual TLS authentication configuration for a custom domain name.
+  @_s.JsonKey(name: 'mutualTlsAuthentication')
+  final MutualTlsAuthentication mutualTlsAuthentication;
+
   /// The collection of tags associated with a domain name.
   @_s.JsonKey(name: 'tags')
   final Map<String, String> tags;
@@ -7205,6 +7821,7 @@ class UpdateDomainNameResponse {
     this.apiMappingSelectionExpression,
     this.domainName,
     this.domainNameConfigurations,
+    this.mutualTlsAuthentication,
     this.tags,
   });
   factory UpdateDomainNameResponse.fromJson(Map<String, dynamic> json) =>
@@ -7279,6 +7896,13 @@ class UpdateIntegrationResult {
   @_s.JsonKey(name: 'integrationResponseSelectionExpression')
   final String integrationResponseSelectionExpression;
 
+  /// Supported only for HTTP API AWS_PROXY integrations. Specifies the AWS
+  /// service action to invoke. To learn more, see <a
+  /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-develop-integrations-aws-services-reference.html">Integration
+  /// subtype reference</a>.
+  @_s.JsonKey(name: 'integrationSubtype')
+  final String integrationSubtype;
+
   /// The integration type of an integration. One of the following:
   ///
   /// AWS: for integrating the route or method request with an AWS service action,
@@ -7287,9 +7911,9 @@ class UpdateIntegrationResult {
   /// integration. With any other AWS service action, this is known as AWS
   /// integration. Supported only for WebSocket APIs.
   ///
-  /// AWS_PROXY: for integrating the route or method request with the Lambda
-  /// function-invoking action with the client request passed through as-is. This
-  /// integration is also referred to as Lambda proxy integration.
+  /// AWS_PROXY: for integrating the route or method request with a Lambda
+  /// function or other AWS service action. This integration is also referred to
+  /// as a Lambda proxy integration.
   ///
   /// HTTP: for integrating the route or method request with an HTTP endpoint.
   /// This integration is also referred to as the HTTP custom integration.
@@ -7344,18 +7968,36 @@ class UpdateIntegrationResult {
   @_s.JsonKey(name: 'payloadFormatVersion')
   final String payloadFormatVersion;
 
-  /// A key-value map specifying request parameters that are passed from the
-  /// method request to the backend. The key is an integration request parameter
-  /// name and the associated value is a method request parameter value or static
-  /// value that must be enclosed within single quotes and pre-encoded as required
-  /// by the backend. The method request parameter value must match the pattern of
+  /// For WebSocket APIs, a key-value map specifying request parameters that are
+  /// passed from the method request to the backend. The key is an integration
+  /// request parameter name and the associated value is a method request
+  /// parameter value or static value that must be enclosed within single quotes
+  /// and pre-encoded as required by the backend. The method request parameter
+  /// value must match the pattern of
   /// method.request.<replaceable>{location}</replaceable>.<replaceable>{name}</replaceable>
   /// , where
   /// <replaceable>{location}</replaceable>
   /// is querystring, path, or header; and
   /// <replaceable>{name}</replaceable>
-  /// must be a valid and unique method request parameter name. Supported only for
-  /// WebSocket APIs.
+  /// must be a valid and unique method request parameter name.
+  ///
+  /// For HTTP API integrations with a specified integrationSubtype, request
+  /// parameters are a key-value map specifying parameters that are passed to
+  /// AWS_PROXY integrations. You can provide static values, or map request data,
+  /// stage variables, or context variables that are evaluated at runtime. To
+  /// learn more, see <a
+  /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-develop-integrations-aws-services.html">Working
+  /// with AWS service integrations for HTTP APIs</a>.
+  ///
+  /// For HTTP API itegrations, without a specified integrationSubtype request
+  /// parameters are a key-value map specifying how to transform HTTP requests
+  /// before sending them to backend integrations. The key should follow the
+  /// pattern &lt;action&gt;:&lt;header|querystring|path&gt;.&lt;location&gt;. The
+  /// action can be append, overwrite or remove. For values, you can provide
+  /// static values, or map request data, stage variables, or context variables
+  /// that are evaluated at runtime. To learn more, see <a
+  /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-parameter-mapping.html">Transforming
+  /// API requests and responses</a>.
   @_s.JsonKey(name: 'requestParameters')
   final Map<String, String> requestParameters;
 
@@ -7365,6 +8007,20 @@ class UpdateIntegrationResult {
   /// String) is the value. Supported only for WebSocket APIs.
   @_s.JsonKey(name: 'requestTemplates')
   final Map<String, String> requestTemplates;
+
+  /// Supported only for HTTP APIs. You use response parameters to transform the
+  /// HTTP response from a backend integration before returning the response to
+  /// clients. Specify a key-value map from a selection key to response
+  /// parameters. The selection key must be a valid HTTP status code within the
+  /// range of 200-599. Response parameters are a key-value map. The key must
+  /// match pattern &lt;action&gt;:&lt;header&gt;.&lt;location&gt; or
+  /// overwrite.statuscode. The action can be append, overwrite or remove. The
+  /// value can be a static value, or map to response data, stage variables, or
+  /// context variables that are evaluated at runtime. To learn more, see <a
+  /// href="https://docs.aws.amazon.com/apigateway/latest/developerguide/http-api-parameter-mapping.html">Transforming
+  /// API requests and responses</a>.
+  @_s.JsonKey(name: 'responseParameters')
+  final Map<String, Map<String, String>> responseParameters;
 
   /// The template selection expression for the integration. Supported only for
   /// WebSocket APIs.
@@ -7393,12 +8049,14 @@ class UpdateIntegrationResult {
     this.integrationId,
     this.integrationMethod,
     this.integrationResponseSelectionExpression,
+    this.integrationSubtype,
     this.integrationType,
     this.integrationUri,
     this.passthroughBehavior,
     this.payloadFormatVersion,
     this.requestParameters,
     this.requestTemplates,
+    this.responseParameters,
     this.templateSelectionExpression,
     this.timeoutInMillis,
     this.tlsConfig,
@@ -7544,7 +8202,8 @@ class UpdateRouteResult {
   /// The authorization type for the route. For WebSocket APIs, valid values are
   /// NONE for open access, AWS_IAM for using AWS IAM permissions, and CUSTOM for
   /// using a Lambda authorizer For HTTP APIs, valid values are NONE for open
-  /// access, or JWT for using JSON Web Tokens.
+  /// access, JWT for using JSON Web Tokens, AWS_IAM for using AWS IAM
+  /// permissions, and CUSTOM for using a Lambda authorizer.
   @_s.JsonKey(name: 'authorizationType')
   final AuthorizationType authorizationType;
 

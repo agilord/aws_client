@@ -161,6 +161,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "Tags": {"shape": "TagList", "flattened": false},
       "StorageEncrypted": {"shape": "BooleanOptional", "flattened": false},
       "KmsKeyId": {"shape": "String", "flattened": false},
+      "PreSignedUrl": {"shape": "String", "flattened": false},
       "EnableCloudwatchLogsExports": {
         "shape": "LogTypeList",
         "flattened": false

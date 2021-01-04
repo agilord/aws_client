@@ -9,7 +9,16 @@ part of 'application-insights-2018-11-25.dart';
 ApplicationComponent _$ApplicationComponentFromJson(Map<String, dynamic> json) {
   return ApplicationComponent(
     componentName: json['ComponentName'] as String,
+    componentRemarks: json['ComponentRemarks'] as String,
+    detectedWorkload: (json['DetectedWorkload'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(
+          _$enumDecodeNullable(_$TierEnumMap, k),
+          (e as Map<String, dynamic>)?.map(
+            (k, e) => MapEntry(k, e as String),
+          )),
+    ),
     monitor: json['Monitor'] as bool,
+    osType: _$enumDecodeNullable(_$OsTypeEnumMap, json['OsType']),
     resourceType: json['ResourceType'] as String,
     tier: _$enumDecodeNullable(_$TierEnumMap, json['Tier']),
   );
@@ -48,11 +57,24 @@ T _$enumDecodeNullable<T>(
 }
 
 const _$TierEnumMap = {
+  Tier.custom: 'CUSTOM',
   Tier.$default: 'DEFAULT',
   Tier.dotNetCore: 'DOT_NET_CORE',
   Tier.dotNetWorker: 'DOT_NET_WORKER',
+  Tier.dotNetWebTier: 'DOT_NET_WEB_TIER',
   Tier.dotNetWeb: 'DOT_NET_WEB',
   Tier.sqlServer: 'SQL_SERVER',
+  Tier.sqlServerAlwaysonAvailabilityGroup:
+      'SQL_SERVER_ALWAYSON_AVAILABILITY_GROUP',
+  Tier.mysql: 'MYSQL',
+  Tier.postgresql: 'POSTGRESQL',
+  Tier.javaJmx: 'JAVA_JMX',
+  Tier.oracle: 'ORACLE',
+};
+
+const _$OsTypeEnumMap = {
+  OsType.windows: 'WINDOWS',
+  OsType.linux: 'LINUX',
 };
 
 ApplicationInfo _$ApplicationInfoFromJson(Map<String, dynamic> json) {
@@ -81,6 +103,7 @@ ConfigurationEvent _$ConfigurationEventFromJson(Map<String, dynamic> json) {
 
 const _$ConfigurationEventResourceTypeEnumMap = {
   ConfigurationEventResourceType.cloudwatchAlarm: 'CLOUDWATCH_ALARM',
+  ConfigurationEventResourceType.cloudwatchLog: 'CLOUDWATCH_LOG',
   ConfigurationEventResourceType.cloudformation: 'CLOUDFORMATION',
   ConfigurationEventResourceType.ssmAssociation: 'SSM_ASSOCIATION',
 };
@@ -306,6 +329,10 @@ Observation _$ObservationFromJson(Map<String, dynamic> json) {
     codeDeployDeploymentId: json['CodeDeployDeploymentId'] as String,
     codeDeployInstanceGroupId: json['CodeDeployInstanceGroupId'] as String,
     codeDeployState: json['CodeDeployState'] as String,
+    ebsCause: json['EbsCause'] as String,
+    ebsEvent: json['EbsEvent'] as String,
+    ebsRequestId: json['EbsRequestId'] as String,
+    ebsResult: json['EbsResult'] as String,
     ec2State: json['Ec2State'] as String,
     endTime: const UnixDateTimeConverter().fromJson(json['EndTime']),
     healthEventArn: json['HealthEventArn'] as String,
@@ -320,9 +347,16 @@ Observation _$ObservationFromJson(Map<String, dynamic> json) {
     logText: json['LogText'] as String,
     metricName: json['MetricName'] as String,
     metricNamespace: json['MetricNamespace'] as String,
+    rdsEventCategories: json['RdsEventCategories'] as String,
+    rdsEventMessage: json['RdsEventMessage'] as String,
+    s3EventName: json['S3EventName'] as String,
     sourceARN: json['SourceARN'] as String,
     sourceType: json['SourceType'] as String,
     startTime: const UnixDateTimeConverter().fromJson(json['StartTime']),
+    statesArn: json['StatesArn'] as String,
+    statesExecutionArn: json['StatesExecutionArn'] as String,
+    statesInput: json['StatesInput'] as String,
+    statesStatus: json['StatesStatus'] as String,
     unit: json['Unit'] as String,
     value: (json['Value'] as num)?.toDouble(),
     xRayErrorPercent: json['XRayErrorPercent'] as int,
@@ -339,6 +373,7 @@ const _$CloudWatchEventSourceEnumMap = {
   CloudWatchEventSource.ec2: 'EC2',
   CloudWatchEventSource.codeDeploy: 'CODE_DEPLOY',
   CloudWatchEventSource.health: 'HEALTH',
+  CloudWatchEventSource.rds: 'RDS',
 };
 
 const _$LogFilterEnumMap = {

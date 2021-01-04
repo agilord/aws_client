@@ -825,7 +825,7 @@ class CognitoIdentity {
       'nextToken',
       nextToken,
       1,
-      1152921504606846976,
+      65535,
     );
     _s.validateStringPattern(
       'nextToken',
@@ -884,7 +884,7 @@ class CognitoIdentity {
       'nextToken',
       nextToken,
       1,
-      1152921504606846976,
+      65535,
     );
     _s.validateStringPattern(
       'nextToken',
@@ -1054,7 +1054,7 @@ class CognitoIdentity {
       'nextToken',
       nextToken,
       1,
-      1152921504606846976,
+      65535,
     );
     _s.validateStringPattern(
       'nextToken',

@@ -10,6 +10,9 @@ AliasListEntry _$AliasListEntryFromJson(Map<String, dynamic> json) {
   return AliasListEntry(
     aliasArn: json['AliasArn'] as String,
     aliasName: json['AliasName'] as String,
+    creationDate: const UnixDateTimeConverter().fromJson(json['CreationDate']),
+    lastUpdatedDate:
+        const UnixDateTimeConverter().fromJson(json['LastUpdatedDate']),
     targetKeyId: json['TargetKeyId'] as String,
   );
 }

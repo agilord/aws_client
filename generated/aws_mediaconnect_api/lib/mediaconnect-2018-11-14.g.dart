@@ -140,6 +140,24 @@ DescribeFlowResponse _$DescribeFlowResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+DescribeOfferingResponse _$DescribeOfferingResponseFromJson(
+    Map<String, dynamic> json) {
+  return DescribeOfferingResponse(
+    offering: json['offering'] == null
+        ? null
+        : Offering.fromJson(json['offering'] as Map<String, dynamic>),
+  );
+}
+
+DescribeReservationResponse _$DescribeReservationResponseFromJson(
+    Map<String, dynamic> json) {
+  return DescribeReservationResponse(
+    reservation: json['reservation'] == null
+        ? null
+        : Reservation.fromJson(json['reservation'] as Map<String, dynamic>),
+  );
+}
+
 Encryption _$EncryptionFromJson(Map<String, dynamic> json) {
   return Encryption(
     algorithm: _$enumDecodeNullable(_$AlgorithmEnumMap, json['algorithm']),
@@ -200,8 +218,15 @@ Entitlement _$EntitlementFromJson(Map<String, dynamic> json) {
     encryption: json['encryption'] == null
         ? null
         : Encryption.fromJson(json['encryption'] as Map<String, dynamic>),
+    entitlementStatus: _$enumDecodeNullable(
+        _$EntitlementStatusEnumMap, json['entitlementStatus']),
   );
 }
+
+const _$EntitlementStatusEnumMap = {
+  EntitlementStatus.enabled: 'ENABLED',
+  EntitlementStatus.disabled: 'DISABLED',
+};
 
 FailoverConfig _$FailoverConfigFromJson(Map<String, dynamic> json) {
   return FailoverConfig(
@@ -278,6 +303,8 @@ Map<String, dynamic> _$GrantEntitlementRequestToJson(
       instance.dataTransferSubscriberFeePercent);
   writeNotNull('description', instance.description);
   writeNotNull('encryption', instance.encryption?.toJson());
+  writeNotNull('entitlementStatus',
+      _$EntitlementStatusEnumMap[instance.entitlementStatus]);
   writeNotNull('name', instance.name);
   return val;
 }
@@ -312,6 +339,28 @@ ListFlowsResponse _$ListFlowsResponseFromJson(Map<String, dynamic> json) {
             e == null ? null : ListedFlow.fromJson(e as Map<String, dynamic>))
         ?.toList(),
     nextToken: json['nextToken'] as String,
+  );
+}
+
+ListOfferingsResponse _$ListOfferingsResponseFromJson(
+    Map<String, dynamic> json) {
+  return ListOfferingsResponse(
+    nextToken: json['nextToken'] as String,
+    offerings: (json['offerings'] as List)
+        ?.map((e) =>
+            e == null ? null : Offering.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+ListReservationsResponse _$ListReservationsResponseFromJson(
+    Map<String, dynamic> json) {
+  return ListReservationsResponse(
+    nextToken: json['nextToken'] as String,
+    reservations: (json['reservations'] as List)
+        ?.map((e) =>
+            e == null ? null : Reservation.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
   );
 }
 
@@ -355,6 +404,31 @@ Messages _$MessagesFromJson(Map<String, dynamic> json) {
   );
 }
 
+Offering _$OfferingFromJson(Map<String, dynamic> json) {
+  return Offering(
+    currencyCode: json['currencyCode'] as String,
+    duration: json['duration'] as int,
+    durationUnits:
+        _$enumDecodeNullable(_$DurationUnitsEnumMap, json['durationUnits']),
+    offeringArn: json['offeringArn'] as String,
+    offeringDescription: json['offeringDescription'] as String,
+    pricePerUnit: json['pricePerUnit'] as String,
+    priceUnits: _$enumDecodeNullable(_$PriceUnitsEnumMap, json['priceUnits']),
+    resourceSpecification: json['resourceSpecification'] == null
+        ? null
+        : ResourceSpecification.fromJson(
+            json['resourceSpecification'] as Map<String, dynamic>),
+  );
+}
+
+const _$DurationUnitsEnumMap = {
+  DurationUnits.months: 'MONTHS',
+};
+
+const _$PriceUnitsEnumMap = {
+  PriceUnits.hourly: 'HOURLY',
+};
+
 Output _$OutputFromJson(Map<String, dynamic> json) {
   return Output(
     name: json['name'] as String,
@@ -376,6 +450,15 @@ Output _$OutputFromJson(Map<String, dynamic> json) {
         ? null
         : VpcInterfaceAttachment.fromJson(
             json['vpcInterfaceAttachment'] as Map<String, dynamic>),
+  );
+}
+
+PurchaseOfferingResponse _$PurchaseOfferingResponseFromJson(
+    Map<String, dynamic> json) {
+  return PurchaseOfferingResponse(
+    reservation: json['reservation'] == null
+        ? null
+        : Reservation.fromJson(json['reservation'] as Map<String, dynamic>),
   );
 }
 
@@ -406,6 +489,49 @@ RemoveFlowVpcInterfaceResponse _$RemoveFlowVpcInterfaceResponseFromJson(
     vpcInterfaceName: json['vpcInterfaceName'] as String,
   );
 }
+
+Reservation _$ReservationFromJson(Map<String, dynamic> json) {
+  return Reservation(
+    currencyCode: json['currencyCode'] as String,
+    duration: json['duration'] as int,
+    durationUnits:
+        _$enumDecodeNullable(_$DurationUnitsEnumMap, json['durationUnits']),
+    end: json['end'] as String,
+    offeringArn: json['offeringArn'] as String,
+    offeringDescription: json['offeringDescription'] as String,
+    pricePerUnit: json['pricePerUnit'] as String,
+    priceUnits: _$enumDecodeNullable(_$PriceUnitsEnumMap, json['priceUnits']),
+    reservationArn: json['reservationArn'] as String,
+    reservationName: json['reservationName'] as String,
+    reservationState: _$enumDecodeNullable(
+        _$ReservationStateEnumMap, json['reservationState']),
+    resourceSpecification: json['resourceSpecification'] == null
+        ? null
+        : ResourceSpecification.fromJson(
+            json['resourceSpecification'] as Map<String, dynamic>),
+    start: json['start'] as String,
+  );
+}
+
+const _$ReservationStateEnumMap = {
+  ReservationState.active: 'ACTIVE',
+  ReservationState.expired: 'EXPIRED',
+  ReservationState.processing: 'PROCESSING',
+  ReservationState.canceled: 'CANCELED',
+};
+
+ResourceSpecification _$ResourceSpecificationFromJson(
+    Map<String, dynamic> json) {
+  return ResourceSpecification(
+    resourceType:
+        _$enumDecodeNullable(_$ResourceTypeEnumMap, json['resourceType']),
+    reservedBitrate: json['reservedBitrate'] as int,
+  );
+}
+
+const _$ResourceTypeEnumMap = {
+  ResourceType.mbpsOutboundBandwidth: 'Mbps_Outbound_Bandwidth',
+};
 
 RevokeFlowEntitlementResponse _$RevokeFlowEntitlementResponseFromJson(
     Map<String, dynamic> json) {

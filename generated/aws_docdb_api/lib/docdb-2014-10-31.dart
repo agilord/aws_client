@@ -60,7 +60,7 @@ class DocDB {
   ///
   /// Parameter [resourceName] :
   /// The Amazon DocumentDB resource that the tags are added to. This value is
-  /// an Amazon Resource Name (ARN).
+  /// an Amazon Resource Name .
   ///
   /// Parameter [tags] :
   /// The tags to be assigned to the Amazon DocumentDB resource.
@@ -85,8 +85,8 @@ class DocDB {
     );
   }
 
-  /// Applies a pending maintenance action to a resource (for example, to a DB
-  /// instance).
+  /// Applies a pending maintenance action to a resource (for example, to an
+  /// Amazon DocumentDB instance).
   ///
   /// May throw [ResourceNotFoundFault].
   /// May throw [InvalidDBClusterStateFault].
@@ -170,7 +170,7 @@ class DocDB {
   /// <li>
   /// If the source parameter group is in a different AWS Region than the copy,
   /// specify a valid cluster parameter group ARN; for example,
-  /// <code>arn:aws:rds:us-east-1:123456789012:cluster-pg:custom-cluster-group1</code>.
+  /// <code>arn:aws:rds:us-east-1:123456789012:sample-cluster:sample-parameter-group</code>.
   /// </li>
   /// </ul>
   ///
@@ -238,12 +238,13 @@ class DocDB {
   ///
   /// To copy a cluster snapshot from a shared manual cluster snapshot,
   /// <code>SourceDBClusterSnapshotIdentifier</code> must be the Amazon Resource
-  /// Name (ARN) of the shared cluster snapshot.
+  /// Name (ARN) of the shared cluster snapshot. You can only copy a shared DB
+  /// cluster snapshot, whether encrypted or not, in the same AWS Region.
   ///
   /// To cancel the copy operation after it is in progress, delete the target
   /// cluster snapshot identified by
-  /// <code>TargetDBClusterSnapshotIdentifier</code> while that DB cluster
-  /// snapshot is in the <i>copying</i> status.
+  /// <code>TargetDBClusterSnapshotIdentifier</code> while that cluster snapshot
+  /// is in the <i>copying</i> status.
   ///
   /// May throw [DBClusterSnapshotAlreadyExistsFault].
   /// May throw [DBClusterSnapshotNotFoundFault].
@@ -256,14 +257,11 @@ class DocDB {
   /// The identifier of the cluster snapshot to copy. This parameter is not case
   /// sensitive.
   ///
-  /// You can't copy an encrypted, shared cluster snapshot from one AWS Region
-  /// to another.
-  ///
   /// Constraints:
   ///
   /// <ul>
   /// <li>
-  /// Must specify a valid system snapshot in the "available" state.
+  /// Must specify a valid system snapshot in the <i>available</i> state.
   /// </li>
   /// <li>
   /// If the source snapshot is in the same AWS Region as the copy, specify a
@@ -318,7 +316,8 @@ class DocDB {
   /// <code>KmsKeyId</code> to the AWS KMS key ID that you want to use to
   /// encrypt the copy of the cluster snapshot in the destination Region. AWS
   /// KMS encryption keys are specific to the AWS Region that they are created
-  /// in, and you can't use encryption keys from one Region in another Region.
+  /// in, and you can't use encryption keys from one AWS Region in another AWS
+  /// Region.
   ///
   /// If you copy an unencrypted cluster snapshot and specify a value for the
   /// <code>KmsKeyId</code> parameter, an error is returned.
@@ -327,36 +326,38 @@ class DocDB {
   /// The URL that contains a Signature Version 4 signed request for the
   /// <code>CopyDBClusterSnapshot</code> API action in the AWS Region that
   /// contains the source cluster snapshot to copy. You must use the
-  /// <code>PreSignedUrl</code> parameter when copying an encrypted cluster
-  /// snapshot from another AWS Region.
+  /// <code>PreSignedUrl</code> parameter when copying a cluster snapshot from
+  /// another AWS Region.
+  ///
+  /// If you are using an AWS SDK tool or the AWS CLI, you can specify
+  /// <code>SourceRegion</code> (or <code>--source-region</code> for the AWS
+  /// CLI) instead of specifying <code>PreSignedUrl</code> manually. Specifying
+  /// <code>SourceRegion</code> autogenerates a pre-signed URL that is a valid
+  /// request for the operation that can be executed in the source AWS Region.
   ///
   /// The presigned URL must be a valid request for the
-  /// <code>CopyDBSClusterSnapshot</code> API action that can be executed in the
-  /// source AWS Region that contains the encrypted DB cluster snapshot to be
-  /// copied. The presigned URL request must contain the following parameter
-  /// values:
+  /// <code>CopyDBClusterSnapshot</code> API action that can be executed in the
+  /// source AWS Region that contains the cluster snapshot to be copied. The
+  /// presigned URL request must contain the following parameter values:
   ///
   /// <ul>
   /// <li>
-  /// <code>KmsKeyId</code> - The AWS KMS key identifier for the key to use to
-  /// encrypt the copy of the cluster snapshot in the destination AWS Region.
-  /// This is the same identifier for both the
-  /// <code>CopyDBClusterSnapshot</code> action that is called in the
-  /// destination AWS Region, and the action contained in the presigned URL.
+  /// <code>SourceRegion</code> - The ID of the region that contains the
+  /// snapshot to be copied.
   /// </li>
   /// <li>
-  /// <code>DestinationRegion</code> - The name of the AWS Region that the DB
-  /// cluster snapshot will be created in.
+  /// <code>SourceDBClusterSnapshotIdentifier</code> - The identifier for the
+  /// the encrypted cluster snapshot to be copied. This identifier must be in
+  /// the Amazon Resource Name (ARN) format for the source AWS Region. For
+  /// example, if you are copying an encrypted cluster snapshot from the
+  /// us-east-1 AWS Region, then your
+  /// <code>SourceDBClusterSnapshotIdentifier</code> looks something like the
+  /// following:
+  /// <code>arn:aws:rds:us-east-1:12345678012:sample-cluster:sample-cluster-snapshot</code>.
   /// </li>
   /// <li>
-  /// <code>SourceDBClusterSnapshotIdentifier</code> - The cluster snapshot
-  /// identifier for the encrypted cluster snapshot to be copied. This
-  /// identifier must be in the Amazon Resource Name (ARN) format for the source
-  /// AWS Region. For example, if you are copying an encrypted cluster snapshot
-  /// from the us-west-2 AWS Region, then your
-  /// <code>SourceDBClusterSnapshotIdentifier</code> looks like the following
-  /// example:
-  /// <code>arn:aws:rds:us-west-2:123456789012:cluster-snapshot:my-cluster-snapshot-20161115</code>.
+  /// <code>TargetDBClusterSnapshotIdentifier</code> - The identifier for the
+  /// new cluster snapshot to be created. This parameter isn't case sensitive.
   /// </li>
   /// </ul>
   ///
@@ -500,10 +501,18 @@ class DocDB {
   ///
   /// Parameter [enableCloudwatchLogsExports] :
   /// A list of log types that need to be enabled for exporting to Amazon
-  /// CloudWatch Logs.
+  /// CloudWatch Logs. You can enable audit logs or profiler logs. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/documentdb/latest/developerguide/event-auditing.html">
+  /// Auditing Amazon DocumentDB Events</a> and <a
+  /// href="https://docs.aws.amazon.com/documentdb/latest/developerguide/profiling.html">
+  /// Profiling Amazon DocumentDB Operations</a>.
   ///
   /// Parameter [engineVersion] :
-  /// The version number of the database engine to use.
+  /// The version number of the database engine to use. The --engine-version
+  /// will default to the latest major engine version. For production workloads,
+  /// we recommend explicitly declaring this parameter with the intended major
+  /// engine version.
   ///
   /// Parameter [kmsKeyId] :
   /// The AWS KMS key identifier for an encrypted cluster.
@@ -518,27 +527,18 @@ class DocDB {
   ///
   /// <ul>
   /// <li>
-  /// If <code>ReplicationSourceIdentifier</code> identifies an encrypted
-  /// source, then Amazon DocumentDB uses the encryption key that is used to
-  /// encrypt the source. Otherwise, Amazon DocumentDB uses your default
-  /// encryption key.
-  /// </li>
-  /// <li>
-  /// If the <code>StorageEncrypted</code> parameter is <code>true</code> and
-  /// <code>ReplicationSourceIdentifier</code> is not specified, Amazon
-  /// DocumentDB uses your default encryption key.
+  /// If the <code>StorageEncrypted</code> parameter is <code>true</code>,
+  /// Amazon DocumentDB uses your default encryption key.
   /// </li>
   /// </ul>
   /// AWS KMS creates the default encryption key for your AWS account. Your AWS
   /// account has a different default encryption key for each AWS Region.
   ///
-  /// If you create a replica of an encrypted cluster in another AWS Region, you
-  /// must set <code>KmsKeyId</code> to a KMS key ID that is valid in the
-  /// destination AWS Region. This key is used to encrypt the replica in that
-  /// AWS Region.
-  ///
   /// Parameter [port] :
   /// The port number on which the instances in the cluster accept connections.
+  ///
+  /// Parameter [preSignedUrl] :
+  /// Not currently supported.
   ///
   /// Parameter [preferredBackupWindow] :
   /// The daily time range during which automated backups are created if
@@ -600,6 +600,7 @@ class DocDB {
     String engineVersion,
     String kmsKeyId,
     int port,
+    String preSignedUrl,
     String preferredBackupWindow,
     String preferredMaintenanceWindow,
     bool storageEncrypted,
@@ -627,6 +628,7 @@ class DocDB {
     engineVersion?.also((arg) => $request['EngineVersion'] = arg);
     kmsKeyId?.also((arg) => $request['KmsKeyId'] = arg);
     port?.also((arg) => $request['Port'] = arg);
+    preSignedUrl?.also((arg) => $request['PreSignedUrl'] = arg);
     preferredBackupWindow
         ?.also((arg) => $request['PreferredBackupWindow'] = arg);
     preferredMaintenanceWindow
@@ -651,25 +653,23 @@ class DocDB {
   /// Creates a new cluster parameter group.
   ///
   /// Parameters in a cluster parameter group apply to all of the instances in a
-  /// DB cluster.
+  /// cluster.
   ///
   /// A cluster parameter group is initially created with the default parameters
-  /// for the database engine used by instances in the cluster. To provide
-  /// custom values for any of the parameters, you must modify the group after
-  /// you create it. After you create a DB cluster parameter group, you must
-  /// associate it with your cluster. For the new DB cluster parameter group and
-  /// associated settings to take effect, you must then reboot the instances in
-  /// the cluster without failover.
-  /// <important>
-  /// After you create a cluster parameter group, you should wait at least 5
-  /// minutes before creating your first cluster that uses that cluster
-  /// parameter group as the default parameter group. This allows Amazon
-  /// DocumentDB to fully complete the create action before the cluster
-  /// parameter group is used as the default for a new cluster. This step is
-  /// especially important for parameters that are critical when creating the
-  /// default database for a cluster, such as the character set for the default
-  /// database defined by the <code>character_set_database</code> parameter.
-  /// </important>
+  /// for the database engine used by instances in the cluster. In Amazon
+  /// DocumentDB, you cannot make modifications directly to the
+  /// <code>default.docdb3.6</code> cluster parameter group. If your Amazon
+  /// DocumentDB cluster is using the default cluster parameter group and you
+  /// want to modify a value in it, you must first <a
+  /// href="https://docs.aws.amazon.com/documentdb/latest/developerguide/cluster_parameter_group-create.html">
+  /// create a new parameter group</a> or <a
+  /// href="https://docs.aws.amazon.com/documentdb/latest/developerguide/cluster_parameter_group-copy.html">
+  /// copy an existing parameter group</a>, modify it, and then apply the
+  /// modified parameter group to your cluster. For the new cluster parameter
+  /// group and associated settings to take effect, you must then reboot the
+  /// instances in the cluster without failover. For more information, see <a
+  /// href="https://docs.aws.amazon.com/documentdb/latest/developerguide/cluster_parameter_group-modify.html">
+  /// Modifying Amazon DocumentDB Cluster Parameter Groups</a>.
   ///
   /// May throw [DBParameterGroupQuotaExceededFault].
   /// May throw [DBParameterGroupAlreadyExistsFault].
@@ -855,11 +855,6 @@ class DocDB {
   /// Region.
   ///
   /// Example: <code>us-east-1d</code>
-  ///
-  /// Constraint: The <code>AvailabilityZone</code> parameter can't be specified
-  /// if the <code>MultiAZ</code> parameter is set to <code>true</code>. The
-  /// specified Availability Zone must be in the same AWS Region as the current
-  /// endpoint.
   ///
   /// Parameter [preferredMaintenanceWindow] :
   /// The time range each week during which system maintenance can occur, in
@@ -1687,7 +1682,7 @@ class DocDB {
   /// Parameter [engineVersion] :
   /// The database engine version to return.
   ///
-  /// Example: <code>5.1.49</code>
+  /// Example: <code>3.6.0</code>
   ///
   /// Parameter [filters] :
   /// This parameter is not currently supported.

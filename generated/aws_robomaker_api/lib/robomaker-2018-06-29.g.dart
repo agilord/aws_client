@@ -6,6 +6,14 @@ part of 'robomaker-2018-06-29.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+BatchDeleteWorldsResponse _$BatchDeleteWorldsResponseFromJson(
+    Map<String, dynamic> json) {
+  return BatchDeleteWorldsResponse(
+    unprocessedWorlds:
+        (json['unprocessedWorlds'] as List)?.map((e) => e as String)?.toList(),
+  );
+}
+
 BatchDescribeSimulationJobResponse _$BatchDescribeSimulationJobResponseFromJson(
     Map<String, dynamic> json) {
   return BatchDescribeSimulationJobResponse(
@@ -53,6 +61,16 @@ CancelSimulationJobBatchResponse _$CancelSimulationJobBatchResponseFromJson(
 CancelSimulationJobResponse _$CancelSimulationJobResponseFromJson(
     Map<String, dynamic> json) {
   return CancelSimulationJobResponse();
+}
+
+CancelWorldExportJobResponse _$CancelWorldExportJobResponseFromJson(
+    Map<String, dynamic> json) {
+  return CancelWorldExportJobResponse();
+}
+
+CancelWorldGenerationJobResponse _$CancelWorldGenerationJobResponseFromJson(
+    Map<String, dynamic> json) {
+  return CancelWorldGenerationJobResponse();
 }
 
 Compute _$ComputeFromJson(Map<String, dynamic> json) {
@@ -417,6 +435,100 @@ const _$SimulationJobStatusEnumMap = {
   SimulationJobStatus.canceled: 'Canceled',
 };
 
+CreateWorldExportJobResponse _$CreateWorldExportJobResponseFromJson(
+    Map<String, dynamic> json) {
+  return CreateWorldExportJobResponse(
+    arn: json['arn'] as String,
+    clientRequestToken: json['clientRequestToken'] as String,
+    createdAt: const UnixDateTimeConverter().fromJson(json['createdAt']),
+    failureCode: _$enumDecodeNullable(
+        _$WorldExportJobErrorCodeEnumMap, json['failureCode']),
+    iamRole: json['iamRole'] as String,
+    outputLocation: json['outputLocation'] == null
+        ? null
+        : OutputLocation.fromJson(
+            json['outputLocation'] as Map<String, dynamic>),
+    status: _$enumDecodeNullable(_$WorldExportJobStatusEnumMap, json['status']),
+    tags: (json['tags'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(k, e as String),
+    ),
+  );
+}
+
+const _$WorldExportJobErrorCodeEnumMap = {
+  WorldExportJobErrorCode.internalServiceError: 'InternalServiceError',
+  WorldExportJobErrorCode.limitExceeded: 'LimitExceeded',
+  WorldExportJobErrorCode.resourceNotFound: 'ResourceNotFound',
+  WorldExportJobErrorCode.requestThrottled: 'RequestThrottled',
+  WorldExportJobErrorCode.invalidInput: 'InvalidInput',
+  WorldExportJobErrorCode.accessDenied: 'AccessDenied',
+};
+
+const _$WorldExportJobStatusEnumMap = {
+  WorldExportJobStatus.pending: 'Pending',
+  WorldExportJobStatus.running: 'Running',
+  WorldExportJobStatus.completed: 'Completed',
+  WorldExportJobStatus.failed: 'Failed',
+  WorldExportJobStatus.canceling: 'Canceling',
+  WorldExportJobStatus.canceled: 'Canceled',
+};
+
+CreateWorldGenerationJobResponse _$CreateWorldGenerationJobResponseFromJson(
+    Map<String, dynamic> json) {
+  return CreateWorldGenerationJobResponse(
+    arn: json['arn'] as String,
+    clientRequestToken: json['clientRequestToken'] as String,
+    createdAt: const UnixDateTimeConverter().fromJson(json['createdAt']),
+    failureCode: _$enumDecodeNullable(
+        _$WorldGenerationJobErrorCodeEnumMap, json['failureCode']),
+    status:
+        _$enumDecodeNullable(_$WorldGenerationJobStatusEnumMap, json['status']),
+    tags: (json['tags'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(k, e as String),
+    ),
+    template: json['template'] as String,
+    worldCount: json['worldCount'] == null
+        ? null
+        : WorldCount.fromJson(json['worldCount'] as Map<String, dynamic>),
+    worldTags: (json['worldTags'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(k, e as String),
+    ),
+  );
+}
+
+const _$WorldGenerationJobErrorCodeEnumMap = {
+  WorldGenerationJobErrorCode.internalServiceError: 'InternalServiceError',
+  WorldGenerationJobErrorCode.limitExceeded: 'LimitExceeded',
+  WorldGenerationJobErrorCode.resourceNotFound: 'ResourceNotFound',
+  WorldGenerationJobErrorCode.requestThrottled: 'RequestThrottled',
+  WorldGenerationJobErrorCode.invalidInput: 'InvalidInput',
+  WorldGenerationJobErrorCode.allWorldGenerationFailed:
+      'AllWorldGenerationFailed',
+};
+
+const _$WorldGenerationJobStatusEnumMap = {
+  WorldGenerationJobStatus.pending: 'Pending',
+  WorldGenerationJobStatus.running: 'Running',
+  WorldGenerationJobStatus.completed: 'Completed',
+  WorldGenerationJobStatus.failed: 'Failed',
+  WorldGenerationJobStatus.partialFailed: 'PartialFailed',
+  WorldGenerationJobStatus.canceling: 'Canceling',
+  WorldGenerationJobStatus.canceled: 'Canceled',
+};
+
+CreateWorldTemplateResponse _$CreateWorldTemplateResponseFromJson(
+    Map<String, dynamic> json) {
+  return CreateWorldTemplateResponse(
+    arn: json['arn'] as String,
+    clientRequestToken: json['clientRequestToken'] as String,
+    createdAt: const UnixDateTimeConverter().fromJson(json['createdAt']),
+    name: json['name'] as String,
+    tags: (json['tags'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(k, e as String),
+    ),
+  );
+}
+
 DataSource _$DataSourceFromJson(Map<String, dynamic> json) {
   return DataSource(
     name: json['name'] as String,
@@ -467,6 +579,11 @@ DeleteRobotResponse _$DeleteRobotResponseFromJson(Map<String, dynamic> json) {
 DeleteSimulationApplicationResponse
     _$DeleteSimulationApplicationResponseFromJson(Map<String, dynamic> json) {
   return DeleteSimulationApplicationResponse();
+}
+
+DeleteWorldTemplateResponse _$DeleteWorldTemplateResponseFromJson(
+    Map<String, dynamic> json) {
+  return DeleteWorldTemplateResponse();
 }
 
 DeploymentApplicationConfig _$DeploymentApplicationConfigFromJson(
@@ -837,6 +954,84 @@ DescribeSimulationJobResponse _$DescribeSimulationJobResponseFromJson(
   );
 }
 
+DescribeWorldExportJobResponse _$DescribeWorldExportJobResponseFromJson(
+    Map<String, dynamic> json) {
+  return DescribeWorldExportJobResponse(
+    arn: json['arn'] as String,
+    clientRequestToken: json['clientRequestToken'] as String,
+    createdAt: const UnixDateTimeConverter().fromJson(json['createdAt']),
+    failureCode: _$enumDecodeNullable(
+        _$WorldExportJobErrorCodeEnumMap, json['failureCode']),
+    failureReason: json['failureReason'] as String,
+    iamRole: json['iamRole'] as String,
+    outputLocation: json['outputLocation'] == null
+        ? null
+        : OutputLocation.fromJson(
+            json['outputLocation'] as Map<String, dynamic>),
+    status: _$enumDecodeNullable(_$WorldExportJobStatusEnumMap, json['status']),
+    tags: (json['tags'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(k, e as String),
+    ),
+    worlds: (json['worlds'] as List)?.map((e) => e as String)?.toList(),
+  );
+}
+
+DescribeWorldGenerationJobResponse _$DescribeWorldGenerationJobResponseFromJson(
+    Map<String, dynamic> json) {
+  return DescribeWorldGenerationJobResponse(
+    arn: json['arn'] as String,
+    clientRequestToken: json['clientRequestToken'] as String,
+    createdAt: const UnixDateTimeConverter().fromJson(json['createdAt']),
+    failureCode: _$enumDecodeNullable(
+        _$WorldGenerationJobErrorCodeEnumMap, json['failureCode']),
+    failureReason: json['failureReason'] as String,
+    finishedWorldsSummary: json['finishedWorldsSummary'] == null
+        ? null
+        : FinishedWorldsSummary.fromJson(
+            json['finishedWorldsSummary'] as Map<String, dynamic>),
+    status:
+        _$enumDecodeNullable(_$WorldGenerationJobStatusEnumMap, json['status']),
+    tags: (json['tags'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(k, e as String),
+    ),
+    template: json['template'] as String,
+    worldCount: json['worldCount'] == null
+        ? null
+        : WorldCount.fromJson(json['worldCount'] as Map<String, dynamic>),
+    worldTags: (json['worldTags'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(k, e as String),
+    ),
+  );
+}
+
+DescribeWorldResponse _$DescribeWorldResponseFromJson(
+    Map<String, dynamic> json) {
+  return DescribeWorldResponse(
+    arn: json['arn'] as String,
+    createdAt: const UnixDateTimeConverter().fromJson(json['createdAt']),
+    generationJob: json['generationJob'] as String,
+    tags: (json['tags'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(k, e as String),
+    ),
+    template: json['template'] as String,
+  );
+}
+
+DescribeWorldTemplateResponse _$DescribeWorldTemplateResponseFromJson(
+    Map<String, dynamic> json) {
+  return DescribeWorldTemplateResponse(
+    arn: json['arn'] as String,
+    clientRequestToken: json['clientRequestToken'] as String,
+    createdAt: const UnixDateTimeConverter().fromJson(json['createdAt']),
+    lastUpdatedAt:
+        const UnixDateTimeConverter().fromJson(json['lastUpdatedAt']),
+    name: json['name'] as String,
+    tags: (json['tags'] as Map<String, dynamic>)?.map(
+      (k, e) => MapEntry(k, e as String),
+    ),
+  );
+}
+
 FailedCreateSimulationJobRequest _$FailedCreateSimulationJobRequestFromJson(
     Map<String, dynamic> json) {
   return FailedCreateSimulationJobRequest(
@@ -848,6 +1043,16 @@ FailedCreateSimulationJobRequest _$FailedCreateSimulationJobRequestFromJson(
         ? null
         : SimulationJobRequest.fromJson(
             json['request'] as Map<String, dynamic>),
+  );
+}
+
+FailureSummary _$FailureSummaryFromJson(Map<String, dynamic> json) {
+  return FailureSummary(
+    failures: (json['failures'] as List)
+        ?.map((e) =>
+            e == null ? null : WorldFailure.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    totalFailureCount: json['totalFailureCount'] as int,
   );
 }
 
@@ -865,6 +1070,19 @@ Map<String, dynamic> _$FilterToJson(Filter instance) {
   return val;
 }
 
+FinishedWorldsSummary _$FinishedWorldsSummaryFromJson(
+    Map<String, dynamic> json) {
+  return FinishedWorldsSummary(
+    failureSummary: json['failureSummary'] == null
+        ? null
+        : FailureSummary.fromJson(
+            json['failureSummary'] as Map<String, dynamic>),
+    finishedCount: json['finishedCount'] as int,
+    succeededWorlds:
+        (json['succeededWorlds'] as List)?.map((e) => e as String)?.toList(),
+  );
+}
+
 Fleet _$FleetFromJson(Map<String, dynamic> json) {
   return Fleet(
     arn: json['arn'] as String,
@@ -875,6 +1093,13 @@ Fleet _$FleetFromJson(Map<String, dynamic> json) {
     lastDeploymentTime:
         const UnixDateTimeConverter().fromJson(json['lastDeploymentTime']),
     name: json['name'] as String,
+  );
+}
+
+GetWorldTemplateBodyResponse _$GetWorldTemplateBodyResponseFromJson(
+    Map<String, dynamic> json) {
+  return GetWorldTemplateBodyResponse(
+    templateBody: json['templateBody'] as String,
   );
 }
 
@@ -998,6 +1223,52 @@ ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
     tags: (json['tags'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
+  );
+}
+
+ListWorldExportJobsResponse _$ListWorldExportJobsResponseFromJson(
+    Map<String, dynamic> json) {
+  return ListWorldExportJobsResponse(
+    worldExportJobSummaries: (json['worldExportJobSummaries'] as List)
+        ?.map((e) => e == null
+            ? null
+            : WorldExportJobSummary.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    nextToken: json['nextToken'] as String,
+  );
+}
+
+ListWorldGenerationJobsResponse _$ListWorldGenerationJobsResponseFromJson(
+    Map<String, dynamic> json) {
+  return ListWorldGenerationJobsResponse(
+    worldGenerationJobSummaries: (json['worldGenerationJobSummaries'] as List)
+        ?.map((e) => e == null
+            ? null
+            : WorldGenerationJobSummary.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    nextToken: json['nextToken'] as String,
+  );
+}
+
+ListWorldTemplatesResponse _$ListWorldTemplatesResponseFromJson(
+    Map<String, dynamic> json) {
+  return ListWorldTemplatesResponse(
+    nextToken: json['nextToken'] as String,
+    templateSummaries: (json['templateSummaries'] as List)
+        ?.map((e) => e == null
+            ? null
+            : TemplateSummary.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+ListWorldsResponse _$ListWorldsResponseFromJson(Map<String, dynamic> json) {
+  return ListWorldsResponse(
+    nextToken: json['nextToken'] as String,
+    worldSummaries: (json['worldSummaries'] as List)
+        ?.map((e) =>
+            e == null ? null : WorldSummary.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
   );
 }
 
@@ -1302,6 +1573,10 @@ SimulationApplicationConfig _$SimulationApplicationConfigFromJson(
         ? null
         : LaunchConfig.fromJson(json['launchConfig'] as Map<String, dynamic>),
     applicationVersion: json['applicationVersion'] as String,
+    worldConfigs: (json['worldConfigs'] as List)
+        ?.map((e) =>
+            e == null ? null : WorldConfig.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
   );
 }
 
@@ -1318,6 +1593,8 @@ Map<String, dynamic> _$SimulationApplicationConfigToJson(
   writeNotNull('application', instance.application);
   writeNotNull('launchConfig', instance.launchConfig?.toJson());
   writeNotNull('applicationVersion', instance.applicationVersion);
+  writeNotNull(
+      'worldConfigs', instance.worldConfigs?.map((e) => e?.toJson())?.toList());
   return val;
 }
 
@@ -1614,6 +1891,30 @@ TagResourceResponse _$TagResourceResponseFromJson(Map<String, dynamic> json) {
   return TagResourceResponse();
 }
 
+Map<String, dynamic> _$TemplateLocationToJson(TemplateLocation instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('s3Bucket', instance.s3Bucket);
+  writeNotNull('s3Key', instance.s3Key);
+  return val;
+}
+
+TemplateSummary _$TemplateSummaryFromJson(Map<String, dynamic> json) {
+  return TemplateSummary(
+    arn: json['arn'] as String,
+    createdAt: const UnixDateTimeConverter().fromJson(json['createdAt']),
+    lastUpdatedAt:
+        const UnixDateTimeConverter().fromJson(json['lastUpdatedAt']),
+    name: json['name'] as String,
+  );
+}
+
 UntagResourceResponse _$UntagResourceResponseFromJson(
     Map<String, dynamic> json) {
   return UntagResourceResponse();
@@ -1667,6 +1968,17 @@ UpdateSimulationApplicationResponse
   );
 }
 
+UpdateWorldTemplateResponse _$UpdateWorldTemplateResponseFromJson(
+    Map<String, dynamic> json) {
+  return UpdateWorldTemplateResponse(
+    arn: json['arn'] as String,
+    createdAt: const UnixDateTimeConverter().fromJson(json['createdAt']),
+    lastUpdatedAt:
+        const UnixDateTimeConverter().fromJson(json['lastUpdatedAt']),
+    name: json['name'] as String,
+  );
+}
+
 VPCConfig _$VPCConfigFromJson(Map<String, dynamic> json) {
   return VPCConfig(
     subnets: (json['subnets'] as List)?.map((e) => e as String)?.toList(),
@@ -1698,5 +2010,89 @@ VPCConfigResponse _$VPCConfigResponseFromJson(Map<String, dynamic> json) {
         (json['securityGroups'] as List)?.map((e) => e as String)?.toList(),
     subnets: (json['subnets'] as List)?.map((e) => e as String)?.toList(),
     vpcId: json['vpcId'] as String,
+  );
+}
+
+WorldConfig _$WorldConfigFromJson(Map<String, dynamic> json) {
+  return WorldConfig(
+    world: json['world'] as String,
+  );
+}
+
+Map<String, dynamic> _$WorldConfigToJson(WorldConfig instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('world', instance.world);
+  return val;
+}
+
+WorldCount _$WorldCountFromJson(Map<String, dynamic> json) {
+  return WorldCount(
+    floorplanCount: json['floorplanCount'] as int,
+    interiorCountPerFloorplan: json['interiorCountPerFloorplan'] as int,
+  );
+}
+
+Map<String, dynamic> _$WorldCountToJson(WorldCount instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('floorplanCount', instance.floorplanCount);
+  writeNotNull('interiorCountPerFloorplan', instance.interiorCountPerFloorplan);
+  return val;
+}
+
+WorldExportJobSummary _$WorldExportJobSummaryFromJson(
+    Map<String, dynamic> json) {
+  return WorldExportJobSummary(
+    arn: json['arn'] as String,
+    createdAt: const UnixDateTimeConverter().fromJson(json['createdAt']),
+    status: _$enumDecodeNullable(_$WorldExportJobStatusEnumMap, json['status']),
+    worlds: (json['worlds'] as List)?.map((e) => e as String)?.toList(),
+  );
+}
+
+WorldFailure _$WorldFailureFromJson(Map<String, dynamic> json) {
+  return WorldFailure(
+    failureCode: _$enumDecodeNullable(
+        _$WorldGenerationJobErrorCodeEnumMap, json['failureCode']),
+    failureCount: json['failureCount'] as int,
+    sampleFailureReason: json['sampleFailureReason'] as String,
+  );
+}
+
+WorldGenerationJobSummary _$WorldGenerationJobSummaryFromJson(
+    Map<String, dynamic> json) {
+  return WorldGenerationJobSummary(
+    arn: json['arn'] as String,
+    createdAt: const UnixDateTimeConverter().fromJson(json['createdAt']),
+    failedWorldCount: json['failedWorldCount'] as int,
+    status:
+        _$enumDecodeNullable(_$WorldGenerationJobStatusEnumMap, json['status']),
+    succeededWorldCount: json['succeededWorldCount'] as int,
+    template: json['template'] as String,
+    worldCount: json['worldCount'] == null
+        ? null
+        : WorldCount.fromJson(json['worldCount'] as Map<String, dynamic>),
+  );
+}
+
+WorldSummary _$WorldSummaryFromJson(Map<String, dynamic> json) {
+  return WorldSummary(
+    arn: json['arn'] as String,
+    createdAt: const UnixDateTimeConverter().fromJson(json['createdAt']),
+    generationJob: json['generationJob'] as String,
+    template: json['template'] as String,
   );
 }

@@ -16,35 +16,12 @@ AppliedTerminology _$AppliedTerminologyFromJson(Map<String, dynamic> json) {
   );
 }
 
-DescribeTextTranslationJobResponse _$DescribeTextTranslationJobResponseFromJson(
+CreateParallelDataResponse _$CreateParallelDataResponseFromJson(
     Map<String, dynamic> json) {
-  return DescribeTextTranslationJobResponse(
-    textTranslationJobProperties: json['TextTranslationJobProperties'] == null
-        ? null
-        : TextTranslationJobProperties.fromJson(
-            json['TextTranslationJobProperties'] as Map<String, dynamic>),
+  return CreateParallelDataResponse(
+    name: json['Name'] as String,
+    status: _$enumDecodeNullable(_$ParallelDataStatusEnumMap, json['Status']),
   );
-}
-
-EncryptionKey _$EncryptionKeyFromJson(Map<String, dynamic> json) {
-  return EncryptionKey(
-    id: json['Id'] as String,
-    type: _$enumDecodeNullable(_$EncryptionKeyTypeEnumMap, json['Type']),
-  );
-}
-
-Map<String, dynamic> _$EncryptionKeyToJson(EncryptionKey instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('Id', instance.id);
-  writeNotNull('Type', _$EncryptionKeyTypeEnumMap[instance.type]);
-  return val;
 }
 
 T _$enumDecode<T>(
@@ -79,9 +56,80 @@ T _$enumDecodeNullable<T>(
   return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
 }
 
+const _$ParallelDataStatusEnumMap = {
+  ParallelDataStatus.creating: 'CREATING',
+  ParallelDataStatus.updating: 'UPDATING',
+  ParallelDataStatus.active: 'ACTIVE',
+  ParallelDataStatus.deleting: 'DELETING',
+  ParallelDataStatus.failed: 'FAILED',
+};
+
+DeleteParallelDataResponse _$DeleteParallelDataResponseFromJson(
+    Map<String, dynamic> json) {
+  return DeleteParallelDataResponse(
+    name: json['Name'] as String,
+    status: _$enumDecodeNullable(_$ParallelDataStatusEnumMap, json['Status']),
+  );
+}
+
+DescribeTextTranslationJobResponse _$DescribeTextTranslationJobResponseFromJson(
+    Map<String, dynamic> json) {
+  return DescribeTextTranslationJobResponse(
+    textTranslationJobProperties: json['TextTranslationJobProperties'] == null
+        ? null
+        : TextTranslationJobProperties.fromJson(
+            json['TextTranslationJobProperties'] as Map<String, dynamic>),
+  );
+}
+
+EncryptionKey _$EncryptionKeyFromJson(Map<String, dynamic> json) {
+  return EncryptionKey(
+    id: json['Id'] as String,
+    type: _$enumDecodeNullable(_$EncryptionKeyTypeEnumMap, json['Type']),
+  );
+}
+
+Map<String, dynamic> _$EncryptionKeyToJson(EncryptionKey instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Id', instance.id);
+  writeNotNull('Type', _$EncryptionKeyTypeEnumMap[instance.type]);
+  return val;
+}
+
 const _$EncryptionKeyTypeEnumMap = {
   EncryptionKeyType.kms: 'KMS',
 };
+
+GetParallelDataResponse _$GetParallelDataResponseFromJson(
+    Map<String, dynamic> json) {
+  return GetParallelDataResponse(
+    auxiliaryDataLocation: json['AuxiliaryDataLocation'] == null
+        ? null
+        : ParallelDataDataLocation.fromJson(
+            json['AuxiliaryDataLocation'] as Map<String, dynamic>),
+    dataLocation: json['DataLocation'] == null
+        ? null
+        : ParallelDataDataLocation.fromJson(
+            json['DataLocation'] as Map<String, dynamic>),
+    latestUpdateAttemptAuxiliaryDataLocation:
+        json['LatestUpdateAttemptAuxiliaryDataLocation'] == null
+            ? null
+            : ParallelDataDataLocation.fromJson(
+                json['LatestUpdateAttemptAuxiliaryDataLocation']
+                    as Map<String, dynamic>),
+    parallelDataProperties: json['ParallelDataProperties'] == null
+        ? null
+        : ParallelDataProperties.fromJson(
+            json['ParallelDataProperties'] as Map<String, dynamic>),
+  );
+}
 
 GetTerminologyResponse _$GetTerminologyResponseFromJson(
     Map<String, dynamic> json) {
@@ -136,6 +184,18 @@ JobDetails _$JobDetailsFromJson(Map<String, dynamic> json) {
   );
 }
 
+ListParallelDataResponse _$ListParallelDataResponseFromJson(
+    Map<String, dynamic> json) {
+  return ListParallelDataResponse(
+    nextToken: json['NextToken'] as String,
+    parallelDataPropertiesList: (json['ParallelDataPropertiesList'] as List)
+        ?.map((e) => e == null
+            ? null
+            : ParallelDataProperties.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
 ListTerminologiesResponse _$ListTerminologiesResponseFromJson(
     Map<String, dynamic> json) {
   return ListTerminologiesResponse(
@@ -178,6 +238,74 @@ Map<String, dynamic> _$OutputDataConfigToJson(OutputDataConfig instance) {
 
   writeNotNull('S3Uri', instance.s3Uri);
   return val;
+}
+
+ParallelDataConfig _$ParallelDataConfigFromJson(Map<String, dynamic> json) {
+  return ParallelDataConfig(
+    format: _$enumDecodeNullable(_$ParallelDataFormatEnumMap, json['Format']),
+    s3Uri: json['S3Uri'] as String,
+  );
+}
+
+Map<String, dynamic> _$ParallelDataConfigToJson(ParallelDataConfig instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Format', _$ParallelDataFormatEnumMap[instance.format]);
+  writeNotNull('S3Uri', instance.s3Uri);
+  return val;
+}
+
+const _$ParallelDataFormatEnumMap = {
+  ParallelDataFormat.tsv: 'TSV',
+  ParallelDataFormat.csv: 'CSV',
+  ParallelDataFormat.tmx: 'TMX',
+};
+
+ParallelDataDataLocation _$ParallelDataDataLocationFromJson(
+    Map<String, dynamic> json) {
+  return ParallelDataDataLocation(
+    location: json['Location'] as String,
+    repositoryType: json['RepositoryType'] as String,
+  );
+}
+
+ParallelDataProperties _$ParallelDataPropertiesFromJson(
+    Map<String, dynamic> json) {
+  return ParallelDataProperties(
+    arn: json['Arn'] as String,
+    createdAt: const UnixDateTimeConverter().fromJson(json['CreatedAt']),
+    description: json['Description'] as String,
+    encryptionKey: json['EncryptionKey'] == null
+        ? null
+        : EncryptionKey.fromJson(json['EncryptionKey'] as Map<String, dynamic>),
+    failedRecordCount: json['FailedRecordCount'] as int,
+    importedDataSize: json['ImportedDataSize'] as int,
+    importedRecordCount: json['ImportedRecordCount'] as int,
+    lastUpdatedAt:
+        const UnixDateTimeConverter().fromJson(json['LastUpdatedAt']),
+    latestUpdateAttemptAt:
+        const UnixDateTimeConverter().fromJson(json['LatestUpdateAttemptAt']),
+    latestUpdateAttemptStatus: _$enumDecodeNullable(
+        _$ParallelDataStatusEnumMap, json['LatestUpdateAttemptStatus']),
+    message: json['Message'] as String,
+    name: json['Name'] as String,
+    parallelDataConfig: json['ParallelDataConfig'] == null
+        ? null
+        : ParallelDataConfig.fromJson(
+            json['ParallelDataConfig'] as Map<String, dynamic>),
+    skippedRecordCount: json['SkippedRecordCount'] as int,
+    sourceLanguageCode: json['SourceLanguageCode'] as String,
+    status: _$enumDecodeNullable(_$ParallelDataStatusEnumMap, json['Status']),
+    targetLanguageCodes: (json['TargetLanguageCodes'] as List)
+        ?.map((e) => e as String)
+        ?.toList(),
+  );
 }
 
 StartTextTranslationJobResponse _$StartTextTranslationJobResponseFromJson(
@@ -300,6 +428,8 @@ TextTranslationJobProperties _$TextTranslationJobPropertiesFromJson(
         ? null
         : OutputDataConfig.fromJson(
             json['OutputDataConfig'] as Map<String, dynamic>),
+    parallelDataNames:
+        (json['ParallelDataNames'] as List)?.map((e) => e as String)?.toList(),
     sourceLanguageCode: json['SourceLanguageCode'] as String,
     submittedTime:
         const UnixDateTimeConverter().fromJson(json['SubmittedTime']),
@@ -322,5 +452,17 @@ TranslateTextResponse _$TranslateTextResponseFromJson(
             ? null
             : AppliedTerminology.fromJson(e as Map<String, dynamic>))
         ?.toList(),
+  );
+}
+
+UpdateParallelDataResponse _$UpdateParallelDataResponseFromJson(
+    Map<String, dynamic> json) {
+  return UpdateParallelDataResponse(
+    latestUpdateAttemptAt:
+        const UnixDateTimeConverter().fromJson(json['LatestUpdateAttemptAt']),
+    latestUpdateAttemptStatus: _$enumDecodeNullable(
+        _$ParallelDataStatusEnumMap, json['LatestUpdateAttemptStatus']),
+    name: json['Name'] as String,
+    status: _$enumDecodeNullable(_$ParallelDataStatusEnumMap, json['Status']),
   );
 }

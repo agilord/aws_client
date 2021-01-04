@@ -45,6 +45,146 @@ class MediaLive {
           endpointUrl: endpointUrl,
         );
 
+  /// Accept an incoming input device transfer. The ownership of the device will
+  /// transfer to your AWS account.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [UnprocessableEntityException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [BadGatewayException].
+  /// May throw [NotFoundException].
+  /// May throw [GatewayTimeoutException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [inputDeviceId] :
+  /// The unique ID of the input device to accept. For example,
+  /// hd-123456789abcdef.
+  Future<void> acceptInputDeviceTransfer({
+    @_s.required String inputDeviceId,
+  }) async {
+    ArgumentError.checkNotNull(inputDeviceId, 'inputDeviceId');
+    final response = await _protocol.send(
+      payload: null,
+      method: 'POST',
+      requestUri:
+          '/prod/inputDevices/${Uri.encodeComponent(inputDeviceId)}/accept',
+      exceptionFnMap: _exceptionFns,
+    );
+    return AcceptInputDeviceTransferResponse.fromJson(response);
+  }
+
+  /// Starts delete of resources.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [BadGatewayException].
+  /// May throw [NotFoundException].
+  /// May throw [GatewayTimeoutException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [channelIds] :
+  /// List of channel IDs
+  ///
+  /// Parameter [inputIds] :
+  /// List of input IDs
+  ///
+  /// Parameter [inputSecurityGroupIds] :
+  /// List of input security group IDs
+  ///
+  /// Parameter [multiplexIds] :
+  /// List of multiplex IDs
+  Future<BatchDeleteResponse> batchDelete({
+    List<String> channelIds,
+    List<String> inputIds,
+    List<String> inputSecurityGroupIds,
+    List<String> multiplexIds,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (channelIds != null) 'channelIds': channelIds,
+      if (inputIds != null) 'inputIds': inputIds,
+      if (inputSecurityGroupIds != null)
+        'inputSecurityGroupIds': inputSecurityGroupIds,
+      if (multiplexIds != null) 'multiplexIds': multiplexIds,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/prod/batch/delete',
+      exceptionFnMap: _exceptionFns,
+    );
+    return BatchDeleteResponse.fromJson(response);
+  }
+
+  /// Starts existing resources
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [BadGatewayException].
+  /// May throw [NotFoundException].
+  /// May throw [GatewayTimeoutException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [channelIds] :
+  /// List of channel IDs
+  ///
+  /// Parameter [multiplexIds] :
+  /// List of multiplex IDs
+  Future<BatchStartResponse> batchStart({
+    List<String> channelIds,
+    List<String> multiplexIds,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (channelIds != null) 'channelIds': channelIds,
+      if (multiplexIds != null) 'multiplexIds': multiplexIds,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/prod/batch/start',
+      exceptionFnMap: _exceptionFns,
+    );
+    return BatchStartResponse.fromJson(response);
+  }
+
+  /// Stops running resources
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [BadGatewayException].
+  /// May throw [NotFoundException].
+  /// May throw [GatewayTimeoutException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [channelIds] :
+  /// List of channel IDs
+  ///
+  /// Parameter [multiplexIds] :
+  /// List of multiplex IDs
+  Future<BatchStopResponse> batchStop({
+    List<String> channelIds,
+    List<String> multiplexIds,
+  }) async {
+    final $payload = <String, dynamic>{
+      if (channelIds != null) 'channelIds': channelIds,
+      if (multiplexIds != null) 'multiplexIds': multiplexIds,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/prod/batch/stop',
+      exceptionFnMap: _exceptionFns,
+    );
+    return BatchStopResponse.fromJson(response);
+  }
+
   /// Update a channel schedule
   ///
   /// May throw [BadRequestException].
@@ -83,6 +223,35 @@ class MediaLive {
     return BatchUpdateScheduleResponse.fromJson(response);
   }
 
+  /// Cancel an input device transfer that you have requested.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [UnprocessableEntityException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [BadGatewayException].
+  /// May throw [NotFoundException].
+  /// May throw [GatewayTimeoutException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [inputDeviceId] :
+  /// The unique ID of the input device to cancel. For example,
+  /// hd-123456789abcdef.
+  Future<void> cancelInputDeviceTransfer({
+    @_s.required String inputDeviceId,
+  }) async {
+    ArgumentError.checkNotNull(inputDeviceId, 'inputDeviceId');
+    final response = await _protocol.send(
+      payload: null,
+      method: 'POST',
+      requestUri:
+          '/prod/inputDevices/${Uri.encodeComponent(inputDeviceId)}/cancel',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CancelInputDeviceTransferResponse.fromJson(response);
+  }
+
   /// Creates a new channel
   ///
   /// May throw [BadRequestException].
@@ -94,6 +263,9 @@ class MediaLive {
   /// May throw [TooManyRequestsException].
   /// May throw [ConflictException].
   ///
+  /// Parameter [cdiInputSpecification] :
+  /// Specification of CDI inputs for this channel
+  ///
   /// Parameter [channelClass] :
   /// The class for this channel. STANDARD for a channel with two pipelines or
   /// SINGLE_PIPELINE for a channel with one pipeline.
@@ -102,8 +274,7 @@ class MediaLive {
   /// List of input attachments for channel.
   ///
   /// Parameter [inputSpecification] :
-  /// Specification of input for this channel (max. bitrate, resolution, codec,
-  /// etc.)
+  /// Specification of network and file inputs for this channel
   ///
   /// Parameter [logLevel] :
   /// The log level to write to CloudWatch Logs.
@@ -125,6 +296,7 @@ class MediaLive {
   /// Parameter [tags] :
   /// A collection of key-value pairs.
   Future<CreateChannelResponse> createChannel({
+    CdiInputSpecification cdiInputSpecification,
     ChannelClass channelClass,
     List<OutputDestination> destinations,
     EncoderSettings encoderSettings,
@@ -138,6 +310,8 @@ class MediaLive {
     Map<String, String> tags,
   }) async {
     final $payload = <String, dynamic>{
+      if (cdiInputSpecification != null)
+        'cdiInputSpecification': cdiInputSpecification,
       if (channelClass != null) 'channelClass': channelClass.toValue(),
       if (destinations != null) 'destinations': destinations,
       if (encoderSettings != null) 'encoderSettings': encoderSettings,
@@ -171,6 +345,9 @@ class MediaLive {
   /// Parameter [destinations] :
   /// Destination settings for PUSH type inputs.
   ///
+  /// Parameter [inputDevices] :
+  /// Settings for the devices.
+  ///
   /// Parameter [inputSecurityGroups] :
   /// A list of security groups referenced by IDs to attach to the input.
   ///
@@ -202,6 +379,7 @@ class MediaLive {
   /// A collection of key-value pairs.
   Future<CreateInputResponse> createInput({
     List<InputDestinationRequest> destinations,
+    List<InputDeviceSettings> inputDevices,
     List<String> inputSecurityGroups,
     List<MediaConnectFlowRequest> mediaConnectFlows,
     String name,
@@ -214,6 +392,7 @@ class MediaLive {
   }) async {
     final $payload = <String, dynamic>{
       if (destinations != null) 'destinations': destinations,
+      if (inputDevices != null) 'inputDevices': inputDevices,
       if (inputSecurityGroups != null)
         'inputSecurityGroups': inputSecurityGroups,
       if (mediaConnectFlows != null) 'mediaConnectFlows': mediaConnectFlows,
@@ -654,6 +833,75 @@ class MediaLive {
     return DescribeInputResponse.fromJson(response);
   }
 
+  /// Gets the details for the input device
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [BadGatewayException].
+  /// May throw [NotFoundException].
+  /// May throw [GatewayTimeoutException].
+  /// May throw [TooManyRequestsException].
+  ///
+  /// Parameter [inputDeviceId] :
+  /// The unique ID of this input device. For example, hd-123456789abcdef.
+  Future<DescribeInputDeviceResponse> describeInputDevice({
+    @_s.required String inputDeviceId,
+  }) async {
+    ArgumentError.checkNotNull(inputDeviceId, 'inputDeviceId');
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/prod/inputDevices/${Uri.encodeComponent(inputDeviceId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeInputDeviceResponse.fromJson(response);
+  }
+
+  /// Get the latest thumbnail data for the input device.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [BadGatewayException].
+  /// May throw [NotFoundException].
+  /// May throw [GatewayTimeoutException].
+  /// May throw [TooManyRequestsException].
+  ///
+  /// Parameter [accept] :
+  /// The HTTP Accept header. Indicates the requested type for the thumbnail.
+  ///
+  /// Parameter [inputDeviceId] :
+  /// The unique ID of this input device. For example, hd-123456789abcdef.
+  Future<DescribeInputDeviceThumbnailResponse> describeInputDeviceThumbnail({
+    @_s.required AcceptHeader accept,
+    @_s.required String inputDeviceId,
+  }) async {
+    ArgumentError.checkNotNull(accept, 'accept');
+    ArgumentError.checkNotNull(inputDeviceId, 'inputDeviceId');
+    final headers = <String, String>{};
+    accept?.let((v) => headers['accept'] = v.toValue());
+    final response = await _protocol.sendRaw(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/prod/inputDevices/${Uri.encodeComponent(inputDeviceId)}/thumbnailData',
+      headers: headers,
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeInputDeviceThumbnailResponse(
+      body: await response.stream.toBytes(),
+      contentLength:
+          _s.extractHeaderIntValue(response.headers, 'Content-Length'),
+      contentType: _s
+          .extractHeaderStringValue(response.headers, 'Content-Type')
+          ?.toContentType(),
+      eTag: _s.extractHeaderStringValue(response.headers, 'ETag'),
+      lastModified:
+          _s.extractHeaderDateTimeValue(response.headers, 'Last-Modified'),
+    );
+  }
+
   /// Produces a summary of an Input Security Group
   ///
   /// May throw [BadRequestException].
@@ -856,6 +1104,76 @@ class MediaLive {
     return ListChannelsResponse.fromJson(response);
   }
 
+  /// List input devices that are currently being transferred. List input
+  /// devices that you are transferring from your AWS account or input devices
+  /// that another AWS account is transferring to you.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [UnprocessableEntityException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [BadGatewayException].
+  /// May throw [GatewayTimeoutException].
+  /// May throw [TooManyRequestsException].
+  Future<ListInputDeviceTransfersResponse> listInputDeviceTransfers({
+    @_s.required String transferType,
+    int maxResults,
+    String nextToken,
+  }) async {
+    ArgumentError.checkNotNull(transferType, 'transferType');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final $query = <String, List<String>>{
+      if (transferType != null) 'transferType': [transferType],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/prod/inputDeviceTransfers',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListInputDeviceTransfersResponse.fromJson(response);
+  }
+
+  /// List input devices
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [BadGatewayException].
+  /// May throw [GatewayTimeoutException].
+  /// May throw [TooManyRequestsException].
+  Future<ListInputDevicesResponse> listInputDevices({
+    int maxResults,
+    String nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      1000,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/prod/inputDevices',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListInputDevicesResponse.fromJson(response);
+  }
+
   /// Produces a list of Input Security Groups for an account
   ///
   /// May throw [BadRequestException].
@@ -1020,7 +1338,7 @@ class MediaLive {
   /// e.g. '2345678' (a channel ID)
   ///
   /// Parameter [codec] :
-  /// Filter by codec, 'AVC', 'HEVC', 'MPEG2', or 'AUDIO'
+  /// Filter by codec, 'AVC', 'HEVC', 'MPEG2', 'AUDIO', or 'LINK'
   ///
   /// Parameter [duration] :
   /// Filter by offering duration, e.g. '12'
@@ -1100,7 +1418,7 @@ class MediaLive {
   /// Filter by channel class, 'STANDARD' or 'SINGLE_PIPELINE'
   ///
   /// Parameter [codec] :
-  /// Filter by codec, 'AVC', 'HEVC', 'MPEG2', or 'AUDIO'
+  /// Filter by codec, 'AVC', 'HEVC', 'MPEG2', 'AUDIO', or 'LINK'
   ///
   /// Parameter [maximumBitrate] :
   /// Filter by bitrate, 'MAX_10_MBPS', 'MAX_20_MBPS', or 'MAX_50_MBPS'
@@ -1242,6 +1560,35 @@ class MediaLive {
     return PurchaseOfferingResponse.fromJson(response);
   }
 
+  /// Reject the transfer of the specified input device to your AWS account.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [UnprocessableEntityException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [BadGatewayException].
+  /// May throw [NotFoundException].
+  /// May throw [GatewayTimeoutException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [inputDeviceId] :
+  /// The unique ID of the input device to reject. For example,
+  /// hd-123456789abcdef.
+  Future<void> rejectInputDeviceTransfer({
+    @_s.required String inputDeviceId,
+  }) async {
+    ArgumentError.checkNotNull(inputDeviceId, 'inputDeviceId');
+    final response = await _protocol.send(
+      payload: null,
+      method: 'POST',
+      requestUri:
+          '/prod/inputDevices/${Uri.encodeComponent(inputDeviceId)}/reject',
+      exceptionFnMap: _exceptionFns,
+    );
+    return RejectInputDeviceTransferResponse.fromJson(response);
+  }
+
   /// Starts an existing channel
   ///
   /// May throw [BadRequestException].
@@ -1348,6 +1695,47 @@ class MediaLive {
     return StopMultiplexResponse.fromJson(response);
   }
 
+  /// Start an input device transfer to another AWS account. After you make the
+  /// request, the other account must accept or reject the transfer.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [UnprocessableEntityException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [BadGatewayException].
+  /// May throw [NotFoundException].
+  /// May throw [GatewayTimeoutException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [inputDeviceId] :
+  /// The unique ID of this input device. For example, hd-123456789abcdef.
+  ///
+  /// Parameter [targetCustomerId] :
+  /// The AWS account ID (12 digits) for the recipient of the device transfer.
+  ///
+  /// Parameter [transferMessage] :
+  /// An optional message for the recipient. Maximum 280 characters.
+  Future<void> transferInputDevice({
+    @_s.required String inputDeviceId,
+    String targetCustomerId,
+    String transferMessage,
+  }) async {
+    ArgumentError.checkNotNull(inputDeviceId, 'inputDeviceId');
+    final $payload = <String, dynamic>{
+      if (targetCustomerId != null) 'targetCustomerId': targetCustomerId,
+      if (transferMessage != null) 'transferMessage': transferMessage,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/prod/inputDevices/${Uri.encodeComponent(inputDeviceId)}/transfer',
+      exceptionFnMap: _exceptionFns,
+    );
+    return TransferInputDeviceResponse.fromJson(response);
+  }
+
   /// Updates a channel.
   ///
   /// May throw [BadRequestException].
@@ -1361,6 +1749,9 @@ class MediaLive {
   /// Parameter [channelId] :
   /// channel ID
   ///
+  /// Parameter [cdiInputSpecification] :
+  /// Specification of CDI inputs for this channel
+  ///
   /// Parameter [destinations] :
   /// A list of output destinations for this channel.
   ///
@@ -1368,8 +1759,7 @@ class MediaLive {
   /// The encoder settings for this channel.
   ///
   /// Parameter [inputSpecification] :
-  /// Specification of input for this channel (max. bitrate, resolution, codec,
-  /// etc.)
+  /// Specification of network and file inputs for this channel
   ///
   /// Parameter [logLevel] :
   /// The log level to write to CloudWatch Logs.
@@ -1383,6 +1773,7 @@ class MediaLive {
   /// previously set that role will be removed.
   Future<UpdateChannelResponse> updateChannel({
     @_s.required String channelId,
+    CdiInputSpecification cdiInputSpecification,
     List<OutputDestination> destinations,
     EncoderSettings encoderSettings,
     List<InputAttachment> inputAttachments,
@@ -1393,6 +1784,8 @@ class MediaLive {
   }) async {
     ArgumentError.checkNotNull(channelId, 'channelId');
     final $payload = <String, dynamic>{
+      if (cdiInputSpecification != null)
+        'cdiInputSpecification': cdiInputSpecification,
       if (destinations != null) 'destinations': destinations,
       if (encoderSettings != null) 'encoderSettings': encoderSettings,
       if (inputAttachments != null) 'inputAttachments': inputAttachments,
@@ -1467,6 +1860,9 @@ class MediaLive {
   /// Parameter [destinations] :
   /// Destination settings for PUSH type inputs.
   ///
+  /// Parameter [inputDevices] :
+  /// Settings for the devices.
+  ///
   /// Parameter [inputSecurityGroups] :
   /// A list of security groups referenced by IDs to attach to the input.
   ///
@@ -1492,6 +1888,7 @@ class MediaLive {
   Future<UpdateInputResponse> updateInput({
     @_s.required String inputId,
     List<InputDestinationRequest> destinations,
+    List<InputDeviceRequest> inputDevices,
     List<String> inputSecurityGroups,
     List<MediaConnectFlowRequest> mediaConnectFlows,
     String name,
@@ -1501,6 +1898,7 @@ class MediaLive {
     ArgumentError.checkNotNull(inputId, 'inputId');
     final $payload = <String, dynamic>{
       if (destinations != null) 'destinations': destinations,
+      if (inputDevices != null) 'inputDevices': inputDevices,
       if (inputSecurityGroups != null)
         'inputSecurityGroups': inputSecurityGroups,
       if (mediaConnectFlows != null) 'mediaConnectFlows': mediaConnectFlows,
@@ -1515,6 +1913,49 @@ class MediaLive {
       exceptionFnMap: _exceptionFns,
     );
     return UpdateInputResponse.fromJson(response);
+  }
+
+  /// Updates the parameters for the input device.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [UnprocessableEntityException].
+  /// May throw [InternalServerErrorException].
+  /// May throw [ForbiddenException].
+  /// May throw [BadGatewayException].
+  /// May throw [NotFoundException].
+  /// May throw [GatewayTimeoutException].
+  /// May throw [TooManyRequestsException].
+  ///
+  /// Parameter [inputDeviceId] :
+  /// The unique ID of the input device. For example, hd-123456789abcdef.
+  ///
+  /// Parameter [hdDeviceSettings] :
+  /// The settings that you want to apply to the HD input device.
+  ///
+  /// Parameter [name] :
+  /// The name that you assigned to this input device (not the unique ID).
+  ///
+  /// Parameter [uhdDeviceSettings] :
+  /// The settings that you want to apply to the UHD input device.
+  Future<UpdateInputDeviceResponse> updateInputDevice({
+    @_s.required String inputDeviceId,
+    InputDeviceConfigurableSettings hdDeviceSettings,
+    String name,
+    InputDeviceConfigurableSettings uhdDeviceSettings,
+  }) async {
+    ArgumentError.checkNotNull(inputDeviceId, 'inputDeviceId');
+    final $payload = <String, dynamic>{
+      if (hdDeviceSettings != null) 'hdDeviceSettings': hdDeviceSettings,
+      if (name != null) 'name': name,
+      if (uhdDeviceSettings != null) 'uhdDeviceSettings': uhdDeviceSettings,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/prod/inputDevices/${Uri.encodeComponent(inputDeviceId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateInputDeviceResponse.fromJson(response);
   }
 
   /// Update an Input Security Group's Whilelists.
@@ -1921,6 +2362,19 @@ class Ac3Settings {
   Map<String, dynamic> toJson() => _$Ac3SettingsToJson(this);
 }
 
+/// Placeholder documentation for AcceptInputDeviceTransferResponse
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class AcceptInputDeviceTransferResponse {
+  AcceptInputDeviceTransferResponse();
+  factory AcceptInputDeviceTransferResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$AcceptInputDeviceTransferResponseFromJson(json);
+}
+
 /// Afd Signaling
 enum AfdSignaling {
   @_s.JsonValue('AUTO')
@@ -1929,6 +2383,31 @@ enum AfdSignaling {
   fixed,
   @_s.JsonValue('NONE')
   none,
+}
+
+/// Ancillary Source Settings
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AncillarySourceSettings {
+  /// Specifies the number (1 to 4) of the captions channel you want to extract
+  /// from the ancillary captions. If you plan to convert the ancillary captions
+  /// to another format, complete this field. If you plan to choose Embedded as
+  /// the captions destination in the output (to pass through all the channels in
+  /// the ancillary captions), leave this field blank because MediaLive ignores
+  /// the field.
+  @_s.JsonKey(name: 'sourceAncillaryChannelNumber')
+  final int sourceAncillaryChannelNumber;
+
+  AncillarySourceSettings({
+    this.sourceAncillaryChannelNumber,
+  });
+  factory AncillarySourceSettings.fromJson(Map<String, dynamic> json) =>
+      _$AncillarySourceSettingsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AncillarySourceSettingsToJson(this);
 }
 
 /// Archive Container Settings
@@ -1940,9 +2419,12 @@ enum AfdSignaling {
 class ArchiveContainerSettings {
   @_s.JsonKey(name: 'm2tsSettings')
   final M2tsSettings m2tsSettings;
+  @_s.JsonKey(name: 'rawSettings')
+  final RawSettings rawSettings;
 
   ArchiveContainerSettings({
     this.m2tsSettings,
+    this.rawSettings,
   });
   factory ArchiveContainerSettings.fromJson(Map<String, dynamic> json) =>
       _$ArchiveContainerSettingsFromJson(json);
@@ -2079,6 +2561,8 @@ class AudioCodecSettings {
   final Mp2Settings mp2Settings;
   @_s.JsonKey(name: 'passThroughSettings')
   final PassThroughSettings passThroughSettings;
+  @_s.JsonKey(name: 'wavSettings')
+  final WavSettings wavSettings;
 
   AudioCodecSettings({
     this.aacSettings,
@@ -2086,6 +2570,7 @@ class AudioCodecSettings {
     this.eac3Settings,
     this.mp2Settings,
     this.passThroughSettings,
+    this.wavSettings,
   });
   factory AudioCodecSettings.fromJson(Map<String, dynamic> json) =>
       _$AudioCodecSettingsFromJson(json);
@@ -2133,9 +2618,9 @@ class AudioDescription {
   @_s.JsonKey(name: 'codecSettings')
   final AudioCodecSettings codecSettings;
 
-  /// Indicates the language of the audio output track. Only used if
-  /// languageControlMode is useConfigured, or there is no ISO 639 language code
-  /// specified in the input.
+  /// RFC 5646 language code representing the language of the audio output track.
+  /// Only used if languageControlMode is useConfigured, or there is no ISO 639
+  /// language code specified in the input.
   @_s.JsonKey(name: 'languageCode')
   final String languageCode;
 
@@ -2415,15 +2900,87 @@ class AudioSelectorSettings {
   final AudioLanguageSelection audioLanguageSelection;
   @_s.JsonKey(name: 'audioPidSelection')
   final AudioPidSelection audioPidSelection;
+  @_s.JsonKey(name: 'audioTrackSelection')
+  final AudioTrackSelection audioTrackSelection;
 
   AudioSelectorSettings({
     this.audioLanguageSelection,
     this.audioPidSelection,
+    this.audioTrackSelection,
   });
   factory AudioSelectorSettings.fromJson(Map<String, dynamic> json) =>
       _$AudioSelectorSettingsFromJson(json);
 
   Map<String, dynamic> toJson() => _$AudioSelectorSettingsToJson(this);
+}
+
+/// Placeholder documentation for AudioSilenceFailoverSettings
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AudioSilenceFailoverSettings {
+  /// The name of the audio selector in the input that MediaLive should monitor to
+  /// detect silence. Select your most important rendition. If you didn't create
+  /// an audio selector in this input, leave blank.
+  @_s.JsonKey(name: 'audioSelectorName')
+  final String audioSelectorName;
+
+  /// The amount of time (in milliseconds) that the active input must be silent
+  /// before automatic input failover occurs. Silence is defined as audio loss or
+  /// audio quieter than -50 dBFS.
+  @_s.JsonKey(name: 'audioSilenceThresholdMsec')
+  final int audioSilenceThresholdMsec;
+
+  AudioSilenceFailoverSettings({
+    @_s.required this.audioSelectorName,
+    this.audioSilenceThresholdMsec,
+  });
+  factory AudioSilenceFailoverSettings.fromJson(Map<String, dynamic> json) =>
+      _$AudioSilenceFailoverSettingsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AudioSilenceFailoverSettingsToJson(this);
+}
+
+/// Audio Track
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AudioTrack {
+  /// 1-based integer value that maps to a specific audio track
+  @_s.JsonKey(name: 'track')
+  final int track;
+
+  AudioTrack({
+    @_s.required this.track,
+  });
+  factory AudioTrack.fromJson(Map<String, dynamic> json) =>
+      _$AudioTrackFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AudioTrackToJson(this);
+}
+
+/// Audio Track Selection
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AudioTrackSelection {
+  /// Selects one or more unique audio tracks from within a source.
+  @_s.JsonKey(name: 'tracks')
+  final List<AudioTrack> tracks;
+
+  AudioTrackSelection({
+    @_s.required this.tracks,
+  });
+  factory AudioTrackSelection.fromJson(Map<String, dynamic> json) =>
+      _$AudioTrackSelectionFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AudioTrackSelectionToJson(this);
 }
 
 /// Audio Type
@@ -2457,6 +3014,20 @@ class AutomaticInputFailoverSettings {
   @_s.JsonKey(name: 'secondaryInputId')
   final String secondaryInputId;
 
+  /// This clear time defines the requirement a recovered input must meet to be
+  /// considered healthy. The input must have no failover conditions for this
+  /// length of time. Enter a time in milliseconds. This value is particularly
+  /// important if the input_preference for the failover pair is set to
+  /// PRIMARY_INPUT_PREFERRED, because after this time, MediaLive will switch back
+  /// to the primary input.
+  @_s.JsonKey(name: 'errorClearTimeMsec')
+  final int errorClearTimeMsec;
+
+  /// A list of failover conditions. If any of these conditions occur, MediaLive
+  /// will perform a failover to the other input.
+  @_s.JsonKey(name: 'failoverConditions')
+  final List<FailoverCondition> failoverConditions;
+
   /// Input preference when deciding which input to make active when a previously
   /// failed input has recovered.
   @_s.JsonKey(name: 'inputPreference')
@@ -2464,6 +3035,8 @@ class AutomaticInputFailoverSettings {
 
   AutomaticInputFailoverSettings({
     @_s.required this.secondaryInputId,
+    this.errorClearTimeMsec,
+    this.failoverConditions,
     this.inputPreference,
   });
   factory AutomaticInputFailoverSettings.fromJson(Map<String, dynamic> json) =>
@@ -2549,6 +3122,62 @@ class AvailSettings {
   Map<String, dynamic> toJson() => _$AvailSettingsToJson(this);
 }
 
+/// Placeholder documentation for BatchDeleteResponse
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class BatchDeleteResponse {
+  /// List of failed operations
+  @_s.JsonKey(name: 'failed')
+  final List<BatchFailedResultModel> failed;
+
+  /// List of successful operations
+  @_s.JsonKey(name: 'successful')
+  final List<BatchSuccessfulResultModel> successful;
+
+  BatchDeleteResponse({
+    this.failed,
+    this.successful,
+  });
+  factory BatchDeleteResponse.fromJson(Map<String, dynamic> json) =>
+      _$BatchDeleteResponseFromJson(json);
+}
+
+/// Details from a failed operation
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class BatchFailedResultModel {
+  /// ARN of the resource
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  /// Error code for the failed operation
+  @_s.JsonKey(name: 'code')
+  final String code;
+
+  /// ID of the resource
+  @_s.JsonKey(name: 'id')
+  final String id;
+
+  /// Error message for the failed operation
+  @_s.JsonKey(name: 'message')
+  final String message;
+
+  BatchFailedResultModel({
+    this.arn,
+    this.code,
+    this.id,
+    this.message,
+  });
+  factory BatchFailedResultModel.fromJson(Map<String, dynamic> json) =>
+      _$BatchFailedResultModelFromJson(json);
+}
+
 /// A list of schedule actions to create (in a request) or that have been
 /// created (in a response).
 @_s.JsonSerializable(
@@ -2620,6 +3249,80 @@ class BatchScheduleActionDeleteResult {
   });
   factory BatchScheduleActionDeleteResult.fromJson(Map<String, dynamic> json) =>
       _$BatchScheduleActionDeleteResultFromJson(json);
+}
+
+/// Placeholder documentation for BatchStartResponse
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class BatchStartResponse {
+  /// List of failed operations
+  @_s.JsonKey(name: 'failed')
+  final List<BatchFailedResultModel> failed;
+
+  /// List of successful operations
+  @_s.JsonKey(name: 'successful')
+  final List<BatchSuccessfulResultModel> successful;
+
+  BatchStartResponse({
+    this.failed,
+    this.successful,
+  });
+  factory BatchStartResponse.fromJson(Map<String, dynamic> json) =>
+      _$BatchStartResponseFromJson(json);
+}
+
+/// Placeholder documentation for BatchStopResponse
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class BatchStopResponse {
+  /// List of failed operations
+  @_s.JsonKey(name: 'failed')
+  final List<BatchFailedResultModel> failed;
+
+  /// List of successful operations
+  @_s.JsonKey(name: 'successful')
+  final List<BatchSuccessfulResultModel> successful;
+
+  BatchStopResponse({
+    this.failed,
+    this.successful,
+  });
+  factory BatchStopResponse.fromJson(Map<String, dynamic> json) =>
+      _$BatchStopResponseFromJson(json);
+}
+
+/// Details from a successful operation
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class BatchSuccessfulResultModel {
+  /// ARN of the resource
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  /// ID of the resource
+  @_s.JsonKey(name: 'id')
+  final String id;
+
+  /// Current state of the resource
+  @_s.JsonKey(name: 'state')
+  final String state;
+
+  BatchSuccessfulResultModel({
+    this.arn,
+    this.id,
+    this.state,
+  });
+  factory BatchSuccessfulResultModel.fromJson(Map<String, dynamic> json) =>
+      _$BatchSuccessfulResultModelFromJson(json);
 }
 
 /// Placeholder documentation for BatchUpdateScheduleResponse
@@ -2925,6 +3628,19 @@ enum BurnInTeletextGridControl {
   scaled,
 }
 
+/// Placeholder documentation for CancelInputDeviceTransferResponse
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class CancelInputDeviceTransferResponse {
+  CancelInputDeviceTransferResponse();
+  factory CancelInputDeviceTransferResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$CancelInputDeviceTransferResponseFromJson(json);
+}
+
 /// Caption Description
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2982,6 +3698,8 @@ class CaptionDestinationSettings {
   final BurnInDestinationSettings burnInDestinationSettings;
   @_s.JsonKey(name: 'dvbSubDestinationSettings')
   final DvbSubDestinationSettings dvbSubDestinationSettings;
+  @_s.JsonKey(name: 'ebuTtDDestinationSettings')
+  final EbuTtDDestinationSettings ebuTtDDestinationSettings;
   @_s.JsonKey(name: 'embeddedDestinationSettings')
   final EmbeddedDestinationSettings embeddedDestinationSettings;
   @_s.JsonKey(name: 'embeddedPlusScte20DestinationSettings')
@@ -3007,6 +3725,7 @@ class CaptionDestinationSettings {
     this.aribDestinationSettings,
     this.burnInDestinationSettings,
     this.dvbSubDestinationSettings,
+    this.ebuTtDDestinationSettings,
     this.embeddedDestinationSettings,
     this.embeddedPlusScte20DestinationSettings,
     this.rtmpCaptionInfoDestinationSettings,
@@ -3097,6 +3816,8 @@ class CaptionSelector {
     createFactory: true,
     createToJson: true)
 class CaptionSelectorSettings {
+  @_s.JsonKey(name: 'ancillarySourceSettings')
+  final AncillarySourceSettings ancillarySourceSettings;
   @_s.JsonKey(name: 'aribSourceSettings')
   final AribSourceSettings aribSourceSettings;
   @_s.JsonKey(name: 'dvbSubSourceSettings')
@@ -3111,6 +3832,7 @@ class CaptionSelectorSettings {
   final TeletextSourceSettings teletextSourceSettings;
 
   CaptionSelectorSettings({
+    this.ancillarySourceSettings,
     this.aribSourceSettings,
     this.dvbSubSourceSettings,
     this.embeddedSourceSettings,
@@ -3124,6 +3846,40 @@ class CaptionSelectorSettings {
   Map<String, dynamic> toJson() => _$CaptionSelectorSettingsToJson(this);
 }
 
+/// Maximum CDI input resolution; SD is 480i and 576i up to 30 frames-per-second
+/// (fps), HD is 720p up to 60 fps / 1080i up to 30 fps, FHD is 1080p up to 60
+/// fps, UHD is 2160p up to 60 fps
+enum CdiInputResolution {
+  @_s.JsonValue('SD')
+  sd,
+  @_s.JsonValue('HD')
+  hd,
+  @_s.JsonValue('FHD')
+  fhd,
+  @_s.JsonValue('UHD')
+  uhd,
+}
+
+/// Placeholder documentation for CdiInputSpecification
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class CdiInputSpecification {
+  /// Maximum CDI input resolution
+  @_s.JsonKey(name: 'resolution')
+  final CdiInputResolution resolution;
+
+  CdiInputSpecification({
+    this.resolution,
+  });
+  factory CdiInputSpecification.fromJson(Map<String, dynamic> json) =>
+      _$CdiInputSpecificationFromJson(json);
+
+  Map<String, dynamic> toJson() => _$CdiInputSpecificationToJson(this);
+}
+
 /// Placeholder documentation for Channel
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3134,6 +3890,10 @@ class Channel {
   /// The unique arn of the channel.
   @_s.JsonKey(name: 'arn')
   final String arn;
+
+  /// Specification of CDI inputs for this channel
+  @_s.JsonKey(name: 'cdiInputSpecification')
+  final CdiInputSpecification cdiInputSpecification;
 
   /// The class for this channel. STANDARD for a channel with two pipelines or
   /// SINGLE_PIPELINE for a channel with one pipeline.
@@ -3159,6 +3919,8 @@ class Channel {
   /// List of input attachments for channel.
   @_s.JsonKey(name: 'inputAttachments')
   final List<InputAttachment> inputAttachments;
+
+  /// Specification of network and file inputs for this channel
   @_s.JsonKey(name: 'inputSpecification')
   final InputSpecification inputSpecification;
 
@@ -3190,6 +3952,7 @@ class Channel {
 
   Channel({
     this.arn,
+    this.cdiInputSpecification,
     this.channelClass,
     this.destinations,
     this.egressEndpoints,
@@ -3285,6 +4048,10 @@ class ChannelSummary {
   @_s.JsonKey(name: 'arn')
   final String arn;
 
+  /// Specification of CDI inputs for this channel
+  @_s.JsonKey(name: 'cdiInputSpecification')
+  final CdiInputSpecification cdiInputSpecification;
+
   /// The class for this channel. STANDARD for a channel with two pipelines or
   /// SINGLE_PIPELINE for a channel with one pipeline.
   @_s.JsonKey(name: 'channelClass')
@@ -3307,6 +4074,8 @@ class ChannelSummary {
   /// List of input attachments for channel.
   @_s.JsonKey(name: 'inputAttachments')
   final List<InputAttachment> inputAttachments;
+
+  /// Specification of network and file inputs for this channel
   @_s.JsonKey(name: 'inputSpecification')
   final InputSpecification inputSpecification;
 
@@ -3334,6 +4103,7 @@ class ChannelSummary {
 
   ChannelSummary({
     this.arn,
+    this.cdiInputSpecification,
     this.channelClass,
     this.destinations,
     this.egressEndpoints,
@@ -3464,6 +4234,10 @@ class DeleteChannelResponse {
   @_s.JsonKey(name: 'arn')
   final String arn;
 
+  /// Specification of CDI inputs for this channel
+  @_s.JsonKey(name: 'cdiInputSpecification')
+  final CdiInputSpecification cdiInputSpecification;
+
   /// The class for this channel. STANDARD for a channel with two pipelines or
   /// SINGLE_PIPELINE for a channel with one pipeline.
   @_s.JsonKey(name: 'channelClass')
@@ -3488,6 +4262,8 @@ class DeleteChannelResponse {
   /// List of input attachments for channel.
   @_s.JsonKey(name: 'inputAttachments')
   final List<InputAttachment> inputAttachments;
+
+  /// Specification of network and file inputs for this channel
   @_s.JsonKey(name: 'inputSpecification')
   final InputSpecification inputSpecification;
 
@@ -3519,6 +4295,7 @@ class DeleteChannelResponse {
 
   DeleteChannelResponse({
     this.arn,
+    this.cdiInputSpecification,
     this.channelClass,
     this.destinations,
     this.egressEndpoints,
@@ -3582,6 +4359,14 @@ class DeleteMultiplexProgramResponse {
   @_s.JsonKey(name: 'packetIdentifiersMap')
   final MultiplexProgramPacketIdentifiersMap packetIdentifiersMap;
 
+  /// Contains information about the current sources for the specified program in
+  /// the specified multiplex. Keep in mind that each multiplex pipeline connects
+  /// to both pipelines in a given source channel (the channel identified by the
+  /// program). But only one of those channel pipelines is ever active at one
+  /// time.
+  @_s.JsonKey(name: 'pipelineDetails')
+  final List<MultiplexProgramPipelineDetail> pipelineDetails;
+
   /// The name of the multiplex program.
   @_s.JsonKey(name: 'programName')
   final String programName;
@@ -3590,6 +4375,7 @@ class DeleteMultiplexProgramResponse {
     this.channelId,
     this.multiplexProgramSettings,
     this.packetIdentifiersMap,
+    this.pipelineDetails,
     this.programName,
   });
   factory DeleteMultiplexProgramResponse.fromJson(Map<String, dynamic> json) =>
@@ -3790,6 +4576,10 @@ class DescribeChannelResponse {
   @_s.JsonKey(name: 'arn')
   final String arn;
 
+  /// Specification of CDI inputs for this channel
+  @_s.JsonKey(name: 'cdiInputSpecification')
+  final CdiInputSpecification cdiInputSpecification;
+
   /// The class for this channel. STANDARD for a channel with two pipelines or
   /// SINGLE_PIPELINE for a channel with one pipeline.
   @_s.JsonKey(name: 'channelClass')
@@ -3814,6 +4604,8 @@ class DescribeChannelResponse {
   /// List of input attachments for channel.
   @_s.JsonKey(name: 'inputAttachments')
   final List<InputAttachment> inputAttachments;
+
+  /// Specification of network and file inputs for this channel
   @_s.JsonKey(name: 'inputSpecification')
   final InputSpecification inputSpecification;
 
@@ -3845,6 +4637,7 @@ class DescribeChannelResponse {
 
   DescribeChannelResponse({
     this.arn,
+    this.cdiInputSpecification,
     this.channelClass,
     this.destinations,
     this.egressEndpoints,
@@ -3862,6 +4655,125 @@ class DescribeChannelResponse {
   });
   factory DescribeChannelResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeChannelResponseFromJson(json);
+}
+
+/// Placeholder documentation for DescribeInputDeviceResponse
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DescribeInputDeviceResponse {
+  /// The unique ARN of the input device.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  /// The state of the connection between the input device and AWS.
+  @_s.JsonKey(name: 'connectionState')
+  final InputDeviceConnectionState connectionState;
+
+  /// The status of the action to synchronize the device configuration. If you
+  /// change the configuration of the input device (for example, the maximum
+  /// bitrate), MediaLive sends the new data to the device. The device might not
+  /// update itself immediately. SYNCED means the device has updated its
+  /// configuration. SYNCING means that it has not updated its configuration.
+  @_s.JsonKey(name: 'deviceSettingsSyncState')
+  final DeviceSettingsSyncState deviceSettingsSyncState;
+
+  /// The status of software on the input device.
+  @_s.JsonKey(name: 'deviceUpdateStatus')
+  final DeviceUpdateStatus deviceUpdateStatus;
+
+  /// Settings that describe an input device that is type HD.
+  @_s.JsonKey(name: 'hdDeviceSettings')
+  final InputDeviceHdSettings hdDeviceSettings;
+
+  /// The unique ID of the input device.
+  @_s.JsonKey(name: 'id')
+  final String id;
+
+  /// The network MAC address of the input device.
+  @_s.JsonKey(name: 'macAddress')
+  final String macAddress;
+
+  /// A name that you specify for the input device.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// The network settings for the input device.
+  @_s.JsonKey(name: 'networkSettings')
+  final InputDeviceNetworkSettings networkSettings;
+
+  /// The unique serial number of the input device.
+  @_s.JsonKey(name: 'serialNumber')
+  final String serialNumber;
+
+  /// The type of the input device.
+  @_s.JsonKey(name: 'type')
+  final InputDeviceType type;
+
+  /// Settings that describe an input device that is type UHD.
+  @_s.JsonKey(name: 'uhdDeviceSettings')
+  final InputDeviceUhdSettings uhdDeviceSettings;
+
+  DescribeInputDeviceResponse({
+    this.arn,
+    this.connectionState,
+    this.deviceSettingsSyncState,
+    this.deviceUpdateStatus,
+    this.hdDeviceSettings,
+    this.id,
+    this.macAddress,
+    this.name,
+    this.networkSettings,
+    this.serialNumber,
+    this.type,
+    this.uhdDeviceSettings,
+  });
+  factory DescribeInputDeviceResponse.fromJson(Map<String, dynamic> json) =>
+      _$DescribeInputDeviceResponseFromJson(json);
+}
+
+/// Placeholder documentation for DescribeInputDeviceThumbnailResponse
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DescribeInputDeviceThumbnailResponse {
+  /// The binary data for the thumbnail that the Link device has most recently
+  /// sent to MediaLive.
+  @Uint8ListConverter()
+  @_s.JsonKey(name: 'body')
+  final Uint8List body;
+
+  /// The length of the content.
+  @_s.JsonKey(name: 'Content-Length')
+  final int contentLength;
+
+  /// Specifies the media type of the thumbnail.
+  @_s.JsonKey(name: 'Content-Type')
+  final ContentType contentType;
+
+  /// The unique, cacheable version of this thumbnail.
+  @_s.JsonKey(name: 'ETag')
+  final String eTag;
+
+  /// The date and time the thumbnail was last updated at the device.
+  @RfcDateTimeConverter()
+  @_s.JsonKey(name: 'Last-Modified')
+  final DateTime lastModified;
+
+  DescribeInputDeviceThumbnailResponse({
+    this.body,
+    this.contentLength,
+    this.contentType,
+    this.eTag,
+    this.lastModified,
+  });
+  factory DescribeInputDeviceThumbnailResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$DescribeInputDeviceThumbnailResponseFromJson(json);
 }
 
 /// Placeholder documentation for DescribeInputResponse
@@ -3898,6 +4810,10 @@ class DescribeInputResponse {
   /// requires two sources in the input.
   @_s.JsonKey(name: 'inputClass')
   final InputClass inputClass;
+
+  /// Settings for the input devices.
+  @_s.JsonKey(name: 'inputDevices')
+  final List<InputDeviceSettings> inputDevices;
 
   /// Certain pull input sources can be dynamic, meaning that they can have their
   /// URL's dynamically changes
@@ -3941,6 +4857,7 @@ class DescribeInputResponse {
     this.destinations,
     this.id,
     this.inputClass,
+    this.inputDevices,
     this.inputSourceType,
     this.mediaConnectFlows,
     this.name,
@@ -4018,6 +4935,14 @@ class DescribeMultiplexProgramResponse {
   @_s.JsonKey(name: 'packetIdentifiersMap')
   final MultiplexProgramPacketIdentifiersMap packetIdentifiersMap;
 
+  /// Contains information about the current sources for the specified program in
+  /// the specified multiplex. Keep in mind that each multiplex pipeline connects
+  /// to both pipelines in a given source channel (the channel identified by the
+  /// program). But only one of those channel pipelines is ever active at one
+  /// time.
+  @_s.JsonKey(name: 'pipelineDetails')
+  final List<MultiplexProgramPipelineDetail> pipelineDetails;
+
   /// The name of the multiplex program.
   @_s.JsonKey(name: 'programName')
   final String programName;
@@ -4026,6 +4951,7 @@ class DescribeMultiplexProgramResponse {
     this.channelId,
     this.multiplexProgramSettings,
     this.packetIdentifiersMap,
+    this.pipelineDetails,
     this.programName,
   });
   factory DescribeMultiplexProgramResponse.fromJson(
@@ -4296,6 +5222,26 @@ class DescribeScheduleResponse {
   });
   factory DescribeScheduleResponse.fromJson(Map<String, dynamic> json) =>
       _$DescribeScheduleResponseFromJson(json);
+}
+
+/// The status of the action to synchronize the device configuration. If you
+/// change the configuration of the input device (for example, the maximum
+/// bitrate), MediaLive sends the new data to the device. The device might not
+/// update itself immediately. SYNCED means the device has updated its
+/// configuration. SYNCING means that it has not updated its configuration.
+enum DeviceSettingsSyncState {
+  @_s.JsonValue('SYNCED')
+  synced,
+  @_s.JsonValue('SYNCING')
+  syncing,
+}
+
+/// The status of software on the input device.
+enum DeviceUpdateStatus {
+  @_s.JsonValue('UP_TO_DATE')
+  upToDate,
+  @_s.JsonValue('NOT_UP_TO_DATE')
+  notUpToDate,
 }
 
 /// DVB Network Information Table (NIT)
@@ -4923,6 +5869,77 @@ enum Eac3SurroundMode {
   notIndicated,
 }
 
+/// Ebu Tt DDestination Settings
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class EbuTtDDestinationSettings {
+  /// Specifies how to handle the gap between the lines (in multi-line captions).
+  ///
+  /// - enabled: Fill with the captions background color (as specified in the
+  /// input captions).
+  /// - disabled: Leave the gap unfilled.
+  @_s.JsonKey(name: 'fillLineGap')
+  final EbuTtDFillLineGapControl fillLineGap;
+
+  /// Specifies the font family to include in the font data attached to the EBU-TT
+  /// captions. Valid only if styleControl is set to include. If you leave this
+  /// field empty, the font family is set to "monospaced". (If styleControl is set
+  /// to exclude, the font family is always set to "monospaced".)
+  ///
+  /// You specify only the font family. All other style information (color, bold,
+  /// position and so on) is copied from the input captions. The size is always
+  /// set to 100% to allow the downstream player to choose the size.
+  ///
+  /// - Enter a list of font families, as a comma-separated list of font names, in
+  /// order of preference. The name can be a font family (such as “Arial”), or a
+  /// generic font family (such as “serif”), or “default” (to let the downstream
+  /// player choose the font).
+  /// - Leave blank to set the family to “monospace”.
+  @_s.JsonKey(name: 'fontFamily')
+  final String fontFamily;
+
+  /// Specifies the style information (font color, font position, and so on) to
+  /// include in the font data that is attached to the EBU-TT captions.
+  ///
+  /// - include: Take the style information (font color, font position, and so on)
+  /// from the source captions and include that information in the font data
+  /// attached to the EBU-TT captions. This option is valid only if the source
+  /// captions are Embedded or Teletext.
+  /// - exclude: In the font data attached to the EBU-TT captions, set the font
+  /// family to "monospaced". Do not include any other style information.
+  @_s.JsonKey(name: 'styleControl')
+  final EbuTtDDestinationStyleControl styleControl;
+
+  EbuTtDDestinationSettings({
+    this.fillLineGap,
+    this.fontFamily,
+    this.styleControl,
+  });
+  factory EbuTtDDestinationSettings.fromJson(Map<String, dynamic> json) =>
+      _$EbuTtDDestinationSettingsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$EbuTtDDestinationSettingsToJson(this);
+}
+
+/// Ebu Tt DDestination Style Control
+enum EbuTtDDestinationStyleControl {
+  @_s.JsonValue('EXCLUDE')
+  exclude,
+  @_s.JsonValue('INCLUDE')
+  include,
+}
+
+/// Ebu Tt DFill Line Gap Control
+enum EbuTtDFillLineGapControl {
+  @_s.JsonValue('DISABLED')
+  disabled,
+  @_s.JsonValue('ENABLED')
+  enabled,
+}
+
 /// Embedded Convert608 To708
 enum EmbeddedConvert608To708 {
   @_s.JsonValue('DISABLED')
@@ -5043,6 +6060,10 @@ class EncoderSettings {
   @_s.JsonKey(name: 'captionDescriptions')
   final List<CaptionDescription> captionDescriptions;
 
+  /// Feature Activations
+  @_s.JsonKey(name: 'featureActivations')
+  final FeatureActivations featureActivations;
+
   /// Configuration settings that apply to the event as a whole.
   @_s.JsonKey(name: 'globalConfiguration')
   final GlobalConfiguration globalConfiguration;
@@ -5060,6 +6081,7 @@ class EncoderSettings {
     this.availConfiguration,
     this.blackoutSlate,
     this.captionDescriptions,
+    this.featureActivations,
     this.globalConfiguration,
     this.nielsenConfiguration,
   });
@@ -5067,6 +6089,92 @@ class EncoderSettings {
       _$EncoderSettingsFromJson(json);
 
   Map<String, dynamic> toJson() => _$EncoderSettingsToJson(this);
+}
+
+/// Failover Condition settings. There can be multiple failover conditions
+/// inside AutomaticInputFailoverSettings.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class FailoverCondition {
+  /// Failover condition type-specific settings.
+  @_s.JsonKey(name: 'failoverConditionSettings')
+  final FailoverConditionSettings failoverConditionSettings;
+
+  FailoverCondition({
+    this.failoverConditionSettings,
+  });
+  factory FailoverCondition.fromJson(Map<String, dynamic> json) =>
+      _$FailoverConditionFromJson(json);
+
+  Map<String, dynamic> toJson() => _$FailoverConditionToJson(this);
+}
+
+/// Settings for one failover condition.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class FailoverConditionSettings {
+  /// MediaLive will perform a failover if the specified audio selector is silent
+  /// for the specified period.
+  @_s.JsonKey(name: 'audioSilenceSettings')
+  final AudioSilenceFailoverSettings audioSilenceSettings;
+
+  /// MediaLive will perform a failover if content is not detected in this input
+  /// for the specified period.
+  @_s.JsonKey(name: 'inputLossSettings')
+  final InputLossFailoverSettings inputLossSettings;
+
+  /// MediaLive will perform a failover if content is considered black for the
+  /// specified period.
+  @_s.JsonKey(name: 'videoBlackSettings')
+  final VideoBlackFailoverSettings videoBlackSettings;
+
+  FailoverConditionSettings({
+    this.audioSilenceSettings,
+    this.inputLossSettings,
+    this.videoBlackSettings,
+  });
+  factory FailoverConditionSettings.fromJson(Map<String, dynamic> json) =>
+      _$FailoverConditionSettingsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$FailoverConditionSettingsToJson(this);
+}
+
+/// Feature Activations
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class FeatureActivations {
+  /// Enables the Input Prepare feature. You can create Input Prepare actions in
+  /// the schedule only if this feature is enabled.
+  /// If you disable the feature on an existing schedule, make sure that you first
+  /// delete all input prepare actions from the schedule.
+  @_s.JsonKey(name: 'inputPrepareScheduleActions')
+  final FeatureActivationsInputPrepareScheduleActions
+      inputPrepareScheduleActions;
+
+  FeatureActivations({
+    this.inputPrepareScheduleActions,
+  });
+  factory FeatureActivations.fromJson(Map<String, dynamic> json) =>
+      _$FeatureActivationsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$FeatureActivationsToJson(this);
+}
+
+/// Feature Activations Input Prepare Schedule Actions
+enum FeatureActivationsInputPrepareScheduleActions {
+  @_s.JsonValue('DISABLED')
+  disabled,
+  @_s.JsonValue('ENABLED')
+  enabled,
 }
 
 /// Fec Output Include Fec
@@ -5178,13 +6286,42 @@ class Fmp4HlsSettings {
   @_s.JsonKey(name: 'audioRenditionSets')
   final String audioRenditionSets;
 
+  /// If set to passthrough, Nielsen inaudible tones for media tracking will be
+  /// detected in the input audio and an equivalent ID3 tag will be inserted in
+  /// the output.
+  @_s.JsonKey(name: 'nielsenId3Behavior')
+  final Fmp4NielsenId3Behavior nielsenId3Behavior;
+
+  /// When set to passthrough, timed metadata is passed through from input to
+  /// output.
+  @_s.JsonKey(name: 'timedMetadataBehavior')
+  final Fmp4TimedMetadataBehavior timedMetadataBehavior;
+
   Fmp4HlsSettings({
     this.audioRenditionSets,
+    this.nielsenId3Behavior,
+    this.timedMetadataBehavior,
   });
   factory Fmp4HlsSettings.fromJson(Map<String, dynamic> json) =>
       _$Fmp4HlsSettingsFromJson(json);
 
   Map<String, dynamic> toJson() => _$Fmp4HlsSettingsToJson(this);
+}
+
+/// Fmp4 Nielsen Id3 Behavior
+enum Fmp4NielsenId3Behavior {
+  @_s.JsonValue('NO_PASSTHROUGH')
+  noPassthrough,
+  @_s.JsonValue('PASSTHROUGH')
+  passthrough,
+}
+
+/// Fmp4 Timed Metadata Behavior
+enum Fmp4TimedMetadataBehavior {
+  @_s.JsonValue('NO_PASSTHROUGH')
+  noPassthrough,
+  @_s.JsonValue('PASSTHROUGH')
+  passthrough,
 }
 
 /// Settings to specify if an action follows another.
@@ -5232,12 +6369,12 @@ enum FollowPoint {
 class FrameCaptureGroupSettings {
   /// The destination for the frame capture files. Either the URI for an Amazon S3
   /// bucket and object, plus a file name prefix (for example,
-  /// s3ssl://sportsDelivery/highlights/20180820/curling_) or the URI for a
+  /// s3ssl://sportsDelivery/highlights/20180820/curling-) or the URI for a
   /// MediaStore container, plus a file name prefix (for example,
-  /// mediastoressl://sportsDelivery/20180820/curling_). The final file names
-  /// consist of the prefix from the destination field (for example, "curling_") +
+  /// mediastoressl://sportsDelivery/20180820/curling-). The final file names
+  /// consist of the prefix from the destination field (for example, "curling-") +
   /// name modifier + the counter (5 digits, starting from 00001) + extension
-  /// (which is always .jpg).  For example, curlingLow.00001.jpg
+  /// (which is always .jpg).  For example, curling-low.00001.jpg
   @_s.JsonKey(name: 'destination')
   final OutputLocationRef destination;
 
@@ -5332,9 +6469,9 @@ class GlobalConfiguration {
 
   /// Indicates how MediaLive pipelines are synchronized.
   ///
-  /// PIPELINELOCKING - MediaLive will attempt to synchronize the output of each
+  /// PIPELINE_LOCKING - MediaLive will attempt to synchronize the output of each
   /// pipeline to the other.
-  /// EPOCHLOCKING - MediaLive will attempt to synchronize the output of each
+  /// EPOCH_LOCKING - MediaLive will attempt to synchronize the output of each
   /// pipeline to the Unix epoch.
   @_s.JsonKey(name: 'outputLockingMode')
   final GlobalConfigurationOutputLockingMode outputLockingMode;
@@ -5455,6 +6592,25 @@ enum H264EntropyEncoding {
   cavlc,
 }
 
+/// H264 Filter Settings
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class H264FilterSettings {
+  @_s.JsonKey(name: 'temporalFilterSettings')
+  final TemporalFilterSettings temporalFilterSettings;
+
+  H264FilterSettings({
+    this.temporalFilterSettings,
+  });
+  factory H264FilterSettings.fromJson(Map<String, dynamic> json) =>
+      _$H264FilterSettingsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$H264FilterSettingsToJson(this);
+}
+
 /// H264 Flicker Aq
 enum H264FlickerAq {
   @_s.JsonValue('DISABLED')
@@ -5567,6 +6723,14 @@ enum H264Profile {
   main,
 }
 
+/// H264 Quality Level
+enum H264QualityLevel {
+  @_s.JsonValue('ENHANCED_QUALITY')
+  enhancedQuality,
+  @_s.JsonValue('STANDARD_QUALITY')
+  standardQuality,
+}
+
 /// H264 Rate Control Mode
 enum H264RateControlMode {
   @_s.JsonValue('CBR')
@@ -5642,6 +6806,10 @@ class H264Settings {
   @_s.JsonKey(name: 'entropyEncoding')
   final H264EntropyEncoding entropyEncoding;
 
+  /// Optional filters that you can apply to an encode.
+  @_s.JsonKey(name: 'filterSettings')
+  final H264FilterSettings filterSettings;
+
   /// Four bit AFD value to write on all frames of video in the output stream.
   /// Only valid when afdSignaling is set to 'Fixed'.
   @_s.JsonKey(name: 'fixedAfd')
@@ -5653,12 +6821,12 @@ class H264Settings {
   final H264FlickerAq flickerAq;
 
   /// This setting applies only when scan type is "interlaced." It controls
-  /// whether coding is on a field basis or a frame basis. (When the video is
-  /// progressive, the coding is always on a frame basis.)
-  /// enabled: Always code on a field basis, so that odd and even sets of fields
-  /// are coded separately.
+  /// whether coding is performed on a field basis or on a frame basis. (When the
+  /// video is progressive, the coding is always performed on a frame basis.)
+  /// enabled: Force MediaLive to code on a field basis, so that odd and even sets
+  /// of fields are coded separately.
   /// disabled: Code the two sets of fields separately (on a field basis) or
-  /// together (on a frame basis, using PAFF or MBAFF), depending on what is most
+  /// together (on a frame basis using PAFF), depending on what is most
   /// appropriate for the content.
   @_s.JsonKey(name: 'forceFieldPictures')
   final H264ForceFieldPictures forceFieldPictures;
@@ -5761,6 +6929,16 @@ class H264Settings {
   @_s.JsonKey(name: 'profile')
   final H264Profile profile;
 
+  /// Leave as STANDARD_QUALITY or choose a different value (which might result in
+  /// additional costs to run the channel).
+  /// - ENHANCED_QUALITY: Produces a slightly better video quality without an
+  /// increase in the bitrate. Has an effect only when the Rate control mode is
+  /// QVBR or CBR. If this channel is in a MediaLive multiplex, the value must be
+  /// ENHANCED_QUALITY.
+  /// - STANDARD_QUALITY: Valid for any Rate control mode.
+  @_s.JsonKey(name: 'qualityLevel')
+  final H264QualityLevel qualityLevel;
+
   /// Controls the target quality for the video encode. Applies only when the rate
   /// control mode is QVBR. Set values for the QVBR quality level field and Max
   /// bitrate field that suit your most important viewing devices. Recommended
@@ -5856,6 +7034,7 @@ class H264Settings {
     this.colorMetadata,
     this.colorSpaceSettings,
     this.entropyEncoding,
+    this.filterSettings,
     this.fixedAfd,
     this.flickerAq,
     this.forceFieldPictures,
@@ -5876,6 +7055,7 @@ class H264Settings {
     this.parDenominator,
     this.parNumerator,
     this.profile,
+    this.qualityLevel,
     this.qvbrQualityLevel,
     this.rateControlMode,
     this.scanType,
@@ -5994,6 +7174,25 @@ class H265ColorSpaceSettings {
   Map<String, dynamic> toJson() => _$H265ColorSpaceSettingsToJson(this);
 }
 
+/// H265 Filter Settings
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class H265FilterSettings {
+  @_s.JsonKey(name: 'temporalFilterSettings')
+  final TemporalFilterSettings temporalFilterSettings;
+
+  H265FilterSettings({
+    this.temporalFilterSettings,
+  });
+  factory H265FilterSettings.fromJson(Map<String, dynamic> json) =>
+      _$H265FilterSettingsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$H265FilterSettingsToJson(this);
+}
+
 /// H265 Flicker Aq
 enum H265FlickerAq {
   @_s.JsonValue('DISABLED')
@@ -6072,6 +7271,8 @@ enum H265RateControlMode {
 
 /// H265 Scan Type
 enum H265ScanType {
+  @_s.JsonValue('INTERLACED')
+  interlaced,
   @_s.JsonValue('PROGRESSIVE')
   progressive,
 }
@@ -6136,6 +7337,10 @@ class H265Settings {
   /// Color Space settings
   @_s.JsonKey(name: 'colorSpaceSettings')
   final H265ColorSpaceSettings colorSpaceSettings;
+
+  /// Optional filters that you can apply to an encode.
+  @_s.JsonKey(name: 'filterSettings')
+  final H265FilterSettings filterSettings;
 
   /// Four bit AFD value to write on all frames of video in the output stream.
   /// Only valid when afdSignaling is set to 'Fixed'.
@@ -6223,6 +7428,12 @@ class H265Settings {
   /// CBR: Quality varies, depending on the video complexity. Recommended only if
   /// you distribute
   /// your assets to devices that cannot handle variable bitrates.
+  ///
+  /// Multiplex: This rate control mode is only supported (and is required) when
+  /// the video is being
+  /// delivered to a MediaLive Multiplex in which case the rate control
+  /// configuration is controlled
+  /// by the properties within the Multiplex Program.
   @_s.JsonKey(name: 'rateControlMode')
   final H265RateControlMode rateControlMode;
 
@@ -6265,6 +7476,7 @@ class H265Settings {
     this.bufSize,
     this.colorMetadata,
     this.colorSpaceSettings,
+    this.filterSettings,
     this.fixedAfd,
     this.flickerAq,
     this.gopClosedCadence,
@@ -6508,6 +7720,14 @@ enum HlsDirectoryStructure {
   subdirectoryPerStream,
 }
 
+/// Hls Discontinuity Tags
+enum HlsDiscontinuityTags {
+  @_s.JsonValue('INSERT')
+  insert,
+  @_s.JsonValue('NEVER_INSERT')
+  neverInsert,
+}
+
 /// Hls Encryption Type
 enum HlsEncryptionType {
   @_s.JsonValue('AES128')
@@ -6601,6 +7821,16 @@ class HlsGroupSettings {
   @_s.JsonKey(name: 'directoryStructure')
   final HlsDirectoryStructure directoryStructure;
 
+  /// Specifies whether to insert EXT-X-DISCONTINUITY tags in the HLS child
+  /// manifests for this output group.
+  /// Typically, choose Insert because these tags are required in the manifest
+  /// (according to the HLS specification) and serve an important purpose.
+  /// Choose Never Insert only if the downstream system is doing real-time
+  /// failover (without using the MediaLive automatic failover feature) and only
+  /// if that downstream system has advised you to exclude the tags.
+  @_s.JsonKey(name: 'discontinuityTags')
+  final HlsDiscontinuityTags discontinuityTags;
+
   /// Encrypts the segments with the given encryption scheme.  Exclude this
   /// parameter if no encryption is desired.
   @_s.JsonKey(name: 'encryptionType')
@@ -6625,10 +7855,21 @@ class HlsGroupSettings {
   @_s.JsonKey(name: 'iFrameOnlyPlaylists')
   final IFrameOnlyPlaylistType iFrameOnlyPlaylists;
 
-  /// Applies only if Mode field is LIVE. Specifies the maximum number of segments
-  /// in the media manifest file. After this maximum, older segments are removed
-  /// from the media manifest. This number must be less than or equal to the Keep
-  /// Segments field.
+  /// Specifies whether to include the final (incomplete) segment in the media
+  /// output when the pipeline stops producing output because of a channel stop, a
+  /// channel pause or a loss of input to the pipeline.
+  /// Auto means that MediaLive decides whether to include the final segment,
+  /// depending on the channel class and the types of output groups.
+  /// Suppress means to never include the incomplete segment. We recommend you
+  /// choose Auto and let MediaLive control the behavior.
+  @_s.JsonKey(name: 'incompleteSegmentBehavior')
+  final HlsIncompleteSegmentBehavior incompleteSegmentBehavior;
+
+  /// Applies only if Mode field is LIVE.
+  ///
+  /// Specifies the maximum number of segments in the media manifest file. After
+  /// this maximum, older segments are removed from the media manifest. This
+  /// number must be smaller than the number in the Keep Segments field.
   @_s.JsonKey(name: 'indexNSegments')
   final int indexNSegments;
 
@@ -6651,8 +7892,17 @@ class HlsGroupSettings {
   @_s.JsonKey(name: 'ivSource')
   final HlsIvSource ivSource;
 
-  /// Applies only if Mode field is LIVE. Specifies the number of media segments
-  /// (.ts files) to retain in the destination directory.
+  /// Applies only if Mode field is LIVE.
+  ///
+  /// Specifies the number of media segments to retain in the destination
+  /// directory. This number should be bigger than indexNSegments (Num segments).
+  /// We recommend (value = (2 x indexNsegments) + 1).
+  ///
+  /// If this "keep segments" number is too low, the following might happen: the
+  /// player is still reading a media manifest file that lists this segment, but
+  /// that segment has been removed from the destination directory (as directed by
+  /// indexNSegments). This situation would result in a 404 HTTP error on the
+  /// player.
   @_s.JsonKey(name: 'keepSegments')
   final int keepSegments;
 
@@ -6697,10 +7947,13 @@ class HlsGroupSettings {
   @_s.JsonKey(name: 'mode')
   final HlsMode mode;
 
-  /// MANIFESTSANDSEGMENTS: Generates manifests (master manifest, if applicable,
+  /// MANIFESTS_AND_SEGMENTS: Generates manifests (master manifest, if applicable,
   /// and media manifests) for this output group.
   ///
-  /// SEGMENTSONLY: Does not generate any manifests for this output group.
+  /// VARIANT_MANIFESTS_AND_SEGMENTS: Generates media manifests for this output
+  /// group, but not a master manifest.
+  ///
+  /// SEGMENTS_ONLY: Does not generate any manifests for this output group.
   @_s.JsonKey(name: 'outputSelection')
   final HlsOutputSelection outputSelection;
 
@@ -6767,9 +8020,9 @@ class HlsGroupSettings {
   @_s.JsonKey(name: 'timestampDeltaMilliseconds')
   final int timestampDeltaMilliseconds;
 
-  /// SEGMENTEDFILES: Emit the program as segments - multiple .ts media files.
+  /// SEGMENTED_FILES: Emit the program as segments - multiple .ts media files.
   ///
-  /// SINGLEFILE: Applies only if Mode field is VOD. Emit the program as a single
+  /// SINGLE_FILE: Applies only if Mode field is VOD. Emit the program as a single
   /// .ts media file. The media manifest includes #EXT-X-BYTERANGE tags to index
   /// segments for playback. A typical use for this value is when sending the
   /// output to AWS Elemental MediaConvert, which can accept only a single media
@@ -6791,10 +8044,12 @@ class HlsGroupSettings {
     this.codecSpecification,
     this.constantIv,
     this.directoryStructure,
+    this.discontinuityTags,
     this.encryptionType,
     this.hlsCdnSettings,
     this.hlsId3SegmentTagging,
     this.iFrameOnlyPlaylists,
+    this.incompleteSegmentBehavior,
     this.indexNSegments,
     this.inputLossAction,
     this.ivInManifest,
@@ -6864,6 +8119,14 @@ enum HlsId3SegmentTaggingState {
   disabled,
   @_s.JsonValue('ENABLED')
   enabled,
+}
+
+/// Hls Incomplete Segment Behavior
+enum HlsIncompleteSegmentBehavior {
+  @_s.JsonValue('AUTO')
+  auto,
+  @_s.JsonValue('SUPPRESS')
+  suppress,
 }
 
 /// Hls Input Settings
@@ -7004,6 +8267,8 @@ enum HlsOutputSelection {
   manifestsAndSegments,
   @_s.JsonValue('SEGMENTS_ONLY')
   segmentsOnly,
+  @_s.JsonValue('VARIANT_MANIFESTS_AND_SEGMENTS')
+  variantManifestsAndSegments,
 }
 
 /// Hls Output Settings
@@ -7203,8 +8468,7 @@ enum IFrameOnlyPlaylistType {
   standard,
 }
 
-/// Settings to configure an action so that it occurs immediately. This is only
-/// supported for input switch actions currently.
+/// Settings to configure an action so that it occurs as soon as possible.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -7255,6 +8519,10 @@ class Input {
   @_s.JsonKey(name: 'inputClass')
   final InputClass inputClass;
 
+  /// Settings for the input devices.
+  @_s.JsonKey(name: 'inputDevices')
+  final List<InputDeviceSettings> inputDevices;
+
   /// Certain pull input sources can be dynamic, meaning that they can have their
   /// URL's dynamically changes
   /// during input switch actions. Presently, this functionality only works with
@@ -7297,6 +8565,7 @@ class Input {
     this.destinations,
     this.id,
     this.inputClass,
+    this.inputDevices,
     this.inputSourceType,
     this.mediaConnectFlows,
     this.name,
@@ -7512,6 +8781,370 @@ class InputDestinationVpc {
       _$InputDestinationVpcFromJson(json);
 }
 
+/// The source at the input device that is currently active.
+enum InputDeviceActiveInput {
+  @_s.JsonValue('HDMI')
+  hdmi,
+  @_s.JsonValue('SDI')
+  sdi,
+}
+
+/// Configurable settings for the input device.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class InputDeviceConfigurableSettings {
+  /// The input source that you want to use. If the device has a source connected
+  /// to only one of its input ports, or if you don't care which source the device
+  /// sends, specify Auto. If the device has sources connected to both its input
+  /// ports, and you want to use a specific source, specify the source.
+  @_s.JsonKey(name: 'configuredInput')
+  final InputDeviceConfiguredInput configuredInput;
+
+  /// The maximum bitrate in bits per second. Set a value here to throttle the
+  /// bitrate of the source video.
+  @_s.JsonKey(name: 'maxBitrate')
+  final int maxBitrate;
+
+  InputDeviceConfigurableSettings({
+    this.configuredInput,
+    this.maxBitrate,
+  });
+  Map<String, dynamic> toJson() =>
+      _$InputDeviceConfigurableSettingsToJson(this);
+}
+
+/// The source to activate (use) from the input device.
+enum InputDeviceConfiguredInput {
+  @_s.JsonValue('AUTO')
+  auto,
+  @_s.JsonValue('HDMI')
+  hdmi,
+  @_s.JsonValue('SDI')
+  sdi,
+}
+
+/// The state of the connection between the input device and AWS.
+enum InputDeviceConnectionState {
+  @_s.JsonValue('DISCONNECTED')
+  disconnected,
+  @_s.JsonValue('CONNECTED')
+  connected,
+}
+
+/// Settings that describe the active source from the input device, and the
+/// video characteristics of that source.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class InputDeviceHdSettings {
+  /// If you specified Auto as the configured input, specifies which of the
+  /// sources is currently active (SDI or HDMI).
+  @_s.JsonKey(name: 'activeInput')
+  final InputDeviceActiveInput activeInput;
+
+  /// The source at the input device that is currently active. You can specify
+  /// this source.
+  @_s.JsonKey(name: 'configuredInput')
+  final InputDeviceConfiguredInput configuredInput;
+
+  /// The state of the input device.
+  @_s.JsonKey(name: 'deviceState')
+  final InputDeviceState deviceState;
+
+  /// The frame rate of the video source.
+  @_s.JsonKey(name: 'framerate')
+  final double framerate;
+
+  /// The height of the video source, in pixels.
+  @_s.JsonKey(name: 'height')
+  final int height;
+
+  /// The current maximum bitrate for ingesting this source, in bits per second.
+  /// You can specify this maximum.
+  @_s.JsonKey(name: 'maxBitrate')
+  final int maxBitrate;
+
+  /// The scan type of the video source.
+  @_s.JsonKey(name: 'scanType')
+  final InputDeviceScanType scanType;
+
+  /// The width of the video source, in pixels.
+  @_s.JsonKey(name: 'width')
+  final int width;
+
+  InputDeviceHdSettings({
+    this.activeInput,
+    this.configuredInput,
+    this.deviceState,
+    this.framerate,
+    this.height,
+    this.maxBitrate,
+    this.scanType,
+    this.width,
+  });
+  factory InputDeviceHdSettings.fromJson(Map<String, dynamic> json) =>
+      _$InputDeviceHdSettingsFromJson(json);
+}
+
+/// Specifies whether the input device has been configured (outside of
+/// MediaLive) to use a dynamic IP address assignment (DHCP) or a static IP
+/// address.
+enum InputDeviceIpScheme {
+  @_s.JsonValue('STATIC')
+  static,
+  @_s.JsonValue('DHCP')
+  dhcp,
+}
+
+/// The network settings for the input device.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class InputDeviceNetworkSettings {
+  /// The DNS addresses of the input device.
+  @_s.JsonKey(name: 'dnsAddresses')
+  final List<String> dnsAddresses;
+
+  /// The network gateway IP address.
+  @_s.JsonKey(name: 'gateway')
+  final String gateway;
+
+  /// The IP address of the input device.
+  @_s.JsonKey(name: 'ipAddress')
+  final String ipAddress;
+
+  /// Specifies whether the input device has been configured (outside of
+  /// MediaLive) to use a dynamic IP address assignment (DHCP) or a static IP
+  /// address.
+  @_s.JsonKey(name: 'ipScheme')
+  final InputDeviceIpScheme ipScheme;
+
+  /// The subnet mask of the input device.
+  @_s.JsonKey(name: 'subnetMask')
+  final String subnetMask;
+
+  InputDeviceNetworkSettings({
+    this.dnsAddresses,
+    this.gateway,
+    this.ipAddress,
+    this.ipScheme,
+    this.subnetMask,
+  });
+  factory InputDeviceNetworkSettings.fromJson(Map<String, dynamic> json) =>
+      _$InputDeviceNetworkSettingsFromJson(json);
+}
+
+/// Settings for an input device.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class InputDeviceRequest {
+  /// The unique ID for the device.
+  @_s.JsonKey(name: 'id')
+  final String id;
+
+  InputDeviceRequest({
+    this.id,
+  });
+  Map<String, dynamic> toJson() => _$InputDeviceRequestToJson(this);
+}
+
+/// The scan type of the video source.
+enum InputDeviceScanType {
+  @_s.JsonValue('INTERLACED')
+  interlaced,
+  @_s.JsonValue('PROGRESSIVE')
+  progressive,
+}
+
+/// Settings for an input device.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class InputDeviceSettings {
+  /// The unique ID for the device.
+  @_s.JsonKey(name: 'id')
+  final String id;
+
+  InputDeviceSettings({
+    this.id,
+  });
+  factory InputDeviceSettings.fromJson(Map<String, dynamic> json) =>
+      _$InputDeviceSettingsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$InputDeviceSettingsToJson(this);
+}
+
+/// The state of the input device.
+enum InputDeviceState {
+  @_s.JsonValue('IDLE')
+  idle,
+  @_s.JsonValue('STREAMING')
+  streaming,
+}
+
+/// Details of the input device.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class InputDeviceSummary {
+  /// The unique ARN of the input device.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  /// The state of the connection between the input device and AWS.
+  @_s.JsonKey(name: 'connectionState')
+  final InputDeviceConnectionState connectionState;
+
+  /// The status of the action to synchronize the device configuration. If you
+  /// change the configuration of the input device (for example, the maximum
+  /// bitrate), MediaLive sends the new data to the device. The device might not
+  /// update itself immediately. SYNCED means the device has updated its
+  /// configuration. SYNCING means that it has not updated its configuration.
+  @_s.JsonKey(name: 'deviceSettingsSyncState')
+  final DeviceSettingsSyncState deviceSettingsSyncState;
+
+  /// The status of software on the input device.
+  @_s.JsonKey(name: 'deviceUpdateStatus')
+  final DeviceUpdateStatus deviceUpdateStatus;
+
+  /// Settings that describe an input device that is type HD.
+  @_s.JsonKey(name: 'hdDeviceSettings')
+  final InputDeviceHdSettings hdDeviceSettings;
+
+  /// The unique ID of the input device.
+  @_s.JsonKey(name: 'id')
+  final String id;
+
+  /// The network MAC address of the input device.
+  @_s.JsonKey(name: 'macAddress')
+  final String macAddress;
+
+  /// A name that you specify for the input device.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// Network settings for the input device.
+  @_s.JsonKey(name: 'networkSettings')
+  final InputDeviceNetworkSettings networkSettings;
+
+  /// The unique serial number of the input device.
+  @_s.JsonKey(name: 'serialNumber')
+  final String serialNumber;
+
+  /// The type of the input device.
+  @_s.JsonKey(name: 'type')
+  final InputDeviceType type;
+
+  /// Settings that describe an input device that is type UHD.
+  @_s.JsonKey(name: 'uhdDeviceSettings')
+  final InputDeviceUhdSettings uhdDeviceSettings;
+
+  InputDeviceSummary({
+    this.arn,
+    this.connectionState,
+    this.deviceSettingsSyncState,
+    this.deviceUpdateStatus,
+    this.hdDeviceSettings,
+    this.id,
+    this.macAddress,
+    this.name,
+    this.networkSettings,
+    this.serialNumber,
+    this.type,
+    this.uhdDeviceSettings,
+  });
+  factory InputDeviceSummary.fromJson(Map<String, dynamic> json) =>
+      _$InputDeviceSummaryFromJson(json);
+}
+
+/// The type of device transfer. INCOMING for an input device that is being
+/// transferred to you, OUTGOING for an input device that you are transferring
+/// to another AWS account.
+enum InputDeviceTransferType {
+  @_s.JsonValue('OUTGOING')
+  outgoing,
+  @_s.JsonValue('INCOMING')
+  incoming,
+}
+
+/// The type of the input device. For an AWS Elemental Link device that outputs
+/// resolutions up to 1080, choose "HD".
+enum InputDeviceType {
+  @_s.JsonValue('HD')
+  hd,
+}
+
+/// Settings that describe the active source from the input device, and the
+/// video characteristics of that source.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class InputDeviceUhdSettings {
+  /// If you specified Auto as the configured input, specifies which of the
+  /// sources is currently active (SDI or HDMI).
+  @_s.JsonKey(name: 'activeInput')
+  final InputDeviceActiveInput activeInput;
+
+  /// The source at the input device that is currently active. You can specify
+  /// this source.
+  @_s.JsonKey(name: 'configuredInput')
+  final InputDeviceConfiguredInput configuredInput;
+
+  /// The state of the input device.
+  @_s.JsonKey(name: 'deviceState')
+  final InputDeviceState deviceState;
+
+  /// The frame rate of the video source.
+  @_s.JsonKey(name: 'framerate')
+  final double framerate;
+
+  /// The height of the video source, in pixels.
+  @_s.JsonKey(name: 'height')
+  final int height;
+
+  /// The current maximum bitrate for ingesting this source, in bits per second.
+  /// You can specify this maximum.
+  @_s.JsonKey(name: 'maxBitrate')
+  final int maxBitrate;
+
+  /// The scan type of the video source.
+  @_s.JsonKey(name: 'scanType')
+  final InputDeviceScanType scanType;
+
+  /// The width of the video source, in pixels.
+  @_s.JsonKey(name: 'width')
+  final int width;
+
+  InputDeviceUhdSettings({
+    this.activeInput,
+    this.configuredInput,
+    this.deviceState,
+    this.framerate,
+    this.height,
+    this.maxBitrate,
+    this.scanType,
+    this.width,
+  });
+  factory InputDeviceUhdSettings.fromJson(Map<String, dynamic> json) =>
+      _$InputDeviceUhdSettingsFromJson(json);
+}
+
 /// Input Filter
 enum InputFilter {
   @_s.JsonValue('AUTO')
@@ -7632,6 +9265,28 @@ class InputLossBehavior {
   Map<String, dynamic> toJson() => _$InputLossBehaviorToJson(this);
 }
 
+/// MediaLive will perform a failover if content is not detected in this input
+/// for the specified period.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class InputLossFailoverSettings {
+  /// The amount of time (in milliseconds) that no input is detected. After that
+  /// time, an input failover will occur.
+  @_s.JsonKey(name: 'inputLossThresholdMsec')
+  final int inputLossThresholdMsec;
+
+  InputLossFailoverSettings({
+    this.inputLossThresholdMsec,
+  });
+  factory InputLossFailoverSettings.fromJson(Map<String, dynamic> json) =>
+      _$InputLossFailoverSettingsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$InputLossFailoverSettingsToJson(this);
+}
+
 /// Input Loss Image Type
 enum InputLossImageType {
   @_s.JsonValue('COLOR')
@@ -7662,6 +9317,44 @@ enum InputPreference {
   equalInputPreference,
   @_s.JsonValue('PRIMARY_INPUT_PREFERRED')
   primaryInputPreferred,
+}
+
+/// Action to prepare an input for a future immediate input switch.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class InputPrepareScheduleActionSettings {
+  /// The name of the input attachment that should be prepared by this action. If
+  /// no name is provided, the action will stop the most recent prepare (if any)
+  /// when activated.
+  @_s.JsonKey(name: 'inputAttachmentNameReference')
+  final String inputAttachmentNameReference;
+
+  /// Settings to let you create a clip of the file input, in order to set up the
+  /// input to ingest only a portion of the file.
+  @_s.JsonKey(name: 'inputClippingSettings')
+  final InputClippingSettings inputClippingSettings;
+
+  /// The value for the variable portion of the URL for the dynamic input, for
+  /// this instance of the input. Each time you use the same dynamic input in an
+  /// input switch action, you can provide a different value, in order to connect
+  /// the input to a different content source.
+  @_s.JsonKey(name: 'urlPath')
+  final List<String> urlPath;
+
+  InputPrepareScheduleActionSettings({
+    this.inputAttachmentNameReference,
+    this.inputClippingSettings,
+    this.urlPath,
+  });
+  factory InputPrepareScheduleActionSettings.fromJson(
+          Map<String, dynamic> json) =>
+      _$InputPrepareScheduleActionSettingsFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$InputPrepareScheduleActionSettingsToJson(this);
 }
 
 /// Input resolution based on lines of vertical resolution in the input; SD is
@@ -7772,6 +9465,15 @@ class InputSettings {
   @_s.JsonKey(name: 'networkInputSettings')
   final NetworkInputSettings networkInputSettings;
 
+  /// Specifies whether to extract applicable ancillary data from a SMPTE-2038
+  /// source in this input. Applicable data types are captions, timecode, AFD, and
+  /// SCTE-104 messages.
+  /// - PREFER: Extract from SMPTE-2038 if present in this input, otherwise
+  /// extract from another source (if any).
+  /// - IGNORE: Never extract any ancillary data from SMPTE-2038.
+  @_s.JsonKey(name: 'smpte2038DataPreference')
+  final Smpte2038DataPreference smpte2038DataPreference;
+
   /// Loop input if it is a file. This allows a file input to be streamed
   /// indefinitely.
   @_s.JsonKey(name: 'sourceEndBehavior')
@@ -7790,6 +9492,7 @@ class InputSettings {
     this.filterStrength,
     this.inputFilter,
     this.networkInputSettings,
+    this.smpte2038DataPreference,
     this.sourceEndBehavior,
     this.videoSelector,
   });
@@ -7983,6 +9686,10 @@ enum InputType {
   mp4File,
   @_s.JsonValue('MEDIACONNECT')
   mediaconnect,
+  @_s.JsonValue('INPUT_DEVICE')
+  inputDevice,
+  @_s.JsonValue('AWS_CDI')
+  awsCdi,
 }
 
 extension on InputType {
@@ -8002,6 +9709,10 @@ extension on InputType {
         return 'MP4_FILE';
       case InputType.mediaconnect:
         return 'MEDIACONNECT';
+      case InputType.inputDevice:
+        return 'INPUT_DEVICE';
+      case InputType.awsCdi:
+        return 'AWS_CDI';
     }
     throw Exception('Unknown enum value: $this');
   }
@@ -8119,6 +9830,54 @@ class ListChannelsResponse {
   });
   factory ListChannelsResponse.fromJson(Map<String, dynamic> json) =>
       _$ListChannelsResponseFromJson(json);
+}
+
+/// Placeholder documentation for ListInputDeviceTransfersResponse
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListInputDeviceTransfersResponse {
+  /// The list of devices that you are transferring or are being transferred to
+  /// you.
+  @_s.JsonKey(name: 'inputDeviceTransfers')
+  final List<TransferringInputDeviceSummary> inputDeviceTransfers;
+
+  /// A token to get additional list results.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListInputDeviceTransfersResponse({
+    this.inputDeviceTransfers,
+    this.nextToken,
+  });
+  factory ListInputDeviceTransfersResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$ListInputDeviceTransfersResponseFromJson(json);
+}
+
+/// Placeholder documentation for ListInputDevicesResponse
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListInputDevicesResponse {
+  /// The list of input devices.
+  @_s.JsonKey(name: 'inputDevices')
+  final List<InputDeviceSummary> inputDevices;
+
+  /// A token to get additional list results.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListInputDevicesResponse({
+    this.inputDevices,
+    this.nextToken,
+  });
+  factory ListInputDevicesResponse.fromJson(Map<String, dynamic> json) =>
+      _$ListInputDevicesResponseFromJson(json);
 }
 
 /// Placeholder documentation for ListInputSecurityGroupsResponse
@@ -8513,9 +10272,11 @@ class M2tsSettings {
   @_s.JsonKey(name: 'bitrate')
   final int bitrate;
 
-  /// If set to multiplex, use multiplex buffer model for accurate interleaving.
-  /// Setting to bufferModel to none can lead to lower latency, but low-memory
-  /// devices may not be able to play back the stream without interruptions.
+  /// Controls the timing accuracy for output network traffic. Leave as MULTIPLEX
+  /// to ensure accurate network packet timing. Or set to NONE, which might result
+  /// in lower latency but will result in more variability in output network
+  /// packet timing. This variability might cause interruptions, jitter, or bursty
+  /// behavior in your playback or receiving devices.
   @_s.JsonKey(name: 'bufferModel')
   final M2tsBufferModel bufferModel;
 
@@ -8719,7 +10480,7 @@ class M2tsSettings {
   final M2tsSegmentationStyle segmentationStyle;
 
   /// The length in seconds of each segment. Required unless markers is set to
-  /// None_.
+  /// _none_.
   @_s.JsonKey(name: 'segmentationTime')
   final double segmentationTime;
 
@@ -9092,6 +10853,241 @@ class Mp2Settings {
   Map<String, dynamic> toJson() => _$Mp2SettingsToJson(this);
 }
 
+/// Mpeg2 Adaptive Quantization
+enum Mpeg2AdaptiveQuantization {
+  @_s.JsonValue('AUTO')
+  auto,
+  @_s.JsonValue('HIGH')
+  high,
+  @_s.JsonValue('LOW')
+  low,
+  @_s.JsonValue('MEDIUM')
+  medium,
+  @_s.JsonValue('OFF')
+  off,
+}
+
+/// Mpeg2 Color Metadata
+enum Mpeg2ColorMetadata {
+  @_s.JsonValue('IGNORE')
+  ignore,
+  @_s.JsonValue('INSERT')
+  insert,
+}
+
+/// Mpeg2 Color Space
+enum Mpeg2ColorSpace {
+  @_s.JsonValue('AUTO')
+  auto,
+  @_s.JsonValue('PASSTHROUGH')
+  passthrough,
+}
+
+/// Mpeg2 Display Ratio
+enum Mpeg2DisplayRatio {
+  @_s.JsonValue('DISPLAYRATIO16X9')
+  displayratio16x9,
+  @_s.JsonValue('DISPLAYRATIO4X3')
+  displayratio4x3,
+}
+
+/// Mpeg2 Filter Settings
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class Mpeg2FilterSettings {
+  @_s.JsonKey(name: 'temporalFilterSettings')
+  final TemporalFilterSettings temporalFilterSettings;
+
+  Mpeg2FilterSettings({
+    this.temporalFilterSettings,
+  });
+  factory Mpeg2FilterSettings.fromJson(Map<String, dynamic> json) =>
+      _$Mpeg2FilterSettingsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$Mpeg2FilterSettingsToJson(this);
+}
+
+/// Mpeg2 Gop Size Units
+enum Mpeg2GopSizeUnits {
+  @_s.JsonValue('FRAMES')
+  frames,
+  @_s.JsonValue('SECONDS')
+  seconds,
+}
+
+/// Mpeg2 Scan Type
+enum Mpeg2ScanType {
+  @_s.JsonValue('INTERLACED')
+  interlaced,
+  @_s.JsonValue('PROGRESSIVE')
+  progressive,
+}
+
+/// Mpeg2 Settings
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class Mpeg2Settings {
+  /// description": "The framerate denominator. For example, 1001. The framerate
+  /// is the numerator divided by the denominator. For example, 24000 / 1001 =
+  /// 23.976 FPS.
+  @_s.JsonKey(name: 'framerateDenominator')
+  final int framerateDenominator;
+
+  /// The framerate numerator. For example, 24000. The framerate is the numerator
+  /// divided by the denominator. For example, 24000 / 1001 = 23.976 FPS.
+  @_s.JsonKey(name: 'framerateNumerator')
+  final int framerateNumerator;
+
+  /// Choose Off to disable adaptive quantization. Or choose another value to
+  /// enable the quantizer and set its strength. The strengths are: Auto, Off,
+  /// Low, Medium, High. When you enable this field, MediaLive allows intra-frame
+  /// quantizers to vary, which might improve visual quality.
+  @_s.JsonKey(name: 'adaptiveQuantization')
+  final Mpeg2AdaptiveQuantization adaptiveQuantization;
+
+  /// Indicates the AFD values that MediaLive will write into the video encode. If
+  /// you do not know what AFD signaling is, or if your downstream system has not
+  /// given you guidance, choose AUTO.
+  /// AUTO: MediaLive will try to preserve the input AFD value (in cases where
+  /// multiple AFD values are valid).
+  /// FIXED: MediaLive will use the value you specify in fixedAFD.
+  @_s.JsonKey(name: 'afdSignaling')
+  final AfdSignaling afdSignaling;
+
+  /// Specifies whether to include the color space metadata. The metadata
+  /// describes the color space that applies to the video (the colorSpace field).
+  /// We recommend that you insert the metadata.
+  @_s.JsonKey(name: 'colorMetadata')
+  final Mpeg2ColorMetadata colorMetadata;
+
+  /// Choose the type of color space conversion to apply to the output. For
+  /// detailed information on setting up both the input and the output to obtain
+  /// the desired color space in the output, see the section on \"MediaLive
+  /// Features - Video - color space\" in the MediaLive User Guide.
+  /// PASSTHROUGH: Keep the color space of the input content - do not convert it.
+  /// AUTO:Convert all content that is SD to rec 601, and convert all content that
+  /// is HD to rec 709.
+  @_s.JsonKey(name: 'colorSpace')
+  final Mpeg2ColorSpace colorSpace;
+
+  /// Sets the pixel aspect ratio for the encode.
+  @_s.JsonKey(name: 'displayAspectRatio')
+  final Mpeg2DisplayRatio displayAspectRatio;
+
+  /// Optionally specify a noise reduction filter, which can improve quality of
+  /// compressed content. If you do not choose a filter, no filter will be
+  /// applied.
+  /// TEMPORAL: This filter is useful for both source content that is noisy (when
+  /// it has excessive digital artifacts) and source content that is clean.
+  /// When the content is noisy, the filter cleans up the source content before
+  /// the encoding phase, with these two effects: First, it improves the output
+  /// video quality because the content has been cleaned up. Secondly, it
+  /// decreases the bandwidth because MediaLive does not waste bits on encoding
+  /// noise.
+  /// When the content is reasonably clean, the filter tends to decrease the
+  /// bitrate.
+  @_s.JsonKey(name: 'filterSettings')
+  final Mpeg2FilterSettings filterSettings;
+
+  /// Complete this field only when afdSignaling is set to FIXED. Enter the AFD
+  /// value (4 bits) to write on all frames of the video encode.
+  @_s.JsonKey(name: 'fixedAfd')
+  final FixedAfd fixedAfd;
+
+  /// MPEG2: default is open GOP.
+  @_s.JsonKey(name: 'gopClosedCadence')
+  final int gopClosedCadence;
+
+  /// Relates to the GOP structure. The number of B-frames between reference
+  /// frames. If you do not know what a B-frame is, use the default.
+  @_s.JsonKey(name: 'gopNumBFrames')
+  final int gopNumBFrames;
+
+  /// Relates to the GOP structure. The GOP size (keyframe interval) in the units
+  /// specified in gopSizeUnits. If you do not know what GOP is, use the default.
+  /// If gopSizeUnits is frames, then the gopSize must be an integer and must be
+  /// greater than or equal to 1.
+  /// If gopSizeUnits is seconds, the gopSize must be greater than 0, but does not
+  /// need to be an integer.
+  @_s.JsonKey(name: 'gopSize')
+  final double gopSize;
+
+  /// Relates to the GOP structure. Specifies whether the gopSize is specified in
+  /// frames or seconds. If you do not plan to change the default gopSize, leave
+  /// the default. If you specify SECONDS, MediaLive will internally convert the
+  /// gop size to a frame count.
+  @_s.JsonKey(name: 'gopSizeUnits')
+  final Mpeg2GopSizeUnits gopSizeUnits;
+
+  /// Set the scan type of the output to PROGRESSIVE or INTERLACED (top field
+  /// first).
+  @_s.JsonKey(name: 'scanType')
+  final Mpeg2ScanType scanType;
+
+  /// Relates to the GOP structure. If you do not know what GOP is, use the
+  /// default.
+  /// FIXED: Set the number of B-frames in each sub-GOP to the value in
+  /// gopNumBFrames.
+  /// DYNAMIC: Let MediaLive optimize the number of B-frames in each sub-GOP, to
+  /// improve visual quality.
+  @_s.JsonKey(name: 'subgopLength')
+  final Mpeg2SubGopLength subgopLength;
+
+  /// Determines how MediaLive inserts timecodes in the output video. For detailed
+  /// information about setting up the input and the output for a timecode, see
+  /// the section on \"MediaLive Features - Timecode configuration\" in the
+  /// MediaLive User Guide.
+  /// DISABLED: do not include timecodes.
+  /// GOP_TIMECODE: Include timecode metadata in the GOP header.
+  @_s.JsonKey(name: 'timecodeInsertion')
+  final Mpeg2TimecodeInsertionBehavior timecodeInsertion;
+
+  Mpeg2Settings({
+    @_s.required this.framerateDenominator,
+    @_s.required this.framerateNumerator,
+    this.adaptiveQuantization,
+    this.afdSignaling,
+    this.colorMetadata,
+    this.colorSpace,
+    this.displayAspectRatio,
+    this.filterSettings,
+    this.fixedAfd,
+    this.gopClosedCadence,
+    this.gopNumBFrames,
+    this.gopSize,
+    this.gopSizeUnits,
+    this.scanType,
+    this.subgopLength,
+    this.timecodeInsertion,
+  });
+  factory Mpeg2Settings.fromJson(Map<String, dynamic> json) =>
+      _$Mpeg2SettingsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$Mpeg2SettingsToJson(this);
+}
+
+/// Mpeg2 Sub Gop Length
+enum Mpeg2SubGopLength {
+  @_s.JsonValue('DYNAMIC')
+  dynamic,
+  @_s.JsonValue('FIXED')
+  fixed,
+}
+
+/// Mpeg2 Timecode Insertion Behavior
+enum Mpeg2TimecodeInsertionBehavior {
+  @_s.JsonValue('DISABLED')
+  disabled,
+  @_s.JsonValue('GOP_TIMECODE')
+  gopTimecode,
+}
+
 /// Ms Smooth Group Settings
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -9104,8 +11100,8 @@ class MsSmoothGroupSettings {
   @_s.JsonKey(name: 'destination')
   final OutputLocationRef destination;
 
-  /// The value of the "Acquisition Point Identity" element used in each message
-  /// placed in the sparse track.  Only enabled if sparseTrackType is not "none".
+  /// The ID to include in each message in the sparse track. Ignored if
+  /// sparseTrackType is NONE.
   @_s.JsonKey(name: 'acquisitionPointId')
   final String acquisitionPointId;
 
@@ -9181,8 +11177,13 @@ class MsSmoothGroupSettings {
   @_s.JsonKey(name: 'sendDelayMs')
   final int sendDelayMs;
 
-  /// If set to scte35, use incoming SCTE-35 messages to generate a sparse track
-  /// in this group of MS-Smooth outputs.
+  /// Identifies the type of data to place in the sparse track:
+  /// - SCTE35: Insert SCTE-35 messages from the source content. With each
+  /// message, insert an IDR frame to start a new segment.
+  /// - SCTE35_WITHOUT_SEGMENTATION: Insert SCTE-35 messages from the source
+  /// content. With each message, insert an IDR frame but don't start a new
+  /// segment.
+  /// - NONE: Don't generate a sparse track for any outputs in this output group.
   @_s.JsonKey(name: 'sparseTrackType')
   final SmoothGroupSparseTrackType sparseTrackType;
 
@@ -9417,6 +11418,14 @@ class MultiplexProgram {
   @_s.JsonKey(name: 'packetIdentifiersMap')
   final MultiplexProgramPacketIdentifiersMap packetIdentifiersMap;
 
+  /// Contains information about the current sources for the specified program in
+  /// the specified multiplex. Keep in mind that each multiplex pipeline connects
+  /// to both pipelines in a given source channel (the channel identified by the
+  /// program). But only one of those channel pipelines is ever active at one
+  /// time.
+  @_s.JsonKey(name: 'pipelineDetails')
+  final List<MultiplexProgramPipelineDetail> pipelineDetails;
+
   /// The name of the multiplex program.
   @_s.JsonKey(name: 'programName')
   final String programName;
@@ -9425,6 +11434,7 @@ class MultiplexProgram {
     this.channelId,
     this.multiplexProgramSettings,
     this.packetIdentifiersMap,
+    this.pipelineDetails,
     this.programName,
   });
   factory MultiplexProgram.fromJson(Map<String, dynamic> json) =>
@@ -9516,6 +11526,30 @@ class MultiplexProgramPacketIdentifiersMap {
   factory MultiplexProgramPacketIdentifiersMap.fromJson(
           Map<String, dynamic> json) =>
       _$MultiplexProgramPacketIdentifiersMapFromJson(json);
+}
+
+/// The current source for one of the pipelines in the multiplex.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class MultiplexProgramPipelineDetail {
+  /// Identifies the channel pipeline that is currently active for the pipeline
+  /// (identified by PipelineId) in the multiplex.
+  @_s.JsonKey(name: 'activeChannelPipeline')
+  final String activeChannelPipeline;
+
+  /// Identifies a specific pipeline in the multiplex.
+  @_s.JsonKey(name: 'pipelineId')
+  final String pipelineId;
+
+  MultiplexProgramPipelineDetail({
+    this.activeChannelPipeline,
+    this.pipelineId,
+  });
+  factory MultiplexProgramPipelineDetail.fromJson(Map<String, dynamic> json) =>
+      _$MultiplexProgramPipelineDetailFromJson(json);
 }
 
 /// Transport stream service descriptor configuration for the Multiplex program.
@@ -9693,9 +11727,18 @@ class MultiplexStatmuxVideoSettings {
   @_s.JsonKey(name: 'minimumBitrate')
   final int minimumBitrate;
 
+  /// The purpose of the priority is to use a combination of the\nmultiplex rate
+  /// control algorithm and the QVBR capability of the\nencoder to prioritize the
+  /// video quality of some channels in a\nmultiplex over others.  Channels that
+  /// have a higher priority will\nget higher video quality at the expense of the
+  /// video quality of\nother channels in the multiplex with lower priority.
+  @_s.JsonKey(name: 'priority')
+  final int priority;
+
   MultiplexStatmuxVideoSettings({
     this.maximumBitrate,
     this.minimumBitrate,
+    this.priority,
   });
   factory MultiplexStatmuxVideoSettings.fromJson(Map<String, dynamic> json) =>
       _$MultiplexStatmuxVideoSettingsFromJson(json);
@@ -10313,6 +12356,20 @@ class PurchaseOfferingResponse {
       _$PurchaseOfferingResponseFromJson(json);
 }
 
+/// Raw Settings
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class RawSettings {
+  RawSettings();
+  factory RawSettings.fromJson(Map<String, dynamic> json) =>
+      _$RawSettingsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$RawSettingsToJson(this);
+}
+
 /// Rec601 Settings
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -10339,6 +12396,19 @@ class Rec709Settings {
       _$Rec709SettingsFromJson(json);
 
   Map<String, dynamic> toJson() => _$Rec709SettingsToJson(this);
+}
+
+/// Placeholder documentation for RejectInputDeviceTransferResponse
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class RejectInputDeviceTransferResponse {
+  RejectInputDeviceTransferResponse();
+  factory RejectInputDeviceTransferResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$RejectInputDeviceTransferResponseFromJson(json);
 }
 
 /// Remix Settings
@@ -10491,6 +12561,8 @@ enum ReservationCodec {
   hevc,
   @_s.JsonValue('AUDIO')
   audio,
+  @_s.JsonValue('LINK')
+  link,
 }
 
 /// Maximum bitrate in megabits per second
@@ -10620,6 +12692,12 @@ enum ReservationVideoQuality {
   premium,
 }
 
+/// Rtmp Ad Markers
+enum RtmpAdMarkers {
+  @_s.JsonValue('ON_CUE_POINT_SCTE35')
+  onCuePointScte35,
+}
+
 /// Rtmp Cache Full Behavior
 enum RtmpCacheFullBehavior {
   @_s.JsonValue('DISCONNECT_IMMEDIATELY')
@@ -10661,6 +12739,12 @@ class RtmpCaptionInfoDestinationSettings {
     createFactory: true,
     createToJson: true)
 class RtmpGroupSettings {
+  /// Choose the ad marker type for this output group. MediaLive will create a
+  /// message based on the content of each SCTE-35 message, format it for that
+  /// marker type, and insert it in the datastream.
+  @_s.JsonKey(name: 'adMarkers')
+  final List<RtmpAdMarkers> adMarkers;
+
   /// Authentication scheme to use when connecting with CDN
   @_s.JsonKey(name: 'authenticationScheme')
   final AuthenticationScheme authenticationScheme;
@@ -10702,6 +12786,7 @@ class RtmpGroupSettings {
   final int restartDelay;
 
   RtmpGroupSettings({
+    this.adMarkers,
     this.authenticationScheme,
     this.cacheFullBehavior,
     this.cacheLength,
@@ -10812,6 +12897,10 @@ class ScheduleActionSettings {
   @_s.JsonKey(name: 'hlsTimedMetadataSettings')
   final HlsTimedMetadataScheduleActionSettings hlsTimedMetadataSettings;
 
+  /// Action to prepare an input for a future immediate input switch
+  @_s.JsonKey(name: 'inputPrepareSettings')
+  final InputPrepareScheduleActionSettings inputPrepareSettings;
+
   /// Action to switch the input
   @_s.JsonKey(name: 'inputSwitchSettings')
   final InputSwitchScheduleActionSettings inputSwitchSettings;
@@ -10845,6 +12934,7 @@ class ScheduleActionSettings {
   ScheduleActionSettings({
     this.hlsId3SegmentTaggingSettings,
     this.hlsTimedMetadataSettings,
+    this.inputPrepareSettings,
     this.inputSwitchSettings,
     this.pauseStateSettings,
     this.scte35ReturnToNetworkSettings,
@@ -11437,6 +13527,8 @@ enum SmoothGroupSparseTrackType {
   none,
   @_s.JsonValue('SCTE_35')
   scte_35,
+  @_s.JsonValue('SCTE_35_WITHOUT_SEGMENTATION')
+  scte_35WithoutSegmentation,
 }
 
 /// Smooth Group Stream Manifest Behavior
@@ -11453,6 +13545,14 @@ enum SmoothGroupTimestampOffsetMode {
   useConfiguredOffset,
   @_s.JsonValue('USE_EVENT_START_DATE')
   useEventStartDate,
+}
+
+/// Smpte2038 Data Preference
+enum Smpte2038DataPreference {
+  @_s.JsonValue('IGNORE')
+  ignore,
+  @_s.JsonValue('PREFER')
+  prefer,
 }
 
 /// Smpte Tt Destination Settings
@@ -11505,6 +13605,10 @@ class StartChannelResponse {
   @_s.JsonKey(name: 'arn')
   final String arn;
 
+  /// Specification of CDI inputs for this channel
+  @_s.JsonKey(name: 'cdiInputSpecification')
+  final CdiInputSpecification cdiInputSpecification;
+
   /// The class for this channel. STANDARD for a channel with two pipelines or
   /// SINGLE_PIPELINE for a channel with one pipeline.
   @_s.JsonKey(name: 'channelClass')
@@ -11529,6 +13633,8 @@ class StartChannelResponse {
   /// List of input attachments for channel.
   @_s.JsonKey(name: 'inputAttachments')
   final List<InputAttachment> inputAttachments;
+
+  /// Specification of network and file inputs for this channel
   @_s.JsonKey(name: 'inputSpecification')
   final InputSpecification inputSpecification;
 
@@ -11560,6 +13666,7 @@ class StartChannelResponse {
 
   StartChannelResponse({
     this.arn,
+    this.cdiInputSpecification,
     this.channelClass,
     this.destinations,
     this.egressEndpoints,
@@ -11816,6 +13923,10 @@ class StopChannelResponse {
   @_s.JsonKey(name: 'arn')
   final String arn;
 
+  /// Specification of CDI inputs for this channel
+  @_s.JsonKey(name: 'cdiInputSpecification')
+  final CdiInputSpecification cdiInputSpecification;
+
   /// The class for this channel. STANDARD for a channel with two pipelines or
   /// SINGLE_PIPELINE for a channel with one pipeline.
   @_s.JsonKey(name: 'channelClass')
@@ -11840,6 +13951,8 @@ class StopChannelResponse {
   /// List of input attachments for channel.
   @_s.JsonKey(name: 'inputAttachments')
   final List<InputAttachment> inputAttachments;
+
+  /// Specification of network and file inputs for this channel
   @_s.JsonKey(name: 'inputSpecification')
   final InputSpecification inputSpecification;
 
@@ -11871,6 +13984,7 @@ class StopChannelResponse {
 
   StopChannelResponse({
     this.arn,
+    this.cdiInputSpecification,
     this.channelClass,
     this.destinations,
     this.egressEndpoints,
@@ -12019,6 +14133,85 @@ class TeletextSourceSettings {
   Map<String, dynamic> toJson() => _$TeletextSourceSettingsToJson(this);
 }
 
+/// Temporal Filter Post Filter Sharpening
+enum TemporalFilterPostFilterSharpening {
+  @_s.JsonValue('AUTO')
+  auto,
+  @_s.JsonValue('DISABLED')
+  disabled,
+  @_s.JsonValue('ENABLED')
+  enabled,
+}
+
+/// Temporal Filter Settings
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class TemporalFilterSettings {
+  /// If you enable this filter, the results are the following:
+  /// - If the source content is noisy (it contains excessive digital artifacts),
+  /// the filter cleans up the source.
+  /// - If the source content is already clean, the filter tends to decrease the
+  /// bitrate, especially when the rate control mode is QVBR.
+  @_s.JsonKey(name: 'postFilterSharpening')
+  final TemporalFilterPostFilterSharpening postFilterSharpening;
+
+  /// Choose a filter strength. We recommend a strength of 1 or 2. A higher
+  /// strength might take out good information, resulting in an image that is
+  /// overly soft.
+  @_s.JsonKey(name: 'strength')
+  final TemporalFilterStrength strength;
+
+  TemporalFilterSettings({
+    this.postFilterSharpening,
+    this.strength,
+  });
+  factory TemporalFilterSettings.fromJson(Map<String, dynamic> json) =>
+      _$TemporalFilterSettingsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$TemporalFilterSettingsToJson(this);
+}
+
+/// Temporal Filter Strength
+enum TemporalFilterStrength {
+  @_s.JsonValue('AUTO')
+  auto,
+  @_s.JsonValue('STRENGTH_1')
+  strength_1,
+  @_s.JsonValue('STRENGTH_2')
+  strength_2,
+  @_s.JsonValue('STRENGTH_3')
+  strength_3,
+  @_s.JsonValue('STRENGTH_4')
+  strength_4,
+  @_s.JsonValue('STRENGTH_5')
+  strength_5,
+  @_s.JsonValue('STRENGTH_6')
+  strength_6,
+  @_s.JsonValue('STRENGTH_7')
+  strength_7,
+  @_s.JsonValue('STRENGTH_8')
+  strength_8,
+  @_s.JsonValue('STRENGTH_9')
+  strength_9,
+  @_s.JsonValue('STRENGTH_10')
+  strength_10,
+  @_s.JsonValue('STRENGTH_11')
+  strength_11,
+  @_s.JsonValue('STRENGTH_12')
+  strength_12,
+  @_s.JsonValue('STRENGTH_13')
+  strength_13,
+  @_s.JsonValue('STRENGTH_14')
+  strength_14,
+  @_s.JsonValue('STRENGTH_15')
+  strength_15,
+  @_s.JsonValue('STRENGTH_16')
+  strength_16,
+}
+
 /// Timecode Config
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -12062,6 +14255,51 @@ enum TimecodeConfigSource {
   systemclock,
   @_s.JsonValue('ZEROBASED')
   zerobased,
+}
+
+/// Placeholder documentation for TransferInputDeviceResponse
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class TransferInputDeviceResponse {
+  TransferInputDeviceResponse();
+  factory TransferInputDeviceResponse.fromJson(Map<String, dynamic> json) =>
+      _$TransferInputDeviceResponseFromJson(json);
+}
+
+/// Details about the input device that is being transferred.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class TransferringInputDeviceSummary {
+  /// The unique ID of the input device.
+  @_s.JsonKey(name: 'id')
+  final String id;
+
+  /// The optional message that the sender has attached to the transfer.
+  @_s.JsonKey(name: 'message')
+  final String message;
+
+  /// The AWS account ID for the recipient of the input device transfer.
+  @_s.JsonKey(name: 'targetCustomerId')
+  final String targetCustomerId;
+
+  /// The type (direction) of the input device transfer.
+  @_s.JsonKey(name: 'transferType')
+  final InputDeviceTransferType transferType;
+
+  TransferringInputDeviceSummary({
+    this.id,
+    this.message,
+    this.targetCustomerId,
+    this.transferType,
+  });
+  factory TransferringInputDeviceSummary.fromJson(Map<String, dynamic> json) =>
+      _$TransferringInputDeviceSummaryFromJson(json);
 }
 
 /// Ttml Destination Settings
@@ -12232,6 +14470,83 @@ class UpdateChannelResponse {
       _$UpdateChannelResponseFromJson(json);
 }
 
+/// Placeholder documentation for UpdateInputDeviceResponse
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class UpdateInputDeviceResponse {
+  /// The unique ARN of the input device.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  /// The state of the connection between the input device and AWS.
+  @_s.JsonKey(name: 'connectionState')
+  final InputDeviceConnectionState connectionState;
+
+  /// The status of the action to synchronize the device configuration. If you
+  /// change the configuration of the input device (for example, the maximum
+  /// bitrate), MediaLive sends the new data to the device. The device might not
+  /// update itself immediately. SYNCED means the device has updated its
+  /// configuration. SYNCING means that it has not updated its configuration.
+  @_s.JsonKey(name: 'deviceSettingsSyncState')
+  final DeviceSettingsSyncState deviceSettingsSyncState;
+
+  /// The status of software on the input device.
+  @_s.JsonKey(name: 'deviceUpdateStatus')
+  final DeviceUpdateStatus deviceUpdateStatus;
+
+  /// Settings that describe an input device that is type HD.
+  @_s.JsonKey(name: 'hdDeviceSettings')
+  final InputDeviceHdSettings hdDeviceSettings;
+
+  /// The unique ID of the input device.
+  @_s.JsonKey(name: 'id')
+  final String id;
+
+  /// The network MAC address of the input device.
+  @_s.JsonKey(name: 'macAddress')
+  final String macAddress;
+
+  /// A name that you specify for the input device.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// The network settings for the input device.
+  @_s.JsonKey(name: 'networkSettings')
+  final InputDeviceNetworkSettings networkSettings;
+
+  /// The unique serial number of the input device.
+  @_s.JsonKey(name: 'serialNumber')
+  final String serialNumber;
+
+  /// The type of the input device.
+  @_s.JsonKey(name: 'type')
+  final InputDeviceType type;
+
+  /// Settings that describe an input device that is type UHD.
+  @_s.JsonKey(name: 'uhdDeviceSettings')
+  final InputDeviceUhdSettings uhdDeviceSettings;
+
+  UpdateInputDeviceResponse({
+    this.arn,
+    this.connectionState,
+    this.deviceSettingsSyncState,
+    this.deviceUpdateStatus,
+    this.hdDeviceSettings,
+    this.id,
+    this.macAddress,
+    this.name,
+    this.networkSettings,
+    this.serialNumber,
+    this.type,
+    this.uhdDeviceSettings,
+  });
+  factory UpdateInputDeviceResponse.fromJson(Map<String, dynamic> json) =>
+      _$UpdateInputDeviceResponseFromJson(json);
+}
+
 /// Placeholder documentation for UpdateInputResponse
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -12320,6 +14635,40 @@ class UpdateReservationResponse {
       _$UpdateReservationResponseFromJson(json);
 }
 
+/// Placeholder documentation for VideoBlackFailoverSettings
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class VideoBlackFailoverSettings {
+  /// A value used in calculating the threshold below which MediaLive considers a
+  /// pixel to be 'black'. For the input to be considered black, every pixel in a
+  /// frame must be below this threshold. The threshold is calculated as a
+  /// percentage (expressed as a decimal) of white. Therefore .1 means 10% white
+  /// (or 90% black). Note how the formula works for any color depth. For example,
+  /// if you set this field to 0.1 in 10-bit color depth: (1023*0.1=102.3), which
+  /// means a pixel value of 102 or less is 'black'. If you set this field to .1
+  /// in an 8-bit color depth: (255*0.1=25.5), which means a pixel value of 25 or
+  /// less is 'black'. The range is 0.0 to 1.0, with any number of decimal places.
+  @_s.JsonKey(name: 'blackDetectThreshold')
+  final double blackDetectThreshold;
+
+  /// The amount of time (in milliseconds) that the active input must be black
+  /// before automatic input failover occurs.
+  @_s.JsonKey(name: 'videoBlackThresholdMsec')
+  final int videoBlackThresholdMsec;
+
+  VideoBlackFailoverSettings({
+    this.blackDetectThreshold,
+    this.videoBlackThresholdMsec,
+  });
+  factory VideoBlackFailoverSettings.fromJson(Map<String, dynamic> json) =>
+      _$VideoBlackFailoverSettingsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$VideoBlackFailoverSettingsToJson(this);
+}
+
 /// Video Codec Settings
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -12333,11 +14682,14 @@ class VideoCodecSettings {
   final H264Settings h264Settings;
   @_s.JsonKey(name: 'h265Settings')
   final H265Settings h265Settings;
+  @_s.JsonKey(name: 'mpeg2Settings')
+  final Mpeg2Settings mpeg2Settings;
 
   VideoCodecSettings({
     this.frameCaptureSettings,
     this.h264Settings,
     this.h265Settings,
+    this.mpeg2Settings,
   });
   factory VideoCodecSettings.fromJson(Map<String, dynamic> json) =>
       _$VideoCodecSettingsFromJson(json);
@@ -12369,17 +14721,21 @@ class VideoDescription {
   @_s.JsonKey(name: 'height')
   final int height;
 
-  /// Indicates how to respond to the AFD values in the input stream. RESPOND
-  /// causes input video to be clipped, depending on the AFD value, input display
-  /// aspect ratio, and output display aspect ratio, and (except for FRAMECAPTURE
-  /// codec) includes the values in the output. PASSTHROUGH (does not apply to
-  /// FRAMECAPTURE codec) ignores the AFD values and includes the values in the
-  /// output, so input video is not clipped. NONE ignores the AFD values and does
-  /// not include the values through to the output, so input video is not clipped.
+  /// Indicates how MediaLive will respond to the AFD values that might be in the
+  /// input video. If you do not know what AFD signaling is, or if your downstream
+  /// system has not given you guidance, choose PASSTHROUGH.
+  /// RESPOND: MediaLive clips the input video using a formula that uses the AFD
+  /// values (configured in afdSignaling ), the input display aspect ratio, and
+  /// the output display aspect ratio. MediaLive also includes the AFD values in
+  /// the output, unless the codec for this encode is FRAME_CAPTURE.
+  /// PASSTHROUGH: MediaLive ignores the AFD values and does not clip the video.
+  /// But MediaLive does include the values in the output.
+  /// NONE: MediaLive does not clip the input video and does not include the AFD
+  /// values in the output
   @_s.JsonKey(name: 'respondToAfd')
   final VideoDescriptionRespondToAfd respondToAfd;
 
-  /// STRETCHTOOUTPUT configures the output position to stretch the video to the
+  /// STRETCH_TO_OUTPUT configures the output position to stretch the video to the
   /// specified output resolution (height and width). This option will override
   /// any position value. DEFAULT may insert black boxes (pillar boxes or letter
   /// boxes) around the video to provide the specified output resolution.
@@ -12554,6 +14910,49 @@ class VideoSelectorSettings {
   Map<String, dynamic> toJson() => _$VideoSelectorSettingsToJson(this);
 }
 
+/// Wav Coding Mode
+enum WavCodingMode {
+  @_s.JsonValue('CODING_MODE_1_0')
+  codingMode_1_0,
+  @_s.JsonValue('CODING_MODE_2_0')
+  codingMode_2_0,
+  @_s.JsonValue('CODING_MODE_4_0')
+  codingMode_4_0,
+  @_s.JsonValue('CODING_MODE_8_0')
+  codingMode_8_0,
+}
+
+/// Wav Settings
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class WavSettings {
+  /// Bits per sample.
+  @_s.JsonKey(name: 'bitDepth')
+  final double bitDepth;
+
+  /// The audio coding mode for the WAV audio. The mode determines the number of
+  /// channels in the audio.
+  @_s.JsonKey(name: 'codingMode')
+  final WavCodingMode codingMode;
+
+  /// Sample rate in Hz.
+  @_s.JsonKey(name: 'sampleRate')
+  final double sampleRate;
+
+  WavSettings({
+    this.bitDepth,
+    this.codingMode,
+    this.sampleRate,
+  });
+  factory WavSettings.fromJson(Map<String, dynamic> json) =>
+      _$WavSettingsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$WavSettingsToJson(this);
+}
+
 /// Webvtt Destination Settings
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -12566,6 +14965,38 @@ class WebvttDestinationSettings {
       _$WebvttDestinationSettingsFromJson(json);
 
   Map<String, dynamic> toJson() => _$WebvttDestinationSettingsToJson(this);
+}
+
+/// The HTTP Accept header. Indicates the requested type fothe thumbnail.
+enum AcceptHeader {
+  @_s.JsonValue('image/jpeg')
+  imageJpeg,
+}
+
+extension on AcceptHeader {
+  String toValue() {
+    switch (this) {
+      case AcceptHeader.imageJpeg:
+        return 'image/jpeg';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
+/// Specifies the media type of the thumbnail.
+enum ContentType {
+  @_s.JsonValue('image/jpeg')
+  imageJpeg,
+}
+
+extension on String {
+  ContentType toContentType() {
+    switch (this) {
+      case 'image/jpeg':
+        return ContentType.imageJpeg;
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 class BadGatewayException extends _s.GenericAwsException {

@@ -279,7 +279,12 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "flattened": false
       },
       "NextMaintenanceWindowStartTime": {"shape": "TStamp", "flattened": false},
-      "ResizeInfo": {"shape": "ResizeInfo", "flattened": false}
+      "ResizeInfo": {"shape": "ResizeInfo", "flattened": false},
+      "AvailabilityZoneRelocationStatus": {
+        "shape": "String",
+        "flattened": false
+      },
+      "ClusterNamespaceArn": {"shape": "String", "flattened": false}
     },
     "flattened": false
   },
@@ -621,7 +626,11 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "AdditionalInfo": {"shape": "String", "flattened": false},
       "IamRoles": {"shape": "IamRoleArnList", "flattened": false},
       "MaintenanceTrackName": {"shape": "String", "flattened": false},
-      "SnapshotScheduleIdentifier": {"shape": "String", "flattened": false}
+      "SnapshotScheduleIdentifier": {"shape": "String", "flattened": false},
+      "AvailabilityZoneRelocation": {
+        "shape": "BooleanOptional",
+        "flattened": false
+      }
     },
     "flattened": false
   },
@@ -820,6 +829,19 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     },
     "flattened": false
   },
+  "CreateUsageLimitMessage": {
+    "type": "structure",
+    "members": {
+      "ClusterIdentifier": {"shape": "String", "flattened": false},
+      "FeatureType": {"shape": "UsageLimitFeatureType", "flattened": false},
+      "LimitType": {"shape": "UsageLimitLimitType", "flattened": false},
+      "Amount": {"shape": "Long", "flattened": false},
+      "Period": {"shape": "UsageLimitPeriod", "flattened": false},
+      "BreachAction": {"shape": "UsageLimitBreachAction", "flattened": false},
+      "Tags": {"shape": "TagList", "flattened": false}
+    },
+    "flattened": false
+  },
   "CustomerStorageMessage": {
     "type": "structure",
     "members": {
@@ -991,6 +1013,13 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "members": {
       "ResourceName": {"shape": "String", "flattened": false},
       "TagKeys": {"shape": "TagKeyList", "flattened": false}
+    },
+    "flattened": false
+  },
+  "DeleteUsageLimitMessage": {
+    "type": "structure",
+    "members": {
+      "UsageLimitId": {"shape": "String", "flattened": false}
     },
     "flattened": false
   },
@@ -1307,6 +1336,19 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     },
     "flattened": false
   },
+  "DescribeUsageLimitsMessage": {
+    "type": "structure",
+    "members": {
+      "UsageLimitId": {"shape": "String", "flattened": false},
+      "ClusterIdentifier": {"shape": "String", "flattened": false},
+      "FeatureType": {"shape": "UsageLimitFeatureType", "flattened": false},
+      "MaxRecords": {"shape": "IntegerOptional", "flattened": false},
+      "Marker": {"shape": "String", "flattened": false},
+      "TagKeys": {"shape": "TagKeyList", "flattened": false},
+      "TagValues": {"shape": "TagValueList", "flattened": false}
+    },
+    "flattened": false
+  },
   "DisableLoggingMessage": {
     "type": "structure",
     "members": {
@@ -1392,7 +1434,11 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "type": "structure",
     "members": {
       "Address": {"shape": "String", "flattened": false},
-      "Port": {"shape": "Integer", "flattened": false}
+      "Port": {"shape": "Integer", "flattened": false},
+      "VpcEndpoints": {
+        "shape": "SpartaProxyVpcEndpointList",
+        "flattened": false
+      }
     },
     "flattened": false
   },
@@ -1752,7 +1798,13 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "EnhancedVpcRouting": {"shape": "BooleanOptional", "flattened": false},
       "MaintenanceTrackName": {"shape": "String", "flattened": false},
       "Encrypted": {"shape": "BooleanOptional", "flattened": false},
-      "KmsKeyId": {"shape": "String", "flattened": false}
+      "KmsKeyId": {"shape": "String", "flattened": false},
+      "AvailabilityZoneRelocation": {
+        "shape": "BooleanOptional",
+        "flattened": false
+      },
+      "AvailabilityZone": {"shape": "String", "flattened": false},
+      "Port": {"shape": "IntegerOptional", "flattened": false}
     },
     "flattened": false
   },
@@ -1873,6 +1925,15 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "shape": "ScheduleDefinitionList",
         "flattened": false
       }
+    },
+    "flattened": false
+  },
+  "ModifyUsageLimitMessage": {
+    "type": "structure",
+    "members": {
+      "UsageLimitId": {"shape": "String", "flattened": false},
+      "Amount": {"shape": "LongOptional", "flattened": false},
+      "BreachAction": {"shape": "UsageLimitBreachAction", "flattened": false}
     },
     "flattened": false
   },
@@ -2157,7 +2218,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "ClusterIdentifier": {"shape": "String", "flattened": false},
       "ClusterType": {"shape": "String", "flattened": false},
       "NodeType": {"shape": "String", "flattened": false},
-      "NumberOfNodes": {"shape": "Integer", "flattened": false},
+      "NumberOfNodes": {"shape": "IntegerOptional", "flattened": false},
       "Classic": {"shape": "BooleanOptional", "flattened": false}
     },
     "flattened": false
@@ -2265,7 +2326,11 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "IamRoles": {"shape": "IamRoleArnList", "flattened": false},
       "MaintenanceTrackName": {"shape": "String", "flattened": false},
       "SnapshotScheduleIdentifier": {"shape": "String", "flattened": false},
-      "NumberOfNodes": {"shape": "IntegerOptional", "flattened": false}
+      "NumberOfNodes": {"shape": "IntegerOptional", "flattened": false},
+      "AvailabilityZoneRelocation": {
+        "shape": "BooleanOptional",
+        "flattened": false
+      }
     },
     "flattened": false
   },
@@ -2481,6 +2546,7 @@ const Map<String, Map<String, dynamic>> shapesJson = {
       "ClusterCreateTime": {"shape": "TStamp", "flattened": false},
       "MasterUsername": {"shape": "String", "flattened": false},
       "ClusterVersion": {"shape": "String", "flattened": false},
+      "EngineFullVersion": {"shape": "String", "flattened": false},
       "SnapshotType": {"shape": "String", "flattened": false},
       "NodeType": {"shape": "String", "flattened": false},
       "NumberOfNodes": {"shape": "Integer", "flattened": false},
@@ -2636,6 +2702,21 @@ const Map<String, Map<String, dynamic>> shapesJson = {
     "flattened": false
   },
   "SourceType": {"type": "string", "flattened": false},
+  "SpartaProxyVpcEndpoint": {
+    "type": "structure",
+    "members": {
+      "VpcEndpointId": {"shape": "String", "flattened": false}
+    },
+    "flattened": false
+  },
+  "SpartaProxyVpcEndpointList": {
+    "type": "list",
+    "member": {
+      "shape": "SpartaProxyVpcEndpoint",
+      "locationName": "SpartaProxyVpcEndpoint"
+    },
+    "flattened": false
+  },
   "String": {"type": "string", "flattened": false},
   "Subnet": {
     "type": "structure",
@@ -2798,6 +2879,37 @@ const Map<String, Map<String, dynamic>> shapesJson = {
         "flattened": false
       }
     },
+    "flattened": false
+  },
+  "UsageLimit": {
+    "type": "structure",
+    "members": {
+      "UsageLimitId": {"shape": "String", "flattened": false},
+      "ClusterIdentifier": {"shape": "String", "flattened": false},
+      "FeatureType": {"shape": "UsageLimitFeatureType", "flattened": false},
+      "LimitType": {"shape": "UsageLimitLimitType", "flattened": false},
+      "Amount": {"shape": "Long", "flattened": false},
+      "Period": {"shape": "UsageLimitPeriod", "flattened": false},
+      "BreachAction": {"shape": "UsageLimitBreachAction", "flattened": false},
+      "Tags": {"shape": "TagList", "flattened": false}
+    },
+    "flattened": false
+  },
+  "UsageLimitBreachAction": {"type": "string", "flattened": false},
+  "UsageLimitFeatureType": {"type": "string", "flattened": false},
+  "UsageLimitLimitType": {"type": "string", "flattened": false},
+  "UsageLimitList": {
+    "type": "structure",
+    "members": {
+      "UsageLimits": {"shape": "UsageLimits", "flattened": false},
+      "Marker": {"shape": "String", "flattened": false}
+    },
+    "flattened": false
+  },
+  "UsageLimitPeriod": {"type": "string", "flattened": false},
+  "UsageLimits": {
+    "type": "list",
+    "member": {"shape": "UsageLimit"},
     "flattened": false
   },
   "ValueStringList": {

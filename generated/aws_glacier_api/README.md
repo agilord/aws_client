@@ -16,7 +16,7 @@ failure and recovery, or time-consuming hardware migrations.
 Glacier is a great storage choice when low storage cost is paramount and
 your data is rarely retrieved. If your application requires fast or frequent
 access to your data, consider using Amazon S3. For more information, see <a
-href="http://aws.amazon.com/s3/">Amazon Simple Storage Service (Amazon
+href="https://aws.amazon.com/s3/">Amazon Simple Storage Service (Amazon
 S3)</a>.
 
 You can store any kind of data in any format. There is no maximum limit on

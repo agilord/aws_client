@@ -158,6 +158,172 @@ class SESV2 {
     return CreateConfigurationSetEventDestinationResponse.fromJson(response);
   }
 
+  /// Creates a contact, which is an end-user who is receiving the email, and
+  /// adds them to a contact list.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [NotFoundException].
+  /// May throw [AlreadyExistsException].
+  ///
+  /// Parameter [contactListName] :
+  /// The name of the contact list to which the contact should be added.
+  ///
+  /// Parameter [emailAddress] :
+  /// The contact's email address.
+  ///
+  /// Parameter [attributesData] :
+  /// The attribute data attached to a contact.
+  ///
+  /// Parameter [topicPreferences] :
+  /// The contact's preferences for being opted-in to or opted-out of topics.
+  ///
+  /// Parameter [unsubscribeAll] :
+  /// A boolean value status noting if the contact is unsubscribed from all
+  /// contact list topics.
+  Future<void> createContact({
+    @_s.required String contactListName,
+    @_s.required String emailAddress,
+    String attributesData,
+    List<TopicPreference> topicPreferences,
+    bool unsubscribeAll,
+  }) async {
+    ArgumentError.checkNotNull(contactListName, 'contactListName');
+    ArgumentError.checkNotNull(emailAddress, 'emailAddress');
+    final $payload = <String, dynamic>{
+      'EmailAddress': emailAddress,
+      if (attributesData != null) 'AttributesData': attributesData,
+      if (topicPreferences != null) 'TopicPreferences': topicPreferences,
+      if (unsubscribeAll != null) 'UnsubscribeAll': unsubscribeAll,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/v2/email/contact-lists/${Uri.encodeComponent(contactListName)}/contacts',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateContactResponse.fromJson(response);
+  }
+
+  /// Creates a contact list.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [AlreadyExistsException].
+  /// May throw [LimitExceededException].
+  ///
+  /// Parameter [contactListName] :
+  /// The name of the contact list.
+  ///
+  /// Parameter [description] :
+  /// A description of what the contact list is about.
+  ///
+  /// Parameter [tags] :
+  /// The tags associated with a contact list.
+  ///
+  /// Parameter [topics] :
+  /// An interest group, theme, or label within a list. A contact list can have
+  /// multiple topics.
+  Future<void> createContactList({
+    @_s.required String contactListName,
+    String description,
+    List<Tag> tags,
+    List<Topic> topics,
+  }) async {
+    ArgumentError.checkNotNull(contactListName, 'contactListName');
+    final $payload = <String, dynamic>{
+      'ContactListName': contactListName,
+      if (description != null) 'Description': description,
+      if (tags != null) 'Tags': tags,
+      if (topics != null) 'Topics': topics,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/v2/email/contact-lists',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateContactListResponse.fromJson(response);
+  }
+
+  /// Creates a new custom verification email template.
+  ///
+  /// For more information about custom verification email templates, see <a
+  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-email-verify-address-custom.html">Using
+  /// Custom Verification Email Templates</a> in the <i>Amazon SES Developer
+  /// Guide</i>.
+  ///
+  /// You can execute this operation no more than once per second.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [AlreadyExistsException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [LimitExceededException].
+  ///
+  /// Parameter [failureRedirectionURL] :
+  /// The URL that the recipient of the verification email is sent to if his or
+  /// her address is not successfully verified.
+  ///
+  /// Parameter [fromEmailAddress] :
+  /// The email address that the custom verification email is sent from.
+  ///
+  /// Parameter [successRedirectionURL] :
+  /// The URL that the recipient of the verification email is sent to if his or
+  /// her address is successfully verified.
+  ///
+  /// Parameter [templateContent] :
+  /// The content of the custom verification email. The total size of the email
+  /// must be less than 10 MB. The message body may contain HTML, with some
+  /// limitations. For more information, see <a
+  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-email-verify-address-custom.html#custom-verification-emails-faq">Custom
+  /// Verification Email Frequently Asked Questions</a> in the <i>Amazon SES
+  /// Developer Guide</i>.
+  ///
+  /// Parameter [templateName] :
+  /// The name of the custom verification email template.
+  ///
+  /// Parameter [templateSubject] :
+  /// The subject line of the custom verification email.
+  Future<void> createCustomVerificationEmailTemplate({
+    @_s.required String failureRedirectionURL,
+    @_s.required String fromEmailAddress,
+    @_s.required String successRedirectionURL,
+    @_s.required String templateContent,
+    @_s.required String templateName,
+    @_s.required String templateSubject,
+  }) async {
+    ArgumentError.checkNotNull(failureRedirectionURL, 'failureRedirectionURL');
+    ArgumentError.checkNotNull(fromEmailAddress, 'fromEmailAddress');
+    ArgumentError.checkNotNull(successRedirectionURL, 'successRedirectionURL');
+    ArgumentError.checkNotNull(templateContent, 'templateContent');
+    ArgumentError.checkNotNull(templateName, 'templateName');
+    _s.validateStringLength(
+      'templateName',
+      templateName,
+      1,
+      1152921504606846976,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(templateSubject, 'templateSubject');
+    final $payload = <String, dynamic>{
+      'FailureRedirectionURL': failureRedirectionURL,
+      'FromEmailAddress': fromEmailAddress,
+      'SuccessRedirectionURL': successRedirectionURL,
+      'TemplateContent': templateContent,
+      'TemplateName': templateName,
+      'TemplateSubject': templateSubject,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/v2/email/custom-verification-email-templates',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateCustomVerificationEmailTemplateResponse.fromJson(response);
+  }
+
   /// Create a new pool of dedicated IP addresses. A pool can include one or
   /// more dedicated IP addresses that are associated with your AWS account. You
   /// can associate a pool with a configuration set. When you send an email that
@@ -310,6 +476,13 @@ class SESV2 {
     List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(emailIdentity, 'emailIdentity');
+    _s.validateStringLength(
+      'emailIdentity',
+      emailIdentity,
+      1,
+      1152921504606846976,
+      isRequired: true,
+    );
     final $payload = <String, dynamic>{
       'EmailIdentity': emailIdentity,
       if (dkimSigningAttributes != null)
@@ -323,6 +496,159 @@ class SESV2 {
       exceptionFnMap: _exceptionFns,
     );
     return CreateEmailIdentityResponse.fromJson(response);
+  }
+
+  /// Creates the specified sending authorization policy for the given identity
+  /// (an email address or a domain).
+  /// <note>
+  /// This API is for the identity owner only. If you have not verified the
+  /// identity, this API will return an error.
+  /// </note>
+  /// Sending authorization is a feature that enables an identity owner to
+  /// authorize other senders to use its identities. For information about using
+  /// sending authorization, see the <a
+  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html">Amazon
+  /// SES Developer Guide</a>.
+  ///
+  /// You can execute this operation no more than once per second.
+  ///
+  /// May throw [NotFoundException].
+  /// May throw [AlreadyExistsException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [LimitExceededException].
+  /// May throw [BadRequestException].
+  ///
+  /// Parameter [emailIdentity] :
+  /// The email identity for which you want to create a policy.
+  ///
+  /// Parameter [policy] :
+  /// The text of the policy in JSON format. The policy cannot exceed 4 KB.
+  ///
+  /// For information about the syntax of sending authorization policies, see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization-policies.html">Amazon
+  /// SES Developer Guide</a>.
+  ///
+  /// Parameter [policyName] :
+  /// The name of the policy.
+  ///
+  /// The policy name cannot exceed 64 characters and can only include
+  /// alphanumeric characters, dashes, and underscores.
+  Future<void> createEmailIdentityPolicy({
+    @_s.required String emailIdentity,
+    @_s.required String policy,
+    @_s.required String policyName,
+  }) async {
+    ArgumentError.checkNotNull(emailIdentity, 'emailIdentity');
+    _s.validateStringLength(
+      'emailIdentity',
+      emailIdentity,
+      1,
+      1152921504606846976,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(policy, 'policy');
+    _s.validateStringLength(
+      'policy',
+      policy,
+      1,
+      1152921504606846976,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(policyName, 'policyName');
+    _s.validateStringLength(
+      'policyName',
+      policyName,
+      1,
+      64,
+      isRequired: true,
+    );
+    final $payload = <String, dynamic>{
+      'Policy': policy,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/v2/email/identities/${Uri.encodeComponent(emailIdentity)}/policies/${Uri.encodeComponent(policyName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateEmailIdentityPolicyResponse.fromJson(response);
+  }
+
+  /// Creates an email template. Email templates enable you to send personalized
+  /// email to one or more destinations in a single API operation. For more
+  /// information, see the <a
+  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-personalized-email-api.html">Amazon
+  /// SES Developer Guide</a>.
+  ///
+  /// You can execute this operation no more than once per second.
+  ///
+  /// May throw [AlreadyExistsException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [BadRequestException].
+  /// May throw [LimitExceededException].
+  ///
+  /// Parameter [templateContent] :
+  /// The content of the email template, composed of a subject line, an HTML
+  /// part, and a text-only part.
+  ///
+  /// Parameter [templateName] :
+  /// The name of the template you want to create.
+  Future<void> createEmailTemplate({
+    @_s.required EmailTemplateContent templateContent,
+    @_s.required String templateName,
+  }) async {
+    ArgumentError.checkNotNull(templateContent, 'templateContent');
+    ArgumentError.checkNotNull(templateName, 'templateName');
+    _s.validateStringLength(
+      'templateName',
+      templateName,
+      1,
+      1152921504606846976,
+      isRequired: true,
+    );
+    final $payload = <String, dynamic>{
+      'TemplateContent': templateContent,
+      'TemplateName': templateName,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/v2/email/templates',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateEmailTemplateResponse.fromJson(response);
+  }
+
+  /// Creates an import job for a data destination.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [LimitExceededException].
+  /// May throw [TooManyRequestsException].
+  ///
+  /// Parameter [importDataSource] :
+  /// The data source for the import job.
+  ///
+  /// Parameter [importDestination] :
+  /// The destination for the import job.
+  Future<CreateImportJobResponse> createImportJob({
+    @_s.required ImportDataSource importDataSource,
+    @_s.required ImportDestination importDestination,
+  }) async {
+    ArgumentError.checkNotNull(importDataSource, 'importDataSource');
+    ArgumentError.checkNotNull(importDestination, 'importDestination');
+    final $payload = <String, dynamic>{
+      'ImportDataSource': importDataSource,
+      'ImportDestination': importDestination,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/v2/email/import-jobs',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateImportJobResponse.fromJson(response);
   }
 
   /// Delete an existing configuration set.
@@ -389,6 +715,93 @@ class SESV2 {
     return DeleteConfigurationSetEventDestinationResponse.fromJson(response);
   }
 
+  /// Removes a contact from a contact list.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [NotFoundException].
+  ///
+  /// Parameter [contactListName] :
+  /// The name of the contact list from which the contact should be removed.
+  ///
+  /// Parameter [emailAddress] :
+  /// The contact's email address.
+  Future<void> deleteContact({
+    @_s.required String contactListName,
+    @_s.required String emailAddress,
+  }) async {
+    ArgumentError.checkNotNull(contactListName, 'contactListName');
+    ArgumentError.checkNotNull(emailAddress, 'emailAddress');
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/v2/email/contact-lists/${Uri.encodeComponent(contactListName)}/contacts/${Uri.encodeComponent(emailAddress)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DeleteContactResponse.fromJson(response);
+  }
+
+  /// Deletes a contact list and all of the contacts on that list.
+  ///
+  /// May throw [TooManyRequestsException].
+  /// May throw [NotFoundException].
+  /// May throw [BadRequestException].
+  /// May throw [ConcurrentModificationException].
+  ///
+  /// Parameter [contactListName] :
+  /// The name of the contact list.
+  Future<void> deleteContactList({
+    @_s.required String contactListName,
+  }) async {
+    ArgumentError.checkNotNull(contactListName, 'contactListName');
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/v2/email/contact-lists/${Uri.encodeComponent(contactListName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DeleteContactListResponse.fromJson(response);
+  }
+
+  /// Deletes an existing custom verification email template.
+  ///
+  /// For more information about custom verification email templates, see <a
+  /// href="https://docs.aws.amazon.com/es/latest/DeveloperGuide/send-email-verify-address-custom.html">Using
+  /// Custom Verification Email Templates</a> in the <i>Amazon SES Developer
+  /// Guide</i>.
+  ///
+  /// You can execute this operation no more than once per second.
+  ///
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [BadRequestException].
+  ///
+  /// Parameter [templateName] :
+  /// The name of the custom verification email template that you want to
+  /// delete.
+  Future<void> deleteCustomVerificationEmailTemplate({
+    @_s.required String templateName,
+  }) async {
+    ArgumentError.checkNotNull(templateName, 'templateName');
+    _s.validateStringLength(
+      'templateName',
+      templateName,
+      1,
+      1152921504606846976,
+      isRequired: true,
+    );
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/v2/email/custom-verification-email-templates/${Uri.encodeComponent(templateName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DeleteCustomVerificationEmailTemplateResponse.fromJson(response);
+  }
+
   /// Delete a dedicated IP pool.
   ///
   /// May throw [NotFoundException].
@@ -427,6 +840,13 @@ class SESV2 {
     @_s.required String emailIdentity,
   }) async {
     ArgumentError.checkNotNull(emailIdentity, 'emailIdentity');
+    _s.validateStringLength(
+      'emailIdentity',
+      emailIdentity,
+      1,
+      1152921504606846976,
+      isRequired: true,
+    );
     final response = await _protocol.send(
       payload: null,
       method: 'DELETE',
@@ -434,6 +854,93 @@ class SESV2 {
       exceptionFnMap: _exceptionFns,
     );
     return DeleteEmailIdentityResponse.fromJson(response);
+  }
+
+  /// Deletes the specified sending authorization policy for the given identity
+  /// (an email address or a domain). This API returns successfully even if a
+  /// policy with the specified name does not exist.
+  /// <note>
+  /// This API is for the identity owner only. If you have not verified the
+  /// identity, this API will return an error.
+  /// </note>
+  /// Sending authorization is a feature that enables an identity owner to
+  /// authorize other senders to use its identities. For information about using
+  /// sending authorization, see the <a
+  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html">Amazon
+  /// SES Developer Guide</a>.
+  ///
+  /// You can execute this operation no more than once per second.
+  ///
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [BadRequestException].
+  ///
+  /// Parameter [emailIdentity] :
+  /// The email identity for which you want to delete a policy.
+  ///
+  /// Parameter [policyName] :
+  /// The name of the policy.
+  ///
+  /// The policy name cannot exceed 64 characters and can only include
+  /// alphanumeric characters, dashes, and underscores.
+  Future<void> deleteEmailIdentityPolicy({
+    @_s.required String emailIdentity,
+    @_s.required String policyName,
+  }) async {
+    ArgumentError.checkNotNull(emailIdentity, 'emailIdentity');
+    _s.validateStringLength(
+      'emailIdentity',
+      emailIdentity,
+      1,
+      1152921504606846976,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(policyName, 'policyName');
+    _s.validateStringLength(
+      'policyName',
+      policyName,
+      1,
+      64,
+      isRequired: true,
+    );
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/v2/email/identities/${Uri.encodeComponent(emailIdentity)}/policies/${Uri.encodeComponent(policyName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DeleteEmailIdentityPolicyResponse.fromJson(response);
+  }
+
+  /// Deletes an email template.
+  ///
+  /// You can execute this operation no more than once per second.
+  ///
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [BadRequestException].
+  ///
+  /// Parameter [templateName] :
+  /// The name of the template to be deleted.
+  Future<void> deleteEmailTemplate({
+    @_s.required String templateName,
+  }) async {
+    ArgumentError.checkNotNull(templateName, 'templateName');
+    _s.validateStringLength(
+      'templateName',
+      templateName,
+      1,
+      1152921504606846976,
+      isRequired: true,
+    );
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/v2/email/templates/${Uri.encodeComponent(templateName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DeleteEmailTemplateResponse.fromJson(response);
   }
 
   /// Removes an email address from the suppression list for your account.
@@ -562,6 +1069,95 @@ class SESV2 {
       exceptionFnMap: _exceptionFns,
     );
     return GetConfigurationSetEventDestinationsResponse.fromJson(response);
+  }
+
+  /// Returns a contact from a contact list.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [NotFoundException].
+  ///
+  /// Parameter [contactListName] :
+  /// The name of the contact list to which the contact belongs.
+  ///
+  /// Parameter [emailAddress] :
+  /// The contact's email addres.
+  Future<GetContactResponse> getContact({
+    @_s.required String contactListName,
+    @_s.required String emailAddress,
+  }) async {
+    ArgumentError.checkNotNull(contactListName, 'contactListName');
+    ArgumentError.checkNotNull(emailAddress, 'emailAddress');
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/v2/email/contact-lists/${Uri.encodeComponent(contactListName)}/contacts/${Uri.encodeComponent(emailAddress)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetContactResponse.fromJson(response);
+  }
+
+  /// Returns contact list metadata. It does not return any information about
+  /// the contacts present in the list.
+  ///
+  /// May throw [TooManyRequestsException].
+  /// May throw [NotFoundException].
+  /// May throw [BadRequestException].
+  ///
+  /// Parameter [contactListName] :
+  /// The name of the contact list.
+  Future<GetContactListResponse> getContactList({
+    @_s.required String contactListName,
+  }) async {
+    ArgumentError.checkNotNull(contactListName, 'contactListName');
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/v2/email/contact-lists/${Uri.encodeComponent(contactListName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetContactListResponse.fromJson(response);
+  }
+
+  /// Returns the custom email verification template for the template name you
+  /// specify.
+  ///
+  /// For more information about custom verification email templates, see <a
+  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-email-verify-address-custom.html">Using
+  /// Custom Verification Email Templates</a> in the <i>Amazon SES Developer
+  /// Guide</i>.
+  ///
+  /// You can execute this operation no more than once per second.
+  ///
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [BadRequestException].
+  ///
+  /// Parameter [templateName] :
+  /// The name of the custom verification email template that you want to
+  /// retrieve.
+  Future<GetCustomVerificationEmailTemplateResponse>
+      getCustomVerificationEmailTemplate({
+    @_s.required String templateName,
+  }) async {
+    ArgumentError.checkNotNull(templateName, 'templateName');
+    _s.validateStringLength(
+      'templateName',
+      templateName,
+      1,
+      1152921504606846976,
+      isRequired: true,
+    );
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/v2/email/custom-verification-email-templates/${Uri.encodeComponent(templateName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetCustomVerificationEmailTemplateResponse.fromJson(response);
   }
 
   /// Get information about a dedicated IP address, including the name of the
@@ -726,6 +1322,13 @@ class SESV2 {
     @_s.required DateTime startDate,
   }) async {
     ArgumentError.checkNotNull(domain, 'domain');
+    _s.validateStringLength(
+      'domain',
+      domain,
+      1,
+      1152921504606846976,
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(endDate, 'endDate');
     ArgumentError.checkNotNull(startDate, 'startDate');
     final $query = <String, List<String>>{
@@ -745,8 +1348,8 @@ class SESV2 {
   }
 
   /// Provides information about a specific identity, including the identity's
-  /// verification status, its DKIM authentication status, and its custom
-  /// Mail-From settings.
+  /// verification status, sending authorization policies, its DKIM
+  /// authentication status, and its custom Mail-From settings.
   ///
   /// May throw [NotFoundException].
   /// May throw [TooManyRequestsException].
@@ -758,6 +1361,13 @@ class SESV2 {
     @_s.required String emailIdentity,
   }) async {
     ArgumentError.checkNotNull(emailIdentity, 'emailIdentity');
+    _s.validateStringLength(
+      'emailIdentity',
+      emailIdentity,
+      1,
+      1152921504606846976,
+      isRequired: true,
+    );
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
@@ -765,6 +1375,108 @@ class SESV2 {
       exceptionFnMap: _exceptionFns,
     );
     return GetEmailIdentityResponse.fromJson(response);
+  }
+
+  /// Returns the requested sending authorization policies for the given
+  /// identity (an email address or a domain). The policies are returned as a
+  /// map of policy names to policy contents. You can retrieve a maximum of 20
+  /// policies at a time.
+  /// <note>
+  /// This API is for the identity owner only. If you have not verified the
+  /// identity, this API will return an error.
+  /// </note>
+  /// Sending authorization is a feature that enables an identity owner to
+  /// authorize other senders to use its identities. For information about using
+  /// sending authorization, see the <a
+  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html">Amazon
+  /// SES Developer Guide</a>.
+  ///
+  /// You can execute this operation no more than once per second.
+  ///
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [BadRequestException].
+  ///
+  /// Parameter [emailIdentity] :
+  /// The email identity that you want to retrieve policies for.
+  Future<GetEmailIdentityPoliciesResponse> getEmailIdentityPolicies({
+    @_s.required String emailIdentity,
+  }) async {
+    ArgumentError.checkNotNull(emailIdentity, 'emailIdentity');
+    _s.validateStringLength(
+      'emailIdentity',
+      emailIdentity,
+      1,
+      1152921504606846976,
+      isRequired: true,
+    );
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/v2/email/identities/${Uri.encodeComponent(emailIdentity)}/policies',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetEmailIdentityPoliciesResponse.fromJson(response);
+  }
+
+  /// Displays the template object (which includes the subject line, HTML part
+  /// and text part) for the template you specify.
+  ///
+  /// You can execute this operation no more than once per second.
+  ///
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [BadRequestException].
+  ///
+  /// Parameter [templateName] :
+  /// The name of the template you want to retrieve.
+  Future<GetEmailTemplateResponse> getEmailTemplate({
+    @_s.required String templateName,
+  }) async {
+    ArgumentError.checkNotNull(templateName, 'templateName');
+    _s.validateStringLength(
+      'templateName',
+      templateName,
+      1,
+      1152921504606846976,
+      isRequired: true,
+    );
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/v2/email/templates/${Uri.encodeComponent(templateName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetEmailTemplateResponse.fromJson(response);
+  }
+
+  /// Provides information about an import job.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
+  ///
+  /// Parameter [jobId] :
+  /// The ID of the import job.
+  Future<GetImportJobResponse> getImportJob({
+    @_s.required String jobId,
+  }) async {
+    ArgumentError.checkNotNull(jobId, 'jobId');
+    _s.validateStringLength(
+      'jobId',
+      jobId,
+      1,
+      1152921504606846976,
+      isRequired: true,
+    );
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/v2/email/import-jobs/${Uri.encodeComponent(jobId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetImportJobResponse.fromJson(response);
   }
 
   /// Retrieves information about a specific email address that's on the
@@ -829,6 +1541,133 @@ class SESV2 {
       exceptionFnMap: _exceptionFns,
     );
     return ListConfigurationSetsResponse.fromJson(response);
+  }
+
+  /// Lists all of the contact lists available.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [TooManyRequestsException].
+  ///
+  /// Parameter [nextToken] :
+  /// A string token indicating that there might be additional contact lists
+  /// available to be listed. Use the token provided in the Response to use in
+  /// the subsequent call to ListContactLists with the same parameters to
+  /// retrieve the next page of contact lists.
+  ///
+  /// Parameter [pageSize] :
+  /// Maximum number of contact lists to return at once. Use this parameter to
+  /// paginate results. If additional contact lists exist beyond the specified
+  /// limit, the <code>NextToken</code> element is sent in the response. Use the
+  /// <code>NextToken</code> value in subsequent requests to retrieve additional
+  /// lists.
+  Future<ListContactListsResponse> listContactLists({
+    String nextToken,
+    int pageSize,
+  }) async {
+    final $query = <String, List<String>>{
+      if (nextToken != null) 'NextToken': [nextToken],
+      if (pageSize != null) 'PageSize': [pageSize.toString()],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/v2/email/contact-lists',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListContactListsResponse.fromJson(response);
+  }
+
+  /// Lists the contacts present in a specific contact list.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [NotFoundException].
+  ///
+  /// Parameter [contactListName] :
+  /// The name of the contact list.
+  ///
+  /// Parameter [filter] :
+  /// A filter that can be applied to a list of contacts.
+  ///
+  /// Parameter [nextToken] :
+  /// A string token indicating that there might be additional contacts
+  /// available to be listed. Use the token provided in the Response to use in
+  /// the subsequent call to ListContacts with the same parameters to retrieve
+  /// the next page of contacts.
+  ///
+  /// Parameter [pageSize] :
+  /// The number of contacts that may be returned at once, which is dependent on
+  /// if there are more or less contacts than the value of the PageSize. Use
+  /// this parameter to paginate results. If additional contacts exist beyond
+  /// the specified limit, the <code>NextToken</code> element is sent in the
+  /// response. Use the <code>NextToken</code> value in subsequent requests to
+  /// retrieve additional contacts.
+  Future<ListContactsResponse> listContacts({
+    @_s.required String contactListName,
+    ListContactsFilter filter,
+    String nextToken,
+    int pageSize,
+  }) async {
+    ArgumentError.checkNotNull(contactListName, 'contactListName');
+    final $query = <String, List<String>>{
+      if (nextToken != null) 'NextToken': [nextToken],
+      if (pageSize != null) 'PageSize': [pageSize.toString()],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/v2/email/contact-lists/${Uri.encodeComponent(contactListName)}/contacts',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListContactsResponse.fromJson(response);
+  }
+
+  /// Lists the existing custom verification email templates for your account in
+  /// the current AWS Region.
+  ///
+  /// For more information about custom verification email templates, see <a
+  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-email-verify-address-custom.html">Using
+  /// Custom Verification Email Templates</a> in the <i>Amazon SES Developer
+  /// Guide</i>.
+  ///
+  /// You can execute this operation no more than once per second.
+  ///
+  /// May throw [TooManyRequestsException].
+  /// May throw [BadRequestException].
+  ///
+  /// Parameter [nextToken] :
+  /// A token returned from a previous call to
+  /// <code>ListCustomVerificationEmailTemplates</code> to indicate the position
+  /// in the list of custom verification email templates.
+  ///
+  /// Parameter [pageSize] :
+  /// The number of results to show in a single call to
+  /// <code>ListCustomVerificationEmailTemplates</code>. If the number of
+  /// results is larger than the number you specified in this parameter, then
+  /// the response includes a <code>NextToken</code> element, which you can use
+  /// to obtain additional results.
+  ///
+  /// The value you specify has to be at least 1, and can be no more than 50.
+  Future<ListCustomVerificationEmailTemplatesResponse>
+      listCustomVerificationEmailTemplates({
+    String nextToken,
+    int pageSize,
+  }) async {
+    final $query = <String, List<String>>{
+      if (nextToken != null) 'NextToken': [nextToken],
+      if (pageSize != null) 'PageSize': [pageSize.toString()],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/v2/email/custom-verification-email-templates',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListCustomVerificationEmailTemplatesResponse.fromJson(response);
   }
 
   /// List all of the dedicated IP pools that exist in your AWS account in the
@@ -1005,6 +1844,84 @@ class SESV2 {
     return ListEmailIdentitiesResponse.fromJson(response);
   }
 
+  /// Lists the email templates present in your Amazon SES account in the
+  /// current AWS Region.
+  ///
+  /// You can execute this operation no more than once per second.
+  ///
+  /// May throw [TooManyRequestsException].
+  /// May throw [BadRequestException].
+  ///
+  /// Parameter [nextToken] :
+  /// A token returned from a previous call to <code>ListEmailTemplates</code>
+  /// to indicate the position in the list of email templates.
+  ///
+  /// Parameter [pageSize] :
+  /// The number of results to show in a single call to
+  /// <code>ListEmailTemplates</code>. If the number of results is larger than
+  /// the number you specified in this parameter, then the response includes a
+  /// <code>NextToken</code> element, which you can use to obtain additional
+  /// results.
+  ///
+  /// The value you specify has to be at least 1, and can be no more than 10.
+  Future<ListEmailTemplatesResponse> listEmailTemplates({
+    String nextToken,
+    int pageSize,
+  }) async {
+    final $query = <String, List<String>>{
+      if (nextToken != null) 'NextToken': [nextToken],
+      if (pageSize != null) 'PageSize': [pageSize.toString()],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/v2/email/templates',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListEmailTemplatesResponse.fromJson(response);
+  }
+
+  /// Lists all of the import jobs.
+  ///
+  /// May throw [TooManyRequestsException].
+  /// May throw [BadRequestException].
+  ///
+  /// Parameter [importDestinationType] :
+  /// The destination of the import job, which can be used to list import jobs
+  /// that have a certain <code>ImportDestinationType</code>.
+  ///
+  /// Parameter [nextToken] :
+  /// A string token indicating that there might be additional import jobs
+  /// available to be listed. Copy this token to a subsequent call to
+  /// <code>ListImportJobs</code> with the same parameters to retrieve the next
+  /// page of import jobs.
+  ///
+  /// Parameter [pageSize] :
+  /// Maximum number of import jobs to return at once. Use this parameter to
+  /// paginate results. If additional import jobs exist beyond the specified
+  /// limit, the <code>NextToken</code> element is sent in the response. Use the
+  /// <code>NextToken</code> value in subsequent requests to retrieve additional
+  /// addresses.
+  Future<ListImportJobsResponse> listImportJobs({
+    ImportDestinationType importDestinationType,
+    String nextToken,
+    int pageSize,
+  }) async {
+    final $query = <String, List<String>>{
+      if (nextToken != null) 'NextToken': [nextToken],
+      if (pageSize != null) 'PageSize': [pageSize.toString()],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/v2/email/import-jobs',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListImportJobsResponse.fromJson(response);
+  }
+
   /// Retrieves a list of email addresses that are on the suppression list for
   /// your account.
   ///
@@ -1117,6 +2034,94 @@ class SESV2 {
       exceptionFnMap: _exceptionFns,
     );
     return PutAccountDedicatedIpWarmupAttributesResponse.fromJson(response);
+  }
+
+  /// Update your Amazon SES account details.
+  ///
+  /// May throw [TooManyRequestsException].
+  /// May throw [BadRequestException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [mailType] :
+  /// The type of email your account will send.
+  ///
+  /// Parameter [useCaseDescription] :
+  /// A description of the types of email that you plan to send.
+  ///
+  /// Parameter [websiteURL] :
+  /// The URL of your website. This information helps us better understand the
+  /// type of content that you plan to send.
+  ///
+  /// Parameter [additionalContactEmailAddresses] :
+  /// Additional email addresses that you would like to be notified regarding
+  /// Amazon SES matters.
+  ///
+  /// Parameter [contactLanguage] :
+  /// The language you would prefer to be contacted with.
+  ///
+  /// Parameter [productionAccessEnabled] :
+  /// Indicates whether or not your account should have production access in the
+  /// current AWS Region.
+  ///
+  /// If the value is <code>false</code>, then your account is in the
+  /// <i>sandbox</i>. When your account is in the sandbox, you can only send
+  /// email to verified identities. Additionally, the maximum number of emails
+  /// you can send in a 24-hour period (your sending quota) is 200, and the
+  /// maximum number of emails you can send per second (your maximum sending
+  /// rate) is 1.
+  ///
+  /// If the value is <code>true</code>, then your account has production
+  /// access. When your account has production access, you can send email to any
+  /// address. The sending quota and maximum sending rate for your account vary
+  /// based on your specific use case.
+  Future<void> putAccountDetails({
+    @_s.required MailType mailType,
+    @_s.required String useCaseDescription,
+    @_s.required String websiteURL,
+    List<String> additionalContactEmailAddresses,
+    ContactLanguage contactLanguage,
+    bool productionAccessEnabled,
+  }) async {
+    ArgumentError.checkNotNull(mailType, 'mailType');
+    ArgumentError.checkNotNull(useCaseDescription, 'useCaseDescription');
+    _s.validateStringLength(
+      'useCaseDescription',
+      useCaseDescription,
+      1,
+      5000,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(websiteURL, 'websiteURL');
+    _s.validateStringLength(
+      'websiteURL',
+      websiteURL,
+      1,
+      1000,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'websiteURL',
+      websiteURL,
+      r'''^(([^:/?#]+):)?(//([^/?#]*))?([^?#]*)(\?([^#]*))?(#(.*))?''',
+      isRequired: true,
+    );
+    final $payload = <String, dynamic>{
+      'MailType': mailType?.toValue() ?? '',
+      'UseCaseDescription': useCaseDescription,
+      'WebsiteURL': websiteURL,
+      if (additionalContactEmailAddresses != null)
+        'AdditionalContactEmailAddresses': additionalContactEmailAddresses,
+      if (contactLanguage != null) 'ContactLanguage': contactLanguage.toValue(),
+      if (productionAccessEnabled != null)
+        'ProductionAccessEnabled': productionAccessEnabled,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/v2/email/account/details',
+      exceptionFnMap: _exceptionFns,
+    );
+    return PutAccountDetailsResponse.fromJson(response);
   }
 
   /// Enable or disable the ability of your account to send email.
@@ -1506,6 +2511,13 @@ class SESV2 {
     bool signingEnabled,
   }) async {
     ArgumentError.checkNotNull(emailIdentity, 'emailIdentity');
+    _s.validateStringLength(
+      'emailIdentity',
+      emailIdentity,
+      1,
+      1152921504606846976,
+      isRequired: true,
+    );
     final $payload = <String, dynamic>{
       if (signingEnabled != null) 'SigningEnabled': signingEnabled,
     };
@@ -1576,6 +2588,13 @@ class SESV2 {
     DkimSigningAttributes signingAttributes,
   }) async {
     ArgumentError.checkNotNull(emailIdentity, 'emailIdentity');
+    _s.validateStringLength(
+      'emailIdentity',
+      emailIdentity,
+      1,
+      1152921504606846976,
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(
         signingAttributesOrigin, 'signingAttributesOrigin');
     final $payload = <String, dynamic>{
@@ -1633,6 +2652,13 @@ class SESV2 {
     bool emailForwardingEnabled,
   }) async {
     ArgumentError.checkNotNull(emailIdentity, 'emailIdentity');
+    _s.validateStringLength(
+      'emailIdentity',
+      emailIdentity,
+      1,
+      1152921504606846976,
+      isRequired: true,
+    );
     final $payload = <String, dynamic>{
       if (emailForwardingEnabled != null)
         'EmailForwardingEnabled': emailForwardingEnabled,
@@ -1693,6 +2719,13 @@ class SESV2 {
     String mailFromDomain,
   }) async {
     ArgumentError.checkNotNull(emailIdentity, 'emailIdentity');
+    _s.validateStringLength(
+      'emailIdentity',
+      emailIdentity,
+      1,
+      1152921504606846976,
+      isRequired: true,
+    );
     final $payload = <String, dynamic>{
       if (behaviorOnMxFailure != null)
         'BehaviorOnMxFailure': behaviorOnMxFailure.toValue(),
@@ -1739,6 +2772,177 @@ class SESV2 {
     return PutSuppressedDestinationResponse.fromJson(response);
   }
 
+  /// Composes an email message to multiple destinations.
+  ///
+  /// May throw [TooManyRequestsException].
+  /// May throw [LimitExceededException].
+  /// May throw [AccountSuspendedException].
+  /// May throw [SendingPausedException].
+  /// May throw [MessageRejected].
+  /// May throw [MailFromDomainNotVerifiedException].
+  /// May throw [NotFoundException].
+  /// May throw [BadRequestException].
+  ///
+  /// Parameter [bulkEmailEntries] :
+  /// The list of bulk email entry objects.
+  ///
+  /// Parameter [defaultContent] :
+  /// An object that contains the body of the message. You can specify a
+  /// template message.
+  ///
+  /// Parameter [configurationSetName] :
+  /// The name of the configuration set that you want to use when sending the
+  /// email.
+  ///
+  /// Parameter [defaultEmailTags] :
+  /// A list of tags, in the form of name/value pairs, to apply to an email that
+  /// you send using the <code>SendEmail</code> operation. Tags correspond to
+  /// characteristics of the email that you define, so that you can publish
+  /// email sending events.
+  ///
+  /// Parameter [feedbackForwardingEmailAddress] :
+  /// The address that you want bounce and complaint notifications to be sent
+  /// to.
+  ///
+  /// Parameter [feedbackForwardingEmailAddressIdentityArn] :
+  /// This parameter is used only for sending authorization. It is the ARN of
+  /// the identity that is associated with the sending authorization policy that
+  /// permits you to use the email address specified in the
+  /// <code>FeedbackForwardingEmailAddress</code> parameter.
+  ///
+  /// For example, if the owner of example.com (which has ARN
+  /// arn:aws:ses:us-east-1:123456789012:identity/example.com) attaches a policy
+  /// to it that authorizes you to use feedback@example.com, then you would
+  /// specify the <code>FeedbackForwardingEmailAddressIdentityArn</code> to be
+  /// arn:aws:ses:us-east-1:123456789012:identity/example.com, and the
+  /// <code>FeedbackForwardingEmailAddress</code> to be feedback@example.com.
+  ///
+  /// For more information about sending authorization, see the <a
+  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html">Amazon
+  /// SES Developer Guide</a>.
+  ///
+  /// Parameter [fromEmailAddress] :
+  /// The email address that you want to use as the "From" address for the
+  /// email. The address that you specify has to be verified.
+  ///
+  /// Parameter [fromEmailAddressIdentityArn] :
+  /// This parameter is used only for sending authorization. It is the ARN of
+  /// the identity that is associated with the sending authorization policy that
+  /// permits you to use the email address specified in the
+  /// <code>FromEmailAddress</code> parameter.
+  ///
+  /// For example, if the owner of example.com (which has ARN
+  /// arn:aws:ses:us-east-1:123456789012:identity/example.com) attaches a policy
+  /// to it that authorizes you to use sender@example.com, then you would
+  /// specify the <code>FromEmailAddressIdentityArn</code> to be
+  /// arn:aws:ses:us-east-1:123456789012:identity/example.com, and the
+  /// <code>FromEmailAddress</code> to be sender@example.com.
+  ///
+  /// For more information about sending authorization, see the <a
+  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html">Amazon
+  /// SES Developer Guide</a>.
+  ///
+  /// Parameter [replyToAddresses] :
+  /// The "Reply-to" email addresses for the message. When the recipient replies
+  /// to the message, each Reply-to address receives the reply.
+  Future<SendBulkEmailResponse> sendBulkEmail({
+    @_s.required List<BulkEmailEntry> bulkEmailEntries,
+    @_s.required BulkEmailContent defaultContent,
+    String configurationSetName,
+    List<MessageTag> defaultEmailTags,
+    String feedbackForwardingEmailAddress,
+    String feedbackForwardingEmailAddressIdentityArn,
+    String fromEmailAddress,
+    String fromEmailAddressIdentityArn,
+    List<String> replyToAddresses,
+  }) async {
+    ArgumentError.checkNotNull(bulkEmailEntries, 'bulkEmailEntries');
+    ArgumentError.checkNotNull(defaultContent, 'defaultContent');
+    final $payload = <String, dynamic>{
+      'BulkEmailEntries': bulkEmailEntries,
+      'DefaultContent': defaultContent,
+      if (configurationSetName != null)
+        'ConfigurationSetName': configurationSetName,
+      if (defaultEmailTags != null) 'DefaultEmailTags': defaultEmailTags,
+      if (feedbackForwardingEmailAddress != null)
+        'FeedbackForwardingEmailAddress': feedbackForwardingEmailAddress,
+      if (feedbackForwardingEmailAddressIdentityArn != null)
+        'FeedbackForwardingEmailAddressIdentityArn':
+            feedbackForwardingEmailAddressIdentityArn,
+      if (fromEmailAddress != null) 'FromEmailAddress': fromEmailAddress,
+      if (fromEmailAddressIdentityArn != null)
+        'FromEmailAddressIdentityArn': fromEmailAddressIdentityArn,
+      if (replyToAddresses != null) 'ReplyToAddresses': replyToAddresses,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/v2/email/outbound-bulk-emails',
+      exceptionFnMap: _exceptionFns,
+    );
+    return SendBulkEmailResponse.fromJson(response);
+  }
+
+  /// Adds an email address to the list of identities for your Amazon SES
+  /// account in the current AWS Region and attempts to verify it. As a result
+  /// of executing this operation, a customized verification email is sent to
+  /// the specified address.
+  ///
+  /// To use this operation, you must first create a custom verification email
+  /// template. For more information about creating and using custom
+  /// verification email templates, see <a
+  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-email-verify-address-custom.html">Using
+  /// Custom Verification Email Templates</a> in the <i>Amazon SES Developer
+  /// Guide</i>.
+  ///
+  /// You can execute this operation no more than once per second.
+  ///
+  /// May throw [TooManyRequestsException].
+  /// May throw [LimitExceededException].
+  /// May throw [MessageRejected].
+  /// May throw [SendingPausedException].
+  /// May throw [MailFromDomainNotVerifiedException].
+  /// May throw [NotFoundException].
+  /// May throw [BadRequestException].
+  ///
+  /// Parameter [emailAddress] :
+  /// The email address to verify.
+  ///
+  /// Parameter [templateName] :
+  /// The name of the custom verification email template to use when sending the
+  /// verification email.
+  ///
+  /// Parameter [configurationSetName] :
+  /// Name of a configuration set to use when sending the verification email.
+  Future<SendCustomVerificationEmailResponse> sendCustomVerificationEmail({
+    @_s.required String emailAddress,
+    @_s.required String templateName,
+    String configurationSetName,
+  }) async {
+    ArgumentError.checkNotNull(emailAddress, 'emailAddress');
+    ArgumentError.checkNotNull(templateName, 'templateName');
+    _s.validateStringLength(
+      'templateName',
+      templateName,
+      1,
+      1152921504606846976,
+      isRequired: true,
+    );
+    final $payload = <String, dynamic>{
+      'EmailAddress': emailAddress,
+      'TemplateName': templateName,
+      if (configurationSetName != null)
+        'ConfigurationSetName': configurationSetName,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/v2/email/outbound-custom-verification-emails',
+      exceptionFnMap: _exceptionFns,
+    );
+    return SendCustomVerificationEmailResponse.fromJson(response);
+  }
+
   /// Sends an email message. You can use the Amazon SES API v2 to send two
   /// types of messages:
   ///
@@ -1754,6 +2958,11 @@ class SESV2 {
   /// message body. You can use this message type to send messages that contain
   /// attachments. The message that you specify has to be a valid MIME message.
   /// </li>
+  /// <li>
+  /// <b>Templated</b> – A message that contains personalization tags. When you
+  /// send this type of email, Amazon SES API v2 automatically replaces the tags
+  /// with values that you specify.
+  /// </li>
   /// </ul>
   ///
   /// May throw [TooManyRequestsException].
@@ -1767,14 +2976,14 @@ class SESV2 {
   ///
   /// Parameter [content] :
   /// An object that contains the body of the message. You can send either a
-  /// Simple message or a Raw message.
-  ///
-  /// Parameter [destination] :
-  /// An object that contains the recipients of the email message.
+  /// Simple message Raw message or a template Message.
   ///
   /// Parameter [configurationSetName] :
   /// The name of the configuration set that you want to use when sending the
   /// email.
+  ///
+  /// Parameter [destination] :
+  /// An object that contains the recipients of the email message.
   ///
   /// Parameter [emailTags] :
   /// A list of tags, in the form of name/value pairs, to apply to an email that
@@ -1786,33 +2995,84 @@ class SESV2 {
   /// The address that you want bounce and complaint notifications to be sent
   /// to.
   ///
+  /// Parameter [feedbackForwardingEmailAddressIdentityArn] :
+  /// This parameter is used only for sending authorization. It is the ARN of
+  /// the identity that is associated with the sending authorization policy that
+  /// permits you to use the email address specified in the
+  /// <code>FeedbackForwardingEmailAddress</code> parameter.
+  ///
+  /// For example, if the owner of example.com (which has ARN
+  /// arn:aws:ses:us-east-1:123456789012:identity/example.com) attaches a policy
+  /// to it that authorizes you to use feedback@example.com, then you would
+  /// specify the <code>FeedbackForwardingEmailAddressIdentityArn</code> to be
+  /// arn:aws:ses:us-east-1:123456789012:identity/example.com, and the
+  /// <code>FeedbackForwardingEmailAddress</code> to be feedback@example.com.
+  ///
+  /// For more information about sending authorization, see the <a
+  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html">Amazon
+  /// SES Developer Guide</a>.
+  ///
   /// Parameter [fromEmailAddress] :
   /// The email address that you want to use as the "From" address for the
   /// email. The address that you specify has to be verified.
+  ///
+  /// Parameter [fromEmailAddressIdentityArn] :
+  /// This parameter is used only for sending authorization. It is the ARN of
+  /// the identity that is associated with the sending authorization policy that
+  /// permits you to use the email address specified in the
+  /// <code>FromEmailAddress</code> parameter.
+  ///
+  /// For example, if the owner of example.com (which has ARN
+  /// arn:aws:ses:us-east-1:123456789012:identity/example.com) attaches a policy
+  /// to it that authorizes you to use sender@example.com, then you would
+  /// specify the <code>FromEmailAddressIdentityArn</code> to be
+  /// arn:aws:ses:us-east-1:123456789012:identity/example.com, and the
+  /// <code>FromEmailAddress</code> to be sender@example.com.
+  ///
+  /// For more information about sending authorization, see the <a
+  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html">Amazon
+  /// SES Developer Guide</a>.
+  ///
+  /// For Raw emails, the <code>FromEmailAddressIdentityArn</code> value
+  /// overrides the X-SES-SOURCE-ARN and X-SES-FROM-ARN headers specified in raw
+  /// email message content.
+  ///
+  /// Parameter [listManagementOptions] :
+  /// An object used to specify a list or topic to which an email belongs, which
+  /// will be used when a contact chooses to unsubscribe.
   ///
   /// Parameter [replyToAddresses] :
   /// The "Reply-to" email addresses for the message. When the recipient replies
   /// to the message, each Reply-to address receives the reply.
   Future<SendEmailResponse> sendEmail({
     @_s.required EmailContent content,
-    @_s.required Destination destination,
     String configurationSetName,
+    Destination destination,
     List<MessageTag> emailTags,
     String feedbackForwardingEmailAddress,
+    String feedbackForwardingEmailAddressIdentityArn,
     String fromEmailAddress,
+    String fromEmailAddressIdentityArn,
+    ListManagementOptions listManagementOptions,
     List<String> replyToAddresses,
   }) async {
     ArgumentError.checkNotNull(content, 'content');
-    ArgumentError.checkNotNull(destination, 'destination');
     final $payload = <String, dynamic>{
       'Content': content,
-      'Destination': destination,
       if (configurationSetName != null)
         'ConfigurationSetName': configurationSetName,
+      if (destination != null) 'Destination': destination,
       if (emailTags != null) 'EmailTags': emailTags,
       if (feedbackForwardingEmailAddress != null)
         'FeedbackForwardingEmailAddress': feedbackForwardingEmailAddress,
+      if (feedbackForwardingEmailAddressIdentityArn != null)
+        'FeedbackForwardingEmailAddressIdentityArn':
+            feedbackForwardingEmailAddressIdentityArn,
       if (fromEmailAddress != null) 'FromEmailAddress': fromEmailAddress,
+      if (fromEmailAddressIdentityArn != null)
+        'FromEmailAddressIdentityArn': fromEmailAddressIdentityArn,
+      if (listManagementOptions != null)
+        'ListManagementOptions': listManagementOptions,
       if (replyToAddresses != null) 'ReplyToAddresses': replyToAddresses,
     };
     final response = await _protocol.send(
@@ -1866,6 +3126,55 @@ class SESV2 {
       exceptionFnMap: _exceptionFns,
     );
     return TagResourceResponse.fromJson(response);
+  }
+
+  /// Creates a preview of the MIME content of an email when provided with a
+  /// template and a set of replacement data.
+  ///
+  /// You can execute this operation no more than once per second.
+  ///
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [BadRequestException].
+  ///
+  /// Parameter [templateData] :
+  /// A list of replacement values to apply to the template. This parameter is a
+  /// JSON object, typically consisting of key-value pairs in which the keys
+  /// correspond to replacement tags in the email template.
+  ///
+  /// Parameter [templateName] :
+  /// The name of the template that you want to render.
+  Future<TestRenderEmailTemplateResponse> testRenderEmailTemplate({
+    @_s.required String templateData,
+    @_s.required String templateName,
+  }) async {
+    ArgumentError.checkNotNull(templateData, 'templateData');
+    _s.validateStringLength(
+      'templateData',
+      templateData,
+      0,
+      262144,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(templateName, 'templateName');
+    _s.validateStringLength(
+      'templateName',
+      templateName,
+      1,
+      1152921504606846976,
+      isRequired: true,
+    );
+    final $payload = <String, dynamic>{
+      'TemplateData': templateData,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/v2/email/templates/${Uri.encodeComponent(templateName)}/render',
+      exceptionFnMap: _exceptionFns,
+    );
+    return TestRenderEmailTemplateResponse.fromJson(response);
   }
 
   /// Remove one or more tags (keys and values) from a specified resource.
@@ -1950,6 +3259,344 @@ class SESV2 {
     );
     return UpdateConfigurationSetEventDestinationResponse.fromJson(response);
   }
+
+  /// Updates a contact's preferences for a list. It is not necessary to specify
+  /// all existing topic preferences in the TopicPreferences object, just the
+  /// ones that need updating.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [NotFoundException].
+  /// May throw [ConcurrentModificationException].
+  ///
+  /// Parameter [contactListName] :
+  /// The name of the contact list.
+  ///
+  /// Parameter [emailAddress] :
+  /// The contact's email addres.
+  ///
+  /// Parameter [attributesData] :
+  /// The attribute data attached to a contact.
+  ///
+  /// Parameter [topicPreferences] :
+  /// The contact's preference for being opted-in to or opted-out of a topic.
+  ///
+  /// Parameter [unsubscribeAll] :
+  /// A boolean value status noting if the contact is unsubscribed from all
+  /// contact list topics.
+  Future<void> updateContact({
+    @_s.required String contactListName,
+    @_s.required String emailAddress,
+    String attributesData,
+    List<TopicPreference> topicPreferences,
+    bool unsubscribeAll,
+  }) async {
+    ArgumentError.checkNotNull(contactListName, 'contactListName');
+    ArgumentError.checkNotNull(emailAddress, 'emailAddress');
+    final $payload = <String, dynamic>{
+      if (attributesData != null) 'AttributesData': attributesData,
+      if (topicPreferences != null) 'TopicPreferences': topicPreferences,
+      if (unsubscribeAll != null) 'UnsubscribeAll': unsubscribeAll,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/v2/email/contact-lists/${Uri.encodeComponent(contactListName)}/contacts/${Uri.encodeComponent(emailAddress)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateContactResponse.fromJson(response);
+  }
+
+  /// Updates contact list metadata. This operation does a complete replacement.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [NotFoundException].
+  /// May throw [ConcurrentModificationException].
+  ///
+  /// Parameter [contactListName] :
+  /// The name of the contact list.
+  ///
+  /// Parameter [description] :
+  /// A description of what the contact list is about.
+  ///
+  /// Parameter [topics] :
+  /// An interest group, theme, or label within a list. A contact list can have
+  /// multiple topics.
+  Future<void> updateContactList({
+    @_s.required String contactListName,
+    String description,
+    List<Topic> topics,
+  }) async {
+    ArgumentError.checkNotNull(contactListName, 'contactListName');
+    final $payload = <String, dynamic>{
+      if (description != null) 'Description': description,
+      if (topics != null) 'Topics': topics,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/v2/email/contact-lists/${Uri.encodeComponent(contactListName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateContactListResponse.fromJson(response);
+  }
+
+  /// Updates an existing custom verification email template.
+  ///
+  /// For more information about custom verification email templates, see <a
+  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-email-verify-address-custom.html">Using
+  /// Custom Verification Email Templates</a> in the <i>Amazon SES Developer
+  /// Guide</i>.
+  ///
+  /// You can execute this operation no more than once per second.
+  ///
+  /// May throw [NotFoundException].
+  /// May throw [BadRequestException].
+  /// May throw [TooManyRequestsException].
+  ///
+  /// Parameter [failureRedirectionURL] :
+  /// The URL that the recipient of the verification email is sent to if his or
+  /// her address is not successfully verified.
+  ///
+  /// Parameter [fromEmailAddress] :
+  /// The email address that the custom verification email is sent from.
+  ///
+  /// Parameter [successRedirectionURL] :
+  /// The URL that the recipient of the verification email is sent to if his or
+  /// her address is successfully verified.
+  ///
+  /// Parameter [templateContent] :
+  /// The content of the custom verification email. The total size of the email
+  /// must be less than 10 MB. The message body may contain HTML, with some
+  /// limitations. For more information, see <a
+  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-email-verify-address-custom.html#custom-verification-emails-faq">Custom
+  /// Verification Email Frequently Asked Questions</a> in the <i>Amazon SES
+  /// Developer Guide</i>.
+  ///
+  /// Parameter [templateName] :
+  /// The name of the custom verification email template that you want to
+  /// update.
+  ///
+  /// Parameter [templateSubject] :
+  /// The subject line of the custom verification email.
+  Future<void> updateCustomVerificationEmailTemplate({
+    @_s.required String failureRedirectionURL,
+    @_s.required String fromEmailAddress,
+    @_s.required String successRedirectionURL,
+    @_s.required String templateContent,
+    @_s.required String templateName,
+    @_s.required String templateSubject,
+  }) async {
+    ArgumentError.checkNotNull(failureRedirectionURL, 'failureRedirectionURL');
+    ArgumentError.checkNotNull(fromEmailAddress, 'fromEmailAddress');
+    ArgumentError.checkNotNull(successRedirectionURL, 'successRedirectionURL');
+    ArgumentError.checkNotNull(templateContent, 'templateContent');
+    ArgumentError.checkNotNull(templateName, 'templateName');
+    _s.validateStringLength(
+      'templateName',
+      templateName,
+      1,
+      1152921504606846976,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(templateSubject, 'templateSubject');
+    final $payload = <String, dynamic>{
+      'FailureRedirectionURL': failureRedirectionURL,
+      'FromEmailAddress': fromEmailAddress,
+      'SuccessRedirectionURL': successRedirectionURL,
+      'TemplateContent': templateContent,
+      'TemplateSubject': templateSubject,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/v2/email/custom-verification-email-templates/${Uri.encodeComponent(templateName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateCustomVerificationEmailTemplateResponse.fromJson(response);
+  }
+
+  /// Updates the specified sending authorization policy for the given identity
+  /// (an email address or a domain). This API returns successfully even if a
+  /// policy with the specified name does not exist.
+  /// <note>
+  /// This API is for the identity owner only. If you have not verified the
+  /// identity, this API will return an error.
+  /// </note>
+  /// Sending authorization is a feature that enables an identity owner to
+  /// authorize other senders to use its identities. For information about using
+  /// sending authorization, see the <a
+  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization.html">Amazon
+  /// SES Developer Guide</a>.
+  ///
+  /// You can execute this operation no more than once per second.
+  ///
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [BadRequestException].
+  ///
+  /// Parameter [emailIdentity] :
+  /// The email identity for which you want to update policy.
+  ///
+  /// Parameter [policy] :
+  /// The text of the policy in JSON format. The policy cannot exceed 4 KB.
+  ///
+  /// For information about the syntax of sending authorization policies, see
+  /// the <a
+  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization-policies.html">Amazon
+  /// SES Developer Guide</a>.
+  ///
+  /// Parameter [policyName] :
+  /// The name of the policy.
+  ///
+  /// The policy name cannot exceed 64 characters and can only include
+  /// alphanumeric characters, dashes, and underscores.
+  Future<void> updateEmailIdentityPolicy({
+    @_s.required String emailIdentity,
+    @_s.required String policy,
+    @_s.required String policyName,
+  }) async {
+    ArgumentError.checkNotNull(emailIdentity, 'emailIdentity');
+    _s.validateStringLength(
+      'emailIdentity',
+      emailIdentity,
+      1,
+      1152921504606846976,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(policy, 'policy');
+    _s.validateStringLength(
+      'policy',
+      policy,
+      1,
+      1152921504606846976,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(policyName, 'policyName');
+    _s.validateStringLength(
+      'policyName',
+      policyName,
+      1,
+      64,
+      isRequired: true,
+    );
+    final $payload = <String, dynamic>{
+      'Policy': policy,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/v2/email/identities/${Uri.encodeComponent(emailIdentity)}/policies/${Uri.encodeComponent(policyName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateEmailIdentityPolicyResponse.fromJson(response);
+  }
+
+  /// Updates an email template. Email templates enable you to send personalized
+  /// email to one or more destinations in a single API operation. For more
+  /// information, see the <a
+  /// href="https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-personalized-email-api.html">Amazon
+  /// SES Developer Guide</a>.
+  ///
+  /// You can execute this operation no more than once per second.
+  ///
+  /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [BadRequestException].
+  ///
+  /// Parameter [templateContent] :
+  /// The content of the email template, composed of a subject line, an HTML
+  /// part, and a text-only part.
+  ///
+  /// Parameter [templateName] :
+  /// The name of the template you want to update.
+  Future<void> updateEmailTemplate({
+    @_s.required EmailTemplateContent templateContent,
+    @_s.required String templateName,
+  }) async {
+    ArgumentError.checkNotNull(templateContent, 'templateContent');
+    ArgumentError.checkNotNull(templateName, 'templateName');
+    _s.validateStringLength(
+      'templateName',
+      templateName,
+      1,
+      1152921504606846976,
+      isRequired: true,
+    );
+    final $payload = <String, dynamic>{
+      'TemplateContent': templateContent,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/v2/email/templates/${Uri.encodeComponent(templateName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateEmailTemplateResponse.fromJson(response);
+  }
+}
+
+/// An object that contains information about your account details.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class AccountDetails {
+  /// Additional email addresses where updates are sent about your account review
+  /// process.
+  @_s.JsonKey(name: 'AdditionalContactEmailAddresses')
+  final List<String> additionalContactEmailAddresses;
+
+  /// The language you would prefer for the case. The contact language can be one
+  /// of <code>ENGLISH</code> or <code>JAPANESE</code>.
+  @_s.JsonKey(name: 'ContactLanguage')
+  final ContactLanguage contactLanguage;
+
+  /// The type of email your account is sending. The mail type can be one of the
+  /// following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>MARKETING</code> – Most of your sending traffic is to keep your
+  /// customers informed of your latest offering.
+  /// </li>
+  /// <li>
+  /// <code>TRANSACTIONAL</code> – Most of your sending traffic is to communicate
+  /// during a transaction with a customer.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'MailType')
+  final MailType mailType;
+
+  /// Information about the review of the latest details you submitted.
+  @_s.JsonKey(name: 'ReviewDetails')
+  final ReviewDetails reviewDetails;
+
+  /// A description of the types of email that you plan to send.
+  @_s.JsonKey(name: 'UseCaseDescription')
+  final String useCaseDescription;
+
+  /// The URL of your website. This information helps us better understand the
+  /// type of content that you plan to send.
+  @_s.JsonKey(name: 'WebsiteURL')
+  final String websiteURL;
+
+  AccountDetails({
+    this.additionalContactEmailAddresses,
+    this.contactLanguage,
+    this.mailType,
+    this.reviewDetails,
+    this.useCaseDescription,
+    this.websiteURL,
+  });
+  factory AccountDetails.fromJson(Map<String, dynamic> json) =>
+      _$AccountDetailsFromJson(json);
 }
 
 /// The action that you want to take if the required MX record can't be found
@@ -2038,6 +3685,192 @@ class Body {
   Map<String, dynamic> toJson() => _$BodyToJson(this);
 }
 
+/// An object that contains the body of the message. You can specify a template
+/// message.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BulkEmailContent {
+  /// The template to use for the bulk email message.
+  @_s.JsonKey(name: 'Template')
+  final Template template;
+
+  BulkEmailContent({
+    this.template,
+  });
+  Map<String, dynamic> toJson() => _$BulkEmailContentToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class BulkEmailEntry {
+  /// Represents the destination of the message, consisting of To:, CC:, and BCC:
+  /// fields.
+  /// <note>
+  /// Amazon SES does not support the SMTPUTF8 extension, as described in <a
+  /// href="https://tools.ietf.org/html/rfc6531">RFC6531</a>. For this reason, the
+  /// local part of a destination email address (the part of the email address
+  /// that precedes the @ sign) may only contain <a
+  /// href="https://en.wikipedia.org/wiki/Email_address#Local-part">7-bit ASCII
+  /// characters</a>. If the domain part of an address (the part after the @ sign)
+  /// contains non-ASCII characters, they must be encoded using Punycode, as
+  /// described in <a href="https://tools.ietf.org/html/rfc3492.html">RFC3492</a>.
+  /// </note>
+  @_s.JsonKey(name: 'Destination')
+  final Destination destination;
+
+  /// The <code>ReplacementEmailContent</code> associated with a
+  /// <code>BulkEmailEntry</code>.
+  @_s.JsonKey(name: 'ReplacementEmailContent')
+  final ReplacementEmailContent replacementEmailContent;
+
+  /// A list of tags, in the form of name/value pairs, to apply to an email that
+  /// you send using the <code>SendBulkTemplatedEmail</code> operation. Tags
+  /// correspond to characteristics of the email that you define, so that you can
+  /// publish email sending events.
+  @_s.JsonKey(name: 'ReplacementTags')
+  final List<MessageTag> replacementTags;
+
+  BulkEmailEntry({
+    @_s.required this.destination,
+    this.replacementEmailContent,
+    this.replacementTags,
+  });
+  Map<String, dynamic> toJson() => _$BulkEmailEntryToJson(this);
+}
+
+/// The result of the <code>SendBulkEmail</code> operation of each specified
+/// <code>BulkEmailEntry</code>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class BulkEmailEntryResult {
+  /// A description of an error that prevented a message being sent using the
+  /// <code>SendBulkTemplatedEmail</code> operation.
+  @_s.JsonKey(name: 'Error')
+  final String error;
+
+  /// The unique message identifier returned from the
+  /// <code>SendBulkTemplatedEmail</code> operation.
+  @_s.JsonKey(name: 'MessageId')
+  final String messageId;
+
+  /// The status of a message sent using the <code>SendBulkTemplatedEmail</code>
+  /// operation.
+  ///
+  /// Possible values for this parameter include:
+  ///
+  /// <ul>
+  /// <li>
+  /// SUCCESS: Amazon SES accepted the message, and will attempt to deliver it to
+  /// the recipients.
+  /// </li>
+  /// <li>
+  /// MESSAGE_REJECTED: The message was rejected because it contained a virus.
+  /// </li>
+  /// <li>
+  /// MAIL_FROM_DOMAIN_NOT_VERIFIED: The sender's email address or domain was not
+  /// verified.
+  /// </li>
+  /// <li>
+  /// CONFIGURATION_SET_DOES_NOT_EXIST: The configuration set you specified does
+  /// not exist.
+  /// </li>
+  /// <li>
+  /// TEMPLATE_DOES_NOT_EXIST: The template you specified does not exist.
+  /// </li>
+  /// <li>
+  /// ACCOUNT_SUSPENDED: Your account has been shut down because of issues related
+  /// to your email sending practices.
+  /// </li>
+  /// <li>
+  /// ACCOUNT_THROTTLED: The number of emails you can send has been reduced
+  /// because your account has exceeded its allocated sending limit.
+  /// </li>
+  /// <li>
+  /// ACCOUNT_DAILY_QUOTA_EXCEEDED: You have reached or exceeded the maximum
+  /// number of emails you can send from your account in a 24-hour period.
+  /// </li>
+  /// <li>
+  /// INVALID_SENDING_POOL_NAME: The configuration set you specified refers to an
+  /// IP pool that does not exist.
+  /// </li>
+  /// <li>
+  /// ACCOUNT_SENDING_PAUSED: Email sending for the Amazon SES account was
+  /// disabled using the <a
+  /// href="https://docs.aws.amazon.com/ses/latest/APIReference/API_UpdateAccountSendingEnabled.html">UpdateAccountSendingEnabled</a>
+  /// operation.
+  /// </li>
+  /// <li>
+  /// CONFIGURATION_SET_SENDING_PAUSED: Email sending for this configuration set
+  /// was disabled using the <a
+  /// href="https://docs.aws.amazon.com/ses/latest/APIReference/API_UpdateConfigurationSetSendingEnabled.html">UpdateConfigurationSetSendingEnabled</a>
+  /// operation.
+  /// </li>
+  /// <li>
+  /// INVALID_PARAMETER_VALUE: One or more of the parameters you specified when
+  /// calling this operation was invalid. See the error message for additional
+  /// information.
+  /// </li>
+  /// <li>
+  /// TRANSIENT_FAILURE: Amazon SES was unable to process your request because of
+  /// a temporary issue.
+  /// </li>
+  /// <li>
+  /// FAILED: Amazon SES was unable to process your request. See the error message
+  /// for additional information.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Status')
+  final BulkEmailStatus status;
+
+  BulkEmailEntryResult({
+    this.error,
+    this.messageId,
+    this.status,
+  });
+  factory BulkEmailEntryResult.fromJson(Map<String, dynamic> json) =>
+      _$BulkEmailEntryResultFromJson(json);
+}
+
+enum BulkEmailStatus {
+  @_s.JsonValue('SUCCESS')
+  success,
+  @_s.JsonValue('MESSAGE_REJECTED')
+  messageRejected,
+  @_s.JsonValue('MAIL_FROM_DOMAIN_NOT_VERIFIED')
+  mailFromDomainNotVerified,
+  @_s.JsonValue('CONFIGURATION_SET_NOT_FOUND')
+  configurationSetNotFound,
+  @_s.JsonValue('TEMPLATE_NOT_FOUND')
+  templateNotFound,
+  @_s.JsonValue('ACCOUNT_SUSPENDED')
+  accountSuspended,
+  @_s.JsonValue('ACCOUNT_THROTTLED')
+  accountThrottled,
+  @_s.JsonValue('ACCOUNT_DAILY_QUOTA_EXCEEDED')
+  accountDailyQuotaExceeded,
+  @_s.JsonValue('INVALID_SENDING_POOL_NAME')
+  invalidSendingPoolName,
+  @_s.JsonValue('ACCOUNT_SENDING_PAUSED')
+  accountSendingPaused,
+  @_s.JsonValue('CONFIGURATION_SET_SENDING_PAUSED')
+  configurationSetSendingPaused,
+  @_s.JsonValue('INVALID_PARAMETER')
+  invalidParameter,
+  @_s.JsonValue('TRANSIENT_FAILURE')
+  transientFailure,
+  @_s.JsonValue('FAILED')
+  failed,
+}
+
 /// An object that defines an Amazon CloudWatch destination for email events.
 /// You can use Amazon CloudWatch to monitor and gain insights on your email
 /// sending metrics.
@@ -2123,6 +3956,133 @@ class CloudWatchDimensionConfiguration {
       _$CloudWatchDimensionConfigurationToJson(this);
 }
 
+/// A contact is the end-user who is receiving the email.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class Contact {
+  /// The contact's email address.
+  @_s.JsonKey(name: 'EmailAddress')
+  final String emailAddress;
+
+  /// A timestamp noting the last time the contact's information was updated.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastUpdatedTimestamp')
+  final DateTime lastUpdatedTimestamp;
+
+  /// The default topic preferences applied to the contact.
+  @_s.JsonKey(name: 'TopicDefaultPreferences')
+  final List<TopicPreference> topicDefaultPreferences;
+
+  /// The contact's preference for being opted-in to or opted-out of a topic.
+  @_s.JsonKey(name: 'TopicPreferences')
+  final List<TopicPreference> topicPreferences;
+
+  /// A boolean value status noting if the contact is unsubscribed from all
+  /// contact list topics.
+  @_s.JsonKey(name: 'UnsubscribeAll')
+  final bool unsubscribeAll;
+
+  Contact({
+    this.emailAddress,
+    this.lastUpdatedTimestamp,
+    this.topicDefaultPreferences,
+    this.topicPreferences,
+    this.unsubscribeAll,
+  });
+  factory Contact.fromJson(Map<String, dynamic> json) =>
+      _$ContactFromJson(json);
+}
+
+enum ContactLanguage {
+  @_s.JsonValue('EN')
+  en,
+  @_s.JsonValue('JA')
+  ja,
+}
+
+extension on ContactLanguage {
+  String toValue() {
+    switch (this) {
+      case ContactLanguage.en:
+        return 'EN';
+      case ContactLanguage.ja:
+        return 'JA';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
+/// A list that contains contacts that have subscribed to a particular topic or
+/// topics.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ContactList {
+  /// The name of the contact list.
+  @_s.JsonKey(name: 'ContactListName')
+  final String contactListName;
+
+  /// A timestamp noting the last time the contact list was updated.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastUpdatedTimestamp')
+  final DateTime lastUpdatedTimestamp;
+
+  ContactList({
+    this.contactListName,
+    this.lastUpdatedTimestamp,
+  });
+  factory ContactList.fromJson(Map<String, dynamic> json) =>
+      _$ContactListFromJson(json);
+}
+
+/// An object that contains details about the action of a contact list.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class ContactListDestination {
+  /// &gt;The type of action that you want to perform on the addresses. Acceptable
+  /// values:
+  ///
+  /// <ul>
+  /// <li>
+  /// PUT: add the addresses to the contact list. If the record already exists, it
+  /// will override it with the new value.
+  /// </li>
+  /// <li>
+  /// DELETE: remove the addresses from the contact list.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'ContactListImportAction')
+  final ContactListImportAction contactListImportAction;
+
+  /// The name of the contact list.
+  @_s.JsonKey(name: 'ContactListName')
+  final String contactListName;
+
+  ContactListDestination({
+    @_s.required this.contactListImportAction,
+    @_s.required this.contactListName,
+  });
+  factory ContactListDestination.fromJson(Map<String, dynamic> json) =>
+      _$ContactListDestinationFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ContactListDestinationToJson(this);
+}
+
+enum ContactListImportAction {
+  @_s.JsonValue('DELETE')
+  delete,
+  @_s.JsonValue('PUT')
+  put,
+}
+
 /// An object that represents the content of the email, and optionally a
 /// character set specification.
 @_s.JsonSerializable(
@@ -2177,6 +4137,42 @@ class CreateConfigurationSetResponse {
       _$CreateConfigurationSetResponseFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class CreateContactListResponse {
+  CreateContactListResponse();
+  factory CreateContactListResponse.fromJson(Map<String, dynamic> json) =>
+      _$CreateContactListResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class CreateContactResponse {
+  CreateContactResponse();
+  factory CreateContactResponse.fromJson(Map<String, dynamic> json) =>
+      _$CreateContactResponseFromJson(json);
+}
+
+/// If the action is successful, the service sends back an HTTP 200 response
+/// with an empty HTTP body.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class CreateCustomVerificationEmailTemplateResponse {
+  CreateCustomVerificationEmailTemplateResponse();
+  factory CreateCustomVerificationEmailTemplateResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$CreateCustomVerificationEmailTemplateResponseFromJson(json);
+}
+
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
 @_s.JsonSerializable(
@@ -2219,6 +4215,20 @@ class CreateDeliverabilityTestReportResponse {
       _$CreateDeliverabilityTestReportResponseFromJson(json);
 }
 
+/// An HTTP 200 response if the request succeeds, or an error message if the
+/// request fails.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class CreateEmailIdentityPolicyResponse {
+  CreateEmailIdentityPolicyResponse();
+  factory CreateEmailIdentityPolicyResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$CreateEmailIdentityPolicyResponseFromJson(json);
+}
+
 /// If the email identity is a domain, this object contains information about
 /// the DKIM verification status for the domain.
 ///
@@ -2255,6 +4265,79 @@ class CreateEmailIdentityResponse {
       _$CreateEmailIdentityResponseFromJson(json);
 }
 
+/// If the action is successful, the service sends back an HTTP 200 response
+/// with an empty HTTP body.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class CreateEmailTemplateResponse {
+  CreateEmailTemplateResponse();
+  factory CreateEmailTemplateResponse.fromJson(Map<String, dynamic> json) =>
+      _$CreateEmailTemplateResponseFromJson(json);
+}
+
+/// An HTTP 200 response if the request succeeds, or an error message if the
+/// request fails.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class CreateImportJobResponse {
+  /// A string that represents the import job ID.
+  @_s.JsonKey(name: 'JobId')
+  final String jobId;
+
+  CreateImportJobResponse({
+    this.jobId,
+  });
+  factory CreateImportJobResponse.fromJson(Map<String, dynamic> json) =>
+      _$CreateImportJobResponseFromJson(json);
+}
+
+/// Contains information about a custom verification email template.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class CustomVerificationEmailTemplateMetadata {
+  /// The URL that the recipient of the verification email is sent to if his or
+  /// her address is not successfully verified.
+  @_s.JsonKey(name: 'FailureRedirectionURL')
+  final String failureRedirectionURL;
+
+  /// The email address that the custom verification email is sent from.
+  @_s.JsonKey(name: 'FromEmailAddress')
+  final String fromEmailAddress;
+
+  /// The URL that the recipient of the verification email is sent to if his or
+  /// her address is successfully verified.
+  @_s.JsonKey(name: 'SuccessRedirectionURL')
+  final String successRedirectionURL;
+
+  /// The name of the custom verification email template.
+  @_s.JsonKey(name: 'TemplateName')
+  final String templateName;
+
+  /// The subject line of the custom verification email.
+  @_s.JsonKey(name: 'TemplateSubject')
+  final String templateSubject;
+
+  CustomVerificationEmailTemplateMetadata({
+    this.failureRedirectionURL,
+    this.fromEmailAddress,
+    this.successRedirectionURL,
+    this.templateName,
+    this.templateSubject,
+  });
+  factory CustomVerificationEmailTemplateMetadata.fromJson(
+          Map<String, dynamic> json) =>
+      _$CustomVerificationEmailTemplateMetadataFromJson(json);
+}
+
 /// An object that contains information about the volume of email sent on each
 /// day of the analysis period.
 @_s.JsonSerializable(
@@ -2285,6 +4368,14 @@ class DailyVolume {
   });
   factory DailyVolume.fromJson(Map<String, dynamic> json) =>
       _$DailyVolumeFromJson(json);
+}
+
+/// The data format of the import job's data source.
+enum DataFormat {
+  @_s.JsonValue('CSV')
+  csv,
+  @_s.JsonValue('JSON')
+  json,
 }
 
 /// Contains information about a dedicated IP address that is associated with
@@ -2367,6 +4458,42 @@ class DeleteConfigurationSetResponse {
       _$DeleteConfigurationSetResponseFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DeleteContactListResponse {
+  DeleteContactListResponse();
+  factory DeleteContactListResponse.fromJson(Map<String, dynamic> json) =>
+      _$DeleteContactListResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DeleteContactResponse {
+  DeleteContactResponse();
+  factory DeleteContactResponse.fromJson(Map<String, dynamic> json) =>
+      _$DeleteContactResponseFromJson(json);
+}
+
+/// If the action is successful, the service sends back an HTTP 200 response
+/// with an empty HTTP body.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DeleteCustomVerificationEmailTemplateResponse {
+  DeleteCustomVerificationEmailTemplateResponse();
+  factory DeleteCustomVerificationEmailTemplateResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$DeleteCustomVerificationEmailTemplateResponseFromJson(json);
+}
+
 /// An HTTP 200 response if the request succeeds, or an error message if the
 /// request fails.
 @_s.JsonSerializable(
@@ -2387,10 +4514,37 @@ class DeleteDedicatedIpPoolResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class DeleteEmailIdentityPolicyResponse {
+  DeleteEmailIdentityPolicyResponse();
+  factory DeleteEmailIdentityPolicyResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$DeleteEmailIdentityPolicyResponseFromJson(json);
+}
+
+/// An HTTP 200 response if the request succeeds, or an error message if the
+/// request fails.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class DeleteEmailIdentityResponse {
   DeleteEmailIdentityResponse();
   factory DeleteEmailIdentityResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteEmailIdentityResponseFromJson(json);
+}
+
+/// If the action is successful, the service sends back an HTTP 200 response
+/// with an empty HTTP body.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DeleteEmailTemplateResponse {
+  DeleteEmailTemplateResponse();
+  factory DeleteEmailTemplateResponse.fromJson(Map<String, dynamic> json) =>
+      _$DeleteEmailTemplateResponseFromJson(json);
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
@@ -2997,12 +5151,68 @@ class EmailContent {
   Map<String, dynamic> toJson() => _$EmailContentToJson(this);
 }
 
+/// The content of the email, composed of a subject line, an HTML part, and a
+/// text-only part.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class EmailTemplateContent {
+  /// The HTML body of the email.
+  @_s.JsonKey(name: 'Html')
+  final String html;
+
+  /// The subject line of the email.
+  @_s.JsonKey(name: 'Subject')
+  final String subject;
+
+  /// The email body that will be visible to recipients whose email clients do not
+  /// display HTML.
+  @_s.JsonKey(name: 'Text')
+  final String text;
+
+  EmailTemplateContent({
+    this.html,
+    this.subject,
+    this.text,
+  });
+  factory EmailTemplateContent.fromJson(Map<String, dynamic> json) =>
+      _$EmailTemplateContentFromJson(json);
+
+  Map<String, dynamic> toJson() => _$EmailTemplateContentToJson(this);
+}
+
+/// Contains information about an email template.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class EmailTemplateMetadata {
+  /// The time and date the template was created.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedTimestamp')
+  final DateTime createdTimestamp;
+
+  /// The name of the template.
+  @_s.JsonKey(name: 'TemplateName')
+  final String templateName;
+
+  EmailTemplateMetadata({
+    this.createdTimestamp,
+    this.templateName,
+  });
+  factory EmailTemplateMetadata.fromJson(Map<String, dynamic> json) =>
+      _$EmailTemplateMetadataFromJson(json);
+}
+
 /// In the Amazon SES API v2, <i>events</i> include message sends, deliveries,
-/// opens, clicks, bounces, and complaints. <i>Event destinations</i> are places
-/// that you can send information about these events to. For example, you can
-/// send event data to Amazon SNS to receive notifications when you receive
-/// bounces or complaints, or you can use Amazon Kinesis Data Firehose to stream
-/// data to Amazon S3 for long-term storage.
+/// opens, clicks, bounces, complaints and delivery delays. <i>Event
+/// destinations</i> are places that you can send information about these events
+/// to. For example, you can send event data to Amazon SNS to receive
+/// notifications when you receive bounces or complaints, or you can use Amazon
+/// Kinesis Data Firehose to stream data to Amazon S3 for long-term storage.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -3146,6 +5356,34 @@ enum EventType {
   click,
   @_s.JsonValue('RENDERING_FAILURE')
   renderingFailure,
+  @_s.JsonValue('DELIVERY_DELAY')
+  deliveryDelay,
+  @_s.JsonValue('SUBSCRIPTION')
+  subscription,
+}
+
+/// An object that contains the failure details about an import job.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class FailureInfo {
+  /// A message about why the import job failed.
+  @_s.JsonKey(name: 'ErrorMessage')
+  final String errorMessage;
+
+  /// An Amazon S3 presigned URL that contains all the failed records and related
+  /// information.
+  @_s.JsonKey(name: 'FailedRecordsS3Url')
+  final String failedRecordsS3Url;
+
+  FailureInfo({
+    this.errorMessage,
+    this.failedRecordsS3Url,
+  });
+  factory FailureInfo.fromJson(Map<String, dynamic> json) =>
+      _$FailureInfoFromJson(json);
 }
 
 /// A list of details about the email-sending capabilities of your Amazon SES
@@ -3160,6 +5398,10 @@ class GetAccountResponse {
   /// dedicated IP addresses that are associated with your account.
   @_s.JsonKey(name: 'DedicatedIpAutoWarmupEnabled')
   final bool dedicatedIpAutoWarmupEnabled;
+
+  /// An object that defines your account details.
+  @_s.JsonKey(name: 'Details')
+  final AccountDetails details;
 
   /// The reputation status of your Amazon SES account. The status can be one of
   /// the following:
@@ -3217,6 +5459,7 @@ class GetAccountResponse {
 
   GetAccountResponse({
     this.dedicatedIpAutoWarmupEnabled,
+    this.details,
     this.enforcementStatus,
     this.productionAccessEnabled,
     this.sendQuota,
@@ -3318,6 +5561,152 @@ class GetConfigurationSetResponse {
   });
   factory GetConfigurationSetResponse.fromJson(Map<String, dynamic> json) =>
       _$GetConfigurationSetResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class GetContactListResponse {
+  /// The name of the contact list.
+  @_s.JsonKey(name: 'ContactListName')
+  final String contactListName;
+
+  /// A timestamp noting when the contact list was created.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedTimestamp')
+  final DateTime createdTimestamp;
+
+  /// A description of what the contact list is about.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// A timestamp noting the last time the contact list was updated.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastUpdatedTimestamp')
+  final DateTime lastUpdatedTimestamp;
+
+  /// The tags associated with a contact list.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  /// An interest group, theme, or label within a list. A contact list can have
+  /// multiple topics.
+  @_s.JsonKey(name: 'Topics')
+  final List<Topic> topics;
+
+  GetContactListResponse({
+    this.contactListName,
+    this.createdTimestamp,
+    this.description,
+    this.lastUpdatedTimestamp,
+    this.tags,
+    this.topics,
+  });
+  factory GetContactListResponse.fromJson(Map<String, dynamic> json) =>
+      _$GetContactListResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class GetContactResponse {
+  /// The attribute data attached to a contact.
+  @_s.JsonKey(name: 'AttributesData')
+  final String attributesData;
+
+  /// The name of the contact list to which the contact belongs.
+  @_s.JsonKey(name: 'ContactListName')
+  final String contactListName;
+
+  /// A timestamp noting when the contact was created.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedTimestamp')
+  final DateTime createdTimestamp;
+
+  /// The contact's email addres.
+  @_s.JsonKey(name: 'EmailAddress')
+  final String emailAddress;
+
+  /// A timestamp noting the last time the contact's information was updated.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastUpdatedTimestamp')
+  final DateTime lastUpdatedTimestamp;
+
+  /// The default topic preferences applied to the contact.
+  @_s.JsonKey(name: 'TopicDefaultPreferences')
+  final List<TopicPreference> topicDefaultPreferences;
+
+  /// The contact's preference for being opted-in to or opted-out of a topic.&gt;
+  @_s.JsonKey(name: 'TopicPreferences')
+  final List<TopicPreference> topicPreferences;
+
+  /// A boolean value status noting if the contact is unsubscribed from all
+  /// contact list topics.
+  @_s.JsonKey(name: 'UnsubscribeAll')
+  final bool unsubscribeAll;
+
+  GetContactResponse({
+    this.attributesData,
+    this.contactListName,
+    this.createdTimestamp,
+    this.emailAddress,
+    this.lastUpdatedTimestamp,
+    this.topicDefaultPreferences,
+    this.topicPreferences,
+    this.unsubscribeAll,
+  });
+  factory GetContactResponse.fromJson(Map<String, dynamic> json) =>
+      _$GetContactResponseFromJson(json);
+}
+
+/// The following elements are returned by the service.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class GetCustomVerificationEmailTemplateResponse {
+  /// The URL that the recipient of the verification email is sent to if his or
+  /// her address is not successfully verified.
+  @_s.JsonKey(name: 'FailureRedirectionURL')
+  final String failureRedirectionURL;
+
+  /// The email address that the custom verification email is sent from.
+  @_s.JsonKey(name: 'FromEmailAddress')
+  final String fromEmailAddress;
+
+  /// The URL that the recipient of the verification email is sent to if his or
+  /// her address is successfully verified.
+  @_s.JsonKey(name: 'SuccessRedirectionURL')
+  final String successRedirectionURL;
+
+  /// The content of the custom verification email.
+  @_s.JsonKey(name: 'TemplateContent')
+  final String templateContent;
+
+  /// The name of the custom verification email template.
+  @_s.JsonKey(name: 'TemplateName')
+  final String templateName;
+
+  /// The subject line of the custom verification email.
+  @_s.JsonKey(name: 'TemplateSubject')
+  final String templateSubject;
+
+  GetCustomVerificationEmailTemplateResponse({
+    this.failureRedirectionURL,
+    this.fromEmailAddress,
+    this.successRedirectionURL,
+    this.templateContent,
+    this.templateName,
+    this.templateSubject,
+  });
+  factory GetCustomVerificationEmailTemplateResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetCustomVerificationEmailTemplateResponseFromJson(json);
 }
 
 /// Information about a dedicated IP address.
@@ -3511,6 +5900,25 @@ class GetDomainStatisticsReportResponse {
       _$GetDomainStatisticsReportResponseFromJson(json);
 }
 
+/// Identity policies associated with email identity.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class GetEmailIdentityPoliciesResponse {
+  /// A map of policy names to policies.
+  @_s.JsonKey(name: 'Policies')
+  final Map<String, String> policies;
+
+  GetEmailIdentityPoliciesResponse({
+    this.policies,
+  });
+  factory GetEmailIdentityPoliciesResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetEmailIdentityPoliciesResponseFromJson(json);
+}
+
 /// Details about an email identity.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3547,6 +5955,10 @@ class GetEmailIdentityResponse {
   @_s.JsonKey(name: 'MailFromAttributes')
   final MailFromAttributes mailFromAttributes;
 
+  /// A map of policy names to policies.
+  @_s.JsonKey(name: 'Policies')
+  final Map<String, String> policies;
+
   /// An array of objects that define the tags (keys and values) that are
   /// associated with the email identity.
   @_s.JsonKey(name: 'Tags')
@@ -3565,11 +5977,98 @@ class GetEmailIdentityResponse {
     this.feedbackForwardingStatus,
     this.identityType,
     this.mailFromAttributes,
+    this.policies,
     this.tags,
     this.verifiedForSendingStatus,
   });
   factory GetEmailIdentityResponse.fromJson(Map<String, dynamic> json) =>
       _$GetEmailIdentityResponseFromJson(json);
+}
+
+/// The following element is returned by the service.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class GetEmailTemplateResponse {
+  /// The content of the email template, composed of a subject line, an HTML part,
+  /// and a text-only part.
+  @_s.JsonKey(name: 'TemplateContent')
+  final EmailTemplateContent templateContent;
+
+  /// The name of the template you want to retrieve.
+  @_s.JsonKey(name: 'TemplateName')
+  final String templateName;
+
+  GetEmailTemplateResponse({
+    @_s.required this.templateContent,
+    @_s.required this.templateName,
+  });
+  factory GetEmailTemplateResponse.fromJson(Map<String, dynamic> json) =>
+      _$GetEmailTemplateResponseFromJson(json);
+}
+
+/// An HTTP 200 response if the request succeeds, or an error message if the
+/// request fails.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class GetImportJobResponse {
+  /// The time stamp of when the import job was completed.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CompletedTimestamp')
+  final DateTime completedTimestamp;
+
+  /// The time stamp of when the import job was created.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedTimestamp')
+  final DateTime createdTimestamp;
+
+  /// The number of records that failed processing because of invalid input or
+  /// other reasons.
+  @_s.JsonKey(name: 'FailedRecordsCount')
+  final int failedRecordsCount;
+
+  /// The failure details about an import job.
+  @_s.JsonKey(name: 'FailureInfo')
+  final FailureInfo failureInfo;
+
+  /// The data source of the import job.
+  @_s.JsonKey(name: 'ImportDataSource')
+  final ImportDataSource importDataSource;
+
+  /// The destination of the import job.
+  @_s.JsonKey(name: 'ImportDestination')
+  final ImportDestination importDestination;
+
+  /// A string that represents the import job ID.
+  @_s.JsonKey(name: 'JobId')
+  final String jobId;
+
+  /// The status of the import job.
+  @_s.JsonKey(name: 'JobStatus')
+  final JobStatus jobStatus;
+
+  /// The current number of records processed.
+  @_s.JsonKey(name: 'ProcessedRecordsCount')
+  final int processedRecordsCount;
+
+  GetImportJobResponse({
+    this.completedTimestamp,
+    this.createdTimestamp,
+    this.failedRecordsCount,
+    this.failureInfo,
+    this.importDataSource,
+    this.importDestination,
+    this.jobId,
+    this.jobStatus,
+    this.processedRecordsCount,
+  });
+  factory GetImportJobResponse.fromJson(Map<String, dynamic> json) =>
+      _$GetImportJobResponseFromJson(json);
 }
 
 /// Information about the suppressed email address.
@@ -3656,6 +6155,96 @@ enum IdentityType {
   managedDomain,
 }
 
+/// An object that contains details about the data source of the import job.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class ImportDataSource {
+  /// The data format of the import job's data source.
+  @_s.JsonKey(name: 'DataFormat')
+  final DataFormat dataFormat;
+
+  /// An Amazon S3 URL in the format
+  /// s3://<i>&lt;bucket_name&gt;</i>/<i>&lt;object&gt;</i>.
+  @_s.JsonKey(name: 'S3Url')
+  final String s3Url;
+
+  ImportDataSource({
+    @_s.required this.dataFormat,
+    @_s.required this.s3Url,
+  });
+  factory ImportDataSource.fromJson(Map<String, dynamic> json) =>
+      _$ImportDataSourceFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ImportDataSourceToJson(this);
+}
+
+/// An object that contains details about the resource destination the import
+/// job is going to target.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class ImportDestination {
+  /// An object that contains the action of the import job towards a contact list.
+  @_s.JsonKey(name: 'ContactListDestination')
+  final ContactListDestination contactListDestination;
+
+  /// An object that contains the action of the import job towards suppression
+  /// list.
+  @_s.JsonKey(name: 'SuppressionListDestination')
+  final SuppressionListDestination suppressionListDestination;
+
+  ImportDestination({
+    this.contactListDestination,
+    this.suppressionListDestination,
+  });
+  factory ImportDestination.fromJson(Map<String, dynamic> json) =>
+      _$ImportDestinationFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ImportDestinationToJson(this);
+}
+
+/// The destination of the import job, which can be used to list import jobs
+/// that have a certain <code>ImportDestinationType</code>.
+enum ImportDestinationType {
+  @_s.JsonValue('SUPPRESSION_LIST')
+  suppressionList,
+  @_s.JsonValue('CONTACT_LIST')
+  contactList,
+}
+
+/// A summary of the import job.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ImportJobSummary {
+  /// The date and time when the import job was created.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreatedTimestamp')
+  final DateTime createdTimestamp;
+  @_s.JsonKey(name: 'ImportDestination')
+  final ImportDestination importDestination;
+  @_s.JsonKey(name: 'JobId')
+  final String jobId;
+  @_s.JsonKey(name: 'JobStatus')
+  final JobStatus jobStatus;
+
+  ImportJobSummary({
+    this.createdTimestamp,
+    this.importDestination,
+    this.jobId,
+    this.jobStatus,
+  });
+  factory ImportJobSummary.fromJson(Map<String, dynamic> json) =>
+      _$ImportJobSummaryFromJson(json);
+}
+
 /// An object that contains information about the inbox placement data settings
 /// for a verified domain that’s associated with your AWS account. This data is
 /// available only if you enabled the Deliverability dashboard for the domain.
@@ -3707,6 +6296,18 @@ class IspPlacement {
   });
   factory IspPlacement.fromJson(Map<String, dynamic> json) =>
       _$IspPlacementFromJson(json);
+}
+
+/// The status of the import job.
+enum JobStatus {
+  @_s.JsonValue('CREATED')
+  created,
+  @_s.JsonValue('PROCESSING')
+  processing,
+  @_s.JsonValue('COMPLETED')
+  completed,
+  @_s.JsonValue('FAILED')
+  failed,
 }
 
 /// An object that defines an Amazon Kinesis Data Firehose destination for email
@@ -3764,6 +6365,108 @@ class ListConfigurationSetsResponse {
   });
   factory ListConfigurationSetsResponse.fromJson(Map<String, dynamic> json) =>
       _$ListConfigurationSetsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListContactListsResponse {
+  /// The available contact lists.
+  @_s.JsonKey(name: 'ContactLists')
+  final List<ContactList> contactLists;
+
+  /// A string token indicating that there might be additional contact lists
+  /// available to be listed. Copy this token to a subsequent call to
+  /// <code>ListContactLists</code> with the same parameters to retrieve the next
+  /// page of contact lists.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListContactListsResponse({
+    this.contactLists,
+    this.nextToken,
+  });
+  factory ListContactListsResponse.fromJson(Map<String, dynamic> json) =>
+      _$ListContactListsResponseFromJson(json);
+}
+
+/// A filter that can be applied to a list of contacts.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListContactsFilter {
+  /// The status by which you are filtering: <code>OPT_IN</code> or
+  /// <code>OPT_OUT</code>.
+  @_s.JsonKey(name: 'FilteredStatus')
+  final SubscriptionStatus filteredStatus;
+
+  /// Used for filtering by a specific topic preference.
+  @_s.JsonKey(name: 'TopicFilter')
+  final TopicFilter topicFilter;
+
+  ListContactsFilter({
+    this.filteredStatus,
+    this.topicFilter,
+  });
+  Map<String, dynamic> toJson() => _$ListContactsFilterToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListContactsResponse {
+  /// The contacts present in a specific contact list.
+  @_s.JsonKey(name: 'Contacts')
+  final List<Contact> contacts;
+
+  /// A string token indicating that there might be additional contacts available
+  /// to be listed. Copy this token to a subsequent call to
+  /// <code>ListContacts</code> with the same parameters to retrieve the next page
+  /// of contacts.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListContactsResponse({
+    this.contacts,
+    this.nextToken,
+  });
+  factory ListContactsResponse.fromJson(Map<String, dynamic> json) =>
+      _$ListContactsResponseFromJson(json);
+}
+
+/// The following elements are returned by the service.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListCustomVerificationEmailTemplatesResponse {
+  /// A list of the custom verification email templates that exist in your
+  /// account.
+  @_s.JsonKey(name: 'CustomVerificationEmailTemplates')
+  final List<CustomVerificationEmailTemplateMetadata>
+      customVerificationEmailTemplates;
+
+  /// A token indicating that there are additional custom verification email
+  /// templates available to be listed. Pass this token to a subsequent call to
+  /// <code>ListCustomVerificationEmailTemplates</code> to retrieve the next 50
+  /// custom verification email templates.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListCustomVerificationEmailTemplatesResponse({
+    this.customVerificationEmailTemplates,
+    this.nextToken,
+  });
+  factory ListCustomVerificationEmailTemplatesResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$ListCustomVerificationEmailTemplatesResponseFromJson(json);
 }
 
 /// A list of dedicated IP pools.
@@ -3878,6 +6581,82 @@ class ListEmailIdentitiesResponse {
   });
   factory ListEmailIdentitiesResponse.fromJson(Map<String, dynamic> json) =>
       _$ListEmailIdentitiesResponseFromJson(json);
+}
+
+/// The following elements are returned by the service.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListEmailTemplatesResponse {
+  /// A token indicating that there are additional email templates available to be
+  /// listed. Pass this token to a subsequent <code>ListEmailTemplates</code> call
+  /// to retrieve the next 10 email templates.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// An array the contains the name and creation time stamp for each template in
+  /// your Amazon SES account.
+  @_s.JsonKey(name: 'TemplatesMetadata')
+  final List<EmailTemplateMetadata> templatesMetadata;
+
+  ListEmailTemplatesResponse({
+    this.nextToken,
+    this.templatesMetadata,
+  });
+  factory ListEmailTemplatesResponse.fromJson(Map<String, dynamic> json) =>
+      _$ListEmailTemplatesResponseFromJson(json);
+}
+
+/// An HTTP 200 response if the request succeeds, or an error message if the
+/// request fails.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListImportJobsResponse {
+  /// A list of the import job summaries.
+  @_s.JsonKey(name: 'ImportJobs')
+  final List<ImportJobSummary> importJobs;
+
+  /// A string token indicating that there might be additional import jobs
+  /// available to be listed. Copy this token to a subsequent call to
+  /// <code>ListImportJobs</code> with the same parameters to retrieve the next
+  /// page of import jobs.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListImportJobsResponse({
+    this.importJobs,
+    this.nextToken,
+  });
+  factory ListImportJobsResponse.fromJson(Map<String, dynamic> json) =>
+      _$ListImportJobsResponseFromJson(json);
+}
+
+/// An object used to specify a list or topic to which an email belongs, which
+/// will be used when a contact chooses to unsubscribe.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ListManagementOptions {
+  /// The name of the contact list.
+  @_s.JsonKey(name: 'ContactListName')
+  final String contactListName;
+
+  /// The name of the topic.
+  @_s.JsonKey(name: 'TopicName')
+  final String topicName;
+
+  ListManagementOptions({
+    @_s.required this.contactListName,
+    this.topicName,
+  });
+  Map<String, dynamic> toJson() => _$ListManagementOptionsToJson(this);
 }
 
 /// A list of suppressed email addresses.
@@ -4015,6 +6794,25 @@ enum MailFromDomainStatus {
   failed,
   @_s.JsonValue('TEMPORARY_FAILURE')
   temporaryFailure,
+}
+
+enum MailType {
+  @_s.JsonValue('MARKETING')
+  marketing,
+  @_s.JsonValue('TRANSACTIONAL')
+  transactional,
+}
+
+extension on MailType {
+  String toValue() {
+    switch (this) {
+      case MailType.marketing:
+        return 'MARKETING';
+      case MailType.transactional:
+        return 'TRANSACTIONAL';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Represents the email message that you're sending. The <code>Message</code>
@@ -4202,6 +7000,19 @@ class PutAccountDedicatedIpWarmupAttributesResponse {
   factory PutAccountDedicatedIpWarmupAttributesResponse.fromJson(
           Map<String, dynamic> json) =>
       _$PutAccountDedicatedIpWarmupAttributesResponseFromJson(json);
+}
+
+/// An HTTP 200 response if the request succeeds, or an error message if the
+/// request fails.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class PutAccountDetailsResponse {
+  PutAccountDetailsResponse();
+  factory PutAccountDetailsResponse.fromJson(Map<String, dynamic> json) =>
+      _$PutAccountDetailsResponseFromJson(json);
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the
@@ -4520,6 +7331,46 @@ class RawMessage {
   Map<String, dynamic> toJson() => _$RawMessageToJson(this);
 }
 
+/// The <code>ReplaceEmailContent</code> object to be used for a specific
+/// <code>BulkEmailEntry</code>. The <code>ReplacementTemplate</code> can be
+/// specified within this object.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ReplacementEmailContent {
+  /// The <code>ReplacementTemplate</code> associated with
+  /// <code>ReplacementEmailContent</code>.
+  @_s.JsonKey(name: 'ReplacementTemplate')
+  final ReplacementTemplate replacementTemplate;
+
+  ReplacementEmailContent({
+    this.replacementTemplate,
+  });
+  Map<String, dynamic> toJson() => _$ReplacementEmailContentToJson(this);
+}
+
+/// An object which contains <code>ReplacementTemplateData</code> to be used for
+/// a specific <code>BulkEmailEntry</code>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ReplacementTemplate {
+  /// A list of replacement values to apply to the template. This parameter is a
+  /// JSON object, typically consisting of key-value pairs in which the keys
+  /// correspond to replacement tags in the email template.
+  @_s.JsonKey(name: 'ReplacementTemplateData')
+  final String replacementTemplateData;
+
+  ReplacementTemplate({
+    this.replacementTemplateData,
+  });
+  Map<String, dynamic> toJson() => _$ReplacementTemplateToJson(this);
+}
+
 /// Enable or disable collection of reputation metrics for emails that you send
 /// using this configuration set in the current AWS Region.
 @_s.JsonSerializable(
@@ -4549,6 +7400,97 @@ class ReputationOptions {
       _$ReputationOptionsFromJson(json);
 
   Map<String, dynamic> toJson() => _$ReputationOptionsToJson(this);
+}
+
+/// An object that contains information about your account details review.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ReviewDetails {
+  /// The associated support center case ID (if any).
+  @_s.JsonKey(name: 'CaseId')
+  final String caseId;
+
+  /// The status of the latest review of your account. The status can be one of
+  /// the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>PENDING</code> – We have received your appeal and are in the process
+  /// of reviewing it.
+  /// </li>
+  /// <li>
+  /// <code>GRANTED</code> – Your appeal has been reviewed and your production
+  /// access has been granted.
+  /// </li>
+  /// <li>
+  /// <code>DENIED</code> – Your appeal has been reviewed and your production
+  /// access has been denied.
+  /// </li>
+  /// <li>
+  /// <code>FAILED</code> – An internal error occurred and we didn't receive your
+  /// appeal. You can submit your appeal again.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Status')
+  final ReviewStatus status;
+
+  ReviewDetails({
+    this.caseId,
+    this.status,
+  });
+  factory ReviewDetails.fromJson(Map<String, dynamic> json) =>
+      _$ReviewDetailsFromJson(json);
+}
+
+enum ReviewStatus {
+  @_s.JsonValue('PENDING')
+  pending,
+  @_s.JsonValue('FAILED')
+  failed,
+  @_s.JsonValue('GRANTED')
+  granted,
+  @_s.JsonValue('DENIED')
+  denied,
+}
+
+/// The following data is returned in JSON format by the service.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class SendBulkEmailResponse {
+  @_s.JsonKey(name: 'BulkEmailEntryResults')
+  final List<BulkEmailEntryResult> bulkEmailEntryResults;
+
+  SendBulkEmailResponse({
+    @_s.required this.bulkEmailEntryResults,
+  });
+  factory SendBulkEmailResponse.fromJson(Map<String, dynamic> json) =>
+      _$SendBulkEmailResponseFromJson(json);
+}
+
+/// The following element is returned by the service.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class SendCustomVerificationEmailResponse {
+  /// The unique message identifier returned from the
+  /// <code>SendCustomVerificationEmail</code> operation.
+  @_s.JsonKey(name: 'MessageId')
+  final String messageId;
+
+  SendCustomVerificationEmailResponse({
+    this.messageId,
+  });
+  factory SendCustomVerificationEmailResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$SendCustomVerificationEmailResponseFromJson(json);
 }
 
 /// A unique message ID that you receive when an email is accepted for sending.
@@ -4654,6 +7596,13 @@ class SnsDestination {
       _$SnsDestinationFromJson(json);
 
   Map<String, dynamic> toJson() => _$SnsDestinationToJson(this);
+}
+
+enum SubscriptionStatus {
+  @_s.JsonValue('OPT_IN')
+  optIn,
+  @_s.JsonValue('OPT_OUT')
+  optOut,
 }
 
 /// An object that contains information about an email address that is on the
@@ -4783,6 +7732,55 @@ class SuppressionAttributes {
   });
   factory SuppressionAttributes.fromJson(Map<String, dynamic> json) =>
       _$SuppressionAttributesFromJson(json);
+}
+
+/// An object that contains details about the action of suppression list.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class SuppressionListDestination {
+  /// The type of action that you want to perform on the address. Acceptable
+  /// values:
+  ///
+  /// <ul>
+  /// <li>
+  /// PUT: add the addresses to the suppression list. If the record already
+  /// exists, it will override it with the new value.
+  /// </li>
+  /// <li>
+  /// DELETE: remove the addresses from the suppression list.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'SuppressionListImportAction')
+  final SuppressionListImportAction suppressionListImportAction;
+
+  SuppressionListDestination({
+    @_s.required this.suppressionListImportAction,
+  });
+  factory SuppressionListDestination.fromJson(Map<String, dynamic> json) =>
+      _$SuppressionListDestinationFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SuppressionListDestinationToJson(this);
+}
+
+/// The type of action that you want to perform on the address. Acceptable
+/// values:
+///
+/// <ul>
+/// <li>
+/// PUT: add the addresses to the suppression list.
+/// </li>
+/// <li>
+/// DELETE: remove the address from the suppression list.
+/// </li>
+/// </ul>
+enum SuppressionListImportAction {
+  @_s.JsonValue('DELETE')
+  delete,
+  @_s.JsonValue('PUT')
+  put,
 }
 
 /// The reason that the address was added to the suppression list for your
@@ -4951,11 +7949,38 @@ class Template {
   @_s.JsonKey(name: 'TemplateData')
   final String templateData;
 
+  /// The name of the template. You will refer to this name when you send email
+  /// using the <code>SendTemplatedEmail</code> or
+  /// <code>SendBulkTemplatedEmail</code> operations.
+  @_s.JsonKey(name: 'TemplateName')
+  final String templateName;
+
   Template({
     this.templateArn,
     this.templateData,
+    this.templateName,
   });
   Map<String, dynamic> toJson() => _$TemplateToJson(this);
+}
+
+/// The following element is returned by the service.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class TestRenderEmailTemplateResponse {
+  /// The complete MIME message rendered by applying the data in the
+  /// <code>TemplateData</code> parameter to the template specified in the
+  /// TemplateName parameter.
+  @_s.JsonKey(name: 'RenderedTemplate')
+  final String renderedTemplate;
+
+  TestRenderEmailTemplateResponse({
+    @_s.required this.renderedTemplate,
+  });
+  factory TestRenderEmailTemplateResponse.fromJson(Map<String, dynamic> json) =>
+      _$TestRenderEmailTemplateResponseFromJson(json);
 }
 
 /// Specifies whether messages that use the configuration set are required to
@@ -4980,6 +8005,92 @@ extension on TlsPolicy {
     }
     throw Exception('Unknown enum value: $this');
   }
+}
+
+/// An interest group, theme, or label within a list. Lists can have multiple
+/// topics.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class Topic {
+  /// The default subscription status to be applied to a contact if the contact
+  /// has not noted their preference for subscribing to a topic.
+  @_s.JsonKey(name: 'DefaultSubscriptionStatus')
+  final SubscriptionStatus defaultSubscriptionStatus;
+
+  /// The name of the topic the contact will see.
+  @_s.JsonKey(name: 'DisplayName')
+  final String displayName;
+
+  /// The name of the topic.
+  @_s.JsonKey(name: 'TopicName')
+  final String topicName;
+
+  /// A description of what the topic is about, which the contact will see.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  Topic({
+    @_s.required this.defaultSubscriptionStatus,
+    @_s.required this.displayName,
+    @_s.required this.topicName,
+    this.description,
+  });
+  factory Topic.fromJson(Map<String, dynamic> json) => _$TopicFromJson(json);
+
+  Map<String, dynamic> toJson() => _$TopicToJson(this);
+}
+
+/// Used for filtering by a specific topic preference.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class TopicFilter {
+  /// The name of a topic on which you wish to apply the filter.
+  @_s.JsonKey(name: 'TopicName')
+  final String topicName;
+
+  /// Notes that the default subscription status should be applied to a contact
+  /// because the contact has not noted their preference for subscribing to a
+  /// topic.
+  @_s.JsonKey(name: 'UseDefaultIfPreferenceUnavailable')
+  final bool useDefaultIfPreferenceUnavailable;
+
+  TopicFilter({
+    this.topicName,
+    this.useDefaultIfPreferenceUnavailable,
+  });
+  Map<String, dynamic> toJson() => _$TopicFilterToJson(this);
+}
+
+/// The contact's preference for being opted-in to or opted-out of a topic.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class TopicPreference {
+  /// The contact's subscription status to a topic which is either
+  /// <code>OPT_IN</code> or <code>OPT_OUT</code>.
+  @_s.JsonKey(name: 'SubscriptionStatus')
+  final SubscriptionStatus subscriptionStatus;
+
+  /// The name of the topic.
+  @_s.JsonKey(name: 'TopicName')
+  final String topicName;
+
+  TopicPreference({
+    @_s.required this.subscriptionStatus,
+    @_s.required this.topicName,
+  });
+  factory TopicPreference.fromJson(Map<String, dynamic> json) =>
+      _$TopicPreferenceFromJson(json);
+
+  Map<String, dynamic> toJson() => _$TopicPreferenceToJson(this);
 }
 
 /// An object that defines the tracking options for a configuration set. When
@@ -5033,6 +8144,69 @@ class UpdateConfigurationSetEventDestinationResponse {
   factory UpdateConfigurationSetEventDestinationResponse.fromJson(
           Map<String, dynamic> json) =>
       _$UpdateConfigurationSetEventDestinationResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class UpdateContactListResponse {
+  UpdateContactListResponse();
+  factory UpdateContactListResponse.fromJson(Map<String, dynamic> json) =>
+      _$UpdateContactListResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class UpdateContactResponse {
+  UpdateContactResponse();
+  factory UpdateContactResponse.fromJson(Map<String, dynamic> json) =>
+      _$UpdateContactResponseFromJson(json);
+}
+
+/// If the action is successful, the service sends back an HTTP 200 response
+/// with an empty HTTP body.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class UpdateCustomVerificationEmailTemplateResponse {
+  UpdateCustomVerificationEmailTemplateResponse();
+  factory UpdateCustomVerificationEmailTemplateResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$UpdateCustomVerificationEmailTemplateResponseFromJson(json);
+}
+
+/// An HTTP 200 response if the request succeeds, or an error message if the
+/// request fails.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class UpdateEmailIdentityPolicyResponse {
+  UpdateEmailIdentityPolicyResponse();
+  factory UpdateEmailIdentityPolicyResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$UpdateEmailIdentityPolicyResponseFromJson(json);
+}
+
+/// If the action is successful, the service sends back an HTTP 200 response
+/// with an empty HTTP body.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class UpdateEmailTemplateResponse {
+  UpdateEmailTemplateResponse();
+  factory UpdateEmailTemplateResponse.fromJson(Map<String, dynamic> json) =>
+      _$UpdateEmailTemplateResponseFromJson(json);
 }
 
 /// An object that contains information about the amount of email that was
@@ -5103,6 +8277,11 @@ class ConcurrentModificationException extends _s.GenericAwsException {
             message: message);
 }
 
+class ConflictException extends _s.GenericAwsException {
+  ConflictException({String type, String message})
+      : super(type: type, code: 'ConflictException', message: message);
+}
+
 class InvalidNextTokenException extends _s.GenericAwsException {
   InvalidNextTokenException({String type, String message})
       : super(type: type, code: 'InvalidNextTokenException', message: message);
@@ -5150,6 +8329,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       BadRequestException(type: type, message: message),
   'ConcurrentModificationException': (type, message) =>
       ConcurrentModificationException(type: type, message: message),
+  'ConflictException': (type, message) =>
+      ConflictException(type: type, message: message),
   'InvalidNextTokenException': (type, message) =>
       InvalidNextTokenException(type: type, message: message),
   'LimitExceededException': (type, message) =>

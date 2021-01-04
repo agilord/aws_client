@@ -47,13 +47,14 @@ part 'wafv2-2019-07-29.g.dart';
 /// </note>
 /// AWS WAF is a web application firewall that lets you monitor the HTTP and
 /// HTTPS requests that are forwarded to Amazon CloudFront, an Amazon API
-/// Gateway API, or an Application Load Balancer. AWS WAF also lets you control
-/// access to your content. Based on conditions that you specify, such as the IP
-/// addresses that requests originate from or the values of query strings, API
-/// Gateway, CloudFront, or the Application Load Balancer responds to requests
-/// either with the requested content or with an HTTP 403 status code
-/// (Forbidden). You also can configure CloudFront to return a custom error page
-/// when a request is blocked.
+/// Gateway REST API, an Application Load Balancer, or an AWS AppSync GraphQL
+/// API. AWS WAF also lets you control access to your content. Based on
+/// conditions that you specify, such as the IP addresses that requests
+/// originate from or the values of query strings, the API Gateway REST API,
+/// CloudFront distribution, the Application Load Balancer, or the AWS AppSync
+/// GraphQL API responds to requests either with the requested content or with
+/// an HTTP 403 status code (Forbidden). You also can configure CloudFront to
+/// return a custom error page when a request is blocked.
 ///
 /// This API guide is for developers who need detailed information about AWS WAF
 /// API actions, data types, and errors. For detailed information about AWS WAF
@@ -68,8 +69,8 @@ part 'wafv2-2019-07-29.g.dart';
 /// <ul>
 /// <li>
 /// For regional applications, you can use any of the endpoints in the list. A
-/// regional application can be an Application Load Balancer (ALB) or an API
-/// Gateway stage.
+/// regional application can be an Application Load Balancer (ALB), an API
+/// Gateway REST API, or an AppSync GraphQL API.
 /// </li>
 /// <li>
 /// For AWS CloudFront applications, you must use the API endpoint listed for US
@@ -126,8 +127,8 @@ class WAFV2 {
   /// WAF Developer Guide</a>.
   /// </note>
   /// Associates a Web ACL with a regional application resource, to protect the
-  /// resource. A regional application can be an Application Load Balancer (ALB)
-  /// or an API Gateway stage.
+  /// resource. A regional application can be an Application Load Balancer
+  /// (ALB), an API Gateway REST API, or an AppSync GraphQL API.
   ///
   /// For AWS CloudFront, don't use this call. Instead, use your CloudFront
   /// distribution configuration. To associate a Web ACL, in the CloudFront call
@@ -154,8 +155,13 @@ class WAFV2 {
   /// </code>
   /// </li>
   /// <li>
-  /// For an Amazon API Gateway stage:
+  /// For an API Gateway REST API:
   /// <code>arn:aws:apigateway:<i>region</i>::/restapis/<i>api-id</i>/stages/<i>stage-name</i>
+  /// </code>
+  /// </li>
+  /// <li>
+  /// For an AppSync GraphQL API:
+  /// <code>arn:aws:appsync:<i>region</i>:<i>account-id</i>:apis/<i>GraphQLApiId</i>
   /// </code>
   /// </li>
   /// </ul>
@@ -248,7 +254,7 @@ class WAFV2 {
   /// Parameter [scope] :
   /// Specifies whether this is for an AWS CloudFront distribution or for a
   /// regional application. A regional application can be an Application Load
-  /// Balancer (ALB) or an API Gateway stage.
+  /// Balancer (ALB), an API Gateway REST API, or an AppSync GraphQL API.
   ///
   /// To work with CloudFront, you must also specify the Region US East (N.
   /// Virginia) as follows:
@@ -352,7 +358,7 @@ class WAFV2 {
   /// Parameter [scope] :
   /// Specifies whether this is for an AWS CloudFront distribution or for a
   /// regional application. A regional application can be an Application Load
-  /// Balancer (ALB) or an API Gateway stage.
+  /// Balancer (ALB), an API Gateway REST API, or an AppSync GraphQL API.
   ///
   /// To work with CloudFront, you must also specify the Region US East (N.
   /// Virginia) as follows:
@@ -461,7 +467,7 @@ class WAFV2 {
   /// Parameter [scope] :
   /// Specifies whether this is for an AWS CloudFront distribution or for a
   /// regional application. A regional application can be an Application Load
-  /// Balancer (ALB) or an API Gateway stage.
+  /// Balancer (ALB), an API Gateway REST API, or an AppSync GraphQL API.
   ///
   /// To work with CloudFront, you must also specify the Region US East (N.
   /// Virginia) as follows:
@@ -588,7 +594,7 @@ class WAFV2 {
   /// Parameter [scope] :
   /// Specifies whether this is for an AWS CloudFront distribution or for a
   /// regional application. A regional application can be an Application Load
-  /// Balancer (ALB) or an API Gateway stage.
+  /// Balancer (ALB), an API Gateway REST API, or an AppSync GraphQL API.
   ///
   /// To work with CloudFront, you must also specify the Region US East (N.
   /// Virginia) as follows:
@@ -703,8 +709,8 @@ class WAFV2 {
   /// match any of the rules. The rules in a Web ACL can be a combination of the
   /// types <a>Rule</a>, <a>RuleGroup</a>, and managed rule group. You can
   /// associate a Web ACL with one or more AWS resources to protect. The
-  /// resources can be Amazon CloudFront, an Amazon API Gateway API, or an
-  /// Application Load Balancer.
+  /// resources can be Amazon CloudFront, an Amazon API Gateway REST API, an
+  /// Application Load Balancer, or an AWS AppSync GraphQL API.
   ///
   /// May throw [WAFInternalErrorException].
   /// May throw [WAFInvalidParameterException].
@@ -730,7 +736,7 @@ class WAFV2 {
   /// Parameter [scope] :
   /// Specifies whether this is for an AWS CloudFront distribution or for a
   /// regional application. A regional application can be an Application Load
-  /// Balancer (ALB) or an API Gateway stage.
+  /// Balancer (ALB), an API Gateway REST API, or an AppSync GraphQL API.
   ///
   /// To work with CloudFront, you must also specify the Region US East (N.
   /// Virginia) as follows:
@@ -938,7 +944,7 @@ class WAFV2 {
   /// Parameter [scope] :
   /// Specifies whether this is for an AWS CloudFront distribution or for a
   /// regional application. A regional application can be an Application Load
-  /// Balancer (ALB) or an API Gateway stage.
+  /// Balancer (ALB), an API Gateway REST API, or an AppSync GraphQL API.
   ///
   /// To work with CloudFront, you must also specify the Region US East (N.
   /// Virginia) as follows:
@@ -1162,7 +1168,7 @@ class WAFV2 {
   /// Parameter [scope] :
   /// Specifies whether this is for an AWS CloudFront distribution or for a
   /// regional application. A regional application can be an Application Load
-  /// Balancer (ALB) or an API Gateway stage.
+  /// Balancer (ALB), an API Gateway REST API, or an AppSync GraphQL API.
   ///
   /// To work with CloudFront, you must also specify the Region US East (N.
   /// Virginia) as follows:
@@ -1286,7 +1292,7 @@ class WAFV2 {
   /// Parameter [scope] :
   /// Specifies whether this is for an AWS CloudFront distribution or for a
   /// regional application. A regional application can be an Application Load
-  /// Balancer (ALB) or an API Gateway stage.
+  /// Balancer (ALB), an API Gateway REST API, or an AppSync GraphQL API.
   ///
   /// To work with CloudFront, you must also specify the Region US East (N.
   /// Virginia) as follows:
@@ -1413,7 +1419,7 @@ class WAFV2 {
   /// Parameter [scope] :
   /// Specifies whether this is for an AWS CloudFront distribution or for a
   /// regional application. A regional application can be an Application Load
-  /// Balancer (ALB) or an API Gateway stage.
+  /// Balancer (ALB), an API Gateway REST API, or an AppSync GraphQL API.
   ///
   /// To work with CloudFront, you must also specify the Region US East (N.
   /// Virginia) as follows:
@@ -1520,7 +1526,7 @@ class WAFV2 {
   /// Parameter [scope] :
   /// Specifies whether this is for an AWS CloudFront distribution or for a
   /// regional application. A regional application can be an Application Load
-  /// Balancer (ALB) or an API Gateway stage.
+  /// Balancer (ALB), an API Gateway REST API, or an AppSync GraphQL API.
   ///
   /// To work with CloudFront, you must also specify the Region US East (N.
   /// Virginia) as follows:
@@ -1600,8 +1606,8 @@ class WAFV2 {
   /// WAF Developer Guide</a>.
   /// </note>
   /// Disassociates a Web ACL from a regional application resource. A regional
-  /// application can be an Application Load Balancer (ALB) or an API Gateway
-  /// stage.
+  /// application can be an Application Load Balancer (ALB), an API Gateway REST
+  /// API, or an AppSync GraphQL API.
   ///
   /// For AWS CloudFront, don't use this call. Instead, use your CloudFront
   /// distribution configuration. To disassociate a Web ACL, provide an empty
@@ -1627,8 +1633,13 @@ class WAFV2 {
   /// </code>
   /// </li>
   /// <li>
-  /// For an Amazon API Gateway stage:
+  /// For an API Gateway REST API:
   /// <code>arn:aws:apigateway:<i>region</i>::/restapis/<i>api-id</i>/stages/<i>stage-name</i>
+  /// </code>
+  /// </li>
+  /// <li>
+  /// For an AppSync GraphQL API:
+  /// <code>arn:aws:appsync:<i>region</i>:<i>account-id</i>:apis/<i>GraphQLApiId</i>
   /// </code>
   /// </li>
   /// </ul>
@@ -1693,7 +1704,7 @@ class WAFV2 {
   /// Parameter [scope] :
   /// Specifies whether this is for an AWS CloudFront distribution or for a
   /// regional application. A regional application can be an Application Load
-  /// Balancer (ALB) or an API Gateway stage.
+  /// Balancer (ALB), an API Gateway REST API, or an AppSync GraphQL API.
   ///
   /// To work with CloudFront, you must also specify the Region US East (N.
   /// Virginia) as follows:
@@ -1882,7 +1893,7 @@ class WAFV2 {
   /// Parameter [scope] :
   /// Specifies whether this is for an AWS CloudFront distribution or for a
   /// regional application. A regional application can be an Application Load
-  /// Balancer (ALB) or an API Gateway stage.
+  /// Balancer (ALB), an API Gateway REST API, or an AppSync GraphQL API.
   ///
   /// To work with CloudFront, you must also specify the Region US East (N.
   /// Virginia) as follows:
@@ -2001,7 +2012,7 @@ class WAFV2 {
   /// Parameter [scope] :
   /// Specifies whether this is for an AWS CloudFront distribution or for a
   /// regional application. A regional application can be an Application Load
-  /// Balancer (ALB) or an API Gateway stage.
+  /// Balancer (ALB), an API Gateway REST API, or an AppSync GraphQL API.
   ///
   /// To work with CloudFront, you must also specify the Region US East (N.
   /// Virginia) as follows:
@@ -2095,7 +2106,7 @@ class WAFV2 {
   /// Parameter [scope] :
   /// Specifies whether this is for an AWS CloudFront distribution or for a
   /// regional application. A regional application can be an Application Load
-  /// Balancer (ALB) or an API Gateway stage.
+  /// Balancer (ALB), an API Gateway REST API, or an AppSync GraphQL API.
   ///
   /// To work with CloudFront, you must also specify the Region US East (N.
   /// Virginia) as follows:
@@ -2201,7 +2212,7 @@ class WAFV2 {
   /// Parameter [scope] :
   /// Specifies whether this is for an AWS CloudFront distribution or for a
   /// regional application. A regional application can be an Application Load
-  /// Balancer (ALB) or an API Gateway stage.
+  /// Balancer (ALB), an API Gateway REST API, or an AppSync GraphQL API.
   ///
   /// To work with CloudFront, you must also specify the Region US East (N.
   /// Virginia) as follows:
@@ -2219,7 +2230,8 @@ class WAFV2 {
   /// Parameter [timeWindow] :
   /// The start date and time and the end date and time of the range for which
   /// you want <code>GetSampledRequests</code> to return a sample of requests.
-  /// Specify the date and time in the following format:
+  /// You must specify the times in Coordinated Universal Time (UTC) format. UTC
+  /// format includes the special designator, <code>Z</code>. For example,
   /// <code>"2016-09-27T14:50Z"</code>. You can specify any time range in the
   /// previous three hours.
   ///
@@ -2319,7 +2331,7 @@ class WAFV2 {
   /// Parameter [scope] :
   /// Specifies whether this is for an AWS CloudFront distribution or for a
   /// regional application. A regional application can be an Application Load
-  /// Balancer (ALB) or an API Gateway stage.
+  /// Balancer (ALB), an API Gateway REST API, or an AppSync GraphQL API.
   ///
   /// To work with CloudFront, you must also specify the Region US East (N.
   /// Virginia) as follows:
@@ -2457,7 +2469,7 @@ class WAFV2 {
   /// Parameter [scope] :
   /// Specifies whether this is for an AWS CloudFront distribution or for a
   /// regional application. A regional application can be an Application Load
-  /// Balancer (ALB) or an API Gateway stage.
+  /// Balancer (ALB), an API Gateway REST API, or an AppSync GraphQL API.
   ///
   /// To work with CloudFront, you must also specify the Region US East (N.
   /// Virginia) as follows:
@@ -2545,7 +2557,7 @@ class WAFV2 {
   /// Parameter [scope] :
   /// Specifies whether this is for an AWS CloudFront distribution or for a
   /// regional application. A regional application can be an Application Load
-  /// Balancer (ALB) or an API Gateway stage.
+  /// Balancer (ALB), an API Gateway REST API, or an AppSync GraphQL API.
   ///
   /// To work with CloudFront, you must also specify the Region US East (N.
   /// Virginia) as follows:
@@ -2644,7 +2656,7 @@ class WAFV2 {
   /// Parameter [scope] :
   /// Specifies whether this is for an AWS CloudFront distribution or for a
   /// regional application. A regional application can be an Application Load
-  /// Balancer (ALB) or an API Gateway stage.
+  /// Balancer (ALB), an API Gateway REST API, or an AppSync GraphQL API.
   ///
   /// To work with CloudFront, you must also specify the Region US East (N.
   /// Virginia) as follows:
@@ -2717,7 +2729,7 @@ class WAFV2 {
   /// Parameter [scope] :
   /// Specifies whether this is for an AWS CloudFront distribution or for a
   /// regional application. A regional application can be an Application Load
-  /// Balancer (ALB) or an API Gateway stage.
+  /// Balancer (ALB), an API Gateway REST API, or an AppSync GraphQL API.
   ///
   /// To work with CloudFront, you must also specify the Region US East (N.
   /// Virginia) as follows:
@@ -2809,8 +2821,8 @@ class WAFV2 {
   ///
   /// Parameter [resourceType] :
   /// Used for web ACLs that are scoped for regional applications. A regional
-  /// application can be an Application Load Balancer (ALB) or an API Gateway
-  /// stage.
+  /// application can be an Application Load Balancer (ALB), an API Gateway REST
+  /// API, or an AppSync GraphQL API.
   Future<ListResourcesForWebACLResponse> listResourcesForWebACL({
     @_s.required String webACLArn,
     ResourceType resourceType,
@@ -2865,7 +2877,7 @@ class WAFV2 {
   /// Parameter [scope] :
   /// Specifies whether this is for an AWS CloudFront distribution or for a
   /// regional application. A regional application can be an Application Load
-  /// Balancer (ALB) or an API Gateway stage.
+  /// Balancer (ALB), an API Gateway REST API, or an AppSync GraphQL API.
   ///
   /// To work with CloudFront, you must also specify the Region US East (N.
   /// Virginia) as follows:
@@ -2942,7 +2954,16 @@ class WAFV2 {
   /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
   /// WAF Developer Guide</a>.
   /// </note>
-  /// Retrieves the <a>TagInfoForResource</a> for the specified resource.
+  /// Retrieves the <a>TagInfoForResource</a> for the specified resource. Tags
+  /// are key:value pairs that you can use to categorize and manage your
+  /// resources, for purposes like billing. For example, you might set the tag
+  /// key to "customer" and the value to the customer name or ID. You can
+  /// specify one or more tags to add to each AWS resource, up to 50 tags for a
+  /// resource.
+  ///
+  /// You can tag the AWS resources that you manage through AWS WAF: web ACLs,
+  /// rule groups, IP sets, and regex pattern sets. You can't manage or view
+  /// tags through the AWS WAF console.
   ///
   /// May throw [WAFInternalErrorException].
   /// May throw [WAFInvalidParameterException].
@@ -3039,7 +3060,7 @@ class WAFV2 {
   /// Parameter [scope] :
   /// Specifies whether this is for an AWS CloudFront distribution or for a
   /// regional application. A regional application can be an Application Load
-  /// Balancer (ALB) or an API Gateway stage.
+  /// Balancer (ALB), an API Gateway REST API, or an AppSync GraphQL API.
   ///
   /// To work with CloudFront, you must also specify the Region US East (N.
   /// Virginia) as follows:
@@ -3128,6 +3149,10 @@ class WAFV2 {
   /// Create the data firehose with a PUT source and in the Region that you are
   /// operating. If you are capturing logs for Amazon CloudFront, always create
   /// the firehose in US East (N. Virginia).
+  ///
+  /// Give the data firehose a name that starts with the prefix
+  /// <code>aws-waf-logs-</code>. For example,
+  /// <code>aws-waf-logs-us-east-2-analytics</code>.
   /// <note>
   /// Do not create the data firehose using a <code>Kinesis stream</code> as
   /// your source.
@@ -3149,6 +3174,7 @@ class WAFV2 {
   /// May throw [WAFServiceLinkedRoleErrorException].
   /// May throw [WAFInvalidParameterException].
   /// May throw [WAFInvalidOperationException].
+  /// May throw [WAFLimitsExceededException].
   ///
   /// Parameter [loggingConfiguration] :
   /// <p/>
@@ -3243,7 +3269,13 @@ class WAFV2 {
       'policy',
       policy,
       1,
-      1152921504606846976,
+      395000,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'policy',
+      policy,
+      r'''.*\S.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(resourceArn, 'resourceArn');
@@ -3287,10 +3319,14 @@ class WAFV2 {
   /// WAF Developer Guide</a>.
   /// </note>
   /// Associates tags with the specified AWS resource. Tags are key:value pairs
-  /// that you can associate with AWS resources. For example, the tag key might
-  /// be "customer" and the tag value might be "companyA." You can specify one
-  /// or more tags to add to each container. You can add up to 50 tags to each
-  /// AWS resource.
+  /// that you can use to categorize and manage your resources, for purposes
+  /// like billing. For example, you might set the tag key to "customer" and the
+  /// value to the customer name or ID. You can specify one or more tags to add
+  /// to each AWS resource, up to 50 tags for a resource.
+  ///
+  /// You can tag the AWS resources that you manage through AWS WAF: web ACLs,
+  /// rule groups, IP sets, and regex pattern sets. You can't manage or view
+  /// tags through the AWS WAF console.
   ///
   /// May throw [WAFInternalErrorException].
   /// May throw [WAFInvalidParameterException].
@@ -3478,7 +3514,7 @@ class WAFV2 {
   /// Parameter [scope] :
   /// Specifies whether this is for an AWS CloudFront distribution or for a
   /// regional application. A regional application can be an Application Load
-  /// Balancer (ALB) or an API Gateway stage.
+  /// Balancer (ALB), an API Gateway REST API, or an AppSync GraphQL API.
   ///
   /// To work with CloudFront, you must also specify the Region US East (N.
   /// Virginia) as follows:
@@ -3623,7 +3659,7 @@ class WAFV2 {
   /// Parameter [scope] :
   /// Specifies whether this is for an AWS CloudFront distribution or for a
   /// regional application. A regional application can be an Application Load
-  /// Balancer (ALB) or an API Gateway stage.
+  /// Balancer (ALB), an API Gateway REST API, or an AppSync GraphQL API.
   ///
   /// To work with CloudFront, you must also specify the Region US East (N.
   /// Virginia) as follows:
@@ -3774,7 +3810,7 @@ class WAFV2 {
   /// Parameter [scope] :
   /// Specifies whether this is for an AWS CloudFront distribution or for a
   /// regional application. A regional application can be an Application Load
-  /// Balancer (ALB) or an API Gateway stage.
+  /// Balancer (ALB), an API Gateway REST API, or an AppSync GraphQL API.
   ///
   /// To work with CloudFront, you must also specify the Region US East (N.
   /// Virginia) as follows:
@@ -3906,8 +3942,8 @@ class WAFV2 {
   /// match any of the rules. The rules in a Web ACL can be a combination of the
   /// types <a>Rule</a>, <a>RuleGroup</a>, and managed rule group. You can
   /// associate a Web ACL with one or more AWS resources to protect. The
-  /// resources can be Amazon CloudFront, an Amazon API Gateway API, or an
-  /// Application Load Balancer.
+  /// resources can be Amazon CloudFront, an Amazon API Gateway REST API, an
+  /// Application Load Balancer, or an AWS AppSync GraphQL API.
   ///
   /// May throw [WAFInternalErrorException].
   /// May throw [WAFInvalidParameterException].
@@ -3946,7 +3982,7 @@ class WAFV2 {
   /// Parameter [scope] :
   /// Specifies whether this is for an AWS CloudFront distribution or for a
   /// regional application. A regional application can be an Application Load
-  /// Balancer (ALB) or an API Gateway stage.
+  /// Balancer (ALB), an API Gateway REST API, or an AppSync GraphQL API.
   ///
   /// To work with CloudFront, you must also specify the Region US East (N.
   /// Virginia) as follows:
@@ -5169,6 +5205,13 @@ class ExcludedRule {
   Map<String, dynamic> toJson() => _$ExcludedRuleToJson(this);
 }
 
+enum FallbackBehavior {
+  @_s.JsonValue('MATCH')
+  match,
+  @_s.JsonValue('NO_MATCH')
+  noMatch,
+}
+
 /// <note>
 /// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
 /// November, 2019. For information, including how to migrate your AWS WAF
@@ -5316,6 +5359,74 @@ class FirewallManagerStatement {
       _$FirewallManagerStatementFromJson(json);
 }
 
+/// The configuration for inspecting IP addresses in an HTTP header that you
+/// specify, instead of using the IP address that's reported by the web request
+/// origin. Commonly, this is the X-Forwarded-For (XFF) header, but you can
+/// specify any header name.
+/// <note>
+/// If the specified header isn't present in the request, AWS WAF doesn't apply
+/// the rule to the web request at all.
+/// </note>
+/// This configuration is used for <a>GeoMatchStatement</a> and
+/// <a>RateBasedStatement</a>. For <a>IPSetReferenceStatement</a>, use
+/// <a>IPSetForwardedIPConfig</a> instead.
+///
+/// AWS WAF only evaluates the first IP address found in the specified HTTP
+/// header.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class ForwardedIPConfig {
+  /// The match status to assign to the web request if the request doesn't have a
+  /// valid IP address in the specified position.
+  /// <note>
+  /// If the specified header isn't present in the request, AWS WAF doesn't apply
+  /// the rule to the web request at all.
+  /// </note>
+  /// You can specify the following fallback behaviors:
+  ///
+  /// <ul>
+  /// <li>
+  /// MATCH - Treat the web request as matching the rule statement. AWS WAF
+  /// applies the rule action to the request.
+  /// </li>
+  /// <li>
+  /// NO_MATCH - Treat the web request as not matching the rule statement.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'FallbackBehavior')
+  final FallbackBehavior fallbackBehavior;
+
+  /// The name of the HTTP header to use for the IP address. For example, to use
+  /// the X-Forwarded-For (XFF) header, set this to <code>X-Forwarded-For</code>.
+  /// <note>
+  /// If the specified header isn't present in the request, AWS WAF doesn't apply
+  /// the rule to the web request at all.
+  /// </note>
+  @_s.JsonKey(name: 'HeaderName')
+  final String headerName;
+
+  ForwardedIPConfig({
+    @_s.required this.fallbackBehavior,
+    @_s.required this.headerName,
+  });
+  factory ForwardedIPConfig.fromJson(Map<String, dynamic> json) =>
+      _$ForwardedIPConfigFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ForwardedIPConfigToJson(this);
+}
+
+enum ForwardedIPPosition {
+  @_s.JsonValue('FIRST')
+  first,
+  @_s.JsonValue('LAST')
+  last,
+  @_s.JsonValue('ANY')
+  any,
+}
+
 /// <note>
 /// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
 /// November, 2019. For information, including how to migrate your AWS WAF
@@ -5336,8 +5447,20 @@ class GeoMatchStatement {
   @_s.JsonKey(name: 'CountryCodes')
   final List<CountryCode> countryCodes;
 
+  /// The configuration for inspecting IP addresses in an HTTP header that you
+  /// specify, instead of using the IP address that's reported by the web request
+  /// origin. Commonly, this is the X-Forwarded-For (XFF) header, but you can
+  /// specify any header name.
+  /// <note>
+  /// If the specified header isn't present in the request, AWS WAF doesn't apply
+  /// the rule to the web request at all.
+  /// </note>
+  @_s.JsonKey(name: 'ForwardedIPConfig')
+  final ForwardedIPConfig forwardedIPConfig;
+
   GeoMatchStatement({
     this.countryCodes,
+    this.forwardedIPConfig,
   });
   factory GeoMatchStatement.fromJson(Map<String, dynamic> json) =>
       _$GeoMatchStatementFromJson(json);
@@ -5511,7 +5634,8 @@ class GetSampledRequestsResponse {
   /// <code>GetSampledRequests</code> request. However, if your AWS resource
   /// received more than 5,000 requests during the time range that you specified
   /// in the request, <code>GetSampledRequests</code> returns the time range for
-  /// the first 5,000 requests.
+  /// the first 5,000 requests. Times are in Coordinated Universal Time (UTC)
+  /// format.
   @_s.JsonKey(name: 'TimeWindow')
   final TimeWindow timeWindow;
 
@@ -5786,6 +5910,88 @@ class IPSet {
   factory IPSet.fromJson(Map<String, dynamic> json) => _$IPSetFromJson(json);
 }
 
+/// The configuration for inspecting IP addresses in an HTTP header that you
+/// specify, instead of using the IP address that's reported by the web request
+/// origin. Commonly, this is the X-Forwarded-For (XFF) header, but you can
+/// specify any header name.
+/// <note>
+/// If the specified header isn't present in the request, AWS WAF doesn't apply
+/// the rule to the web request at all.
+/// </note>
+/// This configuration is used only for <a>IPSetReferenceStatement</a>. For
+/// <a>GeoMatchStatement</a> and <a>RateBasedStatement</a>, use
+/// <a>ForwardedIPConfig</a> instead.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class IPSetForwardedIPConfig {
+  /// The match status to assign to the web request if the request doesn't have a
+  /// valid IP address in the specified position.
+  /// <note>
+  /// If the specified header isn't present in the request, AWS WAF doesn't apply
+  /// the rule to the web request at all.
+  /// </note>
+  /// You can specify the following fallback behaviors:
+  ///
+  /// <ul>
+  /// <li>
+  /// MATCH - Treat the web request as matching the rule statement. AWS WAF
+  /// applies the rule action to the request.
+  /// </li>
+  /// <li>
+  /// NO_MATCH - Treat the web request as not matching the rule statement.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'FallbackBehavior')
+  final FallbackBehavior fallbackBehavior;
+
+  /// The name of the HTTP header to use for the IP address. For example, to use
+  /// the X-Forwarded-For (XFF) header, set this to <code>X-Forwarded-For</code>.
+  /// <note>
+  /// If the specified header isn't present in the request, AWS WAF doesn't apply
+  /// the rule to the web request at all.
+  /// </note>
+  @_s.JsonKey(name: 'HeaderName')
+  final String headerName;
+
+  /// The position in the header to search for the IP address. The header can
+  /// contain IP addresses of the original client and also of proxies. For
+  /// example, the header value could be <code>10.1.1.1, 127.0.0.0,
+  /// 10.10.10.10</code> where the first IP address identifies the original client
+  /// and the rest identify proxies that the request went through.
+  ///
+  /// The options for this setting are the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// FIRST - Inspect the first IP address in the list of IP addresses in the
+  /// header. This is usually the client's original IP.
+  /// </li>
+  /// <li>
+  /// LAST - Inspect the last IP address in the list of IP addresses in the
+  /// header.
+  /// </li>
+  /// <li>
+  /// ANY - Inspect all IP addresses in the header for a match. If the header
+  /// contains more than 10 IP addresses, AWS WAF inspects the last 10.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Position')
+  final ForwardedIPPosition position;
+
+  IPSetForwardedIPConfig({
+    @_s.required this.fallbackBehavior,
+    @_s.required this.headerName,
+    @_s.required this.position,
+  });
+  factory IPSetForwardedIPConfig.fromJson(Map<String, dynamic> json) =>
+      _$IPSetForwardedIPConfigFromJson(json);
+
+  Map<String, dynamic> toJson() => _$IPSetForwardedIPConfigToJson(this);
+}
+
 /// <note>
 /// This is the latest version of <b>AWS WAF</b>, named AWS WAFV2, released in
 /// November, 2019. For information, including how to migrate your AWS WAF
@@ -5813,8 +6019,20 @@ class IPSetReferenceStatement {
   @_s.JsonKey(name: 'ARN')
   final String arn;
 
+  /// The configuration for inspecting IP addresses in an HTTP header that you
+  /// specify, instead of using the IP address that's reported by the web request
+  /// origin. Commonly, this is the X-Forwarded-For (XFF) header, but you can
+  /// specify any header name.
+  /// <note>
+  /// If the specified header isn't present in the request, AWS WAF doesn't apply
+  /// the rule to the web request at all.
+  /// </note>
+  @_s.JsonKey(name: 'IPSetForwardedIPConfig')
+  final IPSetForwardedIPConfig iPSetForwardedIPConfig;
+
   IPSetReferenceStatement({
     @_s.required this.arn,
+    this.iPSetForwardedIPConfig,
   });
   factory IPSetReferenceStatement.fromJson(Map<String, dynamic> json) =>
       _$IPSetReferenceStatementFromJson(json);
@@ -6110,15 +6328,26 @@ class LoggingConfiguration {
   @_s.JsonKey(name: 'ResourceArn')
   final String resourceArn;
 
+  /// Indicates whether the logging configuration was created by AWS Firewall
+  /// Manager, as part of an AWS WAF policy configuration. If true, only Firewall
+  /// Manager can modify or delete the configuration.
+  @_s.JsonKey(name: 'ManagedByFirewallManager')
+  final bool managedByFirewallManager;
+
   /// The parts of the request that you want to keep out of the logs. For example,
-  /// if you redact the cookie field, the cookie field in the firehose will be
-  /// <code>xxx</code>.
+  /// if you redact the <code>HEADER</code> field, the <code>HEADER</code> field
+  /// in the firehose will be <code>xxx</code>.
+  /// <note>
+  /// You must use one of the following values: <code>URI</code>,
+  /// <code>QUERY_STRING</code>, <code>HEADER</code>, or <code>METHOD</code>.
+  /// </note>
   @_s.JsonKey(name: 'RedactedFields')
   final List<FieldToMatch> redactedFields;
 
   LoggingConfiguration({
     @_s.required this.logDestinationConfigs,
     @_s.required this.resourceArn,
+    this.managedByFirewallManager,
     this.redactedFields,
   });
   factory LoggingConfiguration.fromJson(Map<String, dynamic> json) =>
@@ -6485,17 +6714,41 @@ class QueryString {
     createFactory: true,
     createToJson: true)
 class RateBasedStatement {
-  /// Setting that indicates how to aggregate the request counts. Currently, you
-  /// must set this to <code>IP</code>. The request counts are aggregated on IP
-  /// addresses.
+  /// Setting that indicates how to aggregate the request counts. The options are
+  /// the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// IP - Aggregate the request counts on the IP address from the web request
+  /// origin.
+  /// </li>
+  /// <li>
+  /// FORWARDED_IP - Aggregate the request counts on the first IP address in an
+  /// HTTP header. If you use this, configure the <code>ForwardedIPConfig</code>,
+  /// to specify the header to use.
+  /// </li>
+  /// </ul>
   @_s.JsonKey(name: 'AggregateKeyType')
   final RateBasedStatementAggregateKeyType aggregateKeyType;
 
   /// The limit on requests per 5-minute period for a single originating IP
-  /// address. If the statement includes a <code>ScopDownStatement</code>, this
+  /// address. If the statement includes a <code>ScopeDownStatement</code>, this
   /// limit is applied only to the requests that match the statement.
   @_s.JsonKey(name: 'Limit')
   final int limit;
+
+  /// The configuration for inspecting IP addresses in an HTTP header that you
+  /// specify, instead of using the IP address that's reported by the web request
+  /// origin. Commonly, this is the X-Forwarded-For (XFF) header, but you can
+  /// specify any header name.
+  /// <note>
+  /// If the specified header isn't present in the request, AWS WAF doesn't apply
+  /// the rule to the web request at all.
+  /// </note>
+  /// This is required if <code>AggregateKeyType</code> is set to
+  /// <code>FORWARDED_IP</code>.
+  @_s.JsonKey(name: 'ForwardedIPConfig')
+  final ForwardedIPConfig forwardedIPConfig;
 
   /// An optional nested statement that narrows the scope of the rate-based
   /// statement to matching web requests. This can be any nestable statement, and
@@ -6506,6 +6759,7 @@ class RateBasedStatement {
   RateBasedStatement({
     @_s.required this.aggregateKeyType,
     @_s.required this.limit,
+    this.forwardedIPConfig,
     this.scopeDownStatement,
   });
   factory RateBasedStatement.fromJson(Map<String, dynamic> json) =>
@@ -6517,6 +6771,8 @@ class RateBasedStatement {
 enum RateBasedStatementAggregateKeyType {
   @_s.JsonValue('IP')
   ip,
+  @_s.JsonValue('FORWARDED_IP')
+  forwardedIp,
 }
 
 /// <note>
@@ -6748,6 +7004,8 @@ enum ResourceType {
   applicationLoadBalancer,
   @_s.JsonValue('API_GATEWAY')
   apiGateway,
+  @_s.JsonValue('APPSYNC')
+  appsync,
 }
 
 extension on ResourceType {
@@ -6757,6 +7015,8 @@ extension on ResourceType {
         return 'APPLICATION_LOAD_BALANCER';
       case ResourceType.apiGateway:
         return 'API_GATEWAY';
+      case ResourceType.appsync:
+        return 'APPSYNC';
     }
     throw Exception('Unknown enum value: $this');
   }
@@ -7153,8 +7413,7 @@ class SampledHTTPRequest {
   /// groups, the format for this name is <code>&lt;vendor name&gt;#&lt;managed
   /// rule group name&gt;#&lt;rule name&gt;</code>. For your own rule groups, the
   /// format for this name is <code>&lt;rule group name&gt;#&lt;rule
-  /// name&gt;</code>. If the rule is not in a rule group, the format is
-  /// <code>&lt;rule name&gt;</code>.
+  /// name&gt;</code>. If the rule is not in a rule group, this field is absent.
   @_s.JsonKey(name: 'RuleNameWithinRuleGroup')
   final String ruleNameWithinRuleGroup;
 
@@ -7555,11 +7814,18 @@ class Statement {
 /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
 /// WAF Developer Guide</a>.
 /// </note>
-/// A collection of key:value pairs associated with an AWS resource. The
-/// key:value pair can be anything you define. Typically, the tag key represents
-/// a category (such as "environment") and the tag value represents a specific
-/// value within that category (such as "test," "development," or "production").
-/// You can add up to 50 tags to each AWS resource.
+/// A tag associated with an AWS resource. Tags are key:value pairs that you can
+/// use to categorize and manage your resources, for purposes like billing or
+/// other management. Typically, the tag key represents a category, such as
+/// "environment", and the tag value represents a specific value within that
+/// category, such as "test," "development," or "production". Or you might set
+/// the tag key to "customer" and the value to the customer name or ID. You can
+/// specify one or more tags to add to each AWS resource, up to 50 tags for a
+/// resource.
+///
+/// You can tag the AWS resources that you manage through AWS WAF: web ACLs,
+/// rule groups, IP sets, and regex pattern sets. You can't manage or view tags
+/// through the AWS WAF console.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -7594,7 +7860,18 @@ class Tag {
 /// href="https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html">AWS
 /// WAF Developer Guide</a>.
 /// </note>
-/// The collection of tagging definitions for an AWS resource.
+/// The collection of tagging definitions for an AWS resource. Tags are
+/// key:value pairs that you can use to categorize and manage your resources,
+/// for purposes like billing or other management. Typically, the tag key
+/// represents a category, such as "environment", and the tag value represents a
+/// specific value within that category, such as "test," "development," or
+/// "production". Or you might set the tag key to "customer" and the value to
+/// the customer name or ID. You can specify one or more tags to add to each AWS
+/// resource, up to 50 tags for a resource.
+///
+/// You can tag the AWS resources that you manage through AWS WAF: web ACLs,
+/// rule groups, IP sets, and regex pattern sets. You can't manage or view tags
+/// through the AWS WAF console.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -7782,6 +8059,11 @@ enum TextTransformationType {
 /// <code>EndTime</code> objects specify the time range for which you want AWS
 /// WAF to return a sample of web requests.
 ///
+/// You must specify the times in Coordinated Universal Time (UTC) format. UTC
+/// format includes the special designator, <code>Z</code>. For example,
+/// <code>"2016-09-27T14:50Z"</code>. You can specify any time range in the
+/// previous three hours.
+///
 /// In a <a>GetSampledRequests</a> response, the <code>StartTime</code> and
 /// <code>EndTime</code> objects specify the time range for which AWS WAF
 /// actually returned a sample of web requests. AWS WAF gets the specified
@@ -7798,18 +8080,20 @@ enum TextTransformationType {
 class TimeWindow {
   /// The end of the time range from which you want
   /// <code>GetSampledRequests</code> to return a sample of the requests that your
-  /// AWS resource received. Specify the date and time in the following format:
-  /// <code>"2016-09-27T14:50Z"</code>. You can specify any time range in the
-  /// previous three hours.
+  /// AWS resource received. You must specify the times in Coordinated Universal
+  /// Time (UTC) format. UTC format includes the special designator,
+  /// <code>Z</code>. For example, <code>"2016-09-27T14:50Z"</code>. You can
+  /// specify any time range in the previous three hours.
   @UnixDateTimeConverter()
   @_s.JsonKey(name: 'EndTime')
   final DateTime endTime;
 
   /// The beginning of the time range from which you want
   /// <code>GetSampledRequests</code> to return a sample of the requests that your
-  /// AWS resource received. Specify the date and time in the following format:
-  /// <code>"2016-09-27T14:50Z"</code>. You can specify any time range in the
-  /// previous three hours.
+  /// AWS resource received. You must specify the times in Coordinated Universal
+  /// Time (UTC) format. UTC format includes the special designator,
+  /// <code>Z</code>. For example, <code>"2016-09-27T14:50Z"</code>. You can
+  /// specify any time range in the previous three hours.
   @UnixDateTimeConverter()
   @_s.JsonKey(name: 'StartTime')
   final DateTime startTime;
@@ -7959,11 +8243,10 @@ class VisibilityConfig {
   @_s.JsonKey(name: 'CloudWatchMetricsEnabled')
   final bool cloudWatchMetricsEnabled;
 
-  /// A name of the CloudWatch metric. The name can contain only alphanumeric
-  /// characters (A-Z, a-z, 0-9), with length from one to 128 characters. It can't
-  /// contain whitespace or metric names reserved for AWS WAF, for example "All"
-  /// and "Default_Action." You can't change a <code>MetricName</code> after you
-  /// create a <code>VisibilityConfig</code>.
+  /// A name of the CloudWatch metric. The name can contain only the characters:
+  /// A-Z, a-z, 0-9, - (hyphen), and _ (underscore). The name can be from one to
+  /// 128 characters long. It can't contain whitespace or metric names reserved
+  /// for AWS WAF, for example "All" and "Default_Action."
   @_s.JsonKey(name: 'MetricName')
   final String metricName;
 
@@ -7998,8 +8281,8 @@ class VisibilityConfig {
 /// any of the rules. The rules in a Web ACL can be a combination of the types
 /// <a>Rule</a>, <a>RuleGroup</a>, and managed rule group. You can associate a
 /// Web ACL with one or more AWS resources to protect. The resources can be
-/// Amazon CloudFront, an Amazon API Gateway API, or an Application Load
-/// Balancer.
+/// Amazon CloudFront, an Amazon API Gateway REST API, an Application Load
+/// Balancer, or an AWS AppSync GraphQL API.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,

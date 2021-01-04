@@ -6,6 +6,30 @@ part of 'comprehend-2017-11-27.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+AugmentedManifestsListItem _$AugmentedManifestsListItemFromJson(
+    Map<String, dynamic> json) {
+  return AugmentedManifestsListItem(
+    attributeNames:
+        (json['AttributeNames'] as List)?.map((e) => e as String)?.toList(),
+    s3Uri: json['S3Uri'] as String,
+  );
+}
+
+Map<String, dynamic> _$AugmentedManifestsListItemToJson(
+    AugmentedManifestsListItem instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AttributeNames', instance.attributeNames);
+  writeNotNull('S3Uri', instance.s3Uri);
+  return val;
+}
+
 BatchDetectDominantLanguageItemResult
     _$BatchDetectDominantLanguageItemResultFromJson(Map<String, dynamic> json) {
   return BatchDetectDominantLanguageItemResult(
@@ -338,6 +362,16 @@ DescribeEntityRecognizerResponse _$DescribeEntityRecognizerResponseFromJson(
   );
 }
 
+DescribeEventsDetectionJobResponse _$DescribeEventsDetectionJobResponseFromJson(
+    Map<String, dynamic> json) {
+  return DescribeEventsDetectionJobResponse(
+    eventsDetectionJobProperties: json['EventsDetectionJobProperties'] == null
+        ? null
+        : EventsDetectionJobProperties.fromJson(
+            json['EventsDetectionJobProperties'] as Map<String, dynamic>),
+  );
+}
+
 DescribeKeyPhrasesDetectionJobResponse
     _$DescribeKeyPhrasesDetectionJobResponseFromJson(
         Map<String, dynamic> json) {
@@ -347,6 +381,19 @@ DescribeKeyPhrasesDetectionJobResponse
             ? null
             : KeyPhrasesDetectionJobProperties.fromJson(
                 json['KeyPhrasesDetectionJobProperties']
+                    as Map<String, dynamic>),
+  );
+}
+
+DescribePiiEntitiesDetectionJobResponse
+    _$DescribePiiEntitiesDetectionJobResponseFromJson(
+        Map<String, dynamic> json) {
+  return DescribePiiEntitiesDetectionJobResponse(
+    piiEntitiesDetectionJobProperties:
+        json['PiiEntitiesDetectionJobProperties'] == null
+            ? null
+            : PiiEntitiesDetectionJobProperties.fromJson(
+                json['PiiEntitiesDetectionJobProperties']
                     as Map<String, dynamic>),
   );
 }
@@ -399,6 +446,16 @@ DetectKeyPhrasesResponse _$DetectKeyPhrasesResponseFromJson(
     keyPhrases: (json['KeyPhrases'] as List)
         ?.map((e) =>
             e == null ? null : KeyPhrase.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+DetectPiiEntitiesResponse _$DetectPiiEntitiesResponseFromJson(
+    Map<String, dynamic> json) {
+  return DetectPiiEntitiesResponse(
+    entities: (json['Entities'] as List)
+        ?.map((e) =>
+            e == null ? null : PiiEntity.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
 }
@@ -515,8 +572,15 @@ const _$ModelStatusEnumMap = {
 DocumentClassifierInputDataConfig _$DocumentClassifierInputDataConfigFromJson(
     Map<String, dynamic> json) {
   return DocumentClassifierInputDataConfig(
-    s3Uri: json['S3Uri'] as String,
+    augmentedManifests: (json['AugmentedManifests'] as List)
+        ?.map((e) => e == null
+            ? null
+            : AugmentedManifestsListItem.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    dataFormat: _$enumDecodeNullable(
+        _$DocumentClassifierDataFormatEnumMap, json['DataFormat']),
     labelDelimiter: json['LabelDelimiter'] as String,
+    s3Uri: json['S3Uri'] as String,
   );
 }
 
@@ -530,10 +594,19 @@ Map<String, dynamic> _$DocumentClassifierInputDataConfigToJson(
     }
   }
 
-  writeNotNull('S3Uri', instance.s3Uri);
+  writeNotNull('AugmentedManifests',
+      instance.augmentedManifests?.map((e) => e?.toJson())?.toList());
+  writeNotNull(
+      'DataFormat', _$DocumentClassifierDataFormatEnumMap[instance.dataFormat]);
   writeNotNull('LabelDelimiter', instance.labelDelimiter);
+  writeNotNull('S3Uri', instance.s3Uri);
   return val;
 }
+
+const _$DocumentClassifierDataFormatEnumMap = {
+  DocumentClassifierDataFormat.comprehendCsv: 'COMPREHEND_CSV',
+  DocumentClassifierDataFormat.augmentedManifest: 'AUGMENTED_MANIFEST',
+};
 
 DocumentClassifierOutputDataConfig _$DocumentClassifierOutputDataConfigFromJson(
     Map<String, dynamic> json) {
@@ -874,10 +947,6 @@ Map<String, dynamic> _$EntityRecognizerFilterToJson(
 EntityRecognizerInputDataConfig _$EntityRecognizerInputDataConfigFromJson(
     Map<String, dynamic> json) {
   return EntityRecognizerInputDataConfig(
-    documents: json['Documents'] == null
-        ? null
-        : EntityRecognizerDocuments.fromJson(
-            json['Documents'] as Map<String, dynamic>),
     entityTypes: (json['EntityTypes'] as List)
         ?.map((e) => e == null
             ? null
@@ -887,6 +956,17 @@ EntityRecognizerInputDataConfig _$EntityRecognizerInputDataConfigFromJson(
         ? null
         : EntityRecognizerAnnotations.fromJson(
             json['Annotations'] as Map<String, dynamic>),
+    augmentedManifests: (json['AugmentedManifests'] as List)
+        ?.map((e) => e == null
+            ? null
+            : AugmentedManifestsListItem.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    dataFormat: _$enumDecodeNullable(
+        _$EntityRecognizerDataFormatEnumMap, json['DataFormat']),
+    documents: json['Documents'] == null
+        ? null
+        : EntityRecognizerDocuments.fromJson(
+            json['Documents'] as Map<String, dynamic>),
     entityList: json['EntityList'] == null
         ? null
         : EntityRecognizerEntityList.fromJson(
@@ -904,13 +984,22 @@ Map<String, dynamic> _$EntityRecognizerInputDataConfigToJson(
     }
   }
 
-  writeNotNull('Documents', instance.documents?.toJson());
   writeNotNull(
       'EntityTypes', instance.entityTypes?.map((e) => e?.toJson())?.toList());
   writeNotNull('Annotations', instance.annotations?.toJson());
+  writeNotNull('AugmentedManifests',
+      instance.augmentedManifests?.map((e) => e?.toJson())?.toList());
+  writeNotNull(
+      'DataFormat', _$EntityRecognizerDataFormatEnumMap[instance.dataFormat]);
+  writeNotNull('Documents', instance.documents?.toJson());
   writeNotNull('EntityList', instance.entityList?.toJson());
   return val;
 }
+
+const _$EntityRecognizerDataFormatEnumMap = {
+  EntityRecognizerDataFormat.comprehendCsv: 'COMPREHEND_CSV',
+  EntityRecognizerDataFormat.augmentedManifest: 'AUGMENTED_MANIFEST',
+};
 
 EntityRecognizerMetadata _$EntityRecognizerMetadataFromJson(
     Map<String, dynamic> json) {
@@ -999,6 +1088,50 @@ Map<String, dynamic> _$EntityTypesListItemToJson(EntityTypesListItem instance) {
 
   writeNotNull('Type', instance.type);
   return val;
+}
+
+Map<String, dynamic> _$EventsDetectionJobFilterToJson(
+    EventsDetectionJobFilter instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('JobName', instance.jobName);
+  writeNotNull('JobStatus', _$JobStatusEnumMap[instance.jobStatus]);
+  writeNotNull('SubmitTimeAfter',
+      const UnixDateTimeConverter().toJson(instance.submitTimeAfter));
+  writeNotNull('SubmitTimeBefore',
+      const UnixDateTimeConverter().toJson(instance.submitTimeBefore));
+  return val;
+}
+
+EventsDetectionJobProperties _$EventsDetectionJobPropertiesFromJson(
+    Map<String, dynamic> json) {
+  return EventsDetectionJobProperties(
+    dataAccessRoleArn: json['DataAccessRoleArn'] as String,
+    endTime: const UnixDateTimeConverter().fromJson(json['EndTime']),
+    inputDataConfig: json['InputDataConfig'] == null
+        ? null
+        : InputDataConfig.fromJson(
+            json['InputDataConfig'] as Map<String, dynamic>),
+    jobId: json['JobId'] as String,
+    jobName: json['JobName'] as String,
+    jobStatus: _$enumDecodeNullable(_$JobStatusEnumMap, json['JobStatus']),
+    languageCode:
+        _$enumDecodeNullable(_$LanguageCodeEnumMap, json['LanguageCode']),
+    message: json['Message'] as String,
+    outputDataConfig: json['OutputDataConfig'] == null
+        ? null
+        : OutputDataConfig.fromJson(
+            json['OutputDataConfig'] as Map<String, dynamic>),
+    submitTime: const UnixDateTimeConverter().fromJson(json['SubmitTime']),
+    targetEventTypes:
+        (json['TargetEventTypes'] as List)?.map((e) => e as String)?.toList(),
+  );
 }
 
 InputDataConfig _$InputDataConfigFromJson(Map<String, dynamic> json) {
@@ -1165,6 +1298,19 @@ ListEntityRecognizersResponse _$ListEntityRecognizersResponseFromJson(
   );
 }
 
+ListEventsDetectionJobsResponse _$ListEventsDetectionJobsResponseFromJson(
+    Map<String, dynamic> json) {
+  return ListEventsDetectionJobsResponse(
+    eventsDetectionJobPropertiesList: (json['EventsDetectionJobPropertiesList']
+            as List)
+        ?.map((e) => e == null
+            ? null
+            : EventsDetectionJobProperties.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    nextToken: json['NextToken'] as String,
+  );
+}
+
 ListKeyPhrasesDetectionJobsResponse
     _$ListKeyPhrasesDetectionJobsResponseFromJson(Map<String, dynamic> json) {
   return ListKeyPhrasesDetectionJobsResponse(
@@ -1176,6 +1322,20 @@ ListKeyPhrasesDetectionJobsResponse
                     e as Map<String, dynamic>))
             ?.toList(),
     nextToken: json['NextToken'] as String,
+  );
+}
+
+ListPiiEntitiesDetectionJobsResponse
+    _$ListPiiEntitiesDetectionJobsResponseFromJson(Map<String, dynamic> json) {
+  return ListPiiEntitiesDetectionJobsResponse(
+    nextToken: json['NextToken'] as String,
+    piiEntitiesDetectionJobPropertiesList:
+        (json['PiiEntitiesDetectionJobPropertiesList'] as List)
+            ?.map((e) => e == null
+                ? null
+                : PiiEntitiesDetectionJobProperties.fromJson(
+                    e as Map<String, dynamic>))
+            ?.toList(),
   );
 }
 
@@ -1265,6 +1425,134 @@ const _$PartOfSpeechTagTypeEnumMap = {
   PartOfSpeechTagType.verb: 'VERB',
 };
 
+Map<String, dynamic> _$PiiEntitiesDetectionJobFilterToJson(
+    PiiEntitiesDetectionJobFilter instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('JobName', instance.jobName);
+  writeNotNull('JobStatus', _$JobStatusEnumMap[instance.jobStatus]);
+  writeNotNull('SubmitTimeAfter',
+      const UnixDateTimeConverter().toJson(instance.submitTimeAfter));
+  writeNotNull('SubmitTimeBefore',
+      const UnixDateTimeConverter().toJson(instance.submitTimeBefore));
+  return val;
+}
+
+PiiEntitiesDetectionJobProperties _$PiiEntitiesDetectionJobPropertiesFromJson(
+    Map<String, dynamic> json) {
+  return PiiEntitiesDetectionJobProperties(
+    dataAccessRoleArn: json['DataAccessRoleArn'] as String,
+    endTime: const UnixDateTimeConverter().fromJson(json['EndTime']),
+    inputDataConfig: json['InputDataConfig'] == null
+        ? null
+        : InputDataConfig.fromJson(
+            json['InputDataConfig'] as Map<String, dynamic>),
+    jobId: json['JobId'] as String,
+    jobName: json['JobName'] as String,
+    jobStatus: _$enumDecodeNullable(_$JobStatusEnumMap, json['JobStatus']),
+    languageCode:
+        _$enumDecodeNullable(_$LanguageCodeEnumMap, json['LanguageCode']),
+    message: json['Message'] as String,
+    mode: _$enumDecodeNullable(_$PiiEntitiesDetectionModeEnumMap, json['Mode']),
+    outputDataConfig: json['OutputDataConfig'] == null
+        ? null
+        : PiiOutputDataConfig.fromJson(
+            json['OutputDataConfig'] as Map<String, dynamic>),
+    redactionConfig: json['RedactionConfig'] == null
+        ? null
+        : RedactionConfig.fromJson(
+            json['RedactionConfig'] as Map<String, dynamic>),
+    submitTime: const UnixDateTimeConverter().fromJson(json['SubmitTime']),
+  );
+}
+
+const _$PiiEntitiesDetectionModeEnumMap = {
+  PiiEntitiesDetectionMode.onlyRedaction: 'ONLY_REDACTION',
+  PiiEntitiesDetectionMode.onlyOffsets: 'ONLY_OFFSETS',
+};
+
+PiiEntity _$PiiEntityFromJson(Map<String, dynamic> json) {
+  return PiiEntity(
+    beginOffset: json['BeginOffset'] as int,
+    endOffset: json['EndOffset'] as int,
+    score: (json['Score'] as num)?.toDouble(),
+    type: _$enumDecodeNullable(_$PiiEntityTypeEnumMap, json['Type']),
+  );
+}
+
+const _$PiiEntityTypeEnumMap = {
+  PiiEntityType.bankAccountNumber: 'BANK_ACCOUNT_NUMBER',
+  PiiEntityType.bankRouting: 'BANK_ROUTING',
+  PiiEntityType.creditDebitNumber: 'CREDIT_DEBIT_NUMBER',
+  PiiEntityType.creditDebitCvv: 'CREDIT_DEBIT_CVV',
+  PiiEntityType.creditDebitExpiry: 'CREDIT_DEBIT_EXPIRY',
+  PiiEntityType.pin: 'PIN',
+  PiiEntityType.email: 'EMAIL',
+  PiiEntityType.address: 'ADDRESS',
+  PiiEntityType.name: 'NAME',
+  PiiEntityType.phone: 'PHONE',
+  PiiEntityType.ssn: 'SSN',
+  PiiEntityType.dateTime: 'DATE_TIME',
+  PiiEntityType.passportNumber: 'PASSPORT_NUMBER',
+  PiiEntityType.driverId: 'DRIVER_ID',
+  PiiEntityType.url: 'URL',
+  PiiEntityType.age: 'AGE',
+  PiiEntityType.username: 'USERNAME',
+  PiiEntityType.password: 'PASSWORD',
+  PiiEntityType.awsAccessKey: 'AWS_ACCESS_KEY',
+  PiiEntityType.awsSecretKey: 'AWS_SECRET_KEY',
+  PiiEntityType.ipAddress: 'IP_ADDRESS',
+  PiiEntityType.macAddress: 'MAC_ADDRESS',
+  PiiEntityType.all: 'ALL',
+};
+
+PiiOutputDataConfig _$PiiOutputDataConfigFromJson(Map<String, dynamic> json) {
+  return PiiOutputDataConfig(
+    s3Uri: json['S3Uri'] as String,
+    kmsKeyId: json['KmsKeyId'] as String,
+  );
+}
+
+RedactionConfig _$RedactionConfigFromJson(Map<String, dynamic> json) {
+  return RedactionConfig(
+    maskCharacter: json['MaskCharacter'] as String,
+    maskMode: _$enumDecodeNullable(
+        _$PiiEntitiesDetectionMaskModeEnumMap, json['MaskMode']),
+    piiEntityTypes: (json['PiiEntityTypes'] as List)
+        ?.map((e) => _$enumDecodeNullable(_$PiiEntityTypeEnumMap, e))
+        ?.toList(),
+  );
+}
+
+Map<String, dynamic> _$RedactionConfigToJson(RedactionConfig instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MaskCharacter', instance.maskCharacter);
+  writeNotNull(
+      'MaskMode', _$PiiEntitiesDetectionMaskModeEnumMap[instance.maskMode]);
+  writeNotNull('PiiEntityTypes',
+      instance.piiEntityTypes?.map((e) => _$PiiEntityTypeEnumMap[e])?.toList());
+  return val;
+}
+
+const _$PiiEntitiesDetectionMaskModeEnumMap = {
+  PiiEntitiesDetectionMaskMode.mask: 'MASK',
+  PiiEntitiesDetectionMaskMode.replaceWithPiiEntityType:
+      'REPLACE_WITH_PII_ENTITY_TYPE',
+};
+
 Map<String, dynamic> _$SentimentDetectionJobFilterToJson(
     SentimentDetectionJobFilter instance) {
   final val = <String, dynamic>{};
@@ -1346,9 +1634,25 @@ StartEntitiesDetectionJobResponse _$StartEntitiesDetectionJobResponseFromJson(
   );
 }
 
+StartEventsDetectionJobResponse _$StartEventsDetectionJobResponseFromJson(
+    Map<String, dynamic> json) {
+  return StartEventsDetectionJobResponse(
+    jobId: json['JobId'] as String,
+    jobStatus: _$enumDecodeNullable(_$JobStatusEnumMap, json['JobStatus']),
+  );
+}
+
 StartKeyPhrasesDetectionJobResponse
     _$StartKeyPhrasesDetectionJobResponseFromJson(Map<String, dynamic> json) {
   return StartKeyPhrasesDetectionJobResponse(
+    jobId: json['JobId'] as String,
+    jobStatus: _$enumDecodeNullable(_$JobStatusEnumMap, json['JobStatus']),
+  );
+}
+
+StartPiiEntitiesDetectionJobResponse
+    _$StartPiiEntitiesDetectionJobResponseFromJson(Map<String, dynamic> json) {
+  return StartPiiEntitiesDetectionJobResponse(
     jobId: json['JobId'] as String,
     jobStatus: _$enumDecodeNullable(_$JobStatusEnumMap, json['JobStatus']),
   );
@@ -1387,9 +1691,25 @@ StopEntitiesDetectionJobResponse _$StopEntitiesDetectionJobResponseFromJson(
   );
 }
 
+StopEventsDetectionJobResponse _$StopEventsDetectionJobResponseFromJson(
+    Map<String, dynamic> json) {
+  return StopEventsDetectionJobResponse(
+    jobId: json['JobId'] as String,
+    jobStatus: _$enumDecodeNullable(_$JobStatusEnumMap, json['JobStatus']),
+  );
+}
+
 StopKeyPhrasesDetectionJobResponse _$StopKeyPhrasesDetectionJobResponseFromJson(
     Map<String, dynamic> json) {
   return StopKeyPhrasesDetectionJobResponse(
+    jobId: json['JobId'] as String,
+    jobStatus: _$enumDecodeNullable(_$JobStatusEnumMap, json['JobStatus']),
+  );
+}
+
+StopPiiEntitiesDetectionJobResponse
+    _$StopPiiEntitiesDetectionJobResponseFromJson(Map<String, dynamic> json) {
+  return StopPiiEntitiesDetectionJobResponse(
     jobId: json['JobId'] as String,
     jobStatus: _$enumDecodeNullable(_$JobStatusEnumMap, json['JobStatus']),
   );

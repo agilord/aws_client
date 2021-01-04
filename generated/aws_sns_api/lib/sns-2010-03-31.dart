@@ -193,25 +193,47 @@ class SNS {
   }
 
   /// Creates a platform application object for one of the supported push
-  /// notification services, such as APNS and FCM, to which devices and mobile
-  /// apps may register. You must specify PlatformPrincipal and
-  /// PlatformCredential attributes when using the
-  /// <code>CreatePlatformApplication</code> action. The PlatformPrincipal is
-  /// received from the notification service. For APNS/APNS_SANDBOX,
-  /// PlatformPrincipal is "SSL certificate". For FCM, PlatformPrincipal is not
-  /// applicable. For ADM, PlatformPrincipal is "client id". The
-  /// PlatformCredential is also received from the notification service. For
-  /// WNS, PlatformPrincipal is "Package Security Identifier". For MPNS,
-  /// PlatformPrincipal is "TLS certificate". For Baidu, PlatformPrincipal is
-  /// "API key".
+  /// notification services, such as APNS and GCM (Firebase Cloud Messaging), to
+  /// which devices and mobile apps may register. You must specify
+  /// <code>PlatformPrincipal</code> and <code>PlatformCredential</code>
+  /// attributes when using the <code>CreatePlatformApplication</code> action.
   ///
-  /// For APNS/APNS_SANDBOX, PlatformCredential is "private key". For FCM,
-  /// PlatformCredential is "API key". For ADM, PlatformCredential is "client
-  /// secret". For WNS, PlatformCredential is "secret key". For MPNS,
-  /// PlatformCredential is "private key". For Baidu, PlatformCredential is
-  /// "secret key". The PlatformApplicationArn that is returned when using
-  /// <code>CreatePlatformApplication</code> is then used as an attribute for
-  /// the <code>CreatePlatformEndpoint</code> action.
+  /// <code>PlatformPrincipal</code> and <code>PlatformCredential</code> are
+  /// received from the notification service.
+  ///
+  /// <ul>
+  /// <li>
+  /// For <code>ADM</code>, <code>PlatformPrincipal</code> is <code>client
+  /// id</code> and <code>PlatformCredential</code> is <code>client
+  /// secret</code>.
+  /// </li>
+  /// <li>
+  /// For <code>Baidu</code>, <code>PlatformPrincipal</code> is <code>API
+  /// key</code> and <code>PlatformCredential</code> is <code>secret key</code>.
+  /// </li>
+  /// <li>
+  /// For <code>APNS</code> and <code>APNS_SANDBOX</code>,
+  /// <code>PlatformPrincipal</code> is <code>SSL certificate</code> and
+  /// <code>PlatformCredential</code> is <code>private key</code>.
+  /// </li>
+  /// <li>
+  /// For <code>GCM</code> (Firebase Cloud Messaging), there is no
+  /// <code>PlatformPrincipal</code> and the <code>PlatformCredential</code> is
+  /// <code>API key</code>.
+  /// </li>
+  /// <li>
+  /// For <code>MPNS</code>, <code>PlatformPrincipal</code> is <code>TLS
+  /// certificate</code> and <code>PlatformCredential</code> is <code>private
+  /// key</code>.
+  /// </li>
+  /// <li>
+  /// For <code>WNS</code>, <code>PlatformPrincipal</code> is <code>Package
+  /// Security Identifier</code> and <code>PlatformCredential</code> is
+  /// <code>secret key</code>.
+  /// </li>
+  /// </ul>
+  /// You can use the returned <code>PlatformApplicationArn</code> as an
+  /// attribute for the <code>CreatePlatformEndpoint</code> action.
   ///
   /// May throw [InvalidParameterException].
   /// May throw [InternalErrorException].
@@ -228,7 +250,7 @@ class SNS {
   ///
   /// Parameter [platform] :
   /// The following platforms are supported: ADM (Amazon Device Messaging), APNS
-  /// (Apple Push Notification Service), APNS_SANDBOX, and FCM (Firebase Cloud
+  /// (Apple Push Notification Service), APNS_SANDBOX, and GCM (Firebase Cloud
   /// Messaging).
   Future<CreatePlatformApplicationResponse> createPlatformApplication({
     @_s.required Map<String, String> attributes,
@@ -257,12 +279,11 @@ class SNS {
   }
 
   /// Creates an endpoint for a device and mobile app on one of the supported
-  /// push notification services, such as FCM and APNS.
-  /// <code>CreatePlatformEndpoint</code> requires the PlatformApplicationArn
-  /// that is returned from <code>CreatePlatformApplication</code>. The
-  /// EndpointArn that is returned when using
-  /// <code>CreatePlatformEndpoint</code> can then be used by the
-  /// <code>Publish</code> action to send a message to a mobile app or by the
+  /// push notification services, such as GCM (Firebase Cloud Messaging) and
+  /// APNS. <code>CreatePlatformEndpoint</code> requires the
+  /// <code>PlatformApplicationArn</code> that is returned from
+  /// <code>CreatePlatformApplication</code>. You can use the returned
+  /// <code>EndpointArn</code> to send a message to a mobile app or by the
   /// <code>Subscribe</code> action for subscription to a topic. The
   /// <code>CreatePlatformEndpoint</code> action is idempotent, so if the
   /// requester already owns an endpoint with the same device token and
@@ -291,7 +312,8 @@ class SNS {
   /// device. The specific name for Token will vary, depending on which
   /// notification service is being used. For example, when using APNS as the
   /// notification service, you need the device token. Alternatively, when using
-  /// FCM or ADM, the device token equivalent is called the registration ID.
+  /// GCM (Firebase Cloud Messaging) or ADM, the device token equivalent is
+  /// called the registration ID.
   ///
   /// Parameter [attributes] :
   /// For a list of attributes, see <a
@@ -329,7 +351,8 @@ class SNS {
   }
 
   /// Creates a topic to which notifications can be published. Users can create
-  /// at most 100,000 topics. For more information, see <a
+  /// at most 100,000 standard topics (at most 1,000 FIFO topics). For more
+  /// information, see <a
   /// href="http://aws.amazon.com/sns/">https://aws.amazon.com/sns</a>. This
   /// action is idempotent, so if the requester already owns a topic with the
   /// specified name, that topic's ARN is returned without creating a new topic.
@@ -351,6 +374,9 @@ class SNS {
   /// ASCII letters, numbers, underscores, and hyphens, and must be between 1
   /// and 256 characters long.
   ///
+  /// For a FIFO (first-in-first-out) topic, the name must end with the
+  /// <code>.fifo</code> suffix.
+  ///
   /// Parameter [attributes] :
   /// A map of attributes with their corresponding values.
   ///
@@ -367,6 +393,9 @@ class SNS {
   /// subscriptions.
   /// </li>
   /// <li>
+  /// <code>FifoTopic</code> – Set to true to create a FIFO topic.
+  /// </li>
+  /// <li>
   /// <code>Policy</code> – The policy that defines who can access your topic.
   /// By default, only the topic owner can publish or subscribe to the topic.
   /// </li>
@@ -376,13 +405,47 @@ class SNS {
   ///
   /// <ul>
   /// <li>
-  /// <code>KmsMasterKeyId</code> - The ID of an AWS-managed customer master key
+  /// <code>KmsMasterKeyId</code> – The ID of an AWS-managed customer master key
   /// (CMK) for Amazon SNS or a custom CMK. For more information, see <a
   /// href="https://docs.aws.amazon.com/sns/latest/dg/sns-server-side-encryption.html#sse-key-terms">Key
   /// Terms</a>. For more examples, see <a
   /// href="https://docs.aws.amazon.com/kms/latest/APIReference/API_DescribeKey.html#API_DescribeKey_RequestParameters">KeyId</a>
   /// in the <i>AWS Key Management Service API Reference</i>.
   /// </li>
+  /// </ul>
+  /// The following attributes apply only to <a
+  /// href="https://docs.aws.amazon.com/sns/latest/dg/sns-fifo-topics.html">FIFO
+  /// topics</a>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>FifoTopic</code> – When this is set to <code>true</code>, a FIFO
+  /// topic is created.
+  /// </li>
+  /// <li>
+  /// <code>ContentBasedDeduplication</code> – Enables content-based
+  /// deduplication for FIFO topics.
+  ///
+  /// <ul>
+  /// <li>
+  /// By default, <code>ContentBasedDeduplication</code> is set to
+  /// <code>false</code>. If you create a FIFO topic and this attribute is
+  /// <code>false</code>, you must specify a value for the
+  /// <code>MessageDeduplicationId</code> parameter for the <a
+  /// href="https://docs.aws.amazon.com/sns/latest/api/API_Publish.html">Publish</a>
+  /// action.
+  /// </li>
+  /// <li>
+  /// When you set <code>ContentBasedDeduplication</code> to <code>true</code>,
+  /// Amazon SNS uses a SHA-256 hash to generate the
+  /// <code>MessageDeduplicationId</code> using the body of the message (but not
+  /// the attributes of the message).
+  ///
+  /// (Optional) To override the generated value, you can specify a value for
+  /// the the <code>MessageDeduplicationId</code> parameter for the
+  /// <code>Publish</code> action.
+  /// </li>
+  /// </ul> </li>
   /// </ul>
   ///
   /// Parameter [tags] :
@@ -448,7 +511,8 @@ class SNS {
   }
 
   /// Deletes a platform application object for one of the supported push
-  /// notification services, such as APNS and FCM. For more information, see <a
+  /// notification services, such as APNS and GCM (Firebase Cloud Messaging).
+  /// For more information, see <a
   /// href="https://docs.aws.amazon.com/sns/latest/dg/SNSMobilePush.html">Using
   /// Amazon SNS Mobile Push Notifications</a>.
   ///
@@ -511,8 +575,8 @@ class SNS {
   }
 
   /// Retrieves the endpoint attributes for a device on one of the supported
-  /// push notification services, such as FCM and APNS. For more information,
-  /// see <a
+  /// push notification services, such as GCM (Firebase Cloud Messaging) and
+  /// APNS. For more information, see <a
   /// href="https://docs.aws.amazon.com/sns/latest/dg/SNSMobilePush.html">Using
   /// Amazon SNS Mobile Push Notifications</a>.
   ///
@@ -544,8 +608,8 @@ class SNS {
   }
 
   /// Retrieves the attributes of the platform application object for the
-  /// supported push notification services, such as APNS and FCM. For more
-  /// information, see <a
+  /// supported push notification services, such as APNS and GCM (Firebase Cloud
+  /// Messaging). For more information, see <a
   /// href="https://docs.aws.amazon.com/sns/latest/dg/SNSMobilePush.html">Using
   /// Amazon SNS Mobile Push Notifications</a>.
   ///
@@ -675,11 +739,11 @@ class SNS {
   }
 
   /// Lists the endpoints and endpoint attributes for devices in a supported
-  /// push notification service, such as FCM and APNS. The results for
-  /// <code>ListEndpointsByPlatformApplication</code> are paginated and return a
-  /// limited list of endpoints, up to 100. If additional records are available
-  /// after the first page results, then a NextToken string will be returned. To
-  /// receive the next page, you call
+  /// push notification service, such as GCM (Firebase Cloud Messaging) and
+  /// APNS. The results for <code>ListEndpointsByPlatformApplication</code> are
+  /// paginated and return a limited list of endpoints, up to 100. If additional
+  /// records are available after the first page results, then a NextToken
+  /// string will be returned. To receive the next page, you call
   /// <code>ListEndpointsByPlatformApplication</code> again using the NextToken
   /// string received from the previous call. When there are no more records to
   /// return, NextToken will be null. For more information, see <a
@@ -764,14 +828,14 @@ class SNS {
   }
 
   /// Lists the platform application objects for the supported push notification
-  /// services, such as APNS and FCM. The results for
+  /// services, such as APNS and GCM (Firebase Cloud Messaging). The results for
   /// <code>ListPlatformApplications</code> are paginated and return a limited
   /// list of applications, up to 100. If additional records are available after
   /// the first page results, then a NextToken string will be returned. To
   /// receive the next page, you call <code>ListPlatformApplications</code>
   /// using the NextToken string received from the previous call. When there are
-  /// no more records to return, NextToken will be null. For more information,
-  /// see <a
+  /// no more records to return, <code>NextToken</code> will be null. For more
+  /// information, see <a
   /// href="https://docs.aws.amazon.com/sns/latest/dg/SNSMobilePush.html">Using
   /// Amazon SNS Mobile Push Notifications</a>.
   ///
@@ -981,8 +1045,9 @@ class SNS {
     );
   }
 
-  /// Sends a message to an Amazon SNS topic or sends a text message (SMS
-  /// message) directly to a phone number.
+  /// Sends a message to an Amazon SNS topic, a text message (SMS message)
+  /// directly to a phone number, or a message to a mobile platform endpoint
+  /// (when you specify the <code>TargetArn</code>).
   ///
   /// If you send a message to a topic, Amazon SNS delivers the message to each
   /// endpoint that is subscribed to the topic. The format of the message
@@ -1000,6 +1065,10 @@ class SNS {
   /// For more information about formatting messages, see <a
   /// href="https://docs.aws.amazon.com/sns/latest/dg/mobile-push-send-custommessage.html">Send
   /// Custom Platform-Specific Payloads in Messages to Mobile Devices</a>.
+  /// <important>
+  /// You can publish messages only to topics and endpoints in the same AWS
+  /// Region.
+  /// </important>
   ///
   /// May throw [InvalidParameterException].
   /// May throw [InvalidParameterValueException].
@@ -1087,6 +1156,36 @@ class SNS {
   /// Parameter [messageAttributes] :
   /// Message attributes for Publish action.
   ///
+  /// Parameter [messageDeduplicationId] :
+  /// This parameter applies only to FIFO (first-in-first-out) topics. The
+  /// <code>MessageDeduplicationId</code> can contain up to 128 alphanumeric
+  /// characters (a-z, A-Z, 0-9) and punctuation
+  /// <code>(!"#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^_`{|}~)</code>.
+  ///
+  /// Every message must have a unique <code>MessageDeduplicationId</code>,
+  /// which is a token used for deduplication of sent messages. If a message
+  /// with a particular <code>MessageDeduplicationId</code> is sent
+  /// successfully, any message sent with the same
+  /// <code>MessageDeduplicationId</code> during the 5-minute deduplication
+  /// interval is treated as a duplicate.
+  ///
+  /// If the topic has <code>ContentBasedDeduplication</code> set, the system
+  /// generates a <code>MessageDeduplicationId</code> based on the contents of
+  /// the message. Your <code>MessageDeduplicationId</code> overrides the
+  /// generated one.
+  ///
+  /// Parameter [messageGroupId] :
+  /// This parameter applies only to FIFO (first-in-first-out) topics. The
+  /// <code>MessageGroupId</code> can contain up to 128 alphanumeric characters
+  /// (a-z, A-Z, 0-9) and punctuation
+  /// <code>(!"#$%&amp;'()*+,-./:;&lt;=&gt;?@[\]^_`{|}~)</code>.
+  ///
+  /// The <code>MessageGroupId</code> is a tag that specifies that a message
+  /// belongs to a specific message group. Messages that belong to the same
+  /// message group are processed in a FIFO manner (however, messages in
+  /// different message groups might be processed out of order). Every message
+  /// must include a <code>MessageGroupId</code>.
+  ///
   /// Parameter [messageStructure] :
   /// Set <code>MessageStructure</code> to <code>json</code> if you want to send
   /// a different message for each protocol. For example, using one publish
@@ -1140,6 +1239,8 @@ class SNS {
   Future<PublishResponse> publish({
     @_s.required String message,
     Map<String, MessageAttributeValue> messageAttributes,
+    String messageDeduplicationId,
+    String messageGroupId,
     String messageStructure,
     String phoneNumber,
     String subject,
@@ -1150,6 +1251,9 @@ class SNS {
     final $request = <String, dynamic>{};
     $request['Message'] = message;
     messageAttributes?.also((arg) => $request['MessageAttributes'] = arg);
+    messageDeduplicationId
+        ?.also((arg) => $request['MessageDeduplicationId'] = arg);
+    messageGroupId?.also((arg) => $request['MessageGroupId'] = arg);
     messageStructure?.also((arg) => $request['MessageStructure'] = arg);
     phoneNumber?.also((arg) => $request['PhoneNumber'] = arg);
     subject?.also((arg) => $request['Subject'] = arg);
@@ -1203,8 +1307,8 @@ class SNS {
   }
 
   /// Sets the attributes for an endpoint for a device on one of the supported
-  /// push notification services, such as FCM and APNS. For more information,
-  /// see <a
+  /// push notification services, such as GCM (Firebase Cloud Messaging) and
+  /// APNS. For more information, see <a
   /// href="https://docs.aws.amazon.com/sns/latest/dg/SNSMobilePush.html">Using
   /// Amazon SNS Mobile Push Notifications</a>.
   ///
@@ -1261,8 +1365,8 @@ class SNS {
   }
 
   /// Sets the attributes of the platform application object for the supported
-  /// push notification services, such as APNS and FCM. For more information,
-  /// see <a
+  /// push notification services, such as APNS and GCM (Firebase Cloud
+  /// Messaging). For more information, see <a
   /// href="https://docs.aws.amazon.com/sns/latest/dg/SNSMobilePush.html">Using
   /// Amazon SNS Mobile Push Notifications</a>. For information on configuring
   /// attributes for message delivery status, see <a
@@ -1281,32 +1385,38 @@ class SNS {
   /// <ul>
   /// <li>
   /// <code>PlatformCredential</code> – The credential received from the
-  /// notification service. For APNS/APNS_SANDBOX, PlatformCredential is private
-  /// key. For FCM, PlatformCredential is "API key". For ADM, PlatformCredential
-  /// is "client secret".
+  /// notification service. For <code>APNS</code> and <code>APNS_SANDBOX</code>,
+  /// <code>PlatformCredential</code> is <code>private key</code>. For
+  /// <code>GCM</code> (Firebase Cloud Messaging),
+  /// <code>PlatformCredential</code> is <code>API key</code>. For
+  /// <code>ADM</code>, <code>PlatformCredential</code> is <code>client
+  /// secret</code>.
   /// </li>
   /// <li>
   /// <code>PlatformPrincipal</code> – The principal received from the
-  /// notification service. For APNS/APNS_SANDBOX, PlatformPrincipal is SSL
-  /// certificate. For FCM, PlatformPrincipal is not applicable. For ADM,
-  /// PlatformPrincipal is "client id".
+  /// notification service. For <code>APNS</code> and <code>APNS_SANDBOX</code>,
+  /// <code>PlatformPrincipal</code> is <code>SSL certificate</code>. For
+  /// <code>GCM</code> (Firebase Cloud Messaging), there is no
+  /// <code>PlatformPrincipal</code>. For <code>ADM</code>,
+  /// <code>PlatformPrincipal</code> is <code>client id</code>.
   /// </li>
   /// <li>
-  /// <code>EventEndpointCreated</code> – Topic ARN to which EndpointCreated
-  /// event notifications should be sent.
+  /// <code>EventEndpointCreated</code> – Topic ARN to which
+  /// <code>EndpointCreated</code> event notifications are sent.
   /// </li>
   /// <li>
-  /// <code>EventEndpointDeleted</code> – Topic ARN to which EndpointDeleted
-  /// event notifications should be sent.
+  /// <code>EventEndpointDeleted</code> – Topic ARN to which
+  /// <code>EndpointDeleted</code> event notifications are sent.
   /// </li>
   /// <li>
-  /// <code>EventEndpointUpdated</code> – Topic ARN to which EndpointUpdate
-  /// event notifications should be sent.
+  /// <code>EventEndpointUpdated</code> – Topic ARN to which
+  /// <code>EndpointUpdate</code> event notifications are sent.
   /// </li>
   /// <li>
-  /// <code>EventDeliveryFailure</code> – Topic ARN to which DeliveryFailure
-  /// event notifications should be sent upon Direct Publish delivery failure
-  /// (permanent) to one of the application's endpoints.
+  /// <code>EventDeliveryFailure</code> – Topic ARN to which
+  /// <code>DeliveryFailure</code> event notifications are sent upon Direct
+  /// Publish delivery failure (permanent) to one of the application's
+  /// endpoints.
   /// </li>
   /// <li>
   /// <code>SuccessFeedbackRoleArn</code> – IAM role ARN used to give Amazon SNS
@@ -1353,8 +1463,8 @@ class SNS {
   /// the <code>Publish</code> action with the
   /// <code>MessageAttributes.entry.N</code> parameter. For more information,
   /// see <a
-  /// href="https://docs.aws.amazon.com/sns/latest/dg/sms_publish-to-phone.html">Sending
-  /// an SMS Message</a> in the <i>Amazon SNS Developer Guide</i>.
+  /// href="https://docs.aws.amazon.com/sns/latest/dg/sms_publish-to-phone.html">Publishing
+  /// to a mobile phone</a> in the <i>Amazon SNS Developer Guide</i>.
   ///
   /// May throw [InvalidParameterException].
   /// May throw [ThrottledException].
@@ -1487,7 +1597,7 @@ class SNS {
   /// A map of attributes with their corresponding values.
   ///
   /// The following lists the names, descriptions, and values of the special
-  /// request parameters that the <code>SetTopicAttributes</code> action uses:
+  /// request parameters that this action uses:
   ///
   /// <ul>
   /// <li>
@@ -1576,13 +1686,43 @@ class SNS {
   ///
   /// <ul>
   /// <li>
-  /// <code>KmsMasterKeyId</code> - The ID of an AWS-managed customer master key
+  /// <code>KmsMasterKeyId</code> – The ID of an AWS-managed customer master key
   /// (CMK) for Amazon SNS or a custom CMK. For more information, see <a
   /// href="https://docs.aws.amazon.com/sns/latest/dg/sns-server-side-encryption.html#sse-key-terms">Key
   /// Terms</a>. For more examples, see <a
   /// href="https://docs.aws.amazon.com/kms/latest/APIReference/API_DescribeKey.html#API_DescribeKey_RequestParameters">KeyId</a>
   /// in the <i>AWS Key Management Service API Reference</i>.
   /// </li>
+  /// </ul>
+  /// The following attribute applies only to <a
+  /// href="https://docs.aws.amazon.com/sns/latest/dg/sns-fifo-topics.html">FIFO
+  /// topics</a>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>ContentBasedDeduplication</code> – Enables content-based
+  /// deduplication for FIFO topics.
+  ///
+  /// <ul>
+  /// <li>
+  /// By default, <code>ContentBasedDeduplication</code> is set to
+  /// <code>false</code>. If you create a FIFO topic and this attribute is
+  /// <code>false</code>, you must specify a value for the
+  /// <code>MessageDeduplicationId</code> parameter for the <a
+  /// href="https://docs.aws.amazon.com/sns/latest/api/API_Publish.html">Publish</a>
+  /// action.
+  /// </li>
+  /// <li>
+  /// When you set <code>ContentBasedDeduplication</code> to <code>true</code>,
+  /// Amazon SNS uses a SHA-256 hash to generate the
+  /// <code>MessageDeduplicationId</code> using the body of the message (but not
+  /// the attributes of the message).
+  ///
+  /// (Optional) To override the generated value, you can specify a value for
+  /// the the <code>MessageDeduplicationId</code> parameter for the
+  /// <code>Publish</code> action.
+  /// </li>
+  /// </ul> </li>
   /// </ul>
   ///
   /// Parameter [topicArn] :
@@ -1613,10 +1753,13 @@ class SNS {
     );
   }
 
-  /// Prepares to subscribe an endpoint by sending the endpoint a confirmation
-  /// message. To actually create a subscription, the endpoint owner must call
-  /// the <code>ConfirmSubscription</code> action with the token from the
-  /// confirmation message. Confirmation tokens are valid for three days.
+  /// Subscribes an endpoint to an Amazon SNS topic. If the endpoint type is
+  /// HTTP/S or email, or if the endpoint and the topic are not in the same AWS
+  /// account, the endpoint owner must run the <code>ConfirmSubscription</code>
+  /// action to confirm the subscription.
+  ///
+  /// You call the <code>ConfirmSubscription</code> action with the token from
+  /// the subscription response. Confirmation tokens are valid for three days.
   ///
   /// This action is throttled at 100 transactions per second (TPS).
   ///
@@ -1701,12 +1844,12 @@ class SNS {
   ///
   /// <ul>
   /// <li>
-  /// For the <code>http</code> protocol, the endpoint is an URL beginning with
-  /// <code>http://</code>
+  /// For the <code>http</code> protocol, the (public) endpoint is a URL
+  /// beginning with <code>http://</code>
   /// </li>
   /// <li>
-  /// For the <code>https</code> protocol, the endpoint is a URL beginning with
-  /// <code>https://</code>
+  /// For the <code>https</code> protocol, the (public) endpoint is a URL
+  /// beginning with <code>https://</code>
   /// </li>
   /// <li>
   /// For the <code>email</code> protocol, the endpoint is an email address
@@ -1736,21 +1879,14 @@ class SNS {
   /// Sets whether the response from the <code>Subscribe</code> request includes
   /// the subscription ARN, even if the subscription is not yet confirmed.
   ///
-  /// <ul>
-  /// <li>
-  /// If you have the subscription ARN returned, the response includes the ARN
-  /// in all cases, even if the subscription is not yet confirmed.
-  /// </li>
-  /// <li>
-  /// If you don't have the subscription ARN returned, in addition to the ARN
-  /// for confirmed subscriptions, the response also includes the <code>pending
-  /// subscription</code> ARN value for subscriptions that aren't yet confirmed.
-  /// A subscription becomes confirmed when the subscriber calls the
-  /// <code>ConfirmSubscription</code> action with a confirmation token.
-  /// </li>
-  /// </ul>
-  /// If you set this parameter to <code>true</code>, .
-  ///
+  /// If you set this parameter to <code>true</code>, the response includes the
+  /// ARN in all cases, even if the subscription is not yet confirmed. In
+  /// addition to the ARN for confirmed subscriptions, the response also
+  /// includes the <code>pending subscription</code> ARN value for subscriptions
+  /// that aren't yet confirmed. A subscription becomes confirmed when the
+  /// subscriber calls the <code>ConfirmSubscription</code> action with a
+  /// confirmation token.
+  /// <p/>
   /// The default value is <code>false</code>.
   Future<SubscribeResponse> subscribe({
     @_s.required String protocol,
@@ -2180,7 +2316,9 @@ class GetSubscriptionAttributesResponse {
   /// </li>
   /// <li>
   /// <code>FilterPolicy</code> – The filter policy JSON that is assigned to the
-  /// subscription.
+  /// subscription. For more information, see <a
+  /// href="https://docs.aws.amazon.com/sns/latest/dg/sns-message-filtering.html">Amazon
+  /// SNS Message Filtering</a> in the <i>Amazon SNS Developer Guide</i>.
   /// </li>
   /// <li>
   /// <code>Owner</code> – The AWS account ID of the subscription's owner.
@@ -2268,7 +2406,7 @@ class GetTopicAttributesResponse {
   /// <code>TopicArn</code> – The topic's ARN.
   /// </li>
   /// <li>
-  /// <code>EffectiveDeliveryPolicy</code> – Yhe JSON serialization of the
+  /// <code>EffectiveDeliveryPolicy</code> – The JSON serialization of the
   /// effective delivery policy, taking system defaults into account.
   /// </li>
   /// </ul>
@@ -2284,6 +2422,40 @@ class GetTopicAttributesResponse {
   /// href="https://docs.aws.amazon.com/kms/latest/APIReference/API_DescribeKey.html#API_DescribeKey_RequestParameters">KeyId</a>
   /// in the <i>AWS Key Management Service API Reference</i>.
   /// </li>
+  /// </ul>
+  /// The following attributes apply only to <a
+  /// href="https://docs.aws.amazon.com/sns/latest/dg/sns-fifo-topics.html">FIFO
+  /// topics</a>:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>FifoTopic</code> – When this is set to <code>true</code>, a FIFO topic
+  /// is created.
+  /// </li>
+  /// <li>
+  /// <code>ContentBasedDeduplication</code> – Enables content-based deduplication
+  /// for FIFO topics.
+  ///
+  /// <ul>
+  /// <li>
+  /// By default, <code>ContentBasedDeduplication</code> is set to
+  /// <code>false</code>. If you create a FIFO topic and this attribute is
+  /// <code>false</code>, you must specify a value for the
+  /// <code>MessageDeduplicationId</code> parameter for the <a
+  /// href="https://docs.aws.amazon.com/sns/latest/api/API_Publish.html">Publish</a>
+  /// action.
+  /// </li>
+  /// <li>
+  /// When you set <code>ContentBasedDeduplication</code> to <code>true</code>,
+  /// Amazon SNS uses a SHA-256 hash to generate the
+  /// <code>MessageDeduplicationId</code> using the body of the message (but not
+  /// the attributes of the message).
+  ///
+  /// (Optional) To override the generated value, you can specify a value for the
+  /// the <code>MessageDeduplicationId</code> parameter for the
+  /// <code>Publish</code> action.
+  /// </li>
+  /// </ul> </li>
   /// </ul>
   final Map<String, String> attributes;
 
@@ -2476,8 +2648,10 @@ class ListTopicsResponse {
 /// including name, type, and value, are included in the message size
 /// restriction, which is currently 256 KB (262,144 bytes). For more
 /// information, see <a
-/// href="https://docs.aws.amazon.com/sns/latest/dg/SNSMessageAttributes.html">Using
-/// Amazon SNS Message Attributes</a>.
+/// href="https://docs.aws.amazon.com/sns/latest/dg/SNSMessageAttributes.html">Amazon
+/// SNS message attributes</a> and <a
+/// href="https://docs.aws.amazon.com/sns/latest/dg/sms_publish-to-phone.html">Publishing
+/// to a mobile phone</a> in the <i>Amazon SNS Developer Guide.</i>
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -2557,12 +2731,22 @@ class PublishResponse {
   /// Length Constraint: Maximum 100 characters
   final String messageId;
 
+  /// This response element applies only to FIFO (first-in-first-out) topics.
+  ///
+  /// The sequence number is a large, non-consecutive number that Amazon SNS
+  /// assigns to each message. The length of <code>SequenceNumber</code> is 128
+  /// bits. <code>SequenceNumber</code> continues to increase for each
+  /// <code>MessageGroupId</code>.
+  final String sequenceNumber;
+
   PublishResponse({
     this.messageId,
+    this.sequenceNumber,
   });
   factory PublishResponse.fromXml(_s.XmlElement elem) {
     return PublishResponse(
       messageId: _s.extractXmlStringValue(elem, 'MessageId'),
+      sequenceNumber: _s.extractXmlStringValue(elem, 'SequenceNumber'),
     );
   }
 }

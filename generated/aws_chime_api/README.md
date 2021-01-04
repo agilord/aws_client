@@ -21,7 +21,7 @@ language-specific AWS SDK or the AWS CLI.
 You don't need to write code to calculate a signature for request
 authentication. The SDK clients authenticate your requests by using access
 keys that you provide. For more information about AWS SDKs, see the <a
-href="http://aws.amazon.com/developer/">AWS Developer Center</a>.
+href="https://aws.amazon.com/developer/">AWS Developer Center</a>.
 </dd> <dt>Using the AWS CLI</dt> <dd>
 Use your access keys with the AWS CLI to make API calls. For information
 about setting up the AWS CLI, see <a
@@ -30,9 +30,9 @@ the AWS Command Line Interface</a> in the <i>AWS Command Line Interface User
 Guide</i>. For a list of available Amazon Chime commands, see the <a
 href="https://docs.aws.amazon.com/cli/latest/reference/chime/index.html">Amazon
 Chime commands</a> in the <i>AWS CLI Command Reference</i>.
-</dd> <dt>Using REST API</dt> <dd>
+</dd> <dt>Using REST</dt> <dd>
 If you use REST to make API calls, you must authenticate your request by
-providing a signature. Amazon Chime supports signature version 4. For more
+providing a signature. Amazon Chime supports Signature Version 4. For more
 information, see <a
 href="https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature
 Version 4 Signing Process</a> in the <i>Amazon Web Services General

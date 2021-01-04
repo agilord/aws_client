@@ -132,6 +132,24 @@ const _$ManagedTerminationProtectionEnumMap = {
   ManagedTerminationProtection.disabled: 'DISABLED',
 };
 
+Map<String, dynamic> _$AutoScalingGroupProviderUpdateToJson(
+    AutoScalingGroupProviderUpdate instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('managedScaling', instance.managedScaling?.toJson());
+  writeNotNull(
+      'managedTerminationProtection',
+      _$ManagedTerminationProtectionEnumMap[
+          instance.managedTerminationProtection]);
+  return val;
+}
+
 AwsVpcConfiguration _$AwsVpcConfigurationFromJson(Map<String, dynamic> json) {
   return AwsVpcConfiguration(
     subnets: (json['subnets'] as List)?.map((e) => e as String)?.toList(),
@@ -176,11 +194,24 @@ CapacityProvider _$CapacityProviderFromJson(Map<String, dynamic> json) {
     tags: (json['tags'] as List)
         ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
         ?.toList(),
+    updateStatus: _$enumDecodeNullable(
+        _$CapacityProviderUpdateStatusEnumMap, json['updateStatus']),
+    updateStatusReason: json['updateStatusReason'] as String,
   );
 }
 
 const _$CapacityProviderStatusEnumMap = {
   CapacityProviderStatus.active: 'ACTIVE',
+  CapacityProviderStatus.inactive: 'INACTIVE',
+};
+
+const _$CapacityProviderUpdateStatusEnumMap = {
+  CapacityProviderUpdateStatus.deleteInProgress: 'DELETE_IN_PROGRESS',
+  CapacityProviderUpdateStatus.deleteComplete: 'DELETE_COMPLETE',
+  CapacityProviderUpdateStatus.deleteFailed: 'DELETE_FAILED',
+  CapacityProviderUpdateStatus.updateInProgress: 'UPDATE_IN_PROGRESS',
+  CapacityProviderUpdateStatus.updateComplete: 'UPDATE_COMPLETE',
+  CapacityProviderUpdateStatus.updateFailed: 'UPDATE_FAILED',
 };
 
 CapacityProviderStrategyItem _$CapacityProviderStrategyItemFromJson(
@@ -331,6 +362,11 @@ ContainerDefinition _$ContainerDefinitionFromJson(Map<String, dynamic> json) {
         ?.map((e) =>
             e == null ? null : KeyValuePair.fromJson(e as Map<String, dynamic>))
         ?.toList(),
+    environmentFiles: (json['environmentFiles'] as List)
+        ?.map((e) => e == null
+            ? null
+            : EnvironmentFile.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
     essential: json['essential'] as bool,
     extraHosts: (json['extraHosts'] as List)
         ?.map((e) =>
@@ -423,6 +459,8 @@ Map<String, dynamic> _$ContainerDefinitionToJson(ContainerDefinition instance) {
   writeNotNull('entryPoint', instance.entryPoint);
   writeNotNull(
       'environment', instance.environment?.map((e) => e?.toJson())?.toList());
+  writeNotNull('environmentFiles',
+      instance.environmentFiles?.map((e) => e?.toJson())?.toList());
   writeNotNull('essential', instance.essential);
   writeNotNull(
       'extraHosts', instance.extraHosts?.map((e) => e?.toJson())?.toList());
@@ -547,6 +585,11 @@ ContainerOverride _$ContainerOverrideFromJson(Map<String, dynamic> json) {
         ?.map((e) =>
             e == null ? null : KeyValuePair.fromJson(e as Map<String, dynamic>))
         ?.toList(),
+    environmentFiles: (json['environmentFiles'] as List)
+        ?.map((e) => e == null
+            ? null
+            : EnvironmentFile.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
     memory: json['memory'] as int,
     memoryReservation: json['memoryReservation'] as int,
     name: json['name'] as String,
@@ -571,6 +614,8 @@ Map<String, dynamic> _$ContainerOverrideToJson(ContainerOverride instance) {
   writeNotNull('cpu', instance.cpu);
   writeNotNull(
       'environment', instance.environment?.map((e) => e?.toJson())?.toList());
+  writeNotNull('environmentFiles',
+      instance.environmentFiles?.map((e) => e?.toJson())?.toList());
   writeNotNull('memory', instance.memory);
   writeNotNull('memoryReservation', instance.memoryReservation);
   writeNotNull('name', instance.name);
@@ -656,6 +701,16 @@ DeleteAttributesResponse _$DeleteAttributesResponseFromJson(
   );
 }
 
+DeleteCapacityProviderResponse _$DeleteCapacityProviderResponseFromJson(
+    Map<String, dynamic> json) {
+  return DeleteCapacityProviderResponse(
+    capacityProvider: json['capacityProvider'] == null
+        ? null
+        : CapacityProvider.fromJson(
+            json['capacityProvider'] as Map<String, dynamic>),
+  );
+}
+
 DeleteClusterResponse _$DeleteClusterResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteClusterResponse(
@@ -692,6 +747,7 @@ Deployment _$DeploymentFromJson(Map<String, dynamic> json) {
         ?.toList(),
     createdAt: const UnixDateTimeConverter().fromJson(json['createdAt']),
     desiredCount: json['desiredCount'] as int,
+    failedTasks: json['failedTasks'] as int,
     id: json['id'] as String,
     launchType: _$enumDecodeNullable(_$LaunchTypeEnumMap, json['launchType']),
     networkConfiguration: json['networkConfiguration'] == null
@@ -700,6 +756,9 @@ Deployment _$DeploymentFromJson(Map<String, dynamic> json) {
             json['networkConfiguration'] as Map<String, dynamic>),
     pendingCount: json['pendingCount'] as int,
     platformVersion: json['platformVersion'] as String,
+    rolloutState: _$enumDecodeNullable(
+        _$DeploymentRolloutStateEnumMap, json['rolloutState']),
+    rolloutStateReason: json['rolloutStateReason'] as String,
     runningCount: json['runningCount'] as int,
     status: json['status'] as String,
     taskDefinition: json['taskDefinition'] as String,
@@ -712,9 +771,42 @@ const _$LaunchTypeEnumMap = {
   LaunchType.fargate: 'FARGATE',
 };
 
+const _$DeploymentRolloutStateEnumMap = {
+  DeploymentRolloutState.completed: 'COMPLETED',
+  DeploymentRolloutState.failed: 'FAILED',
+  DeploymentRolloutState.inProgress: 'IN_PROGRESS',
+};
+
+DeploymentCircuitBreaker _$DeploymentCircuitBreakerFromJson(
+    Map<String, dynamic> json) {
+  return DeploymentCircuitBreaker(
+    enable: json['enable'] as bool,
+    rollback: json['rollback'] as bool,
+  );
+}
+
+Map<String, dynamic> _$DeploymentCircuitBreakerToJson(
+    DeploymentCircuitBreaker instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('enable', instance.enable);
+  writeNotNull('rollback', instance.rollback);
+  return val;
+}
+
 DeploymentConfiguration _$DeploymentConfigurationFromJson(
     Map<String, dynamic> json) {
   return DeploymentConfiguration(
+    deploymentCircuitBreaker: json['deploymentCircuitBreaker'] == null
+        ? null
+        : DeploymentCircuitBreaker.fromJson(
+            json['deploymentCircuitBreaker'] as Map<String, dynamic>),
     maximumPercent: json['maximumPercent'] as int,
     minimumHealthyPercent: json['minimumHealthyPercent'] as int,
   );
@@ -730,6 +822,8 @@ Map<String, dynamic> _$DeploymentConfigurationToJson(
     }
   }
 
+  writeNotNull(
+      'deploymentCircuitBreaker', instance.deploymentCircuitBreaker?.toJson());
   writeNotNull('maximumPercent', instance.maximumPercent);
   writeNotNull('minimumHealthyPercent', instance.minimumHealthyPercent);
   return val;
@@ -1028,6 +1122,84 @@ const _$EFSTransitEncryptionEnumMap = {
   EFSTransitEncryption.enabled: 'ENABLED',
   EFSTransitEncryption.disabled: 'DISABLED',
 };
+
+EnvironmentFile _$EnvironmentFileFromJson(Map<String, dynamic> json) {
+  return EnvironmentFile(
+    type: _$enumDecodeNullable(_$EnvironmentFileTypeEnumMap, json['type']),
+    value: json['value'] as String,
+  );
+}
+
+Map<String, dynamic> _$EnvironmentFileToJson(EnvironmentFile instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('type', _$EnvironmentFileTypeEnumMap[instance.type]);
+  writeNotNull('value', instance.value);
+  return val;
+}
+
+const _$EnvironmentFileTypeEnumMap = {
+  EnvironmentFileType.s3: 's3',
+};
+
+FSxWindowsFileServerAuthorizationConfig
+    _$FSxWindowsFileServerAuthorizationConfigFromJson(
+        Map<String, dynamic> json) {
+  return FSxWindowsFileServerAuthorizationConfig(
+    credentialsParameter: json['credentialsParameter'] as String,
+    domain: json['domain'] as String,
+  );
+}
+
+Map<String, dynamic> _$FSxWindowsFileServerAuthorizationConfigToJson(
+    FSxWindowsFileServerAuthorizationConfig instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('credentialsParameter', instance.credentialsParameter);
+  writeNotNull('domain', instance.domain);
+  return val;
+}
+
+FSxWindowsFileServerVolumeConfiguration
+    _$FSxWindowsFileServerVolumeConfigurationFromJson(
+        Map<String, dynamic> json) {
+  return FSxWindowsFileServerVolumeConfiguration(
+    authorizationConfig: json['authorizationConfig'] == null
+        ? null
+        : FSxWindowsFileServerAuthorizationConfig.fromJson(
+            json['authorizationConfig'] as Map<String, dynamic>),
+    fileSystemId: json['fileSystemId'] as String,
+    rootDirectory: json['rootDirectory'] as String,
+  );
+}
+
+Map<String, dynamic> _$FSxWindowsFileServerVolumeConfigurationToJson(
+    FSxWindowsFileServerVolumeConfiguration instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('authorizationConfig', instance.authorizationConfig?.toJson());
+  writeNotNull('fileSystemId', instance.fileSystemId);
+  writeNotNull('rootDirectory', instance.rootDirectory);
+  return val;
+}
 
 Failure _$FailureFromJson(Map<String, dynamic> json) {
   return Failure(
@@ -1411,6 +1583,7 @@ const _$LogDriverEnumMap = {
 
 ManagedScaling _$ManagedScalingFromJson(Map<String, dynamic> json) {
   return ManagedScaling(
+    instanceWarmupPeriod: json['instanceWarmupPeriod'] as int,
     maximumScalingStepSize: json['maximumScalingStepSize'] as int,
     minimumScalingStepSize: json['minimumScalingStepSize'] as int,
     status: _$enumDecodeNullable(_$ManagedScalingStatusEnumMap, json['status']),
@@ -1427,6 +1600,7 @@ Map<String, dynamic> _$ManagedScalingToJson(ManagedScaling instance) {
     }
   }
 
+  writeNotNull('instanceWarmupPeriod', instance.instanceWarmupPeriod);
   writeNotNull('maximumScalingStepSize', instance.maximumScalingStepSize);
   writeNotNull('minimumScalingStepSize', instance.minimumScalingStepSize);
   writeNotNull('status', _$ManagedScalingStatusEnumMap[instance.status]);
@@ -2414,6 +2588,16 @@ UntagResourceResponse _$UntagResourceResponseFromJson(
   return UntagResourceResponse();
 }
 
+UpdateCapacityProviderResponse _$UpdateCapacityProviderResponseFromJson(
+    Map<String, dynamic> json) {
+  return UpdateCapacityProviderResponse(
+    capacityProvider: json['capacityProvider'] == null
+        ? null
+        : CapacityProvider.fromJson(
+            json['capacityProvider'] as Map<String, dynamic>),
+  );
+}
+
 UpdateClusterSettingsResponse _$UpdateClusterSettingsResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateClusterSettingsResponse(
@@ -2508,6 +2692,12 @@ Volume _$VolumeFromJson(Map<String, dynamic> json) {
         ? null
         : EFSVolumeConfiguration.fromJson(
             json['efsVolumeConfiguration'] as Map<String, dynamic>),
+    fsxWindowsFileServerVolumeConfiguration:
+        json['fsxWindowsFileServerVolumeConfiguration'] == null
+            ? null
+            : FSxWindowsFileServerVolumeConfiguration.fromJson(
+                json['fsxWindowsFileServerVolumeConfiguration']
+                    as Map<String, dynamic>),
     host: json['host'] == null
         ? null
         : HostVolumeProperties.fromJson(json['host'] as Map<String, dynamic>),
@@ -2528,6 +2718,8 @@ Map<String, dynamic> _$VolumeToJson(Volume instance) {
       instance.dockerVolumeConfiguration?.toJson());
   writeNotNull(
       'efsVolumeConfiguration', instance.efsVolumeConfiguration?.toJson());
+  writeNotNull('fsxWindowsFileServerVolumeConfiguration',
+      instance.fsxWindowsFileServerVolumeConfiguration?.toJson());
   writeNotNull('host', instance.host?.toJson());
   writeNotNull('name', instance.name);
   return val;

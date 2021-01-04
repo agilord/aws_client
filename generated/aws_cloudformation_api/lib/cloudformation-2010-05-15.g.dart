@@ -110,6 +110,24 @@ Map<String, dynamic> _$RollbackTriggerToJson(RollbackTrigger instance) {
   return val;
 }
 
+Map<String, dynamic> _$StackInstanceFilterToJson(StackInstanceFilter instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', _$StackInstanceFilterNameEnumMap[instance.name]);
+  writeNotNull('Values', instance.values);
+  return val;
+}
+
+const _$StackInstanceFilterNameEnumMap = {
+  StackInstanceFilterName.detailedStatus: 'DETAILED_STATUS',
+};
+
 Map<String, dynamic> _$StackSetOperationPreferencesToJson(
     StackSetOperationPreferences instance) {
   final val = <String, dynamic>{};

@@ -135,6 +135,116 @@ class Athena {
     return BatchGetQueryExecutionOutput.fromJson(jsonResponse.body);
   }
 
+  /// Creates (registers) a data catalog with the specified name and properties.
+  /// Catalogs created are visible to all users of the same AWS account.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [InvalidRequestException].
+  ///
+  /// Parameter [name] :
+  /// The name of the data catalog to create. The catalog name must be unique
+  /// for the AWS account and can use a maximum of 128 alphanumeric, underscore,
+  /// at sign, or hyphen characters.
+  ///
+  /// Parameter [type] :
+  /// The type of data catalog to create: <code>LAMBDA</code> for a federated
+  /// catalog, <code>GLUE</code> for AWS Glue Catalog, or <code>HIVE</code> for
+  /// an external hive metastore.
+  ///
+  /// Parameter [description] :
+  /// A description of the data catalog to be created.
+  ///
+  /// Parameter [parameters] :
+  /// Specifies the Lambda function or functions to use for creating the data
+  /// catalog. This is a mapping whose values depend on the catalog type.
+  ///
+  /// <ul>
+  /// <li>
+  /// For the <code>HIVE</code> data catalog type, use the following syntax. The
+  /// <code>metadata-function</code> parameter is required. <code>The
+  /// sdk-version</code> parameter is optional and defaults to the currently
+  /// supported version.
+  ///
+  /// <code>metadata-function=<i>lambda_arn</i>,
+  /// sdk-version=<i>version_number</i> </code>
+  /// </li>
+  /// <li>
+  /// For the <code>LAMBDA</code> data catalog type, use one of the following
+  /// sets of required parameters, but not both.
+  ///
+  /// <ul>
+  /// <li>
+  /// If you have one Lambda function that processes metadata and another for
+  /// reading the actual data, use the following syntax. Both parameters are
+  /// required.
+  ///
+  /// <code>metadata-function=<i>lambda_arn</i>,
+  /// record-function=<i>lambda_arn</i> </code>
+  /// </li>
+  /// <li>
+  /// If you have a composite Lambda function that processes both metadata and
+  /// data, use the following syntax to specify your Lambda function.
+  ///
+  /// <code>function=<i>lambda_arn</i> </code>
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// The <code>GLUE</code> type has no parameters.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [tags] :
+  /// A list of comma separated tags to add to the data catalog that is created.
+  Future<void> createDataCatalog({
+    @_s.required String name,
+    @_s.required DataCatalogType type,
+    String description,
+    Map<String, String> parameters,
+    List<Tag> tags,
+  }) async {
+    ArgumentError.checkNotNull(name, 'name');
+    _s.validateStringLength(
+      'name',
+      name,
+      1,
+      256,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'name',
+      name,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(type, 'type');
+    _s.validateStringLength(
+      'description',
+      description,
+      1,
+      1024,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonAthena.CreateDataCatalog'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Name': name,
+        'Type': type?.toValue() ?? '',
+        if (description != null) 'Description': description,
+        if (parameters != null) 'Parameters': parameters,
+        if (tags != null) 'Tags': tags,
+      },
+    );
+
+    return CreateDataCatalogOutput.fromJson(jsonResponse.body);
+  }
+
   /// Creates a named query in the specified workgroup. Requires that you have
   /// access to the workgroup.
   ///
@@ -219,7 +329,7 @@ class Athena {
     _s.validateStringPattern(
       'workGroup',
       workGroup,
-      r'''[a-zA-z0-9._-]{1,128}''',
+      r'''[a-zA-Z0-9._-]{1,128}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -267,8 +377,7 @@ class Athena {
   /// The workgroup description.
   ///
   /// Parameter [tags] :
-  /// One or more tags, separated by commas, that you want to attach to the
-  /// workgroup as you create it.
+  /// A list of comma separated tags to add to the workgroup that is created.
   Future<void> createWorkGroup({
     @_s.required String name,
     WorkGroupConfiguration configuration,
@@ -279,7 +388,7 @@ class Athena {
     _s.validateStringPattern(
       'name',
       name,
-      r'''[a-zA-z0-9._-]{1,128}''',
+      r'''[a-zA-Z0-9._-]{1,128}''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -307,6 +416,48 @@ class Athena {
     );
 
     return CreateWorkGroupOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Deletes a data catalog.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [InvalidRequestException].
+  ///
+  /// Parameter [name] :
+  /// The name of the data catalog to delete.
+  Future<void> deleteDataCatalog({
+    @_s.required String name,
+  }) async {
+    ArgumentError.checkNotNull(name, 'name');
+    _s.validateStringLength(
+      'name',
+      name,
+      1,
+      256,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'name',
+      name,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonAthena.DeleteDataCatalog'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Name': name,
+      },
+    );
+
+    return DeleteDataCatalogOutput.fromJson(jsonResponse.body);
   }
 
   /// Deletes the named query if you have access to the workgroup in which the
@@ -363,7 +514,7 @@ class Athena {
     _s.validateStringPattern(
       'workGroup',
       workGroup,
-      r'''[a-zA-z0-9._-]{1,128}''',
+      r'''[a-zA-Z0-9._-]{1,128}''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -384,6 +535,104 @@ class Athena {
     );
 
     return DeleteWorkGroupOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Returns the specified data catalog.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [InvalidRequestException].
+  ///
+  /// Parameter [name] :
+  /// The name of the data catalog to return.
+  Future<GetDataCatalogOutput> getDataCatalog({
+    @_s.required String name,
+  }) async {
+    ArgumentError.checkNotNull(name, 'name');
+    _s.validateStringLength(
+      'name',
+      name,
+      1,
+      256,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'name',
+      name,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonAthena.GetDataCatalog'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Name': name,
+      },
+    );
+
+    return GetDataCatalogOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Returns a database object for the specfied database and data catalog.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [InvalidRequestException].
+  /// May throw [MetadataException].
+  ///
+  /// Parameter [catalogName] :
+  /// The name of the data catalog that contains the database to return.
+  ///
+  /// Parameter [databaseName] :
+  /// The name of the database to return.
+  Future<GetDatabaseOutput> getDatabase({
+    @_s.required String catalogName,
+    @_s.required String databaseName,
+  }) async {
+    ArgumentError.checkNotNull(catalogName, 'catalogName');
+    _s.validateStringLength(
+      'catalogName',
+      catalogName,
+      1,
+      256,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'catalogName',
+      catalogName,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(databaseName, 'databaseName');
+    _s.validateStringLength(
+      'databaseName',
+      databaseName,
+      1,
+      128,
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonAthena.GetDatabase'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'CatalogName': catalogName,
+        'DatabaseName': databaseName,
+      },
+    );
+
+    return GetDatabaseOutput.fromJson(jsonResponse.body);
   }
 
   /// Returns information about a single query. Requires that you have access to
@@ -476,8 +725,10 @@ class Athena {
   /// The maximum number of results (rows) to return in this request.
   ///
   /// Parameter [nextToken] :
-  /// The token that specifies where to start pagination if a previous request
-  /// was truncated.
+  /// A token generated by the Athena service that specifies where to continue
+  /// pagination if a previous request was truncated. To obtain the next set of
+  /// pages, pass in the <code>NextToken</code> from the response object of the
+  /// previous page call.
   Future<GetQueryResultsOutput> getQueryResults({
     @_s.required String queryExecutionId,
     int maxResults,
@@ -516,6 +767,76 @@ class Athena {
     return GetQueryResultsOutput.fromJson(jsonResponse.body);
   }
 
+  /// Returns table metadata for the specified catalog, database, and table.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [InvalidRequestException].
+  /// May throw [MetadataException].
+  ///
+  /// Parameter [catalogName] :
+  /// The name of the data catalog that contains the database and table metadata
+  /// to return.
+  ///
+  /// Parameter [databaseName] :
+  /// The name of the database that contains the table metadata to return.
+  ///
+  /// Parameter [tableName] :
+  /// The name of the table for which metadata is returned.
+  Future<GetTableMetadataOutput> getTableMetadata({
+    @_s.required String catalogName,
+    @_s.required String databaseName,
+    @_s.required String tableName,
+  }) async {
+    ArgumentError.checkNotNull(catalogName, 'catalogName');
+    _s.validateStringLength(
+      'catalogName',
+      catalogName,
+      1,
+      256,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'catalogName',
+      catalogName,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(databaseName, 'databaseName');
+    _s.validateStringLength(
+      'databaseName',
+      databaseName,
+      1,
+      128,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(tableName, 'tableName');
+    _s.validateStringLength(
+      'tableName',
+      tableName,
+      1,
+      128,
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonAthena.GetTableMetadata'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'CatalogName': catalogName,
+        'DatabaseName': databaseName,
+        'TableName': tableName,
+      },
+    );
+
+    return GetTableMetadataOutput.fromJson(jsonResponse.body);
+  }
+
   /// Returns information about the workgroup with the specified name.
   ///
   /// May throw [InternalServerException].
@@ -530,7 +851,7 @@ class Athena {
     _s.validateStringPattern(
       'workGroup',
       workGroup,
-      r'''[a-zA-z0-9._-]{1,128}''',
+      r'''[a-zA-Z0-9._-]{1,128}''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -551,10 +872,126 @@ class Athena {
     return GetWorkGroupOutput.fromJson(jsonResponse.body);
   }
 
+  /// Lists the data catalogs in the current AWS account.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [InvalidRequestException].
+  ///
+  /// Parameter [maxResults] :
+  /// Specifies the maximum number of data catalogs to return.
+  ///
+  /// Parameter [nextToken] :
+  /// A token generated by the Athena service that specifies where to continue
+  /// pagination if a previous request was truncated. To obtain the next set of
+  /// pages, pass in the NextToken from the response object of the previous page
+  /// call.
+  Future<ListDataCatalogsOutput> listDataCatalogs({
+    int maxResults,
+    String nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      2,
+      50,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1024,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonAthena.ListDataCatalogs'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListDataCatalogsOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Lists the databases in the specified data catalog.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [InvalidRequestException].
+  /// May throw [MetadataException].
+  ///
+  /// Parameter [catalogName] :
+  /// The name of the data catalog that contains the databases to return.
+  ///
+  /// Parameter [maxResults] :
+  /// Specifies the maximum number of results to return.
+  ///
+  /// Parameter [nextToken] :
+  /// A token generated by the Athena service that specifies where to continue
+  /// pagination if a previous request was truncated. To obtain the next set of
+  /// pages, pass in the <code>NextToken</code> from the response object of the
+  /// previous page call.
+  Future<ListDatabasesOutput> listDatabases({
+    @_s.required String catalogName,
+    int maxResults,
+    String nextToken,
+  }) async {
+    ArgumentError.checkNotNull(catalogName, 'catalogName');
+    _s.validateStringLength(
+      'catalogName',
+      catalogName,
+      1,
+      256,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'catalogName',
+      catalogName,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      isRequired: true,
+    );
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1024,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonAthena.ListDatabases'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'CatalogName': catalogName,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListDatabasesOutput.fromJson(jsonResponse.body);
+  }
+
   /// Provides a list of available query IDs only for queries saved in the
-  /// specified workgroup. Requires that you have access to the workgroup. If a
-  /// workgroup is not specified, lists the saved queries for the primary
-  /// workgroup.
+  /// specified workgroup. Requires that you have access to the specified
+  /// workgroup. If a workgroup is not specified, lists the saved queries for
+  /// the primary workgroup.
   ///
   /// For code samples using the AWS SDK for Java, see <a
   /// href="http://docs.aws.amazon.com/athena/latest/ug/code-samples.html">Examples
@@ -567,13 +1004,15 @@ class Athena {
   /// The maximum number of queries to return in this request.
   ///
   /// Parameter [nextToken] :
-  /// The token that specifies where to start pagination if a previous request
-  /// was truncated.
+  /// A token generated by the Athena service that specifies where to continue
+  /// pagination if a previous request was truncated. To obtain the next set of
+  /// pages, pass in the <code>NextToken</code> from the response object of the
+  /// previous page call.
   ///
   /// Parameter [workGroup] :
-  /// The name of the workgroup from which the named queries are returned. If a
-  /// workgroup is not specified, the saved queries for the primary workgroup
-  /// are returned.
+  /// The name of the workgroup from which the named queries are being returned.
+  /// If a workgroup is not specified, the saved queries for the primary
+  /// workgroup are returned.
   Future<ListNamedQueriesOutput> listNamedQueries({
     int maxResults,
     String nextToken,
@@ -594,7 +1033,7 @@ class Athena {
     _s.validateStringPattern(
       'workGroup',
       workGroup,
-      r'''[a-zA-z0-9._-]{1,128}''',
+      r'''[a-zA-Z0-9._-]{1,128}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -632,13 +1071,15 @@ class Athena {
   /// The maximum number of query executions to return in this request.
   ///
   /// Parameter [nextToken] :
-  /// The token that specifies where to start pagination if a previous request
-  /// was truncated.
+  /// A token generated by the Athena service that specifies where to continue
+  /// pagination if a previous request was truncated. To obtain the next set of
+  /// pages, pass in the <code>NextToken</code> from the response object of the
+  /// previous page call.
   ///
   /// Parameter [workGroup] :
-  /// The name of the workgroup from which queries are returned. If a workgroup
-  /// is not specified, a list of available query execution IDs for the queries
-  /// in the primary workgroup is returned.
+  /// The name of the workgroup from which queries are being returned. If a
+  /// workgroup is not specified, a list of available query execution IDs for
+  /// the queries in the primary workgroup is returned.
   Future<ListQueryExecutionsOutput> listQueryExecutions({
     int maxResults,
     String nextToken,
@@ -659,7 +1100,7 @@ class Athena {
     _s.validateStringPattern(
       'workGroup',
       workGroup,
-      r'''[a-zA-z0-9._-]{1,128}''',
+      r'''[a-zA-Z0-9._-]{1,128}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -681,23 +1122,117 @@ class Athena {
     return ListQueryExecutionsOutput.fromJson(jsonResponse.body);
   }
 
-  /// Lists the tags associated with this workgroup.
+  /// Lists the metadata for the tables in the specified data catalog database.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [InvalidRequestException].
+  /// May throw [MetadataException].
+  ///
+  /// Parameter [catalogName] :
+  /// The name of the data catalog for which table metadata should be returned.
+  ///
+  /// Parameter [databaseName] :
+  /// The name of the database for which table metadata should be returned.
+  ///
+  /// Parameter [expression] :
+  /// A regex filter that pattern-matches table names. If no expression is
+  /// supplied, metadata for all tables are listed.
+  ///
+  /// Parameter [maxResults] :
+  /// Specifies the maximum number of results to return.
+  ///
+  /// Parameter [nextToken] :
+  /// A token generated by the Athena service that specifies where to continue
+  /// pagination if a previous request was truncated. To obtain the next set of
+  /// pages, pass in the NextToken from the response object of the previous page
+  /// call.
+  Future<ListTableMetadataOutput> listTableMetadata({
+    @_s.required String catalogName,
+    @_s.required String databaseName,
+    String expression,
+    int maxResults,
+    String nextToken,
+  }) async {
+    ArgumentError.checkNotNull(catalogName, 'catalogName');
+    _s.validateStringLength(
+      'catalogName',
+      catalogName,
+      1,
+      256,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'catalogName',
+      catalogName,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(databaseName, 'databaseName');
+    _s.validateStringLength(
+      'databaseName',
+      databaseName,
+      1,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'expression',
+      expression,
+      0,
+      256,
+    );
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      1024,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonAthena.ListTableMetadata'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'CatalogName': catalogName,
+        'DatabaseName': databaseName,
+        if (expression != null) 'Expression': expression,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListTableMetadataOutput.fromJson(jsonResponse.body);
+  }
+
+  /// Lists the tags associated with an Athena workgroup or data catalog
+  /// resource.
   ///
   /// May throw [InternalServerException].
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [resourceARN] :
-  /// Lists the tags for the workgroup resource with the specified ARN.
+  /// Lists the tags for the resource with the specified ARN.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to be returned per request that lists the
-  /// tags for the workgroup resource.
+  /// tags for the resource.
   ///
   /// Parameter [nextToken] :
   /// The token for the next set of results, or null if there are no additional
   /// results for this request, where the request lists the tags for the
-  /// workgroup resource with the specified ARN.
+  /// resource with the specified ARN.
   Future<ListTagsForResourceOutput> listTagsForResource({
     @_s.required String resourceARN,
     int maxResults,
@@ -752,7 +1287,10 @@ class Athena {
   /// The maximum number of workgroups to return in this request.
   ///
   /// Parameter [nextToken] :
-  /// A token to be used by the next request if this request is truncated.
+  /// A token generated by the Athena service that specifies where to continue
+  /// pagination if a previous request was truncated. To obtain the next set of
+  /// pages, pass in the <code>NextToken</code> from the response object of the
+  /// previous page call.
   Future<ListWorkGroupsOutput> listWorkGroups({
     int maxResults,
     String nextToken,
@@ -790,8 +1328,9 @@ class Athena {
 
   /// Runs the SQL query statements contained in the <code>Query</code>.
   /// Requires you to have access to the workgroup in which the query ran.
-  ///
-  /// For code samples using the AWS SDK for Java, see <a
+  /// Running queries against an external catalog requires <a>GetDataCatalog</a>
+  /// permission to the catalog. For code samples using the AWS SDK for Java,
+  /// see <a
   /// href="http://docs.aws.amazon.com/athena/latest/ug/code-samples.html">Examples
   /// and Code Samples</a> in the <i>Amazon Athena User Guide</i>.
   ///
@@ -852,7 +1391,7 @@ class Athena {
     _s.validateStringPattern(
       'workGroup',
       workGroup,
-      r'''[a-zA-z0-9._-]{1,128}''',
+      r'''[a-zA-Z0-9._-]{1,128}''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -913,33 +1452,32 @@ class Athena {
     return StopQueryExecutionOutput.fromJson(jsonResponse.body);
   }
 
-  /// Adds one or more tags to the resource, such as a workgroup. A tag is a
-  /// label that you assign to an AWS Athena resource (a workgroup). Each tag
-  /// consists of a key and an optional value, both of which you define. Tags
-  /// enable you to categorize resources (workgroups) in Athena, for example, by
-  /// purpose, owner, or environment. Use a consistent set of tag keys to make
-  /// it easier to search and filter workgroups in your account. For best
-  /// practices, see <a
-  /// href="https://aws.amazon.com/answers/account-management/aws-tagging-strategies/">AWS
-  /// Tagging Strategies</a>. The key length is from 1 (minimum) to 128
-  /// (maximum) Unicode characters in UTF-8. The tag value length is from 0
-  /// (minimum) to 256 (maximum) Unicode characters in UTF-8. You can use
-  /// letters and numbers representable in UTF-8, and the following characters:
-  /// + - = . _ : / @. Tag keys and values are case-sensitive. Tag keys must be
-  /// unique per resource. If you specify more than one, separate them by
-  /// commas.
+  /// Adds one or more tags to an Athena resource. A tag is a label that you
+  /// assign to a resource. In Athena, a resource can be a workgroup or data
+  /// catalog. Each tag consists of a key and an optional value, both of which
+  /// you define. For example, you can use tags to categorize Athena workgroups
+  /// or data catalogs by purpose, owner, or environment. Use a consistent set
+  /// of tag keys to make it easier to search and filter workgroups or data
+  /// catalogs in your account. For best practices, see <a
+  /// href="https://aws.amazon.com/answers/account-management/aws-tagging-strategies/">Tagging
+  /// Best Practices</a>. Tag keys can be from 1 to 128 UTF-8 Unicode
+  /// characters, and tag values can be from 0 to 256 UTF-8 Unicode characters.
+  /// Tags can use letters and numbers representable in UTF-8, and the following
+  /// characters: + - = . _ : / @. Tag keys and values are case-sensitive. Tag
+  /// keys must be unique per resource. If you specify more than one tag,
+  /// separate them by commas.
   ///
   /// May throw [InternalServerException].
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [resourceARN] :
-  /// Requests that one or more tags are added to the resource (such as a
-  /// workgroup) for the specified ARN.
+  /// Specifies the ARN of the Athena resource (workgroup or data catalog) to
+  /// which tags are to be added.
   ///
   /// Parameter [tags] :
-  /// One or more tags, separated by commas, to be added to the resource, such
-  /// as a workgroup.
+  /// A collection of one or more tags, separated by commas, to be added to an
+  /// Athena workgroup or data catalog resource.
   Future<void> tagResource({
     @_s.required String resourceARN,
     @_s.required List<Tag> tags,
@@ -972,21 +1510,18 @@ class Athena {
     return TagResourceOutput.fromJson(jsonResponse.body);
   }
 
-  /// Removes one or more tags from the workgroup resource. Takes as an input a
-  /// list of TagKey Strings separated by commas, and removes their tags at the
-  /// same time.
+  /// Removes one or more tags from a data catalog or workgroup resource.
   ///
   /// May throw [InternalServerException].
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [resourceARN] :
-  /// Removes one or more tags from the workgroup resource for the specified
-  /// ARN.
+  /// Specifies the ARN of the resource from which tags are to be removed.
   ///
   /// Parameter [tagKeys] :
-  /// Removes the tags associated with one or more tag keys from the workgroup
-  /// resource.
+  /// A comma-separated list of one or more tag keys whose tags are to be
+  /// removed from the specified resource.
   Future<void> untagResource({
     @_s.required String resourceARN,
     @_s.required List<String> tagKeys,
@@ -1019,6 +1554,110 @@ class Athena {
     return UntagResourceOutput.fromJson(jsonResponse.body);
   }
 
+  /// Updates the data catalog that has the specified name.
+  ///
+  /// May throw [InternalServerException].
+  /// May throw [InvalidRequestException].
+  ///
+  /// Parameter [name] :
+  /// The name of the data catalog to update. The catalog name must be unique
+  /// for the AWS account and can use a maximum of 128 alphanumeric, underscore,
+  /// at sign, or hyphen characters.
+  ///
+  /// Parameter [type] :
+  /// Specifies the type of data catalog to update. Specify <code>LAMBDA</code>
+  /// for a federated catalog, <code>GLUE</code> for AWS Glue Catalog, or
+  /// <code>HIVE</code> for an external hive metastore.
+  ///
+  /// Parameter [description] :
+  /// New or modified text that describes the data catalog.
+  ///
+  /// Parameter [parameters] :
+  /// Specifies the Lambda function or functions to use for updating the data
+  /// catalog. This is a mapping whose values depend on the catalog type.
+  ///
+  /// <ul>
+  /// <li>
+  /// For the <code>HIVE</code> data catalog type, use the following syntax. The
+  /// <code>metadata-function</code> parameter is required. <code>The
+  /// sdk-version</code> parameter is optional and defaults to the currently
+  /// supported version.
+  ///
+  /// <code>metadata-function=<i>lambda_arn</i>,
+  /// sdk-version=<i>version_number</i> </code>
+  /// </li>
+  /// <li>
+  /// For the <code>LAMBDA</code> data catalog type, use one of the following
+  /// sets of required parameters, but not both.
+  ///
+  /// <ul>
+  /// <li>
+  /// If you have one Lambda function that processes metadata and another for
+  /// reading the actual data, use the following syntax. Both parameters are
+  /// required.
+  ///
+  /// <code>metadata-function=<i>lambda_arn</i>,
+  /// record-function=<i>lambda_arn</i> </code>
+  /// </li>
+  /// <li>
+  /// If you have a composite Lambda function that processes both metadata and
+  /// data, use the following syntax to specify your Lambda function.
+  ///
+  /// <code>function=<i>lambda_arn</i> </code>
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// The <code>GLUE</code> type has no parameters.
+  /// </li>
+  /// </ul>
+  Future<void> updateDataCatalog({
+    @_s.required String name,
+    @_s.required DataCatalogType type,
+    String description,
+    Map<String, String> parameters,
+  }) async {
+    ArgumentError.checkNotNull(name, 'name');
+    _s.validateStringLength(
+      'name',
+      name,
+      1,
+      256,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'name',
+      name,
+      r'''[\u0020-\uD7FF\uE000-\uFFFD\uD800\uDC00-\uDBFF\uDFFF\t]*''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(type, 'type');
+    _s.validateStringLength(
+      'description',
+      description,
+      1,
+      1024,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AmazonAthena.UpdateDataCatalog'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Name': name,
+        'Type': type?.toValue() ?? '',
+        if (description != null) 'Description': description,
+        if (parameters != null) 'Parameters': parameters,
+      },
+    );
+
+    return UpdateDataCatalogOutput.fromJson(jsonResponse.body);
+  }
+
   /// Updates the workgroup with the specified name. The workgroup's name cannot
   /// be changed.
   ///
@@ -1046,7 +1685,7 @@ class Athena {
     _s.validateStringPattern(
       'workGroup',
       workGroup,
-      r'''[a-zA-z0-9._-]{1,128}''',
+      r'''[a-zA-Z0-9._-]{1,128}''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -1120,6 +1759,33 @@ class BatchGetQueryExecutionOutput {
   });
   factory BatchGetQueryExecutionOutput.fromJson(Map<String, dynamic> json) =>
       _$BatchGetQueryExecutionOutputFromJson(json);
+}
+
+/// Contains metadata for a column in a table.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class Column {
+  /// The name of the column.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// Optional information about the column.
+  @_s.JsonKey(name: 'Comment')
+  final String comment;
+
+  /// The data type of the column.
+  @_s.JsonKey(name: 'Type')
+  final String type;
+
+  Column({
+    @_s.required this.name,
+    this.comment,
+    this.type,
+  });
+  factory Column.fromJson(Map<String, dynamic> json) => _$ColumnFromJson(json);
 }
 
 /// Information about the columns in a query execution result.
@@ -1201,6 +1867,17 @@ enum ColumnNullable {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class CreateDataCatalogOutput {
+  CreateDataCatalogOutput();
+  factory CreateDataCatalogOutput.fromJson(Map<String, dynamic> json) =>
+      _$CreateDataCatalogOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class CreateNamedQueryOutput {
   /// The unique ID of the query.
   @_s.JsonKey(name: 'NamedQueryId')
@@ -1224,6 +1901,154 @@ class CreateWorkGroupOutput {
       _$CreateWorkGroupOutputFromJson(json);
 }
 
+/// Contains information about a data catalog in an AWS account.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DataCatalog {
+  /// The name of the data catalog. The catalog name must be unique for the AWS
+  /// account and can use a maximum of 128 alphanumeric, underscore, at sign, or
+  /// hyphen characters.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// The type of data catalog: <code>LAMBDA</code> for a federated catalog,
+  /// <code>GLUE</code> for AWS Glue Catalog, or <code>HIVE</code> for an external
+  /// hive metastore.
+  @_s.JsonKey(name: 'Type')
+  final DataCatalogType type;
+
+  /// An optional description of the data catalog.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// Specifies the Lambda function or functions to use for the data catalog. This
+  /// is a mapping whose values depend on the catalog type.
+  ///
+  /// <ul>
+  /// <li>
+  /// For the <code>HIVE</code> data catalog type, use the following syntax. The
+  /// <code>metadata-function</code> parameter is required. <code>The
+  /// sdk-version</code> parameter is optional and defaults to the currently
+  /// supported version.
+  ///
+  /// <code>metadata-function=<i>lambda_arn</i>, sdk-version=<i>version_number</i>
+  /// </code>
+  /// </li>
+  /// <li>
+  /// For the <code>LAMBDA</code> data catalog type, use one of the following sets
+  /// of required parameters, but not both.
+  ///
+  /// <ul>
+  /// <li>
+  /// If you have one Lambda function that processes metadata and another for
+  /// reading the actual data, use the following syntax. Both parameters are
+  /// required.
+  ///
+  /// <code>metadata-function=<i>lambda_arn</i>, record-function=<i>lambda_arn</i>
+  /// </code>
+  /// </li>
+  /// <li>
+  /// If you have a composite Lambda function that processes both metadata and
+  /// data, use the following syntax to specify your Lambda function.
+  ///
+  /// <code>function=<i>lambda_arn</i> </code>
+  /// </li>
+  /// </ul> </li>
+  /// <li>
+  /// The <code>GLUE</code> type has no parameters.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Parameters')
+  final Map<String, String> parameters;
+
+  DataCatalog({
+    @_s.required this.name,
+    @_s.required this.type,
+    this.description,
+    this.parameters,
+  });
+  factory DataCatalog.fromJson(Map<String, dynamic> json) =>
+      _$DataCatalogFromJson(json);
+}
+
+/// The summary information for the data catalog, which includes its name and
+/// type.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DataCatalogSummary {
+  /// The name of the data catalog.
+  @_s.JsonKey(name: 'CatalogName')
+  final String catalogName;
+
+  /// The data catalog type.
+  @_s.JsonKey(name: 'Type')
+  final DataCatalogType type;
+
+  DataCatalogSummary({
+    this.catalogName,
+    this.type,
+  });
+  factory DataCatalogSummary.fromJson(Map<String, dynamic> json) =>
+      _$DataCatalogSummaryFromJson(json);
+}
+
+enum DataCatalogType {
+  @_s.JsonValue('LAMBDA')
+  lambda,
+  @_s.JsonValue('GLUE')
+  glue,
+  @_s.JsonValue('HIVE')
+  hive,
+}
+
+extension on DataCatalogType {
+  String toValue() {
+    switch (this) {
+      case DataCatalogType.lambda:
+        return 'LAMBDA';
+      case DataCatalogType.glue:
+        return 'GLUE';
+      case DataCatalogType.hive:
+        return 'HIVE';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
+/// Contains metadata information for a database in a data catalog.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class Database {
+  /// The name of the database.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// An optional description of the database.
+  @_s.JsonKey(name: 'Description')
+  final String description;
+
+  /// A set of custom key/value pairs.
+  @_s.JsonKey(name: 'Parameters')
+  final Map<String, String> parameters;
+
+  Database({
+    @_s.required this.name,
+    this.description,
+    this.parameters,
+  });
+  factory Database.fromJson(Map<String, dynamic> json) =>
+      _$DatabaseFromJson(json);
+}
+
 /// A piece of data (a field in the table).
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -1239,6 +2064,17 @@ class Datum {
     this.varCharValue,
   });
   factory Datum.fromJson(Map<String, dynamic> json) => _$DatumFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DeleteDataCatalogOutput {
+  DeleteDataCatalogOutput();
+  factory DeleteDataCatalogOutput.fromJson(Map<String, dynamic> json) =>
+      _$DeleteDataCatalogOutputFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -1313,6 +2149,40 @@ enum EncryptionOption {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class GetDataCatalogOutput {
+  /// The data catalog returned.
+  @_s.JsonKey(name: 'DataCatalog')
+  final DataCatalog dataCatalog;
+
+  GetDataCatalogOutput({
+    this.dataCatalog,
+  });
+  factory GetDataCatalogOutput.fromJson(Map<String, dynamic> json) =>
+      _$GetDataCatalogOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class GetDatabaseOutput {
+  /// The database returned.
+  @_s.JsonKey(name: 'Database')
+  final Database database;
+
+  GetDatabaseOutput({
+    this.database,
+  });
+  factory GetDatabaseOutput.fromJson(Map<String, dynamic> json) =>
+      _$GetDatabaseOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class GetNamedQueryOutput {
   /// Information about the query.
   @_s.JsonKey(name: 'NamedQuery')
@@ -1348,7 +2218,10 @@ class GetQueryExecutionOutput {
     createFactory: true,
     createToJson: false)
 class GetQueryResultsOutput {
-  /// A token to be used by the next request if this request is truncated.
+  /// A token generated by the Athena service that specifies where to continue
+  /// pagination if a previous request was truncated. To obtain the next set of
+  /// pages, pass in the <code>NextToken</code> from the response object of the
+  /// previous page call.
   @_s.JsonKey(name: 'NextToken')
   final String nextToken;
 
@@ -1374,6 +2247,23 @@ class GetQueryResultsOutput {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class GetTableMetadataOutput {
+  /// An object that contains table metadata.
+  @_s.JsonKey(name: 'TableMetadata')
+  final TableMetadata tableMetadata;
+
+  GetTableMetadataOutput({
+    this.tableMetadata,
+  });
+  factory GetTableMetadataOutput.fromJson(Map<String, dynamic> json) =>
+      _$GetTableMetadataOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class GetWorkGroupOutput {
   /// Information about the workgroup.
   @_s.JsonKey(name: 'WorkGroup')
@@ -1391,12 +2281,65 @@ class GetWorkGroupOutput {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class ListDataCatalogsOutput {
+  /// A summary list of data catalogs.
+  @_s.JsonKey(name: 'DataCatalogsSummary')
+  final List<DataCatalogSummary> dataCatalogsSummary;
+
+  /// A token generated by the Athena service that specifies where to continue
+  /// pagination if a previous request was truncated. To obtain the next set of
+  /// pages, pass in the NextToken from the response object of the previous page
+  /// call.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListDataCatalogsOutput({
+    this.dataCatalogsSummary,
+    this.nextToken,
+  });
+  factory ListDataCatalogsOutput.fromJson(Map<String, dynamic> json) =>
+      _$ListDataCatalogsOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListDatabasesOutput {
+  /// A list of databases from a data catalog.
+  @_s.JsonKey(name: 'DatabaseList')
+  final List<Database> databaseList;
+
+  /// A token generated by the Athena service that specifies where to continue
+  /// pagination if a previous request was truncated. To obtain the next set of
+  /// pages, pass in the NextToken from the response object of the previous page
+  /// call.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListDatabasesOutput({
+    this.databaseList,
+    this.nextToken,
+  });
+  factory ListDatabasesOutput.fromJson(Map<String, dynamic> json) =>
+      _$ListDatabasesOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class ListNamedQueriesOutput {
   /// The list of unique query IDs.
   @_s.JsonKey(name: 'NamedQueryIds')
   final List<String> namedQueryIds;
 
-  /// A token to be used by the next request if this request is truncated.
+  /// A token generated by the Athena service that specifies where to continue
+  /// pagination if a previous request was truncated. To obtain the next set of
+  /// pages, pass in the <code>NextToken</code> from the response object of the
+  /// previous page call.
   @_s.JsonKey(name: 'NextToken')
   final String nextToken;
 
@@ -1435,12 +2378,37 @@ class ListQueryExecutionsOutput {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class ListTableMetadataOutput {
+  /// A token generated by the Athena service that specifies where to continue
+  /// pagination if a previous request was truncated. To obtain the next set of
+  /// pages, pass in the NextToken from the response object of the previous page
+  /// call.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  /// A list of table metadata.
+  @_s.JsonKey(name: 'TableMetadataList')
+  final List<TableMetadata> tableMetadataList;
+
+  ListTableMetadataOutput({
+    this.nextToken,
+    this.tableMetadataList,
+  });
+  factory ListTableMetadataOutput.fromJson(Map<String, dynamic> json) =>
+      _$ListTableMetadataOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class ListTagsForResourceOutput {
   /// A token to be used by the next request if this request is truncated.
   @_s.JsonKey(name: 'NextToken')
   final String nextToken;
 
-  /// The list of tags associated with this workgroup.
+  /// The list of tags associated with the specified resource.
   @_s.JsonKey(name: 'Tags')
   final List<Tag> tags;
 
@@ -1458,7 +2426,10 @@ class ListTagsForResourceOutput {
     createFactory: true,
     createToJson: false)
 class ListWorkGroupsOutput {
-  /// A token to be used by the next request if this request is truncated.
+  /// A token generated by the Athena service that specifies where to continue
+  /// pagination if a previous request was truncated. To obtain the next set of
+  /// pages, pass in the <code>NextToken</code> from the response object of the
+  /// previous page call.
   @_s.JsonKey(name: 'NextToken')
   final String nextToken;
 
@@ -1583,18 +2554,23 @@ class QueryExecution {
       _$QueryExecutionFromJson(json);
 }
 
-/// The database in which the query execution occurs.
+/// The database and data catalog context in which the query execution occurs.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: true)
 class QueryExecutionContext {
-  /// The name of the database.
+  /// The name of the data catalog used in the query execution.
+  @_s.JsonKey(name: 'Catalog')
+  final String catalog;
+
+  /// The name of the database used in the query execution.
   @_s.JsonKey(name: 'Database')
   final String database;
 
   QueryExecutionContext({
+    this.catalog,
     this.database,
   });
   factory QueryExecutionContext.fromJson(Map<String, dynamic> json) =>
@@ -1699,6 +2675,11 @@ class QueryExecutionStatus {
   /// completed without errors. <code>FAILED</code> indicates that the query
   /// experienced an error and did not complete processing. <code>CANCELLED</code>
   /// indicates that a user input interrupted query execution.
+  /// <note>
+  /// Athena automatically retries your queries in cases of certain transient
+  /// errors. As a result, you may see the query state transition from
+  /// <code>RUNNING</code> or <code>FAILED</code> to <code>QUEUED</code>.
+  /// </note>
   @_s.JsonKey(name: 'State')
   final QueryExecutionState state;
 
@@ -1824,7 +2805,8 @@ class ResultConfigurationUpdates {
 }
 
 /// The metadata and rows that comprise a query result set. The metadata
-/// describes the column structure and data types.
+/// describes the column structure and data types. To return a
+/// <code>ResultSet</code> object, use <a>GetQueryResults</a>.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -1849,7 +2831,8 @@ class ResultSet {
 }
 
 /// The metadata that describes the column structure and data types of a table
-/// of query results.
+/// of query results. To return a <code>ResultSetMetadata</code> object, use
+/// <a>GetQueryResults</a>.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -1921,16 +2904,69 @@ class StopQueryExecutionOutput {
       _$StopQueryExecutionOutputFromJson(json);
 }
 
-/// A tag that you can add to a resource. A tag is a label that you assign to an
-/// AWS Athena resource (a workgroup). Each tag consists of a key and an
-/// optional value, both of which you define. Tags enable you to categorize
-/// workgroups in Athena, for example, by purpose, owner, or environment. Use a
+/// Contains metadata for a table.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class TableMetadata {
+  /// The name of the table.
+  @_s.JsonKey(name: 'Name')
+  final String name;
+
+  /// A list of the columns in the table.
+  @_s.JsonKey(name: 'Columns')
+  final List<Column> columns;
+
+  /// The time that the table was created.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'CreateTime')
+  final DateTime createTime;
+
+  /// The last time the table was accessed.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'LastAccessTime')
+  final DateTime lastAccessTime;
+
+  /// A set of custom key/value pairs for table properties.
+  @_s.JsonKey(name: 'Parameters')
+  final Map<String, String> parameters;
+
+  /// A list of the partition keys in the table.
+  @_s.JsonKey(name: 'PartitionKeys')
+  final List<Column> partitionKeys;
+
+  /// The type of table. In Athena, only <code>EXTERNAL_TABLE</code> is supported.
+  @_s.JsonKey(name: 'TableType')
+  final String tableType;
+
+  TableMetadata({
+    @_s.required this.name,
+    this.columns,
+    this.createTime,
+    this.lastAccessTime,
+    this.parameters,
+    this.partitionKeys,
+    this.tableType,
+  });
+  factory TableMetadata.fromJson(Map<String, dynamic> json) =>
+      _$TableMetadataFromJson(json);
+}
+
+/// A label that you assign to a resource. In Athena, a resource can be a
+/// workgroup or data catalog. Each tag consists of a key and an optional value,
+/// both of which you define. For example, you can use tags to categorize Athena
+/// workgroups or data catalogs by purpose, owner, or environment. Use a
 /// consistent set of tag keys to make it easier to search and filter workgroups
-/// in your account. The maximum tag key length is 128 Unicode characters in
-/// UTF-8. The maximum tag value length is 256 Unicode characters in UTF-8. You
-/// can use letters and numbers representable in UTF-8, and the following
-/// characters: + - = . _ : / @. Tag keys and values are case-sensitive. Tag
-/// keys must be unique per resource.
+/// or data catalogs in your account. For best practices, see <a
+/// href="https://aws.amazon.com/answers/account-management/aws-tagging-strategies/">Tagging
+/// Best Practices</a>. Tag keys can be from 1 to 128 UTF-8 Unicode characters,
+/// and tag values can be from 0 to 256 UTF-8 Unicode characters. Tags can use
+/// letters and numbers representable in UTF-8, and the following characters: +
+/// - = . _ : / @. Tag keys and values are case-sensitive. Tag keys must be
+/// unique per resource. If you specify more than one tag, separate them by
+/// commas.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -2039,6 +3075,17 @@ class UntagResourceOutput {
   UntagResourceOutput();
   factory UntagResourceOutput.fromJson(Map<String, dynamic> json) =>
       _$UntagResourceOutputFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class UpdateDataCatalogOutput {
+  UpdateDataCatalogOutput();
+  factory UpdateDataCatalogOutput.fromJson(Map<String, dynamic> json) =>
+      _$UpdateDataCatalogOutputFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -2304,6 +3351,11 @@ class InvalidRequestException extends _s.GenericAwsException {
       : super(type: type, code: 'InvalidRequestException', message: message);
 }
 
+class MetadataException extends _s.GenericAwsException {
+  MetadataException({String type, String message})
+      : super(type: type, code: 'MetadataException', message: message);
+}
+
 class ResourceNotFoundException extends _s.GenericAwsException {
   ResourceNotFoundException({String type, String message})
       : super(type: type, code: 'ResourceNotFoundException', message: message);
@@ -2319,6 +3371,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       InternalServerException(type: type, message: message),
   'InvalidRequestException': (type, message) =>
       InvalidRequestException(type: type, message: message),
+  'MetadataException': (type, message) =>
+      MetadataException(type: type, message: message),
   'ResourceNotFoundException': (type, message) =>
       ResourceNotFoundException(type: type, message: message),
   'TooManyRequestsException': (type, message) =>

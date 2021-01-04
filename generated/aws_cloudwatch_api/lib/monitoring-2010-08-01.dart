@@ -180,7 +180,7 @@ class CloudWatch {
     );
   }
 
-  /// Deletes all dashboards that you specify. You may specify up to 100
+  /// Deletes all dashboards that you specify. You can specify up to 100
   /// dashboards to delete. If there is an error during this call, no dashboards
   /// are deleted.
   ///
@@ -212,7 +212,7 @@ class CloudWatch {
   /// Permanently deletes the specified Contributor Insights rules.
   ///
   /// If you create a rule, delete it, and then re-create it with the same name,
-  /// historical data from the first time the rule was created may or may not be
+  /// historical data from the first time the rule was created might not be
   /// available.
   ///
   /// May throw [InvalidParameterValueException].
@@ -327,7 +327,7 @@ class CloudWatch {
   }
 
   /// Retrieves the specified alarms. You can filter the results by specifying a
-  /// a prefix for the alarm name, the alarm state, or a prefix for any action.
+  /// prefix for the alarm name, the alarm state, or a prefix for any action.
   ///
   /// May throw [InvalidNextToken].
   ///
@@ -362,7 +362,7 @@ class CloudWatch {
   ///
   /// If you specify <code>ChildrenOfAlarmName</code>, you cannot specify any
   /// other parameters in the request except for <code>MaxRecords</code> and
-  /// <code>NextToken</code>. If you do so, you will receive a validation error.
+  /// <code>NextToken</code>. If you do so, you receive a validation error.
   /// <note>
   /// Only the <code>Alarm Name</code>, <code>ARN</code>,
   /// <code>StateValue</code> (OK/ALARM/INSUFFICIENT_DATA), and
@@ -389,7 +389,7 @@ class CloudWatch {
   ///
   /// If you specify <code>ParentsOfAlarmName</code>, you cannot specify any
   /// other parameters in the request except for <code>MaxRecords</code> and
-  /// <code>NextToken</code>. If you do so, you will receive a validation error.
+  /// <code>NextToken</code>. If you do so, you receive a validation error.
   /// <note>
   /// Only the Alarm Name and ARN are returned by this operation when you use
   /// this parameter. To get complete information about these alarms, perform
@@ -468,6 +468,11 @@ class CloudWatch {
 
   /// Retrieves the alarms for the specified metric. To filter the results,
   /// specify a statistic, period, or unit.
+  ///
+  /// This operation retrieves only standard alarms that are based on the
+  /// specified metric. It does not return alarms based on math expressions that
+  /// use the specified metric, or composite alarms that use the specified
+  /// metric.
   ///
   /// Parameter [metricName] :
   /// The name of the metric.
@@ -642,8 +647,7 @@ class CloudWatch {
     return DescribeAnomalyDetectorsOutput.fromXml($result);
   }
 
-  /// Returns a list of all the Contributor Insights rules in your account. All
-  /// rules in your account are returned with a single operation.
+  /// Returns a list of all the Contributor Insights rules in your account.
   ///
   /// For more information about Contributor Insights, see <a
   /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/ContributorInsights.html">Using
@@ -652,11 +656,12 @@ class CloudWatch {
   /// May throw [InvalidNextToken].
   ///
   /// Parameter [maxResults] :
-  /// This parameter is not currently used. Reserved for future use. If it is
-  /// used in the future, the maximum value may be different.
+  /// The maximum number of results to return in one operation. If you omit this
+  /// parameter, the default of 500 is used.
   ///
   /// Parameter [nextToken] :
-  /// Reserved for future use.
+  /// Include this value, if it was returned by the previous operation, to get
+  /// the next set of rules.
   Future<DescribeInsightRulesOutput> describeInsightRules({
     int maxResults,
     String nextToken,
@@ -837,8 +842,8 @@ class CloudWatch {
   /// </li>
   /// <li>
   /// <code>MaxContributorValue</code> -- the value of the top contributor for
-  /// each data point. The identity of the contributor may change for each data
-  /// point in the graph.
+  /// each data point. The identity of the contributor might change for each
+  /// data point in the graph.
   ///
   /// If this rule aggregates by COUNT, the top contributor for each data point
   /// is the contributor with the most occurrences in that period. If the rule
@@ -903,8 +908,8 @@ class CloudWatch {
   /// </li>
   /// <li>
   /// <code>MaxContributorValue</code> -- the value of the top contributor for
-  /// each data point. The identity of the contributor may change for each data
-  /// point in the graph.
+  /// each data point. The identity of the contributor might change for each
+  /// data point in the graph.
   ///
   /// If this rule aggregates by COUNT, the top contributor for each data point
   /// is the contributor with the most occurrences in that period. If the rule
@@ -1052,7 +1057,7 @@ class CloudWatch {
   /// If you omit <code>Unit</code> in your request, all data that was collected
   /// with any unit is returned, along with the corresponding units that were
   /// specified when the data was reported to CloudWatch. If you specify a unit,
-  /// the operation returns only data data that was collected with that unit
+  /// the operation returns only data that was collected with that unit
   /// specified. If you specify a unit that does not match the data collected,
   /// the results of the operation are null. CloudWatch does not perform unit
   /// conversions.
@@ -1121,8 +1126,8 @@ class CloudWatch {
   /// paginating. If you omit this, the default of 100,800 is used.
   ///
   /// Parameter [nextToken] :
-  /// Include this value, if it was returned by the previous call, to get the
-  /// next set of data points.
+  /// Include this value, if it was returned by the previous
+  /// <code>GetMetricData</code> operation, to get the next set of data points.
   ///
   /// Parameter [scanBy] :
   /// The order in which data points should be returned.
@@ -1341,9 +1346,9 @@ class CloudWatch {
   /// The unit for a given metric. If you omit <code>Unit</code>, all data that
   /// was collected with any unit is returned, along with the corresponding
   /// units that were specified when the data was reported to CloudWatch. If you
-  /// specify a unit, the operation returns only data data that was collected
-  /// with that unit specified. If you specify a unit that does not match the
-  /// data collected, the results of the operation are null. CloudWatch does not
+  /// specify a unit, the operation returns only data that was collected with
+  /// that unit specified. If you specify a unit that does not match the data
+  /// collected, the results of the operation are null. CloudWatch does not
   /// perform unit conversions.
   Future<GetMetricStatisticsOutput> getMetricStatistics({
     @_s.required DateTime endTime,
@@ -1558,9 +1563,15 @@ class CloudWatch {
   /// Up to 500 results are returned for any one call. To retrieve additional
   /// results, use the returned token with subsequent calls.
   ///
-  /// After you create a metric, allow up to fifteen minutes before the metric
-  /// appears. Statistics about the metric, however, are available sooner using
-  /// <a
+  /// After you create a metric, allow up to 15 minutes before the metric
+  /// appears. You can see statistics about the metric sooner by using <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_GetMetricData.html">GetMetricData</a>
+  /// or <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_GetMetricStatistics.html">GetMetricStatistics</a>.
+  ///
+  /// <code>ListMetrics</code> doesn't return information about metrics if those
+  /// metrics haven't reported data in the past two weeks. To retrieve those
+  /// metrics, use <a
   /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_GetMetricData.html">GetMetricData</a>
   /// or <a
   /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_GetMetricStatistics.html">GetMetricStatistics</a>.
@@ -1569,22 +1580,36 @@ class CloudWatch {
   /// May throw [InvalidParameterValueException].
   ///
   /// Parameter [dimensions] :
-  /// The dimensions to filter against.
+  /// The dimensions to filter against. Only the dimensions that match exactly
+  /// will be returned.
   ///
   /// Parameter [metricName] :
-  /// The name of the metric to filter against.
+  /// The name of the metric to filter against. Only the metrics with names that
+  /// match exactly will be returned.
   ///
   /// Parameter [namespace] :
-  /// The namespace to filter against.
+  /// The metric namespace to filter against. Only the namespace that matches
+  /// exactly will be returned.
   ///
   /// Parameter [nextToken] :
   /// The token returned by a previous call to indicate that there is more data
   /// available.
+  ///
+  /// Parameter [recentlyActive] :
+  /// To filter the results to show only metrics that have had data points
+  /// published in the past three hours, specify this parameter with a value of
+  /// <code>PT3H</code>. This is the only valid value for this parameter.
+  ///
+  /// The results that are returned are an approximation of the value you
+  /// specify. There is a low probability that the returned results include
+  /// metrics with last published data as much as 40 minutes more than the
+  /// specified time interval.
   Future<ListMetricsOutput> listMetrics({
     List<DimensionFilter> dimensions,
     String metricName,
     String namespace,
     String nextToken,
+    RecentlyActive recentlyActive,
   }) async {
     _s.validateStringLength(
       'metricName',
@@ -1608,6 +1633,7 @@ class CloudWatch {
     metricName?.also((arg) => $request['MetricName'] = arg);
     namespace?.also((arg) => $request['Namespace'] = arg);
     nextToken?.also((arg) => $request['NextToken'] = arg);
+    recentlyActive?.also((arg) => $request['RecentlyActive'] = arg.toValue());
     final $result = await _protocol.send(
       $request,
       action: 'ListMetrics',
@@ -1640,7 +1666,7 @@ class CloudWatch {
   /// <code>arn:aws:cloudwatch:<i>Region</i>:<i>account-id</i>:insight-rule:<i>insight-rule-name</i>
   /// </code>
   ///
-  /// For more information on ARN format, see <a
+  /// For more information about ARN format, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazoncloudwatch.html#amazoncloudwatch-resources-for-iam-policies">
   /// Resource Types Defined by Amazon CloudWatch</a> in the <i>Amazon Web
   /// Services General Reference</i>.
@@ -1699,8 +1725,6 @@ class CloudWatch {
   /// updating the model. You can specify as many as 10 time ranges.
   ///
   /// The configuration can also include the time zone to use for the metric.
-  ///
-  /// You can in
   ///
   /// Parameter [dimensions] :
   /// The metric dimensions to create the anomaly detection model for.
@@ -1801,11 +1825,15 @@ class CloudWatch {
   /// When you update an existing alarm, its state is left unchanged, but the
   /// update completely overwrites the previous configuration of the alarm.
   ///
+  /// If you are an IAM user, you must have
+  /// <code>iam:CreateServiceLinkedRole</code> to create a composite alarm that
+  /// has Systems Manager OpsItem actions.
+  ///
   /// May throw [LimitExceededFault].
   ///
   /// Parameter [alarmName] :
-  /// The name for the composite alarm. This name must be unique within your AWS
-  /// account.
+  /// The name for the composite alarm. This name must be unique within the
+  /// Region.
   ///
   /// Parameter [alarmRule] :
   /// An expression that specifies which other alarms are to be evaluated to
@@ -1887,6 +1915,8 @@ class CloudWatch {
   ///
   /// Valid Values:
   /// <code>arn:aws:sns:<i>region</i>:<i>account-id</i>:<i>sns-topic-name</i>
+  /// </code> |
+  /// <code>arn:aws:ssm:<i>region</i>:<i>account-id</i>:opsitem:<i>severity</i>
   /// </code>
   ///
   /// Parameter [alarmDescription] :
@@ -2040,7 +2070,7 @@ class CloudWatch {
   /// Contributor Insights to Analyze High-Cardinality Data</a>.
   ///
   /// If you create a rule, delete it, and then re-create it with the same name,
-  /// historical data from the first time the rule was created may or may not be
+  /// historical data from the first time the rule was created might not be
   /// available.
   ///
   /// May throw [InvalidParameterValueException].
@@ -2156,48 +2186,27 @@ class CloudWatch {
   ///
   /// <ul>
   /// <li>
-  /// <code>iam:CreateServiceLinkedRole</code> for all alarms with EC2 actions
+  /// The <code>iam:CreateServiceLinkedRole</code> for all alarms with EC2
+  /// actions
   /// </li>
   /// <li>
-  /// <code>ec2:DescribeInstanceStatus</code> and
-  /// <code>ec2:DescribeInstances</code> for all alarms on EC2 instance status
-  /// metrics
-  /// </li>
-  /// <li>
-  /// <code>ec2:StopInstances</code> for alarms with stop actions
-  /// </li>
-  /// <li>
-  /// <code>ec2:TerminateInstances</code> for alarms with terminate actions
-  /// </li>
-  /// <li>
-  /// No specific permissions are needed for alarms with recover actions
+  /// The <code>iam:CreateServiceLinkedRole</code> to create an alarm with
+  /// Systems Manager OpsItem actions.
   /// </li>
   /// </ul>
-  /// If you have read/write permissions for Amazon CloudWatch but not for
-  /// Amazon EC2, you can still create an alarm, but the stop or terminate
-  /// actions are not performed. However, if you are later granted the required
-  /// permissions, the alarm actions that you created earlier are performed.
-  ///
-  /// If you are using an IAM role (for example, an EC2 instance profile), you
-  /// cannot stop or terminate the instance using alarm actions. However, you
-  /// can still see the alarm state and perform any other actions such as Amazon
-  /// SNS notifications or Auto Scaling policies.
-  ///
-  /// If you are using temporary security credentials granted using AWS STS, you
-  /// cannot stop or terminate an EC2 instance using alarm actions.
-  ///
   /// The first time you create an alarm in the AWS Management Console, the CLI,
   /// or by using the PutMetricAlarm API, CloudWatch creates the necessary
-  /// service-linked role for you. The service-linked role is called
-  /// <code>AWSServiceRoleForCloudWatchEvents</code>. For more information, see
-  /// <a
+  /// service-linked rolea for you. The service-linked roles are called
+  /// <code>AWSServiceRoleForCloudWatchEvents</code> and
+  /// <code>AWSServiceRoleForCloudWatchAlarms_ActionSSM</code>. For more
+  /// information, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_terms-and-concepts.html#iam-term-service-linked-role">AWS
   /// service-linked role</a>.
   ///
   /// May throw [LimitExceededFault].
   ///
   /// Parameter [alarmName] :
-  /// The name for the alarm. This name must be unique within your AWS account.
+  /// The name for the alarm. This name must be unique within the Region.
   ///
   /// Parameter [comparisonOperator] :
   /// The arithmetic operation to use when comparing the specified statistic and
@@ -2235,6 +2244,8 @@ class CloudWatch {
   /// <code>arn:aws:sns:<i>region</i>:<i>account-id</i>:<i>sns-topic-name</i>
   /// </code> |
   /// <code>arn:aws:autoscaling:<i>region</i>:<i>account-id</i>:scalingPolicy:<i>policy-id</i>:autoScalingGroupName/<i>group-friendly-name</i>:policyName/<i>policy-friendly-name</i>
+  /// </code> |
+  /// <code>arn:aws:ssm:<i>region</i>:<i>account-id</i>:opsitem:<i>severity</i>
   /// </code>
   ///
   /// Valid Values (for use with IAM roles):
@@ -2319,7 +2330,7 @@ class CloudWatch {
   ///
   /// One item in the <code>Metrics</code> array is the expression that the
   /// alarm watches. You designate this expression by setting
-  /// <code>ReturnValue</code> to true for this object in the array. For more
+  /// <code>ReturnData</code> to true for this object in the array. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_MetricDataQuery.html">MetricDataQuery</a>.
   ///
@@ -2371,7 +2382,7 @@ class CloudWatch {
   /// sub-minute resolution, the alarm still attempts to gather data at the
   /// period rate that you specify. In this case, it does not receive data for
   /// the attempts that do not correspond to a one-minute data resolution, and
-  /// the alarm may often lapse into INSUFFICENT_DATA status. Specifying 10 or
+  /// the alarm might often lapse into INSUFFICENT_DATA status. Specifying 10 or
   /// 30 also sets this alarm as a high-resolution alarm, which has a higher
   /// charge than other alarms. For more information about pricing, see <a
   /// href="https://aws.amazon.com/cloudwatch/pricing/">Amazon CloudWatch
@@ -2393,8 +2404,15 @@ class CloudWatch {
   /// as many as 50 tags with an alarm.
   ///
   /// Tags can help you organize and categorize your resources. You can also use
-  /// them to scope user permissions, by granting a user permission to access or
+  /// them to scope user permissions by granting a user permission to access or
   /// change only resources with certain tag values.
+  ///
+  /// If you are using this operation to update an existing alarm, any tags you
+  /// specify in this parameter are ignored. To change the tags of an existing
+  /// alarm, use <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_TagResource.html">TagResource</a>
+  /// or <a
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_UntagResource.html">UntagResource</a>.
   ///
   /// Parameter [threshold] :
   /// The value against which the specified statistic is compared.
@@ -2430,12 +2448,12 @@ class CloudWatch {
   ///
   /// If you don't specify <code>Unit</code>, CloudWatch retrieves all unit
   /// types that have been published for the metric and attempts to evaluate the
-  /// alarm. Usually metrics are published with only one unit, so the alarm will
-  /// work as intended.
+  /// alarm. Usually, metrics are published with only one unit, so the alarm
+  /// works as intended.
   ///
   /// However, if the metric is published with multiple types of units and you
-  /// don't specify a unit, the alarm's behavior is not defined and will behave
-  /// un-predictably.
+  /// don't specify a unit, the alarm's behavior is not defined and it behaves
+  /// predictably.
   ///
   /// We recommend omitting <code>Unit</code> so that you don't inadvertently
   /// specify an incorrect unit that is not published for this metric. Doing so
@@ -2606,6 +2624,10 @@ class CloudWatch {
   /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/publishingMetrics.html">Publishing
   /// Metrics</a> in the <i>Amazon CloudWatch User Guide</i>.
   ///
+  /// You specify the time stamp to be associated with each data point. You can
+  /// specify time stamps that are as much as two weeks before the current date,
+  /// and as much as 2 hours after the current day and time.
+  ///
   /// Data points with time stamps from 24 hours ago or longer can take at least
   /// 48 hours to become available for <a
   /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_GetMetricData.html">GetMetricData</a>
@@ -2695,9 +2717,9 @@ class CloudWatch {
   /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/APIReference/API_DescribeAlarmHistory.html">DescribeAlarmHistory</a>.
   ///
   /// If you use <code>SetAlarmState</code> on a composite alarm, the composite
-  /// alarm is not guaranteed to return to its actual state. It will return to
-  /// its actual state only once any of its children alarms change state. It is
-  /// also re-evaluated if you update its configuration.
+  /// alarm is not guaranteed to return to its actual state. It returns to its
+  /// actual state only once any of its children alarms change state. It is also
+  /// reevaluated if you update its configuration.
   ///
   /// If an alarm triggers EC2 Auto Scaling policies or application Auto Scaling
   /// policies, you must include information in the <code>StateReasonData</code>
@@ -2707,8 +2729,7 @@ class CloudWatch {
   /// May throw [InvalidFormatFault].
   ///
   /// Parameter [alarmName] :
-  /// The name for the alarm. This name must be unique within the AWS account.
-  /// The maximum length is 255 characters.
+  /// The name of the alarm.
   ///
   /// Parameter [stateReason] :
   /// The reason that this alarm is set to this specific state, in text format.
@@ -2773,7 +2794,7 @@ class CloudWatch {
   /// alarms and Contributor Insights rules.
   ///
   /// Tags can help you organize and categorize your resources. You can also use
-  /// them to scope user permissions, by granting a user permission to access or
+  /// them to scope user permissions by granting a user permission to access or
   /// change only resources with certain tag values.
   ///
   /// Tags don't have any semantic meaning to AWS and are interpreted strictly
@@ -2803,7 +2824,7 @@ class CloudWatch {
   /// <code>arn:aws:cloudwatch:<i>Region</i>:<i>account-id</i>:insight-rule:<i>insight-rule-name</i>
   /// </code>
   ///
-  /// For more information on ARN format, see <a
+  /// For more information about ARN format, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazoncloudwatch.html#amazoncloudwatch-resources-for-iam-policies">
   /// Resource Types Defined by Amazon CloudWatch</a> in the <i>Amazon Web
   /// Services General Reference</i>.
@@ -2857,7 +2878,7 @@ class CloudWatch {
   /// <code>arn:aws:cloudwatch:<i>Region</i>:<i>account-id</i>:insight-rule:<i>insight-rule-name</i>
   /// </code>
   ///
-  /// For more information on ARN format, see <a
+  /// For more information about ARN format, see <a
   /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazoncloudwatch.html#amazoncloudwatch-resources-for-iam-policies">
   /// Resource Types Defined by Amazon CloudWatch</a> in the <i>Amazon Web
   /// Services General Reference</i>.
@@ -3480,7 +3501,8 @@ class DescribeInsightRulesOutput {
   /// The rules returned by the operation.
   final List<InsightRule> insightRules;
 
-  /// Reserved for future use.
+  /// If this parameter is present, it is a token that marks the start of the next
+  /// batch of returned results.
   final String nextToken;
 
   DescribeInsightRulesOutput({
@@ -3498,18 +3520,24 @@ class DescribeInsightRulesOutput {
   }
 }
 
-/// Expands the identity of a metric.
+/// A dimension is a name/value pair that is part of the identity of a metric.
+/// You can assign up to 10 dimensions to a metric. Because dimensions are part
+/// of the unique identifier for a metric, whenever you add a unique name/value
+/// pair to one of your metrics, you are creating a new variation of that
+/// metric.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: false,
     createToJson: true)
 class Dimension {
-  /// The name of the dimension.
+  /// The name of the dimension. Dimension names cannot contain blank spaces or
+  /// non-ASCII characters.
   @_s.JsonKey(name: 'Name')
   final String name;
 
-  /// The value representing the dimension measurement.
+  /// The value of the dimension. Dimension values cannot contain blank spaces or
+  /// non-ASCII characters.
   @_s.JsonKey(name: 'Value')
   final String value;
 
@@ -3672,7 +3700,7 @@ class GetInsightRuleReportOutput {
 
 class GetMetricDataOutput {
   /// Contains a message about this <code>GetMetricData</code> operation, if the
-  /// operation results in such a message. An example of a message that may be
+  /// operation results in such a message. An example of a message that might be
   /// returned is <code>Maximum number of allowed metrics exceeded</code>. If
   /// there is a message, as much of the operation as possible is still executed.
   ///
@@ -3733,7 +3761,8 @@ class GetMetricStatisticsOutput {
 }
 
 class GetMetricWidgetImageOutput {
-  /// The image of the graph, in the output format specified.
+  /// The image of the graph, in the output format specified. The output is
+  /// base64-encoded.
   final Uint8List metricWidgetImage;
 
   GetMetricWidgetImageOutput({
@@ -3992,7 +4021,7 @@ class ListDashboardsOutput {
 }
 
 class ListMetricsOutput {
-  /// The metrics.
+  /// The metrics that match your request.
   final List<Metric> metrics;
 
   /// The token that marks the start of the next batch of returned results.
@@ -4146,7 +4175,7 @@ class MetricAlarm {
   /// math expression. Each structure either retrieves a metric or performs a math
   /// expression. One item in the Metrics array is the math expression that the
   /// alarm watches. This expression by designated by having
-  /// <code>ReturnValue</code> set to true.
+  /// <code>ReturnData</code> set to true.
   final List<MetricDataQuery> metrics;
 
   /// The namespace of the metric associated with the alarm.
@@ -4600,8 +4629,8 @@ class MetricStat {
   /// In a <code>Get</code> operation, if you omit <code>Unit</code> then all data
   /// that was collected with any unit is returned, along with the corresponding
   /// units that were specified when the data was reported to CloudWatch. If you
-  /// specify a unit, the operation returns only data data that was collected with
-  /// that unit specified. If you specify a unit that does not match the data
+  /// specify a unit, the operation returns only data that was collected with that
+  /// unit specified. If you specify a unit that does not match the data
   /// collected, the results of the operation are null. CloudWatch does not
   /// perform unit conversions.
   @_s.JsonKey(name: 'Unit')
@@ -4672,7 +4701,7 @@ class PutDashboardOutput {
   ///
   /// If this result includes only warning messages, then the input was valid
   /// enough for the dashboard to be created or modified, but some elements of the
-  /// dashboard may not render.
+  /// dashboard might not render.
   ///
   /// If this result includes error messages, the input was not valid and the
   /// operation failed.
@@ -4736,6 +4765,31 @@ class Range {
   }
 
   Map<String, dynamic> toJson() => _$RangeToJson(this);
+}
+
+enum RecentlyActive {
+  @_s.JsonValue('PT3H')
+  pt3h,
+}
+
+extension on RecentlyActive {
+  String toValue() {
+    switch (this) {
+      case RecentlyActive.pt3h:
+        return 'PT3H';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
+extension on String {
+  RecentlyActive toRecentlyActive() {
+    switch (this) {
+      case 'PT3H':
+        return RecentlyActive.pt3h;
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 enum ScanBy {

@@ -26,14 +26,14 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
 part 'snowball-2016-06-30.g.dart';
 
-/// AWS Snowball is a petabyte-scale data transport solution that uses secure
+/// AWS Snow Family is a petabyte-scale data transport solution that uses secure
 /// devices to transfer large amounts of data between your on-premises data
-/// centers and Amazon Simple Storage Service (Amazon S3). The Snowball commands
+/// centers and Amazon Simple Storage Service (Amazon S3). The Snow commands
 /// described here provide access to the same functionality that is available in
-/// the AWS Snowball Management Console, which enables you to create and manage
-/// jobs for Snowball. To transfer data locally with a Snowball device, you'll
-/// need to use the Snowball client or the Amazon S3 API adapter for Snowball.
-/// For more information, see the <a
+/// the AWS Snow Family Management Console, which enables you to create and
+/// manage jobs for a Snow device. To transfer data locally with a Snow device,
+/// you'll need to use the Snowball Edge client or the Amazon S3 API Interface
+/// for Snowball or AWS OpsHub for Snow Family. For more information, see the <a
 /// href="https://docs.aws.amazon.com/AWSImportExport/latest/ug/api-reference.html">User
 /// Guide</a>.
 class Snowball {
@@ -147,7 +147,7 @@ class Snowball {
     return CancelJobResult.fromJson(jsonResponse.body);
   }
 
-  /// Creates an address for a Snowball to be shipped to. In most regions,
+  /// Creates an address for a Snow device to be shipped to. In most regions,
   /// addresses are validated at the time of creation. The address you provide
   /// must be located within the serviceable area of your region. If the address
   /// is invalid or unsupported, then an exception is thrown.
@@ -156,7 +156,7 @@ class Snowball {
   /// May throw [UnsupportedAddressException].
   ///
   /// Parameter [address] :
-  /// The address that you want the Snowball shipped to.
+  /// The address that you want the Snow device shipped to.
   Future<CreateAddressResult> createAddress({
     @_s.required Address address,
   }) async {
@@ -215,17 +215,36 @@ class Snowball {
   ///
   /// <ul>
   /// <li>
+  /// In Australia, you have access to express shipping. Typically, Snow devices
+  /// shipped express are delivered in about a day.
+  /// </li>
+  /// <li>
+  /// In the European Union (EU), you have access to express shipping.
+  /// Typically, Snow devices shipped express are delivered in about a day. In
+  /// addition, most countries in the EU have access to standard shipping, which
+  /// typically takes less than a week, one way.
+  /// </li>
+  /// <li>
+  /// In India, Snow device are delivered in one to seven days.
+  /// </li>
+  /// <li>
+  /// In the United States of America (US), you have access to one-day shipping
+  /// and two-day shipping.
+  /// </li>
+  /// </ul>
+  /// <ul>
+  /// <li>
   /// In Australia, you have access to express shipping. Typically, devices
   /// shipped express are delivered in about a day.
   /// </li>
   /// <li>
   /// In the European Union (EU), you have access to express shipping.
-  /// Typically, Snowball Edges shipped express are delivered in about a day. In
+  /// Typically, Snow devices shipped express are delivered in about a day. In
   /// addition, most countries in the EU have access to standard shipping, which
   /// typically takes less than a week, one way.
   /// </li>
   /// <li>
-  /// In India, Snowball Edges are delivered in one to seven days.
+  /// In India, Snow device are delivered in one to seven days.
   /// </li>
   /// <li>
   /// In the US, you have access to one-day shipping and two-day shipping.
@@ -251,12 +270,11 @@ class Snowball {
   /// for this cluster.
   ///
   /// Parameter [snowballType] :
-  /// The type of AWS Snowball device to use for this cluster. Currently, the
-  /// only supported device type for cluster jobs is <code>EDGE</code>.
-  ///
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/snowball/latest/developer-guide/device-differences.html">Snowball
-  /// Edge Device Options</a> in the Snowball Edge Developer Guide.
+  /// The type of AWS Snow Family device to use for this cluster.
+  /// <note>
+  /// For cluster jobs, AWS Snow Family currently supports only the
+  /// <code>EDGE</code> device type.
+  /// </note>
   ///
   /// Parameter [taxDocuments] :
   /// The tax documents required in your AWS Region.
@@ -363,10 +381,10 @@ class Snowball {
 
   /// Creates a job to import or export data between Amazon S3 and your
   /// on-premises data center. Your AWS account must have the right trust
-  /// policies and permissions in place to create a job for Snowball. If you're
-  /// creating a job for a node in a cluster, you only need to provide the
-  /// <code>clusterId</code> value; the other job attributes are inherited from
-  /// the cluster.
+  /// policies and permissions in place to create a job for a Snow device. If
+  /// you're creating a job for a node in a cluster, you only need to provide
+  /// the <code>clusterId</code> value; the other job attributes are inherited
+  /// from the cluster.
   ///
   /// May throw [InvalidResourceException].
   /// May throw [KMSRequestFailedException].
@@ -375,7 +393,7 @@ class Snowball {
   /// May throw [Ec2RequestFailedException].
   ///
   /// Parameter [addressId] :
-  /// The ID for the address that you want the Snowball shipped to.
+  /// The ID for the address that you want the Snow device shipped to.
   ///
   /// Parameter [clusterId] :
   /// The ID of a cluster. If you're creating a job for a node in a cluster, you
@@ -385,6 +403,9 @@ class Snowball {
   /// Parameter [description] :
   /// Defines an optional description of this specific job, for example
   /// <code>Important Photos 2016-08-11</code>.
+  ///
+  /// Parameter [deviceConfiguration] :
+  /// Defines the device configuration for an AWS Snowcone job.
   ///
   /// Parameter [forwardingAddressId] :
   /// The forwarding address ID for a job. This field is not supported in most
@@ -424,23 +445,23 @@ class Snowball {
   ///
   /// Parameter [shippingOption] :
   /// The shipping speed for this job. This speed doesn't dictate how soon
-  /// you'll get the Snowball, rather it represents how quickly the Snowball
-  /// moves to its destination while in transit. Regional shipping speeds are as
-  /// follows:
+  /// you'll get the Snow device, rather it represents how quickly the Snow
+  /// device moves to its destination while in transit. Regional shipping speeds
+  /// are as follows:
   ///
   /// <ul>
   /// <li>
-  /// In Australia, you have access to express shipping. Typically, Snowballs
+  /// In Australia, you have access to express shipping. Typically, Snow devices
   /// shipped express are delivered in about a day.
   /// </li>
   /// <li>
   /// In the European Union (EU), you have access to express shipping.
-  /// Typically, Snowballs shipped express are delivered in about a day. In
+  /// Typically, Snow devices shipped express are delivered in about a day. In
   /// addition, most countries in the EU have access to standard shipping, which
   /// typically takes less than a week, one way.
   /// </li>
   /// <li>
-  /// In India, Snowballs are delivered in one to seven days.
+  /// In India, Snow devices are delivered in one to seven days.
   /// </li>
   /// <li>
   /// In the US, you have access to one-day shipping and two-day shipping.
@@ -449,11 +470,16 @@ class Snowball {
   ///
   /// Parameter [snowballCapacityPreference] :
   /// If your job is being created in one of the US regions, you have the option
-  /// of specifying what size Snowball you'd like for this job. In all other
+  /// of specifying what size Snow device you'd like for this job. In all other
   /// regions, Snowballs come with 80 TB in storage capacity.
   ///
   /// Parameter [snowballType] :
-  /// The type of AWS Snowball device to use for this job. Currently, the only
+  /// The type of AWS Snow Family device to use for this job.
+  /// <note>
+  /// For cluster jobs, AWS Snow Family currently supports only the
+  /// <code>EDGE</code> device type.
+  /// </note>
+  /// The type of AWS Snow device to use for this job. Currently, the only
   /// supported device type for cluster jobs is <code>EDGE</code>.
   ///
   /// For more information, see <a
@@ -466,6 +492,7 @@ class Snowball {
     String addressId,
     String clusterId,
     String description,
+    DeviceConfiguration deviceConfiguration,
     String forwardingAddressId,
     JobType jobType,
     String kmsKeyARN,
@@ -552,6 +579,8 @@ class Snowball {
         if (addressId != null) 'AddressId': addressId,
         if (clusterId != null) 'ClusterId': clusterId,
         if (description != null) 'Description': description,
+        if (deviceConfiguration != null)
+          'DeviceConfiguration': deviceConfiguration,
         if (forwardingAddressId != null)
           'ForwardingAddressId': forwardingAddressId,
         if (jobType != null) 'JobType': jobType.toValue(),
@@ -568,6 +597,62 @@ class Snowball {
     );
 
     return CreateJobResult.fromJson(jsonResponse.body);
+  }
+
+  /// Creates a shipping label that will be used to return the Snow device to
+  /// AWS.
+  ///
+  /// May throw [InvalidResourceException].
+  /// May throw [InvalidJobStateException].
+  /// May throw [InvalidInputCombinationException].
+  /// May throw [ConflictException].
+  /// May throw [ReturnShippingLabelAlreadyExistsException].
+  ///
+  /// Parameter [jobId] :
+  /// The ID for a job that you want to create the return shipping label for.
+  /// For example <code>JID123e4567-e89b-12d3-a456-426655440000</code>.
+  ///
+  /// Parameter [shippingOption] :
+  /// The shipping speed for a particular job. This speed doesn't dictate how
+  /// soon the device is returned to AWS. This speed represents how quickly it
+  /// moves to its destination while in transit. Regional shipping speeds are as
+  /// follows:
+  Future<CreateReturnShippingLabelResult> createReturnShippingLabel({
+    @_s.required String jobId,
+    ShippingOption shippingOption,
+  }) async {
+    ArgumentError.checkNotNull(jobId, 'jobId');
+    _s.validateStringLength(
+      'jobId',
+      jobId,
+      39,
+      39,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'jobId',
+      jobId,
+      r'''(M|J)ID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'AWSIESnowballJobManagementService.CreateReturnShippingLabel'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'JobId': jobId,
+        if (shippingOption != null) 'ShippingOption': shippingOption.toValue(),
+      },
+    );
+
+    return CreateReturnShippingLabelResult.fromJson(jsonResponse.body);
   }
 
   /// Takes an <code>AddressId</code> and returns specific details about that
@@ -747,6 +832,49 @@ class Snowball {
     return DescribeJobResult.fromJson(jsonResponse.body);
   }
 
+  /// Information on the shipping label of a Snow device that is being returned
+  /// to AWS.
+  ///
+  /// May throw [InvalidResourceException].
+  /// May throw [InvalidJobStateException].
+  /// May throw [ConflictException].
+  ///
+  /// Parameter [jobId] :
+  /// The automatically generated ID for a job, for example
+  /// <code>JID123e4567-e89b-12d3-a456-426655440000</code>.
+  Future<DescribeReturnShippingLabelResult> describeReturnShippingLabel({
+    String jobId,
+  }) async {
+    _s.validateStringLength(
+      'jobId',
+      jobId,
+      39,
+      39,
+    );
+    _s.validateStringPattern(
+      'jobId',
+      jobId,
+      r'''(M|J)ID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}''',
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'AWSIESnowballJobManagementService.DescribeReturnShippingLabel'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (jobId != null) 'JobId': jobId,
+      },
+    );
+
+    return DescribeReturnShippingLabelResult.fromJson(jsonResponse.body);
+  }
+
   /// Returns a link to an Amazon S3 presigned URL for the manifest file
   /// associated with the specified <code>JobId</code> value. You can access the
   /// manifest file for up to 60 minutes after this request has been made. To
@@ -756,13 +884,13 @@ class Snowball {
   /// The manifest is an encrypted file that you can download after your job
   /// enters the <code>WithCustomer</code> status. The manifest is decrypted by
   /// using the <code>UnlockCode</code> code value, when you pass both values to
-  /// the Snowball through the Snowball client when the client is started for
+  /// the Snow device through the Snowball client when the client is started for
   /// the first time.
   ///
   /// As a best practice, we recommend that you don't save a copy of an
   /// <code>UnlockCode</code> value in the same location as the manifest file
   /// for that job. Saving these separately helps prevent unauthorized parties
-  /// from gaining access to the Snowball associated with that job.
+  /// from gaining access to the Snow device associated with that job.
   ///
   /// The credentials of a given job, including its manifest file and unlock
   /// code, expire 90 days after the job is created.
@@ -814,13 +942,13 @@ class Snowball {
   ///
   /// The <code>UnlockCode</code> value is a 29-character code with 25
   /// alphanumeric characters and 4 hyphens. This code is used to decrypt the
-  /// manifest file when it is passed along with the manifest to the Snowball
+  /// manifest file when it is passed along with the manifest to the Snow device
   /// through the Snowball client when the client is started for the first time.
   ///
   /// As a best practice, we recommend that you don't save a copy of the
   /// <code>UnlockCode</code> in the same location as the manifest file for that
   /// job. Saving these separately helps prevent unauthorized parties from
-  /// gaining access to the Snowball associated with that job.
+  /// gaining access to the Snow device associated with that job.
   ///
   /// May throw [InvalidResourceException].
   /// May throw [InvalidJobStateException].
@@ -863,11 +991,11 @@ class Snowball {
     return GetJobUnlockCodeResult.fromJson(jsonResponse.body);
   }
 
-  /// Returns information about the Snowball service limit for your account, and
-  /// also the number of Snowballs your account has in use.
+  /// Returns information about the Snow Family service limit for your account,
+  /// and also the number of Snow devices your account has in use.
   ///
-  /// The default service limit for the number of Snowballs that you can have at
-  /// one time is 1. If you want to increase your service limit, contact AWS
+  /// The default service limit for the number of Snow devices that you can have
+  /// at one time is 1. If you want to increase your service limit, contact AWS
   /// Support.
   Future<GetSnowballUsageResult> getSnowballUsage() async {
     final headers = <String, String>{
@@ -1051,10 +1179,9 @@ class Snowball {
 
   /// This action returns a list of the different Amazon EC2 Amazon Machine
   /// Images (AMIs) that are owned by your AWS account that would be supported
-  /// for use on a Snowball Edge device. Currently, supported AMIs are based on
-  /// the CentOS 7 (x86_64) - with Updates HVM, Ubuntu Server 14.04 LTS (HVM),
-  /// and Ubuntu 16.04 LTS - Xenial (HVM) images, available on the AWS
-  /// Marketplace.
+  /// for use on a Snow device. Currently, supported AMIs are based on the
+  /// CentOS 7 (x86_64) - with Updates HVM, Ubuntu Server 14.04 LTS (HVM), and
+  /// Ubuntu 16.04 LTS - Xenial (HVM) images, available on the AWS Marketplace.
   ///
   /// May throw [InvalidNextTokenException].
   /// May throw [Ec2RequestFailedException].
@@ -1424,14 +1551,67 @@ class Snowball {
 
     return UpdateJobResult.fromJson(jsonResponse.body);
   }
+
+  /// Updates the state when a the shipment states changes to a different state.
+  ///
+  /// May throw [InvalidResourceException].
+  /// May throw [InvalidJobStateException].
+  ///
+  /// Parameter [jobId] :
+  /// The job ID of the job whose shipment date you want to update, for example
+  /// <code>JID123e4567-e89b-12d3-a456-426655440000</code>.
+  ///
+  /// Parameter [shipmentState] :
+  /// The state of a device when it is being shipped.
+  ///
+  /// Set to <code>RECEIVED</code> when the device arrives at your location.
+  ///
+  /// Set to <code>RETURNED</code> when you have returned the device to AWS.
+  Future<void> updateJobShipmentState({
+    @_s.required String jobId,
+    @_s.required ShipmentState shipmentState,
+  }) async {
+    ArgumentError.checkNotNull(jobId, 'jobId');
+    _s.validateStringLength(
+      'jobId',
+      jobId,
+      39,
+      39,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'jobId',
+      jobId,
+      r'''(M|J)ID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(shipmentState, 'shipmentState');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSIESnowballJobManagementService.UpdateJobShipmentState'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'JobId': jobId,
+        'ShipmentState': shipmentState?.toValue() ?? '',
+      },
+    );
+
+    return UpdateJobShipmentStateResult.fromJson(jsonResponse.body);
+  }
 }
 
-/// The address that you want the Snowball or Snowballs associated with a
-/// specific job to be shipped to. Addresses are validated at the time of
-/// creation. The address you provide must be located within the serviceable
-/// area of your region. Although no individual elements of the
-/// <code>Address</code> are required, if the address is invalid or unsupported,
-/// then an exception is thrown.
+/// The address that you want the Snow device(s) associated with a specific job
+/// to be shipped to. Addresses are validated at the time of creation. The
+/// address you provide must be located within the serviceable area of your
+/// region. Although no individual elements of the <code>Address</code> are
+/// required, if the address is invalid or unsupported, then an exception is
+/// thrown.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -1442,15 +1622,15 @@ class Address {
   @_s.JsonKey(name: 'AddressId')
   final String addressId;
 
-  /// The city in an address that a Snowball is to be delivered to.
+  /// The city in an address that a Snow device is to be delivered to.
   @_s.JsonKey(name: 'City')
   final String city;
 
-  /// The name of the company to receive a Snowball at an address.
+  /// The name of the company to receive a Snow device at an address.
   @_s.JsonKey(name: 'Company')
   final String company;
 
-  /// The country in an address that a Snowball is to be delivered to.
+  /// The country in an address that a Snow device is to be delivered to.
   @_s.JsonKey(name: 'Country')
   final String country;
 
@@ -1463,16 +1643,16 @@ class Address {
   @_s.JsonKey(name: 'Landmark')
   final String landmark;
 
-  /// The name of a person to receive a Snowball at an address.
+  /// The name of a person to receive a Snow device at an address.
   @_s.JsonKey(name: 'Name')
   final String name;
 
-  /// The phone number associated with an address that a Snowball is to be
+  /// The phone number associated with an address that a Snow device is to be
   /// delivered to.
   @_s.JsonKey(name: 'PhoneNumber')
   final String phoneNumber;
 
-  /// The postal code in an address that a Snowball is to be delivered to.
+  /// The postal code in an address that a Snow device is to be delivered to.
   @_s.JsonKey(name: 'PostalCode')
   final String postalCode;
 
@@ -1480,19 +1660,21 @@ class Address {
   @_s.JsonKey(name: 'PrefectureOrDistrict')
   final String prefectureOrDistrict;
 
-  /// The state or province in an address that a Snowball is to be delivered to.
+  /// The state or province in an address that a Snow device is to be delivered
+  /// to.
   @_s.JsonKey(name: 'StateOrProvince')
   final String stateOrProvince;
 
-  /// The first line in a street address that a Snowball is to be delivered to.
+  /// The first line in a street address that a Snow device is to be delivered to.
   @_s.JsonKey(name: 'Street1')
   final String street1;
 
-  /// The second line in a street address that a Snowball is to be delivered to.
+  /// The second line in a street address that a Snow device is to be delivered
+  /// to.
   @_s.JsonKey(name: 'Street2')
   final String street2;
 
-  /// The third line in a street address that a Snowball is to be delivered to.
+  /// The third line in a street address that a Snow device is to be delivered to.
   @_s.JsonKey(name: 'Street3')
   final String street3;
 
@@ -1639,9 +1821,9 @@ class ClusterMetadata {
   final String roleARN;
 
   /// The shipping speed for each node in this cluster. This speed doesn't dictate
-  /// how soon you'll get each Snowball Edge device, rather it represents how
-  /// quickly each device moves to its destination while in transit. Regional
-  /// shipping speeds are as follows:
+  /// how soon you'll get each device, rather it represents how quickly each
+  /// device moves to its destination while in transit. Regional shipping speeds
+  /// are as follows:
   ///
   /// <ul>
   /// <li>
@@ -1650,12 +1832,12 @@ class ClusterMetadata {
   /// </li>
   /// <li>
   /// In the European Union (EU), you have access to express shipping. Typically,
-  /// Snowball Edges shipped express are delivered in about a day. In addition,
-  /// most countries in the EU have access to standard shipping, which typically
-  /// takes less than a week, one way.
+  /// Snow devices shipped express are delivered in about a day. In addition, most
+  /// countries in the EU have access to standard shipping, which typically takes
+  /// less than a week, one way.
   /// </li>
   /// <li>
-  /// In India, Snowball Edges are delivered in one to seven days.
+  /// In India, Snow devices are delivered in one to seven days.
   /// </li>
   /// <li>
   /// In the US, you have access to one-day shipping and two-day shipping.
@@ -1664,12 +1846,11 @@ class ClusterMetadata {
   @_s.JsonKey(name: 'ShippingOption')
   final ShippingOption shippingOption;
 
-  /// The type of AWS Snowball device to use for this cluster. Currently, the only
-  /// supported device type for cluster jobs is <code>EDGE</code>.
-  ///
-  /// For more information, see <a
-  /// href="https://docs.aws.amazon.com/snowball/latest/developer-guide/device-differences.html">Snowball
-  /// Edge Device Options</a> in the Snowball Edge Developer Guide.
+  /// The type of AWS Snow device to use for this cluster.
+  /// <note>
+  /// For cluster jobs, AWS Snow Family currently supports only the
+  /// <code>EDGE</code> device type.
+  /// </note>
   @_s.JsonKey(name: 'SnowballType')
   final SnowballType snowballType;
 
@@ -1711,7 +1892,7 @@ enum ClusterState {
 }
 
 /// A JSON-formatted object that describes a compatible Amazon Machine Image
-/// (AMI), including the ID and name for a Snowball Edge AMI. This AMI is
+/// (AMI), including the ID and name for a Snow device AMI. This AMI is
 /// compatible with the device's physical hardware requirements, and it should
 /// be able to be run in an SBE1 instance on the device.
 @_s.JsonSerializable(
@@ -1720,7 +1901,7 @@ enum ClusterState {
     createFactory: true,
     createToJson: false)
 class CompatibleImage {
-  /// The unique identifier for an individual Snowball Edge AMI.
+  /// The unique identifier for an individual Snow device AMI.
   @_s.JsonKey(name: 'AmiId')
   final String amiId;
 
@@ -1743,7 +1924,7 @@ class CompatibleImage {
     createToJson: false)
 class CreateAddressResult {
   /// The automatically generated ID for a specific address. You'll use this ID
-  /// when you create a job to specify which address you want the Snowball for
+  /// when you create a job to specify which address you want the Snow device for
   /// that job shipped to.
   @_s.JsonKey(name: 'AddressId')
   final String addressId;
@@ -1790,8 +1971,26 @@ class CreateJobResult {
       _$CreateJobResultFromJson(json);
 }
 
-/// Defines the real-time status of a Snowball's data transfer while the device
-/// is at AWS. This data is only available while a job has a
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class CreateReturnShippingLabelResult {
+  /// The status information of the task on a Snow device that is being returned
+  /// to AWS.
+  @_s.JsonKey(name: 'Status')
+  final ShippingLabelStatus status;
+
+  CreateReturnShippingLabelResult({
+    this.status,
+  });
+  factory CreateReturnShippingLabelResult.fromJson(Map<String, dynamic> json) =>
+      _$CreateReturnShippingLabelResultFromJson(json);
+}
+
+/// Defines the real-time status of a Snow device's data transfer while the
+/// device is at AWS. This data is only available while a job has a
 /// <code>JobState</code> value of <code>InProgress</code>, for both import and
 /// export jobs.
 @_s.JsonSerializable(
@@ -1800,23 +1999,23 @@ class CreateJobResult {
     createFactory: true,
     createToJson: false)
 class DataTransfer {
-  /// The number of bytes transferred between a Snowball and Amazon S3.
+  /// The number of bytes transferred between a Snow device and Amazon S3.
   @_s.JsonKey(name: 'BytesTransferred')
   final int bytesTransferred;
 
-  /// The number of objects transferred between a Snowball and Amazon S3.
+  /// The number of objects transferred between a Snow device and Amazon S3.
   @_s.JsonKey(name: 'ObjectsTransferred')
   final int objectsTransferred;
 
-  /// The total bytes of data for a transfer between a Snowball and Amazon S3.
+  /// The total bytes of data for a transfer between a Snow device and Amazon S3.
   /// This value is set to 0 (zero) until all the keys that will be transferred
   /// have been listed.
   @_s.JsonKey(name: 'TotalBytes')
   final int totalBytes;
 
-  /// The total number of objects for a transfer between a Snowball and Amazon S3.
-  /// This value is set to 0 (zero) until all the keys that will be transferred
-  /// have been listed.
+  /// The total number of objects for a transfer between a Snow device and Amazon
+  /// S3. This value is set to 0 (zero) until all the keys that will be
+  /// transferred have been listed.
   @_s.JsonKey(name: 'TotalObjects')
   final int totalObjects;
 
@@ -1836,8 +2035,8 @@ class DataTransfer {
     createFactory: true,
     createToJson: false)
 class DescribeAddressResult {
-  /// The address that you want the Snowball or Snowballs associated with a
-  /// specific job to be shipped to.
+  /// The address that you want the Snow device(s) associated with a specific job
+  /// to be shipped to.
   @_s.JsonKey(name: 'Address')
   final Address address;
 
@@ -1854,7 +2053,7 @@ class DescribeAddressResult {
     createFactory: true,
     createToJson: false)
 class DescribeAddressesResult {
-  /// The Snowball shipping addresses that were created for this account.
+  /// The Snow device shipping addresses that were created for this account.
   @_s.JsonKey(name: 'Addresses')
   final List<Address> addresses;
 
@@ -1915,10 +2114,55 @@ class DescribeJobResult {
       _$DescribeJobResultFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DescribeReturnShippingLabelResult {
+  /// The expiration date of the current return shipping label.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'ExpirationDate')
+  final DateTime expirationDate;
+
+  /// The status information of the task on a Snow device that is being returned
+  /// to AWS.
+  @_s.JsonKey(name: 'Status')
+  final ShippingLabelStatus status;
+
+  DescribeReturnShippingLabelResult({
+    this.expirationDate,
+    this.status,
+  });
+  factory DescribeReturnShippingLabelResult.fromJson(
+          Map<String, dynamic> json) =>
+      _$DescribeReturnShippingLabelResultFromJson(json);
+}
+
+/// The container for <code>SnowconeDeviceConfiguration</code>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class DeviceConfiguration {
+  /// Returns information about the device configuration for an AWS Snowcone job.
+  @_s.JsonKey(name: 'SnowconeDeviceConfiguration')
+  final SnowconeDeviceConfiguration snowconeDeviceConfiguration;
+
+  DeviceConfiguration({
+    this.snowconeDeviceConfiguration,
+  });
+  factory DeviceConfiguration.fromJson(Map<String, dynamic> json) =>
+      _$DeviceConfigurationFromJson(json);
+
+  Map<String, dynamic> toJson() => _$DeviceConfigurationToJson(this);
+}
+
 /// A JSON-formatted object that contains the IDs for an Amazon Machine Image
-/// (AMI), including the Amazon EC2 AMI ID and the Snowball Edge AMI ID. Each
-/// AMI has these two IDs to simplify identifying the AMI in both the AWS Cloud
-/// and on the device.
+/// (AMI), including the Amazon EC2 AMI ID and the Snow device AMI ID. Each AMI
+/// has these two IDs to simplify identifying the AMI in both the AWS Cloud and
+/// on the device.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -1929,7 +2173,7 @@ class Ec2AmiResource {
   @_s.JsonKey(name: 'AmiId')
   final String amiId;
 
-  /// The ID of the AMI on the Snowball Edge device.
+  /// The ID of the AMI on the Snow device.
   @_s.JsonKey(name: 'SnowballAmiId')
   final String snowballAmiId;
 
@@ -2007,12 +2251,12 @@ class GetJobUnlockCodeResult {
     createFactory: true,
     createToJson: false)
 class GetSnowballUsageResult {
-  /// The service limit for number of Snowballs this account can have at once. The
-  /// default service limit is 1 (one).
+  /// The service limit for number of Snow devices this account can have at once.
+  /// The default service limit is 1 (one).
   @_s.JsonKey(name: 'SnowballLimit')
   final int snowballLimit;
 
-  /// The number of Snowballs that this account is currently using.
+  /// The number of Snow devices that this account is currently using.
   @_s.JsonKey(name: 'SnowballsInUse')
   final int snowballsInUse;
 
@@ -2084,12 +2328,12 @@ class JobListEntry {
   @_s.JsonKey(name: 'Description')
   final String description;
 
-  /// A value that indicates that this job is a master job. A master job
-  /// represents a successful request to create an export job. Master jobs aren't
-  /// associated with any Snowballs. Instead, each master job will have at least
-  /// one job part, and each job part is associated with a Snowball. It might take
-  /// some time before the job parts associated with a particular master job are
-  /// listed, because they are created after the master job is created.
+  /// A value that indicates that this job is a main job. A main job represents a
+  /// successful request to create an export job. Main jobs aren't associated with
+  /// any Snowballs. Instead, each main job will have at least one job part, and
+  /// each job part is associated with a Snowball. It might take some time before
+  /// the job parts associated with a particular main job are listed, because they
+  /// are created after the main job is created.
   @_s.JsonKey(name: 'IsMaster')
   final bool isMaster;
 
@@ -2123,9 +2367,9 @@ class JobListEntry {
       _$JobListEntryFromJson(json);
 }
 
-/// Contains job logs. Whenever Snowball is used to import data into or export
-/// data out of Amazon S3, you'll have the option of downloading a PDF job
-/// report. Job logs are returned as a part of the response syntax of the
+/// Contains job logs. Whenever a Snow device is used to import data into or
+/// export data out of Amazon S3, you'll have the option of downloading a PDF
+/// job report. Job logs are returned as a part of the response syntax of the
 /// <code>DescribeJob</code> action in the <code>JobMetadata</code> data type.
 /// The job logs can be accessed for up to 60 minutes after this request has
 /// been made. To access any of the job logs after 60 minutes have passed,
@@ -2133,7 +2377,7 @@ class JobListEntry {
 ///
 /// For import jobs, the PDF job report becomes available at the end of the
 /// import process. For export jobs, your job report typically becomes available
-/// while the Snowball for your job part is being delivered to you.
+/// while the Snow device for your job part is being delivered to you.
 ///
 /// The job report provides you insight into the state of your Amazon S3 data
 /// transfer. The report includes details about your job or job part for your
@@ -2180,7 +2424,7 @@ class JobLogs {
     createFactory: true,
     createToJson: false)
 class JobMetadata {
-  /// The ID for the address that you want the Snowball shipped to.
+  /// The ID for the address that you want the Snow device shipped to.
   @_s.JsonKey(name: 'AddressId')
   final String addressId;
 
@@ -2194,7 +2438,7 @@ class JobMetadata {
   @_s.JsonKey(name: 'CreationDate')
   final DateTime creationDate;
 
-  /// A value that defines the real-time status of a Snowball's data transfer
+  /// A value that defines the real-time status of a Snow device's data transfer
   /// while the device is at AWS. This data is only available while a job has a
   /// <code>JobState</code> value of <code>InProgress</code>, for both import and
   /// export jobs.
@@ -2204,6 +2448,8 @@ class JobMetadata {
   /// The description of the job, provided at job creation.
   @_s.JsonKey(name: 'Description')
   final String description;
+  @_s.JsonKey(name: 'DeviceConfiguration')
+  final DeviceConfiguration deviceConfiguration;
 
   /// The ID of the address that you want a job shipped to, after it will be
   /// shipped to its primary address. This field is not supported in most regions.
@@ -2217,8 +2463,8 @@ class JobMetadata {
 
   /// Links to Amazon S3 presigned URLs for the job report and logs. For import
   /// jobs, the PDF job report becomes available at the end of the import process.
-  /// For export jobs, your job report typically becomes available while the
-  /// Snowball for your job part is being delivered to you.
+  /// For export jobs, your job report typically becomes available while the Snow
+  /// device for your job part is being delivered to you.
   @_s.JsonKey(name: 'JobLogInfo')
   final JobLogs jobLogInfo;
 
@@ -2261,8 +2507,8 @@ class JobMetadata {
   @_s.JsonKey(name: 'ShippingDetails')
   final ShippingDetails shippingDetails;
 
-  /// The Snowball capacity preference for this job, specified at job creation. In
-  /// US regions, you can choose between 50 TB and 80 TB Snowballs. All other
+  /// The Snow device capacity preference for this job, specified at job creation.
+  /// In US regions, you can choose between 50 TB and 80 TB Snowballs. All other
   /// regions use 80 TB capacity Snowballs.
   @_s.JsonKey(name: 'SnowballCapacityPreference')
   final SnowballCapacity snowballCapacityPreference;
@@ -2281,6 +2527,7 @@ class JobMetadata {
     this.creationDate,
     this.dataTransferProgress,
     this.description,
+    this.deviceConfiguration,
     this.forwardingAddressId,
     this.jobId,
     this.jobLogInfo,
@@ -2500,7 +2747,7 @@ class ListClustersResult {
     createToJson: false)
 class ListCompatibleImagesResult {
   /// A JSON-formatted object that describes a compatible AMI, including the ID
-  /// and name for a Snowball Edge AMI.
+  /// and name for a Snow device AMI.
   @_s.JsonKey(name: 'CompatibleImages')
   final List<CompatibleImage> compatibleImages;
 
@@ -2637,7 +2884,7 @@ class Shipment {
   final String status;
 
   /// The tracking number for this job. Using this tracking number with your
-  /// region's carrier's website, you can track a Snowball as the carrier
+  /// region's carrier's website, you can track a Snow device as the carrier
   /// transports it.
   ///
   /// For India, the carrier is Amazon Logistics. For all other regions, UPS is
@@ -2653,6 +2900,25 @@ class Shipment {
       _$ShipmentFromJson(json);
 }
 
+enum ShipmentState {
+  @_s.JsonValue('RECEIVED')
+  received,
+  @_s.JsonValue('RETURNED')
+  returned,
+}
+
+extension on ShipmentState {
+  String toValue() {
+    switch (this) {
+      case ShipmentState.received:
+        return 'RECEIVED';
+      case ShipmentState.returned:
+        return 'RETURNED';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// A job's shipping information, including inbound and outbound tracking
 /// numbers and shipping speed options.
 @_s.JsonSerializable(
@@ -2661,35 +2927,35 @@ class Shipment {
     createFactory: true,
     createToJson: false)
 class ShippingDetails {
-  /// The <code>Status</code> and <code>TrackingNumber</code> values for a
-  /// Snowball being returned to AWS for a particular job.
+  /// The <code>Status</code> and <code>TrackingNumber</code> values for a Snow
+  /// device being returned to AWS for a particular job.
   @_s.JsonKey(name: 'InboundShipment')
   final Shipment inboundShipment;
 
-  /// The <code>Status</code> and <code>TrackingNumber</code> values for a
-  /// Snowball being delivered to the address that you specified for a particular
+  /// The <code>Status</code> and <code>TrackingNumber</code> values for a Snow
+  /// device being delivered to the address that you specified for a particular
   /// job.
   @_s.JsonKey(name: 'OutboundShipment')
   final Shipment outboundShipment;
 
   /// The shipping speed for a particular job. This speed doesn't dictate how soon
-  /// you'll get the Snowball from the job's creation date. This speed represents
-  /// how quickly it moves to its destination while in transit. Regional shipping
-  /// speeds are as follows:
+  /// you'll get the Snow device from the job's creation date. This speed
+  /// represents how quickly it moves to its destination while in transit.
+  /// Regional shipping speeds are as follows:
   ///
   /// <ul>
   /// <li>
-  /// In Australia, you have access to express shipping. Typically, Snowballs
+  /// In Australia, you have access to express shipping. Typically, Snow devices
   /// shipped express are delivered in about a day.
   /// </li>
   /// <li>
   /// In the European Union (EU), you have access to express shipping. Typically,
-  /// Snowballs shipped express are delivered in about a day. In addition, most
+  /// Snow devices shipped express are delivered in about a day. In addition, most
   /// countries in the EU have access to standard shipping, which typically takes
   /// less than a week, one way.
   /// </li>
   /// <li>
-  /// In India, Snowballs are delivered in one to seven days.
+  /// In India, Snow device are delivered in one to seven days.
   /// </li>
   /// <li>
   /// In the United States of America (US), you have access to one-day shipping
@@ -2706,6 +2972,17 @@ class ShippingDetails {
   });
   factory ShippingDetails.fromJson(Map<String, dynamic> json) =>
       _$ShippingDetailsFromJson(json);
+}
+
+enum ShippingLabelStatus {
+  @_s.JsonValue('InProgress')
+  inProgress,
+  @_s.JsonValue('TimedOut')
+  timedOut,
+  @_s.JsonValue('Succeeded')
+  succeeded,
+  @_s.JsonValue('Failed')
+  failed,
 }
 
 enum ShippingOption {
@@ -2746,6 +3023,8 @@ enum SnowballCapacity {
   t42,
   @_s.JsonValue('T98')
   t98,
+  @_s.JsonValue('T8')
+  t8,
   @_s.JsonValue('NoPreference')
   noPreference,
 }
@@ -2763,6 +3042,8 @@ extension on SnowballCapacity {
         return 'T42';
       case SnowballCapacity.t98:
         return 'T98';
+      case SnowballCapacity.t8:
+        return 'T8';
       case SnowballCapacity.noPreference:
         return 'NoPreference';
     }
@@ -2781,6 +3062,8 @@ enum SnowballType {
   edgeCg,
   @_s.JsonValue('EDGE_S')
   edgeS,
+  @_s.JsonValue('SNC1_HDD')
+  snc1Hdd,
 }
 
 extension on SnowballType {
@@ -2796,9 +3079,31 @@ extension on SnowballType {
         return 'EDGE_CG';
       case SnowballType.edgeS:
         return 'EDGE_S';
+      case SnowballType.snc1Hdd:
+        return 'SNC1_HDD';
     }
     throw Exception('Unknown enum value: $this');
   }
+}
+
+/// Specifies the device configuration for an AWS Snowcone job.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class SnowconeDeviceConfiguration {
+  /// Configures the wireless connection for the AWS Snowcone device.
+  @_s.JsonKey(name: 'WirelessConnection')
+  final WirelessConnection wirelessConnection;
+
+  SnowconeDeviceConfiguration({
+    this.wirelessConnection,
+  });
+  factory SnowconeDeviceConfiguration.fromJson(Map<String, dynamic> json) =>
+      _$SnowconeDeviceConfigurationFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SnowconeDeviceConfigurationToJson(this);
 }
 
 /// The tax documents required in your AWS Region.
@@ -2808,7 +3113,6 @@ extension on SnowballType {
     createFactory: true,
     createToJson: true)
 class TaxDocuments {
-  /// The tax documents required in AWS Regions in India.
   @_s.JsonKey(name: 'IND')
   final INDTaxDocuments ind;
 
@@ -2843,12 +3147,48 @@ class UpdateJobResult {
       _$UpdateJobResultFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class UpdateJobShipmentStateResult {
+  UpdateJobShipmentStateResult();
+  factory UpdateJobShipmentStateResult.fromJson(Map<String, dynamic> json) =>
+      _$UpdateJobShipmentStateResultFromJson(json);
+}
+
+/// Configures the wireless connection on an AWS Snowcone device.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class WirelessConnection {
+  /// Enables the Wi-Fi adapter on an AWS Snowcone device.
+  @_s.JsonKey(name: 'IsWifiEnabled')
+  final bool isWifiEnabled;
+
+  WirelessConnection({
+    this.isWifiEnabled,
+  });
+  factory WirelessConnection.fromJson(Map<String, dynamic> json) =>
+      _$WirelessConnectionFromJson(json);
+
+  Map<String, dynamic> toJson() => _$WirelessConnectionToJson(this);
+}
+
 class ClusterLimitExceededException extends _s.GenericAwsException {
   ClusterLimitExceededException({String type, String message})
       : super(
             type: type,
             code: 'ClusterLimitExceededException',
             message: message);
+}
+
+class ConflictException extends _s.GenericAwsException {
+  ConflictException({String type, String message})
+      : super(type: type, code: 'ConflictException', message: message);
 }
 
 class Ec2RequestFailedException extends _s.GenericAwsException {
@@ -2889,6 +3229,14 @@ class KMSRequestFailedException extends _s.GenericAwsException {
       : super(type: type, code: 'KMSRequestFailedException', message: message);
 }
 
+class ReturnShippingLabelAlreadyExistsException extends _s.GenericAwsException {
+  ReturnShippingLabelAlreadyExistsException({String type, String message})
+      : super(
+            type: type,
+            code: 'ReturnShippingLabelAlreadyExistsException',
+            message: message);
+}
+
 class UnsupportedAddressException extends _s.GenericAwsException {
   UnsupportedAddressException({String type, String message})
       : super(
@@ -2898,6 +3246,8 @@ class UnsupportedAddressException extends _s.GenericAwsException {
 final _exceptionFns = <String, _s.AwsExceptionFn>{
   'ClusterLimitExceededException': (type, message) =>
       ClusterLimitExceededException(type: type, message: message),
+  'ConflictException': (type, message) =>
+      ConflictException(type: type, message: message),
   'Ec2RequestFailedException': (type, message) =>
       Ec2RequestFailedException(type: type, message: message),
   'InvalidAddressException': (type, message) =>
@@ -2912,6 +3262,8 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       InvalidResourceException(type: type, message: message),
   'KMSRequestFailedException': (type, message) =>
       KMSRequestFailedException(type: type, message: message),
+  'ReturnShippingLabelAlreadyExistsException': (type, message) =>
+      ReturnShippingLabelAlreadyExistsException(type: type, message: message),
   'UnsupportedAddressException': (type, message) =>
       UnsupportedAddressException(type: type, message: message),
 };

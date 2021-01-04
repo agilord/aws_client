@@ -15,7 +15,7 @@ etc.). The SDKs provide a convenient way to create programmatic access to
 AWS KMS and other AWS services. For example, the SDKs take care of tasks
 such as signing requests (see below), managing errors, and retrying requests
 automatically. For more information about the AWS SDKs, including how to
-download and install them, see <a href="http://aws.amazon.com/tools/">Tools
+download and install them, see <a href="https://aws.amazon.com/tools/">Tools
 for Amazon Web Services</a>.
 </note>
 We recommend that you use the AWS SDKs to make programmatic API calls to AWS

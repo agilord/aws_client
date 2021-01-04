@@ -2109,7 +2109,7 @@ class LexModelBuildingService {
   /// When Amazon Lex can't understand the user's input in context, it tries to
   /// elicit the information a few times. After that, Amazon Lex sends the
   /// message defined in <code>abortStatement</code> to the user, and then
-  /// aborts the conversation. To set the number of retries, use the
+  /// cancels the conversation. To set the number of retries, use the
   /// <code>valueElicitationPrompt</code> field for the slot type.
   ///
   /// For example, in a pizza ordering bot, Amazon Lex might ask a user "What
@@ -2123,9 +2123,9 @@ class LexModelBuildingService {
   /// <code>valueElicitationPrompt</code> field when you create the
   /// <code>CrustType</code> slot.
   ///
-  /// If you have defined a fallback intent the abort statement will not be sent
-  /// to the user, the fallback intent is used instead. For more information,
-  /// see <a
+  /// If you have defined a fallback intent the cancel statement will not be
+  /// sent to the user, the fallback intent is used instead. For more
+  /// information, see <a
   /// href="https://docs.aws.amazon.com/lex/latest/dg/built-in-intent-fallback.html">
   /// AMAZON.FallbackIntent</a>.
   ///
@@ -2199,6 +2199,43 @@ class LexModelBuildingService {
   /// Comprehend for sentiment analysis. If you don't specify
   /// <code>detectSentiment</code>, the default is <code>false</code>.
   ///
+  /// Parameter [enableModelImprovements] :
+  /// Set to <code>true</code> to enable access to natural language
+  /// understanding improvements.
+  ///
+  /// When you set the <code>enableModelImprovements</code> parameter to
+  /// <code>true</code> you can use the
+  /// <code>nluIntentConfidenceThreshold</code> parameter to configure
+  /// confidence scores. For more information, see <a
+  /// href="https://docs.aws.amazon.com/lex/latest/dg/confidence-scores.html">Confidence
+  /// Scores</a>.
+  ///
+  /// You can only set the <code>enableModelImprovements</code> parameter in
+  /// certain Regions. If you set the parameter to <code>true</code>, your bot
+  /// has access to accuracy improvements.
+  ///
+  /// The Regions where you can set the <code>enableModelImprovements</code>
+  /// parameter to <code>true</code> are:
+  ///
+  /// <ul>
+  /// <li>
+  /// US East (N. Virginia) (us-east-1)
+  /// </li>
+  /// <li>
+  /// US West (Oregon) (us-west-2)
+  /// </li>
+  /// <li>
+  /// Asia Pacific (Sydney) (ap-southeast-2)
+  /// </li>
+  /// <li>
+  /// EU (Ireland) (eu-west-1)
+  /// </li>
+  /// </ul>
+  /// In other Regions, the <code>enableModelImprovements</code> parameter is
+  /// set to <code>true</code> by default. In these Regions setting the
+  /// parameter to <code>false</code> throws a <code>ValidationException</code>
+  /// exception.
+  ///
   /// Parameter [idleSessionTTLInSeconds] :
   /// The maximum time in seconds that Amazon Lex retains the data gathered in a
   /// conversation.
@@ -2222,6 +2259,59 @@ class LexModelBuildingService {
   /// An array of <code>Intent</code> objects. Each intent represents a command
   /// that a user can express. For example, a pizza ordering bot might support
   /// an OrderPizza intent. For more information, see <a>how-it-works</a>.
+  ///
+  /// Parameter [nluIntentConfidenceThreshold] :
+  /// Determines the threshold where Amazon Lex will insert the
+  /// <code>AMAZON.FallbackIntent</code>,
+  /// <code>AMAZON.KendraSearchIntent</code>, or both when returning alternative
+  /// intents in a <a
+  /// href="https://docs.aws.amazon.com/lex/latest/dg/API_runtime_PostContent.html">PostContent</a>
+  /// or <a
+  /// href="https://docs.aws.amazon.com/lex/latest/dg/API_runtime_PostText.html">PostText</a>
+  /// response. <code>AMAZON.FallbackIntent</code> and
+  /// <code>AMAZON.KendraSearchIntent</code> are only inserted if they are
+  /// configured for the bot.
+  ///
+  /// You must set the <code>enableModelImprovements</code> parameter to
+  /// <code>true</code> to use confidence scores in the following regions.
+  ///
+  /// <ul>
+  /// <li>
+  /// US East (N. Virginia) (us-east-1)
+  /// </li>
+  /// <li>
+  /// US West (Oregon) (us-west-2)
+  /// </li>
+  /// <li>
+  /// Asia Pacific (Sydney) (ap-southeast-2)
+  /// </li>
+  /// <li>
+  /// EU (Ireland) (eu-west-1)
+  /// </li>
+  /// </ul>
+  /// In other Regions, the <code>enableModelImprovements</code> parameter is
+  /// set to <code>true</code> by default.
+  ///
+  /// For example, suppose a bot is configured with the confidence threshold of
+  /// 0.80 and the <code>AMAZON.FallbackIntent</code>. Amazon Lex returns three
+  /// alternative intents with the following confidence scores: IntentA (0.70),
+  /// IntentB (0.60), IntentC (0.50). The response from the
+  /// <code>PostText</code> operation would be:
+  ///
+  /// <ul>
+  /// <li>
+  /// AMAZON.FallbackIntent
+  /// </li>
+  /// <li>
+  /// IntentA
+  /// </li>
+  /// <li>
+  /// IntentB
+  /// </li>
+  /// <li>
+  /// IntentC
+  /// </li>
+  /// </ul>
   ///
   /// Parameter [processBehavior] :
   /// If you set the <code>processBehavior</code> element to <code>BUILD</code>,
@@ -2251,8 +2341,10 @@ class LexModelBuildingService {
     bool createVersion,
     String description,
     bool detectSentiment,
+    bool enableModelImprovements,
     int idleSessionTTLInSeconds,
     List<Intent> intents,
+    double nluIntentConfidenceThreshold,
     ProcessBehavior processBehavior,
     List<Tag> tags,
     String voiceId,
@@ -2285,6 +2377,12 @@ class LexModelBuildingService {
       60,
       86400,
     );
+    _s.validateNumRange(
+      'nluIntentConfidenceThreshold',
+      nluIntentConfidenceThreshold,
+      0,
+      1,
+    );
     final $payload = <String, dynamic>{
       'childDirected': childDirected,
       'locale': locale?.toValue() ?? '',
@@ -2295,9 +2393,13 @@ class LexModelBuildingService {
       if (createVersion != null) 'createVersion': createVersion,
       if (description != null) 'description': description,
       if (detectSentiment != null) 'detectSentiment': detectSentiment,
+      if (enableModelImprovements != null)
+        'enableModelImprovements': enableModelImprovements,
       if (idleSessionTTLInSeconds != null)
         'idleSessionTTLInSeconds': idleSessionTTLInSeconds,
       if (intents != null) 'intents': intents,
+      if (nluIntentConfidenceThreshold != null)
+        'nluIntentConfidenceThreshold': nluIntentConfidenceThreshold,
       if (processBehavior != null) 'processBehavior': processBehavior.toValue(),
       if (tags != null) 'tags': tags,
       if (voiceId != null) 'voiceId': voiceId,
@@ -2612,6 +2714,22 @@ class LexModelBuildingService {
   /// the client application, or direct it to invoke a Lambda function that can
   /// process the intent (for example, place an order with a pizzeria).
   ///
+  /// Parameter [inputContexts] :
+  /// An array of <code>InputContext</code> objects that lists the contexts that
+  /// must be active for Amazon Lex to choose the intent in a conversation with
+  /// the user.
+  ///
+  /// Parameter [kendraConfiguration] :
+  /// Configuration information required to use the
+  /// <code>AMAZON.KendraSearchIntent</code> intent to connect to an Amazon
+  /// Kendra index. For more information, see <a
+  /// href="http://docs.aws.amazon.com/lex/latest/dg/built-in-intent-kendra-search.html">
+  /// AMAZON.KendraSearchIntent</a>.
+  ///
+  /// Parameter [outputContexts] :
+  /// An array of <code>OutputContext</code> objects that lists the contexts
+  /// that the intent activates when the intent is fulfilled.
+  ///
   /// Parameter [parentIntentSignature] :
   /// A unique identifier for the built-in intent to base this intent on. To
   /// find the signature for an intent, see <a
@@ -2648,6 +2766,9 @@ class LexModelBuildingService {
     CodeHook dialogCodeHook,
     FollowUpPrompt followUpPrompt,
     FulfillmentActivity fulfillmentActivity,
+    List<InputContext> inputContexts,
+    KendraConfiguration kendraConfiguration,
+    List<OutputContext> outputContexts,
     String parentIntentSignature,
     Statement rejectionStatement,
     List<String> sampleUtterances,
@@ -2684,6 +2805,10 @@ class LexModelBuildingService {
       if (followUpPrompt != null) 'followUpPrompt': followUpPrompt,
       if (fulfillmentActivity != null)
         'fulfillmentActivity': fulfillmentActivity,
+      if (inputContexts != null) 'inputContexts': inputContexts,
+      if (kendraConfiguration != null)
+        'kendraConfiguration': kendraConfiguration,
+      if (outputContexts != null) 'outputContexts': outputContexts,
       if (parentIntentSignature != null)
         'parentIntentSignature': parentIntentSignature,
       if (rejectionStatement != null) 'rejectionStatement': rejectionStatement,
@@ -2762,6 +2887,9 @@ class LexModelBuildingService {
   /// that the slot type can take. Each value can have a list of
   /// <code>synonyms</code>, which are additional values that help train the
   /// machine learning model about the values that it resolves for a slot.
+  ///
+  /// A regular expression slot type doesn't require enumeration values. All
+  /// other slot types require a list of enumeration values.
   ///
   /// When Amazon Lex resolves a slot value, it generates a resolution list that
   /// contains up to five possible values for the slot. If you are using a
@@ -3380,7 +3508,7 @@ class ConversationLogsResponse {
     createFactory: true,
     createToJson: false)
 class CreateBotVersionResponse {
-  /// The message that Amazon Lex uses to abort a conversation. For more
+  /// The message that Amazon Lex uses to cancel a conversation. For more
   /// information, see <a>PutBot</a>.
   @_s.JsonKey(name: 'abortStatement')
   final Statement abortStatement;
@@ -3437,6 +3565,12 @@ class CreateBotVersionResponse {
   @_s.JsonKey(name: 'detectSentiment')
   final bool detectSentiment;
 
+  /// Indicates whether the bot uses accuracy improvements. <code>true</code>
+  /// indicates that the bot is using the improvements, otherwise,
+  /// <code>false</code>.
+  @_s.JsonKey(name: 'enableModelImprovements')
+  final bool enableModelImprovements;
+
   /// If <code>status</code> is <code>FAILED</code>, Amazon Lex provides the
   /// reason that it failed to build the bot.
   @_s.JsonKey(name: 'failureReason')
@@ -3491,6 +3625,7 @@ class CreateBotVersionResponse {
     this.createdDate,
     this.description,
     this.detectSentiment,
+    this.enableModelImprovements,
     this.failureReason,
     this.idleSessionTTLInSeconds,
     this.intents,
@@ -3547,6 +3682,17 @@ class CreateIntentVersionResponse {
   @_s.JsonKey(name: 'fulfillmentActivity')
   final FulfillmentActivity fulfillmentActivity;
 
+  /// An array of <code>InputContext</code> objects that lists the contexts that
+  /// must be active for Amazon Lex to choose the intent in a conversation with
+  /// the user.
+  @_s.JsonKey(name: 'inputContexts')
+  final List<InputContext> inputContexts;
+
+  /// Configuration information, if any, for connecting an Amazon Kendra index
+  /// with the <code>AMAZON.KendraSearchIntent</code> intent.
+  @_s.JsonKey(name: 'kendraConfiguration')
+  final KendraConfiguration kendraConfiguration;
+
   /// The date that the intent was updated.
   @UnixDateTimeConverter()
   @_s.JsonKey(name: 'lastUpdatedDate')
@@ -3555,6 +3701,11 @@ class CreateIntentVersionResponse {
   /// The name of the intent.
   @_s.JsonKey(name: 'name')
   final String name;
+
+  /// An array of <code>OutputContext</code> objects that lists the contexts that
+  /// the intent activates when the intent is fulfilled.
+  @_s.JsonKey(name: 'outputContexts')
+  final List<OutputContext> outputContexts;
 
   /// A unique identifier for a built-in intent.
   @_s.JsonKey(name: 'parentIntentSignature')
@@ -3588,8 +3739,11 @@ class CreateIntentVersionResponse {
     this.dialogCodeHook,
     this.followUpPrompt,
     this.fulfillmentActivity,
+    this.inputContexts,
+    this.kendraConfiguration,
     this.lastUpdatedDate,
     this.name,
+    this.outputContexts,
     this.parentIntentSignature,
     this.rejectionStatement,
     this.sampleUtterances,
@@ -4077,6 +4231,12 @@ class GetBotResponse {
   @_s.JsonKey(name: 'detectSentiment')
   final bool detectSentiment;
 
+  /// Indicates whether the bot uses accuracy improvements. <code>true</code>
+  /// indicates that the bot is using the improvements, otherwise,
+  /// <code>false</code>.
+  @_s.JsonKey(name: 'enableModelImprovements')
+  final bool enableModelImprovements;
+
   /// If <code>status</code> is <code>FAILED</code>, Amazon Lex explains why it
   /// failed to build the bot.
   @_s.JsonKey(name: 'failureReason')
@@ -4105,6 +4265,19 @@ class GetBotResponse {
   /// The name of the bot.
   @_s.JsonKey(name: 'name')
   final String name;
+
+  /// The score that determines where Amazon Lex inserts the
+  /// <code>AMAZON.FallbackIntent</code>, <code>AMAZON.KendraSearchIntent</code>,
+  /// or both when returning alternative intents in a <a
+  /// href="https://docs.aws.amazon.com/lex/latest/dg/API_runtime_PostContent.html">PostContent</a>
+  /// or <a
+  /// href="https://docs.aws.amazon.com/lex/latest/dg/API_runtime_PostText.html">PostText</a>
+  /// response. <code>AMAZON.FallbackIntent</code> is inserted if the confidence
+  /// score for all intents is below this value.
+  /// <code>AMAZON.KendraSearchIntent</code> is only inserted if it is configured
+  /// for the bot.
+  @_s.JsonKey(name: 'nluIntentConfidenceThreshold')
+  final double nluIntentConfidenceThreshold;
 
   /// The status of the bot.
   ///
@@ -4141,12 +4314,14 @@ class GetBotResponse {
     this.createdDate,
     this.description,
     this.detectSentiment,
+    this.enableModelImprovements,
     this.failureReason,
     this.idleSessionTTLInSeconds,
     this.intents,
     this.lastUpdatedDate,
     this.locale,
     this.name,
+    this.nluIntentConfidenceThreshold,
     this.status,
     this.version,
     this.voiceId,
@@ -4440,6 +4615,17 @@ class GetIntentResponse {
   @_s.JsonKey(name: 'fulfillmentActivity')
   final FulfillmentActivity fulfillmentActivity;
 
+  /// An array of <code>InputContext</code> objects that lists the contexts that
+  /// must be active for Amazon Lex to choose the intent in a conversation with
+  /// the user.
+  @_s.JsonKey(name: 'inputContexts')
+  final List<InputContext> inputContexts;
+
+  /// Configuration information, if any, to connect to an Amazon Kendra index with
+  /// the <code>AMAZON.KendraSearchIntent</code> intent.
+  @_s.JsonKey(name: 'kendraConfiguration')
+  final KendraConfiguration kendraConfiguration;
+
   /// The date that the intent was updated. When you create a resource, the
   /// creation date and the last updated date are the same.
   @UnixDateTimeConverter()
@@ -4449,6 +4635,11 @@ class GetIntentResponse {
   /// The name of the intent.
   @_s.JsonKey(name: 'name')
   final String name;
+
+  /// An array of <code>OutputContext</code> objects that lists the contexts that
+  /// the intent activates when the intent is fulfilled.
+  @_s.JsonKey(name: 'outputContexts')
+  final List<OutputContext> outputContexts;
 
   /// A unique identifier for a built-in intent.
   @_s.JsonKey(name: 'parentIntentSignature')
@@ -4481,8 +4672,11 @@ class GetIntentResponse {
     this.dialogCodeHook,
     this.followUpPrompt,
     this.fulfillmentActivity,
+    this.inputContexts,
+    this.kendraConfiguration,
     this.lastUpdatedDate,
     this.name,
+    this.outputContexts,
     this.parentIntentSignature,
     this.rejectionStatement,
     this.sampleUtterances,
@@ -4695,6 +4889,27 @@ enum ImportStatus {
   failed,
 }
 
+/// The name of a context that must be active for an intent to be selected by
+/// Amazon Lex.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class InputContext {
+  /// The name of the context.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  InputContext({
+    @_s.required this.name,
+  });
+  factory InputContext.fromJson(Map<String, dynamic> json) =>
+      _$InputContextFromJson(json);
+
+  Map<String, dynamic> toJson() => _$InputContextToJson(this);
+}
+
 /// Identifies the specific version of an intent.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -4760,6 +4975,54 @@ class IntentMetadata {
       _$IntentMetadataFromJson(json);
 }
 
+/// Provides configuration information for the AMAZON.KendraSearchIntent intent.
+/// When you use this intent, Amazon Lex searches the specified Amazon Kendra
+/// index and returns documents from the index that match the user's utterance.
+/// For more information, see <a
+/// href="http://docs.aws.amazon.com/lex/latest/dg/built-in-intent-kendra-search.html">
+/// AMAZON.KendraSearchIntent</a>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class KendraConfiguration {
+  /// The Amazon Resource Name (ARN) of the Amazon Kendra index that you want the
+  /// AMAZON.KendraSearchIntent intent to search. The index must be in the same
+  /// account and Region as the Amazon Lex bot. If the Amazon Kendra index does
+  /// not exist, you get an exception when you call the <code>PutIntent</code>
+  /// operation.
+  @_s.JsonKey(name: 'kendraIndex')
+  final String kendraIndex;
+
+  /// The Amazon Resource Name (ARN) of an IAM role that has permission to search
+  /// the Amazon Kendra index. The role must be in the same account and Region as
+  /// the Amazon Lex bot. If the role does not exist, you get an exception when
+  /// you call the <code>PutIntent</code> operation.
+  @_s.JsonKey(name: 'role')
+  final String role;
+
+  /// A query filter that Amazon Lex sends to Amazon Kendra to filter the response
+  /// from the query. The filter is in the format defined by Amazon Kendra. For
+  /// more information, see <a
+  /// href="http://docs.aws.amazon.com/kendra/latest/dg/filtering.html">Filtering
+  /// queries</a>.
+  ///
+  /// You can override this filter string with a new filter string at runtime.
+  @_s.JsonKey(name: 'queryFilterString')
+  final String queryFilterString;
+
+  KendraConfiguration({
+    @_s.required this.kendraIndex,
+    @_s.required this.role,
+    this.queryFilterString,
+  });
+  factory KendraConfiguration.fromJson(Map<String, dynamic> json) =>
+      _$KendraConfigurationFromJson(json);
+
+  Map<String, dynamic> toJson() => _$KendraConfigurationToJson(this);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -4778,23 +5041,51 @@ class ListTagsForResourceResponse {
 }
 
 enum Locale {
-  @_s.JsonValue('en-US')
-  enUs,
-  @_s.JsonValue('en-GB')
-  enGb,
   @_s.JsonValue('de-DE')
   deDe,
+  @_s.JsonValue('en-AU')
+  enAu,
+  @_s.JsonValue('en-GB')
+  enGb,
+  @_s.JsonValue('en-US')
+  enUs,
+  @_s.JsonValue('es-419')
+  es_419,
+  @_s.JsonValue('es-ES')
+  esEs,
+  @_s.JsonValue('es-US')
+  esUs,
+  @_s.JsonValue('fr-FR')
+  frFr,
+  @_s.JsonValue('fr-CA')
+  frCa,
+  @_s.JsonValue('it-IT')
+  itIt,
 }
 
 extension on Locale {
   String toValue() {
     switch (this) {
-      case Locale.enUs:
-        return 'en-US';
-      case Locale.enGb:
-        return 'en-GB';
       case Locale.deDe:
         return 'de-DE';
+      case Locale.enAu:
+        return 'en-AU';
+      case Locale.enGb:
+        return 'en-GB';
+      case Locale.enUs:
+        return 'en-US';
+      case Locale.es_419:
+        return 'es-419';
+      case Locale.esEs:
+        return 'es-ES';
+      case Locale.esUs:
+        return 'es-US';
+      case Locale.frFr:
+        return 'fr-FR';
+      case Locale.frCa:
+        return 'fr-CA';
+      case Locale.itIt:
+        return 'it-IT';
     }
     throw Exception('Unknown enum value: $this');
   }
@@ -4945,6 +5236,41 @@ enum ObfuscationSetting {
   defaultObfuscation,
 }
 
+/// The specification of an output context that is set when an intent is
+/// fulfilled.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class OutputContext {
+  /// The name of the context.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// The number of seconds that the context should be active after it is first
+  /// sent in a <code>PostContent</code> or <code>PostText</code> response. You
+  /// can set the value between 5 and 86,400 seconds (24 hours).
+  @_s.JsonKey(name: 'timeToLiveInSeconds')
+  final int timeToLiveInSeconds;
+
+  /// The number of conversation turns that the context should be active. A
+  /// conversation turn is one <code>PostContent</code> or <code>PostText</code>
+  /// request and the corresponding response from Amazon Lex.
+  @_s.JsonKey(name: 'turnsToLive')
+  final int turnsToLive;
+
+  OutputContext({
+    @_s.required this.name,
+    @_s.required this.timeToLiveInSeconds,
+    @_s.required this.turnsToLive,
+  });
+  factory OutputContext.fromJson(Map<String, dynamic> json) =>
+      _$OutputContextFromJson(json);
+
+  Map<String, dynamic> toJson() => _$OutputContextToJson(this);
+}
+
 enum ProcessBehavior {
   @_s.JsonValue('SAVE')
   save,
@@ -5069,7 +5395,7 @@ class PutBotAliasResponse {
     createFactory: true,
     createToJson: false)
 class PutBotResponse {
-  /// The message that Amazon Lex uses to abort a conversation. For more
+  /// The message that Amazon Lex uses to cancel a conversation. For more
   /// information, see <a>PutBot</a>.
   @_s.JsonKey(name: 'abortStatement')
   final Statement abortStatement;
@@ -5134,6 +5460,12 @@ class PutBotResponse {
   @_s.JsonKey(name: 'detectSentiment')
   final bool detectSentiment;
 
+  /// Indicates whether the bot uses accuracy improvements. <code>true</code>
+  /// indicates that the bot is using the improvements, otherwise,
+  /// <code>false</code>.
+  @_s.JsonKey(name: 'enableModelImprovements')
+  final bool enableModelImprovements;
+
   /// If <code>status</code> is <code>FAILED</code>, Amazon Lex provides the
   /// reason that it failed to build the bot.
   @_s.JsonKey(name: 'failureReason')
@@ -5162,6 +5494,19 @@ class PutBotResponse {
   /// The name of the bot.
   @_s.JsonKey(name: 'name')
   final String name;
+
+  /// The score that determines where Amazon Lex inserts the
+  /// <code>AMAZON.FallbackIntent</code>, <code>AMAZON.KendraSearchIntent</code>,
+  /// or both when returning alternative intents in a <a
+  /// href="https://docs.aws.amazon.com/lex/latest/dg/API_runtime_PostContent.html">PostContent</a>
+  /// or <a
+  /// href="https://docs.aws.amazon.com/lex/latest/dg/API_runtime_PostText.html">PostText</a>
+  /// response. <code>AMAZON.FallbackIntent</code> is inserted if the confidence
+  /// score for all intents is below this value.
+  /// <code>AMAZON.KendraSearchIntent</code> is only inserted if it is configured
+  /// for the bot.
+  @_s.JsonKey(name: 'nluIntentConfidenceThreshold')
+  final double nluIntentConfidenceThreshold;
 
   /// When you send a request to create a bot with <code>processBehavior</code>
   /// set to <code>BUILD</code>, Amazon Lex sets the <code>status</code> response
@@ -5206,12 +5551,14 @@ class PutBotResponse {
     this.createdDate,
     this.description,
     this.detectSentiment,
+    this.enableModelImprovements,
     this.failureReason,
     this.idleSessionTTLInSeconds,
     this.intents,
     this.lastUpdatedDate,
     this.locale,
     this.name,
+    this.nluIntentConfidenceThreshold,
     this.status,
     this.tags,
     this.version,
@@ -5274,6 +5621,17 @@ class PutIntentResponse {
   @_s.JsonKey(name: 'fulfillmentActivity')
   final FulfillmentActivity fulfillmentActivity;
 
+  /// An array of <code>InputContext</code> objects that lists the contexts that
+  /// must be active for Amazon Lex to choose the intent in a conversation with
+  /// the user.
+  @_s.JsonKey(name: 'inputContexts')
+  final List<InputContext> inputContexts;
+
+  /// Configuration information, if any, required to connect to an Amazon Kendra
+  /// index and use the <code>AMAZON.KendraSearchIntent</code> intent.
+  @_s.JsonKey(name: 'kendraConfiguration')
+  final KendraConfiguration kendraConfiguration;
+
   /// The date that the intent was updated. When you create a resource, the
   /// creation date and last update dates are the same.
   @UnixDateTimeConverter()
@@ -5283,6 +5641,11 @@ class PutIntentResponse {
   /// The name of the intent.
   @_s.JsonKey(name: 'name')
   final String name;
+
+  /// An array of <code>OutputContext</code> objects that lists the contexts that
+  /// the intent activates when the intent is fulfilled.
+  @_s.JsonKey(name: 'outputContexts')
+  final List<OutputContext> outputContexts;
 
   /// A unique identifier for the built-in intent that this intent is based on.
   @_s.JsonKey(name: 'parentIntentSignature')
@@ -5317,8 +5680,11 @@ class PutIntentResponse {
     this.dialogCodeHook,
     this.followUpPrompt,
     this.fulfillmentActivity,
+    this.inputContexts,
+    this.kendraConfiguration,
     this.lastUpdatedDate,
     this.name,
+    this.outputContexts,
     this.parentIntentSignature,
     this.rejectionStatement,
     this.sampleUtterances,
@@ -5442,6 +5808,12 @@ class Slot {
   @_s.JsonKey(name: 'slotConstraint')
   final SlotConstraint slotConstraint;
 
+  /// A list of default values for the slot. Default values are used when Amazon
+  /// Lex hasn't determined a value for a slot. You can specify default values
+  /// from context variables, session attributes, and defined values.
+  @_s.JsonKey(name: 'defaultValueSpec')
+  final SlotDefaultValueSpec defaultValueSpec;
+
   /// A description of the slot.
   @_s.JsonKey(name: 'description')
   final String description;
@@ -5455,12 +5827,12 @@ class Slot {
   @_s.JsonKey(name: 'obfuscationSetting')
   final ObfuscationSetting obfuscationSetting;
 
-  /// Directs Lex the order in which to elicit this slot value from the user. For
-  /// example, if the intent has two slots with priorities 1 and 2, AWS Lex first
-  /// elicits a value for the slot with priority 1.
+  /// Directs Amazon Lex the order in which to elicit this slot value from the
+  /// user. For example, if the intent has two slots with priorities 1 and 2, AWS
+  /// Amazon Lex first elicits a value for the slot with priority 1.
   ///
-  /// If multiple slots share the same priority, the order in which Lex elicits
-  /// values is arbitrary.
+  /// If multiple slots share the same priority, the order in which Amazon Lex
+  /// elicits values is arbitrary.
   @_s.JsonKey(name: 'priority')
   final int priority;
 
@@ -5493,6 +5865,7 @@ class Slot {
   Slot({
     @_s.required this.name,
     @_s.required this.slotConstraint,
+    this.defaultValueSpec,
     this.description,
     this.obfuscationSetting,
     this.priority,
@@ -5512,6 +5885,68 @@ enum SlotConstraint {
   required,
   @_s.JsonValue('Optional')
   optional,
+}
+
+/// A default value for a slot.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class SlotDefaultValue {
+  /// The default value for the slot. You can specify one of the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>#context-name.slot-name</code> - The slot value "slot-name" in the
+  /// context "context-name."
+  /// </li>
+  /// <li>
+  /// <code>{attribute}</code> - The slot value of the session attribute
+  /// "attribute."
+  /// </li>
+  /// <li>
+  /// <code>'value'</code> - The discrete value "value."
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'defaultValue')
+  final String defaultValue;
+
+  SlotDefaultValue({
+    @_s.required this.defaultValue,
+  });
+  factory SlotDefaultValue.fromJson(Map<String, dynamic> json) =>
+      _$SlotDefaultValueFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SlotDefaultValueToJson(this);
+}
+
+/// Contains the default values for a slot. Default values are used when Amazon
+/// Lex hasn't determined a value for a slot.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class SlotDefaultValueSpec {
+  /// The default values for a slot. You can specify more than one default. For
+  /// example, you can specify a default value to use from a matching context
+  /// variable, a session attribute, or a fixed value.
+  ///
+  /// The default value chosen is selected based on the order that you specify
+  /// them in the list. For example, if you specify a context variable and a fixed
+  /// value in that order, Amazon Lex uses the context variable if it is
+  /// available, else it uses the fixed value.
+  @_s.JsonKey(name: 'defaultValueList')
+  final List<SlotDefaultValue> defaultValueList;
+
+  SlotDefaultValueSpec({
+    @_s.required this.defaultValueList,
+  });
+  factory SlotDefaultValueSpec.fromJson(Map<String, dynamic> json) =>
+      _$SlotDefaultValueSpecFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SlotDefaultValueSpecToJson(this);
 }
 
 /// Provides configuration information for a slot type.

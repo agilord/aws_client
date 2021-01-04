@@ -21,14 +21,10 @@ ChangedBlock _$ChangedBlockFromJson(Map<String, dynamic> json) {
   );
 }
 
-GetSnapshotBlockResponse _$GetSnapshotBlockResponseFromJson(
+CompleteSnapshotResponse _$CompleteSnapshotResponseFromJson(
     Map<String, dynamic> json) {
-  return GetSnapshotBlockResponse(
-    blockData: const Uint8ListConverter().fromJson(json['BlockData'] as String),
-    checksum: json['x-amz-Checksum'] as String,
-    checksumAlgorithm: _$enumDecodeNullable(
-        _$ChecksumAlgorithmEnumMap, json['x-amz-Checksum-Algorithm']),
-    dataLength: json['x-amz-Data-Length'] as int,
+  return CompleteSnapshotResponse(
+    status: _$enumDecodeNullable(_$StatusEnumMap, json['Status']),
   );
 }
 
@@ -64,6 +60,23 @@ T _$enumDecodeNullable<T>(
   return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
 }
 
+const _$StatusEnumMap = {
+  Status.completed: 'completed',
+  Status.pending: 'pending',
+  Status.error: 'error',
+};
+
+GetSnapshotBlockResponse _$GetSnapshotBlockResponseFromJson(
+    Map<String, dynamic> json) {
+  return GetSnapshotBlockResponse(
+    blockData: const Uint8ListConverter().fromJson(json['BlockData'] as String),
+    checksum: json['x-amz-Checksum'] as String,
+    checksumAlgorithm: _$enumDecodeNullable(
+        _$ChecksumAlgorithmEnumMap, json['x-amz-Checksum-Algorithm']),
+    dataLength: json['x-amz-Data-Length'] as int,
+  );
+}
+
 const _$ChecksumAlgorithmEnumMap = {
   ChecksumAlgorithm.sha256: 'SHA256',
 };
@@ -94,4 +107,52 @@ ListSnapshotBlocksResponse _$ListSnapshotBlocksResponseFromJson(
     nextToken: json['NextToken'] as String,
     volumeSize: json['VolumeSize'] as int,
   );
+}
+
+PutSnapshotBlockResponse _$PutSnapshotBlockResponseFromJson(
+    Map<String, dynamic> json) {
+  return PutSnapshotBlockResponse(
+    checksum: json['x-amz-Checksum'] as String,
+    checksumAlgorithm: _$enumDecodeNullable(
+        _$ChecksumAlgorithmEnumMap, json['x-amz-Checksum-Algorithm']),
+  );
+}
+
+StartSnapshotResponse _$StartSnapshotResponseFromJson(
+    Map<String, dynamic> json) {
+  return StartSnapshotResponse(
+    blockSize: json['BlockSize'] as int,
+    description: json['Description'] as String,
+    kmsKeyArn: json['KmsKeyArn'] as String,
+    ownerId: json['OwnerId'] as String,
+    parentSnapshotId: json['ParentSnapshotId'] as String,
+    snapshotId: json['SnapshotId'] as String,
+    startTime: const UnixDateTimeConverter().fromJson(json['StartTime']),
+    status: _$enumDecodeNullable(_$StatusEnumMap, json['Status']),
+    tags: (json['Tags'] as List)
+        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    volumeSize: json['VolumeSize'] as int,
+  );
+}
+
+Tag _$TagFromJson(Map<String, dynamic> json) {
+  return Tag(
+    key: json['Key'] as String,
+    value: json['Value'] as String,
+  );
+}
+
+Map<String, dynamic> _$TagToJson(Tag instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Key', instance.key);
+  writeNotNull('Value', instance.value);
+  return val;
 }

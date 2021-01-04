@@ -459,7 +459,7 @@ class Polly {
     _s.validateStringPattern(
       'outputS3KeyPrefix',
       outputS3KeyPrefix,
-      r'''^[0-9a-zA-Z\/\!\-_\.\*\'\(\)]{0,800}$''',
+      r'''^[0-9a-zA-Z\/\!\-_\.\*\'\(\):;\$@=+\,\?&]{0,800}$''',
     );
     _s.validateStringPattern(
       'snsTopicArn',
@@ -528,9 +528,31 @@ class Polly {
   ///
   /// Parameter [engine] :
   /// Specifies the engine (<code>standard</code> or <code>neural</code>) for
-  /// Amazon Polly to use when processing input text for speech synthesis. Using
-  /// a voice that is not supported for the engine selected will result in an
+  /// Amazon Polly to use when processing input text for speech synthesis. For
+  /// information on Amazon Polly voices and which voices are available in
+  /// standard-only, NTTS-only, and both standard and NTTS formats, see <a
+  /// href="https://docs.aws.amazon.com/polly/latest/dg/voicelist.html">Available
+  /// Voices</a>.
+  ///
+  /// <b>NTTS-only voices</b>
+  ///
+  /// When using NTTS-only voices such as Kevin (en-US), this parameter is
+  /// required and must be set to <code>neural</code>. If the engine is not
+  /// specified, or is set to <code>standard</code>, this will result in an
   /// error.
+  ///
+  /// Type: String
+  ///
+  /// Valid Values: <code>standard</code> | <code>neural</code>
+  ///
+  /// Required: Yes
+  ///
+  /// <b>Standard voices</b>
+  ///
+  /// For standard voices, this is not required; the engine parameter defaults
+  /// to <code>standard</code>. If the engine is not specified, or is set to
+  /// <code>standard</code> and an NTTS-only voice is selected, this will result
+  /// in an error.
   ///
   /// Parameter [languageCode] :
   /// Optional language code for the Synthesize Speech request. This is only
@@ -1400,6 +1422,8 @@ enum VoiceId {
   karl,
   @_s.JsonValue('Kendra')
   kendra,
+  @_s.JsonValue('Kevin')
+  kevin,
   @_s.JsonValue('Kimberly')
   kimberly,
   @_s.JsonValue('Lea')
@@ -1434,6 +1458,8 @@ enum VoiceId {
   naja,
   @_s.JsonValue('Nicole')
   nicole,
+  @_s.JsonValue('Olivia')
+  olivia,
   @_s.JsonValue('Penelope')
   penelope,
   @_s.JsonValue('Raveena')
@@ -1525,6 +1551,8 @@ extension on VoiceId {
         return 'Karl';
       case VoiceId.kendra:
         return 'Kendra';
+      case VoiceId.kevin:
+        return 'Kevin';
       case VoiceId.kimberly:
         return 'Kimberly';
       case VoiceId.lea:
@@ -1559,6 +1587,8 @@ extension on VoiceId {
         return 'Naja';
       case VoiceId.nicole:
         return 'Nicole';
+      case VoiceId.olivia:
+        return 'Olivia';
       case VoiceId.penelope:
         return 'Penelope';
       case VoiceId.raveena:

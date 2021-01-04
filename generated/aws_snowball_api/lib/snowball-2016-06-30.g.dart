@@ -156,6 +156,7 @@ const _$SnowballTypeEnumMap = {
   SnowballType.edgeC: 'EDGE_C',
   SnowballType.edgeCg: 'EDGE_CG',
   SnowballType.edgeS: 'EDGE_S',
+  SnowballType.snc1Hdd: 'SNC1_HDD',
 };
 
 CompatibleImage _$CompatibleImageFromJson(Map<String, dynamic> json) {
@@ -182,6 +183,20 @@ CreateJobResult _$CreateJobResultFromJson(Map<String, dynamic> json) {
     jobId: json['JobId'] as String,
   );
 }
+
+CreateReturnShippingLabelResult _$CreateReturnShippingLabelResultFromJson(
+    Map<String, dynamic> json) {
+  return CreateReturnShippingLabelResult(
+    status: _$enumDecodeNullable(_$ShippingLabelStatusEnumMap, json['Status']),
+  );
+}
+
+const _$ShippingLabelStatusEnumMap = {
+  ShippingLabelStatus.inProgress: 'InProgress',
+  ShippingLabelStatus.timedOut: 'TimedOut',
+  ShippingLabelStatus.succeeded: 'Succeeded',
+  ShippingLabelStatus.failed: 'Failed',
+};
 
 DataTransfer _$DataTransferFromJson(Map<String, dynamic> json) {
   return DataTransfer(
@@ -232,6 +247,38 @@ DescribeJobResult _$DescribeJobResultFromJson(Map<String, dynamic> json) {
             e == null ? null : JobMetadata.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
+}
+
+DescribeReturnShippingLabelResult _$DescribeReturnShippingLabelResultFromJson(
+    Map<String, dynamic> json) {
+  return DescribeReturnShippingLabelResult(
+    expirationDate:
+        const UnixDateTimeConverter().fromJson(json['ExpirationDate']),
+    status: _$enumDecodeNullable(_$ShippingLabelStatusEnumMap, json['Status']),
+  );
+}
+
+DeviceConfiguration _$DeviceConfigurationFromJson(Map<String, dynamic> json) {
+  return DeviceConfiguration(
+    snowconeDeviceConfiguration: json['SnowconeDeviceConfiguration'] == null
+        ? null
+        : SnowconeDeviceConfiguration.fromJson(
+            json['SnowconeDeviceConfiguration'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$DeviceConfigurationToJson(DeviceConfiguration instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('SnowconeDeviceConfiguration',
+      instance.snowconeDeviceConfiguration?.toJson());
+  return val;
 }
 
 Ec2AmiResource _$Ec2AmiResourceFromJson(Map<String, dynamic> json) {
@@ -370,6 +417,10 @@ JobMetadata _$JobMetadataFromJson(Map<String, dynamic> json) {
         : DataTransfer.fromJson(
             json['DataTransferProgress'] as Map<String, dynamic>),
     description: json['Description'] as String,
+    deviceConfiguration: json['DeviceConfiguration'] == null
+        ? null
+        : DeviceConfiguration.fromJson(
+            json['DeviceConfiguration'] as Map<String, dynamic>),
     forwardingAddressId: json['ForwardingAddressId'] as String,
     jobId: json['JobId'] as String,
     jobLogInfo: json['JobLogInfo'] == null
@@ -405,6 +456,7 @@ const _$SnowballCapacityEnumMap = {
   SnowballCapacity.t100: 'T100',
   SnowballCapacity.t42: 'T42',
   SnowballCapacity.t98: 'T98',
+  SnowballCapacity.t8: 'T8',
   SnowballCapacity.noPreference: 'NoPreference',
 };
 
@@ -605,6 +657,30 @@ ShippingDetails _$ShippingDetailsFromJson(Map<String, dynamic> json) {
   );
 }
 
+SnowconeDeviceConfiguration _$SnowconeDeviceConfigurationFromJson(
+    Map<String, dynamic> json) {
+  return SnowconeDeviceConfiguration(
+    wirelessConnection: json['WirelessConnection'] == null
+        ? null
+        : WirelessConnection.fromJson(
+            json['WirelessConnection'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$SnowconeDeviceConfigurationToJson(
+    SnowconeDeviceConfiguration instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('WirelessConnection', instance.wirelessConnection?.toJson());
+  return val;
+}
+
 TaxDocuments _$TaxDocumentsFromJson(Map<String, dynamic> json) {
   return TaxDocuments(
     ind: json['IND'] == null
@@ -632,4 +708,28 @@ UpdateClusterResult _$UpdateClusterResultFromJson(Map<String, dynamic> json) {
 
 UpdateJobResult _$UpdateJobResultFromJson(Map<String, dynamic> json) {
   return UpdateJobResult();
+}
+
+UpdateJobShipmentStateResult _$UpdateJobShipmentStateResultFromJson(
+    Map<String, dynamic> json) {
+  return UpdateJobShipmentStateResult();
+}
+
+WirelessConnection _$WirelessConnectionFromJson(Map<String, dynamic> json) {
+  return WirelessConnection(
+    isWifiEnabled: json['IsWifiEnabled'] as bool,
+  );
+}
+
+Map<String, dynamic> _$WirelessConnectionToJson(WirelessConnection instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('IsWifiEnabled', instance.isWifiEnabled);
+  return val;
 }

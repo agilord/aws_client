@@ -27,6 +27,27 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 part 'qldb-session-2019-07-11.g.dart';
 
 /// The transactional data APIs for Amazon QLDB
+/// <note>
+/// Instead of interacting directly with this API, we recommend using the QLDB
+/// driver or the QLDB shell to execute data transactions on a ledger.
+///
+/// <ul>
+/// <li>
+/// If you are working with an AWS SDK, use the QLDB driver. The driver provides
+/// a high-level abstraction layer above this <i>QLDB Session</i> data plane and
+/// manages <code>SendCommand</code> API calls for you. For information and a
+/// list of supported programming languages, see <a
+/// href="https://docs.aws.amazon.com/qldb/latest/developerguide/getting-started-driver.html">Getting
+/// started with the driver</a> in the <i>Amazon QLDB Developer Guide</i>.
+/// </li>
+/// <li>
+/// If you are working with the AWS Command Line Interface (AWS CLI), use the
+/// QLDB shell. The shell is a command line interface that uses the QLDB driver
+/// to interact with a ledger. For information, see <a
+/// href="https://docs.aws.amazon.com/qldb/latest/developerguide/data-shell.html">Accessing
+/// Amazon QLDB using the QLDB shell</a>.
+/// </li>
+/// </ul> </note>
 class QLDBSession {
   final _s.JsonProtocol _protocol;
   QLDBSession({
@@ -46,6 +67,27 @@ class QLDBSession {
         );
 
   /// Sends a command to an Amazon QLDB ledger.
+  /// <note>
+  /// Instead of interacting directly with this API, we recommend using the QLDB
+  /// driver or the QLDB shell to execute data transactions on a ledger.
+  ///
+  /// <ul>
+  /// <li>
+  /// If you are working with an AWS SDK, use the QLDB driver. The driver
+  /// provides a high-level abstraction layer above this <i>QLDB Session</i>
+  /// data plane and manages <code>SendCommand</code> API calls for you. For
+  /// information and a list of supported programming languages, see <a
+  /// href="https://docs.aws.amazon.com/qldb/latest/developerguide/getting-started-driver.html">Getting
+  /// started with the driver</a> in the <i>Amazon QLDB Developer Guide</i>.
+  /// </li>
+  /// <li>
+  /// If you are working with the AWS Command Line Interface (AWS CLI), use the
+  /// QLDB shell. The shell is a command line interface that uses the QLDB
+  /// driver to interact with a ledger. For information, see <a
+  /// href="https://docs.aws.amazon.com/qldb/latest/developerguide/data-shell.html">Accessing
+  /// Amazon QLDB using the QLDB shell</a>.
+  /// </li>
+  /// </ul> </note>
   ///
   /// May throw [BadRequestException].
   /// May throw [InvalidSessionException].
@@ -147,7 +189,13 @@ class AbortTransactionRequest {
     createFactory: true,
     createToJson: false)
 class AbortTransactionResult {
-  AbortTransactionResult();
+  /// Contains server-side performance information for the command.
+  @_s.JsonKey(name: 'TimingInformation')
+  final TimingInformation timingInformation;
+
+  AbortTransactionResult({
+    this.timingInformation,
+  });
   factory AbortTransactionResult.fromJson(Map<String, dynamic> json) =>
       _$AbortTransactionResultFromJson(json);
 }
@@ -163,11 +211,16 @@ class CommitTransactionRequest {
   /// transaction, the commit digest must be passed. QLDB validates
   /// <code>CommitDigest</code> and rejects the commit with an error if the digest
   /// computed on the client does not match the digest computed by QLDB.
+  ///
+  /// The purpose of the <code>CommitDigest</code> parameter is to ensure that
+  /// QLDB commits a transaction if and only if the server has processed the exact
+  /// set of statements sent by the client, in the same order that client sent
+  /// them, and with no duplicates.
   @Uint8ListConverter()
   @_s.JsonKey(name: 'CommitDigest')
   final Uint8List commitDigest;
 
-  /// Specifies the transaction id of the transaction to commit.
+  /// Specifies the transaction ID of the transaction to commit.
   @_s.JsonKey(name: 'TransactionId')
   final String transactionId;
 
@@ -190,12 +243,22 @@ class CommitTransactionResult {
   @_s.JsonKey(name: 'CommitDigest')
   final Uint8List commitDigest;
 
-  /// The transaction id of the committed transaction.
+  /// Contains metrics about the number of I/O requests that were consumed.
+  @_s.JsonKey(name: 'ConsumedIOs')
+  final IOUsage consumedIOs;
+
+  /// Contains server-side performance information for the command.
+  @_s.JsonKey(name: 'TimingInformation')
+  final TimingInformation timingInformation;
+
+  /// The transaction ID of the committed transaction.
   @_s.JsonKey(name: 'TransactionId')
   final String transactionId;
 
   CommitTransactionResult({
     this.commitDigest,
+    this.consumedIOs,
+    this.timingInformation,
     this.transactionId,
   });
   factory CommitTransactionResult.fromJson(Map<String, dynamic> json) =>
@@ -220,7 +283,13 @@ class EndSessionRequest {
     createFactory: true,
     createToJson: false)
 class EndSessionResult {
-  EndSessionResult();
+  /// Contains server-side performance information for the command.
+  @_s.JsonKey(name: 'TimingInformation')
+  final TimingInformation timingInformation;
+
+  EndSessionResult({
+    this.timingInformation,
+  });
   factory EndSessionResult.fromJson(Map<String, dynamic> json) =>
       _$EndSessionResultFromJson(json);
 }
@@ -236,7 +305,7 @@ class ExecuteStatementRequest {
   @_s.JsonKey(name: 'Statement')
   final String statement;
 
-  /// Specifies the transaction id of the request.
+  /// Specifies the transaction ID of the request.
   @_s.JsonKey(name: 'TransactionId')
   final String transactionId;
 
@@ -259,12 +328,22 @@ class ExecuteStatementRequest {
     createFactory: true,
     createToJson: false)
 class ExecuteStatementResult {
+  /// Contains metrics about the number of I/O requests that were consumed.
+  @_s.JsonKey(name: 'ConsumedIOs')
+  final IOUsage consumedIOs;
+
   /// Contains the details of the first fetched page.
   @_s.JsonKey(name: 'FirstPage')
   final Page firstPage;
 
+  /// Contains server-side performance information for the command.
+  @_s.JsonKey(name: 'TimingInformation')
+  final TimingInformation timingInformation;
+
   ExecuteStatementResult({
+    this.consumedIOs,
     this.firstPage,
+    this.timingInformation,
   });
   factory ExecuteStatementResult.fromJson(Map<String, dynamic> json) =>
       _$ExecuteStatementResultFromJson(json);
@@ -281,7 +360,7 @@ class FetchPageRequest {
   @_s.JsonKey(name: 'NextPageToken')
   final String nextPageToken;
 
-  /// Specifies the transaction id of the page to be fetched.
+  /// Specifies the transaction ID of the page to be fetched.
   @_s.JsonKey(name: 'TransactionId')
   final String transactionId;
 
@@ -299,15 +378,48 @@ class FetchPageRequest {
     createFactory: true,
     createToJson: false)
 class FetchPageResult {
+  /// Contains metrics about the number of I/O requests that were consumed.
+  @_s.JsonKey(name: 'ConsumedIOs')
+  final IOUsage consumedIOs;
+
   /// Contains details of the fetched page.
   @_s.JsonKey(name: 'Page')
   final Page page;
 
+  /// Contains server-side performance information for the command.
+  @_s.JsonKey(name: 'TimingInformation')
+  final TimingInformation timingInformation;
+
   FetchPageResult({
+    this.consumedIOs,
     this.page,
+    this.timingInformation,
   });
   factory FetchPageResult.fromJson(Map<String, dynamic> json) =>
       _$FetchPageResultFromJson(json);
+}
+
+/// Contains I/O usage metrics for a command that was invoked.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class IOUsage {
+  /// The number of read I/O requests that the command performed.
+  @_s.JsonKey(name: 'ReadIOs')
+  final int readIOs;
+
+  /// The number of write I/O requests that the command performed.
+  @_s.JsonKey(name: 'WriteIOs')
+  final int writeIOs;
+
+  IOUsage({
+    this.readIOs,
+    this.writeIOs,
+  });
+  factory IOUsage.fromJson(Map<String, dynamic> json) =>
+      _$IOUsageFromJson(json);
 }
 
 /// Contains details of the fetched page.
@@ -381,7 +493,7 @@ class SendCommandResult {
       _$SendCommandResultFromJson(json);
 }
 
-/// Specifies a request to start a a new session.
+/// Specifies a request to start a new session.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -411,8 +523,13 @@ class StartSessionResult {
   @_s.JsonKey(name: 'SessionToken')
   final String sessionToken;
 
+  /// Contains server-side performance information for the command.
+  @_s.JsonKey(name: 'TimingInformation')
+  final TimingInformation timingInformation;
+
   StartSessionResult({
     this.sessionToken,
+    this.timingInformation,
   });
   factory StartSessionResult.fromJson(Map<String, dynamic> json) =>
       _$StartSessionResultFromJson(json);
@@ -436,18 +553,44 @@ class StartTransactionRequest {
     createFactory: true,
     createToJson: false)
 class StartTransactionResult {
-  /// The transaction id of the started transaction.
+  /// Contains server-side performance information for the command.
+  @_s.JsonKey(name: 'TimingInformation')
+  final TimingInformation timingInformation;
+
+  /// The transaction ID of the started transaction.
   @_s.JsonKey(name: 'TransactionId')
   final String transactionId;
 
   StartTransactionResult({
+    this.timingInformation,
     this.transactionId,
   });
   factory StartTransactionResult.fromJson(Map<String, dynamic> json) =>
       _$StartTransactionResultFromJson(json);
 }
 
-/// A structure that can contains values in multiple encoding formats.
+/// Contains server-side performance information for a command. Amazon QLDB
+/// captures timing information between the times when it receives the request
+/// and when it sends the corresponding response.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class TimingInformation {
+  /// The amount of time that was taken for the command to finish processing,
+  /// measured in milliseconds.
+  @_s.JsonKey(name: 'ProcessingTimeMilliseconds')
+  final int processingTimeMilliseconds;
+
+  TimingInformation({
+    this.processingTimeMilliseconds,
+  });
+  factory TimingInformation.fromJson(Map<String, dynamic> json) =>
+      _$TimingInformationFromJson(json);
+}
+
+/// A structure that can contain a value in multiple encoding formats.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,

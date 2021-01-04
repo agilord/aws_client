@@ -54,15 +54,16 @@ class ServiceDiscovery {
   /// HTTP namespace can be discovered using a <code>DiscoverInstances</code>
   /// request but can't be discovered using DNS.
   ///
-  /// For the current limit on the number of namespaces that you can create
+  /// For the current quota on the number of namespaces that you can create
   /// using the same AWS account, see <a
-  /// href="http://docs.aws.amazon.com/cloud-map/latest/dg/cloud-map-limits.html">AWS
-  /// Cloud Map Limits</a> in the <i>AWS Cloud Map Developer Guide</i>.
+  /// href="https://docs.aws.amazon.com/cloud-map/latest/dg/cloud-map-limits.html">AWS
+  /// Cloud Map quotas</a> in the <i>AWS Cloud Map Developer Guide</i>.
   ///
   /// May throw [InvalidInput].
   /// May throw [NamespaceAlreadyExists].
   /// May throw [ResourceLimitExceeded].
   /// May throw [DuplicateRequest].
+  /// May throw [TooManyTagsException].
   ///
   /// Parameter [name] :
   /// The name that you want to assign to this namespace.
@@ -75,10 +76,17 @@ class ServiceDiscovery {
   ///
   /// Parameter [description] :
   /// A description for the namespace.
+  ///
+  /// Parameter [tags] :
+  /// The tags to add to the namespace. Each tag consists of a key and an
+  /// optional value, both of which you define. Tag keys can have a maximum
+  /// character length of 128 characters, and tag values can have a maximum
+  /// length of 256 characters.
   Future<CreateHttpNamespaceResponse> createHttpNamespace({
     @_s.required String name,
     String creatorRequestId,
     String description,
+    List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -114,6 +122,7 @@ class ServiceDiscovery {
         'Name': name,
         'CreatorRequestId': creatorRequestId ?? _s.generateIdempotencyToken(),
         if (description != null) 'Description': description,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -124,21 +133,22 @@ class ServiceDiscovery {
   /// inside a specified Amazon VPC. The namespace defines your service naming
   /// scheme. For example, if you name your namespace <code>example.com</code>
   /// and name your service <code>backend</code>, the resulting DNS name for the
-  /// service will be <code>backend.example.com</code>. For the current limit on
+  /// service will be <code>backend.example.com</code>. For the current quota on
   /// the number of namespaces that you can create using the same AWS account,
   /// see <a
-  /// href="http://docs.aws.amazon.com/cloud-map/latest/dg/cloud-map-limits.html">AWS
+  /// href="https://docs.aws.amazon.com/cloud-map/latest/dg/cloud-map-limits.html">AWS
   /// Cloud Map Limits</a> in the <i>AWS Cloud Map Developer Guide</i>.
   ///
   /// May throw [InvalidInput].
   /// May throw [NamespaceAlreadyExists].
   /// May throw [ResourceLimitExceeded].
   /// May throw [DuplicateRequest].
+  /// May throw [TooManyTagsException].
   ///
   /// Parameter [name] :
   /// The name that you want to assign to this namespace. When you create a
-  /// private DNS namespace, AWS Cloud Map automatically creates an Amazon Route
-  /// 53 private hosted zone that has the same name as the namespace.
+  /// private DNS namespace, AWS Cloud Map automatically creates an Amazon
+  /// Route 53 private hosted zone that has the same name as the namespace.
   ///
   /// Parameter [vpc] :
   /// The ID of the Amazon VPC that you want to associate the namespace with.
@@ -151,11 +161,18 @@ class ServiceDiscovery {
   ///
   /// Parameter [description] :
   /// A description for the namespace.
+  ///
+  /// Parameter [tags] :
+  /// The tags to add to the namespace. Each tag consists of a key and an
+  /// optional value, both of which you define. Tag keys can have a maximum
+  /// character length of 128 characters, and tag values can have a maximum
+  /// length of 256 characters.
   Future<CreatePrivateDnsNamespaceResponse> createPrivateDnsNamespace({
     @_s.required String name,
     @_s.required String vpc,
     String creatorRequestId,
     String description,
+    List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -200,6 +217,7 @@ class ServiceDiscovery {
         'Vpc': vpc,
         'CreatorRequestId': creatorRequestId ?? _s.generateIdempotencyToken(),
         if (description != null) 'Description': description,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -210,15 +228,16 @@ class ServiceDiscovery {
   /// internet. The namespace defines your service naming scheme. For example,
   /// if you name your namespace <code>example.com</code> and name your service
   /// <code>backend</code>, the resulting DNS name for the service will be
-  /// <code>backend.example.com</code>. For the current limit on the number of
+  /// <code>backend.example.com</code>. For the current quota on the number of
   /// namespaces that you can create using the same AWS account, see <a
-  /// href="http://docs.aws.amazon.com/cloud-map/latest/dg/cloud-map-limits.html">AWS
+  /// href="https://docs.aws.amazon.com/cloud-map/latest/dg/cloud-map-limits.html">AWS
   /// Cloud Map Limits</a> in the <i>AWS Cloud Map Developer Guide</i>.
   ///
   /// May throw [InvalidInput].
   /// May throw [NamespaceAlreadyExists].
   /// May throw [ResourceLimitExceeded].
   /// May throw [DuplicateRequest].
+  /// May throw [TooManyTagsException].
   ///
   /// Parameter [name] :
   /// The name that you want to assign to this namespace.
@@ -231,10 +250,17 @@ class ServiceDiscovery {
   ///
   /// Parameter [description] :
   /// A description for the namespace.
+  ///
+  /// Parameter [tags] :
+  /// The tags to add to the namespace. Each tag consists of a key and an
+  /// optional value, both of which you define. Tag keys can have a maximum
+  /// character length of 128 characters, and tag values can have a maximum
+  /// length of 256 characters.
   Future<CreatePublicDnsNamespaceResponse> createPublicDnsNamespace({
     @_s.required String name,
     String creatorRequestId,
     String description,
+    List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringLength(
@@ -270,6 +296,7 @@ class ServiceDiscovery {
         'Name': name,
         'CreatorRequestId': creatorRequestId ?? _s.generateIdempotencyToken(),
         if (description != null) 'Description': description,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -282,45 +309,68 @@ class ServiceDiscovery {
   /// <ul>
   /// <li>
   /// For public and private DNS namespaces, one of the following combinations
-  /// of DNS records in Amazon Route 53:
+  /// of DNS records in Amazon Route 53:
   ///
   /// <ul>
   /// <li>
-  /// A
+  /// <code>A</code>
   /// </li>
   /// <li>
-  /// AAAA
+  /// <code>AAAA</code>
   /// </li>
   /// <li>
-  /// A and AAAA
+  /// <code>A</code> and <code>AAAA</code>
   /// </li>
   /// <li>
-  /// SRV
+  /// <code>SRV</code>
   /// </li>
   /// <li>
-  /// CNAME
+  /// <code>CNAME</code>
   /// </li>
   /// </ul> </li>
   /// <li>
   /// Optionally, a health check
   /// </li>
   /// </ul>
-  /// After you create the service, you can submit a <a>RegisterInstance</a>
+  /// After you create the service, you can submit a <a
+  /// href="https://docs.aws.amazon.com/cloud-map/latest/api/API_RegisterInstance.html">RegisterInstance</a>
   /// request, and AWS Cloud Map uses the values in the configuration to create
   /// the specified entities.
   ///
-  /// For the current limit on the number of instances that you can register
+  /// For the current quota on the number of instances that you can register
   /// using the same namespace and using the same service, see <a
-  /// href="http://docs.aws.amazon.com/cloud-map/latest/dg/cloud-map-limits.html">AWS
+  /// href="https://docs.aws.amazon.com/cloud-map/latest/dg/cloud-map-limits.html">AWS
   /// Cloud Map Limits</a> in the <i>AWS Cloud Map Developer Guide</i>.
   ///
   /// May throw [InvalidInput].
   /// May throw [ResourceLimitExceeded].
   /// May throw [NamespaceNotFound].
   /// May throw [ServiceAlreadyExists].
+  /// May throw [TooManyTagsException].
   ///
   /// Parameter [name] :
   /// The name that you want to assign to the service.
+  ///
+  /// If you want AWS Cloud Map to create an <code>SRV</code> record when you
+  /// register an instance, and if you're using a system that requires a
+  /// specific <code>SRV</code> format, such as <a
+  /// href="http://www.haproxy.org/">HAProxy</a>, specify the following for
+  /// <code>Name</code>:
+  ///
+  /// <ul>
+  /// <li>
+  /// Start the name with an underscore (_), such as
+  /// <code>_exampleservice</code>
+  /// </li>
+  /// <li>
+  /// End the name with <i>._protocol</i>, such as <code>._tcp</code>
+  /// </li>
+  /// </ul>
+  /// When you register an instance, AWS Cloud Map creates an <code>SRV</code>
+  /// record and assigns a name to the record by concatenating the service name
+  /// and the namespace name, for example:
+  ///
+  /// <code>_exampleservice._tcp.example.com</code>
   ///
   /// Parameter [creatorRequestId] :
   /// A unique string that identifies the request and that allows failed
@@ -332,14 +382,14 @@ class ServiceDiscovery {
   /// A description for the service.
   ///
   /// Parameter [dnsConfig] :
-  /// A complex type that contains information about the Amazon Route 53 records
+  /// A complex type that contains information about the Amazon Route 53 records
   /// that you want AWS Cloud Map to create when you register an instance.
   ///
   /// Parameter [healthCheckConfig] :
-  /// <i>Public DNS namespaces only.</i> A complex type that contains settings
-  /// for an optional Route 53 health check. If you specify settings for a
-  /// health check, AWS Cloud Map associates the health check with all the Route
-  /// 53 DNS records that you specify in <code>DnsConfig</code>.
+  /// <i>Public DNS and HTTP namespaces only.</i> A complex type that contains
+  /// settings for an optional Route 53 health check. If you specify settings
+  /// for a health check, AWS Cloud Map associates the health check with all the
+  /// Route 53 DNS records that you specify in <code>DnsConfig</code>.
   /// <important>
   /// If you specify a health check configuration, you can specify either
   /// <code>HealthCheckCustomConfig</code> or <code>HealthCheckConfig</code> but
@@ -356,9 +406,17 @@ class ServiceDiscovery {
   /// <code>HealthCheckCustomConfig</code> or <code>HealthCheckConfig</code> but
   /// not both.
   /// </important>
+  /// You can't add, update, or delete a <code>HealthCheckCustomConfig</code>
+  /// configuration from an existing service.
   ///
   /// Parameter [namespaceId] :
   /// The ID of the namespace that you want to use to create the service.
+  ///
+  /// Parameter [tags] :
+  /// The tags to add to the service. Each tag consists of a key and an optional
+  /// value, both of which you define. Tag keys can have a maximum character
+  /// length of 128 characters, and tag values can have a maximum length of 256
+  /// characters.
   Future<CreateServiceResponse> createService({
     @_s.required String name,
     String creatorRequestId,
@@ -367,6 +425,7 @@ class ServiceDiscovery {
     HealthCheckConfig healthCheckConfig,
     HealthCheckCustomConfig healthCheckCustomConfig,
     String namespaceId,
+    List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(name, 'name');
     _s.validateStringPattern(
@@ -412,6 +471,7 @@ class ServiceDiscovery {
         if (healthCheckCustomConfig != null)
           'HealthCheckCustomConfig': healthCheckCustomConfig,
         if (namespaceId != null) 'NamespaceId': namespaceId,
+        if (tags != null) 'Tags': tags,
       },
     );
 
@@ -495,7 +555,7 @@ class ServiceDiscovery {
     return DeleteServiceResponse.fromJson(jsonResponse.body);
   }
 
-  /// Deletes the Amazon Route 53 DNS records and health check, if any, that AWS
+  /// Deletes the Amazon Route 53 DNS records and health check, if any, that AWS
   /// Cloud Map created for the specified instance.
   ///
   /// May throw [DuplicateRequest].
@@ -505,8 +565,9 @@ class ServiceDiscovery {
   /// May throw [ServiceNotFound].
   ///
   /// Parameter [instanceId] :
-  /// The value that you specified for <code>Id</code> in the
-  /// <a>RegisterInstance</a> request.
+  /// The value that you specified for <code>Id</code> in the <a
+  /// href="https://docs.aws.amazon.com/cloud-map/latest/api/API_RegisterInstance.html">RegisterInstance</a>
+  /// request.
   ///
   /// Parameter [serviceId] :
   /// The ID of the service that the instance is associated with.
@@ -549,11 +610,15 @@ class ServiceDiscovery {
     return DeregisterInstanceResponse.fromJson(jsonResponse.body);
   }
 
-  /// Discovers registered instances for a specified namespace and service.
+  /// Discovers registered instances for a specified namespace and service. You
+  /// can use <code>DiscoverInstances</code> to discover instances for any type
+  /// of namespace. For public and private DNS namespaces, you can also use DNS
+  /// queries to discover instances.
   ///
   /// May throw [ServiceNotFound].
   /// May throw [NamespaceNotFound].
   /// May throw [InvalidInput].
+  /// May throw [RequestLimitExceeded].
   ///
   /// Parameter [namespaceName] :
   /// The name of the namespace that you specified when you registered the
@@ -567,21 +632,29 @@ class ServiceDiscovery {
   /// The health status of the instances that you want to discover.
   ///
   /// Parameter [maxResults] :
-  /// The maximum number of instances that you want Cloud Map to return in the
-  /// response to a <code>DiscoverInstances</code> request. If you don't specify
-  /// a value for <code>MaxResults</code>, Cloud Map returns up to 100
-  /// instances.
+  /// The maximum number of instances that you want AWS Cloud Map to return in
+  /// the response to a <code>DiscoverInstances</code> request. If you don't
+  /// specify a value for <code>MaxResults</code>, AWS Cloud Map returns up to
+  /// 100 instances.
+  ///
+  /// Parameter [optionalParameters] :
+  /// Opportunistic filters to scope the results based on custom attributes. If
+  /// there are instances that match both the filters specified in both the
+  /// <code>QueryParameters</code> parameter and this parameter, they are
+  /// returned. Otherwise, these filters are ignored and only instances that
+  /// match the filters specified in the <code>QueryParameters</code> parameter
+  /// are returned.
   ///
   /// Parameter [queryParameters] :
-  /// A string map that contains attributes with values that you can use to
-  /// filter instances by any custom attribute that you specified when you
-  /// registered the instance. Only instances that match all the specified
-  /// key/value pairs will be returned.
+  /// Filters to scope the results based on custom attributes for the instance.
+  /// For example, <code>{version=v1, az=1a}</code>. Only instances that match
+  /// all the specified key-value pairs will be returned.
   Future<DiscoverInstancesResponse> discoverInstances({
     @_s.required String namespaceName,
     @_s.required String serviceName,
     HealthStatusFilter healthStatus,
     int maxResults,
+    Map<String, String> optionalParameters,
     Map<String, String> queryParameters,
   }) async {
     ArgumentError.checkNotNull(namespaceName, 'namespaceName');
@@ -603,7 +676,7 @@ class ServiceDiscovery {
       'maxResults',
       maxResults,
       1,
-      100,
+      1000,
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -620,6 +693,8 @@ class ServiceDiscovery {
         'ServiceName': serviceName,
         if (healthStatus != null) 'HealthStatus': healthStatus.toValue(),
         if (maxResults != null) 'MaxResults': maxResults,
+        if (optionalParameters != null)
+          'OptionalParameters': optionalParameters,
         if (queryParameters != null) 'QueryParameters': queryParameters,
       },
     );
@@ -701,7 +776,9 @@ class ServiceDiscovery {
   /// service.
   /// <note>
   /// To get the IDs for the instances that you've registered by using a
-  /// specified service, submit a <a>ListInstances</a> request.
+  /// specified service, submit a <a
+  /// href="https://docs.aws.amazon.com/cloud-map/latest/api/API_ListInstances.html">ListInstances</a>
+  /// request.
   /// </note>
   ///
   /// Parameter [maxResults] :
@@ -804,8 +881,8 @@ class ServiceDiscovery {
   /// Gets information about any operation that returns an operation ID in the
   /// response, such as a <code>CreateService</code> request.
   /// <note>
-  /// To get a list of operations that match specified criteria, see
-  /// <a>ListOperations</a>.
+  /// To get a list of operations that match specified criteria, see <a
+  /// href="https://docs.aws.amazon.com/cloud-map/latest/api/API_ListOperations.html">ListOperations</a>.
   /// </note>
   ///
   /// May throw [InvalidInput].
@@ -1152,6 +1229,43 @@ class ServiceDiscovery {
     return ListServicesResponse.fromJson(jsonResponse.body);
   }
 
+  /// Lists tags for the specified resource.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InvalidInput].
+  ///
+  /// Parameter [resourceARN] :
+  /// The Amazon Resource Name (ARN) of the resource that you want to retrieve
+  /// tags for.
+  Future<ListTagsForResourceResponse> listTagsForResource({
+    @_s.required String resourceARN,
+  }) async {
+    ArgumentError.checkNotNull(resourceARN, 'resourceARN');
+    _s.validateStringLength(
+      'resourceARN',
+      resourceARN,
+      1,
+      1011,
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Route53AutoNaming_v20170314.ListTagsForResource'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ResourceARN': resourceARN,
+      },
+    );
+
+    return ListTagsForResourceResponse.fromJson(jsonResponse.body);
+  }
+
   /// Creates or updates one or more records and, optionally, creates a health
   /// check based on the settings in a specified service. When you submit a
   /// <code>RegisterInstance</code> request, the following occurs:
@@ -1174,7 +1288,8 @@ class ServiceDiscovery {
   /// One <code>RegisterInstance</code> request must complete before you can
   /// submit another request and specify the same service ID and instance ID.
   /// </important>
-  /// For more information, see <a>CreateService</a>.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/cloud-map/latest/api/API_CreateService.html">CreateService</a>.
   ///
   /// When AWS Cloud Map receives a DNS query for the specified DNS name, it
   /// returns the applicable value:
@@ -1192,9 +1307,9 @@ class ServiceDiscovery {
   /// records
   /// </li>
   /// </ul>
-  /// For the current limit on the number of instances that you can register
+  /// For the current quota on the number of instances that you can register
   /// using the same namespace and using the same service, see <a
-  /// href="http://docs.aws.amazon.com/cloud-map/latest/dg/cloud-map-limits.html">AWS
+  /// href="https://docs.aws.amazon.com/cloud-map/latest/dg/cloud-map-limits.html">AWS
   /// Cloud Map Limits</a> in the <i>AWS Cloud Map Developer Guide</i>.
   ///
   /// May throw [DuplicateRequest].
@@ -1219,22 +1334,20 @@ class ServiceDiscovery {
   ///
   /// <b>AWS_ALIAS_DNS_NAME</b>
   ///
-  /// <b/>
-  ///
-  /// If you want AWS Cloud Map to create an Amazon Route 53 alias record that
+  /// If you want AWS Cloud Map to create an Amazon Route 53 alias record that
   /// routes traffic to an Elastic Load Balancing load balancer, specify the DNS
   /// name that is associated with the load balancer. For information about how
   /// to get the DNS name, see "DNSName" in the topic <a
-  /// href="http://docs.aws.amazon.com/Route53/latest/APIReference/API_AliasTarget.html">AliasTarget</a>
-  /// in the <i>Route 53 API Reference</i>.
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_AliasTarget.html">AliasTarget</a>
+  /// in the <i>Route 53 API Reference</i>.
   ///
   /// Note the following:
   ///
   /// <ul>
   /// <li>
   /// The configuration for the service that is specified by
-  /// <code>ServiceId</code> must include settings for an A record, an AAAA
-  /// record, or both.
+  /// <code>ServiceId</code> must include settings for an <code>A</code> record,
+  /// an <code>AAAA</code> record, or both.
   /// </li>
   /// <li>
   /// In the service that is specified by <code>ServiceId</code>, the value of
@@ -1243,18 +1356,28 @@ class ServiceDiscovery {
   /// <li>
   /// If the service that is specified by <code>ServiceId</code> includes
   /// <code>HealthCheckConfig</code> settings, AWS Cloud Map will create the
-  /// Route 53 health check, but it won't associate the health check with the
+  /// Route 53 health check, but it won't associate the health check with the
   /// alias record.
   /// </li>
   /// <li>
   /// Auto naming currently doesn't support creating alias records that route
-  /// traffic to AWS resources other than ELB load balancers.
+  /// traffic to AWS resources other than Elastic Load Balancing load balancers.
   /// </li>
   /// <li>
   /// If you specify a value for <code>AWS_ALIAS_DNS_NAME</code>, don't specify
   /// values for any of the <code>AWS_INSTANCE</code> attributes.
   /// </li>
   /// </ul>
+  /// <b>AWS_EC2_INSTANCE_ID</b>
+  ///
+  /// <i>HTTP namespaces only.</i> The Amazon EC2 instance ID for the instance.
+  /// If the <code>AWS_EC2_INSTANCE_ID</code> attribute is specified, then the
+  /// only other attribute that can be specified is
+  /// <code>AWS_INIT_HEALTH_STATUS</code>. When the
+  /// <code>AWS_EC2_INSTANCE_ID</code> attribute is specified, then the
+  /// <code>AWS_INSTANCE_IPV4</code> attribute will be filled out with the
+  /// primary private IPv4 address.
+  ///
   /// <b>AWS_INIT_HEALTH_STATUS</b>
   ///
   /// If the service configuration includes
@@ -1266,51 +1389,53 @@ class ServiceDiscovery {
   ///
   /// <b>AWS_INSTANCE_CNAME</b>
   ///
-  /// If the service configuration includes a CNAME record, the domain name that
-  /// you want Route 53 to return in response to DNS queries, for example,
-  /// <code>example.com</code>.
+  /// If the service configuration includes a <code>CNAME</code> record, the
+  /// domain name that you want Route 53 to return in response to DNS queries,
+  /// for example, <code>example.com</code>.
   ///
   /// This value is required if the service specified by <code>ServiceId</code>
-  /// includes settings for an CNAME record.
+  /// includes settings for an <code>CNAME</code> record.
   ///
   /// <b>AWS_INSTANCE_IPV4</b>
   ///
-  /// If the service configuration includes an A record, the IPv4 address that
-  /// you want Route 53 to return in response to DNS queries, for example,
-  /// <code>192.0.2.44</code>.
+  /// If the service configuration includes an <code>A</code> record, the IPv4
+  /// address that you want Route 53 to return in response to DNS queries, for
+  /// example, <code>192.0.2.44</code>.
   ///
   /// This value is required if the service specified by <code>ServiceId</code>
-  /// includes settings for an A record. If the service includes settings for an
-  /// SRV record, you must specify a value for <code>AWS_INSTANCE_IPV4</code>,
-  /// <code>AWS_INSTANCE_IPV6</code>, or both.
+  /// includes settings for an <code>A</code> record. If the service includes
+  /// settings for an <code>SRV</code> record, you must specify a value for
+  /// <code>AWS_INSTANCE_IPV4</code>, <code>AWS_INSTANCE_IPV6</code>, or both.
   ///
   /// <b>AWS_INSTANCE_IPV6</b>
   ///
-  /// If the service configuration includes an AAAA record, the IPv6 address
-  /// that you want Route 53 to return in response to DNS queries, for example,
-  /// <code>2001:0db8:85a3:0000:0000:abcd:0001:2345</code>.
+  /// If the service configuration includes an <code>AAAA</code> record, the
+  /// IPv6 address that you want Route 53 to return in response to DNS queries,
+  /// for example, <code>2001:0db8:85a3:0000:0000:abcd:0001:2345</code>.
   ///
   /// This value is required if the service specified by <code>ServiceId</code>
-  /// includes settings for an AAAA record. If the service includes settings for
-  /// an SRV record, you must specify a value for
+  /// includes settings for an <code>AAAA</code> record. If the service includes
+  /// settings for an <code>SRV</code> record, you must specify a value for
   /// <code>AWS_INSTANCE_IPV4</code>, <code>AWS_INSTANCE_IPV6</code>, or both.
   ///
   /// <b>AWS_INSTANCE_PORT</b>
   ///
-  /// If the service includes an SRV record, the value that you want Route 53 to
-  /// return for the port.
+  /// If the service includes an <code>SRV</code> record, the value that you
+  /// want Route 53 to return for the port.
   ///
   /// If the service includes <code>HealthCheckConfig</code>, the port on the
-  /// endpoint that you want Route 53 to send requests to.
+  /// endpoint that you want Route 53 to send requests to.
   ///
-  /// This value is required if you specified settings for an SRV record when
-  /// you created the service.
+  /// This value is required if you specified settings for an <code>SRV</code>
+  /// record or a Route 53 health check when you created the service.
   ///
   /// <b>Custom attributes</b>
   ///
   /// You can add up to 30 custom attributes. For each key-value pair, the
   /// maximum length of the attribute name is 255 characters, and the maximum
-  /// length of the attribute value is 1,024 characters.
+  /// length of the attribute value is 1,024 characters. The total size of all
+  /// provided attributes (sum of all keys and values) must not exceed 5,000
+  /// characters.
   ///
   /// Parameter [instanceId] :
   /// An identifier that you want to associate with the instance. Note the
@@ -1319,9 +1444,11 @@ class ServiceDiscovery {
   /// <ul>
   /// <li>
   /// If the service that is specified by <code>ServiceId</code> includes
-  /// settings for an SRV record, the value of <code>InstanceId</code> is
-  /// automatically included as part of the value for the SRV record. For more
-  /// information, see <a>DnsRecord$Type</a>.
+  /// settings for an <code>SRV</code> record, the value of
+  /// <code>InstanceId</code> is automatically included as part of the value for
+  /// the <code>SRV</code> record. For more information, see <a
+  /// href="https://docs.aws.amazon.com/cloud-map/latest/api/API_DnsRecord.html#cloudmap-Type-DnsRecord-Type">DnsRecord
+  /// &gt; Type</a>.
   /// </li>
   /// <li>
   /// You can use this value to update an existing instance.
@@ -1403,16 +1530,106 @@ class ServiceDiscovery {
     return RegisterInstanceResponse.fromJson(jsonResponse.body);
   }
 
+  /// Adds one or more tags to the specified resource.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [TooManyTagsException].
+  /// May throw [InvalidInput].
+  ///
+  /// Parameter [resourceARN] :
+  /// The Amazon Resource Name (ARN) of the resource that you want to retrieve
+  /// tags for.
+  ///
+  /// Parameter [tags] :
+  /// The tags to add to the specified resource. Specifying the tag key is
+  /// required. You can set the value of a tag to an empty string, but you can't
+  /// set the value of a tag to null.
+  Future<void> tagResource({
+    @_s.required String resourceARN,
+    @_s.required List<Tag> tags,
+  }) async {
+    ArgumentError.checkNotNull(resourceARN, 'resourceARN');
+    _s.validateStringLength(
+      'resourceARN',
+      resourceARN,
+      1,
+      1011,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(tags, 'tags');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Route53AutoNaming_v20170314.TagResource'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ResourceARN': resourceARN,
+        'Tags': tags,
+      },
+    );
+
+    return TagResourceResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Removes one or more tags from the specified resource.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InvalidInput].
+  ///
+  /// Parameter [resourceARN] :
+  /// The Amazon Resource Name (ARN) of the resource that you want to retrieve
+  /// tags for.
+  ///
+  /// Parameter [tagKeys] :
+  /// The tag keys to remove from the specified resource.
+  Future<void> untagResource({
+    @_s.required String resourceARN,
+    @_s.required List<String> tagKeys,
+  }) async {
+    ArgumentError.checkNotNull(resourceARN, 'resourceARN');
+    _s.validateStringLength(
+      'resourceARN',
+      resourceARN,
+      1,
+      1011,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(tagKeys, 'tagKeys');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'Route53AutoNaming_v20170314.UntagResource'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ResourceARN': resourceARN,
+        'TagKeys': tagKeys,
+      },
+    );
+
+    return UntagResourceResponse.fromJson(jsonResponse.body);
+  }
+
   /// Submits a request to change the health status of a custom health check to
   /// healthy or unhealthy.
   ///
   /// You can use <code>UpdateInstanceCustomHealthStatus</code> to change the
   /// status only for custom health checks, which you define using
   /// <code>HealthCheckCustomConfig</code> when you create a service. You can't
-  /// use it to change the status for Route 53 health checks, which you define
+  /// use it to change the status for Route 53 health checks, which you define
   /// using <code>HealthCheckConfig</code>.
   ///
-  /// For more information, see <a>HealthCheckCustomConfig</a>.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/cloud-map/latest/api/API_HealthCheckCustomConfig.html">HealthCheckCustomConfig</a>.
   ///
   /// May throw [InstanceNotFound].
   /// May throw [ServiceNotFound].
@@ -1474,24 +1691,33 @@ class ServiceDiscovery {
   ///
   /// <ul>
   /// <li>
-  /// Add or delete <code>DnsRecords</code> configurations
-  /// </li>
-  /// <li>
   /// Update the TTL setting for existing <code>DnsRecords</code> configurations
   /// </li>
   /// <li>
   /// Add, update, or delete <code>HealthCheckConfig</code> for a specified
   /// service
+  /// <note>
+  /// You can't add, update, or delete a <code>HealthCheckCustomConfig</code>
+  /// configuration.
+  /// </note> </li>
+  /// </ul>
+  /// For public and private DNS namespaces, note the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// If you omit any existing <code>DnsRecords</code> or
+  /// <code>HealthCheckConfig</code> configurations from an
+  /// <code>UpdateService</code> request, the configurations are deleted from
+  /// the service.
+  /// </li>
+  /// <li>
+  /// If you omit an existing <code>HealthCheckCustomConfig</code> configuration
+  /// from an <code>UpdateService</code> request, the configuration is not
+  /// deleted from the service.
   /// </li>
   /// </ul>
-  /// For public and private DNS namespaces, you must specify all
-  /// <code>DnsRecords</code> configurations (and, optionally,
-  /// <code>HealthCheckConfig</code>) that you want to appear in the updated
-  /// service. Any current configurations that don't appear in an
-  /// <code>UpdateService</code> request are deleted.
-  ///
-  /// When you update the TTL setting for a service, AWS Cloud Map also updates
-  /// the corresponding settings in all the records and health checks that were
+  /// When you update settings for a service, AWS Cloud Map also updates the
+  /// corresponding settings in all the records and health checks that were
   /// created by using the specified service.
   ///
   /// May throw [DuplicateRequest].
@@ -1543,7 +1769,8 @@ class ServiceDiscovery {
     createToJson: false)
 class CreateHttpNamespaceResponse {
   /// A value that you can use to determine whether the request completed
-  /// successfully. To get the status of the operation, see <a>GetOperation</a>.
+  /// successfully. To get the status of the operation, see <a
+  /// href="https://docs.aws.amazon.com/cloud-map/latest/api/API_GetOperation.html">GetOperation</a>.
   @_s.JsonKey(name: 'OperationId')
   final String operationId;
 
@@ -1561,7 +1788,8 @@ class CreateHttpNamespaceResponse {
     createToJson: false)
 class CreatePrivateDnsNamespaceResponse {
   /// A value that you can use to determine whether the request completed
-  /// successfully. To get the status of the operation, see <a>GetOperation</a>.
+  /// successfully. To get the status of the operation, see <a
+  /// href="https://docs.aws.amazon.com/cloud-map/latest/api/API_GetOperation.html">GetOperation</a>.
   @_s.JsonKey(name: 'OperationId')
   final String operationId;
 
@@ -1580,7 +1808,8 @@ class CreatePrivateDnsNamespaceResponse {
     createToJson: false)
 class CreatePublicDnsNamespaceResponse {
   /// A value that you can use to determine whether the request completed
-  /// successfully. To get the status of the operation, see <a>GetOperation</a>.
+  /// successfully. To get the status of the operation, see <a
+  /// href="https://docs.aws.amazon.com/cloud-map/latest/api/API_GetOperation.html">GetOperation</a>.
   @_s.JsonKey(name: 'OperationId')
   final String operationId;
 
@@ -1635,7 +1864,8 @@ extension on CustomHealthStatus {
     createToJson: false)
 class DeleteNamespaceResponse {
   /// A value that you can use to determine whether the request completed
-  /// successfully. To get the status of the operation, see <a>GetOperation</a>.
+  /// successfully. To get the status of the operation, see <a
+  /// href="https://docs.aws.amazon.com/cloud-map/latest/api/API_GetOperation.html">GetOperation</a>.
   @_s.JsonKey(name: 'OperationId')
   final String operationId;
 
@@ -1664,7 +1894,8 @@ class DeleteServiceResponse {
     createToJson: false)
 class DeregisterInstanceResponse {
   /// A value that you can use to determine whether the request completed
-  /// successfully. For more information, see <a>GetOperation</a>.
+  /// successfully. For more information, see <a
+  /// href="https://docs.aws.amazon.com/cloud-map/latest/api/API_GetOperation.html">GetOperation</a>.
   @_s.JsonKey(name: 'OperationId')
   final String operationId;
 
@@ -1693,7 +1924,7 @@ class DiscoverInstancesResponse {
       _$DiscoverInstancesResponseFromJson(json);
 }
 
-/// A complex type that contains information about the Amazon Route 53 DNS
+/// A complex type that contains information about the Amazon Route 53 DNS
 /// records that you want AWS Cloud Map to create when you register an instance.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -1701,7 +1932,7 @@ class DiscoverInstancesResponse {
     createFactory: true,
     createToJson: true)
 class DnsConfig {
-  /// An array that contains one <code>DnsRecord</code> object for each Route 53
+  /// An array that contains one <code>DnsRecord</code> object for each Route 53
   /// DNS record that you want AWS Cloud Map to create when you register an
   /// instance.
   @_s.JsonKey(name: 'DnsRecords')
@@ -1711,7 +1942,7 @@ class DnsConfig {
   @_s.JsonKey(name: 'NamespaceId')
   final String namespaceId;
 
-  /// The routing policy that you want to apply to all Route 53 DNS records that
+  /// The routing policy that you want to apply to all Route 53 DNS records that
   /// AWS Cloud Map creates when you register an instance and specify this
   /// service.
   /// <note>
@@ -1723,41 +1954,43 @@ class DnsConfig {
   /// <b>MULTIVALUE</b>
   ///
   /// If you define a health check for the service and the health check is
-  /// healthy, Route 53 returns the applicable value for up to eight instances.
+  /// healthy, Route 53 returns the applicable value for up to eight instances.
   ///
-  /// For example, suppose the service includes configurations for one A record
-  /// and a health check, and you use the service to register 10 instances. Route
-  /// 53 responds to DNS queries with IP addresses for up to eight healthy
-  /// instances. If fewer than eight instances are healthy, Route 53 responds to
-  /// every DNS query with the IP addresses for all of the healthy instances.
+  /// For example, suppose the service includes configurations for one
+  /// <code>A</code> record and a health check, and you use the service to
+  /// register 10 instances. Route 53 responds to DNS queries with IP addresses
+  /// for up to eight healthy instances. If fewer than eight instances are
+  /// healthy, Route 53 responds to every DNS query with the IP addresses for all
+  /// of the healthy instances.
   ///
-  /// If you don't define a health check for the service, Route 53 assumes that
+  /// If you don't define a health check for the service, Route 53 assumes that
   /// all instances are healthy and returns the values for up to eight instances.
   ///
   /// For more information about the multivalue routing policy, see <a
-  /// href="http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-policy.html#routing-policy-multivalue">Multivalue
-  /// Answer Routing</a> in the <i>Route 53 Developer Guide</i>.
+  /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-policy.html#routing-policy-multivalue">Multivalue
+  /// Answer Routing</a> in the <i>Route 53 Developer Guide</i>.
   ///
   /// <b>WEIGHTED</b>
   ///
-  /// Route 53 returns the applicable value from one randomly selected instance
+  /// Route 53 returns the applicable value from one randomly selected instance
   /// from among the instances that you registered using the same service.
   /// Currently, all records have the same weight, so you can't route more or less
   /// traffic to any instances.
   ///
-  /// For example, suppose the service includes configurations for one A record
-  /// and a health check, and you use the service to register 10 instances. Route
-  /// 53 responds to DNS queries with the IP address for one randomly selected
-  /// instance from among the healthy instances. If no instances are healthy,
-  /// Route 53 responds to DNS queries as if all of the instances were healthy.
+  /// For example, suppose the service includes configurations for one
+  /// <code>A</code> record and a health check, and you use the service to
+  /// register 10 instances. Route 53 responds to DNS queries with the IP address
+  /// for one randomly selected instance from among the healthy instances. If no
+  /// instances are healthy, Route 53 responds to DNS queries as if all of the
+  /// instances were healthy.
   ///
-  /// If you don't define a health check for the service, Route 53 assumes that
+  /// If you don't define a health check for the service, Route 53 assumes that
   /// all instances are healthy and returns the applicable value for one randomly
   /// selected instance.
   ///
   /// For more information about the weighted routing policy, see <a
-  /// href="http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-policy.html#routing-policy-weighted">Weighted
-  /// Routing</a> in the <i>Route 53 Developer Guide</i>.
+  /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-policy.html#routing-policy-weighted">Weighted
+  /// Routing</a> in the <i>Route 53 Developer Guide</i>.
   @_s.JsonKey(name: 'RoutingPolicy')
   final RoutingPolicy routingPolicy;
 
@@ -1772,7 +2005,7 @@ class DnsConfig {
   Map<String, dynamic> toJson() => _$DnsConfigToJson(this);
 }
 
-/// A complex type that contains information about changes to the Route 53 DNS
+/// A complex type that contains information about changes to the Route 53 DNS
 /// records that AWS Cloud Map creates when you register an instance.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -1780,7 +2013,7 @@ class DnsConfig {
     createFactory: false,
     createToJson: true)
 class DnsConfigChange {
-  /// An array that contains one <code>DnsRecord</code> object for each Route 53
+  /// An array that contains one <code>DnsRecord</code> object for each Route 53
   /// record that you want AWS Cloud Map to create when you register an instance.
   @_s.JsonKey(name: 'DnsRecords')
   final List<DnsRecord> dnsRecords;
@@ -1791,7 +2024,7 @@ class DnsConfigChange {
   Map<String, dynamic> toJson() => _$DnsConfigChangeToJson(this);
 }
 
-/// A complex type that contains the ID for the Route 53 hosted zone that AWS
+/// A complex type that contains the ID for the Route 53 hosted zone that AWS
 /// Cloud Map creates when you create a namespace.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -1799,7 +2032,7 @@ class DnsConfigChange {
     createFactory: true,
     createToJson: false)
 class DnsProperties {
-  /// The ID for the Route 53 hosted zone that AWS Cloud Map creates when you
+  /// The ID for the Route 53 hosted zone that AWS Cloud Map creates when you
   /// create a namespace.
   @_s.JsonKey(name: 'HostedZoneId')
   final String hostedZoneId;
@@ -1811,7 +2044,7 @@ class DnsProperties {
       _$DnsPropertiesFromJson(json);
 }
 
-/// A complex type that contains information about the Route 53 DNS records that
+/// A complex type that contains information about the Route 53 DNS records that
 /// you want AWS Cloud Map to create when you register an instance.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -1822,65 +2055,71 @@ class DnsRecord {
   /// The amount of time, in seconds, that you want DNS resolvers to cache the
   /// settings for this record.
   /// <note>
-  /// Alias records don't include a TTL because Route 53 uses the TTL for the AWS
+  /// Alias records don't include a TTL because Route 53 uses the TTL for the AWS
   /// resource that an alias record routes traffic to. If you include the
-  /// <code>AWS_ALIAS_DNS_NAME</code> attribute when you submit a
-  /// <a>RegisterInstance</a> request, the <code>TTL</code> value is ignored.
-  /// Always specify a TTL for the service; you can use a service to register
-  /// instances that create either alias or non-alias records.
+  /// <code>AWS_ALIAS_DNS_NAME</code> attribute when you submit a <a
+  /// href="https://docs.aws.amazon.com/cloud-map/latest/api/API_RegisterInstance.html">RegisterInstance</a>
+  /// request, the <code>TTL</code> value is ignored. Always specify a TTL for the
+  /// service; you can use a service to register instances that create either
+  /// alias or non-alias records.
   /// </note>
   @_s.JsonKey(name: 'TTL')
   final int ttl;
 
-  /// The type of the resource, which indicates the type of value that Route 53
-  /// returns in response to DNS queries.
-  ///
-  /// Note the following:
+  /// The type of the resource, which indicates the type of value that Route 53
+  /// returns in response to DNS queries. You can specify values for
+  /// <code>Type</code> in the following combinations:
   ///
   /// <ul>
   /// <li>
-  /// <b>A, AAAA, and SRV records:</b> You can specify settings for a maximum of
-  /// one A, one AAAA, and one SRV record. You can specify them in any
-  /// combination.
+  /// <code>A</code>
   /// </li>
   /// <li>
-  /// <b>CNAME records:</b> If you specify <code>CNAME</code> for
-  /// <code>Type</code>, you can't define any other records. This is a limitation
-  /// of DNS: you can't create a CNAME record and any other type of record that
-  /// has the same name as a CNAME record.
+  /// <code>AAAA</code>
   /// </li>
   /// <li>
-  /// <b>Alias records:</b> If you want AWS Cloud Map to create a Route 53 alias
-  /// record when you register an instance, specify <code>A</code> or
-  /// <code>AAAA</code> for <code>Type</code>.
+  /// <code>A</code> and <code>AAAA</code>
   /// </li>
   /// <li>
-  /// <b>All records:</b> You specify settings other than <code>TTL</code> and
-  /// <code>Type</code> when you register an instance.
+  /// <code>SRV</code>
+  /// </li>
+  /// <li>
+  /// <code>CNAME</code>
   /// </li>
   /// </ul>
+  /// If you want AWS Cloud Map to create a Route 53 alias record when you
+  /// register an instance, specify <code>A</code> or <code>AAAA</code> for
+  /// <code>Type</code>.
+  ///
+  /// You specify other settings, such as the IP address for <code>A</code> and
+  /// <code>AAAA</code> records, when you register an instance. For more
+  /// information, see <a
+  /// href="https://docs.aws.amazon.com/cloud-map/latest/api/API_RegisterInstance.html">RegisterInstance</a>.
+  ///
   /// The following values are supported:
   ///
-  /// <b>A</b>
+  /// <code>A</code> <b> <code/> </b>
   ///
-  /// Route 53 returns the IP address of the resource in IPv4 format, such as
+  /// Route 53 returns the IP address of the resource in IPv4 format, such as
   /// 192.0.2.44.
   ///
-  /// <b>AAAA</b>
+  /// <code>AAAA</code> <b> <code/> </b>
   ///
-  /// Route 53 returns the IP address of the resource in IPv6 format, such as
+  /// Route 53 returns the IP address of the resource in IPv6 format, such as
   /// 2001:0db8:85a3:0000:0000:abcd:0001:2345.
   ///
-  /// <b>CNAME</b>
+  /// <code>CNAME</code> <b> <code/> </b>
   ///
-  /// Route 53 returns the domain name of the resource, such as www.example.com.
+  /// Route 53 returns the domain name of the resource, such as www.example.com.
   /// Note the following:
   ///
   /// <ul>
   /// <li>
   /// You specify the domain name that you want to route traffic to when you
-  /// register an instance. For more information, see
-  /// <a>RegisterInstanceRequest$Attributes</a>.
+  /// register an instance. For more information, see <a
+  /// href="https://docs.aws.amazon.com/cloud-map/latest/api/API_RegisterInstance.html#cloudmap-RegisterInstance-request-Attributes">Attributes</a>
+  /// in the topic <a
+  /// href="https://docs.aws.amazon.com/cloud-map/latest/api/API_RegisterInstance.html">RegisterInstance</a>.
   /// </li>
   /// <li>
   /// You must specify <code>WEIGHTED</code> for the value of
@@ -1894,8 +2133,8 @@ class DnsRecord {
   /// </ul>
   /// <b>SRV</b>
   ///
-  /// Route 53 returns the value for an SRV record. The value for an SRV record
-  /// uses the following values:
+  /// Route 53 returns the value for an <code>SRV</code> record. The value for an
+  /// <code>SRV</code> record uses the following values:
   ///
   /// <code>priority weight port service-hostname</code>
   ///
@@ -1908,8 +2147,9 @@ class DnsRecord {
   /// </li>
   /// <li>
   /// The value of <code>port</code> comes from the value that you specify for the
-  /// <code>AWS_INSTANCE_PORT</code> attribute when you submit a
-  /// <a>RegisterInstance</a> request.
+  /// <code>AWS_INSTANCE_PORT</code> attribute when you submit a <a
+  /// href="https://docs.aws.amazon.com/cloud-map/latest/api/API_RegisterInstance.html">RegisterInstance</a>
+  /// request.
   /// </li>
   /// <li>
   /// The value of <code>service-hostname</code> is a concatenation of the
@@ -1935,12 +2175,25 @@ class DnsRecord {
   /// <code>test.backend.example.com</code>
   /// </li>
   /// </ul>
-  /// If you specify settings for an SRV record and if you specify values for
-  /// <code>AWS_INSTANCE_IPV4</code>, <code>AWS_INSTANCE_IPV6</code>, or both in
-  /// the <code>RegisterInstance</code> request, AWS Cloud Map automatically
-  /// creates <code>A</code> and/or <code>AAAA</code> records that have the same
-  /// name as the value of <code>service-hostname</code> in the SRV record. You
-  /// can ignore these records.
+  /// If you specify settings for an <code>SRV</code> record, note the following:
+  ///
+  /// <ul>
+  /// <li>
+  /// If you specify values for <code>AWS_INSTANCE_IPV4</code>,
+  /// <code>AWS_INSTANCE_IPV6</code>, or both in the <code>RegisterInstance</code>
+  /// request, AWS Cloud Map automatically creates <code>A</code> and/or
+  /// <code>AAAA</code> records that have the same name as the value of
+  /// <code>service-hostname</code> in the <code>SRV</code> record. You can ignore
+  /// these records.
+  /// </li>
+  /// <li>
+  /// If you're using a system that requires a specific <code>SRV</code> format,
+  /// such as HAProxy, see the <a
+  /// href="https://docs.aws.amazon.com/cloud-map/latest/api/API_CreateService.html#cloudmap-CreateService-request-Name">Name</a>
+  /// element in the documentation about <code>CreateService</code> for
+  /// information about how to specify the correct name format.
+  /// </li>
+  /// </ul>
   @_s.JsonKey(name: 'Type')
   final RecordType type;
 
@@ -2058,30 +2311,30 @@ class GetServiceResponse {
       _$GetServiceResponseFromJson(json);
 }
 
-/// <i>Public DNS namespaces only.</i> A complex type that contains settings for
-/// an optional health check. If you specify settings for a health check, AWS
-/// Cloud Map associates the health check with the records that you specify in
-/// <code>DnsConfig</code>.
+/// <i>Public DNS and HTTP namespaces only.</i> A complex type that contains
+/// settings for an optional health check. If you specify settings for a health
+/// check, AWS Cloud Map associates the health check with the records that you
+/// specify in <code>DnsConfig</code>.
 /// <important>
 /// If you specify a health check configuration, you can specify either
 /// <code>HealthCheckCustomConfig</code> or <code>HealthCheckConfig</code> but
 /// not both.
 /// </important>
-/// Health checks are basic Route 53 health checks that monitor an AWS endpoint.
+/// Health checks are basic Route 53 health checks that monitor an AWS endpoint.
 /// For information about pricing for health checks, see <a
-/// href="http://aws.amazon.com/route53/pricing/">Amazon Route 53 Pricing</a>.
+/// href="http://aws.amazon.com/route53/pricing/">Amazon Route 53 Pricing</a>.
 ///
 /// Note the following about configuring health checks.
 ///
-/// <b>A and AAAA records</b>
+/// <b> <code>A</code> and <code>AAAA</code> records</b>
 ///
-/// If <code>DnsConfig</code> includes configurations for both A and AAAA
-/// records, AWS Cloud Map creates a health check that uses the IPv4 address to
-/// check the health of the resource. If the endpoint that is specified by the
-/// IPv4 address is unhealthy, Route 53 considers both the A and AAAA records to
-/// be unhealthy.
+/// If <code>DnsConfig</code> includes configurations for both <code>A</code>
+/// and <code>AAAA</code> records, AWS Cloud Map creates a health check that
+/// uses the IPv4 address to check the health of the resource. If the endpoint
+/// that is specified by the IPv4 address is unhealthy, Route 53 considers both
+/// the <code>A</code> and <code>AAAA</code> records to be unhealthy.
 ///
-/// <b>CNAME records</b>
+/// <b> <code>CNAME</code> records</b>
 ///
 /// You can't specify settings for <code>HealthCheckConfig</code> when the
 /// <code>DNSConfig</code> includes <code>CNAME</code> for the value of
@@ -2090,7 +2343,7 @@ class GetServiceResponse {
 ///
 /// <b>Request interval</b>
 ///
-/// A Route 53 health checker in each health-checking region sends a health
+/// A Route 53 health checker in each health-checking region sends a health
 /// check request to an endpoint every 30 seconds. On average, your endpoint
 /// receives a health check request about every two seconds. However, health
 /// checkers don't coordinate with one another, so you'll sometimes see several
@@ -2098,43 +2351,43 @@ class GetServiceResponse {
 ///
 /// <b>Health checking regions</b>
 ///
-/// Health checkers perform checks from all Route 53 health-checking regions.
+/// Health checkers perform checks from all Route 53 health-checking regions.
 /// For a list of the current regions, see <a
-/// href="http://docs.aws.amazon.com/Route53/latest/APIReference/API_HealthCheckConfig.html#Route53-Type-HealthCheckConfig-Regions">Regions</a>.
+/// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_HealthCheckConfig.html#Route53-Type-HealthCheckConfig-Regions">Regions</a>.
 ///
 /// <b>Alias records</b>
 ///
 /// When you register an instance, if you include the
-/// <code>AWS_ALIAS_DNS_NAME</code> attribute, AWS Cloud Map creates a Route 53
+/// <code>AWS_ALIAS_DNS_NAME</code> attribute, AWS Cloud Map creates a Route 53
 /// alias record. Note the following:
 ///
 /// <ul>
 /// <li>
-/// Route 53 automatically sets <code>EvaluateTargetHealth</code> to true for
+/// Route 53 automatically sets <code>EvaluateTargetHealth</code> to true for
 /// alias records. When <code>EvaluateTargetHealth</code> is true, the alias
 /// record inherits the health of the referenced AWS resource. such as an ELB
 /// load balancer. For more information, see <a
-/// href="http://docs.aws.amazon.com/Route53/latest/APIReference/API_AliasTarget.html#Route53-Type-AliasTarget-EvaluateTargetHealth">EvaluateTargetHealth</a>.
+/// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_AliasTarget.html#Route53-Type-AliasTarget-EvaluateTargetHealth">EvaluateTargetHealth</a>.
 /// </li>
 /// <li>
 /// If you include <code>HealthCheckConfig</code> and then use the service to
-/// register an instance that creates an alias record, Route 53 doesn't create
+/// register an instance that creates an alias record, Route 53 doesn't create
 /// the health check.
 /// </li>
 /// </ul>
 /// <b>Charges for health checks</b>
 ///
-/// Health checks are basic Route 53 health checks that monitor an AWS endpoint.
+/// Health checks are basic Route 53 health checks that monitor an AWS endpoint.
 /// For information about pricing for health checks, see <a
-/// href="http://aws.amazon.com/route53/pricing/">Amazon Route 53 Pricing</a>.
+/// href="http://aws.amazon.com/route53/pricing/">Amazon Route 53 Pricing</a>.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: true)
 class HealthCheckConfig {
-  /// The type of health check that you want to create, which indicates how Route
-  /// 53 determines whether an endpoint is healthy.
+  /// The type of health check that you want to create, which indicates how
+  /// Route 53 determines whether an endpoint is healthy.
   /// <important>
   /// You can't change the value of <code>Type</code> after you create a health
   /// check.
@@ -2143,45 +2396,45 @@ class HealthCheckConfig {
   ///
   /// <ul>
   /// <li>
-  /// <b>HTTP</b>: Route 53 tries to establish a TCP connection. If successful,
-  /// Route 53 submits an HTTP request and waits for an HTTP status code of 200 or
+  /// <b>HTTP</b>: Route 53 tries to establish a TCP connection. If successful,
+  /// Route 53 submits an HTTP request and waits for an HTTP status code of 200 or
   /// greater and less than 400.
   /// </li>
   /// <li>
-  /// <b>HTTPS</b>: Route 53 tries to establish a TCP connection. If successful,
-  /// Route 53 submits an HTTPS request and waits for an HTTP status code of 200
+  /// <b>HTTPS</b>: Route 53 tries to establish a TCP connection. If successful,
+  /// Route 53 submits an HTTPS request and waits for an HTTP status code of 200
   /// or greater and less than 400.
   /// <important>
   /// If you specify HTTPS for the value of <code>Type</code>, the endpoint must
   /// support TLS v1.0 or later.
   /// </important> </li>
   /// <li>
-  /// <b>TCP</b>: Route 53 tries to establish a TCP connection.
+  /// <b>TCP</b>: Route 53 tries to establish a TCP connection.
   ///
   /// If you specify <code>TCP</code> for <code>Type</code>, don't specify a value
   /// for <code>ResourcePath</code>.
   /// </li>
   /// </ul>
   /// For more information, see <a
-  /// href="http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover-determining-health-of-endpoints.html">How
-  /// Route 53 Determines Whether an Endpoint Is Healthy</a> in the <i>Route 53
+  /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover-determining-health-of-endpoints.html">How
+  /// Route 53 Determines Whether an Endpoint Is Healthy</a> in the <i>Route 53
   /// Developer Guide</i>.
   @_s.JsonKey(name: 'Type')
   final HealthCheckType type;
 
   /// The number of consecutive health checks that an endpoint must pass or fail
-  /// for Route 53 to change the current status of the endpoint from unhealthy to
+  /// for Route 53 to change the current status of the endpoint from unhealthy to
   /// healthy or vice versa. For more information, see <a
-  /// href="http://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover-determining-health-of-endpoints.html">How
-  /// Route 53 Determines Whether an Endpoint Is Healthy</a> in the <i>Route 53
+  /// href="https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover-determining-health-of-endpoints.html">How
+  /// Route 53 Determines Whether an Endpoint Is Healthy</a> in the <i>Route 53
   /// Developer Guide</i>.
   @_s.JsonKey(name: 'FailureThreshold')
   final int failureThreshold;
 
-  /// The path that you want Route 53 to request when performing health checks.
+  /// The path that you want Route 53 to request when performing health checks.
   /// The path can be any value for which your endpoint will return an HTTP status
   /// code of 2xx or 3xx when the endpoint is healthy, such as the file
-  /// <code>/docs/route53-health-check.html</code>. Route 53 automatically adds
+  /// <code>/docs/route53-health-check.html</code>. Route 53 automatically adds
   /// the DNS name for the service. If you don't specify a value for
   /// <code>ResourcePath</code>, the default value is <code>/</code>.
   ///
@@ -2224,7 +2477,7 @@ class HealthCheckConfig {
 /// not both.
 /// </important>
 /// To change the status of a custom health check, submit an
-/// <code>UpdateInstanceCustomHealthStatus</code> request. Cloud Map doesn't
+/// <code>UpdateInstanceCustomHealthStatus</code> request. AWS Cloud Map doesn't
 /// monitor the status of the resource, it just keeps a record of the status
 /// specified in the most recent <code>UpdateInstanceCustomHealthStatus</code>
 /// request.
@@ -2235,9 +2488,10 @@ class HealthCheckConfig {
 /// You create a service and specify a value for <code>FailureThreshold</code>.
 ///
 /// The failure threshold indicates the number of 30-second intervals you want
-/// AWS Cloud Map to wait between the time that your application sends an
-/// <a>UpdateInstanceCustomHealthStatus</a> request and the time that AWS Cloud
-/// Map stops routing internet traffic to the corresponding resource.
+/// AWS Cloud Map to wait between the time that your application sends an <a
+/// href="https://docs.aws.amazon.com/cloud-map/latest/api/API_UpdateInstanceCustomHealthStatus.html">UpdateInstanceCustomHealthStatus</a>
+/// request and the time that AWS Cloud Map stops routing internet traffic to
+/// the corresponding resource.
 /// </li>
 /// <li>
 /// You register an instance.
@@ -2264,26 +2518,26 @@ class HealthCheckConfig {
 /// arrive during that time to change the status back to healthy, AWS Cloud Map
 /// stops routing traffic to the resource.
 /// </li> </ol>
-/// Note the following about configuring custom health checks.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: true)
 class HealthCheckCustomConfig {
-  /// The number of 30-second intervals that you want Cloud Map to wait after
+  /// <important>
+  /// This parameter has been deprecated and is always set to 1. AWS Cloud Map
+  /// waits for approximately 30 seconds after receiving an
+  /// <code>UpdateInstanceCustomHealthStatus</code> request before changing the
+  /// status of the service instance.
+  /// </important>
+  /// The number of 30-second intervals that you want AWS Cloud Map to wait after
   /// receiving an <code>UpdateInstanceCustomHealthStatus</code> request before it
-  /// changes the health status of a service instance. For example, suppose you
-  /// specify a value of <code>2</code> for <code>FailureTheshold</code>, and then
-  /// your application sends an <code>UpdateInstanceCustomHealthStatus</code>
-  /// request. Cloud Map waits for approximately 60 seconds (2 x 30) before
-  /// changing the status of the service instance based on that request.
+  /// changes the health status of a service instance.
   ///
   /// Sending a second or subsequent <code>UpdateInstanceCustomHealthStatus</code>
-  /// request with the same value before <code>FailureThreshold x 30</code>
-  /// seconds has passed doesn't accelerate the change. Cloud Map still waits
-  /// <code>FailureThreshold x 30</code> seconds after the first request to make
-  /// the change.
+  /// request with the same value before 30 seconds has passed doesn't accelerate
+  /// the change. AWS Cloud Map still waits <code>30</code> seconds after the
+  /// first request to make the change.
   @_s.JsonKey(name: 'FailureThreshold')
   final int failureThreshold;
 
@@ -2337,9 +2591,10 @@ extension on HealthStatusFilter {
   }
 }
 
-/// In a response to a <a>DiscoverInstance</a> request,
-/// <code>HttpInstanceSummary</code> contains information about one instance
-/// that matches the values that you specified in the request.
+/// In a response to a <a
+/// href="https://docs.aws.amazon.com/cloud-map/latest/api/API_DiscoverInstances.html">DiscoverInstances</a>
+/// request, <code>HttpInstanceSummary</code> contains information about one
+/// instance that matches the values that you specified in the request.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -2413,9 +2668,11 @@ class Instance {
   /// <ul>
   /// <li>
   /// If the service that is specified by <code>ServiceId</code> includes settings
-  /// for an SRV record, the value of <code>InstanceId</code> is automatically
-  /// included as part of the value for the SRV record. For more information, see
-  /// <a>DnsRecord$Type</a>.
+  /// for an <code>SRV</code> record, the value of <code>InstanceId</code> is
+  /// automatically included as part of the value for the <code>SRV</code> record.
+  /// For more information, see <a
+  /// href="https://docs.aws.amazon.com/cloud-map/latest/api/API_DnsRecord.html#cloudmap-Type-DnsRecord-Type">DnsRecord
+  /// &gt; Type</a>.
   /// </li>
   /// <li>
   /// You can use this value to update an existing instance.
@@ -2454,19 +2711,19 @@ class Instance {
   ///
   /// <b/>
   ///
-  /// If you want AWS Cloud Map to create a Route 53 alias record that routes
+  /// If you want AWS Cloud Map to create a Route 53 alias record that routes
   /// traffic to an Elastic Load Balancing load balancer, specify the DNS name
   /// that is associated with the load balancer. For information about how to get
   /// the DNS name, see "DNSName" in the topic <a
-  /// href="http://docs.aws.amazon.com/Route53/latest/APIReference/API_AliasTarget.html">AliasTarget</a>.
+  /// href="https://docs.aws.amazon.com/Route53/latest/APIReference/API_AliasTarget.html">AliasTarget</a>.
   ///
   /// Note the following:
   ///
   /// <ul>
   /// <li>
   /// The configuration for the service that is specified by
-  /// <code>ServiceId</code> must include settings for an A record, an AAAA
-  /// record, or both.
+  /// <code>ServiceId</code> must include settings for an <code>A</code> record,
+  /// an <code>AAAA</code> record, or both.
   /// </li>
   /// <li>
   /// In the service that is specified by <code>ServiceId</code>, the value of
@@ -2486,47 +2743,53 @@ class Instance {
   /// values for any of the <code>AWS_INSTANCE</code> attributes.
   /// </li>
   /// </ul>
+  /// <b>AWS_EC2_INSTANCE_ID</b>
+  ///
+  /// <i>HTTP namespaces only.</i> The Amazon EC2 instance ID for the instance.
+  /// The <code>AWS_INSTANCE_IPV4</code> attribute contains the primary private
+  /// IPv4 address.
+  ///
   /// <b>AWS_INSTANCE_CNAME</b>
   ///
-  /// If the service configuration includes a CNAME record, the domain name that
-  /// you want Route 53 to return in response to DNS queries, for example,
-  /// <code>example.com</code>.
+  /// If the service configuration includes a <code>CNAME</code> record, the
+  /// domain name that you want Route 53 to return in response to DNS queries, for
+  /// example, <code>example.com</code>.
   ///
   /// This value is required if the service specified by <code>ServiceId</code>
-  /// includes settings for an CNAME record.
+  /// includes settings for an <code>CNAME</code> record.
   ///
   /// <b>AWS_INSTANCE_IPV4</b>
   ///
-  /// If the service configuration includes an A record, the IPv4 address that you
-  /// want Route 53 to return in response to DNS queries, for example,
-  /// <code>192.0.2.44</code>.
+  /// If the service configuration includes an <code>A</code> record, the IPv4
+  /// address that you want Route 53 to return in response to DNS queries, for
+  /// example, <code>192.0.2.44</code>.
   ///
   /// This value is required if the service specified by <code>ServiceId</code>
-  /// includes settings for an A record. If the service includes settings for an
-  /// SRV record, you must specify a value for <code>AWS_INSTANCE_IPV4</code>,
-  /// <code>AWS_INSTANCE_IPV6</code>, or both.
+  /// includes settings for an <code>A</code> record. If the service includes
+  /// settings for an <code>SRV</code> record, you must specify a value for
+  /// <code>AWS_INSTANCE_IPV4</code>, <code>AWS_INSTANCE_IPV6</code>, or both.
   ///
   /// <b>AWS_INSTANCE_IPV6</b>
   ///
-  /// If the service configuration includes an AAAA record, the IPv6 address that
-  /// you want Route 53 to return in response to DNS queries, for example,
-  /// <code>2001:0db8:85a3:0000:0000:abcd:0001:2345</code>.
+  /// If the service configuration includes an <code>AAAA</code> record, the IPv6
+  /// address that you want Route 53 to return in response to DNS queries, for
+  /// example, <code>2001:0db8:85a3:0000:0000:abcd:0001:2345</code>.
   ///
   /// This value is required if the service specified by <code>ServiceId</code>
-  /// includes settings for an AAAA record. If the service includes settings for
-  /// an SRV record, you must specify a value for <code>AWS_INSTANCE_IPV4</code>,
-  /// <code>AWS_INSTANCE_IPV6</code>, or both.
+  /// includes settings for an <code>AAAA</code> record. If the service includes
+  /// settings for an <code>SRV</code> record, you must specify a value for
+  /// <code>AWS_INSTANCE_IPV4</code>, <code>AWS_INSTANCE_IPV6</code>, or both.
   ///
   /// <b>AWS_INSTANCE_PORT</b>
   ///
-  /// If the service includes an SRV record, the value that you want Route 53 to
-  /// return for the port.
+  /// If the service includes an <code>SRV</code> record, the value that you want
+  /// Route 53 to return for the port.
   ///
   /// If the service includes <code>HealthCheckConfig</code>, the port on the
-  /// endpoint that you want Route 53 to send requests to.
+  /// endpoint that you want Route 53 to send requests to.
   ///
-  /// This value is required if you specified settings for an SRV record when you
-  /// created the service.
+  /// This value is required if you specified settings for an <code>SRV</code>
+  /// record or a Route 53 health check when you created the service.
   @_s.JsonKey(name: 'Attributes')
   final Map<String, String> attributes;
 
@@ -2576,23 +2839,30 @@ class InstanceSummary {
   /// with the load balancer.
   /// </li>
   /// <li>
-  /// <code>AWS_INSTANCE_CNAME</code>: For a CNAME record, the domain name that
-  /// Route 53 returns in response to DNS queries, for example,
+  /// <code>AWS_EC2_INSTANCE_ID</code>: (HTTP namespaces only) The Amazon EC2
+  /// instance ID for the instance. When the <code>AWS_EC2_INSTANCE_ID</code>
+  /// attribute is specified, then the <code>AWS_INSTANCE_IPV4</code> attribute
+  /// contains the primary private IPv4 address.
+  /// </li>
+  /// <li>
+  /// <code>AWS_INSTANCE_CNAME</code>: For a <code>CNAME</code> record, the domain
+  /// name that Route 53 returns in response to DNS queries, for example,
   /// <code>example.com</code>.
   /// </li>
   /// <li>
-  /// <code>AWS_INSTANCE_IPV4</code>: For an A record, the IPv4 address that Route
-  /// 53 returns in response to DNS queries, for example, <code>192.0.2.44</code>.
+  /// <code>AWS_INSTANCE_IPV4</code>: For an <code>A</code> record, the IPv4
+  /// address that Route 53 returns in response to DNS queries, for example,
+  /// <code>192.0.2.44</code>.
   /// </li>
   /// <li>
-  /// <code>AWS_INSTANCE_IPV6</code>: For an AAAA record, the IPv6 address that
-  /// Route 53 returns in response to DNS queries, for example,
+  /// <code>AWS_INSTANCE_IPV6</code>: For an <code>AAAA</code> record, the IPv6
+  /// address that Route 53 returns in response to DNS queries, for example,
   /// <code>2001:0db8:85a3:0000:0000:abcd:0001:2345</code>.
   /// </li>
   /// <li>
-  /// <code>AWS_INSTANCE_PORT</code>: For an SRV record, the value that Route 53
-  /// returns for the port. In addition, if the service includes
-  /// <code>HealthCheckConfig</code>, the port on the endpoint that Route 53 sends
+  /// <code>AWS_INSTANCE_PORT</code>: For an <code>SRV</code> record, the value
+  /// that Route 53 returns for the port. In addition, if the service includes
+  /// <code>HealthCheckConfig</code>, the port on the endpoint that Route 53 sends
   /// requests to.
   /// </li>
   /// </ul>
@@ -2735,6 +3005,23 @@ class ListServicesResponse {
       _$ListServicesResponseFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListTagsForResourceResponse {
+  /// The tags that are assigned to the resource.
+  @_s.JsonKey(name: 'Tags')
+  final List<Tag> tags;
+
+  ListTagsForResourceResponse({
+    this.tags,
+  });
+  factory ListTagsForResourceResponse.fromJson(Map<String, dynamic> json) =>
+      _$ListTagsForResourceResponseFromJson(json);
+}
+
 /// A complex type that contains information about a specified namespace.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2781,8 +3068,23 @@ class Namespace {
   @_s.JsonKey(name: 'ServiceCount')
   final int serviceCount;
 
-  /// The type of the namespace. Valid values are <code>DNS_PUBLIC</code> and
-  /// <code>DNS_PRIVATE</code>.
+  /// The type of the namespace. The methods for discovering instances depends on
+  /// the value that you specify:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>HTTP</code>: Instances can be discovered only programmatically, using
+  /// the AWS Cloud Map <code>DiscoverInstances</code> API.
+  /// </li>
+  /// <li>
+  /// <code>DNS_PUBLIC</code>: Instances can be discovered using public DNS
+  /// queries and using the <code>DiscoverInstances</code> API.
+  /// </li>
+  /// <li>
+  /// <code>DNS_PRIVATE</code>: Instances can be discovered using DNS queries in
+  /// VPCs and using the <code>DiscoverInstances</code> API.
+  /// </li>
+  /// </ul>
   @_s.JsonKey(name: 'Type')
   final NamespaceType type;
 
@@ -2863,7 +3165,7 @@ enum NamespaceFilterName {
     createFactory: true,
     createToJson: false)
 class NamespaceProperties {
-  /// A complex type that contains the ID for the Route 53 hosted zone that AWS
+  /// A complex type that contains the ID for the Route 53 hosted zone that AWS
   /// Cloud Map creates when you create a namespace.
   @_s.JsonKey(name: 'DnsProperties')
   final DnsProperties dnsProperties;
@@ -2906,7 +3208,7 @@ class NamespaceSummary {
   final String id;
 
   /// The name of the namespace. When you create a namespace, AWS Cloud Map
-  /// automatically creates a Route 53 hosted zone that has the same name as the
+  /// automatically creates a Route 53 hosted zone that has the same name as the
   /// namespace.
   @_s.JsonKey(name: 'Name')
   final String name;
@@ -3185,7 +3487,9 @@ enum OperationStatus {
 }
 
 /// A complex type that contains information about an operation that matches the
-/// criteria that you specified in a <a>ListOperations</a> request.
+/// criteria that you specified in a <a
+/// href="https://docs.aws.amazon.com/cloud-map/latest/api/API_ListOperations.html">ListOperations</a>
+/// request.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -3265,7 +3569,8 @@ enum RecordType {
     createToJson: false)
 class RegisterInstanceResponse {
   /// A value that you can use to determine whether the request completed
-  /// successfully. To get the status of the operation, see <a>GetOperation</a>.
+  /// successfully. To get the status of the operation, see <a
+  /// href="https://docs.aws.amazon.com/cloud-map/latest/api/API_GetOperation.html">GetOperation</a>.
   @_s.JsonKey(name: 'OperationId')
   final String operationId;
 
@@ -3314,18 +3619,18 @@ class Service {
   @_s.JsonKey(name: 'Description')
   final String description;
 
-  /// A complex type that contains information about the Route 53 DNS records that
+  /// A complex type that contains information about the Route 53 DNS records that
   /// you want AWS Cloud Map to create when you register an instance.
   @_s.JsonKey(name: 'DnsConfig')
   final DnsConfig dnsConfig;
 
-  /// <i>Public DNS namespaces only.</i> A complex type that contains settings for
-  /// an optional health check. If you specify settings for a health check, AWS
-  /// Cloud Map associates the health check with the records that you specify in
-  /// <code>DnsConfig</code>.
+  /// <i>Public DNS and HTTP namespaces only.</i> A complex type that contains
+  /// settings for an optional health check. If you specify settings for a health
+  /// check, AWS Cloud Map associates the health check with the records that you
+  /// specify in <code>DnsConfig</code>.
   ///
   /// For information about the charges for health checks, see <a
-  /// href="http://aws.amazon.com/route53/pricing/">Amazon Route 53 Pricing</a>.
+  /// href="http://aws.amazon.com/route53/pricing/">Amazon Route 53 Pricing</a>.
   @_s.JsonKey(name: 'HealthCheckConfig')
   final HealthCheckConfig healthCheckConfig;
 
@@ -3345,7 +3650,8 @@ class Service {
 
   /// The number of instances that are currently associated with the service.
   /// Instances that were previously associated with the service but that have
-  /// been deleted are not included in the count.
+  /// been deleted are not included in the count. The count might not reflect
+  /// pending registrations and deregistrations.
   @_s.JsonKey(name: 'InstanceCount')
   final int instanceCount;
 
@@ -3381,20 +3687,20 @@ class Service {
     createFactory: false,
     createToJson: true)
 class ServiceChange {
-  /// A complex type that contains information about the Route 53 DNS records that
-  /// you want AWS Cloud Map to create when you register an instance.
-  @_s.JsonKey(name: 'DnsConfig')
-  final DnsConfigChange dnsConfig;
-
   /// A description for the service.
   @_s.JsonKey(name: 'Description')
   final String description;
+
+  /// A complex type that contains information about the Route 53 DNS records that
+  /// you want AWS Cloud Map to create when you register an instance.
+  @_s.JsonKey(name: 'DnsConfig')
+  final DnsConfigChange dnsConfig;
   @_s.JsonKey(name: 'HealthCheckConfig')
   final HealthCheckConfig healthCheckConfig;
 
   ServiceChange({
-    @_s.required this.dnsConfig,
     this.description,
+    this.dnsConfig,
     this.healthCheckConfig,
   });
   Map<String, dynamic> toJson() => _$ServiceChangeToJson(this);
@@ -3485,7 +3791,8 @@ class ServiceSummary {
 
   /// The number of instances that are currently associated with the service.
   /// Instances that were previously associated with the service but that have
-  /// been deleted are not included in the count.
+  /// been deleted are not included in the count. The count might not reflect
+  /// pending registrations and deregistrations.
   @_s.JsonKey(name: 'InstanceCount')
   final int instanceCount;
 
@@ -3508,6 +3815,53 @@ class ServiceSummary {
       _$ServiceSummaryFromJson(json);
 }
 
+/// A custom key-value pair associated with a resource.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class Tag {
+  /// The key identifier, or name, of the tag.
+  @_s.JsonKey(name: 'Key')
+  final String key;
+
+  /// The string value associated with the key of the tag. You can set the value
+  /// of a tag to an empty string, but you can't set the value of a tag to null.
+  @_s.JsonKey(name: 'Value')
+  final String value;
+
+  Tag({
+    @_s.required this.key,
+    @_s.required this.value,
+  });
+  factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
+
+  Map<String, dynamic> toJson() => _$TagToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class TagResourceResponse {
+  TagResourceResponse();
+  factory TagResourceResponse.fromJson(Map<String, dynamic> json) =>
+      _$TagResourceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class UntagResourceResponse {
+  UntagResourceResponse();
+  factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
+      _$UntagResourceResponseFromJson(json);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -3515,7 +3869,8 @@ class ServiceSummary {
     createToJson: false)
 class UpdateServiceResponse {
   /// A value that you can use to determine whether the request completed
-  /// successfully. To get the status of the operation, see <a>GetOperation</a>.
+  /// successfully. To get the status of the operation, see <a
+  /// href="https://docs.aws.amazon.com/cloud-map/latest/api/API_GetOperation.html">GetOperation</a>.
   @_s.JsonKey(name: 'OperationId')
   final String operationId;
 
@@ -3561,6 +3916,11 @@ class OperationNotFound extends _s.GenericAwsException {
       : super(type: type, code: 'OperationNotFound', message: message);
 }
 
+class RequestLimitExceeded extends _s.GenericAwsException {
+  RequestLimitExceeded({String type, String message})
+      : super(type: type, code: 'RequestLimitExceeded', message: message);
+}
+
 class ResourceInUse extends _s.GenericAwsException {
   ResourceInUse({String type, String message})
       : super(type: type, code: 'ResourceInUse', message: message);
@@ -3571,6 +3931,11 @@ class ResourceLimitExceeded extends _s.GenericAwsException {
       : super(type: type, code: 'ResourceLimitExceeded', message: message);
 }
 
+class ResourceNotFoundException extends _s.GenericAwsException {
+  ResourceNotFoundException({String type, String message})
+      : super(type: type, code: 'ResourceNotFoundException', message: message);
+}
+
 class ServiceAlreadyExists extends _s.GenericAwsException {
   ServiceAlreadyExists({String type, String message})
       : super(type: type, code: 'ServiceAlreadyExists', message: message);
@@ -3579,6 +3944,11 @@ class ServiceAlreadyExists extends _s.GenericAwsException {
 class ServiceNotFound extends _s.GenericAwsException {
   ServiceNotFound({String type, String message})
       : super(type: type, code: 'ServiceNotFound', message: message);
+}
+
+class TooManyTagsException extends _s.GenericAwsException {
+  TooManyTagsException({String type, String message})
+      : super(type: type, code: 'TooManyTagsException', message: message);
 }
 
 final _exceptionFns = <String, _s.AwsExceptionFn>{
@@ -3595,12 +3965,18 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       NamespaceNotFound(type: type, message: message),
   'OperationNotFound': (type, message) =>
       OperationNotFound(type: type, message: message),
+  'RequestLimitExceeded': (type, message) =>
+      RequestLimitExceeded(type: type, message: message),
   'ResourceInUse': (type, message) =>
       ResourceInUse(type: type, message: message),
   'ResourceLimitExceeded': (type, message) =>
       ResourceLimitExceeded(type: type, message: message),
+  'ResourceNotFoundException': (type, message) =>
+      ResourceNotFoundException(type: type, message: message),
   'ServiceAlreadyExists': (type, message) =>
       ServiceAlreadyExists(type: type, message: message),
   'ServiceNotFound': (type, message) =>
       ServiceNotFound(type: type, message: message),
+  'TooManyTagsException': (type, message) =>
+      TooManyTagsException(type: type, message: message),
 };

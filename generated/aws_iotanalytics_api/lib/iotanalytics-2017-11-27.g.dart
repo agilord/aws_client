@@ -62,6 +62,8 @@ Channel _$ChannelFromJson(Map<String, dynamic> json) {
   return Channel(
     arn: json['arn'] as String,
     creationTime: const UnixDateTimeConverter().fromJson(json['creationTime']),
+    lastMessageArrivalTime:
+        const UnixDateTimeConverter().fromJson(json['lastMessageArrivalTime']),
     lastUpdateTime:
         const UnixDateTimeConverter().fromJson(json['lastUpdateTime']),
     name: json['name'] as String,
@@ -137,6 +139,19 @@ Map<String, dynamic> _$ChannelActivityToJson(ChannelActivity instance) {
   return val;
 }
 
+Map<String, dynamic> _$ChannelMessagesToJson(ChannelMessages instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('s3Paths', instance.s3Paths);
+  return val;
+}
+
 ChannelStatistics _$ChannelStatisticsFromJson(Map<String, dynamic> json) {
   return ChannelStatistics(
     size: json['size'] == null
@@ -194,10 +209,33 @@ ChannelSummary _$ChannelSummaryFromJson(Map<String, dynamic> json) {
         : ChannelStorageSummary.fromJson(
             json['channelStorage'] as Map<String, dynamic>),
     creationTime: const UnixDateTimeConverter().fromJson(json['creationTime']),
+    lastMessageArrivalTime:
+        const UnixDateTimeConverter().fromJson(json['lastMessageArrivalTime']),
     lastUpdateTime:
         const UnixDateTimeConverter().fromJson(json['lastUpdateTime']),
     status: _$enumDecodeNullable(_$ChannelStatusEnumMap, json['status']),
   );
+}
+
+Column _$ColumnFromJson(Map<String, dynamic> json) {
+  return Column(
+    name: json['name'] as String,
+    type: json['type'] as String,
+  );
+}
+
+Map<String, dynamic> _$ColumnToJson(Column instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('name', instance.name);
+  writeNotNull('type', instance.type);
+  return val;
 }
 
 ContainerDatasetAction _$ContainerDatasetActionFromJson(
@@ -372,6 +410,10 @@ Dataset _$DatasetFromJson(Map<String, dynamic> json) {
     creationTime: const UnixDateTimeConverter().fromJson(json['creationTime']),
     lastUpdateTime:
         const UnixDateTimeConverter().fromJson(json['lastUpdateTime']),
+    lateDataRules: (json['lateDataRules'] as List)
+        ?.map((e) =>
+            e == null ? null : LateDataRule.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
     name: json['name'] as String,
     retentionPeriod: json['retentionPeriod'] == null
         ? null
@@ -601,6 +643,12 @@ Datastore _$DatastoreFromJson(Map<String, dynamic> json) {
   return Datastore(
     arn: json['arn'] as String,
     creationTime: const UnixDateTimeConverter().fromJson(json['creationTime']),
+    fileFormatConfiguration: json['fileFormatConfiguration'] == null
+        ? null
+        : FileFormatConfiguration.fromJson(
+            json['fileFormatConfiguration'] as Map<String, dynamic>),
+    lastMessageArrivalTime:
+        const UnixDateTimeConverter().fromJson(json['lastMessageArrivalTime']),
     lastUpdateTime:
         const UnixDateTimeConverter().fromJson(json['lastUpdateTime']),
     name: json['name'] as String,
@@ -699,11 +747,20 @@ DatastoreSummary _$DatastoreSummaryFromJson(Map<String, dynamic> json) {
         ? null
         : DatastoreStorageSummary.fromJson(
             json['datastoreStorage'] as Map<String, dynamic>),
+    fileFormatType:
+        _$enumDecodeNullable(_$FileFormatTypeEnumMap, json['fileFormatType']),
+    lastMessageArrivalTime:
+        const UnixDateTimeConverter().fromJson(json['lastMessageArrivalTime']),
     lastUpdateTime:
         const UnixDateTimeConverter().fromJson(json['lastUpdateTime']),
     status: _$enumDecodeNullable(_$DatastoreStatusEnumMap, json['status']),
   );
 }
+
+const _$FileFormatTypeEnumMap = {
+  FileFormatType.json: 'JSON',
+  FileFormatType.parquet: 'PARQUET',
+};
 
 DeltaTime _$DeltaTimeFromJson(Map<String, dynamic> json) {
   return DeltaTime(
@@ -723,6 +780,27 @@ Map<String, dynamic> _$DeltaTimeToJson(DeltaTime instance) {
 
   writeNotNull('offsetSeconds', instance.offsetSeconds);
   writeNotNull('timeExpression', instance.timeExpression);
+  return val;
+}
+
+DeltaTimeSessionWindowConfiguration
+    _$DeltaTimeSessionWindowConfigurationFromJson(Map<String, dynamic> json) {
+  return DeltaTimeSessionWindowConfiguration(
+    timeoutInMinutes: json['timeoutInMinutes'] as int,
+  );
+}
+
+Map<String, dynamic> _$DeltaTimeSessionWindowConfigurationToJson(
+    DeltaTimeSessionWindowConfiguration instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('timeoutInMinutes', instance.timeoutInMinutes);
   return val;
 }
 
@@ -846,6 +924,35 @@ EstimatedResourceSize _$EstimatedResourceSizeFromJson(
   );
 }
 
+FileFormatConfiguration _$FileFormatConfigurationFromJson(
+    Map<String, dynamic> json) {
+  return FileFormatConfiguration(
+    jsonConfiguration: json['jsonConfiguration'] == null
+        ? null
+        : JsonConfiguration.fromJson(
+            json['jsonConfiguration'] as Map<String, dynamic>),
+    parquetConfiguration: json['parquetConfiguration'] == null
+        ? null
+        : ParquetConfiguration.fromJson(
+            json['parquetConfiguration'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$FileFormatConfigurationToJson(
+    FileFormatConfiguration instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('jsonConfiguration', instance.jsonConfiguration?.toJson());
+  writeNotNull('parquetConfiguration', instance.parquetConfiguration?.toJson());
+  return val;
+}
+
 FilterActivity _$FilterActivityFromJson(Map<String, dynamic> json) {
   return FilterActivity(
     filter: json['filter'] as String,
@@ -927,6 +1034,13 @@ Map<String, dynamic> _$IotEventsDestinationConfigurationToJson(
   return val;
 }
 
+JsonConfiguration _$JsonConfigurationFromJson(Map<String, dynamic> json) {
+  return JsonConfiguration();
+}
+
+Map<String, dynamic> _$JsonConfigurationToJson(JsonConfiguration instance) =>
+    <String, dynamic>{};
+
 LambdaActivity _$LambdaActivityFromJson(Map<String, dynamic> json) {
   return LambdaActivity(
     batchSize: json['batchSize'] as int,
@@ -949,6 +1063,57 @@ Map<String, dynamic> _$LambdaActivityToJson(LambdaActivity instance) {
   writeNotNull('lambdaName', instance.lambdaName);
   writeNotNull('name', instance.name);
   writeNotNull('next', instance.next);
+  return val;
+}
+
+LateDataRule _$LateDataRuleFromJson(Map<String, dynamic> json) {
+  return LateDataRule(
+    ruleConfiguration: json['ruleConfiguration'] == null
+        ? null
+        : LateDataRuleConfiguration.fromJson(
+            json['ruleConfiguration'] as Map<String, dynamic>),
+    ruleName: json['ruleName'] as String,
+  );
+}
+
+Map<String, dynamic> _$LateDataRuleToJson(LateDataRule instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ruleConfiguration', instance.ruleConfiguration?.toJson());
+  writeNotNull('ruleName', instance.ruleName);
+  return val;
+}
+
+LateDataRuleConfiguration _$LateDataRuleConfigurationFromJson(
+    Map<String, dynamic> json) {
+  return LateDataRuleConfiguration(
+    deltaTimeSessionWindowConfiguration:
+        json['deltaTimeSessionWindowConfiguration'] == null
+            ? null
+            : DeltaTimeSessionWindowConfiguration.fromJson(
+                json['deltaTimeSessionWindowConfiguration']
+                    as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$LateDataRuleConfigurationToJson(
+    LateDataRuleConfiguration instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('deltaTimeSessionWindowConfiguration',
+      instance.deltaTimeSessionWindowConfiguration?.toJson());
   return val;
 }
 
@@ -1101,6 +1266,29 @@ Map<String, dynamic> _$OutputFileUriValueToJson(OutputFileUriValue instance) {
   }
 
   writeNotNull('fileName', instance.fileName);
+  return val;
+}
+
+ParquetConfiguration _$ParquetConfigurationFromJson(Map<String, dynamic> json) {
+  return ParquetConfiguration(
+    schemaDefinition: json['schemaDefinition'] == null
+        ? null
+        : SchemaDefinition.fromJson(
+            json['schemaDefinition'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$ParquetConfigurationToJson(
+    ParquetConfiguration instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('schemaDefinition', instance.schemaDefinition?.toJson());
   return val;
 }
 
@@ -1372,6 +1560,28 @@ Map<String, dynamic> _$ScheduleToJson(Schedule instance) {
   }
 
   writeNotNull('expression', instance.expression);
+  return val;
+}
+
+SchemaDefinition _$SchemaDefinitionFromJson(Map<String, dynamic> json) {
+  return SchemaDefinition(
+    columns: (json['columns'] as List)
+        ?.map((e) =>
+            e == null ? null : Column.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+Map<String, dynamic> _$SchemaDefinitionToJson(SchemaDefinition instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('columns', instance.columns?.map((e) => e?.toJson())?.toList());
   return val;
 }
 

@@ -27,10 +27,10 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 part 'kinesisanalyticsv2-2018-05-23.g.dart';
 
 /// Amazon Kinesis Data Analytics is a fully managed service that you can use to
-/// process and analyze streaming data using SQL or Java. The service enables
-/// you to quickly author and run SQL or Java code against streaming sources to
-/// perform time series analytics, feed real-time dashboards, and create
-/// real-time metrics.
+/// process and analyze streaming data using Java, SQL, or Scala. The service
+/// enables you to quickly author and run Java, SQL, or Scala code against
+/// streaming sources to perform time series analytics, feed real-time
+/// dashboards, and create real-time metrics.
 class KinesisAnalyticsV2 {
   final _s.JsonProtocol _protocol;
   KinesisAnalyticsV2({
@@ -121,7 +121,7 @@ class KinesisAnalyticsV2 {
         jsonResponse.body);
   }
 
-  /// Adds a streaming source to your SQL-based Amazon Kinesis Data Analytics
+  /// Adds a streaming source to your SQL-based Kinesis Data Analytics
   /// application.
   ///
   /// You can add a streaming source when you create an application, or you can
@@ -200,11 +200,11 @@ class KinesisAnalyticsV2 {
     return AddApplicationInputResponse.fromJson(jsonResponse.body);
   }
 
-  /// Adds an <a>InputProcessingConfiguration</a> to an SQL-based Kinesis Data
+  /// Adds an <a>InputProcessingConfiguration</a> to a SQL-based Kinesis Data
   /// Analytics application. An input processor pre-processes records on the
   /// input stream before the application's SQL code executes. Currently, the
   /// only input processor available is <a
-  /// href="https://aws.amazon.com/documentation/lambda/">AWS Lambda</a>.
+  /// href="https://docs.aws.amazon.com/lambda/">AWS Lambda</a>.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [ResourceInUseException].
@@ -299,8 +299,8 @@ class KinesisAnalyticsV2 {
         jsonResponse.body);
   }
 
-  /// Adds an external destination to your SQL-based Amazon Kinesis Data
-  /// Analytics application.
+  /// Adds an external destination to your SQL-based Kinesis Data Analytics
+  /// application.
   ///
   /// If you want Kinesis Data Analytics to deliver data from an in-application
   /// stream within your application to an external destination (such as an
@@ -391,7 +391,7 @@ class KinesisAnalyticsV2 {
     return AddApplicationOutputResponse.fromJson(jsonResponse.body);
   }
 
-  /// Adds a reference data source to an existing SQL-based Amazon Kinesis Data
+  /// Adds a reference data source to an existing SQL-based Kinesis Data
   /// Analytics application.
   ///
   /// Kinesis Data Analytics reads reference data (that is, an Amazon S3 object)
@@ -495,16 +495,17 @@ class KinesisAnalyticsV2 {
   /// May throw [ResourceInUseException].
   /// May throw [InvalidArgumentException].
   /// May throw [ConcurrentModificationException].
+  /// May throw [InvalidApplicationConfigurationException].
   ///
   /// Parameter [applicationName] :
   /// The name of an existing application.
   ///
   /// Parameter [currentApplicationVersionId] :
-  /// The version of the application to which you want to add the input
-  /// processing configuration. You can use the <a>DescribeApplication</a>
-  /// operation to get the current application version. If the version specified
-  /// is not the current version, the
-  /// <code>ConcurrentModificationException</code> is returned.
+  /// The version of the application to which you want to add the VPC
+  /// configuration. You can use the <a>DescribeApplication</a> operation to get
+  /// the current application version. If the version specified is not the
+  /// current version, the <code>ConcurrentModificationException</code> is
+  /// returned.
   ///
   /// Parameter [vpcConfiguration] :
   /// Description of the VPC to add to the application.
@@ -558,8 +559,8 @@ class KinesisAnalyticsV2 {
     return AddApplicationVpcConfigurationResponse.fromJson(jsonResponse.body);
   }
 
-  /// Creates an Amazon Kinesis Data Analytics application. For information
-  /// about creating a Kinesis Data Analytics application, see <a
+  /// Creates a Kinesis Data Analytics application. For information about
+  /// creating a Kinesis Data Analytics application, see <a
   /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/java/getting-started.html">Creating
   /// an Application</a>.
   ///
@@ -575,8 +576,8 @@ class KinesisAnalyticsV2 {
   /// The name of your application (for example, <code>sample-app</code>).
   ///
   /// Parameter [runtimeEnvironment] :
-  /// The runtime environment for the application (<code>SQL-1.0</code> or
-  /// <code>FLINK-1_6</code>).
+  /// The runtime environment for the application (<code>SQL-1.0</code>,
+  /// <code>FLINK-1_6</code>, or <code>FLINK-1_8</code>).
   ///
   /// Parameter [serviceExecutionRole] :
   /// The IAM role used by the application to access Kinesis data streams,
@@ -635,7 +636,7 @@ class KinesisAnalyticsV2 {
     _s.validateStringPattern(
       'serviceExecutionRole',
       serviceExecutionRole,
-      r'''arn:aws:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+''',
+      r'''arn:.*''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -671,6 +672,83 @@ class KinesisAnalyticsV2 {
     return CreateApplicationResponse.fromJson(jsonResponse.body);
   }
 
+  /// Creates and returns a URL that you can use to connect to an application's
+  /// extension. Currently, the only available extension is the Apache Flink
+  /// dashboard.
+  ///
+  /// The IAM role or user used to call this API defines the permissions to
+  /// access the extension. Once the presigned URL is created, no additional
+  /// permission is required to access this URL. IAM authorization policies for
+  /// this API are also enforced for every HTTP request that attempts to connect
+  /// to the extension.
+  /// <note>
+  /// The URL that you get from a call to CreateApplicationPresignedUrl must be
+  /// used within 3 minutes to be valid. If you first try to use the URL after
+  /// the 3-minute limit expires, the service returns an HTTP 403 Forbidden
+  /// error.
+  /// </note>
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ResourceInUseException].
+  /// May throw [InvalidArgumentException].
+  ///
+  /// Parameter [applicationName] :
+  /// The name of the application.
+  ///
+  /// Parameter [urlType] :
+  /// The type of the extension for which to create and return a URL. Currently,
+  /// the only valid extension URL type is <code>FLINK_DASHBOARD_URL</code>.
+  ///
+  /// Parameter [sessionExpirationDurationInSeconds] :
+  /// The duration in seconds for which the returned URL will be valid.
+  Future<CreateApplicationPresignedUrlResponse> createApplicationPresignedUrl({
+    @_s.required String applicationName,
+    @_s.required UrlType urlType,
+    int sessionExpirationDurationInSeconds,
+  }) async {
+    ArgumentError.checkNotNull(applicationName, 'applicationName');
+    _s.validateStringLength(
+      'applicationName',
+      applicationName,
+      1,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'applicationName',
+      applicationName,
+      r'''[a-zA-Z0-9_.-]+''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(urlType, 'urlType');
+    _s.validateNumRange(
+      'sessionExpirationDurationInSeconds',
+      sessionExpirationDurationInSeconds,
+      1800,
+      43200,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'KinesisAnalytics_20180523.CreateApplicationPresignedUrl'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ApplicationName': applicationName,
+        'UrlType': urlType?.toValue() ?? '',
+        if (sessionExpirationDurationInSeconds != null)
+          'SessionExpirationDurationInSeconds':
+              sessionExpirationDurationInSeconds,
+      },
+    );
+
+    return CreateApplicationPresignedUrlResponse.fromJson(jsonResponse.body);
+  }
+
   /// Creates a snapshot of the application's state data.
   ///
   /// May throw [ResourceInUseException].
@@ -679,6 +757,7 @@ class KinesisAnalyticsV2 {
   /// May throw [InvalidArgumentException].
   /// May throw [UnsupportedOperationException].
   /// May throw [InvalidRequestException].
+  /// May throw [InvalidApplicationConfigurationException].
   ///
   /// Parameter [applicationName] :
   /// The name of an existing application
@@ -789,8 +868,8 @@ class KinesisAnalyticsV2 {
     return DeleteApplicationResponse.fromJson(jsonResponse.body);
   }
 
-  /// Deletes an Amazon CloudWatch log stream from an Amazon Kinesis Data
-  /// Analytics application.
+  /// Deletes an Amazon CloudWatch log stream from an Kinesis Data Analytics
+  /// application.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [ResourceInUseException].
@@ -963,10 +1042,10 @@ class KinesisAnalyticsV2 {
         jsonResponse.body);
   }
 
-  /// Deletes the output destination configuration from your SQL-based Amazon
-  /// Kinesis Data Analytics application's configuration. Kinesis Data Analytics
-  /// will no longer write data from the corresponding in-application stream to
-  /// the external output destination.
+  /// Deletes the output destination configuration from your SQL-based Kinesis
+  /// Data Analytics application's configuration. Kinesis Data Analytics will no
+  /// longer write data from the corresponding in-application stream to the
+  /// external output destination.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [ResourceInUseException].
@@ -1054,7 +1133,7 @@ class KinesisAnalyticsV2 {
   }
 
   /// Deletes a reference data source configuration from the specified SQL-based
-  /// Amazon Kinesis Data Analytics application's configuration.
+  /// Kinesis Data Analytics application's configuration.
   ///
   /// If the application is running, Kinesis Data Analytics immediately removes
   /// the in-application table that you created using the
@@ -1224,6 +1303,7 @@ class KinesisAnalyticsV2 {
   /// May throw [ResourceInUseException].
   /// May throw [InvalidArgumentException].
   /// May throw [ConcurrentModificationException].
+  /// May throw [InvalidApplicationConfigurationException].
   ///
   /// Parameter [applicationName] :
   /// The name of an existing application.
@@ -1299,8 +1379,7 @@ class KinesisAnalyticsV2 {
         jsonResponse.body);
   }
 
-  /// Returns information about a specific Amazon Kinesis Data Analytics
-  /// application.
+  /// Returns information about a specific Kinesis Data Analytics application.
   ///
   /// If you want to retrieve a list of all applications in your account, use
   /// the <a>ListApplications</a> operation.
@@ -1416,10 +1495,10 @@ class KinesisAnalyticsV2 {
     return DescribeApplicationSnapshotResponse.fromJson(jsonResponse.body);
   }
 
-  /// Infers a schema for an SQL-based Amazon Kinesis Data Analytics application
-  /// by evaluating sample records on the specified streaming source (Kinesis
-  /// data stream or Kinesis Data Firehose delivery stream) or Amazon S3 object.
-  /// In the response, the operation returns the inferred schema and also the
+  /// Infers a schema for a SQL-based Kinesis Data Analytics application by
+  /// evaluating sample records on the specified streaming source (Kinesis data
+  /// stream or Kinesis Data Firehose delivery stream) or Amazon S3 object. In
+  /// the response, the operation returns the inferred schema and also the
   /// sample records that the operation used to infer the schema.
   ///
   /// You can use the inferred schema when configuring a streaming source for
@@ -1468,7 +1547,7 @@ class KinesisAnalyticsV2 {
     _s.validateStringPattern(
       'serviceExecutionRole',
       serviceExecutionRole,
-      r'''arn:aws:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+''',
+      r'''arn:.*''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -1574,9 +1653,9 @@ class KinesisAnalyticsV2 {
     return ListApplicationSnapshotsResponse.fromJson(jsonResponse.body);
   }
 
-  /// Returns a list of Amazon Kinesis Data Analytics applications in your
-  /// account. For each application, the response includes the application name,
-  /// Amazon Resource Name (ARN), and status.
+  /// Returns a list of Kinesis Data Analytics applications in your account. For
+  /// each application, the response includes the application name, Amazon
+  /// Resource Name (ARN), and status.
   ///
   /// If you want detailed information about a specific application, use
   /// <a>DescribeApplication</a>.
@@ -1657,7 +1736,7 @@ class KinesisAnalyticsV2 {
     _s.validateStringPattern(
       'resourceARN',
       resourceARN,
-      r'''arn:aws:kinesisanalytics:[a-z]{2}-[a-z]+-\d{1}+:\d{12}+:application/[a-zA-Z0-9_.-]{1,128}''',
+      r'''arn:.*''',
       isRequired: true,
     );
     final headers = <String, String>{
@@ -1678,9 +1757,9 @@ class KinesisAnalyticsV2 {
     return ListTagsForResourceResponse.fromJson(jsonResponse.body);
   }
 
-  /// Starts the specified Amazon Kinesis Data Analytics application. After
-  /// creating an application, you must exclusively call this operation to start
-  /// your application.
+  /// Starts the specified Kinesis Data Analytics application. After creating an
+  /// application, you must exclusively call this operation to start your
+  /// application.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [ResourceInUseException].
@@ -1733,19 +1812,43 @@ class KinesisAnalyticsV2 {
   }
 
   /// Stops the application from processing data. You can stop an application
-  /// only if it is in the running state. You can use the
-  /// <a>DescribeApplication</a> operation to find the application state.
+  /// only if it is in the running status, unless you set the <code>Force</code>
+  /// parameter to <code>true</code>.
+  ///
+  /// You can use the <a>DescribeApplication</a> operation to find the
+  /// application status.
+  ///
+  /// Kinesis Data Analytics takes a snapshot when the application is stopped,
+  /// unless <code>Force</code> is set to <code>true</code>.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [ResourceInUseException].
   /// May throw [InvalidArgumentException].
   /// May throw [InvalidRequestException].
   /// May throw [InvalidApplicationConfigurationException].
+  /// May throw [ConcurrentModificationException].
   ///
   /// Parameter [applicationName] :
   /// The name of the running application to stop.
+  ///
+  /// Parameter [force] :
+  /// Set to <code>true</code> to force the application to stop. If you set
+  /// <code>Force</code> to <code>true</code>, Kinesis Data Analytics stops the
+  /// application without taking a snapshot.
+  /// <note>
+  /// Force-stopping your application may lead to data loss or duplication. To
+  /// prevent data loss or duplicate processing of data during application
+  /// restarts, we recommend you to take frequent snapshots of your application.
+  /// </note>
+  /// You can only force stop a Flink-based Kinesis Data Analytics application.
+  /// You can't force stop a SQL-based Kinesis Data Analytics application.
+  ///
+  /// The application must be in the <code>STARTING</code>,
+  /// <code>UPDATING</code>, <code>STOPPING</code>, <code>AUTOSCALING</code>, or
+  /// <code>RUNNING</code> status.
   Future<void> stopApplication({
     @_s.required String applicationName,
+    bool force,
   }) async {
     ArgumentError.checkNotNull(applicationName, 'applicationName');
     _s.validateStringLength(
@@ -1773,14 +1876,15 @@ class KinesisAnalyticsV2 {
       headers: headers,
       payload: {
         'ApplicationName': applicationName,
+        if (force != null) 'Force': force,
       },
     );
 
     return StopApplicationResponse.fromJson(jsonResponse.body);
   }
 
-  /// Adds one or more key-value tags to a Kinesis Analytics application. Note
-  /// that the maximum number of application tags includes system tags. The
+  /// Adds one or more key-value tags to a Kinesis Data Analytics application.
+  /// Note that the maximum number of application tags includes system tags. The
   /// maximum number of user-defined application tags is 50. For more
   /// information, see <a
   /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/java/how-tagging.html">Using
@@ -1812,7 +1916,7 @@ class KinesisAnalyticsV2 {
     _s.validateStringPattern(
       'resourceARN',
       resourceARN,
-      r'''arn:aws:kinesisanalytics:[a-z]{2}-[a-z]+-\d{1}+:\d{12}+:application/[a-zA-Z0-9_.-]{1,128}''',
+      r'''arn:.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(tags, 'tags');
@@ -1835,8 +1939,8 @@ class KinesisAnalyticsV2 {
     return TagResourceResponse.fromJson(jsonResponse.body);
   }
 
-  /// Removes one or more tags from a Kinesis Analytics application. For more
-  /// information, see <a
+  /// Removes one or more tags from a Kinesis Data Analytics application. For
+  /// more information, see <a
   /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/java/how-tagging.html">Using
   /// Tagging</a>.
   ///
@@ -1847,7 +1951,7 @@ class KinesisAnalyticsV2 {
   /// May throw [ConcurrentModificationException].
   ///
   /// Parameter [resourceARN] :
-  /// The ARN of the Kinesis Analytics application from which to remove the
+  /// The ARN of the Kinesis Data Analytics application from which to remove the
   /// tags.
   ///
   /// Parameter [tagKeys] :
@@ -1867,7 +1971,7 @@ class KinesisAnalyticsV2 {
     _s.validateStringPattern(
       'resourceARN',
       resourceARN,
-      r'''arn:aws:kinesisanalytics:[a-z]{2}-[a-z]+-\d{1}+:\d{12}+:application/[a-zA-Z0-9_.-]{1,128}''',
+      r'''arn:.*''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(tagKeys, 'tagKeys');
@@ -1890,12 +1994,18 @@ class KinesisAnalyticsV2 {
     return UntagResourceResponse.fromJson(jsonResponse.body);
   }
 
-  /// Updates an existing Amazon Kinesis Data Analytics application. Using this
+  /// Updates an existing Kinesis Data Analytics application. Using this
   /// operation, you can update application code, input configuration, and
   /// output configuration.
   ///
   /// Kinesis Data Analytics updates the <code>ApplicationVersionId</code> each
   /// time you update your application.
+  /// <note>
+  /// You cannot update the <code>RuntimeEnvironment</code> of an existing
+  /// application. If you need to update an application's
+  /// <code>RuntimeEnvironment</code>, you must delete the application and
+  /// create it again.
+  /// </note>
   ///
   /// May throw [CodeValidationException].
   /// May throw [ResourceNotFoundException].
@@ -1966,7 +2076,7 @@ class KinesisAnalyticsV2 {
     _s.validateStringPattern(
       'serviceExecutionRoleUpdate',
       serviceExecutionRoleUpdate,
-      r'''arn:aws:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+''',
+      r'''arn:.*''',
     );
     final headers = <String, String>{
       'Content-Type': 'application/x-amz-json-1.1',
@@ -2043,8 +2153,8 @@ class AddApplicationInputProcessingConfigurationResponse {
   final int applicationVersionId;
 
   /// The input ID that is associated with the application input. This is the ID
-  /// that Amazon Kinesis Data Analytics assigns to each input configuration that
-  /// you add to your application.
+  /// that Kinesis Data Analytics assigns to each input configuration that you add
+  /// to your application.
   @_s.JsonKey(name: 'InputId')
   final String inputId;
 
@@ -2132,8 +2242,8 @@ class AddApplicationReferenceDataSourceResponse {
   @_s.JsonKey(name: 'ApplicationARN')
   final String applicationARN;
 
-  /// The updated application version ID. Amazon Kinesis Data Analytics increments
-  /// this ID when the application is updated.
+  /// The updated application version ID. Kinesis Data Analytics increments this
+  /// ID when the application is updated.
   @_s.JsonKey(name: 'ApplicationVersionId')
   final int applicationVersionId;
 
@@ -2180,7 +2290,7 @@ class AddApplicationVpcConfigurationResponse {
       _$AddApplicationVpcConfigurationResponseFromJson(json);
 }
 
-/// Describes code configuration for a Java-based Kinesis Data Analytics
+/// Describes code configuration for a Flink-based Kinesis Data Analytics
 /// application.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2203,7 +2313,7 @@ class ApplicationCodeConfiguration {
   Map<String, dynamic> toJson() => _$ApplicationCodeConfigurationToJson(this);
 }
 
-/// Describes code configuration for a Java-based Kinesis Data Analytics
+/// Describes code configuration for a Flink-based Kinesis Data Analytics
 /// application.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2228,7 +2338,8 @@ class ApplicationCodeConfigurationDescription {
       _$ApplicationCodeConfigurationDescriptionFromJson(json);
 }
 
-/// Describes updates to a Java-based Amazon Kinesis Data Analytics application.
+/// Describes code configuration updates to a Flink-based Kinesis Data Analytics
+/// application.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -2251,35 +2362,34 @@ class ApplicationCodeConfigurationUpdate {
       _$ApplicationCodeConfigurationUpdateToJson(this);
 }
 
-/// Specifies the creation parameters for an Amazon Kinesis Data Analytics
-/// application.
+/// Specifies the creation parameters for a Kinesis Data Analytics application.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: false,
     createToJson: true)
 class ApplicationConfiguration {
-  /// The code location and type parameters for a Java-based Kinesis Data
+  /// The code location and type parameters for a Flink-based Kinesis Data
   /// Analytics application.
   @_s.JsonKey(name: 'ApplicationCodeConfiguration')
   final ApplicationCodeConfiguration applicationCodeConfiguration;
 
-  /// Describes whether snapshots are enabled for a Java-based Kinesis Data
+  /// Describes whether snapshots are enabled for a Flink-based Kinesis Data
   /// Analytics application.
   @_s.JsonKey(name: 'ApplicationSnapshotConfiguration')
   final ApplicationSnapshotConfiguration applicationSnapshotConfiguration;
 
-  /// Describes execution properties for a Java-based Kinesis Data Analytics
+  /// Describes execution properties for a Flink-based Kinesis Data Analytics
   /// application.
   @_s.JsonKey(name: 'EnvironmentProperties')
   final EnvironmentProperties environmentProperties;
 
-  /// The creation and update parameters for a Java-based Kinesis Data Analytics
+  /// The creation and update parameters for a Flink-based Kinesis Data Analytics
   /// application.
   @_s.JsonKey(name: 'FlinkApplicationConfiguration')
   final FlinkApplicationConfiguration flinkApplicationConfiguration;
 
-  /// The creation and update parameters for an SQL-based Kinesis Data Analytics
+  /// The creation and update parameters for a SQL-based Kinesis Data Analytics
   /// application.
   @_s.JsonKey(name: 'SqlApplicationConfiguration')
   final SqlApplicationConfiguration sqlApplicationConfiguration;
@@ -2300,32 +2410,32 @@ class ApplicationConfiguration {
   Map<String, dynamic> toJson() => _$ApplicationConfigurationToJson(this);
 }
 
-/// Describes details about the application code and starting parameters for an
-/// Amazon Kinesis Data Analytics application.
+/// Describes details about the application code and starting parameters for a
+/// Kinesis Data Analytics application.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ApplicationConfigurationDescription {
-  /// The details about the application code for a Java-based Kinesis Data
+  /// The details about the application code for a Flink-based Kinesis Data
   /// Analytics application.
   @_s.JsonKey(name: 'ApplicationCodeConfigurationDescription')
   final ApplicationCodeConfigurationDescription
       applicationCodeConfigurationDescription;
 
-  /// Describes whether snapshots are enabled for a Java-based Kinesis Data
+  /// Describes whether snapshots are enabled for a Flink-based Kinesis Data
   /// Analytics application.
   @_s.JsonKey(name: 'ApplicationSnapshotConfigurationDescription')
   final ApplicationSnapshotConfigurationDescription
       applicationSnapshotConfigurationDescription;
 
-  /// Describes execution properties for a Java-based Kinesis Data Analytics
+  /// Describes execution properties for a Flink-based Kinesis Data Analytics
   /// application.
   @_s.JsonKey(name: 'EnvironmentPropertyDescriptions')
   final EnvironmentPropertyDescriptions environmentPropertyDescriptions;
 
-  /// The details about a Java-based Kinesis Data Analytics application.
+  /// The details about a Flink-based Kinesis Data Analytics application.
   @_s.JsonKey(name: 'FlinkApplicationConfigurationDescription')
   final FlinkApplicationConfigurationDescription
       flinkApplicationConfigurationDescription;
@@ -2335,7 +2445,7 @@ class ApplicationConfigurationDescription {
   @_s.JsonKey(name: 'RunConfigurationDescription')
   final RunConfigurationDescription runConfigurationDescription;
 
-  /// The details about inputs, outputs, and reference data sources for an
+  /// The details about inputs, outputs, and reference data sources for a
   /// SQL-based Kinesis Data Analytics application.
   @_s.JsonKey(name: 'SqlApplicationConfigurationDescription')
   final SqlApplicationConfigurationDescription
@@ -2367,28 +2477,28 @@ class ApplicationConfigurationDescription {
     createFactory: false,
     createToJson: true)
 class ApplicationConfigurationUpdate {
-  /// Describes updates to a Java-based Kinesis Data Analytics application's code
+  /// Describes updates to a Flink-based Kinesis Data Analytics application's code
   /// configuration.
   @_s.JsonKey(name: 'ApplicationCodeConfigurationUpdate')
   final ApplicationCodeConfigurationUpdate applicationCodeConfigurationUpdate;
 
-  /// Describes whether snapshots are enabled for a Java-based Kinesis Data
+  /// Describes whether snapshots are enabled for a Flink-based Kinesis Data
   /// Analytics application.
   @_s.JsonKey(name: 'ApplicationSnapshotConfigurationUpdate')
   final ApplicationSnapshotConfigurationUpdate
       applicationSnapshotConfigurationUpdate;
 
-  /// Describes updates to the environment properties for a Java-based Kinesis
+  /// Describes updates to the environment properties for a Flink-based Kinesis
   /// Data Analytics application.
   @_s.JsonKey(name: 'EnvironmentPropertyUpdates')
   final EnvironmentPropertyUpdates environmentPropertyUpdates;
 
-  /// Describes updates to a Java-based Kinesis Data Analytics application's
+  /// Describes updates to a Flink-based Kinesis Data Analytics application's
   /// configuration.
   @_s.JsonKey(name: 'FlinkApplicationConfigurationUpdate')
   final FlinkApplicationConfigurationUpdate flinkApplicationConfigurationUpdate;
 
-  /// Describes updates to an SQL-based Kinesis Data Analytics application's
+  /// Describes updates to a SQL-based Kinesis Data Analytics application's
   /// configuration.
   @_s.JsonKey(name: 'SqlApplicationConfigurationUpdate')
   final SqlApplicationConfigurationUpdate sqlApplicationConfigurationUpdate;
@@ -2434,13 +2544,13 @@ class ApplicationDetail {
   @_s.JsonKey(name: 'ApplicationVersionId')
   final int applicationVersionId;
 
-  /// The runtime environment for the application (<code>SQL-1.0</code> or
-  /// <code>FLINK-1_6</code>).
+  /// The runtime environment for the application (<code>SQL-1.0</code>,
+  /// <code>FLINK-1_6</code>, or <code>FLINK-1_8</code>).
   @_s.JsonKey(name: 'RuntimeEnvironment')
   final RuntimeEnvironment runtimeEnvironment;
 
-  /// Provides details about the application's SQL or Java code and starting
-  /// parameters.
+  /// Provides details about the application's Java, SQL, or Scala code and
+  /// starting parameters.
   @_s.JsonKey(name: 'ApplicationConfigurationDescription')
   final ApplicationConfigurationDescription applicationConfigurationDescription;
 
@@ -2524,7 +2634,7 @@ enum ApplicationRestoreType {
   restoreFromCustomSnapshot,
 }
 
-/// Describes whether snapshots are enabled for a Java-based Kinesis Data
+/// Describes whether snapshots are enabled for a Flink-based Kinesis Data
 /// Analytics application.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2532,7 +2642,7 @@ enum ApplicationRestoreType {
     createFactory: false,
     createToJson: true)
 class ApplicationSnapshotConfiguration {
-  /// Describes whether snapshots are enabled for a Java-based Kinesis Data
+  /// Describes whether snapshots are enabled for a Flink-based Kinesis Data
   /// Analytics application.
   @_s.JsonKey(name: 'SnapshotsEnabled')
   final bool snapshotsEnabled;
@@ -2544,7 +2654,7 @@ class ApplicationSnapshotConfiguration {
       _$ApplicationSnapshotConfigurationToJson(this);
 }
 
-/// Describes whether snapshots are enabled for a Java-based Kinesis Data
+/// Describes whether snapshots are enabled for a Flink-based Kinesis Data
 /// Analytics application.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2552,7 +2662,7 @@ class ApplicationSnapshotConfiguration {
     createFactory: true,
     createToJson: false)
 class ApplicationSnapshotConfigurationDescription {
-  /// Describes whether snapshots are enabled for a Java-based Kinesis Data
+  /// Describes whether snapshots are enabled for a Flink-based Kinesis Data
   /// Analytics application.
   @_s.JsonKey(name: 'SnapshotsEnabled')
   final bool snapshotsEnabled;
@@ -2565,7 +2675,7 @@ class ApplicationSnapshotConfigurationDescription {
       _$ApplicationSnapshotConfigurationDescriptionFromJson(json);
 }
 
-/// Describes updates to whether snapshots are enabled for a Java-based Kinesis
+/// Describes updates to whether snapshots are enabled for a Flink-based Kinesis
 /// Data Analytics application.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2573,7 +2683,7 @@ class ApplicationSnapshotConfigurationDescription {
     createFactory: false,
     createToJson: true)
 class ApplicationSnapshotConfigurationUpdate {
-  /// Describes updates to whether snapshots are enabled for a Java-based Kinesis
+  /// Describes updates to whether snapshots are enabled for a Flink-based Kinesis
   /// Data Analytics application.
   @_s.JsonKey(name: 'SnapshotsEnabledUpdate')
   final bool snapshotsEnabledUpdate;
@@ -2598,6 +2708,10 @@ enum ApplicationStatus {
   running,
   @_s.JsonValue('UPDATING')
   updating,
+  @_s.JsonValue('AUTOSCALING')
+  autoscaling,
+  @_s.JsonValue('FORCE_STOPPING')
+  forceStopping,
 }
 
 /// Provides application summary information, including the application Amazon
@@ -2624,8 +2738,8 @@ class ApplicationSummary {
   @_s.JsonKey(name: 'ApplicationVersionId')
   final int applicationVersionId;
 
-  /// The runtime environment for the application (<code>SQL-1.0</code> or
-  /// <code>FLINK-1_6</code>).
+  /// The runtime environment for the application (<code>SQL-1.0</code>,
+  /// <code>FLINK-1_6</code>, or <code>FLINK-1_8</code>).
   @_s.JsonKey(name: 'RuntimeEnvironment')
   final RuntimeEnvironment runtimeEnvironment;
 
@@ -2640,10 +2754,11 @@ class ApplicationSummary {
       _$ApplicationSummaryFromJson(json);
 }
 
-/// For an SQL-based application, provides additional mapping information when
-/// the record format uses delimiters, such as CSV. For example, the following
-/// sample records use CSV format, where the records use the <i>'\n'</i> as the
-/// row delimiter and a comma (",") as the column delimiter:
+/// For a SQL-based Kinesis Data Analytics application, provides additional
+/// mapping information when the record format uses delimiters, such as CSV. For
+/// example, the following sample records use CSV format, where the records use
+/// the <i>'\n'</i> as the row delimiter and a comma (",") as the column
+/// delimiter:
 ///
 /// <code>"name1", "address1"</code>
 ///
@@ -2677,9 +2792,9 @@ class CSVMappingParameters {
 /// Describes an application's checkpointing configuration. Checkpointing is the
 /// process of persisting application state for fault tolerance. For more
 /// information, see <a
-/// href="https://ci.apache.org/projects/flink/flink-docs-release-1.6/concepts/programming-model.html#checkpoints-for-fault-tolerance">
+/// href="https://ci.apache.org/projects/flink/flink-docs-release-1.8/concepts/programming-model.html#checkpoints-for-fault-tolerance">
 /// Checkpoints for Fault Tolerance</a> in the <a
-/// href="https://ci.apache.org/projects/flink/flink-docs-release-1.6/">Apache
+/// href="https://ci.apache.org/projects/flink/flink-docs-release-1.8/">Apache
 /// Flink Documentation</a>.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2687,9 +2802,9 @@ class CSVMappingParameters {
     createFactory: false,
     createToJson: true)
 class CheckpointConfiguration {
-  /// Describes whether the application uses Amazon Kinesis Data Analytics'
-  /// default checkpointing behavior. You must set this property to
-  /// <code>CUSTOM</code> in order to set the <code>CheckpointingEnabled</code>,
+  /// Describes whether the application uses Kinesis Data Analytics' default
+  /// checkpointing behavior. You must set this property to <code>CUSTOM</code> in
+  /// order to set the <code>CheckpointingEnabled</code>,
   /// <code>CheckpointInterval</code>, or <code>MinPauseBetweenCheckpoints</code>
   /// parameters.
   /// <note>
@@ -2721,7 +2836,7 @@ class CheckpointConfiguration {
   @_s.JsonKey(name: 'CheckpointInterval')
   final int checkpointInterval;
 
-  /// Describes whether checkpointing is enabled for a Java-based Kinesis Data
+  /// Describes whether checkpointing is enabled for a Flink-based Kinesis Data
   /// Analytics application.
   /// <note>
   /// If <code>CheckpointConfiguration.ConfigurationType</code> is
@@ -2737,9 +2852,9 @@ class CheckpointConfiguration {
   /// operation takes longer than the <code>CheckpointInterval</code>, the
   /// application otherwise performs continual checkpoint operations. For more
   /// information, see <a
-  /// href="https://ci.apache.org/projects/flink/flink-docs-stable/ops/state/large_state_tuning.html#tuning-checkpointing">
+  /// href="https://ci.apache.org/projects/flink/flink-docs-release-1.8/ops/state/large_state_tuning.html#tuning-checkpointing">
   /// Tuning Checkpointing</a> in the <a
-  /// href="https://ci.apache.org/projects/flink/flink-docs-release-1.6/">Apache
+  /// href="https://ci.apache.org/projects/flink/flink-docs-release-1.8/">Apache
   /// Flink Documentation</a>.
   /// <note>
   /// If <code>CheckpointConfiguration.ConfigurationType</code> is
@@ -2759,8 +2874,8 @@ class CheckpointConfiguration {
   Map<String, dynamic> toJson() => _$CheckpointConfigurationToJson(this);
 }
 
-/// Describes checkpointing parameters for a Java-based Amazon Kinesis Data
-/// Analytics application.
+/// Describes checkpointing parameters for a Flink-based Kinesis Data Analytics
+/// application.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -2777,7 +2892,7 @@ class CheckpointConfigurationDescription {
   @_s.JsonKey(name: 'CheckpointInterval')
   final int checkpointInterval;
 
-  /// Describes whether checkpointing is enabled for a Java-based Kinesis Data
+  /// Describes whether checkpointing is enabled for a Flink-based Kinesis Data
   /// Analytics application.
   /// <note>
   /// If <code>CheckpointConfiguration.ConfigurationType</code> is
@@ -2831,8 +2946,8 @@ class CheckpointConfigurationDescription {
       _$CheckpointConfigurationDescriptionFromJson(json);
 }
 
-/// Describes updates to the checkpointing parameters for a Java-based Amazon
-/// Kinesis Data Analytics application.
+/// Describes updates to the checkpointing parameters for a Flink-based Kinesis
+/// Data Analytics application.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -2981,7 +3096,7 @@ class CloudWatchLoggingOptionUpdate {
 }
 
 /// Specifies either the application code, or the location of the application
-/// code, for a Java-based Amazon Kinesis Data Analytics application.
+/// code, for a Flink-based Kinesis Data Analytics application.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -2992,11 +3107,11 @@ class CodeContent {
   @_s.JsonKey(name: 'S3ContentLocation')
   final S3ContentLocation s3ContentLocation;
 
-  /// The text-format code for a Java-based Kinesis Data Analytics application.
+  /// The text-format code for a Flink-based Kinesis Data Analytics application.
   @_s.JsonKey(name: 'TextContent')
   final String textContent;
 
-  /// The zip-format code for a Java-based Kinesis Data Analytics application.
+  /// The zip-format code for a Flink-based Kinesis Data Analytics application.
   @Uint8ListConverter()
   @_s.JsonKey(name: 'ZipFileContent')
   final Uint8List zipFileContent;
@@ -3009,7 +3124,7 @@ class CodeContent {
   Map<String, dynamic> toJson() => _$CodeContentToJson(this);
 }
 
-/// Describes details about the application code for a Java-based Kinesis Data
+/// Describes details about the application code for a Flink-based Kinesis Data
 /// Analytics application.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3053,7 +3168,7 @@ enum CodeContentType {
   zipfile,
 }
 
-/// Describes an update to the code of a Java-based Kinesis Data Analytics
+/// Describes an update to the code of a Flink-based Kinesis Data Analytics
 /// application.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3087,6 +3202,24 @@ enum ConfigurationType {
   $default,
   @_s.JsonValue('CUSTOM')
   custom,
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class CreateApplicationPresignedUrlResponse {
+  /// The URL of the extension.
+  @_s.JsonKey(name: 'AuthorizedUrl')
+  final String authorizedUrl;
+
+  CreateApplicationPresignedUrlResponse({
+    this.authorizedUrl,
+  });
+  factory CreateApplicationPresignedUrlResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$CreateApplicationPresignedUrlResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -3301,8 +3434,8 @@ class DescribeApplicationSnapshotResponse {
       _$DescribeApplicationSnapshotResponseFromJson(json);
 }
 
-/// Describes the data format when records are written to the destination in an
-/// SQL-based Amazon Kinesis Data Analytics application.
+/// Describes the data format when records are written to the destination in a
+/// SQL-based Kinesis Data Analytics application.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -3358,7 +3491,7 @@ class DiscoverInputSchemaResponse {
       _$DiscoverInputSchemaResponseFromJson(json);
 }
 
-/// Describes execution properties for a Java-based Kinesis Data Analytics
+/// Describes execution properties for a Flink-based Kinesis Data Analytics
 /// application.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3376,8 +3509,8 @@ class EnvironmentProperties {
   Map<String, dynamic> toJson() => _$EnvironmentPropertiesToJson(this);
 }
 
-/// Describes the execution properties for a Java-based Amazon Kinesis Data
-/// Analytics application.
+/// Describes the execution properties for a Flink-based Kinesis Data Analytics
+/// application.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -3395,8 +3528,8 @@ class EnvironmentPropertyDescriptions {
       _$EnvironmentPropertyDescriptionsFromJson(json);
 }
 
-/// Describes updates to the execution property groups for a Java-based Amazon
-/// Kinesis Data Analytics application.
+/// Describes updates to the execution property groups for a Flink-based Kinesis
+/// Data Analytics application.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -3413,8 +3546,8 @@ class EnvironmentPropertyUpdates {
   Map<String, dynamic> toJson() => _$EnvironmentPropertyUpdatesToJson(this);
 }
 
-/// Describes configuration parameters for a Java-based Amazon Kinesis Data
-/// Analytics application.
+/// Describes configuration parameters for a Flink-based Kinesis Data Analytics
+/// application.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -3424,9 +3557,9 @@ class FlinkApplicationConfiguration {
   /// Describes an application's checkpointing configuration. Checkpointing is the
   /// process of persisting application state for fault tolerance. For more
   /// information, see <a
-  /// href="https://ci.apache.org/projects/flink/flink-docs-release-1.6/concepts/programming-model.html#checkpoints-for-fault-tolerance">
+  /// href="https://ci.apache.org/projects/flink/flink-docs-release-1.8/concepts/programming-model.html#checkpoints-for-fault-tolerance">
   /// Checkpoints for Fault Tolerance</a> in the <a
-  /// href="https://ci.apache.org/projects/flink/flink-docs-release-1.6/">Apache
+  /// href="https://ci.apache.org/projects/flink/flink-docs-release-1.8/">Apache
   /// Flink Documentation</a>.
   @_s.JsonKey(name: 'CheckpointConfiguration')
   final CheckpointConfiguration checkpointConfiguration;
@@ -3449,8 +3582,8 @@ class FlinkApplicationConfiguration {
   Map<String, dynamic> toJson() => _$FlinkApplicationConfigurationToJson(this);
 }
 
-/// Describes configuration parameters for a Java-based Amazon Kinesis Data
-/// Analytics application.
+/// Describes configuration parameters for a Flink-based Kinesis Data Analytics
+/// application.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -3464,9 +3597,9 @@ class FlinkApplicationConfigurationDescription {
 
   /// The job plan for an application. For more information about the job plan,
   /// see <a
-  /// href="https://ci.apache.org/projects/flink/flink-docs-stable/internals/job_scheduling.html">Jobs
+  /// href="https://ci.apache.org/projects/flink/flink-docs-release-1.8/internals/job_scheduling.html">Jobs
   /// and Scheduling</a> in the <a
-  /// href="https://ci.apache.org/projects/flink/flink-docs-release-1.6/">Apache
+  /// href="https://ci.apache.org/projects/flink/flink-docs-release-1.8/">Apache
   /// Flink Documentation</a>. To retrieve the job plan for the application, use
   /// the <a>DescribeApplicationRequest$IncludeAdditionalDetails</a> parameter of
   /// the <a>DescribeApplication</a> operation.
@@ -3494,8 +3627,8 @@ class FlinkApplicationConfigurationDescription {
       _$FlinkApplicationConfigurationDescriptionFromJson(json);
 }
 
-/// Describes updates to the configuration parameters for a Java-based Amazon
-/// Kinesis Data Analytics application.
+/// Describes updates to the configuration parameters for a Flink-based Kinesis
+/// Data Analytics application.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -3527,35 +3660,44 @@ class FlinkApplicationConfigurationUpdate {
       _$FlinkApplicationConfigurationUpdateToJson(this);
 }
 
-/// Describes the starting parameters for an Apache Flink-based Kinesis Data
-/// Analytics application.
+/// Describes the starting parameters for a Flink-based Kinesis Data Analytics
+/// application.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
-    createFactory: false,
+    createFactory: true,
     createToJson: true)
 class FlinkRunConfiguration {
-  /// When restoring from a savepoint, specifies whether the runtime is allowed to
+  /// When restoring from a snapshot, specifies whether the runtime is allowed to
   /// skip a state that cannot be mapped to the new program. This will happen if
-  /// the program is updated between savepoints to remove stateful parameters, and
-  /// state data in the savepoint no longer corresponds to valid application data.
+  /// the program is updated between snapshots to remove stateful parameters, and
+  /// state data in the snapshot no longer corresponds to valid application data.
   /// For more information, see <a
   /// href="https://ci.apache.org/projects/flink/flink-docs-release-1.8/ops/state/savepoints.html#allowing-non-restored-state">
   /// Allowing Non-Restored State</a> in the <a
   /// href="https://ci.apache.org/projects/flink/flink-docs-release-1.8/">Apache
   /// Flink documentation</a>.
+  /// <note>
+  /// This value defaults to <code>false</code>. If you update your application
+  /// without specifying this parameter, <code>AllowNonRestoredState</code> will
+  /// be set to <code>false</code>, even if it was previously set to
+  /// <code>true</code>.
+  /// </note>
   @_s.JsonKey(name: 'AllowNonRestoredState')
   final bool allowNonRestoredState;
 
   FlinkRunConfiguration({
     this.allowNonRestoredState,
   });
+  factory FlinkRunConfiguration.fromJson(Map<String, dynamic> json) =>
+      _$FlinkRunConfigurationFromJson(json);
+
   Map<String, dynamic> toJson() => _$FlinkRunConfigurationToJson(this);
 }
 
-/// When you configure the application input for an SQL-based Amazon Kinesis
-/// Data Analytics application, you specify the streaming source, the
-/// in-application stream name that is created, and the mapping between the two.
+/// When you configure the application input for a SQL-based Kinesis Data
+/// Analytics application, you specify the streaming source, the in-application
+/// stream name that is created, and the mapping between the two.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -3611,8 +3753,8 @@ class Input {
   Map<String, dynamic> toJson() => _$InputToJson(this);
 }
 
-/// Describes the application input configuration for an SQL-based Amazon
-/// Kinesis Data Analytics application.
+/// Describes the application input configuration for a SQL-based Kinesis Data
+/// Analytics application.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -3682,8 +3824,8 @@ class InputDescription {
 }
 
 /// An object that contains the Amazon Resource Name (ARN) of the AWS Lambda
-/// function that is used to preprocess records in the stream in an SQL-based
-/// Amazon Kinesis Data Analytics application.
+/// function that is used to preprocess records in the stream in a SQL-based
+/// Kinesis Data Analytics application.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -3695,7 +3837,7 @@ class InputLambdaProcessor {
   /// To specify an earlier version of the Lambda function than the latest,
   /// include the Lambda function version in the Lambda function ARN. For more
   /// information about Lambda ARNs, see <a
-  /// href="/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-lambda">Example
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-lambda">Example
   /// ARNs: AWS Lambda</a>
   /// </note>
   @_s.JsonKey(name: 'ResourceARN')
@@ -3707,9 +3849,9 @@ class InputLambdaProcessor {
   Map<String, dynamic> toJson() => _$InputLambdaProcessorToJson(this);
 }
 
-/// For an SQL-based Amazon Kinesis Data Analytics application, an object that
-/// contains the Amazon Resource Name (ARN) of the AWS Lambda function that is
-/// used to preprocess records in the stream.
+/// For a SQL-based Kinesis Data Analytics application, an object that contains
+/// the Amazon Resource Name (ARN) of the AWS Lambda function that is used to
+/// preprocess records in the stream.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -3722,7 +3864,7 @@ class InputLambdaProcessorDescription {
   /// To specify an earlier version of the Lambda function than the latest,
   /// include the Lambda function version in the Lambda function ARN. For more
   /// information about Lambda ARNs, see <a
-  /// href="/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-lambda">Example
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-lambda">Example
   /// ARNs: AWS Lambda</a>
   /// </note>
   @_s.JsonKey(name: 'ResourceARN')
@@ -3745,9 +3887,9 @@ class InputLambdaProcessorDescription {
       _$InputLambdaProcessorDescriptionFromJson(json);
 }
 
-/// For an SQL-based Amazon Kinesis Data Analytics application, represents an
-/// update to the <a>InputLambdaProcessor</a> that is used to preprocess the
-/// records in the stream.
+/// For a SQL-based Kinesis Data Analytics application, represents an update to
+/// the <a>InputLambdaProcessor</a> that is used to preprocess the records in
+/// the stream.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -3760,7 +3902,7 @@ class InputLambdaProcessorUpdate {
   /// To specify an earlier version of the Lambda function than the latest,
   /// include the Lambda function version in the Lambda function ARN. For more
   /// information about Lambda ARNs, see <a
-  /// href="/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-lambda">Example
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-lambda">Example
   /// ARNs: AWS Lambda</a>
   /// </note>
   @_s.JsonKey(name: 'ResourceARNUpdate')
@@ -3772,8 +3914,8 @@ class InputLambdaProcessorUpdate {
   Map<String, dynamic> toJson() => _$InputLambdaProcessorUpdateToJson(this);
 }
 
-/// For an SQL-based Amazon Kinesis Data Analytics application, describes the
-/// number of in-application streams to create for a given streaming source.
+/// For a SQL-based Kinesis Data Analytics application, describes the number of
+/// in-application streams to create for a given streaming source.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -3793,8 +3935,8 @@ class InputParallelism {
   Map<String, dynamic> toJson() => _$InputParallelismToJson(this);
 }
 
-/// For an SQL-based Amazon Kinesis Data Analytics application, provides updates
-/// to the parallelism count.
+/// For a SQL-based Kinesis Data Analytics application, provides updates to the
+/// parallelism count.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -3812,11 +3954,10 @@ class InputParallelismUpdate {
   Map<String, dynamic> toJson() => _$InputParallelismUpdateToJson(this);
 }
 
-/// For an SQL-based Amazon Kinesis Data Analytics application, describes a
-/// processor that is used to preprocess the records in the stream before being
-/// processed by your application code. Currently, the only input processor
-/// available is <a href="https://aws.amazon.com/documentation/lambda/">AWS
-/// Lambda</a>.
+/// For a SQL-based Kinesis Data Analytics application, describes a processor
+/// that is used to preprocess the records in the stream before being processed
+/// by your application code. Currently, the only input processor available is
+/// <a href="https://docs.aws.amazon.com/lambda/">AWS Lambda</a>.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -3834,10 +3975,10 @@ class InputProcessingConfiguration {
   Map<String, dynamic> toJson() => _$InputProcessingConfigurationToJson(this);
 }
 
-/// For an SQL-based Amazon Kinesis Data Analytics application, provides the
+/// For a SQL-based Kinesis Data Analytics application, provides the
 /// configuration information about an input processor. Currently, the only
 /// input processor available is <a
-/// href="https://aws.amazon.com/documentation/lambda/">AWS Lambda</a>.
+/// href="https://docs.aws.amazon.com/lambda/">AWS Lambda</a>.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -3857,8 +3998,8 @@ class InputProcessingConfigurationDescription {
       _$InputProcessingConfigurationDescriptionFromJson(json);
 }
 
-/// For an SQL-based Amazon Kinesis Data Analytics application, describes
-/// updates to an <a>InputProcessingConfiguration</a>.
+/// For a SQL-based Kinesis Data Analytics application, describes updates to an
+/// <a>InputProcessingConfiguration</a>.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -3876,8 +4017,8 @@ class InputProcessingConfigurationUpdate {
       _$InputProcessingConfigurationUpdateToJson(this);
 }
 
-/// Describes updates for an SQL-based Amazon Kinesis Data Analytics
-/// application's input schema.
+/// Describes updates for an SQL-based Kinesis Data Analytics application's
+/// input schema.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -3955,9 +4096,9 @@ class InputStartingPositionConfiguration {
       _$InputStartingPositionConfigurationToJson(this);
 }
 
-/// For an SQL-based Amazon Kinesis Data Analytics application, describes
-/// updates to a specific input configuration (identified by the
-/// <code>InputId</code> of an application).
+/// For a SQL-based Kinesis Data Analytics application, describes updates to a
+/// specific input configuration (identified by the <code>InputId</code> of an
+/// application).
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -4010,9 +4151,8 @@ class InputUpdate {
   Map<String, dynamic> toJson() => _$InputUpdateToJson(this);
 }
 
-/// For an SQL-based Amazon Kinesis Data Analytics application, provides
-/// additional mapping information when JSON is the record format on the
-/// streaming source.
+/// For a SQL-based Kinesis Data Analytics application, provides additional
+/// mapping information when JSON is the record format on the streaming source.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -4032,9 +4172,9 @@ class JSONMappingParameters {
   Map<String, dynamic> toJson() => _$JSONMappingParametersToJson(this);
 }
 
-/// For an SQL-based Amazon Kinesis Data Analytics application, identifies a
-/// Kinesis Data Firehose delivery stream as the streaming source. You provide
-/// the delivery stream's Amazon Resource Name (ARN).
+/// For a SQL-based Kinesis Data Analytics application, identifies a Kinesis
+/// Data Firehose delivery stream as the streaming source. You provide the
+/// delivery stream's Amazon Resource Name (ARN).
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -4081,7 +4221,7 @@ class KinesisFirehoseInputDescription {
       _$KinesisFirehoseInputDescriptionFromJson(json);
 }
 
-/// For an SQL-based Amazon Kinesis Data Analytics application, when updating
+/// For a SQL-based Kinesis Data Analytics application, when updating
 /// application input configuration, provides information about a Kinesis Data
 /// Firehose delivery stream as the streaming source.
 @_s.JsonSerializable(
@@ -4100,7 +4240,7 @@ class KinesisFirehoseInputUpdate {
   Map<String, dynamic> toJson() => _$KinesisFirehoseInputUpdateToJson(this);
 }
 
-/// For an SQL-based Amazon Kinesis Data Analytics application, when configuring
+/// For a SQL-based Kinesis Data Analytics application, when configuring
 /// application output, identifies a Kinesis Data Firehose delivery stream as
 /// the destination. You provide the stream Amazon Resource Name (ARN) of the
 /// delivery stream.
@@ -4120,9 +4260,8 @@ class KinesisFirehoseOutput {
   Map<String, dynamic> toJson() => _$KinesisFirehoseOutputToJson(this);
 }
 
-/// For an SQL-based Amazon Kinesis Data Analytics application's output,
-/// describes the Kinesis Data Firehose delivery stream that is configured as
-/// its destination.
+/// For a SQL-based Kinesis Data Analytics application's output, describes the
+/// Kinesis Data Firehose delivery stream that is configured as its destination.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -4152,8 +4291,8 @@ class KinesisFirehoseOutputDescription {
       _$KinesisFirehoseOutputDescriptionFromJson(json);
 }
 
-/// For an SQL-based Amazon Kinesis Data Analytics application, when updating an
-/// output configuration using the <a>UpdateApplication</a> operation, provides
+/// For a SQL-based Kinesis Data Analytics application, when updating an output
+/// configuration using the <a>UpdateApplication</a> operation, provides
 /// information about a Kinesis Data Firehose delivery stream that is configured
 /// as the destination.
 @_s.JsonSerializable(
@@ -4172,8 +4311,8 @@ class KinesisFirehoseOutputUpdate {
   Map<String, dynamic> toJson() => _$KinesisFirehoseOutputUpdateToJson(this);
 }
 
-/// Identifies an Amazon Kinesis data stream as the streaming source. You
-/// provide the stream's Amazon Resource Name (ARN).
+/// Identifies a Kinesis data stream as the streaming source. You provide the
+/// stream's Amazon Resource Name (ARN).
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -4190,9 +4329,9 @@ class KinesisStreamsInput {
   Map<String, dynamic> toJson() => _$KinesisStreamsInputToJson(this);
 }
 
-/// For an SQL-based Amazon Kinesis Data Analytics application, describes the
-/// Kinesis data stream that is configured as the streaming source in the
-/// application input configuration.
+/// For a SQL-based Kinesis Data Analytics application, describes the Kinesis
+/// data stream that is configured as the streaming source in the application
+/// input configuration.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -4221,9 +4360,9 @@ class KinesisStreamsInputDescription {
       _$KinesisStreamsInputDescriptionFromJson(json);
 }
 
-/// When you update the input configuration for an SQL-based Amazon Kinesis Data
-/// Analytics application, provides information about an Amazon Kinesis stream
-/// as the streaming source.
+/// When you update the input configuration for a SQL-based Kinesis Data
+/// Analytics application, provides information about a Kinesis stream as the
+/// streaming source.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -4240,9 +4379,9 @@ class KinesisStreamsInputUpdate {
   Map<String, dynamic> toJson() => _$KinesisStreamsInputUpdateToJson(this);
 }
 
-/// When you configure an SQL-based Amazon Kinesis Data Analytics application's
-/// output, identifies a Kinesis data stream as the destination. You provide the
-/// stream Amazon Resource Name (ARN).
+/// When you configure a SQL-based Kinesis Data Analytics application's output,
+/// identifies a Kinesis data stream as the destination. You provide the stream
+/// Amazon Resource Name (ARN).
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -4259,8 +4398,8 @@ class KinesisStreamsOutput {
   Map<String, dynamic> toJson() => _$KinesisStreamsOutputToJson(this);
 }
 
-/// For an SQL-based Amazon Kinesis Data Analytics application's output,
-/// describes the Kinesis data stream that is configured as its destination.
+/// For an SQL-based Kinesis Data Analytics application's output, describes the
+/// Kinesis data stream that is configured as its destination.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -4289,8 +4428,8 @@ class KinesisStreamsOutputDescription {
       _$KinesisStreamsOutputDescriptionFromJson(json);
 }
 
-/// When you update an SQL-based Amazon Kinesis Data Analytics application's
-/// output configuration using the <a>UpdateApplication</a> operation, provides
+/// When you update a SQL-based Kinesis Data Analytics application's output
+/// configuration using the <a>UpdateApplication</a> operation, provides
 /// information about a Kinesis data stream that is configured as the
 /// destination.
 @_s.JsonSerializable(
@@ -4310,9 +4449,9 @@ class KinesisStreamsOutputUpdate {
   Map<String, dynamic> toJson() => _$KinesisStreamsOutputUpdateToJson(this);
 }
 
-/// When you configure an SQL-based Amazon Kinesis Data Analytics application's
-/// output, identifies an AWS Lambda function as the destination. You provide
-/// the function Amazon Resource Name (ARN) of the Lambda function.
+/// When you configure a SQL-based Kinesis Data Analytics application's output,
+/// identifies an AWS Lambda function as the destination. You provide the
+/// function Amazon Resource Name (ARN) of the Lambda function.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -4325,7 +4464,7 @@ class LambdaOutput {
   /// To specify an earlier version of the Lambda function than the latest,
   /// include the Lambda function version in the Lambda function ARN. For more
   /// information about Lambda ARNs, see <a
-  /// href="/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-lambda">Example
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-lambda">Example
   /// ARNs: AWS Lambda</a>
   /// </note>
   @_s.JsonKey(name: 'ResourceARN')
@@ -4337,8 +4476,8 @@ class LambdaOutput {
   Map<String, dynamic> toJson() => _$LambdaOutputToJson(this);
 }
 
-/// For an SQL-based Amazon Kinesis Data Analytics application output, describes
-/// the AWS Lambda function that is configured as its destination.
+/// For a SQL-based Kinesis Data Analytics application's output, describes the
+/// AWS Lambda function that is configured as its destination.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -4367,8 +4506,8 @@ class LambdaOutputDescription {
       _$LambdaOutputDescriptionFromJson(json);
 }
 
-/// When you update an SQL-based Amazon Kinesis Data Analytics application's
-/// output configuration using the <a>UpdateApplication</a> operation, provides
+/// When you update an SQL-based Kinesis Data Analytics application's output
+/// configuration using the <a>UpdateApplication</a> operation, provides
 /// information about an AWS Lambda function that is configured as the
 /// destination.
 @_s.JsonSerializable(
@@ -4382,7 +4521,7 @@ class LambdaOutputUpdate {
   /// To specify an earlier version of the Lambda function than the latest,
   /// include the Lambda function version in the Lambda function ARN. For more
   /// information about Lambda ARNs, see <a
-  /// href="/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-lambda">Example
+  /// href="https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html#arn-syntax-lambda">Example
   /// ARNs: AWS Lambda</a>
   /// </note>
   @_s.JsonKey(name: 'ResourceARNUpdate')
@@ -4474,10 +4613,10 @@ enum LogLevel {
   debug,
 }
 
-/// When you configure an SQL-based Amazon Kinesis Data Analytics application's
-/// input at the time of creating or updating an application, provides
-/// additional mapping information specific to the record format (such as JSON,
-/// CSV, or record fields delimited by some delimiter) on the streaming source.
+/// When you configure a SQL-based Kinesis Data Analytics application's input at
+/// the time of creating or updating an application, provides additional mapping
+/// information specific to the record format (such as JSON, CSV, or record
+/// fields delimited by some delimiter) on the streaming source.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -4516,7 +4655,7 @@ enum MetricsLevel {
 }
 
 /// Describes configuration parameters for Amazon CloudWatch logging for a
-/// Java-based Kinesis Data Analytics application. For more information about
+/// Flink-based Kinesis Data Analytics application. For more information about
 /// CloudWatch logging, see <a
 /// href="https://docs.aws.amazon.com/kinesisanalytics/latest/java/monitoring-overview.html">Monitoring</a>.
 @_s.JsonSerializable(
@@ -4535,7 +4674,9 @@ class MonitoringConfiguration {
   @_s.JsonKey(name: 'LogLevel')
   final LogLevel logLevel;
 
-  /// Describes the granularity of the CloudWatch Logs for an application.
+  /// Describes the granularity of the CloudWatch Logs for an application. The
+  /// <code>Parallelism</code> level is not recommended for applications with a
+  /// Parallelism over 64 due to excessive costs.
   @_s.JsonKey(name: 'MetricsLevel')
   final MetricsLevel metricsLevel;
 
@@ -4547,7 +4688,7 @@ class MonitoringConfiguration {
   Map<String, dynamic> toJson() => _$MonitoringConfigurationToJson(this);
 }
 
-/// Describes configuration parameters for CloudWatch logging for a Java-based
+/// Describes configuration parameters for CloudWatch logging for a Flink-based
 /// Kinesis Data Analytics application.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -4579,7 +4720,7 @@ class MonitoringConfigurationDescription {
 }
 
 /// Describes updates to configuration parameters for Amazon CloudWatch logging
-/// for a Java-based Kinesis Data Analytics application.
+/// for a Flink-based Kinesis Data Analytics application.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -4599,7 +4740,8 @@ class MonitoringConfigurationUpdate {
   final LogLevel logLevelUpdate;
 
   /// Describes updates to the granularity of the CloudWatch Logs for an
-  /// application.
+  /// application. The <code>Parallelism</code> level is not recommended for
+  /// applications with a Parallelism over 64 due to excessive costs.
   @_s.JsonKey(name: 'MetricsLevelUpdate')
   final MetricsLevel metricsLevelUpdate;
 
@@ -4611,7 +4753,7 @@ class MonitoringConfigurationUpdate {
   Map<String, dynamic> toJson() => _$MonitoringConfigurationUpdateToJson(this);
 }
 
-/// Describes an SQL-based Amazon Kinesis Data Analytics application's output
+/// Describes a SQL-based Kinesis Data Analytics application's output
 /// configuration, in which you identify an in-application stream and a
 /// destination where you want the in-application stream data to be written. The
 /// destination can be a Kinesis data stream or a Kinesis Data Firehose delivery
@@ -4631,12 +4773,11 @@ class Output {
   @_s.JsonKey(name: 'Name')
   final String name;
 
-  /// Identifies an Amazon Kinesis Data Firehose delivery stream as the
-  /// destination.
+  /// Identifies a Kinesis Data Firehose delivery stream as the destination.
   @_s.JsonKey(name: 'KinesisFirehoseOutput')
   final KinesisFirehoseOutput kinesisFirehoseOutput;
 
-  /// Identifies an Amazon Kinesis data stream as the destination.
+  /// Identifies a Kinesis data stream as the destination.
   @_s.JsonKey(name: 'KinesisStreamsOutput')
   final KinesisStreamsOutput kinesisStreamsOutput;
 
@@ -4654,7 +4795,7 @@ class Output {
   Map<String, dynamic> toJson() => _$OutputToJson(this);
 }
 
-/// For an SQL-based Amazon Kinesis Data Analytics application, describes the
+/// For a SQL-based Kinesis Data Analytics application, describes the
 /// application output configuration, which includes the in-application stream
 /// name and the destination where the stream data is written. The destination
 /// can be a Kinesis data stream or a Kinesis Data Firehose delivery stream.
@@ -4703,8 +4844,8 @@ class OutputDescription {
       _$OutputDescriptionFromJson(json);
 }
 
-/// For an SQL-based Amazon Kinesis Data Analytics application, describes
-/// updates to the output configuration identified by the <code>OutputId</code>.
+/// For a SQL-based Kinesis Data Analytics application, describes updates to the
+/// output configuration identified by the <code>OutputId</code>.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -4748,12 +4889,12 @@ class OutputUpdate {
   Map<String, dynamic> toJson() => _$OutputUpdateToJson(this);
 }
 
-/// Describes parameters for how a Java-based Amazon Kinesis Data Analytics
-/// application executes multiple tasks simultaneously. For more information
-/// about parallelism, see <a
-/// href="https://ci.apache.org/projects/flink/flink-docs-stable/dev/parallel.html">Parallel
+/// Describes parameters for how a Flink-based Kinesis Data Analytics
+/// application application executes multiple tasks simultaneously. For more
+/// information about parallelism, see <a
+/// href="https://ci.apache.org/projects/flink/flink-docs-release-1.8/dev/parallel.html">Parallel
 /// Execution</a> in the <a
-/// href="https://ci.apache.org/projects/flink/flink-docs-release-1.6/">Apache
+/// href="https://ci.apache.org/projects/flink/flink-docs-release-1.8/">Apache
 /// Flink Documentation</a>.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -4774,7 +4915,7 @@ class ParallelismConfiguration {
   @_s.JsonKey(name: 'AutoScalingEnabled')
   final bool autoScalingEnabled;
 
-  /// Describes the initial number of parallel tasks that a Java-based Kinesis
+  /// Describes the initial number of parallel tasks that a Flink-based Kinesis
   /// Data Analytics application can perform. If <code>AutoScalingEnabled</code>
   /// is set to True, Kinesis Data Analytics increases the
   /// <code>CurrentParallelism</code> value in response to application load. The
@@ -4788,7 +4929,7 @@ class ParallelismConfiguration {
   @_s.JsonKey(name: 'Parallelism')
   final int parallelism;
 
-  /// Describes the number of parallel tasks that a Java-based Kinesis Data
+  /// Describes the number of parallel tasks that a Flink-based Kinesis Data
   /// Analytics application can perform per Kinesis Processing Unit (KPU) used by
   /// the application. For more information about KPUs, see <a
   /// href="http://aws.amazon.com/kinesis/data-analytics/pricing/">Amazon Kinesis
@@ -4805,8 +4946,8 @@ class ParallelismConfiguration {
   Map<String, dynamic> toJson() => _$ParallelismConfigurationToJson(this);
 }
 
-/// Describes parameters for how a Java-based Kinesis Data Analytics application
-/// executes multiple tasks simultaneously.
+/// Describes parameters for how a Flink-based Kinesis Data Analytics
+/// application executes multiple tasks simultaneously.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -4823,7 +4964,7 @@ class ParallelismConfigurationDescription {
   @_s.JsonKey(name: 'ConfigurationType')
   final ConfigurationType configurationType;
 
-  /// Describes the current number of parallel tasks that a Java-based Kinesis
+  /// Describes the current number of parallel tasks that a Flink-based Kinesis
   /// Data Analytics application can perform. If <code>AutoScalingEnabled</code>
   /// is set to True, Kinesis Data Analytics can increase this value in response
   /// to application load. The service can increase this value up to the maximum
@@ -4835,7 +4976,7 @@ class ParallelismConfigurationDescription {
   @_s.JsonKey(name: 'CurrentParallelism')
   final int currentParallelism;
 
-  /// Describes the initial number of parallel tasks that a Java-based Kinesis
+  /// Describes the initial number of parallel tasks that a Flink-based Kinesis
   /// Data Analytics application can perform. If <code>AutoScalingEnabled</code>
   /// is set to True, then Kinesis Data Analytics can increase the
   /// <code>CurrentParallelism</code> value in response to application load. The
@@ -4848,7 +4989,7 @@ class ParallelismConfigurationDescription {
   @_s.JsonKey(name: 'Parallelism')
   final int parallelism;
 
-  /// Describes the number of parallel tasks that a Java-based Kinesis Data
+  /// Describes the number of parallel tasks that a Flink-based Kinesis Data
   /// Analytics application can perform per Kinesis Processing Unit (KPU) used by
   /// the application.
   @_s.JsonKey(name: 'ParallelismPerKPU')
@@ -4866,7 +5007,7 @@ class ParallelismConfigurationDescription {
       _$ParallelismConfigurationDescriptionFromJson(json);
 }
 
-/// Describes updates to parameters for how a Java-based Kinesis Data Analytics
+/// Describes updates to parameters for how a Flink-based Kinesis Data Analytics
 /// application executes multiple tasks simultaneously.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -4914,7 +5055,7 @@ class ParallelismConfigurationUpdate {
   Map<String, dynamic> toJson() => _$ParallelismConfigurationUpdateToJson(this);
 }
 
-/// Property key-value pairs passed into a Java-based Kinesis Data Analytics
+/// Property key-value pairs passed into a Flink-based Kinesis Data Analytics
 /// application.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -4940,9 +5081,9 @@ class PropertyGroup {
   Map<String, dynamic> toJson() => _$PropertyGroupToJson(this);
 }
 
-/// For an SQL-based Amazon Kinesis Data Analytics application, describes the
-/// mapping of each data element in the streaming source to the corresponding
-/// column in the in-application stream.
+/// For a SQL-based Kinesis Data Analytics application, describes the mapping of
+/// each data element in the streaming source to the corresponding column in the
+/// in-application stream.
 ///
 /// Also used to describe the format of the reference data source.
 @_s.JsonSerializable(
@@ -4977,9 +5118,9 @@ class RecordColumn {
   Map<String, dynamic> toJson() => _$RecordColumnToJson(this);
 }
 
-/// For an SQL-based Amazon Kinesis Data Analytics application, describes the
-/// record format and relevant mapping information that should be applied to
-/// schematize the records on the stream.
+/// For a SQL-based Kinesis Data Analytics application, describes the record
+/// format and relevant mapping information that should be applied to schematize
+/// the records on the stream.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -5014,11 +5155,11 @@ enum RecordFormatType {
   csv,
 }
 
-/// For an SQL-based Amazon Kinesis Data Analytics application, describes the
-/// reference data source by providing the source information (Amazon S3 bucket
-/// name and object key name), the resulting in-application table name that is
-/// created, and the necessary schema to map the data elements in the Amazon S3
-/// object to the in-application table.
+/// For a SQL-based Kinesis Data Analytics application, describes the reference
+/// data source by providing the source information (Amazon S3 bucket name and
+/// object key name), the resulting in-application table name that is created,
+/// and the necessary schema to map the data elements in the Amazon S3 object to
+/// the in-application table.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -5049,8 +5190,8 @@ class ReferenceDataSource {
   Map<String, dynamic> toJson() => _$ReferenceDataSourceToJson(this);
 }
 
-/// For an SQL-based Amazon Kinesis Data Analytics application, describes the
-/// reference data source configured for an application.
+/// For a SQL-based Kinesis Data Analytics application, describes the reference
+/// data source configured for an application.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -5088,7 +5229,7 @@ class ReferenceDataSourceDescription {
       _$ReferenceDataSourceDescriptionFromJson(json);
 }
 
-/// When you update a reference data source configuration for a SQL-based Amazon
+/// When you update a reference data source configuration for a SQL-based
 /// Kinesis Data Analytics application, this object provides all the updated
 /// values (such as the source bucket name and object key name), the
 /// in-application table name that is created, and updated mapping information
@@ -5129,8 +5270,7 @@ class ReferenceDataSourceUpdate {
   Map<String, dynamic> toJson() => _$ReferenceDataSourceUpdateToJson(this);
 }
 
-/// Describes the starting parameters for an Amazon Kinesis Data Analytics
-/// application.
+/// Describes the starting parameters for an Kinesis Data Analytics application.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -5141,13 +5281,13 @@ class RunConfiguration {
   @_s.JsonKey(name: 'ApplicationRestoreConfiguration')
   final ApplicationRestoreConfiguration applicationRestoreConfiguration;
 
-  /// Describes the starting parameters for an Apache Flink-based Kinesis Data
-  /// Analytics application.
+  /// Describes the starting parameters for a Flink-based Kinesis Data Analytics
+  /// application.
   @_s.JsonKey(name: 'FlinkRunConfiguration')
   final FlinkRunConfiguration flinkRunConfiguration;
 
-  /// Describes the starting parameters for an SQL-based Kinesis Data Analytics
-  /// application.
+  /// Describes the starting parameters for a SQL-based Kinesis Data Analytics
+  /// application application.
   @_s.JsonKey(name: 'SqlRunConfigurations')
   final List<SqlRunConfiguration> sqlRunConfigurations;
 
@@ -5170,9 +5310,12 @@ class RunConfigurationDescription {
   @_s.JsonKey(name: 'ApplicationRestoreConfigurationDescription')
   final ApplicationRestoreConfiguration
       applicationRestoreConfigurationDescription;
+  @_s.JsonKey(name: 'FlinkRunConfigurationDescription')
+  final FlinkRunConfiguration flinkRunConfigurationDescription;
 
   RunConfigurationDescription({
     this.applicationRestoreConfigurationDescription,
+    this.flinkRunConfigurationDescription,
   });
   factory RunConfigurationDescription.fromJson(Map<String, dynamic> json) =>
       _$RunConfigurationDescriptionFromJson(json);
@@ -5190,8 +5333,8 @@ class RunConfigurationUpdate {
   @_s.JsonKey(name: 'ApplicationRestoreConfiguration')
   final ApplicationRestoreConfiguration applicationRestoreConfiguration;
 
-  /// Describes the starting parameters for an Apache Flink-based Kinesis Data
-  /// Analytics application.
+  /// Describes the starting parameters for a Flink-based Kinesis Data Analytics
+  /// application.
   @_s.JsonKey(name: 'FlinkRunConfiguration')
   final FlinkRunConfiguration flinkRunConfiguration;
 
@@ -5209,6 +5352,8 @@ enum RuntimeEnvironment {
   flink_1_6,
   @_s.JsonValue('FLINK-1_8')
   flink_1_8,
+  @_s.JsonValue('FLINK-1_11')
+  flink_1_11,
 }
 
 extension on RuntimeEnvironment {
@@ -5220,13 +5365,15 @@ extension on RuntimeEnvironment {
         return 'FLINK-1_6';
       case RuntimeEnvironment.flink_1_8:
         return 'FLINK-1_8';
+      case RuntimeEnvironment.flink_1_11:
+        return 'FLINK-1_11';
     }
     throw Exception('Unknown enum value: $this');
   }
 }
 
-/// Describes the location of a Java-based Amazon Kinesis Data Analytics
-/// application's code stored in an S3 bucket.
+/// Describes the location of a Flink-based Kinesis Data Analytics application's
+/// code stored in an S3 bucket.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -5256,10 +5403,9 @@ class S3ApplicationCodeLocationDescription {
       _$S3ApplicationCodeLocationDescriptionFromJson(json);
 }
 
-/// For an SQL-based Amazon Kinesis Data Analytics application, provides a
-/// description of an Amazon S3 data source, including the Amazon Resource Name
-/// (ARN) of the S3 bucket and the name of the Amazon S3 object that contains
-/// the data.
+/// For a SQL-based Kinesis Data Analytics application, provides a description
+/// of an Amazon S3 data source, including the Amazon Resource Name (ARN) of the
+/// S3 bucket and the name of the Amazon S3 object that contains the data.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -5281,10 +5427,10 @@ class S3Configuration {
   Map<String, dynamic> toJson() => _$S3ConfigurationToJson(this);
 }
 
-/// For a Java-based Amazon Kinesis Data Analytics application, provides a
-/// description of an Amazon S3 object, including the Amazon Resource Name (ARN)
-/// of the S3 bucket, the name of the Amazon S3 object that contains the data,
-/// and the version number of the Amazon S3 object that contains the data.
+/// For a Flink-based Kinesis Data Analytics application, provides a description
+/// of an Amazon S3 object, including the Amazon Resource Name (ARN) of the S3
+/// bucket, the name of the Amazon S3 object that contains the data, and the
+/// version number of the Amazon S3 object that contains the data.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -5312,8 +5458,8 @@ class S3ContentLocation {
   Map<String, dynamic> toJson() => _$S3ContentLocationToJson(this);
 }
 
-/// Describes an update for the Amazon S3 code content location for a Java-based
-/// Amazon Kinesis Data Analytics application.
+/// Describes an update for the Amazon S3 code content location for a
+/// Flink-based Kinesis Data Analytics application.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -5341,8 +5487,8 @@ class S3ContentLocationUpdate {
   Map<String, dynamic> toJson() => _$S3ContentLocationUpdateToJson(this);
 }
 
-/// For an SQL-based Amazon Kinesis Data Analytics application, identifies the
-/// Amazon S3 bucket and object that contains the reference data.
+/// For a SQL-based Kinesis Data Analytics application, identifies the Amazon S3
+/// bucket and object that contains the reference data.
 ///
 /// A Kinesis Data Analytics application loads reference data only once. If the
 /// data changes, you call the <a>UpdateApplication</a> operation to trigger
@@ -5368,8 +5514,8 @@ class S3ReferenceDataSource {
   Map<String, dynamic> toJson() => _$S3ReferenceDataSourceToJson(this);
 }
 
-/// For an SQL-based Amazon Kinesis Data Analytics application, provides the
-/// bucket name and object key name that stores the reference data.
+/// For a SQL-based Kinesis Data Analytics application, provides the bucket name
+/// and object key name that stores the reference data.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -5405,9 +5551,8 @@ class S3ReferenceDataSourceDescription {
       _$S3ReferenceDataSourceDescriptionFromJson(json);
 }
 
-/// For an SQL-based Amazon Kinesis Data Analytics application, describes the
-/// Amazon S3 bucket name and object key name for an in-application reference
-/// table.
+/// For a SQL-based Kinesis Data Analytics application, describes the Amazon S3
+/// bucket name and object key name for an in-application reference table.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -5474,9 +5619,9 @@ enum SnapshotStatus {
   failed,
 }
 
-/// For an SQL-based Amazon Kinesis Data Analytics application, describes the
-/// format of the data in the streaming source, and how each data element maps
-/// to corresponding columns created in the in-application stream.
+/// For a SQL-based Kinesis Data Analytics application, describes the format of
+/// the data in the streaming source, and how each data element maps to
+/// corresponding columns created in the in-application stream.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -5507,7 +5652,7 @@ class SourceSchema {
   Map<String, dynamic> toJson() => _$SourceSchemaToJson(this);
 }
 
-/// Describes the inputs, outputs, and reference data sources for an SQL-based
+/// Describes the inputs, outputs, and reference data sources for a SQL-based
 /// Kinesis Data Analytics application.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -5538,7 +5683,7 @@ class SqlApplicationConfiguration {
   Map<String, dynamic> toJson() => _$SqlApplicationConfigurationToJson(this);
 }
 
-/// Describes the inputs, outputs, and reference data sources for an SQL-based
+/// Describes the inputs, outputs, and reference data sources for a SQL-based
 /// Kinesis Data Analytics application.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -5572,7 +5717,7 @@ class SqlApplicationConfigurationDescription {
 }
 
 /// Describes updates to the input streams, destination streams, and reference
-/// data sources for an SQL-based Kinesis Data Analytics application.
+/// data sources for a SQL-based Kinesis Data Analytics application.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -5603,7 +5748,7 @@ class SqlApplicationConfigurationUpdate {
       _$SqlApplicationConfigurationUpdateToJson(this);
 }
 
-/// Describes the starting parameters for an SQL-based Kinesis Data Analytics
+/// Describes the starting parameters for a SQL-based Kinesis Data Analytics
 /// application.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -5717,6 +5862,21 @@ class UpdateApplicationResponse {
   });
   factory UpdateApplicationResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateApplicationResponseFromJson(json);
+}
+
+enum UrlType {
+  @_s.JsonValue('FLINK_DASHBOARD_URL')
+  flinkDashboardUrl,
+}
+
+extension on UrlType {
+  String toValue() {
+    switch (this) {
+      case UrlType.flinkDashboardUrl:
+        return 'FLINK_DASHBOARD_URL';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 /// Describes the parameters of a VPC used by the application.

@@ -26,8 +26,14 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
 part 'amplify-2017-07-25.g.dart';
 
-/// Amplify is a fully managed continuous deployment and hosting service for
-/// modern web apps.
+/// Amplify enables developers to develop and deploy cloud-powered mobile and
+/// web apps. The Amplify Console provides a continuous delivery and hosting
+/// service for web applications. For more information, see the <a
+/// href="https://docs.aws.amazon.com/amplify/latest/userguide/welcome.html">Amplify
+/// Console User Guide</a>. The Amplify Framework is a comprehensive set of
+/// SDKs, libraries, tools, and documentation for client app development. For
+/// more information, see the <a href="https://docs.amplify.aws/">Amplify
+/// Framework.</a>
 class Amplify {
   final _s.RestJsonProtocol _protocol;
   Amplify({
@@ -46,7 +52,7 @@ class Amplify {
           endpointUrl: endpointUrl,
         );
 
-  /// Creates a new Amplify App.
+  /// Creates a new Amplify app.
   ///
   /// May throw [BadRequestException].
   /// May throw [UnauthorizedException].
@@ -55,58 +61,68 @@ class Amplify {
   /// May throw [DependentServiceFailureException].
   ///
   /// Parameter [name] :
-  /// Name for the Amplify App
+  /// The name for an Amplify app.
   ///
   /// Parameter [accessToken] :
-  /// Personal Access token for 3rd party source control system for an Amplify
-  /// App, used to create webhook and read-only deploy key. Token is not stored.
+  /// The personal access token for a third-party source control system for an
+  /// Amplify app. The personal access token is used to create a webhook and a
+  /// read-only deploy key. The token is not stored.
   ///
   /// Parameter [autoBranchCreationConfig] :
-  /// Automated branch creation config for the Amplify App.
+  /// The automated branch creation configuration for an Amplify app.
   ///
   /// Parameter [autoBranchCreationPatterns] :
-  /// Automated branch creation glob patterns for the Amplify App.
+  /// The automated branch creation glob patterns for an Amplify app.
   ///
   /// Parameter [basicAuthCredentials] :
-  /// Credentials for Basic Authorization for an Amplify App.
+  /// The credentials for basic authorization for an Amplify app.
   ///
   /// Parameter [buildSpec] :
-  /// BuildSpec for an Amplify App
+  /// The build specification (build spec) for an Amplify app.
+  ///
+  /// Parameter [customHeaders] :
+  /// The custom HTTP headers for an Amplify app.
   ///
   /// Parameter [customRules] :
-  /// Custom rewrite / redirect rules for an Amplify App.
+  /// The custom rewrite and redirect rules for an Amplify app.
   ///
   /// Parameter [description] :
-  /// Description for an Amplify App
+  /// The description for an Amplify app.
   ///
   /// Parameter [enableAutoBranchCreation] :
-  /// Enables automated branch creation for the Amplify App.
+  /// Enables automated branch creation for an Amplify app.
   ///
   /// Parameter [enableBasicAuth] :
-  /// Enable Basic Authorization for an Amplify App, this will apply to all
-  /// branches part of this App.
+  /// Enables basic authorization for an Amplify app. This will apply to all
+  /// branches that are part of this app.
   ///
   /// Parameter [enableBranchAutoBuild] :
-  /// Enable the auto building of branches for an Amplify App.
+  /// Enables the auto building of branches for an Amplify app.
+  ///
+  /// Parameter [enableBranchAutoDeletion] :
+  /// Automatically disconnects a branch in the Amplify Console when you delete
+  /// a branch from your Git repository.
   ///
   /// Parameter [environmentVariables] :
-  /// Environment variables map for an Amplify App.
+  /// The environment variables map for an Amplify app.
   ///
   /// Parameter [iamServiceRoleArn] :
-  /// AWS IAM service role for an Amplify App
+  /// The AWS Identity and Access Management (IAM) service role for an Amplify
+  /// app.
   ///
   /// Parameter [oauthToken] :
-  /// OAuth token for 3rd party source control system for an Amplify App, used
-  /// to create webhook and read-only deploy key. OAuth token is not stored.
+  /// The OAuth token for a third-party source control system for an Amplify
+  /// app. The OAuth token is used to create a webhook and a read-only deploy
+  /// key. The OAuth token is not stored.
   ///
   /// Parameter [platform] :
-  /// Platform / framework for an Amplify App
+  /// The platform or framework for an Amplify app.
   ///
   /// Parameter [repository] :
-  /// Repository for an Amplify App
+  /// The repository for an Amplify app.
   ///
   /// Parameter [tags] :
-  /// Tag for an Amplify App
+  /// The tag for an Amplify app.
   Future<CreateAppResult> createApp({
     @_s.required String name,
     String accessToken,
@@ -114,11 +130,13 @@ class Amplify {
     List<String> autoBranchCreationPatterns,
     String basicAuthCredentials,
     String buildSpec,
+    String customHeaders,
     List<CustomRule> customRules,
     String description,
     bool enableAutoBranchCreation,
     bool enableBasicAuth,
     bool enableBranchAutoBuild,
+    bool enableBranchAutoDeletion,
     Map<String, String> environmentVariables,
     String iamServiceRoleArn,
     String oauthToken,
@@ -153,6 +171,12 @@ class Amplify {
       25000,
     );
     _s.validateStringLength(
+      'customHeaders',
+      customHeaders,
+      1,
+      25000,
+    );
+    _s.validateStringLength(
       'description',
       description,
       0,
@@ -168,7 +192,7 @@ class Amplify {
       'oauthToken',
       oauthToken,
       0,
-      100,
+      1000,
     );
     _s.validateStringLength(
       'repository',
@@ -186,6 +210,7 @@ class Amplify {
       if (basicAuthCredentials != null)
         'basicAuthCredentials': basicAuthCredentials,
       if (buildSpec != null) 'buildSpec': buildSpec,
+      if (customHeaders != null) 'customHeaders': customHeaders,
       if (customRules != null) 'customRules': customRules,
       if (description != null) 'description': description,
       if (enableAutoBranchCreation != null)
@@ -193,6 +218,8 @@ class Amplify {
       if (enableBasicAuth != null) 'enableBasicAuth': enableBasicAuth,
       if (enableBranchAutoBuild != null)
         'enableBranchAutoBuild': enableBranchAutoBuild,
+      if (enableBranchAutoDeletion != null)
+        'enableBranchAutoDeletion': enableBranchAutoDeletion,
       if (environmentVariables != null)
         'environmentVariables': environmentVariables,
       if (iamServiceRoleArn != null) 'iamServiceRoleArn': iamServiceRoleArn,
@@ -210,7 +237,7 @@ class Amplify {
     return CreateAppResult.fromJson(response);
   }
 
-  /// Creates a new backend environment for an Amplify App.
+  /// Creates a new backend environment for an Amplify app.
   ///
   /// May throw [BadRequestException].
   /// May throw [UnauthorizedException].
@@ -219,16 +246,16 @@ class Amplify {
   /// May throw [LimitExceededException].
   ///
   /// Parameter [appId] :
-  /// Unique Id for an Amplify App.
+  /// The unique ID for an Amplify app.
   ///
   /// Parameter [environmentName] :
-  /// Name for the backend environment.
+  /// The name for the backend environment.
   ///
   /// Parameter [deploymentArtifacts] :
-  /// Name of deployment artifacts.
+  /// The name of deployment artifacts.
   ///
   /// Parameter [stackName] :
-  /// CloudFormation stack name of backend environment.
+  /// The AWS CloudFormation stack name of a backend environment.
   Future<CreateBackendEnvironmentResult> createBackendEnvironment({
     @_s.required String appId,
     @_s.required String environmentName,
@@ -240,7 +267,13 @@ class Amplify {
       'appId',
       appId,
       1,
-      255,
+      20,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'appId',
+      appId,
+      r'''d[a-z0-9]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(environmentName, 'environmentName');
@@ -278,7 +311,7 @@ class Amplify {
     return CreateBackendEnvironmentResult.fromJson(response);
   }
 
-  /// Creates a new Branch for an Amplify App.
+  /// Creates a new branch for an Amplify app.
   ///
   /// May throw [BadRequestException].
   /// May throw [UnauthorizedException].
@@ -288,55 +321,64 @@ class Amplify {
   /// May throw [DependentServiceFailureException].
   ///
   /// Parameter [appId] :
-  /// Unique Id for an Amplify App.
+  /// The unique ID for an Amplify app.
   ///
   /// Parameter [branchName] :
-  /// Name for the branch.
+  /// The name for the branch.
   ///
   /// Parameter [backendEnvironmentArn] :
-  /// ARN for a Backend Environment, part of an Amplify App.
+  /// The Amazon Resource Name (ARN) for a backend environment that is part of
+  /// an Amplify app.
   ///
   /// Parameter [basicAuthCredentials] :
-  /// Basic Authorization credentials for the branch.
+  /// The basic authorization credentials for the branch.
   ///
   /// Parameter [buildSpec] :
-  /// BuildSpec for the branch.
+  /// The build specification (build spec) for the branch.
   ///
   /// Parameter [description] :
-  /// Description for the branch.
+  /// The description for the branch.
   ///
   /// Parameter [displayName] :
-  /// Display name for a branch, will use as the default domain prefix.
+  /// The display name for a branch. This is used as the default domain prefix.
   ///
   /// Parameter [enableAutoBuild] :
   /// Enables auto building for the branch.
   ///
   /// Parameter [enableBasicAuth] :
-  /// Enables Basic Auth for the branch.
+  /// Enables basic authorization for the branch.
   ///
   /// Parameter [enableNotification] :
   /// Enables notifications for the branch.
   ///
+  /// Parameter [enablePerformanceMode] :
+  /// Enables performance mode for the branch.
+  ///
+  /// Performance mode optimizes for faster hosting performance by keeping
+  /// content cached at the edge for a longer interval. When performance mode is
+  /// enabled, hosting configuration or code changes can take up to 10 minutes
+  /// to roll out.
+  ///
   /// Parameter [enablePullRequestPreview] :
-  /// Enables Pull Request Preview for this branch.
+  /// Enables pull request previews for this branch.
   ///
   /// Parameter [environmentVariables] :
-  /// Environment Variables for the branch.
+  /// The environment variables for the branch.
   ///
   /// Parameter [framework] :
-  /// Framework for the branch.
+  /// The framework for the branch.
   ///
   /// Parameter [pullRequestEnvironmentName] :
-  /// The Amplify Environment name for the pull request.
+  /// The Amplify environment name for the pull request.
   ///
   /// Parameter [stage] :
-  /// Stage for the branch.
+  /// Describes the current stage for the branch.
   ///
   /// Parameter [tags] :
-  /// Tag for the branch.
+  /// The tag for the branch.
   ///
   /// Parameter [ttl] :
-  /// The content TTL for the website in seconds.
+  /// The content Time To Live (TTL) for the website in seconds.
   Future<CreateBranchResult> createBranch({
     @_s.required String appId,
     @_s.required String branchName,
@@ -348,6 +390,7 @@ class Amplify {
     bool enableAutoBuild,
     bool enableBasicAuth,
     bool enableNotification,
+    bool enablePerformanceMode,
     bool enablePullRequestPreview,
     Map<String, String> environmentVariables,
     String framework,
@@ -361,7 +404,13 @@ class Amplify {
       'appId',
       appId,
       1,
-      255,
+      20,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'appId',
+      appId,
+      r'''d[a-z0-9]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(branchName, 'branchName');
@@ -426,6 +475,8 @@ class Amplify {
       if (enableAutoBuild != null) 'enableAutoBuild': enableAutoBuild,
       if (enableBasicAuth != null) 'enableBasicAuth': enableBasicAuth,
       if (enableNotification != null) 'enableNotification': enableNotification,
+      if (enablePerformanceMode != null)
+        'enablePerformanceMode': enablePerformanceMode,
       if (enablePullRequestPreview != null)
         'enablePullRequestPreview': enablePullRequestPreview,
       if (environmentVariables != null)
@@ -446,8 +497,8 @@ class Amplify {
     return CreateBranchResult.fromJson(response);
   }
 
-  /// Create a deployment for manual deploy apps. (Apps are not connected to
-  /// repository)
+  /// Creates a deployment for a manually deployed Amplify app. Manually
+  /// deployed apps are not connected to a repository.
   ///
   /// May throw [BadRequestException].
   /// May throw [UnauthorizedException].
@@ -455,16 +506,16 @@ class Amplify {
   /// May throw [LimitExceededException].
   ///
   /// Parameter [appId] :
-  /// Unique Id for an Amplify App.
+  /// The unique ID for an Amplify app.
   ///
   /// Parameter [branchName] :
-  /// Name for the branch, for the Job.
+  /// The name for the branch, for the job.
   ///
   /// Parameter [fileMap] :
-  /// Optional file map that contains file name as the key and file content md5
-  /// hash as the value. If this argument is provided, the service will generate
-  /// different upload url per file. Otherwise, the service will only generate a
-  /// single upload url for the zipped files.
+  /// An optional file map that contains the file name as the key and the file
+  /// content md5 hash as the value. If this argument is provided, the service
+  /// will generate a unique upload URL per file. Otherwise, the service will
+  /// only generate a single upload URL for the zipped files.
   Future<CreateDeploymentResult> createDeployment({
     @_s.required String appId,
     @_s.required String branchName,
@@ -475,7 +526,13 @@ class Amplify {
       'appId',
       appId,
       1,
-      255,
+      20,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'appId',
+      appId,
+      r'''d[a-z0-9]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(branchName, 'branchName');
@@ -499,7 +556,8 @@ class Amplify {
     return CreateDeploymentResult.fromJson(response);
   }
 
-  /// Create a new DomainAssociation on an App
+  /// Creates a new domain association for an Amplify app. This action
+  /// associates a custom domain with the Amplify app
   ///
   /// May throw [BadRequestException].
   /// May throw [UnauthorizedException].
@@ -509,21 +567,29 @@ class Amplify {
   /// May throw [DependentServiceFailureException].
   ///
   /// Parameter [appId] :
-  /// Unique Id for an Amplify App.
+  /// The unique ID for an Amplify app.
   ///
   /// Parameter [domainName] :
-  /// Domain name for the Domain Association.
+  /// The domain name for the domain association.
   ///
   /// Parameter [subDomainSettings] :
-  /// Setting structure for the Subdomain.
+  /// The setting for the subdomain.
+  ///
+  /// Parameter [autoSubDomainCreationPatterns] :
+  /// Sets the branch patterns for automatic subdomain creation.
+  ///
+  /// Parameter [autoSubDomainIAMRole] :
+  /// The required AWS Identity and Access Management (IAM) service role for the
+  /// Amazon Resource Name (ARN) for automatically creating subdomains.
   ///
   /// Parameter [enableAutoSubDomain] :
-  /// Enables automated creation of Subdomains for branches. (Currently not
-  /// supported)
+  /// Enables the automated creation of subdomains for branches.
   Future<CreateDomainAssociationResult> createDomainAssociation({
     @_s.required String appId,
     @_s.required String domainName,
     @_s.required List<SubDomainSetting> subDomainSettings,
+    List<String> autoSubDomainCreationPatterns,
+    String autoSubDomainIAMRole,
     bool enableAutoSubDomain,
   }) async {
     ArgumentError.checkNotNull(appId, 'appId');
@@ -531,7 +597,13 @@ class Amplify {
       'appId',
       appId,
       1,
-      255,
+      20,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'appId',
+      appId,
+      r'''d[a-z0-9]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(domainName, 'domainName');
@@ -543,9 +615,24 @@ class Amplify {
       isRequired: true,
     );
     ArgumentError.checkNotNull(subDomainSettings, 'subDomainSettings');
+    _s.validateStringLength(
+      'autoSubDomainIAMRole',
+      autoSubDomainIAMRole,
+      0,
+      1000,
+    );
+    _s.validateStringPattern(
+      'autoSubDomainIAMRole',
+      autoSubDomainIAMRole,
+      r'''^$|^arn:aws:iam::\d{12}:role.+''',
+    );
     final $payload = <String, dynamic>{
       'domainName': domainName,
       'subDomainSettings': subDomainSettings,
+      if (autoSubDomainCreationPatterns != null)
+        'autoSubDomainCreationPatterns': autoSubDomainCreationPatterns,
+      if (autoSubDomainIAMRole != null)
+        'autoSubDomainIAMRole': autoSubDomainIAMRole,
       if (enableAutoSubDomain != null)
         'enableAutoSubDomain': enableAutoSubDomain,
     };
@@ -558,7 +645,7 @@ class Amplify {
     return CreateDomainAssociationResult.fromJson(response);
   }
 
-  /// Create a new webhook on an App.
+  /// Creates a new webhook on an Amplify app.
   ///
   /// May throw [BadRequestException].
   /// May throw [UnauthorizedException].
@@ -568,13 +655,13 @@ class Amplify {
   /// May throw [DependentServiceFailureException].
   ///
   /// Parameter [appId] :
-  /// Unique Id for an Amplify App.
+  /// The unique ID for an Amplify app.
   ///
   /// Parameter [branchName] :
-  /// Name for a branch, part of an Amplify App.
+  /// The name for a branch that is part of an Amplify app.
   ///
   /// Parameter [description] :
-  /// Description for a webhook.
+  /// The description for a webhook.
   Future<CreateWebhookResult> createWebhook({
     @_s.required String appId,
     @_s.required String branchName,
@@ -585,7 +672,13 @@ class Amplify {
       'appId',
       appId,
       1,
-      255,
+      20,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'appId',
+      appId,
+      r'''d[a-z0-9]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(branchName, 'branchName');
@@ -615,7 +708,7 @@ class Amplify {
     return CreateWebhookResult.fromJson(response);
   }
 
-  /// Delete an existing Amplify App by appId.
+  /// Deletes an existing Amplify app specified by an app ID.
   ///
   /// May throw [BadRequestException].
   /// May throw [NotFoundException].
@@ -624,7 +717,7 @@ class Amplify {
   /// May throw [DependentServiceFailureException].
   ///
   /// Parameter [appId] :
-  /// Unique Id for an Amplify App.
+  /// The unique ID for an Amplify app.
   Future<DeleteAppResult> deleteApp({
     @_s.required String appId,
   }) async {
@@ -633,7 +726,13 @@ class Amplify {
       'appId',
       appId,
       1,
-      255,
+      20,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'appId',
+      appId,
+      r'''d[a-z0-9]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -645,7 +744,7 @@ class Amplify {
     return DeleteAppResult.fromJson(response);
   }
 
-  /// Delete backend environment for an Amplify App.
+  /// Deletes a backend environment for an Amplify app.
   ///
   /// May throw [BadRequestException].
   /// May throw [UnauthorizedException].
@@ -654,10 +753,10 @@ class Amplify {
   /// May throw [DependentServiceFailureException].
   ///
   /// Parameter [appId] :
-  /// Unique Id of an Amplify App.
+  /// The unique ID of an Amplify app.
   ///
   /// Parameter [environmentName] :
-  /// Name of a backend environment of an Amplify App.
+  /// The name of a backend environment of an Amplify app.
   Future<DeleteBackendEnvironmentResult> deleteBackendEnvironment({
     @_s.required String appId,
     @_s.required String environmentName,
@@ -667,7 +766,13 @@ class Amplify {
       'appId',
       appId,
       1,
-      255,
+      20,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'appId',
+      appId,
+      r'''d[a-z0-9]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(environmentName, 'environmentName');
@@ -688,7 +793,7 @@ class Amplify {
     return DeleteBackendEnvironmentResult.fromJson(response);
   }
 
-  /// Deletes a branch for an Amplify App.
+  /// Deletes a branch for an Amplify app.
   ///
   /// May throw [BadRequestException].
   /// May throw [UnauthorizedException].
@@ -697,10 +802,10 @@ class Amplify {
   /// May throw [DependentServiceFailureException].
   ///
   /// Parameter [appId] :
-  /// Unique Id for an Amplify App.
+  /// The unique ID for an Amplify app.
   ///
   /// Parameter [branchName] :
-  /// Name for the branch.
+  /// The name for the branch.
   Future<DeleteBranchResult> deleteBranch({
     @_s.required String appId,
     @_s.required String branchName,
@@ -710,7 +815,13 @@ class Amplify {
       'appId',
       appId,
       1,
-      255,
+      20,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'appId',
+      appId,
+      r'''d[a-z0-9]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(branchName, 'branchName');
@@ -731,7 +842,7 @@ class Amplify {
     return DeleteBranchResult.fromJson(response);
   }
 
-  /// Deletes a DomainAssociation.
+  /// Deletes a domain association for an Amplify app.
   ///
   /// May throw [BadRequestException].
   /// May throw [UnauthorizedException].
@@ -740,10 +851,10 @@ class Amplify {
   /// May throw [DependentServiceFailureException].
   ///
   /// Parameter [appId] :
-  /// Unique Id for an Amplify App.
+  /// The unique id for an Amplify app.
   ///
   /// Parameter [domainName] :
-  /// Name of the domain.
+  /// The name of the domain.
   Future<DeleteDomainAssociationResult> deleteDomainAssociation({
     @_s.required String appId,
     @_s.required String domainName,
@@ -753,7 +864,13 @@ class Amplify {
       'appId',
       appId,
       1,
-      255,
+      20,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'appId',
+      appId,
+      r'''d[a-z0-9]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(domainName, 'domainName');
@@ -774,7 +891,7 @@ class Amplify {
     return DeleteDomainAssociationResult.fromJson(response);
   }
 
-  /// Delete a job, for an Amplify branch, part of Amplify App.
+  /// Deletes a job for a branch of an Amplify app.
   ///
   /// May throw [BadRequestException].
   /// May throw [UnauthorizedException].
@@ -783,13 +900,13 @@ class Amplify {
   /// May throw [LimitExceededException].
   ///
   /// Parameter [appId] :
-  /// Unique Id for an Amplify App.
+  /// The unique ID for an Amplify app.
   ///
   /// Parameter [branchName] :
-  /// Name for the branch, for the Job.
+  /// The name for the branch, for the job.
   ///
   /// Parameter [jobId] :
-  /// Unique Id for the Job.
+  /// The unique ID for the job.
   Future<DeleteJobResult> deleteJob({
     @_s.required String appId,
     @_s.required String branchName,
@@ -800,7 +917,13 @@ class Amplify {
       'appId',
       appId,
       1,
-      255,
+      20,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'appId',
+      appId,
+      r'''d[a-z0-9]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(branchName, 'branchName');
@@ -838,7 +961,7 @@ class Amplify {
   /// May throw [LimitExceededException].
   ///
   /// Parameter [webhookId] :
-  /// Unique Id for a webhook.
+  /// The unique ID for a webhook.
   Future<DeleteWebhookResult> deleteWebhook({
     @_s.required String webhookId,
   }) async {
@@ -859,8 +982,8 @@ class Amplify {
     return DeleteWebhookResult.fromJson(response);
   }
 
-  /// Retrieve website access logs for a specific time range via a pre-signed
-  /// URL.
+  /// Returns the website access logs for a specific time range using a
+  /// presigned URL.
   ///
   /// May throw [NotFoundException].
   /// May throw [BadRequestException].
@@ -868,16 +991,18 @@ class Amplify {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [appId] :
-  /// Unique Id for an Amplify App.
+  /// The unique ID for an Amplify app.
   ///
   /// Parameter [domainName] :
-  /// Name of the domain.
+  /// The name of the domain.
   ///
   /// Parameter [endTime] :
-  /// The time at which the logs should end, inclusive.
+  /// The time at which the logs should end. The time range specified is
+  /// inclusive of the end time.
   ///
   /// Parameter [startTime] :
-  /// The time at which the logs should start, inclusive.
+  /// The time at which the logs should start. The time range specified is
+  /// inclusive of the start time.
   Future<GenerateAccessLogsResult> generateAccessLogs({
     @_s.required String appId,
     @_s.required String domainName,
@@ -889,7 +1014,13 @@ class Amplify {
       'appId',
       appId,
       1,
-      255,
+      20,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'appId',
+      appId,
+      r'''d[a-z0-9]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(domainName, 'domainName');
@@ -914,7 +1045,7 @@ class Amplify {
     return GenerateAccessLogsResult.fromJson(response);
   }
 
-  /// Retrieves an existing Amplify App by appId.
+  /// Returns an existing Amplify app by appID.
   ///
   /// May throw [BadRequestException].
   /// May throw [NotFoundException].
@@ -922,7 +1053,7 @@ class Amplify {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [appId] :
-  /// Unique Id for an Amplify App.
+  /// The unique ID for an Amplify app.
   Future<GetAppResult> getApp({
     @_s.required String appId,
   }) async {
@@ -931,7 +1062,13 @@ class Amplify {
       'appId',
       appId,
       1,
-      255,
+      20,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'appId',
+      appId,
+      r'''d[a-z0-9]+''',
       isRequired: true,
     );
     final response = await _protocol.send(
@@ -943,7 +1080,7 @@ class Amplify {
     return GetAppResult.fromJson(response);
   }
 
-  /// Retrieves artifact info that corresponds to a artifactId.
+  /// Returns the artifact info that corresponds to an artifact id.
   ///
   /// May throw [BadRequestException].
   /// May throw [UnauthorizedException].
@@ -952,7 +1089,7 @@ class Amplify {
   /// May throw [LimitExceededException].
   ///
   /// Parameter [artifactId] :
-  /// Unique Id for a artifact.
+  /// The unique ID for an artifact.
   Future<GetArtifactUrlResult> getArtifactUrl({
     @_s.required String artifactId,
   }) async {
@@ -973,7 +1110,7 @@ class Amplify {
     return GetArtifactUrlResult.fromJson(response);
   }
 
-  /// Retrieves a backend environment for an Amplify App.
+  /// Returns a backend environment for an Amplify app.
   ///
   /// May throw [BadRequestException].
   /// May throw [UnauthorizedException].
@@ -981,10 +1118,10 @@ class Amplify {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [appId] :
-  /// Unique Id for an Amplify App.
+  /// The unique id for an Amplify app.
   ///
   /// Parameter [environmentName] :
-  /// Name for the backend environment.
+  /// The name for the backend environment.
   Future<GetBackendEnvironmentResult> getBackendEnvironment({
     @_s.required String appId,
     @_s.required String environmentName,
@@ -994,7 +1131,13 @@ class Amplify {
       'appId',
       appId,
       1,
-      255,
+      20,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'appId',
+      appId,
+      r'''d[a-z0-9]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(environmentName, 'environmentName');
@@ -1015,7 +1158,7 @@ class Amplify {
     return GetBackendEnvironmentResult.fromJson(response);
   }
 
-  /// Retrieves a branch for an Amplify App.
+  /// Returns a branch for an Amplify app.
   ///
   /// May throw [BadRequestException].
   /// May throw [UnauthorizedException].
@@ -1023,10 +1166,10 @@ class Amplify {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [appId] :
-  /// Unique Id for an Amplify App.
+  /// The unique ID for an Amplify app.
   ///
   /// Parameter [branchName] :
-  /// Name for the branch.
+  /// The name for the branch.
   Future<GetBranchResult> getBranch({
     @_s.required String appId,
     @_s.required String branchName,
@@ -1036,7 +1179,13 @@ class Amplify {
       'appId',
       appId,
       1,
-      255,
+      20,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'appId',
+      appId,
+      r'''d[a-z0-9]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(branchName, 'branchName');
@@ -1057,7 +1206,7 @@ class Amplify {
     return GetBranchResult.fromJson(response);
   }
 
-  /// Retrieves domain info that corresponds to an appId and domainName.
+  /// Returns the domain information for an Amplify app.
   ///
   /// May throw [BadRequestException].
   /// May throw [UnauthorizedException].
@@ -1065,10 +1214,10 @@ class Amplify {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [appId] :
-  /// Unique Id for an Amplify App.
+  /// The unique id for an Amplify app.
   ///
   /// Parameter [domainName] :
-  /// Name of the domain.
+  /// The name of the domain.
   Future<GetDomainAssociationResult> getDomainAssociation({
     @_s.required String appId,
     @_s.required String domainName,
@@ -1078,7 +1227,13 @@ class Amplify {
       'appId',
       appId,
       1,
-      255,
+      20,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'appId',
+      appId,
+      r'''d[a-z0-9]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(domainName, 'domainName');
@@ -1099,7 +1254,7 @@ class Amplify {
     return GetDomainAssociationResult.fromJson(response);
   }
 
-  /// Get a job for a branch, part of an Amplify App.
+  /// Returns a job for a branch of an Amplify app.
   ///
   /// May throw [BadRequestException].
   /// May throw [UnauthorizedException].
@@ -1108,13 +1263,13 @@ class Amplify {
   /// May throw [LimitExceededException].
   ///
   /// Parameter [appId] :
-  /// Unique Id for an Amplify App.
+  /// The unique ID for an Amplify app.
   ///
   /// Parameter [branchName] :
-  /// Name for the branch, for the Job.
+  /// The branch name for the job.
   ///
   /// Parameter [jobId] :
-  /// Unique Id for the Job.
+  /// The unique ID for the job.
   Future<GetJobResult> getJob({
     @_s.required String appId,
     @_s.required String branchName,
@@ -1125,7 +1280,13 @@ class Amplify {
       'appId',
       appId,
       1,
-      255,
+      20,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'appId',
+      appId,
+      r'''d[a-z0-9]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(branchName, 'branchName');
@@ -1154,7 +1315,8 @@ class Amplify {
     return GetJobResult.fromJson(response);
   }
 
-  /// Retrieves webhook info that corresponds to a webhookId.
+  /// Returns the webhook information that corresponds to a specified webhook
+  /// ID.
   ///
   /// May throw [BadRequestException].
   /// May throw [UnauthorizedException].
@@ -1163,7 +1325,7 @@ class Amplify {
   /// May throw [LimitExceededException].
   ///
   /// Parameter [webhookId] :
-  /// Unique Id for a webhook.
+  /// The unique ID for a webhook.
   Future<GetWebhookResult> getWebhook({
     @_s.required String webhookId,
   }) async {
@@ -1184,18 +1346,18 @@ class Amplify {
     return GetWebhookResult.fromJson(response);
   }
 
-  /// Lists existing Amplify Apps.
+  /// Returns a list of the existing Amplify apps.
   ///
   /// May throw [BadRequestException].
   /// May throw [UnauthorizedException].
   /// May throw [InternalFailureException].
   ///
   /// Parameter [maxResults] :
-  /// Maximum number of records to list in a single response.
+  /// The maximum number of records to list in a single response.
   ///
   /// Parameter [nextToken] :
-  /// Pagination token. If non-null pagination token is returned in a result,
-  /// then pass its value in another request to fetch more entries.
+  /// A pagination token. If non-null, the pagination token is returned in a
+  /// result. Pass its value in another request to retrieve more entries.
   Future<ListAppsResult> listApps({
     int maxResults,
     String nextToken,
@@ -1203,7 +1365,7 @@ class Amplify {
     _s.validateNumRange(
       'maxResults',
       maxResults,
-      1,
+      0,
       100,
     );
     _s.validateStringLength(
@@ -1226,7 +1388,7 @@ class Amplify {
     return ListAppsResult.fromJson(response);
   }
 
-  /// List artifacts with an app, a branch, a job and an artifact type.
+  /// Returns a list of artifacts for a specified app, branch, and job.
   ///
   /// May throw [BadRequestException].
   /// May throw [UnauthorizedException].
@@ -1234,20 +1396,20 @@ class Amplify {
   /// May throw [LimitExceededException].
   ///
   /// Parameter [appId] :
-  /// Unique Id for an Amplify App.
+  /// The unique ID for an Amplify app.
   ///
   /// Parameter [branchName] :
-  /// Name for a branch, part of an Amplify App.
+  /// The name of a branch that is part of an Amplify app.
   ///
   /// Parameter [jobId] :
-  /// Unique Id for an Job.
+  /// The unique ID for a job.
   ///
   /// Parameter [maxResults] :
-  /// Maximum number of records to list in a single response.
+  /// The maximum number of records to list in a single response.
   ///
   /// Parameter [nextToken] :
-  /// Pagination token. Set to null to start listing artifacts from start. If
-  /// non-null pagination token is returned in a result, then pass its value in
+  /// A pagination token. Set to null to start listing artifacts from start. If
+  /// a non-null pagination token is returned in a result, pass its value in
   /// here to list more artifacts.
   Future<ListArtifactsResult> listArtifacts({
     @_s.required String appId,
@@ -1261,7 +1423,13 @@ class Amplify {
       'appId',
       appId,
       1,
-      255,
+      20,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'appId',
+      appId,
+      r'''d[a-z0-9]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(branchName, 'branchName');
@@ -1283,7 +1451,7 @@ class Amplify {
     _s.validateNumRange(
       'maxResults',
       maxResults,
-      1,
+      0,
       100,
     );
     _s.validateStringLength(
@@ -1307,24 +1475,24 @@ class Amplify {
     return ListArtifactsResult.fromJson(response);
   }
 
-  /// Lists backend environments for an Amplify App.
+  /// Lists the backend environments for an Amplify app.
   ///
   /// May throw [BadRequestException].
   /// May throw [UnauthorizedException].
   /// May throw [InternalFailureException].
   ///
   /// Parameter [appId] :
-  /// Unique Id for an amplify App.
+  /// The unique ID for an Amplify app.
   ///
   /// Parameter [environmentName] :
-  /// Name of the backend environment
+  /// The name of the backend environment
   ///
   /// Parameter [maxResults] :
-  /// Maximum number of records to list in a single response.
+  /// The maximum number of records to list in a single response.
   ///
   /// Parameter [nextToken] :
-  /// Pagination token. Set to null to start listing backen environments from
-  /// start. If a non-null pagination token is returned in a result, then pass
+  /// A pagination token. Set to null to start listing backend environments from
+  /// the start. If a non-null pagination token is returned in a result, pass
   /// its value in here to list more backend environments.
   Future<ListBackendEnvironmentsResult> listBackendEnvironments({
     @_s.required String appId,
@@ -1337,7 +1505,13 @@ class Amplify {
       'appId',
       appId,
       1,
-      255,
+      20,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'appId',
+      appId,
+      r'''d[a-z0-9]+''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -1349,7 +1523,7 @@ class Amplify {
     _s.validateNumRange(
       'maxResults',
       maxResults,
-      1,
+      0,
       100,
     );
     _s.validateStringLength(
@@ -1359,6 +1533,7 @@ class Amplify {
       2000,
     );
     final $query = <String, List<String>>{
+      if (environmentName != null) 'environmentName': [environmentName],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
     };
@@ -1372,21 +1547,21 @@ class Amplify {
     return ListBackendEnvironmentsResult.fromJson(response);
   }
 
-  /// Lists branches for an Amplify App.
+  /// Lists the branches of an Amplify app.
   ///
   /// May throw [BadRequestException].
   /// May throw [UnauthorizedException].
   /// May throw [InternalFailureException].
   ///
   /// Parameter [appId] :
-  /// Unique Id for an Amplify App.
+  /// The unique ID for an Amplify app.
   ///
   /// Parameter [maxResults] :
-  /// Maximum number of records to list in a single response.
+  /// The maximum number of records to list in a single response.
   ///
   /// Parameter [nextToken] :
-  /// Pagination token. Set to null to start listing branches from start. If a
-  /// non-null pagination token is returned in a result, then pass its value in
+  /// A pagination token. Set to null to start listing branches from the start.
+  /// If a non-null pagination token is returned in a result, pass its value in
   /// here to list more branches.
   Future<ListBranchesResult> listBranches({
     @_s.required String appId,
@@ -1398,13 +1573,19 @@ class Amplify {
       'appId',
       appId,
       1,
-      255,
+      20,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'appId',
+      appId,
+      r'''d[a-z0-9]+''',
       isRequired: true,
     );
     _s.validateNumRange(
       'maxResults',
       maxResults,
-      1,
+      0,
       100,
     );
     _s.validateStringLength(
@@ -1427,21 +1608,21 @@ class Amplify {
     return ListBranchesResult.fromJson(response);
   }
 
-  /// List domains with an app
+  /// Returns the domain associations for an Amplify app.
   ///
   /// May throw [BadRequestException].
   /// May throw [UnauthorizedException].
   /// May throw [InternalFailureException].
   ///
   /// Parameter [appId] :
-  /// Unique Id for an Amplify App.
+  /// The unique ID for an Amplify app.
   ///
   /// Parameter [maxResults] :
-  /// Maximum number of records to list in a single response.
+  /// The maximum number of records to list in a single response.
   ///
   /// Parameter [nextToken] :
-  /// Pagination token. Set to null to start listing Apps from start. If
-  /// non-null pagination token is returned in a result, then pass its value in
+  /// A pagination token. Set to null to start listing apps from the start. If
+  /// non-null, a pagination token is returned in a result. Pass its value in
   /// here to list more projects.
   Future<ListDomainAssociationsResult> listDomainAssociations({
     @_s.required String appId,
@@ -1453,13 +1634,19 @@ class Amplify {
       'appId',
       appId,
       1,
-      255,
+      20,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'appId',
+      appId,
+      r'''d[a-z0-9]+''',
       isRequired: true,
     );
     _s.validateNumRange(
       'maxResults',
       maxResults,
-      1,
+      0,
       100,
     );
     _s.validateStringLength(
@@ -1482,7 +1669,7 @@ class Amplify {
     return ListDomainAssociationsResult.fromJson(response);
   }
 
-  /// List Jobs for a branch, part of an Amplify App.
+  /// Lists the jobs for a branch of an Amplify app.
   ///
   /// May throw [BadRequestException].
   /// May throw [UnauthorizedException].
@@ -1490,17 +1677,17 @@ class Amplify {
   /// May throw [LimitExceededException].
   ///
   /// Parameter [appId] :
-  /// Unique Id for an Amplify App.
+  /// The unique ID for an Amplify app.
   ///
   /// Parameter [branchName] :
-  /// Name for a branch.
+  /// The name for a branch.
   ///
   /// Parameter [maxResults] :
-  /// Maximum number of records to list in a single response.
+  /// The maximum number of records to list in a single response.
   ///
   /// Parameter [nextToken] :
-  /// Pagination token. Set to null to start listing steps from start. If a
-  /// non-null pagination token is returned in a result, then pass its value in
+  /// A pagination token. Set to null to start listing steps from the start. If
+  /// a non-null pagination token is returned in a result, pass its value in
   /// here to list more steps.
   Future<ListJobsResult> listJobs({
     @_s.required String appId,
@@ -1513,7 +1700,13 @@ class Amplify {
       'appId',
       appId,
       1,
-      255,
+      20,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'appId',
+      appId,
+      r'''d[a-z0-9]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(branchName, 'branchName');
@@ -1527,7 +1720,7 @@ class Amplify {
     _s.validateNumRange(
       'maxResults',
       maxResults,
-      1,
+      0,
       100,
     );
     _s.validateStringLength(
@@ -1551,14 +1744,14 @@ class Amplify {
     return ListJobsResult.fromJson(response);
   }
 
-  /// List tags for resource.
+  /// Returns a list of tags for a specified Amazon Resource Name (ARN).
   ///
   /// May throw [InternalFailureException].
   /// May throw [BadRequestException].
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [resourceArn] :
-  /// Resource arn used to list tags.
+  /// The Amazon Resource Name (ARN) to use to list tags.
   Future<ListTagsForResourceResponse> listTagsForResource({
     @_s.required String resourceArn,
   }) async {
@@ -1578,7 +1771,7 @@ class Amplify {
     return ListTagsForResourceResponse.fromJson(response);
   }
 
-  /// List webhooks with an app.
+  /// Returns a list of webhooks for an Amplify app.
   ///
   /// May throw [BadRequestException].
   /// May throw [UnauthorizedException].
@@ -1586,15 +1779,15 @@ class Amplify {
   /// May throw [LimitExceededException].
   ///
   /// Parameter [appId] :
-  /// Unique Id for an Amplify App.
+  /// The unique ID for an Amplify app.
   ///
   /// Parameter [maxResults] :
-  /// Maximum number of records to list in a single response.
+  /// The maximum number of records to list in a single response.
   ///
   /// Parameter [nextToken] :
-  /// Pagination token. Set to null to start listing webhooks from start. If
-  /// non-null pagination token is returned in a result, then pass its value in
-  /// here to list more webhooks.
+  /// A pagination token. Set to null to start listing webhooks from the start.
+  /// If non-null,the pagination token is returned in a result. Pass its value
+  /// in here to list more webhooks.
   Future<ListWebhooksResult> listWebhooks({
     @_s.required String appId,
     int maxResults,
@@ -1605,13 +1798,19 @@ class Amplify {
       'appId',
       appId,
       1,
-      255,
+      20,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'appId',
+      appId,
+      r'''d[a-z0-9]+''',
       isRequired: true,
     );
     _s.validateNumRange(
       'maxResults',
       maxResults,
-      1,
+      0,
       100,
     );
     _s.validateStringLength(
@@ -1634,8 +1833,8 @@ class Amplify {
     return ListWebhooksResult.fromJson(response);
   }
 
-  /// Start a deployment for manual deploy apps. (Apps are not connected to
-  /// repository)
+  /// Starts a deployment for a manually deployed app. Manually deployed apps
+  /// are not connected to a repository.
   ///
   /// May throw [BadRequestException].
   /// May throw [UnauthorizedException].
@@ -1644,18 +1843,19 @@ class Amplify {
   /// May throw [LimitExceededException].
   ///
   /// Parameter [appId] :
-  /// Unique Id for an Amplify App.
+  /// The unique ID for an Amplify app.
   ///
   /// Parameter [branchName] :
-  /// Name for the branch, for the Job.
+  /// The name for the branch, for the job.
   ///
   /// Parameter [jobId] :
-  /// The job id for this deployment, generated by create deployment request.
+  /// The job ID for this deployment, generated by the create deployment
+  /// request.
   ///
   /// Parameter [sourceUrl] :
-  /// The sourceUrl for this deployment, used when calling start deployment
-  /// without create deployment. SourceUrl can be any HTTP GET url that is
-  /// public accessible and downloads a single zip.
+  /// The source URL for this deployment, used when calling start deployment
+  /// without create deployment. The source URL can be any HTTP GET URL that is
+  /// publicly accessible and downloads a single .zip file.
   Future<StartDeploymentResult> startDeployment({
     @_s.required String appId,
     @_s.required String branchName,
@@ -1667,7 +1867,13 @@ class Amplify {
       'appId',
       appId,
       1,
-      255,
+      20,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'appId',
+      appId,
+      r'''d[a-z0-9]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(branchName, 'branchName');
@@ -1704,7 +1910,7 @@ class Amplify {
     return StartDeploymentResult.fromJson(response);
   }
 
-  /// Starts a new job for a branch, part of an Amplify App.
+  /// Starts a new job for a branch of an Amplify app.
   ///
   /// May throw [BadRequestException].
   /// May throw [UnauthorizedException].
@@ -1713,31 +1919,33 @@ class Amplify {
   /// May throw [LimitExceededException].
   ///
   /// Parameter [appId] :
-  /// Unique Id for an Amplify App.
+  /// The unique ID for an Amplify app.
   ///
   /// Parameter [branchName] :
-  /// Name for the branch, for the Job.
+  /// The branch name for the job.
   ///
   /// Parameter [jobType] :
-  /// Type for the Job. Available JobTypes are: \n "RELEASE": Start a new job
-  /// with the latest change from the specified branch. Only available for apps
-  /// that have connected to a repository. "RETRY": Retry an existing job. JobId
-  /// is required for this type of job.
+  /// Describes the type for the job. The job type <code>RELEASE</code> starts a
+  /// new job with the latest change from the specified branch. This value is
+  /// available only for apps that are connected to a repository. The job type
+  /// <code>RETRY</code> retries an existing job. If the job type value is
+  /// <code>RETRY</code>, the <code>jobId</code> is also required.
   ///
   /// Parameter [commitId] :
-  /// Commit Id from 3rd party repository provider for the Job.
+  /// The commit ID from a third-party repository provider for the job.
   ///
   /// Parameter [commitMessage] :
-  /// Commit message from 3rd party repository provider for the Job.
+  /// The commit message from a third-party repository provider for the job.
   ///
   /// Parameter [commitTime] :
-  /// Commit date / time for the Job.
+  /// The commit date and time for the job.
   ///
   /// Parameter [jobId] :
-  /// Unique Id for an existing job. Required for "RETRY" JobType.
+  /// The unique ID for an existing job. This is required if the value of
+  /// <code>jobType</code> is <code>RETRY</code>.
   ///
   /// Parameter [jobReason] :
-  /// Descriptive reason for starting this job.
+  /// A descriptive reason for starting this job.
   Future<StartJobResult> startJob({
     @_s.required String appId,
     @_s.required String branchName,
@@ -1753,7 +1961,13 @@ class Amplify {
       'appId',
       appId,
       1,
-      255,
+      20,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'appId',
+      appId,
+      r'''d[a-z0-9]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(branchName, 'branchName');
@@ -1807,8 +2021,7 @@ class Amplify {
     return StartJobResult.fromJson(response);
   }
 
-  /// Stop a job that is in progress, for an Amplify branch, part of Amplify
-  /// App.
+  /// Stops a job that is in progress for a branch of an Amplify app.
   ///
   /// May throw [BadRequestException].
   /// May throw [UnauthorizedException].
@@ -1817,13 +2030,13 @@ class Amplify {
   /// May throw [LimitExceededException].
   ///
   /// Parameter [appId] :
-  /// Unique Id for an Amplify App.
+  /// The unique ID for an Amplify app.
   ///
   /// Parameter [branchName] :
-  /// Name for the branch, for the Job.
+  /// The name for the branch, for the job.
   ///
   /// Parameter [jobId] :
-  /// Unique Id for the Job.
+  /// The unique id for the job.
   Future<StopJobResult> stopJob({
     @_s.required String appId,
     @_s.required String branchName,
@@ -1834,7 +2047,13 @@ class Amplify {
       'appId',
       appId,
       1,
-      255,
+      20,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'appId',
+      appId,
+      r'''d[a-z0-9]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(branchName, 'branchName');
@@ -1863,17 +2082,17 @@ class Amplify {
     return StopJobResult.fromJson(response);
   }
 
-  /// Tag resource with tag key and value.
+  /// Tags the resource with a tag key and value.
   ///
   /// May throw [InternalFailureException].
   /// May throw [BadRequestException].
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [resourceArn] :
-  /// Resource arn used to tag resource.
+  /// The Amazon Resource Name (ARN) to use to tag a resource.
   ///
   /// Parameter [tags] :
-  /// Tags used to tag resource.
+  /// The tags used to tag the resource.
   Future<void> tagResource({
     @_s.required String resourceArn,
     @_s.required Map<String, String> tags,
@@ -1898,17 +2117,17 @@ class Amplify {
     return TagResourceResponse.fromJson(response);
   }
 
-  /// Untag resource with resourceArn.
+  /// Untags a resource with a specified Amazon Resource Name (ARN).
   ///
   /// May throw [InternalFailureException].
   /// May throw [BadRequestException].
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [resourceArn] :
-  /// Resource arn used to untag resource.
+  /// The Amazon Resource Name (ARN) to use to untag a resource.
   ///
   /// Parameter [tagKeys] :
-  /// Tag keys used to untag resource.
+  /// The tag keys to use to untag a resource.
   Future<void> untagResource({
     @_s.required String resourceArn,
     @_s.required List<String> tagKeys,
@@ -1934,7 +2153,7 @@ class Amplify {
     return UntagResourceResponse.fromJson(response);
   }
 
-  /// Updates an existing Amplify App.
+  /// Updates an existing Amplify app.
   ///
   /// May throw [BadRequestException].
   /// May throw [NotFoundException].
@@ -1942,57 +2161,67 @@ class Amplify {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [appId] :
-  /// Unique Id for an Amplify App.
+  /// The unique ID for an Amplify app.
   ///
   /// Parameter [accessToken] :
-  /// Personal Access token for 3rd party source control system for an Amplify
-  /// App, used to create webhook and read-only deploy key. Token is not stored.
+  /// The personal access token for a third-party source control system for an
+  /// Amplify app. The token is used to create webhook and a read-only deploy
+  /// key. The token is not stored.
   ///
   /// Parameter [autoBranchCreationConfig] :
-  /// Automated branch creation branchConfig for the Amplify App.
+  /// The automated branch creation configuration for an Amplify app.
   ///
   /// Parameter [autoBranchCreationPatterns] :
-  /// Automated branch creation glob patterns for the Amplify App.
+  /// Describes the automated branch creation glob patterns for an Amplify app.
   ///
   /// Parameter [basicAuthCredentials] :
-  /// Basic Authorization credentials for an Amplify App.
+  /// The basic authorization credentials for an Amplify app.
   ///
   /// Parameter [buildSpec] :
-  /// BuildSpec for an Amplify App.
+  /// The build specification (build spec) for an Amplify app.
+  ///
+  /// Parameter [customHeaders] :
+  /// The custom HTTP headers for an Amplify app.
   ///
   /// Parameter [customRules] :
-  /// Custom redirect / rewrite rules for an Amplify App.
+  /// The custom redirect and rewrite rules for an Amplify app.
   ///
   /// Parameter [description] :
-  /// Description for an Amplify App.
+  /// The description for an Amplify app.
   ///
   /// Parameter [enableAutoBranchCreation] :
-  /// Enables automated branch creation for the Amplify App.
+  /// Enables automated branch creation for an Amplify app.
   ///
   /// Parameter [enableBasicAuth] :
-  /// Enables Basic Authorization for an Amplify App.
+  /// Enables basic authorization for an Amplify app.
   ///
   /// Parameter [enableBranchAutoBuild] :
-  /// Enables branch auto-building for an Amplify App.
+  /// Enables branch auto-building for an Amplify app.
+  ///
+  /// Parameter [enableBranchAutoDeletion] :
+  /// Automatically disconnects a branch in the Amplify Console when you delete
+  /// a branch from your Git repository.
   ///
   /// Parameter [environmentVariables] :
-  /// Environment Variables for an Amplify App.
+  /// The environment variables for an Amplify app.
   ///
   /// Parameter [iamServiceRoleArn] :
-  /// IAM service role for an Amplify App.
+  /// The AWS Identity and Access Management (IAM) service role for an Amplify
+  /// app.
   ///
   /// Parameter [name] :
-  /// Name for an Amplify App.
+  /// The name for an Amplify app.
   ///
   /// Parameter [oauthToken] :
-  /// OAuth token for 3rd party source control system for an Amplify App, used
-  /// to create webhook and read-only deploy key. OAuth token is not stored.
+  /// The OAuth token for a third-party source control system for an Amplify
+  /// app. The token is used to create a webhook and a read-only deploy key. The
+  /// OAuth token is not stored.
   ///
   /// Parameter [platform] :
-  /// Platform for an Amplify App.
+  /// The platform for an Amplify app.
   ///
   /// Parameter [repository] :
-  /// Repository for an Amplify App
+  /// The name of the repository for an Amplify app
   Future<UpdateAppResult> updateApp({
     @_s.required String appId,
     String accessToken,
@@ -2000,11 +2229,13 @@ class Amplify {
     List<String> autoBranchCreationPatterns,
     String basicAuthCredentials,
     String buildSpec,
+    String customHeaders,
     List<CustomRule> customRules,
     String description,
     bool enableAutoBranchCreation,
     bool enableBasicAuth,
     bool enableBranchAutoBuild,
+    bool enableBranchAutoDeletion,
     Map<String, String> environmentVariables,
     String iamServiceRoleArn,
     String name,
@@ -2017,7 +2248,13 @@ class Amplify {
       'appId',
       appId,
       1,
-      255,
+      20,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'appId',
+      appId,
+      r'''d[a-z0-9]+''',
       isRequired: true,
     );
     _s.validateStringLength(
@@ -2035,6 +2272,12 @@ class Amplify {
     _s.validateStringLength(
       'buildSpec',
       buildSpec,
+      1,
+      25000,
+    );
+    _s.validateStringLength(
+      'customHeaders',
+      customHeaders,
       1,
       25000,
     );
@@ -2060,7 +2303,7 @@ class Amplify {
       'oauthToken',
       oauthToken,
       0,
-      100,
+      1000,
     );
     _s.validateStringLength(
       'repository',
@@ -2077,6 +2320,7 @@ class Amplify {
       if (basicAuthCredentials != null)
         'basicAuthCredentials': basicAuthCredentials,
       if (buildSpec != null) 'buildSpec': buildSpec,
+      if (customHeaders != null) 'customHeaders': customHeaders,
       if (customRules != null) 'customRules': customRules,
       if (description != null) 'description': description,
       if (enableAutoBranchCreation != null)
@@ -2084,6 +2328,8 @@ class Amplify {
       if (enableBasicAuth != null) 'enableBasicAuth': enableBasicAuth,
       if (enableBranchAutoBuild != null)
         'enableBranchAutoBuild': enableBranchAutoBuild,
+      if (enableBranchAutoDeletion != null)
+        'enableBranchAutoDeletion': enableBranchAutoDeletion,
       if (environmentVariables != null)
         'environmentVariables': environmentVariables,
       if (iamServiceRoleArn != null) 'iamServiceRoleArn': iamServiceRoleArn,
@@ -2101,7 +2347,7 @@ class Amplify {
     return UpdateAppResult.fromJson(response);
   }
 
-  /// Updates a branch for an Amplify App.
+  /// Updates a branch for an Amplify app.
   ///
   /// May throw [BadRequestException].
   /// May throw [UnauthorizedException].
@@ -2110,52 +2356,61 @@ class Amplify {
   /// May throw [DependentServiceFailureException].
   ///
   /// Parameter [appId] :
-  /// Unique Id for an Amplify App.
+  /// The unique ID for an Amplify app.
   ///
   /// Parameter [branchName] :
-  /// Name for the branch.
+  /// The name for the branch.
   ///
   /// Parameter [backendEnvironmentArn] :
-  /// ARN for a Backend Environment, part of an Amplify App.
+  /// The Amazon Resource Name (ARN) for a backend environment that is part of
+  /// an Amplify app.
   ///
   /// Parameter [basicAuthCredentials] :
-  /// Basic Authorization credentials for the branch.
+  /// The basic authorization credentials for the branch.
   ///
   /// Parameter [buildSpec] :
-  /// BuildSpec for the branch.
+  /// The build specification (build spec) for the branch.
   ///
   /// Parameter [description] :
-  /// Description for the branch.
+  /// The description for the branch.
   ///
   /// Parameter [displayName] :
-  /// Display name for a branch, will use as the default domain prefix.
+  /// The display name for a branch. This is used as the default domain prefix.
   ///
   /// Parameter [enableAutoBuild] :
   /// Enables auto building for the branch.
   ///
   /// Parameter [enableBasicAuth] :
-  /// Enables Basic Auth for the branch.
+  /// Enables basic authorization for the branch.
   ///
   /// Parameter [enableNotification] :
   /// Enables notifications for the branch.
   ///
+  /// Parameter [enablePerformanceMode] :
+  /// Enables performance mode for the branch.
+  ///
+  /// Performance mode optimizes for faster hosting performance by keeping
+  /// content cached at the edge for a longer interval. When performance mode is
+  /// enabled, hosting configuration or code changes can take up to 10 minutes
+  /// to roll out.
+  ///
   /// Parameter [enablePullRequestPreview] :
-  /// Enables Pull Request Preview for this branch.
+  /// Enables pull request previews for this branch.
   ///
   /// Parameter [environmentVariables] :
-  /// Environment Variables for the branch.
+  /// The environment variables for the branch.
   ///
   /// Parameter [framework] :
-  /// Framework for the branch.
+  /// The framework for the branch.
   ///
   /// Parameter [pullRequestEnvironmentName] :
-  /// The Amplify Environment name for the pull request.
+  /// The Amplify environment name for the pull request.
   ///
   /// Parameter [stage] :
-  /// Stage for the branch.
+  /// Describes the current stage for the branch.
   ///
   /// Parameter [ttl] :
-  /// The content TTL for the website in seconds.
+  /// The content Time to Live (TTL) for the website in seconds.
   Future<UpdateBranchResult> updateBranch({
     @_s.required String appId,
     @_s.required String branchName,
@@ -2167,6 +2422,7 @@ class Amplify {
     bool enableAutoBuild,
     bool enableBasicAuth,
     bool enableNotification,
+    bool enablePerformanceMode,
     bool enablePullRequestPreview,
     Map<String, String> environmentVariables,
     String framework,
@@ -2179,7 +2435,13 @@ class Amplify {
       'appId',
       appId,
       1,
-      255,
+      20,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'appId',
+      appId,
+      r'''d[a-z0-9]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(branchName, 'branchName');
@@ -2243,6 +2505,8 @@ class Amplify {
       if (enableAutoBuild != null) 'enableAutoBuild': enableAutoBuild,
       if (enableBasicAuth != null) 'enableBasicAuth': enableBasicAuth,
       if (enableNotification != null) 'enableNotification': enableNotification,
+      if (enablePerformanceMode != null)
+        'enablePerformanceMode': enablePerformanceMode,
       if (enablePullRequestPreview != null)
         'enablePullRequestPreview': enablePullRequestPreview,
       if (environmentVariables != null)
@@ -2263,7 +2527,7 @@ class Amplify {
     return UpdateBranchResult.fromJson(response);
   }
 
-  /// Create a new DomainAssociation on an App
+  /// Creates a new domain association for an Amplify app.
   ///
   /// May throw [BadRequestException].
   /// May throw [UnauthorizedException].
@@ -2272,21 +2536,29 @@ class Amplify {
   /// May throw [DependentServiceFailureException].
   ///
   /// Parameter [appId] :
-  /// Unique Id for an Amplify App.
+  /// The unique ID for an Amplify app.
   ///
   /// Parameter [domainName] :
-  /// Name of the domain.
+  /// The name of the domain.
   ///
   /// Parameter [subDomainSettings] :
-  /// Setting structure for the Subdomain.
+  /// Describes the settings for the subdomain.
+  ///
+  /// Parameter [autoSubDomainCreationPatterns] :
+  /// Sets the branch patterns for automatic subdomain creation.
+  ///
+  /// Parameter [autoSubDomainIAMRole] :
+  /// The required AWS Identity and Access Management (IAM) service role for the
+  /// Amazon Resource Name (ARN) for automatically creating subdomains.
   ///
   /// Parameter [enableAutoSubDomain] :
-  /// Enables automated creation of Subdomains for branches. (Currently not
-  /// supported)
+  /// Enables the automated creation of subdomains for branches.
   Future<UpdateDomainAssociationResult> updateDomainAssociation({
     @_s.required String appId,
     @_s.required String domainName,
     @_s.required List<SubDomainSetting> subDomainSettings,
+    List<String> autoSubDomainCreationPatterns,
+    String autoSubDomainIAMRole,
     bool enableAutoSubDomain,
   }) async {
     ArgumentError.checkNotNull(appId, 'appId');
@@ -2294,7 +2566,13 @@ class Amplify {
       'appId',
       appId,
       1,
-      255,
+      20,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'appId',
+      appId,
+      r'''d[a-z0-9]+''',
       isRequired: true,
     );
     ArgumentError.checkNotNull(domainName, 'domainName');
@@ -2306,8 +2584,23 @@ class Amplify {
       isRequired: true,
     );
     ArgumentError.checkNotNull(subDomainSettings, 'subDomainSettings');
+    _s.validateStringLength(
+      'autoSubDomainIAMRole',
+      autoSubDomainIAMRole,
+      0,
+      1000,
+    );
+    _s.validateStringPattern(
+      'autoSubDomainIAMRole',
+      autoSubDomainIAMRole,
+      r'''^$|^arn:aws:iam::\d{12}:role.+''',
+    );
     final $payload = <String, dynamic>{
       'subDomainSettings': subDomainSettings,
+      if (autoSubDomainCreationPatterns != null)
+        'autoSubDomainCreationPatterns': autoSubDomainCreationPatterns,
+      if (autoSubDomainIAMRole != null)
+        'autoSubDomainIAMRole': autoSubDomainIAMRole,
       if (enableAutoSubDomain != null)
         'enableAutoSubDomain': enableAutoSubDomain,
     };
@@ -2321,7 +2614,7 @@ class Amplify {
     return UpdateDomainAssociationResult.fromJson(response);
   }
 
-  /// Update a webhook.
+  /// Updates a webhook.
   ///
   /// May throw [BadRequestException].
   /// May throw [UnauthorizedException].
@@ -2330,13 +2623,13 @@ class Amplify {
   /// May throw [DependentServiceFailureException].
   ///
   /// Parameter [webhookId] :
-  /// Unique Id for a webhook.
+  /// The unique ID for a webhook.
   ///
   /// Parameter [branchName] :
-  /// Name for a branch, part of an Amplify App.
+  /// The name for a branch that is part of an Amplify app.
   ///
   /// Parameter [description] :
-  /// Description for a webhook.
+  /// The description for a webhook.
   Future<UpdateWebhookResult> updateWebhook({
     @_s.required String webhookId,
     String branchName,
@@ -2376,97 +2669,108 @@ class Amplify {
   }
 }
 
-/// Amplify App represents different branches of a repository for building,
-/// deploying, and hosting.
+/// Represents the different branches of a repository for building, deploying,
+/// and hosting an Amplify app.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class App {
-  /// ARN for the Amplify App.
+  /// The Amazon Resource Name (ARN) of the Amplify app.
   @_s.JsonKey(name: 'appArn')
   final String appArn;
 
-  /// Unique Id for the Amplify App.
+  /// The unique ID of the Amplify app.
   @_s.JsonKey(name: 'appId')
   final String appId;
 
-  /// Create date / time for the Amplify App.
+  /// Creates a date and time for the Amplify app.
   @UnixDateTimeConverter()
   @_s.JsonKey(name: 'createTime')
   final DateTime createTime;
 
-  /// Default domain for the Amplify App.
+  /// The default domain for the Amplify app.
   @_s.JsonKey(name: 'defaultDomain')
   final String defaultDomain;
 
-  /// Description for the Amplify App.
+  /// The description for the Amplify app.
   @_s.JsonKey(name: 'description')
   final String description;
 
-  /// Enables Basic Authorization for branches for the Amplify App.
+  /// Enables basic authorization for the Amplify app's branches.
   @_s.JsonKey(name: 'enableBasicAuth')
   final bool enableBasicAuth;
 
-  /// Enables auto-building of branches for the Amplify App.
+  /// Enables the auto-building of branches for the Amplify app.
   @_s.JsonKey(name: 'enableBranchAutoBuild')
   final bool enableBranchAutoBuild;
 
-  /// Environment Variables for the Amplify App.
+  /// The environment variables for the Amplify app.
   @_s.JsonKey(name: 'environmentVariables')
   final Map<String, String> environmentVariables;
 
-  /// Name for the Amplify App.
+  /// The name for the Amplify app.
   @_s.JsonKey(name: 'name')
   final String name;
 
-  /// Platform for the Amplify App.
+  /// The platform for the Amplify app.
   @_s.JsonKey(name: 'platform')
   final Platform platform;
 
-  /// Repository for the Amplify App.
+  /// The repository for the Amplify app.
   @_s.JsonKey(name: 'repository')
   final String repository;
 
-  /// Update date / time for the Amplify App.
+  /// Updates the date and time for the Amplify app.
   @UnixDateTimeConverter()
   @_s.JsonKey(name: 'updateTime')
   final DateTime updateTime;
 
-  /// Automated branch creation config for the Amplify App.
+  /// Describes the automated branch creation configuration for the Amplify app.
   @_s.JsonKey(name: 'autoBranchCreationConfig')
   final AutoBranchCreationConfig autoBranchCreationConfig;
 
-  /// Automated branch creation glob patterns for the Amplify App.
+  /// Describes the automated branch creation glob patterns for the Amplify app.
   @_s.JsonKey(name: 'autoBranchCreationPatterns')
   final List<String> autoBranchCreationPatterns;
 
-  /// Basic Authorization credentials for branches for the Amplify App.
+  /// The basic authorization credentials for branches for the Amplify app.
   @_s.JsonKey(name: 'basicAuthCredentials')
   final String basicAuthCredentials;
 
-  /// BuildSpec content for Amplify App.
+  /// Describes the content of the build specification (build spec) for the
+  /// Amplify app.
   @_s.JsonKey(name: 'buildSpec')
   final String buildSpec;
 
-  /// Custom redirect / rewrite rules for the Amplify App.
+  /// Describes the custom HTTP headers for the Amplify app.
+  @_s.JsonKey(name: 'customHeaders')
+  final String customHeaders;
+
+  /// Describes the custom redirect and rewrite rules for the Amplify app.
   @_s.JsonKey(name: 'customRules')
   final List<CustomRule> customRules;
 
-  /// Enables automated branch creation for the Amplify App.
+  /// Enables automated branch creation for the Amplify app.
   @_s.JsonKey(name: 'enableAutoBranchCreation')
   final bool enableAutoBranchCreation;
 
-  /// IAM service role ARN for the Amplify App.
+  /// Automatically disconnect a branch in the Amplify Console when you delete a
+  /// branch from your Git repository.
+  @_s.JsonKey(name: 'enableBranchAutoDeletion')
+  final bool enableBranchAutoDeletion;
+
+  /// The AWS Identity and Access Management (IAM) service role for the Amazon
+  /// Resource Name (ARN) of the Amplify app.
   @_s.JsonKey(name: 'iamServiceRoleArn')
   final String iamServiceRoleArn;
 
-  /// Structure with Production Branch information.
+  /// Describes the information about a production branch of the Amplify app.
   @_s.JsonKey(name: 'productionBranch')
   final ProductionBranch productionBranch;
 
-  /// Tag for Amplify App.
+  /// The tag for the Amplify app.
   @_s.JsonKey(name: 'tags')
   final Map<String, String> tags;
 
@@ -2487,8 +2791,10 @@ class App {
     this.autoBranchCreationPatterns,
     this.basicAuthCredentials,
     this.buildSpec,
+    this.customHeaders,
     this.customRules,
     this.enableAutoBranchCreation,
+    this.enableBranchAutoDeletion,
     this.iamServiceRoleArn,
     this.productionBranch,
     this.tags,
@@ -2496,18 +2802,18 @@ class App {
   factory App.fromJson(Map<String, dynamic> json) => _$AppFromJson(json);
 }
 
-/// Structure for artifact.
+/// Describes an artifact.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class Artifact {
-  /// File name for the artifact.
+  /// The file name for the artifact.
   @_s.JsonKey(name: 'artifactFileName')
   final String artifactFileName;
 
-  /// Unique Id for a artifact.
+  /// The unique ID for the artifact.
   @_s.JsonKey(name: 'artifactId')
   final String artifactId;
 
@@ -2519,46 +2825,54 @@ class Artifact {
       _$ArtifactFromJson(json);
 }
 
-/// Structure with auto branch creation config.
+/// Describes the automated branch creation configuration.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: true)
 class AutoBranchCreationConfig {
-  /// Basic Authorization credentials for the auto created branch.
+  /// The basic authorization credentials for the autocreated branch.
   @_s.JsonKey(name: 'basicAuthCredentials')
   final String basicAuthCredentials;
 
-  /// BuildSpec for the auto created branch.
+  /// The build specification (build spec) for the autocreated branch.
   @_s.JsonKey(name: 'buildSpec')
   final String buildSpec;
 
-  /// Enables auto building for the auto created branch.
+  /// Enables auto building for the autocreated branch.
   @_s.JsonKey(name: 'enableAutoBuild')
   final bool enableAutoBuild;
 
-  /// Enables Basic Auth for the auto created branch.
+  /// Enables basic authorization for the autocreated branch.
   @_s.JsonKey(name: 'enableBasicAuth')
   final bool enableBasicAuth;
 
-  /// Enables Pull Request Preview for auto created branch.
+  /// Enables performance mode for the branch.
+  ///
+  /// Performance mode optimizes for faster hosting performance by keeping content
+  /// cached at the edge for a longer interval. When performance mode is enabled,
+  /// hosting configuration or code changes can take up to 10 minutes to roll out.
+  @_s.JsonKey(name: 'enablePerformanceMode')
+  final bool enablePerformanceMode;
+
+  /// Enables pull request previews for the autocreated branch.
   @_s.JsonKey(name: 'enablePullRequestPreview')
   final bool enablePullRequestPreview;
 
-  /// Environment Variables for the auto created branch.
+  /// The environment variables for the autocreated branch.
   @_s.JsonKey(name: 'environmentVariables')
   final Map<String, String> environmentVariables;
 
-  /// Framework for the auto created branch.
+  /// The framework for the autocreated branch.
   @_s.JsonKey(name: 'framework')
   final String framework;
 
-  /// The Amplify Environment name for the pull request.
+  /// The Amplify environment name for the pull request.
   @_s.JsonKey(name: 'pullRequestEnvironmentName')
   final String pullRequestEnvironmentName;
 
-  /// Stage for the auto created branch.
+  /// Describes the current stage for the autocreated branch.
   @_s.JsonKey(name: 'stage')
   final Stage stage;
 
@@ -2567,6 +2881,7 @@ class AutoBranchCreationConfig {
     this.buildSpec,
     this.enableAutoBuild,
     this.enableBasicAuth,
+    this.enablePerformanceMode,
     this.enablePullRequestPreview,
     this.environmentVariables,
     this.framework,
@@ -2579,37 +2894,39 @@ class AutoBranchCreationConfig {
   Map<String, dynamic> toJson() => _$AutoBranchCreationConfigToJson(this);
 }
 
-/// Backend environment for an Amplify App.
+/// Describes the backend environment for an Amplify app.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class BackendEnvironment {
-  /// Arn for a backend environment, part of an Amplify App.
+  /// The Amazon Resource Name (ARN) for a backend environment that is part of an
+  /// Amplify app.
   @_s.JsonKey(name: 'backendEnvironmentArn')
   final String backendEnvironmentArn;
 
-  /// Creation date and time for a backend environment, part of an Amplify App.
+  /// The creation date and time for a backend environment that is part of an
+  /// Amplify app.
   @UnixDateTimeConverter()
   @_s.JsonKey(name: 'createTime')
   final DateTime createTime;
 
-  /// Name for a backend environment, part of an Amplify App.
+  /// The name for a backend environment that is part of an Amplify app.
   @_s.JsonKey(name: 'environmentName')
   final String environmentName;
 
-  /// Last updated date and time for a backend environment, part of an Amplify
-  /// App.
+  /// The last updated date and time for a backend environment that is part of an
+  /// Amplify app.
   @UnixDateTimeConverter()
   @_s.JsonKey(name: 'updateTime')
   final DateTime updateTime;
 
-  /// Name of deployment artifacts.
+  /// The name of deployment artifacts.
   @_s.JsonKey(name: 'deploymentArtifacts')
   final String deploymentArtifacts;
 
-  /// CloudFormation stack name of backend environment.
+  /// The AWS CloudFormation stack name of a backend environment.
   @_s.JsonKey(name: 'stackName')
   final String stackName;
 
@@ -2625,96 +2942,99 @@ class BackendEnvironment {
       _$BackendEnvironmentFromJson(json);
 }
 
-/// Branch for an Amplify App, which maps to a 3rd party repository branch.
+/// The branch for an Amplify app, which maps to a third-party repository
+/// branch.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class Branch {
-  /// Id of the active job for a branch, part of an Amplify App.
+  /// The ID of the active job for a branch of an Amplify app.
   @_s.JsonKey(name: 'activeJobId')
   final String activeJobId;
 
-  /// ARN for a branch, part of an Amplify App.
+  /// The Amazon Resource Name (ARN) for a branch that is part of an Amplify app.
   @_s.JsonKey(name: 'branchArn')
   final String branchArn;
 
-  /// Name for a branch, part of an Amplify App.
+  /// The name for the branch that is part of an Amplify app.
   @_s.JsonKey(name: 'branchName')
   final String branchName;
 
-  /// Creation date and time for a branch, part of an Amplify App.
+  /// The creation date and time for a branch that is part of an Amplify app.
   @UnixDateTimeConverter()
   @_s.JsonKey(name: 'createTime')
   final DateTime createTime;
 
-  /// Custom domains for a branch, part of an Amplify App.
+  /// The custom domains for a branch of an Amplify app.
   @_s.JsonKey(name: 'customDomains')
   final List<String> customDomains;
 
-  /// Description for a branch, part of an Amplify App.
+  /// The description for the branch that is part of an Amplify app.
   @_s.JsonKey(name: 'description')
   final String description;
 
-  /// Display name for a branch, will use as the default domain prefix.
+  /// The display name for the branch. This is used as the default domain prefix.
   @_s.JsonKey(name: 'displayName')
   final String displayName;
 
-  /// Enables auto-building on push for a branch, part of an Amplify App.
+  /// Enables auto-building on push for a branch of an Amplify app.
   @_s.JsonKey(name: 'enableAutoBuild')
   final bool enableAutoBuild;
 
-  /// Enables Basic Authorization for a branch, part of an Amplify App.
+  /// Enables basic authorization for a branch of an Amplify app.
   @_s.JsonKey(name: 'enableBasicAuth')
   final bool enableBasicAuth;
 
-  /// Enables notifications for a branch, part of an Amplify App.
+  /// Enables notifications for a branch that is part of an Amplify app.
   @_s.JsonKey(name: 'enableNotification')
   final bool enableNotification;
 
-  /// Enables Pull Request Preview for this branch.
+  /// Enables pull request previews for the branch.
   @_s.JsonKey(name: 'enablePullRequestPreview')
   final bool enablePullRequestPreview;
 
-  /// Environment Variables specific to a branch, part of an Amplify App.
+  /// The environment variables specific to a branch of an Amplify app.
   @_s.JsonKey(name: 'environmentVariables')
   final Map<String, String> environmentVariables;
 
-  /// Framework for a branch, part of an Amplify App.
+  /// The framework for a branch of an Amplify app.
   @_s.JsonKey(name: 'framework')
   final String framework;
 
-  /// Stage for a branch, part of an Amplify App.
+  /// The current stage for the branch that is part of an Amplify app.
   @_s.JsonKey(name: 'stage')
   final Stage stage;
 
-  /// Total number of Jobs part of an Amplify App.
+  /// The total number of jobs that are part of an Amplify app.
   @_s.JsonKey(name: 'totalNumberOfJobs')
   final String totalNumberOfJobs;
 
-  /// The content TTL for the website in seconds.
+  /// The content Time to Live (TTL) for the website in seconds.
   @_s.JsonKey(name: 'ttl')
   final String ttl;
 
-  /// Last updated date and time for a branch, part of an Amplify App.
+  /// The last updated date and time for a branch that is part of an Amplify app.
   @UnixDateTimeConverter()
   @_s.JsonKey(name: 'updateTime')
   final DateTime updateTime;
 
-  /// List of custom resources that are linked to this branch.
+  /// A list of custom resources that are linked to this branch.
   @_s.JsonKey(name: 'associatedResources')
   final List<String> associatedResources;
 
-  /// ARN for a Backend Environment, part of an Amplify App.
+  /// The Amazon Resource Name (ARN) for a backend environment that is part of an
+  /// Amplify app.
   @_s.JsonKey(name: 'backendEnvironmentArn')
   final String backendEnvironmentArn;
 
-  /// Basic Authorization credentials for a branch, part of an Amplify App.
+  /// The basic authorization credentials for a branch of an Amplify app.
   @_s.JsonKey(name: 'basicAuthCredentials')
   final String basicAuthCredentials;
 
-  /// BuildSpec content for branch for Amplify App.
+  /// The build specification (build spec) content for the branch of an Amplify
+  /// app.
   @_s.JsonKey(name: 'buildSpec')
   final String buildSpec;
 
@@ -2722,7 +3042,15 @@ class Branch {
   @_s.JsonKey(name: 'destinationBranch')
   final String destinationBranch;
 
-  /// The Amplify Environment name for the pull request.
+  /// Enables performance mode for the branch.
+  ///
+  /// Performance mode optimizes for faster hosting performance by keeping content
+  /// cached at the edge for a longer interval. When performance mode is enabled,
+  /// hosting configuration or code changes can take up to 10 minutes to roll out.
+  @_s.JsonKey(name: 'enablePerformanceMode')
+  final bool enablePerformanceMode;
+
+  /// The Amplify environment name for the pull request.
   @_s.JsonKey(name: 'pullRequestEnvironmentName')
   final String pullRequestEnvironmentName;
 
@@ -2730,11 +3058,11 @@ class Branch {
   @_s.JsonKey(name: 'sourceBranch')
   final String sourceBranch;
 
-  /// Tag for branch for Amplify App.
+  /// The tag for the branch of an Amplify app.
   @_s.JsonKey(name: 'tags')
   final Map<String, String> tags;
 
-  /// Thumbnail URL for the branch.
+  /// The thumbnail URL for the branch of an Amplify app.
   @_s.JsonKey(name: 'thumbnailUrl')
   final String thumbnailUrl;
 
@@ -2761,6 +3089,7 @@ class Branch {
     this.basicAuthCredentials,
     this.buildSpec,
     this.destinationBranch,
+    this.enablePerformanceMode,
     this.pullRequestEnvironmentName,
     this.sourceBranch,
     this.tags,
@@ -2785,14 +3114,14 @@ class CreateAppResult {
       _$CreateAppResultFromJson(json);
 }
 
-/// Result structure for create backend environment.
+/// The result structure for the create backend environment request.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateBackendEnvironmentResult {
-  /// Backend environment structure for an amplify App.
+  /// Describes the backend environment for an Amplify app.
   @_s.JsonKey(name: 'backendEnvironment')
   final BackendEnvironment backendEnvironment;
 
@@ -2803,14 +3132,15 @@ class CreateBackendEnvironmentResult {
       _$CreateBackendEnvironmentResultFromJson(json);
 }
 
-/// Result structure for create branch request.
+/// The result structure for create branch request.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateBranchResult {
-  /// Branch structure for an Amplify App.
+  /// Describes the branch for an Amplify app, which maps to a third-party
+  /// repository branch.
   @_s.JsonKey(name: 'branch')
   final Branch branch;
 
@@ -2821,24 +3151,24 @@ class CreateBranchResult {
       _$CreateBranchResultFromJson(json);
 }
 
-/// Result structure for create a new deployment.
+/// The result structure for the create a new deployment request.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateDeploymentResult {
-  /// When the fileMap argument is provided in the request, the fileUploadUrls
-  /// will contain a map of file names to upload url.
+  /// When the <code>fileMap</code> argument is provided in the request,
+  /// <code>fileUploadUrls</code> will contain a map of file names to upload URLs.
   @_s.JsonKey(name: 'fileUploadUrls')
   final Map<String, String> fileUploadUrls;
 
-  /// When the fileMap argument is NOT provided. This zipUploadUrl will be
-  /// returned.
+  /// When the <code>fileMap</code> argument is not provided in the request, this
+  /// <code>zipUploadUrl</code> is returned.
   @_s.JsonKey(name: 'zipUploadUrl')
   final String zipUploadUrl;
 
-  /// The jobId for this deployment, will supply to start deployment api.
+  /// The job ID for this deployment. will supply to start deployment api.
   @_s.JsonKey(name: 'jobId')
   final String jobId;
 
@@ -2851,14 +3181,15 @@ class CreateDeploymentResult {
       _$CreateDeploymentResultFromJson(json);
 }
 
-/// Result structure for the create Domain Association request.
+/// The result structure for the create domain association request.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateDomainAssociationResult {
-  /// Domain Association structure.
+  /// Describes the structure of a domain association, which associates a custom
+  /// domain with an Amplify app.
   @_s.JsonKey(name: 'domainAssociation')
   final DomainAssociation domainAssociation;
 
@@ -2869,14 +3200,14 @@ class CreateDomainAssociationResult {
       _$CreateDomainAssociationResultFromJson(json);
 }
 
-/// Result structure for the create webhook request.
+/// The result structure for the create webhook request.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class CreateWebhookResult {
-  /// Webhook structure.
+  /// Describes a webhook that connects repository events to an Amplify app.
   @_s.JsonKey(name: 'webhook')
   final Webhook webhook;
 
@@ -2887,7 +3218,7 @@ class CreateWebhookResult {
       _$CreateWebhookResultFromJson(json);
 }
 
-/// Custom rewrite / redirect rule.
+/// Describes a custom rewrite or redirect rule.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -2902,11 +3233,23 @@ class CustomRule {
   @_s.JsonKey(name: 'target')
   final String target;
 
-  /// The condition for a URL rewrite or redirect rule, e.g. country code.
+  /// The condition for a URL rewrite or redirect rule, such as a country code.
   @_s.JsonKey(name: 'condition')
   final String condition;
 
   /// The status code for a URL rewrite or redirect rule.
+  /// <dl> <dt>200</dt> <dd>
+  /// Represents a 200 rewrite rule.
+  /// </dd> <dt>301</dt> <dd>
+  /// Represents a 301 (moved pemanently) redirect rule. This and all future
+  /// requests should be directed to the target URL.
+  /// </dd> <dt>302</dt> <dd>
+  /// Represents a 302 temporary redirect rule.
+  /// </dd> <dt>404</dt> <dd>
+  /// Represents a 404 redirect rule.
+  /// </dd> <dt>404-200</dt> <dd>
+  /// Represents a 404 rewrite rule.
+  /// </dd> </dl>
   @_s.JsonKey(name: 'status')
   final String status;
 
@@ -2922,7 +3265,7 @@ class CustomRule {
   Map<String, dynamic> toJson() => _$CustomRuleToJson(this);
 }
 
-/// Result structure for an Amplify App delete request.
+/// The result structure for the delete app request.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -2939,14 +3282,14 @@ class DeleteAppResult {
       _$DeleteAppResultFromJson(json);
 }
 
-/// Result structure of a delete backend environment result.
+/// The result structure of the delete backend environment result.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteBackendEnvironmentResult {
-  /// Backend environment structure for an Amplify App.
+  /// Describes the backend environment for an Amplify app.
   @_s.JsonKey(name: 'backendEnvironment')
   final BackendEnvironment backendEnvironment;
 
@@ -2957,14 +3300,15 @@ class DeleteBackendEnvironmentResult {
       _$DeleteBackendEnvironmentResultFromJson(json);
 }
 
-/// Result structure for delete branch request.
+/// The result structure for the delete branch request.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteBranchResult {
-  /// Branch structure for an Amplify App.
+  /// The branch for an Amplify app, which maps to a third-party repository
+  /// branch.
   @_s.JsonKey(name: 'branch')
   final Branch branch;
 
@@ -2991,7 +3335,7 @@ class DeleteDomainAssociationResult {
       _$DeleteDomainAssociationResultFromJson(json);
 }
 
-/// Result structure for the delete job request.
+/// The result structure for the delete job request.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -3008,14 +3352,14 @@ class DeleteJobResult {
       _$DeleteJobResultFromJson(json);
 }
 
-/// Result structure for the delete webhook request.
+/// The result structure for the delete webhook request.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeleteWebhookResult {
-  /// Webhook structure.
+  /// Describes a webhook that connects repository events to an Amplify app.
   @_s.JsonKey(name: 'webhook')
   final Webhook webhook;
 
@@ -3026,40 +3370,48 @@ class DeleteWebhookResult {
       _$DeleteWebhookResultFromJson(json);
 }
 
-/// Structure for Domain Association, which associates a custom domain with an
-/// Amplify App.
+/// Describes a domain association that associates a custom domain with an
+/// Amplify app.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DomainAssociation {
-  /// ARN for the Domain Association.
+  /// The Amazon Resource Name (ARN) for the domain association.
   @_s.JsonKey(name: 'domainAssociationArn')
   final String domainAssociationArn;
 
-  /// Name of the domain.
+  /// The name of the domain.
   @_s.JsonKey(name: 'domainName')
   final String domainName;
 
-  /// Status fo the Domain Association.
+  /// The current status of the domain association.
   @_s.JsonKey(name: 'domainStatus')
   final DomainStatus domainStatus;
 
-  /// Enables automated creation of Subdomains for branches. (Currently not
-  /// supported)
+  /// Enables the automated creation of subdomains for branches.
   @_s.JsonKey(name: 'enableAutoSubDomain')
   final bool enableAutoSubDomain;
 
-  /// Reason for the current status of the Domain Association.
+  /// The reason for the current status of the domain association.
   @_s.JsonKey(name: 'statusReason')
   final String statusReason;
 
-  /// Subdomains for the Domain Association.
+  /// The subdomains for the domain association.
   @_s.JsonKey(name: 'subDomains')
   final List<SubDomain> subDomains;
 
-  /// DNS Record for certificate verification.
+  /// Sets branch patterns for automatic subdomain creation.
+  @_s.JsonKey(name: 'autoSubDomainCreationPatterns')
+  final List<String> autoSubDomainCreationPatterns;
+
+  /// The required AWS Identity and Access Management (IAM) service role for the
+  /// Amazon Resource Name (ARN) for automatically creating subdomains.
+  @_s.JsonKey(name: 'autoSubDomainIAMRole')
+  final String autoSubDomainIAMRole;
+
+  /// The DNS record for certificate verification.
   @_s.JsonKey(name: 'certificateVerificationDNSRecord')
   final String certificateVerificationDNSRecord;
 
@@ -3070,6 +3422,8 @@ class DomainAssociation {
     @_s.required this.enableAutoSubDomain,
     @_s.required this.statusReason,
     @_s.required this.subDomains,
+    this.autoSubDomainCreationPatterns,
+    this.autoSubDomainIAMRole,
     this.certificateVerificationDNSRecord,
   });
   factory DomainAssociation.fromJson(Map<String, dynamic> json) =>
@@ -3095,14 +3449,14 @@ enum DomainStatus {
   updating,
 }
 
-/// Result structure for the generate access logs request.
+/// The result structure for the generate access logs request.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GenerateAccessLogsResult {
-  /// Pre-signed URL for the requested access logs.
+  /// The pre-signed URL for the requested access logs.
   @_s.JsonKey(name: 'logUrl')
   final String logUrl;
 
@@ -3129,18 +3483,18 @@ class GetAppResult {
       _$GetAppResultFromJson(json);
 }
 
-/// Result structure for the get artifact request.
+/// Returns the result structure for the get artifact request.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetArtifactUrlResult {
-  /// Unique Id for a artifact.
+  /// The unique ID for an artifact.
   @_s.JsonKey(name: 'artifactId')
   final String artifactId;
 
-  /// Presigned url for the artifact.
+  /// The presigned URL for the artifact.
   @_s.JsonKey(name: 'artifactUrl')
   final String artifactUrl;
 
@@ -3152,14 +3506,14 @@ class GetArtifactUrlResult {
       _$GetArtifactUrlResultFromJson(json);
 }
 
-/// Result structure for get backend environment result.
+/// The result structure for the get backend environment result.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetBackendEnvironmentResult {
-  /// Backend environment structure for an an Amplify App.
+  /// Describes the backend environment for an Amplify app.
   @_s.JsonKey(name: 'backendEnvironment')
   final BackendEnvironment backendEnvironment;
 
@@ -3186,14 +3540,15 @@ class GetBranchResult {
       _$GetBranchResultFromJson(json);
 }
 
-/// Result structure for the get Domain Association request.
+/// The result structure for the get domain association request.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetDomainAssociationResult {
-  /// Domain Association structure.
+  /// Describes the structure of a domain association, which associates a custom
+  /// domain with an Amplify app.
   @_s.JsonKey(name: 'domainAssociation')
   final DomainAssociation domainAssociation;
 
@@ -3220,14 +3575,14 @@ class GetJobResult {
       _$GetJobResultFromJson(json);
 }
 
-/// Result structure for the get webhook request.
+/// The result structure for the get webhook request.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class GetWebhookResult {
-  /// Webhook structure.
+  /// Describes the structure of a webhook.
   @_s.JsonKey(name: 'webhook')
   final Webhook webhook;
 
@@ -3238,18 +3593,18 @@ class GetWebhookResult {
       _$GetWebhookResultFromJson(json);
 }
 
-/// Structure for an execution job for an Amplify App.
+/// Describes an execution job for an Amplify app.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class Job {
-  /// Execution steps for an execution job, for an Amplify App.
+  /// The execution steps for an execution job, for an Amplify app.
   @_s.JsonKey(name: 'steps')
   final List<Step> steps;
 
-  /// Summary for an execution job for an Amplify App.
+  /// Describes the summary for an execution job for an Amplify app.
   @_s.JsonKey(name: 'summary')
   final JobSummary summary;
 
@@ -3277,50 +3632,52 @@ enum JobStatus {
   cancelled,
 }
 
-/// Structure for the summary of a Job.
+/// Describes the summary for an execution job for an Amplify app.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class JobSummary {
-  /// Commit Id from 3rd party repository provider for the Job.
+  /// The commit ID from a third-party repository provider for the job.
   @_s.JsonKey(name: 'commitId')
   final String commitId;
 
-  /// Commit message from 3rd party repository provider for the Job.
+  /// The commit message from a third-party repository provider for the job.
   @_s.JsonKey(name: 'commitMessage')
   final String commitMessage;
 
-  /// Commit date / time for the Job.
+  /// The commit date and time for the job.
   @UnixDateTimeConverter()
   @_s.JsonKey(name: 'commitTime')
   final DateTime commitTime;
 
-  /// Arn for the Job.
+  /// The Amazon Resource Name (ARN) for the job.
   @_s.JsonKey(name: 'jobArn')
   final String jobArn;
 
-  /// Unique Id for the Job.
+  /// The unique ID for the job.
   @_s.JsonKey(name: 'jobId')
   final String jobId;
 
-  /// Type for the Job. \n "RELEASE": Manually released from source by using
-  /// StartJob API. "RETRY": Manually retried by using StartJob API. "WEB_HOOK":
-  /// Automatically triggered by WebHooks.
+  /// The type for the job. If the value is <code>RELEASE</code>, the job was
+  /// manually released from its source by using the <code>StartJob</code> API. If
+  /// the value is <code>RETRY</code>, the job was manually retried using the
+  /// <code>StartJob</code> API. If the value is <code>WEB_HOOK</code>, the job
+  /// was automatically triggered by webhooks.
   @_s.JsonKey(name: 'jobType')
   final JobType jobType;
 
-  /// Start date / time for the Job.
+  /// The start date and time for the job.
   @UnixDateTimeConverter()
   @_s.JsonKey(name: 'startTime')
   final DateTime startTime;
 
-  /// Status for the Job.
+  /// The current status for the job.
   @_s.JsonKey(name: 'status')
   final JobStatus status;
 
-  /// End date / time for the Job.
+  /// The end date and time for the job.
   @UnixDateTimeConverter()
   @_s.JsonKey(name: 'endTime')
   final DateTime endTime;
@@ -3367,20 +3724,20 @@ extension on JobType {
   }
 }
 
-/// Result structure for an Amplify App list request.
+/// The result structure for an Amplify app list request.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListAppsResult {
-  /// List of Amplify Apps.
+  /// A list of Amplify apps.
   @_s.JsonKey(name: 'apps')
   final List<App> apps;
 
-  /// Pagination token. Set to null to start listing Apps from start. If non-null
-  /// pagination token is returned in a result, then pass its value in here to
-  /// list more projects.
+  /// A pagination token. Set to null to start listing apps from start. If
+  /// non-null, the pagination token is returned in a result. Pass its value in
+  /// here to list more projects.
   @_s.JsonKey(name: 'nextToken')
   final String nextToken;
 
@@ -3392,19 +3749,19 @@ class ListAppsResult {
       _$ListAppsResultFromJson(json);
 }
 
-/// Result structure for the list artifacts request.
+/// The result structure for the list artifacts request.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListArtifactsResult {
-  /// List of artifacts.
+  /// A list of artifacts.
   @_s.JsonKey(name: 'artifacts')
   final List<Artifact> artifacts;
 
-  /// Pagination token. If non-null pagination token is returned in a result, then
-  /// pass its value in another request to fetch more entries.
+  /// A pagination token. If a non-null pagination token is returned in a result,
+  /// pass its value in another request to retrieve more entries.
   @_s.JsonKey(name: 'nextToken')
   final String nextToken;
 
@@ -3416,19 +3773,19 @@ class ListArtifactsResult {
       _$ListArtifactsResultFromJson(json);
 }
 
-/// Result structure for list backend environments result.
+/// The result structure for the list backend environments result.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListBackendEnvironmentsResult {
-  /// List of backend environments for an Amplify App.
+  /// The list of backend environments for an Amplify app.
   @_s.JsonKey(name: 'backendEnvironments')
   final List<BackendEnvironment> backendEnvironments;
 
-  /// Pagination token. If non-null pagination token is returned in a result, then
-  /// pass its value in another request to fetch more entries.
+  /// A pagination token. If a non-null pagination token is returned in a result,
+  /// pass its value in another request to retrieve more entries.
   @_s.JsonKey(name: 'nextToken')
   final String nextToken;
 
@@ -3440,19 +3797,19 @@ class ListBackendEnvironmentsResult {
       _$ListBackendEnvironmentsResultFromJson(json);
 }
 
-/// Result structure for list branches request.
+/// The result structure for the list branches request.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListBranchesResult {
-  /// List of branches for an Amplify App.
+  /// A list of branches for an Amplify app.
   @_s.JsonKey(name: 'branches')
   final List<Branch> branches;
 
-  /// Pagination token. If non-null pagination token is returned in a result, then
-  /// pass its value in another request to fetch more entries.
+  /// A pagination token. If a non-null pagination token is returned in a result,
+  /// pass its value in another request to retrieve more entries.
   @_s.JsonKey(name: 'nextToken')
   final String nextToken;
 
@@ -3464,19 +3821,19 @@ class ListBranchesResult {
       _$ListBranchesResultFromJson(json);
 }
 
-/// Result structure for the list Domain Association request.
+/// The result structure for the list domain association request.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListDomainAssociationsResult {
-  /// List of Domain Associations.
+  /// A list of domain associations.
   @_s.JsonKey(name: 'domainAssociations')
   final List<DomainAssociation> domainAssociations;
 
-  /// Pagination token. If non-null pagination token is returned in a result, then
-  /// pass its value in another request to fetch more entries.
+  /// A pagination token. If non-null, a pagination token is returned in a result.
+  /// Pass its value in another request to retrieve more entries.
   @_s.JsonKey(name: 'nextToken')
   final String nextToken;
 
@@ -3488,19 +3845,19 @@ class ListDomainAssociationsResult {
       _$ListDomainAssociationsResultFromJson(json);
 }
 
-/// Maximum number of records to list in a single response.
+/// The maximum number of records to list in a single response.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListJobsResult {
-  /// Result structure for list job result request.
+  /// The result structure for the list job result request.
   @_s.JsonKey(name: 'jobSummaries')
   final List<JobSummary> jobSummaries;
 
-  /// Pagination token. If non-null pagination token is returned in a result, then
-  /// pass its value in another request to fetch more entries.
+  /// A pagination token. If non-null the pagination token is returned in a
+  /// result. Pass its value in another request to retrieve more entries.
   @_s.JsonKey(name: 'nextToken')
   final String nextToken;
 
@@ -3512,14 +3869,14 @@ class ListJobsResult {
       _$ListJobsResultFromJson(json);
 }
 
-/// Response for list tags.
+/// The response for the list tags for resource request.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListTagsForResourceResponse {
-  /// Tags result for response.
+  /// A list of tags for the specified The Amazon Resource Name (ARN).
   @_s.JsonKey(name: 'tags')
   final Map<String, String> tags;
 
@@ -3530,19 +3887,19 @@ class ListTagsForResourceResponse {
       _$ListTagsForResourceResponseFromJson(json);
 }
 
-/// Result structure for the list webhooks request.
+/// The result structure for the list webhooks request.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListWebhooksResult {
-  /// List of webhooks.
+  /// A list of webhooks.
   @_s.JsonKey(name: 'webhooks')
   final List<Webhook> webhooks;
 
-  /// Pagination token. If non-null pagination token is returned in a result, then
-  /// pass its value in another request to fetch more entries.
+  /// A pagination token. If non-null, the pagination token is returned in a
+  /// result. Pass its value in another request to retrieve more entries.
   @_s.JsonKey(name: 'nextToken')
   final String nextToken;
 
@@ -3569,27 +3926,27 @@ extension on Platform {
   }
 }
 
-/// Structure with Production Branch information.
+/// Describes the information about a production branch for an Amplify app.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ProductionBranch {
-  /// Branch Name for Production Branch.
+  /// The branch name for the production branch.
   @_s.JsonKey(name: 'branchName')
   final String branchName;
 
-  /// Last Deploy Time of Production Branch.
+  /// The last deploy time of the production branch.
   @UnixDateTimeConverter()
   @_s.JsonKey(name: 'lastDeployTime')
   final DateTime lastDeployTime;
 
-  /// Status of Production Branch.
+  /// The status of the production branch.
   @_s.JsonKey(name: 'status')
   final String status;
 
-  /// Thumbnail URL for Production Branch.
+  /// The thumbnail URL for the production branch.
   @_s.JsonKey(name: 'thumbnailUrl')
   final String thumbnailUrl;
 
@@ -3634,14 +3991,14 @@ extension on Stage {
   }
 }
 
-/// Result structure for start a deployment.
+/// The result structure for the start a deployment request.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class StartDeploymentResult {
-  /// Summary for the Job.
+  /// The summary for the job.
   @_s.JsonKey(name: 'jobSummary')
   final JobSummary jobSummary;
 
@@ -3652,14 +4009,14 @@ class StartDeploymentResult {
       _$StartDeploymentResultFromJson(json);
 }
 
-/// Result structure for run job request.
+/// The result structure for the run job request.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class StartJobResult {
-  /// Summary for the Job.
+  /// The summary for the job.
   @_s.JsonKey(name: 'jobSummary')
   final JobSummary jobSummary;
 
@@ -3670,56 +4027,57 @@ class StartJobResult {
       _$StartJobResultFromJson(json);
 }
 
-/// Structure for an execution step for an execution job, for an Amplify App.
+/// Describes an execution step, for an execution job, for an Amplify app.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class Step {
-  /// End date/ time of the execution step.
+  /// The end date and time of the execution step.
   @UnixDateTimeConverter()
   @_s.JsonKey(name: 'endTime')
   final DateTime endTime;
 
-  /// Start date/ time of the execution step.
+  /// The start date and time of the execution step.
   @UnixDateTimeConverter()
   @_s.JsonKey(name: 'startTime')
   final DateTime startTime;
 
-  /// Status of the execution step.
+  /// The status of the execution step.
   @_s.JsonKey(name: 'status')
   final JobStatus status;
 
-  /// Name of the execution step.
+  /// The name of the execution step.
   @_s.JsonKey(name: 'stepName')
   final String stepName;
 
-  /// URL to the artifact for the execution step.
+  /// The URL to the artifact for the execution step.
   @_s.JsonKey(name: 'artifactsUrl')
   final String artifactsUrl;
 
-  /// The context for current step, will include build image if step is build.
+  /// The context for the current step. Includes a build image if the step is
+  /// build.
   @_s.JsonKey(name: 'context')
   final String context;
 
-  /// URL to the logs for the execution step.
+  /// The URL to the logs for the execution step.
   @_s.JsonKey(name: 'logUrl')
   final String logUrl;
 
-  /// List of screenshot URLs for the execution step, if relevant.
+  /// The list of screenshot URLs for the execution step, if relevant.
   @_s.JsonKey(name: 'screenshots')
   final Map<String, String> screenshots;
 
-  /// The reason for current step status.
+  /// The reason for the current step status.
   @_s.JsonKey(name: 'statusReason')
   final String statusReason;
 
-  /// URL to the test artifact for the execution step.
+  /// The URL to the test artifact for the execution step.
   @_s.JsonKey(name: 'testArtifactsUrl')
   final String testArtifactsUrl;
 
-  /// URL to the test config for the execution step.
+  /// The URL to the test configuration for the execution step.
   @_s.JsonKey(name: 'testConfigUrl')
   final String testConfigUrl;
 
@@ -3739,14 +4097,14 @@ class Step {
   factory Step.fromJson(Map<String, dynamic> json) => _$StepFromJson(json);
 }
 
-/// Result structure for the stop job request.
+/// The result structure for the stop job request.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class StopJobResult {
-  /// Summary for the Job.
+  /// The summary for the job.
   @_s.JsonKey(name: 'jobSummary')
   final JobSummary jobSummary;
 
@@ -3757,22 +4115,22 @@ class StopJobResult {
       _$StopJobResultFromJson(json);
 }
 
-/// Subdomain for the Domain Association.
+/// The subdomain for the domain association.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class SubDomain {
-  /// DNS record for the Subdomain.
+  /// The DNS record for the subdomain.
   @_s.JsonKey(name: 'dnsRecord')
   final String dnsRecord;
 
-  /// Setting structure for the Subdomain.
+  /// Describes the settings for the subdomain.
   @_s.JsonKey(name: 'subDomainSetting')
   final SubDomainSetting subDomainSetting;
 
-  /// Verified status of the Subdomain
+  /// The verified status of the subdomain
   @_s.JsonKey(name: 'verified')
   final bool verified;
 
@@ -3785,18 +4143,18 @@ class SubDomain {
       _$SubDomainFromJson(json);
 }
 
-/// Setting for the Subdomain.
+/// Describes the settings for the subdomain.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: true)
 class SubDomainSetting {
-  /// Branch name setting for the Subdomain.
+  /// The branch name setting for the subdomain.
   @_s.JsonKey(name: 'branchName')
   final String branchName;
 
-  /// Prefix setting for the Subdomain.
+  /// The prefix setting for the subdomain.
   @_s.JsonKey(name: 'prefix')
   final String prefix;
 
@@ -3810,7 +4168,7 @@ class SubDomainSetting {
   Map<String, dynamic> toJson() => _$SubDomainSettingToJson(this);
 }
 
-/// Response for tag resource.
+/// The response for the tag resource request.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -3822,7 +4180,7 @@ class TagResourceResponse {
       _$TagResourceResponseFromJson(json);
 }
 
-/// Response for untag resource.
+/// The response for the untag resource request.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -3834,14 +4192,14 @@ class UntagResourceResponse {
       _$UntagResourceResponseFromJson(json);
 }
 
-/// Result structure for an Amplify App update request.
+/// The result structure for an Amplify app update request.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateAppResult {
-  /// App structure for the updated App.
+  /// Represents the updated Amplify app.
   @_s.JsonKey(name: 'app')
   final App app;
 
@@ -3852,14 +4210,15 @@ class UpdateAppResult {
       _$UpdateAppResultFromJson(json);
 }
 
-/// Result structure for update branch request.
+/// The result structure for the update branch request.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateBranchResult {
-  /// Branch structure for an Amplify App.
+  /// The branch for an Amplify app, which maps to a third-party repository
+  /// branch.
   @_s.JsonKey(name: 'branch')
   final Branch branch;
 
@@ -3870,14 +4229,15 @@ class UpdateBranchResult {
       _$UpdateBranchResultFromJson(json);
 }
 
-/// Result structure for the update Domain Association request.
+/// The result structure for the update domain association request.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateDomainAssociationResult {
-  /// Domain Association structure.
+  /// Describes a domain association, which associates a custom domain with an
+  /// Amplify app.
   @_s.JsonKey(name: 'domainAssociation')
   final DomainAssociation domainAssociation;
 
@@ -3888,14 +4248,14 @@ class UpdateDomainAssociationResult {
       _$UpdateDomainAssociationResultFromJson(json);
 }
 
-/// Result structure for the update webhook request.
+/// The result structure for the update webhook request.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UpdateWebhookResult {
-  /// Webhook structure.
+  /// Describes a webhook that connects repository events to an Amplify app.
   @_s.JsonKey(name: 'webhook')
   final Webhook webhook;
 
@@ -3906,40 +4266,40 @@ class UpdateWebhookResult {
       _$UpdateWebhookResultFromJson(json);
 }
 
-/// Structure for webhook, which associates a webhook with an Amplify App.
+/// Describes a webhook that connects repository events to an Amplify app.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class Webhook {
-  /// Name for a branch, part of an Amplify App.
+  /// The name for a branch that is part of an Amplify app.
   @_s.JsonKey(name: 'branchName')
   final String branchName;
 
-  /// Create date / time for a webhook.
+  /// The create date and time for a webhook.
   @UnixDateTimeConverter()
   @_s.JsonKey(name: 'createTime')
   final DateTime createTime;
 
-  /// Description for a webhook.
+  /// The description for a webhook.
   @_s.JsonKey(name: 'description')
   final String description;
 
-  /// Update date / time for a webhook.
+  /// Updates the date and time for a webhook.
   @UnixDateTimeConverter()
   @_s.JsonKey(name: 'updateTime')
   final DateTime updateTime;
 
-  /// ARN for the webhook.
+  /// The Amazon Resource Name (ARN) for the webhook.
   @_s.JsonKey(name: 'webhookArn')
   final String webhookArn;
 
-  /// Id of the webhook.
+  /// The ID of the webhook.
   @_s.JsonKey(name: 'webhookId')
   final String webhookId;
 
-  /// Url of the webhook.
+  /// The URL of the webhook.
   @_s.JsonKey(name: 'webhookUrl')
   final String webhookUrl;
 

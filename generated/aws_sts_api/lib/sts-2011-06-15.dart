@@ -27,11 +27,11 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
 part 'sts-2011-06-15.g.dart';
 
-/// The AWS Security Token Service (STS) is a web service that enables you to
-/// request temporary, limited-privilege credentials for AWS Identity and Access
-/// Management (IAM) users or for users that you authenticate (federated users).
-/// This guide provides descriptions of the STS API. For more detailed
-/// information about using this service, go to <a
+/// AWS Security Token Service (STS) enables you to request temporary,
+/// limited-privilege credentials for AWS Identity and Access Management (IAM)
+/// users or for users that you authenticate (federated users). This guide
+/// provides descriptions of the STS API. For more information about using this
+/// service, see <a
 /// href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp.html">Temporary
 /// Security Credentials</a>.
 class STS {
@@ -195,6 +195,7 @@ class STS {
   /// May throw [MalformedPolicyDocumentException].
   /// May throw [PackedPolicyTooLargeException].
   /// May throw [RegionDisabledException].
+  /// May throw [ExpiredTokenException].
   ///
   /// Parameter [roleArn] :
   /// The Amazon Resource Name (ARN) of the role to assume.
@@ -994,7 +995,7 @@ class STS {
   /// </li>
   /// <li>
   /// <a
-  /// href="https://web-identity-federation-playground.s3.amazonaws.com/index.html">
+  /// href="https://aws.amazon.com/blogs/aws/the-aws-web-identity-federation-playground/">
   /// Web Identity Federation Playground</a>. Walk through the process of
   /// authenticating through Login with Amazon, Facebook, or Google, getting
   /// temporary security credentials, and then using those credentials to make a

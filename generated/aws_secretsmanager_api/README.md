@@ -3,7 +3,7 @@
 **Warning: This is a generated library, some operations may not work.**
 
 *About the service:*
-AWS Secrets Manager is a web service that enables you to store, manage, and
+AWS Secrets Manager provides a service to enable you to store, manage, and
 retrieve, secrets.
 
 ## Links

@@ -28,21 +28,24 @@ part 'guardduty-2017-11-28.g.dart';
 
 /// Amazon GuardDuty is a continuous security monitoring service that analyzes
 /// and processes the following data sources: VPC Flow Logs, AWS CloudTrail
-/// event logs, and DNS logs. It uses threat intelligence feeds, such as lists
-/// of malicious IPs and domains, and machine learning to identify unexpected
-/// and potentially unauthorized and malicious activity within your AWS
+/// event logs, and DNS logs. It uses threat intelligence feeds (such as lists
+/// of malicious IPs and domains) and machine learning to identify unexpected,
+/// potentially unauthorized, and malicious activity within your AWS
 /// environment. This can include issues like escalations of privileges, uses of
 /// exposed credentials, or communication with malicious IPs, URLs, or domains.
-/// For example, GuardDuty can detect compromised EC2 instances serving malware
-/// or mining bitcoin. It also monitors AWS account access behavior for signs of
-/// compromise, such as unauthorized infrastructure deployments, like instances
-/// deployed in a region that has never been used, or unusual API calls, like a
-/// password policy change to reduce password strength. GuardDuty informs you of
-/// the status of your AWS environment by producing security findings that you
-/// can view in the GuardDuty console or through Amazon CloudWatch events. For
-/// more information, see <a
+/// For example, GuardDuty can detect compromised EC2 instances that serve
+/// malware or mine bitcoin.
+///
+/// GuardDuty also monitors AWS account access behavior for signs of compromise.
+/// Some examples of this are unauthorized infrastructure deployments such as
+/// EC2 instances deployed in a Region that has never been used, or unusual API
+/// calls like a password policy change to reduce password strength.
+///
+/// GuardDuty informs you of the status of your AWS environment by producing
+/// security findings that you can view in the GuardDuty console or through
+/// Amazon CloudWatch events. For more information, see the <i> <a
 /// href="https://docs.aws.amazon.com/guardduty/latest/ug/what-is-guardduty.html">Amazon
-/// GuardDuty User Guide</a>.
+/// GuardDuty User Guide</a> </i>.
 class GuardDuty {
   final _s.RestJsonProtocol _protocol;
   GuardDuty({
@@ -61,7 +64,8 @@ class GuardDuty {
           endpointUrl: endpointUrl,
         );
 
-  /// Accepts the invitation to be monitored by a master GuardDuty account.
+  /// Accepts the invitation to be monitored by a GuardDuty administrator
+  /// account.
   ///
   /// May throw [BadRequestException].
   /// May throw [InternalServerErrorException].
@@ -70,11 +74,12 @@ class GuardDuty {
   /// The unique ID of the detector of the GuardDuty member account.
   ///
   /// Parameter [invitationId] :
-  /// This value is used to validate the master account to the member account.
+  /// The value that is used to validate the administrator account to the member
+  /// account.
   ///
   /// Parameter [masterId] :
-  /// The account ID of the master GuardDuty account whose invitation you're
-  /// accepting.
+  /// The account ID of the GuardDuty administrator account whose invitation
+  /// you're accepting.
   Future<void> acceptInvitation({
     @_s.required String detectorId,
     @_s.required String invitationId,
@@ -103,10 +108,10 @@ class GuardDuty {
     return AcceptInvitationResponse.fromJson(response);
   }
 
-  /// Archives GuardDuty findings specified by the list of finding IDs.
+  /// Archives GuardDuty findings that are specified by the list of finding IDs.
   /// <note>
-  /// Only the master account can archive findings. Member accounts do not have
-  /// permission to archive findings from their accounts.
+  /// Only the administrator account can archive findings. Member accounts don't
+  /// have permission to archive findings from their accounts.
   /// </note>
   ///
   /// May throw [BadRequestException].
@@ -117,7 +122,7 @@ class GuardDuty {
   /// you want to archive.
   ///
   /// Parameter [findingIds] :
-  /// IDs of the findings that you want to archive.
+  /// The IDs of the findings that you want to archive.
   Future<void> archiveFindings({
     @_s.required String detectorId,
     @_s.required List<String> findingIds,
@@ -146,27 +151,31 @@ class GuardDuty {
 
   /// Creates a single Amazon GuardDuty detector. A detector is a resource that
   /// represents the GuardDuty service. To start using GuardDuty, you must
-  /// create a detector in each region that you enable the service. You can have
-  /// only one detector per account per region.
+  /// create a detector in each Region where you enable the service. You can
+  /// have only one detector per account per Region. All data sources are
+  /// enabled in a new detector by default.
   ///
   /// May throw [BadRequestException].
   /// May throw [InternalServerErrorException].
   ///
   /// Parameter [enable] :
-  /// A boolean value that specifies whether the detector is to be enabled.
+  /// A Boolean value that specifies whether the detector is to be enabled.
   ///
   /// Parameter [clientToken] :
   /// The idempotency token for the create request.
   ///
+  /// Parameter [dataSources] :
+  /// Describes which data sources will be enabled for the detector.
+  ///
   /// Parameter [findingPublishingFrequency] :
-  /// A enum value that specifies how frequently customer got Finding updates
-  /// published.
+  /// A value that specifies how frequently updated findings are exported.
   ///
   /// Parameter [tags] :
   /// The tags to be added to a new detector resource.
   Future<CreateDetectorResponse> createDetector({
     @_s.required bool enable,
     String clientToken,
+    DataSourceConfigurations dataSources,
     FindingPublishingFrequency findingPublishingFrequency,
     Map<String, String> tags,
   }) async {
@@ -180,6 +189,7 @@ class GuardDuty {
     final $payload = <String, dynamic>{
       'enable': enable,
       'clientToken': clientToken ?? _s.generateIdempotencyToken(),
+      if (dataSources != null) 'dataSources': dataSources,
       if (findingPublishingFrequency != null)
         'findingPublishingFrequency': findingPublishingFrequency.toValue(),
       if (tags != null) 'tags': tags,
@@ -199,14 +209,181 @@ class GuardDuty {
   /// May throw [InternalServerErrorException].
   ///
   /// Parameter [detectorId] :
-  /// The unique ID of the detector of the GuardDuty account for which you want
-  /// to create a filter.
+  /// The ID of the detector belonging to the GuardDuty account that you want to
+  /// create a filter for.
   ///
   /// Parameter [findingCriteria] :
   /// Represents the criteria to be used in the filter for querying findings.
   ///
+  /// You can only use the following attributes to query findings:
+  ///
+  /// <ul>
+  /// <li>
+  /// accountId
+  /// </li>
+  /// <li>
+  /// region
+  /// </li>
+  /// <li>
+  /// confidence
+  /// </li>
+  /// <li>
+  /// id
+  /// </li>
+  /// <li>
+  /// resource.accessKeyDetails.accessKeyId
+  /// </li>
+  /// <li>
+  /// resource.accessKeyDetails.principalId
+  /// </li>
+  /// <li>
+  /// resource.accessKeyDetails.userName
+  /// </li>
+  /// <li>
+  /// resource.accessKeyDetails.userType
+  /// </li>
+  /// <li>
+  /// resource.instanceDetails.iamInstanceProfile.id
+  /// </li>
+  /// <li>
+  /// resource.instanceDetails.imageId
+  /// </li>
+  /// <li>
+  /// resource.instanceDetails.instanceId
+  /// </li>
+  /// <li>
+  /// resource.instanceDetails.outpostArn
+  /// </li>
+  /// <li>
+  /// resource.instanceDetails.networkInterfaces.ipv6Addresses
+  /// </li>
+  /// <li>
+  /// resource.instanceDetails.networkInterfaces.privateIpAddresses.privateIpAddress
+  /// </li>
+  /// <li>
+  /// resource.instanceDetails.networkInterfaces.publicDnsName
+  /// </li>
+  /// <li>
+  /// resource.instanceDetails.networkInterfaces.publicIp
+  /// </li>
+  /// <li>
+  /// resource.instanceDetails.networkInterfaces.securityGroups.groupId
+  /// </li>
+  /// <li>
+  /// resource.instanceDetails.networkInterfaces.securityGroups.groupName
+  /// </li>
+  /// <li>
+  /// resource.instanceDetails.networkInterfaces.subnetId
+  /// </li>
+  /// <li>
+  /// resource.instanceDetails.networkInterfaces.vpcId
+  /// </li>
+  /// <li>
+  /// resource.instanceDetails.tags.key
+  /// </li>
+  /// <li>
+  /// resource.instanceDetails.tags.value
+  /// </li>
+  /// <li>
+  /// resource.resourceType
+  /// </li>
+  /// <li>
+  /// service.action.actionType
+  /// </li>
+  /// <li>
+  /// service.action.awsApiCallAction.api
+  /// </li>
+  /// <li>
+  /// service.action.awsApiCallAction.callerType
+  /// </li>
+  /// <li>
+  /// service.action.awsApiCallAction.errorCode
+  /// </li>
+  /// <li>
+  /// service.action.awsApiCallAction.remoteIpDetails.city.cityName
+  /// </li>
+  /// <li>
+  /// service.action.awsApiCallAction.remoteIpDetails.country.countryName
+  /// </li>
+  /// <li>
+  /// service.action.awsApiCallAction.remoteIpDetails.ipAddressV4
+  /// </li>
+  /// <li>
+  /// service.action.awsApiCallAction.remoteIpDetails.organization.asn
+  /// </li>
+  /// <li>
+  /// service.action.awsApiCallAction.remoteIpDetails.organization.asnOrg
+  /// </li>
+  /// <li>
+  /// service.action.awsApiCallAction.serviceName
+  /// </li>
+  /// <li>
+  /// service.action.dnsRequestAction.domain
+  /// </li>
+  /// <li>
+  /// service.action.networkConnectionAction.blocked
+  /// </li>
+  /// <li>
+  /// service.action.networkConnectionAction.connectionDirection
+  /// </li>
+  /// <li>
+  /// service.action.networkConnectionAction.localPortDetails.port
+  /// </li>
+  /// <li>
+  /// service.action.networkConnectionAction.protocol
+  /// </li>
+  /// <li>
+  /// service.action.networkConnectionAction.localIpDetails.ipAddressV4
+  /// </li>
+  /// <li>
+  /// service.action.networkConnectionAction.remoteIpDetails.city.cityName
+  /// </li>
+  /// <li>
+  /// service.action.networkConnectionAction.remoteIpDetails.country.countryName
+  /// </li>
+  /// <li>
+  /// service.action.networkConnectionAction.remoteIpDetails.ipAddressV4
+  /// </li>
+  /// <li>
+  /// service.action.networkConnectionAction.remoteIpDetails.organization.asn
+  /// </li>
+  /// <li>
+  /// service.action.networkConnectionAction.remoteIpDetails.organization.asnOrg
+  /// </li>
+  /// <li>
+  /// service.action.networkConnectionAction.remotePortDetails.port
+  /// </li>
+  /// <li>
+  /// service.additionalInfo.threatListName
+  /// </li>
+  /// <li>
+  /// service.archived
+  ///
+  /// When this attribute is set to TRUE, only archived findings are listed.
+  /// When it's set to FALSE, only unarchived findings are listed. When this
+  /// attribute is not set, all existing findings are listed.
+  /// </li>
+  /// <li>
+  /// service.resourceRole
+  /// </li>
+  /// <li>
+  /// severity
+  /// </li>
+  /// <li>
+  /// type
+  /// </li>
+  /// <li>
+  /// updatedAt
+  ///
+  /// Type: ISO 8601 string format: YYYY-MM-DDTHH:MM:SS.SSSZ or
+  /// YYYY-MM-DDTHH:MM:SSZ depending on whether the value contains milliseconds.
+  /// </li>
+  /// </ul>
+  ///
   /// Parameter [name] :
-  /// The name of the filter.
+  /// The name of the filter. Minimum length of 3. Maximum length of 64. Valid
+  /// characters include alphanumeric characters, dot (.), underscore (_), and
+  /// dash (-). Spaces are not allowed.
   ///
   /// Parameter [action] :
   /// Specifies the action that is to be applied to the findings that match the
@@ -287,34 +464,35 @@ class GuardDuty {
     return CreateFilterResponse.fromJson(response);
   }
 
-  /// Creates a new IPSet, called Trusted IP list in the consoler user
-  /// interface. An IPSet is a list IP addresses trusted for secure
-  /// communication with AWS infrastructure and applications. GuardDuty does not
-  /// generate findings for IP addresses included in IPSets. Only users from the
-  /// master account can use this operation.
+  /// Creates a new IPSet, which is called a trusted IP list in the console user
+  /// interface. An IPSet is a list of IP addresses that are trusted for secure
+  /// communication with AWS infrastructure and applications. GuardDuty doesn't
+  /// generate findings for IP addresses that are included in IPSets. Only users
+  /// from the administrator account can use this operation.
   ///
   /// May throw [BadRequestException].
   /// May throw [InternalServerErrorException].
   ///
   /// Parameter [activate] :
-  /// A boolean value that indicates whether GuardDuty is to start using the
+  /// A Boolean value that indicates whether GuardDuty is to start using the
   /// uploaded IPSet.
   ///
   /// Parameter [detectorId] :
-  /// The unique ID of the detector of the GuardDuty account for which you want
-  /// to create an IPSet.
+  /// The unique ID of the detector of the GuardDuty account that you want to
+  /// create an IPSet for.
   ///
   /// Parameter [format] :
   /// The format of the file that contains the IPSet.
   ///
   /// Parameter [location] :
-  /// The URI of the file that contains the IPSet. For example
-  /// (https://s3.us-west-2.amazonaws.com/my-bucket/my-object-key)
+  /// The URI of the file that contains the IPSet. For example:
+  /// https://s3.us-west-2.amazonaws.com/my-bucket/my-object-key.
   ///
   /// Parameter [name] :
-  /// The user friendly name to identify the IPSet. This name is displayed in
-  /// all findings that are triggered by activity that involves IP addresses
-  /// included in this IPSet.
+  /// The user-friendly name to identify the IPSet.
+  ///
+  /// Allowed characters are alphanumerics, spaces, hyphens (-), and underscores
+  /// (_).
   ///
   /// Parameter [clientToken] :
   /// The idempotency token for the create request.
@@ -380,19 +558,29 @@ class GuardDuty {
   }
 
   /// Creates member accounts of the current AWS account by specifying a list of
-  /// AWS account IDs. The current AWS account can then invite these members to
-  /// manage GuardDuty in their accounts.
+  /// AWS account IDs. This step is a prerequisite for managing the associated
+  /// member accounts either by invitation or through an organization.
+  ///
+  /// When using <code>Create Members</code> as an organizations delegated
+  /// administrator this action will enable GuardDuty in the added member
+  /// accounts, with the exception of the organization delegated administrator
+  /// account, which must enable GuardDuty prior to being added as a member.
+  ///
+  /// If you are adding accounts by invitation use this action after GuardDuty
+  /// has been enabled in potential member accounts and before using <a
+  /// href="https://docs.aws.amazon.com/guardduty/latest/APIReference/API_InviteMembers.html">
+  /// <code>Invite Members</code> </a>.
   ///
   /// May throw [BadRequestException].
   /// May throw [InternalServerErrorException].
   ///
   /// Parameter [accountDetails] :
   /// A list of account ID and email address pairs of the accounts that you want
-  /// to associate with the master GuardDuty account.
+  /// to associate with the GuardDuty administrator account.
   ///
   /// Parameter [detectorId] :
-  /// The unique ID of the detector of the GuardDuty account with which you want
-  /// to associate member accounts.
+  /// The unique ID of the detector of the GuardDuty account that you want to
+  /// associate member accounts with.
   Future<CreateMembersResponse> createMembers({
     @_s.required List<AccountDetail> accountDetails,
     @_s.required String detectorId,
@@ -418,19 +606,19 @@ class GuardDuty {
     return CreateMembersResponse.fromJson(response);
   }
 
-  /// Creates a publishing destination to send findings to. The resource to send
-  /// findings to must exist before you use this operation.
+  /// Creates a publishing destination to export findings to. The resource to
+  /// export findings to must exist before you use this operation.
   ///
   /// May throw [BadRequestException].
   /// May throw [InternalServerErrorException].
   ///
   /// Parameter [destinationProperties] :
-  /// Properties of the publishing destination, including the ARNs for the
+  /// The properties of the publishing destination, including the ARNs for the
   /// destination and the KMS key used for encryption.
   ///
   /// Parameter [destinationType] :
-  /// The type of resource for the publishing destination. Currently only S3 is
-  /// supported.
+  /// The type of resource for the publishing destination. Currently only Amazon
+  /// S3 buckets are supported.
   ///
   /// Parameter [detectorId] :
   /// The ID of the GuardDuty detector associated with the publishing
@@ -486,7 +674,7 @@ class GuardDuty {
   /// The ID of the detector to create sample findings for.
   ///
   /// Parameter [findingTypes] :
-  /// Types of sample findings to generate.
+  /// The types of sample findings to generate.
   Future<void> createSampleFindings({
     @_s.required String detectorId,
     List<String> findingTypes,
@@ -512,30 +700,30 @@ class GuardDuty {
     return CreateSampleFindingsResponse.fromJson(response);
   }
 
-  /// Create a new ThreatIntelSet. ThreatIntelSets consist of known malicious IP
-  /// addresses. GuardDuty generates findings based on ThreatIntelSets. Only
-  /// users of the master account can use this operation.
+  /// Creates a new ThreatIntelSet. ThreatIntelSets consist of known malicious
+  /// IP addresses. GuardDuty generates findings based on ThreatIntelSets. Only
+  /// users of the administrator account can use this operation.
   ///
   /// May throw [BadRequestException].
   /// May throw [InternalServerErrorException].
   ///
   /// Parameter [activate] :
-  /// A boolean value that indicates whether GuardDuty is to start using the
+  /// A Boolean value that indicates whether GuardDuty is to start using the
   /// uploaded ThreatIntelSet.
   ///
   /// Parameter [detectorId] :
-  /// The unique ID of the detector of the GuardDuty account for which you want
-  /// to create a threatIntelSet.
+  /// The unique ID of the detector of the GuardDuty account that you want to
+  /// create a threatIntelSet for.
   ///
   /// Parameter [format] :
   /// The format of the file that contains the ThreatIntelSet.
   ///
   /// Parameter [location] :
-  /// The URI of the file that contains the ThreatIntelSet. For example
-  /// (https://s3.us-west-2.amazonaws.com/my-bucket/my-object-key).
+  /// The URI of the file that contains the ThreatIntelSet. For example:
+  /// https://s3.us-west-2.amazonaws.com/my-bucket/my-object-key.
   ///
   /// Parameter [name] :
-  /// A user-friendly ThreatIntelSet name that is displayed in all finding
+  /// A user-friendly ThreatIntelSet name displayed in all findings that are
   /// generated by activity that involves IP addresses included in this
   /// ThreatIntelSet.
   ///
@@ -543,7 +731,7 @@ class GuardDuty {
   /// The idempotency token for the create request.
   ///
   /// Parameter [tags] :
-  /// The tags to be added to a new Threat List resource.
+  /// The tags to be added to a new threat list resource.
   Future<CreateThreatIntelSetResponse> createThreatIntelSet({
     @_s.required bool activate,
     @_s.required String detectorId,
@@ -602,7 +790,7 @@ class GuardDuty {
     return CreateThreatIntelSetResponse.fromJson(response);
   }
 
-  /// Declines invitations sent to the current member account by AWS account
+  /// Declines invitations sent to the current member account by AWS accounts
   /// specified by their account IDs.
   ///
   /// May throw [BadRequestException].
@@ -627,7 +815,7 @@ class GuardDuty {
     return DeclineInvitationsResponse.fromJson(response);
   }
 
-  /// Deletes a Amazon GuardDuty detector specified by the detector ID.
+  /// Deletes an Amazon GuardDuty detector that is specified by the detector ID.
   ///
   /// May throw [BadRequestException].
   /// May throw [InternalServerErrorException].
@@ -660,10 +848,10 @@ class GuardDuty {
   /// May throw [InternalServerErrorException].
   ///
   /// Parameter [detectorId] :
-  /// The unique ID of the detector the filter is associated with.
+  /// The unique ID of the detector that the filter is associated with.
   ///
   /// Parameter [filterName] :
-  /// The name of the filter you want to delete.
+  /// The name of the filter that you want to delete.
   Future<void> deleteFilter({
     @_s.required String detectorId,
     @_s.required String filterName,
@@ -688,7 +876,7 @@ class GuardDuty {
   }
 
   /// Deletes the IPSet specified by the <code>ipSetId</code>. IPSets are called
-  /// Trusted IP lists in the console user interface.
+  /// trusted IP lists in the console user interface.
   ///
   /// May throw [BadRequestException].
   /// May throw [InternalServerErrorException].
@@ -746,7 +934,7 @@ class GuardDuty {
     return DeleteInvitationsResponse.fromJson(response);
   }
 
-  /// Deletes GuardDuty member accounts (to the current GuardDuty master
+  /// Deletes GuardDuty member accounts (to the current GuardDuty administrator
   /// account) specified by the account IDs.
   ///
   /// May throw [BadRequestException].
@@ -819,16 +1007,16 @@ class GuardDuty {
     return DeletePublishingDestinationResponse.fromJson(response);
   }
 
-  /// Deletes ThreatIntelSet specified by the ThreatIntelSet ID.
+  /// Deletes the ThreatIntelSet specified by the ThreatIntelSet ID.
   ///
   /// May throw [BadRequestException].
   /// May throw [InternalServerErrorException].
   ///
   /// Parameter [detectorId] :
-  /// The unique ID of the detector the threatIntelSet is associated with.
+  /// The unique ID of the detector that the threatIntelSet is associated with.
   ///
   /// Parameter [threatIntelSetId] :
-  /// The unique ID of the threatIntelSet you want to delete.
+  /// The unique ID of the threatIntelSet that you want to delete.
   Future<void> deleteThreatIntelSet({
     @_s.required String detectorId,
     @_s.required String threatIntelSetId,
@@ -850,6 +1038,36 @@ class GuardDuty {
       exceptionFnMap: _exceptionFns,
     );
     return DeleteThreatIntelSetResponse.fromJson(response);
+  }
+
+  /// Returns information about the account selected as the delegated
+  /// administrator for GuardDuty.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  ///
+  /// Parameter [detectorId] :
+  /// The ID of the detector to retrieve information about the delegated
+  /// administrator from.
+  Future<DescribeOrganizationConfigurationResponse>
+      describeOrganizationConfiguration({
+    @_s.required String detectorId,
+  }) async {
+    ArgumentError.checkNotNull(detectorId, 'detectorId');
+    _s.validateStringLength(
+      'detectorId',
+      detectorId,
+      1,
+      300,
+      isRequired: true,
+    );
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/detector/${Uri.encodeComponent(detectorId)}/admin',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeOrganizationConfigurationResponse.fromJson(response);
   }
 
   /// Returns information about the publishing destination specified by the
@@ -887,7 +1105,32 @@ class GuardDuty {
     return DescribePublishingDestinationResponse.fromJson(response);
   }
 
-  /// Disassociates the current GuardDuty member account from its master
+  /// Disables an AWS account within the Organization as the GuardDuty delegated
+  /// administrator.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  ///
+  /// Parameter [adminAccountId] :
+  /// The AWS Account ID for the organizations account to be disabled as a
+  /// GuardDuty delegated administrator.
+  Future<void> disableOrganizationAdminAccount({
+    @_s.required String adminAccountId,
+  }) async {
+    ArgumentError.checkNotNull(adminAccountId, 'adminAccountId');
+    final $payload = <String, dynamic>{
+      'adminAccountId': adminAccountId,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/admin/disable',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DisableOrganizationAdminAccountResponse.fromJson(response);
+  }
+
+  /// Disassociates the current GuardDuty member account from its administrator
   /// account.
   ///
   /// May throw [BadRequestException].
@@ -916,19 +1159,19 @@ class GuardDuty {
     return DisassociateFromMasterAccountResponse.fromJson(response);
   }
 
-  /// Disassociates GuardDuty member accounts (to the current GuardDuty master
-  /// account) specified by the account IDs.
+  /// Disassociates GuardDuty member accounts (to the current GuardDuty
+  /// administrator account) specified by the account IDs.
   ///
   /// May throw [BadRequestException].
   /// May throw [InternalServerErrorException].
   ///
   /// Parameter [accountIds] :
   /// A list of account IDs of the GuardDuty member accounts that you want to
-  /// disassociate from master.
+  /// disassociate from the administrator account.
   ///
   /// Parameter [detectorId] :
   /// The unique ID of the detector of the GuardDuty account whose members you
-  /// want to disassociate from master.
+  /// want to disassociate from the administrator account.
   Future<DisassociateMembersResponse> disassociateMembers({
     @_s.required List<String> accountIds,
     @_s.required String detectorId,
@@ -953,6 +1196,31 @@ class GuardDuty {
       exceptionFnMap: _exceptionFns,
     );
     return DisassociateMembersResponse.fromJson(response);
+  }
+
+  /// Enables an AWS account within the organization as the GuardDuty delegated
+  /// administrator.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  ///
+  /// Parameter [adminAccountId] :
+  /// The AWS Account ID for the organization account to be enabled as a
+  /// GuardDuty delegated administrator.
+  Future<void> enableOrganizationAdminAccount({
+    @_s.required String adminAccountId,
+  }) async {
+    ArgumentError.checkNotNull(adminAccountId, 'adminAccountId');
+    final $payload = <String, dynamic>{
+      'adminAccountId': adminAccountId,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/admin/enable',
+      exceptionFnMap: _exceptionFns,
+    );
+    return EnableOrganizationAdminAccountResponse.fromJson(response);
   }
 
   /// Retrieves an Amazon GuardDuty detector specified by the detectorId.
@@ -988,7 +1256,7 @@ class GuardDuty {
   /// May throw [InternalServerErrorException].
   ///
   /// Parameter [detectorId] :
-  /// The unique ID of the detector the filter is associated with.
+  /// The unique ID of the detector that the filter is associated with.
   ///
   /// Parameter [filterName] :
   /// The name of the filter you want to get.
@@ -1025,7 +1293,7 @@ class GuardDuty {
   /// you want to retrieve.
   ///
   /// Parameter [findingIds] :
-  /// IDs of the findings that you want to retrieve.
+  /// The IDs of the findings that you want to retrieve.
   ///
   /// Parameter [sortCriteria] :
   /// Represents the criteria used for sorting findings.
@@ -1056,7 +1324,7 @@ class GuardDuty {
     return GetFindingsResponse.fromJson(response);
   }
 
-  /// Lists Amazon GuardDuty findings' statistics for the specified detector ID.
+  /// Lists Amazon GuardDuty findings statistics for the specified detector ID.
   ///
   /// May throw [BadRequestException].
   /// May throw [InternalServerErrorException].
@@ -1066,10 +1334,10 @@ class GuardDuty {
   /// findings' statistics you want to retrieve.
   ///
   /// Parameter [findingStatisticTypes] :
-  /// Types of finding statistics to retrieve.
+  /// The types of finding statistics to retrieve.
   ///
   /// Parameter [findingCriteria] :
-  /// Represents the criteria used for querying findings.
+  /// Represents the criteria that is used for querying findings.
   Future<GetFindingsStatisticsResponse> getFindingsStatistics({
     @_s.required String detectorId,
     @_s.required List<FindingStatisticType> findingStatisticTypes,
@@ -1105,7 +1373,7 @@ class GuardDuty {
   /// May throw [InternalServerErrorException].
   ///
   /// Parameter [detectorId] :
-  /// The unique ID of the detector the ipSet is associated with.
+  /// The unique ID of the detector that the IPSet is associated with.
   ///
   /// Parameter [ipSetId] :
   /// The unique ID of the IPSet to retrieve.
@@ -1147,8 +1415,8 @@ class GuardDuty {
     return GetInvitationsCountResponse.fromJson(response);
   }
 
-  /// Provides the details for the GuardDuty master account associated with the
-  /// current GuardDuty member account.
+  /// Provides the details for the GuardDuty administrator account associated
+  /// with the current GuardDuty member account.
   ///
   /// May throw [BadRequestException].
   /// May throw [InternalServerErrorException].
@@ -1175,8 +1443,45 @@ class GuardDuty {
     return GetMasterAccountResponse.fromJson(response);
   }
 
-  /// Retrieves GuardDuty member accounts (to the current GuardDuty master
-  /// account) specified by the account IDs.
+  /// Describes which data sources are enabled for the member account's
+  /// detector.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  ///
+  /// Parameter [accountIds] :
+  /// The account ID of the member account.
+  ///
+  /// Parameter [detectorId] :
+  /// The detector ID for the administrator account.
+  Future<GetMemberDetectorsResponse> getMemberDetectors({
+    @_s.required List<String> accountIds,
+    @_s.required String detectorId,
+  }) async {
+    ArgumentError.checkNotNull(accountIds, 'accountIds');
+    ArgumentError.checkNotNull(detectorId, 'detectorId');
+    _s.validateStringLength(
+      'detectorId',
+      detectorId,
+      1,
+      300,
+      isRequired: true,
+    );
+    final $payload = <String, dynamic>{
+      'accountIds': accountIds,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/detector/${Uri.encodeComponent(detectorId)}/member/detector/get',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetMemberDetectorsResponse.fromJson(response);
+  }
+
+  /// Retrieves GuardDuty member accounts (of the current GuardDuty
+  /// administrator account) specified by the account IDs.
   ///
   /// May throw [BadRequestException].
   /// May throw [InternalServerErrorException].
@@ -1219,10 +1524,10 @@ class GuardDuty {
   /// May throw [InternalServerErrorException].
   ///
   /// Parameter [detectorId] :
-  /// The unique ID of the detector the threatIntelSet is associated with.
+  /// The unique ID of the detector that the threatIntelSet is associated with.
   ///
   /// Parameter [threatIntelSetId] :
-  /// The unique ID of the threatIntelSet you want to get.
+  /// The unique ID of the threatIntelSet that you want to get.
   Future<GetThreatIntelSetResponse> getThreatIntelSet({
     @_s.required String detectorId,
     @_s.required String threatIntelSetId,
@@ -1246,10 +1551,84 @@ class GuardDuty {
     return GetThreatIntelSetResponse.fromJson(response);
   }
 
+  /// Lists Amazon GuardDuty usage statistics over the last 30 days for the
+  /// specified detector ID. For newly enabled detectors or data sources the
+  /// cost returned will include only the usage so far under 30 days, this may
+  /// differ from the cost metrics in the console, which projects usage over 30
+  /// days to provide a monthly cost estimate. For more information see <a
+  /// href="https://docs.aws.amazon.com/guardduty/latest/ug/monitoring_costs.html#usage-calculations">Understanding
+  /// How Usage Costs are Calculated</a>.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  ///
+  /// Parameter [detectorId] :
+  /// The ID of the detector that specifies the GuardDuty service whose usage
+  /// statistics you want to retrieve.
+  ///
+  /// Parameter [usageCriteria] :
+  /// Represents the criteria used for querying usage.
+  ///
+  /// Parameter [usageStatisticType] :
+  /// The type of usage statistics to retrieve.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in the response.
+  ///
+  /// Parameter [nextToken] :
+  /// A token to use for paginating results that are returned in the response.
+  /// Set the value of this parameter to null for the first request to a list
+  /// action. For subsequent calls, use the NextToken value returned from the
+  /// previous request to continue listing results after the first page.
+  ///
+  /// Parameter [unit] :
+  /// The currency unit you would like to view your usage statistics in. Current
+  /// valid values are USD.
+  Future<GetUsageStatisticsResponse> getUsageStatistics({
+    @_s.required String detectorId,
+    @_s.required UsageCriteria usageCriteria,
+    @_s.required UsageStatisticType usageStatisticType,
+    int maxResults,
+    String nextToken,
+    String unit,
+  }) async {
+    ArgumentError.checkNotNull(detectorId, 'detectorId');
+    _s.validateStringLength(
+      'detectorId',
+      detectorId,
+      1,
+      300,
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(usageCriteria, 'usageCriteria');
+    ArgumentError.checkNotNull(usageStatisticType, 'usageStatisticType');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    final $payload = <String, dynamic>{
+      'usageCriteria': usageCriteria,
+      'usageStatisticsType': usageStatisticType?.toValue() ?? '',
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+      if (unit != null) 'unit': unit,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/detector/${Uri.encodeComponent(detectorId)}/usage/statistics',
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetUsageStatisticsResponse.fromJson(response);
+  }
+
   /// Invites other AWS accounts (created as members of the current AWS account
-  /// by CreateMembers) to enable GuardDuty and allow the current AWS account to
-  /// view and manage these accounts' GuardDuty findings on their behalf as the
-  /// master account.
+  /// by CreateMembers) to enable GuardDuty, and allow the current AWS account
+  /// to view and manage these accounts' findings on their behalf as the
+  /// GuardDuty administrator account.
   ///
   /// May throw [BadRequestException].
   /// May throw [InternalServerErrorException].
@@ -1259,15 +1638,16 @@ class GuardDuty {
   /// as members.
   ///
   /// Parameter [detectorId] :
-  /// The unique ID of the detector of the GuardDuty account with which you want
-  /// to invite members.
+  /// The unique ID of the detector of the GuardDuty account that you want to
+  /// invite members with.
   ///
   /// Parameter [disableEmailNotification] :
-  /// A boolean value that specifies whether you want to disable email
-  /// notification to the accounts that you’re inviting to GuardDuty as members.
+  /// A Boolean value that specifies whether you want to disable email
+  /// notification to the accounts that you are inviting to GuardDuty as
+  /// members.
   ///
   /// Parameter [message] :
-  /// The invitation message that you want to send to the accounts that you’re
+  /// The invitation message that you want to send to the accounts that you're
   /// inviting to GuardDuty as members.
   Future<InviteMembersResponse> inviteMembers({
     @_s.required List<String> accountIds,
@@ -1305,13 +1685,14 @@ class GuardDuty {
   /// May throw [InternalServerErrorException].
   ///
   /// Parameter [maxResults] :
-  /// You can use this parameter to indicate the maximum number of items you
-  /// want in the response. The default value is 50. The maximum value is 50.
+  /// You can use this parameter to indicate the maximum number of items that
+  /// you want in the response. The default value is 50. The maximum value is
+  /// 50.
   ///
   /// Parameter [nextToken] :
   /// You can use this parameter when paginating results. Set the value of this
   /// parameter to null on your first call to the list action. For subsequent
-  /// calls to the action fill nextToken in the request with the value of
+  /// calls to the action, fill nextToken in the request with the value of
   /// NextToken from the previous response to continue listing data.
   Future<ListDetectorsResponse> listDetectors({
     int maxResults,
@@ -1343,16 +1724,17 @@ class GuardDuty {
   /// May throw [InternalServerErrorException].
   ///
   /// Parameter [detectorId] :
-  /// The unique ID of the detector the filter is associated with.
+  /// The unique ID of the detector that the filter is associated with.
   ///
   /// Parameter [maxResults] :
-  /// You can use this parameter to indicate the maximum number of items you
-  /// want in the response. The default value is 50. The maximum value is 50.
+  /// You can use this parameter to indicate the maximum number of items that
+  /// you want in the response. The default value is 50. The maximum value is
+  /// 50.
   ///
   /// Parameter [nextToken] :
   /// You can use this parameter when paginating results. Set the value of this
   /// parameter to null on your first call to the list action. For subsequent
-  /// calls to the action fill nextToken in the request with the value of
+  /// calls to the action, fill nextToken in the request with the value of
   /// NextToken from the previous response to continue listing data.
   Future<ListFiltersResponse> listFilters({
     @_s.required String detectorId,
@@ -1437,9 +1819,6 @@ class GuardDuty {
   /// resource.instanceDetails.instanceId
   /// </li>
   /// <li>
-  /// resource.instanceDetails.outpostArn
-  /// </li>
-  /// <li>
   /// resource.instanceDetails.networkInterfaces.ipv6Addresses
   /// </li>
   /// <li>
@@ -1515,9 +1894,6 @@ class GuardDuty {
   /// service.action.networkConnectionAction.protocol
   /// </li>
   /// <li>
-  /// service.action.networkConnectionAction.localIpDetails.ipAddressV4
-  /// </li>
-  /// <li>
   /// service.action.networkConnectionAction.remoteIpDetails.city.cityName
   /// </li>
   /// <li>
@@ -1568,7 +1944,7 @@ class GuardDuty {
   /// Parameter [nextToken] :
   /// You can use this parameter when paginating results. Set the value of this
   /// parameter to null on your first call to the list action. For subsequent
-  /// calls to the action fill nextToken in the request with the value of
+  /// calls to the action, fill nextToken in the request with the value of
   /// NextToken from the previous response to continue listing data.
   ///
   /// Parameter [sortCriteria] :
@@ -1611,13 +1987,13 @@ class GuardDuty {
 
   /// Lists the IPSets of the GuardDuty service specified by the detector ID. If
   /// you use this operation from a member account, the IPSets returned are the
-  /// IPSets from the associated master account.
+  /// IPSets from the associated administrator account.
   ///
   /// May throw [BadRequestException].
   /// May throw [InternalServerErrorException].
   ///
   /// Parameter [detectorId] :
-  /// The unique ID of the detector the ipSet is associated with.
+  /// The unique ID of the detector that the IPSet is associated with.
   ///
   /// Parameter [maxResults] :
   /// You can use this parameter to indicate the maximum number of items you
@@ -1626,7 +2002,7 @@ class GuardDuty {
   /// Parameter [nextToken] :
   /// You can use this parameter when paginating results. Set the value of this
   /// parameter to null on your first call to the list action. For subsequent
-  /// calls to the action fill nextToken in the request with the value of
+  /// calls to the action, fill nextToken in the request with the value of
   /// NextToken from the previous response to continue listing data.
   Future<ListIPSetsResponse> listIPSets({
     @_s.required String detectorId,
@@ -1668,13 +2044,14 @@ class GuardDuty {
   /// May throw [InternalServerErrorException].
   ///
   /// Parameter [maxResults] :
-  /// You can use this parameter to indicate the maximum number of items you
-  /// want in the response. The default value is 50. The maximum value is 50.
+  /// You can use this parameter to indicate the maximum number of items that
+  /// you want in the response. The default value is 50. The maximum value is
+  /// 50.
   ///
   /// Parameter [nextToken] :
   /// You can use this parameter when paginating results. Set the value of this
   /// parameter to null on your first call to the list action. For subsequent
-  /// calls to the action fill nextToken in the request with the value of
+  /// calls to the action, fill nextToken in the request with the value of
   /// NextToken from the previous response to continue listing data.
   Future<ListInvitationsResponse> listInvitations({
     int maxResults,
@@ -1700,8 +2077,8 @@ class GuardDuty {
     return ListInvitationsResponse.fromJson(response);
   }
 
-  /// Lists details about all member accounts for the current GuardDuty master
-  /// account.
+  /// Lists details about all member accounts for the current GuardDuty
+  /// administrator account.
   ///
   /// May throw [BadRequestException].
   /// May throw [InternalServerErrorException].
@@ -1716,12 +2093,12 @@ class GuardDuty {
   /// Parameter [nextToken] :
   /// You can use this parameter when paginating results. Set the value of this
   /// parameter to null on your first call to the list action. For subsequent
-  /// calls to the action fill nextToken in the request with the value of
+  /// calls to the action, fill nextToken in the request with the value of
   /// NextToken from the previous response to continue listing data.
   ///
   /// Parameter [onlyAssociated] :
   /// Specifies whether to only return associated members or to return all
-  /// members (including members which haven't been invited yet or have been
+  /// members (including members who haven't been invited yet or have been
   /// disassociated).
   Future<ListMembersResponse> listMembers({
     @_s.required String detectorId,
@@ -1758,6 +2135,44 @@ class GuardDuty {
     return ListMembersResponse.fromJson(response);
   }
 
+  /// Lists the accounts configured as GuardDuty delegated administrators.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in the response.
+  ///
+  /// Parameter [nextToken] :
+  /// A token to use for paginating results that are returned in the response.
+  /// Set the value of this parameter to null for the first request to a list
+  /// action. For subsequent calls, use the <code>NextToken</code> value
+  /// returned from the previous request to continue listing results after the
+  /// first page.
+  Future<ListOrganizationAdminAccountsResponse> listOrganizationAdminAccounts({
+    int maxResults,
+    String nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      50,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/admin',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListOrganizationAdminAccountsResponse.fromJson(response);
+  }
+
   /// Returns a list of publishing destinations associated with the specified
   /// <code>dectectorId</code>.
   ///
@@ -1771,10 +2186,11 @@ class GuardDuty {
   /// The maximum number of results to return in the response.
   ///
   /// Parameter [nextToken] :
-  /// A token to use for paginating results returned in the repsonse. Set the
-  /// value of this parameter to null for the first request to a list action.
-  /// For subsequent calls, use the <code>NextToken</code> value returned from
-  /// the previous request to continue listing results after the first page.
+  /// A token to use for paginating results that are returned in the response.
+  /// Set the value of this parameter to null for the first request to a list
+  /// action. For subsequent calls, use the <code>NextToken</code> value
+  /// returned from the previous request to continue listing results after the
+  /// first page.
   Future<ListPublishingDestinationsResponse> listPublishingDestinations({
     @_s.required String detectorId,
     int maxResults,
@@ -1810,15 +2226,15 @@ class GuardDuty {
   }
 
   /// Lists tags for a resource. Tagging is currently supported for detectors,
-  /// finding filters, IP sets, and Threat Intel sets, with a limit of 50 tags
+  /// finding filters, IP sets, and threat intel sets, with a limit of 50 tags
   /// per resource. When invoked, this operation returns all assigned tags for a
-  /// given resource..
+  /// given resource.
   ///
   /// May throw [BadRequestException].
   /// May throw [InternalServerErrorException].
   ///
   /// Parameter [resourceArn] :
-  /// The Amazon Resource Name (ARN) for the given GuardDuty resource
+  /// The Amazon Resource Name (ARN) for the given GuardDuty resource.
   Future<ListTagsForResourceResponse> listTagsForResource({
     @_s.required String resourceArn,
   }) async {
@@ -1840,22 +2256,23 @@ class GuardDuty {
 
   /// Lists the ThreatIntelSets of the GuardDuty service specified by the
   /// detector ID. If you use this operation from a member account, the
-  /// ThreatIntelSets associated with the master account are returned.
+  /// ThreatIntelSets associated with the administrator account are returned.
   ///
   /// May throw [BadRequestException].
   /// May throw [InternalServerErrorException].
   ///
   /// Parameter [detectorId] :
-  /// The unique ID of the detector the threatIntelSet is associated with.
+  /// The unique ID of the detector that the threatIntelSet is associated with.
   ///
   /// Parameter [maxResults] :
-  /// You can use this parameter to indicate the maximum number of items you
-  /// want in the response. The default value is 50. The maximum value is 50.
+  /// You can use this parameter to indicate the maximum number of items that
+  /// you want in the response. The default value is 50. The maximum value is
+  /// 50.
   ///
   /// Parameter [nextToken] :
   /// You can use this parameter to paginate results in the response. Set the
   /// value of this parameter to null on your first call to the list action. For
-  /// subsequent calls to the action fill nextToken in the request with the
+  /// subsequent calls to the action, fill nextToken in the request with the
   /// value of NextToken from the previous response to continue listing data.
   Future<ListThreatIntelSetsResponse> listThreatIntelSets({
     @_s.required String detectorId,
@@ -1902,8 +2319,8 @@ class GuardDuty {
   /// monitoring.
   ///
   /// Parameter [detectorId] :
-  /// The unique ID of the detector of the GuardDuty master account associated
-  /// with the member accounts to monitor.
+  /// The unique ID of the detector of the GuardDuty administrator account
+  /// associated with the member accounts to monitor.
   Future<StartMonitoringMembersResponse> startMonitoringMembers({
     @_s.required List<String> accountIds,
     @_s.required String detectorId,
@@ -1929,20 +2346,19 @@ class GuardDuty {
     return StartMonitoringMembersResponse.fromJson(response);
   }
 
-  /// Stops GuardDuty monitoring for the specified member accounnts. Use the
-  /// <code>StartMonitoringMembers</code> to restart monitoring for those
-  /// accounts.
+  /// Stops GuardDuty monitoring for the specified member accounts. Use the
+  /// <code>StartMonitoringMembers</code> operation to restart monitoring for
+  /// those accounts.
   ///
   /// May throw [BadRequestException].
   /// May throw [InternalServerErrorException].
   ///
   /// Parameter [accountIds] :
-  /// A list of account IDs of the GuardDuty member accounts whose findings you
-  /// want the master account to stop monitoring.
+  /// A list of account IDs for the member accounts to stop monitoring.
   ///
   /// Parameter [detectorId] :
-  /// The unique ID of the detector of the GuardDuty account that you want to
-  /// stop from monitor members' findings.
+  /// The unique ID of the detector associated with the GuardDuty administrator
+  /// account that is monitoring member accounts.
   Future<StopMonitoringMembersResponse> stopMonitoringMembers({
     @_s.required List<String> accountIds,
     @_s.required String detectorId,
@@ -2012,7 +2428,7 @@ class GuardDuty {
   /// The ID of the detector associated with the findings to unarchive.
   ///
   /// Parameter [findingIds] :
-  /// IDs of the findings to unarchive.
+  /// The IDs of the findings to unarchive.
   Future<void> unarchiveFindings({
     @_s.required String detectorId,
     @_s.required List<String> findingIds,
@@ -2082,14 +2498,18 @@ class GuardDuty {
   /// Parameter [detectorId] :
   /// The unique ID of the detector to update.
   ///
+  /// Parameter [dataSources] :
+  /// Describes which data sources will be updated.
+  ///
   /// Parameter [enable] :
   /// Specifies whether the detector is enabled or not enabled.
   ///
   /// Parameter [findingPublishingFrequency] :
-  /// A enum value that specifies how frequently findings are exported, such as
+  /// An enum value that specifies how frequently findings are exported, such as
   /// to CloudWatch Events.
   Future<void> updateDetector({
     @_s.required String detectorId,
+    DataSourceConfigurations dataSources,
     bool enable,
     FindingPublishingFrequency findingPublishingFrequency,
   }) async {
@@ -2102,6 +2522,7 @@ class GuardDuty {
       isRequired: true,
     );
     final $payload = <String, dynamic>{
+      if (dataSources != null) 'dataSources': dataSources,
       if (enable != null) 'enable': enable,
       if (findingPublishingFrequency != null)
         'findingPublishingFrequency': findingPublishingFrequency.toValue(),
@@ -2198,7 +2619,7 @@ class GuardDuty {
   /// The feedback for the finding.
   ///
   /// Parameter [findingIds] :
-  /// IDs of the findings that you want to mark as useful or not useful.
+  /// The IDs of the findings that you want to mark as useful or not useful.
   ///
   /// Parameter [comments] :
   /// Additional feedback about the GuardDuty findings.
@@ -2246,12 +2667,12 @@ class GuardDuty {
   /// The unique ID that specifies the IPSet that you want to update.
   ///
   /// Parameter [activate] :
-  /// The updated boolean value that specifies whether the IPSet is active or
+  /// The updated Boolean value that specifies whether the IPSet is active or
   /// not.
   ///
   /// Parameter [location] :
-  /// The updated URI of the file that contains the IPSet. For example
-  /// (https://s3.us-west-2.amazonaws.com/my-bucket/my-object-key).
+  /// The updated URI of the file that contains the IPSet. For example:
+  /// https://s3.us-west-2.amazonaws.com/my-bucket/my-object-key.
   ///
   /// Parameter [name] :
   /// The unique ID that specifies the IPSet that you want to update.
@@ -2298,6 +2719,88 @@ class GuardDuty {
     return UpdateIPSetResponse.fromJson(response);
   }
 
+  /// Contains information on member accounts to be updated.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  ///
+  /// Parameter [accountIds] :
+  /// A list of member account IDs to be updated.
+  ///
+  /// Parameter [detectorId] :
+  /// The detector ID of the administrator account.
+  ///
+  /// Parameter [dataSources] :
+  /// Describes which data sources will be updated.
+  Future<UpdateMemberDetectorsResponse> updateMemberDetectors({
+    @_s.required List<String> accountIds,
+    @_s.required String detectorId,
+    DataSourceConfigurations dataSources,
+  }) async {
+    ArgumentError.checkNotNull(accountIds, 'accountIds');
+    ArgumentError.checkNotNull(detectorId, 'detectorId');
+    _s.validateStringLength(
+      'detectorId',
+      detectorId,
+      1,
+      300,
+      isRequired: true,
+    );
+    final $payload = <String, dynamic>{
+      'accountIds': accountIds,
+      if (dataSources != null) 'dataSources': dataSources,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/detector/${Uri.encodeComponent(detectorId)}/member/detector/update',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateMemberDetectorsResponse.fromJson(response);
+  }
+
+  /// Updates the delegated administrator account with the values provided.
+  ///
+  /// May throw [BadRequestException].
+  /// May throw [InternalServerErrorException].
+  ///
+  /// Parameter [autoEnable] :
+  /// Indicates whether to automatically enable member accounts in the
+  /// organization.
+  ///
+  /// Parameter [detectorId] :
+  /// The ID of the detector to update the delegated administrator for.
+  ///
+  /// Parameter [dataSources] :
+  /// Describes which data sources will be updated.
+  Future<void> updateOrganizationConfiguration({
+    @_s.required bool autoEnable,
+    @_s.required String detectorId,
+    OrganizationDataSourceConfigurations dataSources,
+  }) async {
+    ArgumentError.checkNotNull(autoEnable, 'autoEnable');
+    ArgumentError.checkNotNull(detectorId, 'detectorId');
+    _s.validateStringLength(
+      'detectorId',
+      detectorId,
+      1,
+      300,
+      isRequired: true,
+    );
+    final $payload = <String, dynamic>{
+      'autoEnable': autoEnable,
+      if (dataSources != null) 'dataSources': dataSources,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/detector/${Uri.encodeComponent(detectorId)}/admin',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateOrganizationConfigurationResponse.fromJson(response);
+  }
+
   /// Updates information about the publishing destination specified by the
   /// <code>destinationId</code>.
   ///
@@ -2305,11 +2808,11 @@ class GuardDuty {
   /// May throw [InternalServerErrorException].
   ///
   /// Parameter [destinationId] :
-  /// The ID of the detector associated with the publishing destinations to
-  /// update.
+  /// The ID of the publishing destination to update.
   ///
   /// Parameter [detectorId] :
-  /// The ID of the
+  /// The ID of the detector associated with the publishing destinations to
+  /// update.
   ///
   /// Parameter [destinationProperties] :
   /// A <code>DestinationProperties</code> object that includes the
@@ -2343,7 +2846,7 @@ class GuardDuty {
     return UpdatePublishingDestinationResponse.fromJson(response);
   }
 
-  /// Updates the ThreatIntelSet specified by ThreatIntelSet ID.
+  /// Updates the ThreatIntelSet specified by the ThreatIntelSet ID.
   ///
   /// May throw [BadRequestException].
   /// May throw [InternalServerErrorException].
@@ -2356,12 +2859,11 @@ class GuardDuty {
   /// The unique ID that specifies the ThreatIntelSet that you want to update.
   ///
   /// Parameter [activate] :
-  /// The updated boolean value that specifies whether the ThreateIntelSet is
+  /// The updated Boolean value that specifies whether the ThreateIntelSet is
   /// active or not.
   ///
   /// Parameter [location] :
-  /// The updated URI of the file that contains the ThreateIntelSet. For example
-  /// (https://s3.us-west-2.amazonaws.com/my-bucket/my-object-key)
+  /// The updated URI of the file that contains the ThreateIntelSet.
   ///
   /// Parameter [name] :
   /// The unique ID that specifies the ThreatIntelSet that you want to update.
@@ -2420,6 +2922,31 @@ class AcceptInvitationResponse {
       _$AcceptInvitationResponseFromJson(json);
 }
 
+/// Contains information on the current access control policies for the bucket.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class AccessControlList {
+  /// A value that indicates whether public read access for the bucket is enabled
+  /// through an Access Control List (ACL).
+  @_s.JsonKey(name: 'allowsPublicReadAccess')
+  final bool allowsPublicReadAccess;
+
+  /// A value that indicates whether public write access for the bucket is enabled
+  /// through an Access Control List (ACL).
+  @_s.JsonKey(name: 'allowsPublicWriteAccess')
+  final bool allowsPublicWriteAccess;
+
+  AccessControlList({
+    this.allowsPublicReadAccess,
+    this.allowsPublicWriteAccess,
+  });
+  factory AccessControlList.fromJson(Map<String, dynamic> json) =>
+      _$AccessControlListFromJson(json);
+}
+
 /// Contains information about the access keys.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2427,7 +2954,7 @@ class AcceptInvitationResponse {
     createFactory: true,
     createToJson: false)
 class AccessKeyDetails {
-  /// Access key ID of the user.
+  /// The access key ID of the user.
   @_s.JsonKey(name: 'accessKeyId')
   final String accessKeyId;
 
@@ -2460,11 +2987,11 @@ class AccessKeyDetails {
     createFactory: false,
     createToJson: true)
 class AccountDetail {
-  /// Member account ID.
+  /// The member account ID.
   @_s.JsonKey(name: 'accountId')
   final String accountId;
 
-  /// Member account's email address.
+  /// The email address of the member account.
   @_s.JsonKey(name: 'email')
   final String email;
 
@@ -2475,14 +3002,33 @@ class AccountDetail {
   Map<String, dynamic> toJson() => _$AccountDetailToJson(this);
 }
 
-/// Contains information about action.
+/// Contains information about the account level permissions on the S3 bucket.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class AccountLevelPermissions {
+  /// Describes the S3 Block Public Access settings of the bucket's parent
+  /// account.
+  @_s.JsonKey(name: 'blockPublicAccess')
+  final BlockPublicAccess blockPublicAccess;
+
+  AccountLevelPermissions({
+    this.blockPublicAccess,
+  });
+  factory AccountLevelPermissions.fromJson(Map<String, dynamic> json) =>
+      _$AccountLevelPermissionsFromJson(json);
+}
+
+/// Contains information about actions.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class Action {
-  /// GuardDuty Finding activity type.
+  /// The GuardDuty finding activity type.
   @_s.JsonKey(name: 'actionType')
   final String actionType;
 
@@ -2512,6 +3058,37 @@ class Action {
   factory Action.fromJson(Map<String, dynamic> json) => _$ActionFromJson(json);
 }
 
+/// The account within the organization specified as the GuardDuty delegated
+/// administrator.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class AdminAccount {
+  /// The AWS account ID for the account.
+  @_s.JsonKey(name: 'adminAccountId')
+  final String adminAccountId;
+
+  /// Indicates whether the account is enabled as the delegated administrator.
+  @_s.JsonKey(name: 'adminStatus')
+  final AdminStatus adminStatus;
+
+  AdminAccount({
+    this.adminAccountId,
+    this.adminStatus,
+  });
+  factory AdminAccount.fromJson(Map<String, dynamic> json) =>
+      _$AdminAccountFromJson(json);
+}
+
+enum AdminStatus {
+  @_s.JsonValue('ENABLED')
+  enabled,
+  @_s.JsonValue('DISABLE_IN_PROGRESS')
+  disableInProgress,
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -2523,30 +3100,34 @@ class ArchiveFindingsResponse {
       _$ArchiveFindingsResponseFromJson(json);
 }
 
-/// Contains information about the API operation.
+/// Contains information about the API action.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class AwsApiCallAction {
-  /// AWS API name.
+  /// The AWS API name.
   @_s.JsonKey(name: 'api')
   final String api;
 
-  /// AWS API caller type.
+  /// The AWS API caller type.
   @_s.JsonKey(name: 'callerType')
   final String callerType;
 
-  /// Domain information for the AWS API call.
+  /// The domain information for the AWS API call.
   @_s.JsonKey(name: 'domainDetails')
   final DomainDetails domainDetails;
 
-  /// Remote IP information of the connection.
+  /// The error code of the failed AWS API action.
+  @_s.JsonKey(name: 'errorCode')
+  final String errorCode;
+
+  /// The remote IP information of the connection that initiated the AWS API call.
   @_s.JsonKey(name: 'remoteIpDetails')
   final RemoteIpDetails remoteIpDetails;
 
-  /// AWS service name whose API was invoked.
+  /// The AWS service name whose API was invoked.
   @_s.JsonKey(name: 'serviceName')
   final String serviceName;
 
@@ -2554,11 +3135,105 @@ class AwsApiCallAction {
     this.api,
     this.callerType,
     this.domainDetails,
+    this.errorCode,
     this.remoteIpDetails,
     this.serviceName,
   });
   factory AwsApiCallAction.fromJson(Map<String, dynamic> json) =>
       _$AwsApiCallActionFromJson(json);
+}
+
+/// Contains information on how the bucker owner's S3 Block Public Access
+/// settings are being applied to the S3 bucket. See <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html">S3
+/// Block Public Access</a> for more information.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class BlockPublicAccess {
+  /// Indicates if S3 Block Public Access is set to <code>BlockPublicAcls</code>.
+  @_s.JsonKey(name: 'blockPublicAcls')
+  final bool blockPublicAcls;
+
+  /// Indicates if S3 Block Public Access is set to
+  /// <code>BlockPublicPolicy</code>.
+  @_s.JsonKey(name: 'blockPublicPolicy')
+  final bool blockPublicPolicy;
+
+  /// Indicates if S3 Block Public Access is set to <code>IgnorePublicAcls</code>.
+  @_s.JsonKey(name: 'ignorePublicAcls')
+  final bool ignorePublicAcls;
+
+  /// Indicates if S3 Block Public Access is set to
+  /// <code>RestrictPublicBuckets</code>.
+  @_s.JsonKey(name: 'restrictPublicBuckets')
+  final bool restrictPublicBuckets;
+
+  BlockPublicAccess({
+    this.blockPublicAcls,
+    this.blockPublicPolicy,
+    this.ignorePublicAcls,
+    this.restrictPublicBuckets,
+  });
+  factory BlockPublicAccess.fromJson(Map<String, dynamic> json) =>
+      _$BlockPublicAccessFromJson(json);
+}
+
+/// Contains information about the bucket level permissions for the S3 bucket.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class BucketLevelPermissions {
+  /// Contains information on how Access Control Policies are applied to the
+  /// bucket.
+  @_s.JsonKey(name: 'accessControlList')
+  final AccessControlList accessControlList;
+
+  /// Contains information on which account level S3 Block Public Access settings
+  /// are applied to the S3 bucket.
+  @_s.JsonKey(name: 'blockPublicAccess')
+  final BlockPublicAccess blockPublicAccess;
+
+  /// Contains information on the bucket policies for the S3 bucket.
+  @_s.JsonKey(name: 'bucketPolicy')
+  final BucketPolicy bucketPolicy;
+
+  BucketLevelPermissions({
+    this.accessControlList,
+    this.blockPublicAccess,
+    this.bucketPolicy,
+  });
+  factory BucketLevelPermissions.fromJson(Map<String, dynamic> json) =>
+      _$BucketLevelPermissionsFromJson(json);
+}
+
+/// Contains information on the current bucket policies for the S3 bucket.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class BucketPolicy {
+  /// A value that indicates whether public read access for the bucket is enabled
+  /// through a bucket policy.
+  @_s.JsonKey(name: 'allowsPublicReadAccess')
+  final bool allowsPublicReadAccess;
+
+  /// A value that indicates whether public write access for the bucket is enabled
+  /// through a bucket policy.
+  @_s.JsonKey(name: 'allowsPublicWriteAccess')
+  final bool allowsPublicWriteAccess;
+
+  BucketPolicy({
+    this.allowsPublicReadAccess,
+    this.allowsPublicWriteAccess,
+  });
+  factory BucketPolicy.fromJson(Map<String, dynamic> json) =>
+      _$BucketPolicyFromJson(json);
 }
 
 /// Contains information about the city associated with the IP address.
@@ -2568,7 +3243,7 @@ class AwsApiCallAction {
     createFactory: true,
     createToJson: false)
 class City {
-  /// City name of the remote IP address.
+  /// The city name of the remote IP address.
   @_s.JsonKey(name: 'cityName')
   final String cityName;
 
@@ -2578,6 +3253,25 @@ class City {
   factory City.fromJson(Map<String, dynamic> json) => _$CityFromJson(json);
 }
 
+/// Contains information on the status of CloudTrail as a data source for the
+/// detector.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class CloudTrailConfigurationResult {
+  /// Describes whether CloudTrail is enabled as a data source for the detector.
+  @_s.JsonKey(name: 'status')
+  final DataSourceStatus status;
+
+  CloudTrailConfigurationResult({
+    @_s.required this.status,
+  });
+  factory CloudTrailConfigurationResult.fromJson(Map<String, dynamic> json) =>
+      _$CloudTrailConfigurationResultFromJson(json);
+}
+
 /// Contains information about the condition.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2585,62 +3279,62 @@ class City {
     createFactory: true,
     createToJson: true)
 class Condition {
-  /// Represents the equal condition to be applied to a single field when querying
-  /// for findings.
+  /// Represents the <i>equal</i> condition to be applied to a single field when
+  /// querying for findings.
   @_s.JsonKey(name: 'eq')
   final List<String> eq;
 
-  /// Represents an <b>equal</b> condition to be applied to a single field when
-  /// querying for findings.
+  /// Represents an <i>equal</i> <b/> condition to be applied to a single field
+  /// when querying for findings.
   @_s.JsonKey(name: 'equals')
   final List<String> equals;
 
-  /// Represents a greater than condition to be applied to a single field when
-  /// querying for findings.
+  /// Represents a <i>greater than</i> condition to be applied to a single field
+  /// when querying for findings.
   @_s.JsonKey(name: 'greaterThan')
   final int greaterThan;
 
-  /// Represents a greater than equal condition to be applied to a single field
-  /// when querying for findings.
+  /// Represents a <i>greater than or equal</i> condition to be applied to a
+  /// single field when querying for findings.
   @_s.JsonKey(name: 'greaterThanOrEqual')
   final int greaterThanOrEqual;
 
-  /// Represents a greater than condition to be applied to a single field when
-  /// querying for findings.
+  /// Represents a <i>greater than</i> condition to be applied to a single field
+  /// when querying for findings.
   @_s.JsonKey(name: 'gt')
   final int gt;
 
-  /// Represents a greater than equal condition to be applied to a single field
-  /// when querying for findings.
+  /// Represents a <i>greater than or equal</i> condition to be applied to a
+  /// single field when querying for findings.
   @_s.JsonKey(name: 'gte')
   final int gte;
 
-  /// Represents a less than condition to be applied to a single field when
+  /// Represents a <i>less than</i> condition to be applied to a single field when
   /// querying for findings.
   @_s.JsonKey(name: 'lessThan')
   final int lessThan;
 
-  /// Represents a less than equal condition to be applied to a single field when
-  /// querying for findings.
+  /// Represents a <i>less than or equal</i> condition to be applied to a single
+  /// field when querying for findings.
   @_s.JsonKey(name: 'lessThanOrEqual')
   final int lessThanOrEqual;
 
-  /// Represents a less than condition to be applied to a single field when
+  /// Represents a <i>less than</i> condition to be applied to a single field when
   /// querying for findings.
   @_s.JsonKey(name: 'lt')
   final int lt;
 
-  /// Represents a less than equal condition to be applied to a single field when
-  /// querying for findings.
+  /// Represents a <i>less than or equal</i> condition to be applied to a single
+  /// field when querying for findings.
   @_s.JsonKey(name: 'lte')
   final int lte;
 
-  /// Represents the not equal condition to be applied to a single field when
-  /// querying for findings.
+  /// Represents the <i>not equal</i> condition to be applied to a single field
+  /// when querying for findings.
   @_s.JsonKey(name: 'neq')
   final List<String> neq;
 
-  /// Represents an <b>not equal</b> condition to be applied to a single field
+  /// Represents a <i>not equal</i> <b/> condition to be applied to a single field
   /// when querying for findings.
   @_s.JsonKey(name: 'notEquals')
   final List<String> notEquals;
@@ -2665,7 +3359,7 @@ class Condition {
   Map<String, dynamic> toJson() => _$ConditionToJson(this);
 }
 
-/// Contains information about the country in which the remote IP address is
+/// Contains information about the country where the remote IP address is
 /// located.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2673,11 +3367,11 @@ class Condition {
     createFactory: true,
     createToJson: false)
 class Country {
-  /// Country code of the remote IP address.
+  /// The country code of the remote IP address.
   @_s.JsonKey(name: 'countryCode')
   final String countryCode;
 
-  /// Country name of the remote IP address.
+  /// The country name of the remote IP address.
   @_s.JsonKey(name: 'countryName')
   final String countryName;
 
@@ -2746,8 +3440,9 @@ class CreateIPSetResponse {
     createFactory: true,
     createToJson: false)
 class CreateMembersResponse {
-  /// A list of objects containing the unprocessed account and a result string
-  /// explaining why it was unprocessed.
+  /// A list of objects that include the <code>accountIds</code> of the
+  /// unprocessed accounts and a result string that explains why each was
+  /// unprocessed.
   @_s.JsonKey(name: 'unprocessedAccounts')
   final List<UnprocessedAccount> unprocessedAccounts;
 
@@ -2764,7 +3459,7 @@ class CreateMembersResponse {
     createFactory: true,
     createToJson: false)
 class CreatePublishingDestinationResponse {
-  /// The ID of the publishing destination created.
+  /// The ID of the publishing destination that is created.
   @_s.JsonKey(name: 'destinationId')
   final String destinationId;
 
@@ -2804,14 +3499,104 @@ class CreateThreatIntelSetResponse {
       _$CreateThreatIntelSetResponseFromJson(json);
 }
 
+/// Contains information on the status of DNS logs as a data source.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DNSLogsConfigurationResult {
+  /// Denotes whether DNS logs is enabled as a data source.
+  @_s.JsonKey(name: 'status')
+  final DataSourceStatus status;
+
+  DNSLogsConfigurationResult({
+    @_s.required this.status,
+  });
+  factory DNSLogsConfigurationResult.fromJson(Map<String, dynamic> json) =>
+      _$DNSLogsConfigurationResultFromJson(json);
+}
+
+enum DataSource {
+  @_s.JsonValue('FLOW_LOGS')
+  flowLogs,
+  @_s.JsonValue('CLOUD_TRAIL')
+  cloudTrail,
+  @_s.JsonValue('DNS_LOGS')
+  dnsLogs,
+  @_s.JsonValue('S3_LOGS')
+  s3Logs,
+}
+
+/// Contains information about which data sources are enabled.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class DataSourceConfigurations {
+  /// Describes whether S3 data event logs are enabled as a data source.
+  @_s.JsonKey(name: 's3Logs')
+  final S3LogsConfiguration s3Logs;
+
+  DataSourceConfigurations({
+    this.s3Logs,
+  });
+  Map<String, dynamic> toJson() => _$DataSourceConfigurationsToJson(this);
+}
+
+/// Contains information on the status of data sources for the detector.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DataSourceConfigurationsResult {
+  /// An object that contains information on the status of CloudTrail as a data
+  /// source.
+  @_s.JsonKey(name: 'cloudTrail')
+  final CloudTrailConfigurationResult cloudTrail;
+
+  /// An object that contains information on the status of DNS logs as a data
+  /// source.
+  @_s.JsonKey(name: 'dnsLogs')
+  final DNSLogsConfigurationResult dNSLogs;
+
+  /// An object that contains information on the status of VPC flow logs as a data
+  /// source.
+  @_s.JsonKey(name: 'flowLogs')
+  final FlowLogsConfigurationResult flowLogs;
+
+  /// An object that contains information on the status of S3 Data event logs as a
+  /// data source.
+  @_s.JsonKey(name: 's3Logs')
+  final S3LogsConfigurationResult s3Logs;
+
+  DataSourceConfigurationsResult({
+    @_s.required this.cloudTrail,
+    @_s.required this.dNSLogs,
+    @_s.required this.flowLogs,
+    @_s.required this.s3Logs,
+  });
+  factory DataSourceConfigurationsResult.fromJson(Map<String, dynamic> json) =>
+      _$DataSourceConfigurationsResultFromJson(json);
+}
+
+enum DataSourceStatus {
+  @_s.JsonValue('ENABLED')
+  enabled,
+  @_s.JsonValue('DISABLED')
+  disabled,
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class DeclineInvitationsResponse {
-  /// A list of objects containing the unprocessed account and a result string
-  /// explaining why it was unprocessed.
+  /// A list of objects that contain the unprocessed account and a result string
+  /// that explains why it was unprocessed.
   @_s.JsonKey(name: 'unprocessedAccounts')
   final List<UnprocessedAccount> unprocessedAccounts;
 
@@ -2820,6 +3605,33 @@ class DeclineInvitationsResponse {
   });
   factory DeclineInvitationsResponse.fromJson(Map<String, dynamic> json) =>
       _$DeclineInvitationsResponseFromJson(json);
+}
+
+/// Contains information on the server side encryption method used in the S3
+/// bucket. See <a
+/// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/serv-side-encryption.html">S3
+/// Server-Side Encryption</a> for more information.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DefaultServerSideEncryption {
+  /// The type of encryption used for objects within the S3 bucket.
+  @_s.JsonKey(name: 'encryptionType')
+  final String encryptionType;
+
+  /// The Amazon Resource Name (ARN) of the KMS encryption key. Only available if
+  /// the bucket <code>EncryptionType</code> is <code>aws:kms</code>.
+  @_s.JsonKey(name: 'kmsMasterKeyArn')
+  final String kmsMasterKeyArn;
+
+  DefaultServerSideEncryption({
+    this.encryptionType,
+    this.kmsMasterKeyArn,
+  });
+  factory DefaultServerSideEncryption.fromJson(Map<String, dynamic> json) =>
+      _$DefaultServerSideEncryptionFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -2861,8 +3673,8 @@ class DeleteIPSetResponse {
     createFactory: true,
     createToJson: false)
 class DeleteInvitationsResponse {
-  /// A list of objects containing the unprocessed account and a result string
-  /// explaining why it was unprocessed.
+  /// A list of objects that contain the unprocessed account and a result string
+  /// that explains why it was unprocessed.
   @_s.JsonKey(name: 'unprocessedAccounts')
   final List<UnprocessedAccount> unprocessedAccounts;
 
@@ -2918,6 +3730,36 @@ class DeleteThreatIntelSetResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class DescribeOrganizationConfigurationResponse {
+  /// Indicates whether GuardDuty is automatically enabled for accounts added to
+  /// the organization.
+  @_s.JsonKey(name: 'autoEnable')
+  final bool autoEnable;
+
+  /// Indicates whether the maximum number of allowed member accounts are already
+  /// associated with the delegated administrator account for your organization.
+  @_s.JsonKey(name: 'memberAccountLimitReached')
+  final bool memberAccountLimitReached;
+
+  /// Describes which data sources are enabled automatically for member accounts.
+  @_s.JsonKey(name: 'dataSources')
+  final OrganizationDataSourceConfigurationsResult dataSources;
+
+  DescribeOrganizationConfigurationResponse({
+    @_s.required this.autoEnable,
+    @_s.required this.memberAccountLimitReached,
+    this.dataSources,
+  });
+  factory DescribeOrganizationConfigurationResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$DescribeOrganizationConfigurationResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class DescribePublishingDestinationResponse {
   /// The ID of the publishing destination.
   @_s.JsonKey(name: 'destinationId')
@@ -2929,7 +3771,8 @@ class DescribePublishingDestinationResponse {
   @_s.JsonKey(name: 'destinationProperties')
   final DestinationProperties destinationProperties;
 
-  /// The type of the publishing destination. Currently, only S3 is supported.
+  /// The type of publishing destination. Currently, only Amazon S3 buckets are
+  /// supported.
   @_s.JsonKey(name: 'destinationType')
   final DestinationType destinationType;
 
@@ -2954,8 +3797,8 @@ class DescribePublishingDestinationResponse {
       _$DescribePublishingDestinationResponseFromJson(json);
 }
 
-/// Contains information about a publishing destination, including the ID, type,
-/// and status.
+/// Contains information about the publishing destination, including the ID,
+/// type, and status.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -2966,8 +3809,8 @@ class Destination {
   @_s.JsonKey(name: 'destinationId')
   final String destinationId;
 
-  /// The type of resource used for the publishing destination. Currently, only S3
-  /// is supported.
+  /// The type of resource used for the publishing destination. Currently, only
+  /// Amazon S3 buckets are supported.
   @_s.JsonKey(name: 'destinationType')
   final DestinationType destinationType;
 
@@ -2984,8 +3827,9 @@ class Destination {
       _$DestinationFromJson(json);
 }
 
-/// Contains the ARN of the resource to publish to, such as an S3 bucket, and
-/// the ARN of the KMS key to use to encrypt published findings.
+/// Contains the Amazon Resource Name (ARN) of the resource to publish to, such
+/// as an S3 bucket, and the ARN of the KMS key to use to encrypt published
+/// findings.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -3037,6 +3881,18 @@ enum DetectorStatus {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class DisableOrganizationAdminAccountResponse {
+  DisableOrganizationAdminAccountResponse();
+  factory DisableOrganizationAdminAccountResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$DisableOrganizationAdminAccountResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class DisassociateFromMasterAccountResponse {
   DisassociateFromMasterAccountResponse();
   factory DisassociateFromMasterAccountResponse.fromJson(
@@ -3050,8 +3906,8 @@ class DisassociateFromMasterAccountResponse {
     createFactory: true,
     createToJson: false)
 class DisassociateMembersResponse {
-  /// A list of objects containing the unprocessed account and a result string
-  /// explaining why it was unprocessed.
+  /// A list of objects that contain the unprocessed account and a result string
+  /// that explains why it was unprocessed.
   @_s.JsonKey(name: 'unprocessedAccounts')
   final List<UnprocessedAccount> unprocessedAccounts;
 
@@ -3069,7 +3925,7 @@ class DisassociateMembersResponse {
     createFactory: true,
     createToJson: false)
 class DnsRequestAction {
-  /// Domain information for the API request.
+  /// The domain information for the API request.
   @_s.JsonKey(name: 'domain')
   final String domain;
 
@@ -3087,7 +3943,7 @@ class DnsRequestAction {
     createFactory: true,
     createToJson: false)
 class DomainDetails {
-  /// Domain information for the AWS API call.
+  /// The domain information for the AWS API call.
   @_s.JsonKey(name: 'domain')
   final String domain;
 
@@ -3096,6 +3952,18 @@ class DomainDetails {
   });
   factory DomainDetails.fromJson(Map<String, dynamic> json) =>
       _$DomainDetailsFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class EnableOrganizationAdminAccountResponse {
+  EnableOrganizationAdminAccountResponse();
+  factory EnableOrganizationAdminAccountResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$EnableOrganizationAdminAccountResponseFromJson(json);
 }
 
 /// Contains information about the reason that the finding was generated.
@@ -3166,11 +4034,11 @@ class Finding {
   @_s.JsonKey(name: 'accountId')
   final String accountId;
 
-  /// The ARN for the finding.
+  /// The ARN of the finding.
   @_s.JsonKey(name: 'arn')
   final String arn;
 
-  /// The time and date at which the finding was created.
+  /// The time and date when the finding was created.
   @_s.JsonKey(name: 'createdAt')
   final String createdAt;
 
@@ -3178,7 +4046,7 @@ class Finding {
   @_s.JsonKey(name: 'id')
   final String id;
 
-  /// The Region in which the finding was generated.
+  /// The Region where the finding was generated.
   @_s.JsonKey(name: 'region')
   final String region;
   @_s.JsonKey(name: 'resource')
@@ -3192,11 +4060,11 @@ class Finding {
   @_s.JsonKey(name: 'severity')
   final double severity;
 
-  /// The type of the finding.
+  /// The type of finding.
   @_s.JsonKey(name: 'type')
   final String type;
 
-  /// The time and date at which the finding was laste updated.
+  /// The time and date when the finding was last updated.
   @_s.JsonKey(name: 'updatedAt')
   final String updatedAt;
 
@@ -3214,7 +4082,7 @@ class Finding {
   @_s.JsonKey(name: 'service')
   final Service service;
 
-  /// The title for the finding.
+  /// The title of the finding.
   @_s.JsonKey(name: 'title')
   final String title;
 
@@ -3305,7 +4173,7 @@ extension on FindingStatisticType {
     createFactory: true,
     createToJson: false)
 class FindingStatistics {
-  /// Represents a map of severity to count statistic for a set of findings
+  /// Represents a map of severity to count statistics for a set of findings.
   @_s.JsonKey(name: 'countBySeverity')
   final Map<String, int> countBySeverity;
 
@@ -3316,6 +4184,24 @@ class FindingStatistics {
       _$FindingStatisticsFromJson(json);
 }
 
+/// Contains information on the status of VPC flow logs as a data source.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class FlowLogsConfigurationResult {
+  /// Denotes whether VPC flow logs is enabled as a data source.
+  @_s.JsonKey(name: 'status')
+  final DataSourceStatus status;
+
+  FlowLogsConfigurationResult({
+    @_s.required this.status,
+  });
+  factory FlowLogsConfigurationResult.fromJson(Map<String, dynamic> json) =>
+      _$FlowLogsConfigurationResultFromJson(json);
+}
+
 /// Contains information about the location of the remote IP address.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3323,11 +4209,11 @@ class FindingStatistics {
     createFactory: true,
     createToJson: false)
 class GeoLocation {
-  /// Latitude information of remote IP address.
+  /// The latitude information of the remote IP address.
   @_s.JsonKey(name: 'lat')
   final double lat;
 
-  /// Longitude information of remote IP address.
+  /// The longitude information of the remote IP address.
   @_s.JsonKey(name: 'lon')
   final double lon;
 
@@ -3353,11 +4239,15 @@ class GetDetectorResponse {
   @_s.JsonKey(name: 'status')
   final DetectorStatus status;
 
-  /// Detector creation timestamp.
+  /// The timestamp of when the detector was created.
   @_s.JsonKey(name: 'createdAt')
   final String createdAt;
 
-  /// Finding publishing frequency.
+  /// Describes which data sources are enabled for the detector.
+  @_s.JsonKey(name: 'dataSources')
+  final DataSourceConfigurationsResult dataSources;
+
+  /// The publishing frequency of the finding.
   @_s.JsonKey(name: 'findingPublishingFrequency')
   final FindingPublishingFrequency findingPublishingFrequency;
 
@@ -3365,7 +4255,7 @@ class GetDetectorResponse {
   @_s.JsonKey(name: 'tags')
   final Map<String, String> tags;
 
-  /// Detector last update timestamp.
+  /// The last-updated timestamp for the detector.
   @_s.JsonKey(name: 'updatedAt')
   final String updatedAt;
 
@@ -3373,6 +4263,7 @@ class GetDetectorResponse {
     @_s.required this.serviceRole,
     @_s.required this.status,
     this.createdAt,
+    this.dataSources,
     this.findingPublishingFrequency,
     this.tags,
     this.updatedAt,
@@ -3448,7 +4339,7 @@ class GetFindingsResponse {
     createFactory: true,
     createToJson: false)
 class GetFindingsStatisticsResponse {
-  /// Finding statistics object.
+  /// The finding statistics object.
   @_s.JsonKey(name: 'findingStatistics')
   final FindingStatistics findingStatistics;
 
@@ -3469,20 +4360,20 @@ class GetIPSetResponse {
   @_s.JsonKey(name: 'format')
   final IpSetFormat format;
 
-  /// The URI of the file that contains the IPSet. For example
-  /// (https://s3.us-west-2.amazonaws.com/my-bucket/my-object-key)
+  /// The URI of the file that contains the IPSet. For example:
+  /// https://s3.us-west-2.amazonaws.com/my-bucket/my-object-key.
   @_s.JsonKey(name: 'location')
   final String location;
 
-  /// The user friendly name for the IPSet.
+  /// The user-friendly name for the IPSet.
   @_s.JsonKey(name: 'name')
   final String name;
 
-  /// The status of ipSet file uploaded.
+  /// The status of IPSet file that was uploaded.
   @_s.JsonKey(name: 'status')
   final IpSetStatus status;
 
-  /// The tags of the IP set resource.
+  /// The tags of the IPSet resource.
   @_s.JsonKey(name: 'tags')
   final Map<String, String> tags;
 
@@ -3520,7 +4411,7 @@ class GetInvitationsCountResponse {
     createFactory: true,
     createToJson: false)
 class GetMasterAccountResponse {
-  /// Master account details.
+  /// The administrator account details.
   @_s.JsonKey(name: 'master')
   final Master master;
 
@@ -3536,13 +4427,37 @@ class GetMasterAccountResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class GetMemberDetectorsResponse {
+  /// An object that describes which data sources are enabled for a member
+  /// account.
+  @_s.JsonKey(name: 'members')
+  final List<MemberDataSourceConfiguration> memberDataSourceConfigurations;
+
+  /// A list of member account IDs that were unable to be processed along with an
+  /// explanation for why they were not processed.
+  @_s.JsonKey(name: 'unprocessedAccounts')
+  final List<UnprocessedAccount> unprocessedAccounts;
+
+  GetMemberDetectorsResponse({
+    @_s.required this.memberDataSourceConfigurations,
+    @_s.required this.unprocessedAccounts,
+  });
+  factory GetMemberDetectorsResponse.fromJson(Map<String, dynamic> json) =>
+      _$GetMemberDetectorsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class GetMembersResponse {
   /// A list of members.
   @_s.JsonKey(name: 'members')
   final List<Member> members;
 
-  /// A list of objects containing the unprocessed account and a result string
-  /// explaining why it was unprocessed.
+  /// A list of objects that contain the unprocessed account and a result string
+  /// that explains why it was unprocessed.
   @_s.JsonKey(name: 'unprocessedAccounts')
   final List<UnprocessedAccount> unprocessedAccounts;
 
@@ -3564,12 +4479,12 @@ class GetThreatIntelSetResponse {
   @_s.JsonKey(name: 'format')
   final ThreatIntelSetFormat format;
 
-  /// The URI of the file that contains the ThreatIntelSet. For example
-  /// (https://s3.us-west-2.amazonaws.com/my-bucket/my-object-key).
+  /// The URI of the file that contains the ThreatIntelSet. For example:
+  /// https://s3.us-west-2.amazonaws.com/my-bucket/my-object-key.
   @_s.JsonKey(name: 'location')
   final String location;
 
-  /// A user-friendly ThreatIntelSet name that is displayed in all finding
+  /// A user-friendly ThreatIntelSet name displayed in all findings that are
   /// generated by activity that involves IP addresses included in this
   /// ThreatIntelSet.
   @_s.JsonKey(name: 'name')
@@ -3579,7 +4494,7 @@ class GetThreatIntelSetResponse {
   @_s.JsonKey(name: 'status')
   final ThreatIntelSetStatus status;
 
-  /// The tags of the Threat List resource.
+  /// The tags of the threat list resource.
   @_s.JsonKey(name: 'tags')
   final Map<String, String> tags;
 
@@ -3594,6 +4509,30 @@ class GetThreatIntelSetResponse {
       _$GetThreatIntelSetResponseFromJson(json);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class GetUsageStatisticsResponse {
+  /// The pagination parameter to be used on the next list operation to retrieve
+  /// more items.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// The usage statistics object. If a UsageStatisticType was provided, the
+  /// objects representing other types will be null.
+  @_s.JsonKey(name: 'usageStatistics')
+  final UsageStatistics usageStatistics;
+
+  GetUsageStatisticsResponse({
+    this.nextToken,
+    this.usageStatistics,
+  });
+  factory GetUsageStatisticsResponse.fromJson(Map<String, dynamic> json) =>
+      _$GetUsageStatisticsResponseFromJson(json);
+}
+
 /// Contains information about the EC2 instance profile.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3601,11 +4540,11 @@ class GetThreatIntelSetResponse {
     createFactory: true,
     createToJson: false)
 class IamInstanceProfile {
-  /// AWS EC2 instance profile ARN.
+  /// The profile ARN of the EC2 instance.
   @_s.JsonKey(name: 'arn')
   final String arn;
 
-  /// AWS EC2 instance profile ID.
+  /// The profile ID of the EC2 instance.
   @_s.JsonKey(name: 'id')
   final String id;
 
@@ -3624,7 +4563,7 @@ class IamInstanceProfile {
     createFactory: true,
     createToJson: false)
 class InstanceDetails {
-  /// The availability zone of the EC2 instance.
+  /// The Availability Zone of the EC2 instance.
   @_s.JsonKey(name: 'availabilityZone')
   final String availabilityZone;
 
@@ -3656,7 +4595,7 @@ class InstanceDetails {
   @_s.JsonKey(name: 'launchTime')
   final String launchTime;
 
-  /// The network interface information of the EC2 instance.
+  /// The elastic network interface information of the EC2 instance.
   @_s.JsonKey(name: 'networkInterfaces')
   final List<NetworkInterface> networkInterfaces;
 
@@ -3703,7 +4642,7 @@ class InstanceDetails {
     createFactory: true,
     createToJson: false)
 class Invitation {
-  /// The ID of the account from which the invitations was sent.
+  /// The ID of the account that the invitation was sent from.
   @_s.JsonKey(name: 'accountId')
   final String accountId;
 
@@ -3712,7 +4651,7 @@ class Invitation {
   @_s.JsonKey(name: 'invitationId')
   final String invitationId;
 
-  /// Timestamp at which the invitation was sent.
+  /// The timestamp when the invitation was sent.
   @_s.JsonKey(name: 'invitedAt')
   final String invitedAt;
 
@@ -3736,8 +4675,8 @@ class Invitation {
     createFactory: true,
     createToJson: false)
 class InviteMembersResponse {
-  /// A list of objects containing the unprocessed account and a result string
-  /// explaining why it was unprocessed.
+  /// A list of objects that contain the unprocessed account and a result string
+  /// that explains why it was unprocessed.
   @_s.JsonKey(name: 'unprocessedAccounts')
   final List<UnprocessedAccount> unprocessedAccounts;
 
@@ -3806,12 +4745,12 @@ enum IpSetStatus {
     createFactory: true,
     createToJson: false)
 class ListDetectorsResponse {
-  /// A list of detector Ids.
+  /// A list of detector IDs.
   @_s.JsonKey(name: 'detectorIds')
   final List<String> detectorIds;
 
-  /// Pagination parameter to be used on the next list operation to retrieve more
-  /// items.
+  /// The pagination parameter to be used on the next list operation to retrieve
+  /// more items.
   @_s.JsonKey(name: 'nextToken')
   final String nextToken;
 
@@ -3829,12 +4768,12 @@ class ListDetectorsResponse {
     createFactory: true,
     createToJson: false)
 class ListFiltersResponse {
-  /// A list of filter names
+  /// A list of filter names.
   @_s.JsonKey(name: 'filterNames')
   final List<String> filterNames;
 
-  /// Pagination parameter to be used on the next list operation to retrieve more
-  /// items.
+  /// The pagination parameter to be used on the next list operation to retrieve
+  /// more items.
   @_s.JsonKey(name: 'nextToken')
   final String nextToken;
 
@@ -3852,12 +4791,12 @@ class ListFiltersResponse {
     createFactory: true,
     createToJson: false)
 class ListFindingsResponse {
-  /// The IDs of the findings you are listing.
+  /// The IDs of the findings that you're listing.
   @_s.JsonKey(name: 'findingIds')
   final List<String> findingIds;
 
-  /// Pagination parameter to be used on the next list operation to retrieve more
-  /// items.
+  /// The pagination parameter to be used on the next list operation to retrieve
+  /// more items.
   @_s.JsonKey(name: 'nextToken')
   final String nextToken;
 
@@ -3879,8 +4818,8 @@ class ListIPSetsResponse {
   @_s.JsonKey(name: 'ipSetIds')
   final List<String> ipSetIds;
 
-  /// Pagination parameter to be used on the next list operation to retrieve more
-  /// items.
+  /// The pagination parameter to be used on the next list operation to retrieve
+  /// more items.
   @_s.JsonKey(name: 'nextToken')
   final String nextToken;
 
@@ -3902,8 +4841,8 @@ class ListInvitationsResponse {
   @_s.JsonKey(name: 'invitations')
   final List<Invitation> invitations;
 
-  /// Pagination parameter to be used on the next list operation to retrieve more
-  /// items.
+  /// The pagination parameter to be used on the next list operation to retrieve
+  /// more items.
   @_s.JsonKey(name: 'nextToken')
   final String nextToken;
 
@@ -3925,8 +4864,8 @@ class ListMembersResponse {
   @_s.JsonKey(name: 'members')
   final List<Member> members;
 
-  /// Pagination parameter to be used on the next list operation to retrieve more
-  /// items.
+  /// The pagination parameter to be used on the next list operation to retrieve
+  /// more items.
   @_s.JsonKey(name: 'nextToken')
   final String nextToken;
 
@@ -3943,15 +4882,39 @@ class ListMembersResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class ListOrganizationAdminAccountsResponse {
+  /// A list of accounts configured as GuardDuty delegated administrators.
+  @_s.JsonKey(name: 'adminAccounts')
+  final List<AdminAccount> adminAccounts;
+
+  /// The pagination parameter to be used on the next list operation to retrieve
+  /// more items.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListOrganizationAdminAccountsResponse({
+    this.adminAccounts,
+    this.nextToken,
+  });
+  factory ListOrganizationAdminAccountsResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$ListOrganizationAdminAccountsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class ListPublishingDestinationsResponse {
-  /// A <code>Destinations</code> obect that includes information about each
+  /// A <code>Destinations</code> object that includes information about each
   /// publishing destination returned.
   @_s.JsonKey(name: 'destinations')
   final List<Destination> destinations;
 
-  /// A token to use for paginating results returned in the repsonse. Set the
-  /// value of this parameter to null for the first request to a list action. For
-  /// subsequent calls, use the <code>NextToken</code> value returned from the
+  /// A token to use for paginating results that are returned in the response. Set
+  /// the value of this parameter to null for the first request to a list action.
+  /// For subsequent calls, use the <code>NextToken</code> value returned from the
   /// previous request to continue listing results after the first page.
   @_s.JsonKey(name: 'nextToken')
   final String nextToken;
@@ -3992,8 +4955,8 @@ class ListThreatIntelSetsResponse {
   @_s.JsonKey(name: 'threatIntelSetIds')
   final List<String> threatIntelSetIds;
 
-  /// Pagination parameter to be used on the next list operation to retrieve more
-  /// items.
+  /// The pagination parameter to be used on the next list operation to retrieve
+  /// more items.
   @_s.JsonKey(name: 'nextToken')
   final String nextToken;
 
@@ -4012,7 +4975,7 @@ class ListThreatIntelSetsResponse {
     createFactory: true,
     createToJson: false)
 class LocalIpDetails {
-  /// IPV4 remote address of the connection.
+  /// The IPv4 local address of the connection.
   @_s.JsonKey(name: 'ipAddressV4')
   final String ipAddressV4;
 
@@ -4030,11 +4993,11 @@ class LocalIpDetails {
     createFactory: true,
     createToJson: false)
 class LocalPortDetails {
-  /// Port number of the local connection.
+  /// The port number of the local connection.
   @_s.JsonKey(name: 'port')
   final int port;
 
-  /// Port name of the local connection.
+  /// The port name of the local connection.
   @_s.JsonKey(name: 'portName')
   final String portName;
 
@@ -4046,26 +5009,27 @@ class LocalPortDetails {
       _$LocalPortDetailsFromJson(json);
 }
 
-/// Contains information about the Master account and invitation.
+/// Contains information about the administrator account and invitation.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class Master {
-  /// The ID of the account used as the Master account.
+  /// The ID of the account used as the administrator account.
   @_s.JsonKey(name: 'accountId')
   final String accountId;
 
-  /// This value is used to validate the master account to the member account.
+  /// The value used to validate the administrator account to the member account.
   @_s.JsonKey(name: 'invitationId')
   final String invitationId;
 
-  /// Timestamp at which the invitation was sent.
+  /// The timestamp when the invitation was sent.
   @_s.JsonKey(name: 'invitedAt')
   final String invitedAt;
 
-  /// The status of the relationship between the master and member accounts.
+  /// The status of the relationship between the administrator and member
+  /// accounts.
   @_s.JsonKey(name: 'relationshipStatus')
   final String relationshipStatus;
 
@@ -4078,38 +5042,38 @@ class Master {
   factory Master.fromJson(Map<String, dynamic> json) => _$MasterFromJson(json);
 }
 
-/// Continas information about the member account
+/// Contains information about the member account.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class Member {
-  /// Member account ID.
+  /// The ID of the member account.
   @_s.JsonKey(name: 'accountId')
   final String accountId;
 
-  /// Member account's email address.
+  /// The email address of the member account.
   @_s.JsonKey(name: 'email')
   final String email;
 
-  /// Master account ID.
+  /// The administrator account ID.
   @_s.JsonKey(name: 'masterId')
   final String masterId;
 
-  /// The status of the relationship between the member and the master.
+  /// The status of the relationship between the member and the administrator.
   @_s.JsonKey(name: 'relationshipStatus')
   final String relationshipStatus;
 
-  /// Member last updated timestamp.
+  /// The last-updated timestamp of the member.
   @_s.JsonKey(name: 'updatedAt')
   final String updatedAt;
 
-  /// Member account's detector ID.
+  /// The detector ID of the member account.
   @_s.JsonKey(name: 'detectorId')
   final String detectorId;
 
-  /// Timestamp at which the invitation was sent
+  /// The timestamp when the invitation was sent.
   @_s.JsonKey(name: 'invitedAt')
   final String invitedAt;
 
@@ -4125,6 +5089,29 @@ class Member {
   factory Member.fromJson(Map<String, dynamic> json) => _$MemberFromJson(json);
 }
 
+/// Contains information on which data sources are enabled for a member account.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class MemberDataSourceConfiguration {
+  /// The account ID for the member account.
+  @_s.JsonKey(name: 'accountId')
+  final String accountId;
+
+  /// Contains information on the status of data sources for the account.
+  @_s.JsonKey(name: 'dataSources')
+  final DataSourceConfigurationsResult dataSources;
+
+  MemberDataSourceConfiguration({
+    @_s.required this.accountId,
+    @_s.required this.dataSources,
+  });
+  factory MemberDataSourceConfiguration.fromJson(Map<String, dynamic> json) =>
+      _$MemberDataSourceConfigurationFromJson(json);
+}
+
 /// Contains information about the NETWORK_CONNECTION action described in the
 /// finding.
 @_s.JsonSerializable(
@@ -4133,31 +5120,31 @@ class Member {
     createFactory: true,
     createToJson: false)
 class NetworkConnectionAction {
-  /// Network connection blocked information.
+  /// Indicates whether EC2 blocked the network connection to your instance.
   @_s.JsonKey(name: 'blocked')
   final bool blocked;
 
-  /// Network connection direction.
+  /// The network connection direction.
   @_s.JsonKey(name: 'connectionDirection')
   final String connectionDirection;
 
-  /// Local IP information of the connection.
+  /// The local IP information of the connection.
   @_s.JsonKey(name: 'localIpDetails')
   final LocalIpDetails localIpDetails;
 
-  /// Local port information of the connection.
+  /// The local port information of the connection.
   @_s.JsonKey(name: 'localPortDetails')
   final LocalPortDetails localPortDetails;
 
-  /// Network connection protocol.
+  /// The network connection protocol.
   @_s.JsonKey(name: 'protocol')
   final String protocol;
 
-  /// Remote IP information of the connection.
+  /// The remote IP information of the connection.
   @_s.JsonKey(name: 'remoteIpDetails')
   final RemoteIpDetails remoteIpDetails;
 
-  /// Remote port information of the connection.
+  /// The remote port information of the connection.
   @_s.JsonKey(name: 'remotePortDetails')
   final RemotePortDetails remotePortDetails;
 
@@ -4174,26 +5161,27 @@ class NetworkConnectionAction {
       _$NetworkConnectionActionFromJson(json);
 }
 
-/// Contains information about the network interface of the Ec2 instance.
+/// Contains information about the elastic network interface of the EC2
+/// instance.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class NetworkInterface {
-  /// A list of EC2 instance IPv6 address information.
+  /// A list of IPv6 addresses for the EC2 instance.
   @_s.JsonKey(name: 'ipv6Addresses')
   final List<String> ipv6Addresses;
 
-  /// The ID of the network interface
+  /// The ID of the network interface.
   @_s.JsonKey(name: 'networkInterfaceId')
   final String networkInterfaceId;
 
-  /// Private DNS name of the EC2 instance.
+  /// The private DNS name of the EC2 instance.
   @_s.JsonKey(name: 'privateDnsName')
   final String privateDnsName;
 
-  /// Private IP address of the EC2 instance.
+  /// The private IP address of the EC2 instance.
   @_s.JsonKey(name: 'privateIpAddress')
   final String privateIpAddress;
 
@@ -4201,15 +5189,15 @@ class NetworkInterface {
   @_s.JsonKey(name: 'privateIpAddresses')
   final List<PrivateIpAddressDetails> privateIpAddresses;
 
-  /// Public DNS name of the EC2 instance.
+  /// The public DNS name of the EC2 instance.
   @_s.JsonKey(name: 'publicDnsName')
   final String publicDnsName;
 
-  /// Public IP address of the EC2 instance.
+  /// The public IP address of the EC2 instance.
   @_s.JsonKey(name: 'publicIp')
   final String publicIp;
 
-  /// Security groups associated with the EC2 instance.
+  /// The security groups associated with the EC2 instance.
   @_s.JsonKey(name: 'securityGroups')
   final List<SecurityGroup> securityGroups;
 
@@ -4244,26 +5232,27 @@ enum OrderBy {
   desc,
 }
 
-/// Continas information about the ISP organization of the remote IP address.
+/// Contains information about the ISP organization of the remote IP address.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class Organization {
-  /// Autonomous system number of the internet provider of the remote IP address.
+  /// The Autonomous System Number (ASN) of the internet provider of the remote IP
+  /// address.
   @_s.JsonKey(name: 'asn')
   final String asn;
 
-  /// Organization that registered this ASN.
+  /// The organization that registered this ASN.
   @_s.JsonKey(name: 'asnOrg')
   final String asnOrg;
 
-  /// ISP information for the internet provider.
+  /// The ISP information for the internet provider.
   @_s.JsonKey(name: 'isp')
   final String isp;
 
-  /// Name of the internet provider.
+  /// The name of the internet provider.
   @_s.JsonKey(name: 'org')
   final String org;
 
@@ -4277,6 +5266,130 @@ class Organization {
       _$OrganizationFromJson(json);
 }
 
+/// An object that contains information on which data sources will be configured
+/// to be automatically enabled for new members within the organization.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class OrganizationDataSourceConfigurations {
+  /// Describes whether S3 data event logs are enabled for new members of the
+  /// organization.
+  @_s.JsonKey(name: 's3Logs')
+  final OrganizationS3LogsConfiguration s3Logs;
+
+  OrganizationDataSourceConfigurations({
+    this.s3Logs,
+  });
+  Map<String, dynamic> toJson() =>
+      _$OrganizationDataSourceConfigurationsToJson(this);
+}
+
+/// An object that contains information on which data sources are automatically
+/// enabled for new members within the organization.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class OrganizationDataSourceConfigurationsResult {
+  /// Describes whether S3 data event logs are enabled as a data source.
+  @_s.JsonKey(name: 's3Logs')
+  final OrganizationS3LogsConfigurationResult s3Logs;
+
+  OrganizationDataSourceConfigurationsResult({
+    @_s.required this.s3Logs,
+  });
+  factory OrganizationDataSourceConfigurationsResult.fromJson(
+          Map<String, dynamic> json) =>
+      _$OrganizationDataSourceConfigurationsResultFromJson(json);
+}
+
+/// Describes whether S3 data event logs will be automatically enabled for new
+/// members of the organization.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class OrganizationS3LogsConfiguration {
+  /// A value that contains information on whether S3 data event logs will be
+  /// enabled automatically as a data source for the organization.
+  @_s.JsonKey(name: 'autoEnable')
+  final bool autoEnable;
+
+  OrganizationS3LogsConfiguration({
+    @_s.required this.autoEnable,
+  });
+  Map<String, dynamic> toJson() =>
+      _$OrganizationS3LogsConfigurationToJson(this);
+}
+
+/// The current configuration of S3 data event logs as a data source for the
+/// organization.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class OrganizationS3LogsConfigurationResult {
+  /// A value that describes whether S3 data event logs are automatically enabled
+  /// for new members of the organization.
+  @_s.JsonKey(name: 'autoEnable')
+  final bool autoEnable;
+
+  OrganizationS3LogsConfigurationResult({
+    @_s.required this.autoEnable,
+  });
+  factory OrganizationS3LogsConfigurationResult.fromJson(
+          Map<String, dynamic> json) =>
+      _$OrganizationS3LogsConfigurationResultFromJson(json);
+}
+
+/// Contains information on the owner of the bucket.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class Owner {
+  /// The canonical user ID of the bucket owner. For information about locating
+  /// your canonical user ID see <a
+  /// href="https://docs.aws.amazon.com/general/latest/gr/acct-identifiers.html#FindingCanonicalId">Finding
+  /// Your Account Canonical User ID.</a>
+  @_s.JsonKey(name: 'id')
+  final String id;
+
+  Owner({
+    this.id,
+  });
+  factory Owner.fromJson(Map<String, dynamic> json) => _$OwnerFromJson(json);
+}
+
+/// Contains information about how permissions are configured for the S3 bucket.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class PermissionConfiguration {
+  /// Contains information about the account level permissions on the S3 bucket.
+  @_s.JsonKey(name: 'accountLevelPermissions')
+  final AccountLevelPermissions accountLevelPermissions;
+
+  /// Contains information about the bucket level permissions for the S3 bucket.
+  @_s.JsonKey(name: 'bucketLevelPermissions')
+  final BucketLevelPermissions bucketLevelPermissions;
+
+  PermissionConfiguration({
+    this.accountLevelPermissions,
+    this.bucketLevelPermissions,
+  });
+  factory PermissionConfiguration.fromJson(Map<String, dynamic> json) =>
+      _$PermissionConfigurationFromJson(json);
+}
+
 /// Contains information about the PORT_PROBE action described in the finding.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -4284,11 +5397,12 @@ class Organization {
     createFactory: true,
     createToJson: false)
 class PortProbeAction {
-  /// Port probe blocked information.
+  /// Indicates whether EC2 blocked the port probe to the instance, such as with
+  /// an ACL.
   @_s.JsonKey(name: 'blocked')
   final bool blocked;
 
-  /// A list of port probe details objects.
+  /// A list of objects related to port probe details.
   @_s.JsonKey(name: 'portProbeDetails')
   final List<PortProbeDetail> portProbeDetails;
 
@@ -4307,15 +5421,15 @@ class PortProbeAction {
     createFactory: true,
     createToJson: false)
 class PortProbeDetail {
-  /// Local IP information of the connection.
+  /// The local IP information of the connection.
   @_s.JsonKey(name: 'localIpDetails')
   final LocalIpDetails localIpDetails;
 
-  /// Local port information of the connection.
+  /// The local port information of the connection.
   @_s.JsonKey(name: 'localPortDetails')
   final LocalPortDetails localPortDetails;
 
-  /// Remote IP information of the connection.
+  /// The remote IP information of the connection.
   @_s.JsonKey(name: 'remoteIpDetails')
   final RemoteIpDetails remoteIpDetails;
 
@@ -4335,11 +5449,11 @@ class PortProbeDetail {
     createFactory: true,
     createToJson: false)
 class PrivateIpAddressDetails {
-  /// Private DNS name of the EC2 instance.
+  /// The private DNS name of the EC2 instance.
   @_s.JsonKey(name: 'privateDnsName')
   final String privateDnsName;
 
-  /// Private IP address of the EC2 instance.
+  /// The private IP address of the EC2 instance.
   @_s.JsonKey(name: 'privateIpAddress')
   final String privateIpAddress;
 
@@ -4351,18 +5465,18 @@ class PrivateIpAddressDetails {
       _$PrivateIpAddressDetailsFromJson(json);
 }
 
-/// Contains information about the product code for the Ec2 instance.
+/// Contains information about the product code for the EC2 instance.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ProductCode {
-  /// Product code information.
+  /// The product code information.
   @_s.JsonKey(name: 'code')
   final String code;
 
-  /// Product code type.
+  /// The product code type.
   @_s.JsonKey(name: 'productType')
   final String productType;
 
@@ -4372,6 +5486,30 @@ class ProductCode {
   });
   factory ProductCode.fromJson(Map<String, dynamic> json) =>
       _$ProductCodeFromJson(json);
+}
+
+/// Describes the public access policies that apply to the S3 bucket.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class PublicAccess {
+  /// Describes the effective permission on this bucket after factoring all
+  /// attached policies.
+  @_s.JsonKey(name: 'effectivePermission')
+  final String effectivePermission;
+
+  /// Contains information about how permissions are configured for the S3 bucket.
+  @_s.JsonKey(name: 'permissionConfiguration')
+  final PermissionConfiguration permissionConfiguration;
+
+  PublicAccess({
+    this.effectivePermission,
+    this.permissionConfiguration,
+  });
+  factory PublicAccess.fromJson(Map<String, dynamic> json) =>
+      _$PublicAccessFromJson(json);
 }
 
 enum PublishingStatus {
@@ -4385,30 +5523,30 @@ enum PublishingStatus {
   stopped,
 }
 
-/// Continas information about the remote IP address of the connection.
+/// Contains information about the remote IP address of the connection.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class RemoteIpDetails {
-  /// City information of the remote IP address.
+  /// The city information of the remote IP address.
   @_s.JsonKey(name: 'city')
   final City city;
 
-  /// Country code of the remote IP address.
+  /// The country code of the remote IP address.
   @_s.JsonKey(name: 'country')
   final Country country;
 
-  /// Location information of the remote IP address.
+  /// The location information of the remote IP address.
   @_s.JsonKey(name: 'geoLocation')
   final GeoLocation geoLocation;
 
-  /// IPV4 remote address of the connection.
+  /// The IPv4 remote address of the connection.
   @_s.JsonKey(name: 'ipAddressV4')
   final String ipAddressV4;
 
-  /// ISP Organization information of the remote IP address.
+  /// The ISP organization information of the remote IP address.
   @_s.JsonKey(name: 'organization')
   final Organization organization;
 
@@ -4430,11 +5568,11 @@ class RemoteIpDetails {
     createFactory: true,
     createToJson: false)
 class RemotePortDetails {
-  /// Port number of the remote connection.
+  /// The port number of the remote connection.
   @_s.JsonKey(name: 'port')
   final int port;
 
-  /// Port name of the remote connection.
+  /// The port name of the remote connection.
   @_s.JsonKey(name: 'portName')
   final String portName;
 
@@ -4464,17 +5602,112 @@ class Resource {
   @_s.JsonKey(name: 'instanceDetails')
   final InstanceDetails instanceDetails;
 
-  /// The type of the AWS resource.
+  /// The type of AWS resource.
   @_s.JsonKey(name: 'resourceType')
   final String resourceType;
+
+  /// Contains information on the S3 bucket.
+  @_s.JsonKey(name: 's3BucketDetails')
+  final List<S3BucketDetail> s3BucketDetails;
 
   Resource({
     this.accessKeyDetails,
     this.instanceDetails,
     this.resourceType,
+    this.s3BucketDetails,
   });
   factory Resource.fromJson(Map<String, dynamic> json) =>
       _$ResourceFromJson(json);
+}
+
+/// Contains information on the S3 bucket.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class S3BucketDetail {
+  /// The Amazon Resource Name (ARN) of the S3 bucket.
+  @_s.JsonKey(name: 'arn')
+  final String arn;
+
+  /// The date and time the bucket was created at.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdAt')
+  final DateTime createdAt;
+
+  /// Describes the server side encryption method used in the S3 bucket.
+  @_s.JsonKey(name: 'defaultServerSideEncryption')
+  final DefaultServerSideEncryption defaultServerSideEncryption;
+
+  /// The name of the S3 bucket.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// The owner of the S3 bucket.
+  @_s.JsonKey(name: 'owner')
+  final Owner owner;
+
+  /// Describes the public access policies that apply to the S3 bucket.
+  @_s.JsonKey(name: 'publicAccess')
+  final PublicAccess publicAccess;
+
+  /// All tags attached to the S3 bucket
+  @_s.JsonKey(name: 'tags')
+  final List<Tag> tags;
+
+  /// Describes whether the bucket is a source or destination bucket.
+  @_s.JsonKey(name: 'type')
+  final String type;
+
+  S3BucketDetail({
+    this.arn,
+    this.createdAt,
+    this.defaultServerSideEncryption,
+    this.name,
+    this.owner,
+    this.publicAccess,
+    this.tags,
+    this.type,
+  });
+  factory S3BucketDetail.fromJson(Map<String, dynamic> json) =>
+      _$S3BucketDetailFromJson(json);
+}
+
+/// Describes whether S3 data event logs will be enabled as a data source.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class S3LogsConfiguration {
+  /// The status of S3 data event logs as a data source.
+  @_s.JsonKey(name: 'enable')
+  final bool enable;
+
+  S3LogsConfiguration({
+    @_s.required this.enable,
+  });
+  Map<String, dynamic> toJson() => _$S3LogsConfigurationToJson(this);
+}
+
+/// Describes whether S3 data event logs will be enabled as a data source.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class S3LogsConfigurationResult {
+  /// A value that describes whether S3 data event logs are automatically enabled
+  /// for new members of the organization.
+  @_s.JsonKey(name: 'status')
+  final DataSourceStatus status;
+
+  S3LogsConfigurationResult({
+    @_s.required this.status,
+  });
+  factory S3LogsConfigurationResult.fromJson(Map<String, dynamic> json) =>
+      _$S3LogsConfigurationResultFromJson(json);
 }
 
 /// Contains information about the security groups associated with the EC2
@@ -4485,11 +5718,11 @@ class Resource {
     createFactory: true,
     createToJson: false)
 class SecurityGroup {
-  /// EC2 instance's security group ID.
+  /// The security group ID of the EC2 instance.
   @_s.JsonKey(name: 'groupId')
   final String groupId;
 
-  /// EC2 instance's security group name.
+  /// The security group name of the EC2 instance.
   @_s.JsonKey(name: 'groupName')
   final String groupName;
 
@@ -4508,7 +5741,7 @@ class SecurityGroup {
     createFactory: true,
     createToJson: false)
 class Service {
-  /// Information about the activity described in a finding.
+  /// Information about the activity that is described in a finding.
   @_s.JsonKey(name: 'action')
   final Action action;
 
@@ -4516,21 +5749,21 @@ class Service {
   @_s.JsonKey(name: 'archived')
   final bool archived;
 
-  /// Total count of the occurrences of this finding type.
+  /// The total count of the occurrences of this finding type.
   @_s.JsonKey(name: 'count')
   final int count;
 
-  /// Detector ID for the GuardDuty service.
+  /// The detector ID for the GuardDuty service.
   @_s.JsonKey(name: 'detectorId')
   final String detectorId;
 
-  /// First seen timestamp of the activity that prompted GuardDuty to generate
+  /// The first-seen timestamp of the activity that prompted GuardDuty to generate
   /// this finding.
   @_s.JsonKey(name: 'eventFirstSeen')
   final String eventFirstSeen;
 
-  /// Last seen timestamp of the activity that prompted GuardDuty to generate this
-  /// finding.
+  /// The last-seen timestamp of the activity that prompted GuardDuty to generate
+  /// this finding.
   @_s.JsonKey(name: 'eventLastSeen')
   final String eventLastSeen;
 
@@ -4538,7 +5771,7 @@ class Service {
   @_s.JsonKey(name: 'evidence')
   final Evidence evidence;
 
-  /// Resource role information for this finding.
+  /// The resource role information for this finding.
   @_s.JsonKey(name: 'resourceRole')
   final String resourceRole;
 
@@ -4546,7 +5779,7 @@ class Service {
   @_s.JsonKey(name: 'serviceName')
   final String serviceName;
 
-  /// Feedback left about the finding.
+  /// Feedback that was submitted about the finding.
   @_s.JsonKey(name: 'userFeedback')
   final String userFeedback;
 
@@ -4573,12 +5806,12 @@ class Service {
     createFactory: false,
     createToJson: true)
 class SortCriteria {
-  /// Represents the finding attribute (for example, accountId) by which to sort
-  /// findings.
+  /// Represents the finding attribute (for example, accountId) to sort findings
+  /// by.
   @_s.JsonKey(name: 'attributeName')
   final String attributeName;
 
-  /// Order by which the sorted findings are to be displayed.
+  /// The order by which the sorted findings are to be displayed.
   @_s.JsonKey(name: 'orderBy')
   final OrderBy orderBy;
 
@@ -4595,8 +5828,8 @@ class SortCriteria {
     createFactory: true,
     createToJson: false)
 class StartMonitoringMembersResponse {
-  /// A list of objects containing the unprocessed account and a result string
-  /// explaining why it was unprocessed.
+  /// A list of objects that contain the unprocessed account and a result string
+  /// that explains why it was unprocessed.
   @_s.JsonKey(name: 'unprocessedAccounts')
   final List<UnprocessedAccount> unprocessedAccounts;
 
@@ -4613,8 +5846,9 @@ class StartMonitoringMembersResponse {
     createFactory: true,
     createToJson: false)
 class StopMonitoringMembersResponse {
-  /// A list of objects containing the unprocessed account and a result string
-  /// explaining why it was unprocessed.
+  /// A list of objects that contain an accountId for each account that could not
+  /// be processed, and a result string that indicates why the account was not
+  /// processed.
   @_s.JsonKey(name: 'unprocessedAccounts')
   final List<UnprocessedAccount> unprocessedAccounts;
 
@@ -4625,18 +5859,18 @@ class StopMonitoringMembersResponse {
       _$StopMonitoringMembersResponseFromJson(json);
 }
 
-/// Contains information about a tag associated with the Ec2 instance.
+/// Contains information about a tag associated with the EC2 instance.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class Tag {
-  /// EC2 instance tag key.
+  /// The EC2 instance tag key.
   @_s.JsonKey(name: 'key')
   final String key;
 
-  /// EC2 instance tag value.
+  /// The EC2 instance tag value.
   @_s.JsonKey(name: 'value')
   final String value;
 
@@ -4735,6 +5969,29 @@ class ThreatIntelligenceDetail {
       _$ThreatIntelligenceDetailFromJson(json);
 }
 
+/// Contains the total usage with the corresponding currency unit for that
+/// value.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class Total {
+  /// The total usage.
+  @_s.JsonKey(name: 'amount')
+  final String amount;
+
+  /// The currency unit that the amount is given in.
+  @_s.JsonKey(name: 'unit')
+  final String unit;
+
+  Total({
+    this.amount,
+    this.unit,
+  });
+  factory Total.fromJson(Map<String, dynamic> json) => _$TotalFromJson(json);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -4746,14 +6003,14 @@ class UnarchiveFindingsResponse {
       _$UnarchiveFindingsResponseFromJson(json);
 }
 
-/// Contains information about the accounts that were not processed.
+/// Contains information about the accounts that weren't processed.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class UnprocessedAccount {
-  /// AWS Account ID.
+  /// The AWS account ID.
   @_s.JsonKey(name: 'accountId')
   final String accountId;
 
@@ -4835,6 +6092,36 @@ class UpdateIPSetResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class UpdateMemberDetectorsResponse {
+  /// A list of member account IDs that were unable to be processed along with an
+  /// explanation for why they were not processed.
+  @_s.JsonKey(name: 'unprocessedAccounts')
+  final List<UnprocessedAccount> unprocessedAccounts;
+
+  UpdateMemberDetectorsResponse({
+    @_s.required this.unprocessedAccounts,
+  });
+  factory UpdateMemberDetectorsResponse.fromJson(Map<String, dynamic> json) =>
+      _$UpdateMemberDetectorsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class UpdateOrganizationConfigurationResponse {
+  UpdateOrganizationConfigurationResponse();
+  factory UpdateOrganizationConfigurationResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$UpdateOrganizationConfigurationResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class UpdatePublishingDestinationResponse {
   UpdatePublishingDestinationResponse();
   factory UpdatePublishingDestinationResponse.fromJson(
@@ -4851,6 +6138,165 @@ class UpdateThreatIntelSetResponse {
   UpdateThreatIntelSetResponse();
   factory UpdateThreatIntelSetResponse.fromJson(Map<String, dynamic> json) =>
       _$UpdateThreatIntelSetResponseFromJson(json);
+}
+
+/// Contains information on the total of usage based on account IDs.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class UsageAccountResult {
+  /// The Account ID that generated usage.
+  @_s.JsonKey(name: 'accountId')
+  final String accountId;
+
+  /// Represents the total of usage for the Account ID.
+  @_s.JsonKey(name: 'total')
+  final Total total;
+
+  UsageAccountResult({
+    this.accountId,
+    this.total,
+  });
+  factory UsageAccountResult.fromJson(Map<String, dynamic> json) =>
+      _$UsageAccountResultFromJson(json);
+}
+
+/// Contains information about the criteria used to query usage statistics.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class UsageCriteria {
+  /// The data sources to aggregate usage statistics from.
+  @_s.JsonKey(name: 'dataSources')
+  final List<DataSource> dataSources;
+
+  /// The account IDs to aggregate usage statistics from.
+  @_s.JsonKey(name: 'accountIds')
+  final List<String> accountIds;
+
+  /// The resources to aggregate usage statistics from. Only accepts exact
+  /// resource names.
+  @_s.JsonKey(name: 'resources')
+  final List<String> resources;
+
+  UsageCriteria({
+    @_s.required this.dataSources,
+    this.accountIds,
+    this.resources,
+  });
+  Map<String, dynamic> toJson() => _$UsageCriteriaToJson(this);
+}
+
+/// Contains information on the result of usage based on data source type.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class UsageDataSourceResult {
+  /// The data source type that generated usage.
+  @_s.JsonKey(name: 'dataSource')
+  final DataSource dataSource;
+
+  /// Represents the total of usage for the specified data source.
+  @_s.JsonKey(name: 'total')
+  final Total total;
+
+  UsageDataSourceResult({
+    this.dataSource,
+    this.total,
+  });
+  factory UsageDataSourceResult.fromJson(Map<String, dynamic> json) =>
+      _$UsageDataSourceResultFromJson(json);
+}
+
+/// Contains information on the sum of usage based on an AWS resource.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class UsageResourceResult {
+  /// The AWS resource that generated usage.
+  @_s.JsonKey(name: 'resource')
+  final String resource;
+
+  /// Represents the sum total of usage for the specified resource type.
+  @_s.JsonKey(name: 'total')
+  final Total total;
+
+  UsageResourceResult({
+    this.resource,
+    this.total,
+  });
+  factory UsageResourceResult.fromJson(Map<String, dynamic> json) =>
+      _$UsageResourceResultFromJson(json);
+}
+
+enum UsageStatisticType {
+  @_s.JsonValue('SUM_BY_ACCOUNT')
+  sumByAccount,
+  @_s.JsonValue('SUM_BY_DATA_SOURCE')
+  sumByDataSource,
+  @_s.JsonValue('SUM_BY_RESOURCE')
+  sumByResource,
+  @_s.JsonValue('TOP_RESOURCES')
+  topResources,
+}
+
+extension on UsageStatisticType {
+  String toValue() {
+    switch (this) {
+      case UsageStatisticType.sumByAccount:
+        return 'SUM_BY_ACCOUNT';
+      case UsageStatisticType.sumByDataSource:
+        return 'SUM_BY_DATA_SOURCE';
+      case UsageStatisticType.sumByResource:
+        return 'SUM_BY_RESOURCE';
+      case UsageStatisticType.topResources:
+        return 'TOP_RESOURCES';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
+/// Contains the result of GuardDuty usage. If a UsageStatisticType is provided
+/// the result for other types will be null.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class UsageStatistics {
+  /// The usage statistic sum organized by account ID.
+  @_s.JsonKey(name: 'sumByAccount')
+  final List<UsageAccountResult> sumByAccount;
+
+  /// The usage statistic sum organized by on data source.
+  @_s.JsonKey(name: 'sumByDataSource')
+  final List<UsageDataSourceResult> sumByDataSource;
+
+  /// The usage statistic sum organized by resource.
+  @_s.JsonKey(name: 'sumByResource')
+  final List<UsageResourceResult> sumByResource;
+
+  /// Lists the top 50 resources that have generated the most GuardDuty usage, in
+  /// order from most to least expensive.
+  @_s.JsonKey(name: 'topResources')
+  final List<UsageResourceResult> topResources;
+
+  UsageStatistics({
+    this.sumByAccount,
+    this.sumByDataSource,
+    this.sumByResource,
+    this.topResources,
+  });
+  factory UsageStatistics.fromJson(Map<String, dynamic> json) =>
+      _$UsageStatisticsFromJson(json);
 }
 
 class BadRequestException extends _s.GenericAwsException {

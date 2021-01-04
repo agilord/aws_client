@@ -50,7 +50,7 @@ class Shield {
           endpointUrl: endpointUrl,
         );
 
-  /// Authorizes the DDoS Response team (DRT) to access the specified Amazon S3
+  /// Authorizes the DDoS Response Team (DRT) to access the specified Amazon S3
   /// bucket containing your AWS WAF logs. You can associate up to 10 Amazon S3
   /// buckets with your subscription.
   ///
@@ -107,7 +107,7 @@ class Shield {
     return AssociateDRTLogBucketResponse.fromJson(jsonResponse.body);
   }
 
-  /// Authorizes the DDoS Response team (DRT), using the specified role, to
+  /// Authorizes the DDoS Response Team (DRT), using the specified role, to
   /// access your AWS account to assist with DDoS attack mitigation during
   /// potential attacks. This enables the DRT to inspect your AWS WAF
   /// configuration and create or update AWS WAF rules and web ACLs.
@@ -275,6 +275,68 @@ class Shield {
     return AssociateHealthCheckResponse.fromJson(jsonResponse.body);
   }
 
+  /// Initializes proactive engagement and sets the list of contacts for the
+  /// DDoS Response Team (DRT) to use. You must provide at least one phone
+  /// number in the emergency contact list.
+  ///
+  /// After you have initialized proactive engagement using this call, to
+  /// disable or enable proactive engagement, use the calls
+  /// <code>DisableProactiveEngagement</code> and
+  /// <code>EnableProactiveEngagement</code>.
+  /// <note>
+  /// This call defines the list of email addresses and phone numbers that the
+  /// DDoS Response Team (DRT) can use to contact you for escalations to the DRT
+  /// and to initiate proactive customer support.
+  ///
+  /// The contacts that you provide in the request replace any contacts that
+  /// were already defined. If you already have contacts defined and want to use
+  /// them, retrieve the list using
+  /// <code>DescribeEmergencyContactSettings</code> and then provide it to this
+  /// call.
+  /// </note>
+  ///
+  /// May throw [InternalErrorException].
+  /// May throw [InvalidOperationException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [OptimisticLockException].
+  ///
+  /// Parameter [emergencyContactList] :
+  /// A list of email addresses and phone numbers that the DDoS Response Team
+  /// (DRT) can use to contact you for escalations to the DRT and to initiate
+  /// proactive customer support.
+  ///
+  /// To enable proactive engagement, the contact list must include at least one
+  /// phone number.
+  /// <note>
+  /// The contacts that you provide here replace any contacts that were already
+  /// defined. If you already have contacts defined and want to use them,
+  /// retrieve the list using <code>DescribeEmergencyContactSettings</code> and
+  /// then provide it here.
+  /// </note>
+  Future<void> associateProactiveEngagementDetails({
+    @_s.required List<EmergencyContact> emergencyContactList,
+  }) async {
+    ArgumentError.checkNotNull(emergencyContactList, 'emergencyContactList');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSShield_20160616.AssociateProactiveEngagementDetails'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'EmergencyContactList': emergencyContactList,
+      },
+    );
+
+    return AssociateProactiveEngagementDetailsResponse.fromJson(
+        jsonResponse.body);
+  }
+
   /// Enables AWS Shield Advanced for a specific AWS resource. The resource can
   /// be an Amazon CloudFront distribution, Elastic Load Balancing load
   /// balancer, AWS Global Accelerator accelerator, Elastic IP Address, or an
@@ -388,19 +450,110 @@ class Shield {
     return CreateProtectionResponse.fromJson(jsonResponse.body);
   }
 
+  /// Creates a grouping of protected resources so they can be handled as a
+  /// collective. This resource grouping improves the accuracy of detection and
+  /// reduces false positives.
+  ///
+  /// May throw [InternalErrorException].
+  /// May throw [ResourceAlreadyExistsException].
+  /// May throw [OptimisticLockException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InvalidParameterException].
+  /// May throw [LimitsExceededException].
+  ///
+  /// Parameter [aggregation] :
+  /// Defines how AWS Shield combines resource data for the group in order to
+  /// detect, mitigate, and report events.
+  ///
+  /// <ul>
+  /// <li>
+  /// Sum - Use the total traffic across the group. This is a good choice for
+  /// most cases. Examples include Elastic IP addresses for EC2 instances that
+  /// scale manually or automatically.
+  /// </li>
+  /// <li>
+  /// Mean - Use the average of the traffic across the group. This is a good
+  /// choice for resources that share traffic uniformly. Examples include
+  /// accelerators and load balancers.
+  /// </li>
+  /// <li>
+  /// Max - Use the highest traffic from each resource. This is useful for
+  /// resources that don't share traffic and for resources that share that
+  /// traffic in a non-uniform way. Examples include CloudFront distributions
+  /// and origin resources for CloudFront distributions.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [pattern] :
+  /// The criteria to use to choose the protected resources for inclusion in the
+  /// group. You can include all resources that have protections, provide a list
+  /// of resource Amazon Resource Names (ARNs), or include all resources of a
+  /// specified resource type.
+  ///
+  /// Parameter [protectionGroupId] :
+  /// The name of the protection group. You use this to identify the protection
+  /// group in lists and to manage the protection group, for example to update,
+  /// delete, or describe it.
+  ///
+  /// Parameter [members] :
+  /// The Amazon Resource Names (ARNs) of the resources to include in the
+  /// protection group. You must set this when you set <code>Pattern</code> to
+  /// <code>ARBITRARY</code> and you must not set it for any other
+  /// <code>Pattern</code> setting.
+  ///
+  /// Parameter [resourceType] :
+  /// The resource type to include in the protection group. All protected
+  /// resources of this type are included in the protection group. Newly
+  /// protected resources of this type are automatically added to the group. You
+  /// must set this when you set <code>Pattern</code> to
+  /// <code>BY_RESOURCE_TYPE</code> and you must not set it for any other
+  /// <code>Pattern</code> setting.
+  Future<void> createProtectionGroup({
+    @_s.required ProtectionGroupAggregation aggregation,
+    @_s.required ProtectionGroupPattern pattern,
+    @_s.required String protectionGroupId,
+    List<String> members,
+    ProtectedResourceType resourceType,
+  }) async {
+    ArgumentError.checkNotNull(aggregation, 'aggregation');
+    ArgumentError.checkNotNull(pattern, 'pattern');
+    ArgumentError.checkNotNull(protectionGroupId, 'protectionGroupId');
+    _s.validateStringLength(
+      'protectionGroupId',
+      protectionGroupId,
+      1,
+      36,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'protectionGroupId',
+      protectionGroupId,
+      r'''[a-zA-Z0-9\\-]*''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSShield_20160616.CreateProtectionGroup'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Aggregation': aggregation?.toValue() ?? '',
+        'Pattern': pattern?.toValue() ?? '',
+        'ProtectionGroupId': protectionGroupId,
+        if (members != null) 'Members': members,
+        if (resourceType != null) 'ResourceType': resourceType.toValue(),
+      },
+    );
+
+    return CreateProtectionGroupResponse.fromJson(jsonResponse.body);
+  }
+
   /// Activates AWS Shield Advanced for an account.
-  ///
-  /// As part of this request you can specify <code>EmergencySettings</code>
-  /// that automaticaly grant the DDoS response team (DRT) needed permissions to
-  /// assist you during a suspected DDoS attack. For more information see <a
-  /// href="https://docs.aws.amazon.com/waf/latest/developerguide/authorize-DRT.html">Authorize
-  /// the DDoS Response Team to Create Rules and Web ACLs on Your Behalf</a>.
-  ///
-  /// To use the services of the DRT, you must be subscribed to the <a
-  /// href="https://aws.amazon.com/premiumsupport/business-support/">Business
-  /// Support plan</a> or the <a
-  /// href="https://aws.amazon.com/premiumsupport/enterprise-support/">Enterprise
-  /// Support plan</a>.
   ///
   /// When you initally create a subscription, your subscription is set to be
   /// automatically renewed at the end of the existing subscription period. You
@@ -465,6 +618,51 @@ class Shield {
     );
 
     return DeleteProtectionResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Removes the specified protection group.
+  ///
+  /// May throw [InternalErrorException].
+  /// May throw [OptimisticLockException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [protectionGroupId] :
+  /// The name of the protection group. You use this to identify the protection
+  /// group in lists and to manage the protection group, for example to update,
+  /// delete, or describe it.
+  Future<void> deleteProtectionGroup({
+    @_s.required String protectionGroupId,
+  }) async {
+    ArgumentError.checkNotNull(protectionGroupId, 'protectionGroupId');
+    _s.validateStringLength(
+      'protectionGroupId',
+      protectionGroupId,
+      1,
+      36,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'protectionGroupId',
+      protectionGroupId,
+      r'''[a-zA-Z0-9\\-]*''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSShield_20160616.DeleteProtectionGroup'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ProtectionGroupId': protectionGroupId,
+      },
+    );
+
+    return DeleteProtectionGroupResponse.fromJson(jsonResponse.body);
   }
 
   /// Removes AWS Shield Advanced from an account. AWS Shield Advanced requires
@@ -533,8 +731,41 @@ class Shield {
     return DescribeAttackResponse.fromJson(jsonResponse.body);
   }
 
+  /// Provides information about the number and type of attacks AWS Shield has
+  /// detected in the last year for all resources that belong to your account,
+  /// regardless of whether you've defined Shield protections for them. This
+  /// operation is available to Shield customers as well as to Shield Advanced
+  /// customers.
+  ///
+  /// The operation returns data for the time range of midnight UTC, one year
+  /// ago, to midnight UTC, today. For example, if the current time is
+  /// <code>2020-10-26 15:39:32 PDT</code>, equal to <code>2020-10-26 22:39:32
+  /// UTC</code>, then the time range for the attack data returned is from
+  /// <code>2019-10-26 00:00:00 UTC</code> to <code>2020-10-26 00:00:00
+  /// UTC</code>.
+  ///
+  /// The time range indicates the period covered by the attack statistics data
+  /// items.
+  ///
+  /// May throw [InternalErrorException].
+  Future<DescribeAttackStatisticsResponse> describeAttackStatistics() async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSShield_20160616.DescribeAttackStatistics'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+    );
+
+    return DescribeAttackStatisticsResponse.fromJson(jsonResponse.body);
+  }
+
   /// Returns the current role and list of Amazon S3 log buckets used by the
-  /// DDoS Response team (DRT) to access your AWS account while assisting with
+  /// DDoS Response Team (DRT) to access your AWS account while assisting with
   /// attack mitigation.
   ///
   /// May throw [InternalErrorException].
@@ -555,8 +786,9 @@ class Shield {
     return DescribeDRTAccessResponse.fromJson(jsonResponse.body);
   }
 
-  /// Lists the email addresses that the DRT can use to contact you during a
-  /// suspected attack.
+  /// A list of email addresses and phone numbers that the DDoS Response Team
+  /// (DRT) can use to contact you if you have proactive engagement enabled, for
+  /// escalations to the DRT and to initiate proactive customer support.
   ///
   /// May throw [InternalErrorException].
   /// May throw [ResourceNotFoundException].
@@ -639,6 +871,50 @@ class Shield {
     return DescribeProtectionResponse.fromJson(jsonResponse.body);
   }
 
+  /// Returns the specification for the specified protection group.
+  ///
+  /// May throw [InternalErrorException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [protectionGroupId] :
+  /// The name of the protection group. You use this to identify the protection
+  /// group in lists and to manage the protection group, for example to update,
+  /// delete, or describe it.
+  Future<DescribeProtectionGroupResponse> describeProtectionGroup({
+    @_s.required String protectionGroupId,
+  }) async {
+    ArgumentError.checkNotNull(protectionGroupId, 'protectionGroupId');
+    _s.validateStringLength(
+      'protectionGroupId',
+      protectionGroupId,
+      1,
+      36,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'protectionGroupId',
+      protectionGroupId,
+      r'''[a-zA-Z0-9\\-]*''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSShield_20160616.DescribeProtectionGroup'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ProtectionGroupId': protectionGroupId,
+      },
+    );
+
+    return DescribeProtectionGroupResponse.fromJson(jsonResponse.body);
+  }
+
   /// Provides details about the AWS Shield Advanced subscription for an
   /// account.
   ///
@@ -660,7 +936,31 @@ class Shield {
     return DescribeSubscriptionResponse.fromJson(jsonResponse.body);
   }
 
-  /// Removes the DDoS Response team's (DRT) access to the specified Amazon S3
+  /// Removes authorization from the DDoS Response Team (DRT) to notify contacts
+  /// about escalations to the DRT and to initiate proactive customer support.
+  ///
+  /// May throw [InternalErrorException].
+  /// May throw [InvalidOperationException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [OptimisticLockException].
+  Future<void> disableProactiveEngagement() async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSShield_20160616.DisableProactiveEngagement'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+    );
+
+    return DisableProactiveEngagementResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Removes the DDoS Response Team's (DRT) access to the specified Amazon S3
   /// bucket containing your AWS WAF logs.
   ///
   /// To make a <code>DisassociateDRTLogBucket</code> request, you must be
@@ -717,7 +1017,7 @@ class Shield {
     return DisassociateDRTLogBucketResponse.fromJson(jsonResponse.body);
   }
 
-  /// Removes the DDoS Response team's (DRT) access to your AWS account.
+  /// Removes the DDoS Response Team's (DRT) access to your AWS account.
   ///
   /// To make a <code>DisassociateDRTRole</code> request, you must be subscribed
   /// to the <a
@@ -824,6 +1124,31 @@ class Shield {
     return DisassociateHealthCheckResponse.fromJson(jsonResponse.body);
   }
 
+  /// Authorizes the DDoS Response Team (DRT) to use email and phone to notify
+  /// contacts about escalations to the DRT and to initiate proactive customer
+  /// support.
+  ///
+  /// May throw [InternalErrorException].
+  /// May throw [InvalidOperationException].
+  /// May throw [InvalidParameterException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [OptimisticLockException].
+  Future<void> enableProactiveEngagement() async {
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSShield_20160616.EnableProactiveEngagement'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+    );
+
+    return EnableProactiveEngagementResponse.fromJson(jsonResponse.body);
+  }
+
   /// Returns the <code>SubscriptionState</code>, either <code>Active</code> or
   /// <code>Inactive</code>.
   ///
@@ -860,15 +1185,15 @@ class Shield {
   /// format</a> is allowed.
   ///
   /// Parameter [maxResults] :
-  /// The maximum number of <a>AttackSummary</a> objects to be returned. If this
-  /// is left blank, the first 20 results will be returned.
+  /// The maximum number of <a>AttackSummary</a> objects to return. If you leave
+  /// this blank, Shield Advanced returns the first 20 results.
   ///
-  /// This is a maximum value; it is possible that AWS WAF will return the
-  /// results in smaller batches. That is, the number of <a>AttackSummary</a>
-  /// objects returned could be less than <code>MaxResults</code>, even if there
-  /// are still more <a>AttackSummary</a> objects yet to return. If there are
-  /// more <a>AttackSummary</a> objects to return, AWS WAF will always also
-  /// return a <code>NextToken</code>.
+  /// This is a maximum value. Shield Advanced might return the results in
+  /// smaller batches. That is, the number of objects returned could be less
+  /// than <code>MaxResults</code>, even if there are still more objects yet to
+  /// return. If there are more objects to return, Shield Advanced returns a
+  /// value in <code>NextToken</code> that you can use in your next request, to
+  /// get the next batch of objects.
   ///
   /// Parameter [nextToken] :
   /// The <code>ListAttacksRequest.NextMarker</code> value from a previous call
@@ -931,6 +1256,66 @@ class Shield {
     return ListAttacksResponse.fromJson(jsonResponse.body);
   }
 
+  /// Retrieves the <a>ProtectionGroup</a> objects for the account.
+  ///
+  /// May throw [InternalErrorException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InvalidPaginationTokenException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of <a>ProtectionGroup</a> objects to return. If you
+  /// leave this blank, Shield Advanced returns the first 20 results.
+  ///
+  /// This is a maximum value. Shield Advanced might return the results in
+  /// smaller batches. That is, the number of objects returned could be less
+  /// than <code>MaxResults</code>, even if there are still more objects yet to
+  /// return. If there are more objects to return, Shield Advanced returns a
+  /// value in <code>NextToken</code> that you can use in your next request, to
+  /// get the next batch of objects.
+  ///
+  /// Parameter [nextToken] :
+  /// The next token value from a previous call to
+  /// <code>ListProtectionGroups</code>. Pass null if this is the first call.
+  Future<ListProtectionGroupsResponse> listProtectionGroups({
+    int maxResults,
+    String nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      10000,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      4096,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''^.*$''',
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSShield_20160616.ListProtectionGroups'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListProtectionGroupsResponse.fromJson(jsonResponse.body);
+  }
+
   /// Lists all <a>Protection</a> objects for the account.
   ///
   /// May throw [InternalErrorException].
@@ -938,15 +1323,15 @@ class Shield {
   /// May throw [InvalidPaginationTokenException].
   ///
   /// Parameter [maxResults] :
-  /// The maximum number of <a>Protection</a> objects to be returned. If this is
-  /// left blank the first 20 results will be returned.
+  /// The maximum number of <a>Protection</a> objects to return. If you leave
+  /// this blank, Shield Advanced returns the first 20 results.
   ///
-  /// This is a maximum value; it is possible that AWS WAF will return the
-  /// results in smaller batches. That is, the number of <a>Protection</a>
-  /// objects returned could be less than <code>MaxResults</code>, even if there
-  /// are still more <a>Protection</a> objects yet to return. If there are more
-  /// <a>Protection</a> objects to return, AWS WAF will always also return a
-  /// <code>NextToken</code>.
+  /// This is a maximum value. Shield Advanced might return the results in
+  /// smaller batches. That is, the number of objects returned could be less
+  /// than <code>MaxResults</code>, even if there are still more objects yet to
+  /// return. If there are more objects to return, Shield Advanced returns a
+  /// value in <code>NextToken</code> that you can use in your next request, to
+  /// get the next batch of objects.
   ///
   /// Parameter [nextToken] :
   /// The <code>ListProtectionsRequest.NextToken</code> value from a previous
@@ -991,8 +1376,93 @@ class Shield {
     return ListProtectionsResponse.fromJson(jsonResponse.body);
   }
 
-  /// Updates the details of the list of email addresses that the DRT can use to
-  /// contact you during a suspected attack.
+  /// Retrieves the resources that are included in the protection group.
+  ///
+  /// May throw [InternalErrorException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InvalidPaginationTokenException].
+  ///
+  /// Parameter [protectionGroupId] :
+  /// The name of the protection group. You use this to identify the protection
+  /// group in lists and to manage the protection group, for example to update,
+  /// delete, or describe it.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of resource ARN objects to return. If you leave this
+  /// blank, Shield Advanced returns the first 20 results.
+  ///
+  /// This is a maximum value. Shield Advanced might return the results in
+  /// smaller batches. That is, the number of objects returned could be less
+  /// than <code>MaxResults</code>, even if there are still more objects yet to
+  /// return. If there are more objects to return, Shield Advanced returns a
+  /// value in <code>NextToken</code> that you can use in your next request, to
+  /// get the next batch of objects.
+  ///
+  /// Parameter [nextToken] :
+  /// The next token value from a previous call to
+  /// <code>ListResourcesInProtectionGroup</code>. Pass null if this is the
+  /// first call.
+  Future<ListResourcesInProtectionGroupResponse>
+      listResourcesInProtectionGroup({
+    @_s.required String protectionGroupId,
+    int maxResults,
+    String nextToken,
+  }) async {
+    ArgumentError.checkNotNull(protectionGroupId, 'protectionGroupId');
+    _s.validateStringLength(
+      'protectionGroupId',
+      protectionGroupId,
+      1,
+      36,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'protectionGroupId',
+      protectionGroupId,
+      r'''[a-zA-Z0-9\\-]*''',
+      isRequired: true,
+    );
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      0,
+      10000,
+    );
+    _s.validateStringLength(
+      'nextToken',
+      nextToken,
+      1,
+      4096,
+    );
+    _s.validateStringPattern(
+      'nextToken',
+      nextToken,
+      r'''^.*$''',
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSShield_20160616.ListResourcesInProtectionGroup'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'ProtectionGroupId': protectionGroupId,
+        if (maxResults != null) 'MaxResults': maxResults,
+        if (nextToken != null) 'NextToken': nextToken,
+      },
+    );
+
+    return ListResourcesInProtectionGroupResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Updates the details of the list of email addresses and phone numbers that
+  /// the DDoS Response Team (DRT) can use to contact you if you have proactive
+  /// engagement enabled, for escalations to the DRT and to initiate proactive
+  /// customer support.
   ///
   /// May throw [InternalErrorException].
   /// May throw [InvalidParameterException].
@@ -1000,8 +1470,12 @@ class Shield {
   /// May throw [ResourceNotFoundException].
   ///
   /// Parameter [emergencyContactList] :
-  /// A list of email addresses that the DRT can use to contact you during a
-  /// suspected attack.
+  /// A list of email addresses and phone numbers that the DDoS Response Team
+  /// (DRT) can use to contact you if you have proactive engagement enabled, for
+  /// escalations to the DRT and to initiate proactive customer support.
+  ///
+  /// If you have proactive engagement enabled, the contact list must include at
+  /// least one phone number.
   Future<void> updateEmergencyContactSettings({
     List<EmergencyContact> emergencyContactList,
   }) async {
@@ -1022,6 +1496,105 @@ class Shield {
     );
 
     return UpdateEmergencyContactSettingsResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Updates an existing protection group. A protection group is a grouping of
+  /// protected resources so they can be handled as a collective. This resource
+  /// grouping improves the accuracy of detection and reduces false positives.
+  ///
+  /// May throw [InternalErrorException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [OptimisticLockException].
+  /// May throw [InvalidParameterException].
+  ///
+  /// Parameter [aggregation] :
+  /// Defines how AWS Shield combines resource data for the group in order to
+  /// detect, mitigate, and report events.
+  ///
+  /// <ul>
+  /// <li>
+  /// Sum - Use the total traffic across the group. This is a good choice for
+  /// most cases. Examples include Elastic IP addresses for EC2 instances that
+  /// scale manually or automatically.
+  /// </li>
+  /// <li>
+  /// Mean - Use the average of the traffic across the group. This is a good
+  /// choice for resources that share traffic uniformly. Examples include
+  /// accelerators and load balancers.
+  /// </li>
+  /// <li>
+  /// Max - Use the highest traffic from each resource. This is useful for
+  /// resources that don't share traffic and for resources that share that
+  /// traffic in a non-uniform way. Examples include CloudFront distributions
+  /// and origin resources for CloudFront distributions.
+  /// </li>
+  /// </ul>
+  ///
+  /// Parameter [pattern] :
+  /// The criteria to use to choose the protected resources for inclusion in the
+  /// group. You can include all resources that have protections, provide a list
+  /// of resource Amazon Resource Names (ARNs), or include all resources of a
+  /// specified resource type.
+  ///
+  /// Parameter [protectionGroupId] :
+  /// The name of the protection group. You use this to identify the protection
+  /// group in lists and to manage the protection group, for example to update,
+  /// delete, or describe it.
+  ///
+  /// Parameter [members] :
+  /// The Amazon Resource Names (ARNs) of the resources to include in the
+  /// protection group. You must set this when you set <code>Pattern</code> to
+  /// <code>ARBITRARY</code> and you must not set it for any other
+  /// <code>Pattern</code> setting.
+  ///
+  /// Parameter [resourceType] :
+  /// The resource type to include in the protection group. All protected
+  /// resources of this type are included in the protection group. You must set
+  /// this when you set <code>Pattern</code> to <code>BY_RESOURCE_TYPE</code>
+  /// and you must not set it for any other <code>Pattern</code> setting.
+  Future<void> updateProtectionGroup({
+    @_s.required ProtectionGroupAggregation aggregation,
+    @_s.required ProtectionGroupPattern pattern,
+    @_s.required String protectionGroupId,
+    List<String> members,
+    ProtectedResourceType resourceType,
+  }) async {
+    ArgumentError.checkNotNull(aggregation, 'aggregation');
+    ArgumentError.checkNotNull(pattern, 'pattern');
+    ArgumentError.checkNotNull(protectionGroupId, 'protectionGroupId');
+    _s.validateStringLength(
+      'protectionGroupId',
+      protectionGroupId,
+      1,
+      36,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'protectionGroupId',
+      protectionGroupId,
+      r'''[a-zA-Z0-9\\-]*''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'AWSShield_20160616.UpdateProtectionGroup'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'Aggregation': aggregation?.toValue() ?? '',
+        'Pattern': pattern?.toValue() ?? '',
+        'ProtectionGroupId': protectionGroupId,
+        if (members != null) 'Members': members,
+        if (resourceType != null) 'ResourceType': resourceType.toValue(),
+      },
+    );
+
+    return UpdateProtectionGroupResponse.fromJson(jsonResponse.body);
   }
 
   /// Updates the details of an existing subscription. Only enter values for
@@ -1094,6 +1667,18 @@ class AssociateHealthCheckResponse {
   AssociateHealthCheckResponse();
   factory AssociateHealthCheckResponse.fromJson(Map<String, dynamic> json) =>
       _$AssociateHealthCheckResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class AssociateProactiveEngagementDetailsResponse {
+  AssociateProactiveEngagementDetailsResponse();
+  factory AssociateProactiveEngagementDetailsResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$AssociateProactiveEngagementDetailsResponseFromJson(json);
 }
 
 /// The details of a DDoS attack.
@@ -1183,8 +1768,8 @@ class AttackProperty {
   @_s.JsonKey(name: 'AttackPropertyIdentifier')
   final AttackPropertyIdentifier attackPropertyIdentifier;
 
-  /// The array of <a>Contributor</a> objects that includes the top five
-  /// contributors to an attack.
+  /// The array of contributor objects that includes the top five contributors to
+  /// an attack.
   @_s.JsonKey(name: 'TopContributors')
   final List<Contributor> topContributors;
 
@@ -1225,6 +1810,33 @@ enum AttackPropertyIdentifier {
   wordpressPingbackReflector,
   @_s.JsonValue('WORDPRESS_PINGBACK_SOURCE')
   wordpressPingbackSource,
+}
+
+/// A single attack statistics data record. This is returned by
+/// <a>DescribeAttackStatistics</a> along with a time range indicating the time
+/// period that the attack statistics apply to.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class AttackStatisticsDataItem {
+  /// The number of attacks detected during the time period. This is always
+  /// present, but might be zero.
+  @_s.JsonKey(name: 'AttackCount')
+  final int attackCount;
+
+  /// Information about the volume of attacks during the time period. If the
+  /// accompanying <code>AttackCount</code> is zero, this setting might be empty.
+  @_s.JsonKey(name: 'AttackVolume')
+  final AttackVolume attackVolume;
+
+  AttackStatisticsDataItem({
+    @_s.required this.attackCount,
+    this.attackVolume,
+  });
+  factory AttackStatisticsDataItem.fromJson(Map<String, dynamic> json) =>
+      _$AttackStatisticsDataItemFromJson(json);
 }
 
 /// Summarizes all DDoS attacks for a specified time period.
@@ -1346,6 +1958,59 @@ class AttackVectorDescription {
       _$AttackVectorDescriptionFromJson(json);
 }
 
+/// Information about the volume of attacks during the time period, included in
+/// an <a>AttackStatisticsDataItem</a>. If the accompanying
+/// <code>AttackCount</code> in the statistics object is zero, this setting
+/// might be empty.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class AttackVolume {
+  /// A statistics object that uses bits per second as the unit. This is included
+  /// for network level attacks.
+  @_s.JsonKey(name: 'BitsPerSecond')
+  final AttackVolumeStatistics bitsPerSecond;
+
+  /// A statistics object that uses packets per second as the unit. This is
+  /// included for network level attacks.
+  @_s.JsonKey(name: 'PacketsPerSecond')
+  final AttackVolumeStatistics packetsPerSecond;
+
+  /// A statistics object that uses requests per second as the unit. This is
+  /// included for application level attacks, and is only available for accounts
+  /// that are subscribed to Shield Advanced.
+  @_s.JsonKey(name: 'RequestsPerSecond')
+  final AttackVolumeStatistics requestsPerSecond;
+
+  AttackVolume({
+    this.bitsPerSecond,
+    this.packetsPerSecond,
+    this.requestsPerSecond,
+  });
+  factory AttackVolume.fromJson(Map<String, dynamic> json) =>
+      _$AttackVolumeFromJson(json);
+}
+
+/// Statistics objects for the various data types in <a>AttackVolume</a>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class AttackVolumeStatistics {
+  /// The maximum attack volume observed for the given unit.
+  @_s.JsonKey(name: 'Max')
+  final double max;
+
+  AttackVolumeStatistics({
+    @_s.required this.max,
+  });
+  factory AttackVolumeStatistics.fromJson(Map<String, dynamic> json) =>
+      _$AttackVolumeStatisticsFromJson(json);
+}
+
 enum AutoRenew {
   @_s.JsonValue('ENABLED')
   enabled,
@@ -1397,6 +2062,17 @@ class Contributor {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class CreateProtectionGroupResponse {
+  CreateProtectionGroupResponse();
+  factory CreateProtectionGroupResponse.fromJson(Map<String, dynamic> json) =>
+      _$CreateProtectionGroupResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class CreateProtectionResponse {
   /// The unique identifier (ID) for the <a>Protection</a> object that is created.
   @_s.JsonKey(name: 'ProtectionId')
@@ -1418,6 +2094,17 @@ class CreateSubscriptionResponse {
   CreateSubscriptionResponse();
   factory CreateSubscriptionResponse.fromJson(Map<String, dynamic> json) =>
       _$CreateSubscriptionResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DeleteProtectionGroupResponse {
+  DeleteProtectionGroupResponse();
+  factory DeleteProtectionGroupResponse.fromJson(Map<String, dynamic> json) =>
+      _$DeleteProtectionGroupResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -1465,6 +2152,27 @@ class DescribeAttackResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class DescribeAttackStatisticsResponse {
+  /// The data that describes the attacks detected during the time period.
+  @_s.JsonKey(name: 'DataItems')
+  final List<AttackStatisticsDataItem> dataItems;
+  @_s.JsonKey(name: 'TimeRange')
+  final TimeRange timeRange;
+
+  DescribeAttackStatisticsResponse({
+    @_s.required this.dataItems,
+    @_s.required this.timeRange,
+  });
+  factory DescribeAttackStatisticsResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$DescribeAttackStatisticsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class DescribeDRTAccessResponse {
   /// The list of Amazon S3 buckets accessed by the DRT.
   @_s.JsonKey(name: 'LogBucketList')
@@ -1489,8 +2197,9 @@ class DescribeDRTAccessResponse {
     createFactory: true,
     createToJson: false)
 class DescribeEmergencyContactSettingsResponse {
-  /// A list of email addresses that the DRT can use to contact you during a
-  /// suspected attack.
+  /// A list of email addresses and phone numbers that the DDoS Response Team
+  /// (DRT) can use to contact you if you have proactive engagement enabled, for
+  /// escalations to the DRT and to initiate proactive customer support.
   @_s.JsonKey(name: 'EmergencyContactList')
   final List<EmergencyContact> emergencyContactList;
 
@@ -1500,6 +2209,25 @@ class DescribeEmergencyContactSettingsResponse {
   factory DescribeEmergencyContactSettingsResponse.fromJson(
           Map<String, dynamic> json) =>
       _$DescribeEmergencyContactSettingsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DescribeProtectionGroupResponse {
+  /// A grouping of protected resources that you and AWS Shield Advanced can
+  /// monitor as a collective. This resource grouping improves the accuracy of
+  /// detection and reduces false positives.
+  @_s.JsonKey(name: 'ProtectionGroup')
+  final ProtectionGroup protectionGroup;
+
+  DescribeProtectionGroupResponse({
+    @_s.required this.protectionGroup,
+  });
+  factory DescribeProtectionGroupResponse.fromJson(Map<String, dynamic> json) =>
+      _$DescribeProtectionGroupResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -1541,6 +2269,18 @@ class DescribeSubscriptionResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class DisableProactiveEngagementResponse {
+  DisableProactiveEngagementResponse();
+  factory DisableProactiveEngagementResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$DisableProactiveEngagementResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class DisassociateDRTLogBucketResponse {
   DisassociateDRTLogBucketResponse();
   factory DisassociateDRTLogBucketResponse.fromJson(
@@ -1570,26 +2310,48 @@ class DisassociateHealthCheckResponse {
       _$DisassociateHealthCheckResponseFromJson(json);
 }
 
-/// Contact information that the DRT can use to contact you during a suspected
-/// attack.
+/// Contact information that the DRT can use to contact you if you have
+/// proactive engagement enabled, for escalations to the DRT and to initiate
+/// proactive customer support.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: true)
 class EmergencyContact {
-  /// An email address that the DRT can use to contact you during a suspected
-  /// attack.
+  /// The email address for the contact.
   @_s.JsonKey(name: 'EmailAddress')
   final String emailAddress;
 
+  /// Additional notes regarding the contact.
+  @_s.JsonKey(name: 'ContactNotes')
+  final String contactNotes;
+
+  /// The phone number for the contact.
+  @_s.JsonKey(name: 'PhoneNumber')
+  final String phoneNumber;
+
   EmergencyContact({
     @_s.required this.emailAddress,
+    this.contactNotes,
+    this.phoneNumber,
   });
   factory EmergencyContact.fromJson(Map<String, dynamic> json) =>
       _$EmergencyContactFromJson(json);
 
   Map<String, dynamic> toJson() => _$EmergencyContactToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class EnableProactiveEngagementResponse {
+  EnableProactiveEngagementResponse();
+  factory EnableProactiveEngagementResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$EnableProactiveEngagementResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -1647,9 +2409,9 @@ class ListAttacksResponse {
   /// <code>NextMarker</code> parameter in a subsequent call to
   /// <code>ListAttacks</code> to retrieve the next set of items.
   ///
-  /// AWS WAF might return the list of <a>AttackSummary</a> objects in batches
-  /// smaller than the number specified by MaxResults. If there are more
-  /// <a>AttackSummary</a> objects to return, AWS WAF will always also return a
+  /// Shield Advanced might return the list of <a>AttackSummary</a> objects in
+  /// batches smaller than the number specified by MaxResults. If there are more
+  /// attack summary objects to return, Shield Advanced will always also return a
   /// <code>NextToken</code>.
   @_s.JsonKey(name: 'NextToken')
   final String nextToken;
@@ -1667,6 +2429,31 @@ class ListAttacksResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class ListProtectionGroupsResponse {
+  /// <p/>
+  @_s.JsonKey(name: 'ProtectionGroups')
+  final List<ProtectionGroup> protectionGroups;
+
+  /// If you specify a value for <code>MaxResults</code> and you have more
+  /// protection groups than the value of MaxResults, AWS Shield Advanced returns
+  /// this token that you can use in your next request, to get the next batch of
+  /// objects.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListProtectionGroupsResponse({
+    @_s.required this.protectionGroups,
+    this.nextToken,
+  });
+  factory ListProtectionGroupsResponse.fromJson(Map<String, dynamic> json) =>
+      _$ListProtectionGroupsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class ListProtectionsResponse {
   /// If you specify a value for <code>MaxResults</code> and you have more
   /// Protections than the value of MaxResults, AWS Shield Advanced returns a
@@ -1675,10 +2462,10 @@ class ListProtectionsResponse {
   /// the value of NextToken from the previous response to get information about
   /// another batch of Protections.
   ///
-  /// AWS WAF might return the list of <a>Protection</a> objects in batches
-  /// smaller than the number specified by MaxResults. If there are more
-  /// <a>Protection</a> objects to return, AWS WAF will always also return a
-  /// <code>NextToken</code>.
+  /// Shield Advanced might return the list of <a>Protection</a> objects in
+  /// batches smaller than the number specified by MaxResults. If there are more
+  /// <a>Protection</a> objects to return, Shield Advanced will always also return
+  /// a <code>NextToken</code>.
   @_s.JsonKey(name: 'NextToken')
   final String nextToken;
 
@@ -1692,6 +2479,33 @@ class ListProtectionsResponse {
   });
   factory ListProtectionsResponse.fromJson(Map<String, dynamic> json) =>
       _$ListProtectionsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListResourcesInProtectionGroupResponse {
+  /// The Amazon Resource Names (ARNs) of the resources that are included in the
+  /// protection group.
+  @_s.JsonKey(name: 'ResourceArns')
+  final List<String> resourceArns;
+
+  /// If you specify a value for <code>MaxResults</code> and you have more
+  /// resources in the protection group than the value of MaxResults, AWS Shield
+  /// Advanced returns this token that you can use in your next request, to get
+  /// the next batch of objects.
+  @_s.JsonKey(name: 'NextToken')
+  final String nextToken;
+
+  ListResourcesInProtectionGroupResponse({
+    @_s.required this.resourceArns,
+    this.nextToken,
+  });
+  factory ListResourcesInProtectionGroupResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$ListResourcesInProtectionGroupResponseFromJson(json);
 }
 
 /// The mitigation applied to a DDoS attack.
@@ -1712,6 +2526,50 @@ class Mitigation {
       _$MitigationFromJson(json);
 }
 
+enum ProactiveEngagementStatus {
+  @_s.JsonValue('ENABLED')
+  enabled,
+  @_s.JsonValue('DISABLED')
+  disabled,
+  @_s.JsonValue('PENDING')
+  pending,
+}
+
+enum ProtectedResourceType {
+  @_s.JsonValue('CLOUDFRONT_DISTRIBUTION')
+  cloudfrontDistribution,
+  @_s.JsonValue('ROUTE_53_HOSTED_ZONE')
+  route_53HostedZone,
+  @_s.JsonValue('ELASTIC_IP_ALLOCATION')
+  elasticIpAllocation,
+  @_s.JsonValue('CLASSIC_LOAD_BALANCER')
+  classicLoadBalancer,
+  @_s.JsonValue('APPLICATION_LOAD_BALANCER')
+  applicationLoadBalancer,
+  @_s.JsonValue('GLOBAL_ACCELERATOR')
+  globalAccelerator,
+}
+
+extension on ProtectedResourceType {
+  String toValue() {
+    switch (this) {
+      case ProtectedResourceType.cloudfrontDistribution:
+        return 'CLOUDFRONT_DISTRIBUTION';
+      case ProtectedResourceType.route_53HostedZone:
+        return 'ROUTE_53_HOSTED_ZONE';
+      case ProtectedResourceType.elasticIpAllocation:
+        return 'ELASTIC_IP_ALLOCATION';
+      case ProtectedResourceType.classicLoadBalancer:
+        return 'CLASSIC_LOAD_BALANCER';
+      case ProtectedResourceType.applicationLoadBalancer:
+        return 'APPLICATION_LOAD_BALANCER';
+      case ProtectedResourceType.globalAccelerator:
+        return 'GLOBAL_ACCELERATOR';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 /// An object that represents a resource that is under DDoS protection.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -1728,7 +2586,7 @@ class Protection {
   @_s.JsonKey(name: 'Id')
   final String id;
 
-  /// The friendly name of the protection. For example, <code>My CloudFront
+  /// The name of the protection. For example, <code>My CloudFront
   /// distributions</code>.
   @_s.JsonKey(name: 'Name')
   final String name;
@@ -1745,6 +2603,205 @@ class Protection {
   });
   factory Protection.fromJson(Map<String, dynamic> json) =>
       _$ProtectionFromJson(json);
+}
+
+/// A grouping of protected resources that you and AWS Shield Advanced can
+/// monitor as a collective. This resource grouping improves the accuracy of
+/// detection and reduces false positives.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ProtectionGroup {
+  /// Defines how AWS Shield combines resource data for the group in order to
+  /// detect, mitigate, and report events.
+  ///
+  /// <ul>
+  /// <li>
+  /// Sum - Use the total traffic across the group. This is a good choice for most
+  /// cases. Examples include Elastic IP addresses for EC2 instances that scale
+  /// manually or automatically.
+  /// </li>
+  /// <li>
+  /// Mean - Use the average of the traffic across the group. This is a good
+  /// choice for resources that share traffic uniformly. Examples include
+  /// accelerators and load balancers.
+  /// </li>
+  /// <li>
+  /// Max - Use the highest traffic from each resource. This is useful for
+  /// resources that don't share traffic and for resources that share that traffic
+  /// in a non-uniform way. Examples include CloudFront distributions and origin
+  /// resources for CloudFront distributions.
+  /// </li>
+  /// </ul>
+  @_s.JsonKey(name: 'Aggregation')
+  final ProtectionGroupAggregation aggregation;
+
+  /// The Amazon Resource Names (ARNs) of the resources to include in the
+  /// protection group. You must set this when you set <code>Pattern</code> to
+  /// <code>ARBITRARY</code> and you must not set it for any other
+  /// <code>Pattern</code> setting.
+  @_s.JsonKey(name: 'Members')
+  final List<String> members;
+
+  /// The criteria to use to choose the protected resources for inclusion in the
+  /// group. You can include all resources that have protections, provide a list
+  /// of resource Amazon Resource Names (ARNs), or include all resources of a
+  /// specified resource type.
+  @_s.JsonKey(name: 'Pattern')
+  final ProtectionGroupPattern pattern;
+
+  /// The name of the protection group. You use this to identify the protection
+  /// group in lists and to manage the protection group, for example to update,
+  /// delete, or describe it.
+  @_s.JsonKey(name: 'ProtectionGroupId')
+  final String protectionGroupId;
+
+  /// The resource type to include in the protection group. All protected
+  /// resources of this type are included in the protection group. You must set
+  /// this when you set <code>Pattern</code> to <code>BY_RESOURCE_TYPE</code> and
+  /// you must not set it for any other <code>Pattern</code> setting.
+  @_s.JsonKey(name: 'ResourceType')
+  final ProtectedResourceType resourceType;
+
+  ProtectionGroup({
+    @_s.required this.aggregation,
+    @_s.required this.members,
+    @_s.required this.pattern,
+    @_s.required this.protectionGroupId,
+    this.resourceType,
+  });
+  factory ProtectionGroup.fromJson(Map<String, dynamic> json) =>
+      _$ProtectionGroupFromJson(json);
+}
+
+enum ProtectionGroupAggregation {
+  @_s.JsonValue('SUM')
+  sum,
+  @_s.JsonValue('MEAN')
+  mean,
+  @_s.JsonValue('MAX')
+  max,
+}
+
+extension on ProtectionGroupAggregation {
+  String toValue() {
+    switch (this) {
+      case ProtectionGroupAggregation.sum:
+        return 'SUM';
+      case ProtectionGroupAggregation.mean:
+        return 'MEAN';
+      case ProtectionGroupAggregation.max:
+        return 'MAX';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
+/// Limits settings on protection groups with arbitrary pattern type.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ProtectionGroupArbitraryPatternLimits {
+  /// The maximum number of resources you can specify for a single arbitrary
+  /// pattern in a protection group.
+  @_s.JsonKey(name: 'MaxMembers')
+  final int maxMembers;
+
+  ProtectionGroupArbitraryPatternLimits({
+    @_s.required this.maxMembers,
+  });
+  factory ProtectionGroupArbitraryPatternLimits.fromJson(
+          Map<String, dynamic> json) =>
+      _$ProtectionGroupArbitraryPatternLimitsFromJson(json);
+}
+
+/// Limits settings on protection groups for your subscription.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ProtectionGroupLimits {
+  /// The maximum number of protection groups that you can have at one time.
+  @_s.JsonKey(name: 'MaxProtectionGroups')
+  final int maxProtectionGroups;
+
+  /// Limits settings by pattern type in the protection groups for your
+  /// subscription.
+  @_s.JsonKey(name: 'PatternTypeLimits')
+  final ProtectionGroupPatternTypeLimits patternTypeLimits;
+
+  ProtectionGroupLimits({
+    @_s.required this.maxProtectionGroups,
+    @_s.required this.patternTypeLimits,
+  });
+  factory ProtectionGroupLimits.fromJson(Map<String, dynamic> json) =>
+      _$ProtectionGroupLimitsFromJson(json);
+}
+
+enum ProtectionGroupPattern {
+  @_s.JsonValue('ALL')
+  all,
+  @_s.JsonValue('ARBITRARY')
+  arbitrary,
+  @_s.JsonValue('BY_RESOURCE_TYPE')
+  byResourceType,
+}
+
+extension on ProtectionGroupPattern {
+  String toValue() {
+    switch (this) {
+      case ProtectionGroupPattern.all:
+        return 'ALL';
+      case ProtectionGroupPattern.arbitrary:
+        return 'ARBITRARY';
+      case ProtectionGroupPattern.byResourceType:
+        return 'BY_RESOURCE_TYPE';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
+/// Limits settings by pattern type in the protection groups for your
+/// subscription.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ProtectionGroupPatternTypeLimits {
+  /// Limits settings on protection groups with arbitrary pattern type.
+  @_s.JsonKey(name: 'ArbitraryPatternLimits')
+  final ProtectionGroupArbitraryPatternLimits arbitraryPatternLimits;
+
+  ProtectionGroupPatternTypeLimits({
+    @_s.required this.arbitraryPatternLimits,
+  });
+  factory ProtectionGroupPatternTypeLimits.fromJson(
+          Map<String, dynamic> json) =>
+      _$ProtectionGroupPatternTypeLimitsFromJson(json);
+}
+
+/// Limits settings on protections for your subscription.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ProtectionLimits {
+  /// The maximum number of resource types that you can specify in a protection.
+  @_s.JsonKey(name: 'ProtectedResourceTypeLimits')
+  final List<Limit> protectedResourceTypeLimits;
+
+  ProtectionLimits({
+    @_s.required this.protectedResourceTypeLimits,
+  });
+  factory ProtectionLimits.fromJson(Map<String, dynamic> json) =>
+      _$ProtectionLimitsFromJson(json);
 }
 
 /// The attack information for the specified SubResource.
@@ -1794,6 +2851,10 @@ enum SubResourceType {
     createFactory: true,
     createToJson: false)
 class Subscription {
+  /// Limits settings for your subscription.
+  @_s.JsonKey(name: 'SubscriptionLimits')
+  final SubscriptionLimits subscriptionLimits;
+
   /// If <code>ENABLED</code>, the subscription will be automatically renewed at
   /// the end of the existing subscription period.
   ///
@@ -1815,6 +2876,19 @@ class Subscription {
   @_s.JsonKey(name: 'Limits')
   final List<Limit> limits;
 
+  /// If <code>ENABLED</code>, the DDoS Response Team (DRT) will use email and
+  /// phone to notify contacts about escalations to the DRT and to initiate
+  /// proactive customer support.
+  ///
+  /// If <code>PENDING</code>, you have requested proactive engagement and the
+  /// request is pending. The status changes to <code>ENABLED</code> when your
+  /// request is fully processed.
+  ///
+  /// If <code>DISABLED</code>, the DRT will not proactively notify contacts about
+  /// escalations or to initiate proactive customer support.
+  @_s.JsonKey(name: 'ProactiveEngagementStatus')
+  final ProactiveEngagementStatus proactiveEngagementStatus;
+
   /// The start time of the subscription, in Unix time in seconds. For more
   /// information see <a
   /// href="http://docs.aws.amazon.com/cli/latest/userguide/cli-using-param.html#parameter-types">timestamp</a>.
@@ -1828,14 +2902,39 @@ class Subscription {
   final int timeCommitmentInSeconds;
 
   Subscription({
+    @_s.required this.subscriptionLimits,
     this.autoRenew,
     this.endTime,
     this.limits,
+    this.proactiveEngagementStatus,
     this.startTime,
     this.timeCommitmentInSeconds,
   });
   factory Subscription.fromJson(Map<String, dynamic> json) =>
       _$SubscriptionFromJson(json);
+}
+
+/// Limits settings for your subscription.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class SubscriptionLimits {
+  /// Limits settings on protection groups for your subscription.
+  @_s.JsonKey(name: 'ProtectionGroupLimits')
+  final ProtectionGroupLimits protectionGroupLimits;
+
+  /// Limits settings on protections for your subscription.
+  @_s.JsonKey(name: 'ProtectionLimits')
+  final ProtectionLimits protectionLimits;
+
+  SubscriptionLimits({
+    @_s.required this.protectionGroupLimits,
+    @_s.required this.protectionLimits,
+  });
+  factory SubscriptionLimits.fromJson(Map<String, dynamic> json) =>
+      _$SubscriptionLimitsFromJson(json);
 }
 
 enum SubscriptionState {
@@ -1915,7 +3014,7 @@ class SummarizedCounter {
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
-    createFactory: false,
+    createFactory: true,
     createToJson: true)
 class TimeRange {
   /// The start time, in Unix time in seconds. For more information see <a
@@ -1934,6 +3033,9 @@ class TimeRange {
     this.fromInclusive,
     this.toExclusive,
   });
+  factory TimeRange.fromJson(Map<String, dynamic> json) =>
+      _$TimeRangeFromJson(json);
+
   Map<String, dynamic> toJson() => _$TimeRangeToJson(this);
 }
 
@@ -1958,6 +3060,17 @@ class UpdateEmergencyContactSettingsResponse {
   factory UpdateEmergencyContactSettingsResponse.fromJson(
           Map<String, dynamic> json) =>
       _$UpdateEmergencyContactSettingsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class UpdateProtectionGroupResponse {
+  UpdateProtectionGroupResponse();
+  factory UpdateProtectionGroupResponse.fromJson(Map<String, dynamic> json) =>
+      _$UpdateProtectionGroupResponseFromJson(json);
 }
 
 @_s.JsonSerializable(

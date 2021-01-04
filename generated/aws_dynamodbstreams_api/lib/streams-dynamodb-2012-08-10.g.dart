@@ -40,13 +40,6 @@ DescribeStreamOutput _$DescribeStreamOutputFromJson(Map<String, dynamic> json) {
   );
 }
 
-ExpiredIteratorException _$ExpiredIteratorExceptionFromJson(
-    Map<String, dynamic> json) {
-  return ExpiredIteratorException(
-    message: json['message'] as String,
-  );
-}
-
 GetRecordsOutput _$GetRecordsOutputFromJson(Map<String, dynamic> json) {
   return GetRecordsOutput(
     nextShardIterator: json['NextShardIterator'] as String,
@@ -68,12 +61,6 @@ Identity _$IdentityFromJson(Map<String, dynamic> json) {
   return Identity(
     principalId: json['PrincipalId'] as String,
     type: json['Type'] as String,
-  );
-}
-
-InternalServerError _$InternalServerErrorFromJson(Map<String, dynamic> json) {
-  return InternalServerError(
-    message: json['message'] as String,
   );
 }
 
@@ -121,13 +108,6 @@ const _$KeyTypeEnumMap = {
   KeyType.range: 'RANGE',
 };
 
-LimitExceededException _$LimitExceededExceptionFromJson(
-    Map<String, dynamic> json) {
-  return LimitExceededException(
-    message: json['message'] as String,
-  );
-}
-
 ListStreamsOutput _$ListStreamsOutputFromJson(Map<String, dynamic> json) {
   return ListStreamsOutput(
     lastEvaluatedStreamArn: json['LastEvaluatedStreamArn'] as String,
@@ -159,13 +139,6 @@ const _$OperationTypeEnumMap = {
   OperationType.modify: 'MODIFY',
   OperationType.remove: 'REMOVE',
 };
-
-ResourceNotFoundException _$ResourceNotFoundExceptionFromJson(
-    Map<String, dynamic> json) {
-  return ResourceNotFoundException(
-    message: json['message'] as String,
-  );
-}
 
 SequenceNumberRange _$SequenceNumberRangeFromJson(Map<String, dynamic> json) {
   return SequenceNumberRange(
@@ -260,12 +233,5 @@ StreamRecord _$StreamRecordFromJson(Map<String, dynamic> json) {
     sizeBytes: json['SizeBytes'] as int,
     streamViewType:
         _$enumDecodeNullable(_$StreamViewTypeEnumMap, json['StreamViewType']),
-  );
-}
-
-TrimmedDataAccessException _$TrimmedDataAccessExceptionFromJson(
-    Map<String, dynamic> json) {
-  return TrimmedDataAccessException(
-    message: json['message'] as String,
   );
 }

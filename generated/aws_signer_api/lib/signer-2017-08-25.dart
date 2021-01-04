@@ -26,20 +26,31 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
 part 'signer-2017-08-25.g.dart';
 
-/// With code signing for IoT, you can sign code that you create for any IoT
-/// device that is supported by Amazon Web Services (AWS). Code signing is
-/// available through <a
+/// AWS Signer is a fully managed code signing service to help you ensure the
+/// trust and integrity of your code.
+///
+/// AWS Signer supports the following applications:
+///
+/// With <i>code signing for AWS Lambda</i>, you can sign AWS Lambda deployment
+/// packages. Integrated support is provided for Amazon S3, Amazon CloudWatch,
+/// and AWS CloudTrail. In order to sign code, you create a signing profile and
+/// then use Signer to sign Lambda zip files in S3.
+///
+/// With <i>code signing for IoT</i>, you can sign code for any IoT device that
+/// is supported by AWS. IoT code signing is available for <a
 /// href="http://docs.aws.amazon.com/freertos/latest/userguide/">Amazon
 /// FreeRTOS</a> and <a
 /// href="http://docs.aws.amazon.com/iot/latest/developerguide/">AWS IoT Device
-/// Management</a>, and integrated with <a
+/// Management</a>, and is integrated with <a
 /// href="http://docs.aws.amazon.com/acm/latest/userguide/">AWS Certificate
 /// Manager (ACM)</a>. In order to sign code, you import a third-party code
-/// signing certificate with ACM that is used to sign updates in Amazon FreeRTOS
-/// and AWS IoT Device Management. For general information about using code
-/// signing, see the <a
-/// href="http://docs.aws.amazon.com/signer/latest/developerguide/Welcome.html">Code
-/// Signing for IoT Developer Guide</a>.
+/// signing certificate using ACM, and use that to sign updates in Amazon
+/// FreeRTOS and AWS IoT Device Management.
+///
+/// For more information about AWS Signer, see the <a
+/// href="http://docs.aws.amazon.com/signer/latest/developerguide/Welcome.html">AWS
+/// Signer Developer Guide</a>.
+/// <p/>
 class Signer {
   final _s.RestJsonProtocol _protocol;
   Signer({
@@ -58,6 +69,87 @@ class Signer {
           endpointUrl: endpointUrl,
         );
 
+  /// Adds cross-account permissions to a signing profile.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ServiceLimitExceededException].
+  /// May throw [ConflictException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [InternalServiceErrorException].
+  ///
+  /// Parameter [action] :
+  /// The AWS Signer action permitted as part of cross-account permissions.
+  ///
+  /// Parameter [principal] :
+  /// The AWS principal receiving cross-account permissions. This may be an IAM
+  /// role or another AWS account ID.
+  ///
+  /// Parameter [profileName] :
+  /// The human-readable name of the signing profile.
+  ///
+  /// Parameter [statementId] :
+  /// A unique identifier for the cross-account permission statement.
+  ///
+  /// Parameter [profileVersion] :
+  /// The version of the signing profile.
+  ///
+  /// Parameter [revisionId] :
+  /// A unique identifier for the current profile revision.
+  Future<AddProfilePermissionResponse> addProfilePermission({
+    @_s.required String action,
+    @_s.required String principal,
+    @_s.required String profileName,
+    @_s.required String statementId,
+    String profileVersion,
+    String revisionId,
+  }) async {
+    ArgumentError.checkNotNull(action, 'action');
+    ArgumentError.checkNotNull(principal, 'principal');
+    ArgumentError.checkNotNull(profileName, 'profileName');
+    _s.validateStringLength(
+      'profileName',
+      profileName,
+      2,
+      64,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'profileName',
+      profileName,
+      r'''^[a-zA-Z0-9_]{2,}''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(statementId, 'statementId');
+    _s.validateStringLength(
+      'profileVersion',
+      profileVersion,
+      10,
+      10,
+    );
+    _s.validateStringPattern(
+      'profileVersion',
+      profileVersion,
+      r'''^[a-zA-Z0-9]{10}$''',
+    );
+    final $payload = <String, dynamic>{
+      'action': action,
+      'principal': principal,
+      'statementId': statementId,
+      if (profileVersion != null) 'profileVersion': profileVersion,
+      if (revisionId != null) 'revisionId': revisionId,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri:
+          '/signing-profiles/${Uri.encodeComponent(profileName)}/permissions',
+      exceptionFnMap: _exceptionFns,
+    );
+    return AddProfilePermissionResponse.fromJson(response);
+  }
+
   /// Changes the state of an <code>ACTIVE</code> signing profile to
   /// <code>CANCELED</code>. A canceled profile is still viewable with the
   /// <code>ListSigningProfiles</code> operation, but it cannot perform new
@@ -65,7 +157,7 @@ class Signer {
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
+  /// May throw [TooManyRequestsException].
   /// May throw [InternalServiceErrorException].
   ///
   /// Parameter [profileName] :
@@ -101,6 +193,7 @@ class Signer {
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
+  /// May throw [TooManyRequestsException].
   /// May throw [InternalServiceErrorException].
   ///
   /// Parameter [jobId] :
@@ -122,6 +215,7 @@ class Signer {
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
+  /// May throw [TooManyRequestsException].
   /// May throw [InternalServiceErrorException].
   ///
   /// Parameter [platformId] :
@@ -143,13 +237,17 @@ class Signer {
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
+  /// May throw [TooManyRequestsException].
   /// May throw [InternalServiceErrorException].
   ///
   /// Parameter [profileName] :
   /// The name of the target signing profile.
+  ///
+  /// Parameter [profileOwner] :
+  /// The AWS account ID of the profile owner.
   Future<GetSigningProfileResponse> getSigningProfile({
     @_s.required String profileName,
+    String profileOwner,
   }) async {
     ArgumentError.checkNotNull(profileName, 'profileName');
     _s.validateStringLength(
@@ -165,13 +263,73 @@ class Signer {
       r'''^[a-zA-Z0-9_]{2,}''',
       isRequired: true,
     );
+    _s.validateStringLength(
+      'profileOwner',
+      profileOwner,
+      12,
+      12,
+    );
+    _s.validateStringPattern(
+      'profileOwner',
+      profileOwner,
+      r'''^[0-9]{12}$''',
+    );
+    final $query = <String, List<String>>{
+      if (profileOwner != null) 'profileOwner': [profileOwner],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri: '/signing-profiles/${Uri.encodeComponent(profileName)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return GetSigningProfileResponse.fromJson(response);
+  }
+
+  /// Lists the cross-account permissions associated with a signing profile.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [InternalServiceErrorException].
+  ///
+  /// Parameter [profileName] :
+  /// Name of the signing profile containing the cross-account permissions.
+  ///
+  /// Parameter [nextToken] :
+  /// String for specifying the next set of paginated results.
+  Future<ListProfilePermissionsResponse> listProfilePermissions({
+    @_s.required String profileName,
+    String nextToken,
+  }) async {
+    ArgumentError.checkNotNull(profileName, 'profileName');
+    _s.validateStringLength(
+      'profileName',
+      profileName,
+      2,
+      64,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'profileName',
+      profileName,
+      r'''^[a-zA-Z0-9_]{2,}''',
+      isRequired: true,
+    );
+    final $query = <String, List<String>>{
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/signing-profiles/${Uri.encodeComponent(profileName)}/permissions',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListProfilePermissionsResponse.fromJson(response);
   }
 
   /// Lists all your signing jobs. You can use the <code>maxResults</code>
@@ -186,8 +344,15 @@ class Signer {
   ///
   /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
+  /// May throw [TooManyRequestsException].
   /// May throw [InternalServiceErrorException].
+  ///
+  /// Parameter [isRevoked] :
+  /// Filters results to return only signing jobs with revoked signatures.
+  ///
+  /// Parameter [jobInvoker] :
+  /// Filters results to return only signing jobs initiated by a specified IAM
+  /// entity.
   ///
   /// Parameter [maxResults] :
   /// Specifies the maximum number of items to return in the response. Use this
@@ -209,15 +374,38 @@ class Signer {
   /// Parameter [requestedBy] :
   /// The IAM principal that requested the signing job.
   ///
+  /// Parameter [signatureExpiresAfter] :
+  /// Filters results to return only signing jobs with signatures expiring after
+  /// a specified timestamp.
+  ///
+  /// Parameter [signatureExpiresBefore] :
+  /// Filters results to return only signing jobs with signatures expiring
+  /// before a specified timestamp.
+  ///
   /// Parameter [status] :
   /// A status value with which to filter your results.
   Future<ListSigningJobsResponse> listSigningJobs({
+    bool isRevoked,
+    String jobInvoker,
     int maxResults,
     String nextToken,
     String platformId,
     String requestedBy,
+    DateTime signatureExpiresAfter,
+    DateTime signatureExpiresBefore,
     SigningStatus status,
   }) async {
+    _s.validateStringLength(
+      'jobInvoker',
+      jobInvoker,
+      12,
+      12,
+    );
+    _s.validateStringPattern(
+      'jobInvoker',
+      jobInvoker,
+      r'''^[0-9]{12}$''',
+    );
     _s.validateNumRange(
       'maxResults',
       maxResults,
@@ -225,10 +413,20 @@ class Signer {
       25,
     );
     final $query = <String, List<String>>{
+      if (isRevoked != null) 'isRevoked': [isRevoked.toString()],
+      if (jobInvoker != null) 'jobInvoker': [jobInvoker],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
       if (platformId != null) 'platformId': [platformId],
       if (requestedBy != null) 'requestedBy': [requestedBy],
+      if (signatureExpiresAfter != null)
+        'signatureExpiresAfter': [
+          _s.iso8601ToJson(signatureExpiresAfter).toString()
+        ],
+      if (signatureExpiresBefore != null)
+        'signatureExpiresBefore': [
+          _s.iso8601ToJson(signatureExpiresBefore).toString()
+        ],
       if (status != null) 'status': [status.toValue()],
     };
     final response = await _protocol.send(
@@ -252,7 +450,7 @@ class Signer {
   ///
   /// May throw [ValidationException].
   /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
+  /// May throw [TooManyRequestsException].
   /// May throw [InternalServiceErrorException].
   ///
   /// Parameter [category] :
@@ -314,7 +512,7 @@ class Signer {
   /// jobs have been returned.
   ///
   /// May throw [AccessDeniedException].
-  /// May throw [ThrottlingException].
+  /// May throw [TooManyRequestsException].
   /// May throw [InternalServiceErrorException].
   ///
   /// Parameter [includeCanceled] :
@@ -329,10 +527,20 @@ class Signer {
   /// you receive a response with truncated results, use this parameter in a
   /// subsequent request. Set it to the value of <code>nextToken</code> from the
   /// response that you just received.
+  ///
+  /// Parameter [platformId] :
+  /// Filters results to return only signing jobs initiated for a specified
+  /// signing platform.
+  ///
+  /// Parameter [statuses] :
+  /// Filters results to return only signing jobs with statuses in the specified
+  /// list.
   Future<ListSigningProfilesResponse> listSigningProfiles({
     bool includeCanceled,
     int maxResults,
     String nextToken,
+    String platformId,
+    List<SigningProfileStatus> statuses,
   }) async {
     _s.validateNumRange(
       'maxResults',
@@ -345,6 +553,9 @@ class Signer {
         'includeCanceled': [includeCanceled.toString()],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
+      if (platformId != null) 'platformId': [platformId],
+      if (statuses != null)
+        'statuses': statuses.map((e) => e?.toValue() ?? '').toList(),
     };
     final response = await _protocol.send(
       payload: null,
@@ -361,6 +572,7 @@ class Signer {
   /// May throw [InternalServiceErrorException].
   /// May throw [BadRequestException].
   /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) for the signing profile.
@@ -385,7 +597,7 @@ class Signer {
   /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
   /// May throw [ValidationException].
-  /// May throw [ThrottlingException].
+  /// May throw [TooManyRequestsException].
   /// May throw [InternalServiceErrorException].
   ///
   /// Parameter [platformId] :
@@ -394,15 +606,19 @@ class Signer {
   /// Parameter [profileName] :
   /// The name of the signing profile to be created.
   ///
-  /// Parameter [signingMaterial] :
-  /// The AWS Certificate Manager certificate that will be used to sign code
-  /// with the new signing profile.
-  ///
   /// Parameter [overrides] :
   /// A subfield of <code>platform</code>. This specifies any different
   /// configuration options that you want to apply to the chosen platform (such
   /// as a different <code>hash-algorithm</code> or
   /// <code>signing-algorithm</code>).
+  ///
+  /// Parameter [signatureValidityPeriod] :
+  /// The default validity period override for any signature generated using
+  /// this signing profile. If unspecified, the default is 135 months.
+  ///
+  /// Parameter [signingMaterial] :
+  /// The AWS Certificate Manager certificate that will be used to sign code
+  /// with the new signing profile.
   ///
   /// Parameter [signingParameters] :
   /// Map of key-value pairs for signing. These can include any information that
@@ -413,8 +629,9 @@ class Signer {
   Future<PutSigningProfileResponse> putSigningProfile({
     @_s.required String platformId,
     @_s.required String profileName,
-    @_s.required SigningMaterial signingMaterial,
     SigningPlatformOverrides overrides,
+    SignatureValidityPeriod signatureValidityPeriod,
+    SigningMaterial signingMaterial,
     Map<String, String> signingParameters,
     Map<String, String> tags,
   }) async {
@@ -433,11 +650,12 @@ class Signer {
       r'''^[a-zA-Z0-9_]{2,}''',
       isRequired: true,
     );
-    ArgumentError.checkNotNull(signingMaterial, 'signingMaterial');
     final $payload = <String, dynamic>{
       'platformId': platformId,
-      'signingMaterial': signingMaterial,
       if (overrides != null) 'overrides': overrides,
+      if (signatureValidityPeriod != null)
+        'signatureValidityPeriod': signatureValidityPeriod,
+      if (signingMaterial != null) 'signingMaterial': signingMaterial,
       if (signingParameters != null) 'signingParameters': signingParameters,
       if (tags != null) 'tags': tags,
     };
@@ -448,6 +666,193 @@ class Signer {
       exceptionFnMap: _exceptionFns,
     );
     return PutSigningProfileResponse.fromJson(response);
+  }
+
+  /// Removes cross-account permissions from a signing profile.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ConflictException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [InternalServiceErrorException].
+  ///
+  /// Parameter [profileName] :
+  /// A human-readable name for the signing profile with permissions to be
+  /// removed.
+  ///
+  /// Parameter [revisionId] :
+  /// An identifier for the current revision of the signing profile permissions.
+  ///
+  /// Parameter [statementId] :
+  /// A unique identifier for the cross-account permissions statement.
+  Future<RemoveProfilePermissionResponse> removeProfilePermission({
+    @_s.required String profileName,
+    @_s.required String revisionId,
+    @_s.required String statementId,
+  }) async {
+    ArgumentError.checkNotNull(profileName, 'profileName');
+    _s.validateStringLength(
+      'profileName',
+      profileName,
+      2,
+      64,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'profileName',
+      profileName,
+      r'''^[a-zA-Z0-9_]{2,}''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(revisionId, 'revisionId');
+    ArgumentError.checkNotNull(statementId, 'statementId');
+    final $query = <String, List<String>>{
+      if (revisionId != null) 'revisionId': [revisionId],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri:
+          '/signing-profiles/${Uri.encodeComponent(profileName)}/permissions/${Uri.encodeComponent(statementId)}',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return RemoveProfilePermissionResponse.fromJson(response);
+  }
+
+  /// Changes the state of a signing job to REVOKED. This indicates that the
+  /// signature is no longer valid.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [InternalServiceErrorException].
+  ///
+  /// Parameter [jobId] :
+  /// ID of the signing job to be revoked.
+  ///
+  /// Parameter [reason] :
+  /// The reason for revoking the signing job.
+  ///
+  /// Parameter [jobOwner] :
+  /// AWS account ID of the job owner.
+  Future<void> revokeSignature({
+    @_s.required String jobId,
+    @_s.required String reason,
+    String jobOwner,
+  }) async {
+    ArgumentError.checkNotNull(jobId, 'jobId');
+    ArgumentError.checkNotNull(reason, 'reason');
+    _s.validateStringLength(
+      'reason',
+      reason,
+      1,
+      500,
+      isRequired: true,
+    );
+    _s.validateStringLength(
+      'jobOwner',
+      jobOwner,
+      12,
+      12,
+    );
+    _s.validateStringPattern(
+      'jobOwner',
+      jobOwner,
+      r'''^[0-9]{12}$''',
+    );
+    final $payload = <String, dynamic>{
+      'reason': reason,
+      if (jobOwner != null) 'jobOwner': jobOwner,
+    };
+    await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri: '/signing-jobs/${Uri.encodeComponent(jobId)}/revoke',
+      exceptionFnMap: _exceptionFns,
+    );
+  }
+
+  /// Changes the state of a signing profile to REVOKED. This indicates that
+  /// signatures generated using the signing profile after an effective start
+  /// date are no longer valid.
+  ///
+  /// May throw [ValidationException].
+  /// May throw [AccessDeniedException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [TooManyRequestsException].
+  /// May throw [InternalServiceErrorException].
+  ///
+  /// Parameter [effectiveTime] :
+  /// A timestamp for when revocation of a Signing Profile should become
+  /// effective. Signatures generated using the signing profile after this
+  /// timestamp are not trusted.
+  ///
+  /// Parameter [profileName] :
+  /// The name of the signing profile to be revoked.
+  ///
+  /// Parameter [profileVersion] :
+  /// The version of the signing profile to be revoked.
+  ///
+  /// Parameter [reason] :
+  /// The reason for revoking a signing profile.
+  Future<void> revokeSigningProfile({
+    @_s.required DateTime effectiveTime,
+    @_s.required String profileName,
+    @_s.required String profileVersion,
+    @_s.required String reason,
+  }) async {
+    ArgumentError.checkNotNull(effectiveTime, 'effectiveTime');
+    ArgumentError.checkNotNull(profileName, 'profileName');
+    _s.validateStringLength(
+      'profileName',
+      profileName,
+      2,
+      64,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'profileName',
+      profileName,
+      r'''^[a-zA-Z0-9_]{2,}''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(profileVersion, 'profileVersion');
+    _s.validateStringLength(
+      'profileVersion',
+      profileVersion,
+      10,
+      10,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'profileVersion',
+      profileVersion,
+      r'''^[a-zA-Z0-9]{10}$''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(reason, 'reason');
+    _s.validateStringLength(
+      'reason',
+      reason,
+      1,
+      500,
+      isRequired: true,
+    );
+    final $payload = <String, dynamic>{
+      'effectiveTime': unixTimestampToJson(effectiveTime),
+      'profileVersion': profileVersion,
+      'reason': reason,
+    };
+    await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/signing-profiles/${Uri.encodeComponent(profileName)}/revoke',
+      exceptionFnMap: _exceptionFns,
+    );
   }
 
   /// Initiates a signing job to be performed on the code provided. Signing jobs
@@ -486,6 +891,7 @@ class Signer {
   /// May throw [ResourceNotFoundException].
   /// May throw [AccessDeniedException].
   /// May throw [ThrottlingException].
+  /// May throw [TooManyRequestsException].
   /// May throw [InternalServiceErrorException].
   ///
   /// Parameter [clientRequestToken] :
@@ -496,37 +902,56 @@ class Signer {
   /// The S3 bucket in which to save your signed object. The destination
   /// contains the name of your bucket and an optional prefix.
   ///
+  /// Parameter [profileName] :
+  /// The name of the signing profile.
+  ///
   /// Parameter [source] :
   /// The S3 bucket that contains the object to sign or a BLOB that contains
   /// your raw code.
   ///
-  /// Parameter [profileName] :
-  /// The name of the signing profile.
+  /// Parameter [profileOwner] :
+  /// The AWS account ID of the signing profile owner.
   Future<StartSigningJobResponse> startSigningJob({
     @_s.required String clientRequestToken,
     @_s.required Destination destination,
+    @_s.required String profileName,
     @_s.required Source source,
-    String profileName,
+    String profileOwner,
   }) async {
     ArgumentError.checkNotNull(clientRequestToken, 'clientRequestToken');
     ArgumentError.checkNotNull(destination, 'destination');
-    ArgumentError.checkNotNull(source, 'source');
+    ArgumentError.checkNotNull(profileName, 'profileName');
     _s.validateStringLength(
       'profileName',
       profileName,
       2,
       64,
+      isRequired: true,
     );
     _s.validateStringPattern(
       'profileName',
       profileName,
       r'''^[a-zA-Z0-9_]{2,}''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(source, 'source');
+    _s.validateStringLength(
+      'profileOwner',
+      profileOwner,
+      12,
+      12,
+    );
+    _s.validateStringPattern(
+      'profileOwner',
+      profileOwner,
+      r'''^[0-9]{12}$''',
     );
     final $payload = <String, dynamic>{
       'clientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
       'destination': destination,
+      'profileName': profileName,
       'source': source,
-      if (profileName != null) 'profileName': profileName,
+      if (profileOwner != null) 'profileOwner': profileOwner,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -545,6 +970,7 @@ class Signer {
   /// May throw [InternalServiceErrorException].
   /// May throw [BadRequestException].
   /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) for the signing profile.
@@ -575,6 +1001,7 @@ class Signer {
   /// May throw [InternalServiceErrorException].
   /// May throw [BadRequestException].
   /// May throw [NotFoundException].
+  /// May throw [TooManyRequestsException].
   ///
   /// Parameter [resourceArn] :
   /// The Amazon Resource Name (ARN) for the signing profile.
@@ -599,6 +1026,23 @@ class Signer {
     );
     return UntagResourceResponse.fromJson(response);
   }
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class AddProfilePermissionResponse {
+  /// A unique identifier for the current profile revision.
+  @_s.JsonKey(name: 'revisionId')
+  final String revisionId;
+
+  AddProfilePermissionResponse({
+    this.revisionId,
+  });
+  factory AddProfilePermissionResponse.fromJson(Map<String, dynamic> json) =>
+      _$AddProfilePermissionResponseFromJson(json);
 }
 
 enum Category {
@@ -626,9 +1070,22 @@ class DescribeSigningJobResponse {
   @_s.JsonKey(name: 'jobId')
   final String jobId;
 
+  /// The IAM entity that initiated the signing job.
+  @_s.JsonKey(name: 'jobInvoker')
+  final String jobInvoker;
+
+  /// The AWS account ID of the job owner.
+  @_s.JsonKey(name: 'jobOwner')
+  final String jobOwner;
+
   /// A list of any overrides that were applied to the signing operation.
   @_s.JsonKey(name: 'overrides')
   final SigningPlatformOverrides overrides;
+
+  /// A human-readable name for the signing platform associated with the signing
+  /// job.
+  @_s.JsonKey(name: 'platformDisplayName')
+  final String platformDisplayName;
 
   /// The microcontroller platform to which your signed code image will be
   /// distributed.
@@ -639,9 +1096,24 @@ class DescribeSigningJobResponse {
   @_s.JsonKey(name: 'profileName')
   final String profileName;
 
+  /// The version of the signing profile used to initiate the signing job.
+  @_s.JsonKey(name: 'profileVersion')
+  final String profileVersion;
+
   /// The IAM principal that requested the signing job.
   @_s.JsonKey(name: 'requestedBy')
   final String requestedBy;
+
+  /// A revocation record if the signature generated by the signing job has been
+  /// revoked. Contains a timestamp and the ID of the IAM entity that revoked the
+  /// signature.
+  @_s.JsonKey(name: 'revocationRecord')
+  final SigningJobRevocationRecord revocationRecord;
+
+  /// Thr expiration timestamp for the signature generated by the signing job.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'signatureExpiresAt')
+  final DateTime signatureExpiresAt;
 
   /// Name of the S3 bucket where the signed code image is saved by code signing.
   @_s.JsonKey(name: 'signedObject')
@@ -672,10 +1144,16 @@ class DescribeSigningJobResponse {
     this.completedAt,
     this.createdAt,
     this.jobId,
+    this.jobInvoker,
+    this.jobOwner,
     this.overrides,
+    this.platformDisplayName,
     this.platformId,
     this.profileName,
+    this.profileVersion,
     this.requestedBy,
+    this.revocationRecord,
+    this.signatureExpiresAt,
     this.signedObject,
     this.signingMaterial,
     this.signingParameters,
@@ -763,6 +1241,11 @@ class GetSigningPlatformResponse {
   @_s.JsonKey(name: 'platformId')
   final String platformId;
 
+  /// A flag indicating whether signatures generated for the signing platform can
+  /// be revoked.
+  @_s.JsonKey(name: 'revocationSupported')
+  final bool revocationSupported;
+
   /// A list of configurations applied to the target platform at signing.
   @_s.JsonKey(name: 'signingConfiguration')
   final SigningConfiguration signingConfiguration;
@@ -781,6 +1264,7 @@ class GetSigningPlatformResponse {
     this.maxSizeInMB,
     this.partner,
     this.platformId,
+    this.revocationSupported,
     this.signingConfiguration,
     this.signingImageFormat,
     this.target,
@@ -804,6 +1288,11 @@ class GetSigningProfileResponse {
   @_s.JsonKey(name: 'overrides')
   final SigningPlatformOverrides overrides;
 
+  /// A human-readable name for the signing platform associated with the signing
+  /// profile.
+  @_s.JsonKey(name: 'platformDisplayName')
+  final String platformDisplayName;
+
   /// The ID of the platform that is used by the target signing profile.
   @_s.JsonKey(name: 'platformId')
   final String platformId;
@@ -811,6 +1300,18 @@ class GetSigningProfileResponse {
   /// The name of the target signing profile.
   @_s.JsonKey(name: 'profileName')
   final String profileName;
+
+  /// The current version of the signing profile.
+  @_s.JsonKey(name: 'profileVersion')
+  final String profileVersion;
+
+  /// The signing profile ARN, including the profile version.
+  @_s.JsonKey(name: 'profileVersionArn')
+  final String profileVersionArn;
+  @_s.JsonKey(name: 'revocationRecord')
+  final SigningProfileRevocationRecord revocationRecord;
+  @_s.JsonKey(name: 'signatureValidityPeriod')
+  final SignatureValidityPeriod signatureValidityPeriod;
 
   /// The ARN of the certificate that the target profile uses for signing
   /// operations.
@@ -826,6 +1327,10 @@ class GetSigningProfileResponse {
   @_s.JsonKey(name: 'status')
   final SigningProfileStatus status;
 
+  /// Reason for the status of the target signing profile.
+  @_s.JsonKey(name: 'statusReason')
+  final String statusReason;
+
   /// A list of tags associated with the signing profile.
   @_s.JsonKey(name: 'tags')
   final Map<String, String> tags;
@@ -833,11 +1338,17 @@ class GetSigningProfileResponse {
   GetSigningProfileResponse({
     this.arn,
     this.overrides,
+    this.platformDisplayName,
     this.platformId,
     this.profileName,
+    this.profileVersion,
+    this.profileVersionArn,
+    this.revocationRecord,
+    this.signatureValidityPeriod,
     this.signingMaterial,
     this.signingParameters,
     this.status,
+    this.statusReason,
     this.tags,
   });
   factory GetSigningProfileResponse.fromJson(Map<String, dynamic> json) =>
@@ -881,6 +1392,38 @@ enum ImageFormat {
   jSONEmbedded,
   @_s.JsonValue('JSONDetached')
   jSONDetached,
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListProfilePermissionsResponse {
+  /// String for specifying the next set of paginated results.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// List of permissions associated with the Signing Profile.
+  @_s.JsonKey(name: 'permissions')
+  final List<Permission> permissions;
+
+  /// Total size of the policy associated with the Signing Profile in bytes.
+  @_s.JsonKey(name: 'policySizeBytes')
+  final int policySizeBytes;
+
+  /// The identifier for the current revision of profile permissions.
+  @_s.JsonKey(name: 'revisionId')
+  final String revisionId;
+
+  ListProfilePermissionsResponse({
+    this.nextToken,
+    this.permissions,
+    this.policySizeBytes,
+    this.revisionId,
+  });
+  factory ListProfilePermissionsResponse.fromJson(Map<String, dynamic> json) =>
+      _$ListProfilePermissionsResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -968,6 +1511,39 @@ class ListTagsForResourceResponse {
       _$ListTagsForResourceResponseFromJson(json);
 }
 
+/// A cross-account permission for a signing profile.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class Permission {
+  /// An AWS Signer action permitted as part of cross-account permissions.
+  @_s.JsonKey(name: 'action')
+  final String action;
+
+  /// The AWS principal that has been granted a cross-account permission.
+  @_s.JsonKey(name: 'principal')
+  final String principal;
+
+  /// The signing profile version that a permission applies to.
+  @_s.JsonKey(name: 'profileVersion')
+  final String profileVersion;
+
+  /// A unique identifier for a cross-account permission statement.
+  @_s.JsonKey(name: 'statementId')
+  final String statementId;
+
+  Permission({
+    this.action,
+    this.principal,
+    this.profileVersion,
+    this.statementId,
+  });
+  factory Permission.fromJson(Map<String, dynamic> json) =>
+      _$PermissionFromJson(json);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -978,11 +1554,38 @@ class PutSigningProfileResponse {
   @_s.JsonKey(name: 'arn')
   final String arn;
 
+  /// The version of the signing profile being created.
+  @_s.JsonKey(name: 'profileVersion')
+  final String profileVersion;
+
+  /// The signing profile ARN, including the profile version.
+  @_s.JsonKey(name: 'profileVersionArn')
+  final String profileVersionArn;
+
   PutSigningProfileResponse({
     this.arn,
+    this.profileVersion,
+    this.profileVersionArn,
   });
   factory PutSigningProfileResponse.fromJson(Map<String, dynamic> json) =>
       _$PutSigningProfileResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class RemoveProfilePermissionResponse {
+  /// An identifier for the current revision of the profile permissions.
+  @_s.JsonKey(name: 'revisionId')
+  final String revisionId;
+
+  RemoveProfilePermissionResponse({
+    this.revisionId,
+  });
+  factory RemoveProfilePermissionResponse.fromJson(Map<String, dynamic> json) =>
+      _$RemoveProfilePermissionResponseFromJson(json);
 }
 
 /// The name and prefix of the S3 bucket where code signing saves your signed
@@ -1060,6 +1663,31 @@ class S3Source {
       _$S3SourceFromJson(json);
 
   Map<String, dynamic> toJson() => _$S3SourceToJson(this);
+}
+
+/// The validity period for a signing job.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class SignatureValidityPeriod {
+  /// The time unit for signature validity.
+  @_s.JsonKey(name: 'type')
+  final ValidityType type;
+
+  /// The numerical value of the time unit for signature validity.
+  @_s.JsonKey(name: 'value')
+  final int value;
+
+  SignatureValidityPeriod({
+    this.type,
+    this.value,
+  });
+  factory SignatureValidityPeriod.fromJson(Map<String, dynamic> json) =>
+      _$SignatureValidityPeriodFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SignatureValidityPeriodToJson(this);
 }
 
 /// Points to an <code>S3SignedObject</code> object that contains information
@@ -1167,9 +1795,42 @@ class SigningJob {
   @_s.JsonKey(name: 'createdAt')
   final DateTime createdAt;
 
+  /// Indicates whether the signing job is revoked.
+  @_s.JsonKey(name: 'isRevoked')
+  final bool isRevoked;
+
   /// The ID of the signing job.
   @_s.JsonKey(name: 'jobId')
   final String jobId;
+
+  /// The AWS account ID of the job invoker.
+  @_s.JsonKey(name: 'jobInvoker')
+  final String jobInvoker;
+
+  /// The AWS account ID of the job owner.
+  @_s.JsonKey(name: 'jobOwner')
+  final String jobOwner;
+
+  /// The name of a signing platform.
+  @_s.JsonKey(name: 'platformDisplayName')
+  final String platformDisplayName;
+
+  /// The unique identifier for a signing platform.
+  @_s.JsonKey(name: 'platformId')
+  final String platformId;
+
+  /// The name of the signing profile that created a signing job.
+  @_s.JsonKey(name: 'profileName')
+  final String profileName;
+
+  /// The version of the signing profile that created a signing job.
+  @_s.JsonKey(name: 'profileVersion')
+  final String profileVersion;
+
+  /// The time when the signature of a signing job expires.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'signatureExpiresAt')
+  final DateTime signatureExpiresAt;
 
   /// A <code>SignedObject</code> structure that contains information about a
   /// signing job's signed code image.
@@ -1192,7 +1853,15 @@ class SigningJob {
 
   SigningJob({
     this.createdAt,
+    this.isRevoked,
     this.jobId,
+    this.jobInvoker,
+    this.jobOwner,
+    this.platformDisplayName,
+    this.platformId,
+    this.profileName,
+    this.profileVersion,
+    this.signatureExpiresAt,
     this.signedObject,
     this.signingMaterial,
     this.source,
@@ -1200,6 +1869,35 @@ class SigningJob {
   });
   factory SigningJob.fromJson(Map<String, dynamic> json) =>
       _$SigningJobFromJson(json);
+}
+
+/// Revocation information for a signing job.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class SigningJobRevocationRecord {
+  /// A caller-supplied reason for revocation.
+  @_s.JsonKey(name: 'reason')
+  final String reason;
+
+  /// The time of revocation.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'revokedAt')
+  final DateTime revokedAt;
+
+  /// The identity of the revoker.
+  @_s.JsonKey(name: 'revokedBy')
+  final String revokedBy;
+
+  SigningJobRevocationRecord({
+    this.reason,
+    this.revokedAt,
+    this.revokedBy,
+  });
+  factory SigningJobRevocationRecord.fromJson(Map<String, dynamic> json) =>
+      _$SigningJobRevocationRecordFromJson(json);
 }
 
 /// The ACM certificate that is used to sign your code.
@@ -1252,6 +1950,10 @@ class SigningPlatform {
   @_s.JsonKey(name: 'platformId')
   final String platformId;
 
+  /// Indicates whether revocation is supported for the platform.
+  @_s.JsonKey(name: 'revocationSupported')
+  final bool revocationSupported;
+
   /// The configuration of a code signing platform. This includes the designated
   /// hash algorithm and encryption algorithm of a signing platform.
   @_s.JsonKey(name: 'signingConfiguration')
@@ -1269,6 +1971,7 @@ class SigningPlatform {
     this.maxSizeInMB,
     this.partner,
     this.platformId,
+    this.revocationSupported,
     this.signingConfiguration,
     this.signingImageFormat,
     this.target,
@@ -1322,6 +2025,10 @@ class SigningProfile {
   @_s.JsonKey(name: 'arn')
   final String arn;
 
+  /// The name of the signing platform.
+  @_s.JsonKey(name: 'platformDisplayName')
+  final String platformDisplayName;
+
   /// The ID of a platform that is available for use by a signing profile.
   @_s.JsonKey(name: 'platformId')
   final String platformId;
@@ -1329,6 +2036,18 @@ class SigningProfile {
   /// The name of the signing profile.
   @_s.JsonKey(name: 'profileName')
   final String profileName;
+
+  /// The version of a signing profile.
+  @_s.JsonKey(name: 'profileVersion')
+  final String profileVersion;
+
+  /// The ARN of a signing profile, including the profile version.
+  @_s.JsonKey(name: 'profileVersionArn')
+  final String profileVersionArn;
+
+  /// The validity period for a signing job created using this signing profile.
+  @_s.JsonKey(name: 'signatureValidityPeriod')
+  final SignatureValidityPeriod signatureValidityPeriod;
 
   /// The ACM certificate that is available for use by a signing profile.
   @_s.JsonKey(name: 'signingMaterial')
@@ -1348,8 +2067,12 @@ class SigningProfile {
 
   SigningProfile({
     this.arn,
+    this.platformDisplayName,
     this.platformId,
     this.profileName,
+    this.profileVersion,
+    this.profileVersionArn,
+    this.signatureValidityPeriod,
     this.signingMaterial,
     this.signingParameters,
     this.status,
@@ -1359,11 +2082,57 @@ class SigningProfile {
       _$SigningProfileFromJson(json);
 }
 
+/// Revocation information for a signing profile.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class SigningProfileRevocationRecord {
+  /// The time when revocation becomes effective.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'revocationEffectiveFrom')
+  final DateTime revocationEffectiveFrom;
+
+  /// The time when the signing profile was revoked.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'revokedAt')
+  final DateTime revokedAt;
+
+  /// The identity of the revoker.
+  @_s.JsonKey(name: 'revokedBy')
+  final String revokedBy;
+
+  SigningProfileRevocationRecord({
+    this.revocationEffectiveFrom,
+    this.revokedAt,
+    this.revokedBy,
+  });
+  factory SigningProfileRevocationRecord.fromJson(Map<String, dynamic> json) =>
+      _$SigningProfileRevocationRecordFromJson(json);
+}
+
 enum SigningProfileStatus {
   @_s.JsonValue('Active')
   active,
   @_s.JsonValue('Canceled')
   canceled,
+  @_s.JsonValue('Revoked')
+  revoked,
+}
+
+extension on SigningProfileStatus {
+  String toValue() {
+    switch (this) {
+      case SigningProfileStatus.active:
+        return 'Active';
+      case SigningProfileStatus.canceled:
+        return 'Canceled';
+      case SigningProfileStatus.revoked:
+        return 'Revoked';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
 }
 
 enum SigningStatus {
@@ -1419,8 +2188,13 @@ class StartSigningJobResponse {
   @_s.JsonKey(name: 'jobId')
   final String jobId;
 
+  /// The AWS account ID of the signing job owner.
+  @_s.JsonKey(name: 'jobOwner')
+  final String jobOwner;
+
   StartSigningJobResponse({
     this.jobId,
+    this.jobOwner,
   });
   factory StartSigningJobResponse.fromJson(Map<String, dynamic> json) =>
       _$StartSigningJobResponseFromJson(json);
@@ -1448,6 +2222,15 @@ class UntagResourceResponse {
       _$UntagResourceResponseFromJson(json);
 }
 
+enum ValidityType {
+  @_s.JsonValue('DAYS')
+  days,
+  @_s.JsonValue('MONTHS')
+  months,
+  @_s.JsonValue('YEARS')
+  years,
+}
+
 class AccessDeniedException extends _s.GenericAwsException {
   AccessDeniedException({String type, String message})
       : super(type: type, code: 'AccessDeniedException', message: message);
@@ -1456,6 +2239,11 @@ class AccessDeniedException extends _s.GenericAwsException {
 class BadRequestException extends _s.GenericAwsException {
   BadRequestException({String type, String message})
       : super(type: type, code: 'BadRequestException', message: message);
+}
+
+class ConflictException extends _s.GenericAwsException {
+  ConflictException({String type, String message})
+      : super(type: type, code: 'ConflictException', message: message);
 }
 
 class InternalServiceErrorException extends _s.GenericAwsException {
@@ -1476,9 +2264,22 @@ class ResourceNotFoundException extends _s.GenericAwsException {
       : super(type: type, code: 'ResourceNotFoundException', message: message);
 }
 
+class ServiceLimitExceededException extends _s.GenericAwsException {
+  ServiceLimitExceededException({String type, String message})
+      : super(
+            type: type,
+            code: 'ServiceLimitExceededException',
+            message: message);
+}
+
 class ThrottlingException extends _s.GenericAwsException {
   ThrottlingException({String type, String message})
       : super(type: type, code: 'ThrottlingException', message: message);
+}
+
+class TooManyRequestsException extends _s.GenericAwsException {
+  TooManyRequestsException({String type, String message})
+      : super(type: type, code: 'TooManyRequestsException', message: message);
 }
 
 class ValidationException extends _s.GenericAwsException {
@@ -1491,14 +2292,20 @@ final _exceptionFns = <String, _s.AwsExceptionFn>{
       AccessDeniedException(type: type, message: message),
   'BadRequestException': (type, message) =>
       BadRequestException(type: type, message: message),
+  'ConflictException': (type, message) =>
+      ConflictException(type: type, message: message),
   'InternalServiceErrorException': (type, message) =>
       InternalServiceErrorException(type: type, message: message),
   'NotFoundException': (type, message) =>
       NotFoundException(type: type, message: message),
   'ResourceNotFoundException': (type, message) =>
       ResourceNotFoundException(type: type, message: message),
+  'ServiceLimitExceededException': (type, message) =>
+      ServiceLimitExceededException(type: type, message: message),
   'ThrottlingException': (type, message) =>
       ThrottlingException(type: type, message: message),
+  'TooManyRequestsException': (type, message) =>
+      TooManyRequestsException(type: type, message: message),
   'ValidationException': (type, message) =>
       ValidationException(type: type, message: message),
 };

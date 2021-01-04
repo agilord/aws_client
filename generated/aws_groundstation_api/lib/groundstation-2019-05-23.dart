@@ -992,6 +992,24 @@ enum AngleUnits {
   radian,
 }
 
+/// Details about an antenna demod decode <code>Config</code> used in a contact.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class AntennaDemodDecodeDetails {
+  /// Name of an antenna demod decode output node used in a contact.
+  @_s.JsonKey(name: 'outputNode')
+  final String outputNode;
+
+  AntennaDemodDecodeDetails({
+    this.outputNode,
+  });
+  factory AntennaDemodDecodeDetails.fromJson(Map<String, dynamic> json) =>
+      _$AntennaDemodDecodeDetailsFromJson(json);
+}
+
 /// Information about how AWS Ground Station should configure an antenna for
 /// downlink during a contact.
 @_s.JsonSerializable(
@@ -1061,9 +1079,14 @@ class AntennaUplinkConfig {
   @_s.JsonKey(name: 'targetEirp')
   final Eirp targetEirp;
 
+  /// Whether or not uplink transmit is disabled.
+  @_s.JsonKey(name: 'transmitDisabled')
+  final bool transmitDisabled;
+
   AntennaUplinkConfig({
     @_s.required this.spectrumConfig,
     @_s.required this.targetEirp,
+    this.transmitDisabled,
   });
   factory AntennaUplinkConfig.fromJson(Map<String, dynamic> json) =>
       _$AntennaUplinkConfigFromJson(json);
@@ -1113,6 +1136,27 @@ extension on ConfigCapabilityType {
     }
     throw Exception('Unknown enum value: $this');
   }
+}
+
+/// Details for certain <code>Config</code> object types in a contact.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ConfigDetails {
+  /// Details for antenna demod decode <code>Config</code> in a contact.
+  @_s.JsonKey(name: 'antennaDemodDecodeDetails')
+  final AntennaDemodDecodeDetails antennaDemodDecodeDetails;
+  @_s.JsonKey(name: 'endpointDetails')
+  final EndpointDetails endpointDetails;
+
+  ConfigDetails({
+    this.antennaDemodDecodeDetails,
+    this.endpointDetails,
+  });
+  factory ConfigDetails.fromJson(Map<String, dynamic> json) =>
+      _$ConfigDetailsFromJson(json);
 }
 
 /// <p/>
@@ -1339,6 +1383,8 @@ enum ContactStatus {
   available,
   @_s.JsonValue('AWS_CANCELLED')
   awsCancelled,
+  @_s.JsonValue('AWS_FAILED')
+  awsFailed,
   @_s.JsonValue('CANCELLED')
   cancelled,
   @_s.JsonValue('CANCELLING')
@@ -1368,6 +1414,8 @@ extension on ContactStatus {
         return 'AVAILABLE';
       case ContactStatus.awsCancelled:
         return 'AWS_CANCELLED';
+      case ContactStatus.awsFailed:
+        return 'AWS_FAILED';
       case ContactStatus.cancelled:
         return 'CANCELLED';
       case ContactStatus.cancelling:
@@ -1402,6 +1450,31 @@ enum Criticality {
   required,
 }
 
+/// Information about a dataflow edge used in a contact.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DataflowDetail {
+  @_s.JsonKey(name: 'destination')
+  final Destination destination;
+
+  /// Error message for a dataflow.
+  @_s.JsonKey(name: 'errorMessage')
+  final String errorMessage;
+  @_s.JsonKey(name: 'source')
+  final Source source;
+
+  DataflowDetail({
+    this.destination,
+    this.errorMessage,
+    this.source,
+  });
+  factory DataflowDetail.fromJson(Map<String, dynamic> json) =>
+      _$DataflowDetailFromJson(json);
+}
+
 /// Information about a dataflow endpoint.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -1413,6 +1486,10 @@ class DataflowEndpoint {
   @_s.JsonKey(name: 'address')
   final SocketAddress address;
 
+  /// Maximum transmission unit (MTU) size in bytes of a dataflow endpoint.
+  @_s.JsonKey(name: 'mtu')
+  final int mtu;
+
   /// Name of a dataflow endpoint.
   @_s.JsonKey(name: 'name')
   final String name;
@@ -1423,6 +1500,7 @@ class DataflowEndpoint {
 
   DataflowEndpoint({
     this.address,
+    this.mtu,
     this.name,
     this.status,
   });
@@ -1553,6 +1631,10 @@ class DescribeContactResponse {
   @_s.JsonKey(name: 'contactStatus')
   final ContactStatus contactStatus;
 
+  /// List describing source and destination details for each dataflow edge.
+  @_s.JsonKey(name: 'dataflowList')
+  final List<DataflowDetail> dataflowList;
+
   /// End time of a contact.
   @UnixDateTimeConverter()
   @_s.JsonKey(name: 'endTime')
@@ -1606,6 +1688,7 @@ class DescribeContactResponse {
   DescribeContactResponse({
     this.contactId,
     this.contactStatus,
+    this.dataflowList,
     this.endTime,
     this.errorMessage,
     this.groundStation,
@@ -1622,6 +1705,40 @@ class DescribeContactResponse {
       _$DescribeContactResponseFromJson(json);
 }
 
+/// Dataflow details for the destination side.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class Destination {
+  /// Additional details for a <code>Config</code>, if type is dataflow endpoint
+  /// or antenna demod decode.
+  @_s.JsonKey(name: 'configDetails')
+  final ConfigDetails configDetails;
+
+  /// UUID of a <code>Config</code>.
+  @_s.JsonKey(name: 'configId')
+  final String configId;
+
+  /// Type of a <code>Config</code>.
+  @_s.JsonKey(name: 'configType')
+  final ConfigCapabilityType configType;
+
+  /// Region of a dataflow destination.
+  @_s.JsonKey(name: 'dataflowDestinationRegion')
+  final String dataflowDestinationRegion;
+
+  Destination({
+    this.configDetails,
+    this.configId,
+    this.configType,
+    this.dataflowDestinationRegion,
+  });
+  factory Destination.fromJson(Map<String, dynamic> json) =>
+      _$DestinationFromJson(json);
+}
+
 /// Object that represents EIRP.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -1633,7 +1750,7 @@ class Eirp {
   @_s.JsonKey(name: 'units')
   final EirpUnits units;
 
-  /// Value of an EIRP.
+  /// Value of an EIRP. Valid values are between 20.0 to 50.0 dBW.
   @_s.JsonKey(name: 'value')
   final double value;
 
@@ -1723,7 +1840,8 @@ class Frequency {
   @_s.JsonKey(name: 'units')
   final FrequencyUnits units;
 
-  /// Frequency value.
+  /// Frequency value. Valid values are between 2200 to 2300 MHz and 7750 to 8400
+  /// MHz for downlink and 2025 to 2120 MHz for uplink.
   @_s.JsonKey(name: 'value')
   final double value;
 
@@ -1748,7 +1866,23 @@ class FrequencyBandwidth {
   @_s.JsonKey(name: 'units')
   final BandwidthUnits units;
 
-  /// Frequency bandwidth value.
+  /// Frequency bandwidth value. AWS Ground Station currently has the following
+  /// bandwidth limitations:
+  ///
+  /// <ul>
+  /// <li>
+  /// For <code>AntennaDownlinkDemodDecodeconfig</code>, valid values are between
+  /// 125 kHz to 650 MHz.
+  /// </li>
+  /// <li>
+  /// For <code>AntennaDownlinkconfig</code>, valid values are between 10 kHz to
+  /// 54 MHz.
+  /// </li>
+  /// <li>
+  /// For <code>AntennaUplinkConfig</code>, valid values are between 10 kHz to 54
+  /// MHz.
+  /// </li>
+  /// </ul>
   @_s.JsonKey(name: 'value')
   final double value;
 
@@ -2333,6 +2467,39 @@ class SocketAddress {
   Map<String, dynamic> toJson() => _$SocketAddressToJson(this);
 }
 
+/// Dataflow details for the source side.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class Source {
+  /// Additional details for a <code>Config</code>, if type is dataflow endpoint
+  /// or antenna demod decode.
+  @_s.JsonKey(name: 'configDetails')
+  final ConfigDetails configDetails;
+
+  /// UUID of a <code>Config</code>.
+  @_s.JsonKey(name: 'configId')
+  final String configId;
+
+  /// Type of a <code>Config</code>.
+  @_s.JsonKey(name: 'configType')
+  final ConfigCapabilityType configType;
+
+  /// Region of a dataflow source.
+  @_s.JsonKey(name: 'dataflowSourceRegion')
+  final String dataflowSourceRegion;
+
+  Source({
+    this.configDetails,
+    this.configId,
+    this.configType,
+    this.dataflowSourceRegion,
+  });
+  factory Source.fromJson(Map<String, dynamic> json) => _$SourceFromJson(json);
+}
+
 /// Object that describes a spectral <code>Config</code>.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2340,15 +2507,35 @@ class SocketAddress {
     createFactory: true,
     createToJson: true)
 class SpectrumConfig {
-  /// Bandwidth of a spectral <code>Config</code>.
+  /// Bandwidth of a spectral <code>Config</code>. AWS Ground Station currently
+  /// has the following bandwidth limitations:
+  ///
+  /// <ul>
+  /// <li>
+  /// For <code>AntennaDownlinkDemodDecodeconfig</code>, valid values are between
+  /// 125 kHz to 650 MHz.
+  /// </li>
+  /// <li>
+  /// For <code>AntennaDownlinkconfig</code> valid values are between 10 kHz to 54
+  /// MHz.
+  /// </li>
+  /// <li>
+  /// For <code>AntennaUplinkConfig</code>, valid values are between 10 kHz to 54
+  /// MHz.
+  /// </li>
+  /// </ul>
   @_s.JsonKey(name: 'bandwidth')
   final FrequencyBandwidth bandwidth;
 
-  /// Center frequency of a spectral <code>Config</code>.
+  /// Center frequency of a spectral <code>Config</code>. Valid values are between
+  /// 2200 to 2300 MHz and 7750 to 8400 MHz for downlink and 2025 to 2120 MHz for
+  /// uplink.
   @_s.JsonKey(name: 'centerFrequency')
   final Frequency centerFrequency;
 
-  /// Polarization of a spectral <code>Config</code>.
+  /// Polarization of a spectral <code>Config</code>. Capturing both
+  /// <code>"RIGHT_HAND"</code> and <code>"LEFT_HAND"</code> polarization requires
+  /// two separate configs.
   @_s.JsonKey(name: 'polarization')
   final Polarization polarization;
 
@@ -2444,11 +2631,14 @@ class UplinkEchoConfig {
     createFactory: true,
     createToJson: true)
 class UplinkSpectrumConfig {
-  /// Center frequency of an uplink spectral <code>Config</code>.
+  /// Center frequency of an uplink spectral <code>Config</code>. Valid values are
+  /// between 2025 to 2120 MHz.
   @_s.JsonKey(name: 'centerFrequency')
   final Frequency centerFrequency;
 
-  /// Polarization of an uplink spectral <code>Config</code>.
+  /// Polarization of an uplink spectral <code>Config</code>. Capturing both
+  /// <code>"RIGHT_HAND"</code> and <code>"LEFT_HAND"</code> polarization requires
+  /// two separate configs.
   @_s.JsonKey(name: 'polarization')
   final Polarization polarization;
 

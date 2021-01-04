@@ -466,6 +466,7 @@ Fleet _$FleetFromJson(Map<String, dynamic> json) {
     imageArn: json['ImageArn'] as String,
     imageName: json['ImageName'] as String,
     maxUserDurationInSeconds: json['MaxUserDurationInSeconds'] as int,
+    streamView: _$enumDecodeNullable(_$StreamViewEnumMap, json['StreamView']),
     vpcConfig: json['VpcConfig'] == null
         ? null
         : VpcConfig.fromJson(json['VpcConfig'] as Map<String, dynamic>),
@@ -482,6 +483,11 @@ const _$FleetStateEnumMap = {
 const _$FleetTypeEnumMap = {
   FleetType.alwaysOn: 'ALWAYS_ON',
   FleetType.onDemand: 'ON_DEMAND',
+};
+
+const _$StreamViewEnumMap = {
+  StreamView.app: 'APP',
+  StreamView.desktop: 'DESKTOP',
 };
 
 FleetError _$FleetErrorFromJson(Map<String, dynamic> json) {
@@ -1077,6 +1083,7 @@ UserStackAssociationError _$UserStackAssociationErrorFromJson(
 const _$UserStackAssociationErrorCodeEnumMap = {
   UserStackAssociationErrorCode.stackNotFound: 'STACK_NOT_FOUND',
   UserStackAssociationErrorCode.userNameNotFound: 'USER_NAME_NOT_FOUND',
+  UserStackAssociationErrorCode.directoryNotFound: 'DIRECTORY_NOT_FOUND',
   UserStackAssociationErrorCode.internalError: 'INTERNAL_ERROR',
 };
 

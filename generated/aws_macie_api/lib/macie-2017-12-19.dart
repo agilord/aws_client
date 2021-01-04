@@ -26,14 +26,14 @@ export 'package:shared_aws_api/shared.dart' show AwsClientCredentials;
 
 part 'macie-2017-12-19.g.dart';
 
-/// Amazon Macie is a security service that uses machine learning to
+/// Amazon Macie Classic is a security service that uses machine learning to
 /// automatically discover, classify, and protect sensitive data in AWS. Macie
-/// recognizes sensitive data such as personally identifiable information (PII)
-/// or intellectual property, and provides you with dashboards and alerts that
-/// give visibility into how this data is being accessed or moved. For more
-/// information, see the <a
-/// href="https://docs.aws.amazon.com/macie/latest/userguide/what-is-macie.html">Macie
-/// User Guide</a>.
+/// Classic recognizes sensitive data such as personally identifiable
+/// information (PII) or intellectual property, and provides you with dashboards
+/// and alerts that give visibility into how this data is being accessed or
+/// moved. For more information, see the <a
+/// href="https://docs.aws.amazon.com/macie/latest/userguide/what-is-macie.html">Amazon
+/// Macie Classic User Guide</a>.
 class Macie {
   final _s.JsonProtocol _protocol;
   Macie({
@@ -51,15 +51,16 @@ class Macie {
           endpointUrl: endpointUrl,
         );
 
-  /// Associates a specified AWS account with Amazon Macie as a member account.
+  /// Associates a specified AWS account with Amazon Macie Classic as a member
+  /// account.
   ///
   /// May throw [InvalidInputException].
   /// May throw [LimitExceededException].
   /// May throw [InternalException].
   ///
   /// Parameter [memberAccountId] :
-  /// The ID of the AWS account that you want to associate with Amazon Macie as
-  /// a member account.
+  /// The ID of the AWS account that you want to associate with Amazon Macie
+  /// Classic as a member account.
   Future<void> associateMemberAccount({
     @_s.required String memberAccountId,
   }) async {
@@ -86,11 +87,12 @@ class Macie {
     );
   }
 
-  /// Associates specified S3 resources with Amazon Macie for monitoring and
-  /// data classification. If memberAccountId isn't specified, the action
-  /// associates specified S3 resources with Macie for the current master
-  /// account. If memberAccountId is specified, the action associates specified
-  /// S3 resources with Macie for the specified member account.
+  /// Associates specified S3 resources with Amazon Macie Classic for monitoring
+  /// and data classification. If memberAccountId isn't specified, the action
+  /// associates specified S3 resources with Macie Classic for the current
+  /// master account. If memberAccountId is specified, the action associates
+  /// specified S3 resources with Macie Classic for the specified member
+  /// account.
   ///
   /// May throw [InvalidInputException].
   /// May throw [AccessDeniedException].
@@ -98,12 +100,12 @@ class Macie {
   /// May throw [InternalException].
   ///
   /// Parameter [s3Resources] :
-  /// The S3 resources that you want to associate with Amazon Macie for
+  /// The S3 resources that you want to associate with Amazon Macie Classic for
   /// monitoring and data classification.
   ///
   /// Parameter [memberAccountId] :
-  /// The ID of the Amazon Macie member account whose resources you want to
-  /// associate with Macie.
+  /// The ID of the Amazon Macie Classic member account whose resources you want
+  /// to associate with Macie Classic.
   Future<AssociateS3ResourcesResult> associateS3Resources({
     @_s.required List<S3ResourceClassification> s3Resources,
     String memberAccountId,
@@ -133,13 +135,14 @@ class Macie {
     return AssociateS3ResourcesResult.fromJson(jsonResponse.body);
   }
 
-  /// Removes the specified member account from Amazon Macie.
+  /// Removes the specified member account from Amazon Macie Classic.
   ///
   /// May throw [InvalidInputException].
   /// May throw [InternalException].
   ///
   /// Parameter [memberAccountId] :
-  /// The ID of the member account that you want to remove from Amazon Macie.
+  /// The ID of the member account that you want to remove from Amazon Macie
+  /// Classic.
   Future<void> disassociateMemberAccount({
     @_s.required String memberAccountId,
   }) async {
@@ -166,11 +169,11 @@ class Macie {
     );
   }
 
-  /// Removes specified S3 resources from being monitored by Amazon Macie. If
-  /// memberAccountId isn't specified, the action removes specified S3 resources
-  /// from Macie for the current master account. If memberAccountId is
-  /// specified, the action removes specified S3 resources from Macie for the
-  /// specified member account.
+  /// Removes specified S3 resources from being monitored by Amazon Macie
+  /// Classic. If memberAccountId isn't specified, the action removes specified
+  /// S3 resources from Macie Classic for the current master account. If
+  /// memberAccountId is specified, the action removes specified S3 resources
+  /// from Macie Classic for the specified member account.
   ///
   /// May throw [InvalidInputException].
   /// May throw [AccessDeniedException].
@@ -178,11 +181,11 @@ class Macie {
   ///
   /// Parameter [associatedS3Resources] :
   /// The S3 resources (buckets or prefixes) that you want to remove from being
-  /// monitored and classified by Amazon Macie.
+  /// monitored and classified by Amazon Macie Classic.
   ///
   /// Parameter [memberAccountId] :
-  /// The ID of the Amazon Macie member account whose resources you want to
-  /// remove from being monitored by Amazon Macie.
+  /// The ID of the Amazon Macie Classic member account whose resources you want
+  /// to remove from being monitored by Amazon Macie Classic.
   Future<DisassociateS3ResourcesResult> disassociateS3Resources({
     @_s.required List<S3Resource> associatedS3Resources,
     String memberAccountId,
@@ -212,8 +215,8 @@ class Macie {
     return DisassociateS3ResourcesResult.fromJson(jsonResponse.body);
   }
 
-  /// Lists all Amazon Macie member accounts for the current Amazon Macie master
-  /// account.
+  /// Lists all Amazon Macie Classic member accounts for the current Amazon
+  /// Macie Classic master account.
   ///
   /// May throw [InternalException].
   /// May throw [InvalidInputException].
@@ -262,11 +265,11 @@ class Macie {
     return ListMemberAccountsResult.fromJson(jsonResponse.body);
   }
 
-  /// Lists all the S3 resources associated with Amazon Macie. If
+  /// Lists all the S3 resources associated with Amazon Macie Classic. If
   /// memberAccountId isn't specified, the action lists the S3 resources
-  /// associated with Amazon Macie for the current master account. If
+  /// associated with Amazon Macie Classic for the current master account. If
   /// memberAccountId is specified, the action lists the S3 resources associated
-  /// with Amazon Macie for the specified member account.
+  /// with Amazon Macie Classic for the specified member account.
   ///
   /// May throw [InvalidInputException].
   /// May throw [AccessDeniedException].
@@ -277,8 +280,8 @@ class Macie {
   /// in the response. The default value is 250.
   ///
   /// Parameter [memberAccountId] :
-  /// The Amazon Macie member account ID whose associated S3 resources you want
-  /// to list.
+  /// The Amazon Macie Classic member account ID whose associated S3 resources
+  /// you want to list.
   ///
   /// Parameter [nextToken] :
   /// Use this parameter when paginating results. Set its value to null on your
@@ -329,10 +332,10 @@ class Macie {
 
   /// Updates the classification types for the specified S3 resources. If
   /// memberAccountId isn't specified, the action updates the classification
-  /// types of the S3 resources associated with Amazon Macie for the current
-  /// master account. If memberAccountId is specified, the action updates the
-  /// classification types of the S3 resources associated with Amazon Macie for
-  /// the specified member account.
+  /// types of the S3 resources associated with Amazon Macie Classic for the
+  /// current master account. If memberAccountId is specified, the action
+  /// updates the classification types of the S3 resources associated with
+  /// Amazon Macie Classic for the specified member account.
   ///
   /// May throw [InvalidInputException].
   /// May throw [AccessDeniedException].
@@ -342,7 +345,7 @@ class Macie {
   /// The S3 resources whose classification types you want to update.
   ///
   /// Parameter [memberAccountId] :
-  /// The AWS ID of the Amazon Macie member account whose S3 resources'
+  /// The AWS ID of the Amazon Macie Classic member account whose S3 resources'
   /// classification types you want to update.
   Future<UpdateS3ResourcesResult> updateS3Resources({
     @_s.required List<S3ResourceClassificationUpdate> s3ResourcesUpdate,
@@ -374,34 +377,14 @@ class Macie {
   }
 }
 
-/// You do not have required permissions to access the requested resource.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class AccessDeniedException implements _s.AwsException {
-  @_s.JsonKey(name: 'message')
-  final String message;
-  @_s.JsonKey(name: 'resourceType')
-  final String resourceType;
-
-  AccessDeniedException({
-    this.message,
-    this.resourceType,
-  });
-  factory AccessDeniedException.fromJson(Map<String, dynamic> json) =>
-      _$AccessDeniedExceptionFromJson(json);
-}
-
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class AssociateS3ResourcesResult {
-  /// S3 resources that couldn't be associated with Amazon Macie. An error code
-  /// and an error message are provided for each failed item.
+  /// S3 resources that couldn't be associated with Amazon Macie Classic. An error
+  /// code and an error message are provided for each failed item.
   @_s.JsonKey(name: 'failedS3Resources')
   final List<FailedS3Resource> failedS3Resources;
 
@@ -412,8 +395,8 @@ class AssociateS3ResourcesResult {
       _$AssociateS3ResourcesResultFromJson(json);
 }
 
-/// The classification type that Amazon Macie applies to the associated S3
-/// resources.
+/// The classification type that Amazon Macie Classic applies to the associated
+/// S3 resources.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -421,8 +404,8 @@ class AssociateS3ResourcesResult {
     createToJson: true)
 class ClassificationType {
   /// A continuous classification of the objects that are added to a specified S3
-  /// bucket. Amazon Macie begins performing continuous classification after a
-  /// bucket is successfully associated with Amazon Macie.
+  /// bucket. Amazon Macie Classic begins performing continuous classification
+  /// after a bucket is successfully associated with Amazon Macie Classic.
   @_s.JsonKey(name: 'continuous')
   final S3ContinuousClassificationType continuous;
 
@@ -441,9 +424,9 @@ class ClassificationType {
   Map<String, dynamic> toJson() => _$ClassificationTypeToJson(this);
 }
 
-/// The classification type that Amazon Macie applies to the associated S3
-/// resources. At least one of the classification types (oneTime or continuous)
-/// must be specified.
+/// The classification type that Amazon Macie Classic applies to the associated
+/// S3 resources. At least one of the classification types (oneTime or
+/// continuous) must be specified.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -451,8 +434,8 @@ class ClassificationType {
     createToJson: true)
 class ClassificationTypeUpdate {
   /// A continuous classification of the objects that are added to a specified S3
-  /// bucket. Amazon Macie begins performing continuous classification after a
-  /// bucket is successfully associated with Amazon Macie.
+  /// bucket. Amazon Macie Classic begins performing continuous classification
+  /// after a bucket is successfully associated with Amazon Macie Classic.
   @_s.JsonKey(name: 'continuous')
   final S3ContinuousClassificationType continuous;
 
@@ -475,8 +458,8 @@ class ClassificationTypeUpdate {
     createToJson: false)
 class DisassociateS3ResourcesResult {
   /// S3 resources that couldn't be removed from being monitored and classified by
-  /// Amazon Macie. An error code and an error message are provided for each
-  /// failed item.
+  /// Amazon Macie Classic. An error code and an error message are provided for
+  /// each failed item.
   @_s.JsonKey(name: 'failedS3Resources')
   final List<FailedS3Resource> failedS3Resources;
 
@@ -515,82 +498,14 @@ class FailedS3Resource {
       _$FailedS3ResourceFromJson(json);
 }
 
-/// Internal server error.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class InternalException implements _s.AwsException {
-  @_s.JsonKey(name: 'errorCode')
-  final String errorCode;
-  @_s.JsonKey(name: 'message')
-  final String message;
-
-  InternalException({
-    this.errorCode,
-    this.message,
-  });
-  factory InternalException.fromJson(Map<String, dynamic> json) =>
-      _$InternalExceptionFromJson(json);
-}
-
-/// The request was rejected because an invalid or out-of-range value was
-/// supplied for an input parameter.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class InvalidInputException implements _s.AwsException {
-  @_s.JsonKey(name: 'errorCode')
-  final String errorCode;
-  @_s.JsonKey(name: 'fieldName')
-  final String fieldName;
-  @_s.JsonKey(name: 'message')
-  final String message;
-
-  InvalidInputException({
-    this.errorCode,
-    this.fieldName,
-    this.message,
-  });
-  factory InvalidInputException.fromJson(Map<String, dynamic> json) =>
-      _$InvalidInputExceptionFromJson(json);
-}
-
-/// The request was rejected because it attempted to create resources beyond the
-/// current AWS account limits. The error code describes the limit exceeded.
-@_s.JsonSerializable(
-    includeIfNull: false,
-    explicitToJson: true,
-    createFactory: true,
-    createToJson: false)
-class LimitExceededException implements _s.AwsException {
-  @_s.JsonKey(name: 'errorCode')
-  final String errorCode;
-  @_s.JsonKey(name: 'message')
-  final String message;
-  @_s.JsonKey(name: 'resourceType')
-  final String resourceType;
-
-  LimitExceededException({
-    this.errorCode,
-    this.message,
-    this.resourceType,
-  });
-  factory LimitExceededException.fromJson(Map<String, dynamic> json) =>
-      _$LimitExceededExceptionFromJson(json);
-}
-
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListMemberAccountsResult {
-  /// A list of the Amazon Macie member accounts returned by the action. The
-  /// current master account is also included in this list.
+  /// A list of the Amazon Macie Classic member accounts returned by the action.
+  /// The current master account is also included in this list.
   @_s.JsonKey(name: 'memberAccounts')
   final List<MemberAccount> memberAccounts;
 
@@ -634,14 +549,14 @@ class ListS3ResourcesResult {
       _$ListS3ResourcesResultFromJson(json);
 }
 
-/// Contains information about the Amazon Macie member account.
+/// Contains information about the Amazon Macie Classic member account.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class MemberAccount {
-  /// The AWS account ID of the Amazon Macie member account.
+  /// The AWS account ID of the Amazon Macie Classic member account.
   @_s.JsonKey(name: 'accountId')
   final String accountId;
 
@@ -692,9 +607,9 @@ class S3Resource {
   Map<String, dynamic> toJson() => _$S3ResourceToJson(this);
 }
 
-/// The S3 resources that you want to associate with Amazon Macie for monitoring
-/// and data classification. This data type is used as a request parameter in
-/// the AssociateS3Resources action and a response parameter in the
+/// The S3 resources that you want to associate with Amazon Macie Classic for
+/// monitoring and data classification. This data type is used as a request
+/// parameter in the AssociateS3Resources action and a response parameter in the
 /// ListS3Resources action.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -702,16 +617,18 @@ class S3Resource {
     createFactory: true,
     createToJson: true)
 class S3ResourceClassification {
-  /// The name of the S3 bucket that you want to associate with Amazon Macie.
+  /// The name of the S3 bucket that you want to associate with Amazon Macie
+  /// Classic.
   @_s.JsonKey(name: 'bucketName')
   final String bucketName;
 
   /// The classification type that you want to specify for the resource associated
-  /// with Amazon Macie.
+  /// with Amazon Macie Classic.
   @_s.JsonKey(name: 'classificationType')
   final ClassificationType classificationType;
 
-  /// The prefix of the S3 bucket that you want to associate with Amazon Macie.
+  /// The prefix of the S3 bucket that you want to associate with Amazon Macie
+  /// Classic.
   @_s.JsonKey(name: 'prefix')
   final String prefix;
 
@@ -739,7 +656,7 @@ class S3ResourceClassificationUpdate {
   final String bucketName;
 
   /// The classification type that you want to update for the resource associated
-  /// with Amazon Macie.
+  /// with Amazon Macie Classic.
   @_s.JsonKey(name: 'classificationTypeUpdate')
   final ClassificationTypeUpdate classificationTypeUpdate;
 
@@ -773,12 +690,33 @@ class UpdateS3ResourcesResult {
       _$UpdateS3ResourcesResultFromJson(json);
 }
 
+class AccessDeniedException extends _s.GenericAwsException {
+  AccessDeniedException({String type, String message})
+      : super(type: type, code: 'AccessDeniedException', message: message);
+}
+
+class InternalException extends _s.GenericAwsException {
+  InternalException({String type, String message})
+      : super(type: type, code: 'InternalException', message: message);
+}
+
+class InvalidInputException extends _s.GenericAwsException {
+  InvalidInputException({String type, String message})
+      : super(type: type, code: 'InvalidInputException', message: message);
+}
+
+class LimitExceededException extends _s.GenericAwsException {
+  LimitExceededException({String type, String message})
+      : super(type: type, code: 'LimitExceededException', message: message);
+}
+
 final _exceptionFns = <String, _s.AwsExceptionFn>{
   'AccessDeniedException': (type, message) =>
-      AccessDeniedException(message: message),
-  'InternalException': (type, message) => InternalException(message: message),
+      AccessDeniedException(type: type, message: message),
+  'InternalException': (type, message) =>
+      InternalException(type: type, message: message),
   'InvalidInputException': (type, message) =>
-      InvalidInputException(message: message),
+      InvalidInputException(type: type, message: message),
   'LimitExceededException': (type, message) =>
-      LimitExceededException(message: message),
+      LimitExceededException(type: type, message: message),
 };

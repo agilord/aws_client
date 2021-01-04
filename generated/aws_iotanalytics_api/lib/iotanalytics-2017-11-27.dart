@@ -80,15 +80,15 @@ class IoTAnalytics {
   /// The name of the channel where the messages are sent.
   ///
   /// Parameter [messages] :
-  /// The list of messages to be sent. Each message has format: '{ "messageId":
-  /// "string", "payload": "string"}'.
+  /// The list of messages to be sent. Each message has the format: {
+  /// "messageId": "string", "payload": "string"}.
   ///
-  /// Note that the field names of message payloads (data) that you send to AWS
-  /// IoT Analytics:
+  /// The field names of message payloads (data) that you send to AWS IoT
+  /// Analytics:
   ///
   /// <ul>
   /// <li>
-  /// Must contain only alphanumeric characters and undescores (_); no other
+  /// Must contain only alphanumeric characters and undescores (_). No other
   /// special characters are allowed.
   /// </li>
   /// <li>
@@ -102,11 +102,11 @@ class IoTAnalytics {
   /// "^[A-Za-z_]([A-Za-z0-9]*|[A-Za-z0-9][A-Za-z0-9_]*)$".
   /// </li>
   /// <li>
-  /// Cannot be greater than 255 characters.
+  /// Cannot be more than 255 characters.
   /// </li>
   /// <li>
-  /// Are case-insensitive. (Fields named "foo" and "FOO" in the same payload
-  /// are considered duplicates.)
+  /// Are case insensitive. (Fields named foo and FOO in the same payload are
+  /// considered duplicates.)
   /// </li>
   /// </ul>
   /// For example, {"temp_01": 29} or {"_temp_01": 29} are valid, but
@@ -156,7 +156,8 @@ class IoTAnalytics {
   /// The name of pipeline for which data reprocessing is canceled.
   ///
   /// Parameter [reprocessingId] :
-  /// The ID of the reprocessing task (returned by "StartPipelineReprocessing").
+  /// The ID of the reprocessing task (returned by
+  /// <code>StartPipelineReprocessing</code>).
   Future<void> cancelPipelineReprocessing({
     @_s.required String pipelineName,
     @_s.required String reprocessingId,
@@ -200,13 +201,15 @@ class IoTAnalytics {
   /// The name of the channel.
   ///
   /// Parameter [channelStorage] :
-  /// Where channel data is stored. You may choose one of "serviceManagedS3" or
-  /// "customerManagedS3" storage. If not specified, the default is
-  /// "serviceManagedS3". This cannot be changed after creation of the channel.
+  /// Where channel data is stored. You can choose one of
+  /// <code>serviceManagedS3</code> or <code>customerManagedS3</code> storage.
+  /// If not specified, the default is <code>serviceManagedS3</code>. You cannot
+  /// change this storage option after the channel is created.
   ///
   /// Parameter [retentionPeriod] :
   /// How long, in days, message data is kept for the channel. When
-  /// "customerManagedS3" storage is selected, this parameter is ignored.
+  /// <code>customerManagedS3</code> storage is selected, this parameter is
+  /// ignored.
   ///
   /// Parameter [tags] :
   /// Metadata which can be used to manage the channel.
@@ -245,12 +248,12 @@ class IoTAnalytics {
     return CreateChannelResponse.fromJson(response);
   }
 
-  /// Creates a data set. A data set stores data retrieved from a data store by
-  /// applying a "queryAction" (a SQL query) or a "containerAction" (executing a
-  /// containerized application). This operation creates the skeleton of a data
-  /// set. The data set can be populated manually by calling
-  /// "CreateDatasetContent" or automatically according to a "trigger" you
-  /// specify.
+  /// Creates a dataset. A dataset stores data retrieved from a data store by
+  /// applying a <code>queryAction</code> (a SQL query) or a
+  /// <code>containerAction</code> (executing a containerized application). This
+  /// operation creates the skeleton of a dataset. The dataset can be populated
+  /// manually by calling <code>CreateDatasetContent</code> or automatically
+  /// according to a trigger you specify.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ResourceAlreadyExistsException].
@@ -266,16 +269,26 @@ class IoTAnalytics {
   /// The name of the data set.
   ///
   /// Parameter [contentDeliveryRules] :
-  /// When data set contents are created they are delivered to destinations
+  /// When dataset contents are created, they are delivered to destinations
   /// specified here.
   ///
+  /// Parameter [lateDataRules] :
+  /// A list of data rules that send notifications to Amazon CloudWatch, when
+  /// data arrives late. To specify <code>lateDataRules</code>, the dataset must
+  /// use a <a
+  /// href="https://docs.aws.amazon.com/iotanalytics/latest/APIReference/API_DeltaTime.html">DeltaTimer</a>
+  /// filter.
+  ///
   /// Parameter [retentionPeriod] :
-  /// [Optional] How long, in days, versions of data set contents are kept for
-  /// the data set. If not specified or set to null, versions of data set
-  /// contents are retained for at most 90 days. The number of versions of data
-  /// set contents retained is determined by the
-  /// <code>versioningConfiguration</code> parameter. (For more information, see
-  /// https://docs.aws.amazon.com/iotanalytics/latest/userguide/getting-started.html#aws-iot-analytics-dataset-versions)
+  /// Optional. How long, in days, versions of dataset contents are kept for the
+  /// dataset. If not specified or set to <code>null</code>, versions of dataset
+  /// contents are retained for at most 90 days. The number of versions of
+  /// dataset contents retained is determined by the
+  /// <code>versioningConfiguration</code> parameter. For more information, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/iotanalytics/latest/userguide/getting-started.html#aws-iot-analytics-dataset-versions">Keeping
+  /// Multiple Versions of AWS IoT Analytics Data Sets</a> in the <i>AWS IoT
+  /// Analytics User Guide</i>.
   ///
   /// Parameter [tags] :
   /// Metadata which can be used to manage the data set.
@@ -284,18 +297,21 @@ class IoTAnalytics {
   /// A list of triggers. A trigger causes data set contents to be populated at
   /// a specified time interval or when another data set's contents are created.
   /// The list of triggers can be empty or contain up to five
-  /// <b>DataSetTrigger</b> objects.
+  /// <code>DataSetTrigger</code> objects.
   ///
   /// Parameter [versioningConfiguration] :
-  /// [Optional] How many versions of data set contents are kept. If not
-  /// specified or set to null, only the latest version plus the latest
-  /// succeeded version (if they are different) are kept for the time period
-  /// specified by the "retentionPeriod" parameter. (For more information, see
-  /// https://docs.aws.amazon.com/iotanalytics/latest/userguide/getting-started.html#aws-iot-analytics-dataset-versions)
+  /// Optional. How many versions of dataset contents are kept. If not specified
+  /// or set to null, only the latest version plus the latest succeeded version
+  /// (if they are different) are kept for the time period specified by the
+  /// <code>retentionPeriod</code> parameter. For more information, see <a
+  /// href="https://docs.aws.amazon.com/iotanalytics/latest/userguide/getting-started.html#aws-iot-analytics-dataset-versions">Keeping
+  /// Multiple Versions of AWS IoT Analytics Data Sets</a> in the <i>AWS IoT
+  /// Analytics User Guide</i>.
   Future<CreateDatasetResponse> createDataset({
     @_s.required List<DatasetAction> actions,
     @_s.required String datasetName,
     List<DatasetContentDeliveryRule> contentDeliveryRules,
+    List<LateDataRule> lateDataRules,
     RetentionPeriod retentionPeriod,
     List<Tag> tags,
     List<DatasetTrigger> triggers,
@@ -321,6 +337,7 @@ class IoTAnalytics {
       'datasetName': datasetName,
       if (contentDeliveryRules != null)
         'contentDeliveryRules': contentDeliveryRules,
+      if (lateDataRules != null) 'lateDataRules': lateDataRules,
       if (retentionPeriod != null) 'retentionPeriod': retentionPeriod,
       if (tags != null) 'tags': tags,
       if (triggers != null) 'triggers': triggers,
@@ -336,8 +353,9 @@ class IoTAnalytics {
     return CreateDatasetResponse.fromJson(response);
   }
 
-  /// Creates the content of a data set by applying a "queryAction" (a SQL
-  /// query) or a "containerAction" (executing a containerized application).
+  /// Creates the content of a data set by applying a <code>queryAction</code>
+  /// (a SQL query) or a <code>containerAction</code> (executing a containerized
+  /// application).
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
@@ -346,9 +364,16 @@ class IoTAnalytics {
   /// May throw [ThrottlingException].
   ///
   /// Parameter [datasetName] :
-  /// The name of the data set.
+  /// The name of the dataset.
+  ///
+  /// Parameter [versionId] :
+  /// The version ID of the dataset content. To specify <code>versionId</code>
+  /// for a dataset content, the dataset must use a <a
+  /// href="https://docs.aws.amazon.com/iotanalytics/latest/APIReference/API_DeltaTime.html">DeltaTimer</a>
+  /// filter.
   Future<CreateDatasetContentResponse> createDatasetContent({
     @_s.required String datasetName,
+    String versionId,
   }) async {
     ArgumentError.checkNotNull(datasetName, 'datasetName');
     _s.validateStringLength(
@@ -364,8 +389,17 @@ class IoTAnalytics {
       r'''^[a-zA-Z0-9_]+$''',
       isRequired: true,
     );
+    _s.validateStringLength(
+      'versionId',
+      versionId,
+      7,
+      36,
+    );
+    final $payload = <String, dynamic>{
+      if (versionId != null) 'versionId': versionId,
+    };
     final response = await _protocol.send(
-      payload: null,
+      payload: $payload,
       method: 'POST',
       requestUri: '/datasets/${Uri.encodeComponent(datasetName)}/content',
       exceptionFnMap: _exceptionFns,
@@ -386,20 +420,31 @@ class IoTAnalytics {
   /// The name of the data store.
   ///
   /// Parameter [datastoreStorage] :
-  /// Where data store data is stored. You may choose one of "serviceManagedS3"
-  /// or "customerManagedS3" storage. If not specified, the default is
-  /// "serviceManagedS3". This cannot be changed after the data store is
-  /// created.
+  /// Where data store data is stored. You can choose one of
+  /// <code>serviceManagedS3</code> or <code>customerManagedS3</code> storage.
+  /// If not specified, the default is <code>serviceManagedS3</code>. You cannot
+  /// change this storage option after the data store is created.
+  ///
+  /// Parameter [fileFormatConfiguration] :
+  /// Contains the configuration information of file formats. AWS IoT Analytics
+  /// data stores support JSON and <a
+  /// href="https://parquet.apache.org/">Parquet</a>.
+  ///
+  /// The default file format is JSON. You can specify only one format.
+  ///
+  /// You can't change the file format after you create the data store.
   ///
   /// Parameter [retentionPeriod] :
   /// How long, in days, message data is kept for the data store. When
-  /// "customerManagedS3" storage is selected, this parameter is ignored.
+  /// <code>customerManagedS3</code> storage is selected, this parameter is
+  /// ignored.
   ///
   /// Parameter [tags] :
   /// Metadata which can be used to manage the data store.
   Future<CreateDatastoreResponse> createDatastore({
     @_s.required String datastoreName,
     DatastoreStorage datastoreStorage,
+    FileFormatConfiguration fileFormatConfiguration,
     RetentionPeriod retentionPeriod,
     List<Tag> tags,
   }) async {
@@ -420,6 +465,8 @@ class IoTAnalytics {
     final $payload = <String, dynamic>{
       'datastoreName': datastoreName,
       if (datastoreStorage != null) 'datastoreStorage': datastoreStorage,
+      if (fileFormatConfiguration != null)
+        'fileFormatConfiguration': fileFormatConfiguration,
       if (retentionPeriod != null) 'retentionPeriod': retentionPeriod,
       if (tags != null) 'tags': tags,
     };
@@ -446,15 +493,15 @@ class IoTAnalytics {
   /// May throw [LimitExceededException].
   ///
   /// Parameter [pipelineActivities] :
-  /// A list of "PipelineActivity" objects. Activities perform transformations
-  /// on your messages, such as removing, renaming or adding message attributes;
-  /// filtering messages based on attribute values; invoking your Lambda
-  /// functions on messages for advanced processing; or performing mathematical
-  /// transformations to normalize device data.
+  /// A list of <code>PipelineActivity</code> objects. Activities perform
+  /// transformations on your messages, such as removing, renaming or adding
+  /// message attributes; filtering messages based on attribute values; invoking
+  /// your Lambda functions on messages for advanced processing; or performing
+  /// mathematical transformations to normalize device data.
   ///
-  /// The list can be 2-25 <b>PipelineActivity</b> objects and must contain both
-  /// a <code>channel</code> and a <code>datastore</code> activity. Each entry
-  /// in the list must contain only one activity, for example:
+  /// The list can be 2-25 <code>PipelineActivity</code> objects and must
+  /// contain both a <code>channel</code> and a <code>datastore</code> activity.
+  /// Each entry in the list must contain only one activity. For example:
   ///
   /// <code>pipelineActivities = [ { "channel": { ... } }, { "lambda": { ... }
   /// }, ... ]</code>
@@ -533,9 +580,9 @@ class IoTAnalytics {
     );
   }
 
-  /// Deletes the specified data set.
+  /// Deletes the specified dataset.
   ///
-  /// You do not have to delete the content of the data set before you perform
+  /// You do not have to delete the content of the dataset before you perform
   /// this operation.
   ///
   /// May throw [InvalidRequestException].
@@ -571,7 +618,7 @@ class IoTAnalytics {
     );
   }
 
-  /// Deletes the content of the specified data set.
+  /// Deletes the content of the specified dataset.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
@@ -580,10 +627,10 @@ class IoTAnalytics {
   /// May throw [ThrottlingException].
   ///
   /// Parameter [datasetName] :
-  /// The name of the data set whose content is deleted.
+  /// The name of the dataset whose content is deleted.
   ///
   /// Parameter [versionId] :
-  /// The version of the data set whose content is deleted. You can also use the
+  /// The version of the dataset whose content is deleted. You can also use the
   /// strings "$LATEST" or "$LATEST_SUCCEEDED" to delete the latest or latest
   /// successfully completed data set. If not specified, "$LATEST_SUCCEEDED" is
   /// the default.
@@ -740,7 +787,7 @@ class IoTAnalytics {
     return DescribeChannelResponse.fromJson(response);
   }
 
-  /// Retrieves information about a data set.
+  /// Retrieves information about a dataset.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
@@ -876,7 +923,7 @@ class IoTAnalytics {
     return DescribePipelineResponse.fromJson(response);
   }
 
-  /// Retrieves the contents of a data set as pre-signed URIs.
+  /// Retrieves the contents of a data set as presigned URIs.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ResourceNotFoundException].
@@ -987,12 +1034,14 @@ class IoTAnalytics {
   /// Parameter [scheduledBefore] :
   /// A filter to limit results to those data set contents whose creation is
   /// scheduled before the given time. See the field
-  /// <code>triggers.schedule</code> in the CreateDataset request. (timestamp)
+  /// <code>triggers.schedule</code> in the <code>CreateDataset</code> request.
+  /// (timestamp)
   ///
   /// Parameter [scheduledOnOrAfter] :
   /// A filter to limit results to those data set contents whose creation is
   /// scheduled on or after the given time. See the field
-  /// <code>triggers.schedule</code> in the CreateDataset request. (timestamp)
+  /// <code>triggers.schedule</code> in the <code>CreateDataset</code> request.
+  /// (timestamp)
   Future<ListDatasetContentsResponse> listDatasetContents({
     @_s.required String datasetName,
     int maxResults,
@@ -1152,7 +1201,7 @@ class IoTAnalytics {
     return ListPipelinesResponse.fromJson(response);
   }
 
-  /// Lists the tags (metadata) which you have assigned to the resource.
+  /// Lists the tags (metadata) that you have assigned to the resource.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [InternalFailureException].
@@ -1189,11 +1238,11 @@ class IoTAnalytics {
 
   /// Sets or updates the AWS IoT Analytics logging options.
   ///
-  /// Note that if you update the value of any <code>loggingOptions</code>
-  /// field, it takes up to one minute for the change to take effect. Also, if
-  /// you change the policy attached to the role you specified in the roleArn
-  /// field (for example, to correct an invalid policy) it takes up to 5 minutes
-  /// for that change to take effect.
+  /// If you update the value of any <code>loggingOptions</code> field, it takes
+  /// up to one minute for the change to take effect. Also, if you change the
+  /// policy attached to the role you specified in the <code>roleArn</code>
+  /// field (for example, to correct an invalid policy), it takes up to five
+  /// minutes for that change to take effect.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [InternalFailureException].
@@ -1228,10 +1277,10 @@ class IoTAnalytics {
   /// The sample message payloads on which the pipeline activity is run.
   ///
   /// Parameter [pipelineActivity] :
-  /// The pipeline activity that is run. This must not be a 'channel' activity
-  /// or a 'datastore' activity because these activities are used in a pipeline
-  /// only to load the original message and to store the (possibly) transformed
-  /// message. If a 'lambda' activity is specified, only short-running Lambda
+  /// The pipeline activity that is run. This must not be a channel activity or
+  /// a datastore activity because these activities are used in a pipeline only
+  /// to load the original message and to store the (possibly) transformed
+  /// message. If a lambda activity is specified, only short-running Lambda
   /// functions (those with a timeout of less than 30 seconds or less) can be
   /// used.
   Future<RunPipelineActivityResponse> runPipelineActivity({
@@ -1269,7 +1318,7 @@ class IoTAnalytics {
   /// The end of the time window from which sample messages are retrieved.
   ///
   /// Parameter [maxMessages] :
-  /// The number of sample messages to be retrieved. The limit is 10, the
+  /// The number of sample messages to be retrieved. The limit is 10. The
   /// default is also 10.
   ///
   /// Parameter [startTime] :
@@ -1328,13 +1377,26 @@ class IoTAnalytics {
   /// Parameter [pipelineName] :
   /// The name of the pipeline on which to start reprocessing.
   ///
+  /// Parameter [channelMessages] :
+  /// Specifies one or more sets of channel messages that you want to reprocess.
+  ///
+  /// If you use the <code>channelMessages</code> object, you must not specify a
+  /// value for <code>startTime</code> and <code>endTime</code>.
+  ///
   /// Parameter [endTime] :
   /// The end time (exclusive) of raw message data that is reprocessed.
   ///
+  /// If you specify a value for the <code>endTime</code> parameter, you must
+  /// not use the <code>channelMessages</code> object.
+  ///
   /// Parameter [startTime] :
   /// The start time (inclusive) of raw message data that is reprocessed.
+  ///
+  /// If you specify a value for the <code>startTime</code> parameter, you must
+  /// not use the <code>channelMessages</code> object.
   Future<StartPipelineReprocessingResponse> startPipelineReprocessing({
     @_s.required String pipelineName,
+    ChannelMessages channelMessages,
     DateTime endTime,
     DateTime startTime,
   }) async {
@@ -1353,6 +1415,7 @@ class IoTAnalytics {
       isRequired: true,
     );
     final $payload = <String, dynamic>{
+      if (channelMessages != null) 'channelMessages': channelMessages,
       if (endTime != null) 'endTime': unixTimestampToJson(endTime),
       if (startTime != null) 'startTime': unixTimestampToJson(startTime),
     };
@@ -1366,8 +1429,8 @@ class IoTAnalytics {
     return StartPipelineReprocessingResponse.fromJson(response);
   }
 
-  /// Adds to or modifies the tags of the given resource. Tags are metadata
-  /// which can be used to manage a resource.
+  /// Adds to or modifies the tags of the given resource. Tags are metadata that
+  /// can be used to manage a resource.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [InternalFailureException].
@@ -1463,9 +1526,10 @@ class IoTAnalytics {
   /// The name of the channel to be updated.
   ///
   /// Parameter [channelStorage] :
-  /// Where channel data is stored. You may choose one of "serviceManagedS3" or
-  /// "customerManagedS3" storage. If not specified, the default is
-  /// "serviceManagedS3". This cannot be changed after creation of the channel.
+  /// Where channel data is stored. You can choose one of
+  /// <code>serviceManagedS3</code> or <code>customerManagedS3</code> storage.
+  /// If not specified, the default is <code>serviceManagedS3</code>. You cannot
+  /// change this storage option after the channel is created.
   ///
   /// Parameter [retentionPeriod] :
   /// How long, in days, message data is kept for the channel. The retention
@@ -1510,32 +1574,42 @@ class IoTAnalytics {
   /// May throw [ThrottlingException].
   ///
   /// Parameter [actions] :
-  /// A list of "DatasetAction" objects.
+  /// A list of <code>DatasetAction</code> objects.
   ///
   /// Parameter [datasetName] :
   /// The name of the data set to update.
   ///
   /// Parameter [contentDeliveryRules] :
-  /// When data set contents are created they are delivered to destinations
+  /// When dataset contents are created, they are delivered to destinations
   /// specified here.
   ///
+  /// Parameter [lateDataRules] :
+  /// A list of data rules that send notifications to Amazon CloudWatch, when
+  /// data arrives late. To specify <code>lateDataRules</code>, the dataset must
+  /// use a <a
+  /// href="https://docs.aws.amazon.com/iotanalytics/latest/APIReference/API_DeltaTime.html">DeltaTimer</a>
+  /// filter.
+  ///
   /// Parameter [retentionPeriod] :
-  /// How long, in days, data set contents are kept for the data set.
+  /// How long, in days, dataset contents are kept for the dataset.
   ///
   /// Parameter [triggers] :
-  /// A list of "DatasetTrigger" objects. The list can be empty or can contain
-  /// up to five <b>DataSetTrigger</b> objects.
+  /// A list of <code>DatasetTrigger</code> objects. The list can be empty or
+  /// can contain up to five <code>DatasetTrigger</code> objects.
   ///
   /// Parameter [versioningConfiguration] :
-  /// [Optional] How many versions of data set contents are kept. If not
-  /// specified or set to null, only the latest version plus the latest
-  /// succeeded version (if they are different) are kept for the time period
-  /// specified by the "retentionPeriod" parameter. (For more information, see
-  /// https://docs.aws.amazon.com/iotanalytics/latest/userguide/getting-started.html#aws-iot-analytics-dataset-versions)
+  /// Optional. How many versions of dataset contents are kept. If not specified
+  /// or set to null, only the latest version plus the latest succeeded version
+  /// (if they are different) are kept for the time period specified by the
+  /// <code>retentionPeriod</code> parameter. For more information, see <a
+  /// href="https://docs.aws.amazon.com/iotanalytics/latest/userguide/getting-started.html#aws-iot-analytics-dataset-versions">Keeping
+  /// Multiple Versions of AWS IoT Analytics Data Sets</a> in the <i>AWS IoT
+  /// Analytics User Guide</i>.
   Future<void> updateDataset({
     @_s.required List<DatasetAction> actions,
     @_s.required String datasetName,
     List<DatasetContentDeliveryRule> contentDeliveryRules,
+    List<LateDataRule> lateDataRules,
     RetentionPeriod retentionPeriod,
     List<DatasetTrigger> triggers,
     VersioningConfiguration versioningConfiguration,
@@ -1559,6 +1633,7 @@ class IoTAnalytics {
       'actions': actions,
       if (contentDeliveryRules != null)
         'contentDeliveryRules': contentDeliveryRules,
+      if (lateDataRules != null) 'lateDataRules': lateDataRules,
       if (retentionPeriod != null) 'retentionPeriod': retentionPeriod,
       if (triggers != null) 'triggers': triggers,
       if (versioningConfiguration != null)
@@ -1584,10 +1659,19 @@ class IoTAnalytics {
   /// The name of the data store to be updated.
   ///
   /// Parameter [datastoreStorage] :
-  /// Where data store data is stored. You may choose one of "serviceManagedS3"
-  /// or "customerManagedS3" storage. If not specified, the default is
-  /// "serviceManagedS3". This cannot be changed after the data store is
-  /// created.
+  /// Where data store data is stored. You can choose one of
+  /// <code>serviceManagedS3</code> or <code>customerManagedS3</code> storage.
+  /// If not specified, the default is<code>serviceManagedS3</code>. You cannot
+  /// change this storage option after the data store is created.
+  ///
+  /// Parameter [fileFormatConfiguration] :
+  /// Contains the configuration information of file formats. AWS IoT Analytics
+  /// data stores support JSON and <a
+  /// href="https://parquet.apache.org/">Parquet</a>.
+  ///
+  /// The default file format is JSON. You can specify only one format.
+  ///
+  /// You can't change the file format after you create the data store.
   ///
   /// Parameter [retentionPeriod] :
   /// How long, in days, message data is kept for the data store. The retention
@@ -1596,6 +1680,7 @@ class IoTAnalytics {
   Future<void> updateDatastore({
     @_s.required String datastoreName,
     DatastoreStorage datastoreStorage,
+    FileFormatConfiguration fileFormatConfiguration,
     RetentionPeriod retentionPeriod,
   }) async {
     ArgumentError.checkNotNull(datastoreName, 'datastoreName');
@@ -1614,6 +1699,8 @@ class IoTAnalytics {
     );
     final $payload = <String, dynamic>{
       if (datastoreStorage != null) 'datastoreStorage': datastoreStorage,
+      if (fileFormatConfiguration != null)
+        'fileFormatConfiguration': fileFormatConfiguration,
       if (retentionPeriod != null) 'retentionPeriod': retentionPeriod,
     };
     await _protocol.send(
@@ -1637,15 +1724,15 @@ class IoTAnalytics {
   /// May throw [LimitExceededException].
   ///
   /// Parameter [pipelineActivities] :
-  /// A list of "PipelineActivity" objects. Activities perform transformations
-  /// on your messages, such as removing, renaming or adding message attributes;
-  /// filtering messages based on attribute values; invoking your Lambda
-  /// functions on messages for advanced processing; or performing mathematical
-  /// transformations to normalize device data.
+  /// A list of <code>PipelineActivity</code> objects. Activities perform
+  /// transformations on your messages, such as removing, renaming or adding
+  /// message attributes; filtering messages based on attribute values; invoking
+  /// your Lambda functions on messages for advanced processing; or performing
+  /// mathematical transformations to normalize device data.
   ///
-  /// The list can be 2-25 <b>PipelineActivity</b> objects and must contain both
-  /// a <code>channel</code> and a <code>datastore</code> activity. Each entry
-  /// in the list must contain only one activity, for example:
+  /// The list can be 2-25 <code>PipelineActivity</code> objects and must
+  /// contain both a <code>channel</code> and a <code>datastore</code> activity.
+  /// Each entry in the list must contain only one activity. For example:
   ///
   /// <code>pipelineActivities = [ { "channel": { ... } }, { "lambda": { ... }
   /// }, ... ]</code>
@@ -1691,16 +1778,16 @@ class IoTAnalytics {
     createFactory: true,
     createToJson: true)
 class AddAttributesActivity {
-  /// A list of 1-50 "AttributeNameMapping" objects that map an existing attribute
-  /// to a new attribute.
+  /// A list of 1-50 <code>AttributeNameMapping</code> objects that map an
+  /// existing attribute to a new attribute.
   /// <note>
   /// The existing attributes remain in the message, so if you want to remove the
-  /// originals, use "RemoveAttributeActivity".
+  /// originals, use <code>RemoveAttributeActivity</code>.
   /// </note>
   @_s.JsonKey(name: 'attributes')
   final Map<String, String> attributes;
 
-  /// The name of the 'addAttributes' activity.
+  /// The name of the addAttributes activity.
   @_s.JsonKey(name: 'name')
   final String name;
 
@@ -1734,8 +1821,8 @@ class BatchPutMessageErrorEntry {
   @_s.JsonKey(name: 'errorMessage')
   final String errorMessage;
 
-  /// The ID of the message that caused the error. (See the value corresponding to
-  /// the "messageId" key in the message object.)
+  /// The ID of the message that caused the error. See the value corresponding to
+  /// the <code>messageId</code> key in the message object.
   @_s.JsonKey(name: 'messageId')
   final String messageId;
 
@@ -1794,6 +1881,18 @@ class Channel {
   @_s.JsonKey(name: 'creationTime')
   final DateTime creationTime;
 
+  /// The last time when a new message arrived in the channel.
+  ///
+  /// AWS IoT Analytics updates this value at most once per minute for one
+  /// channel. Hence, the <code>lastMessageArrivalTime</code> value is an
+  /// approximation.
+  ///
+  /// This feature only applies to messages that arrived in the data store after
+  /// October 23, 2020.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastMessageArrivalTime')
+  final DateTime lastMessageArrivalTime;
+
   /// When the channel was last updated.
   @UnixDateTimeConverter()
   @_s.JsonKey(name: 'lastUpdateTime')
@@ -1811,15 +1910,17 @@ class Channel {
   @_s.JsonKey(name: 'status')
   final ChannelStatus status;
 
-  /// Where channel data is stored. You may choose one of "serviceManagedS3" or
-  /// "customerManagedS3" storage. If not specified, the default is
-  /// "serviceManagedS3". This cannot be changed after creation of the channel.
+  /// Where channel data is stored. You can choose one of
+  /// <code>serviceManagedS3</code> or <code>customerManagedS3</code> storage. If
+  /// not specified, the default is <code>serviceManagedS3</code>. You cannot
+  /// change this storage option after the channel is created.
   @_s.JsonKey(name: 'storage')
   final ChannelStorage storage;
 
   Channel({
     this.arn,
     this.creationTime,
+    this.lastMessageArrivalTime,
     this.lastUpdateTime,
     this.name,
     this.retentionPeriod,
@@ -1841,7 +1942,7 @@ class ChannelActivity {
   @_s.JsonKey(name: 'channelName')
   final String channelName;
 
-  /// The name of the 'channel' activity.
+  /// The name of the channel activity.
   @_s.JsonKey(name: 'name')
   final String name;
 
@@ -1858,6 +1959,24 @@ class ChannelActivity {
       _$ChannelActivityFromJson(json);
 
   Map<String, dynamic> toJson() => _$ChannelActivityToJson(this);
+}
+
+/// Specifies one or more sets of channel messages.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class ChannelMessages {
+  /// Specifies one or more keys that identify the Amazon Simple Storage Service
+  /// (Amazon S3) objects that save your channel messages.
+  @_s.JsonKey(name: 's3Paths')
+  final List<String> s3Paths;
+
+  ChannelMessages({
+    this.s3Paths,
+  });
+  Map<String, dynamic> toJson() => _$ChannelMessagesToJson(this);
 }
 
 /// Statistics information about the channel.
@@ -1887,9 +2006,10 @@ enum ChannelStatus {
   deleting,
 }
 
-/// Where channel data is stored. You may choose one of "serviceManagedS3" or
-/// "customerManagedS3" storage. If not specified, the default is
-/// "serviceManagedS3". This cannot be changed after creation of the channel.
+/// Where channel data is stored. You may choose one of
+/// <code>serviceManagedS3</code> or <code>customerManagedS3</code> storage. If
+/// not specified, the default is <code>serviceManagedS3</code>. This cannot be
+/// changed after creation of the channel.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -1897,15 +2017,15 @@ enum ChannelStatus {
     createToJson: true)
 class ChannelStorage {
   /// Use this to store channel data in an S3 bucket that you manage. If customer
-  /// managed storage is selected, the "retentionPeriod" parameter is ignored. The
-  /// choice of service-managed or customer-managed S3 storage cannot be changed
-  /// after creation of the channel.
+  /// managed storage is selected, the <code>retentionPeriod</code> parameter is
+  /// ignored. You cannot change the choice of service-managed or customer-managed
+  /// S3 storage after the channel is created.
   @_s.JsonKey(name: 'customerManagedS3')
   final CustomerManagedChannelS3Storage customerManagedS3;
 
-  /// Use this to store channel data in an S3 bucket managed by the AWS IoT
-  /// Analytics service. The choice of service-managed or customer-managed S3
-  /// storage cannot be changed after creation of the channel.
+  /// Use this to store channel data in an S3 bucket managed by AWS IoT Analytics.
+  /// You cannot change the choice of service-managed or customer-managed S3
+  /// storage after the channel is created.
   @_s.JsonKey(name: 'serviceManagedS3')
   final ServiceManagedChannelS3Storage serviceManagedS3;
 
@@ -1930,8 +2050,7 @@ class ChannelStorageSummary {
   @_s.JsonKey(name: 'customerManagedS3')
   final CustomerManagedChannelS3StorageSummary customerManagedS3;
 
-  /// Used to store channel data in an S3 bucket managed by the AWS IoT Analytics
-  /// service.
+  /// Used to store channel data in an S3 bucket managed by AWS IoT Analytics.
   @_s.JsonKey(name: 'serviceManagedS3')
   final ServiceManagedChannelS3StorageSummary serviceManagedS3;
 
@@ -1963,6 +2082,18 @@ class ChannelSummary {
   @_s.JsonKey(name: 'creationTime')
   final DateTime creationTime;
 
+  /// The last time when a new message arrived in the channel.
+  ///
+  /// AWS IoT Analytics updates this value at most once per minute for one
+  /// channel. Hence, the <code>lastMessageArrivalTime</code> value is an
+  /// approximation.
+  ///
+  /// This feature only applies to messages that arrived in the data store after
+  /// October 23, 2020.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastMessageArrivalTime')
+  final DateTime lastMessageArrivalTime;
+
   /// The last time the channel was updated.
   @UnixDateTimeConverter()
   @_s.JsonKey(name: 'lastUpdateTime')
@@ -1976,11 +2107,39 @@ class ChannelSummary {
     this.channelName,
     this.channelStorage,
     this.creationTime,
+    this.lastMessageArrivalTime,
     this.lastUpdateTime,
     this.status,
   });
   factory ChannelSummary.fromJson(Map<String, dynamic> json) =>
       _$ChannelSummaryFromJson(json);
+}
+
+/// Contains information about a column that stores your data.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class Column {
+  /// The name of the column.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// The type of data. For more information about the supported data types, see
+  /// <a
+  /// href="https://docs.aws.amazon.com/glue/latest/dg/aws-glue-api-common.html">Common
+  /// data types</a> in the <i>AWS Glue Developer Guide</i>.
+  @_s.JsonKey(name: 'type')
+  final String type;
+
+  Column({
+    @_s.required this.name,
+    @_s.required this.type,
+  });
+  factory Column.fromJson(Map<String, dynamic> json) => _$ColumnFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ColumnToJson(this);
 }
 
 enum ComputeType {
@@ -1990,35 +2149,37 @@ enum ComputeType {
   acu_2,
 }
 
-/// Information needed to run the "containerAction" to produce data set
-/// contents.
+/// Information required to run the <code>containerAction</code> to produce
+/// dataset contents.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: true)
 class ContainerDatasetAction {
-  /// The ARN of the role which gives permission to the system to access needed
-  /// resources in order to run the "containerAction". This includes, at minimum,
-  /// permission to retrieve the data set contents which are the input to the
-  /// containerized application.
+  /// The ARN of the role that gives permission to the system to access required
+  /// resources to run the <code>containerAction</code>. This includes, at
+  /// minimum, permission to retrieve the dataset contents that are the input to
+  /// the containerized application.
   @_s.JsonKey(name: 'executionRoleArn')
   final String executionRoleArn;
 
   /// The ARN of the Docker container stored in your account. The Docker container
-  /// contains an application and needed support libraries and is used to generate
-  /// data set contents.
+  /// contains an application and required support libraries and is used to
+  /// generate dataset contents.
   @_s.JsonKey(name: 'image')
   final String image;
 
-  /// Configuration of the resource which executes the "containerAction".
+  /// Configuration of the resource that executes the
+  /// <code>containerAction</code>.
   @_s.JsonKey(name: 'resourceConfiguration')
   final ResourceConfiguration resourceConfiguration;
 
-  /// The values of variables used within the context of the execution of the
+  /// The values of variables used in the context of the execution of the
   /// containerized application (basically, parameters passed to the application).
-  /// Each variable must have a name and a value given by one of "stringValue",
-  /// "datasetContentVersionValue", or "outputFileUriValue".
+  /// Each variable must have a name and a value given by one of
+  /// <code>stringValue</code>, <code>datasetContentVersionValue</code>, or
+  /// <code>outputFileUriValue</code>.
   @_s.JsonKey(name: 'variables')
   final List<Variable> variables;
 
@@ -2067,7 +2228,7 @@ class CreateChannelResponse {
     createFactory: true,
     createToJson: false)
 class CreateDatasetContentResponse {
-  /// The version ID of the data set contents which are being created.
+  /// The version ID of the dataset contents that are being created.
   @_s.JsonKey(name: 'versionId')
   final String versionId;
 
@@ -2084,15 +2245,15 @@ class CreateDatasetContentResponse {
     createFactory: true,
     createToJson: false)
 class CreateDatasetResponse {
-  /// The ARN of the data set.
+  /// The ARN of the dataset.
   @_s.JsonKey(name: 'datasetArn')
   final String datasetArn;
 
-  /// The name of the data set.
+  /// The name of the dataset.
   @_s.JsonKey(name: 'datasetName')
   final String datasetName;
 
-  /// How long, in days, data set contents are kept for the data set.
+  /// How long, in days, dataset contents are kept for the dataset.
   @_s.JsonKey(name: 'retentionPeriod')
   final RetentionPeriod retentionPeriod;
 
@@ -2155,28 +2316,28 @@ class CreatePipelineResponse {
 }
 
 /// Use this to store channel data in an S3 bucket that you manage. If customer
-/// managed storage is selected, the "retentionPeriod" parameter is ignored. The
-/// choice of service-managed or customer-managed S3 storage cannot be changed
-/// after creation of the channel.
+/// managed storage is selected, the <code>retentionPeriod</code> parameter is
+/// ignored. You cannot change the choice of service-managed or customer-managed
+/// S3 storage after the channel is created.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: true)
 class CustomerManagedChannelS3Storage {
-  /// The name of the Amazon S3 bucket in which channel data is stored.
+  /// The name of the S3 bucket in which channel data is stored.
   @_s.JsonKey(name: 'bucket')
   final String bucket;
 
-  /// The ARN of the role which grants AWS IoT Analytics permission to interact
+  /// The ARN of the role that grants AWS IoT Analytics permission to interact
   /// with your Amazon S3 resources.
   @_s.JsonKey(name: 'roleArn')
   final String roleArn;
 
-  /// [Optional] The prefix used to create the keys of the channel data objects.
-  /// Each object in an Amazon S3 bucket has a key that is its unique identifier
-  /// within the bucket (each object in a bucket has exactly one key). The prefix
-  /// must end with a '/'.
+  /// Optional. The prefix used to create the keys of the channel data objects.
+  /// Each object in an S3 bucket has a key that is its unique identifier in the
+  /// bucket. Each object in a bucket has exactly one key. The prefix must end
+  /// with a forward slash (/).
   @_s.JsonKey(name: 'keyPrefix')
   final String keyPrefix;
 
@@ -2199,18 +2360,18 @@ class CustomerManagedChannelS3Storage {
     createFactory: true,
     createToJson: false)
 class CustomerManagedChannelS3StorageSummary {
-  /// The name of the Amazon S3 bucket in which channel data is stored.
+  /// The name of the S3 bucket in which channel data is stored.
   @_s.JsonKey(name: 'bucket')
   final String bucket;
 
-  /// [Optional] The prefix used to create the keys of the channel data objects.
-  /// Each object in an Amazon S3 bucket has a key that is its unique identifier
-  /// within the bucket (each object in a bucket has exactly one key). The prefix
-  /// must end with a '/'.
+  /// Optional. The prefix used to create the keys of the channel data objects.
+  /// Each object in an S3 bucket has a key that is its unique identifier within
+  /// the bucket (each object in a bucket has exactly one key). The prefix must
+  /// end with a forward slash (/).
   @_s.JsonKey(name: 'keyPrefix')
   final String keyPrefix;
 
-  /// The ARN of the role which grants AWS IoT Analytics permission to interact
+  /// The ARN of the role that grants AWS IoT Analytics permission to interact
   /// with your Amazon S3 resources.
   @_s.JsonKey(name: 'roleArn')
   final String roleArn;
@@ -2226,28 +2387,28 @@ class CustomerManagedChannelS3StorageSummary {
 }
 
 /// Use this to store data store data in an S3 bucket that you manage. When
-/// customer managed storage is selected, the "retentionPeriod" parameter is
-/// ignored. The choice of service-managed or customer-managed S3 storage cannot
-/// be changed after creation of the data store.
+/// customer-managed storage is selected, the <code>retentionPeriod</code>
+/// parameter is ignored. You cannot change the choice of service-managed or
+/// customer-managed S3 storage after the data store is created.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: true)
 class CustomerManagedDatastoreS3Storage {
-  /// The name of the Amazon S3 bucket in which data store data is stored.
+  /// The name of the S3 bucket in which data store data is stored.
   @_s.JsonKey(name: 'bucket')
   final String bucket;
 
-  /// The ARN of the role which grants AWS IoT Analytics permission to interact
+  /// The ARN of the role that grants AWS IoT Analytics permission to interact
   /// with your Amazon S3 resources.
   @_s.JsonKey(name: 'roleArn')
   final String roleArn;
 
-  /// [Optional] The prefix used to create the keys of the data store data
-  /// objects. Each object in an Amazon S3 bucket has a key that is its unique
-  /// identifier within the bucket (each object in a bucket has exactly one key).
-  /// The prefix must end with a '/'.
+  /// Optional. The prefix used to create the keys of the data store data objects.
+  /// Each object in an S3 bucket has a key that is its unique identifier in the
+  /// bucket. Each object in a bucket has exactly one key. The prefix must end
+  /// with a forward slash (/).
   @_s.JsonKey(name: 'keyPrefix')
   final String keyPrefix;
 
@@ -2271,18 +2432,18 @@ class CustomerManagedDatastoreS3Storage {
     createFactory: true,
     createToJson: false)
 class CustomerManagedDatastoreS3StorageSummary {
-  /// The name of the Amazon S3 bucket in which data store data is stored.
+  /// The name of the S3 bucket in which data store data is stored.
   @_s.JsonKey(name: 'bucket')
   final String bucket;
 
-  /// [Optional] The prefix used to create the keys of the data store data
-  /// objects. Each object in an Amazon S3 bucket has a key that is its unique
-  /// identifier within the bucket (each object in a bucket has exactly one key).
-  /// The prefix must end with a '/'.
+  /// Optional. The prefix used to create the keys of the data store data objects.
+  /// Each object in an S3 bucket has a key that is its unique identifier in the
+  /// bucket. Each object in a bucket has exactly one key. The prefix must end
+  /// with a forward slash (/).
   @_s.JsonKey(name: 'keyPrefix')
   final String keyPrefix;
 
-  /// The ARN of the role which grants AWS IoT Analytics permission to interact
+  /// The ARN of the role that grants AWS IoT Analytics permission to interact
   /// with your Amazon S3 resources.
   @_s.JsonKey(name: 'roleArn')
   final String roleArn;
@@ -2304,7 +2465,8 @@ class CustomerManagedDatastoreS3StorageSummary {
     createFactory: true,
     createToJson: false)
 class Dataset {
-  /// The "DatasetAction" objects that automatically create the data set contents.
+  /// The <code>DatasetAction</code> objects that automatically create the data
+  /// set contents.
   @_s.JsonKey(name: 'actions')
   final List<DatasetAction> actions;
 
@@ -2312,7 +2474,7 @@ class Dataset {
   @_s.JsonKey(name: 'arn')
   final String arn;
 
-  /// When data set contents are created they are delivered to destinations
+  /// When dataset contents are created they are delivered to destinations
   /// specified here.
   @_s.JsonKey(name: 'contentDeliveryRules')
   final List<DatasetContentDeliveryRule> contentDeliveryRules;
@@ -2327,11 +2489,19 @@ class Dataset {
   @_s.JsonKey(name: 'lastUpdateTime')
   final DateTime lastUpdateTime;
 
+  /// A list of data rules that send notifications to Amazon CloudWatch, when data
+  /// arrives late. To specify <code>lateDataRules</code>, the dataset must use a
+  /// <a
+  /// href="https://docs.aws.amazon.com/iotanalytics/latest/APIReference/API_DeltaTime.html">DeltaTimer</a>
+  /// filter.
+  @_s.JsonKey(name: 'lateDataRules')
+  final List<LateDataRule> lateDataRules;
+
   /// The name of the data set.
   @_s.JsonKey(name: 'name')
   final String name;
 
-  /// [Optional] How long, in days, message data is kept for the data set.
+  /// Optional. How long, in days, message data is kept for the data set.
   @_s.JsonKey(name: 'retentionPeriod')
   final RetentionPeriod retentionPeriod;
 
@@ -2339,16 +2509,18 @@ class Dataset {
   @_s.JsonKey(name: 'status')
   final DatasetStatus status;
 
-  /// The "DatasetTrigger" objects that specify when the data set is automatically
-  /// updated.
+  /// The <code>DatasetTrigger</code> objects that specify when the data set is
+  /// automatically updated.
   @_s.JsonKey(name: 'triggers')
   final List<DatasetTrigger> triggers;
 
-  /// [Optional] How many versions of data set contents are kept. If not specified
+  /// Optional. How many versions of dataset contents are kept. If not specified
   /// or set to null, only the latest version plus the latest succeeded version
   /// (if they are different) are kept for the time period specified by the
-  /// "retentionPeriod" parameter. (For more information, see
-  /// https://docs.aws.amazon.com/iotanalytics/latest/userguide/getting-started.html#aws-iot-analytics-dataset-versions)
+  /// <code>retentionPeriod</code> parameter. For more information, see <a
+  /// href="https://docs.aws.amazon.com/iotanalytics/latest/userguide/getting-started.html#aws-iot-analytics-dataset-versions">Keeping
+  /// Multiple Versions of AWS IoT Analytics Data Sets</a> in the <i>AWS IoT
+  /// Analytics User Guide</i>.
   @_s.JsonKey(name: 'versioningConfiguration')
   final VersioningConfiguration versioningConfiguration;
 
@@ -2358,6 +2530,7 @@ class Dataset {
     this.contentDeliveryRules,
     this.creationTime,
     this.lastUpdateTime,
+    this.lateDataRules,
     this.name,
     this.retentionPeriod,
     this.status,
@@ -2368,7 +2541,7 @@ class Dataset {
       _$DatasetFromJson(json);
 }
 
-/// A "DatasetAction" object that specifies how data set contents are
+/// A <code>DatasetAction</code> object that specifies how data set contents are
 /// automatically created.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2381,14 +2554,14 @@ class DatasetAction {
   @_s.JsonKey(name: 'actionName')
   final String actionName;
 
-  /// Information which allows the system to run a containerized application in
-  /// order to create the data set contents. The application must be in a Docker
-  /// container along with any needed support libraries.
+  /// Information that allows the system to run a containerized application to
+  /// create the dataset contents. The application must be in a Docker container
+  /// along with any required support libraries.
   @_s.JsonKey(name: 'containerAction')
   final ContainerDatasetAction containerAction;
 
-  /// An "SqlQueryDatasetAction" object that uses an SQL query to automatically
-  /// create data set contents.
+  /// An <code>SqlQueryDatasetAction</code> object that uses an SQL query to
+  /// automatically create data set contents.
   @_s.JsonKey(name: 'queryAction')
   final SqlQueryDatasetAction queryAction;
 
@@ -2403,7 +2576,7 @@ class DatasetAction {
   Map<String, dynamic> toJson() => _$DatasetActionToJson(this);
 }
 
-/// Information about the action which automatically creates the data set's
+/// Information about the action that automatically creates the dataset's
 /// contents.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2411,11 +2584,11 @@ class DatasetAction {
     createFactory: true,
     createToJson: false)
 class DatasetActionSummary {
-  /// The name of the action which automatically creates the data set's contents.
+  /// The name of the action that automatically creates the dataset's contents.
   @_s.JsonKey(name: 'actionName')
   final String actionName;
 
-  /// The type of action by which the data set's contents are automatically
+  /// The type of action by which the dataset's contents are automatically
   /// created.
   @_s.JsonKey(name: 'actionType')
   final DatasetActionType actionType;
@@ -2435,19 +2608,19 @@ enum DatasetActionType {
   container,
 }
 
-/// The destination to which data set contents are delivered.
+/// The destination to which dataset contents are delivered.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: true)
 class DatasetContentDeliveryDestination {
-  /// Configuration information for delivery of data set contents to AWS IoT
+  /// Configuration information for delivery of dataset contents to AWS IoT
   /// Events.
   @_s.JsonKey(name: 'iotEventsDestinationConfiguration')
   final IotEventsDestinationConfiguration iotEventsDestinationConfiguration;
 
-  /// Configuration information for delivery of data set contents to Amazon S3.
+  /// Configuration information for delivery of dataset contents to Amazon S3.
   @_s.JsonKey(name: 's3DestinationConfiguration')
   final S3DestinationConfiguration s3DestinationConfiguration;
 
@@ -2463,7 +2636,7 @@ class DatasetContentDeliveryDestination {
       _$DatasetContentDeliveryDestinationToJson(this);
 }
 
-/// When data set contents are created they are delivered to destination
+/// When dataset contents are created, they are delivered to destination
 /// specified here.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2471,11 +2644,11 @@ class DatasetContentDeliveryDestination {
     createFactory: true,
     createToJson: true)
 class DatasetContentDeliveryRule {
-  /// The destination to which data set contents are delivered.
+  /// The destination to which dataset contents are delivered.
   @_s.JsonKey(name: 'destination')
   final DatasetContentDeliveryDestination destination;
 
-  /// The name of the data set content delivery rules entry.
+  /// The name of the dataset content delivery rules entry.
   @_s.JsonKey(name: 'entryName')
   final String entryName;
 
@@ -2509,8 +2682,8 @@ class DatasetContentStatus {
   @_s.JsonKey(name: 'reason')
   final String reason;
 
-  /// The state of the data set contents. Can be one of "READY", "CREATING",
-  /// "SUCCEEDED" or "FAILED".
+  /// The state of the data set contents. Can be one of READY, CREATING,
+  /// SUCCEEDED, or FAILED.
   @_s.JsonKey(name: 'state')
   final DatasetContentState state;
 
@@ -2522,7 +2695,7 @@ class DatasetContentStatus {
       _$DatasetContentStatusFromJson(json);
 }
 
-/// Summary information about data set contents.
+/// Summary information about dataset contents.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -2534,12 +2707,12 @@ class DatasetContentSummary {
   @_s.JsonKey(name: 'completionTime')
   final DateTime completionTime;
 
-  /// The actual time the creation of the data set contents was started.
+  /// The actual time the creation of the dataset contents was started.
   @UnixDateTimeConverter()
   @_s.JsonKey(name: 'creationTime')
   final DateTime creationTime;
 
-  /// The time the creation of the data set contents was scheduled to start.
+  /// The time the creation of the dataset contents was scheduled to start.
   @UnixDateTimeConverter()
   @_s.JsonKey(name: 'scheduleTime')
   final DateTime scheduleTime;
@@ -2548,7 +2721,7 @@ class DatasetContentSummary {
   @_s.JsonKey(name: 'status')
   final DatasetContentStatus status;
 
-  /// The version of the data set contents.
+  /// The version of the dataset contents.
   @_s.JsonKey(name: 'version')
   final String version;
 
@@ -2563,7 +2736,7 @@ class DatasetContentSummary {
       _$DatasetContentSummaryFromJson(json);
 }
 
-/// The data set whose latest contents are used as input to the notebook or
+/// The dataset whose latest contents are used as input to the notebook or
 /// application.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -2571,7 +2744,7 @@ class DatasetContentSummary {
     createFactory: true,
     createToJson: true)
 class DatasetContentVersionValue {
-  /// The name of the data set whose latest contents are used as input to the
+  /// The name of the dataset whose latest contents are used as input to the
   /// notebook or application.
   @_s.JsonKey(name: 'datasetName')
   final String datasetName;
@@ -2592,7 +2765,7 @@ class DatasetContentVersionValue {
     createFactory: true,
     createToJson: false)
 class DatasetEntry {
-  /// The pre-signed URI of the data set item.
+  /// The presigned URI of the data set item.
   @_s.JsonKey(name: 'dataURI')
   final String dataURI;
 
@@ -2624,7 +2797,7 @@ enum DatasetStatus {
     createFactory: true,
     createToJson: false)
 class DatasetSummary {
-  /// A list of "DataActionSummary" objects.
+  /// A list of <code>DataActionSummary</code> objects.
   @_s.JsonKey(name: 'actions')
   final List<DatasetActionSummary> actions;
 
@@ -2648,7 +2821,8 @@ class DatasetSummary {
 
   /// A list of triggers. A trigger causes data set content to be populated at a
   /// specified time interval or when another data set is populated. The list of
-  /// triggers can be empty or contain up to five DataSetTrigger objects
+  /// triggers can be empty or contain up to five <code>DataSetTrigger</code>
+  /// objects
   @_s.JsonKey(name: 'triggers')
   final List<DatasetTrigger> triggers;
 
@@ -2664,8 +2838,8 @@ class DatasetSummary {
       _$DatasetSummaryFromJson(json);
 }
 
-/// The "DatasetTrigger" that specifies when the data set is automatically
-/// updated.
+/// The <code>DatasetTrigger</code> that specifies when the data set is
+/// automatically updated.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -2677,7 +2851,7 @@ class DatasetTrigger {
   @_s.JsonKey(name: 'dataset')
   final TriggeringDataset dataset;
 
-  /// The "Schedule" when the trigger is initiated.
+  /// The Schedule when the trigger is initiated.
   @_s.JsonKey(name: 'schedule')
   final Schedule schedule;
 
@@ -2707,6 +2881,28 @@ class Datastore {
   @_s.JsonKey(name: 'creationTime')
   final DateTime creationTime;
 
+  /// Contains the configuration information of file formats. AWS IoT Analytics
+  /// data stores support JSON and <a
+  /// href="https://parquet.apache.org/">Parquet</a>.
+  ///
+  /// The default file format is JSON. You can specify only one format.
+  ///
+  /// You can't change the file format after you create the data store.
+  @_s.JsonKey(name: 'fileFormatConfiguration')
+  final FileFormatConfiguration fileFormatConfiguration;
+
+  /// The last time when a new message arrived in the data store.
+  ///
+  /// AWS IoT Analytics updates this value at most once per minute for one data
+  /// store. Hence, the <code>lastMessageArrivalTime</code> value is an
+  /// approximation.
+  ///
+  /// This feature only applies to messages that arrived in the data store after
+  /// October 23, 2020.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastMessageArrivalTime')
+  final DateTime lastMessageArrivalTime;
+
   /// The last time the data store was updated.
   @UnixDateTimeConverter()
   @_s.JsonKey(name: 'lastUpdateTime')
@@ -2717,7 +2913,8 @@ class Datastore {
   final String name;
 
   /// How long, in days, message data is kept for the data store. When
-  /// "customerManagedS3" storage is selected, this parameter is ignored.
+  /// <code>customerManagedS3</code> storage is selected, this parameter is
+  /// ignored.
   @_s.JsonKey(name: 'retentionPeriod')
   final RetentionPeriod retentionPeriod;
 
@@ -2732,15 +2929,18 @@ class Datastore {
   @_s.JsonKey(name: 'status')
   final DatastoreStatus status;
 
-  /// Where data store data is stored. You may choose one of "serviceManagedS3" or
-  /// "customerManagedS3" storage. If not specified, the default is
-  /// "serviceManagedS3". This cannot be changed after the data store is created.
+  /// Where data store data is stored. You can choose one of
+  /// <code>serviceManagedS3</code> or <code>customerManagedS3</code> storage. If
+  /// not specified, the default is <code>serviceManagedS3</code>. You cannot
+  /// change this storage option after the data store is created.
   @_s.JsonKey(name: 'storage')
   final DatastoreStorage storage;
 
   Datastore({
     this.arn,
     this.creationTime,
+    this.fileFormatConfiguration,
+    this.lastMessageArrivalTime,
     this.lastUpdateTime,
     this.name,
     this.retentionPeriod,
@@ -2751,7 +2951,7 @@ class Datastore {
       _$DatastoreFromJson(json);
 }
 
-/// The 'datastore' activity that specifies where to store the processed data.
+/// The datastore activity that specifies where to store the processed data.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -2762,7 +2962,7 @@ class DatastoreActivity {
   @_s.JsonKey(name: 'datastoreName')
   final String datastoreName;
 
-  /// The name of the 'datastore' activity.
+  /// The name of the datastore activity.
   @_s.JsonKey(name: 'name')
   final String name;
 
@@ -2803,9 +3003,10 @@ enum DatastoreStatus {
   deleting,
 }
 
-/// Where data store data is stored. You may choose one of "serviceManagedS3" or
-/// "customerManagedS3" storage. If not specified, the default is
-/// "serviceManagedS3". This cannot be changed after the data store is created.
+/// Where data store data is stored. You can choose one of
+/// <code>serviceManagedS3</code> or <code>customerManagedS3</code> storage. If
+/// not specified, the default is <code>serviceManagedS3</code>. You cannot
+/// change this storage option after the data store is created.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -2813,15 +3014,15 @@ enum DatastoreStatus {
     createToJson: true)
 class DatastoreStorage {
   /// Use this to store data store data in an S3 bucket that you manage. When
-  /// customer managed storage is selected, the "retentionPeriod" parameter is
-  /// ignored. The choice of service-managed or customer-managed S3 storage cannot
-  /// be changed after creation of the data store.
+  /// customer managed storage is selected, the <code>retentionPeriod</code>
+  /// parameter is ignored. The choice of service-managed or customer-managed S3
+  /// storage cannot be changed after creation of the data store.
   @_s.JsonKey(name: 'customerManagedS3')
   final CustomerManagedDatastoreS3Storage customerManagedS3;
 
-  /// Use this to store data store data in an S3 bucket managed by the AWS IoT
-  /// Analytics service. The choice of service-managed or customer-managed S3
-  /// storage cannot be changed after creation of the data store.
+  /// Use this to store data store data in an S3 bucket managed by AWS IoT
+  /// Analytics. You cannot change the choice of service-managed or
+  /// customer-managed S3 storage after the data store is created.
   @_s.JsonKey(name: 'serviceManagedS3')
   final ServiceManagedDatastoreS3Storage serviceManagedS3;
 
@@ -2846,8 +3047,7 @@ class DatastoreStorageSummary {
   @_s.JsonKey(name: 'customerManagedS3')
   final CustomerManagedDatastoreS3StorageSummary customerManagedS3;
 
-  /// Used to store data store data in an S3 bucket managed by the AWS IoT
-  /// Analytics service.
+  /// Used to store data store data in an S3 bucket managed by AWS IoT Analytics.
   @_s.JsonKey(name: 'serviceManagedS3')
   final ServiceManagedDatastoreS3StorageSummary serviceManagedS3;
 
@@ -2879,6 +3079,22 @@ class DatastoreSummary {
   @_s.JsonKey(name: 'datastoreStorage')
   final DatastoreStorageSummary datastoreStorage;
 
+  /// The file format of the data in the data store.
+  @_s.JsonKey(name: 'fileFormatType')
+  final FileFormatType fileFormatType;
+
+  /// The last time when a new message arrived in the data store.
+  ///
+  /// AWS IoT Analytics updates this value at most once per minute for one data
+  /// store. Hence, the <code>lastMessageArrivalTime</code> value is an
+  /// approximation.
+  ///
+  /// This feature only applies to messages that arrived in the data store after
+  /// October 23, 2020.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastMessageArrivalTime')
+  final DateTime lastMessageArrivalTime;
+
   /// The last time the data store was updated.
   @UnixDateTimeConverter()
   @_s.JsonKey(name: 'lastUpdateTime')
@@ -2892,6 +3108,8 @@ class DatastoreSummary {
     this.creationTime,
     this.datastoreName,
     this.datastoreStorage,
+    this.fileFormatType,
+    this.lastMessageArrivalTime,
     this.lastUpdateTime,
     this.status,
   });
@@ -2907,21 +3125,20 @@ class DatastoreSummary {
     createFactory: true,
     createToJson: true)
 class DeltaTime {
-  /// The number of seconds of estimated "in flight" lag time of message data.
-  /// When you create data set contents using message data from a specified time
-  /// frame, some message data may still be "in flight" when processing begins,
-  /// and so will not arrive in time to be processed. Use this field to make
-  /// allowances for the "in flight" time of your message data, so that data not
-  /// processed from a previous time frame will be included with the next time
-  /// frame. Without this, missed message data would be excluded from processing
-  /// during the next time frame as well, because its timestamp places it within
-  /// the previous time frame.
+  /// The number of seconds of estimated in-flight lag time of message data. When
+  /// you create dataset contents using message data from a specified timeframe,
+  /// some message data might still be in flight when processing begins, and so do
+  /// not arrive in time to be processed. Use this field to make allowances for
+  /// the in flight time of your message data, so that data not processed from a
+  /// previous timeframe is included with the next timeframe. Otherwise, missed
+  /// message data would be excluded from processing during the next timeframe
+  /// too, because its timestamp places it within the previous timeframe.
   @_s.JsonKey(name: 'offsetSeconds')
   final int offsetSeconds;
 
-  /// An expression by which the time of the message data may be determined. This
-  /// may be the name of a timestamp field, or a SQL expression which is used to
-  /// derive the time the message data was generated.
+  /// An expression by which the time of the message data might be determined.
+  /// This can be the name of a timestamp field or a SQL expression that is used
+  /// to derive the time the message data was generated.
   @_s.JsonKey(name: 'timeExpression')
   final String timeExpression;
 
@@ -2935,6 +3152,46 @@ class DeltaTime {
   Map<String, dynamic> toJson() => _$DeltaTimeToJson(this);
 }
 
+/// A structure that contains the configuration information of a delta time
+/// session window.
+///
+/// <a
+/// href="https://docs.aws.amazon.com/iotanalytics/latest/APIReference/API_DeltaTime.html">
+/// <code>DeltaTime</code> </a> specifies a time interval. You can use
+/// <code>DeltaTime</code> to create dataset contents with data that has arrived
+/// in the data store since the last execution. For an example of
+/// <code>DeltaTime</code>, see <a
+/// href="https://docs.aws.amazon.com/iotanalytics/latest/userguide/automate-create-dataset.html#automate-example6">
+/// Creating a SQL dataset with a delta window (CLI)</a> in the <i>AWS IoT
+/// Analytics User Guide</i>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class DeltaTimeSessionWindowConfiguration {
+  /// A time interval. You can use <code>timeoutInMinutes</code> so that AWS IoT
+  /// Analytics can batch up late data notifications that have been generated
+  /// since the last execution. AWS IoT Analytics sends one batch of notifications
+  /// to Amazon CloudWatch Events at one time.
+  ///
+  /// For more information about how to write a timestamp expression, see <a
+  /// href="https://prestodb.io/docs/0.172/functions/datetime.html">Date and Time
+  /// Functions and Operators</a>, in the <i>Presto 0.172 Documentation</i>.
+  @_s.JsonKey(name: 'timeoutInMinutes')
+  final int timeoutInMinutes;
+
+  DeltaTimeSessionWindowConfiguration({
+    @_s.required this.timeoutInMinutes,
+  });
+  factory DeltaTimeSessionWindowConfiguration.fromJson(
+          Map<String, dynamic> json) =>
+      _$DeltaTimeSessionWindowConfigurationFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$DeltaTimeSessionWindowConfigurationToJson(this);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -2945,8 +3202,8 @@ class DescribeChannelResponse {
   @_s.JsonKey(name: 'channel')
   final Channel channel;
 
-  /// Statistics about the channel. Included if the 'includeStatistics' parameter
-  /// is set to true in the request.
+  /// Statistics about the channel. Included if the <code>includeStatistics</code>
+  /// parameter is set to <code>true</code> in the request.
   @_s.JsonKey(name: 'statistics')
   final ChannelStatistics statistics;
 
@@ -2986,7 +3243,8 @@ class DescribeDatastoreResponse {
   final Datastore datastore;
 
   /// Additional statistical information about the data store. Included if the
-  /// 'includeStatistics' parameter is set to true in the request.
+  /// <code>includeStatistics</code> parameter is set to <code>true</code> in the
+  /// request.
   @_s.JsonKey(name: 'statistics')
   final DatastoreStatistics statistics;
 
@@ -3021,7 +3279,7 @@ class DescribeLoggingOptionsResponse {
     createFactory: true,
     createToJson: false)
 class DescribePipelineResponse {
-  /// A "Pipeline" object that contains information about the pipeline.
+  /// A <code>Pipeline</code> object that contains information about the pipeline.
   @_s.JsonKey(name: 'pipeline')
   final Pipeline pipeline;
 
@@ -3043,7 +3301,7 @@ class DeviceRegistryEnrichActivity {
   @_s.JsonKey(name: 'attribute')
   final String attribute;
 
-  /// The name of the 'deviceRegistryEnrich' activity.
+  /// The name of the <code>deviceRegistryEnrich</code> activity.
   @_s.JsonKey(name: 'name')
   final String name;
 
@@ -3073,7 +3331,7 @@ class DeviceRegistryEnrichActivity {
   Map<String, dynamic> toJson() => _$DeviceRegistryEnrichActivityToJson(this);
 }
 
-/// An activity that adds information from the AWS IoT Device Shadows service to
+/// An activity that adds information from the AWS IoT Device Shadow service to
 /// a message.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3085,7 +3343,7 @@ class DeviceShadowEnrichActivity {
   @_s.JsonKey(name: 'attribute')
   final String attribute;
 
-  /// The name of the 'deviceShadowEnrich' activity.
+  /// The name of the <code>deviceShadowEnrich</code> activity.
   @_s.JsonKey(name: 'name')
   final String name;
 
@@ -3126,7 +3384,7 @@ class EstimatedResourceSize {
   @_s.JsonKey(name: 'estimatedOn')
   final DateTime estimatedOn;
 
-  /// The estimated size of the resource in bytes.
+  /// The estimated size of the resource, in bytes.
   @_s.JsonKey(name: 'estimatedSizeInBytes')
   final double estimatedSizeInBytes;
 
@@ -3138,6 +3396,44 @@ class EstimatedResourceSize {
       _$EstimatedResourceSizeFromJson(json);
 }
 
+/// Contains the configuration information of file formats. AWS IoT Analytics
+/// data stores support JSON and <a
+/// href="https://parquet.apache.org/">Parquet</a>.
+///
+/// The default file format is JSON. You can specify only one format.
+///
+/// You can't change the file format after you create the data store.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class FileFormatConfiguration {
+  /// Contains the configuration information of the JSON format.
+  @_s.JsonKey(name: 'jsonConfiguration')
+  final JsonConfiguration jsonConfiguration;
+
+  /// Contains the configuration information of the Parquet format.
+  @_s.JsonKey(name: 'parquetConfiguration')
+  final ParquetConfiguration parquetConfiguration;
+
+  FileFormatConfiguration({
+    this.jsonConfiguration,
+    this.parquetConfiguration,
+  });
+  factory FileFormatConfiguration.fromJson(Map<String, dynamic> json) =>
+      _$FileFormatConfigurationFromJson(json);
+
+  Map<String, dynamic> toJson() => _$FileFormatConfigurationToJson(this);
+}
+
+enum FileFormatType {
+  @_s.JsonValue('JSON')
+  json,
+  @_s.JsonValue('PARQUET')
+  parquet,
+}
+
 /// An activity that filters a message based on its attributes.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3146,11 +3442,11 @@ class EstimatedResourceSize {
     createToJson: true)
 class FilterActivity {
   /// An expression that looks like a SQL WHERE clause that must return a Boolean
-  /// value.
+  /// value. Messages that satisfy the condition are passed to the next activity.
   @_s.JsonKey(name: 'filter')
   final String filter;
 
-  /// The name of the 'filter' activity.
+  /// The name of the filter activity.
   @_s.JsonKey(name: 'name')
   final String name;
 
@@ -3175,7 +3471,7 @@ class FilterActivity {
     createFactory: true,
     createToJson: false)
 class GetDatasetContentResponse {
-  /// A list of "DatasetEntry" objects.
+  /// A list of <code>DatasetEntry</code> objects.
   @_s.JsonKey(name: 'entries')
   final List<DatasetEntry> entries;
 
@@ -3197,8 +3493,8 @@ class GetDatasetContentResponse {
       _$GetDatasetContentResponseFromJson(json);
 }
 
-/// Configuration information for coordination with the AWS Glue ETL (extract,
-/// transform and load) service.
+/// Configuration information for coordination with AWS Glue, a fully managed
+/// extract, transform and load (ETL) service.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -3206,14 +3502,13 @@ class GetDatasetContentResponse {
     createToJson: true)
 class GlueConfiguration {
   /// The name of the database in your AWS Glue Data Catalog in which the table is
-  /// located. (An AWS Glue Data Catalog database contains Glue Data tables.)
+  /// located. An AWS Glue Data Catalog database contains metadata tables.
   @_s.JsonKey(name: 'databaseName')
   final String databaseName;
 
-  /// The name of the table in your AWS Glue Data Catalog which is used to perform
-  /// the ETL (extract, transform and load) operations. (An AWS Glue Data Catalog
-  /// table contains partitioned data and descriptions of data sources and
-  /// targets.)
+  /// The name of the table in your AWS Glue Data Catalog that is used to perform
+  /// the ETL operations. An AWS Glue Data Catalog table contains partitioned data
+  /// and descriptions of data sources and targets.
   @_s.JsonKey(name: 'tableName')
   final String tableName;
 
@@ -3227,7 +3522,7 @@ class GlueConfiguration {
   Map<String, dynamic> toJson() => _$GlueConfigurationToJson(this);
 }
 
-/// Configuration information for delivery of data set contents to AWS IoT
+/// Configuration information for delivery of dataset contents to AWS IoT
 /// Events.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3235,13 +3530,13 @@ class GlueConfiguration {
     createFactory: true,
     createToJson: true)
 class IotEventsDestinationConfiguration {
-  /// The name of the AWS IoT Events input to which data set contents are
+  /// The name of the AWS IoT Events input to which dataset contents are
   /// delivered.
   @_s.JsonKey(name: 'inputName')
   final String inputName;
 
-  /// The ARN of the role which grants AWS IoT Analytics permission to deliver
-  /// data set contents to an AWS IoT Events input.
+  /// The ARN of the role that grants AWS IoT Analytics permission to deliver
+  /// dataset contents to an AWS IoT Events input.
   @_s.JsonKey(name: 'roleArn')
   final String roleArn;
 
@@ -3257,6 +3552,20 @@ class IotEventsDestinationConfiguration {
       _$IotEventsDestinationConfigurationToJson(this);
 }
 
+/// Contains the configuration information of the JSON format.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class JsonConfiguration {
+  JsonConfiguration();
+  factory JsonConfiguration.fromJson(Map<String, dynamic> json) =>
+      _$JsonConfigurationFromJson(json);
+
+  Map<String, dynamic> toJson() => _$JsonConfigurationToJson(this);
+}
+
 /// An activity that runs a Lambda function to modify the message.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -3266,7 +3575,7 @@ class IotEventsDestinationConfiguration {
 class LambdaActivity {
   /// The number of messages passed to the Lambda function for processing.
   ///
-  /// The AWS Lambda function must be able to process all of these messages within
+  /// The Lambda function must be able to process all of these messages within
   /// five minutes, which is the maximum timeout duration for Lambda functions.
   @_s.JsonKey(name: 'batchSize')
   final int batchSize;
@@ -3275,7 +3584,7 @@ class LambdaActivity {
   @_s.JsonKey(name: 'lambdaName')
   final String lambdaName;
 
-  /// The name of the 'lambda' activity.
+  /// The name of the lambda activity.
   @_s.JsonKey(name: 'name')
   final String name;
 
@@ -3295,13 +3604,59 @@ class LambdaActivity {
   Map<String, dynamic> toJson() => _$LambdaActivityToJson(this);
 }
 
+/// A structure that contains the name and configuration information of a late
+/// data rule.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class LateDataRule {
+  /// The information needed to configure the late data rule.
+  @_s.JsonKey(name: 'ruleConfiguration')
+  final LateDataRuleConfiguration ruleConfiguration;
+
+  /// The name of the late data rule.
+  @_s.JsonKey(name: 'ruleName')
+  final String ruleName;
+
+  LateDataRule({
+    @_s.required this.ruleConfiguration,
+    this.ruleName,
+  });
+  factory LateDataRule.fromJson(Map<String, dynamic> json) =>
+      _$LateDataRuleFromJson(json);
+
+  Map<String, dynamic> toJson() => _$LateDataRuleToJson(this);
+}
+
+/// The information needed to configure a delta time session window.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class LateDataRuleConfiguration {
+  /// The information needed to configure a delta time session window.
+  @_s.JsonKey(name: 'deltaTimeSessionWindowConfiguration')
+  final DeltaTimeSessionWindowConfiguration deltaTimeSessionWindowConfiguration;
+
+  LateDataRuleConfiguration({
+    this.deltaTimeSessionWindowConfiguration,
+  });
+  factory LateDataRuleConfiguration.fromJson(Map<String, dynamic> json) =>
+      _$LateDataRuleConfigurationFromJson(json);
+
+  Map<String, dynamic> toJson() => _$LateDataRuleConfigurationToJson(this);
+}
+
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
 class ListChannelsResponse {
-  /// A list of "ChannelSummary" objects.
+  /// A list of <code>ChannelSummary</code> objects.
   @_s.JsonKey(name: 'channelSummaries')
   final List<ChannelSummary> channelSummaries;
 
@@ -3347,7 +3702,7 @@ class ListDatasetContentsResponse {
     createFactory: true,
     createToJson: false)
 class ListDatasetsResponse {
-  /// A list of "DatasetSummary" objects.
+  /// A list of <code>DatasetSummary</code> objects.
   @_s.JsonKey(name: 'datasetSummaries')
   final List<DatasetSummary> datasetSummaries;
 
@@ -3370,7 +3725,7 @@ class ListDatasetsResponse {
     createFactory: true,
     createToJson: false)
 class ListDatastoresResponse {
-  /// A list of "DatastoreSummary" objects.
+  /// A list of <code>DatastoreSummary</code> objects.
   @_s.JsonKey(name: 'datastoreSummaries')
   final List<DatastoreSummary> datastoreSummaries;
 
@@ -3398,7 +3753,7 @@ class ListPipelinesResponse {
   @_s.JsonKey(name: 'nextToken')
   final String nextToken;
 
-  /// A list of "PipelineSummary" objects.
+  /// A list of <code>PipelineSummary</code> objects.
   @_s.JsonKey(name: 'pipelineSummaries')
   final List<PipelineSummary> pipelineSummaries;
 
@@ -3416,7 +3771,7 @@ class ListPipelinesResponse {
     createFactory: true,
     createToJson: false)
 class ListTagsForResourceResponse {
-  /// The tags (metadata) which you have assigned to the resource.
+  /// The tags (metadata) that you have assigned to the resource.
   @_s.JsonKey(name: 'tags')
   final List<Tag> tags;
 
@@ -3443,7 +3798,7 @@ class LoggingOptions {
   @_s.JsonKey(name: 'enabled')
   final bool enabled;
 
-  /// The logging level. Currently, only "ERROR" is supported.
+  /// The logging level. Currently, only ERROR is supported.
   @_s.JsonKey(name: 'level')
   final LoggingLevel level;
 
@@ -3480,7 +3835,7 @@ class MathActivity {
   @_s.JsonKey(name: 'math')
   final String math;
 
-  /// The name of the 'math' activity.
+  /// The name of the math activity.
   @_s.JsonKey(name: 'name')
   final String name;
 
@@ -3507,14 +3862,14 @@ class MathActivity {
     createFactory: false,
     createToJson: true)
 class Message {
-  /// The ID you wish to assign to the message. Each "messageId" must be unique
-  /// within each batch sent.
+  /// The ID you want to assign to the message. Each <code>messageId</code> must
+  /// be unique within each batch sent.
   @_s.JsonKey(name: 'messageId')
   final String messageId;
 
-  /// The payload of the message. This may be a JSON string or a Base64-encoded
-  /// string representing binary data (in which case you must decode it by means
-  /// of a pipeline activity).
+  /// The payload of the message. This can be a JSON string or a base64-encoded
+  /// string representing binary data, in which case you must decode it by means
+  /// of a pipeline activity.
   @Uint8ListConverter()
   @_s.JsonKey(name: 'payload')
   final Uint8List payload;
@@ -3533,7 +3888,7 @@ class Message {
     createFactory: true,
     createToJson: true)
 class OutputFileUriValue {
-  /// The URI of the location where data set contents are stored, usually the URI
+  /// The URI of the location where dataset contents are stored, usually the URI
   /// of a file in an S3 bucket.
   @_s.JsonKey(name: 'fileName')
   final String fileName;
@@ -3545,6 +3900,26 @@ class OutputFileUriValue {
       _$OutputFileUriValueFromJson(json);
 
   Map<String, dynamic> toJson() => _$OutputFileUriValueToJson(this);
+}
+
+/// Contains the configuration information of the Parquet format.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class ParquetConfiguration {
+  /// Information needed to define a schema.
+  @_s.JsonKey(name: 'schemaDefinition')
+  final SchemaDefinition schemaDefinition;
+
+  ParquetConfiguration({
+    this.schemaDefinition,
+  });
+  factory ParquetConfiguration.fromJson(Map<String, dynamic> json) =>
+      _$ParquetConfigurationFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ParquetConfigurationToJson(this);
 }
 
 /// Contains information about a pipeline.
@@ -3615,7 +3990,7 @@ class PipelineActivity {
   @_s.JsonKey(name: 'deviceRegistryEnrich')
   final DeviceRegistryEnrichActivity deviceRegistryEnrich;
 
-  /// Adds information from the AWS IoT Device Shadows service to a message.
+  /// Adds information from the AWS IoT Device Shadow service to a message.
   @_s.JsonKey(name: 'deviceShadowEnrich')
   final DeviceShadowEnrichActivity deviceShadowEnrich;
 
@@ -3694,8 +4069,8 @@ class PipelineSummary {
       _$PipelineSummaryFromJson(json);
 }
 
-/// Information which is used to filter message data, to segregate it according
-/// to the time frame in which it arrives.
+/// Information that is used to filter message data, to segregate it according
+/// to the timeframe in which it arrives.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -3727,7 +4102,7 @@ class RemoveAttributesActivity {
   @_s.JsonKey(name: 'attributes')
   final List<String> attributes;
 
-  /// The name of the 'removeAttributes' activity.
+  /// The name of the <code>removeAttributes</code> activity.
   @_s.JsonKey(name: 'name')
   final String name;
 
@@ -3769,7 +4144,8 @@ class ReprocessingSummary {
   @_s.JsonKey(name: 'creationTime')
   final DateTime creationTime;
 
-  /// The 'reprocessingId' returned by "StartPipelineReprocessing".
+  /// The <code>reprocessingId</code> returned by
+  /// <code>StartPipelineReprocessing</code>.
   @_s.JsonKey(name: 'id')
   final String id;
 
@@ -3786,21 +4162,22 @@ class ReprocessingSummary {
       _$ReprocessingSummaryFromJson(json);
 }
 
-/// The configuration of the resource used to execute the "containerAction".
+/// The configuration of the resource used to execute the
+/// <code>containerAction</code>.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: true)
 class ResourceConfiguration {
-  /// The type of the compute resource used to execute the "containerAction".
-  /// Possible values are: ACU_1 (vCPU=4, memory=16GiB) or ACU_2 (vCPU=8,
-  /// memory=32GiB).
+  /// The type of the compute resource used to execute the
+  /// <code>containerAction</code>. Possible values are: <code>ACU_1</code>
+  /// (vCPU=4, memory=16 GiB) or <code>ACU_2</code> (vCPU=8, memory=32 GiB).
   @_s.JsonKey(name: 'computeType')
   final ComputeType computeType;
 
-  /// The size (in GB) of the persistent storage available to the resource
-  /// instance used to execute the "containerAction" (min: 1, max: 50).
+  /// The size, in GB, of the persistent storage available to the resource
+  /// instance used to execute the <code>containerAction</code> (min: 1, max: 50).
   @_s.JsonKey(name: 'volumeSizeInGB')
   final int volumeSizeInGB;
 
@@ -3821,8 +4198,8 @@ class ResourceConfiguration {
     createFactory: true,
     createToJson: true)
 class RetentionPeriod {
-  /// The number of days that message data is kept. The "unlimited" parameter must
-  /// be false.
+  /// The number of days that message data is kept. The <code>unlimited</code>
+  /// parameter must be false.
   @_s.JsonKey(name: 'numberOfDays')
   final int numberOfDays;
 
@@ -3865,34 +4242,56 @@ class RunPipelineActivityResponse {
       _$RunPipelineActivityResponseFromJson(json);
 }
 
-/// Configuration information for delivery of data set contents to Amazon S3.
+/// Configuration information for delivery of dataset contents to Amazon Simple
+/// Storage Service (Amazon S3).
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: true)
 class S3DestinationConfiguration {
-  /// The name of the Amazon S3 bucket to which data set contents are delivered.
+  /// The name of the S3 bucket to which dataset contents are delivered.
   @_s.JsonKey(name: 'bucket')
   final String bucket;
 
-  /// The key of the data set contents object. Each object in an Amazon S3 bucket
-  /// has a key that is its unique identifier within the bucket (each object in a
-  /// bucket has exactly one key). To produce a unique key, you can use
-  /// "!{iotanalytics:scheduledTime}" to insert the time of the scheduled SQL
-  /// query run, or "!{iotanalytics:versioned} to insert a unique hash identifying
-  /// the data set, for example:
-  /// "/DataSet/!{iotanalytics:scheduledTime}/!{iotanalytics:versioned}.csv".
+  /// The key of the dataset contents object in an S3 bucket. Each object has a
+  /// key that is a unique identifier. Each object has exactly one key.
+  ///
+  /// You can create a unique key with the following options:
+  ///
+  /// <ul>
+  /// <li>
+  /// Use <code>!{iotanalytics:scheduleTime}</code> to insert the time of a
+  /// scheduled SQL query run.
+  /// </li>
+  /// <li>
+  /// Use <code>!{iotanalytics:versionId}</code> to insert a unique hash that
+  /// identifies a dataset content.
+  /// </li>
+  /// <li>
+  /// Use <code>!{iotanalytics:creationTime}</code> to insert the creation time of
+  /// a dataset content.
+  /// </li>
+  /// </ul>
+  /// The following example creates a unique key for a CSV file:
+  /// <code>dataset/mydataset/!{iotanalytics:scheduleTime}/!{iotanalytics:versionId}.csv</code>
+  /// <note>
+  /// If you don't use <code>!{iotanalytics:versionId}</code> to specify the key,
+  /// you might get duplicate keys. For example, you might have two dataset
+  /// contents with the same <code>scheduleTime</code> but different
+  /// <code>versionId</code>s. This means that one dataset content overwrites the
+  /// other.
+  /// </note>
   @_s.JsonKey(name: 'key')
   final String key;
 
-  /// The ARN of the role which grants AWS IoT Analytics permission to interact
+  /// The ARN of the role that grants AWS IoT Analytics permission to interact
   /// with your Amazon S3 and AWS Glue resources.
   @_s.JsonKey(name: 'roleArn')
   final String roleArn;
 
-  /// Configuration information for coordination with the AWS Glue ETL (extract,
-  /// transform and load) service.
+  /// Configuration information for coordination with AWS Glue, a fully managed
+  /// extract, transform and load (ETL) service.
   @_s.JsonKey(name: 'glueConfiguration')
   final GlueConfiguration glueConfiguration;
 
@@ -3936,9 +4335,8 @@ class SampleChannelDataResponse {
 class Schedule {
   /// The expression that defines when to trigger an update. For more information,
   /// see <a
-  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html">
-  /// Schedule Expressions for Rules</a> in the Amazon CloudWatch Events User
-  /// Guide.
+  /// href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html">Schedule
+  /// Expressions for Rules</a> in the <i>Amazon CloudWatch Events User Guide</i>.
   @_s.JsonKey(name: 'expression')
   final String expression;
 
@@ -3949,6 +4347,29 @@ class Schedule {
       _$ScheduleFromJson(json);
 
   Map<String, dynamic> toJson() => _$ScheduleToJson(this);
+}
+
+/// Information needed to define a schema.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class SchemaDefinition {
+  /// Specifies one or more columns that store your data.
+  ///
+  /// Each schema can have up to 100 columns. Each column can have up to 100
+  /// nested types
+  @_s.JsonKey(name: 'columns')
+  final List<Column> columns;
+
+  SchemaDefinition({
+    this.columns,
+  });
+  factory SchemaDefinition.fromJson(Map<String, dynamic> json) =>
+      _$SchemaDefinitionFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SchemaDefinitionToJson(this);
 }
 
 /// Creates a new message using only the specified attributes from the original
@@ -3963,7 +4384,7 @@ class SelectAttributesActivity {
   @_s.JsonKey(name: 'attributes')
   final List<String> attributes;
 
-  /// The name of the 'selectAttributes' activity.
+  /// The name of the <code>selectAttributes</code> activity.
   @_s.JsonKey(name: 'name')
   final String name;
 
@@ -3982,9 +4403,9 @@ class SelectAttributesActivity {
   Map<String, dynamic> toJson() => _$SelectAttributesActivityToJson(this);
 }
 
-/// Use this to store channel data in an S3 bucket managed by the AWS IoT
-/// Analytics service. The choice of service-managed or customer-managed S3
-/// storage cannot be changed after creation of the channel.
+/// Use this to store channel data in an S3 bucket managed by AWS IoT Analytics.
+/// You cannot change the choice of service-managed or customer-managed S3
+/// storage after the channel is created.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -3998,8 +4419,7 @@ class ServiceManagedChannelS3Storage {
   Map<String, dynamic> toJson() => _$ServiceManagedChannelS3StorageToJson(this);
 }
 
-/// Used to store channel data in an S3 bucket managed by the AWS IoT Analytics
-/// service.
+/// Used to store channel data in an S3 bucket managed by AWS IoT Analytics.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -4012,9 +4432,9 @@ class ServiceManagedChannelS3StorageSummary {
       _$ServiceManagedChannelS3StorageSummaryFromJson(json);
 }
 
-/// Use this to store data store data in an S3 bucket managed by the AWS IoT
-/// Analytics service. The choice of service-managed or customer-managed S3
-/// storage cannot be changed after creation of the data store.
+/// Use this to store data store data in an S3 bucket managed by AWS IoT
+/// Analytics. You cannot change the choice of service-managed or
+/// customer-managed S3 storage after the data store is created.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -4030,8 +4450,7 @@ class ServiceManagedDatastoreS3Storage {
       _$ServiceManagedDatastoreS3StorageToJson(this);
 }
 
-/// Used to store data store data in an S3 bucket managed by the AWS IoT
-/// Analytics service.
+/// Used to store data store data in an S3 bucket managed by AWS IoT Analytics.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -4055,7 +4474,7 @@ class SqlQueryDatasetAction {
   @_s.JsonKey(name: 'sqlQuery')
   final String sqlQuery;
 
-  /// Pre-filters applied to message data.
+  /// Prefilters applied to message data.
   @_s.JsonKey(name: 'filters')
   final List<QueryFilter> filters;
 
@@ -4087,7 +4506,7 @@ class StartPipelineReprocessingResponse {
       _$StartPipelineReprocessingResponseFromJson(json);
 }
 
-/// A set of key/value pairs which are used to manage the resource.
+/// A set of key-value pairs that are used to manage the resource.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -4122,15 +4541,15 @@ class TagResourceResponse {
       _$TagResourceResponseFromJson(json);
 }
 
-/// Information about the data set whose content generation triggers the new
-/// data set content generation.
+/// Information about the dataset whose content generation triggers the new
+/// dataset content generation.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: true)
 class TriggeringDataset {
-  /// The name of the data set whose content generation triggers the new data set
+  /// The name of the dataset whose content generation triggers the new dataset
   /// content generation.
   @_s.JsonKey(name: 'name')
   final String name;
@@ -4155,9 +4574,10 @@ class UntagResourceResponse {
       _$UntagResourceResponseFromJson(json);
 }
 
-/// An instance of a variable to be passed to the "containerAction" execution.
-/// Each variable must have a name and a value given by one of "stringValue",
-/// "datasetContentVersionValue", or "outputFileUriValue".
+/// An instance of a variable to be passed to the <code>containerAction</code>
+/// execution. Each variable must have a name and a value given by one of
+/// <code>stringValue</code>, <code>datasetContentVersionValue</code>, or
+/// <code>outputFileUriValue</code>.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -4168,7 +4588,7 @@ class Variable {
   @_s.JsonKey(name: 'name')
   final String name;
 
-  /// The value of the variable as a structure that specifies a data set content
+  /// The value of the variable as a structure that specifies a dataset content
   /// version.
   @_s.JsonKey(name: 'datasetContentVersionValue')
   final DatasetContentVersionValue datasetContentVersionValue;
@@ -4198,19 +4618,19 @@ class Variable {
   Map<String, dynamic> toJson() => _$VariableToJson(this);
 }
 
-/// Information about the versioning of data set contents.
+/// Information about the versioning of dataset contents.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: true)
 class VersioningConfiguration {
-  /// How many versions of data set contents will be kept. The "unlimited"
-  /// parameter must be false.
+  /// How many versions of dataset contents are kept. The <code>unlimited</code>
+  /// parameter must be <code>false</code>.
   @_s.JsonKey(name: 'maxVersions')
   final int maxVersions;
 
-  /// If true, unlimited versions of data set contents will be kept.
+  /// If true, unlimited versions of dataset contents are kept.
   @_s.JsonKey(name: 'unlimited')
   final bool unlimited;
 

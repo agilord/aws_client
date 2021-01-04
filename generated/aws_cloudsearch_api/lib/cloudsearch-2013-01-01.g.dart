@@ -367,6 +367,11 @@ const _$PartitionInstanceTypeEnumMap = {
   PartitionInstanceType.searchM3Large: 'search.m3.large',
   PartitionInstanceType.searchM3Xlarge: 'search.m3.xlarge',
   PartitionInstanceType.searchM3_2xlarge: 'search.m3.2xlarge',
+  PartitionInstanceType.searchSmall: 'search.small',
+  PartitionInstanceType.searchMedium: 'search.medium',
+  PartitionInstanceType.searchLarge: 'search.large',
+  PartitionInstanceType.searchXlarge: 'search.xlarge',
+  PartitionInstanceType.search_2xlarge: 'search.2xlarge',
 };
 
 Map<String, dynamic> _$SuggesterToJson(Suggester instance) {

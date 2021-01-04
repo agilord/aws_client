@@ -6,6 +6,32 @@ part of 'dlm-2018-01-12.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
+Action _$ActionFromJson(Map<String, dynamic> json) {
+  return Action(
+    crossRegionCopy: (json['CrossRegionCopy'] as List)
+        ?.map((e) => e == null
+            ? null
+            : CrossRegionCopyAction.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    name: json['Name'] as String,
+  );
+}
+
+Map<String, dynamic> _$ActionToJson(Action instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CrossRegionCopy',
+      instance.crossRegionCopy?.map((e) => e?.toJson())?.toList());
+  writeNotNull('Name', instance.name);
+  return val;
+}
+
 CreateLifecyclePolicyResponse _$CreateLifecyclePolicyResponseFromJson(
     Map<String, dynamic> json) {
   return CreateLifecyclePolicyResponse(
@@ -15,6 +41,7 @@ CreateLifecyclePolicyResponse _$CreateLifecyclePolicyResponseFromJson(
 
 CreateRule _$CreateRuleFromJson(Map<String, dynamic> json) {
   return CreateRule(
+    cronExpression: json['CronExpression'] as String,
     interval: json['Interval'] as int,
     intervalUnit:
         _$enumDecodeNullable(_$IntervalUnitValuesEnumMap, json['IntervalUnit']),
@@ -31,6 +58,7 @@ Map<String, dynamic> _$CreateRuleToJson(CreateRule instance) {
     }
   }
 
+  writeNotNull('CronExpression', instance.cronExpression);
   writeNotNull('Interval', instance.interval);
   writeNotNull(
       'IntervalUnit', _$IntervalUnitValuesEnumMap[instance.intervalUnit]);
@@ -73,6 +101,38 @@ T _$enumDecodeNullable<T>(
 const _$IntervalUnitValuesEnumMap = {
   IntervalUnitValues.hours: 'HOURS',
 };
+
+CrossRegionCopyAction _$CrossRegionCopyActionFromJson(
+    Map<String, dynamic> json) {
+  return CrossRegionCopyAction(
+    encryptionConfiguration: json['EncryptionConfiguration'] == null
+        ? null
+        : EncryptionConfiguration.fromJson(
+            json['EncryptionConfiguration'] as Map<String, dynamic>),
+    target: json['Target'] as String,
+    retainRule: json['RetainRule'] == null
+        ? null
+        : CrossRegionCopyRetainRule.fromJson(
+            json['RetainRule'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$CrossRegionCopyActionToJson(
+    CrossRegionCopyAction instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'EncryptionConfiguration', instance.encryptionConfiguration?.toJson());
+  writeNotNull('Target', instance.target);
+  writeNotNull('RetainRule', instance.retainRule?.toJson());
+  return val;
+}
 
 CrossRegionCopyRetainRule _$CrossRegionCopyRetainRuleFromJson(
     Map<String, dynamic> json) {
@@ -140,6 +200,85 @@ DeleteLifecyclePolicyResponse _$DeleteLifecyclePolicyResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteLifecyclePolicyResponse();
 }
+
+EncryptionConfiguration _$EncryptionConfigurationFromJson(
+    Map<String, dynamic> json) {
+  return EncryptionConfiguration(
+    encrypted: json['Encrypted'] as bool,
+    cmkArn: json['CmkArn'] as String,
+  );
+}
+
+Map<String, dynamic> _$EncryptionConfigurationToJson(
+    EncryptionConfiguration instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Encrypted', instance.encrypted);
+  writeNotNull('CmkArn', instance.cmkArn);
+  return val;
+}
+
+EventParameters _$EventParametersFromJson(Map<String, dynamic> json) {
+  return EventParameters(
+    descriptionRegex: json['DescriptionRegex'] as String,
+    eventType:
+        _$enumDecodeNullable(_$EventTypeValuesEnumMap, json['EventType']),
+    snapshotOwner:
+        (json['SnapshotOwner'] as List)?.map((e) => e as String)?.toList(),
+  );
+}
+
+Map<String, dynamic> _$EventParametersToJson(EventParameters instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DescriptionRegex', instance.descriptionRegex);
+  writeNotNull('EventType', _$EventTypeValuesEnumMap[instance.eventType]);
+  writeNotNull('SnapshotOwner', instance.snapshotOwner);
+  return val;
+}
+
+const _$EventTypeValuesEnumMap = {
+  EventTypeValues.shareSnapshot: 'shareSnapshot',
+};
+
+EventSource _$EventSourceFromJson(Map<String, dynamic> json) {
+  return EventSource(
+    type: _$enumDecodeNullable(_$EventSourceValuesEnumMap, json['Type']),
+    parameters: json['Parameters'] == null
+        ? null
+        : EventParameters.fromJson(json['Parameters'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$EventSourceToJson(EventSource instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Type', _$EventSourceValuesEnumMap[instance.type]);
+  writeNotNull('Parameters', instance.parameters?.toJson());
+  return val;
+}
+
+const _$EventSourceValuesEnumMap = {
+  EventSourceValues.managedCwe: 'MANAGED_CWE',
+};
 
 FastRestoreRule _$FastRestoreRuleFromJson(Map<String, dynamic> json) {
   return FastRestoreRule(
@@ -220,6 +359,8 @@ LifecyclePolicySummary _$LifecyclePolicySummaryFromJson(
   return LifecyclePolicySummary(
     description: json['Description'] as String,
     policyId: json['PolicyId'] as String,
+    policyType:
+        _$enumDecodeNullable(_$PolicyTypeValuesEnumMap, json['PolicyType']),
     state:
         _$enumDecodeNullable(_$GettablePolicyStateValuesEnumMap, json['State']),
     tags: (json['Tags'] as Map<String, dynamic>)?.map(
@@ -227,6 +368,12 @@ LifecyclePolicySummary _$LifecyclePolicySummaryFromJson(
     ),
   );
 }
+
+const _$PolicyTypeValuesEnumMap = {
+  PolicyTypeValues.ebsSnapshotManagement: 'EBS_SNAPSHOT_MANAGEMENT',
+  PolicyTypeValues.imageManagement: 'IMAGE_MANAGEMENT',
+  PolicyTypeValues.eventBasedPolicy: 'EVENT_BASED_POLICY',
+};
 
 ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
     Map<String, dynamic> json) {
@@ -240,6 +387,7 @@ ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
 Parameters _$ParametersFromJson(Map<String, dynamic> json) {
   return Parameters(
     excludeBootVolume: json['ExcludeBootVolume'] as bool,
+    noReboot: json['NoReboot'] as bool,
   );
 }
 
@@ -253,11 +401,19 @@ Map<String, dynamic> _$ParametersToJson(Parameters instance) {
   }
 
   writeNotNull('ExcludeBootVolume', instance.excludeBootVolume);
+  writeNotNull('NoReboot', instance.noReboot);
   return val;
 }
 
 PolicyDetails _$PolicyDetailsFromJson(Map<String, dynamic> json) {
   return PolicyDetails(
+    actions: (json['Actions'] as List)
+        ?.map((e) =>
+            e == null ? null : Action.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    eventSource: json['EventSource'] == null
+        ? null
+        : EventSource.fromJson(json['EventSource'] as Map<String, dynamic>),
     parameters: json['Parameters'] == null
         ? null
         : Parameters.fromJson(json['Parameters'] as Map<String, dynamic>),
@@ -285,6 +441,8 @@ Map<String, dynamic> _$PolicyDetailsToJson(PolicyDetails instance) {
     }
   }
 
+  writeNotNull('Actions', instance.actions?.map((e) => e?.toJson())?.toList());
+  writeNotNull('EventSource', instance.eventSource?.toJson());
   writeNotNull('Parameters', instance.parameters?.toJson());
   writeNotNull('PolicyType', _$PolicyTypeValuesEnumMap[instance.policyType]);
   writeNotNull(
@@ -298,10 +456,6 @@ Map<String, dynamic> _$PolicyDetailsToJson(PolicyDetails instance) {
       'TargetTags', instance.targetTags?.map((e) => e?.toJson())?.toList());
   return val;
 }
-
-const _$PolicyTypeValuesEnumMap = {
-  PolicyTypeValues.ebsSnapshotManagement: 'EBS_SNAPSHOT_MANAGEMENT',
-};
 
 const _$ResourceTypeValuesEnumMap = {
   ResourceTypeValues.volume: 'VOLUME',
@@ -352,6 +506,10 @@ Schedule _$ScheduleFromJson(Map<String, dynamic> json) {
     retainRule: json['RetainRule'] == null
         ? null
         : RetainRule.fromJson(json['RetainRule'] as Map<String, dynamic>),
+    shareRules: (json['ShareRules'] as List)
+        ?.map((e) =>
+            e == null ? null : ShareRule.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
     tagsToAdd: (json['TagsToAdd'] as List)
         ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
         ?.toList(),
@@ -378,9 +536,37 @@ Map<String, dynamic> _$ScheduleToJson(Schedule instance) {
   writeNotNull('Name', instance.name);
   writeNotNull('RetainRule', instance.retainRule?.toJson());
   writeNotNull(
+      'ShareRules', instance.shareRules?.map((e) => e?.toJson())?.toList());
+  writeNotNull(
       'TagsToAdd', instance.tagsToAdd?.map((e) => e?.toJson())?.toList());
   writeNotNull(
       'VariableTags', instance.variableTags?.map((e) => e?.toJson())?.toList());
+  return val;
+}
+
+ShareRule _$ShareRuleFromJson(Map<String, dynamic> json) {
+  return ShareRule(
+    targetAccounts:
+        (json['TargetAccounts'] as List)?.map((e) => e as String)?.toList(),
+    unshareInterval: json['UnshareInterval'] as int,
+    unshareIntervalUnit: _$enumDecodeNullable(
+        _$RetentionIntervalUnitValuesEnumMap, json['UnshareIntervalUnit']),
+  );
+}
+
+Map<String, dynamic> _$ShareRuleToJson(ShareRule instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('TargetAccounts', instance.targetAccounts);
+  writeNotNull('UnshareInterval', instance.unshareInterval);
+  writeNotNull('UnshareIntervalUnit',
+      _$RetentionIntervalUnitValuesEnumMap[instance.unshareIntervalUnit]);
   return val;
 }
 

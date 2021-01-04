@@ -17,6 +17,19 @@ AssociateResolverEndpointIpAddressResponse
   );
 }
 
+AssociateResolverQueryLogConfigResponse
+    _$AssociateResolverQueryLogConfigResponseFromJson(
+        Map<String, dynamic> json) {
+  return AssociateResolverQueryLogConfigResponse(
+    resolverQueryLogConfigAssociation:
+        json['ResolverQueryLogConfigAssociation'] == null
+            ? null
+            : ResolverQueryLogConfigAssociation.fromJson(
+                json['ResolverQueryLogConfigAssociation']
+                    as Map<String, dynamic>),
+  );
+}
+
 AssociateResolverRuleResponse _$AssociateResolverRuleResponseFromJson(
     Map<String, dynamic> json) {
   return AssociateResolverRuleResponse(
@@ -34,6 +47,16 @@ CreateResolverEndpointResponse _$CreateResolverEndpointResponseFromJson(
         ? null
         : ResolverEndpoint.fromJson(
             json['ResolverEndpoint'] as Map<String, dynamic>),
+  );
+}
+
+CreateResolverQueryLogConfigResponse
+    _$CreateResolverQueryLogConfigResponseFromJson(Map<String, dynamic> json) {
+  return CreateResolverQueryLogConfigResponse(
+    resolverQueryLogConfig: json['ResolverQueryLogConfig'] == null
+        ? null
+        : ResolverQueryLogConfig.fromJson(
+            json['ResolverQueryLogConfig'] as Map<String, dynamic>),
   );
 }
 
@@ -56,6 +79,16 @@ DeleteResolverEndpointResponse _$DeleteResolverEndpointResponseFromJson(
   );
 }
 
+DeleteResolverQueryLogConfigResponse
+    _$DeleteResolverQueryLogConfigResponseFromJson(Map<String, dynamic> json) {
+  return DeleteResolverQueryLogConfigResponse(
+    resolverQueryLogConfig: json['ResolverQueryLogConfig'] == null
+        ? null
+        : ResolverQueryLogConfig.fromJson(
+            json['ResolverQueryLogConfig'] as Map<String, dynamic>),
+  );
+}
+
 DeleteResolverRuleResponse _$DeleteResolverRuleResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteResolverRuleResponse(
@@ -73,6 +106,19 @@ DisassociateResolverEndpointIpAddressResponse
         ? null
         : ResolverEndpoint.fromJson(
             json['ResolverEndpoint'] as Map<String, dynamic>),
+  );
+}
+
+DisassociateResolverQueryLogConfigResponse
+    _$DisassociateResolverQueryLogConfigResponseFromJson(
+        Map<String, dynamic> json) {
+  return DisassociateResolverQueryLogConfigResponse(
+    resolverQueryLogConfigAssociation:
+        json['ResolverQueryLogConfigAssociation'] == null
+            ? null
+            : ResolverQueryLogConfigAssociation.fromJson(
+                json['ResolverQueryLogConfigAssociation']
+                    as Map<String, dynamic>),
   );
 }
 
@@ -100,6 +146,16 @@ Map<String, dynamic> _$FilterToJson(Filter instance) {
   return val;
 }
 
+GetResolverDnssecConfigResponse _$GetResolverDnssecConfigResponseFromJson(
+    Map<String, dynamic> json) {
+  return GetResolverDnssecConfigResponse(
+    resolverDNSSECConfig: json['ResolverDNSSECConfig'] == null
+        ? null
+        : ResolverDnssecConfig.fromJson(
+            json['ResolverDNSSECConfig'] as Map<String, dynamic>),
+  );
+}
+
 GetResolverEndpointResponse _$GetResolverEndpointResponseFromJson(
     Map<String, dynamic> json) {
   return GetResolverEndpointResponse(
@@ -107,6 +163,38 @@ GetResolverEndpointResponse _$GetResolverEndpointResponseFromJson(
         ? null
         : ResolverEndpoint.fromJson(
             json['ResolverEndpoint'] as Map<String, dynamic>),
+  );
+}
+
+GetResolverQueryLogConfigAssociationResponse
+    _$GetResolverQueryLogConfigAssociationResponseFromJson(
+        Map<String, dynamic> json) {
+  return GetResolverQueryLogConfigAssociationResponse(
+    resolverQueryLogConfigAssociation:
+        json['ResolverQueryLogConfigAssociation'] == null
+            ? null
+            : ResolverQueryLogConfigAssociation.fromJson(
+                json['ResolverQueryLogConfigAssociation']
+                    as Map<String, dynamic>),
+  );
+}
+
+GetResolverQueryLogConfigPolicyResponse
+    _$GetResolverQueryLogConfigPolicyResponseFromJson(
+        Map<String, dynamic> json) {
+  return GetResolverQueryLogConfigPolicyResponse(
+    resolverQueryLogConfigPolicy:
+        json['ResolverQueryLogConfigPolicy'] as String,
+  );
+}
+
+GetResolverQueryLogConfigResponse _$GetResolverQueryLogConfigResponseFromJson(
+    Map<String, dynamic> json) {
+  return GetResolverQueryLogConfigResponse(
+    resolverQueryLogConfig: json['ResolverQueryLogConfig'] == null
+        ? null
+        : ResolverQueryLogConfig.fromJson(
+            json['ResolverQueryLogConfig'] as Map<String, dynamic>),
   );
 }
 
@@ -222,6 +310,18 @@ Map<String, dynamic> _$IpAddressUpdateToJson(IpAddressUpdate instance) {
   return val;
 }
 
+ListResolverDnssecConfigsResponse _$ListResolverDnssecConfigsResponseFromJson(
+    Map<String, dynamic> json) {
+  return ListResolverDnssecConfigsResponse(
+    nextToken: json['NextToken'] as String,
+    resolverDnssecConfigs: (json['ResolverDnssecConfigs'] as List)
+        ?.map((e) => e == null
+            ? null
+            : ResolverDnssecConfig.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
 ListResolverEndpointIpAddressesResponse
     _$ListResolverEndpointIpAddressesResponseFromJson(
         Map<String, dynamic> json) {
@@ -246,6 +346,37 @@ ListResolverEndpointsResponse _$ListResolverEndpointsResponseFromJson(
             ? null
             : ResolverEndpoint.fromJson(e as Map<String, dynamic>))
         ?.toList(),
+  );
+}
+
+ListResolverQueryLogConfigAssociationsResponse
+    _$ListResolverQueryLogConfigAssociationsResponseFromJson(
+        Map<String, dynamic> json) {
+  return ListResolverQueryLogConfigAssociationsResponse(
+    nextToken: json['NextToken'] as String,
+    resolverQueryLogConfigAssociations:
+        (json['ResolverQueryLogConfigAssociations'] as List)
+            ?.map((e) => e == null
+                ? null
+                : ResolverQueryLogConfigAssociation.fromJson(
+                    e as Map<String, dynamic>))
+            ?.toList(),
+    totalCount: json['TotalCount'] as int,
+    totalFilteredCount: json['TotalFilteredCount'] as int,
+  );
+}
+
+ListResolverQueryLogConfigsResponse
+    _$ListResolverQueryLogConfigsResponseFromJson(Map<String, dynamic> json) {
+  return ListResolverQueryLogConfigsResponse(
+    nextToken: json['NextToken'] as String,
+    resolverQueryLogConfigs: (json['ResolverQueryLogConfigs'] as List)
+        ?.map((e) => e == null
+            ? null
+            : ResolverQueryLogConfig.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    totalCount: json['TotalCount'] as int,
+    totalFilteredCount: json['TotalFilteredCount'] as int,
   );
 }
 
@@ -284,12 +415,37 @@ ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
   );
 }
 
+PutResolverQueryLogConfigPolicyResponse
+    _$PutResolverQueryLogConfigPolicyResponseFromJson(
+        Map<String, dynamic> json) {
+  return PutResolverQueryLogConfigPolicyResponse(
+    returnValue: json['ReturnValue'] as bool,
+  );
+}
+
 PutResolverRulePolicyResponse _$PutResolverRulePolicyResponseFromJson(
     Map<String, dynamic> json) {
   return PutResolverRulePolicyResponse(
     returnValue: json['ReturnValue'] as bool,
   );
 }
+
+ResolverDnssecConfig _$ResolverDnssecConfigFromJson(Map<String, dynamic> json) {
+  return ResolverDnssecConfig(
+    id: json['Id'] as String,
+    ownerId: json['OwnerId'] as String,
+    resourceId: json['ResourceId'] as String,
+    validationStatus: _$enumDecodeNullable(
+        _$ResolverDNSSECValidationStatusEnumMap, json['ValidationStatus']),
+  );
+}
+
+const _$ResolverDNSSECValidationStatusEnumMap = {
+  ResolverDNSSECValidationStatus.enabling: 'ENABLING',
+  ResolverDNSSECValidationStatus.enabled: 'ENABLED',
+  ResolverDNSSECValidationStatus.disabling: 'DISABLING',
+  ResolverDNSSECValidationStatus.disabled: 'DISABLED',
+};
 
 ResolverEndpoint _$ResolverEndpointFromJson(Map<String, dynamic> json) {
   return ResolverEndpoint(
@@ -325,12 +481,77 @@ const _$ResolverEndpointStatusEnumMap = {
   ResolverEndpointStatus.deleting: 'DELETING',
 };
 
+ResolverQueryLogConfig _$ResolverQueryLogConfigFromJson(
+    Map<String, dynamic> json) {
+  return ResolverQueryLogConfig(
+    arn: json['Arn'] as String,
+    associationCount: json['AssociationCount'] as int,
+    creationTime: json['CreationTime'] as String,
+    creatorRequestId: json['CreatorRequestId'] as String,
+    destinationArn: json['DestinationArn'] as String,
+    id: json['Id'] as String,
+    name: json['Name'] as String,
+    ownerId: json['OwnerId'] as String,
+    shareStatus:
+        _$enumDecodeNullable(_$ShareStatusEnumMap, json['ShareStatus']),
+    status: _$enumDecodeNullable(
+        _$ResolverQueryLogConfigStatusEnumMap, json['Status']),
+  );
+}
+
+const _$ShareStatusEnumMap = {
+  ShareStatus.notShared: 'NOT_SHARED',
+  ShareStatus.sharedWithMe: 'SHARED_WITH_ME',
+  ShareStatus.sharedByMe: 'SHARED_BY_ME',
+};
+
+const _$ResolverQueryLogConfigStatusEnumMap = {
+  ResolverQueryLogConfigStatus.creating: 'CREATING',
+  ResolverQueryLogConfigStatus.created: 'CREATED',
+  ResolverQueryLogConfigStatus.deleting: 'DELETING',
+  ResolverQueryLogConfigStatus.failed: 'FAILED',
+};
+
+ResolverQueryLogConfigAssociation _$ResolverQueryLogConfigAssociationFromJson(
+    Map<String, dynamic> json) {
+  return ResolverQueryLogConfigAssociation(
+    creationTime: json['CreationTime'] as String,
+    error: _$enumDecodeNullable(
+        _$ResolverQueryLogConfigAssociationErrorEnumMap, json['Error']),
+    errorMessage: json['ErrorMessage'] as String,
+    id: json['Id'] as String,
+    resolverQueryLogConfigId: json['ResolverQueryLogConfigId'] as String,
+    resourceId: json['ResourceId'] as String,
+    status: _$enumDecodeNullable(
+        _$ResolverQueryLogConfigAssociationStatusEnumMap, json['Status']),
+  );
+}
+
+const _$ResolverQueryLogConfigAssociationErrorEnumMap = {
+  ResolverQueryLogConfigAssociationError.none: 'NONE',
+  ResolverQueryLogConfigAssociationError.destinationNotFound:
+      'DESTINATION_NOT_FOUND',
+  ResolverQueryLogConfigAssociationError.accessDenied: 'ACCESS_DENIED',
+  ResolverQueryLogConfigAssociationError.internalServiceError:
+      'INTERNAL_SERVICE_ERROR',
+};
+
+const _$ResolverQueryLogConfigAssociationStatusEnumMap = {
+  ResolverQueryLogConfigAssociationStatus.creating: 'CREATING',
+  ResolverQueryLogConfigAssociationStatus.active: 'ACTIVE',
+  ResolverQueryLogConfigAssociationStatus.actionNeeded: 'ACTION_NEEDED',
+  ResolverQueryLogConfigAssociationStatus.deleting: 'DELETING',
+  ResolverQueryLogConfigAssociationStatus.failed: 'FAILED',
+};
+
 ResolverRule _$ResolverRuleFromJson(Map<String, dynamic> json) {
   return ResolverRule(
     arn: json['Arn'] as String,
+    creationTime: json['CreationTime'] as String,
     creatorRequestId: json['CreatorRequestId'] as String,
     domainName: json['DomainName'] as String,
     id: json['Id'] as String,
+    modificationTime: json['ModificationTime'] as String,
     name: json['Name'] as String,
     ownerId: json['OwnerId'] as String,
     resolverEndpointId: json['ResolverEndpointId'] as String,
@@ -351,12 +572,6 @@ const _$RuleTypeOptionEnumMap = {
   RuleTypeOption.forward: 'FORWARD',
   RuleTypeOption.system: 'SYSTEM',
   RuleTypeOption.recursive: 'RECURSIVE',
-};
-
-const _$ShareStatusEnumMap = {
-  ShareStatus.notShared: 'NOT_SHARED',
-  ShareStatus.sharedWithMe: 'SHARED_WITH_ME',
-  ShareStatus.sharedByMe: 'SHARED_BY_ME',
 };
 
 const _$ResolverRuleStatusEnumMap = {
@@ -452,6 +667,16 @@ Map<String, dynamic> _$TargetAddressToJson(TargetAddress instance) {
 UntagResourceResponse _$UntagResourceResponseFromJson(
     Map<String, dynamic> json) {
   return UntagResourceResponse();
+}
+
+UpdateResolverDnssecConfigResponse _$UpdateResolverDnssecConfigResponseFromJson(
+    Map<String, dynamic> json) {
+  return UpdateResolverDnssecConfigResponse(
+    resolverDNSSECConfig: json['ResolverDNSSECConfig'] == null
+        ? null
+        : ResolverDnssecConfig.fromJson(
+            json['ResolverDNSSECConfig'] as Map<String, dynamic>),
+  );
 }
 
 UpdateResolverEndpointResponse _$UpdateResolverEndpointResponseFromJson(

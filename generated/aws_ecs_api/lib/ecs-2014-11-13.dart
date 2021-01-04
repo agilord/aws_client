@@ -66,6 +66,7 @@ class ECS {
   /// May throw [ClientException].
   /// May throw [InvalidParameterException].
   /// May throw [LimitExceededException].
+  /// May throw [UpdateInProgressException].
   ///
   /// Parameter [autoScalingGroupProvider] :
   /// The details of the Auto Scaling group for the capacity provider.
@@ -531,9 +532,9 @@ class ECS {
   ///
   /// If the service is using the rolling update (<code>ECS</code>) deployment
   /// controller and using either an Application Load Balancer or Network Load
-  /// Balancer, you can specify multiple target groups to attach to the service.
-  /// The service-linked role is required for services that make use of multiple
-  /// target groups. For more information, see <a
+  /// Balancer, you must specify one or more target group ARNs to attach to the
+  /// service. The service-linked role is required for services that make use of
+  /// multiple target groups. For more information, see <a
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using-service-linked-roles.html">Using
   /// Service-Linked Roles for Amazon ECS</a> in the <i>Amazon Elastic Container
   /// Service Developer Guide</i>.
@@ -560,15 +561,17 @@ class ECS {
   /// For Application Load Balancers and Network Load Balancers, this object
   /// must contain the load balancer target group ARN, the container name (as it
   /// appears in a container definition), and the container port to access from
-  /// the load balancer. When a task from this service is placed on a container
-  /// instance, the container instance and port combination is registered as a
-  /// target in the target group specified here.
+  /// the load balancer. The load balancer name parameter must be omitted. When
+  /// a task from this service is placed on a container instance, the container
+  /// instance and port combination is registered as a target in the target
+  /// group specified here.
   ///
   /// For Classic Load Balancers, this object must contain the load balancer
   /// name, the container name (as it appears in a container definition), and
-  /// the container port to access from the load balancer. When a task from this
-  /// service is placed on a container instance, the container instance is
-  /// registered with the load balancer specified here.
+  /// the container port to access from the load balancer. The target group ARN
+  /// parameter must be omitted. When a task from this service is placed on a
+  /// container instance, the container instance is registered with the load
+  /// balancer specified here.
   ///
   /// Services with tasks that use the <code>awsvpc</code> network mode (for
   /// example, those with the Fargate launch type) only support Application Load
@@ -729,8 +732,8 @@ class ECS {
   /// in your service. If a <code>revision</code> is not specified, the latest
   /// <code>ACTIVE</code> revision is used.
   ///
-  /// A task definition must be specified if the service is using the
-  /// <code>ECS</code> deployment controller.
+  /// A task definition must be specified if the service is using either the
+  /// <code>ECS</code> or <code>CODE_DEPLOY</code> deployment controllers.
   Future<CreateServiceResponse> createService({
     @_s.required String serviceName,
     List<CapacityProviderStrategyItem> capacityProviderStrategy,
@@ -1071,6 +1074,54 @@ class ECS {
     );
 
     return DeleteAttributesResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Deletes the specified capacity provider.
+  /// <note>
+  /// The <code>FARGATE</code> and <code>FARGATE_SPOT</code> capacity providers
+  /// are reserved and cannot be deleted. You can disassociate them from a
+  /// cluster using either the <a>PutClusterCapacityProviders</a> API or by
+  /// deleting the cluster.
+  /// </note>
+  /// Prior to a capacity provider being deleted, the capacity provider must be
+  /// removed from the capacity provider strategy from all services. The
+  /// <a>UpdateService</a> API can be used to remove a capacity provider from a
+  /// service's capacity provider strategy. When updating a service, the
+  /// <code>forceNewDeployment</code> option can be used to ensure that any
+  /// tasks using the Amazon EC2 instance capacity provided by the capacity
+  /// provider are transitioned to use the capacity from the remaining capacity
+  /// providers. Only capacity providers that are not associated with a cluster
+  /// can be deleted. To remove a capacity provider from a cluster, you can
+  /// either use <a>PutClusterCapacityProviders</a> or delete the cluster.
+  ///
+  /// May throw [ServerException].
+  /// May throw [ClientException].
+  /// May throw [InvalidParameterException].
+  ///
+  /// Parameter [capacityProvider] :
+  /// The short name or full Amazon Resource Name (ARN) of the capacity provider
+  /// to delete.
+  Future<DeleteCapacityProviderResponse> deleteCapacityProvider({
+    @_s.required String capacityProvider,
+  }) async {
+    ArgumentError.checkNotNull(capacityProvider, 'capacityProvider');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'AmazonEC2ContainerServiceV20141113.DeleteCapacityProvider'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'capacityProvider': capacityProvider,
+      },
+    );
+
+    return DeleteCapacityProviderResponse.fromJson(jsonResponse.body);
   }
 
   /// Deletes the specified cluster. The cluster will transition to the
@@ -1850,7 +1901,7 @@ class ECS {
   /// 10 results and a <code>nextToken</code> value if applicable.
   ///
   /// Parameter [name] :
-  /// The resource name you want to list the account settings for.
+  /// The name of the account setting you want to list the settings for.
   ///
   /// Parameter [nextToken] :
   /// The <code>nextToken</code> value returned from a
@@ -2994,8 +3045,13 @@ class ECS {
   /// </ul>
   ///
   /// Parameter [executionRoleArn] :
-  /// The Amazon Resource Name (ARN) of the task execution role that the Amazon
-  /// ECS container agent and the Docker daemon can assume.
+  /// The Amazon Resource Name (ARN) of the task execution role that grants the
+  /// Amazon ECS container agent permission to make AWS API calls on your
+  /// behalf. The task execution IAM role is required depending on the
+  /// requirements of your task. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_execution_IAM_role.html">Amazon
+  /// ECS task execution IAM role</a> in the <i>Amazon Elastic Container Service
+  /// Developer Guide</i>.
   ///
   /// Parameter [inferenceAccelerators] :
   /// The Elastic Inference accelerators to use for the containers in the task.
@@ -3084,23 +3140,28 @@ class ECS {
   /// Parameter [networkMode] :
   /// The Docker networking mode to use for the containers in the task. The
   /// valid values are <code>none</code>, <code>bridge</code>,
-  /// <code>awsvpc</code>, and <code>host</code>. The default Docker network
-  /// mode is <code>bridge</code>. If you are using the Fargate launch type, the
-  /// <code>awsvpc</code> network mode is required. If you are using the EC2
-  /// launch type, any network mode can be used. If the network mode is set to
-  /// <code>none</code>, you cannot specify port mappings in your container
-  /// definitions, and the tasks containers do not have external connectivity.
-  /// The <code>host</code> and <code>awsvpc</code> network modes offer the
-  /// highest networking performance for containers because they use the EC2
-  /// network stack instead of the virtualized network stack provided by the
-  /// <code>bridge</code> mode.
+  /// <code>awsvpc</code>, and <code>host</code>. If no network mode is
+  /// specified, the default is <code>bridge</code>.
+  ///
+  /// For Amazon ECS tasks on Fargate, the <code>awsvpc</code> network mode is
+  /// required. For Amazon ECS tasks on Amazon EC2 instances, any network mode
+  /// can be used. If the network mode is set to <code>none</code>, you cannot
+  /// specify port mappings in your container definitions, and the tasks
+  /// containers do not have external connectivity. The <code>host</code> and
+  /// <code>awsvpc</code> network modes offer the highest networking performance
+  /// for containers because they use the EC2 network stack instead of the
+  /// virtualized network stack provided by the <code>bridge</code> mode.
   ///
   /// With the <code>host</code> and <code>awsvpc</code> network modes, exposed
   /// container ports are mapped directly to the corresponding host port (for
   /// the <code>host</code> network mode) or the attached elastic network
   /// interface port (for the <code>awsvpc</code> network mode), so you cannot
   /// take advantage of dynamic host port mappings.
-  ///
+  /// <important>
+  /// When using the <code>host</code> network mode, you should not run
+  /// containers using the root user (UID 0). It is considered best practice to
+  /// use a non-root user.
+  /// </important>
   /// If the network mode is <code>awsvpc</code>, the task is allocated an
   /// elastic network interface, and you must specify a
   /// <a>NetworkConfiguration</a> value when you create a service or run a task
@@ -3155,8 +3216,10 @@ class ECS {
   /// constraints in the task definition and those specified at runtime).
   ///
   /// Parameter [requiresCompatibilities] :
-  /// The launch type required by the task. If no value is specified, it
-  /// defaults to <code>EC2</code>.
+  /// The task launch type that Amazon ECS should validate the task definition
+  /// against. This ensures that the task definition parameters are compatible
+  /// with the specified launch type. If no value is specified, it defaults to
+  /// <code>EC2</code>.
   ///
   /// Parameter [tags] :
   /// The metadata that you apply to the task definition to help you categorize
@@ -4074,6 +4137,45 @@ class ECS {
     return UntagResourceResponse.fromJson(jsonResponse.body);
   }
 
+  /// Modifies the parameters for a capacity provider.
+  ///
+  /// May throw [ServerException].
+  /// May throw [ClientException].
+  /// May throw [InvalidParameterException].
+  ///
+  /// Parameter [autoScalingGroupProvider] :
+  /// The name of the capacity provider to update.
+  ///
+  /// Parameter [name] :
+  /// An object representing the parameters to update for the Auto Scaling group
+  /// capacity provider.
+  Future<UpdateCapacityProviderResponse> updateCapacityProvider({
+    @_s.required AutoScalingGroupProviderUpdate autoScalingGroupProvider,
+    @_s.required String name,
+  }) async {
+    ArgumentError.checkNotNull(
+        autoScalingGroupProvider, 'autoScalingGroupProvider');
+    ArgumentError.checkNotNull(name, 'name');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target':
+          'AmazonEC2ContainerServiceV20141113.UpdateCapacityProvider'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'autoScalingGroupProvider': autoScalingGroupProvider,
+        'name': name,
+      },
+    );
+
+    return UpdateCapacityProviderResponse.fromJson(jsonResponse.body);
+  }
+
   /// Modifies the settings to use for a cluster.
   ///
   /// May throw [ServerException].
@@ -4786,8 +4888,9 @@ class AttachmentStateChange {
     createFactory: true,
     createToJson: true)
 class Attribute {
-  /// The name of the attribute. Up to 128 letters (uppercase and lowercase),
-  /// numbers, hyphens, underscores, and periods are allowed.
+  /// The name of the attribute. The <code>name</code> must contain between 1 and
+  /// 128 characters and name may contain letters (uppercase and lowercase),
+  /// numbers, hyphens, underscores, forward slashes, back slashes, or periods.
   @_s.JsonKey(name: 'name')
   final String name;
 
@@ -4802,9 +4905,11 @@ class Attribute {
   @_s.JsonKey(name: 'targetType')
   final TargetType targetType;
 
-  /// The value of the attribute. Up to 128 letters (uppercase and lowercase),
-  /// numbers, hyphens, underscores, periods, at signs (@), forward slashes,
-  /// colons, and spaces are allowed.
+  /// The value of the attribute. The <code>value</code> must contain between 1
+  /// and 128 characters and may contain letters (uppercase and lowercase),
+  /// numbers, hyphens, underscores, periods, at signs (@), forward slashes, back
+  /// slashes, colons, or spaces. The value cannot contain any leading or trailing
+  /// whitespace.
   @_s.JsonKey(name: 'value')
   final String value;
 
@@ -4866,6 +4971,43 @@ class AutoScalingGroupProvider {
   Map<String, dynamic> toJson() => _$AutoScalingGroupProviderToJson(this);
 }
 
+/// The details of the Auto Scaling group capacity provider to update.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AutoScalingGroupProviderUpdate {
+  @_s.JsonKey(name: 'managedScaling')
+  final ManagedScaling managedScaling;
+
+  /// The managed termination protection setting to use for the Auto Scaling group
+  /// capacity provider. This determines whether the Auto Scaling group has
+  /// managed termination protection.
+  /// <important>
+  /// When using managed termination protection, managed scaling must also be used
+  /// otherwise managed termination protection will not work.
+  /// </important>
+  /// When managed termination protection is enabled, Amazon ECS prevents the
+  /// Amazon EC2 instances in an Auto Scaling group that contain tasks from being
+  /// terminated during a scale-in action. The Auto Scaling group and each
+  /// instance in the Auto Scaling group must have instance protection from
+  /// scale-in actions enabled as well. For more information, see <a
+  /// href="https://docs.aws.amazon.com/autoscaling/ec2/userguide/as-instance-termination.html#instance-protection">Instance
+  /// Protection</a> in the <i>AWS Auto Scaling User Guide</i>.
+  ///
+  /// When managed termination protection is disabled, your Amazon EC2 instances
+  /// are not protected from termination when the Auto Scaling group scales in.
+  @_s.JsonKey(name: 'managedTerminationProtection')
+  final ManagedTerminationProtection managedTerminationProtection;
+
+  AutoScalingGroupProviderUpdate({
+    this.managedScaling,
+    this.managedTerminationProtection,
+  });
+  Map<String, dynamic> toJson() => _$AutoScalingGroupProviderUpdateToJson(this);
+}
+
 /// An object representing the networking details for a task or service.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -4873,8 +5015,8 @@ class AutoScalingGroupProvider {
     createFactory: true,
     createToJson: true)
 class AwsVpcConfiguration {
-  /// The subnets associated with the task or service. There is a limit of 16
-  /// subnets that can be specified per <code>AwsVpcConfiguration</code>.
+  /// The IDs of the subnets associated with the task or service. There is a limit
+  /// of 16 subnets that can be specified per <code>AwsVpcConfiguration</code>.
   /// <note>
   /// All specified subnets must be from the same VPC.
   /// </note>
@@ -4886,9 +5028,9 @@ class AwsVpcConfiguration {
   @_s.JsonKey(name: 'assignPublicIp')
   final AssignPublicIp assignPublicIp;
 
-  /// The security groups associated with the task or service. If you do not
-  /// specify a security group, the default security group for the VPC is used.
-  /// There is a limit of 5 security groups that can be specified per
+  /// The IDs of the security groups associated with the task or service. If you
+  /// do not specify a security group, the default security group for the VPC is
+  /// used. There is a limit of 5 security groups that can be specified per
   /// <code>AwsVpcConfiguration</code>.
   /// <note>
   /// All specified security groups must be from the same VPC.
@@ -4927,7 +5069,8 @@ class CapacityProvider {
   final String name;
 
   /// The current status of the capacity provider. Only capacity providers in an
-  /// <code>ACTIVE</code> state can be used in a cluster.
+  /// <code>ACTIVE</code> state can be used in a cluster. When a capacity provider
+  /// is successfully deleted, it will have an <code>INACTIVE</code> status.
   @_s.JsonKey(name: 'status')
   final CapacityProviderStatus status;
 
@@ -4970,12 +5113,33 @@ class CapacityProvider {
   @_s.JsonKey(name: 'tags')
   final List<Tag> tags;
 
+  /// The update status of the capacity provider. The following are the possible
+  /// states that will be returned.
+  /// <dl> <dt>DELETE_IN_PROGRESS</dt> <dd>
+  /// The capacity provider is in the process of being deleted.
+  /// </dd> <dt>DELETE_COMPLETE</dt> <dd>
+  /// The capacity provider has been successfully deleted and will have an
+  /// <code>INACTIVE</code> status.
+  /// </dd> <dt>DELETE_FAILED</dt> <dd>
+  /// The capacity provider was unable to be deleted. The update status reason
+  /// will provide further details about why the delete failed.
+  /// </dd> </dl>
+  @_s.JsonKey(name: 'updateStatus')
+  final CapacityProviderUpdateStatus updateStatus;
+
+  /// The update status reason. This provides further details about the update
+  /// status for the capacity provider.
+  @_s.JsonKey(name: 'updateStatusReason')
+  final String updateStatusReason;
+
   CapacityProvider({
     this.autoScalingGroupProvider,
     this.capacityProviderArn,
     this.name,
     this.status,
     this.tags,
+    this.updateStatus,
+    this.updateStatusReason,
   });
   factory CapacityProvider.fromJson(Map<String, dynamic> json) =>
       _$CapacityProviderFromJson(json);
@@ -4999,6 +5163,8 @@ extension on CapacityProviderField {
 enum CapacityProviderStatus {
   @_s.JsonValue('ACTIVE')
   active,
+  @_s.JsonValue('INACTIVE')
+  inactive,
 }
 
 /// The details of a capacity provider strategy.
@@ -5040,6 +5206,21 @@ class CapacityProviderStrategyItem {
       _$CapacityProviderStrategyItemFromJson(json);
 
   Map<String, dynamic> toJson() => _$CapacityProviderStrategyItemToJson(this);
+}
+
+enum CapacityProviderUpdateStatus {
+  @_s.JsonValue('DELETE_IN_PROGRESS')
+  deleteInProgress,
+  @_s.JsonValue('DELETE_COMPLETE')
+  deleteComplete,
+  @_s.JsonValue('DELETE_FAILED')
+  deleteFailed,
+  @_s.JsonValue('UPDATE_IN_PROGRESS')
+  updateInProgress,
+  @_s.JsonValue('UPDATE_COMPLETE')
+  updateComplete,
+  @_s.JsonValue('UPDATE_FAILED')
+  updateFailed,
 }
 
 /// A regional grouping of one or more container instances on which you can run
@@ -5452,8 +5633,8 @@ class ContainerDefinition {
   /// a container</a> section of the <a
   /// href="https://docs.docker.com/engine/api/v1.35/">Docker Remote API</a> and
   /// the <code>COMMAND</code> parameter to <a
-  /// href="https://docs.docker.com/engine/reference/run/">docker run</a>. For
-  /// more information, see <a
+  /// href="https://docs.docker.com/engine/reference/run/#security-configuration">docker
+  /// run</a>. For more information, see <a
   /// href="https://docs.docker.com/engine/reference/builder/#cmd">https://docs.docker.com/engine/reference/builder/#cmd</a>.
   /// If there are multiple arguments, each argument should be a separated string
   /// in the array.
@@ -5466,7 +5647,8 @@ class ContainerDefinition {
   /// a container</a> section of the <a
   /// href="https://docs.docker.com/engine/api/v1.35/">Docker Remote API</a> and
   /// the <code>--cpu-shares</code> option to <a
-  /// href="https://docs.docker.com/engine/reference/run/">docker run</a>.
+  /// href="https://docs.docker.com/engine/reference/run/#security-configuration">docker
+  /// run</a>.
   ///
   /// This field is optional for tasks using the Fargate launch type, and the only
   /// requirement is that the total amount of CPU reserved for all containers
@@ -5512,7 +5694,9 @@ class ContainerDefinition {
   /// </ul>
   /// On Windows container instances, the CPU limit is enforced as an absolute
   /// limit, or a quota. Windows containers only have access to the specified
-  /// amount of CPU that is described in the task definition.
+  /// amount of CPU that is described in the task definition. A null or zero CPU
+  /// value is passed to Docker as <code>0</code>, which Windows interprets as 1%
+  /// of one CPU.
   @_s.JsonKey(name: 'cpu')
   final int cpu;
 
@@ -5548,7 +5732,8 @@ class ContainerDefinition {
   /// a container</a> section of the <a
   /// href="https://docs.docker.com/engine/api/v1.35/">Docker Remote API</a>.
   /// <note>
-  /// This parameter is not supported for Windows containers.
+  /// This parameter is not supported for Windows containers or tasks that use the
+  /// awsvpc network mode.
   /// </note>
   @_s.JsonKey(name: 'disableNetworking')
   final bool disableNetworking;
@@ -5559,9 +5744,11 @@ class ContainerDefinition {
   /// a container</a> section of the <a
   /// href="https://docs.docker.com/engine/api/v1.35/">Docker Remote API</a> and
   /// the <code>--dns-search</code> option to <a
-  /// href="https://docs.docker.com/engine/reference/run/">docker run</a>.
+  /// href="https://docs.docker.com/engine/reference/run/#security-configuration">docker
+  /// run</a>.
   /// <note>
-  /// This parameter is not supported for Windows containers.
+  /// This parameter is not supported for Windows containers or tasks that use the
+  /// awsvpc network mode.
   /// </note>
   @_s.JsonKey(name: 'dnsSearchDomains')
   final List<String> dnsSearchDomains;
@@ -5572,9 +5759,11 @@ class ContainerDefinition {
   /// a container</a> section of the <a
   /// href="https://docs.docker.com/engine/api/v1.35/">Docker Remote API</a> and
   /// the <code>--dns</code> option to <a
-  /// href="https://docs.docker.com/engine/reference/run/">docker run</a>.
+  /// href="https://docs.docker.com/engine/reference/run/#security-configuration">docker
+  /// run</a>.
   /// <note>
-  /// This parameter is not supported for Windows containers.
+  /// This parameter is not supported for Windows containers or tasks that use the
+  /// awsvpc network mode.
   /// </note>
   @_s.JsonKey(name: 'dnsServers')
   final List<String> dnsServers;
@@ -5585,11 +5774,12 @@ class ContainerDefinition {
   /// a container</a> section of the <a
   /// href="https://docs.docker.com/engine/api/v1.35/">Docker Remote API</a> and
   /// the <code>--label</code> option to <a
-  /// href="https://docs.docker.com/engine/reference/run/">docker run</a>. This
-  /// parameter requires version 1.18 of the Docker Remote API or greater on your
-  /// container instance. To check the Docker Remote API version on your container
-  /// instance, log in to your container instance and run the following command:
-  /// <code>sudo docker version --format '{{.Server.APIVersion}}'</code>
+  /// href="https://docs.docker.com/engine/reference/run/#security-configuration">docker
+  /// run</a>. This parameter requires version 1.18 of the Docker Remote API or
+  /// greater on your container instance. To check the Docker Remote API version
+  /// on your container instance, log in to your container instance and run the
+  /// following command: <code>sudo docker version --format
+  /// '{{.Server.APIVersion}}'</code>
   @_s.JsonKey(name: 'dockerLabels')
   final Map<String, String> dockerLabels;
 
@@ -5609,7 +5799,8 @@ class ContainerDefinition {
   /// a container</a> section of the <a
   /// href="https://docs.docker.com/engine/api/v1.35/">Docker Remote API</a> and
   /// the <code>--security-opt</code> option to <a
-  /// href="https://docs.docker.com/engine/reference/run/">docker run</a>.
+  /// href="https://docs.docker.com/engine/reference/run/#security-configuration">docker
+  /// run</a>.
   /// <note>
   /// The Amazon ECS container agent running on a container instance must register
   /// with the <code>ECS_SELINUX_CAPABLE=true</code> or
@@ -5620,6 +5811,12 @@ class ContainerDefinition {
   /// ECS Container Agent Configuration</a> in the <i>Amazon Elastic Container
   /// Service Developer Guide</i>.
   /// </note>
+  /// For more information about valid values, see <a
+  /// href="https://docs.docker.com/engine/reference/run/#security-configuration">Docker
+  /// Run Security Configuration</a>.
+  ///
+  /// Valid values: "no-new-privileges" | "apparmor:PROFILE" | "label:value" |
+  /// "credentialspec:CredentialSpecFilePath"
   @_s.JsonKey(name: 'dockerSecurityOptions')
   final List<String> dockerSecurityOptions;
 
@@ -5635,8 +5832,8 @@ class ContainerDefinition {
   /// a container</a> section of the <a
   /// href="https://docs.docker.com/engine/api/v1.35/">Docker Remote API</a> and
   /// the <code>--entrypoint</code> option to <a
-  /// href="https://docs.docker.com/engine/reference/run/">docker run</a>. For
-  /// more information, see <a
+  /// href="https://docs.docker.com/engine/reference/run/#security-configuration">docker
+  /// run</a>. For more information, see <a
   /// href="https://docs.docker.com/engine/reference/builder/#entrypoint">https://docs.docker.com/engine/reference/builder/#entrypoint</a>.
   @_s.JsonKey(name: 'entryPoint')
   final List<String> entryPoint;
@@ -5647,13 +5844,42 @@ class ContainerDefinition {
   /// a container</a> section of the <a
   /// href="https://docs.docker.com/engine/api/v1.35/">Docker Remote API</a> and
   /// the <code>--env</code> option to <a
-  /// href="https://docs.docker.com/engine/reference/run/">docker run</a>.
+  /// href="https://docs.docker.com/engine/reference/run/#security-configuration">docker
+  /// run</a>.
   /// <important>
   /// We do not recommend using plaintext environment variables for sensitive
   /// information, such as credential data.
   /// </important>
   @_s.JsonKey(name: 'environment')
   final List<KeyValuePair> environment;
+
+  /// A list of files containing the environment variables to pass to a container.
+  /// This parameter maps to the <code>--env-file</code> option to <a
+  /// href="https://docs.docker.com/engine/reference/run/#security-configuration">docker
+  /// run</a>.
+  ///
+  /// You can specify up to ten environment files. The file must have a
+  /// <code>.env</code> file extension. Each line in an environment file should
+  /// contain an environment variable in <code>VARIABLE=VALUE</code> format. Lines
+  /// beginning with <code>#</code> are treated as comments and are ignored. For
+  /// more information on the environment variable file syntax, see <a
+  /// href="https://docs.docker.com/compose/env-file/">Declare default environment
+  /// variables in file</a>.
+  ///
+  /// If there are environment variables specified using the
+  /// <code>environment</code> parameter in a container definition, they take
+  /// precedence over the variables contained within an environment file. If
+  /// multiple environment files are specified that contain the same variable,
+  /// they are processed from the top down. It is recommended to use unique
+  /// variable names. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/taskdef-envfiles.html">Specifying
+  /// Environment Variables</a> in the <i>Amazon Elastic Container Service
+  /// Developer Guide</i>.
+  ///
+  /// This field is not valid for containers in tasks using the Fargate launch
+  /// type.
+  @_s.JsonKey(name: 'environmentFiles')
+  final List<EnvironmentFile> environmentFiles;
 
   /// If the <code>essential</code> parameter of a container is marked as
   /// <code>true</code>, and that container fails or stops for any reason, all
@@ -5681,7 +5907,8 @@ class ContainerDefinition {
   /// a container</a> section of the <a
   /// href="https://docs.docker.com/engine/api/v1.35/">Docker Remote API</a> and
   /// the <code>--add-host</code> option to <a
-  /// href="https://docs.docker.com/engine/reference/run/">docker run</a>.
+  /// href="https://docs.docker.com/engine/reference/run/#security-configuration">docker
+  /// run</a>.
   /// <note>
   /// This parameter is not supported for Windows containers or tasks that use the
   /// <code>awsvpc</code> network mode.
@@ -5703,7 +5930,8 @@ class ContainerDefinition {
   /// a container</a> section of the <a
   /// href="https://docs.docker.com/engine/api/v1.35/">Docker Remote API</a> and
   /// the <code>HEALTHCHECK</code> parameter of <a
-  /// href="https://docs.docker.com/engine/reference/run/">docker run</a>.
+  /// href="https://docs.docker.com/engine/reference/run/#security-configuration">docker
+  /// run</a>.
   @_s.JsonKey(name: 'healthCheck')
   final HealthCheck healthCheck;
 
@@ -5713,7 +5941,8 @@ class ContainerDefinition {
   /// a container</a> section of the <a
   /// href="https://docs.docker.com/engine/api/v1.35/">Docker Remote API</a> and
   /// the <code>--hostname</code> option to <a
-  /// href="https://docs.docker.com/engine/reference/run/">docker run</a>.
+  /// href="https://docs.docker.com/engine/reference/run/#security-configuration">docker
+  /// run</a>.
   /// <note>
   /// The <code>hostname</code> parameter is not supported if you are using the
   /// <code>awsvpc</code> network mode.
@@ -5733,7 +5962,8 @@ class ContainerDefinition {
   /// a container</a> section of the <a
   /// href="https://docs.docker.com/engine/api/v1.35/">Docker Remote API</a> and
   /// the <code>IMAGE</code> parameter of <a
-  /// href="https://docs.docker.com/engine/reference/run/">docker run</a>.
+  /// href="https://docs.docker.com/engine/reference/run/#security-configuration">docker
+  /// run</a>.
   ///
   /// <ul>
   /// <li>
@@ -5774,7 +6004,8 @@ class ContainerDefinition {
   /// a container</a> section of the <a
   /// href="https://docs.docker.com/engine/api/v1.35/">Docker Remote API</a> and
   /// the <code>--interactive</code> option to <a
-  /// href="https://docs.docker.com/engine/reference/run/">docker run</a>.
+  /// href="https://docs.docker.com/engine/reference/run/#security-configuration">docker
+  /// run</a>.
   @_s.JsonKey(name: 'interactive')
   final bool interactive;
 
@@ -5792,9 +6023,11 @@ class ContainerDefinition {
   /// a container</a> section of the <a
   /// href="https://docs.docker.com/engine/api/v1.35/">Docker Remote API</a> and
   /// the <code>--link</code> option to <a
-  /// href="https://docs.docker.com/engine/reference/run/">docker run</a>.
+  /// href="https://docs.docker.com/engine/reference/run/#security-configuration">docker
+  /// run</a>.
   /// <note>
-  /// This parameter is not supported for Windows containers.
+  /// This parameter is not supported for Windows containers or tasks that use the
+  /// awsvpc network mode.
   /// </note> <important>
   /// Containers that are collocated on a single container instance may be able to
   /// communicate with each other without requiring links or host port mappings.
@@ -5820,12 +6053,12 @@ class ContainerDefinition {
   /// a container</a> section of the <a
   /// href="https://docs.docker.com/engine/api/v1.35/">Docker Remote API</a> and
   /// the <code>--log-driver</code> option to <a
-  /// href="https://docs.docker.com/engine/reference/run/">docker run</a>. By
-  /// default, containers use the same logging driver that the Docker daemon uses.
-  /// However the container may use a different logging driver than the Docker
-  /// daemon by specifying a log driver with this parameter in the container
-  /// definition. To use a different logging driver for a container, the log
-  /// system must be configured properly on the container instance (or on a
+  /// href="https://docs.docker.com/engine/reference/run/#security-configuration">docker
+  /// run</a>. By default, containers use the same logging driver that the Docker
+  /// daemon uses. However the container may use a different logging driver than
+  /// the Docker daemon by specifying a log driver with this parameter in the
+  /// container definition. To use a different logging driver for a container, the
+  /// log system must be configured properly on the container instance (or on a
   /// different log server for remote logging options). For more information on
   /// the options for different supported log drivers, see <a
   /// href="https://docs.docker.com/engine/admin/logging/overview/">Configure
@@ -5862,7 +6095,8 @@ class ContainerDefinition {
   /// a container</a> section of the <a
   /// href="https://docs.docker.com/engine/api/v1.35/">Docker Remote API</a> and
   /// the <code>--memory</code> option to <a
-  /// href="https://docs.docker.com/engine/reference/run/">docker run</a>.
+  /// href="https://docs.docker.com/engine/reference/run/#security-configuration">docker
+  /// run</a>.
   ///
   /// If using the Fargate launch type, this parameter is optional.
   ///
@@ -5891,7 +6125,8 @@ class ContainerDefinition {
   /// a container</a> section of the <a
   /// href="https://docs.docker.com/engine/api/v1.35/">Docker Remote API</a> and
   /// the <code>--memory-reservation</code> option to <a
-  /// href="https://docs.docker.com/engine/reference/run/">docker run</a>.
+  /// href="https://docs.docker.com/engine/reference/run/#security-configuration">docker
+  /// run</a>.
   ///
   /// If a task-level memory value is not specified, you must specify a non-zero
   /// integer for one or both of <code>memory</code> or
@@ -5922,7 +6157,8 @@ class ContainerDefinition {
   /// a container</a> section of the <a
   /// href="https://docs.docker.com/engine/api/v1.35/">Docker Remote API</a> and
   /// the <code>--volume</code> option to <a
-  /// href="https://docs.docker.com/engine/reference/run/">docker run</a>.
+  /// href="https://docs.docker.com/engine/reference/run/#security-configuration">docker
+  /// run</a>.
   ///
   /// Windows containers can mount whole directories on the same drive as
   /// <code>$env:ProgramData</code>. Windows containers cannot mount directories
@@ -5939,7 +6175,8 @@ class ContainerDefinition {
   /// a container</a> section of the <a
   /// href="https://docs.docker.com/engine/api/v1.35/">Docker Remote API</a> and
   /// the <code>--name</code> option to <a
-  /// href="https://docs.docker.com/engine/reference/run/">docker run</a>.
+  /// href="https://docs.docker.com/engine/reference/run/#security-configuration">docker
+  /// run</a>.
   @_s.JsonKey(name: 'name')
   final String name;
 
@@ -5961,11 +6198,12 @@ class ContainerDefinition {
   /// a container</a> section of the <a
   /// href="https://docs.docker.com/engine/api/v1.35/">Docker Remote API</a> and
   /// the <code>--publish</code> option to <a
-  /// href="https://docs.docker.com/engine/reference/run/">docker run</a>. If the
-  /// network mode of a task definition is set to <code>none</code>, then you
-  /// can't specify port mappings. If the network mode of a task definition is set
-  /// to <code>host</code>, then host ports must either be undefined or they must
-  /// match the container port in the port mapping.
+  /// href="https://docs.docker.com/engine/reference/run/#security-configuration">docker
+  /// run</a>. If the network mode of a task definition is set to
+  /// <code>none</code>, then you can't specify port mappings. If the network mode
+  /// of a task definition is set to <code>host</code>, then host ports must
+  /// either be undefined or they must match the container port in the port
+  /// mapping.
   /// <note>
   /// After a task reaches the <code>RUNNING</code> status, manual and automatic
   /// host and container port assignments are visible in the <b>Network
@@ -5983,7 +6221,8 @@ class ContainerDefinition {
   /// a container</a> section of the <a
   /// href="https://docs.docker.com/engine/api/v1.35/">Docker Remote API</a> and
   /// the <code>--privileged</code> option to <a
-  /// href="https://docs.docker.com/engine/reference/run/">docker run</a>.
+  /// href="https://docs.docker.com/engine/reference/run/#security-configuration">docker
+  /// run</a>.
   /// <note>
   /// This parameter is not supported for Windows containers or tasks using the
   /// Fargate launch type.
@@ -5997,7 +6236,8 @@ class ContainerDefinition {
   /// a container</a> section of the <a
   /// href="https://docs.docker.com/engine/api/v1.35/">Docker Remote API</a> and
   /// the <code>--tty</code> option to <a
-  /// href="https://docs.docker.com/engine/reference/run/">docker run</a>.
+  /// href="https://docs.docker.com/engine/reference/run/#security-configuration">docker
+  /// run</a>.
   @_s.JsonKey(name: 'pseudoTerminal')
   final bool pseudoTerminal;
 
@@ -6008,9 +6248,11 @@ class ContainerDefinition {
   /// a container</a> section of the <a
   /// href="https://docs.docker.com/engine/api/v1.35/">Docker Remote API</a> and
   /// the <code>--read-only</code> option to <a
-  /// href="https://docs.docker.com/engine/reference/run/">docker run</a>.
+  /// href="https://docs.docker.com/engine/reference/run/#security-configuration">docker
+  /// run</a>.
   /// <note>
-  /// This parameter is not supported for Windows containers.
+  /// This parameter is not supported for Windows containers or tasks that use the
+  /// awsvpc network mode.
   /// </note>
   @_s.JsonKey(name: 'readonlyRootFilesystem')
   final bool readonlyRootFilesystem;
@@ -6039,26 +6281,23 @@ class ContainerDefinition {
   /// not reach the desired status within that time then containerA will give up
   /// and not start. This results in the task transitioning to a
   /// <code>STOPPED</code> state.
-  ///
+  /// <note>
+  /// When the <code>ECS_CONTAINER_START_TIMEOUT</code> container agent
+  /// configuration variable is used, it is enforced indendently from this start
+  /// timeout value.
+  /// </note>
   /// For tasks using the Fargate launch type, this parameter requires that the
-  /// task or service uses platform version 1.3.0 or later. If this parameter is
-  /// not specified, the default value of 3 minutes is used.
+  /// task or service uses platform version 1.3.0 or later.
   ///
-  /// For tasks using the EC2 launch type, if the <code>startTimeout</code>
-  /// parameter is not specified, the value set for the Amazon ECS container agent
-  /// configuration variable <code>ECS_CONTAINER_START_TIMEOUT</code> is used by
-  /// default. If neither the <code>startTimeout</code> parameter or the
-  /// <code>ECS_CONTAINER_START_TIMEOUT</code> agent configuration variable are
-  /// set, then the default values of 3 minutes for Linux containers and 8 minutes
-  /// on Windows containers are used. Your container instances require at least
-  /// version 1.26.0 of the container agent to enable a container start timeout
-  /// value. However, we recommend using the latest container agent version. For
-  /// information about checking your agent version and updating to the latest
-  /// version, see <a
+  /// For tasks using the EC2 launch type, your container instances require at
+  /// least version <code>1.26.0</code> of the container agent to enable a
+  /// container start timeout value. However, we recommend using the latest
+  /// container agent version. For information about checking your agent version
+  /// and updating to the latest version, see <a
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-agent-update.html">Updating
   /// the Amazon ECS Container Agent</a> in the <i>Amazon Elastic Container
   /// Service Developer Guide</i>. If you are using an Amazon ECS-optimized Linux
-  /// AMI, your instance needs at least version 1.26.0-1 of the
+  /// AMI, your instance needs at least version <code>1.26.0-1</code> of the
   /// <code>ecs-init</code> package. If your container instances are launched from
   /// version <code>20190301</code> or later, then they contain the required
   /// versions of the container agent and <code>ecs-init</code>. For more
@@ -6108,7 +6347,8 @@ class ContainerDefinition {
   /// a container</a> section of the <a
   /// href="https://docs.docker.com/engine/api/v1.35/">Docker Remote API</a> and
   /// the <code>--sysctl</code> option to <a
-  /// href="https://docs.docker.com/engine/reference/run/">docker run</a>.
+  /// href="https://docs.docker.com/engine/reference/run/#security-configuration">docker
+  /// run</a>.
   /// <note>
   /// It is not recommended that you specify network-related
   /// <code>systemControls</code> parameters for multiple containers in a single
@@ -6122,34 +6362,41 @@ class ContainerDefinition {
   @_s.JsonKey(name: 'systemControls')
   final List<SystemControl> systemControls;
 
-  /// A list of <code>ulimits</code> to set in the container. This parameter maps
-  /// to <code>Ulimits</code> in the <a
+  /// A list of <code>ulimits</code> to set in the container. If a ulimit value is
+  /// specified in a task definition, it will override the default values set by
+  /// Docker. This parameter maps to <code>Ulimits</code> in the <a
   /// href="https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate">Create
   /// a container</a> section of the <a
   /// href="https://docs.docker.com/engine/api/v1.35/">Docker Remote API</a> and
   /// the <code>--ulimit</code> option to <a
-  /// href="https://docs.docker.com/engine/reference/run/">docker run</a>. Valid
-  /// naming values are displayed in the <a>Ulimit</a> data type. This parameter
-  /// requires version 1.18 of the Docker Remote API or greater on your container
-  /// instance. To check the Docker Remote API version on your container instance,
-  /// log in to your container instance and run the following command: <code>sudo
-  /// docker version --format '{{.Server.APIVersion}}'</code>
+  /// href="https://docs.docker.com/engine/reference/run/#security-configuration">docker
+  /// run</a>. Valid naming values are displayed in the <a>Ulimit</a> data type.
+  /// This parameter requires version 1.18 of the Docker Remote API or greater on
+  /// your container instance. To check the Docker Remote API version on your
+  /// container instance, log in to your container instance and run the following
+  /// command: <code>sudo docker version --format '{{.Server.APIVersion}}'</code>
   /// <note>
-  /// This parameter is not supported for Windows containers.
+  /// This parameter is not supported for Windows containers or tasks that use the
+  /// awsvpc network mode.
   /// </note>
   @_s.JsonKey(name: 'ulimits')
   final List<Ulimit> ulimits;
 
-  /// The user name to use inside the container. This parameter maps to
+  /// The user to use inside the container. This parameter maps to
   /// <code>User</code> in the <a
   /// href="https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate">Create
   /// a container</a> section of the <a
   /// href="https://docs.docker.com/engine/api/v1.35/">Docker Remote API</a> and
   /// the <code>--user</code> option to <a
-  /// href="https://docs.docker.com/engine/reference/run/">docker run</a>.
-  ///
-  /// You can use the following formats. If specifying a UID or GID, you must
-  /// specify it as a positive integer.
+  /// href="https://docs.docker.com/engine/reference/run/#security-configuration">docker
+  /// run</a>.
+  /// <important>
+  /// When running tasks using the <code>host</code> network mode, you should not
+  /// run containers using the root user (UID 0). It is considered best practice
+  /// to use a non-root user.
+  /// </important>
+  /// You can specify the <code>user</code> using the following formats. If
+  /// specifying a UID or GID, you must specify it as a positive integer.
   ///
   /// <ul>
   /// <li>
@@ -6171,7 +6418,8 @@ class ContainerDefinition {
   /// <code>uid:group</code>
   /// </li>
   /// </ul> <note>
-  /// This parameter is not supported for Windows containers.
+  /// This parameter is not supported for Windows containers or tasks that use the
+  /// awsvpc network mode.
   /// </note>
   @_s.JsonKey(name: 'user')
   final String user;
@@ -6182,7 +6430,8 @@ class ContainerDefinition {
   /// a container</a> section of the <a
   /// href="https://docs.docker.com/engine/api/v1.35/">Docker Remote API</a> and
   /// the <code>--volumes-from</code> option to <a
-  /// href="https://docs.docker.com/engine/reference/run/">docker run</a>.
+  /// href="https://docs.docker.com/engine/reference/run/#security-configuration">docker
+  /// run</a>.
   @_s.JsonKey(name: 'volumesFrom')
   final List<VolumeFrom> volumesFrom;
 
@@ -6192,7 +6441,8 @@ class ContainerDefinition {
   /// a container</a> section of the <a
   /// href="https://docs.docker.com/engine/api/v1.35/">Docker Remote API</a> and
   /// the <code>--workdir</code> option to <a
-  /// href="https://docs.docker.com/engine/reference/run/">docker run</a>.
+  /// href="https://docs.docker.com/engine/reference/run/#security-configuration">docker
+  /// run</a>.
   @_s.JsonKey(name: 'workingDirectory')
   final String workingDirectory;
 
@@ -6207,6 +6457,7 @@ class ContainerDefinition {
     this.dockerSecurityOptions,
     this.entryPoint,
     this.environment,
+    this.environmentFiles,
     this.essential,
     this.extraHosts,
     this.firelensConfiguration,
@@ -6284,11 +6535,12 @@ class ContainerDependency {
   /// <code>COMPLETE</code> - This condition validates that a dependent container
   /// runs to completion (exits) before permitting other containers to start. This
   /// can be useful for nonessential containers that run a script and then exit.
+  /// This condition cannot be set on an essential container.
   /// </li>
   /// <li>
   /// <code>SUCCESS</code> - This condition is the same as <code>COMPLETE</code>,
   /// but it also requires that the container exits with a <code>zero</code>
-  /// status.
+  /// status. This condition cannot be set on an essential container.
   /// </li>
   /// <li>
   /// <code>HEALTHY</code> - This condition validates that the dependent container
@@ -6580,6 +6832,11 @@ class ContainerOverride {
   @_s.JsonKey(name: 'environment')
   final List<KeyValuePair> environment;
 
+  /// A list of files containing the environment variables to pass to a container,
+  /// instead of the value from the container definition.
+  @_s.JsonKey(name: 'environmentFiles')
+  final List<EnvironmentFile> environmentFiles;
+
   /// The hard limit (in MiB) of memory to present to the container, instead of
   /// the default value from the task definition. If your container attempts to
   /// exceed the memory specified here, the container is killed. You must also
@@ -6608,6 +6865,7 @@ class ContainerOverride {
     this.command,
     this.cpu,
     this.environment,
+    this.environmentFiles,
     this.memory,
     this.memoryReservation,
     this.name,
@@ -6783,6 +7041,22 @@ class DeleteAttributesResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class DeleteCapacityProviderResponse {
+  @_s.JsonKey(name: 'capacityProvider')
+  final CapacityProvider capacityProvider;
+
+  DeleteCapacityProviderResponse({
+    this.capacityProvider,
+  });
+  factory DeleteCapacityProviderResponse.fromJson(Map<String, dynamic> json) =>
+      _$DeleteCapacityProviderResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class DeleteClusterResponse {
   /// The full description of the deleted cluster.
   @_s.JsonKey(name: 'cluster')
@@ -6850,6 +7124,17 @@ class Deployment {
   @_s.JsonKey(name: 'desiredCount')
   final int desiredCount;
 
+  /// The number of consecutively failed tasks in the deployment. A task is
+  /// considered a failure if the service scheduler can't launch the task, the
+  /// task doesn't transition to a <code>RUNNING</code> state, or if it fails any
+  /// of its defined health checks and is stopped.
+  /// <note>
+  /// Once a service deployment has one or more successfully running tasks, the
+  /// failed task count resets to zero and stops being evaluated.
+  /// </note>
+  @_s.JsonKey(name: 'failedTasks')
+  final int failedTasks;
+
   /// The ID of the deployment.
   @_s.JsonKey(name: 'id')
   final String id;
@@ -6883,6 +7168,25 @@ class Deployment {
   @_s.JsonKey(name: 'platformVersion')
   final String platformVersion;
 
+  /// <note>
+  /// The <code>rolloutState</code> of a service is only returned for services
+  /// that use the rolling update (<code>ECS</code>) deployment type that are not
+  /// behind a Classic Load Balancer.
+  /// </note>
+  /// The rollout state of the deployment. When a service deployment is started,
+  /// it begins in an <code>IN_PROGRESS</code> state. When the service reaches a
+  /// steady state, the deployment will transition to a <code>COMPLETED</code>
+  /// state. If the service fails to reach a steady state and circuit breaker is
+  /// enabled, the deployment will transition to a <code>FAILED</code> state. A
+  /// deployment in <code>FAILED</code> state will launch no new tasks. For more
+  /// information, see <a>DeploymentCircuitBreaker</a>.
+  @_s.JsonKey(name: 'rolloutState')
+  final DeploymentRolloutState rolloutState;
+
+  /// A description of the rollout state of a deployment.
+  @_s.JsonKey(name: 'rolloutStateReason')
+  final String rolloutStateReason;
+
   /// The number of tasks in the deployment that are in the <code>RUNNING</code>
   /// status.
   @_s.JsonKey(name: 'runningCount')
@@ -6914,11 +7218,14 @@ class Deployment {
     this.capacityProviderStrategy,
     this.createdAt,
     this.desiredCount,
+    this.failedTasks,
     this.id,
     this.launchType,
     this.networkConfiguration,
     this.pendingCount,
     this.platformVersion,
+    this.rolloutState,
+    this.rolloutStateReason,
     this.runningCount,
     this.status,
     this.taskDefinition,
@@ -6926,6 +7233,45 @@ class Deployment {
   });
   factory Deployment.fromJson(Map<String, dynamic> json) =>
       _$DeploymentFromJson(json);
+}
+
+/// <note>
+/// The deployment circuit breaker can only be used for services using the
+/// rolling update (<code>ECS</code>) deployment type that are not behind a
+/// Classic Load Balancer.
+/// </note>
+/// The <b>deployment circuit breaker</b> determines whether a service
+/// deployment will fail if the service can't reach a steady state. If enabled,
+/// a service deployment will transition to a failed state and stop launching
+/// new tasks. You can also enable Amazon ECS to roll back your service to the
+/// last completed deployment after a failure. For more information, see <a
+/// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/deployment-type-ecs.html">Rolling
+/// update</a> in the <i>Amazon Elastic Container Service Developer Guide</i>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class DeploymentCircuitBreaker {
+  /// Whether to enable the deployment circuit breaker logic for the service.
+  @_s.JsonKey(name: 'enable')
+  final bool enable;
+
+  /// Whether to enable Amazon ECS to roll back the service if a service
+  /// deployment fails. If rollback is enabled, when a service deployment fails,
+  /// the service is rolled back to the last deployment that completed
+  /// successfully.
+  @_s.JsonKey(name: 'rollback')
+  final bool rollback;
+
+  DeploymentCircuitBreaker({
+    @_s.required this.enable,
+    @_s.required this.rollback,
+  });
+  factory DeploymentCircuitBreaker.fromJson(Map<String, dynamic> json) =>
+      _$DeploymentCircuitBreakerFromJson(json);
+
+  Map<String, dynamic> toJson() => _$DeploymentCircuitBreakerToJson(this);
 }
 
 /// Optional deployment parameters that control how many tasks run during a
@@ -6936,6 +7282,19 @@ class Deployment {
     createFactory: true,
     createToJson: true)
 class DeploymentConfiguration {
+  /// <note>
+  /// The deployment circuit breaker can only be used for services using the
+  /// rolling update (<code>ECS</code>) deployment type.
+  /// </note>
+  /// The <b>deployment circuit breaker</b> determines whether a service
+  /// deployment will fail if the service can't reach a steady state. If
+  /// deployment circuit breaker is enabled, a service deployment will transition
+  /// to a failed state and stop launching new tasks. If rollback is enabled, when
+  /// a service deployment fails, the service is rolled back to the last
+  /// deployment that completed successfully.
+  @_s.JsonKey(name: 'deploymentCircuitBreaker')
+  final DeploymentCircuitBreaker deploymentCircuitBreaker;
+
   /// If a service is using the rolling update (<code>ECS</code>) deployment type,
   /// the <b>maximum percent</b> parameter represents an upper limit on the number
   /// of tasks in a service that are allowed in the <code>RUNNING</code> or
@@ -6988,6 +7347,7 @@ class DeploymentConfiguration {
   final int minimumHealthyPercent;
 
   DeploymentConfiguration({
+    this.deploymentCircuitBreaker,
     this.maximumPercent,
     this.minimumHealthyPercent,
   });
@@ -7047,6 +7407,15 @@ enum DeploymentControllerType {
   codeDeploy,
   @_s.JsonValue('EXTERNAL')
   external,
+}
+
+enum DeploymentRolloutState {
+  @_s.JsonValue('COMPLETED')
+  completed,
+  @_s.JsonValue('FAILED')
+  failed,
+  @_s.JsonValue('IN_PROGRESS')
+  inProgress,
 }
 
 @_s.JsonSerializable(
@@ -7457,9 +7826,10 @@ class DockerVolumeConfiguration {
 class EFSAuthorizationConfig {
   /// The Amazon EFS access point ID to use. If an access point is specified, the
   /// root directory value specified in the <code>EFSVolumeConfiguration</code>
-  /// will be relative to the directory set for the access point. If an access
-  /// point is used, transit encryption must be enabled in the
-  /// <code>EFSVolumeConfiguration</code>. For more information, see <a
+  /// must either be omitted or set to <code>/</code> which will enforce the path
+  /// set on the EFS access point. If an access point is used, transit encryption
+  /// must be enabled in the <code>EFSVolumeConfiguration</code>. For more
+  /// information, see <a
   /// href="https://docs.aws.amazon.com/efs/latest/ug/efs-access-points.html">Working
   /// with Amazon EFS Access Points</a> in the <i>Amazon Elastic File System User
   /// Guide</i>.
@@ -7524,6 +7894,11 @@ class EFSVolumeConfiguration {
   /// directory inside the host. If this parameter is omitted, the root of the
   /// Amazon EFS volume will be used. Specifying <code>/</code> will have the same
   /// effect as omitting this parameter.
+  /// <important>
+  /// If an EFS access point is specified in the <code>authorizationConfig</code>,
+  /// the root directory parameter must either be omitted or set to <code>/</code>
+  /// which will enforce the path set on the EFS access point.
+  /// </important>
   @_s.JsonKey(name: 'rootDirectory')
   final String rootDirectory;
 
@@ -7559,7 +7934,143 @@ class EFSVolumeConfiguration {
   Map<String, dynamic> toJson() => _$EFSVolumeConfigurationToJson(this);
 }
 
-/// A failed resource.
+/// A list of files containing the environment variables to pass to a container.
+/// You can specify up to ten environment files. The file must have a
+/// <code>.env</code> file extension. Each line in an environment file should
+/// contain an environment variable in <code>VARIABLE=VALUE</code> format. Lines
+/// beginning with <code>#</code> are treated as comments and are ignored. For
+/// more information on the environment variable file syntax, see <a
+/// href="https://docs.docker.com/compose/env-file/">Declare default environment
+/// variables in file</a>.
+///
+/// If there are environment variables specified using the
+/// <code>environment</code> parameter in a container definition, they take
+/// precedence over the variables contained within an environment file. If
+/// multiple environment files are specified that contain the same variable,
+/// they are processed from the top down. It is recommended to use unique
+/// variable names. For more information, see <a
+/// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/taskdef-envfiles.html">Specifying
+/// Environment Variables</a> in the <i>Amazon Elastic Container Service
+/// Developer Guide</i>.
+///
+/// This field is not valid for containers in tasks using the Fargate launch
+/// type.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class EnvironmentFile {
+  /// The file type to use. The only supported value is <code>s3</code>.
+  @_s.JsonKey(name: 'type')
+  final EnvironmentFileType type;
+
+  /// The Amazon Resource Name (ARN) of the Amazon S3 object containing the
+  /// environment variable file.
+  @_s.JsonKey(name: 'value')
+  final String value;
+
+  EnvironmentFile({
+    @_s.required this.type,
+    @_s.required this.value,
+  });
+  factory EnvironmentFile.fromJson(Map<String, dynamic> json) =>
+      _$EnvironmentFileFromJson(json);
+
+  Map<String, dynamic> toJson() => _$EnvironmentFileToJson(this);
+}
+
+enum EnvironmentFileType {
+  @_s.JsonValue('s3')
+  s3,
+}
+
+/// The authorization configuration details for Amazon FSx for Windows File
+/// Server file system. See <a
+/// href="https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_FSxWindowsFileServerVolumeConfiguration.html">FSxWindowsFileServerVolumeConfiguration</a>
+/// in the <i>Amazon Elastic Container Service API Reference</i>.
+///
+/// For more information and the input format, see <a
+/// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/wfsx-volumes.html">Amazon
+/// FSx for Windows File Server Volumes</a> in the <i>Amazon Elastic Container
+/// Service Developer Guide</i>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class FSxWindowsFileServerAuthorizationConfig {
+  /// The authorization credential option to use. The authorization credential
+  /// options can be provided using either the Amazon Resource Name (ARN) of an
+  /// AWS Secrets Manager secret or AWS Systems Manager Parameter Store parameter.
+  /// The ARNs refer to the stored credentials.
+  @_s.JsonKey(name: 'credentialsParameter')
+  final String credentialsParameter;
+
+  /// A fully qualified domain name hosted by an <a
+  /// href="https://docs.aws.amazon.com/directoryservice/latest/admin-guide/directory_microsoft_ad.html">AWS
+  /// Directory Service</a> Managed Microsoft AD (Active Directory) or self-hosted
+  /// AD on Amazon EC2.
+  @_s.JsonKey(name: 'domain')
+  final String domain;
+
+  FSxWindowsFileServerAuthorizationConfig({
+    @_s.required this.credentialsParameter,
+    @_s.required this.domain,
+  });
+  factory FSxWindowsFileServerAuthorizationConfig.fromJson(
+          Map<String, dynamic> json) =>
+      _$FSxWindowsFileServerAuthorizationConfigFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$FSxWindowsFileServerAuthorizationConfigToJson(this);
+}
+
+/// This parameter is specified when you are using <a
+/// href="https://docs.aws.amazon.com/fsx/latest/WindowsGuide/what-is.html">Amazon
+/// FSx for Windows File Server</a> file system for task storage.
+///
+/// For more information and the input format, see <a
+/// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/wfsx-volumes.html">Amazon
+/// FSx for Windows File Server Volumes</a> in the <i>Amazon Elastic Container
+/// Service Developer Guide</i>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class FSxWindowsFileServerVolumeConfiguration {
+  /// The authorization configuration details for the Amazon FSx for Windows File
+  /// Server file system.
+  @_s.JsonKey(name: 'authorizationConfig')
+  final FSxWindowsFileServerAuthorizationConfig authorizationConfig;
+
+  /// The Amazon FSx for Windows File Server file system ID to use.
+  @_s.JsonKey(name: 'fileSystemId')
+  final String fileSystemId;
+
+  /// The directory within the Amazon FSx for Windows File Server file system to
+  /// mount as the root directory inside the host.
+  @_s.JsonKey(name: 'rootDirectory')
+  final String rootDirectory;
+
+  FSxWindowsFileServerVolumeConfiguration({
+    @_s.required this.authorizationConfig,
+    @_s.required this.fileSystemId,
+    @_s.required this.rootDirectory,
+  });
+  factory FSxWindowsFileServerVolumeConfiguration.fromJson(
+          Map<String, dynamic> json) =>
+      _$FSxWindowsFileServerVolumeConfigurationFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$FSxWindowsFileServerVolumeConfigurationToJson(this);
+}
+
+/// A failed resource. For a list of common causes, see <a
+/// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/api_failures_messages.html">API
+/// failure reasons</a> in the <i>Amazon Elastic Container Service Developer
+/// Guide</i>.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -7936,10 +8447,11 @@ class KernelCapabilities {
   /// a container</a> section of the <a
   /// href="https://docs.docker.com/engine/api/v1.35/">Docker Remote API</a> and
   /// the <code>--cap-add</code> option to <a
-  /// href="https://docs.docker.com/engine/reference/run/">docker run</a>.
+  /// href="https://docs.docker.com/engine/reference/run/#security-configuration">docker
+  /// run</a>.
   /// <note>
-  /// If you are using tasks that use the Fargate launch type, the
-  /// <code>add</code> parameter is not supported.
+  /// Tasks launched on AWS Fargate only support adding the
+  /// <code>SYS_PTRACE</code> kernel capability.
   /// </note>
   /// Valid values: <code>"ALL" | "AUDIT_CONTROL" | "AUDIT_WRITE" |
   /// "BLOCK_SUSPEND" | "CHOWN" | "DAC_OVERRIDE" | "DAC_READ_SEARCH" | "FOWNER" |
@@ -7959,7 +8471,8 @@ class KernelCapabilities {
   /// a container</a> section of the <a
   /// href="https://docs.docker.com/engine/api/v1.35/">Docker Remote API</a> and
   /// the <code>--cap-drop</code> option to <a
-  /// href="https://docs.docker.com/engine/reference/run/">docker run</a>.
+  /// href="https://docs.docker.com/engine/reference/run/#security-configuration">docker
+  /// run</a>.
   ///
   /// Valid values: <code>"ALL" | "AUDIT_CONTROL" | "AUDIT_WRITE" |
   /// "BLOCK_SUSPEND" | "CHOWN" | "DAC_OVERRIDE" | "DAC_READ_SEARCH" | "FOWNER" |
@@ -8039,9 +8552,9 @@ class LinuxParameters {
   /// The Linux capabilities for the container that are added to or dropped from
   /// the default configuration provided by Docker.
   /// <note>
-  /// If you are using tasks that use the Fargate launch type,
-  /// <code>capabilities</code> is supported but the <code>add</code> parameter is
-  /// not supported.
+  /// For tasks that use the Fargate launch type, <code>capabilities</code> is
+  /// supported for all platform versions but the <code>add</code> parameter is
+  /// only supported if using platform version 1.4.0 or later.
   /// </note>
   @_s.JsonKey(name: 'capabilities')
   final KernelCapabilities capabilities;
@@ -8052,7 +8565,8 @@ class LinuxParameters {
   /// a container</a> section of the <a
   /// href="https://docs.docker.com/engine/api/v1.35/">Docker Remote API</a> and
   /// the <code>--device</code> option to <a
-  /// href="https://docs.docker.com/engine/reference/run/">docker run</a>.
+  /// href="https://docs.docker.com/engine/reference/run/#security-configuration">docker
+  /// run</a>.
   /// <note>
   /// If you are using tasks that use the Fargate launch type, the
   /// <code>devices</code> parameter is not supported.
@@ -8062,18 +8576,20 @@ class LinuxParameters {
 
   /// Run an <code>init</code> process inside the container that forwards signals
   /// and reaps processes. This parameter maps to the <code>--init</code> option
-  /// to <a href="https://docs.docker.com/engine/reference/run/">docker run</a>.
-  /// This parameter requires version 1.25 of the Docker Remote API or greater on
-  /// your container instance. To check the Docker Remote API version on your
-  /// container instance, log in to your container instance and run the following
-  /// command: <code>sudo docker version --format '{{.Server.APIVersion}}'</code>
+  /// to <a
+  /// href="https://docs.docker.com/engine/reference/run/#security-configuration">docker
+  /// run</a>. This parameter requires version 1.25 of the Docker Remote API or
+  /// greater on your container instance. To check the Docker Remote API version
+  /// on your container instance, log in to your container instance and run the
+  /// following command: <code>sudo docker version --format
+  /// '{{.Server.APIVersion}}'</code>
   @_s.JsonKey(name: 'initProcessEnabled')
   final bool initProcessEnabled;
 
   /// The total amount of swap memory (in MiB) a container can use. This parameter
   /// will be translated to the <code>--memory-swap</code> option to <a
-  /// href="https://docs.docker.com/engine/reference/run/">docker run</a> where
-  /// the value would be the sum of the container memory plus the
+  /// href="https://docs.docker.com/engine/reference/run/#security-configuration">docker
+  /// run</a> where the value would be the sum of the container memory plus the
   /// <code>maxSwap</code> value.
   ///
   /// If a <code>maxSwap</code> value of <code>0</code> is specified, the
@@ -8091,7 +8607,8 @@ class LinuxParameters {
 
   /// The value for the size (in MiB) of the <code>/dev/shm</code> volume. This
   /// parameter maps to the <code>--shm-size</code> option to <a
-  /// href="https://docs.docker.com/engine/reference/run/">docker run</a>.
+  /// href="https://docs.docker.com/engine/reference/run/#security-configuration">docker
+  /// run</a>.
   /// <note>
   /// If you are using tasks that use the Fargate launch type, the
   /// <code>sharedMemorySize</code> parameter is not supported.
@@ -8108,7 +8625,8 @@ class LinuxParameters {
   /// <code>60</code> is used. If a value is not specified for
   /// <code>maxSwap</code> then this parameter is ignored. This parameter maps to
   /// the <code>--memory-swappiness</code> option to <a
-  /// href="https://docs.docker.com/engine/reference/run/">docker run</a>.
+  /// href="https://docs.docker.com/engine/reference/run/#security-configuration">docker
+  /// run</a>.
   /// <note>
   /// If you are using tasks that use the Fargate launch type, the
   /// <code>swappiness</code> parameter is not supported.
@@ -8118,7 +8636,8 @@ class LinuxParameters {
 
   /// The container path, mount options, and size (in MiB) of the tmpfs mount.
   /// This parameter maps to the <code>--tmpfs</code> option to <a
-  /// href="https://docs.docker.com/engine/reference/run/">docker run</a>.
+  /// href="https://docs.docker.com/engine/reference/run/#security-configuration">docker
+  /// run</a>.
   /// <note>
   /// If you are using tasks that use the Fargate launch type, the
   /// <code>tmpfs</code> parameter is not supported.
@@ -8447,21 +8966,19 @@ class LoadBalancer {
   Map<String, dynamic> toJson() => _$LoadBalancerToJson(this);
 }
 
-/// The log configuration specification for the container.
-///
-/// This parameter maps to <code>LogConfig</code> in the <a
+/// The log configuration for the container. This parameter maps to
+/// <code>LogConfig</code> in the <a
 /// href="https://docs.docker.com/engine/api/v1.35/#operation/ContainerCreate">Create
 /// a container</a> section of the <a
 /// href="https://docs.docker.com/engine/api/v1.35/">Docker Remote API</a> and
 /// the <code>--log-driver</code> option to <a
 /// href="https://docs.docker.com/engine/reference/commandline/run/">
-/// <code>docker run</code> </a>. By default, containers use the same logging
-/// driver that the Docker daemon uses; however the container may use a
-/// different logging driver than the Docker daemon by specifying a log driver
-/// with this parameter in the container definition. To use a different logging
-/// driver for a container, the log system must be configured properly on the
-/// container instance (or on a different log server for remote logging
-/// options). For more information on the options for different supported log
+/// <code>docker run</code> </a>.
+///
+/// By default, containers use the same logging driver that the Docker daemon
+/// uses; however the container may use a different logging driver than the
+/// Docker daemon by specifying a log driver configuration in the container
+/// definition. For more information on the options for different supported log
 /// drivers, see <a
 /// href="https://docs.docker.com/engine/admin/logging/overview/">Configure
 /// logging drivers</a> in the Docker documentation.
@@ -8480,21 +8997,20 @@ class LoadBalancer {
 /// your container instance.
 /// </li>
 /// <li>
-/// For tasks using the EC2 launch type, the Amazon ECS container agent running
-/// on a container instance must register the logging drivers available on that
-/// instance with the <code>ECS_AVAILABLE_LOGGING_DRIVERS</code> environment
-/// variable before containers placed on that instance can use these log
-/// configuration options. For more information, see <a
+/// For tasks hosted on Amazon EC2 instances, the Amazon ECS container agent
+/// must register the available logging drivers with the
+/// <code>ECS_AVAILABLE_LOGGING_DRIVERS</code> environment variable before
+/// containers placed on that instance can use these log configuration options.
+/// For more information, see <a
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-agent-config.html">Amazon
-/// ECS Container Agent Configuration</a> in the <i>Amazon Elastic Container
+/// ECS container agent configuration</a> in the <i>Amazon Elastic Container
 /// Service Developer Guide</i>.
 /// </li>
 /// <li>
-/// For tasks using the Fargate launch type, because you do not have access to
-/// the underlying infrastructure your tasks are hosted on, any additional
-/// software needed will have to be installed outside of the task. For example,
-/// the Fluentd output aggregators or a remote host running Logstash to send
-/// Gelf logs to.
+/// For tasks on AWS Fargate, because you do not have access to the underlying
+/// infrastructure your tasks are hosted on, any additional software needed will
+/// have to be installed outside of the task. For example, the Fluentd output
+/// aggregators or a remote host running Logstash to send Gelf logs to.
 /// </li>
 /// </ul>
 @_s.JsonSerializable(
@@ -8503,14 +9019,12 @@ class LoadBalancer {
     createFactory: true,
     createToJson: true)
 class LogConfiguration {
-  /// The log driver to use for the container. The valid values listed earlier are
-  /// log drivers that the Amazon ECS container agent can communicate with by
-  /// default.
+  /// The log driver to use for the container.
   ///
-  /// For tasks using the Fargate launch type, the supported log drivers are
+  /// For tasks on AWS Fargate, the supported log drivers are
   /// <code>awslogs</code>, <code>splunk</code>, and <code>awsfirelens</code>.
   ///
-  /// For tasks using the EC2 launch type, the supported log drivers are
+  /// For tasks hosted on Amazon EC2 instances, the supported log drivers are
   /// <code>awslogs</code>, <code>fluentd</code>, <code>gelf</code>,
   /// <code>json-file</code>, <code>journald</code>,
   /// <code>logentries</code>,<code>syslog</code>, <code>splunk</code>, and
@@ -8518,13 +9032,13 @@ class LogConfiguration {
   ///
   /// For more information about using the <code>awslogs</code> log driver, see <a
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using_awslogs.html">Using
-  /// the awslogs Log Driver</a> in the <i>Amazon Elastic Container Service
+  /// the awslogs log driver</a> in the <i>Amazon Elastic Container Service
   /// Developer Guide</i>.
   ///
   /// For more information about using the <code>awsfirelens</code> log driver,
   /// see <a
   /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using_firelens.html">Custom
-  /// Log Routing</a> in the <i>Amazon Elastic Container Service Developer
+  /// log routing</a> in the <i>Amazon Elastic Container Service Developer
   /// Guide</i>.
   /// <note>
   /// If you have a custom driver that is not listed, you can fork the Amazon ECS
@@ -8601,6 +9115,12 @@ enum LogDriver {
     createFactory: true,
     createToJson: true)
 class ManagedScaling {
+  /// The period of time, in seconds, after a newly launched Amazon EC2 instance
+  /// can contribute to CloudWatch metrics for Auto Scaling group. If this
+  /// parameter is omitted, the default value of <code>300</code> seconds is used.
+  @_s.JsonKey(name: 'instanceWarmupPeriod')
+  final int instanceWarmupPeriod;
+
   /// The maximum number of container instances that Amazon ECS will scale in or
   /// scale out at one time. If this parameter is omitted, the default value of
   /// <code>10000</code> is used.
@@ -8625,6 +9145,7 @@ class ManagedScaling {
   final int targetCapacity;
 
   ManagedScaling({
+    this.instanceWarmupPeriod,
     this.maximumScalingStepSize,
     this.minimumScalingStepSize,
     this.status,
@@ -8981,10 +9502,6 @@ class PortMapping {
   /// information, see <code>hostPort</code>. Port mappings that are automatically
   /// assigned in this way do not count toward the 100 reserved ports limit of a
   /// container instance.
-  /// <important>
-  /// You cannot expose the same container port for multiple protocols. An error
-  /// will be returned if this is attempted.
-  /// </important>
   @_s.JsonKey(name: 'containerPort')
   final int containerPort;
 
@@ -9068,11 +9585,7 @@ extension on PropagateTags {
 /// <code>20190301</code> or later, then they contain the required versions of
 /// the container agent and <code>ecs-init</code>. For more information, see <a
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/ecs-optimized_AMI.html">Amazon
-/// ECS-optimized Linux AMI</a> in the <i>Amazon Elastic Container Service
-/// Developer Guide</i>.
-///
-/// For tasks using the Fargate launch type, the task or service requires
-/// platform version 1.3.0 or later.
+/// ECS-optimized Linux AMI</a>
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -10059,7 +10572,8 @@ class SubmitTaskStateChangeResponse {
 /// a container</a> section of the <a
 /// href="https://docs.docker.com/engine/api/v1.35/">Docker Remote API</a> and
 /// the <code>--sysctl</code> option to <a
-/// href="https://docs.docker.com/engine/reference/run/">docker run</a>.
+/// href="https://docs.docker.com/engine/reference/run/#security-configuration">docker
+/// run</a>.
 ///
 /// It is not recommended that you specify network-related
 /// <code>systemControls</code> parameters for multiple containers in a single
@@ -10581,9 +11095,13 @@ class TaskDefinition {
   @_s.JsonKey(name: 'cpu')
   final String cpu;
 
-  /// The Amazon Resource Name (ARN) of the task execution role that containers in
-  /// this task can assume. All containers in this task are granted the
-  /// permissions that are specified in this role.
+  /// The Amazon Resource Name (ARN) of the task execution role that grants the
+  /// Amazon ECS container agent permission to make AWS API calls on your behalf.
+  /// The task execution IAM role is required depending on the requirements of
+  /// your task. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/task_execution_IAM_role.html">Amazon
+  /// ECS task execution IAM role</a> in the <i>Amazon Elastic Container Service
+  /// Developer Guide</i>.
   @_s.JsonKey(name: 'executionRoleArn')
   final String executionRoleArn;
 
@@ -10645,9 +11163,12 @@ class TaskDefinition {
 
   /// The amount (in MiB) of memory used by the task.
   ///
-  /// If using the EC2 launch type, this field is optional and any value can be
-  /// used. If a task-level memory value is specified then the container-level
-  /// memory value is optional.
+  /// If using the EC2 launch type, you must specify either a task-level memory
+  /// value or a container-level memory value. This field is optional and any
+  /// value can be used. If a task-level memory value is specified then the
+  /// container-level memory value is optional. For more information regarding
+  /// container-level memory and memory reservation, see <a
+  /// href="https://docs.aws.amazon.com/AmazonECS/latest/APIReference/API_ContainerDefinition.html">ContainerDefinition</a>.
   ///
   /// If using the Fargate launch type, this field is required and you must use
   /// one of the following values, which determines your range of valid values for
@@ -10680,9 +11201,11 @@ class TaskDefinition {
 
   /// The Docker networking mode to use for the containers in the task. The valid
   /// values are <code>none</code>, <code>bridge</code>, <code>awsvpc</code>, and
-  /// <code>host</code>. The default Docker network mode is <code>bridge</code>.
-  /// If you are using the Fargate launch type, the <code>awsvpc</code> network
-  /// mode is required. If you are using the EC2 launch type, any network mode can
+  /// <code>host</code>. If no network mode is specified, the default is
+  /// <code>bridge</code>.
+  ///
+  /// For Amazon ECS tasks on Fargate, the <code>awsvpc</code> network mode is
+  /// required. For Amazon ECS tasks on Amazon EC2 instances, any network mode can
   /// be used. If the network mode is set to <code>none</code>, you cannot specify
   /// port mappings in your container definitions, and the tasks containers do not
   /// have external connectivity. The <code>host</code> and <code>awsvpc</code>
@@ -10695,7 +11218,11 @@ class TaskDefinition {
   /// <code>host</code> network mode) or the attached elastic network interface
   /// port (for the <code>awsvpc</code> network mode), so you cannot take
   /// advantage of dynamic host port mappings.
-  ///
+  /// <important>
+  /// When using the <code>host</code> network mode, you should not run containers
+  /// using the root user (UID 0). It is considered best practice to use a
+  /// non-root user.
+  /// </important>
   /// If the network mode is <code>awsvpc</code>, the task is allocated an elastic
   /// network interface, and you must specify a <a>NetworkConfiguration</a> value
   /// when you create a service or run a task with the task definition. For more
@@ -10979,8 +11506,8 @@ class TaskOverride {
   @_s.JsonKey(name: 'cpu')
   final String cpu;
 
-  /// The Amazon Resource Name (ARN) of the task execution role that the Amazon
-  /// ECS container agent and the Docker daemon can assume.
+  /// The Amazon Resource Name (ARN) of the task execution IAM role override for
+  /// the task.
   @_s.JsonKey(name: 'executionRoleArn')
   final String executionRoleArn;
 
@@ -11280,7 +11807,7 @@ class Tmpfs {
   @_s.JsonKey(name: 'containerPath')
   final String containerPath;
 
-  /// The size (in MiB) of the tmpfs volume.
+  /// The maximum size (in MiB) of the tmpfs volume.
   @_s.JsonKey(name: 'size')
   final int size;
 
@@ -11384,6 +11911,22 @@ class UntagResourceResponse {
   UntagResourceResponse();
   factory UntagResourceResponse.fromJson(Map<String, dynamic> json) =>
       _$UntagResourceResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class UpdateCapacityProviderResponse {
+  @_s.JsonKey(name: 'capacityProvider')
+  final CapacityProvider capacityProvider;
+
+  UpdateCapacityProviderResponse({
+    this.capacityProvider,
+  });
+  factory UpdateCapacityProviderResponse.fromJson(Map<String, dynamic> json) =>
+      _$UpdateCapacityProviderResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -11525,9 +12068,13 @@ class VersionInfo {
   Map<String, dynamic> toJson() => _$VersionInfoToJson(this);
 }
 
-/// A data volume used in a task definition. For tasks that use a Docker volume,
-/// specify a <code>DockerVolumeConfiguration</code>. For tasks that use a bind
-/// mount host volume, specify a <code>host</code> and optional
+/// A data volume used in a task definition. For tasks that use the Amazon
+/// Elastic File System (Amazon EFS), specify an
+/// <code>efsVolumeConfiguration</code>. For Windows tasks that use Amazon FSx
+/// for Windows File Server file system, specify a
+/// <code>fsxWindowsFileServerVolumeConfiguration</code>. For tasks that use a
+/// Docker volume, specify a <code>DockerVolumeConfiguration</code>. For tasks
+/// that use a bind mount host volume, specify a <code>host</code> and optional
 /// <code>sourcePath</code>. For more information, see <a
 /// href="https://docs.aws.amazon.com/AmazonECS/latest/developerguide/using_data_volumes.html">Using
 /// Data Volumes in Tasks</a>.
@@ -11545,27 +12092,22 @@ class Volume {
   final DockerVolumeConfiguration dockerVolumeConfiguration;
 
   /// This parameter is specified when you are using an Amazon Elastic File System
-  /// (Amazon EFS) file storage. Amazon EFS file systems are only supported when
-  /// you are using the EC2 launch type.
-  /// <important>
-  /// <code>EFSVolumeConfiguration</code> remains in preview and is a Beta Service
-  /// as defined by and subject to the Beta Service Participation Service Terms
-  /// located at <a
-  /// href="https://aws.amazon.com/service-terms">https://aws.amazon.com/service-terms</a>
-  /// ("Beta Terms"). These Beta Terms apply to your participation in this preview
-  /// of <code>EFSVolumeConfiguration</code>.
-  /// </important>
+  /// file system for task storage.
   @_s.JsonKey(name: 'efsVolumeConfiguration')
   final EFSVolumeConfiguration efsVolumeConfiguration;
 
-  /// This parameter is specified when you are using bind mount host volumes. Bind
-  /// mount host volumes are supported when you are using either the EC2 or
-  /// Fargate launch types. The contents of the <code>host</code> parameter
-  /// determine whether your bind mount host volume persists on the host container
-  /// instance and where it is stored. If the <code>host</code> parameter is
-  /// empty, then the Docker daemon assigns a host path for your data volume.
-  /// However, the data is not guaranteed to persist after the containers
-  /// associated with it stop running.
+  /// This parameter is specified when you are using Amazon FSx for Windows File
+  /// Server file system for task storage.
+  @_s.JsonKey(name: 'fsxWindowsFileServerVolumeConfiguration')
+  final FSxWindowsFileServerVolumeConfiguration
+      fsxWindowsFileServerVolumeConfiguration;
+
+  /// This parameter is specified when you are using bind mount host volumes. The
+  /// contents of the <code>host</code> parameter determine whether your bind
+  /// mount host volume persists on the host container instance and where it is
+  /// stored. If the <code>host</code> parameter is empty, then the Docker daemon
+  /// assigns a host path for your data volume. However, the data is not
+  /// guaranteed to persist after the containers associated with it stop running.
   ///
   /// Windows containers can mount whole directories on the same drive as
   /// <code>$env:ProgramData</code>. Windows containers cannot mount directories
@@ -11585,6 +12127,7 @@ class Volume {
   Volume({
     this.dockerVolumeConfiguration,
     this.efsVolumeConfiguration,
+    this.fsxWindowsFileServerVolumeConfiguration,
     this.host,
     this.name,
   });

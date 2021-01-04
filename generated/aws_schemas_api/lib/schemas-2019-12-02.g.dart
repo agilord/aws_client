@@ -157,6 +157,16 @@ DiscovererSummary _$DiscovererSummaryFromJson(Map<String, dynamic> json) {
   );
 }
 
+ExportSchemaResponse _$ExportSchemaResponseFromJson(Map<String, dynamic> json) {
+  return ExportSchemaResponse(
+    content: json['Content'] as String,
+    schemaArn: json['SchemaArn'] as String,
+    schemaName: json['SchemaName'] as String,
+    schemaVersion: json['SchemaVersion'] as String,
+    type: json['Type'] as String,
+  );
+}
+
 GetCodeBindingSourceResponse _$GetCodeBindingSourceResponseFromJson(
     Map<String, dynamic> json) {
   return GetCodeBindingSourceResponse(
@@ -168,6 +178,14 @@ GetDiscoveredSchemaResponse _$GetDiscoveredSchemaResponseFromJson(
     Map<String, dynamic> json) {
   return GetDiscoveredSchemaResponse(
     content: json['Content'] as String,
+  );
+}
+
+GetResourcePolicyResponse _$GetResourcePolicyResponseFromJson(
+    Map<String, dynamic> json) {
+  return GetResourcePolicyResponse(
+    policy: json['Policy'],
+    revisionId: json['RevisionId'] as String,
   );
 }
 
@@ -221,22 +239,9 @@ ListSchemasResponse _$ListSchemasResponseFromJson(Map<String, dynamic> json) {
 ListTagsForResourceResponse _$ListTagsForResourceResponseFromJson(
     Map<String, dynamic> json) {
   return ListTagsForResourceResponse(
-    tags: (json['Tags'] as Map<String, dynamic>)?.map(
+    tags: (json['tags'] as Map<String, dynamic>)?.map(
       (k, e) => MapEntry(k, e as String),
     ),
-  );
-}
-
-LockServiceLinkedRoleResponse _$LockServiceLinkedRoleResponseFromJson(
-    Map<String, dynamic> json) {
-  return LockServiceLinkedRoleResponse(
-    canBeDeleted: json['CanBeDeleted'] as bool,
-    reasonOfFailure: json['ReasonOfFailure'] as String,
-    relatedResources: (json['RelatedResources'] as List)
-        ?.map((e) => e == null
-            ? null
-            : DiscovererSummary.fromJson(e as Map<String, dynamic>))
-        ?.toList(),
   );
 }
 
@@ -247,6 +252,14 @@ PutCodeBindingResponse _$PutCodeBindingResponseFromJson(
     lastModified: const IsoDateTimeConverter().fromJson(json['LastModified']),
     schemaVersion: json['SchemaVersion'] as String,
     status: _$enumDecodeNullable(_$CodeGenerationStatusEnumMap, json['Status']),
+  );
+}
+
+PutResourcePolicyResponse _$PutResourcePolicyResponseFromJson(
+    Map<String, dynamic> json) {
+  return PutResourcePolicyResponse(
+    policy: json['Policy'],
+    revisionId: json['RevisionId'] as String,
   );
 }
 
@@ -277,8 +290,14 @@ SchemaVersionSummary _$SchemaVersionSummaryFromJson(Map<String, dynamic> json) {
     schemaArn: json['SchemaArn'] as String,
     schemaName: json['SchemaName'] as String,
     schemaVersion: json['SchemaVersion'] as String,
+    type: _$enumDecodeNullable(_$TypeEnumMap, json['Type']),
   );
 }
+
+const _$TypeEnumMap = {
+  Type.openApi3: 'OpenApi3',
+  Type.jSONSchemaDraft4: 'JSONSchemaDraft4',
+};
 
 SearchSchemaSummary _$SearchSchemaSummaryFromJson(Map<String, dynamic> json) {
   return SearchSchemaSummary(
@@ -298,6 +317,7 @@ SearchSchemaVersionSummary _$SearchSchemaVersionSummaryFromJson(
   return SearchSchemaVersionSummary(
     createdDate: const IsoDateTimeConverter().fromJson(json['CreatedDate']),
     schemaVersion: json['SchemaVersion'] as String,
+    type: _$enumDecodeNullable(_$TypeEnumMap, json['Type']),
   );
 }
 
@@ -327,11 +347,6 @@ StopDiscovererResponse _$StopDiscovererResponseFromJson(
     discovererId: json['DiscovererId'] as String,
     state: _$enumDecodeNullable(_$DiscovererStateEnumMap, json['State']),
   );
-}
-
-UnlockServiceLinkedRoleResponse _$UnlockServiceLinkedRoleResponseFromJson(
-    Map<String, dynamic> json) {
-  return UnlockServiceLinkedRoleResponse();
 }
 
 UpdateDiscovererResponse _$UpdateDiscovererResponseFromJson(

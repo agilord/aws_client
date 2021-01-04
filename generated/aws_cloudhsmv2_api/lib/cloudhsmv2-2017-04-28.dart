@@ -62,6 +62,12 @@ class CloudHSMV2 {
   ///
   /// Parameter [destinationRegion] :
   /// The AWS region that will contain your copied CloudHSM cluster backup.
+  ///
+  /// Parameter [tagList] :
+  /// Tags to apply to the destination backup during creation. If you specify
+  /// tags, only these tags will be applied to the destination backup. If you do
+  /// not specify tags, the service copies tags from the source backup to the
+  /// destination backup.
   Future<CopyBackupToRegionResponse> copyBackupToRegion({
     @_s.required String backupId,
     @_s.required String destinationRegion,
@@ -128,13 +134,20 @@ class CloudHSMV2 {
   /// </li>
   /// </ul>
   ///
+  /// Parameter [backupRetentionPolicy] :
+  /// A policy that defines how the service retains backups.
+  ///
   /// Parameter [sourceBackupId] :
   /// The identifier (ID) of the cluster backup to restore. Use this value to
   /// restore the cluster from a backup instead of creating a new cluster. To
   /// find the backup ID, use <a>DescribeBackups</a>.
+  ///
+  /// Parameter [tagList] :
+  /// Tags to apply to the CloudHSM cluster during creation.
   Future<CreateClusterResponse> createCluster({
     @_s.required String hsmType,
     @_s.required List<String> subnetIds,
+    BackupRetentionPolicy backupRetentionPolicy,
     String sourceBackupId,
     List<Tag> tagList,
   }) async {
@@ -164,6 +177,8 @@ class CloudHSMV2 {
       payload: {
         'HsmType': hsmType,
         'SubnetIds': subnetIds,
+        if (backupRetentionPolicy != null)
+          'BackupRetentionPolicy': backupRetentionPolicy,
         if (sourceBackupId != null) 'SourceBackupId': sourceBackupId,
         if (tagList != null) 'TagList': tagList,
       },
@@ -428,6 +443,12 @@ class CloudHSMV2 {
   /// Use the <code>states</code> filter to return only backups that match the
   /// specified state.
   ///
+  /// Use the <code>neverExpires</code> filter to return backups filtered by the
+  /// value in the <code>neverExpires</code> parameter. <code>True</code>
+  /// returns all backups exempt from the backup retention policy.
+  /// <code>False</code> returns all backups with a backup retention policy
+  /// defined at the cluster.
+  ///
   /// Parameter [maxResults] :
   /// The maximum number of backups to return in the response. When there are
   /// more backups than the number you specify, the response contains a
@@ -450,7 +471,7 @@ class CloudHSMV2 {
       'maxResults',
       maxResults,
       1,
-      100,
+      50,
     );
     _s.validateStringLength(
       'nextToken',
@@ -529,7 +550,7 @@ class CloudHSMV2 {
       'maxResults',
       maxResults,
       1,
-      100,
+      25,
     );
     _s.validateStringLength(
       'nextToken',
@@ -726,6 +747,99 @@ class CloudHSMV2 {
     return ListTagsResponse.fromJson(jsonResponse.body);
   }
 
+  /// Modifies attributes for AWS CloudHSM backup.
+  ///
+  /// May throw [CloudHsmAccessDeniedException].
+  /// May throw [CloudHsmInternalFailureException].
+  /// May throw [CloudHsmInvalidRequestException].
+  /// May throw [CloudHsmResourceNotFoundException].
+  /// May throw [CloudHsmServiceException].
+  ///
+  /// Parameter [backupId] :
+  /// The identifier (ID) of the backup to modify. To find the ID of a backup,
+  /// use the <a>DescribeBackups</a> operation.
+  ///
+  /// Parameter [neverExpires] :
+  /// Specifies whether the service should exempt a backup from the retention
+  /// policy for the cluster. <code>True</code> exempts a backup from the
+  /// retention policy. <code>False</code> means the service applies the backup
+  /// retention policy defined at the cluster.
+  Future<ModifyBackupAttributesResponse> modifyBackupAttributes({
+    @_s.required String backupId,
+    @_s.required bool neverExpires,
+  }) async {
+    ArgumentError.checkNotNull(backupId, 'backupId');
+    _s.validateStringPattern(
+      'backupId',
+      backupId,
+      r'''backup-[2-7a-zA-Z]{11,16}''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(neverExpires, 'neverExpires');
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'BaldrApiService.ModifyBackupAttributes'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'BackupId': backupId,
+        'NeverExpires': neverExpires,
+      },
+    );
+
+    return ModifyBackupAttributesResponse.fromJson(jsonResponse.body);
+  }
+
+  /// Modifies AWS CloudHSM cluster.
+  ///
+  /// May throw [CloudHsmAccessDeniedException].
+  /// May throw [CloudHsmInternalFailureException].
+  /// May throw [CloudHsmInvalidRequestException].
+  /// May throw [CloudHsmResourceNotFoundException].
+  /// May throw [CloudHsmServiceException].
+  ///
+  /// Parameter [backupRetentionPolicy] :
+  /// A policy that defines how the service retains backups.
+  ///
+  /// Parameter [clusterId] :
+  /// The identifier (ID) of the cluster that you want to modify. To find the
+  /// cluster ID, use <a>DescribeClusters</a>.
+  Future<ModifyClusterResponse> modifyCluster({
+    @_s.required BackupRetentionPolicy backupRetentionPolicy,
+    @_s.required String clusterId,
+  }) async {
+    ArgumentError.checkNotNull(backupRetentionPolicy, 'backupRetentionPolicy');
+    ArgumentError.checkNotNull(clusterId, 'clusterId');
+    _s.validateStringPattern(
+      'clusterId',
+      clusterId,
+      r'''cluster-[2-7a-zA-Z]{11,16}''',
+      isRequired: true,
+    );
+    final headers = <String, String>{
+      'Content-Type': 'application/x-amz-json-1.1',
+      'X-Amz-Target': 'BaldrApiService.ModifyCluster'
+    };
+    final jsonResponse = await _protocol.send(
+      method: 'POST',
+      requestUri: '/',
+      exceptionFnMap: _exceptionFns,
+      // TODO queryParams
+      headers: headers,
+      payload: {
+        'BackupRetentionPolicy': backupRetentionPolicy,
+        'ClusterId': clusterId,
+      },
+    );
+
+    return ModifyClusterResponse.fromJson(jsonResponse.body);
+  }
+
   /// Restores a specified AWS CloudHSM backup that is in the
   /// <code>PENDING_DELETION</code> state. For mor information on deleting a
   /// backup, see <a>DeleteBackup</a>.
@@ -863,11 +977,13 @@ class CloudHSMV2 {
 }
 
 /// Contains information about a backup of an AWS CloudHSM cluster. All backup
-/// objects contain the BackupId, BackupState, ClusterId, and CreateTimestamp
-/// parameters. Backups that were copied into a destination region additionally
-/// contain the CopyTimestamp, SourceBackup, SourceCluster, and SourceRegion
-/// paramters. A backup that is pending deletion will include the
-/// DeleteTimestamp parameter.
+/// objects contain the <code>BackupId</code>, <code>BackupState</code>,
+/// <code>ClusterId</code>, and <code>CreateTimestamp</code> parameters. Backups
+/// that were copied into a destination region additionally contain the
+/// <code>CopyTimestamp</code>, <code>SourceBackup</code>,
+/// <code>SourceCluster</code>, and <code>SourceRegion</code> parameters. A
+/// backup that is pending deletion will include the
+/// <code>DeleteTimestamp</code> parameter.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -901,20 +1017,29 @@ class Backup {
   @_s.JsonKey(name: 'DeleteTimestamp')
   final DateTime deleteTimestamp;
 
+  /// Specifies whether the service should exempt a backup from the retention
+  /// policy for the cluster. <code>True</code> exempts a backup from the
+  /// retention policy. <code>False</code> means the service applies the backup
+  /// retention policy defined at the cluster.
+  @_s.JsonKey(name: 'NeverExpires')
+  final bool neverExpires;
+
   /// The identifier (ID) of the source backup from which the new backup was
   /// copied.
   @_s.JsonKey(name: 'SourceBackup')
   final String sourceBackup;
 
   /// The identifier (ID) of the cluster containing the source backup from which
-  /// the new backup was copied. .
+  /// the new backup was copied.
   @_s.JsonKey(name: 'SourceCluster')
   final String sourceCluster;
 
-  /// The AWS region that contains the source backup from which the new backup was
+  /// The AWS Region that contains the source backup from which the new backup was
   /// copied.
   @_s.JsonKey(name: 'SourceRegion')
   final String sourceRegion;
+
+  /// The list of tags for the backup.
   @_s.JsonKey(name: 'TagList')
   final List<Tag> tagList;
 
@@ -925,6 +1050,7 @@ class Backup {
     this.copyTimestamp,
     this.createTimestamp,
     this.deleteTimestamp,
+    this.neverExpires,
     this.sourceBackup,
     this.sourceCluster,
     this.sourceRegion,
@@ -936,6 +1062,37 @@ class Backup {
 enum BackupPolicy {
   @_s.JsonValue('DEFAULT')
   $default,
+}
+
+/// A policy that defines the number of days to retain backups.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class BackupRetentionPolicy {
+  /// The type of backup retention policy. For the <code>DAYS</code> type, the
+  /// value is the number of days to retain backups.
+  @_s.JsonKey(name: 'Type')
+  final BackupRetentionType type;
+
+  /// Use a value between 7 - 379.
+  @_s.JsonKey(name: 'Value')
+  final String value;
+
+  BackupRetentionPolicy({
+    this.type,
+    this.value,
+  });
+  factory BackupRetentionPolicy.fromJson(Map<String, dynamic> json) =>
+      _$BackupRetentionPolicyFromJson(json);
+
+  Map<String, dynamic> toJson() => _$BackupRetentionPolicyToJson(this);
+}
+
+enum BackupRetentionType {
+  @_s.JsonValue('DAYS')
+  days,
 }
 
 enum BackupState {
@@ -1000,6 +1157,10 @@ class Cluster {
   @_s.JsonKey(name: 'BackupPolicy')
   final BackupPolicy backupPolicy;
 
+  /// A policy that defines how the service retains backups.
+  @_s.JsonKey(name: 'BackupRetentionPolicy')
+  final BackupRetentionPolicy backupRetentionPolicy;
+
   /// Contains one or more certificates or a certificate signing request (CSR).
   @_s.JsonKey(name: 'Certificates')
   final Certificates certificates;
@@ -1046,6 +1207,8 @@ class Cluster {
   /// zone.
   @_s.JsonKey(name: 'SubnetMapping')
   final Map<String, String> subnetMapping;
+
+  /// The list of tags for the cluster.
   @_s.JsonKey(name: 'TagList')
   final List<Tag> tagList;
 
@@ -1056,6 +1219,7 @@ class Cluster {
 
   Cluster({
     this.backupPolicy,
+    this.backupRetentionPolicy,
     this.certificates,
     this.clusterId,
     this.createTimestamp,
@@ -1400,6 +1564,38 @@ class ListTagsResponse {
   });
   factory ListTagsResponse.fromJson(Map<String, dynamic> json) =>
       _$ListTagsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ModifyBackupAttributesResponse {
+  @_s.JsonKey(name: 'Backup')
+  final Backup backup;
+
+  ModifyBackupAttributesResponse({
+    this.backup,
+  });
+  factory ModifyBackupAttributesResponse.fromJson(Map<String, dynamic> json) =>
+      _$ModifyBackupAttributesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ModifyClusterResponse {
+  @_s.JsonKey(name: 'Cluster')
+  final Cluster cluster;
+
+  ModifyClusterResponse({
+    this.cluster,
+  });
+  factory ModifyClusterResponse.fromJson(Map<String, dynamic> json) =>
+      _$ModifyClusterResponseFromJson(json);
 }
 
 @_s.JsonSerializable(

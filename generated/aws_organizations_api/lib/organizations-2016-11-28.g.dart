@@ -128,6 +128,10 @@ const _$CreateAccountFailureReasonEnumMap = {
   CreateAccountFailureReason.internalFailure: 'INTERNAL_FAILURE',
   CreateAccountFailureReason.govcloudAccountAlreadyExists:
       'GOVCLOUD_ACCOUNT_ALREADY_EXISTS',
+  CreateAccountFailureReason.missingBusinessValidation:
+      'MISSING_BUSINESS_VALIDATION',
+  CreateAccountFailureReason.missingPaymentInstrument:
+      'MISSING_PAYMENT_INSTRUMENT',
 };
 
 const _$CreateAccountStateEnumMap = {
@@ -295,6 +299,8 @@ EffectivePolicy _$EffectivePolicyFromJson(Map<String, dynamic> json) {
 
 const _$EffectivePolicyTypeEnumMap = {
   EffectivePolicyType.tagPolicy: 'TAG_POLICY',
+  EffectivePolicyType.backupPolicy: 'BACKUP_POLICY',
+  EffectivePolicyType.aiservicesOptOutPolicy: 'AISERVICES_OPT_OUT_POLICY',
 };
 
 EnableAllFeaturesResponse _$EnableAllFeaturesResponseFromJson(
@@ -682,6 +688,8 @@ PolicySummary _$PolicySummaryFromJson(Map<String, dynamic> json) {
 const _$PolicyTypeEnumMap = {
   PolicyType.serviceControlPolicy: 'SERVICE_CONTROL_POLICY',
   PolicyType.tagPolicy: 'TAG_POLICY',
+  PolicyType.backupPolicy: 'BACKUP_POLICY',
+  PolicyType.aiservicesOptOutPolicy: 'AISERVICES_OPT_OUT_POLICY',
 };
 
 PolicyTargetSummary _$PolicyTargetSummaryFromJson(Map<String, dynamic> json) {

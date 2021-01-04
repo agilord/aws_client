@@ -35,6 +35,15 @@ Map<String, dynamic> _$AssetToJson(Asset instance) {
   return val;
 }
 
+AudioMetadata _$AudioMetadataFromJson(Map<String, dynamic> json) {
+  return AudioMetadata(
+    codec: json['Codec'] as String,
+    durationMillis: json['DurationMillis'] as int,
+    numberOfChannels: json['NumberOfChannels'] as int,
+    sampleRate: json['SampleRate'] as int,
+  );
+}
+
 Beard _$BeardFromJson(Map<String, dynamic> json) {
   return Beard(
     confidence: (json['Confidence'] as num)?.toDouble(),
@@ -212,6 +221,13 @@ ContentModerationDetection _$ContentModerationDetectionFromJson(
         : ModerationLabel.fromJson(
             json['ModerationLabel'] as Map<String, dynamic>),
     timestamp: json['Timestamp'] as int,
+  );
+}
+
+CoversBodyPart _$CoversBodyPartFromJson(Map<String, dynamic> json) {
+  return CoversBodyPart(
+    confidence: (json['Confidence'] as num)?.toDouble(),
+    value: json['Value'] as bool,
   );
 }
 
@@ -425,6 +441,23 @@ DetectModerationLabelsResponse _$DetectModerationLabelsResponseFromJson(
   );
 }
 
+DetectProtectiveEquipmentResponse _$DetectProtectiveEquipmentResponseFromJson(
+    Map<String, dynamic> json) {
+  return DetectProtectiveEquipmentResponse(
+    persons: (json['Persons'] as List)
+        ?.map((e) => e == null
+            ? null
+            : ProtectiveEquipmentPerson.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    protectiveEquipmentModelVersion:
+        json['ProtectiveEquipmentModelVersion'] as String,
+    summary: json['Summary'] == null
+        ? null
+        : ProtectiveEquipmentSummary.fromJson(
+            json['Summary'] as Map<String, dynamic>),
+  );
+}
+
 Map<String, dynamic> _$DetectTextFiltersToJson(DetectTextFilters instance) {
   final val = <String, dynamic>{};
 
@@ -483,6 +516,26 @@ const _$EmotionNameEnumMap = {
   EmotionName.calm: 'CALM',
   EmotionName.unknown: 'UNKNOWN',
   EmotionName.fear: 'FEAR',
+};
+
+EquipmentDetection _$EquipmentDetectionFromJson(Map<String, dynamic> json) {
+  return EquipmentDetection(
+    boundingBox: json['BoundingBox'] == null
+        ? null
+        : BoundingBox.fromJson(json['BoundingBox'] as Map<String, dynamic>),
+    confidence: (json['Confidence'] as num)?.toDouble(),
+    coversBodyPart: json['CoversBodyPart'] == null
+        ? null
+        : CoversBodyPart.fromJson(
+            json['CoversBodyPart'] as Map<String, dynamic>),
+    type: _$enumDecodeNullable(_$ProtectiveEquipmentTypeEnumMap, json['Type']),
+  );
+}
+
+const _$ProtectiveEquipmentTypeEnumMap = {
+  ProtectiveEquipmentType.faceCover: 'FACE_COVER',
+  ProtectiveEquipmentType.handCover: 'HAND_COVER',
+  ProtectiveEquipmentType.headCover: 'HEAD_COVER',
 };
 
 EvaluationResult _$EvaluationResultFromJson(Map<String, dynamic> json) {
@@ -758,6 +811,35 @@ GetPersonTrackingResponse _$GetPersonTrackingResponseFromJson(
     videoMetadata: json['VideoMetadata'] == null
         ? null
         : VideoMetadata.fromJson(json['VideoMetadata'] as Map<String, dynamic>),
+  );
+}
+
+GetSegmentDetectionResponse _$GetSegmentDetectionResponseFromJson(
+    Map<String, dynamic> json) {
+  return GetSegmentDetectionResponse(
+    audioMetadata: (json['AudioMetadata'] as List)
+        ?.map((e) => e == null
+            ? null
+            : AudioMetadata.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    jobStatus: _$enumDecodeNullable(_$VideoJobStatusEnumMap, json['JobStatus']),
+    nextToken: json['NextToken'] as String,
+    segments: (json['Segments'] as List)
+        ?.map((e) => e == null
+            ? null
+            : SegmentDetection.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    selectedSegmentTypes: (json['SelectedSegmentTypes'] as List)
+        ?.map((e) => e == null
+            ? null
+            : SegmentTypeInfo.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    statusMessage: json['StatusMessage'] as String,
+    videoMetadata: (json['VideoMetadata'] as List)
+        ?.map((e) => e == null
+            ? null
+            : VideoMetadata.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
   );
 }
 
@@ -1166,6 +1248,10 @@ ProjectVersionDescription _$ProjectVersionDescriptionFromJson(
         ? null
         : EvaluationResult.fromJson(
             json['EvaluationResult'] as Map<String, dynamic>),
+    manifestSummary: json['ManifestSummary'] == null
+        ? null
+        : GroundTruthManifest.fromJson(
+            json['ManifestSummary'] as Map<String, dynamic>),
     minInferenceUnits: json['MinInferenceUnits'] as int,
     outputConfig: json['OutputConfig'] == null
         ? null
@@ -1183,6 +1269,76 @@ ProjectVersionDescription _$ProjectVersionDescriptionFromJson(
             json['TrainingDataResult'] as Map<String, dynamic>),
     trainingEndTimestamp:
         const UnixDateTimeConverter().fromJson(json['TrainingEndTimestamp']),
+  );
+}
+
+ProtectiveEquipmentBodyPart _$ProtectiveEquipmentBodyPartFromJson(
+    Map<String, dynamic> json) {
+  return ProtectiveEquipmentBodyPart(
+    confidence: (json['Confidence'] as num)?.toDouble(),
+    equipmentDetections: (json['EquipmentDetections'] as List)
+        ?.map((e) => e == null
+            ? null
+            : EquipmentDetection.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    name: _$enumDecodeNullable(_$BodyPartEnumMap, json['Name']),
+  );
+}
+
+const _$BodyPartEnumMap = {
+  BodyPart.face: 'FACE',
+  BodyPart.head: 'HEAD',
+  BodyPart.leftHand: 'LEFT_HAND',
+  BodyPart.rightHand: 'RIGHT_HAND',
+};
+
+ProtectiveEquipmentPerson _$ProtectiveEquipmentPersonFromJson(
+    Map<String, dynamic> json) {
+  return ProtectiveEquipmentPerson(
+    bodyParts: (json['BodyParts'] as List)
+        ?.map((e) => e == null
+            ? null
+            : ProtectiveEquipmentBodyPart.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    boundingBox: json['BoundingBox'] == null
+        ? null
+        : BoundingBox.fromJson(json['BoundingBox'] as Map<String, dynamic>),
+    confidence: (json['Confidence'] as num)?.toDouble(),
+    id: json['Id'] as int,
+  );
+}
+
+Map<String, dynamic> _$ProtectiveEquipmentSummarizationAttributesToJson(
+    ProtectiveEquipmentSummarizationAttributes instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MinConfidence', instance.minConfidence);
+  writeNotNull(
+      'RequiredEquipmentTypes',
+      instance.requiredEquipmentTypes
+          ?.map((e) => _$ProtectiveEquipmentTypeEnumMap[e])
+          ?.toList());
+  return val;
+}
+
+ProtectiveEquipmentSummary _$ProtectiveEquipmentSummaryFromJson(
+    Map<String, dynamic> json) {
+  return ProtectiveEquipmentSummary(
+    personsIndeterminate:
+        (json['PersonsIndeterminate'] as List)?.map((e) => e as int)?.toList(),
+    personsWithRequiredEquipment: (json['PersonsWithRequiredEquipment'] as List)
+        ?.map((e) => e as int)
+        ?.toList(),
+    personsWithoutRequiredEquipment:
+        (json['PersonsWithoutRequiredEquipment'] as List)
+            ?.map((e) => e as int)
+            ?.toList(),
   );
 }
 
@@ -1265,6 +1421,44 @@ SearchFacesResponse _$SearchFacesResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+SegmentDetection _$SegmentDetectionFromJson(Map<String, dynamic> json) {
+  return SegmentDetection(
+    durationMillis: json['DurationMillis'] as int,
+    durationSMPTE: json['DurationSMPTE'] as String,
+    endTimecodeSMPTE: json['EndTimecodeSMPTE'] as String,
+    endTimestampMillis: json['EndTimestampMillis'] as int,
+    shotSegment: json['ShotSegment'] == null
+        ? null
+        : ShotSegment.fromJson(json['ShotSegment'] as Map<String, dynamic>),
+    startTimecodeSMPTE: json['StartTimecodeSMPTE'] as String,
+    startTimestampMillis: json['StartTimestampMillis'] as int,
+    technicalCueSegment: json['TechnicalCueSegment'] == null
+        ? null
+        : TechnicalCueSegment.fromJson(
+            json['TechnicalCueSegment'] as Map<String, dynamic>),
+    type: _$enumDecodeNullable(_$SegmentTypeEnumMap, json['Type']),
+  );
+}
+
+const _$SegmentTypeEnumMap = {
+  SegmentType.technicalCue: 'TECHNICAL_CUE',
+  SegmentType.shot: 'SHOT',
+};
+
+SegmentTypeInfo _$SegmentTypeInfoFromJson(Map<String, dynamic> json) {
+  return SegmentTypeInfo(
+    modelVersion: json['ModelVersion'] as String,
+    type: _$enumDecodeNullable(_$SegmentTypeEnumMap, json['Type']),
+  );
+}
+
+ShotSegment _$ShotSegmentFromJson(Map<String, dynamic> json) {
+  return ShotSegment(
+    confidence: (json['Confidence'] as num)?.toDouble(),
+    index: json['Index'] as int,
+  );
+}
+
 Smile _$SmileFromJson(Map<String, dynamic> json) {
   return Smile(
     confidence: (json['Confidence'] as num)?.toDouble(),
@@ -1321,9 +1515,59 @@ StartProjectVersionResponse _$StartProjectVersionResponseFromJson(
   );
 }
 
+Map<String, dynamic> _$StartSegmentDetectionFiltersToJson(
+    StartSegmentDetectionFilters instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ShotFilter', instance.shotFilter?.toJson());
+  writeNotNull('TechnicalCueFilter', instance.technicalCueFilter?.toJson());
+  return val;
+}
+
+StartSegmentDetectionResponse _$StartSegmentDetectionResponseFromJson(
+    Map<String, dynamic> json) {
+  return StartSegmentDetectionResponse(
+    jobId: json['JobId'] as String,
+  );
+}
+
+Map<String, dynamic> _$StartShotDetectionFilterToJson(
+    StartShotDetectionFilter instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MinSegmentConfidence', instance.minSegmentConfidence);
+  return val;
+}
+
 StartStreamProcessorResponse _$StartStreamProcessorResponseFromJson(
     Map<String, dynamic> json) {
   return StartStreamProcessorResponse();
+}
+
+Map<String, dynamic> _$StartTechnicalCueDetectionFilterToJson(
+    StartTechnicalCueDetectionFilter instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('MinSegmentConfidence', instance.minSegmentConfidence);
+  return val;
 }
 
 Map<String, dynamic> _$StartTextDetectionFiltersToJson(
@@ -1455,6 +1699,19 @@ Sunglasses _$SunglassesFromJson(Map<String, dynamic> json) {
   );
 }
 
+TechnicalCueSegment _$TechnicalCueSegmentFromJson(Map<String, dynamic> json) {
+  return TechnicalCueSegment(
+    confidence: (json['Confidence'] as num)?.toDouble(),
+    type: _$enumDecodeNullable(_$TechnicalCueTypeEnumMap, json['Type']),
+  );
+}
+
+const _$TechnicalCueTypeEnumMap = {
+  TechnicalCueType.colorBars: 'ColorBars',
+  TechnicalCueType.endCredits: 'EndCredits',
+  TechnicalCueType.blackFrames: 'BlackFrames',
+};
+
 TestingData _$TestingDataFromJson(Map<String, dynamic> json) {
   return TestingData(
     assets: (json['Assets'] as List)
@@ -1487,6 +1744,9 @@ TestingDataResult _$TestingDataResultFromJson(Map<String, dynamic> json) {
     output: json['Output'] == null
         ? null
         : TestingData.fromJson(json['Output'] as Map<String, dynamic>),
+    validation: json['Validation'] == null
+        ? null
+        : ValidationData.fromJson(json['Validation'] as Map<String, dynamic>),
   );
 }
 
@@ -1547,6 +1807,9 @@ TrainingDataResult _$TrainingDataResultFromJson(Map<String, dynamic> json) {
     output: json['Output'] == null
         ? null
         : TrainingData.fromJson(json['Output'] as Map<String, dynamic>),
+    validation: json['Validation'] == null
+        ? null
+        : ValidationData.fromJson(json['Validation'] as Map<String, dynamic>),
   );
 }
 
@@ -1570,6 +1833,15 @@ const _$ReasonEnumMap = {
   Reason.smallBoundingBox: 'SMALL_BOUNDING_BOX',
   Reason.lowFaceQuality: 'LOW_FACE_QUALITY',
 };
+
+ValidationData _$ValidationDataFromJson(Map<String, dynamic> json) {
+  return ValidationData(
+    assets: (json['Assets'] as List)
+        ?.map(
+            (e) => e == null ? null : Asset.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
 
 Map<String, dynamic> _$VideoToJson(Video instance) {
   final val = <String, dynamic>{};

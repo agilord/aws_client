@@ -264,10 +264,23 @@ class IoT {
   /// Parameter [comment] :
   /// An optional comment string describing why the job was associated with the
   /// targets.
+  ///
+  /// Parameter [namespaceId] :
+  /// The namespace used to indicate that a job is a customer-managed job.
+  ///
+  /// When you specify a value for this parameter, AWS IoT Core sends jobs
+  /// notifications to MQTT topics that contain the value in the following
+  /// format.
+  ///
+  /// <code>$aws/things/<i>THING_NAME</i>/jobs/<i>JOB_ID</i>/notify-namespace-<i>NAMESPACE_ID</i>/</code>
+  /// <note>
+  /// The <code>namespaceId</code> feature is in public preview.
+  /// </note>
   Future<AssociateTargetsWithJobResponse> associateTargetsWithJob({
     @_s.required String jobId,
     @_s.required List<String> targets,
     String comment,
+    String namespaceId,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
@@ -295,6 +308,20 @@ class IoT {
       comment,
       r'''[^\p{C}]+''',
     );
+    _s.validateStringLength(
+      'namespaceId',
+      namespaceId,
+      1,
+      64,
+    );
+    _s.validateStringPattern(
+      'namespaceId',
+      namespaceId,
+      r'''[a-zA-Z0-9_-]+''',
+    );
+    final $query = <String, List<String>>{
+      if (namespaceId != null) 'namespaceId': [namespaceId],
+    };
     final $payload = <String, dynamic>{
       'targets': targets,
       if (comment != null) 'comment': comment,
@@ -303,6 +330,7 @@ class IoT {
       payload: $payload,
       method: 'POST',
       requestUri: '/jobs/${Uri.encodeComponent(jobId)}/targets',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return AssociateTargetsWithJobResponse.fromJson(response);
@@ -323,7 +351,7 @@ class IoT {
   ///
   /// Parameter [target] :
   /// The <a
-  /// href="https://docs.aws.amazon.com/iot/latest/developerguide/iot-security-identity.html">identity</a>
+  /// href="https://docs.aws.amazon.com/iot/latest/developerguide/security-iam.html">identity</a>
   /// to which the policy is attached.
   Future<void> attachPolicy({
     @_s.required String policyName,
@@ -544,7 +572,7 @@ class IoT {
   }
 
   /// Cancels an audit that is in progress. The audit can be either scheduled or
-  /// on-demand. If the audit is not in progress, an "InvalidRequestException"
+  /// on demand. If the audit isn't in progress, an "InvalidRequestException"
   /// occurs.
   ///
   /// May throw [ResourceNotFoundException].
@@ -628,6 +656,42 @@ class IoT {
           '/cancel-certificate-transfer/${Uri.encodeComponent(certificateId)}',
       exceptionFnMap: _exceptionFns,
     );
+  }
+
+  /// Cancels a Device Defender ML Detect mitigation action.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [taskId] :
+  /// The unique identifier of the task.
+  Future<void> cancelDetectMitigationActionsTask({
+    @_s.required String taskId,
+  }) async {
+    ArgumentError.checkNotNull(taskId, 'taskId');
+    _s.validateStringLength(
+      'taskId',
+      taskId,
+      1,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'taskId',
+      taskId,
+      r'''[a-zA-Z0-9_-]+''',
+      isRequired: true,
+    );
+    final response = await _protocol.send(
+      payload: null,
+      method: 'PUT',
+      requestUri:
+          '/detect/mitigationactions/tasks/${Uri.encodeComponent(taskId)}/cancel',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CancelDetectMitigationActionsTaskResponse.fromJson(response);
   }
 
   /// Cancels a job.
@@ -860,6 +924,79 @@ class IoT {
     return ConfirmTopicRuleDestinationResponse.fromJson(response);
   }
 
+  /// Creates a Device Defender audit suppression.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceAlreadyExistsException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalFailureException].
+  /// May throw [LimitExceededException].
+  ///
+  /// Parameter [clientRequestToken] :
+  /// The epoch timestamp in seconds at which this suppression expires.
+  ///
+  /// Parameter [description] :
+  /// The description of the audit suppression.
+  ///
+  /// Parameter [expirationDate] :
+  /// The epoch timestamp in seconds at which this suppression expires.
+  ///
+  /// Parameter [suppressIndefinitely] :
+  /// Indicates whether a suppression should exist indefinitely or not.
+  Future<void> createAuditSuppression({
+    @_s.required String checkName,
+    @_s.required String clientRequestToken,
+    @_s.required ResourceIdentifier resourceIdentifier,
+    String description,
+    DateTime expirationDate,
+    bool suppressIndefinitely,
+  }) async {
+    ArgumentError.checkNotNull(checkName, 'checkName');
+    ArgumentError.checkNotNull(clientRequestToken, 'clientRequestToken');
+    _s.validateStringLength(
+      'clientRequestToken',
+      clientRequestToken,
+      1,
+      64,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'clientRequestToken',
+      clientRequestToken,
+      r'''^[a-zA-Z0-9-_]+$''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(resourceIdentifier, 'resourceIdentifier');
+    _s.validateStringLength(
+      'description',
+      description,
+      0,
+      1000,
+    );
+    _s.validateStringPattern(
+      'description',
+      description,
+      r'''[\p{Graph}\x20]*''',
+    );
+    final $payload = <String, dynamic>{
+      'checkName': checkName,
+      'clientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
+      'resourceIdentifier': resourceIdentifier,
+      if (description != null) 'description': description,
+      if (expirationDate != null)
+        'expirationDate': unixTimestampToJson(expirationDate),
+      if (suppressIndefinitely != null)
+        'suppressIndefinitely': suppressIndefinitely,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/audit/suppressions/create',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateAuditSuppressionResponse.fromJson(response);
+  }
+
   /// Creates an authorizer.
   ///
   /// May throw [ResourceAlreadyExistsException].
@@ -883,6 +1020,18 @@ class IoT {
   /// Parameter [status] :
   /// The status of the create authorizer request.
   ///
+  /// Parameter [tags] :
+  /// Metadata which can be used to manage the custom authorizer.
+  /// <note>
+  /// For URI Request parameters use format: ...key1=value1&amp;key2=value2...
+  ///
+  /// For the CLI command-line parameter use format: &amp;&amp;tags
+  /// "key1=value1&amp;key2=value2..."
+  ///
+  /// For the cli-input-json file use format: "tags":
+  /// "key1=value1&amp;key2=value2..."
+  /// </note>
+  ///
   /// Parameter [tokenKeyName] :
   /// The name of the token key used to extract the token from the HTTP headers.
   ///
@@ -894,10 +1043,18 @@ class IoT {
     @_s.required String authorizerName,
     bool signingDisabled,
     AuthorizerStatus status,
+    List<Tag> tags,
     String tokenKeyName,
     Map<String, String> tokenSigningPublicKeys,
   }) async {
     ArgumentError.checkNotNull(authorizerFunctionArn, 'authorizerFunctionArn');
+    _s.validateStringLength(
+      'authorizerFunctionArn',
+      authorizerFunctionArn,
+      0,
+      2048,
+      isRequired: true,
+    );
     ArgumentError.checkNotNull(authorizerName, 'authorizerName');
     _s.validateStringLength(
       'authorizerName',
@@ -927,6 +1084,7 @@ class IoT {
       'authorizerFunctionArn': authorizerFunctionArn,
       if (signingDisabled != null) 'signingDisabled': signingDisabled,
       if (status != null) 'status': status.toValue(),
+      if (tags != null) 'tags': tags,
       if (tokenKeyName != null) 'tokenKeyName': tokenKeyName,
       if (tokenSigningPublicKeys != null)
         'tokenSigningPublicKeys': tokenSigningPublicKeys,
@@ -1074,6 +1232,100 @@ class IoT {
     return CreateCertificateFromCsrResponse.fromJson(response);
   }
 
+  /// Use this API to define a Custom Metric published by your devices to Device
+  /// Defender.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [LimitExceededException].
+  /// May throw [ResourceAlreadyExistsException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [clientRequestToken] :
+  /// Each custom metric must have a unique client request token. If you try to
+  /// create a new custom metric that already exists with a different token, an
+  /// exception occurs. If you omit this value, AWS SDKs will automatically
+  /// generate a unique client request.
+  ///
+  /// Parameter [metricName] :
+  /// The name of the custom metric. This will be used in the metric report
+  /// submitted from the device/thing. Shouldn't begin with <code>aws:</code>.
+  /// Cannot be updated once defined.
+  ///
+  /// Parameter [metricType] :
+  /// The type of the custom metric. Types include <code>string-list</code>,
+  /// <code>ip-address-list</code>, <code>number-list</code>, and
+  /// <code>number</code>.
+  ///
+  /// Parameter [displayName] :
+  /// Field represents a friendly name in the console for the custom metric; it
+  /// doesn't have to be unique. Don't use this name as the metric identifier in
+  /// the device metric report. Can be updated once defined.
+  ///
+  /// Parameter [tags] :
+  /// Metadata that can be used to manage the custom metric.
+  Future<CreateCustomMetricResponse> createCustomMetric({
+    @_s.required String clientRequestToken,
+    @_s.required String metricName,
+    @_s.required CustomMetricType metricType,
+    String displayName,
+    List<Tag> tags,
+  }) async {
+    ArgumentError.checkNotNull(clientRequestToken, 'clientRequestToken');
+    _s.validateStringLength(
+      'clientRequestToken',
+      clientRequestToken,
+      1,
+      64,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'clientRequestToken',
+      clientRequestToken,
+      r'''^[a-zA-Z0-9-_]+$''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(metricName, 'metricName');
+    _s.validateStringLength(
+      'metricName',
+      metricName,
+      1,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'metricName',
+      metricName,
+      r'''[a-zA-Z0-9:_-]+''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(metricType, 'metricType');
+    _s.validateStringLength(
+      'displayName',
+      displayName,
+      0,
+      128,
+    );
+    _s.validateStringPattern(
+      'displayName',
+      displayName,
+      r'''[\p{Graph}\x20]*''',
+    );
+    final $payload = <String, dynamic>{
+      'clientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
+      'metricType': metricType?.toValue() ?? '',
+      if (displayName != null) 'displayName': displayName,
+      if (tags != null) 'tags': tags,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/custom-metric/${Uri.encodeComponent(metricName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return CreateCustomMetricResponse.fromJson(response);
+  }
+
   /// Create a dimension that you can use to limit the scope of a metric used in
   /// a security profile for AWS IoT Device Defender. For example, using a
   /// <code>TOPIC_FILTER</code> dimension, you can narrow down the scope of the
@@ -1191,6 +1443,21 @@ class IoT {
   ///
   /// Parameter [serviceType] :
   /// The type of service delivered by the endpoint.
+  /// <note>
+  /// AWS IoT Core currently supports only the <code>DATA</code> service type.
+  /// </note>
+  ///
+  /// Parameter [tags] :
+  /// Metadata which can be used to manage the domain configuration.
+  /// <note>
+  /// For URI Request parameters use format: ...key1=value1&amp;key2=value2...
+  ///
+  /// For the CLI command-line parameter use format: &amp;&amp;tags
+  /// "key1=value1&amp;key2=value2..."
+  ///
+  /// For the cli-input-json file use format: "tags":
+  /// "key1=value1&amp;key2=value2..."
+  /// </note>
   ///
   /// Parameter [validationCertificateArn] :
   /// The certificate used to validate the server certificate and prove domain
@@ -1202,6 +1469,7 @@ class IoT {
     String domainName,
     List<String> serverCertificateArns,
     ServiceType serviceType,
+    List<Tag> tags,
     String validationCertificateArn,
   }) async {
     ArgumentError.checkNotNull(
@@ -1234,7 +1502,7 @@ class IoT {
     _s.validateStringPattern(
       'validationCertificateArn',
       validationCertificateArn,
-      r'''arn:aws:acm:[a-z]{2}-(gov-)?[a-z]{4,9}-\d{1}:\d{12}:certificate/?[a-zA-Z0-9/-]+''',
+      r'''arn:aws(-cn|-us-gov|-iso-b|-iso)?:acm:[a-z]{2}-(gov-|iso-|isob-)?[a-z]{4,9}-\d{1}:\d{12}:certificate/[a-zA-Z0-9/-]+''',
     );
     final $payload = <String, dynamic>{
       if (authorizerConfig != null) 'authorizerConfig': authorizerConfig,
@@ -1242,6 +1510,7 @@ class IoT {
       if (serverCertificateArns != null)
         'serverCertificateArns': serverCertificateArns,
       if (serviceType != null) 'serviceType': serviceType.toValue(),
+      if (tags != null) 'tags': tags,
       if (validationCertificateArn != null)
         'validationCertificateArn': validationCertificateArn,
     };
@@ -1395,6 +1664,18 @@ class IoT {
   /// Parameter [jobExecutionsRolloutConfig] :
   /// Allows you to create a staged rollout of the job.
   ///
+  /// Parameter [namespaceId] :
+  /// The namespace used to indicate that a job is a customer-managed job.
+  ///
+  /// When you specify a value for this parameter, AWS IoT Core sends jobs
+  /// notifications to MQTT topics that contain the value in the following
+  /// format.
+  ///
+  /// <code>$aws/things/<i>THING_NAME</i>/jobs/<i>JOB_ID</i>/notify-namespace-<i>NAMESPACE_ID</i>/</code>
+  /// <note>
+  /// The <code>namespaceId</code> feature is in public preview.
+  /// </note>
+  ///
   /// Parameter [presignedUrlConfig] :
   /// Configuration information for pre-signed S3 URLs.
   ///
@@ -1423,6 +1704,7 @@ class IoT {
     String document,
     String documentSource,
     JobExecutionsRolloutConfig jobExecutionsRolloutConfig,
+    String namespaceId,
     PresignedUrlConfig presignedUrlConfig,
     List<Tag> tags,
     TargetSelection targetSelection,
@@ -1466,6 +1748,17 @@ class IoT {
       1,
       1350,
     );
+    _s.validateStringLength(
+      'namespaceId',
+      namespaceId,
+      1,
+      64,
+    );
+    _s.validateStringPattern(
+      'namespaceId',
+      namespaceId,
+      r'''[a-zA-Z0-9_-]+''',
+    );
     final $payload = <String, dynamic>{
       'targets': targets,
       if (abortConfig != null) 'abortConfig': abortConfig,
@@ -1474,6 +1767,7 @@ class IoT {
       if (documentSource != null) 'documentSource': documentSource,
       if (jobExecutionsRolloutConfig != null)
         'jobExecutionsRolloutConfig': jobExecutionsRolloutConfig,
+      if (namespaceId != null) 'namespaceId': namespaceId,
       if (presignedUrlConfig != null) 'presignedUrlConfig': presignedUrlConfig,
       if (tags != null) 'tags': tags,
       if (targetSelection != null) 'targetSelection': targetSelection.toValue(),
@@ -1522,8 +1816,10 @@ class IoT {
   }
 
   /// Defines an action that can be applied to audit findings by using
-  /// StartAuditMitigationActionsTask. Each mitigation action can apply only one
-  /// type of change.
+  /// StartAuditMitigationActionsTask. Only certain types of mitigation actions
+  /// can be applied to specific check names. For more information, see <a
+  /// href="https://docs.aws.amazon.com/iot/latest/developerguide/device-defender-mitigation-actions.html">Mitigation
+  /// actions</a>. Each mitigation action can apply only one type of change.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ResourceAlreadyExistsException].
@@ -1605,19 +1901,30 @@ class IoT {
   /// The ID of the OTA update to be created.
   ///
   /// Parameter [roleArn] :
-  /// The IAM role that allows access to the AWS IoT Jobs service.
+  /// The IAM role that grants AWS IoT access to the Amazon S3, AWS IoT jobs and
+  /// AWS Code Signing resources to create an OTA update job.
   ///
   /// Parameter [targets] :
-  /// The targeted devices to receive OTA updates.
+  /// The devices targeted to receive OTA updates.
   ///
   /// Parameter [additionalParameters] :
   /// A list of additional OTA update parameters which are name-value pairs.
+  ///
+  /// Parameter [awsJobAbortConfig] :
+  /// The criteria that determine when and how a job abort takes place.
   ///
   /// Parameter [awsJobExecutionsRolloutConfig] :
   /// Configuration for the rollout of OTA updates.
   ///
   /// Parameter [awsJobPresignedUrlConfig] :
   /// Configuration information for pre-signed URLs.
+  ///
+  /// Parameter [awsJobTimeoutConfig] :
+  /// Specifies the amount of time each device has to finish its execution of
+  /// the job. A timer is started when the job execution status is set to
+  /// <code>IN_PROGRESS</code>. If the job execution status is not set to
+  /// another terminal state before the timer expires, it will be automatically
+  /// set to <code>TIMED_OUT</code>.
   ///
   /// Parameter [description] :
   /// The description of the OTA update.
@@ -1644,8 +1951,10 @@ class IoT {
     @_s.required String roleArn,
     @_s.required List<String> targets,
     Map<String, String> additionalParameters,
+    AwsJobAbortConfig awsJobAbortConfig,
     AwsJobExecutionsRolloutConfig awsJobExecutionsRolloutConfig,
     AwsJobPresignedUrlConfig awsJobPresignedUrlConfig,
+    AwsJobTimeoutConfig awsJobTimeoutConfig,
     String description,
     List<Protocol> protocols,
     List<Tag> tags,
@@ -1692,10 +2001,13 @@ class IoT {
       'targets': targets,
       if (additionalParameters != null)
         'additionalParameters': additionalParameters,
+      if (awsJobAbortConfig != null) 'awsJobAbortConfig': awsJobAbortConfig,
       if (awsJobExecutionsRolloutConfig != null)
         'awsJobExecutionsRolloutConfig': awsJobExecutionsRolloutConfig,
       if (awsJobPresignedUrlConfig != null)
         'awsJobPresignedUrlConfig': awsJobPresignedUrlConfig,
+      if (awsJobTimeoutConfig != null)
+        'awsJobTimeoutConfig': awsJobTimeoutConfig,
       if (description != null) 'description': description,
       if (protocols != null)
         'protocols': protocols.map((e) => e?.toValue() ?? '').toList(),
@@ -1732,9 +2044,22 @@ class IoT {
   ///
   /// Parameter [policyName] :
   /// The policy name.
+  ///
+  /// Parameter [tags] :
+  /// Metadata which can be used to manage the policy.
+  /// <note>
+  /// For URI Request parameters use format: ...key1=value1&amp;key2=value2...
+  ///
+  /// For the CLI command-line parameter use format: &amp;&amp;tags
+  /// "key1=value1&amp;key2=value2..."
+  ///
+  /// For the cli-input-json file use format: "tags":
+  /// "key1=value1&amp;key2=value2..."
+  /// </note>
   Future<CreatePolicyResponse> createPolicy({
     @_s.required String policyDocument,
     @_s.required String policyName,
+    List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(policyDocument, 'policyDocument');
     ArgumentError.checkNotNull(policyName, 'policyName');
@@ -1753,6 +2078,7 @@ class IoT {
     );
     final $payload = <String, dynamic>{
       'policyDocument': policyDocument,
+      if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -1893,6 +2219,9 @@ class IoT {
   /// Parameter [enabled] :
   /// True to enable the fleet provisioning template, otherwise false.
   ///
+  /// Parameter [preProvisioningHook] :
+  /// Creates a pre-provisioning hook template.
+  ///
   /// Parameter [tags] :
   /// Metadata which can be used to manage the fleet provisioning template.
   /// <note>
@@ -1910,6 +2239,7 @@ class IoT {
     @_s.required String templateName,
     String description,
     bool enabled,
+    ProvisioningHook preProvisioningHook,
     List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(provisioningRoleArn, 'provisioningRoleArn');
@@ -1952,6 +2282,8 @@ class IoT {
       'templateName': templateName,
       if (description != null) 'description': description,
       if (enabled != null) 'enabled': enabled,
+      if (preProvisioningHook != null)
+        'preProvisioningHook': preProvisioningHook,
       if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
@@ -2038,10 +2370,23 @@ class IoT {
   ///
   /// Parameter [credentialDurationSeconds] :
   /// How long (in seconds) the credentials will be valid.
+  ///
+  /// Parameter [tags] :
+  /// Metadata which can be used to manage the role alias.
+  /// <note>
+  /// For URI Request parameters use format: ...key1=value1&amp;key2=value2...
+  ///
+  /// For the CLI command-line parameter use format: &amp;&amp;tags
+  /// "key1=value1&amp;key2=value2..."
+  ///
+  /// For the cli-input-json file use format: "tags":
+  /// "key1=value1&amp;key2=value2..."
+  /// </note>
   Future<CreateRoleAliasResponse> createRoleAlias({
     @_s.required String roleAlias,
     @_s.required String roleArn,
     int credentialDurationSeconds,
+    List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(roleAlias, 'roleAlias');
     _s.validateStringLength(
@@ -2075,6 +2420,7 @@ class IoT {
       'roleArn': roleArn,
       if (credentialDurationSeconds != null)
         'credentialDurationSeconds': credentialDurationSeconds,
+      if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -2094,9 +2440,9 @@ class IoT {
   /// May throw [LimitExceededException].
   ///
   /// Parameter [frequency] :
-  /// How often the scheduled audit takes place. Can be one of "DAILY",
-  /// "WEEKLY", "BIWEEKLY" or "MONTHLY". The start time of each audit is
-  /// determined by the system.
+  /// How often the scheduled audit takes place, either <code>DAILY</code>,
+  /// <code>WEEKLY</code>, <code>BIWEEKLY</code> or <code>MONTHLY</code>. The
+  /// start time of each audit is determined by the system.
   ///
   /// Parameter [scheduledAuditName] :
   /// The name you want to give to the scheduled audit. (Max. 128 chars)
@@ -2110,16 +2456,18 @@ class IoT {
   /// enabled.)
   ///
   /// Parameter [dayOfMonth] :
-  /// The day of the month on which the scheduled audit takes place. Can be "1"
-  /// through "31" or "LAST". This field is required if the "frequency"
-  /// parameter is set to "MONTHLY". If days 29-31 are specified, and the month
-  /// does not have that many days, the audit takes place on the "LAST" day of
-  /// the month.
+  /// The day of the month on which the scheduled audit takes place. This can be
+  /// "1" through "31" or "LAST". This field is required if the "frequency"
+  /// parameter is set to <code>MONTHLY</code>. If days 29 to 31 are specified,
+  /// and the month doesn't have that many days, the audit takes place on the
+  /// <code>LAST</code> day of the month.
   ///
   /// Parameter [dayOfWeek] :
-  /// The day of the week on which the scheduled audit takes place. Can be one
-  /// of "SUN", "MON", "TUE", "WED", "THU", "FRI", or "SAT". This field is
-  /// required if the "frequency" parameter is set to "WEEKLY" or "BIWEEKLY".
+  /// The day of the week on which the scheduled audit takes place, either
+  /// <code>SUN</code>, <code>MON</code>, <code>TUE</code>, <code>WED</code>,
+  /// <code>THU</code>, <code>FRI</code>, or <code>SAT</code>. This field is
+  /// required if the <code>frequency</code> parameter is set to
+  /// <code>WEEKLY</code> or <code>BIWEEKLY</code>.
   ///
   /// Parameter [tags] :
   /// Metadata that can be used to manage the scheduled audit.
@@ -2180,17 +2528,20 @@ class IoT {
   /// The name you are giving to the security profile.
   ///
   /// Parameter [additionalMetricsToRetain] :
+  /// <i>Please use
+  /// <a>CreateSecurityProfileRequest$additionalMetricsToRetainV2</a>
+  /// instead.</i>
+  ///
   /// A list of metrics whose data is retained (stored). By default, data is
   /// retained for any metric used in the profile's <code>behaviors</code>, but
-  /// it is also retained for any metric specified here.
-  ///
-  /// <b>Note:</b> This API field is deprecated. Please use
-  /// <a>CreateSecurityProfileRequest$additionalMetricsToRetainV2</a> instead.
+  /// it is also retained for any metric specified here. Can be used with custom
+  /// metrics; cannot be used with dimensions.
   ///
   /// Parameter [additionalMetricsToRetainV2] :
   /// A list of metrics whose data is retained (stored). By default, data is
   /// retained for any metric used in the profile's <code>behaviors</code>, but
-  /// it is also retained for any metric specified here.
+  /// it is also retained for any metric specified here. Can be used with custom
+  /// metrics; cannot be used with dimensions.
   ///
   /// Parameter [alertTargets] :
   /// Specifies the destinations to which alerts are sent. (Alerts are always
@@ -2367,6 +2718,10 @@ class IoT {
   ///
   /// Parameter [thingName] :
   /// The name of the thing to create.
+  ///
+  /// You can't change a thing's name after you create it. To change a thing's
+  /// name, you must create a new thing, give it the new name, and then delete
+  /// the old thing.
   ///
   /// Parameter [attributePayload] :
   /// The attribute payload, which consists of up to three name/value pairs in a
@@ -2671,6 +3026,30 @@ class IoT {
     return DeleteAccountAuditConfigurationResponse.fromJson(response);
   }
 
+  /// Deletes a Device Defender audit suppression.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalFailureException].
+  Future<void> deleteAuditSuppression({
+    @_s.required String checkName,
+    @_s.required ResourceIdentifier resourceIdentifier,
+  }) async {
+    ArgumentError.checkNotNull(checkName, 'checkName');
+    ArgumentError.checkNotNull(resourceIdentifier, 'resourceIdentifier');
+    final $payload = <String, dynamic>{
+      'checkName': checkName,
+      'resourceIdentifier': resourceIdentifier,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/audit/suppressions/delete',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DeleteAuditSuppressionResponse.fromJson(response);
+  }
+
   /// Deletes an authorizer.
   ///
   /// May throw [DeleteConflictException].
@@ -2849,6 +3228,47 @@ class IoT {
     );
   }
 
+  /// <note>
+  /// Before you can delete a custom metric, you must first remove the custom
+  /// metric from all security profiles it's a part of. The security profile
+  /// associated with the custom metric can be found using the <a
+  /// href="https://docs.aws.amazon.com/iot/latest/apireference/API_ListSecurityProfiles.html">ListSecurityProfiles</a>
+  /// API with <code>metricName</code> set to your custom metric name.
+  /// </note>
+  /// Deletes a Device Defender detect custom metric.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [metricName] :
+  /// The name of the custom metric.
+  Future<void> deleteCustomMetric({
+    @_s.required String metricName,
+  }) async {
+    ArgumentError.checkNotNull(metricName, 'metricName');
+    _s.validateStringLength(
+      'metricName',
+      metricName,
+      1,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'metricName',
+      metricName,
+      r'''[a-zA-Z0-9:_-]+''',
+      isRequired: true,
+    );
+    final response = await _protocol.send(
+      payload: null,
+      method: 'DELETE',
+      requestUri: '/custom-metric/${Uri.encodeComponent(metricName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DeleteCustomMetricResponse.fromJson(response);
+  }
+
   /// Removes the specified dimension from your AWS account.
   ///
   /// May throw [InternalFailureException].
@@ -3007,9 +3427,22 @@ class IoT {
   /// execution status. Use caution and ensure that each device executing a job
   /// which is deleted is able to recover to a valid state.
   /// </note>
+  ///
+  /// Parameter [namespaceId] :
+  /// The namespace used to indicate that a job is a customer-managed job.
+  ///
+  /// When you specify a value for this parameter, AWS IoT Core sends jobs
+  /// notifications to MQTT topics that contain the value in the following
+  /// format.
+  ///
+  /// <code>$aws/things/<i>THING_NAME</i>/jobs/<i>JOB_ID</i>/notify-namespace-<i>NAMESPACE_ID</i>/</code>
+  /// <note>
+  /// The <code>namespaceId</code> feature is in public preview.
+  /// </note>
   Future<void> deleteJob({
     @_s.required String jobId,
     bool force,
+    String namespaceId,
   }) async {
     ArgumentError.checkNotNull(jobId, 'jobId');
     _s.validateStringLength(
@@ -3025,8 +3458,20 @@ class IoT {
       r'''[a-zA-Z0-9_-]+''',
       isRequired: true,
     );
+    _s.validateStringLength(
+      'namespaceId',
+      namespaceId,
+      1,
+      64,
+    );
+    _s.validateStringPattern(
+      'namespaceId',
+      namespaceId,
+      r'''[a-zA-Z0-9_-]+''',
+    );
     final $query = <String, List<String>>{
       if (force != null) 'force': [force.toString()],
+      if (namespaceId != null) 'namespaceId': [namespaceId],
     };
     await _protocol.send(
       payload: null,
@@ -3071,11 +3516,24 @@ class IoT {
   /// Use caution and ensure that the device is able to recover to a valid
   /// state.
   /// </note>
+  ///
+  /// Parameter [namespaceId] :
+  /// The namespace used to indicate that a job is a customer-managed job.
+  ///
+  /// When you specify a value for this parameter, AWS IoT Core sends jobs
+  /// notifications to MQTT topics that contain the value in the following
+  /// format.
+  ///
+  /// <code>$aws/things/<i>THING_NAME</i>/jobs/<i>JOB_ID</i>/notify-namespace-<i>NAMESPACE_ID</i>/</code>
+  /// <note>
+  /// The <code>namespaceId</code> feature is in public preview.
+  /// </note>
   Future<void> deleteJobExecution({
     @_s.required int executionNumber,
     @_s.required String jobId,
     @_s.required String thingName,
     bool force,
+    String namespaceId,
   }) async {
     ArgumentError.checkNotNull(executionNumber, 'executionNumber');
     ArgumentError.checkNotNull(jobId, 'jobId');
@@ -3106,8 +3564,20 @@ class IoT {
       r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
+    _s.validateStringLength(
+      'namespaceId',
+      namespaceId,
+      1,
+      64,
+    );
+    _s.validateStringPattern(
+      'namespaceId',
+      namespaceId,
+      r'''[a-zA-Z0-9_-]+''',
+    );
     final $query = <String, List<String>>{
       if (force != null) 'force': [force.toString()],
+      if (namespaceId != null) 'namespaceId': [namespaceId],
     };
     await _protocol.send(
       payload: null,
@@ -3165,7 +3635,7 @@ class IoT {
   /// May throw [VersionConflictException].
   ///
   /// Parameter [otaUpdateId] :
-  /// The OTA update ID to delete.
+  /// The ID of the OTA update to delete.
   ///
   /// Parameter [deleteStream] :
   /// Specifies if the stream associated with an OTA update should be deleted
@@ -3173,7 +3643,7 @@ class IoT {
   ///
   /// Parameter [forceDeleteAWSJob] :
   /// Specifies if the AWS Job associated with the OTA update should be deleted
-  /// with the OTA update is deleted.
+  /// when the OTA update is deleted.
   Future<void> deleteOTAUpdate({
     @_s.required String otaUpdateId,
     bool deleteStream,
@@ -3315,6 +3785,7 @@ class IoT {
   /// May throw [ResourceNotFoundException].
   /// May throw [DeleteConflictException].
   /// May throw [ThrottlingException].
+  /// May throw [ConflictingResourceUpdateException].
   /// May throw [UnauthorizedException].
   ///
   /// Parameter [templateName] :
@@ -3353,6 +3824,7 @@ class IoT {
   /// May throw [ThrottlingException].
   /// May throw [ResourceNotFoundException].
   /// May throw [UnauthorizedException].
+  /// May throw [ConflictingResourceUpdateException].
   /// May throw [DeleteConflictException].
   ///
   /// Parameter [templateName] :
@@ -3858,8 +4330,8 @@ class IoT {
   }
 
   /// Gets information about a single audit finding. Properties include the
-  /// reason for noncompliance, the severity of the issue, and when the audit
-  /// that returned the finding was started.
+  /// reason for noncompliance, the severity of the issue, and the start time
+  /// when the audit that returned the finding.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [InvalidRequestException].
@@ -3933,6 +4405,31 @@ class IoT {
       exceptionFnMap: _exceptionFns,
     );
     return DescribeAuditMitigationActionsTaskResponse.fromJson(response);
+  }
+
+  /// Gets information about a Device Defender audit suppression.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalFailureException].
+  Future<DescribeAuditSuppressionResponse> describeAuditSuppression({
+    @_s.required String checkName,
+    @_s.required ResourceIdentifier resourceIdentifier,
+  }) async {
+    ArgumentError.checkNotNull(checkName, 'checkName');
+    ArgumentError.checkNotNull(resourceIdentifier, 'resourceIdentifier');
+    final $payload = <String, dynamic>{
+      'checkName': checkName,
+      'resourceIdentifier': resourceIdentifier,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/audit/suppressions/describe',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeAuditSuppressionResponse.fromJson(response);
   }
 
   /// Gets information about a Device Defender audit.
@@ -4117,6 +4614,41 @@ class IoT {
     return DescribeCertificateResponse.fromJson(response);
   }
 
+  /// Gets information about a Device Defender detect custom metric.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [metricName] :
+  /// The name of the custom metric.
+  Future<DescribeCustomMetricResponse> describeCustomMetric({
+    @_s.required String metricName,
+  }) async {
+    ArgumentError.checkNotNull(metricName, 'metricName');
+    _s.validateStringLength(
+      'metricName',
+      metricName,
+      1,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'metricName',
+      metricName,
+      r'''[a-zA-Z0-9:_-]+''',
+      isRequired: true,
+    );
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/custom-metric/${Uri.encodeComponent(metricName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeCustomMetricResponse.fromJson(response);
+  }
+
   /// Describes the default authorizer.
   ///
   /// May throw [ResourceNotFoundException].
@@ -4133,6 +4665,43 @@ class IoT {
       exceptionFnMap: _exceptionFns,
     );
     return DescribeDefaultAuthorizerResponse.fromJson(response);
+  }
+
+  /// Gets information about a Device Defender ML Detect mitigation action.
+  ///
+  /// May throw [ResourceNotFoundException].
+  /// May throw [InvalidRequestException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [taskId] :
+  /// The unique identifier of the task.
+  Future<DescribeDetectMitigationActionsTaskResponse>
+      describeDetectMitigationActionsTask({
+    @_s.required String taskId,
+  }) async {
+    ArgumentError.checkNotNull(taskId, 'taskId');
+    _s.validateStringLength(
+      'taskId',
+      taskId,
+      1,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'taskId',
+      taskId,
+      r'''[a-zA-Z0-9_-]+''',
+      isRequired: true,
+    );
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri:
+          '/detect/mitigationactions/tasks/${Uri.encodeComponent(taskId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return DescribeDetectMitigationActionsTaskResponse.fromJson(response);
   }
 
   /// Provides details about a dimension that is defined in your AWS account.
@@ -4178,6 +4747,7 @@ class IoT {
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [ThrottlingException].
+  /// May throw [InvalidRequestException].
   /// May throw [UnauthorizedException].
   /// May throw [ServiceUnavailableException].
   /// May throw [InternalFailureException].
@@ -4883,8 +5453,11 @@ class IoT {
   /// Parameter [principal] :
   /// The principal.
   ///
-  /// If the principal is a certificate, specify the certificate ARN. If the
-  /// principal is an Amazon Cognito identity, specify the identity ID.
+  /// Valid principals are CertificateArn
+  /// (arn:aws:iot:<i>region</i>:<i>accountId</i>:cert/<i>certificateId</i>),
+  /// thingGroupArn
+  /// (arn:aws:iot:<i>region</i>:<i>accountId</i>:thinggroup/<i>groupName</i>)
+  /// and CognitoId (<i>region</i>:<i>id</i>).
   @Deprecated('Deprecated')
   Future<void> detachPrincipalPolicy({
     @_s.required String policyName,
@@ -5087,6 +5660,61 @@ class IoT {
     );
   }
 
+  /// Returns a Device Defender's ML Detect Security Profile training model's
+  /// status.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalFailureException].
+  /// May throw [ResourceNotFoundException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return at one time. The default is 25.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of results.
+  ///
+  /// Parameter [securityProfileName] :
+  /// The name of the security profile.
+  Future<GetBehaviorModelTrainingSummariesResponse>
+      getBehaviorModelTrainingSummaries({
+    int maxResults,
+    String nextToken,
+    String securityProfileName,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      10,
+    );
+    _s.validateStringLength(
+      'securityProfileName',
+      securityProfileName,
+      1,
+      128,
+    );
+    _s.validateStringPattern(
+      'securityProfileName',
+      securityProfileName,
+      r'''[a-zA-Z0-9:_-]+''',
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+      if (securityProfileName != null)
+        'securityProfileName': [securityProfileName],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/behavior-model-training/summaries',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return GetBehaviorModelTrainingSummariesResponse.fromJson(response);
+  }
+
   /// Returns the approximate count of unique values that match the query.
   ///
   /// May throw [InvalidRequestException].
@@ -5172,7 +5800,11 @@ class IoT {
   /// The Cognito identity pool ID.
   ///
   /// Parameter [principal] :
-  /// The principal.
+  /// The principal. Valid principals are CertificateArn
+  /// (arn:aws:iot:<i>region</i>:<i>accountId</i>:cert/<i>certificateId</i>),
+  /// thingGroupArn
+  /// (arn:aws:iot:<i>region</i>:<i>accountId</i>:thinggroup/<i>groupName</i>)
+  /// and CognitoId (<i>region</i>:<i>id</i>).
   ///
   /// Parameter [thingName] :
   /// The thing name.
@@ -5659,6 +6291,12 @@ class IoT {
   /// May throw [ThrottlingException].
   /// May throw [InternalFailureException].
   ///
+  /// Parameter [behaviorCriteriaType] :
+  /// The criteria for a behavior.
+  ///
+  /// Parameter [listSuppressedAlerts] :
+  /// A list of all suppressed alerts.
+  ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return at one time.
   ///
@@ -5672,6 +6310,8 @@ class IoT {
   /// Parameter [thingName] :
   /// The name of the thing whose active violations are listed.
   Future<ListActiveViolationsResponse> listActiveViolations({
+    BehaviorCriteriaType behaviorCriteriaType,
+    bool listSuppressedAlerts,
     int maxResults,
     String nextToken,
     String securityProfileName,
@@ -5701,6 +6341,10 @@ class IoT {
       128,
     );
     final $query = <String, List<String>>{
+      if (behaviorCriteriaType != null)
+        'behaviorCriteriaType': [behaviorCriteriaType.toValue()],
+      if (listSuppressedAlerts != null)
+        'listSuppressedAlerts': [listSuppressedAlerts.toString()],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
       if (securityProfileName != null)
@@ -5728,7 +6372,12 @@ class IoT {
   /// May throw [LimitExceededException].
   ///
   /// Parameter [target] :
-  /// The group or principal for which the policies will be listed.
+  /// The group or principal for which the policies will be listed. Valid
+  /// principals are CertificateArn
+  /// (arn:aws:iot:<i>region</i>:<i>accountId</i>:cert/<i>certificateId</i>),
+  /// thingGroupArn
+  /// (arn:aws:iot:<i>region</i>:<i>accountId</i>:thinggroup/<i>groupName</i>)
+  /// and CognitoId (<i>region</i>:<i>id</i>).
   ///
   /// Parameter [marker] :
   /// The token to retrieve the next set of results.
@@ -5745,6 +6394,12 @@ class IoT {
     bool recursive,
   }) async {
     ArgumentError.checkNotNull(target, 'target');
+    _s.validateStringLength(
+      'marker',
+      marker,
+      0,
+      1024,
+    );
     _s.validateStringPattern(
       'marker',
       marker,
@@ -5772,7 +6427,7 @@ class IoT {
   }
 
   /// Lists the findings (results) of a Device Defender audit or of the audits
-  /// performed during a specified time period. (Findings are retained for 180
+  /// performed during a specified time period. (Findings are retained for 90
   /// days.)
   ///
   /// May throw [InvalidRequestException].
@@ -5785,6 +6440,11 @@ class IoT {
   /// Parameter [endTime] :
   /// A filter to limit results to those found before the specified time. You
   /// must specify either the startTime and endTime or the taskId, but not both.
+  ///
+  /// Parameter [listSuppressedFindings] :
+  /// Boolean flag indicating whether only the suppressed findings or the
+  /// unsuppressed findings should be listed. If this parameter isn't provided,
+  /// the response will list both suppressed and unsuppressed findings.
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return at one time. The default is 25.
@@ -5805,6 +6465,7 @@ class IoT {
   Future<ListAuditFindingsResponse> listAuditFindings({
     String checkName,
     DateTime endTime,
+    bool listSuppressedFindings,
     int maxResults,
     String nextToken,
     ResourceIdentifier resourceIdentifier,
@@ -5831,6 +6492,8 @@ class IoT {
     final $payload = <String, dynamic>{
       if (checkName != null) 'checkName': checkName,
       if (endTime != null) 'endTime': unixTimestampToJson(endTime),
+      if (listSuppressedFindings != null)
+        'listSuppressedFindings': listSuppressedFindings,
       if (maxResults != null) 'maxResults': maxResults,
       if (nextToken != null) 'nextToken': nextToken,
       if (resourceIdentifier != null) 'resourceIdentifier': resourceIdentifier,
@@ -6019,6 +6682,51 @@ class IoT {
     return ListAuditMitigationActionsTasksResponse.fromJson(response);
   }
 
+  /// Lists your Device Defender audit listings.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [ascendingOrder] :
+  /// Determines whether suppressions are listed in ascending order by
+  /// expiration date or not. If parameter isn't provided,
+  /// <code>ascendingOrder=true</code>.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return at one time. The default is 25.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of results.
+  Future<ListAuditSuppressionsResponse> listAuditSuppressions({
+    bool ascendingOrder,
+    String checkName,
+    int maxResults,
+    String nextToken,
+    ResourceIdentifier resourceIdentifier,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      250,
+    );
+    final $payload = <String, dynamic>{
+      if (ascendingOrder != null) 'ascendingOrder': ascendingOrder,
+      if (checkName != null) 'checkName': checkName,
+      if (maxResults != null) 'maxResults': maxResults,
+      if (nextToken != null) 'nextToken': nextToken,
+      if (resourceIdentifier != null) 'resourceIdentifier': resourceIdentifier,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/audit/suppressions/list',
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListAuditSuppressionsResponse.fromJson(response);
+  }
+
   /// Lists the Device Defender audits that have been performed during a given
   /// time period.
   ///
@@ -6031,7 +6739,7 @@ class IoT {
   ///
   /// Parameter [startTime] :
   /// The beginning of the time period. Audit information is retained for a
-  /// limited time (180 days). Requesting a start time prior to what is retained
+  /// limited time (90 days). Requesting a start time prior to what is retained
   /// results in an "InvalidRequestException".
   ///
   /// Parameter [maxResults] :
@@ -6107,6 +6815,12 @@ class IoT {
     int pageSize,
     AuthorizerStatus status,
   }) async {
+    _s.validateStringLength(
+      'marker',
+      marker,
+      0,
+      1024,
+    );
     _s.validateStringPattern(
       'marker',
       marker,
@@ -6149,7 +6863,9 @@ class IoT {
   /// Limit the results to billing groups whose names have the given prefix.
   ///
   /// Parameter [nextToken] :
-  /// The token to retrieve the next set of results.
+  /// To retrieve the next set of results, the <code>nextToken</code> value from
+  /// a previous response; otherwise <b>null</b> to receive the first set of
+  /// results.
   Future<ListBillingGroupsResponse> listBillingGroups({
     int maxResults,
     String namePrefixFilter,
@@ -6211,6 +6927,12 @@ class IoT {
     String marker,
     int pageSize,
   }) async {
+    _s.validateStringLength(
+      'marker',
+      marker,
+      0,
+      1024,
+    );
     _s.validateStringPattern(
       'marker',
       marker,
@@ -6263,6 +6985,12 @@ class IoT {
     String marker,
     int pageSize,
   }) async {
+    _s.validateStringLength(
+      'marker',
+      marker,
+      0,
+      1024,
+    );
     _s.validateStringPattern(
       'marker',
       marker,
@@ -6331,6 +7059,12 @@ class IoT {
       r'''(0x)?[a-fA-F0-9]+''',
       isRequired: true,
     );
+    _s.validateStringLength(
+      'marker',
+      marker,
+      0,
+      1024,
+    );
     _s.validateStringPattern(
       'marker',
       marker,
@@ -6356,6 +7090,185 @@ class IoT {
       exceptionFnMap: _exceptionFns,
     );
     return ListCertificatesByCAResponse.fromJson(response);
+  }
+
+  /// Lists your Device Defender detect custom metrics.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return at one time. The default is 25.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of results.
+  Future<ListCustomMetricsResponse> listCustomMetrics({
+    int maxResults,
+    String nextToken,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      250,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/custom-metrics',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListCustomMetricsResponse.fromJson(response);
+  }
+
+  /// Lists mitigation actions executions for a Device Defender ML Detect
+  /// Security Profile.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [endTime] :
+  /// The end of the time period for which ML Detect mitigation actions
+  /// executions are returned.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return at one time. The default is 25.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of results.
+  ///
+  /// Parameter [startTime] :
+  /// A filter to limit results to those found after the specified time. You
+  /// must specify either the startTime and endTime or the taskId, but not both.
+  ///
+  /// Parameter [taskId] :
+  /// The unique identifier of the task.
+  ///
+  /// Parameter [thingName] :
+  /// The name of the thing whose mitigation actions are listed.
+  ///
+  /// Parameter [violationId] :
+  /// The unique identifier of the violation.
+  Future<ListDetectMitigationActionsExecutionsResponse>
+      listDetectMitigationActionsExecutions({
+    DateTime endTime,
+    int maxResults,
+    String nextToken,
+    DateTime startTime,
+    String taskId,
+    String thingName,
+    String violationId,
+  }) async {
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      250,
+    );
+    _s.validateStringLength(
+      'taskId',
+      taskId,
+      1,
+      128,
+    );
+    _s.validateStringPattern(
+      'taskId',
+      taskId,
+      r'''[a-zA-Z0-9_-]+''',
+    );
+    _s.validateStringLength(
+      'thingName',
+      thingName,
+      1,
+      128,
+    );
+    _s.validateStringLength(
+      'violationId',
+      violationId,
+      1,
+      128,
+    );
+    _s.validateStringPattern(
+      'violationId',
+      violationId,
+      r'''[a-zA-Z0-9\-]+''',
+    );
+    final $query = <String, List<String>>{
+      if (endTime != null) 'endTime': [_s.iso8601ToJson(endTime).toString()],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+      if (startTime != null)
+        'startTime': [_s.iso8601ToJson(startTime).toString()],
+      if (taskId != null) 'taskId': [taskId],
+      if (thingName != null) 'thingName': [thingName],
+      if (violationId != null) 'violationId': [violationId],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/detect/mitigationactions/executions',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListDetectMitigationActionsExecutionsResponse.fromJson(response);
+  }
+
+  /// List of Device Defender ML Detect mitigation actions tasks.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [endTime] :
+  /// The end of the time period for which ML Detect mitigation actions tasks
+  /// are returned.
+  ///
+  /// Parameter [startTime] :
+  /// A filter to limit results to those found after the specified time. You
+  /// must specify either the startTime and endTime or the taskId, but not both.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return at one time. The default is 25.
+  ///
+  /// Parameter [nextToken] :
+  /// The token for the next set of results.
+  Future<ListDetectMitigationActionsTasksResponse>
+      listDetectMitigationActionsTasks({
+    @_s.required DateTime endTime,
+    @_s.required DateTime startTime,
+    int maxResults,
+    String nextToken,
+  }) async {
+    ArgumentError.checkNotNull(endTime, 'endTime');
+    ArgumentError.checkNotNull(startTime, 'startTime');
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      250,
+    );
+    final $query = <String, List<String>>{
+      if (endTime != null) 'endTime': [_s.iso8601ToJson(endTime).toString()],
+      if (startTime != null)
+        'startTime': [_s.iso8601ToJson(startTime).toString()],
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
+    final response = await _protocol.send(
+      payload: null,
+      method: 'GET',
+      requestUri: '/detect/mitigationactions/tasks',
+      queryParams: $query,
+      exceptionFnMap: _exceptionFns,
+    );
+    return ListDetectMitigationActionsTasksResponse.fromJson(response);
   }
 
   /// List the set of dimensions that are defined for your AWS account.
@@ -6419,6 +7332,12 @@ class IoT {
     int pageSize,
     ServiceType serviceType,
   }) async {
+    _s.validateStringLength(
+      'marker',
+      marker,
+      0,
+      1024,
+    );
     _s.validateStringPattern(
       'marker',
       marker,
@@ -6555,6 +7474,18 @@ class IoT {
   /// Parameter [maxResults] :
   /// The maximum number of results to be returned per request.
   ///
+  /// Parameter [namespaceId] :
+  /// The namespace used to indicate that a job is a customer-managed job.
+  ///
+  /// When you specify a value for this parameter, AWS IoT Core sends jobs
+  /// notifications to MQTT topics that contain the value in the following
+  /// format.
+  ///
+  /// <code>$aws/things/<i>THING_NAME</i>/jobs/<i>JOB_ID</i>/notify-namespace-<i>NAMESPACE_ID</i>/</code>
+  /// <note>
+  /// The <code>namespaceId</code> feature is in public preview.
+  /// </note>
+  ///
   /// Parameter [nextToken] :
   /// The token to retrieve the next set of results.
   ///
@@ -6564,6 +7495,7 @@ class IoT {
   Future<ListJobExecutionsForThingResponse> listJobExecutionsForThing({
     @_s.required String thingName,
     int maxResults,
+    String namespaceId,
     String nextToken,
     JobExecutionStatus status,
   }) async {
@@ -6587,8 +7519,20 @@ class IoT {
       1,
       250,
     );
+    _s.validateStringLength(
+      'namespaceId',
+      namespaceId,
+      1,
+      64,
+    );
+    _s.validateStringPattern(
+      'namespaceId',
+      namespaceId,
+      r'''[a-zA-Z0-9_-]+''',
+    );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (namespaceId != null) 'namespaceId': [namespaceId],
       if (nextToken != null) 'nextToken': [nextToken],
       if (status != null) 'status': [status.toValue()],
     };
@@ -6612,6 +7556,18 @@ class IoT {
   /// Parameter [maxResults] :
   /// The maximum number of results to return per request.
   ///
+  /// Parameter [namespaceId] :
+  /// The namespace used to indicate that a job is a customer-managed job.
+  ///
+  /// When you specify a value for this parameter, AWS IoT Core sends jobs
+  /// notifications to MQTT topics that contain the value in the following
+  /// format.
+  ///
+  /// <code>$aws/things/<i>THING_NAME</i>/jobs/<i>JOB_ID</i>/notify-namespace-<i>NAMESPACE_ID</i>/</code>
+  /// <note>
+  /// The <code>namespaceId</code> feature is in public preview.
+  /// </note>
+  ///
   /// Parameter [nextToken] :
   /// The token to retrieve the next set of results.
   ///
@@ -6634,6 +7590,7 @@ class IoT {
   /// A filter that limits the returned jobs to those for the specified group.
   Future<ListJobsResponse> listJobs({
     int maxResults,
+    String namespaceId,
     String nextToken,
     JobStatus status,
     TargetSelection targetSelection,
@@ -6645,6 +7602,17 @@ class IoT {
       maxResults,
       1,
       250,
+    );
+    _s.validateStringLength(
+      'namespaceId',
+      namespaceId,
+      1,
+      64,
+    );
+    _s.validateStringPattern(
+      'namespaceId',
+      namespaceId,
+      r'''[a-zA-Z0-9_-]+''',
     );
     _s.validateStringLength(
       'thingGroupId',
@@ -6670,6 +7638,7 @@ class IoT {
     );
     final $query = <String, List<String>>{
       if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (namespaceId != null) 'namespaceId': [namespaceId],
       if (nextToken != null) 'nextToken': [nextToken],
       if (status != null) 'status': [status.toValue()],
       if (targetSelection != null)
@@ -6794,6 +7763,12 @@ class IoT {
     String marker,
     int pageSize,
   }) async {
+    _s.validateStringLength(
+      'marker',
+      marker,
+      0,
+      1024,
+    );
     _s.validateStringPattern(
       'marker',
       marker,
@@ -6843,6 +7818,12 @@ class IoT {
     String marker,
     int pageSize,
   }) async {
+    _s.validateStringLength(
+      'marker',
+      marker,
+      0,
+      1024,
+    );
     _s.validateStringPattern(
       'marker',
       marker,
@@ -6914,6 +7895,12 @@ class IoT {
       policyName,
       r'''[\w+=,.@-]+''',
       isRequired: true,
+    );
+    _s.validateStringLength(
+      'marker',
+      marker,
+      0,
+      1024,
     );
     _s.validateStringPattern(
       'marker',
@@ -6999,7 +7986,11 @@ class IoT {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [principal] :
-  /// The principal.
+  /// The principal. Valid principals are CertificateArn
+  /// (arn:aws:iot:<i>region</i>:<i>accountId</i>:cert/<i>certificateId</i>),
+  /// thingGroupArn
+  /// (arn:aws:iot:<i>region</i>:<i>accountId</i>:thinggroup/<i>groupName</i>)
+  /// and CognitoId (<i>region</i>:<i>id</i>).
   ///
   /// Parameter [ascendingOrder] :
   /// Specifies the order for results. If true, results are returned in
@@ -7018,6 +8009,12 @@ class IoT {
     int pageSize,
   }) async {
     ArgumentError.checkNotNull(principal, 'principal');
+    _s.validateStringLength(
+      'marker',
+      marker,
+      0,
+      1024,
+    );
     _s.validateStringPattern(
       'marker',
       marker,
@@ -7066,7 +8063,9 @@ class IoT {
   /// The maximum number of results to return in this operation.
   ///
   /// Parameter [nextToken] :
-  /// The token to retrieve the next set of results.
+  /// To retrieve the next set of results, the <code>nextToken</code> value from
+  /// a previous response; otherwise <b>null</b> to receive the first set of
+  /// results.
   Future<ListPrincipalThingsResponse> listPrincipalThings({
     @_s.required String principal,
     int maxResults,
@@ -7210,6 +8209,12 @@ class IoT {
     String marker,
     int pageSize,
   }) async {
+    _s.validateStringLength(
+      'marker',
+      marker,
+      0,
+      1024,
+    );
     _s.validateStringPattern(
       'marker',
       marker,
@@ -7272,9 +8277,12 @@ class IoT {
     return ListScheduledAuditsResponse.fromJson(response);
   }
 
-  /// Lists the Device Defender security profiles you have created. You can use
-  /// filters to list only those security profiles associated with a thing group
-  /// or only those associated with your account.
+  /// Lists the Device Defender security profiles you've created. You can filter
+  /// security profiles by dimension or custom metric.
+  /// <note>
+  /// <code>dimensionName</code> and <code>metricName</code> cannot be used in
+  /// the same request.
+  /// </note>
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
@@ -7283,16 +8291,21 @@ class IoT {
   ///
   /// Parameter [dimensionName] :
   /// A filter to limit results to the security profiles that use the defined
-  /// dimension.
+  /// dimension. Cannot be used with <code>metricName</code>
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return at one time.
+  ///
+  /// Parameter [metricName] :
+  /// The name of the custom metric. Cannot be used with
+  /// <code>dimensionName</code>.
   ///
   /// Parameter [nextToken] :
   /// The token for the next set of results.
   Future<ListSecurityProfilesResponse> listSecurityProfiles({
     String dimensionName,
     int maxResults,
+    String metricName,
     String nextToken,
   }) async {
     _s.validateStringLength(
@@ -7312,9 +8325,21 @@ class IoT {
       1,
       250,
     );
+    _s.validateStringLength(
+      'metricName',
+      metricName,
+      1,
+      128,
+    );
+    _s.validateStringPattern(
+      'metricName',
+      metricName,
+      r'''[a-zA-Z0-9:_-]+''',
+    );
     final $query = <String, List<String>>{
       if (dimensionName != null) 'dimensionName': [dimensionName],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (metricName != null) 'metricName': [metricName],
       if (nextToken != null) 'nextToken': [nextToken],
     };
     final response = await _protocol.send(
@@ -7432,7 +8457,9 @@ class IoT {
   /// The ARN of the resource.
   ///
   /// Parameter [nextToken] :
-  /// The token to retrieve the next set of results.
+  /// To retrieve the next set of results, the <code>nextToken</code> value from
+  /// a previous response; otherwise <b>null</b> to receive the first set of
+  /// results.
   Future<ListTagsForResourceResponse> listTagsForResource({
     @_s.required String resourceArn,
     String nextToken,
@@ -7488,6 +8515,12 @@ class IoT {
       policyName,
       r'''[\w+=,.@-]+''',
       isRequired: true,
+    );
+    _s.validateStringLength(
+      'marker',
+      marker,
+      0,
+      1024,
     );
     _s.validateStringPattern(
       'marker',
@@ -7575,6 +8608,7 @@ class IoT {
   /// May throw [InvalidRequestException].
   /// May throw [InternalFailureException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return at one time.
@@ -7583,7 +8617,9 @@ class IoT {
   /// A filter that limits the results to those with the specified name prefix.
   ///
   /// Parameter [nextToken] :
-  /// The token to retrieve the next set of results.
+  /// To retrieve the next set of results, the <code>nextToken</code> value from
+  /// a previous response; otherwise <b>null</b> to receive the first set of
+  /// results.
   ///
   /// Parameter [parentGroup] :
   /// A filter that limits the results to those with the specified parent group.
@@ -7647,6 +8683,7 @@ class IoT {
   /// May throw [InvalidRequestException].
   /// May throw [InternalFailureException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [thingName] :
   /// The thing name.
@@ -7655,7 +8692,9 @@ class IoT {
   /// The maximum number of results to return at one time.
   ///
   /// Parameter [nextToken] :
-  /// The token to retrieve the next set of results.
+  /// To retrieve the next set of results, the <code>nextToken</code> value from
+  /// a previous response; otherwise <b>null</b> to receive the first set of
+  /// results.
   Future<ListThingGroupsForThingResponse> listThingGroupsForThing({
     @_s.required String thingName,
     int maxResults,
@@ -7708,8 +8747,18 @@ class IoT {
   ///
   /// Parameter [thingName] :
   /// The name of the thing.
+  ///
+  /// Parameter [maxResults] :
+  /// The maximum number of results to return in this operation.
+  ///
+  /// Parameter [nextToken] :
+  /// To retrieve the next set of results, the <code>nextToken</code> value from
+  /// a previous response; otherwise <b>null</b> to receive the first set of
+  /// results.
   Future<ListThingPrincipalsResponse> listThingPrincipals({
     @_s.required String thingName,
+    int maxResults,
+    String nextToken,
   }) async {
     ArgumentError.checkNotNull(thingName, 'thingName');
     _s.validateStringLength(
@@ -7725,10 +8774,21 @@ class IoT {
       r'''[a-zA-Z0-9:_-]+''',
       isRequired: true,
     );
+    _s.validateNumRange(
+      'maxResults',
+      maxResults,
+      1,
+      250,
+    );
+    final $query = <String, List<String>>{
+      if (maxResults != null) 'maxResults': [maxResults.toString()],
+      if (nextToken != null) 'nextToken': [nextToken],
+    };
     final response = await _protocol.send(
       payload: null,
       method: 'GET',
       requestUri: '/things/${Uri.encodeComponent(thingName)}/principals',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
     return ListThingPrincipalsResponse.fromJson(response);
@@ -7751,7 +8811,9 @@ class IoT {
   /// The maximum number of results to return per request.
   ///
   /// Parameter [nextToken] :
-  /// The token to retrieve the next set of results.
+  /// To retrieve the next set of results, the <code>nextToken</code> value from
+  /// a previous response; otherwise <b>null</b> to receive the first set of
+  /// results.
   Future<ListThingRegistrationTaskReportsResponse>
       listThingRegistrationTaskReports({
     @_s.required ReportType reportType,
@@ -7801,7 +8863,9 @@ class IoT {
   /// The maximum number of results to return at one time.
   ///
   /// Parameter [nextToken] :
-  /// The token to retrieve the next set of results.
+  /// To retrieve the next set of results, the <code>nextToken</code> value from
+  /// a previous response; otherwise <b>null</b> to receive the first set of
+  /// results.
   ///
   /// Parameter [status] :
   /// The status of the bulk thing provisioning task.
@@ -7843,7 +8907,9 @@ class IoT {
   /// The maximum number of results to return in this operation.
   ///
   /// Parameter [nextToken] :
-  /// The token to retrieve the next set of results.
+  /// To retrieve the next set of results, the <code>nextToken</code> value from
+  /// a previous response; otherwise <b>null</b> to receive the first set of
+  /// results.
   ///
   /// Parameter [thingTypeName] :
   /// The name of the thing type.
@@ -7889,6 +8955,12 @@ class IoT {
   /// <code>ListThings</code> with attributeName=Color and attributeValue=Red
   /// retrieves all things in the registry that contain an attribute
   /// <b>Color</b> with the value <b>Red</b>.
+  /// <note>
+  /// You will not be charged for calling this API if an <code>Access
+  /// denied</code> error is returned. You will also not be charged if no
+  /// attributes or pagination token was provided in request and no pagination
+  /// token and no results were returned.
+  /// </note>
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
@@ -7906,7 +8978,9 @@ class IoT {
   /// The maximum number of results to return in this operation.
   ///
   /// Parameter [nextToken] :
-  /// The token to retrieve the next set of results.
+  /// To retrieve the next set of results, the <code>nextToken</code> value from
+  /// a previous response; otherwise <b>null</b> to receive the first set of
+  /// results.
   ///
   /// Parameter [thingTypeName] :
   /// The name of the thing type used to search for things.
@@ -7987,7 +9061,9 @@ class IoT {
   /// The maximum number of results to return per request.
   ///
   /// Parameter [nextToken] :
-  /// The token to retrieve the next set of results.
+  /// To retrieve the next set of results, the <code>nextToken</code> value from
+  /// a previous response; otherwise <b>null</b> to receive the first set of
+  /// results.
   Future<ListThingsInBillingGroupResponse> listThingsInBillingGroup({
     @_s.required String billingGroupName,
     int maxResults,
@@ -8033,6 +9109,7 @@ class IoT {
   /// May throw [InvalidRequestException].
   /// May throw [InternalFailureException].
   /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
   ///
   /// Parameter [thingGroupName] :
   /// The thing group name.
@@ -8041,7 +9118,9 @@ class IoT {
   /// The maximum number of results to return at one time.
   ///
   /// Parameter [nextToken] :
-  /// The token to retrieve the next set of results.
+  /// To retrieve the next set of results, the <code>nextToken</code> value from
+  /// a previous response; otherwise <b>null</b> to receive the first set of
+  /// results.
   ///
   /// Parameter [recursive] :
   /// When true, list things in this thing group and in all child groups as
@@ -8098,7 +9177,9 @@ class IoT {
   /// The maximum number of results to return at one time.
   ///
   /// Parameter [nextToken] :
-  /// The token to retrieve the next set of results.
+  /// To retrieve the next set of results, the <code>nextToken</code> value from
+  /// a previous response; otherwise <b>null</b> to receive the first set of
+  /// results.
   Future<ListTopicRuleDestinationsResponse> listTopicRuleDestinations({
     int maxResults,
     String nextToken,
@@ -8133,7 +9214,9 @@ class IoT {
   /// The maximum number of results to return.
   ///
   /// Parameter [nextToken] :
-  /// A token used to retrieve the next value.
+  /// To retrieve the next set of results, the <code>nextToken</code> value from
+  /// a previous response; otherwise <b>null</b> to receive the first set of
+  /// results.
   ///
   /// Parameter [ruleDisabled] :
   /// Specifies whether the rule is disabled.
@@ -8179,8 +9262,9 @@ class IoT {
   /// The maximum number of results to return at one time.
   ///
   /// Parameter [nextToken] :
-  /// The token used to get the next set of results, or <b>null</b> if there are
-  /// no additional results.
+  /// To retrieve the next set of results, the <code>nextToken</code> value from
+  /// a previous response; otherwise <b>null</b> to receive the first set of
+  /// results.
   ///
   /// Parameter [targetType] :
   /// The type of resource for which you are configuring logging. Must be
@@ -8226,6 +9310,12 @@ class IoT {
   /// Parameter [startTime] :
   /// The start time for the alerts to be listed.
   ///
+  /// Parameter [behaviorCriteriaType] :
+  /// The criteria for a behavior.
+  ///
+  /// Parameter [listSuppressedAlerts] :
+  /// A list of all suppressed alerts.
+  ///
   /// Parameter [maxResults] :
   /// The maximum number of results to return at one time.
   ///
@@ -8241,6 +9331,8 @@ class IoT {
   Future<ListViolationEventsResponse> listViolationEvents({
     @_s.required DateTime endTime,
     @_s.required DateTime startTime,
+    BehaviorCriteriaType behaviorCriteriaType,
+    bool listSuppressedAlerts,
     int maxResults,
     String nextToken,
     String securityProfileName,
@@ -8275,6 +9367,10 @@ class IoT {
       if (endTime != null) 'endTime': [_s.iso8601ToJson(endTime).toString()],
       if (startTime != null)
         'startTime': [_s.iso8601ToJson(startTime).toString()],
+      if (behaviorCriteriaType != null)
+        'behaviorCriteriaType': [behaviorCriteriaType.toValue()],
+      if (listSuppressedAlerts != null)
+        'listSuppressedAlerts': [listSuppressedAlerts.toString()],
       if (maxResults != null) 'maxResults': [maxResults.toString()],
       if (nextToken != null) 'nextToken': [nextToken],
       if (securityProfileName != null)
@@ -8324,12 +9420,25 @@ class IoT {
   ///
   /// Parameter [setAsActive] :
   /// A boolean value that specifies if the CA certificate is set to active.
+  ///
+  /// Parameter [tags] :
+  /// Metadata which can be used to manage the CA certificate.
+  /// <note>
+  /// For URI Request parameters use format: ...key1=value1&amp;key2=value2...
+  ///
+  /// For the CLI command-line parameter use format: &amp;&amp;tags
+  /// "key1=value1&amp;key2=value2..."
+  ///
+  /// For the cli-input-json file use format: "tags":
+  /// "key1=value1&amp;key2=value2..."
+  /// </note>
   Future<RegisterCACertificateResponse> registerCACertificate({
     @_s.required String caCertificate,
     @_s.required String verificationCertificate,
     bool allowAutoRegistration,
     RegistrationConfig registrationConfig,
     bool setAsActive,
+    List<Tag> tags,
   }) async {
     ArgumentError.checkNotNull(caCertificate, 'caCertificate');
     _s.validateStringLength(
@@ -8357,6 +9466,7 @@ class IoT {
       'caCertificate': caCertificate,
       'verificationCertificate': verificationCertificate,
       if (registrationConfig != null) 'registrationConfig': registrationConfig,
+      if (tags != null) 'tags': tags,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -8431,6 +9541,47 @@ class IoT {
     return RegisterCertificateResponse.fromJson(response);
   }
 
+  /// Register a certificate that does not have a certificate authority (CA).
+  ///
+  /// May throw [ResourceAlreadyExistsException].
+  /// May throw [InvalidRequestException].
+  /// May throw [CertificateStateException].
+  /// May throw [CertificateValidationException].
+  /// May throw [ThrottlingException].
+  /// May throw [UnauthorizedException].
+  /// May throw [ServiceUnavailableException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [certificatePem] :
+  /// The certificate data, in PEM format.
+  ///
+  /// Parameter [status] :
+  /// The status of the register certificate request.
+  Future<RegisterCertificateWithoutCAResponse> registerCertificateWithoutCA({
+    @_s.required String certificatePem,
+    CertificateStatus status,
+  }) async {
+    ArgumentError.checkNotNull(certificatePem, 'certificatePem');
+    _s.validateStringLength(
+      'certificatePem',
+      certificatePem,
+      1,
+      65536,
+      isRequired: true,
+    );
+    final $payload = <String, dynamic>{
+      'certificatePem': certificatePem,
+      if (status != null) 'status': status.toValue(),
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'POST',
+      requestUri: '/certificate/register-no-ca',
+      exceptionFnMap: _exceptionFns,
+    );
+    return RegisterCertificateWithoutCAResponse.fromJson(response);
+  }
+
   /// Provisions a thing in the device registry. RegisterThing calls other AWS
   /// IoT control plane APIs. These calls might exceed your account level <a
   /// href="https://docs.aws.amazon.com/general/latest/gr/aws_service_limits.html#limits_iot">
@@ -8453,8 +9604,8 @@ class IoT {
   ///
   /// Parameter [parameters] :
   /// The parameters for provisioning a thing. See <a
-  /// href="https://docs.aws.amazon.com/iot/latest/developerguide/programmatic-provisioning.html">Programmatic
-  /// Provisioning</a> for more information.
+  /// href="https://docs.aws.amazon.com/iot/latest/developerguide/provision-template.html">Provisioning
+  /// Templates</a> for more information.
   Future<RegisterThingResponse> registerThing({
     @_s.required String templateBody,
     Map<String, String> parameters,
@@ -8596,6 +9747,11 @@ class IoT {
   }
 
   /// Remove the specified thing from the specified group.
+  ///
+  /// You must specify either a <code>thingGroupArn</code> or a
+  /// <code>thingGroupName</code> to identify the thing group and either a
+  /// <code>thingArn</code> or a <code>thingName</code> to identify the thing to
+  /// remove from the thing group.
   ///
   /// May throw [InvalidRequestException].
   /// May throw [ThrottlingException].
@@ -8896,6 +10052,7 @@ class IoT {
   /// May throw [NotConfiguredException].
   /// May throw [InvalidRequestException].
   /// May throw [ServiceUnavailableException].
+  /// May throw [LimitExceededException].
   ///
   /// Parameter [logLevel] :
   /// The log level.
@@ -8974,7 +10131,7 @@ class IoT {
   /// Parameter [target] :
   /// Specifies the audit findings to which the mitigation actions are applied.
   /// You can apply them to a type of audit check, to all findings from an
-  /// audit, or to a speecific set of findings.
+  /// audit, or to a specific set of findings.
   ///
   /// Parameter [taskId] :
   /// A unique identifier for the task. You can use this identifier to check the
@@ -9030,6 +10187,99 @@ class IoT {
       exceptionFnMap: _exceptionFns,
     );
     return StartAuditMitigationActionsTaskResponse.fromJson(response);
+  }
+
+  /// Starts a Device Defender ML Detect mitigation actions task.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [TaskAlreadyExistsException].
+  /// May throw [LimitExceededException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [actions] :
+  /// The actions to be performed when a device has unexpected behavior.
+  ///
+  /// Parameter [clientRequestToken] :
+  /// Each mitigation action task must have a unique client request token. If
+  /// you try to create a new task with the same token as a task that already
+  /// exists, an exception occurs. If you omit this value, AWS SDKs will
+  /// automatically generate a unique client request.
+  ///
+  /// Parameter [target] :
+  /// Specifies the ML Detect findings to which the mitigation actions are
+  /// applied.
+  ///
+  /// Parameter [taskId] :
+  /// The unique identifier of the task.
+  ///
+  /// Parameter [includeOnlyActiveViolations] :
+  /// Specifies to list only active violations.
+  ///
+  /// Parameter [includeSuppressedAlerts] :
+  /// Specifies to include suppressed alerts.
+  ///
+  /// Parameter [violationEventOccurrenceRange] :
+  /// Specifies the time period of which violation events occurred between.
+  Future<StartDetectMitigationActionsTaskResponse>
+      startDetectMitigationActionsTask({
+    @_s.required List<String> actions,
+    @_s.required String clientRequestToken,
+    @_s.required DetectMitigationActionsTaskTarget target,
+    @_s.required String taskId,
+    bool includeOnlyActiveViolations,
+    bool includeSuppressedAlerts,
+    ViolationEventOccurrenceRange violationEventOccurrenceRange,
+  }) async {
+    ArgumentError.checkNotNull(actions, 'actions');
+    ArgumentError.checkNotNull(clientRequestToken, 'clientRequestToken');
+    _s.validateStringLength(
+      'clientRequestToken',
+      clientRequestToken,
+      1,
+      64,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'clientRequestToken',
+      clientRequestToken,
+      r'''^[a-zA-Z0-9-_]+$''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(target, 'target');
+    ArgumentError.checkNotNull(taskId, 'taskId');
+    _s.validateStringLength(
+      'taskId',
+      taskId,
+      1,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'taskId',
+      taskId,
+      r'''[a-zA-Z0-9_-]+''',
+      isRequired: true,
+    );
+    final $payload = <String, dynamic>{
+      'actions': actions,
+      'clientRequestToken': clientRequestToken ?? _s.generateIdempotencyToken(),
+      'target': target,
+      if (includeOnlyActiveViolations != null)
+        'includeOnlyActiveViolations': includeOnlyActiveViolations,
+      if (includeSuppressedAlerts != null)
+        'includeSuppressedAlerts': includeSuppressedAlerts,
+      if (violationEventOccurrenceRange != null)
+        'violationEventOccurrenceRange': violationEventOccurrenceRange,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PUT',
+      requestUri:
+          '/detect/mitigationactions/tasks/${Uri.encodeComponent(taskId)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return StartDetectMitigationActionsTaskResponse.fromJson(response);
   }
 
   /// Starts an on-demand Device Defender audit.
@@ -9235,7 +10485,11 @@ class IoT {
   /// as if they are not attached to the principal being authorized.
   ///
   /// Parameter [principal] :
-  /// The principal.
+  /// The principal. Valid principals are CertificateArn
+  /// (arn:aws:iot:<i>region</i>:<i>accountId</i>:cert/<i>certificateId</i>),
+  /// thingGroupArn
+  /// (arn:aws:iot:<i>region</i>:<i>accountId</i>:thinggroup/<i>groupName</i>)
+  /// and CognitoId (<i>region</i>:<i>id</i>).
   Future<TestAuthorizationResponse> testAuthorization({
     @_s.required List<AuthInfo> authInfos,
     String clientId,
@@ -9295,7 +10549,7 @@ class IoT {
   ///
   /// Parameter [tokenSignature] :
   /// The signature made with the token and your custom authentication service's
-  /// private key.
+  /// private key. This value must be Base-64-encoded.
   Future<TestInvokeAuthorizerResponse> testInvokeAuthorizer({
     @_s.required String authorizerName,
     HttpContext httpContext,
@@ -9485,7 +10739,7 @@ class IoT {
   /// enabled. When a check is disabled, any data collected so far in relation
   /// to the check is deleted.
   ///
-  /// You cannot disable a check if it is used by any scheduled audit. You must
+  /// You cannot disable a check if it's used by any scheduled audit. You must
   /// first delete the check from the scheduled audit or delete the scheduled
   /// audit itself.
   ///
@@ -9496,9 +10750,9 @@ class IoT {
   /// Information about the targets to which audit notifications are sent.
   ///
   /// Parameter [roleArn] :
-  /// The ARN of the role that grants permission to AWS IoT to access
-  /// information about your devices, policies, certificates and other items as
-  /// required when performing an audit.
+  /// The Amazon Resource Name (ARN) of the role that grants permission to AWS
+  /// IoT to access information about your devices, policies, certificates, and
+  /// other items as required when performing an audit.
   Future<void> updateAccountAuditConfiguration({
     Map<String, AuditCheckConfiguration> auditCheckConfigurations,
     Map<AuditNotificationType, AuditNotificationTarget>
@@ -9527,6 +10781,60 @@ class IoT {
       exceptionFnMap: _exceptionFns,
     );
     return UpdateAccountAuditConfigurationResponse.fromJson(response);
+  }
+
+  /// Updates a Device Defender audit suppression.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [description] :
+  /// The description of the audit suppression.
+  ///
+  /// Parameter [expirationDate] :
+  /// The expiration date (epoch timestamp in seconds) that you want the
+  /// suppression to adhere to.
+  ///
+  /// Parameter [suppressIndefinitely] :
+  /// Indicates whether a suppression should exist indefinitely or not.
+  Future<void> updateAuditSuppression({
+    @_s.required String checkName,
+    @_s.required ResourceIdentifier resourceIdentifier,
+    String description,
+    DateTime expirationDate,
+    bool suppressIndefinitely,
+  }) async {
+    ArgumentError.checkNotNull(checkName, 'checkName');
+    ArgumentError.checkNotNull(resourceIdentifier, 'resourceIdentifier');
+    _s.validateStringLength(
+      'description',
+      description,
+      0,
+      1000,
+    );
+    _s.validateStringPattern(
+      'description',
+      description,
+      r'''[\p{Graph}\x20]*''',
+    );
+    final $payload = <String, dynamic>{
+      'checkName': checkName,
+      'resourceIdentifier': resourceIdentifier,
+      if (description != null) 'description': description,
+      if (expirationDate != null)
+        'expirationDate': unixTimestampToJson(expirationDate),
+      if (suppressIndefinitely != null)
+        'suppressIndefinitely': suppressIndefinitely,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PATCH',
+      requestUri: '/audit/suppressions/update',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateAuditSuppressionResponse.fromJson(response);
   }
 
   /// Updates an authorizer.
@@ -9573,6 +10881,12 @@ class IoT {
       authorizerName,
       r'''[\w=,@-]+''',
       isRequired: true,
+    );
+    _s.validateStringLength(
+      'authorizerFunctionArn',
+      authorizerFunctionArn,
+      0,
+      2048,
     );
     _s.validateStringLength(
       'tokenKeyName',
@@ -9725,12 +11039,13 @@ class IoT {
   /// Updates the status of the specified certificate. This operation is
   /// idempotent.
   ///
-  /// Moving a certificate from the ACTIVE state (including REVOKED) will not
-  /// disconnect currently connected devices, but these devices will be unable
-  /// to reconnect.
+  /// Certificates must be in the ACTIVE state to authenticate devices that use
+  /// a certificate to connect to AWS IoT.
   ///
-  /// The ACTIVE state is required to authenticate devices connecting to AWS IoT
-  /// using a certificate.
+  /// Within a few minutes of updating a certificate from the ACTIVE state to
+  /// any other state, AWS IoT disconnects all devices that used that
+  /// certificate to connect. Devices cannot use a certificate that is not in
+  /// the ACTIVE state to reconnect.
   ///
   /// May throw [ResourceNotFoundException].
   /// May throw [CertificateStateException].
@@ -9785,8 +11100,66 @@ class IoT {
     );
   }
 
+  /// Updates a Device Defender detect custom metric.
+  ///
+  /// May throw [InvalidRequestException].
+  /// May throw [ResourceNotFoundException].
+  /// May throw [ThrottlingException].
+  /// May throw [InternalFailureException].
+  ///
+  /// Parameter [displayName] :
+  /// Field represents a friendly name in the console for the custom metric, it
+  /// doesn't have to be unique. Don't use this name as the metric identifier in
+  /// the device metric report. Can be updated.
+  ///
+  /// Parameter [metricName] :
+  /// The name of the custom metric. Cannot be updated.
+  Future<UpdateCustomMetricResponse> updateCustomMetric({
+    @_s.required String displayName,
+    @_s.required String metricName,
+  }) async {
+    ArgumentError.checkNotNull(displayName, 'displayName');
+    _s.validateStringLength(
+      'displayName',
+      displayName,
+      0,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'displayName',
+      displayName,
+      r'''[\p{Graph}\x20]*''',
+      isRequired: true,
+    );
+    ArgumentError.checkNotNull(metricName, 'metricName');
+    _s.validateStringLength(
+      'metricName',
+      metricName,
+      1,
+      128,
+      isRequired: true,
+    );
+    _s.validateStringPattern(
+      'metricName',
+      metricName,
+      r'''[a-zA-Z0-9:_-]+''',
+      isRequired: true,
+    );
+    final $payload = <String, dynamic>{
+      'displayName': displayName,
+    };
+    final response = await _protocol.send(
+      payload: $payload,
+      method: 'PATCH',
+      requestUri: '/custom-metric/${Uri.encodeComponent(metricName)}',
+      exceptionFnMap: _exceptionFns,
+    );
+    return UpdateCustomMetricResponse.fromJson(response);
+  }
+
   /// Updates the definition for a dimension. You cannot change the type of a
-  /// dimension after it is created (you can delete it and re-create it).
+  /// dimension after it is created (you can delete it and recreate it).
   ///
   /// May throw [InternalFailureException].
   /// May throw [InvalidRequestException].
@@ -10062,6 +11435,18 @@ class IoT {
   /// Parameter [jobExecutionsRolloutConfig] :
   /// Allows you to create a staged rollout of the job.
   ///
+  /// Parameter [namespaceId] :
+  /// The namespace used to indicate that a job is a customer-managed job.
+  ///
+  /// When you specify a value for this parameter, AWS IoT Core sends jobs
+  /// notifications to MQTT topics that contain the value in the following
+  /// format.
+  ///
+  /// <code>$aws/things/<i>THING_NAME</i>/jobs/<i>JOB_ID</i>/notify-namespace-<i>NAMESPACE_ID</i>/</code>
+  /// <note>
+  /// The <code>namespaceId</code> feature is in public preview.
+  /// </note>
+  ///
   /// Parameter [presignedUrlConfig] :
   /// Configuration information for pre-signed S3 URLs.
   ///
@@ -10076,6 +11461,7 @@ class IoT {
     AbortConfig abortConfig,
     String description,
     JobExecutionsRolloutConfig jobExecutionsRolloutConfig,
+    String namespaceId,
     PresignedUrlConfig presignedUrlConfig,
     TimeoutConfig timeoutConfig,
   }) async {
@@ -10104,6 +11490,20 @@ class IoT {
       description,
       r'''[^\p{C}]+''',
     );
+    _s.validateStringLength(
+      'namespaceId',
+      namespaceId,
+      1,
+      64,
+    );
+    _s.validateStringPattern(
+      'namespaceId',
+      namespaceId,
+      r'''[a-zA-Z0-9_-]+''',
+    );
+    final $query = <String, List<String>>{
+      if (namespaceId != null) 'namespaceId': [namespaceId],
+    };
     final $payload = <String, dynamic>{
       if (abortConfig != null) 'abortConfig': abortConfig,
       if (description != null) 'description': description,
@@ -10116,6 +11516,7 @@ class IoT {
       payload: $payload,
       method: 'PATCH',
       requestUri: '/jobs/${Uri.encodeComponent(jobId)}',
+      queryParams: $query,
       exceptionFnMap: _exceptionFns,
     );
   }
@@ -10128,9 +11529,9 @@ class IoT {
   /// May throw [InternalFailureException].
   ///
   /// Parameter [actionName] :
-  /// The friendly name for the mitigation action. You can't change the name by
+  /// The friendly name for the mitigation action. You cannot change the name by
   /// using <code>UpdateMitigationAction</code>. Instead, you must delete and
-  /// re-create the mitigation action with the new name.
+  /// recreate the mitigation action with the new name.
   ///
   /// Parameter [actionParams] :
   /// Defines the type of action and the parameters for that action.
@@ -10196,15 +11597,23 @@ class IoT {
   /// Parameter [enabled] :
   /// True to enable the fleet provisioning template, otherwise false.
   ///
+  /// Parameter [preProvisioningHook] :
+  /// Updates the pre-provisioning hook template.
+  ///
   /// Parameter [provisioningRoleArn] :
   /// The ARN of the role associated with the provisioning template. This IoT
   /// role grants permission to provision a device.
+  ///
+  /// Parameter [removePreProvisioningHook] :
+  /// Removes pre-provisioning hook template.
   Future<void> updateProvisioningTemplate({
     @_s.required String templateName,
     int defaultVersionId,
     String description,
     bool enabled,
+    ProvisioningHook preProvisioningHook,
     String provisioningRoleArn,
+    bool removePreProvisioningHook,
   }) async {
     ArgumentError.checkNotNull(templateName, 'templateName');
     _s.validateStringLength(
@@ -10241,8 +11650,12 @@ class IoT {
       if (defaultVersionId != null) 'defaultVersionId': defaultVersionId,
       if (description != null) 'description': description,
       if (enabled != null) 'enabled': enabled,
+      if (preProvisioningHook != null)
+        'preProvisioningHook': preProvisioningHook,
       if (provisioningRoleArn != null)
         'provisioningRoleArn': provisioningRoleArn,
+      if (removePreProvisioningHook != null)
+        'removePreProvisioningHook': removePreProvisioningHook,
     };
     final response = await _protocol.send(
       payload: $payload,
@@ -10328,21 +11741,23 @@ class IoT {
   /// The name of the scheduled audit. (Max. 128 chars)
   ///
   /// Parameter [dayOfMonth] :
-  /// The day of the month on which the scheduled audit takes place. Can be "1"
-  /// through "31" or "LAST". This field is required if the "frequency"
-  /// parameter is set to "MONTHLY". If days 29-31 are specified, and the month
-  /// does not have that many days, the audit takes place on the "LAST" day of
-  /// the month.
+  /// The day of the month on which the scheduled audit takes place. This can be
+  /// <code>1</code> through <code>31</code> or <code>LAST</code>. This field is
+  /// required if the <code>frequency</code> parameter is set to
+  /// <code>MONTHLY</code>. If days 29-31 are specified, and the month does not
+  /// have that many days, the audit takes place on the "LAST" day of the month.
   ///
   /// Parameter [dayOfWeek] :
-  /// The day of the week on which the scheduled audit takes place. Can be one
-  /// of "SUN", "MON", "TUE", "WED", "THU", "FRI", or "SAT". This field is
-  /// required if the "frequency" parameter is set to "WEEKLY" or "BIWEEKLY".
+  /// The day of the week on which the scheduled audit takes place. This can be
+  /// one of <code>SUN</code>, <code>MON</code>, <code>TUE</code>,
+  /// <code>WED</code>, <code>THU</code>, <code>FRI</code>, or <code>SAT</code>.
+  /// This field is required if the "frequency" parameter is set to
+  /// <code>WEEKLY</code> or <code>BIWEEKLY</code>.
   ///
   /// Parameter [frequency] :
-  /// How often the scheduled audit takes place. Can be one of "DAILY",
-  /// "WEEKLY", "BIWEEKLY", or "MONTHLY". The start time of each audit is
-  /// determined by the system.
+  /// How often the scheduled audit takes place, either <code>DAILY</code>,
+  /// <code>WEEKLY</code>, <code>BIWEEKLY</code>, or <code>MONTHLY</code>. The
+  /// start time of each audit is determined by the system.
   ///
   /// Parameter [targetCheckNames] :
   /// Which checks are performed during the scheduled audit. Checks must be
@@ -10405,17 +11820,20 @@ class IoT {
   /// The name of the security profile you want to update.
   ///
   /// Parameter [additionalMetricsToRetain] :
+  /// <i>Please use
+  /// <a>UpdateSecurityProfileRequest$additionalMetricsToRetainV2</a>
+  /// instead.</i>
+  ///
   /// A list of metrics whose data is retained (stored). By default, data is
   /// retained for any metric used in the profile's <code>behaviors</code>, but
-  /// it is also retained for any metric specified here.
-  ///
-  /// <b>Note:</b> This API field is deprecated. Please use
-  /// <a>UpdateSecurityProfileRequest$additionalMetricsToRetainV2</a> instead.
+  /// it is also retained for any metric specified here. Can be used with custom
+  /// metrics; cannot be used with dimensions.
   ///
   /// Parameter [additionalMetricsToRetainV2] :
   /// A list of metrics whose data is retained (stored). By default, data is
   /// retained for any metric used in the profile's behaviors, but it is also
-  /// retained for any metric specified here.
+  /// retained for any metric specified here. Can be used with custom metrics;
+  /// cannot be used with dimensions.
   ///
   /// Parameter [alertTargets] :
   /// Where the alerts are sent. (Alerts are always sent to the console.)
@@ -10598,6 +12016,9 @@ class IoT {
   ///
   /// Parameter [thingName] :
   /// The name of the thing to update.
+  ///
+  /// You can't change a thing's name. To change a thing's name, you must create
+  /// a new thing, give it the new name, and then delete the old thing.
   ///
   /// Parameter [attributePayload] :
   /// A list of thing attributes, a JSON string containing name-value pairs. For
@@ -10858,14 +12279,14 @@ enum AbortAction {
   cancel,
 }
 
-/// Details of abort criteria to abort the job.
+/// The criteria that determine when and how a job abort takes place.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: true)
 class AbortConfig {
-  /// The list of abort criteria to define rules to abort the job.
+  /// The list of criteria that determine when and how to abort the job.
   @_s.JsonKey(name: 'criteriaList')
   final List<AbortCriteria> criteriaList;
 
@@ -10878,27 +12299,28 @@ class AbortConfig {
   Map<String, dynamic> toJson() => _$AbortConfigToJson(this);
 }
 
-/// Details of abort criteria to define rules to abort the job.
+/// The criteria that determine when and how a job abort takes place.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
     createFactory: true,
     createToJson: true)
 class AbortCriteria {
-  /// The type of abort action to initiate a job abort.
+  /// The type of job action to take to initiate the job abort.
   @_s.JsonKey(name: 'action')
   final AbortAction action;
 
-  /// The type of job execution failure to define a rule to initiate a job abort.
+  /// The type of job execution failures that can initiate a job abort.
   @_s.JsonKey(name: 'failureType')
   final JobExecutionFailureType failureType;
 
-  /// Minimum number of executed things before evaluating an abort rule.
+  /// The minimum number of things which must receive job execution notifications
+  /// before the job can be aborted.
   @_s.JsonKey(name: 'minNumberOfExecutedThings')
   final int minNumberOfExecutedThings;
 
-  /// The threshold as a percentage of the total number of executed things that
-  /// will initiate a job abort.
+  /// The minimum percentage of job execution failures that must occur to initiate
+  /// the job abort.
   ///
   /// AWS IoT supports up to two digits after the decimal (for example, 10.9 and
   /// 10.99, but not 10.999).
@@ -10971,6 +12393,11 @@ class Action {
   @_s.JsonKey(name: 'iotSiteWise')
   final IotSiteWiseAction iotSiteWise;
 
+  /// Send messages to an Amazon Managed Streaming for Apache Kafka (Amazon MSK)
+  /// or self-managed Apache Kafka cluster.
+  @_s.JsonKey(name: 'kafka')
+  final KafkaAction kafka;
+
   /// Write data to an Amazon Kinesis stream.
   @_s.JsonKey(name: 'kinesis')
   final KinesisAction kinesis;
@@ -11003,6 +12430,13 @@ class Action {
   @_s.JsonKey(name: 'stepFunctions')
   final StepFunctionsAction stepFunctions;
 
+  /// The Timestream rule action writes attributes (measures) from an MQTT message
+  /// into an Amazon Timestream table. For more information, see the <a
+  /// href="https://docs.aws.amazon.com/iot/latest/developerguide/timestream-rule-action.html">Timestream</a>
+  /// topic rule action documentation.
+  @_s.JsonKey(name: 'timestream')
+  final TimestreamAction timestream;
+
   Action({
     this.cloudwatchAlarm,
     this.cloudwatchLogs,
@@ -11015,6 +12449,7 @@ class Action {
     this.iotAnalytics,
     this.iotEvents,
     this.iotSiteWise,
+    this.kafka,
     this.kinesis,
     this.lambda,
     this.republish,
@@ -11023,6 +12458,7 @@ class Action {
     this.sns,
     this.sqs,
     this.stepFunctions,
+    this.timestream,
   });
   factory Action.fromJson(Map<String, dynamic> json) => _$ActionFromJson(json);
 
@@ -11048,7 +12484,7 @@ enum ActionType {
     createFactory: true,
     createToJson: false)
 class ActiveViolation {
-  /// The behavior which is being violated.
+  /// The behavior that is being violated.
   @_s.JsonKey(name: 'behavior')
   final Behavior behavior;
 
@@ -11057,18 +12493,22 @@ class ActiveViolation {
   @_s.JsonKey(name: 'lastViolationTime')
   final DateTime lastViolationTime;
 
-  /// The value of the metric (the measurement) which caused the most recent
+  /// The value of the metric (the measurement) that caused the most recent
   /// violation.
   @_s.JsonKey(name: 'lastViolationValue')
   final MetricValue lastViolationValue;
 
-  /// The security profile whose behavior is in violation.
+  /// The security profile with the behavior is in violation.
   @_s.JsonKey(name: 'securityProfileName')
   final String securityProfileName;
 
   /// The name of the thing responsible for the active violation.
   @_s.JsonKey(name: 'thingName')
   final String thingName;
+
+  /// The details of a violation event.
+  @_s.JsonKey(name: 'violationEventAdditionalInfo')
+  final ViolationEventAdditionalInfo violationEventAdditionalInfo;
 
   /// The ID of the active violation.
   @_s.JsonKey(name: 'violationId')
@@ -11085,6 +12525,7 @@ class ActiveViolation {
     this.lastViolationValue,
     this.securityProfileName,
     this.thingName,
+    this.violationEventAdditionalInfo,
     this.violationId,
     this.violationStartTime,
   });
@@ -11124,13 +12565,12 @@ class AddThingToThingGroupResponse {
 class AddThingsToThingGroupParams {
   /// The list of groups to which you want to add the things that triggered the
   /// mitigation action. You can add a thing to a maximum of 10 groups, but you
-  /// cannot add a thing to more than one group in the same hierarchy.
+  /// can't add a thing to more than one group in the same hierarchy.
   @_s.JsonKey(name: 'thingGroupNames')
   final List<String> thingGroupNames;
 
   /// Specifies if this mitigation action can move the things that triggered the
-  /// mitigation action even if they are part of one or more dynamic things
-  /// groups.
+  /// mitigation action even if they are part of one or more dynamic thing groups.
   @_s.JsonKey(name: 'overrideDynamicGroups')
   final bool overrideDynamicGroups;
 
@@ -11151,7 +12591,8 @@ class AddThingsToThingGroupParams {
     createFactory: true,
     createToJson: true)
 class AlertTarget {
-  /// The ARN of the notification target to which alerts are sent.
+  /// The Amazon Resource Name (ARN) of the notification target to which alerts
+  /// are sent.
   @_s.JsonKey(name: 'alertTargetArn')
   final String alertTargetArn;
 
@@ -11440,6 +12881,11 @@ class AuditCheckDetails {
   @_s.JsonKey(name: 'nonCompliantResourcesCount')
   final int nonCompliantResourcesCount;
 
+  /// Describes how many of the non-compliant resources created during the
+  /// evaluation of an audit check were marked as suppressed.
+  @_s.JsonKey(name: 'suppressedNonCompliantResourcesCount')
+  final int suppressedNonCompliantResourcesCount;
+
   /// The number of resources on which the check was performed.
   @_s.JsonKey(name: 'totalResourcesCount')
   final int totalResourcesCount;
@@ -11450,6 +12896,7 @@ class AuditCheckDetails {
     this.errorCode,
     this.message,
     this.nonCompliantResourcesCount,
+    this.suppressedNonCompliantResourcesCount,
     this.totalResourcesCount,
   });
   factory AuditCheckDetails.fromJson(Map<String, dynamic> json) =>
@@ -11492,6 +12939,10 @@ class AuditFinding {
   @_s.JsonKey(name: 'findingTime')
   final DateTime findingTime;
 
+  /// Indicates whether the audit finding was suppressed or not during reporting.
+  @_s.JsonKey(name: 'isSuppressed')
+  final bool isSuppressed;
+
   /// The resource that was found to be noncompliant with the audit check.
   @_s.JsonKey(name: 'nonCompliantResource')
   final NonCompliantResource nonCompliantResource;
@@ -11525,6 +12976,7 @@ class AuditFinding {
     this.checkName,
     this.findingId,
     this.findingTime,
+    this.isSuppressed,
     this.nonCompliantResource,
     this.reasonForNonCompliance,
     this.reasonForNonComplianceCode,
@@ -11816,6 +13268,43 @@ extension on AuditNotificationType {
   }
 }
 
+/// Filters out specific findings of a Device Defender audit.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class AuditSuppression {
+  @_s.JsonKey(name: 'checkName')
+  final String checkName;
+  @_s.JsonKey(name: 'resourceIdentifier')
+  final ResourceIdentifier resourceIdentifier;
+
+  /// The description of the audit suppression.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// The expiration date (epoch timestamp in seconds) that you want the
+  /// suppression to adhere to.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'expirationDate')
+  final DateTime expirationDate;
+
+  /// Indicates whether a suppression should exist indefinitely or not.
+  @_s.JsonKey(name: 'suppressIndefinitely')
+  final bool suppressIndefinitely;
+
+  AuditSuppression({
+    @_s.required this.checkName,
+    @_s.required this.resourceIdentifier,
+    this.description,
+    this.expirationDate,
+    this.suppressIndefinitely,
+  });
+  factory AuditSuppression.fromJson(Map<String, dynamic> json) =>
+      _$AuditSuppressionFromJson(json);
+}
+
 /// The audits that were performed.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -11908,18 +13397,18 @@ enum AuthDecision {
     createFactory: true,
     createToJson: true)
 class AuthInfo {
-  /// The type of action for which the principal is being authorized.
-  @_s.JsonKey(name: 'actionType')
-  final ActionType actionType;
-
   /// The resources for which the principal is being authorized to perform the
   /// specified action.
   @_s.JsonKey(name: 'resources')
   final List<String> resources;
 
+  /// The type of action for which the principal is being authorized.
+  @_s.JsonKey(name: 'actionType')
+  final ActionType actionType;
+
   AuthInfo({
+    @_s.required this.resources,
     this.actionType,
-    this.resources,
   });
   factory AuthInfo.fromJson(Map<String, dynamic> json) =>
       _$AuthInfoFromJson(json);
@@ -12116,6 +13605,76 @@ extension on AutoRegistrationStatus {
   }
 }
 
+/// The criteria that determine when and how a job abort takes place.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AwsJobAbortConfig {
+  /// The list of criteria that determine when and how to abort the job.
+  @_s.JsonKey(name: 'abortCriteriaList')
+  final List<AwsJobAbortCriteria> abortCriteriaList;
+
+  AwsJobAbortConfig({
+    @_s.required this.abortCriteriaList,
+  });
+  Map<String, dynamic> toJson() => _$AwsJobAbortConfigToJson(this);
+}
+
+/// The criteria that determine when and how a job abort takes place.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AwsJobAbortCriteria {
+  /// The type of job action to take to initiate the job abort.
+  @_s.JsonKey(name: 'action')
+  final AwsJobAbortCriteriaAbortAction action;
+
+  /// The type of job execution failures that can initiate a job abort.
+  @_s.JsonKey(name: 'failureType')
+  final AwsJobAbortCriteriaFailureType failureType;
+
+  /// The minimum number of things which must receive job execution notifications
+  /// before the job can be aborted.
+  @_s.JsonKey(name: 'minNumberOfExecutedThings')
+  final int minNumberOfExecutedThings;
+
+  /// The minimum percentage of job execution failures that must occur to initiate
+  /// the job abort.
+  ///
+  /// AWS IoT supports up to two digits after the decimal (for example, 10.9 and
+  /// 10.99, but not 10.999).
+  @_s.JsonKey(name: 'thresholdPercentage')
+  final double thresholdPercentage;
+
+  AwsJobAbortCriteria({
+    @_s.required this.action,
+    @_s.required this.failureType,
+    @_s.required this.minNumberOfExecutedThings,
+    @_s.required this.thresholdPercentage,
+  });
+  Map<String, dynamic> toJson() => _$AwsJobAbortCriteriaToJson(this);
+}
+
+enum AwsJobAbortCriteriaAbortAction {
+  @_s.JsonValue('CANCEL')
+  cancel,
+}
+
+enum AwsJobAbortCriteriaFailureType {
+  @_s.JsonValue('FAILED')
+  failed,
+  @_s.JsonValue('REJECTED')
+  rejected,
+  @_s.JsonValue('TIMED_OUT')
+  timedOut,
+  @_s.JsonValue('ALL')
+  all,
+}
+
 /// Configuration for the rollout of OTA updates.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -12123,17 +13682,60 @@ extension on AutoRegistrationStatus {
     createFactory: true,
     createToJson: true)
 class AwsJobExecutionsRolloutConfig {
+  /// The rate of increase for a job rollout. This parameter allows you to define
+  /// an exponential rate increase for a job rollout.
+  @_s.JsonKey(name: 'exponentialRate')
+  final AwsJobExponentialRolloutRate exponentialRate;
+
   /// The maximum number of OTA update job executions started per minute.
   @_s.JsonKey(name: 'maximumPerMinute')
   final int maximumPerMinute;
 
   AwsJobExecutionsRolloutConfig({
+    this.exponentialRate,
     this.maximumPerMinute,
   });
   factory AwsJobExecutionsRolloutConfig.fromJson(Map<String, dynamic> json) =>
       _$AwsJobExecutionsRolloutConfigFromJson(json);
 
   Map<String, dynamic> toJson() => _$AwsJobExecutionsRolloutConfigToJson(this);
+}
+
+/// The rate of increase for a job rollout. This parameter allows you to define
+/// an exponential rate increase for a job rollout.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsJobExponentialRolloutRate {
+  /// The minimum number of things that will be notified of a pending job, per
+  /// minute, at the start of the job rollout. This is the initial rate of the
+  /// rollout.
+  @_s.JsonKey(name: 'baseRatePerMinute')
+  final int baseRatePerMinute;
+
+  /// The rate of increase for a job rollout. The number of things notified is
+  /// multiplied by this factor.
+  @_s.JsonKey(name: 'incrementFactor')
+  final double incrementFactor;
+
+  /// The criteria to initiate the increase in rate of rollout for a job.
+  ///
+  /// AWS IoT supports up to one digit after the decimal (for example, 1.5, but
+  /// not 1.55).
+  @_s.JsonKey(name: 'rateIncreaseCriteria')
+  final AwsJobRateIncreaseCriteria rateIncreaseCriteria;
+
+  AwsJobExponentialRolloutRate({
+    @_s.required this.baseRatePerMinute,
+    @_s.required this.incrementFactor,
+    @_s.required this.rateIncreaseCriteria,
+  });
+  factory AwsJobExponentialRolloutRate.fromJson(Map<String, dynamic> json) =>
+      _$AwsJobExponentialRolloutRateFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AwsJobExponentialRolloutRateToJson(this);
 }
 
 /// Configuration information for pre-signed URLs. Valid when
@@ -12159,6 +13761,60 @@ class AwsJobPresignedUrlConfig {
   Map<String, dynamic> toJson() => _$AwsJobPresignedUrlConfigToJson(this);
 }
 
+/// The criteria to initiate the increase in rate of rollout for a job.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class AwsJobRateIncreaseCriteria {
+  /// When this number of things have been notified, it will initiate an increase
+  /// in the rollout rate.
+  @_s.JsonKey(name: 'numberOfNotifiedThings')
+  final int numberOfNotifiedThings;
+
+  /// When this number of things have succeeded in their job execution, it will
+  /// initiate an increase in the rollout rate.
+  @_s.JsonKey(name: 'numberOfSucceededThings')
+  final int numberOfSucceededThings;
+
+  AwsJobRateIncreaseCriteria({
+    this.numberOfNotifiedThings,
+    this.numberOfSucceededThings,
+  });
+  factory AwsJobRateIncreaseCriteria.fromJson(Map<String, dynamic> json) =>
+      _$AwsJobRateIncreaseCriteriaFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AwsJobRateIncreaseCriteriaToJson(this);
+}
+
+/// Specifies the amount of time each device has to finish its execution of the
+/// job. A timer is started when the job execution status is set to
+/// <code>IN_PROGRESS</code>. If the job execution status is not set to another
+/// terminal state before the timer expires, it will be automatically set to
+/// <code>TIMED_OUT</code>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class AwsJobTimeoutConfig {
+  /// Specifies the amount of time, in minutes, this device has to finish
+  /// execution of this job. The timeout interval can be anywhere between 1 minute
+  /// and 7 days (1 to 10080 minutes). The in progress timer can't be updated and
+  /// will apply to all job executions for the job. Whenever a job execution
+  /// remains in the IN_PROGRESS status for longer than this interval, the job
+  /// execution will fail and switch to the terminal <code>TIMED_OUT</code>
+  /// status.
+  @_s.JsonKey(name: 'inProgressTimeoutInMinutes')
+  final int inProgressTimeoutInMinutes;
+
+  AwsJobTimeoutConfig({
+    this.inProgressTimeoutInMinutes,
+  });
+  Map<String, dynamic> toJson() => _$AwsJobTimeoutConfigToJson(this);
+}
+
 /// A Device Defender security profile behavior.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -12166,7 +13822,7 @@ class AwsJobPresignedUrlConfig {
     createFactory: true,
     createToJson: true)
 class Behavior {
-  /// The name you have given to the behavior.
+  /// The name you've given to the behavior.
   @_s.JsonKey(name: 'name')
   final String name;
 
@@ -12181,16 +13837,21 @@ class Behavior {
 
   /// The dimension for a metric in your behavior. For example, using a
   /// <code>TOPIC_FILTER</code> dimension, you can narrow down the scope of the
-  /// metric only to MQTT topics whose name match the pattern specified in the
-  /// dimension.
+  /// metric to only MQTT topics where the name matches the pattern specified in
+  /// the dimension. This can't be used with custom metrics.
   @_s.JsonKey(name: 'metricDimension')
   final MetricDimension metricDimension;
+
+  /// Suppresses alerts.
+  @_s.JsonKey(name: 'suppressAlerts')
+  final bool suppressAlerts;
 
   Behavior({
     @_s.required this.name,
     this.criteria,
     this.metric,
     this.metricDimension,
+    this.suppressAlerts,
   });
   factory Behavior.fromJson(Map<String, dynamic> json) =>
       _$BehaviorFromJson(json);
@@ -12207,7 +13868,24 @@ class Behavior {
 class BehaviorCriteria {
   /// The operator that relates the thing measured (<code>metric</code>) to the
   /// criteria (containing a <code>value</code> or
-  /// <code>statisticalThreshold</code>).
+  /// <code>statisticalThreshold</code>). Valid operators include:
+  ///
+  /// <ul>
+  /// <li>
+  /// <code>string-list</code>: <code>in-set</code> and <code>not-in-set</code>
+  /// </li>
+  /// <li>
+  /// <code>number-list</code>: <code>in-set</code> and <code>not-in-set</code>
+  /// </li>
+  /// <li>
+  /// <code>ip-address-list</code>: <code>in-cidr-set</code> and
+  /// <code>not-in-cidr-set</code>
+  /// </li>
+  /// <li>
+  /// <code>number</code>: <code>less-than</code>, <code>less-than-equals</code>,
+  /// <code>greater-than</code>, and <code>greater-than-equals</code>
+  /// </li>
+  /// </ul>
   @_s.JsonKey(name: 'comparisonOperator')
   final ComparisonOperator comparisonOperator;
 
@@ -12223,17 +13901,22 @@ class BehaviorCriteria {
   final int consecutiveDatapointsToClear;
 
   /// Use this to specify the time duration over which the behavior is evaluated,
-  /// for those criteria which have a time dimension (for example,
+  /// for those criteria that have a time dimension (for example,
   /// <code>NUM_MESSAGES_SENT</code>). For a <code>statisticalThreshhold</code>
   /// metric comparison, measurements from all devices are accumulated over this
   /// time duration before being used to calculate percentiles, and later,
   /// measurements from an individual device are also accumulated over this time
-  /// duration before being given a percentile rank.
+  /// duration before being given a percentile rank. Cannot be used with
+  /// list-based metric datatypes.
   @_s.JsonKey(name: 'durationSeconds')
   final int durationSeconds;
 
-  /// A statistical ranking (percentile) which indicates a threshold value by
-  /// which a behavior is determined to be in compliance or in violation of the
+  /// The configuration of an ML Detect
+  @_s.JsonKey(name: 'mlDetectionConfig')
+  final MachineLearningDetectionConfig mlDetectionConfig;
+
+  /// A statistical ranking (percentile)that indicates a threshold value by which
+  /// a behavior is determined to be in compliance or in violation of the
   /// behavior.
   @_s.JsonKey(name: 'statisticalThreshold')
   final StatisticalThreshold statisticalThreshold;
@@ -12247,6 +13930,7 @@ class BehaviorCriteria {
     this.consecutiveDatapointsToAlarm,
     this.consecutiveDatapointsToClear,
     this.durationSeconds,
+    this.mlDetectionConfig,
     this.statisticalThreshold,
     this.value,
   });
@@ -12254,6 +13938,74 @@ class BehaviorCriteria {
       _$BehaviorCriteriaFromJson(json);
 
   Map<String, dynamic> toJson() => _$BehaviorCriteriaToJson(this);
+}
+
+enum BehaviorCriteriaType {
+  @_s.JsonValue('STATIC')
+  static,
+  @_s.JsonValue('STATISTICAL')
+  statistical,
+  @_s.JsonValue('MACHINE_LEARNING')
+  machineLearning,
+}
+
+extension on BehaviorCriteriaType {
+  String toValue() {
+    switch (this) {
+      case BehaviorCriteriaType.static:
+        return 'STATIC';
+      case BehaviorCriteriaType.statistical:
+        return 'STATISTICAL';
+      case BehaviorCriteriaType.machineLearning:
+        return 'MACHINE_LEARNING';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
+/// The summary of an ML Detect behavior model.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class BehaviorModelTrainingSummary {
+  /// The name of the behavior.
+  @_s.JsonKey(name: 'behaviorName')
+  final String behaviorName;
+
+  /// The percentage of datapoints collected.
+  @_s.JsonKey(name: 'datapointsCollectionPercentage')
+  final double datapointsCollectionPercentage;
+
+  /// The date the model was last refreshed.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastModelRefreshDate')
+  final DateTime lastModelRefreshDate;
+
+  /// The status of the behavior model.
+  @_s.JsonKey(name: 'modelStatus')
+  final ModelStatus modelStatus;
+
+  /// The name of the security profile.
+  @_s.JsonKey(name: 'securityProfileName')
+  final String securityProfileName;
+
+  /// The date a training model started collecting data.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'trainingDataCollectionStartDate')
+  final DateTime trainingDataCollectionStartDate;
+
+  BehaviorModelTrainingSummary({
+    this.behaviorName,
+    this.datapointsCollectionPercentage,
+    this.lastModelRefreshDate,
+    this.modelStatus,
+    this.securityProfileName,
+    this.trainingDataCollectionStartDate,
+  });
+  factory BehaviorModelTrainingSummary.fromJson(Map<String, dynamic> json) =>
+      _$BehaviorModelTrainingSummaryFromJson(json);
 }
 
 /// Additional information about the billing group.
@@ -12454,6 +14206,18 @@ class CancelAuditTaskResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class CancelDetectMitigationActionsTaskResponse {
+  CancelDetectMitigationActionsTaskResponse();
+  factory CancelDetectMitigationActionsTaskResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$CancelDetectMitigationActionsTaskResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class CancelJobResponse {
   /// A short text description of the job.
   @_s.JsonKey(name: 'description')
@@ -12511,6 +14275,10 @@ class Certificate {
   @_s.JsonKey(name: 'certificateId')
   final String certificateId;
 
+  /// The mode of the certificate.
+  @_s.JsonKey(name: 'certificateMode')
+  final CertificateMode certificateMode;
+
   /// The date and time the certificate was created.
   @UnixDateTimeConverter()
   @_s.JsonKey(name: 'creationDate')
@@ -12525,6 +14293,7 @@ class Certificate {
   Certificate({
     this.certificateArn,
     this.certificateId,
+    this.certificateMode,
     this.creationDate,
     this.status,
   });
@@ -12550,6 +14319,10 @@ class CertificateDescription {
   /// The ID of the certificate.
   @_s.JsonKey(name: 'certificateId')
   final String certificateId;
+
+  /// The mode of the certificate.
+  @_s.JsonKey(name: 'certificateMode')
+  final CertificateMode certificateMode;
 
   /// The certificate data, in PEM format.
   @_s.JsonKey(name: 'certificatePem')
@@ -12597,6 +14370,7 @@ class CertificateDescription {
     this.caCertificateId,
     this.certificateArn,
     this.certificateId,
+    this.certificateMode,
     this.certificatePem,
     this.creationDate,
     this.customerVersion,
@@ -12610,6 +14384,13 @@ class CertificateDescription {
   });
   factory CertificateDescription.fromJson(Map<String, dynamic> json) =>
       _$CertificateDescriptionFromJson(json);
+}
+
+enum CertificateMode {
+  @_s.JsonValue('DEFAULT')
+  $default,
+  @_s.JsonValue('SNI_ONLY')
+  sniOnly,
 }
 
 enum CertificateStatus {
@@ -12887,6 +14668,19 @@ enum ComparisonOperator {
   inPortSet,
   @_s.JsonValue('not-in-port-set')
   notInPortSet,
+  @_s.JsonValue('in-set')
+  inSet,
+  @_s.JsonValue('not-in-set')
+  notInSet,
+}
+
+enum ConfidenceLevel {
+  @_s.JsonValue('LOW')
+  low,
+  @_s.JsonValue('MEDIUM')
+  medium,
+  @_s.JsonValue('HIGH')
+  high,
 }
 
 /// Configuration.
@@ -12919,6 +14713,17 @@ class ConfirmTopicRuleDestinationResponse {
   factory ConfirmTopicRuleDestinationResponse.fromJson(
           Map<String, dynamic> json) =>
       _$ConfirmTopicRuleDestinationResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class CreateAuditSuppressionResponse {
+  CreateAuditSuppressionResponse();
+  factory CreateAuditSuppressionResponse.fromJson(Map<String, dynamic> json) =>
+      _$CreateAuditSuppressionResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -13006,8 +14811,32 @@ class CreateCertificateFromCsrResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class CreateCustomMetricResponse {
+  /// The Amazon Resource Number (ARN) of the custom metric, e.g.
+  /// <code>arn:<i>aws-partition</i>:iot:<i>region</i>:<i>accountId</i>:custommetric/<i>metricName</i>
+  /// </code>
+  @_s.JsonKey(name: 'metricArn')
+  final String metricArn;
+
+  /// The name of the custom metric to be used in the metric report.
+  @_s.JsonKey(name: 'metricName')
+  final String metricName;
+
+  CreateCustomMetricResponse({
+    this.metricArn,
+    this.metricName,
+  });
+  factory CreateCustomMetricResponse.fromJson(Map<String, dynamic> json) =>
+      _$CreateCustomMetricResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class CreateDimensionResponse {
-  /// The ARN (Amazon resource name) of the created dimension.
+  /// The Amazon Resource Name (ARN) of the created dimension.
   @_s.JsonKey(name: 'arn')
   final String arn;
 
@@ -13599,6 +15428,33 @@ class CustomCodeSigning {
   Map<String, dynamic> toJson() => _$CustomCodeSigningToJson(this);
 }
 
+enum CustomMetricType {
+  @_s.JsonValue('string-list')
+  stringList,
+  @_s.JsonValue('ip-address-list')
+  ipAddressList,
+  @_s.JsonValue('number-list')
+  numberList,
+  @_s.JsonValue('number')
+  number,
+}
+
+extension on CustomMetricType {
+  String toValue() {
+    switch (this) {
+      case CustomMetricType.stringList:
+        return 'string-list';
+      case CustomMetricType.ipAddressList:
+        return 'ip-address-list';
+      case CustomMetricType.numberList:
+        return 'number-list';
+      case CustomMetricType.number:
+        return 'number';
+    }
+    throw Exception('Unknown enum value: $this');
+  }
+}
+
 enum DayOfWeek {
   @_s.JsonValue('SUN')
   sun,
@@ -13655,6 +15511,17 @@ class DeleteAccountAuditConfigurationResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class DeleteAuditSuppressionResponse {
+  DeleteAuditSuppressionResponse();
+  factory DeleteAuditSuppressionResponse.fromJson(Map<String, dynamic> json) =>
+      _$DeleteAuditSuppressionResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class DeleteAuthorizerResponse {
   DeleteAuthorizerResponse();
   factory DeleteAuthorizerResponse.fromJson(Map<String, dynamic> json) =>
@@ -13682,6 +15549,17 @@ class DeleteCACertificateResponse {
   DeleteCACertificateResponse();
   factory DeleteCACertificateResponse.fromJson(Map<String, dynamic> json) =>
       _$DeleteCACertificateResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DeleteCustomMetricResponse {
+  DeleteCustomMetricResponse();
+  factory DeleteCustomMetricResponse.fromJson(Map<String, dynamic> json) =>
+      _$DeleteCustomMetricResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -14013,6 +15891,42 @@ class DescribeAuditMitigationActionsTaskResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class DescribeAuditSuppressionResponse {
+  @_s.JsonKey(name: 'checkName')
+  final String checkName;
+
+  /// The description of the audit suppression.
+  @_s.JsonKey(name: 'description')
+  final String description;
+
+  /// The epoch timestamp in seconds at which this suppression expires.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'expirationDate')
+  final DateTime expirationDate;
+  @_s.JsonKey(name: 'resourceIdentifier')
+  final ResourceIdentifier resourceIdentifier;
+
+  /// Indicates whether a suppression should exist indefinitely or not.
+  @_s.JsonKey(name: 'suppressIndefinitely')
+  final bool suppressIndefinitely;
+
+  DescribeAuditSuppressionResponse({
+    this.checkName,
+    this.description,
+    this.expirationDate,
+    this.resourceIdentifier,
+    this.suppressIndefinitely,
+  });
+  factory DescribeAuditSuppressionResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$DescribeAuditSuppressionResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class DescribeAuditTaskResponse {
   /// Detailed information about each check performed during this audit.
   @_s.JsonKey(name: 'auditDetails')
@@ -14157,6 +16071,54 @@ class DescribeCertificateResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class DescribeCustomMetricResponse {
+  /// The creation date of the custom metric in milliseconds since epoch.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'creationDate')
+  final DateTime creationDate;
+
+  /// Field represents a friendly name in the console for the custom metric;
+  /// doesn't have to be unique. Don't use this name as the metric identifier in
+  /// the device metric report. Can be updated.
+  @_s.JsonKey(name: 'displayName')
+  final String displayName;
+
+  /// The time the custom metric was last modified in milliseconds since epoch.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastModifiedDate')
+  final DateTime lastModifiedDate;
+
+  /// The Amazon Resource Number (ARN) of the custom metric.
+  @_s.JsonKey(name: 'metricArn')
+  final String metricArn;
+
+  /// The name of the custom metric.
+  @_s.JsonKey(name: 'metricName')
+  final String metricName;
+
+  /// The type of the custom metric. Types include <code>string-list</code>,
+  /// <code>ip-address-list</code>, <code>number-list</code>, and
+  /// <code>number</code>.
+  @_s.JsonKey(name: 'metricType')
+  final CustomMetricType metricType;
+
+  DescribeCustomMetricResponse({
+    this.creationDate,
+    this.displayName,
+    this.lastModifiedDate,
+    this.metricArn,
+    this.metricName,
+    this.metricType,
+  });
+  factory DescribeCustomMetricResponse.fromJson(Map<String, dynamic> json) =>
+      _$DescribeCustomMetricResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class DescribeDefaultAuthorizerResponse {
   /// The default authorizer's description.
   @_s.JsonKey(name: 'authorizerDescription')
@@ -14175,8 +16137,26 @@ class DescribeDefaultAuthorizerResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class DescribeDetectMitigationActionsTaskResponse {
+  /// The description of a task.
+  @_s.JsonKey(name: 'taskSummary')
+  final DetectMitigationActionsTaskSummary taskSummary;
+
+  DescribeDetectMitigationActionsTaskResponse({
+    this.taskSummary,
+  });
+  factory DescribeDetectMitigationActionsTaskResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$DescribeDetectMitigationActionsTaskResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class DescribeDimensionResponse {
-  /// The ARN (Amazon resource name) for the dimension.
+  /// The Amazon Resource Name (ARN) for the dimension.
   @_s.JsonKey(name: 'arn')
   final String arn;
 
@@ -14246,6 +16226,11 @@ class DescribeDomainConfigurationResponse {
   @_s.JsonKey(name: 'domainType')
   final DomainType domainType;
 
+  /// The date and time the domain configuration's status was last changed.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastStatusChangeDate')
+  final DateTime lastStatusChangeDate;
+
   /// A list containing summary information about the server certificate included
   /// in the domain configuration.
   @_s.JsonKey(name: 'serverCertificates')
@@ -14262,6 +16247,7 @@ class DescribeDomainConfigurationResponse {
     this.domainConfigurationStatus,
     this.domainName,
     this.domainType,
+    this.lastStatusChangeDate,
     this.serverCertificates,
     this.serviceType,
   });
@@ -14488,6 +16474,10 @@ class DescribeProvisioningTemplateResponse {
   @_s.JsonKey(name: 'lastModifiedDate')
   final DateTime lastModifiedDate;
 
+  /// Gets information about a pre-provisioned hook.
+  @_s.JsonKey(name: 'preProvisioningHook')
+  final ProvisioningHook preProvisioningHook;
+
   /// The ARN of the role associated with the provisioning template. This IoT role
   /// grants permission to provision a device.
   @_s.JsonKey(name: 'provisioningRoleArn')
@@ -14511,6 +16501,7 @@ class DescribeProvisioningTemplateResponse {
     this.description,
     this.enabled,
     this.lastModifiedDate,
+    this.preProvisioningHook,
     this.provisioningRoleArn,
     this.templateArn,
     this.templateBody,
@@ -14578,20 +16569,23 @@ class DescribeRoleAliasResponse {
     createFactory: true,
     createToJson: false)
 class DescribeScheduledAuditResponse {
-  /// The day of the month on which the scheduled audit takes place. Will be "1"
-  /// through "31" or "LAST". If days 29-31 are specified, and the month does not
-  /// have that many days, the audit takes place on the "LAST" day of the month.
+  /// The day of the month on which the scheduled audit takes place. This is will
+  /// be <code>1</code> through <code>31</code> or <code>LAST</code>. If days
+  /// <code>29</code>-<code>31</code> are specified, and the month does not have
+  /// that many days, the audit takes place on the <code>LAST</code> day of the
+  /// month.
   @_s.JsonKey(name: 'dayOfMonth')
   final String dayOfMonth;
 
-  /// The day of the week on which the scheduled audit takes place. One of "SUN",
-  /// "MON", "TUE", "WED", "THU", "FRI", or "SAT".
+  /// The day of the week on which the scheduled audit takes place, either one of
+  /// <code>SUN</code>, <code>MON</code>, <code>TUE</code>, <code>WED</code>,
+  /// <code>THU</code>, <code>FRI</code>, or <code>SAT</code>.
   @_s.JsonKey(name: 'dayOfWeek')
   final DayOfWeek dayOfWeek;
 
-  /// How often the scheduled audit takes place. One of "DAILY", "WEEKLY",
-  /// "BIWEEKLY", or "MONTHLY". The start time of each audit is determined by the
-  /// system.
+  /// How often the scheduled audit takes place, either one of <code>DAILY</code>,
+  /// <code>WEEKLY</code>, <code>BIWEEKLY</code>, or <code>MONTHLY</code>. The
+  /// start time of each audit is determined by the system.
   @_s.JsonKey(name: 'frequency')
   final AuditFrequency frequency;
 
@@ -14630,12 +16624,13 @@ class DescribeScheduledAuditResponse {
     createFactory: true,
     createToJson: false)
 class DescribeSecurityProfileResponse {
+  /// <i>Please use
+  /// <a>DescribeSecurityProfileResponse$additionalMetricsToRetainV2</a>
+  /// instead.</i>
+  ///
   /// A list of metrics whose data is retained (stored). By default, data is
   /// retained for any metric used in the profile's <code>behaviors</code>, but it
   /// is also retained for any metric specified here.
-  ///
-  /// <b>Note:</b> This API field is deprecated. Please use
-  /// <a>DescribeSecurityProfileResponse$additionalMetricsToRetainV2</a> instead.
   @_s.JsonKey(name: 'additionalMetricsToRetain')
   final List<String> additionalMetricsToRetain;
 
@@ -14867,7 +16862,14 @@ class DescribeThingResponse {
   @_s.JsonKey(name: 'billingGroupName')
   final String billingGroupName;
 
-  /// The default client ID.
+  /// The default MQTT client ID. For a typical device, the thing name is also
+  /// used as the default MQTT client ID. Although we don’t require a mapping
+  /// between a thing's registry name and its use of MQTT client IDs,
+  /// certificates, or shadow state, we recommend that you choose a thing name and
+  /// use it as the MQTT client ID for the registry and the Device Shadow service.
+  ///
+  /// This lets you better organize your AWS IoT fleet without removing the
+  /// flexibility of the underlying device certificate model or shadows.
   @_s.JsonKey(name: 'defaultClientId')
   final String defaultClientId;
 
@@ -14992,6 +16994,216 @@ class DetachThingPrincipalResponse {
   DetachThingPrincipalResponse();
   factory DetachThingPrincipalResponse.fromJson(Map<String, dynamic> json) =>
       _$DetachThingPrincipalResponseFromJson(json);
+}
+
+/// Describes which mitigation actions should be executed.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DetectMitigationActionExecution {
+  /// The friendly name that uniquely identifies the mitigation action.
+  @_s.JsonKey(name: 'actionName')
+  final String actionName;
+
+  /// The error code of a mitigation action.
+  @_s.JsonKey(name: 'errorCode')
+  final String errorCode;
+
+  /// The date a mitigation action ended.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'executionEndDate')
+  final DateTime executionEndDate;
+
+  /// The date a mitigation action was started.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'executionStartDate')
+  final DateTime executionStartDate;
+
+  /// The message of a mitigation action.
+  @_s.JsonKey(name: 'message')
+  final String message;
+
+  /// The status of a mitigation action.
+  @_s.JsonKey(name: 'status')
+  final DetectMitigationActionExecutionStatus status;
+
+  /// The unique identifier of the task.
+  @_s.JsonKey(name: 'taskId')
+  final String taskId;
+
+  /// The name of the thing.
+  @_s.JsonKey(name: 'thingName')
+  final String thingName;
+
+  /// The unique identifier of the violation.
+  @_s.JsonKey(name: 'violationId')
+  final String violationId;
+
+  DetectMitigationActionExecution({
+    this.actionName,
+    this.errorCode,
+    this.executionEndDate,
+    this.executionStartDate,
+    this.message,
+    this.status,
+    this.taskId,
+    this.thingName,
+    this.violationId,
+  });
+  factory DetectMitigationActionExecution.fromJson(Map<String, dynamic> json) =>
+      _$DetectMitigationActionExecutionFromJson(json);
+}
+
+enum DetectMitigationActionExecutionStatus {
+  @_s.JsonValue('IN_PROGRESS')
+  inProgress,
+  @_s.JsonValue('SUCCESSFUL')
+  successful,
+  @_s.JsonValue('FAILED')
+  failed,
+  @_s.JsonValue('SKIPPED')
+  skipped,
+}
+
+/// The statistics of a mitigation action task.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DetectMitigationActionsTaskStatistics {
+  /// The actions that were performed.
+  @_s.JsonKey(name: 'actionsExecuted')
+  final int actionsExecuted;
+
+  /// The actions that failed.
+  @_s.JsonKey(name: 'actionsFailed')
+  final int actionsFailed;
+
+  /// The actions that were skipped.
+  @_s.JsonKey(name: 'actionsSkipped')
+  final int actionsSkipped;
+
+  DetectMitigationActionsTaskStatistics({
+    this.actionsExecuted,
+    this.actionsFailed,
+    this.actionsSkipped,
+  });
+  factory DetectMitigationActionsTaskStatistics.fromJson(
+          Map<String, dynamic> json) =>
+      _$DetectMitigationActionsTaskStatisticsFromJson(json);
+}
+
+enum DetectMitigationActionsTaskStatus {
+  @_s.JsonValue('IN_PROGRESS')
+  inProgress,
+  @_s.JsonValue('SUCCESSFUL')
+  successful,
+  @_s.JsonValue('FAILED')
+  failed,
+  @_s.JsonValue('CANCELED')
+  canceled,
+}
+
+/// The summary of the mitigation action tasks.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class DetectMitigationActionsTaskSummary {
+  /// The definition of the actions.
+  @_s.JsonKey(name: 'actionsDefinition')
+  final List<MitigationAction> actionsDefinition;
+
+  /// Includes only active violations.
+  @_s.JsonKey(name: 'onlyActiveViolationsIncluded')
+  final bool onlyActiveViolationsIncluded;
+
+  /// Includes suppressed alerts.
+  @_s.JsonKey(name: 'suppressedAlertsIncluded')
+  final bool suppressedAlertsIncluded;
+
+  /// Specifies the ML Detect findings to which the mitigation actions are
+  /// applied.
+  @_s.JsonKey(name: 'target')
+  final DetectMitigationActionsTaskTarget target;
+
+  /// The date the task ended.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'taskEndTime')
+  final DateTime taskEndTime;
+
+  /// The unique identifier of the task.
+  @_s.JsonKey(name: 'taskId')
+  final String taskId;
+
+  /// The date the task started.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'taskStartTime')
+  final DateTime taskStartTime;
+
+  /// The statistics of a mitigation action task.
+  @_s.JsonKey(name: 'taskStatistics')
+  final DetectMitigationActionsTaskStatistics taskStatistics;
+
+  /// The status of the task.
+  @_s.JsonKey(name: 'taskStatus')
+  final DetectMitigationActionsTaskStatus taskStatus;
+
+  /// Specifies the time period of which violation events occurred between.
+  @_s.JsonKey(name: 'violationEventOccurrenceRange')
+  final ViolationEventOccurrenceRange violationEventOccurrenceRange;
+
+  DetectMitigationActionsTaskSummary({
+    this.actionsDefinition,
+    this.onlyActiveViolationsIncluded,
+    this.suppressedAlertsIncluded,
+    this.target,
+    this.taskEndTime,
+    this.taskId,
+    this.taskStartTime,
+    this.taskStatistics,
+    this.taskStatus,
+    this.violationEventOccurrenceRange,
+  });
+  factory DetectMitigationActionsTaskSummary.fromJson(
+          Map<String, dynamic> json) =>
+      _$DetectMitigationActionsTaskSummaryFromJson(json);
+}
+
+/// The target of a mitigation action task.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class DetectMitigationActionsTaskTarget {
+  /// The name of the behavior.
+  @_s.JsonKey(name: 'behaviorName')
+  final String behaviorName;
+
+  /// The name of the security profile.
+  @_s.JsonKey(name: 'securityProfileName')
+  final String securityProfileName;
+
+  /// The unique identifiers of the violations.
+  @_s.JsonKey(name: 'violationIds')
+  final List<String> violationIds;
+
+  DetectMitigationActionsTaskTarget({
+    this.behaviorName,
+    this.securityProfileName,
+    this.violationIds,
+  });
+  factory DetectMitigationActionsTaskTarget.fromJson(
+          Map<String, dynamic> json) =>
+      _$DetectMitigationActionsTaskTargetFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$DetectMitigationActionsTaskTargetToJson(this);
 }
 
 enum DeviceCertificateUpdateAction {
@@ -15310,11 +17522,11 @@ class ElasticsearchAction {
     createFactory: true,
     createToJson: true)
 class EnableIoTLoggingParams {
-  /// Specifies the types of information to be logged.
+  /// Specifies the type of information to be logged.
   @_s.JsonKey(name: 'logLevel')
   final LogLevel logLevel;
 
-  /// The ARN of the IAM role used for logging.
+  /// The Amazon Resource Name (ARN) of the IAM role used for logging.
   @_s.JsonKey(name: 'roleArnForLogging')
   final String roleArnForLogging;
 
@@ -15438,13 +17650,13 @@ class ExponentialRolloutRate {
   final int baseRatePerMinute;
 
   /// The exponential factor to increase the rate of rollout for a job.
+  ///
+  /// AWS IoT supports up to one digit after the decimal (for example, 1.5, but
+  /// not 1.55).
   @_s.JsonKey(name: 'incrementFactor')
   final double incrementFactor;
 
   /// The criteria to initiate the increase in rate of rollout for a job.
-  ///
-  /// AWS IoT supports up to one digit after the decimal (for example, 1.5, but
-  /// not 1.55).
   @_s.JsonKey(name: 'rateIncreaseCriteria')
   final RateIncreaseCriteria rateIncreaseCriteria;
 
@@ -15532,6 +17744,19 @@ class FirehoseAction {
   @_s.JsonKey(name: 'roleArn')
   final String roleArn;
 
+  /// Whether to deliver the Kinesis Data Firehose stream as a batch by using <a
+  /// href="https://docs.aws.amazon.com/firehose/latest/APIReference/API_PutRecordBatch.html">
+  /// <code>PutRecordBatch</code> </a>. The default value is <code>false</code>.
+  ///
+  /// When <code>batchMode</code> is <code>true</code> and the rule's SQL
+  /// statement evaluates to an Array, each Array element forms one record in the
+  /// <a
+  /// href="https://docs.aws.amazon.com/firehose/latest/APIReference/API_PutRecordBatch.html">
+  /// <code>PutRecordBatch</code> </a> request. The resulting array can't have
+  /// more than 500 records.
+  @_s.JsonKey(name: 'batchMode')
+  final bool batchMode;
+
   /// A character separator that will be used to separate records written to the
   /// Firehose stream. Valid values are: '\n' (newline), '\t' (tab), '\r\n'
   /// (Windows newline), ',' (comma).
@@ -15541,12 +17766,38 @@ class FirehoseAction {
   FirehoseAction({
     @_s.required this.deliveryStreamName,
     @_s.required this.roleArn,
+    this.batchMode,
     this.separator,
   });
   factory FirehoseAction.fromJson(Map<String, dynamic> json) =>
       _$FirehoseActionFromJson(json);
 
   Map<String, dynamic> toJson() => _$FirehoseActionToJson(this);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class GetBehaviorModelTrainingSummariesResponse {
+  /// A token that can be used to retrieve the next set of results, or
+  /// <code>null</code> if there are no additional results.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// A list of all ML Detect behaviors and their model status for a given
+  /// Security Profile.
+  @_s.JsonKey(name: 'summaries')
+  final List<BehaviorModelTrainingSummary> summaries;
+
+  GetBehaviorModelTrainingSummariesResponse({
+    this.nextToken,
+    this.summaries,
+  });
+  factory GetBehaviorModelTrainingSummariesResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$GetBehaviorModelTrainingSummariesResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -16115,6 +18366,18 @@ enum IndexStatus {
     createFactory: true,
     createToJson: true)
 class IotAnalyticsAction {
+  /// Whether to process the action as a batch. The default value is
+  /// <code>false</code>.
+  ///
+  /// When <code>batchMode</code> is <code>true</code> and the rule SQL statement
+  /// evaluates to an Array, each Array element is delivered as a separate message
+  /// when passed by <a
+  /// href="https://docs.aws.amazon.com/iotanalytics/latest/APIReference/API_BatchPutMessage.html">
+  /// <code>BatchPutMessage</code> </a> to the AWS IoT Analytics channel. The
+  /// resulting array can't have more than 100 messages.
+  @_s.JsonKey(name: 'batchMode')
+  final bool batchMode;
+
   /// (deprecated) The ARN of the IoT Analytics channel to which message data will
   /// be sent.
   @_s.JsonKey(name: 'channelArn')
@@ -16130,6 +18393,7 @@ class IotAnalyticsAction {
   final String roleArn;
 
   IotAnalyticsAction({
+    this.batchMode,
     this.channelArn,
     this.channelName,
     this.roleArn,
@@ -16156,14 +18420,37 @@ class IotEventsAction {
   @_s.JsonKey(name: 'roleArn')
   final String roleArn;
 
-  /// [Optional] Use this to ensure that only one input (message) with a given
-  /// messageId will be processed by an AWS IoT Events detector.
+  /// Whether to process the event actions as a batch. The default value is
+  /// <code>false</code>.
+  ///
+  /// When <code>batchMode</code> is <code>true</code>, you can't specify a
+  /// <code>messageId</code>.
+  ///
+  /// When <code>batchMode</code> is <code>true</code> and the rule SQL statement
+  /// evaluates to an Array, each Array element is treated as a separate message
+  /// when it's sent to AWS IoT Events by calling <a
+  /// href="https://docs.aws.amazon.com/iotevents/latest/apireference/API_iotevents-data_BatchPutMessage.html">
+  /// <code>BatchPutMessage</code> </a>. The resulting array can't have more than
+  /// 10 messages.
+  @_s.JsonKey(name: 'batchMode')
+  final bool batchMode;
+
+  /// The ID of the message. The default <code>messageId</code> is a new UUID
+  /// value.
+  ///
+  /// When <code>batchMode</code> is <code>true</code>, you can't specify a
+  /// <code>messageId</code>--a new UUID value will be assigned.
+  ///
+  /// Assign a value to this property to ensure that only one input (message) with
+  /// a given <code>messageId</code> will be processed by an AWS IoT Events
+  /// detector.
   @_s.JsonKey(name: 'messageId')
   final String messageId;
 
   IotEventsAction({
     @_s.required this.inputName,
     @_s.required this.roleArn,
+    this.batchMode,
     this.messageId,
   });
   factory IotEventsAction.fromJson(Map<String, dynamic> json) =>
@@ -16257,6 +18544,18 @@ class Job {
   @_s.JsonKey(name: 'lastUpdatedAt')
   final DateTime lastUpdatedAt;
 
+  /// The namespace used to indicate that a job is a customer-managed job.
+  ///
+  /// When you specify a value for this parameter, AWS IoT Core sends jobs
+  /// notifications to MQTT topics that contain the value in the following format.
+  ///
+  /// <code>$aws/things/<i>THING_NAME</i>/jobs/<i>JOB_ID</i>/notify-namespace-<i>NAMESPACE_ID</i>/</code>
+  /// <note>
+  /// The <code>namespaceId</code> feature is in public preview.
+  /// </note>
+  @_s.JsonKey(name: 'namespaceId')
+  final String namespaceId;
+
   /// Configuration for pre-signed S3 URLs.
   @_s.JsonKey(name: 'presignedUrlConfig')
   final PresignedUrlConfig presignedUrlConfig;
@@ -16304,6 +18603,7 @@ class Job {
     this.jobId,
     this.jobProcessDetails,
     this.lastUpdatedAt,
+    this.namespaceId,
     this.presignedUrlConfig,
     this.reasonCode,
     this.status,
@@ -16737,6 +19037,47 @@ class JobSummary {
       _$JobSummaryFromJson(json);
 }
 
+/// Send messages to an Amazon Managed Streaming for Apache Kafka (Amazon MSK)
+/// or self-managed Apache Kafka cluster.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class KafkaAction {
+  /// Properties of the Apache Kafka producer client.
+  @_s.JsonKey(name: 'clientProperties')
+  final Map<String, String> clientProperties;
+
+  /// The ARN of Kafka action's VPC <code>TopicRuleDestination</code>.
+  @_s.JsonKey(name: 'destinationArn')
+  final String destinationArn;
+
+  /// The Kafka topic for messages to be sent to the Kafka broker.
+  @_s.JsonKey(name: 'topic')
+  final String topic;
+
+  /// The Kafka message key.
+  @_s.JsonKey(name: 'key')
+  final String key;
+
+  /// The Kafka message partition.
+  @_s.JsonKey(name: 'partition')
+  final String partition;
+
+  KafkaAction({
+    @_s.required this.clientProperties,
+    @_s.required this.destinationArn,
+    @_s.required this.topic,
+    this.key,
+    this.partition,
+  });
+  factory KafkaAction.fromJson(Map<String, dynamic> json) =>
+      _$KafkaActionFromJson(json);
+
+  Map<String, dynamic> toJson() => _$KafkaActionToJson(this);
+}
+
 /// Describes a key pair.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -16931,6 +19272,29 @@ class ListAuditMitigationActionsTasksResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class ListAuditSuppressionsResponse {
+  /// A token that can be used to retrieve the next set of results, or
+  /// <code>null</code> if there are no additional results.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// List of audit suppressions.
+  @_s.JsonKey(name: 'suppressions')
+  final List<AuditSuppression> suppressions;
+
+  ListAuditSuppressionsResponse({
+    this.nextToken,
+    this.suppressions,
+  });
+  factory ListAuditSuppressionsResponse.fromJson(Map<String, dynamic> json) =>
+      _$ListAuditSuppressionsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class ListAuditTasksResponse {
   /// A token that can be used to retrieve the next set of results, or
   /// <code>null</code> if there are no additional results.
@@ -16981,7 +19345,7 @@ class ListBillingGroupsResponse {
   @_s.JsonKey(name: 'billingGroups')
   final List<GroupNameAndArn> billingGroups;
 
-  /// The token used to get the next set of results, or <b>null</b> if there are
+  /// The token to use to get the next set of results, or <b>null</b> if there are
   /// no additional results.
   @_s.JsonKey(name: 'nextToken')
   final String nextToken;
@@ -17063,6 +19427,78 @@ class ListCertificatesResponse {
   });
   factory ListCertificatesResponse.fromJson(Map<String, dynamic> json) =>
       _$ListCertificatesResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListCustomMetricsResponse {
+  /// The name of the custom metric.
+  @_s.JsonKey(name: 'metricNames')
+  final List<String> metricNames;
+
+  /// A token that can be used to retrieve the next set of results, or
+  /// <code>null</code> if there are no additional results.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListCustomMetricsResponse({
+    this.metricNames,
+    this.nextToken,
+  });
+  factory ListCustomMetricsResponse.fromJson(Map<String, dynamic> json) =>
+      _$ListCustomMetricsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListDetectMitigationActionsExecutionsResponse {
+  /// List of actions executions.
+  @_s.JsonKey(name: 'actionsExecutions')
+  final List<DetectMitigationActionExecution> actionsExecutions;
+
+  /// A token that can be used to retrieve the next set of results, or
+  /// <code>null</code> if there are no additional results.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  ListDetectMitigationActionsExecutionsResponse({
+    this.actionsExecutions,
+    this.nextToken,
+  });
+  factory ListDetectMitigationActionsExecutionsResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$ListDetectMitigationActionsExecutionsResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ListDetectMitigationActionsTasksResponse {
+  /// A token that can be used to retrieve the next set of results, or
+  /// <code>null</code> if there are no additional results.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
+  /// The collection of ML Detect mitigation tasks that matched the filter
+  /// criteria.
+  @_s.JsonKey(name: 'tasks')
+  final List<DetectMitigationActionsTaskSummary> tasks;
+
+  ListDetectMitigationActionsTasksResponse({
+    this.nextToken,
+    this.tasks,
+  });
+  factory ListDetectMitigationActionsTasksResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$ListDetectMitigationActionsTasksResponseFromJson(json);
 }
 
 @_s.JsonSerializable(
@@ -17371,7 +19807,7 @@ class ListPrincipalPoliciesResponse {
     createFactory: true,
     createToJson: false)
 class ListPrincipalThingsResponse {
-  /// The token used to get the next set of results, or <b>null</b> if there are
+  /// The token to use to get the next set of results, or <b>null</b> if there are
   /// no additional results.
   @_s.JsonKey(name: 'nextToken')
   final String nextToken;
@@ -17554,7 +19990,7 @@ class ListStreamsResponse {
     createFactory: true,
     createToJson: false)
 class ListTagsForResourceResponse {
-  /// The token used to get the next set of results, or <b>null</b> if there are
+  /// The token to use to get the next set of results, or <b>null</b> if there are
   /// no additional results.
   @_s.JsonKey(name: 'nextToken')
   final String nextToken;
@@ -17623,7 +20059,7 @@ class ListTargetsForSecurityProfileResponse {
     createFactory: true,
     createToJson: false)
 class ListThingGroupsForThingResponse {
-  /// The token used to get the next set of results, or <b>null</b> if there are
+  /// The token to use to get the next set of results, or <b>null</b> if there are
   /// no additional results.
   @_s.JsonKey(name: 'nextToken')
   final String nextToken;
@@ -17646,8 +20082,8 @@ class ListThingGroupsForThingResponse {
     createFactory: true,
     createToJson: false)
 class ListThingGroupsResponse {
-  /// The token used to get the next set of results, or <b>null</b> if there are
-  /// no additional results.
+  /// The token to use to get the next set of results. Will not be returned if
+  /// operation has returned all results.
   @_s.JsonKey(name: 'nextToken')
   final String nextToken;
 
@@ -17670,11 +20106,17 @@ class ListThingGroupsResponse {
     createFactory: true,
     createToJson: false)
 class ListThingPrincipalsResponse {
+  /// The token to use to get the next set of results, or <b>null</b> if there are
+  /// no additional results.
+  @_s.JsonKey(name: 'nextToken')
+  final String nextToken;
+
   /// The principals associated with the thing.
   @_s.JsonKey(name: 'principals')
   final List<String> principals;
 
   ListThingPrincipalsResponse({
+    this.nextToken,
     this.principals,
   });
   factory ListThingPrincipalsResponse.fromJson(Map<String, dynamic> json) =>
@@ -17687,7 +20129,7 @@ class ListThingPrincipalsResponse {
     createFactory: true,
     createToJson: false)
 class ListThingRegistrationTaskReportsResponse {
-  /// The token used to get the next set of results, or <b>null</b> if there are
+  /// The token to use to get the next set of results, or <b>null</b> if there are
   /// no additional results.
   @_s.JsonKey(name: 'nextToken')
   final String nextToken;
@@ -17716,7 +20158,7 @@ class ListThingRegistrationTaskReportsResponse {
     createFactory: true,
     createToJson: false)
 class ListThingRegistrationTasksResponse {
-  /// The token used to get the next set of results, or <b>null</b> if there are
+  /// The token to use to get the next set of results, or <b>null</b> if there are
   /// no additional results.
   @_s.JsonKey(name: 'nextToken')
   final String nextToken;
@@ -17741,8 +20183,8 @@ class ListThingRegistrationTasksResponse {
     createFactory: true,
     createToJson: false)
 class ListThingTypesResponse {
-  /// The token for the next set of results, or <b>null</b> if there are no
-  /// additional results.
+  /// The token for the next set of results. Will not be returned if operation has
+  /// returned all results.
   @_s.JsonKey(name: 'nextToken')
   final String nextToken;
 
@@ -17764,8 +20206,8 @@ class ListThingTypesResponse {
     createFactory: true,
     createToJson: false)
 class ListThingsInBillingGroupResponse {
-  /// The token used to get the next set of results, or <b>null</b> if there are
-  /// no additional results.
+  /// The token to use to get the next set of results. Will not be returned if
+  /// operation has returned all results.
   @_s.JsonKey(name: 'nextToken')
   final String nextToken;
 
@@ -17788,7 +20230,7 @@ class ListThingsInBillingGroupResponse {
     createFactory: true,
     createToJson: false)
 class ListThingsInThingGroupResponse {
-  /// The token used to get the next set of results, or <b>null</b> if there are
+  /// The token to use to get the next set of results, or <b>null</b> if there are
   /// no additional results.
   @_s.JsonKey(name: 'nextToken')
   final String nextToken;
@@ -17812,8 +20254,8 @@ class ListThingsInThingGroupResponse {
     createFactory: true,
     createToJson: false)
 class ListThingsResponse {
-  /// The token used to get the next set of results, or <b>null</b> if there are
-  /// no additional results.
+  /// The token to use to get the next set of results. Will not be returned if
+  /// operation has returned all results.
   @_s.JsonKey(name: 'nextToken')
   final String nextToken;
 
@@ -17839,7 +20281,8 @@ class ListTopicRuleDestinationsResponse {
   @_s.JsonKey(name: 'destinationSummaries')
   final List<TopicRuleDestinationSummary> destinationSummaries;
 
-  /// The token to retrieve the next set of results.
+  /// The token to use to get the next set of results, or <b>null</b> if there are
+  /// no additional results.
   @_s.JsonKey(name: 'nextToken')
   final String nextToken;
 
@@ -17859,7 +20302,8 @@ class ListTopicRuleDestinationsResponse {
     createFactory: true,
     createToJson: false)
 class ListTopicRulesResponse {
-  /// A token used to retrieve the next value.
+  /// The token to use to get the next set of results, or <b>null</b> if there are
+  /// no additional results.
   @_s.JsonKey(name: 'nextToken')
   final String nextToken;
 
@@ -17885,7 +20329,7 @@ class ListV2LoggingLevelsResponse {
   @_s.JsonKey(name: 'logTargetConfigurations')
   final List<LogTargetConfiguration> logTargetConfigurations;
 
-  /// The token used to get the next set of results, or <b>null</b> if there are
+  /// The token to use to get the next set of results, or <b>null</b> if there are
   /// no additional results.
   @_s.JsonKey(name: 'nextToken')
   final String nextToken;
@@ -18043,6 +20487,27 @@ class LoggingOptionsPayload {
   Map<String, dynamic> toJson() => _$LoggingOptionsPayloadToJson(this);
 }
 
+/// The configuration of an ML Detect Security Profile.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class MachineLearningDetectionConfig {
+  /// The sensitivity of anomalous behavior evaluation. Can be <code>Low</code>,
+  /// <code>Medium</code>, or <code>High</code>.
+  @_s.JsonKey(name: 'confidenceLevel')
+  final ConfidenceLevel confidenceLevel;
+
+  MachineLearningDetectionConfig({
+    @_s.required this.confidenceLevel,
+  });
+  factory MachineLearningDetectionConfig.fromJson(Map<String, dynamic> json) =>
+      _$MachineLearningDetectionConfigFromJson(json);
+
+  Map<String, dynamic> toJson() => _$MachineLearningDetectionConfigToJson(this);
+}
+
 enum MessageFormat {
   @_s.JsonValue('RAW')
   raw,
@@ -18062,9 +20527,9 @@ class MetricDimension {
   final String dimensionName;
 
   /// Defines how the <code>dimensionValues</code> of a dimension are interpreted.
-  /// For example, for DimensionType TOPIC_FILTER, with <code>IN</code> operator,
+  /// For example, for dimension type TOPIC_FILTER, the <code>IN</code> operator,
   /// a message will be counted only if its topic matches one of the topic
-  /// filters. With <code>NOT_IN</code> Operator, a message will be counted only
+  /// filters. With <code>NOT_IN</code> operator, a message will be counted only
   /// if it doesn't match any of the topic filters. The operator is optional: if
   /// it's not provided (is <code>null</code>), it will be interpreted as
   /// <code>IN</code>.
@@ -18092,7 +20557,7 @@ class MetricToRetain {
   @_s.JsonKey(name: 'metric')
   final String metric;
 
-  /// The dimension of a metric.
+  /// The dimension of a metric. This can't be used with custom metrics.
   @_s.JsonKey(name: 'metricDimension')
   final MetricDimension metricDimension;
 
@@ -18123,15 +20588,30 @@ class MetricValue {
   @_s.JsonKey(name: 'count')
   final int count;
 
+  /// The numeral value of a metric.
+  @_s.JsonKey(name: 'number')
+  final double number;
+
+  /// The numeral values of a metric.
+  @_s.JsonKey(name: 'numbers')
+  final List<double> numbers;
+
   /// If the <code>comparisonOperator</code> calls for a set of ports, use this to
   /// specify that set to be compared with the <code>metric</code>.
   @_s.JsonKey(name: 'ports')
   final List<int> ports;
 
+  /// The string values of a metric.
+  @_s.JsonKey(name: 'strings')
+  final List<String> strings;
+
   MetricValue({
     this.cidrs,
     this.count,
+    this.number,
+    this.numbers,
     this.ports,
+    this.strings,
   });
   factory MetricValue.fromJson(Map<String, dynamic> json) =>
       _$MetricValueFromJson(json);
@@ -18224,8 +20704,8 @@ class MitigationActionParams {
   final EnableIoTLoggingParams enableIoTLoggingParams;
 
   /// Parameters to define a mitigation action that publishes findings to Amazon
-  /// SNS. You can implement your own custom actions in response to the Amazon SNS
-  /// messages.
+  /// Simple Notification Service (Amazon SNS. You can implement your own custom
+  /// actions in response to the Amazon SNS messages.
   @_s.JsonKey(name: 'publishFindingToSnsParams')
   final PublishFindingToSnsParams publishFindingToSnsParams;
 
@@ -18291,6 +20771,15 @@ extension on MitigationActionType {
     }
     throw Exception('Unknown enum value: $this');
   }
+}
+
+enum ModelStatus {
+  @_s.JsonValue('PENDING_BUILD')
+  pendingBuild,
+  @_s.JsonValue('ACTIVE')
+  active,
+  @_s.JsonValue('EXPIRED')
+  expired,
 }
 
 /// Specifies the MQTT context to use for the test authorizer request
@@ -18372,6 +20861,11 @@ class OTAUpdateFile {
   @_s.JsonKey(name: 'fileName')
   final String fileName;
 
+  /// An integer value you can include in the job document to allow your devices
+  /// to identify the type of file received from the cloud.
+  @_s.JsonKey(name: 'fileType')
+  final int fileType;
+
   /// The file version.
   @_s.JsonKey(name: 'fileVersion')
   final String fileVersion;
@@ -18381,6 +20875,7 @@ class OTAUpdateFile {
     this.codeSigning,
     this.fileLocation,
     this.fileName,
+    this.fileType,
     this.fileVersion,
   });
   factory OTAUpdateFile.fromJson(Map<String, dynamic> json) =>
@@ -18745,6 +21240,36 @@ extension on Protocol {
   }
 }
 
+/// Structure that contains <code>payloadVersion</code> and
+/// <code>targetArn</code>.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class ProvisioningHook {
+  /// The ARN of the target function.
+  ///
+  /// <i>Note:</i> Only Lambda functions are currently supported.
+  @_s.JsonKey(name: 'targetArn')
+  final String targetArn;
+
+  /// The payload that was sent to the target function.
+  ///
+  /// <i>Note:</i> Only Lambda functions are currently supported.
+  @_s.JsonKey(name: 'payloadVersion')
+  final String payloadVersion;
+
+  ProvisioningHook({
+    @_s.required this.targetArn,
+    this.payloadVersion,
+  });
+  factory ProvisioningHook.fromJson(Map<String, dynamic> json) =>
+      _$ProvisioningHookFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ProvisioningHookToJson(this);
+}
+
 /// A summary of information about a fleet provisioning template.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -18992,8 +21517,32 @@ class RegisterCertificateResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class RegisterCertificateWithoutCAResponse {
+  /// The Amazon Resource Name (ARN) of the registered certificate.
+  @_s.JsonKey(name: 'certificateArn')
+  final String certificateArn;
+
+  /// The ID of the registered certificate. (The last part of the certificate ARN
+  /// contains the certificate ID.
+  @_s.JsonKey(name: 'certificateId')
+  final String certificateId;
+
+  RegisterCertificateWithoutCAResponse({
+    this.certificateArn,
+    this.certificateId,
+  });
+  factory RegisterCertificateWithoutCAResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$RegisterCertificateWithoutCAResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class RegisterThingResponse {
-  /// .
+  /// The certificate data, in PEM format.
   @_s.JsonKey(name: 'certificatePem')
   final String certificatePem;
 
@@ -19295,7 +21844,9 @@ class S3Action {
   @_s.JsonKey(name: 'bucketName')
   final String bucketName;
 
-  /// The object key.
+  /// The object key. For more information, see <a
+  /// href="https://docs.aws.amazon.com/AmazonS3/latest/dev/list_amazons3.html">Actions,
+  /// resources, and condition keys for Amazon S3</a>.
   @_s.JsonKey(name: 'key')
   final String key;
 
@@ -19488,7 +22039,7 @@ class SecurityProfileIdentifier {
   @_s.JsonKey(name: 'arn')
   final String arn;
 
-  /// The name you have given to the security profile.
+  /// The name you've given to the security profile.
   @_s.JsonKey(name: 'name')
   final String name;
 
@@ -19623,7 +22174,9 @@ class SetDefaultAuthorizerResponse {
       _$SetDefaultAuthorizerResponseFromJson(json);
 }
 
-/// Use Sig V4 authorization.
+/// For more information, see <a
+/// href="https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html">Signature
+/// Version 4 signing process</a>.
 @_s.JsonSerializable(
     includeIfNull: false,
     explicitToJson: true,
@@ -19773,6 +22326,24 @@ class StartAuditMitigationActionsTaskResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class StartDetectMitigationActionsTaskResponse {
+  /// The unique identifier of the task.
+  @_s.JsonKey(name: 'taskId')
+  final String taskId;
+
+  StartDetectMitigationActionsTaskResponse({
+    this.taskId,
+  });
+  factory StartDetectMitigationActionsTaskResponse.fromJson(
+          Map<String, dynamic> json) =>
+      _$StartDetectMitigationActionsTaskResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class StartOnDemandAuditTaskResponse {
   /// The ID of the on-demand audit you started.
   @_s.JsonKey(name: 'taskId')
@@ -19833,8 +22404,8 @@ class StartThingRegistrationTaskResponse {
       _$StartThingRegistrationTaskResponseFromJson(json);
 }
 
-/// A statistical ranking (percentile) which indicates a threshold value by
-/// which a behavior is determined to be in compliance or in violation of the
+/// A statistical ranking (percentile) that indicates a threshold value by which
+/// a behavior is determined to be in compliance or in violation of the
 /// behavior.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -19842,8 +22413,8 @@ class StartThingRegistrationTaskResponse {
     createFactory: true,
     createToJson: true)
 class StatisticalThreshold {
-  /// The percentile which resolves to a threshold value by which compliance with
-  /// a behavior is determined. Metrics are collected over the specified period
+  /// The percentile that resolves to a threshold value by which compliance with a
+  /// behavior is determined. Metrics are collected over the specified period
   /// (<code>durationSeconds</code>) from all reporting devices in your account
   /// and statistical ranks are calculated. Then, the measurements from a device
   /// are collected over the same period. If the accumulated measurements from the
@@ -20146,7 +22717,7 @@ class Tag {
   final String value;
 
   Tag({
-    this.key,
+    @_s.required this.key,
     this.value,
   });
   factory Tag.fromJson(Map<String, dynamic> json) => _$TagFromJson(json);
@@ -20778,6 +23349,123 @@ class TimeoutConfig {
   Map<String, dynamic> toJson() => _$TimeoutConfigToJson(this);
 }
 
+/// The Timestream rule action writes attributes (measures) from an MQTT message
+/// into an Amazon Timestream table. For more information, see the <a
+/// href="https://docs.aws.amazon.com/iot/latest/developerguide/timestream-rule-action.html">Timestream</a>
+/// topic rule action documentation.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class TimestreamAction {
+  /// The name of an Amazon Timestream database.
+  @_s.JsonKey(name: 'databaseName')
+  final String databaseName;
+
+  /// Metadata attributes of the time series that are written in each measure
+  /// record.
+  @_s.JsonKey(name: 'dimensions')
+  final List<TimestreamDimension> dimensions;
+
+  /// The ARN of the role that grants permission to write to the Amazon Timestream
+  /// database table.
+  @_s.JsonKey(name: 'roleArn')
+  final String roleArn;
+
+  /// The name of the database table into which to write the measure records.
+  @_s.JsonKey(name: 'tableName')
+  final String tableName;
+
+  /// Specifies an application-defined value to replace the default value assigned
+  /// to the Timestream record's timestamp in the <code>time</code> column.
+  ///
+  /// You can use this property to specify the value and the precision of the
+  /// Timestream record's timestamp. You can specify a value from the message
+  /// payload or a value computed by a substitution template.
+  ///
+  /// If omitted, the topic rule action assigns the timestamp, in milliseconds, at
+  /// the time it processed the rule.
+  @_s.JsonKey(name: 'timestamp')
+  final TimestreamTimestamp timestamp;
+
+  TimestreamAction({
+    @_s.required this.databaseName,
+    @_s.required this.dimensions,
+    @_s.required this.roleArn,
+    @_s.required this.tableName,
+    this.timestamp,
+  });
+  factory TimestreamAction.fromJson(Map<String, dynamic> json) =>
+      _$TimestreamActionFromJson(json);
+
+  Map<String, dynamic> toJson() => _$TimestreamActionToJson(this);
+}
+
+/// Metadata attributes of the time series that are written in each measure
+/// record.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class TimestreamDimension {
+  /// The metadata dimension name. This is the name of the column in the Amazon
+  /// Timestream database table record.
+  ///
+  /// Dimensions cannot be named: <code>measure_name</code>,
+  /// <code>measure_value</code>, or <code>time</code>. These names are reserved.
+  /// Dimension names cannot start with <code>ts_</code> or
+  /// <code>measure_value</code> and they cannot contain the colon
+  /// (<code>:</code>) character.
+  @_s.JsonKey(name: 'name')
+  final String name;
+
+  /// The value to write in this column of the database record.
+  @_s.JsonKey(name: 'value')
+  final String value;
+
+  TimestreamDimension({
+    @_s.required this.name,
+    @_s.required this.value,
+  });
+  factory TimestreamDimension.fromJson(Map<String, dynamic> json) =>
+      _$TimestreamDimensionFromJson(json);
+
+  Map<String, dynamic> toJson() => _$TimestreamDimensionToJson(this);
+}
+
+/// Describes how to interpret an application-defined timestamp value from an
+/// MQTT message payload and the precision of that value.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class TimestreamTimestamp {
+  /// The precision of the timestamp value that results from the expression
+  /// described in <code>value</code>.
+  ///
+  /// Valid values: <code>SECONDS</code> | <code>MILLISECONDS</code> |
+  /// <code>MICROSECONDS</code> | <code>NANOSECONDS</code>. The default is
+  /// <code>MILLISECONDS</code>.
+  @_s.JsonKey(name: 'unit')
+  final String unit;
+
+  /// An expression that returns a long epoch time value.
+  @_s.JsonKey(name: 'value')
+  final String value;
+
+  TimestreamTimestamp({
+    @_s.required this.unit,
+    @_s.required this.value,
+  });
+  factory TimestreamTimestamp.fromJson(Map<String, dynamic> json) =>
+      _$TimestreamTimestampFromJson(json);
+
+  Map<String, dynamic> toJson() => _$TimestreamTimestampToJson(this);
+}
+
 /// Specifies the TLS context to use for the test authorizer request.
 @_s.JsonSerializable(
     includeIfNull: false,
@@ -20861,9 +23549,19 @@ class TopicRuleDestination {
   @_s.JsonKey(name: 'arn')
   final String arn;
 
+  /// The date and time when the topic rule destination was created.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdAt')
+  final DateTime createdAt;
+
   /// Properties of the HTTP URL.
   @_s.JsonKey(name: 'httpUrlProperties')
   final HttpUrlDestinationProperties httpUrlProperties;
+
+  /// The date and time when the topic rule destination was last updated.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastUpdatedAt')
+  final DateTime lastUpdatedAt;
 
   /// The status of the topic rule destination. Valid values are:
   /// <dl> <dt>IN_PROGRESS</dt> <dd>
@@ -20896,11 +23594,18 @@ class TopicRuleDestination {
   @_s.JsonKey(name: 'statusReason')
   final String statusReason;
 
+  /// Properties of the virtual private cloud (VPC) connection.
+  @_s.JsonKey(name: 'vpcProperties')
+  final VpcDestinationProperties vpcProperties;
+
   TopicRuleDestination({
     this.arn,
+    this.createdAt,
     this.httpUrlProperties,
+    this.lastUpdatedAt,
     this.status,
     this.statusReason,
+    this.vpcProperties,
   });
   factory TopicRuleDestination.fromJson(Map<String, dynamic> json) =>
       _$TopicRuleDestinationFromJson(json);
@@ -20917,8 +23622,13 @@ class TopicRuleDestinationConfiguration {
   @_s.JsonKey(name: 'httpUrlConfiguration')
   final HttpUrlDestinationConfiguration httpUrlConfiguration;
 
+  /// Configuration of the virtual private cloud (VPC) connection.
+  @_s.JsonKey(name: 'vpcConfiguration')
+  final VpcDestinationConfiguration vpcConfiguration;
+
   TopicRuleDestinationConfiguration({
     this.httpUrlConfiguration,
+    this.vpcConfiguration,
   });
   Map<String, dynamic> toJson() =>
       _$TopicRuleDestinationConfigurationToJson(this);
@@ -20933,6 +23643,8 @@ enum TopicRuleDestinationStatus {
   disabled,
   @_s.JsonValue('ERROR')
   error,
+  @_s.JsonValue('DELETING')
+  deleting,
 }
 
 extension on TopicRuleDestinationStatus {
@@ -20946,6 +23658,8 @@ extension on TopicRuleDestinationStatus {
         return 'DISABLED';
       case TopicRuleDestinationStatus.error:
         return 'ERROR';
+      case TopicRuleDestinationStatus.deleting:
+        return 'DELETING';
     }
     throw Exception('Unknown enum value: $this');
   }
@@ -20962,9 +23676,19 @@ class TopicRuleDestinationSummary {
   @_s.JsonKey(name: 'arn')
   final String arn;
 
+  /// The date and time when the topic rule destination was created.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'createdAt')
+  final DateTime createdAt;
+
   /// Information about the HTTP URL.
   @_s.JsonKey(name: 'httpUrlSummary')
   final HttpUrlDestinationSummary httpUrlSummary;
+
+  /// The date and time when the topic rule destination was last updated.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastUpdatedAt')
+  final DateTime lastUpdatedAt;
 
   /// The status of the topic rule destination. Valid values are:
   /// <dl> <dt>IN_PROGRESS</dt> <dd>
@@ -20996,11 +23720,18 @@ class TopicRuleDestinationSummary {
   @_s.JsonKey(name: 'statusReason')
   final String statusReason;
 
+  /// Information about the virtual private cloud (VPC) connection.
+  @_s.JsonKey(name: 'vpcDestinationSummary')
+  final VpcDestinationSummary vpcDestinationSummary;
+
   TopicRuleDestinationSummary({
     this.arn,
+    this.createdAt,
     this.httpUrlSummary,
+    this.lastUpdatedAt,
     this.status,
     this.statusReason,
+    this.vpcDestinationSummary,
   });
   factory TopicRuleDestinationSummary.fromJson(Map<String, dynamic> json) =>
       _$TopicRuleDestinationSummaryFromJson(json);
@@ -21057,7 +23788,7 @@ class TopicRulePayload {
   final List<Action> actions;
 
   /// The SQL statement used to query the topic. For more information, see <a
-  /// href="https://docs.aws.amazon.com/iot/latest/developerguide/iot-rules.html#aws-iot-sql-reference">AWS
+  /// href="https://docs.aws.amazon.com/iot/latest/developerguide/iot-sql-reference.html">AWS
   /// IoT SQL Reference</a> in the <i>AWS IoT Developer Guide</i>.
   @_s.JsonKey(name: 'sql')
   final String sql;
@@ -21176,6 +23907,17 @@ class UpdateAccountAuditConfigurationResponse {
     explicitToJson: true,
     createFactory: true,
     createToJson: false)
+class UpdateAuditSuppressionResponse {
+  UpdateAuditSuppressionResponse();
+  factory UpdateAuditSuppressionResponse.fromJson(Map<String, dynamic> json) =>
+      _$UpdateAuditSuppressionResponseFromJson(json);
+}
+
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
 class UpdateAuthorizerResponse {
   /// The authorizer ARN.
   @_s.JsonKey(name: 'authorizerArn')
@@ -21218,7 +23960,7 @@ class UpdateBillingGroupResponse {
     createFactory: true,
     createToJson: true)
 class UpdateCACertificateParams {
-  /// The action that you want to apply to the CA cerrtificate. The only supported
+  /// The action that you want to apply to the CA certificate. The only supported
   /// value is <code>DEACTIVATE</code>.
   @_s.JsonKey(name: 'action')
   final CACertificateUpdateAction action;
@@ -21232,6 +23974,52 @@ class UpdateCACertificateParams {
   Map<String, dynamic> toJson() => _$UpdateCACertificateParamsToJson(this);
 }
 
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class UpdateCustomMetricResponse {
+  /// The creation date of the custom metric in milliseconds since epoch.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'creationDate')
+  final DateTime creationDate;
+
+  /// A friendly name in the console for the custom metric
+  @_s.JsonKey(name: 'displayName')
+  final String displayName;
+
+  /// The time the custom metric was last modified in milliseconds since epoch.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'lastModifiedDate')
+  final DateTime lastModifiedDate;
+
+  /// The Amazon Resource Number (ARN) of the custom metric.
+  @_s.JsonKey(name: 'metricArn')
+  final String metricArn;
+
+  /// The name of the custom metric.
+  @_s.JsonKey(name: 'metricName')
+  final String metricName;
+
+  /// The type of the custom metric. Types include <code>string-list</code>,
+  /// <code>ip-address-list</code>, <code>number-list</code>, and
+  /// <code>number</code>.
+  @_s.JsonKey(name: 'metricType')
+  final CustomMetricType metricType;
+
+  UpdateCustomMetricResponse({
+    this.creationDate,
+    this.displayName,
+    this.lastModifiedDate,
+    this.metricArn,
+    this.metricName,
+    this.metricType,
+  });
+  factory UpdateCustomMetricResponse.fromJson(Map<String, dynamic> json) =>
+      _$UpdateCustomMetricResponseFromJson(json);
+}
+
 /// Parameters to define a mitigation action that changes the state of the
 /// device certificate to inactive.
 @_s.JsonSerializable(
@@ -21240,7 +24028,7 @@ class UpdateCACertificateParams {
     createFactory: true,
     createToJson: true)
 class UpdateDeviceCertificateParams {
-  /// The action that you want to apply to the device cerrtificate. The only
+  /// The action that you want to apply to the device certificate. The only
   /// supported value is <code>DEACTIVATE</code>.
   @_s.JsonKey(name: 'action')
   final DeviceCertificateUpdateAction action;
@@ -21260,7 +24048,7 @@ class UpdateDeviceCertificateParams {
     createFactory: true,
     createToJson: false)
 class UpdateDimensionResponse {
-  /// The ARN (Amazon resource name) of the created dimension.
+  /// The Amazon Resource Name (ARN)of the created dimension.
   @_s.JsonKey(name: 'arn')
   final String arn;
 
@@ -21444,19 +24232,21 @@ class UpdateScheduledAuditResponse {
     createFactory: true,
     createToJson: false)
 class UpdateSecurityProfileResponse {
+  /// <i>Please use
+  /// <a>UpdateSecurityProfileResponse$additionalMetricsToRetainV2</a>
+  /// instead.</i>
+  ///
   /// A list of metrics whose data is retained (stored). By default, data is
   /// retained for any metric used in the security profile's
   /// <code>behaviors</code>, but it is also retained for any metric specified
   /// here.
-  ///
-  /// <b>Note:</b> This API field is deprecated. Please use
-  /// <a>UpdateSecurityProfileResponse$additionalMetricsToRetainV2</a> instead.
   @_s.JsonKey(name: 'additionalMetricsToRetain')
   final List<String> additionalMetricsToRetain;
 
   /// A list of metrics whose data is retained (stored). By default, data is
   /// retained for any metric used in the profile's behaviors, but it is also
-  /// retained for any metric specified here.
+  /// retained for any metric specified here. Can be used with custom metrics;
+  /// cannot be used with dimensions.
   @_s.JsonKey(name: 'additionalMetricsToRetainV2')
   final List<MetricToRetain> additionalMetricsToRetainV2;
 
@@ -21644,7 +24434,7 @@ class ValidationError {
     createFactory: true,
     createToJson: false)
 class ViolationEvent {
-  /// The behavior which was violated.
+  /// The behavior that was violated.
   @_s.JsonKey(name: 'behavior')
   final Behavior behavior;
 
@@ -21659,6 +24449,10 @@ class ViolationEvent {
   /// The name of the thing responsible for the violation event.
   @_s.JsonKey(name: 'thingName')
   final String thingName;
+
+  /// The details of a violation event.
+  @_s.JsonKey(name: 'violationEventAdditionalInfo')
+  final ViolationEventAdditionalInfo violationEventAdditionalInfo;
 
   /// The time the violation event occurred.
   @UnixDateTimeConverter()
@@ -21678,12 +24472,59 @@ class ViolationEvent {
     this.metricValue,
     this.securityProfileName,
     this.thingName,
+    this.violationEventAdditionalInfo,
     this.violationEventTime,
     this.violationEventType,
     this.violationId,
   });
   factory ViolationEvent.fromJson(Map<String, dynamic> json) =>
       _$ViolationEventFromJson(json);
+}
+
+/// The details of a violation event.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class ViolationEventAdditionalInfo {
+  /// The sensitivity of anomalous behavior evaluation. Can be <code>Low</code>,
+  /// <code>Medium</code>, or <code>High</code>.
+  @_s.JsonKey(name: 'confidenceLevel')
+  final ConfidenceLevel confidenceLevel;
+
+  ViolationEventAdditionalInfo({
+    this.confidenceLevel,
+  });
+  factory ViolationEventAdditionalInfo.fromJson(Map<String, dynamic> json) =>
+      _$ViolationEventAdditionalInfoFromJson(json);
+}
+
+/// Specifies the time period of which violation events occurred between.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: true)
+class ViolationEventOccurrenceRange {
+  /// The end date and time of a time period in which violation events occurred.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'endTime')
+  final DateTime endTime;
+
+  /// The start date and time of a time period in which violation events occurred.
+  @UnixDateTimeConverter()
+  @_s.JsonKey(name: 'startTime')
+  final DateTime startTime;
+
+  ViolationEventOccurrenceRange({
+    @_s.required this.endTime,
+    @_s.required this.startTime,
+  });
+  factory ViolationEventOccurrenceRange.fromJson(Map<String, dynamic> json) =>
+      _$ViolationEventOccurrenceRangeFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ViolationEventOccurrenceRangeToJson(this);
 }
 
 enum ViolationEventType {
@@ -21693,6 +24534,107 @@ enum ViolationEventType {
   alarmCleared,
   @_s.JsonValue('alarm-invalidated')
   alarmInvalidated,
+}
+
+/// The configuration information for a virtual private cloud (VPC) destination.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: false,
+    createToJson: true)
+class VpcDestinationConfiguration {
+  /// The ARN of a role that has permission to create and attach to elastic
+  /// network interfaces (ENIs).
+  @_s.JsonKey(name: 'roleArn')
+  final String roleArn;
+
+  /// The subnet IDs of the VPC destination.
+  @_s.JsonKey(name: 'subnetIds')
+  final List<String> subnetIds;
+
+  /// The ID of the VPC.
+  @_s.JsonKey(name: 'vpcId')
+  final String vpcId;
+
+  /// The security groups of the VPC destination.
+  @_s.JsonKey(name: 'securityGroups')
+  final List<String> securityGroups;
+
+  VpcDestinationConfiguration({
+    @_s.required this.roleArn,
+    @_s.required this.subnetIds,
+    @_s.required this.vpcId,
+    this.securityGroups,
+  });
+  Map<String, dynamic> toJson() => _$VpcDestinationConfigurationToJson(this);
+}
+
+/// The properties of a virtual private cloud (VPC) destination.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class VpcDestinationProperties {
+  /// The ARN of a role that has permission to create and attach to elastic
+  /// network interfaces (ENIs).
+  @_s.JsonKey(name: 'roleArn')
+  final String roleArn;
+
+  /// The security groups of the VPC destination.
+  @_s.JsonKey(name: 'securityGroups')
+  final List<String> securityGroups;
+
+  /// The subnet IDs of the VPC destination.
+  @_s.JsonKey(name: 'subnetIds')
+  final List<String> subnetIds;
+
+  /// The ID of the VPC.
+  @_s.JsonKey(name: 'vpcId')
+  final String vpcId;
+
+  VpcDestinationProperties({
+    this.roleArn,
+    this.securityGroups,
+    this.subnetIds,
+    this.vpcId,
+  });
+  factory VpcDestinationProperties.fromJson(Map<String, dynamic> json) =>
+      _$VpcDestinationPropertiesFromJson(json);
+}
+
+/// The summary of a virtual private cloud (VPC) destination.
+@_s.JsonSerializable(
+    includeIfNull: false,
+    explicitToJson: true,
+    createFactory: true,
+    createToJson: false)
+class VpcDestinationSummary {
+  /// The ARN of a role that has permission to create and attach to elastic
+  /// network interfaces (ENIs).
+  @_s.JsonKey(name: 'roleArn')
+  final String roleArn;
+
+  /// The security groups of the VPC destination.
+  @_s.JsonKey(name: 'securityGroups')
+  final List<String> securityGroups;
+
+  /// The subnet IDs of the VPC destination.
+  @_s.JsonKey(name: 'subnetIds')
+  final List<String> subnetIds;
+
+  /// The ID of the VPC.
+  @_s.JsonKey(name: 'vpcId')
+  final String vpcId;
+
+  VpcDestinationSummary({
+    this.roleArn,
+    this.securityGroups,
+    this.subnetIds,
+    this.vpcId,
+  });
+  factory VpcDestinationSummary.fromJson(Map<String, dynamic> json) =>
+      _$VpcDestinationSummaryFromJson(json);
 }
 
 class CertificateConflictException extends _s.GenericAwsException {

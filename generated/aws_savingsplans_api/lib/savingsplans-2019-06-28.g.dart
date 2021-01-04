@@ -13,6 +13,11 @@ CreateSavingsPlanResponse _$CreateSavingsPlanResponseFromJson(
   );
 }
 
+DeleteQueuedSavingsPlanResponse _$DeleteQueuedSavingsPlanResponseFromJson(
+    Map<String, dynamic> json) {
+  return DeleteQueuedSavingsPlanResponse();
+}
+
 DescribeSavingsPlanRatesResponse _$DescribeSavingsPlanRatesResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeSavingsPlanRatesResponse(
@@ -172,6 +177,8 @@ const _$SavingsPlanStateEnumMap = {
   SavingsPlanState.paymentFailed: 'payment-failed',
   SavingsPlanState.active: 'active',
   SavingsPlanState.retired: 'retired',
+  SavingsPlanState.queued: 'queued',
+  SavingsPlanState.queuedDeleted: 'queued-deleted',
 };
 
 Map<String, dynamic> _$SavingsPlanFilterToJson(SavingsPlanFilter instance) {

@@ -118,6 +118,136 @@ Map<String, dynamic> _$AlexaForBusinessMetadataToJson(
   return val;
 }
 
+AppInstance _$AppInstanceFromJson(Map<String, dynamic> json) {
+  return AppInstance(
+    appInstanceArn: json['AppInstanceArn'] as String,
+    createdTimestamp:
+        const UnixDateTimeConverter().fromJson(json['CreatedTimestamp']),
+    lastUpdatedTimestamp:
+        const UnixDateTimeConverter().fromJson(json['LastUpdatedTimestamp']),
+    metadata: json['Metadata'] as String,
+    name: json['Name'] as String,
+  );
+}
+
+AppInstanceAdmin _$AppInstanceAdminFromJson(Map<String, dynamic> json) {
+  return AppInstanceAdmin(
+    admin: json['Admin'] == null
+        ? null
+        : Identity.fromJson(json['Admin'] as Map<String, dynamic>),
+    appInstanceArn: json['AppInstanceArn'] as String,
+    createdTimestamp:
+        const UnixDateTimeConverter().fromJson(json['CreatedTimestamp']),
+  );
+}
+
+AppInstanceAdminSummary _$AppInstanceAdminSummaryFromJson(
+    Map<String, dynamic> json) {
+  return AppInstanceAdminSummary(
+    admin: json['Admin'] == null
+        ? null
+        : Identity.fromJson(json['Admin'] as Map<String, dynamic>),
+  );
+}
+
+AppInstanceRetentionSettings _$AppInstanceRetentionSettingsFromJson(
+    Map<String, dynamic> json) {
+  return AppInstanceRetentionSettings(
+    channelRetentionSettings: json['ChannelRetentionSettings'] == null
+        ? null
+        : ChannelRetentionSettings.fromJson(
+            json['ChannelRetentionSettings'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$AppInstanceRetentionSettingsToJson(
+    AppInstanceRetentionSettings instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull(
+      'ChannelRetentionSettings', instance.channelRetentionSettings?.toJson());
+  return val;
+}
+
+AppInstanceStreamingConfiguration _$AppInstanceStreamingConfigurationFromJson(
+    Map<String, dynamic> json) {
+  return AppInstanceStreamingConfiguration(
+    appInstanceDataType: _$enumDecodeNullable(
+        _$AppInstanceDataTypeEnumMap, json['AppInstanceDataType']),
+    resourceArn: json['ResourceArn'] as String,
+  );
+}
+
+Map<String, dynamic> _$AppInstanceStreamingConfigurationToJson(
+    AppInstanceStreamingConfiguration instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AppInstanceDataType',
+      _$AppInstanceDataTypeEnumMap[instance.appInstanceDataType]);
+  writeNotNull('ResourceArn', instance.resourceArn);
+  return val;
+}
+
+const _$AppInstanceDataTypeEnumMap = {
+  AppInstanceDataType.channel: 'Channel',
+  AppInstanceDataType.channelMessage: 'ChannelMessage',
+};
+
+AppInstanceSummary _$AppInstanceSummaryFromJson(Map<String, dynamic> json) {
+  return AppInstanceSummary(
+    appInstanceArn: json['AppInstanceArn'] as String,
+    metadata: json['Metadata'] as String,
+    name: json['Name'] as String,
+  );
+}
+
+AppInstanceUser _$AppInstanceUserFromJson(Map<String, dynamic> json) {
+  return AppInstanceUser(
+    appInstanceUserArn: json['AppInstanceUserArn'] as String,
+    createdTimestamp:
+        const UnixDateTimeConverter().fromJson(json['CreatedTimestamp']),
+    lastUpdatedTimestamp:
+        const UnixDateTimeConverter().fromJson(json['LastUpdatedTimestamp']),
+    metadata: json['Metadata'] as String,
+    name: json['Name'] as String,
+  );
+}
+
+AppInstanceUserMembershipSummary _$AppInstanceUserMembershipSummaryFromJson(
+    Map<String, dynamic> json) {
+  return AppInstanceUserMembershipSummary(
+    readMarkerTimestamp:
+        const UnixDateTimeConverter().fromJson(json['ReadMarkerTimestamp']),
+    type: _$enumDecodeNullable(_$ChannelMembershipTypeEnumMap, json['Type']),
+  );
+}
+
+const _$ChannelMembershipTypeEnumMap = {
+  ChannelMembershipType.$default: 'DEFAULT',
+  ChannelMembershipType.hidden: 'HIDDEN',
+};
+
+AppInstanceUserSummary _$AppInstanceUserSummaryFromJson(
+    Map<String, dynamic> json) {
+  return AppInstanceUserSummary(
+    appInstanceUserArn: json['AppInstanceUserArn'] as String,
+    metadata: json['Metadata'] as String,
+    name: json['Name'] as String,
+  );
+}
+
 AssociatePhoneNumberWithUserResponse
     _$AssociatePhoneNumberWithUserResponseFromJson(Map<String, dynamic> json) {
   return AssociatePhoneNumberWithUserResponse();
@@ -279,12 +409,270 @@ Map<String, dynamic> _$BusinessCallingSettingsToJson(
   return val;
 }
 
+Channel _$ChannelFromJson(Map<String, dynamic> json) {
+  return Channel(
+    channelArn: json['ChannelArn'] as String,
+    createdBy: json['CreatedBy'] == null
+        ? null
+        : Identity.fromJson(json['CreatedBy'] as Map<String, dynamic>),
+    createdTimestamp:
+        const UnixDateTimeConverter().fromJson(json['CreatedTimestamp']),
+    lastMessageTimestamp:
+        const UnixDateTimeConverter().fromJson(json['LastMessageTimestamp']),
+    lastUpdatedTimestamp:
+        const UnixDateTimeConverter().fromJson(json['LastUpdatedTimestamp']),
+    metadata: json['Metadata'] as String,
+    mode: _$enumDecodeNullable(_$ChannelModeEnumMap, json['Mode']),
+    name: json['Name'] as String,
+    privacy: _$enumDecodeNullable(_$ChannelPrivacyEnumMap, json['Privacy']),
+  );
+}
+
+const _$ChannelModeEnumMap = {
+  ChannelMode.unrestricted: 'UNRESTRICTED',
+  ChannelMode.restricted: 'RESTRICTED',
+};
+
+const _$ChannelPrivacyEnumMap = {
+  ChannelPrivacy.public: 'PUBLIC',
+  ChannelPrivacy.private: 'PRIVATE',
+};
+
+ChannelBan _$ChannelBanFromJson(Map<String, dynamic> json) {
+  return ChannelBan(
+    channelArn: json['ChannelArn'] as String,
+    createdBy: json['CreatedBy'] == null
+        ? null
+        : Identity.fromJson(json['CreatedBy'] as Map<String, dynamic>),
+    createdTimestamp:
+        const UnixDateTimeConverter().fromJson(json['CreatedTimestamp']),
+    member: json['Member'] == null
+        ? null
+        : Identity.fromJson(json['Member'] as Map<String, dynamic>),
+  );
+}
+
+ChannelBanSummary _$ChannelBanSummaryFromJson(Map<String, dynamic> json) {
+  return ChannelBanSummary(
+    member: json['Member'] == null
+        ? null
+        : Identity.fromJson(json['Member'] as Map<String, dynamic>),
+  );
+}
+
+ChannelMembership _$ChannelMembershipFromJson(Map<String, dynamic> json) {
+  return ChannelMembership(
+    channelArn: json['ChannelArn'] as String,
+    createdTimestamp:
+        const UnixDateTimeConverter().fromJson(json['CreatedTimestamp']),
+    invitedBy: json['InvitedBy'] == null
+        ? null
+        : Identity.fromJson(json['InvitedBy'] as Map<String, dynamic>),
+    lastUpdatedTimestamp:
+        const UnixDateTimeConverter().fromJson(json['LastUpdatedTimestamp']),
+    member: json['Member'] == null
+        ? null
+        : Identity.fromJson(json['Member'] as Map<String, dynamic>),
+    type: _$enumDecodeNullable(_$ChannelMembershipTypeEnumMap, json['Type']),
+  );
+}
+
+ChannelMembershipForAppInstanceUserSummary
+    _$ChannelMembershipForAppInstanceUserSummaryFromJson(
+        Map<String, dynamic> json) {
+  return ChannelMembershipForAppInstanceUserSummary(
+    appInstanceUserMembershipSummary:
+        json['AppInstanceUserMembershipSummary'] == null
+            ? null
+            : AppInstanceUserMembershipSummary.fromJson(
+                json['AppInstanceUserMembershipSummary']
+                    as Map<String, dynamic>),
+    channelSummary: json['ChannelSummary'] == null
+        ? null
+        : ChannelSummary.fromJson(
+            json['ChannelSummary'] as Map<String, dynamic>),
+  );
+}
+
+ChannelMembershipSummary _$ChannelMembershipSummaryFromJson(
+    Map<String, dynamic> json) {
+  return ChannelMembershipSummary(
+    member: json['Member'] == null
+        ? null
+        : Identity.fromJson(json['Member'] as Map<String, dynamic>),
+  );
+}
+
+ChannelMessage _$ChannelMessageFromJson(Map<String, dynamic> json) {
+  return ChannelMessage(
+    channelArn: json['ChannelArn'] as String,
+    content: json['Content'] as String,
+    createdTimestamp:
+        const UnixDateTimeConverter().fromJson(json['CreatedTimestamp']),
+    lastEditedTimestamp:
+        const UnixDateTimeConverter().fromJson(json['LastEditedTimestamp']),
+    lastUpdatedTimestamp:
+        const UnixDateTimeConverter().fromJson(json['LastUpdatedTimestamp']),
+    messageId: json['MessageId'] as String,
+    metadata: json['Metadata'] as String,
+    persistence: _$enumDecodeNullable(
+        _$ChannelMessagePersistenceTypeEnumMap, json['Persistence']),
+    redacted: json['Redacted'] as bool,
+    sender: json['Sender'] == null
+        ? null
+        : Identity.fromJson(json['Sender'] as Map<String, dynamic>),
+    type: _$enumDecodeNullable(_$ChannelMessageTypeEnumMap, json['Type']),
+  );
+}
+
+const _$ChannelMessagePersistenceTypeEnumMap = {
+  ChannelMessagePersistenceType.persistent: 'PERSISTENT',
+  ChannelMessagePersistenceType.nonPersistent: 'NON_PERSISTENT',
+};
+
+const _$ChannelMessageTypeEnumMap = {
+  ChannelMessageType.standard: 'STANDARD',
+  ChannelMessageType.control: 'CONTROL',
+};
+
+ChannelMessageSummary _$ChannelMessageSummaryFromJson(
+    Map<String, dynamic> json) {
+  return ChannelMessageSummary(
+    content: json['Content'] as String,
+    createdTimestamp:
+        const UnixDateTimeConverter().fromJson(json['CreatedTimestamp']),
+    lastEditedTimestamp:
+        const UnixDateTimeConverter().fromJson(json['LastEditedTimestamp']),
+    lastUpdatedTimestamp:
+        const UnixDateTimeConverter().fromJson(json['LastUpdatedTimestamp']),
+    messageId: json['MessageId'] as String,
+    metadata: json['Metadata'] as String,
+    redacted: json['Redacted'] as bool,
+    sender: json['Sender'] == null
+        ? null
+        : Identity.fromJson(json['Sender'] as Map<String, dynamic>),
+    type: _$enumDecodeNullable(_$ChannelMessageTypeEnumMap, json['Type']),
+  );
+}
+
+ChannelModeratedByAppInstanceUserSummary
+    _$ChannelModeratedByAppInstanceUserSummaryFromJson(
+        Map<String, dynamic> json) {
+  return ChannelModeratedByAppInstanceUserSummary(
+    channelSummary: json['ChannelSummary'] == null
+        ? null
+        : ChannelSummary.fromJson(
+            json['ChannelSummary'] as Map<String, dynamic>),
+  );
+}
+
+ChannelModerator _$ChannelModeratorFromJson(Map<String, dynamic> json) {
+  return ChannelModerator(
+    channelArn: json['ChannelArn'] as String,
+    createdBy: json['CreatedBy'] == null
+        ? null
+        : Identity.fromJson(json['CreatedBy'] as Map<String, dynamic>),
+    createdTimestamp:
+        const UnixDateTimeConverter().fromJson(json['CreatedTimestamp']),
+    moderator: json['Moderator'] == null
+        ? null
+        : Identity.fromJson(json['Moderator'] as Map<String, dynamic>),
+  );
+}
+
+ChannelModeratorSummary _$ChannelModeratorSummaryFromJson(
+    Map<String, dynamic> json) {
+  return ChannelModeratorSummary(
+    moderator: json['Moderator'] == null
+        ? null
+        : Identity.fromJson(json['Moderator'] as Map<String, dynamic>),
+  );
+}
+
+ChannelRetentionSettings _$ChannelRetentionSettingsFromJson(
+    Map<String, dynamic> json) {
+  return ChannelRetentionSettings(
+    retentionDays: json['RetentionDays'] as int,
+  );
+}
+
+Map<String, dynamic> _$ChannelRetentionSettingsToJson(
+    ChannelRetentionSettings instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('RetentionDays', instance.retentionDays);
+  return val;
+}
+
+ChannelSummary _$ChannelSummaryFromJson(Map<String, dynamic> json) {
+  return ChannelSummary(
+    channelArn: json['ChannelArn'] as String,
+    lastMessageTimestamp:
+        const UnixDateTimeConverter().fromJson(json['LastMessageTimestamp']),
+    metadata: json['Metadata'] as String,
+    mode: _$enumDecodeNullable(_$ChannelModeEnumMap, json['Mode']),
+    name: json['Name'] as String,
+    privacy: _$enumDecodeNullable(_$ChannelPrivacyEnumMap, json['Privacy']),
+  );
+}
+
+ConversationRetentionSettings _$ConversationRetentionSettingsFromJson(
+    Map<String, dynamic> json) {
+  return ConversationRetentionSettings(
+    retentionDays: json['RetentionDays'] as int,
+  );
+}
+
+Map<String, dynamic> _$ConversationRetentionSettingsToJson(
+    ConversationRetentionSettings instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('RetentionDays', instance.retentionDays);
+  return val;
+}
+
 CreateAccountResponse _$CreateAccountResponseFromJson(
     Map<String, dynamic> json) {
   return CreateAccountResponse(
     account: json['Account'] == null
         ? null
         : Account.fromJson(json['Account'] as Map<String, dynamic>),
+  );
+}
+
+CreateAppInstanceAdminResponse _$CreateAppInstanceAdminResponseFromJson(
+    Map<String, dynamic> json) {
+  return CreateAppInstanceAdminResponse(
+    appInstanceAdmin: json['AppInstanceAdmin'] == null
+        ? null
+        : Identity.fromJson(json['AppInstanceAdmin'] as Map<String, dynamic>),
+    appInstanceArn: json['AppInstanceArn'] as String,
+  );
+}
+
+CreateAppInstanceResponse _$CreateAppInstanceResponseFromJson(
+    Map<String, dynamic> json) {
+  return CreateAppInstanceResponse(
+    appInstanceArn: json['AppInstanceArn'] as String,
+  );
+}
+
+CreateAppInstanceUserResponse _$CreateAppInstanceUserResponseFromJson(
+    Map<String, dynamic> json) {
+  return CreateAppInstanceUserResponse(
+    appInstanceUserArn: json['AppInstanceUserArn'] as String,
   );
 }
 
@@ -328,9 +716,71 @@ CreateBotResponse _$CreateBotResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+CreateChannelBanResponse _$CreateChannelBanResponseFromJson(
+    Map<String, dynamic> json) {
+  return CreateChannelBanResponse(
+    channelArn: json['ChannelArn'] as String,
+    member: json['Member'] == null
+        ? null
+        : Identity.fromJson(json['Member'] as Map<String, dynamic>),
+  );
+}
+
+CreateChannelMembershipResponse _$CreateChannelMembershipResponseFromJson(
+    Map<String, dynamic> json) {
+  return CreateChannelMembershipResponse(
+    channelArn: json['ChannelArn'] as String,
+    member: json['Member'] == null
+        ? null
+        : Identity.fromJson(json['Member'] as Map<String, dynamic>),
+  );
+}
+
+CreateChannelModeratorResponse _$CreateChannelModeratorResponseFromJson(
+    Map<String, dynamic> json) {
+  return CreateChannelModeratorResponse(
+    channelArn: json['ChannelArn'] as String,
+    channelModerator: json['ChannelModerator'] == null
+        ? null
+        : Identity.fromJson(json['ChannelModerator'] as Map<String, dynamic>),
+  );
+}
+
+CreateChannelResponse _$CreateChannelResponseFromJson(
+    Map<String, dynamic> json) {
+  return CreateChannelResponse(
+    channelArn: json['ChannelArn'] as String,
+  );
+}
+
+CreateMeetingDialOutResponse _$CreateMeetingDialOutResponseFromJson(
+    Map<String, dynamic> json) {
+  return CreateMeetingDialOutResponse(
+    transactionId: json['TransactionId'] as String,
+  );
+}
+
 CreateMeetingResponse _$CreateMeetingResponseFromJson(
     Map<String, dynamic> json) {
   return CreateMeetingResponse(
+    meeting: json['Meeting'] == null
+        ? null
+        : Meeting.fromJson(json['Meeting'] as Map<String, dynamic>),
+  );
+}
+
+CreateMeetingWithAttendeesResponse _$CreateMeetingWithAttendeesResponseFromJson(
+    Map<String, dynamic> json) {
+  return CreateMeetingWithAttendeesResponse(
+    attendees: (json['Attendees'] as List)
+        ?.map((e) =>
+            e == null ? null : Attendee.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    errors: (json['Errors'] as List)
+        ?.map((e) => e == null
+            ? null
+            : CreateAttendeeError.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
     meeting: json['Meeting'] == null
         ? null
         : Meeting.fromJson(json['Meeting'] as Map<String, dynamic>),
@@ -371,6 +821,35 @@ CreateRoomResponse _$CreateRoomResponseFromJson(Map<String, dynamic> json) {
     room: json['Room'] == null
         ? null
         : Room.fromJson(json['Room'] as Map<String, dynamic>),
+  );
+}
+
+CreateSipMediaApplicationCallResponse
+    _$CreateSipMediaApplicationCallResponseFromJson(Map<String, dynamic> json) {
+  return CreateSipMediaApplicationCallResponse(
+    sipMediaApplicationCall: json['SipMediaApplicationCall'] == null
+        ? null
+        : SipMediaApplicationCall.fromJson(
+            json['SipMediaApplicationCall'] as Map<String, dynamic>),
+  );
+}
+
+CreateSipMediaApplicationResponse _$CreateSipMediaApplicationResponseFromJson(
+    Map<String, dynamic> json) {
+  return CreateSipMediaApplicationResponse(
+    sipMediaApplication: json['SipMediaApplication'] == null
+        ? null
+        : SipMediaApplication.fromJson(
+            json['SipMediaApplication'] as Map<String, dynamic>),
+  );
+}
+
+CreateSipRuleResponse _$CreateSipRuleResponseFromJson(
+    Map<String, dynamic> json) {
+  return CreateSipRuleResponse(
+    sipRule: json['SipRule'] == null
+        ? null
+        : SipRule.fromJson(json['SipRule'] as Map<String, dynamic>),
   );
 }
 
@@ -416,9 +895,123 @@ Map<String, dynamic> _$CredentialToJson(Credential instance) {
   return val;
 }
 
+DNISEmergencyCallingConfiguration _$DNISEmergencyCallingConfigurationFromJson(
+    Map<String, dynamic> json) {
+  return DNISEmergencyCallingConfiguration(
+    callingCountry: json['CallingCountry'] as String,
+    emergencyPhoneNumber: json['EmergencyPhoneNumber'] as String,
+    testPhoneNumber: json['TestPhoneNumber'] as String,
+  );
+}
+
+Map<String, dynamic> _$DNISEmergencyCallingConfigurationToJson(
+    DNISEmergencyCallingConfiguration instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('CallingCountry', instance.callingCountry);
+  writeNotNull('EmergencyPhoneNumber', instance.emergencyPhoneNumber);
+  writeNotNull('TestPhoneNumber', instance.testPhoneNumber);
+  return val;
+}
+
 DeleteAccountResponse _$DeleteAccountResponseFromJson(
     Map<String, dynamic> json) {
   return DeleteAccountResponse();
+}
+
+DescribeAppInstanceAdminResponse _$DescribeAppInstanceAdminResponseFromJson(
+    Map<String, dynamic> json) {
+  return DescribeAppInstanceAdminResponse(
+    appInstanceAdmin: json['AppInstanceAdmin'] == null
+        ? null
+        : AppInstanceAdmin.fromJson(
+            json['AppInstanceAdmin'] as Map<String, dynamic>),
+  );
+}
+
+DescribeAppInstanceResponse _$DescribeAppInstanceResponseFromJson(
+    Map<String, dynamic> json) {
+  return DescribeAppInstanceResponse(
+    appInstance: json['AppInstance'] == null
+        ? null
+        : AppInstance.fromJson(json['AppInstance'] as Map<String, dynamic>),
+  );
+}
+
+DescribeAppInstanceUserResponse _$DescribeAppInstanceUserResponseFromJson(
+    Map<String, dynamic> json) {
+  return DescribeAppInstanceUserResponse(
+    appInstanceUser: json['AppInstanceUser'] == null
+        ? null
+        : AppInstanceUser.fromJson(
+            json['AppInstanceUser'] as Map<String, dynamic>),
+  );
+}
+
+DescribeChannelBanResponse _$DescribeChannelBanResponseFromJson(
+    Map<String, dynamic> json) {
+  return DescribeChannelBanResponse(
+    channelBan: json['ChannelBan'] == null
+        ? null
+        : ChannelBan.fromJson(json['ChannelBan'] as Map<String, dynamic>),
+  );
+}
+
+DescribeChannelMembershipForAppInstanceUserResponse
+    _$DescribeChannelMembershipForAppInstanceUserResponseFromJson(
+        Map<String, dynamic> json) {
+  return DescribeChannelMembershipForAppInstanceUserResponse(
+    channelMembership: json['ChannelMembership'] == null
+        ? null
+        : ChannelMembershipForAppInstanceUserSummary.fromJson(
+            json['ChannelMembership'] as Map<String, dynamic>),
+  );
+}
+
+DescribeChannelMembershipResponse _$DescribeChannelMembershipResponseFromJson(
+    Map<String, dynamic> json) {
+  return DescribeChannelMembershipResponse(
+    channelMembership: json['ChannelMembership'] == null
+        ? null
+        : ChannelMembership.fromJson(
+            json['ChannelMembership'] as Map<String, dynamic>),
+  );
+}
+
+DescribeChannelModeratedByAppInstanceUserResponse
+    _$DescribeChannelModeratedByAppInstanceUserResponseFromJson(
+        Map<String, dynamic> json) {
+  return DescribeChannelModeratedByAppInstanceUserResponse(
+    channel: json['Channel'] == null
+        ? null
+        : ChannelModeratedByAppInstanceUserSummary.fromJson(
+            json['Channel'] as Map<String, dynamic>),
+  );
+}
+
+DescribeChannelModeratorResponse _$DescribeChannelModeratorResponseFromJson(
+    Map<String, dynamic> json) {
+  return DescribeChannelModeratorResponse(
+    channelModerator: json['ChannelModerator'] == null
+        ? null
+        : ChannelModerator.fromJson(
+            json['ChannelModerator'] as Map<String, dynamic>),
+  );
+}
+
+DescribeChannelResponse _$DescribeChannelResponseFromJson(
+    Map<String, dynamic> json) {
+  return DescribeChannelResponse(
+    channel: json['Channel'] == null
+        ? null
+        : Channel.fromJson(json['Channel'] as Map<String, dynamic>),
+  );
 }
 
 DisassociatePhoneNumberFromUserResponse
@@ -455,6 +1048,32 @@ DisassociateSigninDelegateGroupsFromAccountResponse
     _$DisassociateSigninDelegateGroupsFromAccountResponseFromJson(
         Map<String, dynamic> json) {
   return DisassociateSigninDelegateGroupsFromAccountResponse();
+}
+
+EmergencyCallingConfiguration _$EmergencyCallingConfigurationFromJson(
+    Map<String, dynamic> json) {
+  return EmergencyCallingConfiguration(
+    dnis: (json['DNIS'] as List)
+        ?.map((e) => e == null
+            ? null
+            : DNISEmergencyCallingConfiguration.fromJson(
+                e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+Map<String, dynamic> _$EmergencyCallingConfigurationToJson(
+    EmergencyCallingConfiguration instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('DNIS', instance.dnis?.map((e) => e?.toJson())?.toList());
+  return val;
 }
 
 EventsConfiguration _$EventsConfigurationFromJson(Map<String, dynamic> json) {
@@ -504,6 +1123,33 @@ GetAccountSettingsResponse _$GetAccountSettingsResponseFromJson(
   );
 }
 
+GetAppInstanceRetentionSettingsResponse
+    _$GetAppInstanceRetentionSettingsResponseFromJson(
+        Map<String, dynamic> json) {
+  return GetAppInstanceRetentionSettingsResponse(
+    appInstanceRetentionSettings: json['AppInstanceRetentionSettings'] == null
+        ? null
+        : AppInstanceRetentionSettings.fromJson(
+            json['AppInstanceRetentionSettings'] as Map<String, dynamic>),
+    initiateDeletionTimestamp: const UnixDateTimeConverter()
+        .fromJson(json['InitiateDeletionTimestamp']),
+  );
+}
+
+GetAppInstanceStreamingConfigurationsResponse
+    _$GetAppInstanceStreamingConfigurationsResponseFromJson(
+        Map<String, dynamic> json) {
+  return GetAppInstanceStreamingConfigurationsResponse(
+    appInstanceStreamingConfigurations:
+        (json['AppInstanceStreamingConfigurations'] as List)
+            ?.map((e) => e == null
+                ? null
+                : AppInstanceStreamingConfiguration.fromJson(
+                    e as Map<String, dynamic>))
+            ?.toList(),
+  );
+}
+
 GetAttendeeResponse _$GetAttendeeResponseFromJson(Map<String, dynamic> json) {
   return GetAttendeeResponse(
     attendee: json['Attendee'] == null
@@ -517,6 +1163,16 @@ GetBotResponse _$GetBotResponseFromJson(Map<String, dynamic> json) {
     bot: json['Bot'] == null
         ? null
         : Bot.fromJson(json['Bot'] as Map<String, dynamic>),
+  );
+}
+
+GetChannelMessageResponse _$GetChannelMessageResponseFromJson(
+    Map<String, dynamic> json) {
+  return GetChannelMessageResponse(
+    channelMessage: json['ChannelMessage'] == null
+        ? null
+        : ChannelMessage.fromJson(
+            json['ChannelMessage'] as Map<String, dynamic>),
   );
 }
 
@@ -549,6 +1205,16 @@ GetMeetingResponse _$GetMeetingResponseFromJson(Map<String, dynamic> json) {
     meeting: json['Meeting'] == null
         ? null
         : Meeting.fromJson(json['Meeting'] as Map<String, dynamic>),
+  );
+}
+
+GetMessagingSessionEndpointResponse
+    _$GetMessagingSessionEndpointResponseFromJson(Map<String, dynamic> json) {
+  return GetMessagingSessionEndpointResponse(
+    endpoint: json['Endpoint'] == null
+        ? null
+        : MessagingSessionEndpoint.fromJson(
+            json['Endpoint'] as Map<String, dynamic>),
   );
 }
 
@@ -589,11 +1255,54 @@ GetProxySessionResponse _$GetProxySessionResponseFromJson(
   );
 }
 
+GetRetentionSettingsResponse _$GetRetentionSettingsResponseFromJson(
+    Map<String, dynamic> json) {
+  return GetRetentionSettingsResponse(
+    initiateDeletionTimestamp: const IsoDateTimeConverter()
+        .fromJson(json['InitiateDeletionTimestamp']),
+    retentionSettings: json['RetentionSettings'] == null
+        ? null
+        : RetentionSettings.fromJson(
+            json['RetentionSettings'] as Map<String, dynamic>),
+  );
+}
+
 GetRoomResponse _$GetRoomResponseFromJson(Map<String, dynamic> json) {
   return GetRoomResponse(
     room: json['Room'] == null
         ? null
         : Room.fromJson(json['Room'] as Map<String, dynamic>),
+  );
+}
+
+GetSipMediaApplicationLoggingConfigurationResponse
+    _$GetSipMediaApplicationLoggingConfigurationResponseFromJson(
+        Map<String, dynamic> json) {
+  return GetSipMediaApplicationLoggingConfigurationResponse(
+    sipMediaApplicationLoggingConfiguration:
+        json['SipMediaApplicationLoggingConfiguration'] == null
+            ? null
+            : SipMediaApplicationLoggingConfiguration.fromJson(
+                json['SipMediaApplicationLoggingConfiguration']
+                    as Map<String, dynamic>),
+  );
+}
+
+GetSipMediaApplicationResponse _$GetSipMediaApplicationResponseFromJson(
+    Map<String, dynamic> json) {
+  return GetSipMediaApplicationResponse(
+    sipMediaApplication: json['SipMediaApplication'] == null
+        ? null
+        : SipMediaApplication.fromJson(
+            json['SipMediaApplication'] as Map<String, dynamic>),
+  );
+}
+
+GetSipRuleResponse _$GetSipRuleResponseFromJson(Map<String, dynamic> json) {
+  return GetSipRuleResponse(
+    sipRule: json['SipRule'] == null
+        ? null
+        : SipRule.fromJson(json['SipRule'] as Map<String, dynamic>),
   );
 }
 
@@ -611,6 +1320,17 @@ GetUserSettingsResponse _$GetUserSettingsResponseFromJson(
     userSettings: json['UserSettings'] == null
         ? null
         : UserSettings.fromJson(json['UserSettings'] as Map<String, dynamic>),
+  );
+}
+
+GetVoiceConnectorEmergencyCallingConfigurationResponse
+    _$GetVoiceConnectorEmergencyCallingConfigurationResponseFromJson(
+        Map<String, dynamic> json) {
+  return GetVoiceConnectorEmergencyCallingConfigurationResponse(
+    emergencyCallingConfiguration: json['EmergencyCallingConfiguration'] == null
+        ? null
+        : EmergencyCallingConfiguration.fromJson(
+            json['EmergencyCallingConfiguration'] as Map<String, dynamic>),
   );
 }
 
@@ -694,6 +1414,13 @@ GetVoiceConnectorTerminationResponse
   );
 }
 
+Identity _$IdentityFromJson(Map<String, dynamic> json) {
+  return Identity(
+    arn: json['Arn'] as String,
+    name: json['Name'] as String,
+  );
+}
+
 Invite _$InviteFromJson(Map<String, dynamic> json) {
   return Invite(
     emailAddress: json['EmailAddress'] as String,
@@ -735,6 +1462,44 @@ ListAccountsResponse _$ListAccountsResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+ListAppInstanceAdminsResponse _$ListAppInstanceAdminsResponseFromJson(
+    Map<String, dynamic> json) {
+  return ListAppInstanceAdminsResponse(
+    appInstanceAdmins: (json['AppInstanceAdmins'] as List)
+        ?.map((e) => e == null
+            ? null
+            : AppInstanceAdminSummary.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    appInstanceArn: json['AppInstanceArn'] as String,
+    nextToken: json['NextToken'] as String,
+  );
+}
+
+ListAppInstanceUsersResponse _$ListAppInstanceUsersResponseFromJson(
+    Map<String, dynamic> json) {
+  return ListAppInstanceUsersResponse(
+    appInstanceArn: json['AppInstanceArn'] as String,
+    appInstanceUsers: (json['AppInstanceUsers'] as List)
+        ?.map((e) => e == null
+            ? null
+            : AppInstanceUserSummary.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    nextToken: json['NextToken'] as String,
+  );
+}
+
+ListAppInstancesResponse _$ListAppInstancesResponseFromJson(
+    Map<String, dynamic> json) {
+  return ListAppInstancesResponse(
+    appInstances: (json['AppInstances'] as List)
+        ?.map((e) => e == null
+            ? null
+            : AppInstanceSummary.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    nextToken: json['NextToken'] as String,
+  );
+}
+
 ListAttendeeTagsResponse _$ListAttendeeTagsResponseFromJson(
     Map<String, dynamic> json) {
   return ListAttendeeTagsResponse(
@@ -759,6 +1524,97 @@ ListBotsResponse _$ListBotsResponseFromJson(Map<String, dynamic> json) {
   return ListBotsResponse(
     bots: (json['Bots'] as List)
         ?.map((e) => e == null ? null : Bot.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    nextToken: json['NextToken'] as String,
+  );
+}
+
+ListChannelBansResponse _$ListChannelBansResponseFromJson(
+    Map<String, dynamic> json) {
+  return ListChannelBansResponse(
+    channelArn: json['ChannelArn'] as String,
+    channelBans: (json['ChannelBans'] as List)
+        ?.map((e) => e == null
+            ? null
+            : ChannelBanSummary.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    nextToken: json['NextToken'] as String,
+  );
+}
+
+ListChannelMembershipsForAppInstanceUserResponse
+    _$ListChannelMembershipsForAppInstanceUserResponseFromJson(
+        Map<String, dynamic> json) {
+  return ListChannelMembershipsForAppInstanceUserResponse(
+    channelMemberships: (json['ChannelMemberships'] as List)
+        ?.map((e) => e == null
+            ? null
+            : ChannelMembershipForAppInstanceUserSummary.fromJson(
+                e as Map<String, dynamic>))
+        ?.toList(),
+    nextToken: json['NextToken'] as String,
+  );
+}
+
+ListChannelMembershipsResponse _$ListChannelMembershipsResponseFromJson(
+    Map<String, dynamic> json) {
+  return ListChannelMembershipsResponse(
+    channelArn: json['ChannelArn'] as String,
+    channelMemberships: (json['ChannelMemberships'] as List)
+        ?.map((e) => e == null
+            ? null
+            : ChannelMembershipSummary.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    nextToken: json['NextToken'] as String,
+  );
+}
+
+ListChannelMessagesResponse _$ListChannelMessagesResponseFromJson(
+    Map<String, dynamic> json) {
+  return ListChannelMessagesResponse(
+    channelArn: json['ChannelArn'] as String,
+    channelMessages: (json['ChannelMessages'] as List)
+        ?.map((e) => e == null
+            ? null
+            : ChannelMessageSummary.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    nextToken: json['NextToken'] as String,
+  );
+}
+
+ListChannelModeratorsResponse _$ListChannelModeratorsResponseFromJson(
+    Map<String, dynamic> json) {
+  return ListChannelModeratorsResponse(
+    channelArn: json['ChannelArn'] as String,
+    channelModerators: (json['ChannelModerators'] as List)
+        ?.map((e) => e == null
+            ? null
+            : ChannelModeratorSummary.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    nextToken: json['NextToken'] as String,
+  );
+}
+
+ListChannelsModeratedByAppInstanceUserResponse
+    _$ListChannelsModeratedByAppInstanceUserResponseFromJson(
+        Map<String, dynamic> json) {
+  return ListChannelsModeratedByAppInstanceUserResponse(
+    channels: (json['Channels'] as List)
+        ?.map((e) => e == null
+            ? null
+            : ChannelModeratedByAppInstanceUserSummary.fromJson(
+                e as Map<String, dynamic>))
+        ?.toList(),
+    nextToken: json['NextToken'] as String,
+  );
+}
+
+ListChannelsResponse _$ListChannelsResponseFromJson(Map<String, dynamic> json) {
+  return ListChannelsResponse(
+    channels: (json['Channels'] as List)
+        ?.map((e) => e == null
+            ? null
+            : ChannelSummary.fromJson(e as Map<String, dynamic>))
         ?.toList(),
     nextToken: json['NextToken'] as String,
   );
@@ -835,6 +1691,28 @@ ListRoomsResponse _$ListRoomsResponseFromJson(Map<String, dynamic> json) {
     rooms: (json['Rooms'] as List)
         ?.map(
             (e) => e == null ? null : Room.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+ListSipMediaApplicationsResponse _$ListSipMediaApplicationsResponseFromJson(
+    Map<String, dynamic> json) {
+  return ListSipMediaApplicationsResponse(
+    nextToken: json['NextToken'] as String,
+    sipMediaApplications: (json['SipMediaApplications'] as List)
+        ?.map((e) => e == null
+            ? null
+            : SipMediaApplication.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+ListSipRulesResponse _$ListSipRulesResponseFromJson(Map<String, dynamic> json) {
+  return ListSipRulesResponse(
+    nextToken: json['NextToken'] as String,
+    sipRules: (json['SipRules'] as List)
+        ?.map((e) =>
+            e == null ? null : SipRule.fromJson(e as Map<String, dynamic>))
         ?.toList(),
   );
 }
@@ -988,6 +1866,7 @@ const _$ErrorCodeEnumMap = {
   ErrorCode.accessDenied: 'AccessDenied',
   ErrorCode.serviceUnavailable: 'ServiceUnavailable',
   ErrorCode.throttled: 'Throttled',
+  ErrorCode.throttling: 'Throttling',
   ErrorCode.unauthorized: 'Unauthorized',
   ErrorCode.unprocessable: 'Unprocessable',
   ErrorCode.voiceConnectorGroupAssociationsExist:
@@ -1013,6 +1892,13 @@ const _$RoomMembershipRoleEnumMap = {
   RoomMembershipRole.administrator: 'Administrator',
   RoomMembershipRole.member: 'Member',
 };
+
+MessagingSessionEndpoint _$MessagingSessionEndpointFromJson(
+    Map<String, dynamic> json) {
+  return MessagingSessionEndpoint(
+    url: json['Url'] as String,
+  );
+}
 
 OrderedPhoneNumber _$OrderedPhoneNumberFromJson(Map<String, dynamic> json) {
   return OrderedPhoneNumber(
@@ -1167,6 +2053,7 @@ const _$PhoneNumberAssociationNameEnumMap = {
   PhoneNumberAssociationName.userId: 'UserId',
   PhoneNumberAssociationName.voiceConnectorId: 'VoiceConnectorId',
   PhoneNumberAssociationName.voiceConnectorGroupId: 'VoiceConnectorGroupId',
+  PhoneNumberAssociationName.sipRuleId: 'SipRuleId',
 };
 
 PhoneNumberCapabilities _$PhoneNumberCapabilitiesFromJson(
@@ -1278,6 +2165,33 @@ const _$ProxySessionStatusEnumMap = {
   ProxySessionStatus.closed: 'Closed',
 };
 
+PutAppInstanceRetentionSettingsResponse
+    _$PutAppInstanceRetentionSettingsResponseFromJson(
+        Map<String, dynamic> json) {
+  return PutAppInstanceRetentionSettingsResponse(
+    appInstanceRetentionSettings: json['AppInstanceRetentionSettings'] == null
+        ? null
+        : AppInstanceRetentionSettings.fromJson(
+            json['AppInstanceRetentionSettings'] as Map<String, dynamic>),
+    initiateDeletionTimestamp: const UnixDateTimeConverter()
+        .fromJson(json['InitiateDeletionTimestamp']),
+  );
+}
+
+PutAppInstanceStreamingConfigurationsResponse
+    _$PutAppInstanceStreamingConfigurationsResponseFromJson(
+        Map<String, dynamic> json) {
+  return PutAppInstanceStreamingConfigurationsResponse(
+    appInstanceStreamingConfigurations:
+        (json['AppInstanceStreamingConfigurations'] as List)
+            ?.map((e) => e == null
+                ? null
+                : AppInstanceStreamingConfiguration.fromJson(
+                    e as Map<String, dynamic>))
+            ?.toList(),
+  );
+}
+
 PutEventsConfigurationResponse _$PutEventsConfigurationResponseFromJson(
     Map<String, dynamic> json) {
   return PutEventsConfigurationResponse(
@@ -1285,6 +2199,42 @@ PutEventsConfigurationResponse _$PutEventsConfigurationResponseFromJson(
         ? null
         : EventsConfiguration.fromJson(
             json['EventsConfiguration'] as Map<String, dynamic>),
+  );
+}
+
+PutRetentionSettingsResponse _$PutRetentionSettingsResponseFromJson(
+    Map<String, dynamic> json) {
+  return PutRetentionSettingsResponse(
+    initiateDeletionTimestamp: const IsoDateTimeConverter()
+        .fromJson(json['InitiateDeletionTimestamp']),
+    retentionSettings: json['RetentionSettings'] == null
+        ? null
+        : RetentionSettings.fromJson(
+            json['RetentionSettings'] as Map<String, dynamic>),
+  );
+}
+
+PutSipMediaApplicationLoggingConfigurationResponse
+    _$PutSipMediaApplicationLoggingConfigurationResponseFromJson(
+        Map<String, dynamic> json) {
+  return PutSipMediaApplicationLoggingConfigurationResponse(
+    sipMediaApplicationLoggingConfiguration:
+        json['SipMediaApplicationLoggingConfiguration'] == null
+            ? null
+            : SipMediaApplicationLoggingConfiguration.fromJson(
+                json['SipMediaApplicationLoggingConfiguration']
+                    as Map<String, dynamic>),
+  );
+}
+
+PutVoiceConnectorEmergencyCallingConfigurationResponse
+    _$PutVoiceConnectorEmergencyCallingConfigurationResponseFromJson(
+        Map<String, dynamic> json) {
+  return PutVoiceConnectorEmergencyCallingConfigurationResponse(
+    emergencyCallingConfiguration: json['EmergencyCallingConfiguration'] == null
+        ? null
+        : EmergencyCallingConfiguration.fromJson(
+            json['EmergencyCallingConfiguration'] as Map<String, dynamic>),
   );
 }
 
@@ -1337,6 +2287,24 @@ PutVoiceConnectorTerminationResponse
   );
 }
 
+RedactChannelMessageResponse _$RedactChannelMessageResponseFromJson(
+    Map<String, dynamic> json) {
+  return RedactChannelMessageResponse(
+    channelArn: json['ChannelArn'] as String,
+    messageId: json['MessageId'] as String,
+  );
+}
+
+RedactConversationMessageResponse _$RedactConversationMessageResponseFromJson(
+    Map<String, dynamic> json) {
+  return RedactConversationMessageResponse();
+}
+
+RedactRoomMessageResponse _$RedactRoomMessageResponseFromJson(
+    Map<String, dynamic> json) {
+  return RedactRoomMessageResponse();
+}
+
 RegenerateSecurityTokenResponse _$RegenerateSecurityTokenResponseFromJson(
     Map<String, dynamic> json) {
   return RegenerateSecurityTokenResponse(
@@ -1362,6 +2330,35 @@ RestorePhoneNumberResponse _$RestorePhoneNumberResponseFromJson(
         ? null
         : PhoneNumber.fromJson(json['PhoneNumber'] as Map<String, dynamic>),
   );
+}
+
+RetentionSettings _$RetentionSettingsFromJson(Map<String, dynamic> json) {
+  return RetentionSettings(
+    conversationRetentionSettings: json['ConversationRetentionSettings'] == null
+        ? null
+        : ConversationRetentionSettings.fromJson(
+            json['ConversationRetentionSettings'] as Map<String, dynamic>),
+    roomRetentionSettings: json['RoomRetentionSettings'] == null
+        ? null
+        : RoomRetentionSettings.fromJson(
+            json['RoomRetentionSettings'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$RetentionSettingsToJson(RetentionSettings instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('ConversationRetentionSettings',
+      instance.conversationRetentionSettings?.toJson());
+  writeNotNull(
+      'RoomRetentionSettings', instance.roomRetentionSettings?.toJson());
+  return val;
 }
 
 Room _$RoomFromJson(Map<String, dynamic> json) {
@@ -1390,11 +2387,40 @@ RoomMembership _$RoomMembershipFromJson(Map<String, dynamic> json) {
   );
 }
 
+RoomRetentionSettings _$RoomRetentionSettingsFromJson(
+    Map<String, dynamic> json) {
+  return RoomRetentionSettings(
+    retentionDays: json['RetentionDays'] as int,
+  );
+}
+
+Map<String, dynamic> _$RoomRetentionSettingsToJson(
+    RoomRetentionSettings instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('RetentionDays', instance.retentionDays);
+  return val;
+}
+
 SearchAvailablePhoneNumbersResponse
     _$SearchAvailablePhoneNumbersResponseFromJson(Map<String, dynamic> json) {
   return SearchAvailablePhoneNumbersResponse(
     e164PhoneNumbers:
         (json['E164PhoneNumbers'] as List)?.map((e) => e as String)?.toList(),
+  );
+}
+
+SendChannelMessageResponse _$SendChannelMessageResponseFromJson(
+    Map<String, dynamic> json) {
+  return SendChannelMessageResponse(
+    channelArn: json['ChannelArn'] as String,
+    messageId: json['MessageId'] as String,
   );
 }
 
@@ -1417,11 +2443,135 @@ Map<String, dynamic> _$SigninDelegateGroupToJson(SigninDelegateGroup instance) {
   return val;
 }
 
+SipMediaApplication _$SipMediaApplicationFromJson(Map<String, dynamic> json) {
+  return SipMediaApplication(
+    awsRegion: json['AwsRegion'] as String,
+    createdTimestamp:
+        const IsoDateTimeConverter().fromJson(json['CreatedTimestamp']),
+    endpoints: (json['Endpoints'] as List)
+        ?.map((e) => e == null
+            ? null
+            : SipMediaApplicationEndpoint.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    name: json['Name'] as String,
+    sipMediaApplicationId: json['SipMediaApplicationId'] as String,
+    updatedTimestamp:
+        const IsoDateTimeConverter().fromJson(json['UpdatedTimestamp']),
+  );
+}
+
+SipMediaApplicationCall _$SipMediaApplicationCallFromJson(
+    Map<String, dynamic> json) {
+  return SipMediaApplicationCall(
+    transactionId: json['TransactionId'] as String,
+  );
+}
+
+SipMediaApplicationEndpoint _$SipMediaApplicationEndpointFromJson(
+    Map<String, dynamic> json) {
+  return SipMediaApplicationEndpoint(
+    lambdaArn: json['LambdaArn'] as String,
+  );
+}
+
+Map<String, dynamic> _$SipMediaApplicationEndpointToJson(
+    SipMediaApplicationEndpoint instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('LambdaArn', instance.lambdaArn);
+  return val;
+}
+
+SipMediaApplicationLoggingConfiguration
+    _$SipMediaApplicationLoggingConfigurationFromJson(
+        Map<String, dynamic> json) {
+  return SipMediaApplicationLoggingConfiguration(
+    enableSipMediaApplicationMessageLogs:
+        json['EnableSipMediaApplicationMessageLogs'] as bool,
+  );
+}
+
+Map<String, dynamic> _$SipMediaApplicationLoggingConfigurationToJson(
+    SipMediaApplicationLoggingConfiguration instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('EnableSipMediaApplicationMessageLogs',
+      instance.enableSipMediaApplicationMessageLogs);
+  return val;
+}
+
+SipRule _$SipRuleFromJson(Map<String, dynamic> json) {
+  return SipRule(
+    createdTimestamp:
+        const IsoDateTimeConverter().fromJson(json['CreatedTimestamp']),
+    disabled: json['Disabled'] as bool,
+    name: json['Name'] as String,
+    sipRuleId: json['SipRuleId'] as String,
+    targetApplications: (json['TargetApplications'] as List)
+        ?.map((e) => e == null
+            ? null
+            : SipRuleTargetApplication.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    triggerType:
+        _$enumDecodeNullable(_$SipRuleTriggerTypeEnumMap, json['TriggerType']),
+    triggerValue: json['TriggerValue'] as String,
+    updatedTimestamp:
+        const IsoDateTimeConverter().fromJson(json['UpdatedTimestamp']),
+  );
+}
+
+const _$SipRuleTriggerTypeEnumMap = {
+  SipRuleTriggerType.toPhoneNumber: 'ToPhoneNumber',
+  SipRuleTriggerType.requestUriHostname: 'RequestUriHostname',
+};
+
+SipRuleTargetApplication _$SipRuleTargetApplicationFromJson(
+    Map<String, dynamic> json) {
+  return SipRuleTargetApplication(
+    awsRegion: json['AwsRegion'] as String,
+    priority: json['Priority'] as int,
+    sipMediaApplicationId: json['SipMediaApplicationId'] as String,
+  );
+}
+
+Map<String, dynamic> _$SipRuleTargetApplicationToJson(
+    SipRuleTargetApplication instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('AwsRegion', instance.awsRegion);
+  writeNotNull('Priority', instance.priority);
+  writeNotNull('SipMediaApplicationId', instance.sipMediaApplicationId);
+  return val;
+}
+
 StreamingConfiguration _$StreamingConfigurationFromJson(
     Map<String, dynamic> json) {
   return StreamingConfiguration(
     dataRetentionInHours: json['DataRetentionInHours'] as int,
     disabled: json['Disabled'] as bool,
+    streamingNotificationTargets: (json['StreamingNotificationTargets'] as List)
+        ?.map((e) => e == null
+            ? null
+            : StreamingNotificationTarget.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
   );
 }
 
@@ -1437,8 +2587,39 @@ Map<String, dynamic> _$StreamingConfigurationToJson(
 
   writeNotNull('DataRetentionInHours', instance.dataRetentionInHours);
   writeNotNull('Disabled', instance.disabled);
+  writeNotNull('StreamingNotificationTargets',
+      instance.streamingNotificationTargets?.map((e) => e?.toJson())?.toList());
   return val;
 }
+
+StreamingNotificationTarget _$StreamingNotificationTargetFromJson(
+    Map<String, dynamic> json) {
+  return StreamingNotificationTarget(
+    notificationTarget: _$enumDecodeNullable(
+        _$NotificationTargetEnumMap, json['NotificationTarget']),
+  );
+}
+
+Map<String, dynamic> _$StreamingNotificationTargetToJson(
+    StreamingNotificationTarget instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('NotificationTarget',
+      _$NotificationTargetEnumMap[instance.notificationTarget]);
+  return val;
+}
+
+const _$NotificationTargetEnumMap = {
+  NotificationTarget.eventBridge: 'EventBridge',
+  NotificationTarget.sns: 'SNS',
+  NotificationTarget.sqs: 'SQS',
+};
 
 Tag _$TagFromJson(Map<String, dynamic> json) {
   return Tag(
@@ -1534,11 +2715,47 @@ UpdateAccountSettingsResponse _$UpdateAccountSettingsResponseFromJson(
   return UpdateAccountSettingsResponse();
 }
 
+UpdateAppInstanceResponse _$UpdateAppInstanceResponseFromJson(
+    Map<String, dynamic> json) {
+  return UpdateAppInstanceResponse(
+    appInstanceArn: json['AppInstanceArn'] as String,
+  );
+}
+
+UpdateAppInstanceUserResponse _$UpdateAppInstanceUserResponseFromJson(
+    Map<String, dynamic> json) {
+  return UpdateAppInstanceUserResponse(
+    appInstanceUserArn: json['AppInstanceUserArn'] as String,
+  );
+}
+
 UpdateBotResponse _$UpdateBotResponseFromJson(Map<String, dynamic> json) {
   return UpdateBotResponse(
     bot: json['Bot'] == null
         ? null
         : Bot.fromJson(json['Bot'] as Map<String, dynamic>),
+  );
+}
+
+UpdateChannelMessageResponse _$UpdateChannelMessageResponseFromJson(
+    Map<String, dynamic> json) {
+  return UpdateChannelMessageResponse(
+    channelArn: json['ChannelArn'] as String,
+    messageId: json['MessageId'] as String,
+  );
+}
+
+UpdateChannelReadMarkerResponse _$UpdateChannelReadMarkerResponseFromJson(
+    Map<String, dynamic> json) {
+  return UpdateChannelReadMarkerResponse(
+    channelArn: json['ChannelArn'] as String,
+  );
+}
+
+UpdateChannelResponse _$UpdateChannelResponseFromJson(
+    Map<String, dynamic> json) {
+  return UpdateChannelResponse(
+    channelArn: json['ChannelArn'] as String,
   );
 }
 
@@ -1592,6 +2809,25 @@ UpdateRoomResponse _$UpdateRoomResponseFromJson(Map<String, dynamic> json) {
     room: json['Room'] == null
         ? null
         : Room.fromJson(json['Room'] as Map<String, dynamic>),
+  );
+}
+
+UpdateSipMediaApplicationResponse _$UpdateSipMediaApplicationResponseFromJson(
+    Map<String, dynamic> json) {
+  return UpdateSipMediaApplicationResponse(
+    sipMediaApplication: json['SipMediaApplication'] == null
+        ? null
+        : SipMediaApplication.fromJson(
+            json['SipMediaApplication'] as Map<String, dynamic>),
+  );
+}
+
+UpdateSipRuleResponse _$UpdateSipRuleResponseFromJson(
+    Map<String, dynamic> json) {
+  return UpdateSipRuleResponse(
+    sipRule: json['SipRule'] == null
+        ? null
+        : SipRule.fromJson(json['SipRule'] as Map<String, dynamic>),
   );
 }
 

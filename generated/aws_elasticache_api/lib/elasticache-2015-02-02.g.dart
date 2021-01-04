@@ -19,6 +19,7 @@ Map<String, dynamic> _$ConfigureShardToJson(ConfigureShard instance) {
   writeNotNull('NodeGroupId', instance.nodeGroupId);
   writeNotNull(
       'PreferredAvailabilityZones', instance.preferredAvailabilityZones);
+  writeNotNull('PreferredOutpostArns', instance.preferredOutpostArns);
   return val;
 }
 
@@ -37,6 +38,20 @@ Map<String, dynamic> _$CustomerNodeEndpointToJson(
   return val;
 }
 
+Map<String, dynamic> _$FilterToJson(Filter instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Name', instance.name);
+  writeNotNull('Values', instance.values);
+  return val;
+}
+
 Map<String, dynamic> _$NodeGroupConfigurationToJson(
     NodeGroupConfiguration instance) {
   final val = <String, dynamic>{};
@@ -49,8 +64,10 @@ Map<String, dynamic> _$NodeGroupConfigurationToJson(
 
   writeNotNull('NodeGroupId', instance.nodeGroupId);
   writeNotNull('PrimaryAvailabilityZone', instance.primaryAvailabilityZone);
+  writeNotNull('PrimaryOutpostArn', instance.primaryOutpostArn);
   writeNotNull('ReplicaAvailabilityZones', instance.replicaAvailabilityZones);
   writeNotNull('ReplicaCount', instance.replicaCount);
+  writeNotNull('ReplicaOutpostArns', instance.replicaOutpostArns);
   writeNotNull('Slots', instance.slots);
   return val;
 }

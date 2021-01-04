@@ -11,6 +11,13 @@ AcceptInvitationResponse _$AcceptInvitationResponseFromJson(
   return AcceptInvitationResponse();
 }
 
+AccessControlList _$AccessControlListFromJson(Map<String, dynamic> json) {
+  return AccessControlList(
+    allowsPublicReadAccess: json['allowsPublicReadAccess'] as bool,
+    allowsPublicWriteAccess: json['allowsPublicWriteAccess'] as bool,
+  );
+}
+
 AccessKeyDetails _$AccessKeyDetailsFromJson(Map<String, dynamic> json) {
   return AccessKeyDetails(
     accessKeyId: json['accessKeyId'] as String,
@@ -32,6 +39,16 @@ Map<String, dynamic> _$AccountDetailToJson(AccountDetail instance) {
   writeNotNull('accountId', instance.accountId);
   writeNotNull('email', instance.email);
   return val;
+}
+
+AccountLevelPermissions _$AccountLevelPermissionsFromJson(
+    Map<String, dynamic> json) {
+  return AccountLevelPermissions(
+    blockPublicAccess: json['blockPublicAccess'] == null
+        ? null
+        : BlockPublicAccess.fromJson(
+            json['blockPublicAccess'] as Map<String, dynamic>),
+  );
 }
 
 Action _$ActionFromJson(Map<String, dynamic> json) {
@@ -56,6 +73,51 @@ Action _$ActionFromJson(Map<String, dynamic> json) {
   );
 }
 
+AdminAccount _$AdminAccountFromJson(Map<String, dynamic> json) {
+  return AdminAccount(
+    adminAccountId: json['adminAccountId'] as String,
+    adminStatus:
+        _$enumDecodeNullable(_$AdminStatusEnumMap, json['adminStatus']),
+  );
+}
+
+T _$enumDecode<T>(
+  Map<T, dynamic> enumValues,
+  dynamic source, {
+  T unknownValue,
+}) {
+  if (source == null) {
+    throw ArgumentError('A value must be provided. Supported values: '
+        '${enumValues.values.join(', ')}');
+  }
+
+  final value = enumValues.entries
+      .singleWhere((e) => e.value == source, orElse: () => null)
+      ?.key;
+
+  if (value == null && unknownValue == null) {
+    throw ArgumentError('`$source` is not one of the supported values: '
+        '${enumValues.values.join(', ')}');
+  }
+  return value ?? unknownValue;
+}
+
+T _$enumDecodeNullable<T>(
+  Map<T, dynamic> enumValues,
+  dynamic source, {
+  T unknownValue,
+}) {
+  if (source == null) {
+    return null;
+  }
+  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
+}
+
+const _$AdminStatusEnumMap = {
+  AdminStatus.enabled: 'ENABLED',
+  AdminStatus.disableInProgress: 'DISABLE_IN_PROGRESS',
+};
+
 ArchiveFindingsResponse _$ArchiveFindingsResponseFromJson(
     Map<String, dynamic> json) {
   return ArchiveFindingsResponse();
@@ -68,6 +130,7 @@ AwsApiCallAction _$AwsApiCallActionFromJson(Map<String, dynamic> json) {
     domainDetails: json['domainDetails'] == null
         ? null
         : DomainDetails.fromJson(json['domainDetails'] as Map<String, dynamic>),
+    errorCode: json['errorCode'] as String,
     remoteIpDetails: json['remoteIpDetails'] == null
         ? null
         : RemoteIpDetails.fromJson(
@@ -76,11 +139,56 @@ AwsApiCallAction _$AwsApiCallActionFromJson(Map<String, dynamic> json) {
   );
 }
 
+BlockPublicAccess _$BlockPublicAccessFromJson(Map<String, dynamic> json) {
+  return BlockPublicAccess(
+    blockPublicAcls: json['blockPublicAcls'] as bool,
+    blockPublicPolicy: json['blockPublicPolicy'] as bool,
+    ignorePublicAcls: json['ignorePublicAcls'] as bool,
+    restrictPublicBuckets: json['restrictPublicBuckets'] as bool,
+  );
+}
+
+BucketLevelPermissions _$BucketLevelPermissionsFromJson(
+    Map<String, dynamic> json) {
+  return BucketLevelPermissions(
+    accessControlList: json['accessControlList'] == null
+        ? null
+        : AccessControlList.fromJson(
+            json['accessControlList'] as Map<String, dynamic>),
+    blockPublicAccess: json['blockPublicAccess'] == null
+        ? null
+        : BlockPublicAccess.fromJson(
+            json['blockPublicAccess'] as Map<String, dynamic>),
+    bucketPolicy: json['bucketPolicy'] == null
+        ? null
+        : BucketPolicy.fromJson(json['bucketPolicy'] as Map<String, dynamic>),
+  );
+}
+
+BucketPolicy _$BucketPolicyFromJson(Map<String, dynamic> json) {
+  return BucketPolicy(
+    allowsPublicReadAccess: json['allowsPublicReadAccess'] as bool,
+    allowsPublicWriteAccess: json['allowsPublicWriteAccess'] as bool,
+  );
+}
+
 City _$CityFromJson(Map<String, dynamic> json) {
   return City(
     cityName: json['cityName'] as String,
   );
 }
+
+CloudTrailConfigurationResult _$CloudTrailConfigurationResultFromJson(
+    Map<String, dynamic> json) {
+  return CloudTrailConfigurationResult(
+    status: _$enumDecodeNullable(_$DataSourceStatusEnumMap, json['status']),
+  );
+}
+
+const _$DataSourceStatusEnumMap = {
+  DataSourceStatus.enabled: 'ENABLED',
+  DataSourceStatus.disabled: 'DISABLED',
+};
 
 Condition _$ConditionFromJson(Map<String, dynamic> json) {
   return Condition(
@@ -179,6 +287,49 @@ CreateThreatIntelSetResponse _$CreateThreatIntelSetResponseFromJson(
   );
 }
 
+DNSLogsConfigurationResult _$DNSLogsConfigurationResultFromJson(
+    Map<String, dynamic> json) {
+  return DNSLogsConfigurationResult(
+    status: _$enumDecodeNullable(_$DataSourceStatusEnumMap, json['status']),
+  );
+}
+
+Map<String, dynamic> _$DataSourceConfigurationsToJson(
+    DataSourceConfigurations instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('s3Logs', instance.s3Logs?.toJson());
+  return val;
+}
+
+DataSourceConfigurationsResult _$DataSourceConfigurationsResultFromJson(
+    Map<String, dynamic> json) {
+  return DataSourceConfigurationsResult(
+    cloudTrail: json['cloudTrail'] == null
+        ? null
+        : CloudTrailConfigurationResult.fromJson(
+            json['cloudTrail'] as Map<String, dynamic>),
+    dNSLogs: json['dnsLogs'] == null
+        ? null
+        : DNSLogsConfigurationResult.fromJson(
+            json['dnsLogs'] as Map<String, dynamic>),
+    flowLogs: json['flowLogs'] == null
+        ? null
+        : FlowLogsConfigurationResult.fromJson(
+            json['flowLogs'] as Map<String, dynamic>),
+    s3Logs: json['s3Logs'] == null
+        ? null
+        : S3LogsConfigurationResult.fromJson(
+            json['s3Logs'] as Map<String, dynamic>),
+  );
+}
+
 DeclineInvitationsResponse _$DeclineInvitationsResponseFromJson(
     Map<String, dynamic> json) {
   return DeclineInvitationsResponse(
@@ -187,6 +338,14 @@ DeclineInvitationsResponse _$DeclineInvitationsResponseFromJson(
             ? null
             : UnprocessedAccount.fromJson(e as Map<String, dynamic>))
         ?.toList(),
+  );
+}
+
+DefaultServerSideEncryption _$DefaultServerSideEncryptionFromJson(
+    Map<String, dynamic> json) {
+  return DefaultServerSideEncryption(
+    encryptionType: json['encryptionType'] as String,
+    kmsMasterKeyArn: json['kmsMasterKeyArn'] as String,
   );
 }
 
@@ -235,6 +394,19 @@ DeleteThreatIntelSetResponse _$DeleteThreatIntelSetResponseFromJson(
   return DeleteThreatIntelSetResponse();
 }
 
+DescribeOrganizationConfigurationResponse
+    _$DescribeOrganizationConfigurationResponseFromJson(
+        Map<String, dynamic> json) {
+  return DescribeOrganizationConfigurationResponse(
+    autoEnable: json['autoEnable'] as bool,
+    memberAccountLimitReached: json['memberAccountLimitReached'] as bool,
+    dataSources: json['dataSources'] == null
+        ? null
+        : OrganizationDataSourceConfigurationsResult.fromJson(
+            json['dataSources'] as Map<String, dynamic>),
+  );
+}
+
 DescribePublishingDestinationResponse
     _$DescribePublishingDestinationResponseFromJson(Map<String, dynamic> json) {
   return DescribePublishingDestinationResponse(
@@ -249,38 +421,6 @@ DescribePublishingDestinationResponse
         json['publishingFailureStartTimestamp'] as int,
     status: _$enumDecodeNullable(_$PublishingStatusEnumMap, json['status']),
   );
-}
-
-T _$enumDecode<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
-}) {
-  if (source == null) {
-    throw ArgumentError('A value must be provided. Supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-
-  final value = enumValues.entries
-      .singleWhere((e) => e.value == source, orElse: () => null)
-      ?.key;
-
-  if (value == null && unknownValue == null) {
-    throw ArgumentError('`$source` is not one of the supported values: '
-        '${enumValues.values.join(', ')}');
-  }
-  return value ?? unknownValue;
-}
-
-T _$enumDecodeNullable<T>(
-  Map<T, dynamic> enumValues,
-  dynamic source, {
-  T unknownValue,
-}) {
-  if (source == null) {
-    return null;
-  }
-  return _$enumDecode<T>(enumValues, source, unknownValue: unknownValue);
 }
 
 const _$DestinationTypeEnumMap = {
@@ -327,6 +467,12 @@ Map<String, dynamic> _$DestinationPropertiesToJson(
   return val;
 }
 
+DisableOrganizationAdminAccountResponse
+    _$DisableOrganizationAdminAccountResponseFromJson(
+        Map<String, dynamic> json) {
+  return DisableOrganizationAdminAccountResponse();
+}
+
 DisassociateFromMasterAccountResponse
     _$DisassociateFromMasterAccountResponseFromJson(Map<String, dynamic> json) {
   return DisassociateFromMasterAccountResponse();
@@ -353,6 +499,12 @@ DomainDetails _$DomainDetailsFromJson(Map<String, dynamic> json) {
   return DomainDetails(
     domain: json['domain'] as String,
   );
+}
+
+EnableOrganizationAdminAccountResponse
+    _$EnableOrganizationAdminAccountResponseFromJson(
+        Map<String, dynamic> json) {
+  return EnableOrganizationAdminAccountResponse();
 }
 
 Evidence _$EvidenceFromJson(Map<String, dynamic> json) {
@@ -420,6 +572,13 @@ FindingStatistics _$FindingStatisticsFromJson(Map<String, dynamic> json) {
   );
 }
 
+FlowLogsConfigurationResult _$FlowLogsConfigurationResultFromJson(
+    Map<String, dynamic> json) {
+  return FlowLogsConfigurationResult(
+    status: _$enumDecodeNullable(_$DataSourceStatusEnumMap, json['status']),
+  );
+}
+
 GeoLocation _$GeoLocationFromJson(Map<String, dynamic> json) {
   return GeoLocation(
     lat: (json['lat'] as num)?.toDouble(),
@@ -432,6 +591,10 @@ GetDetectorResponse _$GetDetectorResponseFromJson(Map<String, dynamic> json) {
     serviceRole: json['serviceRole'] as String,
     status: _$enumDecodeNullable(_$DetectorStatusEnumMap, json['status']),
     createdAt: json['createdAt'] as String,
+    dataSources: json['dataSources'] == null
+        ? null
+        : DataSourceConfigurationsResult.fromJson(
+            json['dataSources'] as Map<String, dynamic>),
     findingPublishingFrequency: _$enumDecodeNullable(
         _$FindingPublishingFrequencyEnumMap,
         json['findingPublishingFrequency']),
@@ -540,6 +703,22 @@ GetMasterAccountResponse _$GetMasterAccountResponseFromJson(
   );
 }
 
+GetMemberDetectorsResponse _$GetMemberDetectorsResponseFromJson(
+    Map<String, dynamic> json) {
+  return GetMemberDetectorsResponse(
+    memberDataSourceConfigurations: (json['members'] as List)
+        ?.map((e) => e == null
+            ? null
+            : MemberDataSourceConfiguration.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    unprocessedAccounts: (json['unprocessedAccounts'] as List)
+        ?.map((e) => e == null
+            ? null
+            : UnprocessedAccount.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
 GetMembersResponse _$GetMembersResponseFromJson(Map<String, dynamic> json) {
   return GetMembersResponse(
     members: (json['members'] as List)
@@ -585,6 +764,17 @@ const _$ThreatIntelSetStatusEnumMap = {
   ThreatIntelSetStatus.deletePending: 'DELETE_PENDING',
   ThreatIntelSetStatus.deleted: 'DELETED',
 };
+
+GetUsageStatisticsResponse _$GetUsageStatisticsResponseFromJson(
+    Map<String, dynamic> json) {
+  return GetUsageStatisticsResponse(
+    nextToken: json['nextToken'] as String,
+    usageStatistics: json['usageStatistics'] == null
+        ? null
+        : UsageStatistics.fromJson(
+            json['usageStatistics'] as Map<String, dynamic>),
+  );
+}
 
 IamInstanceProfile _$IamInstanceProfileFromJson(Map<String, dynamic> json) {
   return IamInstanceProfile(
@@ -695,6 +885,17 @@ ListMembersResponse _$ListMembersResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+ListOrganizationAdminAccountsResponse
+    _$ListOrganizationAdminAccountsResponseFromJson(Map<String, dynamic> json) {
+  return ListOrganizationAdminAccountsResponse(
+    adminAccounts: (json['adminAccounts'] as List)
+        ?.map((e) =>
+            e == null ? null : AdminAccount.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    nextToken: json['nextToken'] as String,
+  );
+}
+
 ListPublishingDestinationsResponse _$ListPublishingDestinationsResponseFromJson(
     Map<String, dynamic> json) {
   return ListPublishingDestinationsResponse(
@@ -758,6 +959,17 @@ Member _$MemberFromJson(Map<String, dynamic> json) {
   );
 }
 
+MemberDataSourceConfiguration _$MemberDataSourceConfigurationFromJson(
+    Map<String, dynamic> json) {
+  return MemberDataSourceConfiguration(
+    accountId: json['accountId'] as String,
+    dataSources: json['dataSources'] == null
+        ? null
+        : DataSourceConfigurationsResult.fromJson(
+            json['dataSources'] as Map<String, dynamic>),
+  );
+}
+
 NetworkConnectionAction _$NetworkConnectionActionFromJson(
     Map<String, dynamic> json) {
   return NetworkConnectionAction(
@@ -816,6 +1028,72 @@ Organization _$OrganizationFromJson(Map<String, dynamic> json) {
   );
 }
 
+Map<String, dynamic> _$OrganizationDataSourceConfigurationsToJson(
+    OrganizationDataSourceConfigurations instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('s3Logs', instance.s3Logs?.toJson());
+  return val;
+}
+
+OrganizationDataSourceConfigurationsResult
+    _$OrganizationDataSourceConfigurationsResultFromJson(
+        Map<String, dynamic> json) {
+  return OrganizationDataSourceConfigurationsResult(
+    s3Logs: json['s3Logs'] == null
+        ? null
+        : OrganizationS3LogsConfigurationResult.fromJson(
+            json['s3Logs'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$OrganizationS3LogsConfigurationToJson(
+    OrganizationS3LogsConfiguration instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('autoEnable', instance.autoEnable);
+  return val;
+}
+
+OrganizationS3LogsConfigurationResult
+    _$OrganizationS3LogsConfigurationResultFromJson(Map<String, dynamic> json) {
+  return OrganizationS3LogsConfigurationResult(
+    autoEnable: json['autoEnable'] as bool,
+  );
+}
+
+Owner _$OwnerFromJson(Map<String, dynamic> json) {
+  return Owner(
+    id: json['id'] as String,
+  );
+}
+
+PermissionConfiguration _$PermissionConfigurationFromJson(
+    Map<String, dynamic> json) {
+  return PermissionConfiguration(
+    accountLevelPermissions: json['accountLevelPermissions'] == null
+        ? null
+        : AccountLevelPermissions.fromJson(
+            json['accountLevelPermissions'] as Map<String, dynamic>),
+    bucketLevelPermissions: json['bucketLevelPermissions'] == null
+        ? null
+        : BucketLevelPermissions.fromJson(
+            json['bucketLevelPermissions'] as Map<String, dynamic>),
+  );
+}
+
 PortProbeAction _$PortProbeActionFromJson(Map<String, dynamic> json) {
   return PortProbeAction(
     blocked: json['blocked'] as bool,
@@ -859,6 +1137,16 @@ ProductCode _$ProductCodeFromJson(Map<String, dynamic> json) {
   );
 }
 
+PublicAccess _$PublicAccessFromJson(Map<String, dynamic> json) {
+  return PublicAccess(
+    effectivePermission: json['effectivePermission'] as String,
+    permissionConfiguration: json['permissionConfiguration'] == null
+        ? null
+        : PermissionConfiguration.fromJson(
+            json['permissionConfiguration'] as Map<String, dynamic>),
+  );
+}
+
 RemoteIpDetails _$RemoteIpDetailsFromJson(Map<String, dynamic> json) {
   return RemoteIpDetails(
     city: json['city'] == null
@@ -895,6 +1183,53 @@ Resource _$ResourceFromJson(Map<String, dynamic> json) {
         : InstanceDetails.fromJson(
             json['instanceDetails'] as Map<String, dynamic>),
     resourceType: json['resourceType'] as String,
+    s3BucketDetails: (json['s3BucketDetails'] as List)
+        ?.map((e) => e == null
+            ? null
+            : S3BucketDetail.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+S3BucketDetail _$S3BucketDetailFromJson(Map<String, dynamic> json) {
+  return S3BucketDetail(
+    arn: json['arn'] as String,
+    createdAt: const UnixDateTimeConverter().fromJson(json['createdAt']),
+    defaultServerSideEncryption: json['defaultServerSideEncryption'] == null
+        ? null
+        : DefaultServerSideEncryption.fromJson(
+            json['defaultServerSideEncryption'] as Map<String, dynamic>),
+    name: json['name'] as String,
+    owner: json['owner'] == null
+        ? null
+        : Owner.fromJson(json['owner'] as Map<String, dynamic>),
+    publicAccess: json['publicAccess'] == null
+        ? null
+        : PublicAccess.fromJson(json['publicAccess'] as Map<String, dynamic>),
+    tags: (json['tags'] as List)
+        ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    type: json['type'] as String,
+  );
+}
+
+Map<String, dynamic> _$S3LogsConfigurationToJson(S3LogsConfiguration instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('enable', instance.enable);
+  return val;
+}
+
+S3LogsConfigurationResult _$S3LogsConfigurationResultFromJson(
+    Map<String, dynamic> json) {
+  return S3LogsConfigurationResult(
+    status: _$enumDecodeNullable(_$DataSourceStatusEnumMap, json['status']),
   );
 }
 
@@ -985,6 +1320,13 @@ ThreatIntelligenceDetail _$ThreatIntelligenceDetailFromJson(
   );
 }
 
+Total _$TotalFromJson(Map<String, dynamic> json) {
+  return Total(
+    amount: json['amount'] as String,
+    unit: json['unit'] as String,
+  );
+}
+
 UnarchiveFindingsResponse _$UnarchiveFindingsResponseFromJson(
     Map<String, dynamic> json) {
   return UnarchiveFindingsResponse();
@@ -1022,6 +1364,23 @@ UpdateIPSetResponse _$UpdateIPSetResponseFromJson(Map<String, dynamic> json) {
   return UpdateIPSetResponse();
 }
 
+UpdateMemberDetectorsResponse _$UpdateMemberDetectorsResponseFromJson(
+    Map<String, dynamic> json) {
+  return UpdateMemberDetectorsResponse(
+    unprocessedAccounts: (json['unprocessedAccounts'] as List)
+        ?.map((e) => e == null
+            ? null
+            : UnprocessedAccount.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
+}
+
+UpdateOrganizationConfigurationResponse
+    _$UpdateOrganizationConfigurationResponseFromJson(
+        Map<String, dynamic> json) {
+  return UpdateOrganizationConfigurationResponse();
+}
+
 UpdatePublishingDestinationResponse
     _$UpdatePublishingDestinationResponseFromJson(Map<String, dynamic> json) {
   return UpdatePublishingDestinationResponse();
@@ -1030,4 +1389,80 @@ UpdatePublishingDestinationResponse
 UpdateThreatIntelSetResponse _$UpdateThreatIntelSetResponseFromJson(
     Map<String, dynamic> json) {
   return UpdateThreatIntelSetResponse();
+}
+
+UsageAccountResult _$UsageAccountResultFromJson(Map<String, dynamic> json) {
+  return UsageAccountResult(
+    accountId: json['accountId'] as String,
+    total: json['total'] == null
+        ? null
+        : Total.fromJson(json['total'] as Map<String, dynamic>),
+  );
+}
+
+Map<String, dynamic> _$UsageCriteriaToJson(UsageCriteria instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('dataSources',
+      instance.dataSources?.map((e) => _$DataSourceEnumMap[e])?.toList());
+  writeNotNull('accountIds', instance.accountIds);
+  writeNotNull('resources', instance.resources);
+  return val;
+}
+
+const _$DataSourceEnumMap = {
+  DataSource.flowLogs: 'FLOW_LOGS',
+  DataSource.cloudTrail: 'CLOUD_TRAIL',
+  DataSource.dnsLogs: 'DNS_LOGS',
+  DataSource.s3Logs: 'S3_LOGS',
+};
+
+UsageDataSourceResult _$UsageDataSourceResultFromJson(
+    Map<String, dynamic> json) {
+  return UsageDataSourceResult(
+    dataSource: _$enumDecodeNullable(_$DataSourceEnumMap, json['dataSource']),
+    total: json['total'] == null
+        ? null
+        : Total.fromJson(json['total'] as Map<String, dynamic>),
+  );
+}
+
+UsageResourceResult _$UsageResourceResultFromJson(Map<String, dynamic> json) {
+  return UsageResourceResult(
+    resource: json['resource'] as String,
+    total: json['total'] == null
+        ? null
+        : Total.fromJson(json['total'] as Map<String, dynamic>),
+  );
+}
+
+UsageStatistics _$UsageStatisticsFromJson(Map<String, dynamic> json) {
+  return UsageStatistics(
+    sumByAccount: (json['sumByAccount'] as List)
+        ?.map((e) => e == null
+            ? null
+            : UsageAccountResult.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    sumByDataSource: (json['sumByDataSource'] as List)
+        ?.map((e) => e == null
+            ? null
+            : UsageDataSourceResult.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    sumByResource: (json['sumByResource'] as List)
+        ?.map((e) => e == null
+            ? null
+            : UsageResourceResult.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    topResources: (json['topResources'] as List)
+        ?.map((e) => e == null
+            ? null
+            : UsageResourceResult.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+  );
 }

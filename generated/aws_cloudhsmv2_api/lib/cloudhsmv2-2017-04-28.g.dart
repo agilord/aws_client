@@ -18,6 +18,7 @@ Backup _$BackupFromJson(Map<String, dynamic> json) {
         const UnixDateTimeConverter().fromJson(json['CreateTimestamp']),
     deleteTimestamp:
         const UnixDateTimeConverter().fromJson(json['DeleteTimestamp']),
+    neverExpires: json['NeverExpires'] as bool,
     sourceBackup: json['SourceBackup'] as String,
     sourceCluster: json['SourceCluster'] as String,
     sourceRegion: json['SourceRegion'] as String,
@@ -66,6 +67,33 @@ const _$BackupStateEnumMap = {
   BackupState.pendingDeletion: 'PENDING_DELETION',
 };
 
+BackupRetentionPolicy _$BackupRetentionPolicyFromJson(
+    Map<String, dynamic> json) {
+  return BackupRetentionPolicy(
+    type: _$enumDecodeNullable(_$BackupRetentionTypeEnumMap, json['Type']),
+    value: json['Value'] as String,
+  );
+}
+
+Map<String, dynamic> _$BackupRetentionPolicyToJson(
+    BackupRetentionPolicy instance) {
+  final val = <String, dynamic>{};
+
+  void writeNotNull(String key, dynamic value) {
+    if (value != null) {
+      val[key] = value;
+    }
+  }
+
+  writeNotNull('Type', _$BackupRetentionTypeEnumMap[instance.type]);
+  writeNotNull('Value', instance.value);
+  return val;
+}
+
+const _$BackupRetentionTypeEnumMap = {
+  BackupRetentionType.days: 'DAYS',
+};
+
 Certificates _$CertificatesFromJson(Map<String, dynamic> json) {
   return Certificates(
     awsHardwareCertificate: json['AwsHardwareCertificate'] as String,
@@ -81,6 +109,10 @@ Cluster _$ClusterFromJson(Map<String, dynamic> json) {
   return Cluster(
     backupPolicy:
         _$enumDecodeNullable(_$BackupPolicyEnumMap, json['BackupPolicy']),
+    backupRetentionPolicy: json['BackupRetentionPolicy'] == null
+        ? null
+        : BackupRetentionPolicy.fromJson(
+            json['BackupRetentionPolicy'] as Map<String, dynamic>),
     certificates: json['Certificates'] == null
         ? null
         : Certificates.fromJson(json['Certificates'] as Map<String, dynamic>),
@@ -239,6 +271,24 @@ ListTagsResponse _$ListTagsResponseFromJson(Map<String, dynamic> json) {
         ?.map((e) => e == null ? null : Tag.fromJson(e as Map<String, dynamic>))
         ?.toList(),
     nextToken: json['NextToken'] as String,
+  );
+}
+
+ModifyBackupAttributesResponse _$ModifyBackupAttributesResponseFromJson(
+    Map<String, dynamic> json) {
+  return ModifyBackupAttributesResponse(
+    backup: json['Backup'] == null
+        ? null
+        : Backup.fromJson(json['Backup'] as Map<String, dynamic>),
+  );
+}
+
+ModifyClusterResponse _$ModifyClusterResponseFromJson(
+    Map<String, dynamic> json) {
+  return ModifyClusterResponse(
+    cluster: json['Cluster'] == null
+        ? null
+        : Cluster.fromJson(json['Cluster'] as Map<String, dynamic>),
   );
 }
 

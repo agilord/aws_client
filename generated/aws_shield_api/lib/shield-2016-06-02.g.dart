@@ -21,6 +21,12 @@ AssociateHealthCheckResponse _$AssociateHealthCheckResponseFromJson(
   return AssociateHealthCheckResponse();
 }
 
+AssociateProactiveEngagementDetailsResponse
+    _$AssociateProactiveEngagementDetailsResponseFromJson(
+        Map<String, dynamic> json) {
+  return AssociateProactiveEngagementDetailsResponse();
+}
+
 AttackDetail _$AttackDetailFromJson(Map<String, dynamic> json) {
   return AttackDetail(
     attackCounters: (json['AttackCounters'] as List)
@@ -120,6 +126,16 @@ const _$UnitEnumMap = {
   Unit.requests: 'REQUESTS',
 };
 
+AttackStatisticsDataItem _$AttackStatisticsDataItemFromJson(
+    Map<String, dynamic> json) {
+  return AttackStatisticsDataItem(
+    attackCount: json['AttackCount'] as int,
+    attackVolume: json['AttackVolume'] == null
+        ? null
+        : AttackVolume.fromJson(json['AttackVolume'] as Map<String, dynamic>),
+  );
+}
+
 AttackSummary _$AttackSummaryFromJson(Map<String, dynamic> json) {
   return AttackSummary(
     attackId: json['AttackId'] as String,
@@ -141,11 +157,40 @@ AttackVectorDescription _$AttackVectorDescriptionFromJson(
   );
 }
 
+AttackVolume _$AttackVolumeFromJson(Map<String, dynamic> json) {
+  return AttackVolume(
+    bitsPerSecond: json['BitsPerSecond'] == null
+        ? null
+        : AttackVolumeStatistics.fromJson(
+            json['BitsPerSecond'] as Map<String, dynamic>),
+    packetsPerSecond: json['PacketsPerSecond'] == null
+        ? null
+        : AttackVolumeStatistics.fromJson(
+            json['PacketsPerSecond'] as Map<String, dynamic>),
+    requestsPerSecond: json['RequestsPerSecond'] == null
+        ? null
+        : AttackVolumeStatistics.fromJson(
+            json['RequestsPerSecond'] as Map<String, dynamic>),
+  );
+}
+
+AttackVolumeStatistics _$AttackVolumeStatisticsFromJson(
+    Map<String, dynamic> json) {
+  return AttackVolumeStatistics(
+    max: (json['Max'] as num)?.toDouble(),
+  );
+}
+
 Contributor _$ContributorFromJson(Map<String, dynamic> json) {
   return Contributor(
     name: json['Name'] as String,
     value: json['Value'] as int,
   );
+}
+
+CreateProtectionGroupResponse _$CreateProtectionGroupResponseFromJson(
+    Map<String, dynamic> json) {
+  return CreateProtectionGroupResponse();
 }
 
 CreateProtectionResponse _$CreateProtectionResponseFromJson(
@@ -158,6 +203,11 @@ CreateProtectionResponse _$CreateProtectionResponseFromJson(
 CreateSubscriptionResponse _$CreateSubscriptionResponseFromJson(
     Map<String, dynamic> json) {
   return CreateSubscriptionResponse();
+}
+
+DeleteProtectionGroupResponse _$DeleteProtectionGroupResponseFromJson(
+    Map<String, dynamic> json) {
+  return DeleteProtectionGroupResponse();
 }
 
 DeleteProtectionResponse _$DeleteProtectionResponseFromJson(
@@ -176,6 +226,20 @@ DescribeAttackResponse _$DescribeAttackResponseFromJson(
     attack: json['Attack'] == null
         ? null
         : AttackDetail.fromJson(json['Attack'] as Map<String, dynamic>),
+  );
+}
+
+DescribeAttackStatisticsResponse _$DescribeAttackStatisticsResponseFromJson(
+    Map<String, dynamic> json) {
+  return DescribeAttackStatisticsResponse(
+    dataItems: (json['DataItems'] as List)
+        ?.map((e) => e == null
+            ? null
+            : AttackStatisticsDataItem.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    timeRange: json['TimeRange'] == null
+        ? null
+        : TimeRange.fromJson(json['TimeRange'] as Map<String, dynamic>),
   );
 }
 
@@ -200,6 +264,16 @@ DescribeEmergencyContactSettingsResponse
   );
 }
 
+DescribeProtectionGroupResponse _$DescribeProtectionGroupResponseFromJson(
+    Map<String, dynamic> json) {
+  return DescribeProtectionGroupResponse(
+    protectionGroup: json['ProtectionGroup'] == null
+        ? null
+        : ProtectionGroup.fromJson(
+            json['ProtectionGroup'] as Map<String, dynamic>),
+  );
+}
+
 DescribeProtectionResponse _$DescribeProtectionResponseFromJson(
     Map<String, dynamic> json) {
   return DescribeProtectionResponse(
@@ -216,6 +290,11 @@ DescribeSubscriptionResponse _$DescribeSubscriptionResponseFromJson(
         ? null
         : Subscription.fromJson(json['Subscription'] as Map<String, dynamic>),
   );
+}
+
+DisableProactiveEngagementResponse _$DisableProactiveEngagementResponseFromJson(
+    Map<String, dynamic> json) {
+  return DisableProactiveEngagementResponse();
 }
 
 DisassociateDRTLogBucketResponse _$DisassociateDRTLogBucketResponseFromJson(
@@ -236,6 +315,8 @@ DisassociateHealthCheckResponse _$DisassociateHealthCheckResponseFromJson(
 EmergencyContact _$EmergencyContactFromJson(Map<String, dynamic> json) {
   return EmergencyContact(
     emailAddress: json['EmailAddress'] as String,
+    contactNotes: json['ContactNotes'] as String,
+    phoneNumber: json['PhoneNumber'] as String,
   );
 }
 
@@ -249,7 +330,14 @@ Map<String, dynamic> _$EmergencyContactToJson(EmergencyContact instance) {
   }
 
   writeNotNull('EmailAddress', instance.emailAddress);
+  writeNotNull('ContactNotes', instance.contactNotes);
+  writeNotNull('PhoneNumber', instance.phoneNumber);
   return val;
+}
+
+EnableProactiveEngagementResponse _$EnableProactiveEngagementResponseFromJson(
+    Map<String, dynamic> json) {
+  return EnableProactiveEngagementResponse();
 }
 
 GetSubscriptionStateResponse _$GetSubscriptionStateResponseFromJson(
@@ -283,6 +371,18 @@ ListAttacksResponse _$ListAttacksResponseFromJson(Map<String, dynamic> json) {
   );
 }
 
+ListProtectionGroupsResponse _$ListProtectionGroupsResponseFromJson(
+    Map<String, dynamic> json) {
+  return ListProtectionGroupsResponse(
+    protectionGroups: (json['ProtectionGroups'] as List)
+        ?.map((e) => e == null
+            ? null
+            : ProtectionGroup.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
+    nextToken: json['NextToken'] as String,
+  );
+}
+
 ListProtectionsResponse _$ListProtectionsResponseFromJson(
     Map<String, dynamic> json) {
   return ListProtectionsResponse(
@@ -291,6 +391,16 @@ ListProtectionsResponse _$ListProtectionsResponseFromJson(
         ?.map((e) =>
             e == null ? null : Protection.fromJson(e as Map<String, dynamic>))
         ?.toList(),
+  );
+}
+
+ListResourcesInProtectionGroupResponse
+    _$ListResourcesInProtectionGroupResponseFromJson(
+        Map<String, dynamic> json) {
+  return ListResourcesInProtectionGroupResponse(
+    resourceArns:
+        (json['ResourceArns'] as List)?.map((e) => e as String)?.toList(),
+    nextToken: json['NextToken'] as String,
   );
 }
 
@@ -307,6 +417,77 @@ Protection _$ProtectionFromJson(Map<String, dynamic> json) {
     id: json['Id'] as String,
     name: json['Name'] as String,
     resourceArn: json['ResourceArn'] as String,
+  );
+}
+
+ProtectionGroup _$ProtectionGroupFromJson(Map<String, dynamic> json) {
+  return ProtectionGroup(
+    aggregation: _$enumDecodeNullable(
+        _$ProtectionGroupAggregationEnumMap, json['Aggregation']),
+    members: (json['Members'] as List)?.map((e) => e as String)?.toList(),
+    pattern:
+        _$enumDecodeNullable(_$ProtectionGroupPatternEnumMap, json['Pattern']),
+    protectionGroupId: json['ProtectionGroupId'] as String,
+    resourceType: _$enumDecodeNullable(
+        _$ProtectedResourceTypeEnumMap, json['ResourceType']),
+  );
+}
+
+const _$ProtectionGroupAggregationEnumMap = {
+  ProtectionGroupAggregation.sum: 'SUM',
+  ProtectionGroupAggregation.mean: 'MEAN',
+  ProtectionGroupAggregation.max: 'MAX',
+};
+
+const _$ProtectionGroupPatternEnumMap = {
+  ProtectionGroupPattern.all: 'ALL',
+  ProtectionGroupPattern.arbitrary: 'ARBITRARY',
+  ProtectionGroupPattern.byResourceType: 'BY_RESOURCE_TYPE',
+};
+
+const _$ProtectedResourceTypeEnumMap = {
+  ProtectedResourceType.cloudfrontDistribution: 'CLOUDFRONT_DISTRIBUTION',
+  ProtectedResourceType.route_53HostedZone: 'ROUTE_53_HOSTED_ZONE',
+  ProtectedResourceType.elasticIpAllocation: 'ELASTIC_IP_ALLOCATION',
+  ProtectedResourceType.classicLoadBalancer: 'CLASSIC_LOAD_BALANCER',
+  ProtectedResourceType.applicationLoadBalancer: 'APPLICATION_LOAD_BALANCER',
+  ProtectedResourceType.globalAccelerator: 'GLOBAL_ACCELERATOR',
+};
+
+ProtectionGroupArbitraryPatternLimits
+    _$ProtectionGroupArbitraryPatternLimitsFromJson(Map<String, dynamic> json) {
+  return ProtectionGroupArbitraryPatternLimits(
+    maxMembers: json['MaxMembers'] as int,
+  );
+}
+
+ProtectionGroupLimits _$ProtectionGroupLimitsFromJson(
+    Map<String, dynamic> json) {
+  return ProtectionGroupLimits(
+    maxProtectionGroups: json['MaxProtectionGroups'] as int,
+    patternTypeLimits: json['PatternTypeLimits'] == null
+        ? null
+        : ProtectionGroupPatternTypeLimits.fromJson(
+            json['PatternTypeLimits'] as Map<String, dynamic>),
+  );
+}
+
+ProtectionGroupPatternTypeLimits _$ProtectionGroupPatternTypeLimitsFromJson(
+    Map<String, dynamic> json) {
+  return ProtectionGroupPatternTypeLimits(
+    arbitraryPatternLimits: json['ArbitraryPatternLimits'] == null
+        ? null
+        : ProtectionGroupArbitraryPatternLimits.fromJson(
+            json['ArbitraryPatternLimits'] as Map<String, dynamic>),
+  );
+}
+
+ProtectionLimits _$ProtectionLimitsFromJson(Map<String, dynamic> json) {
+  return ProtectionLimits(
+    protectedResourceTypeLimits: (json['ProtectedResourceTypeLimits'] as List)
+        ?.map(
+            (e) => e == null ? null : Limit.fromJson(e as Map<String, dynamic>))
+        ?.toList(),
   );
 }
 
@@ -334,12 +515,18 @@ const _$SubResourceTypeEnumMap = {
 
 Subscription _$SubscriptionFromJson(Map<String, dynamic> json) {
   return Subscription(
+    subscriptionLimits: json['SubscriptionLimits'] == null
+        ? null
+        : SubscriptionLimits.fromJson(
+            json['SubscriptionLimits'] as Map<String, dynamic>),
     autoRenew: _$enumDecodeNullable(_$AutoRenewEnumMap, json['AutoRenew']),
     endTime: const UnixDateTimeConverter().fromJson(json['EndTime']),
     limits: (json['Limits'] as List)
         ?.map(
             (e) => e == null ? null : Limit.fromJson(e as Map<String, dynamic>))
         ?.toList(),
+    proactiveEngagementStatus: _$enumDecodeNullable(
+        _$ProactiveEngagementStatusEnumMap, json['ProactiveEngagementStatus']),
     startTime: const UnixDateTimeConverter().fromJson(json['StartTime']),
     timeCommitmentInSeconds: json['TimeCommitmentInSeconds'] as int,
   );
@@ -349,6 +536,25 @@ const _$AutoRenewEnumMap = {
   AutoRenew.enabled: 'ENABLED',
   AutoRenew.disabled: 'DISABLED',
 };
+
+const _$ProactiveEngagementStatusEnumMap = {
+  ProactiveEngagementStatus.enabled: 'ENABLED',
+  ProactiveEngagementStatus.disabled: 'DISABLED',
+  ProactiveEngagementStatus.pending: 'PENDING',
+};
+
+SubscriptionLimits _$SubscriptionLimitsFromJson(Map<String, dynamic> json) {
+  return SubscriptionLimits(
+    protectionGroupLimits: json['ProtectionGroupLimits'] == null
+        ? null
+        : ProtectionGroupLimits.fromJson(
+            json['ProtectionGroupLimits'] as Map<String, dynamic>),
+    protectionLimits: json['ProtectionLimits'] == null
+        ? null
+        : ProtectionLimits.fromJson(
+            json['ProtectionLimits'] as Map<String, dynamic>),
+  );
+}
 
 SummarizedAttackVector _$SummarizedAttackVectorFromJson(
     Map<String, dynamic> json) {
@@ -373,6 +579,14 @@ SummarizedCounter _$SummarizedCounterFromJson(Map<String, dynamic> json) {
   );
 }
 
+TimeRange _$TimeRangeFromJson(Map<String, dynamic> json) {
+  return TimeRange(
+    fromInclusive:
+        const UnixDateTimeConverter().fromJson(json['FromInclusive']),
+    toExclusive: const UnixDateTimeConverter().fromJson(json['ToExclusive']),
+  );
+}
+
 Map<String, dynamic> _$TimeRangeToJson(TimeRange instance) {
   final val = <String, dynamic>{};
 
@@ -393,6 +607,11 @@ UpdateEmergencyContactSettingsResponse
     _$UpdateEmergencyContactSettingsResponseFromJson(
         Map<String, dynamic> json) {
   return UpdateEmergencyContactSettingsResponse();
+}
+
+UpdateProtectionGroupResponse _$UpdateProtectionGroupResponseFromJson(
+    Map<String, dynamic> json) {
+  return UpdateProtectionGroupResponse();
 }
 
 UpdateSubscriptionResponse _$UpdateSubscriptionResponseFromJson(
